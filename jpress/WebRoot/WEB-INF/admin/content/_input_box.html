@@ -1,0 +1,34 @@
+<@tag content=content! taxonomyType=taxonomyType! /> 
+<#macro tag content taxonomyType>
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">${taxonomyType.title}</h3>
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body no-padding">
+		<ul class="nav">
+			<li>
+				<div class="col-xs-12 jp-cancel-pad">
+					<div class="form-group col-xs-9 ">
+						<label class="sr-only"></label> 
+						<input class="form-control my-colorpicker1 colorpicker-element" value="${(content.findTaxonomyListAsString(taxonomyType.name))!}" name="_${taxonomyType.name}" type="text">
+					</div>
+					<div class="col-xs-2 jp-cancel-pad">
+						<button class="btn btn-default btn-sm" type="button">添加</button>
+					</div>
+				</div>
+				<div class="clr"></div>
+			</li>
+			<li>如果有多个要用，号隔开</li>
+			<li><a href="#"><i class="fa fa-circle-o text-light-blue"></i>Social</a></li>
+		</ul>
+	</div>
+	<!-- /.box-body -->
+</div>
+<!-- /.box -->
+</#macro>

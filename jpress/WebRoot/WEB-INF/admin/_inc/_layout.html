@@ -1,0 +1,114 @@
+<#macro script>
+</#macro> 
+<#macro script_import>
+</#macro> 
+<#macro css_import>
+</#macro> 
+<#macro layout active_id="" child_active_id="" >
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JPress</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+   	<!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+    <!-- Ionicons 
+    <link rel="stylesheet" href="${CPATH}/static/ionicons/2.0.1/css/ionicons.min.css">-->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
+    
+     <!--common.css -->
+    <link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css"> 
+    
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <@css_import />
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+	<#include "_header.html" />
+	<#include "_menu.html" />
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+	<#nested>  
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>JPress</b> 2.3.1
+    </div>
+    <strong>Copyright &copy; 2014-2015 <a href="http://jpress.io">JPress.io</a>.</strong> All rights
+    reserved.
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.1.4 -->
+<script src="${CPATH}/static/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="${CPATH}/static/plugins/jQuery/jquery.form.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="${CPATH}/static/plugins/fastclick/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="${CPATH}/static/lte/js/app.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="${CPATH}/static/lte/js/demo.js"></script>
+<script src="${CPATH}/static/jpress/admin/js/common.js"></script>
+<!-- layer -->
+<script src="${CPATH}/static/layer/layer.js"></script>
+<!-- pace -->
+<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
+<@script_import />
+<script>
+<@script />   
+$(document).ready(function(){
+ <#if active_id!="" && active_id??>
+	$("#${active_id}").attr("class","treeview active");
+ <#if child_active_id!="" && child_active_id??>
+	$("#${active_id}").find("#${child_active_id}").attr("class","active");
+ </#if>
+ </#if>
+	   	   
+	$.AdminLTE.layout.fix();
+
+	$(".treeview-menu").each(function(){
+		var pid = $(this).parent().attr("id");
+		if(typeof(pid) == 'undefined' || null == pid){
+			return;
+		}
+		$(this).find('a').each(function(){
+			var cid = $(this).parent().attr("id");
+			var href  = $(this).attr("href");
+			if(href.indexOf("?") == -1){
+				href = href+ "?p="+pid;
+			}else{
+				href = href+ "&p="+pid;
+			}
+			if("undefined" != typeof(cid) && "" != cid){
+				href +=  "&c="+cid;
+			}
+			$(this).attr("href",href);
+		});
+	});
+});
+</script>
+</body>
+</html>
+</#macro>

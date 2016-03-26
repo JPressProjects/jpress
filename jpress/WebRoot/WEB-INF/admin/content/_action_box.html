@@ -1,0 +1,135 @@
+
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">发布</h3>
+
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<div class="box-body no-padding">
+		<ul class="nav ">
+			<li>
+				<div class="col-xs-5 jp-padding-wu">
+					<button type="button" class="btn btn-default btn-sm" onclick="saveAsDraft()">保存草稿</button>
+				</div>
+				<div class="col-xs-4 jp-padding-wu col-xs-offset-3">
+					<button type="button" class="btn btn-default btn-sm">预览</button>
+				</div>
+				<div class=clr></div>
+			</li>
+			<li class="jp-release-set"><p class="jp-cancel-pad">
+					<i class="fa fa-envelope-o"></i>状态： 草稿 <span
+						class="jp-release-draft">编辑</span>
+				</p>
+				<div class="col-xs-12 jp-cancel-pad jp-display-none">
+					<div class="col-xs-5 jp-cancel-pad">
+						<select class="form-control input-sm" name="example1_length"
+							aria-controls="example1">
+							<option value="10">编辑</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-4">
+						<button class="btn btn-sm btn-default" type="button">确定</button>
+					</div>
+					<div class="class=col-xs-2 jp-cancel-pad jp-btn-font">
+						<span class="jp-release-cancel-draft">取消</span>
+					</div>
+				</div>
+				<div class=clr></div></li>
+			<li class="jp-release-set">
+				<p class="jp-cancel-pad">
+					<i class="fa fa-file-text-o"></i>公开度：公开 <span
+						class="jp-release-draft">编辑</span>
+				</p>
+				<div class="col-xs-12 jp-cancel-pad jp-display-none">
+					<div class="radio">
+						<label> <input type="radio" name="optionsRadios" value="">公开
+							<div class="checkbox">
+								<label> <input type="checkbox" value="option1"
+									aria-label="...">将文章置于首页顶端
+								</label>
+							</div>
+						</label>
+					</div>
+
+					<div class="radio">
+						<label> <input type="radio" name="optionsRadios" value="">密码保护
+						</label>
+					</div>
+
+					<div class="radio">
+						<label> <input type="radio" name="optionsRadios" value="">私密
+						</label>
+					</div>
+					<div class="col-xs-3 jp-cancel-pad">
+						<button class="btn btn-sm btn-default" type="button">确定</button>
+					</div>
+					<div class="class=col-xs-2 jp-cancel-pad jp-btn-font">
+						<span class="jp-release-cancel-draft">取消</span>
+					</div>
+				</div>
+				<div class="clr"></div>
+			</li>
+			<li class="jp-release-set">
+				<p class="jp-cancel-pad">
+					<i class="fa fa-filter"></i> 立即发布<span
+						class="jp-release-draft jp-time"> 编辑</span>
+				</p>
+				<div class="col-xs-12 jp-cancel-pad jp-display-none">
+
+					<div class="timestamp-wrap">
+						<label> <input id="yy" type="text" autocomplete="off"
+							maxlength="4" size="4" value="" name="aa">
+						</label> - <label> <select id="mm" name="mm">
+								<option data-text="1" value="01">1</option>
+								<option selected="selected" data-text="2" value="">2</option>
+								<option data-text="3" value="03">3</option>
+								<option data-text="4" value="04">4</option>
+								<option data-text="5" value="05">5</option>
+								<option data-text="6" value="06">6</option>
+								<option data-text="7" value="07">7</option>
+								<option data-text="8" value="08">8</option>
+								<option data-text="9" value="09">9</option>
+								<option data-text="10" value="10">10</option>
+								<option data-text="11" value="11">11</option>
+								<option data-text="12" value="12">12</option>
+						</select>
+						</label> - <label> <input id="dd" type="text" autocomplete="off"
+							maxlength="2" size="2" value="" name="jj">
+						</label> @ <label> <input id="hh" type="text" autocomplete="off"
+							maxlength="2" size="2" value="" name="hh">
+						</label> : <label> <input id="mn" type="text" autocomplete="off"
+							maxlength="2" size="2" value="" name="mn">
+						</label>
+					</div>
+
+					<div class="col-xs-3 jp-cancel-pad">
+						<button class="btn btn-sm btn-default" type="button">确定</button>
+					</div>
+					<div class="class=col-xs-2 jp-cancel-pad jp-btn-font">
+						<span class="jp-release-cancel-draft">取消</span>
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</li>
+			<li class="jp-release-set jp-borde-top">
+				<div class="col-xs-6 jp-btn-font">
+					<a href="#">移至回收站</a>
+				</div>
+				<div class="col-xs-4  col-xs-offset-2">
+					<button type="button" class="btn btn-primary btn-sm"
+						onclick="save()">发布</button>
+				</div>
+				<div class="clr"></div>
+			</li>
+		</ul>
+	</div>
+	<!-- /.box-body -->
+</div>
+<!-- /. box -->

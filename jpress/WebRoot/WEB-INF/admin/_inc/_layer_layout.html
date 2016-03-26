@@ -1,0 +1,34 @@
+<#macro script> 
+</#macro> 
+<#macro script_import> 
+</#macro> 
+<#macro css_import> 
+</#macro> 
+<#macro layout >
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JPress</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<#include "_css.html" /> 
+<#include "_js_header.html" /> 
+<@css_import />
+
+</head>
+<body class="hold-transition skin-blue">
+		<#nested>
+	<#include "_js_footer.html" /> 
+	<@script_import />
+	<!-- FLOT CHARTS -->
+
+	<!-- Page script -->
+	<script>
+		<@script />
+	</script>
+</body>
+</html>
+
+</#macro>

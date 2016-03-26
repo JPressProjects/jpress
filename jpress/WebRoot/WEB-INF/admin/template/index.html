@@ -1,0 +1,53 @@
+<#include "../_inc/_layout.html"/>
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		<span class="jp-left jp-right-pad10"> 主题 <span
+			class="title-count theme-count">4</span> <a href="#"
+			class="btn btn-default btn-sm" type="button">添加</a>
+		</span> <span class="jp-left input-group input-group-sm"> <input
+			class="form-control" size=40 type="search" placeholder="搜索" name=""
+			value="">
+		</span>
+		<div class="clr"></div>
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="col-xs-12 jp-common-pad  jp-bottom-pad5">
+		<div class="row">
+			<#if templateList ??>
+			<#list templateList as template>
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<div class="box box-widget widget-user">
+					<div class="theme" tabindex="0"
+						aria-describedby="twentysixteen-action twentysixteen-name">
+						<div class="theme-screenshot">
+							<img alt="" src="/static/jpress/admin/image/noscreenshot.jpg">
+						</div>
+						<span id="" class="more-details">主题详情</span>
+						<div class="theme-footer">
+							<h2 id="" class="theme-name">${template.title}</h2>
+							<div class="theme-actions">
+								<a class="btn btn-default btn-sm " href="#">启用</a> <a
+									class="btn btn-primary btn-sm " href="#">实时预览</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</#list>
+			</#if>
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<div class="box box-widget widget-user">
+					<div class="theme add-new-theme">
+						<a href=""> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</@layout>

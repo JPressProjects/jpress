@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${option("web_title")}</title>
+</head>
+<body>
+index.html <br />
+
+i18n:${i18n.get("keyy")} <br />
+菜单：
+<@jp_menu  >
+    <#list menus as menu>
+        <a href="${menu.text}">${menu.title}</a> <br> <br>
+    </#list>
+</@jp_menu>
+
+<@jp_clist  >
+    <#list contents as c>
+        <a href="/c/${c.id}">${c.title}</a> <br> <br>
+    </#list>
+</@jp_clist>
+
+<@jp_widgets name="xxaa">
+
+</@jp_widgets>
+
+<br />
+
+</body>
+</html>

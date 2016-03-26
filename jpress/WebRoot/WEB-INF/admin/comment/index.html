@@ -1,0 +1,155 @@
+<#include "../_inc/_layout.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>
+		所有内容 <a href="#" class="btn btn-default btn-sm" type="button">添加</a>
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="jp-set-table">
+		<ul class="jp-cancel-pad list-inline" style="float: left">
+			<li class="all"><a class="current" href="#"> 全部 <span
+					class="count">（8）</span>
+			</a> |</li>
+			<li class="publish"><a href="#"> 已发布 <span class="count">（8）</span>
+			</a> |</li>
+			<li class="trash"><a href="#"> 回收站 <span class="count">（1）</span>
+			</a></li>
+		</ul>
+
+
+		<form class="form-horizontal" style="float: right">
+
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search"
+					value="" name="" placeholder="请输入关键词"> <input
+					id="search-submit" class="btn btn-default btn-sm" type="submit"
+					value="搜索">
+			</div>
+
+		</form>
+	</div>
+	<div class="clr"></div>
+	<div class="col-xs-12 jp-cancel-pad jp-set-table"
+		style="padding: 0 0 5px 0">
+		<div class="col-xs-3">
+			<div id="example1_length" class="col-xs-8 jp-cancel-pad ">
+				<select class="form-control input-sm" name="example1_length"
+					aria-controls="example1">
+					<option value="10">==批量操作==</option>
+					<option value="25">删除</option>
+					<option value="50">置顶</option>
+				</select>
+			</div>
+			<div class="col-xs-4 jp-cancel-pad ">
+				<button class="btn btn-block btn-sm btn-default" type="button">应用</button>
+			</div>
+		</div>
+		<div class="col-xs-2 col-xs-offset-1 jp-cancel-pad ">
+			<select class="form-control input-sm" name="example1_length"
+				aria-controls="example1">
+				<option value="10">全部日期</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+		<div class="col-xs-3 col-xs-offset-1 jp-cancel-pad">
+			<div class="col-xs-8 col-xs-offset-0 jp-cancel-pad ">
+				<select class="form-control input-sm" name="example1_length"
+					aria-controls="example1">
+					<option value="10">全部分类</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+				</select>
+			</div>
+			<div class="col-xs-4 jp-cancel-pad ">
+				<button class="btn btn-block btn-sm btn-default" type="button">筛选</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 ">
+		<div class="row">
+
+			<div class="box jp-cancel-pad">
+
+				<!-- /.box-header -->
+				<div class="box-body jp-cancel-pad">
+					<table id="example1" class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 2%">
+									<input name="dataItem" onclick="check_all(this)"  type="checkbox">
+								</th>
+								<th style="width: 10%">作者</th>
+								<th style="width: 33%">内容</th>
+								<th style="width: 15%">回复至</th>
+								<th style="width: 10%"><i class="fa fa-commenting"></i></th>
+								<th style="width: 10%">日期</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<#if page??> 
+							<#list page.getList() as bean>
+							<tr class="jp-onmouse">
+								<td>
+									<input name="dataItem" type="checkbox">
+								</td>
+								<td>${bean.username!}</td>
+								<td><strong><a href="#">${bean.text!}</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-cancel-pad">
+											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
+											<span class="edit">| <a title="编辑评论" href="#">快速编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive"
+												href="#">垃圾箱</a>
+											</span> <span class="trash">| <a
+												class="delete vim-d vim-destructive" href="#">查看</a></span>
+										</p>
+									</div></td>
+								
+								<td>${bean.contentTitle!}</td>
+								<td>${bean.commentCount!}</td>
+								<td>${bean.created!}</td>
+							</tr>
+							</#list> 
+							</#if>
+
+
+						</tbody>
+						<tfoot>
+							<tr>
+								<th style="width: 20px"><input
+							 name="dataItem" onclick="check_all(this)"
+							 type="checkbox"></th>
+								<th>标题</th>
+								<th style="width: 10%">作者</th>
+								<th style="width: 15%">分类目录</th>
+								<th style="width: 10%"><i class="fa fa-commenting"></i></th>
+								<th style="width: 10%">日期</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="row">
+						<div id="example2_paginate" class="pull-right">
+							<#include "../_inc/_paginate_wrapper.html" /> 
+						</div>
+		</div>
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

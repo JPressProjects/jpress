@@ -1,0 +1,109 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu">
+			<li class="jpress_block"></li>
+			<li class="treeview" id="dashboard">
+				<a href="${CPATH}/admin"> 
+					<i class="fa fa-dashboard"></i> 
+					<span>JPress面板</span> 
+				</a>
+			</li>
+			<li class="jpress_block"></li>
+			
+			<#include "_menu_contents.html" />
+
+			<li class="treeview" id="attachment"><a href="#"> <i class="fa fa-file-image-o"></i>
+					<span>附件</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li id="list"><a href="${CPATH}/admin/attachment">所有附件</a></li>
+					<li id="upload"><a href="${CPATH}/admin/attachment/upload">上传</a></li>
+				</ul>
+			</li>
+
+			<li class="treeview" id="wechat"><a href="#"> <i class="fa fa-weixin"></i>
+					<span>微信</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li id="replay"><a href="${CPATH}/admin/wechat">自动回复</a></li>
+					<li id="menu"><a href="${CPATH}/admin/wechat/menu">菜单设置</a></li>
+				</ul></li>
+
+			<li class="jpress_block"></li>
+
+			<li class="treeview" id="user"><a href="#"> <i class="fa fa-user"></i>
+					<span>用户</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li id="list"><a href="${CPATH}/admin/user">所有用户</a></li>
+					<li id="edit"><a href="${CPATH}/admin/user/edit">添加</a></li>
+					<li id="info"><a href="${CPATH}/admin/user/info">我的资料</a></li>
+				</ul></li>
+
+			<li class="treeview" id="template"><a href="#"> <i class="fa fa-magic"></i>
+					<span>模板</span> <small class="label pull-right bg-red">3</small>
+			</a>
+				<ul class="treeview-menu">
+					<li id="list"><a href="${CPATH}/admin/template">所有主题</a></li>
+					<li id="install"><a href="${CPATH}/admin/template/install">主题安装</a></li>
+					<li id="menu"><a href="${CPATH}/admin/template/menu">菜单</a></li>
+					<li id="widget"><a href="${CPATH}/admin/template/widget">小工具</a></li>
+					<li id="setting"><a href="${CPATH}/admin/template/setting">设置</a></li>
+					<li id="theme_edit"><a href="${CPATH}/admin/template/edit">编辑</a></li>
+				</ul></li>
+
+			<li class="treeview" id="plugin"><a href="#"> <i class="fa fa-plug"></i>
+					<span>插件</span> <small class="label pull-right bg-red">3</small>
+			</a>
+				<ul class="treeview-menu">
+					<li id="list"><a href="${CPATH}/admin/plugin">所有插件</a></li>
+					<li id="install"><a href="${CPATH}/admin/plugin/install">安装</a></li>
+					<li id="edit"><a href="${CPATH}/admin/plugin/edit">编辑</a></li>
+				</ul></li>
+
+
+			<li class="treeview" id="option"><a href="#"> <i class="fa fa-cog"></i>
+					<span>设置</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li id="web"><a href="${CPATH}/admin/option/web">常规</a></li>
+					<li id="comment"><a href="${CPATH}/admin/option/comment">评论</a></li>
+					<li id="url"><a href="${CPATH}/admin/option/url">固定连接</a></li>
+					<li id="seo"><a href="${CPATH}/admin/option/seo">SEO</a></li>
+					<li id="wechat"><a href="${CPATH}/admin/option/wechat">微信</a></li>
+					<li id="watermark"><a href="${CPATH}/admin/option/watermark">水印</a></li>
+					<li id="email"><a href="${CPATH}/admin/option/email">邮件</a></li>
+					<li id="login"><a href="${CPATH}/admin/option/login">登陆注册</a></li>
+					<li id="cdn"><a href="${CPATH}/admin/option/cdn">CDN加速</a></li>
+				</ul>
+			</li>
+			
+			<li class="treeview"><a href="#"> <i class="fa fa-wrench"></i>
+					<span>工具</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="#">导入</a></li>
+					<li><a href="#">导出</a></li>
+					<li><a href="#">同步</a></li>
+				</ul>
+			</li>
+			
+			<!-- 
+			<li class="treeview"><a href="#"> <i class="fa fa-line-chart"></i>
+					<span>统计</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="#">常规</a></li>
+					<li><a href="#">撰写</a></li>
+					<li><a href="#">阅读</a></li>
+				</ul>
+			</li>
+			 -->
+
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+</aside>

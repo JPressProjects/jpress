@@ -1,0 +1,139 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				if(data.errorCode == 0){
+					window.location.reload();
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+      <h1>
+        菜单设置
+      </h1>
+    </section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-md-4">
+			<form id="form" action="${CPATH}/admin/template/savemenu" method="POST">
+			<input type="hidden" name="ucode" value="${ucode}">
+				<h4 class="jp-common-pad">添加新菜单</h4>
+				<div class="form-group jp-article-format">
+					<label for="tag-name">名称</label> 
+					<input id="tag-name" class="form-control" type="text"  name="content.title">
+					<p>这将是它在站点上显示的名字。</p>
+				</div>
+
+				<div class="form-group jp-article-format">
+					<label for="tag-slug">URL地址</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.text">
+					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+				</div>
+				<div class="form-group jp-article-format">
+					<div class="col-xs-5 jp-common-pad">
+						<label>父节点</label> 
+						<select class="form-control input-sm" name="content.parent_id">
+							<option value="0">无</option>
+							<#list menus! as menu>
+							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option>
+							</#list>
+						</select>
+					</div>
+					<div class="clr"></div>
+					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-8 ">
+			<div class="col-xs-12 jp-common-pad jp-bottom-pad5">
+				<div class="jp-left ">
+					<select style="width: 120px" class="form-control input-sm"
+						name="example1_length" aria-controls="example1">
+						<option value="10">批量操作</option>
+						<option value="25">删除</option>
+					</select>
+				</div>
+				<div class="jp-left jp-left-pad5 jp-right-pad10">
+					<button class="btn  btn-sm btn-default" type="button">应用</button>
+				</div>
+			</div>
+
+			<div class="clr"></div>
+			<div class="box box-primary" style="margin-bottom: 0">
+
+				<!-- /.box-header -->
+				<div class="box-body jp-common-pad">
+					<table id="example1" class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 20px"><label class="jp-common-pad "><input
+										class="jp-common-pad " id="allid" onclick="doallcheck()"
+										title="全选" type="checkbox"></label></th>
+
+								<th style="width: 30%">名称</th>
+								<th>URL地址</th>
+
+							</tr>
+						</thead>
+						<tbody>
+
+							<#list menus!  as bean>
+							<tr class="jp-onmouse">
+								<td><label class="jp-common-pad"><input
+										class="jp-common-pad" name="chkItem" type="checkbox"></label>
+								</td>
+								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-common-pad">
+											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+										</p>
+									</div></td>
+								<td>${bean.text!}</td>
+							</tr>
+							</#list> 
+						</tbody>
+
+					</table>
+				</div>
+				<!-- /.box-body -->
+
+				<!-- /.box-footer -->
+			</div>
+
+			<div class="box">
+				<div class="box-body jp-common-pad">
+					<div class="col-sm-12 ">
+						<div id="example2_paginate" class="dataTables_paginate paging_simple_numbers text-center">
+							<#include "../_inc/_paginate_wrapper.html" /> 
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- /. box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>

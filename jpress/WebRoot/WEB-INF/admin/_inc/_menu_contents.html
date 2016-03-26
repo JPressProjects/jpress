@@ -1,0 +1,39 @@
+<@jp_module >
+<#list modules as module>
+<li class="treeview" id="${module.name}">
+  <a href="#">
+    <i class="fa fa-file-text-o">
+    </i>
+    <span>
+      ${module.title}
+    </span>
+    <i class="fa fa-angle-left pull-right">
+    </i>
+  </a>
+  <ul class="treeview-menu">
+    <li id="list">
+      <a href="${CPATH}/admin/content?m=${module.name}">
+        ${module.listTitle}
+      </a>
+    </li>
+    <li id="edit">
+      <a href="${CPATH}/admin/content/edit?m=${module.name}">
+         ${module.addTitle}
+      </a>
+    </li>
+    <#list module.taxonomyTypes! as taxonomyType>
+    <li id="${taxonomyType.name}">
+      <a href="${CPATH}/admin/taxonomy?m=${module.name}&t=${taxonomyType.name}">
+        ${taxonomyType.title}
+      </a>
+    </li>
+    </#list>
+    <li id="comment">
+      <a href="${CPATH}/admin/comment?m=${module.name}&t=comment">
+       ${module.commentTitle!"评论"}
+      </a>
+    </li>
+  </ul>
+</li>
+</#list>
+</@jp_module>

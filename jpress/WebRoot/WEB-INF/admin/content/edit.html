@@ -1,0 +1,153 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+var data={
+    url:'',
+    alt:''
+};
+tinymce.init({
+        selector: '.textarea',
+        height: 500,
+        language: 'zh_CN',
+        menubar: false,
+        automatic_uploads: true,
+        paste_data_images: true,
+        convert_urls: false,
+        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        imagetools_proxy: '${CPATH}/admin/tinymce/image/proxy',
+        images_upload_url: '${CPATH}/admin/tinymce/image/upload',
+        wordcount_countregex: /[\u4e00-\u9fa5_a-zA-Z0-9]/g,
+		file_picker_callback: function(callback, value, meta) {
+		 	layer.open({
+			    type: 2,
+			    title: '选择图片',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['90%', '90%'],
+			    content: '${CPATH}/admin/attachment/choose_layer',
+			    end:function(){
+			    	callback(data.url, {alt: data.alt});
+			    }
+			}); 
+		 },
+        plugins: [
+		    "advlist autolink autosave link image imagetools lists charmap print preview hr anchor pagebreak spellchecker",
+		    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+		    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+		  ],
+        toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr table image | link  anchor unlink | alignleft aligncenter alignright alignjustify | bullist numlist  | fullscreen code   ',
+        toolbar2: '  formatselect | outdent indent | forecolor backcolor  | undo redo  ',
+    });
+    
+function save(){
+	tinymce.activeEditor.uploadImages(function(success) {
+		tinymce.triggerSave();
+ 		doSubmit();
+	});
+	return false;
+ }
+ 
+ function saveAsDraft(){
+ 	$("#content_status").attr("value","draft");
+ 	save();
+ }
+ 
+ function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				alert(data.message);
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ 
+ function doSelectThumbnail(){
+ 	layer.open({
+			    type: 2,
+			    title: '选择图片',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['90%', '90%'],
+			    content: '${CPATH}/admin/attachment/choose_layer',
+			    end:function(){
+			    	$("#thumbnail").attr("src",data.url);
+			    	$("#content_thumbnail").attr("value",data.url);
+			    }
+			}); 
+ }
+ 
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
+</#macro>
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>撰写新文章</h1>
+</section>
+
+
+<div class="pad margin no-print">
+<div class=" alert alert-info  alert-dismissible callout">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> 成功!</h4>
+                文章发布成功！您可以点击 这里 查看，或返回 <a href="#">文章列表</a>。
+              </div>
+    </div>
+    
+<!-- Main content -->
+<section class="content">
+	<form action="${CPATH}/admin/content/save" id="form" method="post">
+		<input type="hidden" name="content.module" value="${m!}">
+		<input type="hidden" name="content.id" value="${(content.id)!}">
+		<input type="hidden" name="content.status" value="normal" id="content_status">
+
+		<div class="row">
+			<!-- /.col -->
+			<div class="col-md-9">
+				<div class="form-group">
+					<label class="sr-only"></label> 
+					<input name="content.title" class="form-control input-lg" value="${(content.title)!}" type="text" placeholder="在此输入标题">
+				</div>
+				<div class="input-group">
+					<label>网址：http://www.baidu.com/content/</label> 
+	             </div>
+				<div class="box box-primary">
+					<div class=" box-info">
+						<textarea class="textarea" name="content.text">${(content.text)!}</textarea>
+					</div>
+				</div>
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3">
+				<#include "_action_box.html" /> 
+				<#if module ??>
+					<#if module.styles ??>
+						<#include "_style_box.html" /> 
+					</#if>	
+					<#list module.taxonomyTypes! as taxonomyType >
+						<#if taxonomyType.formType == "select">
+							<#include "_select_box.html" /> 
+						<#else>
+							<#include "_input_box.html" />
+						</#if>
+					</#list>
+				</#if>
+				<#include "_thumbnail_box.html" /> 
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+
+</@layout>
+
+
+
+
+
+

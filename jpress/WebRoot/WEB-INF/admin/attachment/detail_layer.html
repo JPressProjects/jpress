@@ -1,0 +1,76 @@
+<#include "../_inc/_layer_layout.html"/>
+<@layout >
+    <!-- Main content -->
+    <div class=" " id="myModal" tabindex="-1">
+        <div class=" jp-modal-color jp-modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="next-img btn btn-default jp-right">&gt;&gt;</button>
+                    <button type="button" class="back-img btn btn-default jp-right">&lt;&lt;</button>
+                    <h4 class="modal-title" id="myModalLabel">特色图片</h4>
+                </div>
+            </div>
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom jp-grids-media-tab-custom">
+                <div class="attachments-browser">
+                    <div class="grids-col-upload-left ">
+                            <img src="../../dist/img/photo3.jpg" class="img-responsive grids-img-show" alt="Responsive image">
+                        <div class="jp-set-pad">
+                            <button class="btn btn-default" type="submit">保存更改 </button>
+                        </div>
+                    </div>
+                    <div class="grids-col-upload-right jp-set-table">
+                        <div class="details">
+                            <div >
+                                <strong>文件名：</strong>
+                                  <span class="filename"></span>
+                            </div>
+                            <div >
+                                <strong>文件类型：</strong>
+                                <span class="filetype"></span>
+                            </div>
+                            <div class="uploaded">
+                                <strong>上传于：</strong>
+                                ####年##月#0日
+                            </div>
+                            <div class="file-size">
+                                <strong>文件大小：</strong>
+
+                            </div>
+                            <div class="dimensions">
+                                <strong>分辨率：</strong>
+                                580 × 435
+                            </div>
+                        </div>
+                        <div class="settings">
+                            <dl class="dl-horizontal">
+                                <dt class="jp-line-height30"> URL</dt>
+                                <dd><div class="form-group">
+                                    <label class="sr-only">URL</label>
+                                    <input class="form-control" type="text" disabled="" placeholder="Enter ...">
+                                </div></dd>
+                                <dt class="jp-line-height30">标题</dt>
+                                <dd><div class="form-group">
+                                    <label class="sr-only">标题</label>
+                                    <input class="form-control" type="text"  placeholder="Enter ...">
+                                </div></dd>
+                                <dt class="jp-line-height30">说明</dt>
+                                <dd><div class="form-group">
+                                    <label  class="sr-only">说明</label>
+                                    <textarea class="form-control" placeholder="Enter ..." rows="3"></textarea>
+                                </div></dd>
+
+                                <dt>Felis euismod semper eget lacinia</dt>
+                                <dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. </dd>
+                            </dl>
+                        </div>
+                        <div class="actions"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+</@layout>

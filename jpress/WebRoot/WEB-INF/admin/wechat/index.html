@@ -1,0 +1,208 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function trash(id){
+	$.get("${CPATH}/admin/content/trash?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+function batchTrash(){
+	$("#form").attr("action","${CPATH}/admin/content/batchTrash");
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(result) { //提交成功的回调函数 
+				if(result.errorCode > 0){
+					alert(result.message);
+				}else{
+					location.reload();
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+
+function restore(id){
+	$.get("${CPATH}/admin/content/restore?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/content/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>
+		所有内容 <a href="#" class="btn btn-default btn-sm" type="button">添加</a>
+	</h1>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row pad margin no-print">
+		<ul class="jp-cancel-pad list-inline" style="float: left">
+			<li class="all"><a class="current"
+				href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}"> 全部 <span
+					class="count">（${count!"0"}）</span>
+			</a> |</li>
+			<li class="publish"><a
+				href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=normal">
+					已发布 <span class="count">（${normal_count!"0"}）</span>
+			</a> |</li>
+			<li class="publish"><a
+				href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=draft">
+					草稿 <span class="count">（${draft_count!"0"}）</span>
+			</a> |</li>
+			<li class="trash"><a
+				href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=delete">
+					回收站 <span class="count">（${delete_count!"0"}）</span>
+			</a></li>
+		</ul>
+
+
+		<form class="form-horizontal" style="float: right">
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search"
+					value="" name="" placeholder="请输入关键词"> <input
+					id="search-submit" class="btn btn-default btn-sm" type="submit"
+					value="搜索">
+			</div>
+
+		</form>
+	</div>
+
+	<div class="row pad margin no-print">
+		<div class="col-xs-3">
+			<div class="col-xs-8 jp-cancel-pad ">
+				<select class="form-control input-sm" name="action">
+					<option value="">==批量操作==</option>
+					<option value="delete">删除</option>
+				</select>
+			</div>
+			<div class="col-xs-4 jp-cancel-pad ">
+				<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchTrash()">应用</button>
+			</div>
+		</div>
+		<div class="col-xs-2 col-xs-offset-1 jp-cancel-pad ">
+			<select class="form-control input-sm">
+				<option value="10">全部日期</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+		<div class="col-xs-3 col-xs-offset-1 jp-cancel-pad">
+			<div class="col-xs-8 col-xs-offset-0 jp-cancel-pad ">
+				<select class="form-control input-sm">
+					<option value="10">全部分类</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+				</select>
+			</div>
+			<div class="col-xs-4 jp-cancel-pad ">
+				<button class="btn btn-block btn-sm btn-default" type="button">筛选</button>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="box ">
+		<!-- /.box-header -->
+		<div class="box-body">
+			<form action="" method="POST" id="form">
+			<input type="hidden" name="ucode" value="${ucode}">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="width: 20px">
+							<input name="dataItem" onclick="check_all(this)" type="checkbox">
+						</th>
+						<th style="width: 10%">关键字</th>
+						<th>回复类型</th>
+						<th>回复内容</th>
+						<th style="width: 10%">发布日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if page??> 
+					<#list page.getList() as bean>
+					<tr class="jp-onmouse">
+						<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
+						<td><strong><a
+								href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong>
+							<div class="jp-flash-comment">
+								<p class="row-actions jp-cancel-pad">
+									<#if "delete" != s!>
+									<span class="approve">
+										<a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
+									</span>
+									<span class="spam">
+										| <a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
+									</span> 
+									<span class="trash">
+										| <a class="delete vim-d vim-destructive" href="#">查看</a>
+									</span>
+									<#else>
+									<span class="approve">
+										<a class="vim-a" href="javascript:restore(${bean.id})">还原</a>
+									</span>
+									<span class="spam">
+										| <a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a>
+									</span> 
+									</#if>
+								</p>
+								
+							</div></td>
+						<td>${(bean.username)!}</td>
+						<td>${(bean.categorysAsString)!}</td>
+						<td>${bean.created!}</td>
+					</tr>
+					</#list> 
+					</#if>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th style="width: 20px">
+							<input name="dataItem" onclick="check_all(this)" type="checkbox">
+						</th>
+						<th style="width: 10%">关键字</th>
+						<th>回复类型</th>
+						<th>回复内容</th>
+						<th style="width: 10%">发布日期</th>
+					</tr>
+				</tfoot>
+			</table>
+			</form>
+		</div>
+		<div class="pull-right"><#include
+			"../_inc/_paginate_wrapper.html" /></div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+	<!-- /.col -->
+
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

@@ -1,0 +1,372 @@
+<#include "_inc/_layout.html"/>
+<#macro script> 
+$(function(){
+    	   
+           $(".jp-onmouse").mouseover(function(){
+               $(".row-actions").show();
+           }).mouseout(function(){  $(".row-actions").hide()})
+
+
+           $(".jp-title-btn-show").click(function(){
+               $(".jp-title-table-show").show();
+               $(".jp-title-help").hide();
+               $(".jp-title-btn-help").css("visibility","hidden");
+               var $box =$(this).parents(".box").first();
+
+               if( $box.find(".fa").hasClass("fa-sort-desc")){
+                   $box.find(".box-body").slideDown("200",function(){
+                   $box.find(".fa").removeClass("fa-sort-desc").addClass("fa-sort-up");})
+               }else{
+                   $box.find(".box-body").slideUp("200",function(){
+                       $(".jp-title-table-show").hide();
+                       $(".jp-title-btn-help").css("visibility","visible");
+                       $box.find(".fa").removeClass("fa-sort-up").addClass("fa-sort-desc");
+
+                   })
+               }
+           });
+               $(".jp-title-btn-help").click(function(){
+                   $(".jp-title-help").show();
+                   $(".jp-title-table-show").hide();
+                   $(".jp-title-btn-show").css("visibility","hidden");
+                   var $box =$(this).parents(".box").first();
+
+                   if( $box.find(".fa").hasClass("fa-sort-desc")){
+                       $box.find(".box-body").slideDown("200",function(){
+                           $box.find(".fa").removeClass("fa-sort-desc").addClass("fa-sort-up");})
+                   }else{
+                       $box.find(".box-body").slideUp("200",function(){
+                           $(".jp-title-help").hide();
+                           $(".jp-title-btn-show").css("visibility","visible");
+                           $box.find(".fa").removeClass("fa-sort-up").addClass("fa-sort-desc");
+
+                       })
+                   }
+               });
+
+       });
+</#macro>
+
+<@layout active_id="dashboard" >
+<div class="jp-title-pad"></div>
+<div class="col-xs-12 jp-set-table">
+<!-- Bar chart -->
+    <div class="box box-primary collapsed-box">
+        <div class="box-body" style="display: none">
+             <div class="jp-title-table-show">
+                 <fieldset class="metabox-prefs">
+                     <legend>模块</legend>
+                     <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="option1"> 概览
+                     </label>
+                     <label class="checkbox-inline">
+                         <input type="checkbox" id="inlineCheckbox2" value="option2">活动
+                     </label>
+                     <label class="checkbox-inline">
+                         <input type="checkbox" id="inlineCheckbox3" value="option3"> 快速草稿
+                     </label>
+                 </fieldset>
+             </div>
+            <div class="jp-title-help">
+                <!-- Custom Tabs -->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Tab 1</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <b>How to use:</b>
+
+                            <p>Exactly like the original bootstrap tabs except you should use
+                                the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.</p>
+                            A wonderful serenity has taken possession of my entire soul,
+                            like these sweet mornings of spring which I enjoy with my whole heart.
+                            I am alone, and feel the charm of existence in this spot,
+                            which was created for the bliss of souls like mine. I am so happy,
+                            my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
+                            that I neglect my talents. I should be incapable of drawing a single stroke
+                            at the present moment; and yet I feel that I never was a greater artist than now.
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_2">
+                            The European languages are members of the same family. Their separate existence is a myth.
+                            For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
+                            in their grammar, their pronunciation and their most common words. Everyone realizes why a
+                            new common language would be desirable: one could refuse to pay expensive translators. To
+                            achieve this, it would be necessary to have uniform grammar, pronunciation and more common
+                            words. If several languages coalesce, the grammar of the resulting language is more simple
+                            and regular than that of the individual languages.
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_3">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            It has survived not only five centuries, but also the leap into electronic typesetting,
+                            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
+                            like Aldus PageMaker including versions of Lorem Ipsum.
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- nav-tabs-custom -->
+            </div>
+
+        </div>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-white jp-title-btn-show" >显示选项<i class="fa fa-sort-desc"></i></button>
+            <button type="button" class="btn btn-white jp-title-btn-help">帮助<i class="fa fa-sort-desc"></i></button>
+        </div>
+    </div>
+</div>
+
+  	<div class="clr"></div>
+  <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            仪表盘
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- interactive chart -->
+                <div class="box box-primary">
+                    <div class="jp-welcome-content">
+                        <h3>欢迎使用JPress <span class="caret"></span></h3>
+                        <p class="jp-welcome-description">我们准备了几个链接供您开始：</p>
+                        <a href="#" class="jp-welcome-close"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>不在显示</a>
+
+                    </div>
+                    <div class="row jp-welcome-down">
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li> <h4>开始使用</h4>  </li>
+                                <li><button type="button" class="btn btn-primary btn-lg">自定义您的站点</button></li>
+                                <li><p>或<a href="#">更换主题</a></p></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li><h4>接下来</h4> </li>
+                                <li><p><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">.4简体中文版现已开放下载</a></p></li>
+                                <li><p><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">.4简体中文版现已开放下载</a></p></li>
+                                <li><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">更换主题</a></li>
+                             </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="list-unstyled">
+                                <li><h4>接下来</h4> </li>
+                                <li><p><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">.4简体中文版现已开放下载</a></p></li>
+                                <li><p><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">.4简体中文版现已开放下载</a></p></li>
+                                <li><i class="fa fa-files-o"></i>&nbsp;&nbsp;<a href="#">更换主题</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Line chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <h3 class="box-title">概览</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-6"><a href="#"><p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;8篇文章</p></a></div>
+                            <div class="col-xs-6"><a href="#"><p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;2个页面</p></a></div>
+                            <div class="col-xs-12">JPress 4.4.1，使用Flex Mag主题。</div>
+                        </div>
+                    </div>
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
+
+                <!-- Area chart -->
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <h3 class="box-title">活动</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+
+                        <h4>最近发布的</h4>
+                        <div id="subsubsub" class="rss-widget">
+                            <ul class="list-unstyled ">
+                                <li>
+                                    <span >下午12:39 01月20日</span>
+                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=51&action=edit">逗比主人如何“装修”宠物的住处，第一张就笑喷了！</a>
+                                </li>
+                                <li>
+                                    <span>下午6:10 01月19日</span>
+                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=44&action=edit">选择3、4月份装修的重大好处，你造吗？</a>
+                                </li>
+                                <li>
+                                    <span>下午6:06 01月19日</span>
+                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=41&action=edit">最适合懒人的不锈钢橱柜！不锈钢也可以上档次！</a>
+                                </li>
+                                <li>
+                                    <span>下午6:00 01月19日</span>
+                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=38&action=edit">春季居家防尘4大绝招，明星都家中都这么防尘！</a>
+                                </li>
+                                <li>
+                                    <span>下午7:51 01月14日</span>
+                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=18&action=edit">4款源至美国的儿童房，正影响越来越多的中国孩子。</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="rss-widget"><h5>评论</h5></div>
+                        <!-- Attachment -->
+                        <div class="attachment-block clearfix jp-onmouse rss-widget">
+                            <img class="attachment-img" src="../../dist/img/photo1.png" alt="Attachment Image">
+
+                            <div class="attachment-pushed">
+                                <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>
+
+                                <div class="attachment-text">
+                                    Description about the attachment can be placed here.
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
+                                </div>
+                                <!-- /.attachment-text -->
+                                <div class="jp-flash-comment">
+                                    <p class="row-actions">
+                                        <span class="approve"><a class="vim-a" title="批准这条评论" href="#">批准</a></span>
+                                        <span class="unapprove"> <a class="vim-u" title="驳回这条评论" href="#">驳回</a> </span>
+                                        <span class="reply hide-if-no-js"> |<a class="vim-r hide-if-no-js" href="#" title="回复这条评论">回复</a> </span>
+                                        <span class="edit">| <a title="编辑评论" href="#">编辑</a></span>
+                                        <span class="spam">| <a class="vim-s vim-destructive" title="将这条评论标记为垃圾评论"  href="#">垃圾评论</a> </span>
+                                        <span class="trash">| <a class="delete vim-d vim-destructive" title="将这条评论移动到回收站"  href="#">移至回收站</a></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- /.attachment-pushed -->
+                        </div>
+                        <div class="jp-footer-comment">
+                            <ul class=" list-inline">
+                                <li class="all"><a href="#">全部<span class="count">（<span class="all-count">1</span>）</span> </a>| </li>
+                                <li class="moderated"> <a href="#">待审<span class="count">（<span class="pending-count">1</span>）</span></a>|</li>
+                                <li class="approved"><a href="#"> 已批准<span class="count">（<span class="approved-count">0</span>）</span> </a>|</li>
+                                <li class="spam"><a href="#">垃圾<span class="count">（<span class="spam-count">1</span>）</span></a> |</li>
+                                <li class="trash"> <a href="#"> 回收站<span class="count">（<span class="trash-count">0</span>）</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-6">
+                <!-- Bar chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <h3 class="box-title">快速草稿</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="sr-only" for="jp-draft-title"></label>
+                                <input type="text" class="form-control" id="jp-draft-title" placeholder="标题"/>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="你想说什么"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-md">保存草稿 </button>
+                        </form>
+                    </div>
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
+
+                <!-- Donut chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                         <h3 class="box-title">新闻</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="box-body" >
+                        <div class="rss-widget"><a><p>Far far away, behind the word mountains, far from the
+                            countries Vokalia and Consonantia, there live the blind
+                            texts. Separated they live in Bookmarksgrove right at</p> </a>
+
+                            <a> <p>the coast of the Semantics, a large language ocean.
+                                A small river named Duden flows by their place and supplies
+                                it with the necessary regelialia. It is a paradisematic
+                                country, in which roasted parts of sentences fly into
+                                your mouth.</p></a></div>
+                        <div class="rss-widget"><a><p>Far far away, behind the word mountains, far from the
+                            countries Vokalia and Consonantia, there live the blind
+                            texts. Separated they live in Bookmarksgrove right at</p> </a>
+
+                           <a> <p>the coast of the Semantics, a large language ocean.
+                                A small river named Duden flows by their place and supplies
+                                it with the necessary regelialia. It is a paradisematic
+                                country, in which roasted parts of sentences fly into
+                                your mouth.</p></a></div>
+                        <div class="rss-widget"><a><p>Far far away, behind the word mountains, far from the
+                            countries Vokalia and Consonantia, there live the blind
+                            texts. Separated they live in Bookmarksgrove right at</p> </a>
+
+                            <a> <p>the coast of the Semantics, a large language ocean.
+                                A small river named Duden flows by their place and supplies
+                                it with the necessary regelialia. It is a paradisematic
+                                country, in which roasted parts of sentences fly into
+                                your mouth.</p></a></div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</@layout>

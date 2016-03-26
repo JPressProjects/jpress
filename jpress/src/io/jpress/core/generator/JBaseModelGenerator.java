@@ -24,7 +24,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 			String baseModelOutputDir) {
 		super(baseModelPackageName, baseModelOutputDir);
 		
-		this.packageTemplate = "/**"
+		this.packageTemplate = "/**%n"
 				+ " * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).%n"
 				+ " *%n"
 				+ " * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the \"License\");%n"

@@ -1,2 +1,2 @@
 # what is JPress
-JPress is a news publish system.She is the best practice of JFinal framework. 
+JPress is a new media system.She also is the best practice of JFinal framework. 

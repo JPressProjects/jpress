@@ -193,24 +193,12 @@ public class InstallUtils {
 	}
 
 	private static final void close(ResultSet rs, Statement st) {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {}
-		}
-		if (st != null) {
-			try {
-				st.close();
-			} catch (SQLException e) {}
-		}
+		if (rs != null) try { rs.close(); } catch (SQLException e) {}
+		if (st != null)  try { st.close(); } catch (SQLException e) {}
 	}
 
 	private static final void close(Statement st) {
-		if (st != null) {
-			try {
-				st.close();
-			} catch (SQLException e) {}
-		}
+		if (st != null)  try { st.close(); } catch (SQLException e) {}
 	}
 
 	private static DruidPlugin createDruidPlugin() {

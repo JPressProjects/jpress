@@ -1,0 +1,15 @@
+
+2016-03-27 10:24:05
+[WARN]-[Thread: main]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-27 10:25:36
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-27 10:26:51
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-27 10:27:02
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-27 20:07:20
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.

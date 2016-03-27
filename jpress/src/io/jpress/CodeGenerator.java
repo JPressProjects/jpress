@@ -24,7 +24,7 @@ public class CodeGenerator {
 		String modelPackage = "io.jpress";
 		
 		String dbHost = "127.0.0.1";
-		String dbName = "ccpress";
+		String dbName = "jpress";
 		String dbUser = "root";
 		String dbPassword = "";
 		

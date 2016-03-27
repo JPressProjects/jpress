@@ -15,6 +15,10 @@
  */
 package io.jpress.controller.admin;
 
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
+import com.jfinal.plugin.ehcache.CacheKit;
+
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
@@ -24,11 +28,7 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.EncryptCookieUtils;
 import io.jpress.utils.HashUtils;
-
-import com.jfinal.aop.Before;
-import com.jfinal.aop.Clear;
-import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.ehcache.CacheKit;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url="/admin" ,viewPath ="/WEB-INF/admin")
 @Before(AdminInterceptor.class)
@@ -44,8 +44,7 @@ public class _AdminController extends JBaseController {
 		String username = getPara("username");
 		String password = getPara("password");
 		
-		
-		if(StrKit.isBlank(username) || StrKit.isBlank(password)){
+		if(!StringUtils.areNotEmpty(username,password)){
 			render("login.html");
 			return;
 		}

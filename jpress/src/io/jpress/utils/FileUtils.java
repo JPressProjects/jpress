@@ -57,7 +57,6 @@ public class FileUtils {
 		unzip(zipFilePath, targetPath);
 	}
 
-	@SuppressWarnings("resource")
 	public static void unzip(String zipFilePath, String targetPath) throws IOException{
 		ZipFile zipFile = new ZipFile(zipFilePath);
 		Enumeration<?> entryEnum = zipFile.entries();

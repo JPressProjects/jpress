@@ -19,7 +19,7 @@ public class SmsSenderFactory {
 	
 	public static ISmsSender createSender(){
 		
-		return new SimplerSmsSender();
+		return new AlidayuSmsSender();
 		
 	}
 	

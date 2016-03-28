@@ -237,6 +237,14 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("slug");
 	}
 
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+
+	public java.lang.String getFlag() {
+		return get("flag");
+	}
+
 	public void setLat(java.math.BigDecimal lat) {
 		set("lat", lat);
 	}
@@ -267,6 +275,14 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 
 	public java.lang.String getMetaDescription() {
 		return get("meta_description");
+	}
+
+	public void setRemarks(java.lang.String remarks) {
+		set("remarks", remarks);
+	}
+
+	public java.lang.String getRemarks() {
+		return get("remarks");
 	}
 
 }

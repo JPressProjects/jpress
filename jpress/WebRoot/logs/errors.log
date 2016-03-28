@@ -13,3 +13,40 @@
 
 2016-03-27 20:07:20
 [WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 00:54:27
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 01:08:26
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 01:08:51
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 15:43:37
+[ERROR]-[Thread: main]-[com.jfinal.kit.LogKit.error()]: port: 8080 already in use!
+java.lang.IllegalStateException: port: 8080 already in use!
+	at com.jfinal.server.JettyServer.doStart(JettyServer.java:79)
+	at com.jfinal.server.JettyServer.start(JettyServer.java:65)
+	at com.jfinal.core.JFinal.start(JFinal.java:154)
+	at io.jpress.core.Jpress.start(Jpress.java:40)
+	at io.jpress.core.Jpress.start(Jpress.java:36)
+	at io.jpress.Starter.main(Starter.java:24)
+
+2016-03-28 15:44:43
+[WARN]-[Thread: main]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 15:45:41
+[WARN]-[Thread: qtp940452025-36]-[io.jpress.plugin.message.MessagePlugin.pulish()]: there is no listeners for message : io.jpress.plugin.message.Message[source=[Ljava.lang.String;@382b7bd9]
+
+2016-03-28 15:46:12
+[WARN]-[Thread: qtp940452025-43]-[io.jpress.plugin.message.MessagePlugin.pulish()]: there is no listeners for message : io.jpress.plugin.message.Message[source=[Ljava.lang.String;@57af0af7]
+
+2016-03-28 15:49:15
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 15:53:48
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.
+
+2016-03-28 15:54:03
+[WARN]-[Thread: JFinal-Scanner]-[net.sf.ehcache.config.CacheConfiguration.warnTieredSizing()]: Configuration problem for cache sampleCache1: MaxEntriesLocalHeap equal or greater than MaxEntriesLocalDisk. This will result in useless disk storage.

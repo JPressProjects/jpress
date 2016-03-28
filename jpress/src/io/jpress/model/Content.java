@@ -19,6 +19,7 @@ import io.jpress.core.Jdb;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
+import io.jpress.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,6 +42,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private int layer = 0;
 	private List<Content> childList;
 	private Content parent;
+	private List<Metadata> metadatas;
 	
 	public Page<Content> doPaginateByModule(int page, int pagesize, String module) {
 		return paginate(page, pagesize, true,"select c.*,GROUP_CONCAT(t.id ,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username",
@@ -76,6 +78,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				+ " ORDER BY c.created DESC", module , STATUS_DELETE);
 	}
 
+	public Page<Content> doPaginateByMetadata(int page, int pagesize, String meta_key,String meta_value) {
+		return paginate(page, pagesize, true,"select * ",
+				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
+				+ "GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username"
+				+ " FROM content c"
+				+ " left join`mapping`  on c.id = `mapping`.`content_id`"
+				+ " left join taxonomy  t on  `mapping`.`taxonomy_id` = t.id"
+				+ " left join `user` u on c.user_id = u.id"
+				+ " left join `metadata` m on c.id = m.`object_id` and m.`object_type`='content'"
+				+ " GROUP BY c.id"
+				+ " ORDER BY c.created DESC) c where c.`metadatas` like ?","%:"+meta_key+":"+meta_value);
+	}
 
 	/**
 	 * @param page
@@ -254,6 +268,36 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return get("username");
 	}
 	
+	public List<Metadata> getMetadatas() {
+		if(metadatas == null){
+			String metadataString = get("metadatas");
+			if(StringUtils.isNotBlank(metadataString)){
+				metadatas = new ArrayList<Metadata>();
+				String medadataStrings[] = metadataString.split(",");
+				if(medadataStrings!=null && medadataStrings.length > 0){
+					for(String metadataStr : medadataStrings){
+						String [] propertes = metadataStr.split(":");
+						//by method doPaginateByMetadata
+						//propertes[0] == id
+						//propertes[1] == meta_key
+						//propertes[2] == meta_value
+						Metadata md = new Metadata();
+						md.setId(Long.parseLong(propertes[0]));
+						md.setObjectType(METADATA_TYPE);
+						md.setMetaKey(propertes[1]);
+						md.setMetaValue(propertes[2]);
+						metadatas.add(md);
+					}
+				}
+			}
+		}
+		return metadatas;
+	}
+
+	public void setMetadatas(List<Metadata> metadatas) {
+		this.metadatas = metadatas;
+	}
+
 	public String getTagsAsString(){
 		return getTaxonomyAsString(Taxonomy.TYPE_TAG);
 	}

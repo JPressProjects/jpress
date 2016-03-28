@@ -15,15 +15,19 @@
  */
 package io.jpress.controller.admin;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Attachment;
 import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.template.Thumbnail;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.ImageUtils;
 
@@ -58,14 +62,29 @@ public class _AttachmentController extends BaseAdminController<Attachment> {
 			attachment.setPath(newPath);
 			attachment.setSuffix(AttachmentUtils.getFileExt(uploadFile.getFileName()));
 			attachment.setMimeType(uploadFile.getContentType());
-
 			attachment.save();
 
+			processThumbnail(newPath);
 			processWatermark(newPath);
+			
 
-			redirect("/admin/attachment", true);
+			redirect("/admin/attachment?p=attachment&c=list", true);
 		} else {
-			redirect("/admin/attachment/upload", true);
+			redirect("/admin/attachment/upload?p=attachment&c=upload", true);
+		}
+	}
+
+	private void processThumbnail(String newPath) {
+		List<Thumbnail> tbs = Jpress.currentTemplate().getThumbnails();
+		if(tbs!= null && tbs.size() > 0){
+			for(Thumbnail tb : tbs){
+				try {
+					String newSrc =ImageUtils.scale(PathKit.getWebRootPath()+newPath, tb.getWidth(), tb.getHeight());
+					processWatermark(newSrc.substring(PathKit.getWebRootPath().length()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

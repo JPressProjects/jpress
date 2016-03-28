@@ -93,19 +93,21 @@ public class JavaTest {
 		
 //		System.out.println(Jpress.currentTemplate().getPath());
 		
-		String file ="/Users/michael/work/javaee/workspace/jpress/WebRoot/templates/default/index.html";
+//		String file ="/Users/michael/work/javaee/workspace/jpress/WebRoot/templates/default/index.html";
+//		
+//		String text = FileUtils.readString(new File(file));
+//		
+//		Pattern p = Pattern.compile("(?<=<@jp_widgets(\\s)?name=\").*?(?=\"(\\s)?(/)?>)");
+//		System.out.println(text);
+//		Matcher m = p.matcher(text);
+//		List<String> list = new ArrayList<String>();
+//		while(m.find()){
+////			list.add(m.group(0));
+//			System.out.println("---->>>>"+m.group(0));
+//		}
+//		System.out.println("---->>>>finished");
 		
-		String text = FileUtils.readString(new File(file));
 		
-		Pattern p = Pattern.compile("(?<=<@jp_widgets(\\s)?name=\").*?(?=\"(\\s)?(/)?>)");
-		System.out.println(text);
-		Matcher m = p.matcher(text);
-		List<String> list = new ArrayList<String>();
-		while(m.find()){
-//			list.add(m.group(0));
-			System.out.println("---->>>>"+m.group(0));
-		}
-		System.out.println("---->>>>finished");
 		
 	}
 

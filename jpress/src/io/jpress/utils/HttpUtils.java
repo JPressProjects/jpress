@@ -48,24 +48,28 @@ public class HttpUtils {
 	}
 
 	public static String get(String url, Map<String, ? extends Object> params) throws Exception {
+		return get(url,params,null);
+	}
+	
+	public static String get(String url, Map<String, ? extends Object> params,Map<String, String> headers) throws Exception {
 		if (url == null || url.trim().length() == 0) {
 			throw new Exception(TAG + ": get url is null or empty!");
 		}
-
+		
 		if (params != null && params.size() > 0) {
 			if (!url.contains("?"))
 				url += "?";
-
+			
 			StringBuilder sbContent = new StringBuilder();
 			if (url.charAt(url.length() - 1) == '?') { // 最后一个字符是 ?
 				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 					if (entry.getKey() != null)
 						sbContent.append(entry.getKey().trim())
-								 .append("=")
-								 .append(entry.getValue())
-								 .append("&");
+						.append("=")
+						.append(entry.getValue())
+						.append("&");
 				}
-
+				
 				if (sbContent.charAt(sbContent.length() - 1) == '&') {
 					sbContent.deleteCharAt(sbContent.length() - 1);
 				}
@@ -73,23 +77,23 @@ public class HttpUtils {
 				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 					if (entry.getKey() != null)
 						sbContent.append("&")
-								 .append(entry.getKey().trim())
-								 .append("=")
-								 .append(entry.getValue());
+						.append(entry.getKey().trim())
+						.append("=")
+						.append(entry.getValue());
 				}
 			}
 			url += sbContent.toString();
 		}
-
-		return tryToGet(url);
+		
+		return tryToGet(url,headers);
 	}
 	
-	private static String tryToGet(String url) throws Exception {
+	private static String tryToGet(String url,Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
 		while (tryTime < mRetry) {
 			try {
-				return doGet(url);
+				return doGet(url,headers);
 			} catch (Exception e) {
 				if (e != null)
 					ex = e;
@@ -102,7 +106,7 @@ public class HttpUtils {
 			throw new Exception("未知网络错误 ");
 	}
 	
-	private static String doGet(String strUrl) throws Exception {
+	private static String doGet(String strUrl,Map<String, String> headers) throws Exception {
 		strUrl = urlEncode(strUrl, CHAR_SET);
 		HttpURLConnection connection = null;
 		InputStream stream = null;
@@ -110,6 +114,11 @@ public class HttpUtils {
 
 			connection = getConnection(strUrl);
 			configConnection(connection);
+			if(headers!= null && headers.size() > 0){
+				for(Map.Entry<String, String> entry : headers.entrySet()){
+					connection.setRequestProperty(entry.getKey(),entry.getValue());
+				}
+			}
 			
 			connection.setInstanceFollowRedirects(true);
 			connection.connect();
@@ -163,7 +172,10 @@ public class HttpUtils {
 		} else {
 			return tryToPost(url, null, headers);
 		}
-		
+	}
+	public static String post(String url,String content,Map<String, String> headers)
+			throws Exception {
+		return tryToPost(url, content, headers);
 	}
 
 	private static String tryToPost(String url, String postContent,Map<String, String> headers) throws Exception {
@@ -201,11 +213,12 @@ public class HttpUtils {
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 
-			DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-			dos.write(postContent.getBytes(CHAR_SET));
-			dos.flush();
-			dos.close();
-			
+			if(null != postContent && !"".equals(postContent)){
+				DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
+				dos.write(postContent.getBytes(CHAR_SET));
+				dos.flush();
+				dos.close();
+			}
 			stream = connection.getInputStream();
 			ByteArrayOutputStream obs = new ByteArrayOutputStream();
 			

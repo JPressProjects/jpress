@@ -142,31 +142,36 @@ public class HttpUtils {
 
 	public static String post(String url, Map<String, ? extends Object> params)
 			throws Exception {
+		return post(url, params, null);
+	}
+	
+	public static String post(String url, Map<String, ? extends Object> params,Map<String, String> headers)
+			throws Exception {
 		if (url == null || url.trim().length() == 0) {
 			throw new Exception(TAG + ": post url is null or empty!");
 		}
-
+		
 		if (params != null && params.size() > 0) {
 			StringBuilder sbContent = new StringBuilder();
 			for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 				if (entry.getKey() != null)
 					sbContent.append("&").append(entry.getKey().trim())
-							.append("=").append(entry.getValue());
+					.append("=").append(entry.getValue());
 			}
-			return tryToPost(url, sbContent.substring(1));
-
+			return tryToPost(url, sbContent.substring(1),headers);
+			
 		} else {
-			return tryToPost(url, null);
+			return tryToPost(url, null, headers);
 		}
-
+		
 	}
 
-	private static String tryToPost(String url, String postContent) throws Exception {
+	private static String tryToPost(String url, String postContent,Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
 		while (tryTime < mRetry) {
 			try {
-				return doPost(url, postContent);
+				return doPost(url, postContent,headers);
 			} catch (Exception e) {
 				if (e != null)
 					ex = e;
@@ -181,13 +186,18 @@ public class HttpUtils {
 
 	
 	
-	private static String doPost(String strUrl, String postContent) throws Exception {
+	private static String doPost(String strUrl, String postContent,Map<String, String> headers) throws Exception {
 		HttpURLConnection connection = null;
 		InputStream stream = null;
 		try {
 			connection = getConnection(strUrl);
 			configConnection(connection);
-
+			if(headers!= null && headers.size() > 0){
+				for(Map.Entry<String, String> entry : headers.entrySet()){
+					connection.setRequestProperty(entry.getKey(),entry.getValue());
+				}
+			}
+			
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 

@@ -15,22 +15,19 @@
  */
 package io.jpress.core;
 
-import io.jpress.template.ConfigParser;
-import io.jpress.template.Template;
-import io.jpress.template.TemplateUtils;
-
 import java.io.File;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
-import com.jfinal.log.Log;
 import com.jfinal.render.FreeMarkerRender;
 
-import freemarker.template.TemplateModelException;
+import io.jpress.core.ui.JFunction;
+import io.jpress.core.ui.JTag;
+import io.jpress.template.ConfigParser;
+import io.jpress.template.Template;
+import io.jpress.template.TemplateUtils;
 
 public class Jpress {
-
-	private static final Log logger = Log.getLog(Jpress.class);
 
 	public static void start() {
 		start(8080);
@@ -40,12 +37,12 @@ public class Jpress {
 		JFinal.start("WebRoot", port, "/", 5);
 	}
 
-	public static void setFreeMarkerSharedVariable(String key, Object value) {
-		try {
-			FreeMarkerRender.getConfiguration().setSharedVariable(key, value);
-		} catch (TemplateModelException e) {
-			logger.error("setFreeMarkerSharedVariable", e);
-		}
+	public static void addTag(String key,JTag tag) {
+		FreeMarkerRender.getConfiguration().setSharedVariable(key, tag);
+	}
+	
+	public static void addFunction(String key, JFunction function) {
+		FreeMarkerRender.getConfiguration().setSharedVariable(key, function);
 	}
 
 	private static boolean isInstalled = false;

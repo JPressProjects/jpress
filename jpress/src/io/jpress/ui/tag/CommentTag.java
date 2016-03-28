@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
+jp_contents * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
  *
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public class CommentTag extends JTag {
 		
 		Page<Content> page = Content.DAO.doPaginate(1, 10);
 		
-		setVariable("comments", page.getList());
+		setVariable("comment", page.getList());
 		
 		renderBody();
 	}

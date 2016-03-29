@@ -1,0 +1,321 @@
+@CHARSET "UTF-8";
+/*导航属性1270*/
+body { color:#50504F;background:#F5F5F5;font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;}
+h5,h4{font-size: 16px;line-height: 22px;}
+h3{font-size: 18px}
+a{color: #4F4F4F}
+a:hover{color: #45B6F7;text-decoration: none}
+dt, dd {line-height: 45px;}
+span i{margin-right: 5px}
+
+.jp-font-size16{font-size: 16px}
+.jp-border{border: 1px solid #e6e6e6;}
+.portrait{width: 60px;height: 60px;margin-left: -80px;float: left;}
+.jp-margin-top20{margin:20px 0 0 0}
+.jp-margin-top10{margin-top:10px}
+.jp-img-maxh{max-height: 350px;}
+.btn-primary{background-color: #178fe6;}
+.btn.btn-flat { border-radius: 0; border-width: 1px; box-shadow: none;}
+.input-group .input-group-addon {border-radius: 0;border-color: #d2d6de;background-color: #fff;}
+.input-group .jp-border-none{border: none;}
+.jp-input-group{border: 1px solid #cccccc;border-radius:0px;width: 100%}
+.side-tag{font-size: 14px;line-height: 22px;color: #555555;}
+.side-tag dl{font-size: 16px;}
+.jp-color-org{color: #fdcd01;}
+.jp-margin-right30{margin-right: 30px}
+.jp-margin-right10{margin-right: 10px}
+.jp-width100{width: 100%; }
+.jp-margin-top{margin-top: 0}
+.jp-margin-left5{margin-left: 5px}
+.font-weight6{}
+.jp-navbar-default { background: #17A0E8; margin-bottom: 20px;border: medium none;border-radius:0}
+.jp-navbar-nav > li > a{line-height: 35px}
+.jp-nav-input-search{width: 220px;height: 35px;background-color: #ffffff;border-radius: 20px;margin-top: 10px;}
+.jp-nav-input-search .form-control,.jp-nav-input-search .form-control:focus{margin-left: 10px;border: medium none; box-shadow:none;}
+.jp-form .form-control, .jp-form .form-control:focus{border: medium none; box-shadow:none;}
+
+.jp-navbar-nav > li > a:hover,.jp-navbar-nav > li.active > a, .jp-navbar-nav > li > a:focus,.jp-navbar-nav li:hover{color: #ffffff;background-color: #148CCB}
+
+
+.jp-navbar-nav > li > a{color: #ffffff;background: #17A0E8;}
+.btn-white{background-color: #ffffff;border: none; padding: 6px 7px;}
+.logo  { height: auto; max-height: 65px;}
+.user-image{height: 35px; border-radius: 35px;    width: 35px;}
+.user-image-forum{ border-radius: 60px; height: 90px; width: 90px;}
+.jp-navbar-toggle{padding: 4px 10px;}
+.jp-right{float: right;}
+.jp-left{float: left;}
+.jp-common{margin: 0;padding: 0;}
+
+
+/*历史航程*/
+ /* 内容*/
+.content{background-color: #ffffff;margin-bottom: 20px;padding: 10px;border: 1px solid #e6e6e6;}
+.content-img{width: 100%;  }
+.content-img-real{max-width: 100%;  display: table-cell;vertical-align: middle }
+.content h4{font-weight: 600;line-height: 25px;font-size: 16px;}
+h3{font-weight: 600;line-height: 30px;font-size: 18px;}
+.content-author{color: #17A0E8;margin: 0 5px;}
+.release-time{margin-left: 40px;color: #9d9d9d}
+.content-detail{line-height: 20px;color: #9b9b9b;}
+.content-footer .jp-right{margin-right: 20px}
+.form-group input.jp-form-search{width: 170px}
+.jp-form-search-sub{float: right;}
+/*右侧导航条*/
+.side-tag{background-color: #ffffff;padding: 10px;margin-bottom: 20px;border: 1px solid #e6e6e6;}
+.side-tag  li {margin: 0px 10px 10px 0 }
+.side-tag .list-inline li {background-color: #daf1ff;}
+.side-tag ul.member li {background-color: #ffffff;margin: 0;}
+.side-tag .list-inline li a{color:#699FDF;}
+.side-cloro{background-color: #FF6600;display: block; float: left;height: 25px; margin-left: -10px;margin-top: -1px;width: 4px;}
+.side-header{height: 15px ;width: 100%;border-top:1px solid #ebebeb;}
+.side-footer{height: 15px ;width: 100%;border-top:1px solid #ebebeb;margin-top: 20px;}
+/*脚*/
+.footer{background-color: #2d3236;height: 110px;color: #6A6D80;}
+.footer-icon{ background-color:#333a3d;;border-radius: 35px; height: 35px;line-height: 35px; margin: 35px 5px 0;text-align: center; width: 35px;}
+
+.footer-box{width: 100%;display: table}
+.footer-box a{color: #5f656e; }
+.footer-box ul{margin: 10px 0;}
+.box{display: table-cell;vertical-align: middle;height: 110px;color: #5F656E; }
+
+/*forum*/
+
+.font-ag{ border-radius: 2px;color: #fef0f0;font-size: 12px; margin-right: 5px; padding: 2px 5px;width: 35px;}
+.forum-best-color{color: #FE8431;margin-right:20px }
+.forum-post{background-color: #F84542}
+.forum-best{background-color: #FAA441}
+.forum-commend{background-color: #FCD43F}
+.forum-box{padding-left: 80px}
+.catalog-show{border-bottom: 3px solid #17A0E8; padding-bottom: 3px;}
+.catalog{margin: -10px 0 8px;padding: 5px 15px;}
+.forum-intro{background-color: #ffffff;width: 100%; padding: 20px 30px;}
+.forum-intro p span{font-weight: 600;font-size: 16px;color:#8E8E8E;padding: 10px 20px;margin-right: 20px;}
+.forum-intro p span.active{background: #F0F0F0 ;color: #4F4F4F }
+.forum-intro p span small{margin-left: 10px}
+p span.forum-send{padding:10px 40px;background-color:#17A0E8 ;margin:0;color: #ffffff; }
+.border-top{ background-color: #ffffff;border-top: 1px solid #ebebeb; height: 1px;padding: 10px 0; width: 100%;}
+.forum-content{ padding: 10px 30px 20px;width: 100%;background-color: #ffffff;}
+.forum-comment{line-height: 50px; color: #9d9d9d; font-size: 12px;}
+.jp-froum-img{max-height: 80px;max-width: 80px;}
+ /**/
+.side-tag .dl-horizontal dt{width: 20px;}
+.side-tag .dl-horizontal dd{margin-left:35px}
+.side-left-head{background-color: #FE8800; color: white; height: 30px; margin: -10px -10px 0;padding: 5px 10px 0;}
+
+/*主页*/
+.jp-art-main{position: relative}
+.jp-art-sub{position: absolute;bottom:0px;background: rgba(54, 54, 54, 0.3)}
+.jp-art-sub img{ max-height: 70px;max-width: 70px;padding: 0 0 0 20px;}
+.jp-art-info{color:#E9E7E8;line-height: 25px;padding: 20px 40px;}
+.side-tag .jp-left{margin:0 10px}
+.comment{margin: 20px 0}
+.comment-height{height: 100px;border-top: 1px solid #ebebeb;border-right: 1px solid #ebebeb;border-bottom: 1px solid #ebebeb;}
+.comment-head{background-color: #17A0E8;display: table;width: 100%;}
+.comment-head-com{display: table-cell;vertical-align: middle;color: white;font-size: 25px;font-weight: 400;}
+.comment-content{padding: 10px 10px 10px 10px;background-color: #ffffff}
+h5.comment-content-title{margin:0;font-weight: 400;}
+.mix-link{background-color: #ffffff; line-height: 20px;padding: 20px 0 30px;}
+.mix-link ul li{padding: 5px 0}
+.friend-link{background-color: #ffffff;border-top:1px solid #ebebeb;padding-bottom:20px  }
+.friend-link ul li{border:1px solid #ebebeb;padding: 2px 10px; margin: 5px}
+/* 页面详情*/
+ .jp-details-info{border-bottom: 1px solid #EBEBEB;}
+.content-footer{ color: #9b9b9b;}
+.article-content{padding: 0px 20px 10px;}
+.article-content-footer{padding: 10px 20px; color: #9d9d9d;line-height: 25px}
+.article-content-footer button {margin-right: 30px;padding: 5px 20px;}
+.forum-reply{background-color: #F2F2F2;font-size: 12px; padding: 10px;}
+.forum-reply h6{line-height: 20px}
+.forum-article-f{font-weight: 600;margin-left: 10px;}
+.forum-release-time{margin-left:20px;color:#9d9d9d;  }
+.jp-art-edit{background-color: #ffffff ; margin-bottom: 100px;padding: 30px 30px 80px;margin-top: 30px;}
+.jp-art-edit .jp-right{margin-top: 20px}
+.footer-ass{position: fixed;width: 100%;bottom:0;z-index: 1001;}
+.jp-inline-right1{margin-right: -50px;float: right;}
+.jp-inline-right2{margin-right: -100px;float: right;}
+
+/*登录*/
+.login-box, .register-box {
+    border: 1px solid #e6e6e6;
+    background: white none repeat scroll 0 0;
+    margin: 3% auto 0;
+
+    max-width: 320px;
+}
+.login-box-body{}
+.login-box-msg{padding: 20px 20px 0;}
+.login-ass{
+    height: 130px;
+    background-color: #E3E7EA ;
+    max-width: 320px;
+    margin: 0 auto;
+}
+.login-ass-title{height: 60px;line-height: 60px;margin: 0;}
+
+.content-wrapper{margin:20px 40px 110px;border: 1px solid #e6e6e6;
+    padding: 20px;background-color: #ffffff }
+
+.con-header{border-bottom: 1px solid #ebebeb;}
+.con-info-bottom{border-bottom: 3px solid #008DF3;padding-bottom: 5px;font-size: 18px;}
+.con-info-color{font-size: 12px ;color:#4C9CF2; }
+.con-box {
+     margin: 0 auto ;
+     padding: 20px;
+     max-width: 320px}
+
+.con-reg{position: relative}
+.con-reg-commend{position: absolute;right: -75px;top:0px;}
+
+ul li.login-icon{ border: 2px solid #0183E3;
+    border-radius: 40px;
+    color: #0183E3;
+    height: 40px;
+    line-height: 35px;
+    padding: 0;
+    width: 40px;
+}
+.login-gruop-icon li{margin:0 10px }
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-right:18px solid #FFDDC4;
+    overflow:hidden;
+    float: left;
+}
+.arrow-left-l{float: left;height:36px;width: 50px;background-color:#FFDAB9;font-size:10px;color:#9E4F4A;padding: 3px}
+.content-height{height:310px}
+.jp-margin-bo{margin: 30px 0 60px}
+.jp-padding-bo{padding: 8px 15px;background-color: #F0F0F0;}
+
+.jp-extend{padding-right: 70px;padding-left: 70px}
+.jp-extend-r{padding-right: 70px;}
+.jp-extend-sub-r{margin-right: -60px;float: right;}
+.jp-extend-sub-l{margin-left: -60px;float: left;}
+
+.side-comment{line-height: 60px;color: #E7E7E7;
+    margin: -59px;
+    position: absolute;
+    top: 300px;
+    width: 60px;
+    z-index: 111;}
+.side-comment .active{background-color: #FF8C3C;color: #FDF2E8}
+.side-elem-lih{line-height: 30px;padding-bottom: 10px;padding-top: 10px;}
+.side-elem-down{margin-bottom: 30px}
+.side-elem{background-color: #ffffff;}
+.btn-color-or{background-color: #FF8C3C;color: #F7FBFD;margin-right: 10px}
+.btn-color-bl{background-color: #4C8FE0;color: #F7FBFD;margin-right: 10px}
+.jp-form-inline2{padding-right: 100px;}
+
+
+
+.article p, .article h3, .article h4, .article h5, .article h6, .article pre, .article pre, .article ul, .article ol, .article dl, .article form, .article table, .article blockquote, .article iframe {
+    margin-bottom: 30px;
+}
+.article strong, .article b {
+    font-weight: 600;
+
+}
+.article img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.article {
+    font-size: 17px;
+    line-height: 1.8;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.article blockquote {
+    font-weight: 600;
+
+}
+.article a {
+    color: #3da9f7;
+}
+.article a:hover {
+    color: #2c79b0;
+}
+
+/*帖子*/
+.jp-padding-top20{padding-top: 20px}
+.jp-my-li{font-size: 16px;line-height: 40px}
+.jp-my-li li{ margin: 0 -10px; padding: 5px 0; }
+.jp-li-icon{ padding-left: 40px; padding-right: 15px;}
+.jp-my-li li.active{border-left:2px solid #17A0E8; background-color: #E6E6E6;}
+.jp-my-li li:hover{border-left:2px solid #17A0E8; background-color: #E6E6E6; }
+.my-intro{background-color: #ffffff;padding: 20px 30px; color: #9d9d9d;}
+.my-intro p{border-bottom: 1px solid #ebebeb;padding-bottom: 10px;font-size: 16px;}
+.my-intro p span{margin-right: 20px}
+.my-intro .active{border-bottom: 1px solid #78BCEB;padding-bottom: 12px;color: #50504f}
+.border-bottom{background-color: #ffffff;
+    border-bottom: 1px solid #ebebeb;
+    height: 1px;
+    padding: 10px 0;
+    width: 100%;}
+.login-out{background-color: #ffffff;padding: 40px 0 0px;}
+.login-out-box{ height: 50px; padding: 20px 0 10px;}
+.jp-border-radius30{border-radius: 30px;}
+
+.modify-body{background-color: #ffffff}
+.modify-content{padding: 20px}
+.jp-checkbox label{line-height: 20px}
+.login-box-body .dl-horizontal dt{width: 80px;  clear: left; line-height: 35px;
+    float: left;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
+.login-box-body .dl-horizontal dd{margin-left:120px; line-height: 35px;}
+.layer{cursor:pointer;}
+.jp-img-box{display:table;background-color: gainsboro}
+.jp-img-box-sub{display: table-cell;text-align: center;vertical-align: middle;width: 100%;}
+.jp-img-side-box{height: 300px;background-color:#F6F6F6 }
+.jp-path-img{margin: 0 auto; width: 150px;}
+
+@media (max-width: 1200px){
+    .display-none-1200{display: none;}
+    .jp-navbar-search{float: right}
+
+}
+@media (max-width: 992px){
+    .display-none-992{display: none;}
+    .jp-navbar{float: right;margin: 0 -15px;}
+    .jp-navbar-nav > li > a{line-height: 20px}
+    .logo  { height: auto;max-height: 50px;}
+    .footer-box{text-align: center}
+
+}
+@media (max-width: 768px) {
+    .display-none-768{display: none;}
+    nav.jp-collapse{top: 49px;display: none; position: absolute;right: 0;text-align: center;z-index: 109;}
+    .comment-height{height: 60px}
+    .content-wrapper{margin:20px 0 110px;}
+
+
+    /*内容*/
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

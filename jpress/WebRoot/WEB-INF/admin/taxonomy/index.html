@@ -55,6 +55,7 @@ function doSubmit(){
 					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug">
 					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
 				</div>
+				<#if type.formType == "select">
 				<div class="form-group jp-article-format">
 					<div class="col-xs-5 jp-common-pad">
 						<label>父节点</label> 
@@ -68,6 +69,7 @@ function doSubmit(){
 					<div class="clr"></div>
 					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
 				</div>
+				</#if>
 				<div class="form-group jp-article-format">
 
 					<label>图像描述</label>

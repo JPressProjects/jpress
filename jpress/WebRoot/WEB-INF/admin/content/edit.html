@@ -1,5 +1,9 @@
 <#include "../_inc/_layout.html"/> 
 <#macro script>
+$(".jp-tag").select2({
+  tags: true,
+  tokenSeparators: [',', ' ']
+});
 var data={
     url:'',
     alt:''
@@ -82,6 +86,10 @@ function save(){
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
+<script src="${CPATH}/static/plugins/select2/select2.full.min.js"></script>
+</#macro>
+<#macro css_import>
+<link rel="stylesheet" href="${CPATH}/static/plugins/select2/select2.min.css">
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->

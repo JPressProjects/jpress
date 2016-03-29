@@ -15,16 +15,17 @@
 		<!-- Custom Tabs -->
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab_1" data-toggle="tab">所有分类项目</a></li>
-				<li><a href="#tab_2" data-toggle="tab">最常用</a></li>
+				<li class="active">
+					<a href="#tab_${taxonomyType.name}_1" data-toggle="tab">所有分类项目</a></li>
+				<li><a href="#tab_${taxonomyType.name}_2" data-toggle="tab">最常用</a></li>
 
 			</ul>
 			<div class="tab-content jp-aside-hg">
-				<div class="tab-pane active" id="tab_1">
+				<div class="tab-pane active" id="tab_${taxonomyType.name}_1">
 				 ${taxonomyBox(taxonomyType,content)}
 				</div>
 				<!-- /.tab-pane -->
-				<div class="tab-pane" id="tab_2">
+				<div class="tab-pane" id="tab_${taxonomyType.name}_2">
 					<div class="checkbox">
 						<label> <input type="checkbox"> Checkbox 1
 						</label>
@@ -37,35 +38,6 @@
 				<!-- /.tab-pane -->
 			</div>
 			<!-- /.tab-content -->
-			<ul class="nav">
-				<li class="jp-padding-wu"><span class="jp-add-new-project">+
-						添加新分类目录 </span></li>
-			</ul>
-			<ul class="nav jp-build-new-project">
-
-				<li>
-					<div class="col-xs-12 form-group">
-						<label class="sr-only" for="exa">Email address</label> <input
-							id="exa" class="form-control" type="text">
-					</div>
-				</li>
-				<li>
-					<div class="col-xs-12 form-group">
-						<select class="form-control input-sm" aria-controls="example1"
-							name="example1_length">
-							<option value="10">床</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
-						</select>
-					</div>
-				</li>
-				<li>
-					<div class="col-xs-12 text-center">
-						<button class="btn btn-default btn-sm" type="button">添加分类项目</button>
-					</div>
-
-				</li>
-			</ul>
 		</div>
 		<!-- nav-tabs-custom -->
 	</div>

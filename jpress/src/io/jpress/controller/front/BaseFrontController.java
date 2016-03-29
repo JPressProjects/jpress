@@ -24,21 +24,36 @@ public class BaseFrontController extends JBaseController {
 	private static final String T_FORMAT = "/templates/%s/%s";
 
 	public void render(String name) {
-		do {
-			if (templateExists(name)) {
-				break;
-			}
-			name = clearProp(name);
-		} while (name.contains("_"));
-
-		if (!templateExists(name)) {
-			renderText(String.format(
-					"there is no \"%s\" file in template \"%s\".", name,
-					TemplateUtils.getTemplateName()));
-		} else {
-			super.render(String.format(T_FORMAT,
-					TemplateUtils.getTemplateName(), name));
+		if(templateExists(name)){
+			renderTemplate(name);
+			return;
 		}
+		
+		if(name.indexOf("_") !=- 1){
+			do {
+				if (templateExists(name)) {
+					break;
+				}
+				name = clearProp(name);
+			} while (name.indexOf("_") !=- 1);
+		}
+
+		if (templateExists(name)) {
+			renderTemplate(name);
+		} else {
+			renderError(name);
+		}
+	}
+
+	private void renderError(String name) {
+		renderText(String.format(
+				"there is no \"%s\" file in template \"%s\".", name,
+				TemplateUtils.getTemplateName()));
+	}
+
+	private void renderTemplate(String name) {
+		super.render(String.format(T_FORMAT,
+				TemplateUtils.getTemplateName(), name));
 	}
 
 	public String clearProp(String fname) {

@@ -78,7 +78,7 @@ public class JCaptchaRender extends Render{
 //		}
 //		response.addCookie(cookie);
 		
-		controller.setAttr(captchaName, vCode);
+		controller.setSessionAttr(captchaName, vCode);
 		
 		response.setHeader("Pragma","no-cache");
 		response.setHeader("Cache-Control","no-cache");

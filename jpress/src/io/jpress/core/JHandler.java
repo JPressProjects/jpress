@@ -30,7 +30,6 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request,HttpServletResponse response, boolean[] isHandled) {
 
 		long time = System.currentTimeMillis();
-
 		String contextPath = request.getContextPath();
 		request.setAttribute("CPATH", contextPath);
 		request.setAttribute("SPATH", contextPath + "/static");
@@ -40,12 +39,16 @@ public class JHandler extends Handler {
 			if (target.startsWith("/templates") && target.endsWith("html")) {
 				HandlerKit.renderError404(request, response, isHandled);
 			}
+			// 防止直接访问jsp文件页面
+			if(target.toLowerCase().endsWith(".jsp")){
+				HandlerKit.renderError404(request, response, isHandled);
+			}
 			
 			if("sitemap.xml".equalsIgnoreCase(target)){
 				target = "sitemap";
+			}else{
+				return;
 			}
-			
-			return;
 		}
 		
 		// 检测是否安装

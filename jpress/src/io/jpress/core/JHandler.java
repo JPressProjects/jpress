@@ -15,14 +15,14 @@
  */
 package io.jpress.core;
 
-import io.jpress.model.Option;
-import io.jpress.template.Module;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
+
+import io.jpress.model.Option;
+import io.jpress.plugin.target.TargetKit;
 
 public class JHandler extends Handler {
 
@@ -68,34 +68,13 @@ public class JHandler extends Handler {
 			}
 		}
 		
-		target = targetConvert(target, request, response);
+		target = TargetKit.converte(target, request, response);
 		next.handle(target, request, response, isHandled);
 
 		if (Jpress.isDevMode()) {
 			System.err.println("--->time:" + (System.currentTimeMillis() - time));
 		}
-
 	}
 
-	private String targetConvert(String target, HttpServletRequest request,HttpServletResponse response) {
-//		return TargetKit.converte(target, request, response);
-		
-		if(Jpress.isInstalled()){
-			String newTarget = target.substring(1);
-			String moduleName = newTarget;
-			if(newTarget.indexOf("/")!=-1){
-				moduleName =  newTarget.substring(0,newTarget.indexOf("/"));
-			}
-			
-			Module m = Jpress.currentTemplate().getModuleByName(moduleName);
-			if(null != m){
-				target = "/t"+target.replace(moduleName+"/", moduleName+"-");
-			}else{
-				// page target
-			}
-		}
-		
-		return target;
-	}
 
 }

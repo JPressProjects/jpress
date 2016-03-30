@@ -46,5 +46,18 @@ public class StringUtils {
 		catch (Exception e) {}
 		return defaultValue;
 	}
+	
+	public static int toInt(String value, int defaultValue) {
+		try {
+			if (value == null || "".equals(value.trim()))
+				return defaultValue;
+			value = value.trim();
+			if (value.startsWith("N") || value.startsWith("n"))
+				return -Integer.parseInt(value.substring(1));
+			return Integer.parseInt(value);
+		}
+		catch (Exception e) {}
+		return defaultValue;
+	}
 
 }

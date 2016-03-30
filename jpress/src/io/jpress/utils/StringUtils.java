@@ -33,5 +33,18 @@ public class StringUtils {
 	public static boolean isNotBlank(String string) {
 		return string != null && !string.trim().equals("");
 	}
+	
+	public static long toLong(String value, Long defaultValue) {
+		try {
+			if (value == null || "".equals(value.trim()))
+				return defaultValue;
+			value = value.trim();
+			if (value.startsWith("N") || value.startsWith("n"))
+				return -Long.parseLong(value.substring(1));
+			return Long.parseLong(value);
+		}
+		catch (Exception e) {}
+		return defaultValue;
+	}
 
 }

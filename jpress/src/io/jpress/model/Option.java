@@ -29,7 +29,7 @@ public class Option extends BaseOption<Option> {
 	public static final Option DAO = new Option();
 	
 	public static final String KEY_WEB_NAME = "web_name";
-	public static final String KEY_TEMPLATE_NAME = "template_name";
+	public static final String KEY_TEMPLATE_NAME = "web_template_name";
 	
 	public static String findTemplateName(){
 		return cacheValue(KEY_TEMPLATE_NAME);

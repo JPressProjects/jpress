@@ -58,7 +58,7 @@ public class JHandler extends Handler {
 		}
 
 		if(Jpress.isInstalled()){
-			request.setAttribute("TPATH",contextPath + "/templates/" + Option.findTemplateName());
+			request.setAttribute("TPATH", Jpress.currentTemplate().getPath());
 			Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
 			if(cdnEnable != null && cdnEnable){
 				String cdnDomain = Option.cacheValue("cdn_domain");

@@ -57,7 +57,7 @@ public class ConfigParser extends DefaultHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		template.setPath(configFile.getParent());
+		template.setPath(configFile.getParent().substring(PathKit.getWebRootPath().length()));
 		return template;
 	}
 	

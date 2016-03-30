@@ -34,7 +34,7 @@ public class UserInterceptor implements Interceptor {
 			inv.getController().setAttr("ucode", HashUtils.generateUcode(user));
 			inv.invoke();
 		}else{
-			inv.getController().redirect("/u/login");
+			inv.getController().redirect("/user/login");
 		}
 
 	}

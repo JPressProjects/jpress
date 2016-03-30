@@ -15,13 +15,11 @@
  */
 package io.jpress.controller.front;
 
+import java.io.File;
+
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.template.TemplateUtils;
-
-import java.io.File;
-
-import com.jfinal.kit.PathKit;
 
 public class BaseFrontController extends JBaseController {
 	
@@ -60,8 +58,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private boolean templateExists(String htmlFileName) {
-		String htmlPath = Jpress.currentTemplate().getPath()+File.separator+htmlFileName;
-		return TemplateUtils.exists(PathKit.getWebRootPath() + htmlPath);
+		return TemplateUtils.existsFile(htmlFileName);
 	}
 
 }

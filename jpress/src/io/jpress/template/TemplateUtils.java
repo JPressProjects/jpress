@@ -15,6 +15,7 @@
  */
 package io.jpress.template;
 
+import io.jpress.core.Jpress;
 import io.jpress.model.Option;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import com.jfinal.kit.PathKit;
 public class TemplateUtils {
 
 	private static Map<String, Boolean> cache = new ConcurrentHashMap<String, Boolean>();
-	public static boolean exists(String path) {
+	private static boolean exists(String path) {
 		Boolean result = cache.get(path);
 		if (null == result || !result) {
 			result = new File(path).exists();
@@ -37,12 +38,7 @@ public class TemplateUtils {
 	}
 	
 	public static boolean existsFile(String fileName) {
-		String templateName = TemplateUtils.getTemplateName();
-		if(null == templateName){
-			return false;
-		}
-		
-		String viewPath = String.format("/templates/%s/%s",templateName,fileName);
+		String viewPath = getTemplatePath()+File.separator+fileName;
 		return exists(PathKit.getWebRootPath()+viewPath);
 	}
 
@@ -61,7 +57,7 @@ public class TemplateUtils {
 	}
 	
 	public static String getTemplatePath(){
-		return String.format("%s/templates/%s", PathKit.getWebRootPath(),getTemplateName());
+		return Jpress.currentTemplate().getPath();
 	}
 
 }

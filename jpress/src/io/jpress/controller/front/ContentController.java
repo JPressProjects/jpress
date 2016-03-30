@@ -20,30 +20,34 @@ import io.jpress.model.Content;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/c")
-public class ContentController extends BaseFrontController{
-	
-	//  http://www.xxx.com/c/123.html   content.id:123  page:1
-	//  http://www.xxx.com/c/123-1.html
-	
-	// http://www.xxx.com/c/abc.html content.slug:abc  page:1
-	// http://www.xxx.com/c/abc-1.html
-	
+public class ContentController extends BaseFrontController {
+
+	// http://www.xxx.com/c/123 		content.id:123 page:1
+	// http://www.xxx.com/c/123-2 		content.id:123 page:2
+
+	// http://www.xxx.com/c/abc 		content.slug:abc page:1
+	// http://www.xxx.com/c/abc-2 		content.slug:abc page:2
+
 	public void index() {
+		
 		Content content = tryToGetContent();
-		if( null == content){
+		if (null == content) {
 			renderError(404);
 			return;
 		}
 		
+		int pageNumber = getPageNumber();
+		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
-
-	public Content tryToGetContent() {
-		long id = StringUtils.toLong(getPara(), (long)0);
+	private Content tryToGetContent() {
+		long id = StringUtils.toLong(getPara(0), (long) 0);
 		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(getPara(0));
 	}
-	
-	
+
+	private int getPageNumber() {
+		return getParaToInt(1, 1);
+	}
 }

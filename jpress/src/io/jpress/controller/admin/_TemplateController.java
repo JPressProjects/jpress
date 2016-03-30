@@ -15,18 +15,6 @@
  */
 package io.jpress.controller.admin;
 
-import io.jpress.core.JBaseController;
-import io.jpress.core.Jpress;
-import io.jpress.core.annotation.UrlMapping;
-import io.jpress.interceptor.AdminInterceptor;
-import io.jpress.interceptor.UCodeInterceptor;
-import io.jpress.model.Content;
-import io.jpress.model.ModelSorter;
-import io.jpress.template.ConfigParser;
-import io.jpress.template.Template;
-import io.jpress.template.TemplateUtils;
-import io.jpress.utils.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +25,17 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.core.JBaseController;
+import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.AdminInterceptor;
+import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Content;
+import io.jpress.model.ModelSorter;
+import io.jpress.template.ConfigParser;
+import io.jpress.template.Template;
+import io.jpress.template.TemplateUtils;
+import io.jpress.utils.FileUtils;
+
 @UrlMapping(url = "/admin/template", viewPath = "/WEB-INF/admin/template")
 @Before(AdminInterceptor.class)
 public class _TemplateController extends JBaseController {
@@ -45,9 +44,6 @@ public class _TemplateController extends JBaseController {
 		keepPara();
 		List<Template> themeList = scanTemplates();
 		setAttr("templateList", themeList);
-		
-		System.out.println(Jpress.currentTemplate().getPath());
-		System.out.println(Jpress.currentTemplate().getWidgetContainers());
 	}
 
 	public void install() {
@@ -112,9 +108,9 @@ public class _TemplateController extends JBaseController {
 		keepPara();
 
 		if (TemplateUtils.existsFile("template_setting.html")) {
-			String include = "../../../templates/%s/template_setting.html";
+			String include = "../../..%s/template_setting.html";
 			setAttr("include",
-					String.format(include, TemplateUtils.getTemplateName()));
+					String.format(include, TemplateUtils.getTemplatePath()));
 		}
 	}
 

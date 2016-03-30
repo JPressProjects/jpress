@@ -127,12 +127,8 @@ public class UserController extends BaseFrontController {
 	}
 
 	public void center() {
-		String action = getPara();
-		if (StringUtils.isNotBlank(action)) {
-			keepPara();
-			render(String.format("user_center_%s.html", action));
-		} else {
-			renderError(404);
-		}
+		keepPara();
+		String action = getPara(0, "index");
+		render(String.format("ucenter_%s.html", action));
 	}
 }

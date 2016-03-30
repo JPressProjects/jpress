@@ -149,6 +149,14 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("object_id");
 	}
 
+	public void setOrderId(java.lang.Integer orderId) {
+		set("order_id", orderId);
+	}
+
+	public java.lang.Integer getOrderId() {
+		return get("order_id");
+	}
+
 	public void setStatus(java.lang.String status) {
 		set("status", status);
 	}

@@ -16,7 +16,7 @@
 package io.jpress.core;
 
 import io.jpress.model.Option;
-import io.jpress.plugin.target.TargetKit;
+import io.jpress.template.Module;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,7 +78,24 @@ public class JHandler extends Handler {
 	}
 
 	private String targetConvert(String target, HttpServletRequest request,HttpServletResponse response) {
-		return TargetKit.converte(target, request, response);
+//		return TargetKit.converte(target, request, response);
+		
+		if(Jpress.isInstalled()){
+			String newTarget = target.substring(1);
+			String moduleName = newTarget;
+			if(newTarget.indexOf("/")!=-1){
+				moduleName =  newTarget.substring(0,newTarget.indexOf("/"));
+			}
+			
+			Module m = Jpress.currentTemplate().getModuleByName(moduleName);
+			if(null != m){
+				target = "/t"+target.replace(moduleName+"/", moduleName+"-");
+			}else{
+				// page target
+			}
+		}
+		
+		return target;
 	}
 
 }

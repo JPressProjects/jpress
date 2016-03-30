@@ -15,39 +15,61 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Taxonomy;
+import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/t")
 public class TaxonomyController extends BaseFrontController {
 
-	//  http://www.xxx.com/t/123.html   taxonomy.id:123  page:1
-	//  http://www.xxx.com/t/123-1.html
-	
-	// http://www.xxx.com/t/article.html 	taxonomy.slug:article  page:1
-	// http://www.xxx.com/t/article-1.html
-	
+	// http://www.xxx.com/t/module-slug-pageNumber.html
+	// http://www.xxx.com/t/module-id-pageNumber.html
+	// http://www.xxx.com/t/article-slug1-1.html
+
+	// http://www.xxx.com/article/slug1-1.html taxonomy:slug1 page:1
+	// http://www.xxx.com/article/1-1.html taxonomy:slug1 page:1
+	// http://www.xxx.com/article/1.html taxonomy:all page:1
+
 	public void index() {
-		Taxonomy taxonomy = tryToGetTaxonomy();
-		if (taxonomy == null) {
+		Module module = tryToGetModule();
+		if (module == null) {
 			renderError(404);
 			return;
 		}
 
-		int pageNumber = getParaToInt(1, 1);
+		int pageNumber = tryToGetPageNumber();
+		Taxonomy taxonomy = tryToGetTaxonomy();
+
 		setAttr("pageNumber", pageNumber);
 		setAttr("taxonomy", taxonomy);
-		
-		render(String.format("taxonomy_%s_%s.html",taxonomy.getContentModule(), taxonomy.getSlug()));
+
+		if (null == taxonomy) {
+			render(String.format("taxonomy_%s.html", module.getName()));
+		} else {
+			render(String.format("taxonomy_%s_%s.html", module.getName(), taxonomy.getSlug()));
+		}
+
 	}
 
-
 	private Taxonomy tryToGetTaxonomy() {
-		long id = StringUtils.toLong(getPara(), (long)0);
+		if (StringUtils.toInt(getPara(2), 0) == 0) { // no pageNumber
+			return null;
+		}
+		long id = StringUtils.toLong(getPara(0), (long) 0);
 		return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(getPara(0));
 	}
 	
+
+	private Module tryToGetModule() {
+		return Jpress.currentTemplate().getModuleByName(getPara(0));
+	}
 	
+
+	private int tryToGetPageNumber() {
+		int pageNumber = StringUtils.toInt(getPara(2), 0);
+		return pageNumber > 0 ? pageNumber : StringUtils.toInt(getPara(1),1);
+	}
 
 }

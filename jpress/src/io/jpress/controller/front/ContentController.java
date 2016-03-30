@@ -17,6 +17,7 @@ package io.jpress.controller.front;
 
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/c")
 public class ContentController extends BaseFrontController{
@@ -40,7 +41,7 @@ public class ContentController extends BaseFrontController{
 
 
 	public Content tryToGetContent() {
-		long id = getParaToLong(0, (long)0);
+		long id = StringUtils.toLong(getPara(), (long)0);
 		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(getPara(0));
 	}
 	

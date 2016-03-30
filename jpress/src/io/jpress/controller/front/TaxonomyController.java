@@ -17,6 +17,7 @@ package io.jpress.controller.front;
 
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Taxonomy;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/t")
 public class TaxonomyController extends BaseFrontController {
@@ -38,13 +39,15 @@ public class TaxonomyController extends BaseFrontController {
 		setAttr("pageNumber", pageNumber);
 		setAttr("taxonomy", taxonomy);
 		
-		render(String.format("taxonomy_%s.html", taxonomy.getSlug()));
+		render(String.format("taxonomy_%s_%s.html",taxonomy.getContentModule(), taxonomy.getSlug()));
 	}
 
 
 	private Taxonomy tryToGetTaxonomy() {
-		long id = getParaToLong(0, (long) 0);
+		long id = StringUtils.toLong(getPara(), (long)0);
 		return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(getPara(0));
 	}
+	
+	
 
 }

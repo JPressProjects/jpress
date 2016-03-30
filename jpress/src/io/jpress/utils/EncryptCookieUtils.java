@@ -79,9 +79,8 @@ public class EncryptCookieUtils {
 				if(encrypt_value!=null && encrypt_value.equals(encrypt)){
 					long stime = Long.parseLong(saveTime);
 					long maxtime = Long.parseLong(maxAgeInSeconds) * 1000;
-					
 					//查看是否过时
-					if(System.currentTimeMillis() - (stime + maxtime) > 0){
+					if((stime + maxtime) - System.currentTimeMillis() > 0){
 						return value;
 					}
 				}

@@ -48,7 +48,7 @@ public class JBaseController extends Controller {
 		return defaultValue;
 	}
 
-	public boolean isAjax() {
+	public boolean isAjaxRequest() {
 		String header = getRequest().getHeader("X-Requested-With");
 		return "XMLHttpRequest".equalsIgnoreCase(header);
 	}

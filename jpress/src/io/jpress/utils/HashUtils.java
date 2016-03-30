@@ -33,7 +33,7 @@ public class HashUtils extends HashKit{
 		return md5(md5(text)+salt).substring(0,20);
 	}
 	
-	public static boolean verlify(User user,String password){
+	public static boolean verlifyUser(User user,String password){
 		return user.getPassword().equals(md5WithSalt(password,user.getSalt()));
 	}
 	

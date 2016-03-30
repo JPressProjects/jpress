@@ -56,7 +56,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 		
-		if(HashUtils.verlify(user, password) && user.isAdministrator()){
+		if(HashUtils.verlifyUser(user, password) && user.isAdministrator()){
 			
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 			

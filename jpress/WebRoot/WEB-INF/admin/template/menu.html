@@ -16,6 +16,15 @@ function doSubmit(){
 			}
 	});
  }
+ function doMenuDel(id){
+ 	$.get("${CPATH}/admin/template/menudel?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+ }
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -27,18 +36,24 @@ function doSubmit(){
 <section class="content">
 	<div class="row">
 		<div class="col-md-4">
-			<form id="form" action="${CPATH}/admin/template/savemenu" method="POST">
-			<input type="hidden" name="ucode" value="${ucode}">
+			<form id="form" action="${CPATH}/admin/template/menusave" method="POST">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<input type="hidden" name="content.id" value="${(menu.id)!}">
 				<h4 class="jp-common-pad">添加新菜单</h4>
 				<div class="form-group jp-article-format">
 					<label for="tag-name">名称</label> 
-					<input id="tag-name" class="form-control" type="text"  name="content.title">
+					<input id="tag-name" class="form-control" type="text"  name="content.title" value="${(menu.title)!}">
 					<p>这将是它在站点上显示的名字。</p>
 				</div>
 
 				<div class="form-group jp-article-format">
 					<label for="tag-slug">URL地址</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="content.text">
+					<input id="tag-slug" class="form-control" type="text"  name="content.text" value="${(menu.text)!}">
+					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+				</div>
+				<div class="form-group jp-article-format">
+					<label for="tag-slug">排序</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.order_id" value="${(menu.orderId)!}">
 					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
 				</div>
 				<div class="form-group jp-article-format">
@@ -89,7 +104,7 @@ function doSubmit(){
 
 								<th style="width: 30%">名称</th>
 								<th>URL地址</th>
-
+								<th>排序</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -102,12 +117,13 @@ function doSubmit(){
 								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
-											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
-											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="#" target="_blank">查看</a></span>
 										</p>
 									</div></td>
 								<td>${bean.text!}</td>
+								<td>${bean.orderId!}</td>
 							</tr>
 							</#list> 
 						</tbody>

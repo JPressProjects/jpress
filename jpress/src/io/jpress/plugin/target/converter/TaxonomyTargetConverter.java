@@ -18,22 +18,37 @@ package io.jpress.plugin.target.converter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jpress.core.Jpress;
 import io.jpress.plugin.target.ItargetConverter;
 
-public class ContentTargetConverter implements ItargetConverter {
+public class TaxonomyTargetConverter implements ItargetConverter {
 
 	@Override
 	public boolean match(String target) {
-		
+		if (Jpress.isInstalled()) {
+			String moduleName = tryToGetModuleName(target);
+			return Jpress.currentTemplate().getModuleByName(moduleName) != null;
+		}
 		return false;
 	}
 
+	
 	@Override
-	public String converter(String target, HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		
-		return "/";
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
+		String moduleName = tryToGetModuleName(target);
+		target = "/t" + target.replace(moduleName + "/", moduleName + "-");
+		return target;
+	}
+
+	
+	private String tryToGetModuleName(String target) {
+		String newTarget = target.substring(1);
+		String moduleName = newTarget;
+
+		if (newTarget.indexOf("/") != -1) {
+			moduleName = newTarget.substring(0, newTarget.indexOf("/"));
+		}
+		return moduleName;
 	}
 
 }

@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.jfinal.kit.PathKit;
+
 public class Template {
 
 	private String title;
@@ -124,7 +126,7 @@ public class Template {
 		if(widgetContainers == null){
 			widgetContainers = new ArrayList<String>();
 			List<File> htmlFilelist = new ArrayList<File>();
-			scanHtmlFiles(new File(path), htmlFilelist);
+			scanHtmlFiles(new File(PathKit.getWebRootPath()+path), htmlFilelist);
 			
 			for (File htmlFile : htmlFilelist) {
 				String htmlText = FileUtils.readString(htmlFile);

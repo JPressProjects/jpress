@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.druid.DruidPlugin;
 
 public class InstallUtils {
@@ -67,9 +68,9 @@ public class InstallUtils {
 	}
 
 	public static boolean createJpressProperties() {
-		Properties p = new Properties();
-		p.put("devMode", "false");
-		p.put("cookie_encrypt_key", UUID.randomUUID().toString());
+		Properties p = PropKit.use("jpress.properties").getProperties();
+		p.put("dev_mode", "false");
+		p.put("encrypt_key", UUID.randomUUID().toString());
 		File pFile = new File(PathKit.getRootClassPath(), "jpress.properties");
 		return save(p, pFile);
 	}
@@ -83,11 +84,7 @@ public class InstallUtils {
 			e.printStackTrace();
 			return false;
 		} finally {
-			if (fos != null)
-				try {
-					fos.close();
-				} catch (IOException e) {
-				}
+			if (fos != null) try { fos.close(); } catch (IOException e) {}
 		}
 		return true;
 	}

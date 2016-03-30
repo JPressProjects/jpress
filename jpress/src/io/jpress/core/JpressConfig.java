@@ -49,7 +49,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	public void configConstant(Constants constants) {
 		PropKit.use("jpress.properties");
 		
-		constants.setDevMode(PropKit.getBoolean("devMode", false));
+		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
 		constants.setViewType(ViewType.FREE_MARKER);
 		constants.setI18nDefaultBaseName("language");
 		constants.setErrorRenderFactory(new JErrorRenderFactory());

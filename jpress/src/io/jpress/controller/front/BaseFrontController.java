@@ -16,13 +16,15 @@
 package io.jpress.controller.front;
 
 import io.jpress.core.JBaseController;
+import io.jpress.core.Jpress;
 import io.jpress.template.TemplateUtils;
+
+import java.io.File;
 
 import com.jfinal.kit.PathKit;
 
 public class BaseFrontController extends JBaseController {
-	private static final String T_FORMAT = "/templates/%s/%s";
-
+	
 	public void render(String name) {
 		if(templateExists(name)){
 			renderTemplate(name);
@@ -31,9 +33,7 @@ public class BaseFrontController extends JBaseController {
 		
 		if(name.indexOf("_") !=- 1){
 			do {
-				if (templateExists(name)) {
-					break;
-				}
+				if (templateExists(name)) { break;}
 				name = clearProp(name);
 			} while (name.indexOf("_") !=- 1);
 		}
@@ -47,13 +47,12 @@ public class BaseFrontController extends JBaseController {
 
 	private void renderError(String name) {
 		renderText(String.format(
-				"there is no \"%s\" file in template \"%s\".", name,
+				"template \"%s\" not found in \"%s\".", name,
 				TemplateUtils.getTemplateName()));
 	}
 
 	private void renderTemplate(String name) {
-		super.render(String.format(T_FORMAT,
-				TemplateUtils.getTemplateName(), name));
+		super.render(Jpress.currentTemplate().getPath()+File.separator+name);
 	}
 
 	public String clearProp(String fname) {
@@ -61,8 +60,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private boolean templateExists(String htmlFileName) {
-		String tName = TemplateUtils.getTemplateName();
-		String htmlPath = String.format(T_FORMAT, tName, htmlFileName);
+		String htmlPath = Jpress.currentTemplate().getPath()+File.separator+htmlFileName;
 		return TemplateUtils.exists(PathKit.getWebRootPath() + htmlPath);
 	}
 

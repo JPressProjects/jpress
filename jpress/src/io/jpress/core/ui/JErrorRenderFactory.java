@@ -15,14 +15,15 @@
  */
 package io.jpress.core.ui;
 
-import io.jpress.core.Jpress;
-import io.jpress.template.TemplateUtils;
+import java.io.File;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.IErrorRenderFactory;
 import com.jfinal.render.Render;
 import com.jfinal.render.TextRender;
+
+import io.jpress.core.Jpress;
+import io.jpress.template.TemplateUtils;
 
 public class JErrorRenderFactory extends FreeMarkerRender implements IErrorRenderFactory {
 	
@@ -58,12 +59,10 @@ public class JErrorRenderFactory extends FreeMarkerRender implements IErrorRende
 		
 		String htmlName = errorCode+".html";
 		
-		String viewPath = String.format("/templates/%s/%s",templateName,htmlName);
-		
-		if(!TemplateUtils.exists(PathKit.getWebRootPath()+viewPath)){
+		if(!TemplateUtils.existsFile(htmlName)){
 			renderText(String.format("%s error! there is no \"%s\" file in template \"%s\".",errorCode,htmlName,templateName));
 		}else{
-			this.view = viewPath;
+			this.view = Jpress.currentTemplate().getPath()+File.separator+htmlName;
 			super.render();
 		}
 		

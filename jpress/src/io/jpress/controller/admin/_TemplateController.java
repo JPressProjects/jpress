@@ -90,6 +90,12 @@ public class _TemplateController extends JBaseController {
 		List<Content> list = Content.DAO.findMenuList();
 		ModelSorter.sort(list);
 		setAttr("menus", list);
+		
+		long id = getParaToLong("id", (long)0);
+		if(id > 0){
+			Content c = Content.DAO.findById(id);
+			setAttr("menu", c);
+		}
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -101,7 +107,18 @@ public class _TemplateController extends JBaseController {
 			c.setCreated(new Date());
 		}
 		c.saveOrUpdate();
-		renderAjaxResultForSuccess("菜单保存成功！");
+		renderAjaxResultForSuccess();
+	}
+	
+	@Before(UCodeInterceptor.class)
+	public void menudel() {
+		long id = getParaToLong("id", (long)0);
+		if(id > 0){
+			if(Content.DAO.deleteById(id)){
+				renderAjaxResultForSuccess();
+			}
+		}
+		renderAjaxResultForError();
 	}
 
 	public void setting() {

@@ -23,77 +23,116 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.EncryptCookieUtils;
 import io.jpress.utils.HashUtils;
+import io.jpress.utils.StringUtils;
+
+import java.util.Date;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 
-@UrlMapping(url = "/u")
+@UrlMapping(url = "/user")
 @Before(UserInterceptor.class)
 public class UserController extends BaseFrontController {
 
-	// http://www.xxx.com/u/123 user.id = 123
+	@Clear
 	public void index() {
-		long id = getParaToLong(0, (long) 0);
-		User user = User.DAO.findById(id);
-		setAttr("user", user);
-		render("user.html");
+		String action = getPara();
+		if (StringUtils.isNotBlank(action)) {
+			keepPara();
+			render(String.format("user_%s.html", action));
+		} else {
+			renderError(404);
+		}
+	}
+
+	// 固定登陆的url
+	@Clear
+	public void login() {
+		keepPara();
+		render("user_login.html");
 	}
 
 	@Clear
-	public void login() {
-		render("user_login.html");
-	}
-	
-	@Clear
 	public void doLogin() {
+		long errorTimes = EncryptCookieUtils.getLong(this, "_login_errors", 0);
+		if (errorTimes >= 3) {
+			if (!validateCaptcha("_login_captcha")) { // 验证码没验证成功！
+				if (isAjaxRequest()) {
+					renderAjaxResultForError("没有该用户");
+				} else {
+					redirect("/user/login");
+				}
+				return;
+			}
+		}
+
 		String username = getPara("username");
 		String password = getPara("password");
+		String from = getPara("from");
 
 		User user = User.findUserByUsername(username);
 		if (null == user) {
-			renderAjaxResultForError("没有该用户");
+			if (isAjaxRequest()) {
+				renderAjaxResultForError("没有该用户");
+			} else {
+				redirect("/user/login");
+			}
+			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
 			return;
 		}
 
-		if (HashUtils.verlify(user, password)) {
+		if (HashUtils.verlifyUser(user, password)) {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
-			EncryptCookieUtils.put(this, Consts.COOKIE_LOGIN_USER_ID,user.getId());
-			renderAjaxResultForSuccess("登陆成功");
-		}else{
-			renderAjaxResultForError("密码错误");
+			EncryptCookieUtils.put(this, Consts.COOKIE_LOGIN_USER_ID, user.getId());
+			if (this.isAjaxRequest()) {
+				renderAjaxResultForSuccess("登陆成功");
+			} else {
+				if (StringUtils.isNotEmpty(from)) {
+					redirect(from);
+				} else {
+					redirect("/user/ceneter");
+				}
+			}
+		} else {
+			if (isAjaxRequest()) {
+				renderAjaxResultForError("密码错误");
+			} else {
+				redirect("/user/login");
+			}
+			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}
 	}
-	
-	@Clear
-	public void register() {
-		render("user_register.html");
-	}
-	
+
 	@Clear
 	public void doRegister() {
-		// 插入数据库
-		// 发送短信
-		// 查看推荐人，并给推荐人发送或奖品的消息
-		// 查看推荐人上级，给上级现金
+		if (!validateCaptcha("_register_captcha")) { // 验证码没验证成功！
+			renderAjaxResultForError("not validate captcha");
+			return;
+		}
 
-		// xxxxx
-		// xxxxx
+		User user = getModel(User.class);
+		if (null == user) {
+			renderAjaxResultForError("not get user");
+			return;
+		}
 
-		// 插入数据库
-		// 发送用注册消息
-
-		User user = new User();
-		
-		user.setCreateSource("register");
-		
-		
-
+		if (user.getCreateSource() == null) {
+			user.setCreateSource("register");
+		}
+		user.setCreated(new Date());
 		user.save();
+
+		renderAjaxResultForSuccess();
 		MessageKit.sendMessage(Actions.USER_CREATED, user);
 	}
-	
-	public void center(){
-		renderText("logined ok!");
-//		render("user_center.html");
+
+	public void center() {
+		String action = getPara();
+		if (StringUtils.isNotBlank(action)) {
+			keepPara();
+			render(String.format("user_center_%s.html", action));
+		} else {
+			renderError(404);
+		}
 	}
 }

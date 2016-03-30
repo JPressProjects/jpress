@@ -26,6 +26,11 @@
 
                     <ul class="nav navbar-nav jp-navbar-nav jp-navbar">
                         <li class="active"><a href="${CPATH}/"">首页</a></li>
+                        <@jp_menu>
+                        	<#list menus as menu>
+                        		<li><a href="${menu.text!}">${menu.title}</a></li>
+                        	</#list>
+                        </@jp_menu>
                         <li><a href="${CPATH}/forum">社区</a></li>
                         <li><a href="${CPATH}/about">关于我们</a></li>
                     </ul>

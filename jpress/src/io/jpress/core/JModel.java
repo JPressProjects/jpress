@@ -19,7 +19,6 @@ import io.jpress.core.dialect.DbDialectFactory;
 import io.jpress.utils.StringUtils;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.core.JFinal;
@@ -311,7 +310,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return true;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, LinkedList<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean hasWhere) {
 		if(StringUtils.isNotBlank(value)){
 			hasWhere = appendWhereOrAnd(builder, hasWhere);
 			builder.append(" ").append(colName).append(" = ? ");
@@ -320,7 +319,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return hasWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, LinkedList<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean hasWhere) {
 		if(value > 0){
 			hasWhere = appendWhereOrAnd(builder, hasWhere);
 			builder.append(" ").append(colName).append(" = ? ");
@@ -329,7 +328,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return hasWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, LinkedList<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean hasWhere) {
 		if (null != array && array.length > 0) {
 			hasWhere = appendWhereOrAnd(builder, hasWhere);
 			builder.append(" (");

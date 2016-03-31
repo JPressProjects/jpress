@@ -86,11 +86,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		
 		LinkedList<Object> params = new LinkedList<Object>();
 		
-		boolean hasWhere = false;
-		hasWhere = appendIfNotEmpty(fromBuilder, "t.module", module, params, hasWhere);
-		hasWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, hasWhere);
-		hasWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, hasWhere);
-		hasWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, hasWhere);
+		boolean needWhere = true;
+		needWhere = appendIfNotEmpty(fromBuilder, "t.module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
 		
 		if (null != orderBy && !"".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY ?");
@@ -138,17 +138,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 		LinkedList<Object> params = new LinkedList<Object>();
 		
-		boolean hasWhere = true;
-		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder, "c.module", modules, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder, "c.style",styles, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,hasWhere);
-		appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,hasWhere);
+		boolean needWhere = false;
+		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,needWhere);
+		appendIfNotEmpty(sqlBuilder, "c.module", modules, params,needWhere);
+		appendIfNotEmpty(sqlBuilder, "c.style",styles, params,needWhere);
+		appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,needWhere);
+		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,needWhere);
+		appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,needWhere);
+		appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,needWhere);
 
 		if (null != tags && tags.length > 0) {
-			appendIfNotEmpty(sqlBuilder, "t.name",tags, params,hasWhere);
+			appendIfNotEmpty(sqlBuilder, "t.name",tags, params,needWhere);
 			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
 		}
 
@@ -179,7 +179,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public Content findBySlug(String slug) {
-		return doFindFirst("slug = ?", slug);
+		return doFindFirst("c.slug = ?", slug);
+	}
+	
+	public Content findById(long id){
+		return doFindFirst("c.id = ?",id);
 	}
 
 	public long findCountByModule(String module) {
@@ -399,6 +403,19 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		String start = "page".equalsIgnoreCase(getModule()) ? "/" : "/c/";
 		String slug = getSlug()==null ? getId()+"" : getSlug();
 		return JFinal.me().getContextPath()+start+slug;
+	}
+	
+	
+	
+	@Override
+	protected String onGetSelectSql() {
+		StringBuilder sqlBuilder = new StringBuilder("select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");
+		sqlBuilder.append("  from content c");
+		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
+		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
+		sqlBuilder.append(" left join user u on c.user_id = u.id");
+		sqlBuilder.append(" group by c.id");
+		return sqlBuilder.toString();
 	}
 
 }

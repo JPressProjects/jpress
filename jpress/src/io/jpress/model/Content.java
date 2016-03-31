@@ -45,8 +45,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Content parent;
 	private List<Metadata> metadatas;
 	
-
-
 	public Page<Content> doPaginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
 		return paginate(page, pagesize, true, "select * ",
 				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
@@ -202,14 +200,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public int batchTrash(Long... ids) {
 		if (ids != null && ids.length > 0) {
-			Object[] paras = new Object[ids.length + 1];
-			StringBuilder sb = new StringBuilder("UPDATE content SET status=? WHERE 1<>1 ");
-			paras[0] = STATUS_DELETE;
+			List<Object> params = new LinkedList<Object>();
+			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
+			params.add(STATUS_DELETE);
 			for (int i = 0; i < ids.length; i++) {
-				paras[i + 1] = ids[i];
-				sb.append(" OR id = ? ");
+				if(i == 0 ){
+					sb.append(" WHERE id = ? ");
+				}else{
+					sb.append(" OR id = ? ");
+				}
+				params.add(ids[i]);
 			}
-			return Jdb.update(sb.toString(), paras);
+			return Jdb.update(sb.toString(), params.toArray());
 		}
 		return 0;
 	}
@@ -394,7 +396,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 	
 	public String getUrl(){
-		return JFinal.me().getContextPath()+"/c/"+(getSlug()==null?getId():getSlug());
+		String start = "page".equalsIgnoreCase(getModule()) ? "/" : "/c/";
+		String slug = getSlug()==null ? getId()+"" : getSlug();
+		return JFinal.me().getContextPath()+start+slug;
 	}
 
 }

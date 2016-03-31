@@ -16,8 +16,10 @@
 package io.jpress.core;
 
 import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.utils.StringUtils;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.core.JFinal;
@@ -37,70 +39,71 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 
 	public Page<M> doPaginate(int pageNumber, int pageSize, String whereSql, Object... params) {
 		String from = DbDialectFactory.getDbDialect().forPaginateFrom(getTableName(), whereSql);
-		return paginate(pageNumber, pageSize, "SELECT *",from, params);
+		return paginate(pageNumber, pageSize, "SELECT *", from, params);
 	}
-	
-	
-	public Page<M> doPaginateByCache(String cacheName,Object key,int pageNumber, int pageSize) {
-		return doPaginateByCache(cacheName,key,pageNumber, pageSize, null);
+
+	public Page<M> doPaginateByCache(String cacheName, Object key, int pageNumber, int pageSize) {
+		return doPaginateByCache(cacheName, key, pageNumber, pageSize, null);
 	}
-	
-	public Page<M> doPaginateByCache(String cacheName,Object key,int pageNumber, int pageSize, String whereSql, Object... params) {
+
+	public Page<M> doPaginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String whereSql,
+			Object... params) {
 		String from = DbDialectFactory.getDbDialect().forPaginateFrom(getTableName(), whereSql);
-		return paginateByCache(cacheName,key,pageNumber, pageSize, "SELECT *",from, params);
+		return paginateByCache(cacheName, key, pageNumber, pageSize, "SELECT *", from, params);
 	}
-	
-	
-	private String sql_select(){
+
+	private String sql_select() {
 		return DbDialectFactory.getDbDialect().forSelect(getTableName());
 	}
-	
-	private String sql_delete(){
+
+	private String sql_delete() {
 		return DbDialectFactory.getDbDialect().forDelete(getTableName());
 	}
-	
-	private String sql_select_where(){
+
+	private String sql_select_where() {
 		return sql_select() + " WHERE ";
 	}
-	
-	public List<M> doFind(){
+
+	public List<M> doFind() {
 		return find(sql_select());
 	}
-	
-	public List<M> doFind(String where){
+
+	public List<M> doFind(String where) {
 		return find(sql_select_where() + where);
 	}
-	
-	public List<M> doFind(String where,Object ... params){
-		return find(sql_select_where()+where,params);
+
+	public List<M> doFind(String where, Object... params) {
+		return find(sql_select_where() + where, params);
 	}
-	
-	public List<M> doFindByCache(String cacheName,Object key){
-		return findByCache(cacheName, key,sql_select());
+
+	public List<M> doFindByCache(String cacheName, Object key) {
+		return findByCache(cacheName, key, sql_select());
 	}
-	
-	public List<M> doFindByCache(String cacheName,Object key,String where){
-		return findByCache(cacheName, key,sql_select_where()+where);
+
+	public List<M> doFindByCache(String cacheName, Object key, String where) {
+		return findByCache(cacheName, key, sql_select_where() + where);
 	}
-	
-	public List<M> doFindByCache(String cacheName,Object key,String where,Object ... params){
-		return findByCache(cacheName, key,sql_select_where()+where,params);
+
+	public List<M> doFindByCache(String cacheName, Object key, String where, Object... params) {
+		return findByCache(cacheName, key, sql_select_where() + where, params);
 	}
-	
-	public M doFindFirst(String where){
-		return findFirst(sql_select_where()+where);
+
+	public M doFindFirst(String where) {
+		return findFirst(sql_select_where() + where);
 	}
-	public M doFindFirst(String where,Object ... params){
-		return findFirst(sql_select_where()+where,params);
+
+	public M doFindFirst(String where, Object... params) {
+		return findFirst(sql_select_where() + where, params);
 	}
-	
-	public M doFindFirstByCache(String cacheName,Object key,String where){
-		return findFirstByCache(cacheName, key,sql_select_where()+where);
+
+	public M doFindFirstByCache(String cacheName, Object key, String where) {
+		return findFirstByCache(cacheName, key, sql_select_where() + where);
 	}
-	public M doFindFirstByCache(String cacheName,Object key,String where,Object ... params){
-		return findFirstByCache(cacheName, key,sql_select_where()+where,params);
+
+	public M doFindFirstByCache(String cacheName, Object key, String where, Object... params) {
+		return findFirstByCache(cacheName, key, sql_select_where() + where, params);
 	}
-	
+
 	public long doFindCount() {
 		return doFindCount(null);
 	}
@@ -113,12 +116,12 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 		return Db.queryLong(tc(sqlBuilder.toString()), params);
 	}
-	
-	public long doFindCountByCache(String cacheName,Object key) {
+
+	public long doFindCountByCache(String cacheName, Object key) {
 		return doFindCountByCache(cacheName, key, null);
 	}
 
-	public long doFindCountByCache(String cacheName,Object key,String whereSQL,final Object... params) {
+	public long doFindCountByCache(String cacheName, Object key, String whereSQL, final Object... params) {
 		String sql = DbDialectFactory.getDbDialect().forSelectCount(getTableName());
 		final StringBuilder sqlBuilder = new StringBuilder(sql);
 		if (null != whereSQL && !"".equals(whereSQL.trim())) {
@@ -131,67 +134,63 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			}
 		});
 	}
-	
-	
-	public int doDelete(String where, Object ...objs){
-		String sql = sql_delete()+" WHERE " + where;
-		return Db.update(sql, objs) ;
+
+	public int doDelete(String where, Object... objs) {
+		String sql = sql_delete() + " WHERE " + where;
+		return Db.update(sql, objs);
 	}
-	
+
 	public boolean saveOrUpdate() {
-		if(null == get(getPrimaryKey())){
+		if (null == get(getPrimaryKey())) {
 			return this.save();
 		}
 		return this.update();
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(o == null ) return false;
-		
-		if(!(o instanceof JModel<?>)) return false;
-		
-		if(((JModel<?>)o).get("id") == null)
+		if (o == null)
 			return false;
-		
-		return ((JModel<?>)o).get("id").equals(get("id"));
+
+		if (!(o instanceof JModel<?>))
+			return false;
+
+		if (((JModel<?>) o).get("id") == null)
+			return false;
+
+		return ((JModel<?>) o).get("id").equals(get("id"));
 	}
 
-	
 	public String getTableName() {
 		return TableMapping.me().getTable(getUsefulClass()).getName();
 	}
 
 	public String getPrimaryKey() {
-		String[] primaryKeys = TableMapping.me().getTable(getUsefulClass())
-				.getPrimaryKey();
+		String[] primaryKeys = TableMapping.me().getTable(getUsefulClass()).getPrimaryKey();
 		if (null != primaryKeys && primaryKeys.length == 1) {
 			return primaryKeys[0];
 		}
-		throw new RuntimeException(String.format(
-				"get PrimaryKey is error in[%s]", getClass()));
+		throw new RuntimeException(String.format("get PrimaryKey is error in[%s]", getClass()));
 	}
-	
 
 	public String[] getPrimaryKeys() {
 		return TableMapping.me().getTable(getUsefulClass()).getPrimaryKey();
 	}
 
 	public boolean hasColumn(String columnLabel) {
-		return TableMapping.me().getTable(getUsefulClass())
-				.hasColumnLabel(columnLabel);
+		return TableMapping.me().getTable(getUsefulClass()).hasColumnLabel(columnLabel);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Class<? extends JModel> getUsefulClass() {
 		Class c = getClass();
-		return c.getName().indexOf("EnhancerByCGLIB") == -1 ? c : c
-				.getSuperclass();
+		return c.getName().indexOf("EnhancerByCGLIB") == -1 ? c : c.getSuperclass();
 		// com.demo.blog.Blog$$EnhancerByCGLIB$$69a17158
 	}
 
 	/**
 	 * if user set table prefix,this method auto add the prefix in sql.
+	 * 
 	 * @param sql
 	 * @return new sql with table prefix
 	 */
@@ -201,29 +200,24 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 
 	// -----------------------------Override----------------------------
 	@Override
-	public Page<M> paginate(int pageNumber, int pageSize, String select,
-			String sqlExceptSelect, Object... paras) {
+	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginate(pageNumber, pageSize, select,
-				tc(sqlExceptSelect), paras);
+		return super.paginate(pageNumber, pageSize, select, tc(sqlExceptSelect), paras);
 	}
 
 	@Override
-	public Page<M> paginate(int pageNumber, int pageSize, boolean isGroupBySql,
-			String select, String sqlExceptSelect, Object... paras) {
+	public Page<M> paginate(int pageNumber, int pageSize, boolean isGroupBySql, String select, String sqlExceptSelect,
+			Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginate(pageNumber, pageSize, isGroupBySql, select,
-				tc(sqlExceptSelect), paras);
+		return super.paginate(pageNumber, pageSize, isGroupBySql, select, tc(sqlExceptSelect), paras);
 	}
 
 	@Override
-	public Page<M> paginate(int pageNumber, int pageSize, String select,
-			String sqlExceptSelect) {
+	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect) {
 		// TODO Auto-generated method stub
-		return super.paginate(pageNumber, pageSize, select,
-				tc(sqlExceptSelect));
+		return super.paginate(pageNumber, pageSize, select, tc(sqlExceptSelect));
 	}
 
 	@Override
@@ -253,8 +247,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	@Override
-	public List<M> findByCache(String cacheName, Object key, String sql,
-			Object... paras) {
+	public List<M> findByCache(String cacheName, Object key, String sql, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
 		return super.findByCache(cacheName, key, tc(sql), paras);
@@ -267,8 +260,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	@Override
-	public M findFirstByCache(String cacheName, Object key, String sql,
-			Object... paras) {
+	public M findFirstByCache(String cacheName, Object key, String sql, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
 		return super.findFirstByCache(cacheName, key, tc(sql), paras);
@@ -281,37 +273,60 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	@Override
-	public Page<M> paginateByCache(String cacheName, Object key,
-			int pageNumber, int pageSize, String select,
+	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String select,
 			String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize,
-				select, tc(sqlExceptSelect), paras);
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, select, tc(sqlExceptSelect), paras);
 	}
 
 	@Override
-	public Page<M> paginateByCache(String cacheName, Object key,
-			int pageNumber, int pageSize, boolean isGroupBySql, String select,
-			String sqlExceptSelect, Object... paras) {
+	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, boolean isGroupBySql,
+			String select, String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize,
-				isGroupBySql, select, tc(sqlExceptSelect), paras);
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, select, tc(sqlExceptSelect),
+				paras);
 	}
 
 	@Override
-	public Page<M> paginateByCache(String cacheName, Object key,
-			int pageNumber, int pageSize, String select, String sqlExceptSelect) {
+	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String select,
+			String sqlExceptSelect) {
 		// TODO Auto-generated method stub
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize,
-				select, tc(sqlExceptSelect));
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, select, tc(sqlExceptSelect));
+	}
+
+	private void debugPrintParas(Object... objects) {
+		if (JFinal.me().getConstants().getDevMode()) {
+			System.out.println("\r\n---------------Paras: " + Arrays.toString(objects) + "----------------");
+		}
+	}
+
+	public static boolean AppendWhereOrAnd(StringBuilder builder, boolean hasWhere) {
+		if (hasWhere) {
+			builder.append(" WHERE ");
+		} else {
+			builder.append(" AND ");
+		}
+		return true;
 	}
 	
-	private void debugPrintParas(Object ...objects){
-		if(JFinal.me().getConstants().getDevMode()){
-			System.out.println("\r\n---------------Paras: "+Arrays.toString(objects)+"----------------");
+	public static boolean appendIfNotNull(StringBuilder builder, String colName, String value, LinkedList<Object> params, boolean hasWhere) {
+		if(StringUtils.isNotBlank(value)){
+			hasWhere = AppendWhereOrAnd(builder, hasWhere);
+			builder.append(colName).append(" = ? ");
+			params.add(value);
 		}
+		return hasWhere;
+	}
+	
+	public static boolean appendIfNotNull(StringBuilder builder, String colName, long value, LinkedList<Object> params, boolean hasWhere) {
+		if(value > 0){
+			hasWhere = AppendWhereOrAnd(builder, hasWhere);
+			builder.append(colName).append(" = ? ");
+			params.add(value);
+		}
+		return hasWhere;
 	}
 
 }

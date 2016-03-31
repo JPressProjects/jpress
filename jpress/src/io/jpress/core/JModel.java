@@ -302,29 +302,46 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 	}
 
-	public static boolean AppendWhereOrAnd(StringBuilder builder, boolean hasWhere) {
+	public static boolean appendWhereOrAnd(StringBuilder builder, boolean hasWhere) {
 		if (hasWhere) {
-			builder.append(" WHERE ");
-		} else {
 			builder.append(" AND ");
+		} else {
+			builder.append(" WHERE ");
 		}
 		return true;
 	}
 	
-	public static boolean appendIfNotNull(StringBuilder builder, String colName, String value, LinkedList<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, LinkedList<Object> params, boolean hasWhere) {
 		if(StringUtils.isNotBlank(value)){
-			hasWhere = AppendWhereOrAnd(builder, hasWhere);
-			builder.append(colName).append(" = ? ");
+			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
 		}
 		return hasWhere;
 	}
 	
-	public static boolean appendIfNotNull(StringBuilder builder, String colName, long value, LinkedList<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, LinkedList<Object> params, boolean hasWhere) {
 		if(value > 0){
-			hasWhere = AppendWhereOrAnd(builder, hasWhere);
-			builder.append(colName).append(" = ? ");
+			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
+		}
+		return hasWhere;
+	}
+	
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, LinkedList<Object> params, boolean hasWhere) {
+		if (null != array && array.length > 0) {
+			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			builder.append(" (");
+			for (int i = 0; i < array.length; i++) {
+				if (i == 0) {
+					builder.append(" ").append(colName).append(" = ? ");
+				} else {
+					builder.append(" OR ").append(colName).append(" = ? ");
+				}
+				params.add(array[i]);
+			}
+			builder.append(" ) ");
 		}
 		return hasWhere;
 	}

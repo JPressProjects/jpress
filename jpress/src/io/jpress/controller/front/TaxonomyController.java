@@ -26,11 +26,16 @@ public class TaxonomyController extends BaseFrontController {
 
 	// http://www.xxx.com/t/module-slug-pageNumber.html
 	// http://www.xxx.com/t/module-id-pageNumber.html
+	// http://www.xxx.com/t/article-1-1.html
 	// http://www.xxx.com/t/article-slug1-1.html
 
-	// http://www.xxx.com/article/slug1-1.html taxonomy:slug1 page:1
-	// http://www.xxx.com/article/1-1.html taxonomy:slug1 page:1
-	// http://www.xxx.com/article/1.html taxonomy:all page:1
+	// http://www.xxx.com/t/article 		module ---> article
+
+	// http://www.xxx.com/t/article-tag1 	module ---> article ,slug--->tag1
+	// http://www.xxx.com/t/article-1 		module ---> article ,page--->1
+
+	// http://www.xxx.com/t/article-tag1-1 	module ---> article ,slug-tag1, page--->1
+	// http://www.xxx.com/t/article-1-1 	module ---> article, slug-tag1, page--->1
 
 	public void index() {
 		Module module = tryToGetModule();
@@ -39,8 +44,8 @@ public class TaxonomyController extends BaseFrontController {
 			return;
 		}
 
-		int pageNumber = tryToGetPageNumber();
 		Taxonomy taxonomy = tryToGetTaxonomy();
+		int pageNumber = tryToGetPageNumber();
 
 		setAttr("pageNumber", pageNumber);
 		setAttr("taxonomy", taxonomy);
@@ -54,22 +59,27 @@ public class TaxonomyController extends BaseFrontController {
 	}
 
 	private Taxonomy tryToGetTaxonomy() {
-		if (StringUtils.toInt(getPara(2), 0) == 0) { // no pageNumber
-			return null;
+		if (getParaCount() == 2) { // 2 para
+			if (StringUtils.toInt(getPara(1), 0) != 0) { //
+				return null;
+			}
+			return Taxonomy.DAO.findBySlug(getPara(1));
 		}
-		long id = StringUtils.toLong(getPara(0), (long) 0);
-		return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(getPara(0));
+
+		if (getParaCount() >= 3) { // 3 para
+			long id = StringUtils.toLong(getPara(1), (long) 0);
+			return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(getPara(1));
+		}
+
+		return null;
 	}
-	
 
 	private Module tryToGetModule() {
 		return Jpress.currentTemplate().getModuleByName(getPara(0));
 	}
-	
 
 	private int tryToGetPageNumber() {
-		int pageNumber = StringUtils.toInt(getPara(2), 0);
-		return pageNumber > 0 ? pageNumber : StringUtils.toInt(getPara(1),1);
+		return StringUtils.toInt(getPara(getParaCount() - 1), 1);
 	}
 
 }

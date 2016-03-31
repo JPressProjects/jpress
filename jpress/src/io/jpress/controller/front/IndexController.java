@@ -18,40 +18,21 @@ package io.jpress.controller.front;
 import io.jpress.core.annotation.UrlMapping;
 
 @UrlMapping(url = "/")
-public class IndexController extends BaseFrontController{
-	
-	//c=? 访问页面
-	//t=? 访问分类
-	
-	// https://www.xxx.com/module/slug-1.html   详情
-	//                    /module/type/slug-2.html 列表
-	
-	//  例如：http://www.xxx.com/aritcle/slug.html
-	//  例如：http://www.xxx.com/forum/slug.html
-	//  例如：http://www.xxx.com/qa/slug.html
-	
-	//  例如：http://www.xxx.com/aritcle/tag/slug.html
-	//  例如：http://www.xxx.com/aritcle/category/slug.html
-	//  例如：http://www.xxx.com/aritcle/feature/slug-1.html
-	
-	//  例如：http://www.xxx.com/forum/tag/slug-1.html
-	//  例如：http://www.xxx.com/forum/category/slug-2.html
-	
+public class IndexController extends BaseFrontController {
+
 	public void index() {
 		render("index.html");
 	}
-	
-	
-	public void captcha(){
+
+	public void captcha() {
 		renderCaptcha();
 	}
-	
+
 	/**
 	 * process sitemap.xml
 	 */
-	public void sitemap(){
-		
+	public void sitemap() {
+
 	}
-	
-	
+
 }

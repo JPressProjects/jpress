@@ -25,5 +25,6 @@
 	</module>
 	
 	<thumbnail name="index_item" size="100 x 500" />
+	<thumbnail name="index_item1" size="500 x 500" />
 	
 </config>

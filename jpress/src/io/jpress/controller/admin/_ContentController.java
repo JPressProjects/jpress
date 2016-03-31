@@ -15,7 +15,6 @@
  */
 package io.jpress.controller.admin;
 
-import io.jpress.core.JTokenInterceptor;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -24,6 +23,7 @@ import io.jpress.model.Mapping;
 import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +75,7 @@ public class _ContentController extends BaseAdminController<Content> {
 			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize,
 					getModuleName(), getStatus());
 		}
-		return mDao.doPaginateInNormalByModule(pageNumber, pageSize,
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize,
 				getModuleName());
 	}
 
@@ -170,6 +170,9 @@ public class _ContentController extends BaseAdminController<Content> {
 		for (TaxonomyType type : types) {
 			if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
 				String params = getPara("_" + type.getName());
+				if(!StringUtils.isNotEmpty(params)){
+					continue;
+				}
 				String[] titles = params.split(",");
 				if (titles != null && titles.length > 0) {
 					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(
@@ -205,7 +208,7 @@ public class _ContentController extends BaseAdminController<Content> {
 		return 0;
 	}
 
-	@Before(JTokenInterceptor.class)
+	@Before(UCodeInterceptor.class)
 	@Override
 	public void save() {
 		Content content = getContent();

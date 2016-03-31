@@ -50,7 +50,6 @@
                                             </div>
                                         </div>
                                      </div>
-
                                     <div class="swiper-slide">
                                         <img class="jp-width100 jp-img-maxh" src="imgs/photo3.jpg"/>
                                         <div class="jp-art-sub">
@@ -58,12 +57,12 @@
                                                 <div class="jp-right">
                                                     <img  src="imgs/user160.jpg">
                                                 </div>
-                                                公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
+                                                111公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
                                                 总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
                                             </div>
                                         </div>
                                     </div>
-
+									
                                     <div class="swiper-slide">
                                         <img class="jp-width100 jp-img-maxh" src="imgs/photo2.jpg"/>
                                         <div class="jp-art-sub">
@@ -101,47 +100,30 @@
                 </div>
             </article>
 
+            <@jp_contents  module="article">
+            <#list contents as content>
             <article class="content">
                 <div class="row">
-                    <div class="col-xs-4"> <img class="jp-width100" src="imgs/photo3.jpg"/></div>
+                    <div class="col-xs-4"> <img class="jp-width100" src="${content.thumbnail!}"/></div>
                     <div class="col-xs-8 ">
-                        <h5 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a></h5>
-                        <h6>By<span class="content-author">大宏</span>
+                        <h5 class="jp-margin-top"><a href="${content.url}">${content.title}</a></h5>
+                        <h6>By<span class="content-author">${content.username!}</span>
                             <span class="release-time">2016-02-03</span>
                         </h6>
-                        <p class="display-none-768 content-detail">公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
-                            总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
-                            ，市局调配武警140余人对重点地铁站进行安防，直至嫌疑人抓获。
-                        </p>
-
-                    </div>
-                </div>
-                <p class="content-footer jp-margin-top20">
-                    <span class="font-weight6"><a><i class="fa fa-link"></i>民航专家张起淮：“我判断</a></span>
-                    <span class="jp-right display-none-768"><i class="fa fa-thumbs-o-up"></i>6</span>
-                    <span class="jp-right display-none-768"><i class="fa fa-comment-o"></i>5</span>
-                </p>
-            </article>
-            <article class="content">
-                <div class="row">
-                    <div class="col-xs-4"> <img class="jp-width100" src="imgs/photo3.jpg"/></div>
-                    <div class="col-xs-8 ">
-                        <h5 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a></h5>
-                        <h6>By<span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                        <p class="display-none-768 content-detail">公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
+                        <p class="display-none-768 content-detail">111公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
                             总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
                             ，市局调配武警140余人对重点地铁站进行安防，直至嫌疑人抓获。
                         </p>
                         <p class="content-footer">
-                            <span class="font-weight6"><a><i class="fa fa-link"></i>民航专家张起淮：“我判断</a></span>
+                            <span class="font-weight6"><a><i class="fa fa-link"></i>${content.tagsAsUrl!}</a></span>
                             <span class="jp-right display-none-768"><i class="fa fa-thumbs-o-up"></i>6</span>
                             <span class="jp-right display-none-768"><i class="fa fa-comment-o"></i>5</span>
                         </p>
                     </div>
                 </div>
             </article>
+            </#list>
+            </@jp_contents>
             <article class="content">
                 <div class="row">
                     <div class="col-xs-4"> <img class="jp-width100" src="imgs/photo3.jpg"/></div>

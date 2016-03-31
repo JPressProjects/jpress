@@ -21,10 +21,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.i18n.Res;
 
 public class JBaseController extends Controller {
-	
+	private static final char URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator().toCharArray()[0];
 	private JSession session;
 	public JBaseController() {
 		session = new JSession(this);
@@ -46,6 +47,23 @@ public class JBaseController extends Controller {
 			return Jsoup.clean(result, Whitelist.relaxed());
 		}
 		return defaultValue;
+	}
+	
+	private int mParaCount = -1;
+	public int getParaCount(){
+		if(mParaCount != -1) 
+			return mParaCount;
+		int mParaCount = 0;
+		char[] parachars = getPara()==null? null : getPara().toCharArray();
+		if(parachars != null){
+			mParaCount = 1;
+			for(char c : parachars){
+				if(URL_PARA_SEPARATOR == c){
+					mParaCount ++;
+				}
+			}
+		}
+		return mParaCount;
 	}
 
 	public boolean isAjaxRequest() {

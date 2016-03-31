@@ -54,7 +54,7 @@ public class _WechatController extends BaseAdminController<Content> {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
 			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize,getModule(), getStatus());
 		}
-		return mDao.doPaginateInNormalByModule(pageNumber, pageSize,getModule());
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize,getModule());
 	}
 
 	@Before(UCodeInterceptor.class)

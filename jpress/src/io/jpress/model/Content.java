@@ -22,7 +22,6 @@ import io.jpress.model.base.BaseContent;
 import io.jpress.utils.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,10 +89,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		boolean hasWhere = false;
-		hasWhere = appendIfNotNull(fromBuilder, "t.module", module, params, hasWhere);
-		hasWhere = appendIfNotNull(fromBuilder, "c.status", status, params, hasWhere);
-		hasWhere = appendIfNotNull(fromBuilder, "t.id", taxonomyId, params, hasWhere);
-		hasWhere = appendIfNotNull(fromBuilder, "u.id", userId, params, hasWhere);
+		hasWhere = appendIfNotEmpty(fromBuilder, "t.module", module, params, hasWhere);
+		hasWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, hasWhere);
+		hasWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, hasWhere);
+		hasWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, hasWhere);
 		
 		if (null != orderBy && !"".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY ?");
@@ -140,18 +139,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		StringBuilder sqlBuilder = new StringBuilder(sql);
 
 		LinkedList<Object> params = new LinkedList<Object>();
-
-		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params);
-		appendIfNotEmpty(sqlBuilder, "c.module", modules, params);
-		appendIfNotEmpty(sqlBuilder, "c.style",styles, params);
-		appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params);
-		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params);
-		appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params);
-
-		appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params);
+		
+		boolean hasWhere = true;
+		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder, "c.module", modules, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder, "c.style",styles, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,hasWhere);
+		appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,hasWhere);
 
 		if (null != tags && tags.length > 0) {
-			appendIfNotEmpty(sqlBuilder, "t.name",tags, params);
+			appendIfNotEmpty(sqlBuilder, "t.name",tags, params,hasWhere);
 			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
 		}
 
@@ -176,26 +175,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return find(sqlBuilder.toString(), params.toArray());
 	}
 
-	/**
-	 * @param array
-	 * @param builder
-	 * @param params
-	 * @param colName
-	 */
-	private void appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, LinkedList<Object> params) {
-		if (null != array && array.length > 0) {
-			builder.append(" AND (");
-			for (int i = 0; i < array.length; i++) {
-				if (i == 0) {
-					builder.append(String.format(" %s = ? ", colName));
-				} else {
-					builder.append(String.format(" OR %s = ? ", colName));
-				}
-				params.add(array[i]);
-			}
-			builder.append(" ) ");
-		}
-	}
 
 	public List<Content> findMenuList() {
 		return doFind("module = ? order by order_id ASC", "menu");
@@ -342,8 +321,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				// propertes[2] == title
 				// propertes[3] == type
 				// by method doPaginateByModuleAndStatus
-				System.out.println("--->>>type:"+type);
-				System.out.println(Arrays.toString(propertes));
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
 						String string = String.format("<a href=\"/%s/%s\" >%s</a>",getModule(),propertes[1],propertes[2]);

@@ -59,7 +59,7 @@ public class ContentsTag extends JTag {
 		Integer[] userIds = getParamToIntArray("userid");
 		Integer[] parentIds = getParamToIntArray("parentid");
 
-		List<Content> data = Content.DAO.findList(pageNumber, pageSize,
+		List<Content> data = Content.DAO.findListForTag(pageNumber, pageSize,
 				orderBy, keyword, typeIds, typeSlugs, modules, styles, slugs,
 				userIds, parentIds, tags);
 		

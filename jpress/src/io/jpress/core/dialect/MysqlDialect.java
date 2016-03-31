@@ -91,9 +91,9 @@ public class MysqlDialect extends DbDialect {
 	
 	public String doTableConvert(String sql) {
 		for (Map.Entry<String, String> entry : tableMapping.entrySet()) {
-			sql = sql.replace(entry.getKey() + " ", String.format("`%s` ", entry.getValue()));
-			sql = sql.replace(entry.getKey() + ",", String.format("`%s`,", entry.getValue()));
-			sql = sql.replace(entry.getKey() + ".", String.format("`%s`.", entry.getValue()));
+			sql = sql.replace(" "+entry.getKey() + " ", String.format(" `%s` ", entry.getValue()));
+			sql = sql.replace(" "+entry.getKey() + ",", String.format(" `%s`,", entry.getValue()));
+			sql = sql.replace(" "+entry.getKey() + ".", String.format(" `%s`.", entry.getValue()));
 //			sql = sql.replace(entry.getKey() + "`", entry.getValue() + "`");
 		}
 		return sql;

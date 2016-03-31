@@ -32,7 +32,7 @@ public class ContentTag extends JTag {
 	@Override
 	public void onRender() {
 
-		String id = getParam("id");
+		Long id = getParamToLong("id");
 		
 		Content content = null;
 		

@@ -52,7 +52,15 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	private String sql_select() {
-		return DbDialectFactory.getDbDialect().forSelect(getTableName());
+		String sql = onGetSelectSql();
+		if(sql == null || "".equals(sql.trim())){
+			sql = DbDialectFactory.getDbDialect().forSelect(getTableName());
+		}
+		return sql;
+	}
+	
+	protected String onGetSelectSql() {
+		return null;
 	}
 
 	private String sql_delete() {
@@ -301,36 +309,36 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 	}
 
-	public static boolean appendWhereOrAnd(StringBuilder builder, boolean hasWhere) {
-		if (hasWhere) {
-			builder.append(" AND ");
-		} else {
+	public static boolean appendWhereOrAnd(StringBuilder builder, boolean needWhere) {
+		if (needWhere) {
 			builder.append(" WHERE ");
+		} else {
+			builder.append(" AND ");
 		}
-		return true;
+		return false;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean needWhere) {
 		if(StringUtils.isNotBlank(value)){
-			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
 		}
-		return hasWhere;
+		return needWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean needWhere) {
 		if(value > 0){
-			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
 		}
-		return hasWhere;
+		return needWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean hasWhere) {
+	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
-			hasWhere = appendWhereOrAnd(builder, hasWhere);
+			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" (");
 			for (int i = 0; i < array.length; i++) {
 				if (i == 0) {
@@ -342,7 +350,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			}
 			builder.append(" ) ");
 		}
-		return hasWhere;
+		return needWhere;
 	}
 
 }

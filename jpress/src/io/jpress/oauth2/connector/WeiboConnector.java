@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.oauth2.processer;
+package io.jpress.oauth2.connector;
 
-import io.jpress.oauth2.OauthProcesser;
+import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
-public class WeiboProcesser extends OauthProcesser {
+public class WeiboConnector extends OauthConnector {
 
-	public WeiboProcesser() {
+	public WeiboConnector() {
 		setClientId("4067662683");
 		setClientSecret("02f2d6c8b5993acd3e16c3b8f24035c3");
 		setName("weibo");

@@ -23,7 +23,7 @@ public abstract class Oauth2Controller extends JBaseController {
 
 	public void index() {
 		String processerName = getPara();
-		OauthProcesser op = ProcesserFactory.createProcesser(processerName);
+		OauthConnector op = ProcesserFactory.createProcesser(processerName);
 		String state = UUID.randomUUID().toString().replace("-", "");
 		
 		String requestUrl = getRequest().getRequestURL().toString();
@@ -53,7 +53,7 @@ public abstract class Oauth2Controller extends JBaseController {
 		}
 
 		String processerName = getPara();
-		OauthProcesser op = ProcesserFactory.createProcesser(processerName);
+		OauthConnector op = ProcesserFactory.createProcesser(processerName);
 		OauthUser ouser = op.getUser(code);
 		onCallBack(ouser);
 	}

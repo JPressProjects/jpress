@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.oauth2.processer;
+package io.jpress.oauth2.connector;
 
 import com.alibaba.fastjson.JSONObject;
 
-import io.jpress.oauth2.OauthProcesser;
+import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
-public class OSChinaProcesser extends OauthProcesser {
+public class OSChinaConnector extends OauthConnector {
 
 	// DOC : http://www.oschina.net/openapi/
 	
-	public OSChinaProcesser() {
+	public OSChinaConnector() {
 		setClientId("UtAmn9NbODbgE6mzDiIQ");
 		setClientSecret("FzrmOxLLl7IE84RWLQxrd2eSTspP5yAC");
 		setName("oschina");

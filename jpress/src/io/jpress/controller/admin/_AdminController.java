@@ -59,7 +59,7 @@ public class _AdminController extends JBaseController {
 
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 
-			EncryptCookieUtils.put(this, Consts.COOKIE_LOGIN_USER_ID, user.getId());
+			EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			CacheKit.put("user", user.getId(), user);
 			renderAjaxResultForSuccess("登陆成功");
 		} else {
@@ -68,7 +68,7 @@ public class _AdminController extends JBaseController {
 	}
 
 	public void logout() {
-		EncryptCookieUtils.remove(this, Consts.COOKIE_LOGIN_USER_ID);
+		EncryptCookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
 		redirect("/admin");
 	}
 

@@ -15,6 +15,7 @@
  */
 package io.jpress.model;
 
+import io.jpress.Consts;
 import io.jpress.core.Jdb;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
@@ -54,9 +55,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 						+ " left join taxonomy  t on m.`taxonomy_id` = t.id"
 						+ " left join user u on c.user_id = u.id"
 						+ " left join metadata md on c.id = md.`object_id` and md.`object_type`='content'"
+						+ " where c.`metadatas` like ?"
 						+ " GROUP BY c.id" 
-						+ " ORDER BY c.created DESC) c "
-						+ "where c.`metadatas` like ?",
+						+ " ORDER BY c.created DESC) c ",
 				"%:" + meta_key + ":" + meta_value);
 	}
 	
@@ -82,7 +83,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id");
-		fromBuilder.append(" group by c.id");
 		
 		LinkedList<Object> params = new LinkedList<Object>();
 		
@@ -91,6 +91,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
+		
+		fromBuilder.append(" group by c.id");
 		
 		if (null != orderBy && !"".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY ?");
@@ -127,14 +129,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			String[] typeSlugs, String[] modules, String[] styles, String[] slugs, Integer[] userIds,
 			Integer[] parentIds, String[] tags) {
 
-		String sql = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username"
-				+ " from content c" 
-				+ " left join mapping m on c.id = m.`content_id`"
-				+ " left join taxonomy  t on  m.`taxonomy_id` = t.id"
-				+ " left join user u on c.user_id = u.id"
-				+ " where c.status = 'normal' ";
-
-		StringBuilder sqlBuilder = new StringBuilder(sql);
+		StringBuilder sqlBuilder = getBaseSelectSql();
+		sqlBuilder.append(" where c.status = 'normal' ");
 
 		LinkedList<Object> params = new LinkedList<Object>();
 		
@@ -179,12 +175,19 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public Content findBySlug(String slug) {
-		return doFindFirst("c.slug = ?", slug);
+		StringBuilder sql = getBaseSelectSql();
+		sql.append(" WHERE c.slug = ?");
+		sql.append(" GROUP BY c.id");
+		return findFirst(sql.toString(),slug);
 	}
 	
-	public Content findById(long id){
-		return doFindFirst("c.id = ?",id);
+	public Content findById(long id) {
+		StringBuilder sql = getBaseSelectSql();
+		sql.append(" WHERE c.id = ?");
+		sql.append(" GROUP BY c.id");
+		return findFirst(sql.toString(),id);
 	}
+	
 
 	public long findCountByModule(String module) {
 		return doFindCount("module = ?", module);
@@ -400,22 +403,19 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 	
 	public String getUrl(){
-		String start = "page".equalsIgnoreCase(getModule()) ? "/" : "/c/";
+		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.CONTENT_BASE_URL;
 		String slug = getSlug()==null ? getId()+"" : getSlug();
-		return JFinal.me().getContextPath()+start+slug;
+		return JFinal.me().getContextPath()+start+"/"+slug;
 	}
 	
 	
-	
-	@Override
-	protected String onGetSelectSql() {
+	private StringBuilder getBaseSelectSql() {
 		StringBuilder sqlBuilder = new StringBuilder("select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");
-		sqlBuilder.append("  from content c");
+		sqlBuilder.append(" from content c");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id");
-		sqlBuilder.append(" group by c.id");
-		return sqlBuilder.toString();
+		return sqlBuilder;
 	}
 
 }

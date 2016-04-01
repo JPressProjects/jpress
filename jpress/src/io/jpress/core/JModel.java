@@ -52,16 +52,9 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	private String sql_select() {
-		String sql = onGetSelectSql();
-		if(sql == null || "".equals(sql.trim())){
-			sql = DbDialectFactory.getDbDialect().forSelect(getTableName());
-		}
-		return sql;
+		return DbDialectFactory.getDbDialect().forSelect(getTableName());
 	}
 	
-	protected String onGetSelectSql() {
-		return null;
-	}
 
 	private String sql_delete() {
 		return DbDialectFactory.getDbDialect().forDelete(getTableName());

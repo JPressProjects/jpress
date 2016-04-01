@@ -18,6 +18,7 @@ package io.jpress.plugin.target.converter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.plugin.target.ItargetConverter;
@@ -28,14 +29,15 @@ public class PageTargetConverter implements ItargetConverter {
 	public boolean match(String target) {
 		if (Jpress.isInstalled()) {
 			String slug = tryToGetContentSlug(target);
-			return Content.DAO.findBySlug(slug) != null;
+			Content c =  Content.DAO.findBySlug(slug);
+			return c!=null && Consts.SYS_MODULE_PAGE.equals(c.getModule());
 		}
 		return false;
 	}
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-		return "/c" + target;
+		return Consts.CONTENT_BASE_URL + target;
 	}
 
 	private String tryToGetContentSlug(String target) {

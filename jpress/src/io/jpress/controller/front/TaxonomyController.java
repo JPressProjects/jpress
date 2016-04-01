@@ -15,13 +15,14 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/t")
+@UrlMapping(url = Consts.TAXONOMY_BASE_URL)
 public class TaxonomyController extends BaseFrontController {
 
 	// http://www.xxx.com/t/module-slug-pageNumber.html

@@ -15,25 +15,25 @@
  */
 package io.jpress.oauth2;
 
-import io.jpress.oauth2.processer.OSChinaProcesser;
-import io.jpress.oauth2.processer.QQProcesser;
-import io.jpress.oauth2.processer.WechatProcesser;
-import io.jpress.oauth2.processer.WeiboProcesser;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import io.jpress.oauth2.connector.OSChinaConnector;
+import io.jpress.oauth2.connector.QQConnector;
+import io.jpress.oauth2.connector.WechatConnector;
+import io.jpress.oauth2.connector.WeiboConnector;
+
 public class ProcesserFactory {
 
-	private static final Map<String, OauthProcesser> oauths = new HashMap<String, OauthProcesser>();
+	private static final Map<String, OauthConnector> oauths = new HashMap<String, OauthConnector>();
 	static {
-		oauths.put("qq", new QQProcesser());
-		oauths.put("oschina", new OSChinaProcesser());
-		oauths.put("wechat", new WechatProcesser());
-		oauths.put("weibo", new WeiboProcesser());
+		oauths.put("qq", new QQConnector());
+		oauths.put("oschina", new OSChinaConnector());
+		oauths.put("wechat", new WechatConnector());
+		oauths.put("weibo", new WeiboConnector());
 	}
 
-	public static OauthProcesser createProcesser(String key) {
+	public static OauthConnector createProcesser(String key) {
 		return oauths.get(key);
 	}
 

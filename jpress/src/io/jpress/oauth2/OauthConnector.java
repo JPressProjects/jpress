@@ -19,13 +19,13 @@ import io.jpress.utils.HttpUtils;
 
 import com.jfinal.log.Log;
 
-public abstract class OauthProcesser {
+public abstract class OauthConnector {
 
 	// 第一步，构建跳转的URL，跳转后用户登录成功，返回到callback url，并带上code
 	// 第二步，通过code，获取access token
 	// 第三步，通过 access token 获取用户的open_id
 	// 第四步，通过 open_id 获取用户信息
-	private static final Log LOGGER = Log.getLog(OauthProcesser.class);
+	private static final Log LOGGER = Log.getLog(OauthConnector.class);
 	
 	
 	private String clientId ;

@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.oauth2.processer;
+package io.jpress.oauth2.connector;
 
-import io.jpress.oauth2.OauthProcesser;
+import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-public class QQProcesser extends OauthProcesser {
+public class QQConnector extends OauthConnector {
 
 
 	/**
 	 * http://wiki.connect.qq.com/%E4%BD%BF%E7%94%A8authorization_code
 	 */
-	public QQProcesser() {
+	public QQConnector() {
 
 		setClientId("101296865");
 		setClientSecret("9c8ed6da1cf7f26dacf02587db74f2ea");

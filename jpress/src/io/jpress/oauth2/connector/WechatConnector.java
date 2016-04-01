@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.oauth2.processer;
+package io.jpress.oauth2.connector;
 
-import io.jpress.oauth2.OauthProcesser;
+import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class WechatProcesser extends OauthProcesser {
+public class WechatConnector extends OauthConnector {
 	
 	// DOC https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
 	
-	public WechatProcesser() {
+	public WechatConnector() {
 		setClientId("wxe7b4997b8a3b17bc");
 		setClientSecret("380e67c024233d469284174ba5d47e6b");
 		setName("wechat");

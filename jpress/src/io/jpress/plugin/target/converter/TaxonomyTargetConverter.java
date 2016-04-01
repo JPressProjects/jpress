@@ -18,6 +18,7 @@ package io.jpress.plugin.target.converter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.plugin.target.ItargetConverter;
 
@@ -36,7 +37,7 @@ public class TaxonomyTargetConverter implements ItargetConverter {
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
 		String moduleName = tryToGetModuleName(target);
-		target = "/t" + target.replace(moduleName + "/", moduleName + "-");
+		target = Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
 		return target;
 	}
 

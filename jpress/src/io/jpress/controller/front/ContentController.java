@@ -15,11 +15,12 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/c")
+@UrlMapping(url = Consts.CONTENT_BASE_URL)
 public class ContentController extends BaseFrontController {
 
 	// http://www.xxx.com/c/123 		content.id:123 page:1

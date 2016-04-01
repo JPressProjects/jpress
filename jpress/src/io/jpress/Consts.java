@@ -17,6 +17,18 @@ package io.jpress;
 
 public class Consts {
 
-	public static final String COOKIE_LOGIN_USER_ID = "login_user";
+	public static final String COOKIE_LOGINED_USER = "user";
+	
+	
+	public static final String SYS_MODULE_PAGE = "page";
+	
+	public static final String CONTENT_BASE_URL = "/c";
+	public static final String TAXONOMY_BASE_URL = "/t";
+	
+	public static final String USER_BASE_URL = "/user";
+	public static final String USER_CENTER_BASE_URL = USER_BASE_URL+"/center";
+	public static final String LOGIN_BASE_URL = USER_BASE_URL+"/login";
+	
+	
 
 }

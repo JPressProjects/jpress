@@ -30,7 +30,7 @@ import java.util.Date;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 
-@UrlMapping(url = "/user")
+@UrlMapping(url = Consts.USER_BASE_URL)
 @Before(UserInterceptor.class)
 public class UserController extends BaseFrontController {
 
@@ -60,7 +60,7 @@ public class UserController extends BaseFrontController {
 				if (isAjaxRequest()) {
 					renderAjaxResultForError("没有该用户");
 				} else {
-					redirect("/user/login");
+					redirect(Consts.LOGIN_BASE_URL);
 				}
 				return;
 			}
@@ -75,7 +75,7 @@ public class UserController extends BaseFrontController {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
 			} else {
-				redirect("/user/login");
+				redirect(Consts.LOGIN_BASE_URL);
 			}
 			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
 			return;
@@ -83,21 +83,21 @@ public class UserController extends BaseFrontController {
 
 		if (HashUtils.verlifyUser(user, password)) {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
-			EncryptCookieUtils.put(this, Consts.COOKIE_LOGIN_USER_ID, user.getId());
+			EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			if (this.isAjaxRequest()) {
 				renderAjaxResultForSuccess("登陆成功");
 			} else {
 				if (StringUtils.isNotEmpty(from)) {
 					redirect(from);
 				} else {
-					redirect("/user/ceneter");
+					redirect(Consts.USER_CENTER_BASE_URL);
 				}
 			}
 		} else {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("密码错误");
 			} else {
-				redirect("/user/login");
+				redirect(Consts.LOGIN_BASE_URL);
 			}
 			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}

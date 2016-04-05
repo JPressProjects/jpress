@@ -15,15 +15,15 @@
  */
 package io.jpress.template;
 
-import io.jpress.core.Jpress;
-import io.jpress.model.Option;
-
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
+
+import io.jpress.core.Jpress;
+import io.jpress.model.Option;
 
 public class TemplateUtils {
 
@@ -49,10 +49,10 @@ public class TemplateUtils {
 			return templateName;
 		}
 
-		if (JFinal.me().getConstants().getDevMode()) {
+		if (Jpress.isDevMode()) {
 			return "default";
 		} else {
-			return null;
+			return PropKit.get("default_template");
 		}
 	}
 	

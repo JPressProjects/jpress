@@ -25,7 +25,6 @@ import io.jpress.plugin.target.JTargetPlugin;
 
 import java.util.List;
 
-import com.jfinal.aop.Clear;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -39,7 +38,6 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
@@ -108,7 +106,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ActiveRecordPlugin createRecordPlugin(DruidPlugin druidPlugin) {
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		ActiveRecordPlugin arPlugin = new ActiveRecordPlugin(druidPlugin);
 		List<Class<Model>> modelClassList = ClassScaner.scanSubClass(Model.class);
 		if (modelClassList != null) {
 			String tablePrefix = PropKit.use("db.properties").get("db_tablePrefix");
@@ -121,18 +119,18 @@ public abstract class JpressConfig extends JFinalConfig {
 				String tname = tablePrefix+tb.tableName();
 				
 				if (null != tb.primaryKey() && !"".equals(tb.primaryKey())) {
-					arp.addMapping(tname,tb.primaryKey(), (Class<? extends Model<?>>) clazz);
+					arPlugin.addMapping(tname,tb.primaryKey(), (Class<? extends Model<?>>) clazz);
 				} else {
-					arp.addMapping(tname,(Class<? extends Model<?>>) clazz);
+					arPlugin.addMapping(tname,(Class<? extends Model<?>>) clazz);
 				}
 				
 				DbDialect.mapping(clazz.getSimpleName().toLowerCase(), tname);
 			}
 		}
 		
-		arp.setShowSql(JFinal.me().getConstants().getDevMode());
+		arPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
 		
-		return arp;
+		return arPlugin;
 	}
 
 	public void configInterceptor(Interceptors interceptors) {
@@ -148,7 +146,9 @@ public abstract class JpressConfig extends JFinalConfig {
 	
 	@Override
 	public void afterJFinalStart() {
-		
+		if(Jpress.isInstalled()){
+			Jpress.loadFinished();
+		}
 		onJfinalStarted();
 	}
 	

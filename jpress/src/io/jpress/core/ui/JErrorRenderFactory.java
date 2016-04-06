@@ -62,7 +62,7 @@ public class JErrorRenderFactory extends FreeMarkerRender implements IErrorRende
 		if(!TemplateUtils.existsFile(htmlName)){
 			renderText(String.format("%s error! template \"%s\" not found in \"%s\" .",errorCode,htmlName,templateName));
 		}else{
-			this.view = Jpress.currentTemplate().getPath()+File.separator+htmlName;
+			this.view = Jpress.currentTemplate().getPath()+"/"+htmlName;
 			super.render();
 		}
 		

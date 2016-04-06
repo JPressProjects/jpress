@@ -25,6 +25,7 @@ import io.jpress.plugin.target.JTargetPlugin;
 
 import java.util.List;
 
+import com.jfinal.aop.Clear;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -38,6 +39,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
@@ -75,7 +77,7 @@ public abstract class JpressConfig extends JFinalConfig {
 			}
 		}
 	}
-
+	
 
 	public void configPlugin(Plugins plugins) {
 		plugins.add(new JTargetPlugin());
@@ -94,6 +96,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	
 
 	public DruidPlugin createDruidPlugin() {
+		
 		Prop dbProp =  PropKit.use("db.properties");
 		String db_host = dbProp.get("db_host").trim();
 		String db_name = dbProp.get("db_name").trim();

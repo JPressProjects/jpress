@@ -50,7 +50,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private void renderTemplate(String name) {
-		super.render(Jpress.currentTemplate().getPath()+File.separator+name);
+		super.render(Jpress.currentTemplate().getPath()+"/"+name);
 	}
 
 	public String clearProp(String fname) {

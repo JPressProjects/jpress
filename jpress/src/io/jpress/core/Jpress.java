@@ -71,4 +71,11 @@ public class Jpress {
 		return JFinal.me().getConstants().getDevMode();
 	}
 
+	private static boolean isLoaded = false;
+	public static boolean isLoaded(){
+		return isLoaded ;
+	}
+	public static void loadFinished(){
+		isLoaded = true;
+	}
 }

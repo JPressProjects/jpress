@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
+import com.jfinal.render.TextRender;
 
 import io.jpress.model.Option;
 import io.jpress.plugin.target.TargetKit;
@@ -57,7 +58,7 @@ public class JHandler extends Handler {
 			return;
 		}
 
-		if(Jpress.isInstalled()){
+		if(Jpress.isInstalled() && Jpress.isLoaded()){
 			request.setAttribute("TPATH", Jpress.currentTemplate().getPath());
 			Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
 			if(cdnEnable != null && cdnEnable){
@@ -66,6 +67,12 @@ public class JHandler extends Handler {
 					request.setAttribute("CDN", cdnDomain);
 				}
 			}
+		}
+		
+		//安装完成，但还没有加载完成...
+		if(Jpress.isInstalled() && !Jpress.isLoaded()){
+			new TextRender("等等加载中...请稍后刷新.").setContext(request, response).render();
+			return;
 		}
 		
 		target = TargetKit.converte(target, request, response);

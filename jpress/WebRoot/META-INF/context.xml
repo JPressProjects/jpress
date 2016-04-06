@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<WatchedResource>WEB-INF/classes/jpress.properties</WatchedResource>
+	<WatchedResource>WEB-INF/classes/db.properties</WatchedResource>
+</Context>

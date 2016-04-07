@@ -54,9 +54,6 @@ public class _ContentController extends BaseAdminController<Content> {
 	@Override
 	public void index() {
 		setAttr("module", Jpress.currentTemplate().getModuleByName(getModuleName()));
-//		setAttr("template", value)
-		
-		
 
 		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModuleName(),
 				Content.STATUS_DELETE));

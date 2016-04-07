@@ -63,16 +63,16 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	
 	
 	public Page<Content> doPaginateByModule(int page, int pagesize, String module) {
-		return doPaginate(pagesize, pagesize, module, null, 0, 0, null);
+		return doPaginate(page, pagesize, module, null, 0, 0, null);
 	}
 
 	public Page<Content> doPaginateByModuleAndStatus(int page, int pagesize, String module, String status) {
-		return doPaginate(pagesize, pagesize, module, status, 0, 0, null);
+		return doPaginate(page, pagesize, module, status, 0, 0, null);
 	}
 
 	
 	public Page<Content> doPaginateByModuleInNormal(int page, int pagesize, String module) {
-		return doPaginate(pagesize, pagesize, module, STATUS_NORMAL, 0, 0, null);
+		return doPaginate(page, pagesize, module, STATUS_NORMAL, 0, 0, null);
 	}
 	
 	public Page<Content> doPaginate(int page, int pagesize, String module, String status, long taxonomyId,long userId,String orderBy) {
@@ -87,7 +87,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "t.module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
@@ -100,6 +100,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		} else {
 			fromBuilder.append(" ORDER BY c.created");
 		}
+		
+		System.out.println("--->>>"+select+fromBuilder.toString());
 		
 		return paginate(page, pagesize, true,select, fromBuilder.toString() ,params.toArray());
 	}

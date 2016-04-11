@@ -15,8 +15,6 @@
  */
 package io.jpress.controller.front;
 
-import java.io.File;
-
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.template.TemplateUtils;

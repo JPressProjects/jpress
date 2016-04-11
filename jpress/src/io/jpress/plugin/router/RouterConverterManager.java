@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.target;
+package io.jpress.plugin.router;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TargetConverterManager {
+public class RouterConverterManager {
 
-	List<ItargetConverter> converters = new ArrayList<ItargetConverter>();
+	List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
-	public void register(Class<? extends ItargetConverter> clazz) {
-		for (ItargetConverter tc : converters) {
+	public void register(Class<? extends IRouterConverter> clazz) {
+		for (IRouterConverter tc : converters) {
 			if (tc.getClass() == clazz) {
 				throw new RuntimeException(String.format(
 						"Class [%s] has registered", clazz.getName()));
@@ -37,8 +37,8 @@ public class TargetConverterManager {
 		}
 	}
 
-	public ItargetConverter match(String target) {
-		for (ItargetConverter converter : converters) {
+	public IRouterConverter match(String target) {
+		for (IRouterConverter converter : converters) {
 			if (converter.match(target))
 				return converter;
 		}

@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.target;
+package io.jpress.plugin.router;
 
-import com.jfinal.plugin.IPlugin;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class JTargetPlugin implements IPlugin {
-
-	@Override
-	public boolean start() {
-		TargetKit.init(new TargetConverterManager());
-		return true;
-	}
-
-	@Override
-	public boolean stop() {
-		return true;
-	}
+public interface IRouterConverter {
+	
+	public  boolean match(String target);
+	public  String converter(String target,HttpServletRequest request,HttpServletResponse response);
+	
 
 }

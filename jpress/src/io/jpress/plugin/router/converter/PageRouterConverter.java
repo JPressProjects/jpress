@@ -13,43 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.target.converter;
+package io.jpress.plugin.router.converter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
-import io.jpress.plugin.target.ItargetConverter;
+import io.jpress.model.Content;
+import io.jpress.plugin.router.IRouterConverter;
 
-public class TaxonomyTargetConverter implements ItargetConverter {
+public class PageRouterConverter implements IRouterConverter {
 
 	@Override
 	public boolean match(String target) {
 		if (Jpress.isInstalled()) {
-			String moduleName = tryToGetModuleName(target);
-			return Jpress.currentTemplate().getModuleByName(moduleName) != null;
+			String slug = tryToGetContentSlug(target);
+			Content c =  Content.DAO.findBySlug(slug);
+			return c!=null && Consts.SYS_MODULE_PAGE.equals(c.getModule());
 		}
 		return false;
 	}
 
-	
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-		String moduleName = tryToGetModuleName(target);
-		target = Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
-		return target;
+		return Consts.CONTENT_BASE_URL + target;
 	}
 
-	
-	private String tryToGetModuleName(String target) {
+	private String tryToGetContentSlug(String target) {
 		String newTarget = target.substring(1);
-		String moduleName = newTarget;
-
-		if (newTarget.indexOf("/") != -1) {
-			moduleName = newTarget.substring(0, newTarget.indexOf("/"));
-		}
-		return moduleName;
+		return newTarget.indexOf("/") == -1 ? newTarget : null;
 	}
 
 }

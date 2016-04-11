@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.target;
+package io.jpress.plugin.router;
 
 import io.jpress.core.Jpress;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class TargetKit {
+public class RouterKit {
 
-	static TargetConverterManager tcManager;
+	static RouterConverterManager tcManager;
 
-	static void init(TargetConverterManager tcm) {
+	static void init(RouterConverterManager tcm) {
 		tcManager = tcm;
 	}
 
-	public static void register(Class<? extends ItargetConverter> clazz) {
+	public static void register(Class<? extends IRouterConverter> clazz) {
 		tcManager.register(clazz);
 	}
 
 	public static String converte(String target, HttpServletRequest request,HttpServletResponse response) {
 
-		ItargetConverter converter = tcManager.match(target);
+		IRouterConverter converter = tcManager.match(target);
 		if (null == converter) {
 			return target;
 		}

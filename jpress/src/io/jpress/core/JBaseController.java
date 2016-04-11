@@ -20,8 +20,10 @@ import javax.servlet.http.HttpSession;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
+import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
 
 public class JBaseController extends Controller {
@@ -107,7 +109,7 @@ public class JBaseController extends Controller {
 		return getI18nRes().get(key);
 	}
 	
-	
+	@Before(NotAction.class)
 	public void renderAjaxResultForSuccess(){
 		renderAjaxResult("success",0,null);
 	}
@@ -116,6 +118,7 @@ public class JBaseController extends Controller {
 		renderAjaxResult(message,0,null);
 	}
 	
+	@Before(NotAction.class)
 	public void renderAjaxResultForError(){
 		renderAjaxResult("error", 1, null);
 	}
@@ -139,6 +142,7 @@ public class JBaseController extends Controller {
 	
 	
 	@Override
+	@Before(NotAction.class)
 	public void createToken() {
 		createToken("jtoken");
 	}
@@ -177,6 +181,7 @@ public class JBaseController extends Controller {
 	}
 
 	@Override
+	@Before(NotAction.class)
 	public void renderCaptcha() {
 		render(new JCaptchaRender(this));
 	}

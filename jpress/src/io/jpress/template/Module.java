@@ -20,6 +20,8 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.kit.PathKit;
+
 public class Module {
 	public static final String ARTICLE = "article";
 	public static final String PAGE = "page";
@@ -47,8 +49,7 @@ public class Module {
 
 	public List<String> getStyles() {
 		List<String> moduleStyles = null;
-
-		File f = new File(TemplateUtils.getTemplatePath());
+		File f = new File(PathKit.getWebRootPath(),TemplateUtils.getTemplatePath());
 		String[] fileNames = f.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String fileName) {
@@ -62,7 +63,6 @@ public class Module {
 				moduleStyles.add(fileName.substring(start,fileName.lastIndexOf(".")));
 			}
 		}
-
 		return moduleStyles;
 	}
 

@@ -4,9 +4,10 @@
  *	 Website:  <http://www.kendahong.com>
  *   Time: 2016-1-28 14:56:24
 !*/
-
-
+.box{border-top:0px;}
+.box.box-primary { border-top: 0px;}
 .jp-common-pad{padding: 0;margin: 0}
+.jp-cancel-pad{padding: 0;margin: 0}
 .jp-line-height40{line-height: 40px}
 .jp-line-height30{line-height: 30px}
 .jp-line-height20{line-height: 20px}
@@ -18,9 +19,11 @@
 .jp-left-pad5{padding-left:5px }
 .jp-right-pad10 {padding-right:10px }
 .jp-right-pad40 {padding-right:40px }
+.jp-left-margv35 ul li{margin-left:-35px}
 .jp-article-format{padding: 15px 0;}
 .jp-common-pad30{padding: 30px}
 .jp-set-pad{padding:15px 0 5px;}
+.jp-width120{width:120px}
 .jp-left{float:left}
 .jp-right{float:right}
 @media (max-width: 767px) {
@@ -52,8 +55,10 @@ label.jp-common-pad{padding: 0;margin: 0}
 */
 .jp-release-set{display: block; padding: 10px 15px;  position: relative;}
 .jp-padding-wu{padding: 5px 15px}
+.jp-release-cancel-draft{padding-right: 15px;}
 .jp-add-new-project,.jp-release-cancel-draft,.jp-release-draft{color: #3c8dbc;cursor:default;}
-.timestamp-wrap { line-height: 23px; font-size: 13px; line-height: 1.4em;}
+.timestamp-wrap { line-height: 30px; font-size: 13px; }
+.timestamp-wrap-box{padding-right:95px}
 .jp-borde-top{border-top:1px solid #f4f4f4}
 .jp-aside-hg{height: 150px;overflow: auto;}
 
@@ -285,3 +290,16 @@ input[type="number"] {
 }
 
 .jp-content-theme{height: 90px}
+.jp-input-group {
+    width: 100%;
+}
+.jp-inline-right1 {
+    float: right;
+    margin-right: -50px;
+}
+.jp-inline-right2 {
+    float: right;
+    margin-right: -105px;
+}
+
+.list-inline li{font-size:12px}

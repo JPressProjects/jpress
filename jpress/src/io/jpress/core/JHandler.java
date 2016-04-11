@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
-import com.jfinal.render.FreeMarkerRender;
 
+import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.plugin.router.RouterKit;
 
@@ -60,9 +60,7 @@ public class JHandler extends Handler {
 
 		//安装完成，但还没有加载完成...
 		if(Jpress.isInstalled() && !Jpress.isLoaded()){
-			new FreeMarkerRender("/WEB-INF/install/finished.html")
-			.setContext(request, response)
-			.render();
+			InstallUtils.renderInstallFinished(request, response);
 			return;
 		}
 		
@@ -84,6 +82,5 @@ public class JHandler extends Handler {
 			System.err.println("--->time:" + (System.currentTimeMillis() - time));
 		}
 	}
-
 
 }

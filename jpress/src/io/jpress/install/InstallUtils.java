@@ -32,9 +32,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.render.FreeMarkerRender;
 
 public class InstallUtils {
 
@@ -207,6 +211,12 @@ public class InstallUtils {
 		plugin.start();
 
 		return plugin;
+	}
+	
+	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response) {
+		new FreeMarkerRender("/WEB-INF/install/finished.html")
+		.setContext(request, response)
+		.render();
 	}
 
 }

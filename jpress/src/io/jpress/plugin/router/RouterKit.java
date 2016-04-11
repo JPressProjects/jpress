@@ -22,19 +22,19 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RouterKit {
 
-	static RouterConverterManager tcManager;
+	static RouterConverterManager rcManager;
 
-	static void init(RouterConverterManager tcm) {
-		tcManager = tcm;
+	static void init(RouterConverterManager rcm) {
+		rcManager = rcm;
 	}
 
 	public static void register(Class<? extends IRouterConverter> clazz) {
-		tcManager.register(clazz);
+		rcManager.register(clazz);
 	}
 
 	public static String converte(String target, HttpServletRequest request,HttpServletResponse response) {
 
-		IRouterConverter converter = tcManager.match(target);
+		IRouterConverter converter = rcManager.match(target);
 		if (null == converter) {
 			return target;
 		}

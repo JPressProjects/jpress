@@ -33,7 +33,6 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
-import com.jfinal.ext.handler.FakeStaticHandler;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;

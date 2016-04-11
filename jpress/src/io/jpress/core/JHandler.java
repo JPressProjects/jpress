@@ -23,7 +23,7 @@ import com.jfinal.kit.HandlerKit;
 import com.jfinal.render.FreeMarkerRender;
 
 import io.jpress.model.Option;
-import io.jpress.plugin.target.TargetKit;
+import io.jpress.plugin.router.RouterKit;
 
 public class JHandler extends Handler {
 
@@ -77,7 +77,7 @@ public class JHandler extends Handler {
 			}
 		}
 		
-		target = TargetKit.converte(target, request, response);
+		target = RouterKit.converte(target, request, response);
 		next.handle(target, request, response, isHandled);
 
 		if (Jpress.isDevMode()) {

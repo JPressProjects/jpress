@@ -22,9 +22,9 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.ContentListener;
 import io.jpress.plugin.message.listener.SettingChangedListener;
 import io.jpress.plugin.message.listener.UserActionListener;
-import io.jpress.plugin.target.TargetKit;
-import io.jpress.plugin.target.converter.PageTargetConverter;
-import io.jpress.plugin.target.converter.TaxonomyTargetConverter;
+import io.jpress.plugin.router.RouterKit;
+import io.jpress.plugin.router.converter.PageRouterConverter;
+import io.jpress.plugin.router.converter.TaxonomyRouterConverter;
 import io.jpress.ui.function.OptionCache;
 import io.jpress.ui.function.OptionChecked;
 import io.jpress.ui.function.OptionLoad;
@@ -66,8 +66,8 @@ public class Config extends JpressConfig {
 		
 		
 		{ //target converters
-			TargetKit.register(TaxonomyTargetConverter.class);
-			TargetKit.register(PageTargetConverter.class);
+			RouterKit.register(TaxonomyRouterConverter.class);
+			RouterKit.register(PageRouterConverter.class);
 		}
 		
 		

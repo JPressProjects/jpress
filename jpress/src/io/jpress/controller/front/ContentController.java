@@ -31,6 +31,7 @@ public class ContentController extends BaseFrontController {
 
 	public void index() {
 		
+		
 		Content content = tryToGetContent();
 		if (null == content) {
 			renderError(404);

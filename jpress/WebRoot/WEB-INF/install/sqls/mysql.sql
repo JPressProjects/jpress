@@ -196,6 +196,7 @@ CREATE TABLE `{table_prefix}user` (
   `email` varchar(64) DEFAULT NULL,
   `cell_number` varchar(32) DEFAULT NULL,
   `nickname` varchar(64) DEFAULT NULL,
+  `balance` decimal(10,4) unsigned DEFAULT '0.0000',
   `gender` varchar(16) DEFAULT NULL,
   `role` varchar(32) DEFAULT 'visitor',
   `signature` varchar(2048) DEFAULT NULL,

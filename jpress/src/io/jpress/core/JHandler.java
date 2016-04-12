@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 
+import io.jpress.Consts;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.plugin.router.RouterKit;
@@ -34,6 +35,8 @@ public class JHandler extends Handler {
 		String contextPath = request.getContextPath();
 		request.setAttribute("CPATH", contextPath);
 		request.setAttribute("SPATH", contextPath + "/static");
+		
+		System.out.println("========="+target);
 
 		if (target.indexOf('.') != -1) {
 			// 防止直接访问模板文件
@@ -45,8 +48,8 @@ public class JHandler extends Handler {
 				HandlerKit.renderError404(request, response, isHandled);
 			}
 			
-			if("sitemap.xml".equalsIgnoreCase(target)){
-				target = "sitemap";
+			if("/sitemap.xml".equalsIgnoreCase(target)){
+				target = Consts.SITEMAP_URL;
 			}else{
 				return;
 			}

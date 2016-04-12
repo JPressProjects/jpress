@@ -17,11 +17,11 @@ package io.jpress.controller.front;
 
 import io.jpress.core.annotation.UrlMapping;
 
-@UrlMapping(url = "/")
-public class IndexController extends BaseFrontController {
+@UrlMapping(url = "/captcha")
+public class CaptchaController extends BaseFrontController {
 
 	public void index() {
-		render("index.html");
+		renderCaptcha();
 	}
 
 }

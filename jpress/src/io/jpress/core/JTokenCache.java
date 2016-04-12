@@ -39,7 +39,6 @@ public class JTokenCache implements ITokenCache {
 		@SuppressWarnings("unchecked")
 		List<String> keys = CacheKit.getKeys("token");
 		return keys == null ? false : keys.contains(token.getId());
-
 	}
 
 	@Override

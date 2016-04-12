@@ -17,19 +17,20 @@ package io.jpress.controller.front;
 
 import com.jfinal.core.Controller;
 
-import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 
-@UrlMapping(url = Consts.SITEMAP_URL)
+@UrlMapping(url = "/sitemap")
 public class SitemapController extends Controller{
 
-	@Override
-	public void render(String view) {
-		renderXml("/WEB-INF/sitemap/"+view);
-	}
 	
 	public void index() {
 		render("index.xml");
+	}
+	
+	
+	@Override
+	public void render(String view) {
+		renderXml("/WEB-INF/sitemap/"+view);
 	}
 
 }

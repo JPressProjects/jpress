@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 
-import io.jpress.Consts;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.plugin.router.RouterKit;
@@ -32,15 +31,13 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request,HttpServletResponse response, boolean[] isHandled) {
 
 		long time = System.currentTimeMillis();
-		String contextPath = request.getContextPath();
-		request.setAttribute("CPATH", contextPath);
-		request.setAttribute("SPATH", contextPath + "/static");
-		
-		System.out.println("========="+target);
+		String cpath = request.getContextPath();
+		request.setAttribute("CPATH", cpath);
+		request.setAttribute("SPATH", cpath + "/static");
 
 		if (target.indexOf('.') != -1) {
 			// 防止直接访问模板文件
-			if (target.startsWith("/templates") && target.endsWith("html")) {
+			if (target.startsWith("/templates") && target.endsWith(".html")) {
 				HandlerKit.renderError404(request, response, isHandled);
 			}
 			// 防止直接访问jsp文件页面
@@ -48,27 +45,23 @@ public class JHandler extends Handler {
 				HandlerKit.renderError404(request, response, isHandled);
 			}
 			
-			if("/sitemap.xml".equalsIgnoreCase(target)){
-				target = Consts.SITEMAP_URL;
-			}else{
-				return;
-			}
+			return;
 		}
 		
 		// 检测是否安装
 		if (!Jpress.isInstalled() && !target.startsWith("/install")) {
-			HandlerKit.redirect(contextPath + "/install", request, response,isHandled);
+			HandlerKit.redirect(cpath + "/install", request, response,isHandled);
 			return;
 		}
 
 		//安装完成，但还没有加载完成...
 		if(Jpress.isInstalled() && !Jpress.isLoaded()){
-			InstallUtils.renderInstallFinished(request, response);
+			InstallUtils.renderInstallFinished(request, response,isHandled);
 			return;
 		}
 		
 		if(Jpress.isInstalled() && Jpress.isLoaded()){
-			request.setAttribute("TPATH", contextPath+Jpress.currentTemplate().getPath());
+			request.setAttribute("TPATH", cpath+Jpress.currentTemplate().getPath());
 			Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
 			if(cdnEnable != null && cdnEnable){
 				String cdnDomain = Option.cacheValue("cdn_domain");
@@ -82,7 +75,7 @@ public class JHandler extends Handler {
 		next.handle(target, request, response, isHandled);
 
 		if (Jpress.isDevMode()) {
-			System.err.println("--->time:" + (System.currentTimeMillis() - time));
+			System.err.println("--->spend time:" + (System.currentTimeMillis() - time));
 		}
 	}
 

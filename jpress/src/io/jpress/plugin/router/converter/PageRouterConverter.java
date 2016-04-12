@@ -29,8 +29,10 @@ public class PageRouterConverter implements IRouterConverter {
 	public boolean match(String target) {
 		if (Jpress.isInstalled()) {
 			String slug = tryToGetContentSlug(target);
-			Content c =  Content.DAO.findBySlug(slug);
-			return c!=null && Consts.SYS_MODULE_PAGE.equals(c.getModule());
+			if(null != slug){
+				Content c =  Content.DAO.findBySlug(slug);
+				return c!=null && Consts.SYS_MODULE_PAGE.equals(c.getModule());
+			}
 		}
 		return false;
 	}
@@ -42,6 +44,8 @@ public class PageRouterConverter implements IRouterConverter {
 
 	private String tryToGetContentSlug(String target) {
 		String newTarget = target.substring(1);
+		if("".equals(newTarget))
+			return null;
 		return newTarget.indexOf("/") == -1 ? newTarget : null;
 	}
 

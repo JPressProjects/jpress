@@ -28,8 +28,5 @@ public class Consts {
 	public static final String USER_CENTER_BASE_URL = USER_BASE_URL+"/center";
 	public static final String LOGIN_BASE_URL = USER_BASE_URL+"/login";
 	
-	public static final String SITEMAP_URL = "/sitemap";
-	
-	
 
 }

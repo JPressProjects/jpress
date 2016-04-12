@@ -213,7 +213,8 @@ public class InstallUtils {
 		return plugin;
 	}
 	
-	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response) {
+	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response,boolean[] isHandled) {
+		isHandled[0] = true;
 		new FreeMarkerRender("/WEB-INF/install/finished.html")
 		.setContext(request, response)
 		.render();

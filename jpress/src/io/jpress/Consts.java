@@ -24,10 +24,11 @@ public class Consts {
 	
 	public static final String CONTENT_BASE_URL = "/c";
 	public static final String TAXONOMY_BASE_URL = "/t";
-	
 	public static final String USER_BASE_URL = "/user";
 	public static final String USER_CENTER_BASE_URL = USER_BASE_URL+"/center";
 	public static final String LOGIN_BASE_URL = USER_BASE_URL+"/login";
+	
+	public static final String SITEMAP_URL = "/sitemap";
 	
 	
 

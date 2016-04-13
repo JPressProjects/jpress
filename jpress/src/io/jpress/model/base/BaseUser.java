@@ -117,12 +117,12 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JModel<M> implemen
 		return get("email");
 	}
 
-	public void setCellNumber(java.lang.String cellNumber) {
-		set("cell_number", cellNumber);
+	public void setPhone(java.lang.String phone) {
+		set("phone", phone);
 	}
 
-	public java.lang.String getCellNumber() {
-		return get("cell_number");
+	public java.lang.String getPhone() {
+		return get("phone");
 	}
 
 	public void setNickname(java.lang.String nickname) {

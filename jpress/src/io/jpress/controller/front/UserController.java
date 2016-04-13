@@ -17,6 +17,7 @@ package io.jpress.controller.front;
 
 import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.interceptor.UserInterceptor;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
@@ -101,6 +102,12 @@ public class UserController extends BaseFrontController {
 			}
 			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}
+	}
+
+	@Before(UCodeInterceptor.class)
+	public void logout() {
+		EncryptCookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
+		redirect("/");
 	}
 
 	@Clear

@@ -149,12 +149,12 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("object_id");
 	}
 
-	public void setOrderId(java.lang.Integer orderId) {
-		set("order_id", orderId);
+	public void setOrderNumber(java.lang.Integer orderNumber) {
+		set("order_number", orderNumber);
 	}
 
-	public java.lang.Integer getOrderId() {
-		return get("order_id");
+	public java.lang.Integer getOrderNumber() {
+		return get("order_number");
 	}
 
 	public void setStatus(java.lang.String status) {
@@ -179,6 +179,14 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 
 	public java.lang.Long getVoteDown() {
 		return get("vote_down");
+	}
+
+	public void setPrice(java.math.BigDecimal price) {
+		set("price", price);
+	}
+
+	public java.math.BigDecimal getPrice() {
+		return get("price");
 	}
 
 	public void setCommentStatus(java.lang.String commentStatus) {

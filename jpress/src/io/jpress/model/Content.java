@@ -173,7 +173,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 
 	public List<Content> findMenuList() {
-		return doFind("module = ? order by order_id ASC", "menu");
+		return doFind("module = ? order by order_number ASC", "menu");
 	}
 
 	public Content findBySlug(String slug) {

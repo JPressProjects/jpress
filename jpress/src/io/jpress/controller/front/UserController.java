@@ -113,29 +113,76 @@ public class UserController extends BaseFrontController {
 	@Clear
 	public void doRegister() {
 		if (!validateCaptcha("_register_captcha")) { // 验证码没验证成功！
-			renderAjaxResultForError("not validate captcha");
+			renderAjaxResult("not validate captcha", Consts.ERROR_CODE_NOT_VALIDATE_CAPTHCHE);
 			return;
 		}
 
-		User user = getModel(User.class);
-		if (null == user) {
-			renderAjaxResultForError("not get user");
+		String username = getPara("username");
+		String email = getPara("email");
+		String phone = getPara("phone");
+		String password = getPara("password");
+
+		if (!StringUtils.isNotBlank(username)) {
+			renderAjaxResult("username is empty!", Consts.ERROR_CODE_USERNAME_EMPTY);
 			return;
 		}
 
-		if (user.getCreateSource() == null) {
-			user.setCreateSource("register");
+		if (!StringUtils.isNotBlank(email)) {
+			renderAjaxResult("email is empty!", Consts.ERROR_CODE_EMAIL_EMPTY);
+			return;
 		}
+
+		if (!StringUtils.isNotBlank(password)) {
+			renderAjaxResult("password is empty!", Consts.ERROR_CODE_PASSWORD_EMPTY);
+			return;
+		}
+
+		if (User.findUserByUsername(username) != null) {
+			renderAjaxResult("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
+			return;
+		}
+
+		if (User.findUserByEmail(email) != null) {
+			renderAjaxResult("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
+			return;
+		}
+
+		if (null != phone && User.findUserByPhone(phone) != null) {
+			renderAjaxResult("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
+			return;
+		}
+
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPhone(phone);
+
+		String salt = HashUtils.salt();
+		password = HashUtils.md5WithSalt(password, salt);
+		user.setPassword(password);
+		user.setSalt(salt);
+		user.setCreateSource("register");
 		user.setCreated(new Date());
 		user.save();
 
-		renderAjaxResultForSuccess();
+		EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+
 		MessageKit.sendMessage(Actions.USER_CREATED, user);
+
+		if (isAjaxRequest()) {
+			renderAjaxResultForSuccess();
+		} else {
+			redirect("/user/center");
+		}
 	}
 
 	public void center() {
 		keepPara();
 		String action = getPara(0, "index");
 		render(String.format("ucenter_%s.html", action));
+	}
+
+	public void update() {
+
 	}
 }

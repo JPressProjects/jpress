@@ -43,6 +43,10 @@ public class User extends BaseUser<User> {
 		return DAO.doFindFirst("username = ?",username);
 	}
 	
+	public static User findUserByPhone(String phone){
+		return DAO.doFindFirst("phone = ?",phone);
+	}
+	
 	public boolean isAdministrator(){
 		return  "administrator".equals(getRole());
 	}

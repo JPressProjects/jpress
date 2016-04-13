@@ -15,6 +15,9 @@
  */
 package io.jpress.controller.front;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
@@ -30,9 +33,11 @@ public class ContentController extends BaseFrontController {
 	// http://www.xxx.com/c/abc-2 		content.slug:abc page:2
 
 	public void index() {
-		
-		
-		Content content = tryToGetContent();
+		Content content = null;
+		try {
+			content = tryToGetContent();
+		} catch (Exception e) {
+		}
 		if (null == content) {
 			renderError(404);
 			return;
@@ -44,9 +49,9 @@ public class ContentController extends BaseFrontController {
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
-	private Content tryToGetContent() {
+	private Content tryToGetContent() throws UnsupportedEncodingException {
 		long id = StringUtils.toLong(getPara(0), (long) 0);
-		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(getPara(0));
+		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(URLDecoder.decode(getPara(0),"utf-8"));
 	}
 
 	private int getPageNumber() {

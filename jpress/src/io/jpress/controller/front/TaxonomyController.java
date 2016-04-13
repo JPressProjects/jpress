@@ -15,6 +15,9 @@
  */
 package io.jpress.controller.front;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
@@ -45,7 +48,11 @@ public class TaxonomyController extends BaseFrontController {
 			return;
 		}
 
-		Taxonomy taxonomy = tryToGetTaxonomy();
+		Taxonomy taxonomy = null;
+		try {
+			taxonomy = tryToGetTaxonomy();
+		} catch (Exception e) {
+		}
 		int pageNumber = tryToGetPageNumber();
 
 		setAttr("pageNumber", pageNumber);
@@ -59,17 +66,17 @@ public class TaxonomyController extends BaseFrontController {
 
 	}
 
-	private Taxonomy tryToGetTaxonomy() {
+	private Taxonomy tryToGetTaxonomy() throws UnsupportedEncodingException {
 		if (getParaCount() == 2) { // 2 para
 			if (StringUtils.toInt(getPara(1), 0) != 0) { //
 				return null;
 			}
-			return Taxonomy.DAO.findBySlug(getPara(1));
+			return Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
 		}
 
 		if (getParaCount() >= 3) { // 3 para
 			long id = StringUtils.toLong(getPara(1), (long) 0);
-			return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(getPara(1));
+			return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
 		}
 
 		return null;

@@ -9,8 +9,13 @@ function trash(id){
 		}
 	});
 }
-function batchTrash(){
-	$("#form").attr("action","${CPATH}/admin/content/batchTrash");
+function batchAction(){
+	var action = "${s!}";
+	if("delete"==action){
+		$("#form").attr("action","${CPATH}/admin/content/batchDelete");
+	}else{
+		$("#form").attr("action","${CPATH}/admin/content/batchTrash");
+	}
  	$("#form").ajaxSubmit({
 			type : "post", //提交方式  
 			dataType : "json", //数据类型  
@@ -98,7 +103,7 @@ function del(id){
 			</select>
 		</div>
 		<div class="jp-left jp-left-pad5 jp-right-pad10">
-			<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchTrash()">应用</button>
+			<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchAction()">应用</button>
 		</div>
 		
 		<div class="jp-left jp-right-pad10">
@@ -131,7 +136,7 @@ function del(id){
 				<thead>
 					<tr>
 						<th style="width: 20px">
-							<input name="dataItem" onclick="check_all(this)" type="checkbox">
+							<input name="dataItem" onclick="check_all(this)" type="checkbox" value="0">
 						</th>
 						<th>标题</th>
 						<th style="width: 10%">作者</th>
@@ -189,7 +194,7 @@ function del(id){
 				<tfoot>
 					<tr>
 						<th style="width: 20px"><input name="dataItem"
-							onclick="check_all(this)" type="checkbox"></th>
+							onclick="check_all(this)" type="checkbox" value="0"></th>
 						<th>标题</th>
 						<th style="width: 10%">作者</th>
 						<#if module.taxonomyTypes ??>

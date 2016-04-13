@@ -28,7 +28,7 @@ import io.jpress.plugin.router.RouterKit;
 public class JHandler extends Handler {
 
 	@Override
-	public void handle(String target, HttpServletRequest request,HttpServletResponse response, boolean[] isHandled) {
+	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
 		long time = System.currentTimeMillis();
 		String cpath = request.getContextPath();
@@ -36,47 +36,55 @@ public class JHandler extends Handler {
 		request.setAttribute("SPATH", cpath + "/static");
 
 		if (target.indexOf('.') != -1) {
-			// 防止直接访问模板文件
-			if (target.startsWith("/templates") && target.endsWith(".html")) {
+			if (isDisableAccess(target)) {
 				HandlerKit.renderError404(request, response, isHandled);
 			}
-			// 防止直接访问jsp文件页面
-			if(target.toLowerCase().endsWith(".jsp")){
-				HandlerKit.renderError404(request, response, isHandled);
-			}
-			
-			return;
-		}
-		
-		// 检测是否安装
-		if (!Jpress.isInstalled() && !target.startsWith("/install")) {
-			HandlerKit.redirect(cpath + "/install", request, response,isHandled);
+
 			return;
 		}
 
-		//安装完成，但还没有加载完成...
-		if(Jpress.isInstalled() && !Jpress.isLoaded()){
-			InstallUtils.renderInstallFinished(request, response,isHandled);
+		// 检测是否安装
+		if (!Jpress.isInstalled() && !target.startsWith("/install")) {
+			HandlerKit.redirect(cpath + "/install", request, response, isHandled);
 			return;
 		}
-		
-		if(Jpress.isInstalled() && Jpress.isLoaded()){
-			request.setAttribute("TPATH", cpath+Jpress.currentTemplate().getPath());
+
+		// 安装完成，但还没有加载完成...
+		if (Jpress.isInstalled() && !Jpress.isLoaded()) {
+			InstallUtils.renderInstallFinished(request, response, isHandled);
+			return;
+		}
+
+		if (Jpress.isInstalled() && Jpress.isLoaded()) {
+			request.setAttribute("TPATH", cpath + Jpress.currentTemplate().getPath());
 			Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
-			if(cdnEnable != null && cdnEnable){
+			if (cdnEnable != null && cdnEnable) {
 				String cdnDomain = Option.cacheValue("cdn_domain");
-				if(cdnDomain!=null && !"".equals(cdnDomain.trim())){
+				if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
 					request.setAttribute("CDN", cdnDomain);
 				}
 			}
 		}
-		
+
 		target = RouterKit.converte(target, request, response);
 		next.handle(target, request, response, isHandled);
 
 		if (Jpress.isDevMode()) {
 			System.err.println("--->spend time:" + (System.currentTimeMillis() - time));
 		}
+	}
+
+	private static boolean isDisableAccess(String target) {
+		// 防止直接访问模板文件
+		if (target.startsWith("/templates") && target.endsWith(".html")) {
+			return true;
+		}
+		// 防止直接访问jsp文件页面
+		if (target.toLowerCase().endsWith(".jsp")) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

@@ -95,10 +95,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		fromBuilder.append(" group by c.id");
 		
 		if (null != orderBy && !"".equals(orderBy)) {
-			fromBuilder.append(" ORDER BY ?");
+			fromBuilder.append(" ORDER BY ? DESC");
 			params.add(orderBy);
 		} else {
-			fromBuilder.append(" ORDER BY c.created");
+			fromBuilder.append(" ORDER BY c.created DESC");
 		}
 		
 		System.out.println("--->>>"+select+fromBuilder.toString());
@@ -158,10 +158,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		sqlBuilder.append("GROUP BY c.id");
 
 		if (null != orderBy && !"".equals(orderBy)) {
-			sqlBuilder.append(" ORDER BY ?");
+			sqlBuilder.append(" ORDER BY ? DESC");
 			params.add(orderBy);
 		} else {
-			sqlBuilder.append(" ORDER BY ").append("c.created");
+			sqlBuilder.append(" ORDER BY c.created DESC");
 		}
 		
 		sqlBuilder.append(" LIMIT ?, ?");
@@ -212,6 +212,23 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			List<Object> params = new LinkedList<Object>();
 			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
 			params.add(STATUS_DELETE);
+			for (int i = 0; i < ids.length; i++) {
+				if(i == 0 ){
+					sb.append(" WHERE id = ? ");
+				}else{
+					sb.append(" OR id = ? ");
+				}
+				params.add(ids[i]);
+			}
+			return Jdb.update(sb.toString(), params.toArray());
+		}
+		return 0;
+	}
+	
+	public int batchDelete(Long... ids) {
+		if (ids != null && ids.length > 0) {
+			List<Object> params = new LinkedList<Object>();
+			StringBuilder sb = new StringBuilder("DELETE FROM content ");
 			for (int i = 0; i < ids.length; i++) {
 				if(i == 0 ){
 					sb.append(" WHERE id = ? ");

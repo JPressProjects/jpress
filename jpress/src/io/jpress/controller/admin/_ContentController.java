@@ -99,6 +99,18 @@ public class _ContentController extends BaseAdminController<Content> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
+	
+	
+	@Before(UCodeInterceptor.class)
+	public void batchDelete() {
+		Long[] ids = getParaValuesToLong("dataItem");
+		int count = mDao.batchDelete(ids);
+		if (count > 0) {
+			renderAjaxResultForSuccess("success");
+		} else {
+			renderAjaxResultForError("trash error!");
+		}
+	}
 
 	@Before(UCodeInterceptor.class)
 	public void restore() {
@@ -209,6 +221,18 @@ public class _ContentController extends BaseAdminController<Content> {
 	@Override
 	public void save() {
 		Content content = getContent();
+		if(null == content.getSlug()){
+			String title = content.getTitle();
+			String slug = title.replace(".", "_").replaceAll("\\s+", "_");
+			content.setSlug(slug);
+		}
+		
+		Content dbContent = mDao.findBySlug(content.getSlug());
+		if(dbContent!=null && dbContent.getId() != content.getId()){
+			renderAjaxResultForError();
+			return;
+		}
+		
 		content.saveOrUpdate();
 
 		List<Long> ids = getOrCreateTaxonomyIds(content.getModule());

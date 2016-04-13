@@ -13,14 +13,41 @@
 <title>JPress</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-<#include "_css.html" /> 
-<#include "_js_header.html" /> 
+<!-- Bootstrap 3.3.5 -->
+<link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+<!-- Ionicons 
+<link rel="stylesheet" href="${CPATH}/static/ionicons/2.0.1/css/ionicons.min.css">-->
+<!-- Theme style -->
+<link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+     folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
+<link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css">
 <@css_import />
 
 </head>
 <body class="hold-transition skin-blue">
 		<#nested>
-	<#include "_js_footer.html" /> 
+	
+<!-- jQuery 2.1.4 -->
+<script src="${CPATH}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="${CPATH}/static/plugins/jquery/jquery.form.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="${CPATH}/static/plugins/fastclick/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="${CPATH}/static/lte/js/app.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="${CPATH}/static/lte/js/demo.js"></script>
+<script src="${CPATH}/static/jpress/admin/js/common.js"></script>
+<!-- layer -->
+<script src="${CPATH}/static/layer/layer.js"></script>
+<!-- pace -->
+<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
+
 	<@script_import />
 	<!-- FLOT CHARTS -->
 

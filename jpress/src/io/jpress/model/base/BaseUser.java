@@ -133,12 +133,12 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JModel<M> implemen
 		return get("nickname");
 	}
 
-	public void setBalance(java.math.BigDecimal balance) {
-		set("balance", balance);
+	public void setAmount(java.math.BigDecimal amount) {
+		set("amount", amount);
 	}
 
-	public java.math.BigDecimal getBalance() {
-		return get("balance");
+	public java.math.BigDecimal getAmount() {
+		return get("amount");
 	}
 
 	public void setGender(java.lang.String gender) {

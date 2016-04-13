@@ -10,37 +10,7 @@
 			</button>
 		</div>
 	</div>
-	<!-- /.box-header -->
-	<div class="box-body no-padding">
-		<!-- Custom Tabs -->
-		<div class="nav-tabs-custom">
-			<ul class="nav nav-tabs">
-				<li class="active">
-					<a href="#tab_${taxonomyType.name}_1" data-toggle="tab">所有分类项目</a></li>
-				<li><a href="#tab_${taxonomyType.name}_2" data-toggle="tab">最常用</a></li>
-
-			</ul>
-			<div class="tab-content jp-aside-hg">
-				<div class="tab-pane active jp-left-margv35" id="tab_${taxonomyType.name}_1">
-				 ${taxonomyBox(taxonomyType,content)}
-				</div>
-				<!-- /.tab-pane -->
-				<div class="tab-pane" id="tab_${taxonomyType.name}_2">
-					<div class="checkbox">
-						<label> <input type="checkbox"> Checkbox 1
-						</label>
-					</div>
-					<div class="checkbox">
-						<label> <input type="checkbox"> Checkbox 1
-						</label>
-					</div>
-				</div>
-				<!-- /.tab-pane -->
-			</div>
-			<!-- /.tab-content -->
-		</div>
-		<!-- nav-tabs-custom -->
-	</div>
+	<div class="box-body no-padding">${taxonomyBox(taxonomyType,content)}</div>
 </div>
 <!-- /.box -->
 </#macro>

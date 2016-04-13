@@ -1,39 +1,7 @@
-
-<div class="box box-solid">
-	<div class="box-header with-border">
-		<h3 class="box-title">发布</h3>
-
-		<div class="box-tools">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse">
-				<i class="fa fa-minus"></i>
-			</button>
-		</div>
+<div class="box box-solid jp-release-set jp-borde-top">
+	<div class="timestamp-wrap timestamp-wrap-box">
+		<button type="button" class="btn btn-default btn-sm jp-inline-right2" onclick="saveAsDraft()">草稿</button>
+		<button type="button" class="btn btn-primary btn-sm jp-inline-right1" onclick="save()">发布</button>
+		<a href="#">移至回收站</a>
 	</div>
-	<div class="box-body no-padding">
-		<ul class="nav ">
-			<li class="jp-release-set form-group jp-common-pad clearfix">
-				<p>
-					<i class="fa fa-filter"></i>发布时间<span class="jp-release-draft jp-time"> 编辑</span>
-				</p>
-				<div class="col-xs-12 jp-common-pad input-group jp-display-none">
-					<div class="timestamp-wrap timestamp-wrap-box">
-						<span class="jp-release-cancel-draft jp-inline-right2">取消</span>
-						<button class="btn btn-sm btn-default jp-inline-right1" type="button">确定</button>						
-						<div class="jp-input-group "><input type="text" id="datemask" class="form-control" ></div>
-					</div>
-				</div>
-				
-			</li>
-			<li class="jp-release-set jp-borde-top">
-				<div class="timestamp-wrap timestamp-wrap-box">
-					<a href="#">移至回收站</a>
-					<button type="button" class="btn btn-default btn-sm jp-inline-right2" onclick="saveAsDraft()">草稿</button>
-					<button type="button" class="btn btn-primary btn-sm jp-inline-right1" onclick="save()">发布</button>
-					</div>
-				
-			</li>
-		</ul>
-	</div>
-	<!-- /.box-body -->
 </div>
-<!-- /. box -->

@@ -146,7 +146,9 @@ function save(){
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#tab_1" data-toggle="tab">常用</a></li>
 								<li><a href="#tab_2" data-toggle="tab">SEO</a></li>
+								<#if module.styles ??>
 								<li><a href="#tab_3" data-toggle="tab">样式</a></li>
+								</#if>	
 								<li><a href="#tab_4" data-toggle="tab">元数据</a></li>
 								<li><a href="#tab_5" data-toggle="tab">备注</a></li>
 				
@@ -157,14 +159,35 @@ function save(){
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane" id="tab_2">
-									<div class="checkbox">
-										<label> <input type="checkbox"> Checkbox 1
-										</label>
-									</div>
-									<div class="checkbox">
-										<label> <input type="checkbox"> Checkbox 1
-										</label>
-									</div>
+									seo
+								</div>
+								<#if module.styles ??>
+								<div class="tab-pane" id="tab_3">
+									<li class="jp-release-set">
+											<div class="radio jp-cancel-pad">
+												<label> 
+												<input type="radio" name="content.style" value="">
+												<i class="fa fa-envelope-o"></i>默认
+												</label>
+											</div>
+									</li>
+									<#list module.styles! as style >
+										<li class="jp-release-set">
+											<div class="radio jp-cancel-pad">
+												<label> 
+												<input type="radio" name="content.style" value="${style}">
+												<i class="fa fa-envelope-o"></i>${style}
+												</label>
+											</div>
+										</li>
+									</#list>
+								</div>
+								</#if>	
+								<div class="tab-pane" id="tab_4">
+									元数据
+								</div>
+								<div class="tab-pane" id="tab_5">
+									备注
 								</div>
 								<!-- /.tab-pane -->
 							</div>
@@ -178,9 +201,6 @@ function save(){
 			<div class="col-md-3">
 				<#include "_action_box.html" /> 
 				<#if module ??>
-					<#if module.styles ??>
-						<#include "_style_box.html" /> 
-					</#if>	
 					<#list module.taxonomyTypes! as taxonomyType >
 						<#if taxonomyType.formType == "select">
 							<#include "_select_box.html" /> 

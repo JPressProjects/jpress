@@ -4,6 +4,13 @@ $(".jp-tag").select2({
   tags: true,
   tokenSeparators: [',', ' ']
 });
+$("#title").keyup(function(){
+   
+    var url = window.location.protocol  +"//"+ window.location.host+"${CPATH}";
+    url+="/c/"+this.value;
+    $("#titleurl").attr("href",url);
+     $("#slug").text(url);
+});
 var data={
     url:'',
     alt:''
@@ -96,34 +103,35 @@ function save(){
 <section class="content-header">
 	<h1>撰写新文章</h1>
 </section>
-
-
 <div class="pad margin no-print">
-<div class=" alert alert-info  alert-dismissible callout">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h4><i class="icon fa fa-check"></i> 成功!</h4>
-                文章发布成功！您可以点击 这里 查看，或返回 <a href="#">文章列表</a>。
-              </div>
-    </div>
-    
+	<div class=" alert alert-info  alert-dismissible callout">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<h4>
+			<i class="icon fa fa-check"></i>
+			成功!
+		</h4>
+		文章发布成功！您可以点击 这里 查看，或返回
+		<a href="#">文章列表</a>
+		。
+	</div>
+</div>
+
 <!-- Main content -->
 <section class="content">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
-		<input type="hidden" name="content.module" value="${m!}">
-		<input type="hidden" name="content.id" value="${(content.id)!}">
-		<input type="hidden" name="content.status" value="normal" id="content_status">
+		<input type="hidden" name="content.module" value="${m!}"> 
+		<input type="hidden" name="content.id" value="${(content.id)!}"> 
+		<input type="hidden" name="content.status" value="normal" id="content_status"> 
 		<input type="hidden" name="ucode" value="${ucode}">
-
 		<div class="row">
 			<!-- /.col -->
 			<div class="col-md-9">
 				<div class="form-group">
-					<label class="sr-only"></label> 
-					<input name="content.title" class="form-control input-lg" value="${(content.title)!}" type="text" placeholder="在此输入标题">
+					<label class="sr-only"></label> <input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
 				</div>
 				<div class="input-group">
-					<label>网址：http://www.baidu.com/content/</label> 
-	             </div>
+					<label>网址：<a href="" target="_blank" id="titleurl"><b id="slug"></b></a></label>
+				</div>
 				<div class="box box-primary">
 					<div class=" box-info">
 						<textarea class="textarea" name="content.text">${(content.text)!}</textarea>
@@ -132,7 +140,7 @@ function save(){
 				<div class="box box-solid">
 					<div class="box-header with-border">
 						<h3 class="box-title">属性设置</h3>
-				
+
 						<div class="box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse">
 								<i class="fa fa-minus"></i>
@@ -144,51 +152,49 @@ function save(){
 						<!-- Custom Tabs -->
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#tab_1" data-toggle="tab">常用</a></li>
-								<li><a href="#tab_2" data-toggle="tab">SEO</a></li>
+								<li class="active">
+									<a href="#tab_1" data-toggle="tab">常用</a>
+								</li>
+								<li>
+									<a href="#tab_2" data-toggle="tab">SEO</a>
+								</li>
 								<#if module.styles ??>
-								<li><a href="#tab_3" data-toggle="tab">样式</a></li>
-								</#if>	
-								<li><a href="#tab_4" data-toggle="tab">元数据</a></li>
-								<li><a href="#tab_5" data-toggle="tab">备注</a></li>
-				
+								<li>
+									<a href="#tab_3" data-toggle="tab">样式</a>
+								</li>
+								</#if>
+								<li>
+									<a href="#tab_4" data-toggle="tab">元数据</a>
+								</li>
+								<li>
+									<a href="#tab_5" data-toggle="tab">备注</a>
+								</li>
+
 							</ul>
 							<div class="tab-content jp-aside-hg">
-								<div class="tab-pane active jp-left-margv35" id="tab_1">
-								 设置
-								</div>
+								<div class="tab-pane active jp-left-margv35" id="tab_1">设置</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="tab_2">
-									seo
-								</div>
+								<div class="tab-pane" id="tab_2">seo</div>
 								<#if module.styles ??>
 								<div class="tab-pane" id="tab_3">
 									<li class="jp-release-set">
-											<div class="radio jp-cancel-pad">
-												<label> 
-												<input type="radio" name="content.style" value="">
-												<i class="fa fa-envelope-o"></i>默认
-												</label>
-											</div>
+										<div class="radio jp-cancel-pad">
+											<label> <input type="radio" name="content.style" value=""> <i class="fa fa-envelope-o"></i>默认
+											</label>
+										</div>
 									</li>
 									<#list module.styles! as style >
-										<li class="jp-release-set">
-											<div class="radio jp-cancel-pad">
-												<label> 
-												<input type="radio" name="content.style" value="${style}">
-												<i class="fa fa-envelope-o"></i>${style}
-												</label>
-											</div>
-										</li>
+									<li class="jp-release-set">
+										<div class="radio jp-cancel-pad">
+											<label> <input type="radio" name="content.style" value="${style}"> <i class="fa fa-envelope-o"></i>${style}
+											</label>
+										</div>
+									</li>
 									</#list>
 								</div>
-								</#if>	
-								<div class="tab-pane" id="tab_4">
-									元数据
-								</div>
-								<div class="tab-pane" id="tab_5">
-									备注
-								</div>
+								</#if>
+								<div class="tab-pane" id="tab_4">元数据</div>
+								<div class="tab-pane" id="tab_5">备注</div>
 								<!-- /.tab-pane -->
 							</div>
 							<!-- /.tab-content -->
@@ -198,19 +204,8 @@ function save(){
 				</div>
 			</div>
 			<!-- /.col -->
-			<div class="col-md-3">
-				<#include "_action_box.html" /> 
-				<#if module ??>
-					<#list module.taxonomyTypes! as taxonomyType >
-						<#if taxonomyType.formType == "select">
-							<#include "_select_box.html" /> 
-						<#else>
-							<#include "_input_box.html" />
-						</#if>
-					</#list>
-				</#if>
-				<#include "_thumbnail_box.html" /> 
-			</div>
+			<div class="col-md-3"><#include "_action_box.html" /> <#if module ??> <#list module.taxonomyTypes! as taxonomyType > <#if taxonomyType.formType == "select"> <#include "_select_box.html" />
+				<#else> <#include "_input_box.html" /> </#if> </#list> </#if> <#include "_thumbnail_box.html" /></div>
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->

@@ -13,8 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core;
+package io.jpress.core.addon;
 
-public class JAddon {
+import java.io.File;
 
+public abstract class JAddon {
+
+	private File jarFile;
+	private String mainClassName;
+	
+	
+	
+	public abstract void onStart(Hooks hooks);
+	public abstract void onStop();
 }

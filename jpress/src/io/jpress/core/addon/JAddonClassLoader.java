@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core;
+package io.jpress.core.addon;
 
-public class JAddonClassLoader extends ClassLoader {
+import java.net.URL;
+import java.net.URLClassLoader;
+
+public class JAddonClassLoader extends URLClassLoader {
+	
+	public JAddonClassLoader() {
+		super(new URL[]{}, null);
+	}
 	
 	
-	@Override
-	protected Class<?> findClass(String name) throws ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
-		//defineClass(name, b, protectionDomain)
-		
-		return super.findClass(name);
+	
+	
+	public void addJar(URL url){
+		addURL(url);
 	}
 
 }

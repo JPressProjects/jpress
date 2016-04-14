@@ -15,21 +15,9 @@
  */
 package io.jpress.core.addon;
 
-import com.jfinal.render.Render;
+public interface IAddon {
 
-import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
+	public void onStart(Hooks hooks);
 
-@UrlMapping(url = "/hook")
-public class HookController extends JBaseController {
-
-	public void index() {
-		Render render = Hook.process_controller(this);
-		if (null == render) {
-			renderError(404);
-			return;
-		}
-
-		render(render);
-	}
+	public void onStop();
 }

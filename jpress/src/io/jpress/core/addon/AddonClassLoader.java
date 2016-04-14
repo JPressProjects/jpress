@@ -48,13 +48,13 @@ public class AddonClassLoader extends URLClassLoader {
 			Attributes attr = mf.getAttributes("Addon");
 			if (attr != null) {
 				String className = attr.getValue("main-class");
-				@SuppressWarnings("unchecked")
-				Class<? extends Addon> clazz = (Class<? extends Addon>) this.loadClass(className);
-				Addon addon = clazz.newInstance();
+//				@SuppressWarnings("unchecked")
+//				Class<? extends Addon> clazz = (Class<? extends Addon>) this.loadClass(className);
+//				Addon addon = clazz.newInstance();
 				
-				addon.setTitle("test");
+//				addon.setTitle("test");
 
-				return addon;
+//				return addon;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

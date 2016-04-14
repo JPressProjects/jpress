@@ -42,43 +42,39 @@ public class Config extends JpressConfig {
 
 	@Override
 	public void onJfinalStarted() {
-		
-		{ //tags
+
+		{ // tags
 			Jpress.addTag("jp_content", new ContentTag());
 			Jpress.addTag("jp_contents", new ContentsTag());
 			Jpress.addTag("jp_content_page", new ContentPageTag());
-			
+
 			Jpress.addTag("jp_comment", new CommentTag());
 			Jpress.addTag("jp_comments", new CommentsTag());
 			Jpress.addTag("jp_comment_page", new CommentPageTag());
-			
+
 			Jpress.addTag("jp_menu", new MenuTag());
 			Jpress.addTag("jp_module", new ModuleTag());
 			Jpress.addTag("jp_widgets", new JWidgetContainer());
 		}
-		
-		{ //functions
+
+		{ // functions
 			Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 			Jpress.addFunction("option", new OptionCache());
 			Jpress.addFunction("optionLoad", new OptionLoad());
 			Jpress.addFunction("checked", new OptionChecked());
 		}
-		
-		
-		{ //target converters
+
+		{ // target converters
 			RouterKit.register(TaxonomyRouterConverter.class);
 			RouterKit.register(PageRouterConverter.class);
 		}
-		
-		
-		{ //messageListeners
+
+		{ // messageListeners
 			MessageKit.register(ContentListener.class);
 			MessageKit.register(UserActionListener.class);
 			MessageKit.register(SettingChangedListener.class);
 		}
-		
-		
-	}
 
+	}
 
 }

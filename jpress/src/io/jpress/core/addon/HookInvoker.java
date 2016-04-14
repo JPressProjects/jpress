@@ -25,31 +25,27 @@ import com.jfinal.render.Render;
 
 public class HookInvoker {
 
-	public static String target_converte(String target, HttpServletRequest request, HttpServletResponse response) {
-
-		List<Addon> addons = AddonKit.getManager().getStartedAddons();
-		for (Addon addon : addons) {
-			Method method = addon.getHooks().method("target_converte");
-			if (method != null)
-				try {
-					return (String) method.invoke(addon.getHooks().object("target_converte"), target, request,
-							response);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		}
-
-		return target;
+	public static String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
+		String newTarget = (String) invoke("target_converte", request, response);
+		return newTarget == null ? target : newTarget;
 	}
 
 	public static Render process_controller(HookController controller) {
+		return (Render) invoke("process_controller", controller);
+	}
 
-		List<Addon> addons = AddonKit.getManager().getStartedAddons();
+	private static Object invoke(String hookName, Object... objects) {
+		List<Addon> addons = AddonManager.get().getStartedAddons();
 		for (Addon addon : addons) {
-			Method method = addon.getHooks().method("process_controller");
+			Method method = addon.getHooks().method(hookName);
 			if (method != null)
 				try {
-					return (Render) method.invoke(addon.getHooks().object("process_controller"), controller);
+					Hook hook = addon.getHooks().hook(hookName);
+					Object ret = method.invoke(hook, objects);
+					if (!hook.letNextHookInvoke()) {
+						return ret;
+					}
+					hook.hookInvokeFinished();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

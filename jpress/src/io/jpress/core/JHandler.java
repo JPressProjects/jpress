@@ -32,8 +32,11 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
 		long time = System.currentTimeMillis();
+		
 		String cpath = request.getContextPath();
+		
 		request.setAttribute("CPATH", cpath);
+		
 		request.setAttribute("SPATH", cpath + "/static");
 
 		if (target.indexOf('.') != -1) {
@@ -68,7 +71,7 @@ public class JHandler extends Handler {
 		}
 
 		target = RouterKit.converte(target, request, response);
-		target = HookInvoker.target_converte(target, request, response);
+		target = HookInvoker.router_converte(target, request, response);
 		
 		next.handle(target, request, response, isHandled);
 

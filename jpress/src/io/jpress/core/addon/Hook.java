@@ -20,9 +20,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.render.Render;
 
+/**
+ * Hook的定义，插件钩子都要继承此类。 同时，此类的方法是从HookInvoker复制过来的，保证方法名和参数完全一致。
+ * 
+ * @author michael
+ */
 public class Hook {
 
-	public String target_converte(String target, HttpServletRequest request, HttpServletResponse response) {
+	private ThreadLocal<Boolean> tl = new ThreadLocal<Boolean>();
+
+	protected void nextInvoker() {
+		tl.set(true);
+	}
+
+	protected void hookInvokeFinished() {
+		tl.remove();
+	}
+
+	public boolean letNextHookInvoke() {
+		return tl.get() != null && tl.get() == true;
+	}
+
+	public static final String HOOK_ROUTER_CONVERTE = "router_converte";
+	public static final String HOOK_PROCESS_CONTROLLER = "process_controller";
+	
+	public String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
 
 		return target;
 	}

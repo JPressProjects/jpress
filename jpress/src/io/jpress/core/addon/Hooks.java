@@ -20,15 +20,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Hooks {
-	
-	private Map<String , Method> hooks = new HashMap<String, Method>();
-	
-	public void register(String hookName,String className,String methodName){
-		hooks.put(hookName, null);
+
+	private Map<String, Method> hookMethods = new HashMap<String, Method>();
+	private Map<String, Object> hookObjects = new HashMap<String, Object>();
+
+	public void register(String hookName, Class<? extends Hook> clazz) {
+		Method method = null;
+		if (hookName.equals(HOOK_PROCESS_CONTROLLER)) {
+			try {
+				method = clazz.getDeclaredMethod("process_controller", HookController.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(!hookObjects.containsKey(hookName)){
+			try {
+				hookObjects.put(hookName, clazz.newInstance());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (null != method) {
+			hookMethods.put(hookName, method);
+		} else {
+
+		}
+	}
+
+	public Method method(String hookName) {
+		return hookMethods.get(hookName);
 	}
 	
-	public Method hook(String hookName){
-		return hooks.get(hookName);
+	public Object object(String hookName) {
+		return hookObjects.get(hookName);
 	}
+
+	public static final String HOOK_TARGET_CONVERTE = "target_converte";
+	public static final String HOOK_PROCESS_CONTROLLER = "process_controller";
 
 }

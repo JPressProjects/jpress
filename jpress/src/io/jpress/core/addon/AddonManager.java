@@ -15,15 +15,77 @@
  */
 package io.jpress.core.addon;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
+import com.jfinal.kit.PathKit;
 
 public class AddonManager {
 
-	List<IAddon> addonList = new ArrayList<IAddon>();
+	List<Addon> addonList = new ArrayList<Addon>();
 
-	public void loadAddon() {
+	public void init() {
+		addonList.clear();
+		load();
+	}
 
+	public void reload() {
+		addonList.clear();
+		load();
+	}
+
+	public List<Addon> getStartedAddons() {
+		return addonList;
+	}
+
+	private void load() {
+		File addonsFile = new File(PathKit.getWebRootPath(), "/WEB-INF/addons");
+		if (addonsFile.exists()) {
+			File[] files = addonsFile.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.endsWith(".jar") || name.endsWith(".zip");
+				}
+			});
+
+			if (files != null && files.length > 0) {
+				for (File file : files) {
+					Addon addon = loadAddon(file);
+					if (addon != null) {
+						addon.start();
+						addonList.add(addon);
+					}
+				}
+			}
+		}
+	}
+
+	private static Addon loadAddon(File file) {
+		try {
+			JarFile jarFile = new JarFile(file);
+			Manifest mf = jarFile.getManifest();
+			Attributes attr = mf.getMainAttributes();
+			if (attr != null) {
+				Addon addon = new Addon();
+				String className = attr.getValue("Addon-Main-Class");
+
+				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
+				acl.init();
+				@SuppressWarnings("unchecked")
+				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
+				addon.setAddonImpl(clazz.newInstance());
+				addon.setTitle("test");
+				return addon;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

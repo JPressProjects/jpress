@@ -15,23 +15,16 @@
  */
 package io.jpress.core.addon;
 
-import com.jfinal.plugin.IPlugin;
-
-public class AddonPlugin implements IPlugin {
+public class AddonKit {
 
 	static AddonManager manager;
 
-	@Override
-	public boolean start() {
-		manager = new AddonManager();
-		manager.init();
-		AddonKit.init(manager);
-		return true;
+	static void init(AddonManager addonManager) {
+		manager = addonManager;
 	}
-
-	@Override
-	public boolean stop() {
-		return true;
+	
+	public static AddonManager getManager() {
+		return manager;
 	}
 
 }

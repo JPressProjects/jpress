@@ -27,6 +27,9 @@ public class Addon {
 	private int versionCode;
 	private String updateUrl;
 
+	private IAddon addonImpl;
+	private final Hooks hooks = new Hooks();
+
 	public String getJarPath() {
 		return jarPath;
 	}
@@ -97,6 +100,30 @@ public class Addon {
 
 	public void setUpdateUrl(String updateUrl) {
 		this.updateUrl = updateUrl;
+	}
+
+	public IAddon getAddonImpl() {
+		return addonImpl;
+	}
+
+	public void setAddonImpl(IAddon addonImpl) {
+		this.addonImpl = addonImpl;
+	}
+
+	public Hooks getHooks() {
+		return hooks;
+	}
+
+	public void start() {
+		if (addonImpl != null) {
+			addonImpl.onStart(hooks);
+		}
+	}
+
+	public void stop() {
+		if (addonImpl != null) {
+			addonImpl.onStop();
+		}
 	}
 
 }

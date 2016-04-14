@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 
+import io.jpress.core.addon.HookInvoker;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.plugin.router.RouterKit;
@@ -67,6 +68,7 @@ public class JHandler extends Handler {
 		}
 
 		target = RouterKit.converte(target, request, response);
+		target = HookInvoker.target_converte(target, request, response);
 		
 		next.handle(target, request, response, isHandled);
 

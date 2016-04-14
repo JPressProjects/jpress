@@ -22,16 +22,13 @@ import com.jfinal.render.Render;
 
 public class Hook {
 
-	public static String target_converte(String target, HttpServletRequest request, HttpServletResponse response) {
+	public String target_converte(String target, HttpServletRequest request, HttpServletResponse response) {
 
-		
-		
-		
 		return target;
 	}
-	
-	public static Render process_controller(HookController controller){
-		
+
+	public Render process_controller(HookController controller) {
+
 		return null;
 	}
 

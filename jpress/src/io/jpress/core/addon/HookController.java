@@ -24,7 +24,7 @@ import io.jpress.core.annotation.UrlMapping;
 public class HookController extends JBaseController {
 
 	public void index() {
-		Render render = Hook.process_controller(this);
+		Render render = HookInvoker.process_controller(this);
 		if (null == render) {
 			renderError(404);
 			return;

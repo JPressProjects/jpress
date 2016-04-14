@@ -19,47 +19,23 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 public class AddonClassLoader extends URLClassLoader {
 
 	private String path;
 
 	public AddonClassLoader(String path) {
-		super(new URL[] {}, null);
+		super(new URL[] {}, Thread.currentThread().getContextClassLoader());
 		this.path = path;
 	}
 
-	public void load() {
+	public void init() {
 		File jarFile = new File(path);
 		try {
 			addURL(jarFile.toURI().toURL());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public Addon getAddon() {
-		try {
-			JarFile jarFile = new JarFile(new File(path));
-			Manifest mf = jarFile.getManifest();
-			Attributes attr = mf.getAttributes("Addon");
-			if (attr != null) {
-				String className = attr.getValue("main-class");
-//				@SuppressWarnings("unchecked")
-//				Class<? extends Addon> clazz = (Class<? extends Addon>) this.loadClass(className);
-//				Addon addon = clazz.newInstance();
-				
-//				addon.setTitle("test");
-
-//				return addon;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 }

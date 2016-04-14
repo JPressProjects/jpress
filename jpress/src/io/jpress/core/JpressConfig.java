@@ -15,13 +15,14 @@
  */
 package io.jpress.core;
 
+import io.jpress.core.addon.AddonPlugin;
 import io.jpress.core.annotation.Table;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
 import io.jpress.core.ui.JErrorRenderFactory;
 import io.jpress.plugin.message.MessagePlugin;
-import io.jpress.plugin.router.JRouterPlugin;
+import io.jpress.plugin.router.RouterPlugin;
 
 import java.util.List;
 
@@ -78,9 +79,10 @@ public abstract class JpressConfig extends JFinalConfig {
 	
 
 	public void configPlugin(Plugins plugins) {
-		plugins.add(new JRouterPlugin());
+		plugins.add(new RouterPlugin());
 		plugins.add(new MessagePlugin());
 		plugins.add(new EhCachePlugin());
+		plugins.add(new AddonPlugin());
 		
 		if(Jpress.isInstalled()){
 			DruidPlugin druidPlugin = createDruidPlugin();

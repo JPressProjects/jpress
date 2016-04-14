@@ -67,6 +67,7 @@ public class JHandler extends Handler {
 		}
 
 		target = RouterKit.converte(target, request, response);
+		
 		next.handle(target, request, response, isHandled);
 
 		if (Jpress.isDevMode()) {

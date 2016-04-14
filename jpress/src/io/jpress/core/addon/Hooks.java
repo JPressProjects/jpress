@@ -8,7 +8,7 @@ public class Hooks {
 	
 	private Map<String , Method> hooks = new HashMap<String, Method>();
 	
-	public void register(String hookName,String method){
+	public void register(String hookName,String className,String methodName){
 		hooks.put(hookName, null);
 	}
 	

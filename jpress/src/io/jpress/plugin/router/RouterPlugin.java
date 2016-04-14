@@ -17,7 +17,7 @@ package io.jpress.plugin.router;
 
 import com.jfinal.plugin.IPlugin;
 
-public class JRouterPlugin implements IPlugin {
+public class RouterPlugin implements IPlugin {
 
 	@Override
 	public boolean start() {

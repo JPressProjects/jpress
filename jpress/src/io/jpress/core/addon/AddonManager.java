@@ -56,6 +56,9 @@ public class AddonManager {
 
 	}
 
+	public List<Addon> getAddons() {
+		return addonList;
+	}
 	public List<Addon> getStartedAddons() {
 		return addonList;
 	}
@@ -88,15 +91,29 @@ public class AddonManager {
 			Manifest mf = jarFile.getManifest();
 			Attributes attr = mf.getMainAttributes();
 			if (attr != null) {
-				Addon addon = new Addon();
-				String className = attr.getValue("Addon-Main-Class");
+				
+				String className = attr.getValue("Addon-Class");
+				String title = attr.getValue("Addon-Title");
+				String description = attr.getValue("Addon-Description");
+				String author = attr.getValue("Addon-Author");
+				String authorWebsite = attr.getValue("Addon-Author-Website");
+				String version = attr.getValue("Addon-Version");
+				String versionCode = attr.getValue("Addon-Version-Code");
 
 				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
 				acl.init();
 				@SuppressWarnings("unchecked")
 				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
+				
+				Addon addon = new Addon();
 				addon.setAddonImpl(clazz.newInstance());
-				addon.setTitle("test");
+				addon.setTitle(title);
+				addon.setAddonClass(className);
+				addon.setDescription(description);
+				addon.setAuthor(author);
+				addon.setAuthorWebsite(authorWebsite);
+				addon.setVersion(version);
+				addon.setVersionCode(Integer.parseInt(versionCode.trim()));
 				return addon;
 			}
 		} catch (Exception e) {

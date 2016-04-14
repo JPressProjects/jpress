@@ -18,15 +18,17 @@ package io.jpress.controller.admin;
 import com.jfinal.aop.Before;
 
 import io.jpress.core.JBaseController;
+import io.jpress.core.addon.AddonManager;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 
-@UrlMapping(url="/admin/plugin" ,viewPath ="/WEB-INF/admin/plugin")
+@UrlMapping(url="/admin/addon" ,viewPath ="/WEB-INF/admin/addon")
 @Before(AdminInterceptor.class)
-public class _PluginController extends JBaseController {
+public class _AddonController extends JBaseController {
 
 	public void index(){
 		keepPara();
+		setAttr("addons", AddonManager.get().getAddons());
 	}
 	
 	public void install(){

@@ -18,7 +18,7 @@ package io.jpress.core.addon;
 public class Addon {
 
 	private String jarPath;
-	private String mainClassName;
+	private String addonClass;
 	private String title;
 	private String description;
 	private String author;
@@ -38,12 +38,12 @@ public class Addon {
 		this.jarPath = jarPath;
 	}
 
-	public String getMainClassName() {
-		return mainClassName;
+	public String getAddonClass() {
+		return addonClass;
 	}
 
-	public void setMainClassName(String mainClassName) {
-		this.mainClassName = mainClassName;
+	public void setAddonClass(String addonClass) {
+		this.addonClass = addonClass;
 	}
 
 	public String getTitle() {

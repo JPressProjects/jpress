@@ -2,7 +2,7 @@ package io.jpress.core.addon;
 
 import com.jfinal.plugin.IPlugin;
 
-public class JaddonPlugin implements IPlugin {
+public class AddonPlugin implements IPlugin {
 
 	@Override
 	public boolean start() {

@@ -16,48 +16,46 @@
 package io.jpress.core.addon;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Hooks {
 
-	private Map<String, Method> hookMethods = new HashMap<String, Method>();
-	private Map<String, Object> hookObjects = new HashMap<String, Object>();
+	private Map<String, Method> hookMethods = new ConcurrentHashMap<String, Method>();
+	private Map<String, Hook> hookObjects = new ConcurrentHashMap<String, Hook>();
 
-	public void register(String hookName, Class<? extends Hook> clazz) {
+	public void register(String hook, Class<? extends Hook> clazz) {
 		Method method = null;
-		if (hookName.equals(HOOK_PROCESS_CONTROLLER)) {
-			try {
-				method = clazz.getDeclaredMethod("process_controller", HookController.class);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(!hookObjects.containsKey(hookName)){
-			try {
-				hookObjects.put(hookName, clazz.newInstance());
-			} catch (Exception e) {
-				e.printStackTrace();
+		Method[] methods = clazz.getMethods();
+		if (methods != null && methods.length > 0) {
+			for (Method m : methods) {
+				if (hook.equals(m.getName())) {
+					method = m;
+					break;
+				}
 			}
 		}
 
 		if (null != method) {
-			hookMethods.put(hookName, method);
+			if (!hookObjects.containsKey(hook)) {
+				try {
+					hookObjects.put(hook, clazz.newInstance());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			hookMethods.put(hook, method);
 		} else {
 
 		}
 	}
 
-	public Method method(String hookName) {
-		return hookMethods.get(hookName);
-	}
-	
-	public Object object(String hookName) {
-		return hookObjects.get(hookName);
+	public Method method(String hook) {
+		return hookMethods.get(hook);
 	}
 
-	public static final String HOOK_TARGET_CONVERTE = "target_converte";
-	public static final String HOOK_PROCESS_CONTROLLER = "process_controller";
+	public Hook hook(String hook) {
+		return hookObjects.get(hook);
+	}
 
 }

@@ -25,18 +25,35 @@ import java.util.jar.Manifest;
 
 import com.jfinal.kit.PathKit;
 
+/**
+ * 插件管理器，负责加载、启动、停止插件。
+ * 
+ * @author michael
+ */
 public class AddonManager {
 
-	List<Addon> addonList = new ArrayList<Addon>();
+	private List<Addon> addonList = new ArrayList<Addon>();
+	private static AddonManager manager = new AddonManager();
 
-	public void init() {
+	private AddonManager() {
 		addonList.clear();
 		load();
 	}
 
-	public void reload() {
-		addonList.clear();
-		load();
+	public static AddonManager get() {
+		return manager;
+	}
+
+	public void start() {
+
+	}
+
+	public void start(Addon addon) {
+
+	}
+
+	public void stop(Addon addon) {
+
 	}
 
 	public List<Addon> getStartedAddons() {

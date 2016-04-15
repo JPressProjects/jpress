@@ -16,6 +16,7 @@
 package io.jpress.controller.admin;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -52,13 +54,12 @@ public class _TemplateController extends JBaseController {
 		if (isMultipartRequest()) {
 			UploadFile ufile = getFile();
 			String webRoot = PathKit.getWebRootPath();
-			
-			StringBuilder newFileName = new StringBuilder(webRoot)
-			.append("/templates/").append(ufile.getFileName());
+
+			StringBuilder newFileName = new StringBuilder(webRoot).append("/templates/").append(ufile.getFileName());
 
 			File newfile = new File(newFileName.toString());
-			
-			if(newfile.exists()){
+
+			if (newfile.exists()) {
 				renderAjaxResultForError("该模板已经安装！");
 				return;
 			}
@@ -69,7 +70,7 @@ public class _TemplateController extends JBaseController {
 
 			ufile.getFile().renameTo(newfile);
 			String zipPath = newfile.getAbsolutePath();
-			
+
 			try {
 				FileUtils.unzip(zipPath);
 			} catch (IOException e) {
@@ -83,6 +84,51 @@ public class _TemplateController extends JBaseController {
 
 	public void edit() {
 		keepPara();
+
+		String path = Jpress.currentTemplate().getPath();
+		File pathFile = new File(PathKit.getWebRootPath(), path);
+		
+		File[] dirs = pathFile.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		});
+		setAttr("dirs", dirs);
+		
+		String dirName = getPara("d");
+		if (dirName != null) {
+			pathFile = new File(pathFile, dirName);
+		}
+
+		File[] files = pathFile.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return !file.isDirectory();
+			}
+		});
+		setAttr("files", files);
+
+		String fileName = getPara("f");
+		File editFile = null;
+		if (fileName != null && files != null && files.length > 0) {
+			for (File f : files) {
+				if (fileName.equals(f.getName())) {
+					editFile = f;
+					break;
+				}
+			}
+		}
+
+		if (editFile != null) {
+			String fileContent = FileUtils.readString(editFile);
+			if (fileContent != null) {
+				fileContent = fileContent.replace("<", "&lt").replace(">", "&gt");
+				setAttr("fileContent", fileContent);
+				setAttr("editFile", editFile);
+			}
+		}
+
 	}
 
 	public void menu() {
@@ -90,9 +136,9 @@ public class _TemplateController extends JBaseController {
 		List<Content> list = Content.DAO.findMenuList();
 		ModelSorter.sort(list);
 		setAttr("menus", list);
-		
-		long id = getParaToLong("id", (long)0);
-		if(id > 0){
+
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
 			Content c = Content.DAO.findById(id);
 			setAttr("menu", c);
 		}
@@ -109,12 +155,12 @@ public class _TemplateController extends JBaseController {
 		c.saveOrUpdate();
 		renderAjaxResultForSuccess();
 	}
-	
+
 	@Before(UCodeInterceptor.class)
 	public void menudel() {
-		long id = getParaToLong("id", (long)0);
-		if(id > 0){
-			if(Content.DAO.deleteById(id)){
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
+			if (Content.DAO.deleteById(id)) {
 				renderAjaxResultForSuccess();
 			}
 		}
@@ -126,8 +172,7 @@ public class _TemplateController extends JBaseController {
 
 		if (TemplateUtils.existsFile("template_setting.html")) {
 			String include = "../../..%s/template_setting.html";
-			setAttr("include",
-					String.format(include, TemplateUtils.getTemplatePath()));
+			setAttr("include", String.format(include, TemplateUtils.getTemplatePath()));
 		}
 	}
 

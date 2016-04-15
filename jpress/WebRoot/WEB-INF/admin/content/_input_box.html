@@ -17,7 +17,9 @@
 				<div class=" form-group jp-cancel-pad">
 					<!-- <select class="jp-tag form-control" multiple="multiple"  name="_${taxonomyType.name}">
 					</select> -->
-					<textarea rows="3" cols="" id="_${taxonomyType.name}" class="jp-tag form-control"  ></textarea>
+					<textarea name="_${taxonomyType.name}" id="_${taxonomyType.name}" class="jp-tag form-control"  >
+						${(content.getTaxonomyAsString(taxonomyType.name))!}
+					</textarea>
 				</div>
 				<div class="clr"></div>
 			</li>

@@ -1,9 +1,5 @@
 <#include "../_inc/_layout.html"/> 
 <#macro script>
-$(".jp-tag").select2({
-  tags: true,
-  tokenSeparators: [',', ' ']
-});
 $("#title").keyup(function(){
    
     var url = window.location.protocol  +"//"+ window.location.host+"${CPATH}";
@@ -89,14 +85,19 @@ function save(){
 			    }
 			}); 
  }
- 
+<#if module ??> 
+<#list module.taxonomyTypes! as taxonomyType > 
+ $('#_${taxonomyType.name}').tagEditor();
+</#list>
+</#if>
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
-<script src="${CPATH}/static/plugins/select2/select2.full.min.js"></script>
+<script src="${CPATH}/static/plugins/tag/jquery.caret.min.js"></script>
+<script src="${CPATH}/static/plugins/tag/jquery.tag-editor.min.js"></script>
 </#macro>
 <#macro css_import>
-<link rel="stylesheet" href="${CPATH}/static/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="${CPATH}/static/plugins/tag/jquery.tag-editor.css">
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
@@ -204,8 +205,19 @@ function save(){
 				</div>
 			</div>
 			<!-- /.col -->
-			<div class="col-md-3"><#include "_action_box.html" /> <#if module ??> <#list module.taxonomyTypes! as taxonomyType > <#if taxonomyType.formType == "select"> <#include "_select_box.html" />
-				<#else> <#include "_input_box.html" /> </#if> </#list> </#if> <#include "_thumbnail_box.html" /></div>
+			<div class="col-md-3">
+			<#include "_action_box.html" /> 
+			<#if module ??> 
+				<#list module.taxonomyTypes! as taxonomyType > 
+				<#if taxonomyType.formType == "select"> 
+					<#include "_select_box.html" />
+				<#else> 
+					<#include "_input_box.html" /> 
+				</#if> 
+				</#list>
+			</#if> 
+			
+			<#include "_thumbnail_box.html" /></div>
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->

@@ -106,6 +106,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return paginate(page, pagesize, true,select, fromBuilder.toString() ,params.toArray());
 	}
 
+	
+	@Override
+	public Content findById(Object idValue) {
+		return findFirst(getBaseSelectSql()+" WHERE c.id=? ",idValue);
+	}
 
 	
 	public List<Content> findListInNormal(int page, int pagesize, long taxonomyId,String orderBy){
@@ -332,6 +337,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 					}
 				}
 			}
+		}
+		
+		if(retBuilder.length() > 0){
+			retBuilder.deleteCharAt(retBuilder.length() - 1);
 		}
 
 		return retBuilder.toString();

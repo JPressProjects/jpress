@@ -172,11 +172,11 @@ public class _ContentController extends BaseAdminController<Content> {
 		List<Long> tIds = new ArrayList<Long>();
 		for (TaxonomyType type : types) {
 			if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
-				String params = getPara("_" + type.getName());
-				if (!StringUtils.isNotEmpty(params)) {
+				String data = getPara("_" + type.getName());
+				if (!StringUtils.isNotEmpty(data)) {
 					continue;
 				}
-				String[] titles = params.split(",");
+				String[] titles = data.split(",");
 				if (titles != null && titles.length > 0) {
 					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(moduleName, type.getName());
 					for (String title : titles) {

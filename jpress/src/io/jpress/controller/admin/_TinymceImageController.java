@@ -62,7 +62,7 @@ public class _TinymceImageController extends JBaseController {
 		UploadFile uploadFile = getFile();
 		String newPath = AttachmentUtils.moveFile(uploadFile);
 		User user = getAttr("user");
-		
+
 		Attachment attachment = new Attachment();
 		attachment.setUserId(user.getId());
 		attachment.setCreated(new Date());
@@ -70,15 +70,15 @@ public class _TinymceImageController extends JBaseController {
 		attachment.setPath(newPath);
 		attachment.setSuffix(AttachmentUtils.getFileExt(uploadFile.getFileName()));
 		attachment.setMimeType(uploadFile.getContentType());
-		
+
 		attachment.save();
-		
+
 		renderJson("location", newPath);
 	}
-	
-	
-	public class StreamRender extends Render{
+
+	public class StreamRender extends Render {
 		final InputStream stream;
+
 		public StreamRender(InputStream is) {
 			this.stream = is;
 		}
@@ -86,32 +86,38 @@ public class _TinymceImageController extends JBaseController {
 		@Override
 		public void render() {
 			InputStream inputStream = null;
-	        OutputStream outputStream = null;
-	        try {
-	            inputStream = new BufferedInputStream(stream);
-	            outputStream = response.getOutputStream();
-	            byte[] buffer = new byte[1024];
-	            for (int len = -1; (len = inputStream.read(buffer)) != -1;) {
-	                outputStream.write(buffer, 0, len);
-	            }
-	            outputStream.flush();
-	        } catch (IOException e) {
-	        	if (getDevMode()) {
-	        		throw new RenderException(e);
-	        	}
-	        } catch (Exception e) {
-	        	throw new RenderException(e);
-	        } finally {
-	            if (inputStream != null)
-	                try {inputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
-	            if (outputStream != null)
-	            	try {outputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
-	        }
-			
+			OutputStream outputStream = null;
+			try {
+				inputStream = new BufferedInputStream(stream);
+				outputStream = response.getOutputStream();
+				byte[] buffer = new byte[1024];
+				for (int len = -1; (len = inputStream.read(buffer)) != -1;) {
+					outputStream.write(buffer, 0, len);
+				}
+				outputStream.flush();
+			} catch (IOException e) {
+				if (getDevMode()) {
+					throw new RenderException(e);
+				}
+			} catch (Exception e) {
+				throw new RenderException(e);
+			} finally {
+				if (inputStream != null)
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						LogKit.error(e.getMessage(), e);
+					}
+				if (outputStream != null)
+					try {
+						outputStream.close();
+					} catch (IOException e) {
+						LogKit.error(e.getMessage(), e);
+					}
+			}
+
 		}
 
 	}
 
 }
-
-

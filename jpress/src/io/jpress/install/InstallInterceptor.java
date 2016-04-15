@@ -27,7 +27,7 @@ import com.jfinal.aop.Invocation;
  * @created 2016年2月1日
  */
 public class InstallInterceptor implements Interceptor {
-	
+
 	@Override
 	public void intercept(Invocation inv) {
 		if (Jpress.isInstalled()) {

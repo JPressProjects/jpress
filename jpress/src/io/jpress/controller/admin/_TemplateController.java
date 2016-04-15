@@ -109,7 +109,7 @@ public class _TemplateController extends JBaseController {
 		});
 		setAttr("files", files);
 
-		String fileName = getPara("f","index.html");
+		String fileName = getPara("f", "index.html");
 		File editFile = null;
 		if (fileName != null && files != null && files.length > 0) {
 			for (File f : files) {
@@ -119,7 +119,7 @@ public class _TemplateController extends JBaseController {
 				}
 			}
 		}
-		
+
 		setAttr("f", fileName);
 
 		if (editFile != null) {
@@ -144,11 +144,11 @@ public class _TemplateController extends JBaseController {
 		}
 
 		String fileName = getPara("f");
-		
-		//没有用getPara原因是，getPara因为安全问题会过滤某些html元素。
+
+		// 没有用getPara原因是，getPara因为安全问题会过滤某些html元素。
 		String fileContent = getRequest().getParameter("fileContent");
-		
-		fileContent = fileContent.replace("&lt;","<").replace("&gt;",">");
+
+		fileContent = fileContent.replace("&lt;", "<").replace("&gt;", ">");
 
 		File file = new File(pathFile, fileName);
 		FileUtils.writeString(file, fileContent);

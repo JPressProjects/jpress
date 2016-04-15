@@ -25,8 +25,7 @@ public class RouterConverterManager {
 	public void register(Class<? extends IRouterConverter> clazz) {
 		for (IRouterConverter tc : converters) {
 			if (tc.getClass() == clazz) {
-				throw new RuntimeException(String.format(
-						"Class [%s] has registered", clazz.getName()));
+				throw new RuntimeException(String.format("Class [%s] has registered", clazz.getName()));
 			}
 		}
 

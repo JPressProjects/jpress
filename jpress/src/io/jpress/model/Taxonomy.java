@@ -25,7 +25,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 
 @Table(tableName = "taxonomy", primaryKey = "id")
-public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxonomy>{
+public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxonomy> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,19 +42,19 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public int getLayer() {
 		return layer;
 	}
-	
+
 	public void setLayer(int tier) {
 		this.layer = tier;
 	}
-	
-	public String getLayerString(){
+
+	public String getLayerString() {
 		String layerString = "";
 		for (int i = 0; i < layer; i++) {
 			layerString += "— ";
 		}
 		return layerString;
 	}
-	
+
 	public List<Taxonomy> getChildList() {
 		return childList;
 	}
@@ -83,26 +83,24 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	}
 
 	public List<Taxonomy> findListByModuleAndType(String module, String type) {
-		return doFind("content_module = ? and type = ?", module,type);
+		return doFind("content_module = ? and type = ?", module, type);
 	}
-	
+
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
 		List<Taxonomy> list = findListByModuleAndType(module, type);
 		ModelSorter.tree(list);
 		return list;
 	}
-	
+
 	public List<Taxonomy> findListByModuleAndTypeAsSort(String module, String type) {
 		List<Taxonomy> list = findListByModuleAndType(module, type);
 		ModelSorter.sort(list);
 		return list;
 	}
 
-	public Page<Taxonomy> doPaginate(int pageNumber, int pageSize,
-			String module, String type) {
+	public Page<Taxonomy> doPaginate(int pageNumber, int pageSize, String module, String type) {
 		return DAO.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? ", module, type);
 	}
-	
 
 	public List<Taxonomy> findListByContentId(long contentId) {
 
@@ -125,10 +123,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 
 		return find(sql, type, contentId);
 	}
-	
-	
-	public Taxonomy findBySlug(String slug){
-		return doFindFirst("slug = ?",slug);
+
+	public Taxonomy findBySlug(String slug) {
+		return doFindFirst("slug = ?", slug);
 	}
 
 	public List<Taxonomy> findListCategoryByContentId(long contentId) {

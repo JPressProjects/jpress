@@ -26,14 +26,14 @@ public class ModuleTag extends JTag {
 
 	@Override
 	public void onRender() {
-		
+
 		Template t = Jpress.currentTemplate();
-		
-		if(t != null){
+
+		if (t != null) {
 			List<Module> modules = t.getModules();
-			setVariable("modules",modules);
+			setVariable("modules", modules);
 		}
-		
+
 		renderBody();
 	}
 

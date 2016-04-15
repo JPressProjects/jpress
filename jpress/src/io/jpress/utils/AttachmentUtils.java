@@ -39,9 +39,12 @@ public class AttachmentUtils {
 		String uuid = UUID.randomUUID().toString().replace("-", "");
 
 		StringBuilder newFileName = new StringBuilder(webRoot)
-				.append(File.separator).append("attachment")
-				.append(File.separator).append(dateFormat.format(new Date()))
-				.append(File.separator).append(uuid)
+				.append(File.separator)
+				.append("attachment")
+				.append(File.separator)
+				.append(dateFormat.format(new Date()))
+				.append(File.separator)
+				.append(uuid)
 				.append(getFileExt(file.getName()));
 
 		File newfile = new File(newFileName.toString());

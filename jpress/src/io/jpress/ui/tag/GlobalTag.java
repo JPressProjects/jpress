@@ -21,9 +21,9 @@ public class GlobalTag extends JTag {
 
 	@Override
 	public void onRender() {
-		
+
 		renderText("/templates/zx");
-		
+
 	}
 
 }

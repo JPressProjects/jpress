@@ -23,13 +23,13 @@ public class JTokenInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-		if(inv.getController().validateToken()){
+		if (inv.getController().validateToken()) {
 			inv.invoke();
-		}else{
+		} else {
 			Controller c = inv.getController();
-			if(c instanceof JBaseController){
-				((JBaseController)c).renderAjaxResultForError("非法提交");
-			}else{
+			if (c instanceof JBaseController) {
+				((JBaseController) c).renderAjaxResultForError("非法提交");
+			} else {
 				c.renderError(404);
 			}
 		}

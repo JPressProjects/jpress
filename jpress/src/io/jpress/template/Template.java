@@ -35,11 +35,10 @@ public class Template {
 	private int versionCode;
 	private String updateUrl;
 	private String path;
-	
+
 	private List<Module> modules;
 	private List<Thumbnail> thumbnails;
 	private List<String> widgetContainers;
-	
 
 	public String getTitle() {
 		return title;
@@ -112,8 +111,7 @@ public class Template {
 	public void setUpdateUrl(String updateUrl) {
 		this.updateUrl = updateUrl;
 	}
-	
-	
+
 	public String getPath() {
 		return path;
 	}
@@ -123,22 +121,22 @@ public class Template {
 	}
 
 	public List<String> getWidgetContainers() {
-		if(widgetContainers == null){
+		if (widgetContainers == null) {
 			widgetContainers = new ArrayList<String>();
 			List<File> htmlFilelist = new ArrayList<File>();
-			scanHtmlFiles(new File(PathKit.getWebRootPath()+path), htmlFilelist);
-			
+			scanHtmlFiles(new File(PathKit.getWebRootPath() + path), htmlFilelist);
+
 			for (File htmlFile : htmlFilelist) {
 				String htmlText = FileUtils.readString(htmlFile);
 				List<String> containers = getWidgetContainer(htmlText);
-				for(String c : containers){
-					if(!widgetContainers.contains(c)){
+				for (String c : containers) {
+					if (!widgetContainers.contains(c)) {
 						widgetContainers.add(c);
 					}
 				}
 			}
 		}
-		
+
 		return widgetContainers;
 	}
 
@@ -146,27 +144,28 @@ public class Template {
 		this.widgetContainers = widgetContainers;
 	}
 
-	public Module getModuleByName(String name){
-		if(modules != null && name != null){
-			for(Module m : modules){
-				if(name.equals(m.getName())){
+	public Module getModuleByName(String name) {
+		if (modules != null && name != null) {
+			for (Module m : modules) {
+				if (name.equals(m.getName())) {
 					return m;
 				}
 			}
 		}
 		return null;
 	}
-	public Thumbnail getThumbnailByName(String name){
-		if(thumbnails != null && name != null){
-			for(Thumbnail t : thumbnails){
-				if(name.equals(t.getName())){
+
+	public Thumbnail getThumbnailByName(String name) {
+		if (thumbnails != null && name != null) {
+			for (Thumbnail t : thumbnails) {
+				if (name.equals(t.getName())) {
 					return t;
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	private void scanHtmlFiles(File file, List<File> fillToList) {
 		if (file.isDirectory()) {
 			File[] files = file.listFiles();
@@ -174,25 +173,24 @@ public class Template {
 				for (File f : files) {
 					if (f.isDirectory())
 						scanHtmlFiles(f, fillToList);
-					else if(f.getName().endsWith(".html"))
+					else if (f.getName().endsWith(".html"))
 						fillToList.add(f);
 				}
 			}
 		}
 	}
-	
-	private static List<String> getWidgetContainer(String text){
-		if(text == null || "".equals(text.trim())){
+
+	private static List<String> getWidgetContainer(String text) {
+		if (text == null || "".equals(text.trim())) {
 			return null;
 		}
 		Pattern p = Pattern.compile("(?<=<@jp_widgets(\\s)?name=\").*?(?=\"(\\s)?(/)?>)");
 		Matcher m = p.matcher(text);
 		List<String> list = new ArrayList<String>();
-		while(m.find()){
+		while (m.find()) {
 			list.add(m.group(0));
 		}
 		return list;
 	}
-	
-	
+
 }

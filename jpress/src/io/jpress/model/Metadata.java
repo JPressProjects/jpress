@@ -47,29 +47,21 @@ public class Metadata extends BaseMetadata<Metadata> {
 		return DAO.doFind("object_type = ? and object_id = ?", type, id);
 	}
 
-	public static Metadata findFirstByTypeAndValue(String type,
-			String key, Object value) {
+	public static Metadata findFirstByTypeAndValue(String type, String key, Object value) {
 
-		return DAO.doFindFirst(
-				"object_type = ? and meta_key = ? and meta_value = ?", type,
-				key, value);
-
-	}
-	
-	public static List<Metadata> findListByTypeAndValue(String type,
-			String key, Object value) {
-
-		return DAO.doFind(
-				"object_type = ? and meta_key = ? and meta_value = ?", type,
-				key, value);
+		return DAO.doFindFirst("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
 
 	}
 
-	public static Metadata findByTypeAndIdAndKey(String type, long id,
-			String key) {
+	public static List<Metadata> findListByTypeAndValue(String type, String key, Object value) {
 
-		return DAO.doFindFirstByCache(CACHE_NAME, key + id,
-				"object_type = ? and object_id = ? and meta_key = ? ", type,
+		return DAO.doFind("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
+
+	}
+
+	public static Metadata findByTypeAndIdAndKey(String type, long id, String key) {
+
+		return DAO.doFindFirstByCache(CACHE_NAME, key + id, "object_type = ? and object_id = ? and meta_key = ? ", type,
 				id, key);
 
 	}

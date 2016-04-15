@@ -20,18 +20,20 @@ import io.jpress.core.Jpress;
 import io.jpress.template.TemplateUtils;
 
 public class BaseFrontController extends JBaseController {
-	
+
 	public void render(String name) {
-		if(templateExists(name)){
+		if (templateExists(name)) {
 			renderTemplate(name);
 			return;
 		}
-		
-		if(name.indexOf("_") !=- 1){
+
+		if (name.indexOf("_") != -1) {
 			do {
-				if (templateExists(name)) { break;}
+				if (templateExists(name)) {
+					break;
+				}
 				name = clearProp(name);
-			} while (name.indexOf("_") !=- 1);
+			} while (name.indexOf("_") != -1);
 		}
 
 		if (templateExists(name)) {
@@ -42,13 +44,11 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private void renderError(String name) {
-		renderText(String.format(
-				"template \"%s\" not found in \"%s\".", name,
-				TemplateUtils.getTemplateName()));
+		renderText(String.format("template \"%s\" not found in \"%s\".", name, TemplateUtils.getTemplateName()));
 	}
 
 	private void renderTemplate(String name) {
-		super.render(Jpress.currentTemplate().getPath()+"/"+name);
+		super.render(Jpress.currentTemplate().getPath() + "/" + name);
 	}
 
 	public String clearProp(String fname) {

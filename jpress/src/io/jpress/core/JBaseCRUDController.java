@@ -22,8 +22,7 @@ import java.lang.reflect.Type;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 
-public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends
-		JBaseController {
+public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends JBaseController {
 
 	private static final Log logger = Log.getLog(JBaseCRUDController.class);;
 	private final Class<M> mClazz;
@@ -61,7 +60,6 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends
 		render("index.html");
 	}
 
-	
 	public void edit() {
 		keepPara();
 		render("edit.html");

@@ -18,7 +18,7 @@ package io.jpress.ui.widget;
 import io.jpress.core.ui.JWidget;
 
 public class CCPostWidget extends JWidget {
-	
+
 	public CCPostWidget() {
 		super();
 		put("aa1", "bb1");
@@ -35,9 +35,8 @@ public class CCPostWidget extends JWidget {
 
 	@Override
 	public String onRenderHtml(WidgetConfig config) {
-		
+
 		return null;
 	}
-
 
 }

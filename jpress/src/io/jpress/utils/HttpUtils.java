@@ -48,52 +48,47 @@ public class HttpUtils {
 	}
 
 	public static String get(String url, Map<String, ? extends Object> params) throws Exception {
-		return get(url,params,null);
+		return get(url, params, null);
 	}
-	
-	public static String get(String url, Map<String, ? extends Object> params,Map<String, String> headers) throws Exception {
+
+	public static String get(String url, Map<String, ? extends Object> params, Map<String, String> headers)
+			throws Exception {
 		if (url == null || url.trim().length() == 0) {
 			throw new Exception(TAG + ": get url is null or empty!");
 		}
-		
+
 		if (params != null && params.size() > 0) {
 			if (!url.contains("?"))
 				url += "?";
-			
+
 			StringBuilder sbContent = new StringBuilder();
 			if (url.charAt(url.length() - 1) == '?') { // 最后一个字符是 ?
 				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 					if (entry.getKey() != null)
-						sbContent.append(entry.getKey().trim())
-						.append("=")
-						.append(entry.getValue())
-						.append("&");
+						sbContent.append(entry.getKey().trim()).append("=").append(entry.getValue()).append("&");
 				}
-				
+
 				if (sbContent.charAt(sbContent.length() - 1) == '&') {
 					sbContent.deleteCharAt(sbContent.length() - 1);
 				}
 			} else {
 				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 					if (entry.getKey() != null)
-						sbContent.append("&")
-						.append(entry.getKey().trim())
-						.append("=")
-						.append(entry.getValue());
+						sbContent.append("&").append(entry.getKey().trim()).append("=").append(entry.getValue());
 				}
 			}
 			url += sbContent.toString();
 		}
-		
-		return tryToGet(url,headers);
+
+		return tryToGet(url, headers);
 	}
-	
-	private static String tryToGet(String url,Map<String, String> headers) throws Exception {
+
+	private static String tryToGet(String url, Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
 		while (tryTime < mRetry) {
 			try {
-				return doGet(url,headers);
+				return doGet(url, headers);
 			} catch (Exception e) {
 				if (e != null)
 					ex = e;
@@ -105,8 +100,8 @@ public class HttpUtils {
 		else
 			throw new Exception("未知网络错误 ");
 	}
-	
-	private static String doGet(String strUrl,Map<String, String> headers) throws Exception {
+
+	private static String doGet(String strUrl, Map<String, String> headers) throws Exception {
 		strUrl = urlEncode(strUrl, CHAR_SET);
 		HttpURLConnection connection = null;
 		InputStream stream = null;
@@ -114,25 +109,25 @@ public class HttpUtils {
 
 			connection = getConnection(strUrl);
 			configConnection(connection);
-			if(headers!= null && headers.size() > 0){
-				for(Map.Entry<String, String> entry : headers.entrySet()){
-					connection.setRequestProperty(entry.getKey(),entry.getValue());
+			if (headers != null && headers.size() > 0) {
+				for (Map.Entry<String, String> entry : headers.entrySet()) {
+					connection.setRequestProperty(entry.getKey(), entry.getValue());
 				}
 			}
-			
+
 			connection.setInstanceFollowRedirects(true);
 			connection.connect();
-			
+
 			stream = connection.getInputStream();
 			ByteArrayOutputStream obs = new ByteArrayOutputStream();
 			byte[] buffer = new byte[1024];
 			for (int len = 0; (len = stream.read(buffer)) > 0;) {
 				obs.write(buffer, 0, len);
-            }
+			}
 			obs.flush();
 			obs.close();
 			stream.close();
-			
+
 			return new String(obs.toByteArray());
 		} finally {
 			if (connection != null) {
@@ -144,46 +139,43 @@ public class HttpUtils {
 		}
 	}
 
-
 	public static String post(String url) throws Exception {
 		return post(url, null);
 	}
 
-	public static String post(String url, Map<String, ? extends Object> params)
-			throws Exception {
+	public static String post(String url, Map<String, ? extends Object> params) throws Exception {
 		return post(url, params, null);
 	}
-	
-	public static String post(String url, Map<String, ? extends Object> params,Map<String, String> headers)
+
+	public static String post(String url, Map<String, ? extends Object> params, Map<String, String> headers)
 			throws Exception {
 		if (url == null || url.trim().length() == 0) {
 			throw new Exception(TAG + ": post url is null or empty!");
 		}
-		
+
 		if (params != null && params.size() > 0) {
 			StringBuilder sbContent = new StringBuilder();
 			for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
 				if (entry.getKey() != null)
-					sbContent.append("&").append(entry.getKey().trim())
-					.append("=").append(entry.getValue());
+					sbContent.append("&").append(entry.getKey().trim()).append("=").append(entry.getValue());
 			}
-			return tryToPost(url, sbContent.substring(1),headers);
-			
+			return tryToPost(url, sbContent.substring(1), headers);
+
 		} else {
 			return tryToPost(url, null, headers);
 		}
 	}
-	public static String post(String url,String content,Map<String, String> headers)
-			throws Exception {
+
+	public static String post(String url, String content, Map<String, String> headers) throws Exception {
 		return tryToPost(url, content, headers);
 	}
 
-	private static String tryToPost(String url, String postContent,Map<String, String> headers) throws Exception {
+	private static String tryToPost(String url, String postContent, Map<String, String> headers) throws Exception {
 		int tryTime = 0;
 		Exception ex = null;
 		while (tryTime < mRetry) {
 			try {
-				return doPost(url, postContent,headers);
+				return doPost(url, postContent, headers);
 			} catch (Exception e) {
 				if (e != null)
 					ex = e;
@@ -196,24 +188,22 @@ public class HttpUtils {
 			throw new Exception("未知网络错误 ");
 	}
 
-	
-	
-	private static String doPost(String strUrl, String postContent,Map<String, String> headers) throws Exception {
+	private static String doPost(String strUrl, String postContent, Map<String, String> headers) throws Exception {
 		HttpURLConnection connection = null;
 		InputStream stream = null;
 		try {
 			connection = getConnection(strUrl);
 			configConnection(connection);
-			if(headers!= null && headers.size() > 0){
-				for(Map.Entry<String, String> entry : headers.entrySet()){
-					connection.setRequestProperty(entry.getKey(),entry.getValue());
+			if (headers != null && headers.size() > 0) {
+				for (Map.Entry<String, String> entry : headers.entrySet()) {
+					connection.setRequestProperty(entry.getKey(), entry.getValue());
 				}
 			}
-			
+
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 
-			if(null != postContent && !"".equals(postContent)){
+			if (null != postContent && !"".equals(postContent)) {
 				DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
 				dos.write(postContent.getBytes(CHAR_SET));
 				dos.flush();
@@ -221,11 +211,11 @@ public class HttpUtils {
 			}
 			stream = connection.getInputStream();
 			ByteArrayOutputStream obs = new ByteArrayOutputStream();
-			
+
 			byte[] buffer = new byte[1024];
 			for (int len = 0; (len = stream.read(buffer)) > 0;) {
 				obs.write(buffer, 0, len);
-            }
+			}
 			obs.flush();
 			obs.close();
 
@@ -248,8 +238,9 @@ public class HttpUtils {
 		connection.setReadTimeout(mReadTimeOut);
 		connection.setConnectTimeout(mConnectTimeOut);
 
-		connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-		connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.setRequestProperty("User-Agent",
+				"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
 	}
 
 	private static HttpURLConnection getConnection(String strUrl) throws Exception {
@@ -268,13 +259,13 @@ public class HttpUtils {
 		}
 	}
 
-	private static HttpURLConnection getHttpConnection(String urlStr)throws Exception {
+	private static HttpURLConnection getHttpConnection(String urlStr) throws Exception {
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		return conn;
 	}
 
-	private static HttpsURLConnection getHttpsConnection(String urlStr)throws Exception {
+	private static HttpsURLConnection getHttpsConnection(String urlStr) throws Exception {
 		URL url = new URL(urlStr);
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setHostnameVerifier(hnv);
@@ -301,19 +292,18 @@ public class HttpUtils {
 		}
 	};
 
-	private static HostnameVerifier hnv =  new HostnameVerifier() {
+	private static HostnameVerifier hnv = new HostnameVerifier() {
 		public boolean verify(String hostname, SSLSession session) {
 			return true;
 		}
 	};
 
-	public static String urlEncode(String str, String charset)throws UnsupportedEncodingException {
+	public static String urlEncode(String str, String charset) throws UnsupportedEncodingException {
 		Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]+");
 		Matcher mathcer = pattern.matcher(str);
 		StringBuffer buffer = new StringBuffer();
 		while (mathcer.find()) {
-			mathcer.appendReplacement(buffer,
-					URLEncoder.encode(mathcer.group(0), charset));
+			mathcer.appendReplacement(buffer, URLEncoder.encode(mathcer.group(0), charset));
 		}
 		mathcer.appendTail(buffer);
 		return buffer.toString();

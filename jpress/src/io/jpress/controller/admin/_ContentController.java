@@ -55,12 +55,9 @@ public class _ContentController extends BaseAdminController<Content> {
 	public void index() {
 		setAttr("module", Jpress.currentTemplate().getModuleByName(getModuleName()));
 
-		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModuleName(),
-				Content.STATUS_DELETE));
-		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(),
-				Content.STATUS_DRAFT));
-		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(),
-				Content.STATUS_NORMAL));
+		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
+		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
+		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
 		setAttr("count", mDao.findCountInNormalByModule(getModuleName()));
 
 		super.index();
@@ -69,11 +66,9 @@ public class _ContentController extends BaseAdminController<Content> {
 	@Override
 	public Page<Content> onPageLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize,
-					getModuleName(), getStatus());
+			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize,
-				getModuleName());
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModuleName());
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -99,8 +94,7 @@ public class _ContentController extends BaseAdminController<Content> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
-	
-	
+
 	@Before(UCodeInterceptor.class)
 	public void batchDelete() {
 		Long[] ids = getParaValuesToLong("dataItem");
@@ -179,13 +173,12 @@ public class _ContentController extends BaseAdminController<Content> {
 		for (TaxonomyType type : types) {
 			if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
 				String params = getPara("_" + type.getName());
-				if(!StringUtils.isNotEmpty(params)){
+				if (!StringUtils.isNotEmpty(params)) {
 					continue;
 				}
 				String[] titles = params.split(",");
 				if (titles != null && titles.length > 0) {
-					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(
-							moduleName, type.getName());
+					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(moduleName, type.getName());
 					for (String title : titles) {
 						long id = getIdFromList(title, list);
 						if (id == 0) {
@@ -194,7 +187,7 @@ public class _ContentController extends BaseAdminController<Content> {
 							taxonomy.setContentModule(moduleName);
 							taxonomy.setType(type.getName());
 							taxonomy.save();
-							
+
 							id = taxonomy.getId();
 						}
 						tIds.add(id);
@@ -221,18 +214,18 @@ public class _ContentController extends BaseAdminController<Content> {
 	@Override
 	public void save() {
 		Content content = getContent();
-		if(null == content.getSlug()){
+		if (null == content.getSlug()) {
 			String title = content.getTitle();
 			String slug = title.replace(".", "_").replaceAll("\\s+", "_");
 			content.setSlug(slug);
 		}
-		
+
 		Content dbContent = mDao.findBySlug(content.getSlug());
-		if(dbContent!=null && dbContent.getId() != content.getId()){
+		if (dbContent != null && dbContent.getId() != content.getId()) {
 			renderAjaxResultForError();
 			return;
 		}
-		
+
 		content.saveOrUpdate();
 
 		List<Long> ids = getOrCreateTaxonomyIds(content.getModule());

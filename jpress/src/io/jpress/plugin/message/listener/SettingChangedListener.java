@@ -21,19 +21,16 @@ import io.jpress.plugin.message.MessageListener;
 
 public class SettingChangedListener implements MessageListener {
 
-
 	@Override
 	public void onMessage(Message message) {
-		
-		String [] keys = message.getData();
-		
-	}
 
+		String[] keys = message.getData();
+
+	}
 
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {
 		messageAction.register(Actions.SETTING_CHANGED);
 	}
-
 
 }

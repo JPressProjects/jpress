@@ -26,8 +26,7 @@ public class InterUtils {
 	public static User tryToGetUser(Invocation inv) {
 		User user = inv.getController().getAttr("user");
 		if (user == null) {
-			String userId = EncryptCookieUtils.get(inv.getController(),
-					Consts.COOKIE_LOGINED_USER);
+			String userId = EncryptCookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 
 			if (userId != null && !"".equals(userId))
 				user = User.findUserById(Long.parseLong(userId));

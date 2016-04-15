@@ -28,8 +28,7 @@ public class WeiboConnector extends OauthConnector {
 
 	public String createAuthorizeUrl(String state) {
 
-		StringBuilder urlBuilder = new StringBuilder(
-				"https://api.weibo.com/oauth2/authorize?");
+		StringBuilder urlBuilder = new StringBuilder("https://api.weibo.com/oauth2/authorize?");
 		urlBuilder.append("response_type=code");
 		urlBuilder.append("&client_id=" + getClientId());
 		urlBuilder.append("&redirect_uri=" + getRedirectUri());
@@ -40,8 +39,7 @@ public class WeiboConnector extends OauthConnector {
 
 	protected String getAccessToken(String code) {
 
-		StringBuilder urlBuilder = new StringBuilder(
-				"https://api.weibo.com/oauth2/access_token?");
+		StringBuilder urlBuilder = new StringBuilder("https://api.weibo.com/oauth2/access_token?");
 		urlBuilder.append("grant_type=authorization_code");
 		urlBuilder.append("&client_id=" + getClientId());
 		urlBuilder.append("&client_secret=" + getClientSecret());
@@ -57,22 +55,18 @@ public class WeiboConnector extends OauthConnector {
 
 	public String getOpenId(String accessToken) {
 
-		String url = "https://api.weibo.com/oauth2/get_token_info?"
-				+ "access_token=" + accessToken;
+		String url = "https://api.weibo.com/oauth2/get_token_info?" + "access_token=" + accessToken;
 
 		String httpString = httpGet(url);
 
 		return null;
 	}
-	
 
 	protected OauthUser getOauthUser(String code) {
 		String accessToken = getAccessToken(code);
 		String openId = getAccessToken(accessToken);
-		
-		
-		String url = "https://api.weibo.com/2/users/show.json?"
-				+ "access_token=" + accessToken + "&uid=" + openId;
+
+		String url = "https://api.weibo.com/2/users/show.json?" + "access_token=" + accessToken + "&uid=" + openId;
 
 		String httpString = httpGet(url);
 

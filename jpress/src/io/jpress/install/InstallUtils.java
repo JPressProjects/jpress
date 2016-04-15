@@ -50,8 +50,7 @@ public class InstallUtils {
 
 	public static DbDialect mDialect;
 
-	public static void init(String db_host, String db_name, String db_user,
-			String db_password, String db_tablePrefix) {
+	public static void init(String db_host, String db_name, String db_user, String db_password, String db_tablePrefix) {
 		dbHost = db_host;
 		dbName = db_name;
 		dbUser = db_user;
@@ -88,7 +87,11 @@ public class InstallUtils {
 			e.printStackTrace();
 			return false;
 		} finally {
-			if (fos != null) try { fos.close(); } catch (IOException e) {}
+			if (fos != null)
+				try {
+					fos.close();
+				} catch (IOException e) {
+				}
 		}
 		return true;
 	}
@@ -102,7 +105,6 @@ public class InstallUtils {
 		return tableList;
 	}
 
-
 	public static void createJpressDatabase() throws SQLException {
 		String installSql = mDialect.forInstall(dbTablePrefix);
 		DruidPlugin dp = createDruidPlugin();
@@ -115,13 +117,12 @@ public class InstallUtils {
 
 	public static void setWebName(String webName) throws SQLException {
 
-		executeSQL(mDialect.forInsertWebName(dbTablePrefix),webName);
+		executeSQL(mDialect.forInsertWebName(dbTablePrefix), webName);
 	}
 
 	public static void setWebFirstUser(String username, String password, String salt) throws SQLException {
 
-		executeSQL(mDialect.forInsertFirstUser(dbTablePrefix),
-				username, password, salt, "administrator", "activited",
+		executeSQL(mDialect.forInsertFirstUser(dbTablePrefix), username, password, salt, "administrator", "activited",
 				DateUtils.now());
 	}
 
@@ -170,8 +171,7 @@ public class InstallUtils {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static <T> List<T> query(Connection conn, String sql)
-			throws SQLException {
+	private static <T> List<T> query(Connection conn, String sql) throws SQLException {
 		List result = new ArrayList();
 		PreparedStatement pst = conn.prepareStatement(sql);
 		ResultSet rs = pst.executeQuery();
@@ -194,30 +194,38 @@ public class InstallUtils {
 	}
 
 	private static final void close(ResultSet rs, Statement st) {
-		if (rs != null) try { rs.close(); } catch (SQLException e) {}
-		if (st != null)  try { st.close(); } catch (SQLException e) {}
+		if (rs != null)
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		if (st != null)
+			try {
+				st.close();
+			} catch (SQLException e) {
+			}
 	}
 
 	private static final void close(Statement st) {
-		if (st != null)  try { st.close(); } catch (SQLException e) {}
+		if (st != null)
+			try {
+				st.close();
+			} catch (SQLException e) {
+			}
 	}
 
 	private static DruidPlugin createDruidPlugin() {
-		DruidPlugin plugin = mDialect.createDuidPlugin(dbHost, 
-				dbName, 
-				dbUser,
-				dbPassword);
+		DruidPlugin plugin = mDialect.createDuidPlugin(dbHost, dbName, dbUser, dbPassword);
 
 		plugin.start();
 
 		return plugin;
 	}
-	
-	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response,boolean[] isHandled) {
+
+	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response,
+			boolean[] isHandled) {
 		isHandled[0] = true;
-		new FreeMarkerRender("/WEB-INF/install/finished.html")
-		.setContext(request, response)
-		.render();
+		new FreeMarkerRender("/WEB-INF/install/finished.html").setContext(request, response).render();
 	}
 
 }

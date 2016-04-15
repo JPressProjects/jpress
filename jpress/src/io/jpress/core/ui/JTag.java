@@ -44,8 +44,7 @@ public abstract class JTag implements TemplateDirectiveModel {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void execute(Environment env, Map params,
-			TemplateModel[] templateModels, TemplateDirectiveBody body)
+	public void execute(Environment env, Map params, TemplateModel[] templateModels, TemplateDirectiveBody body)
 			throws TemplateException, IOException {
 
 		this.mEnv = env;
@@ -60,8 +59,7 @@ public abstract class JTag implements TemplateDirectiveModel {
 
 	protected void setVariable(String key, Object value) {
 		try {
-			mEnv.setVariable(key, FreeMarkerRender.getConfiguration()
-					.getObjectWrapper().wrap(value));
+			mEnv.setVariable(key, FreeMarkerRender.getConfiguration().getObjectWrapper().wrap(value));
 		} catch (TemplateModelException e) {
 			log.error("setVariable(String key,Object value) is error!", e);
 		}
@@ -115,7 +113,7 @@ public abstract class JTag implements TemplateDirectiveModel {
 		return defaultValue;
 	}
 
-	public String getParam(String key){
+	public String getParam(String key) {
 		TemplateModel model = (TemplateModel) mParams.get(key);
 		if (model == null) {
 			return null;
@@ -210,11 +208,11 @@ public abstract class JTag implements TemplateDirectiveModel {
 		if (null == string || "".equals(string.trim())) {
 			return null;
 		}
-		
-		if(!string.contains(",")){
-			return new Integer[]{Integer.valueOf(string.trim())};
+
+		if (!string.contains(",")) {
+			return new Integer[] { Integer.valueOf(string.trim()) };
 		}
-		
+
 		String[] array = string.split(",");
 		Integer[] ids = new Integer[array.length];
 		int i = 0;
@@ -227,17 +225,17 @@ public abstract class JTag implements TemplateDirectiveModel {
 			throw e;
 		}
 	}
-	
+
 	public Long[] getParamToLongArray(String key) {
 		String string = getParam(key);
 		if (null == string || "".equals(string.trim())) {
 			return null;
 		}
-		
-		if(!string.contains(",")){
-			return new Long[]{Long.valueOf(string.trim())};
+
+		if (!string.contains(",")) {
+			return new Long[] { Long.valueOf(string.trim()) };
 		}
-		
+
 		String[] array = string.split(",");
 		Long[] ids = new Long[array.length];
 		int i = 0;
@@ -250,37 +248,34 @@ public abstract class JTag implements TemplateDirectiveModel {
 			throw e;
 		}
 	}
-	
-	
+
 	public String[] getParamToStringArray(String key) {
 		String string = getParam(key);
 		if (null == string || "".equals(string.trim())) {
 			return null;
 		}
-		
-		if(!string.contains(",")){
-			return new String[]{string};
+
+		if (!string.contains(",")) {
+			return new String[] { string };
 		}
-		
+
 		return string.split(",");
 	}
-	
-	
 
 	public Boolean getParamToBool(String key, Boolean defaultValue) {
-			Boolean value = getParamToBool(key);
-			if (value != null)
-				return value;
+		Boolean value = getParamToBool(key);
+		if (value != null)
+			return value;
 
 		return defaultValue;
 	}
 
-	public Boolean getParamToBool(String key)  {
+	public Boolean getParamToBool(String key) {
 		TemplateModel model = (TemplateModel) mParams.get(key);
 		if (model == null) {
 			return null;
 		}
-		
+
 		try {
 			if (model instanceof TemplateBooleanModel) {
 				return ((TemplateBooleanModel) model).getAsBoolean();

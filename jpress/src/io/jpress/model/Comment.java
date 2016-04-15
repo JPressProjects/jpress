@@ -26,25 +26,23 @@ public class Comment extends BaseComment<Comment> {
 
 	public static final Comment DAO = new Comment();
 
-	public Page<Comment> doPaginate(int pageNumber, int pageSize,
-			String module, String type) {
-		
+	public Page<Comment> doPaginate(int pageNumber, int pageSize, String module, String type) {
+
 		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c "
+		String sqlExceptSelect = " from comment c " 
 				+ "left join content on c.content_id = content.id "
-				+ "left join `user` u on c.user_id = u.id "
+				+ "left join `user` u on c.user_id = u.id " 
 				+ "order by c.created";
-		
+
 		return paginate(pageNumber, pageSize, select, sqlExceptSelect);
-		
+
 	}
-	
-	
-	public String getUsername(){
+
+	public String getUsername() {
 		return get("username");
 	}
-	
-	public String getcontentTitle(){
+
+	public String getcontentTitle() {
 		return get("content_title");
 	}
 }

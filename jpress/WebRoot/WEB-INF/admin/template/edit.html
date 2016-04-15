@@ -13,6 +13,45 @@ if(editFileName.indexOf(".css")!=-1){
 }
 editor.session.setMode(new model());
 
+function doSubmit(){
+	$("#fileContent").attr("value",editor.getSession().getValue());
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				if(data.errorCode == 0){
+					alert("保存成功！");
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+	return false;
+ }
+ 
+var commandkeydown = false;
+$(document).keydown(function(e){
+	if(e.keyCode == 91 || e.keyCode == 224){
+		commandkeydown = true;
+	}
+	if(commandkeydown && e.keyCode == 83){
+		commandkeydown = false;
+		return doSubmit();
+	}
+	if( e.ctrlKey  == true && e.keyCode == 83 ){
+		console.log('ctrl+s');
+		return doSubmit(); // 截取返回false就不会保存网页了
+	}
+});
+$(document).keyup(function(e){
+	if(e.keyCode == 91 || e.keyCode == 224){
+		commandkeydown = false;
+	}
+});
+
 </#macro>
 <#macro css_import>
 <style>
@@ -69,10 +108,13 @@ editor.session.setMode(new model());
 			<div class="clr"></div>
 		</div>
 		<div class="col-md-9">
-			<form>
+			<form action="${CPATH}/admin/template/editsave" method="post" id="form">
+				<input type="hidden" name="d" value="${d!}">
+				<input type="hidden" name="f" value="${f!}">
+				<input type="hidden" name="fileContent"  value="" id="fileContent">
 				<div class="box box-primary">
 					<div class=" box-info">
-						<div id="editor">${fileContent!}</div>
+						<div id="editor" >${fileContent!}</div>
 						<div class="clr"></div>
 					</div>
 				</div>
@@ -80,7 +122,7 @@ editor.session.setMode(new model());
 					<p>提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）</p>
 				</div>
 				<div class="jp-set-pad">
-					<button class="btn btn-primary" type="submit">更新文件</button>
+					<button class="btn btn-primary" type="submit" onclick="return doSubmit();">更新文件</button>
 				</div>
 				<!-- /. box -->
 			</form>
@@ -91,9 +133,15 @@ editor.session.setMode(new model());
 			<ul class="list-unstyled">
 				<#if files ??>
 				<#list files as file>
-				<li class="jp-bottom-pad5 jp-top-pad5">
-					<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}">${file.name!} </a>
-				</li>
+					<#if file.name == f!>
+					<li class="jp-bottom-pad5 jp-top-pad5">
+						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}"><b>${file.name!} （编辑中...）</b></a>
+					</li>
+					<#else>
+					<li class="jp-bottom-pad5 jp-top-pad5">
+						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}">${file.name!} </a>
+					</li>
+					</#if>
 				</#list>
 				</#if>
 			</ul>

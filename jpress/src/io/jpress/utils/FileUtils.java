@@ -28,9 +28,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class FileUtils {
-	
+
 	public static String readString(File file) {
-		ByteArrayOutputStream baos = null ;
+		ByteArrayOutputStream baos = null;
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
@@ -38,26 +38,45 @@ public class FileUtils {
 			byte[] buffer = new byte[1024];
 			for (int len = 0; (len = fis.read(buffer)) > 0;) {
 				baos.write(buffer, 0, len);
-            }
-			
+			}
+
 		} catch (Exception e) {
 		} finally {
 			close(fis, baos);
 		}
 		return new String(baos.toByteArray());
 	}
-	
-	private static void close(InputStream is,OutputStream os){
-		if(is!=null) try { is.close(); } catch (IOException e) {}
-		if(os!=null) try { os.close();} catch (IOException e) {}
+
+	public static void writeString(File file, String string) {
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(file,false);
+			fos.write(string.getBytes());
+		} catch (Exception e) {}
+		finally {
+			close(null, fos);
+		}
+	}
+
+	private static void close(InputStream is, OutputStream os) {
+		if (is != null)
+			try {
+				is.close();
+			} catch (IOException e) {
+			}
+		if (os != null)
+			try {
+				os.close();
+			} catch (IOException e) {
+			}
 	}
 
 	public static void unzip(String zipFilePath) throws IOException {
-		String targetPath = zipFilePath.substring(0,zipFilePath.lastIndexOf("."));
+		String targetPath = zipFilePath.substring(0, zipFilePath.lastIndexOf("."));
 		unzip(zipFilePath, targetPath);
 	}
 
-	public static void unzip(String zipFilePath, String targetPath) throws IOException{
+	public static void unzip(String zipFilePath, String targetPath) throws IOException {
 		ZipFile zipFile = new ZipFile(zipFilePath);
 		Enumeration<?> entryEnum = zipFile.entries();
 		if (null != entryEnum) {
@@ -67,7 +86,7 @@ public class FileUtils {
 				try {
 					ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
 					if (!zipEntry.isDirectory()) {
-						File targetFile = new File(targetPath + File.separator+ zipEntry.getName());
+						File targetFile = new File(targetPath + File.separator + zipEntry.getName());
 						if (!targetFile.getParentFile().exists()) {
 							targetFile.getParentFile().mkdirs();
 						}

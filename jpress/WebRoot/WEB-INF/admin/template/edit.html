@@ -1,10 +1,17 @@
 <#include "../_inc/_layout.html"/> 
 <#macro script>
 var editor = ace.edit("editor");
-editor.setTheme("ace/theme/dreamweaver");
-
-var htmlModel = ace.require("ace/mode/html").Mode;
-editor.session.setMode(new htmlModel());
+editor.setTheme("ace/theme/eclipse");
+var editFileName = "${(editFile.name)!}";
+var model = ace.require("ace/mode/jsp").Mode;
+if(editFileName.indexOf(".css")!=-1){
+	model = ace.require("ace/mode/css").Mode;
+}else if(editFileName.indexOf(".js")!=-1){
+	model = ace.require("ace/mode/javascript").Mode;
+}else if(editFileName.indexOf(".xml")!=-1){
+	model = ace.require("ace/mode/xml").Mode;
+}
+editor.session.setMode(new model());
 
 </#macro>
 <#macro css_import>
@@ -16,13 +23,16 @@ editor.session.setMode(new htmlModel());
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/ace/ace.js"></script>
-<script src="${CPATH}/static/ace/theme-dreamweaver.js" type="text/javascript" charset="utf-8"></script>
-<script src="${CPATH}/static/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
-</#macro>
+<script src="${CPATH}/static/ace/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-jsp.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+</#macro> 
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>编辑插件</h1>
+	<h1>编辑模板</h1>
 </section>
 <!-- Main content -->
 <section class="content">
@@ -30,23 +40,29 @@ editor.session.setMode(new htmlModel());
 		<!-- /.col -->
 		<div class="col-xs-12 ">
 			<div class="jp-set-table">
-				<span class="jp-left">
-					正在编辑cysteme-finder/cysteme-finder.php（活跃） </span>
-				<form class="form-horizontal jp-right">
-
+				<span class="jp-left"> 正在编辑模板文件：${(editFile.name)!}（活跃） </span>
+				<form class="form-horizontal jp-right" action="" >
+					<input type="hidden" name="c" value="${c}">
+					<input type="hidden" name="p" value="${p}">
 					<div class="jp-right jp-left-pad5 jp-right-pad40">
-						<button class="btn  btn-sm btn-default" type="button">选择</button>
+						<button class="btn  btn-sm btn-default" type="submit">选择</button>
 					</div>
 
 					<div class="jp-right">
-						<select style="width: 160px" class="form-control input-sm"
-							name="example1_length" aria-controls="example1">
-							<option value="10">函数名：。。</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
+						<select style="width: 160px" class="form-control input-sm" name="d" >
+							<option value="/">/</option>
+							<#if dirs ??>
+							<#list dirs as dir>
+								<#if dir.name == d!>
+								<option value="${dir.name!}" selected="selected">${dir.name!}</option>
+								<#else>
+								<option value="${dir.name!}" >${dir.name!}</option>
+								</#if>
+							</#list>
+							</#if>
 						</select>
 					</div>
-					<div class="jp-right jp-line-height30">选择要编辑的插件：</div>
+					<div class="jp-right jp-line-height30">选择目录：</div>
 					<div class=clr></div>
 				</form>
 			</div>
@@ -56,30 +72,12 @@ editor.session.setMode(new htmlModel());
 			<form>
 				<div class="box box-primary">
 					<div class=" box-info">
-					<div id="editor">some text</div>
-					<!--  
-						<textarea class="col-xs-12 " rows="25"
-							aria-describedby="newcontent-description" name="newcontent">
-                              This is my textarea to be replaced with CKEditor.
-                          </textarea>-->
+						<div id="editor">${fileContent!}</div>
 						<div class="clr"></div>
 					</div>
 				</div>
-				<div class="jp-left jp-line-height30">文档：</div>
-				<div class="jp-left ">
-					<select style="width: 160px" class="form-control input-sm"
-						name="example1_length" aria-controls="example1">
-						<option value="10">函数名：。。</option>
-						<option value="25">25</option>
-						<option value="50">50</option>
-					</select>
-				</div>
-				<div class="jp-left jp-left-pad5 jp-right-pad40">
-					<button class="btn  btn-sm btn-default" type="button">向上查</button>
-				</div>
-				<div class=clr></div>
 				<div class="jp-set-pad">
-					<p>注意：不推荐对当前启用的插件做修改。如果您的修改导致致命错误（fatal error），插件会被自动停用。</p>
+					<p>提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）</p>
 				</div>
 				<div class="jp-set-pad">
 					<button class="btn btn-primary" type="submit">更新文件</button>
@@ -89,18 +87,15 @@ editor.session.setMode(new htmlModel());
 		</div>
 		<!-- /.col -->
 		<div class="col-md-3">
-			<h2>插件文件</h2>
+			<h2>模板文件</h2>
 			<ul class="list-unstyled">
-				<li class="jp-bottom-pad5 jp-top-pad5"><a href="#">cysteme-finder/cysteme-finder.php
-				</a></li>
-				<li class="jp-bottom-pad5 jp-top-pad5"><a href="#">cysteme-finder/cysteme-finder.php
-				</a></li>
-				<li class="jp-bottom-pad5 jp-top-pad5"><a href="#">cysteme-finder/cysteme-finder.php
-				</a></li>
-				<li class="jp-bottom-pad5 jp-top-pad5"><a href="#">cysteme-findeinder/cysteme-findr/cysteme-finder.php
-				</a></li>
-				<li class="jp-bottom-pad5 jp-top-pad5"><a href="#">cysteme-finder/cysteme-finder.php
-				</a></li>
+				<#if files ??>
+				<#list files as file>
+				<li class="jp-bottom-pad5 jp-top-pad5">
+					<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}">${file.name!} </a>
+				</li>
+				</#list>
+				</#if>
 			</ul>
 		</div>
 

@@ -1,0 +1,461 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery tagEditor Plugin</title>
+    <meta name="description" content="A lightweight and sophisticated tag editor for jQuery. Sortable, editable tags with cursor navigation, autocomplete, and callbacks.">
+    <link rel="shortcut icon" href="https://pixabay.com/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/yahoo/pure-release/v0.6.0/pure-min.css">
+    <style>
+        body { margin: 0; padding: 0; border: 0; min-width: 320px; color: #777; }
+        html, button, input, select, textarea, .pure-g [class *= "pure-u"] { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1.02em; }
+        p, td { line-height: 1.5; }
+        ul { padding: 0 0 0 20px; }
+
+        th { background: #eee; white-space: nowrap; }
+        th, td { padding: 10px; text-align: left; vertical-align: top; font-size: .9em; font-weight: normal; border-right: 1px solid #fff; }
+        td:first-child { white-space: nowrap; color: #008000; width: 1%; font-style: italic; }
+
+        h1, h2, h3 { color: #4b4b4b; font-family: "Source Sans Pro", sans-serif; font-weight: 300; margin: 0 0 1.2em; }
+        h1 { font-size: 4.5em; color: #1f8dd6; margin: 0 0 .4em; }
+        h2 { font-size: 2em; color: #636363; }
+        h3 { font-size: 1.8em; color: #4b4b4b; margin: 1.8em 0 .8em }
+        h4 { font: bold 1em sans-serif; color: #636363; margin: 4em 0 1em; }
+        a { color: #4e99c7; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        p, pre { margin: 0 0 1.2em; }
+        ::selection { color: #fff; background: #328efd; }
+        ::-moz-selection { color: #fff; background: #328efd; }
+
+        @media (max-width:480px) {
+            h1 { font-size: 3em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.5em; }
+            td:first-child { white-space: normal; }
+        }
+
+        .inline-code { padding: 1px 5px; background: #eee; border-radius: 2px; }
+        pre { padding: 15px 10px; font-size: .9em; color: #555; background: #edf3f8; }
+        pre i { color: #aaa; } /* comments */
+        pre b { font-weight: normal; color: #cf4b25; } /* strings */
+        pre em { color: #0c59e9; } /* numeric */
+
+        /* Pure CSS */
+        .pure-button { margin: 5px 0; text-decoration: none !important; }
+        .button-lg { margin: 5px 0; padding: .65em 1.6em; font-size: 105%; }
+        .button-sm { font-size: 85%; }
+
+        textarea {
+            width: 100%; height: 29px; padding: .3em .5em; border: 1px solid #ddd; font-size: .9em;
+            box-sizing: border-box; margin: 0 0 20px;
+        }
+        textarea[readonly] { color: #aaa; background: #f7f7f7; }
+
+        #response {
+            margin: 0 0 1.2em; padding: 10px; background: #f3f3f3; color: #777;
+            font-size: .9em; max-height: 150px; overflow: hidden; overflow-y: auto;
+        }
+        #response i { font-style: normal; color: #cf4b25; }
+        #response hr { margin: 2px 0; border: 0; border-top: 1px solid #eee; border-bottom: 1px solid #fdfdfd; }
+
+        /* overwrite default CSS for tiny, dark tags in demo5 */
+        #demo5+.tag-editor { background: #fafafa; font-size: 12px; }
+        #demo5+.tag-editor .tag-editor-tag { color: #fff; background: #555; border-radius: 2px; }
+        #demo5+.tag-editor .tag-editor-spacer { width: 7px; }
+        #demo5+.tag-editor .tag-editor-delete { display: none; }
+
+        /* color tags */
+        .tag-editor .red-tag .tag-editor-tag { color: #c65353; background: #ffd7d7; }
+        .tag-editor .red-tag .tag-editor-delete { background-color: #ffd7d7; }
+        .tag-editor .green-tag .tag-editor-tag { color: #45872c; background: #e1f3da; }
+        .tag-editor .green-tag .tag-editor-delete { background-color: #e1f3da; }
+    </style>
+    <link rel="stylesheet" href="jquery.tag-editor.css">
+</head>
+<body>
+    <div style="max-width:900px;padding:0 10px;margin:40px auto;text-align:center">
+        <h1>tagEditor</h1>
+        <h2>A powerful and lightweight tag editor plugin for jQuery.</h2>
+        <a href="https://github.com/Pixabay/jQuery-tagEditor/archive/master.zip" class="pure-button pure-button-primary button-lg">Download</a>
+        &nbsp;
+        <a href="https://github.com/Pixabay/jQuery-tagEditor" class="pure-button button-lg">View on GitHub</a>
+    </div>
+    <div style="border-top: 1px solid #eee;border-bottom:1px solid #eee;background:#fafafa;margin:30px 0;padding:20px 5px">
+        <div style="padding :0 7px 0 5px;max-width:900px;margin:auto">
+            <textarea id="hero-demo">example tags, sortable, autocomplete, edit in place, tab/cursor navigation, duplicate check, callbacks, copy-paste, placeholder, public methods, custom delimiter, graceful degradation</textarea>
+        </div>
+    </div>
+    <div style="max-width:900px;margin:auto;padding:0 10px 50px">
+        <h3>Overview and Features</h3>
+        <p>
+            Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
+            Source on <a href="https://github.com/Pixabay/jQuery-tagEditor">Github</a> (<a href="https://github.com/Pixabay/jQuery-tagEditor#changelog">changelog</a>).
+            Compatible with jQuery 1.7.0+ in Firefox, Safari, Chrome, Opera, Internet Explorer 8+. IE7 technically works, but no care has gone into CSS/layout bugs.
+            tagEditor depends on accursoft's <a href="https://github.com/accursoft/caret">caret plugin</a> (1.1 kB minified).
+        </p>
+        <ul>
+            <li>Lightweight: 8.5 kB of JavaScript - less than 3.2 kB gzipped</li>
+            <li>Edit in place tags</li>
+            <li>Intuitive navigation between tags with cursor keys, Tab, Shift+Tab, Enter, Pos1, End, Backspace, Del, and ESC</li>
+            <li>Optional jQuery UI sortable</li>
+            <li>Optional jQuery UI autocomplete</li>
+            <li>Copy-paste or delete multiple selected tags</li>
+            <li>Duplicate tags check</li>
+            <li>Custom delimiter/s</li>
+            <li>Placeholder</li>
+            <li>Custom style for faulty tags</li>
+            <li>Public methods for reading, adding and removing tags + destroy function</li>
+            <li>Callbacks</li>
+            <li>Allows tabindex for form navigation</li>
+            <li>Graceful degradation if JavaScript is disabled</li>
+        </ul>
+        <p>
+            This plugin was developed by and for <a href="https://pixabay.com/">Pixabay.com</a> - an international repository for free Public Domain images.
+            We have implemented this piece of software in production and we share it - in the spirit of Pixabay - freely with others.
+        </p>
+
+        <h3>Usage</h3>
+        <p>
+            Include the stylesheet <span class="inline-code">jquery.tag-editor.css</span> in the <span class="inline-code">&lt;head&gt;</span> section of your HTML document - and the JavaScript file <span class="inline-code">jquery.tag-editor.min.js</span> after loading jQuery and optional jQuery UI sortable/autocomplete.
+            Make sure to also load accursoft's <a href="http://code.accursoft.com/caret">caret plugin</a> (1.1 kB minified).
+            tagEditor accepts settings from an object of key/value pairs, and can be assigned to any text input field or textarea.
+        </p>
+        <pre>
+$(selector).tagEditor({key1: value1, key2: value2});
+
+<i>// examples</i>
+
+<i>// assign tag editor to textarea - existing text will be used as initial tags</i>
+$(<b>'textarea'</b>).tagEditor();
+
+<i>// assign tag editor to text input with initial tags</i>
+$(<b>'input[type="text"]'</b>).tagEditor({ initialTags: [<b>'tag1'</b>, <b>'tag2'</b>, <b>'tag3'</b>] });
+
+<i>// use jQuery UI autocomplete</i>
+$(<b>'#my_textarea'</b>).tagEditor({ autocomplete: { <b>'source'</b>: <b>'/url/'</b>, minLength: <em>3</em> } });</pre>
+
+        <h3>Settings</h3>
+        <table>
+            <tr><th>Property</th><th>Default</th><th>Description</th></tr>
+            <tr><td>initialTags</td><td>[]</td><td>Initial tags as an array of strings.</td></tr>
+            <tr><td>maxTags</td><td><i>null</i></td><td>Maximum number of allowed tags.</td></tr>
+            <tr><td>maxLength</td><td>50</td><td><span class="inline-code">maxlength</span> attribute of the tag input field.</td></tr>
+            <tr>
+                <td>delimiter</td><td style="white-space:nowrap">',;'</td>
+                <td>
+                    <p>
+                        Required string of delimiters - characters for separating tags.
+                        The first character is used as default delimiter in the (hidden) original field.
+                    </p>
+                </td>
+            </tr>
+            <tr><td>placeholder</td><td>''</td><td>Placeholder text for empty tag editor.</td></tr>
+            <tr><td>forceLowercase</td><td><i>true</i></td><td>Lowercase all tags.</td></tr>
+            <tr><td>removeDuplicates</td><td><i>true</i></td><td>Automatically remove duplicate tags.</td></tr>
+            <tr><td>clickDelete</td><td><i>false</i></td><td>Delete tags on right click and on Ctrl+click.</td></tr>
+            <tr><td>animateDelete</td><td><i>175</i></td><td>Animate duration for deletion of tags in milliseconds. Set to 0 for non-animated removal.</td></tr>
+            <tr><td>sortable</td><td><i>true</i></td><td>If <a href="https://jqueryui.com/sortable/">jQuery UI sortable</a> is available and this option is set to <span class="inline-code">true</span>, tags are sortable by drag and drop.</td></tr>
+            <tr><td>autocomplete</td><td><i>null</i></td><td><a href="https://jqueryui.com/autocomplete/">jQuery UI autocomplete</a> options as key/value pairs object. If provided, jQuery UI autocomplete must be loaded additionally.</td></tr>
+
+            <tr><td colspan="3">&nbsp;</td></tr>
+            <tr><th>Callbacks</th><th colspan="2"></th></tr>
+            <tr><td>onChange(field, editor, tags)</td><td colspan="2">Callback that fires after tags are changed. <span class="inline-code">field</span> is the (hidden) original field, <span class="inline-code">editor</span> is the editor's DOM element (an &lt;ul&gt; list of tag elements), and <span class="inline-code">tags</span> contains the list of current tags.</td></tr>
+            <tr><td>beforeTagSave(field, editor, tags, tag, val)</td><td colspan="2">Callback that fires before a tag is saved. <span class="inline-code">field</span> is the (hidden) original field, <span class="inline-code">editor</span> is the editor's DOM element. <span class="inline-code">tags</span> contains the list of current tags, <span class="inline-code">tag</span> is the value that is about to get overwritten (empty string, unless an existing tag gets changed), and <span class="inline-code">val</span> is the new value to be saved. <span class="inline-code">beforeTagSave()</span> may return a string for overwriting the saved tag. Return <span class="inline-code">false</span> for reverting to the tag's previous value (or to skip this tag value in the case of copy-paste insertion).</td></tr>
+            <tr><td>beforeTagDelete(field, editor, tags, val)</td><td colspan="2">Callback that fires before a tag is deleted. <span class="inline-code">field</span> is the (hidden) original field, <span class="inline-code">editor</span> is the editor's DOM element. <span class="inline-code">tags</span> contains the list of current tags, <span class="inline-code">val</span> is the tag that is about to get deleted. Return <span class="inline-code">false</span> to prevent this action.</td></tr>
+
+            <tr><td colspan="3">&nbsp;</td></tr>
+            <tr><th>Public Methods</th><th colspan="2"></th></tr>
+            <tr><td>getTags</td><td colspan="2">
+                Returns a list of objects in the following format:
+                <br>[{ field: <i>selected input/textarea</i>, editor: <i>editor instance for field</i>, tags: <i>current tags</i> }]
+            </td></tr>
+            <tr><td>addTag(val, blur)</td><td colspan="2">Adds <span class="inline-code">val</span> as a new tag. Set <span class="inline-code">blur</span> to <span class="inline-code">true</span> if focus should not be set automatically into an empty, new tag after this action.</td></tr>
+            <tr><td>removeTag(val, blur)</td><td colspan="2">Removes <span class="inline-code">val</span> as tag. Set <span class="inline-code">blur</span> to <span class="inline-code">true</span> if focus should not be set automatically into an empty, new tag after this action.</td></tr>
+            <tr><td>destroy</td><td colspan="2">Removes the tag editor instance an restores visibility of the original text field or textarea.</td></tr>
+        </table>
+
+        <h3 style="margin-top:.8em;border-top:1px solid #eee;padding-top:1.8em">Demos</h3>
+
+        <h4 style="margin-top:.5em">Basic settings</h4>
+        <pre>
+$(<b>'#demo1'</b>).tagEditor({
+    initialTags: [<b>'Hello'</b>, <b>'World'</b>, <b>'Example'</b>, <b>'Tags'</b>],
+    delimiter: <b>', '</b>, <i>/* space and comma */</i>
+    placeholder: <b>'Enter tags ...'</b>
+});</pre>
+        <div style="margin:0 0 1.2em">
+            <p>The original field - textarea or text input - is normally hidden automatically. We show it here to make value changes visible:</p>
+            <textarea id="demo1"></textarea>
+        </div>
+        <p>
+            The placeholder is visible when all tags are deleted and the editor looses focus.
+            jQuery UI is already loaded on this page - and by default, tags are then sortable via drag and drop.
+        </p>
+
+        <h4>Autocomplete</h4>
+        <p>
+            For enabling tag autocompletion, make sure to have <a href="https://jqueryui.com/autocomplete/">jQuery UI autocomplete</a> readily loaded.
+            You can then pass <i>any</i> options that work with UI autocomplete to your tagEditor settings.
+        </p>
+        <pre>
+$(<b>'#demo2'</b>).tagEditor({
+    autocomplete: {
+        delay: 0, <i>// show suggestions immediately</i>
+        position: { collision: 'flip' }, <i>// automatic menu position up/down</i>
+        source: [<b>'ActionScript'</b>, <b>'AppleScript'</b>, <b>'Asp'</b>, ... <b>'Python'</b>, <b>'Ruby'</b>]
+    },
+    forceLowercase: <em>false</em>,
+    placeholder: <b>'Programming languages ...'</b>
+});</pre>
+        <div style="margin:0 0 1.2em"><textarea id="demo2"></textarea></div>
+
+        <h4>Public methods</h4>
+        <pre>
+$(<b>'#demo3'</b>).tagEditor({
+    initialTags: [<b>'Hello'</b>, <b>'World'</b>],
+    placeholder: <b>'Enter tags ...'</b>
+});</pre>
+        <div style="margin:0 0 1.2em"><textarea id="demo3"></textarea></div>
+        <p>
+            <span onclick="alert($('#demo3').tagEditor('getTags')[0].tags);" class="ed_on pure-button button-sm">getTags</span>
+            <span onclick="$('#demo3').tagEditor('addTag', 'example');" class="ed_on pure-button button-sm">addTag 'example'</span>
+            <span onclick="$('#demo3').tagEditor('removeTag', 'example', true);" class="ed_on pure-button button-sm">removeTag 'example'</span>
+            <span id="remove_all_tags" class="ed_on pure-button button-sm">Remove all tags</span>
+            <span onclick="$('#demo3').tagEditor('destroy');$('.ed_on').hide();$('.ed_off').show();" class="ed_on pure-button button-sm">destroy</span>
+            <span onclick="$('#demo3').tagEditor({ placeholder: 'Enter tags ...' });$('.ed_off').hide();$('.ed_on').show();" class="ed_off pure-button button-sm" style="display:none">Init editor</span>
+        </p>
+        <pre>
+<i>// actions on button clicks</i>
+
+<i>// getTags</i>
+alert( $(<b>'#demo3'</b>).tagEditor(<b>'getTags'</b>)[0].tags );
+
+<i>// addTag</i>
+$(<b>'#demo3'</b>).tagEditor(<b>'addTag'</b>, <b>'example'</b>);
+
+<i>// removeTag</i>
+$(<b>'#demo3'</b>).tagEditor(<b>'removeTag'</b>, <b>'example'</b>);
+
+<i>// Remove all tags</i>
+function() {
+    var tags = $(<b>'#demo3'</b>).tagEditor(<b>'getTags'</b>)[0].tags;
+    for (i = 0; i &lt; tags.length; i++) { $(<b>'#demo3'</b>).tagEditor(<b>'removeTag'</b>, tags[i]); }
+}
+<i>// working shortcut for removing all tags
+// $('#demo3').next('.tag-editor').find('.tag-editor-delete').click();</i>
+
+<i>// destroy</i>
+$(<b>'#demo3'</b>).tagEditor(<b>'destroy'</b>);
+
+<i>// re-init editor</i>
+$(<b>'#demo3'</b>).tagEditor({ placeholder: <b>'Enter tags ...'</b> });</pre>
+
+        <h4>Callbacks</h4>
+        <pre>
+$(<b>'#demo4'</b>).tagEditor({
+    initialTags: [<b>'Hello'</b>, <b>'World'</b>],
+    placeholder: <b>'Enter tags ...'</b>,
+    onChange: function(field, editor, tags) {
+        $(<b>'#response'</b>).prepend(
+            <b>'Tags changed to: '</b> + (tags.length ? tags.join(<b>', '</b>) : <b>'----'</b>) + <b>'&lt;hr&gt;'</b>
+        );
+    },
+    beforeTagSave: function(field, editor, tags, tag, val) {
+        $(<b>'#response'</b>).prepend(<b>'Tag '</b> + val + <b>' saved'</b> + (tag ? <b>' over '</b> + tag : <b>''</b>) + <b>'.'</b>);
+    },
+    beforeTagDelete: function(field, editor, tags, val) {
+        var q = confirm(<b>'Remove tag "'</b> + val + <b>'"?'</b>);
+        if (q) $(<b>'#response'</b>).prepend(<b>'Tag '</b> + val + <b>' deleted.'</b>);
+        else $(<b>'#response'</b>).prepend(<b>'Removal of '</b> + val + <b>' discarded.'</b>);
+        return q;
+    }
+});</pre>
+        <div style="margin:0 0 1.2em"><textarea id="demo4"></textarea></div>
+        <p style="font-size:.9em;margin:0 0 .2em">Callback response:</p>
+        <div id="response">Starting tags: <i>hello, world</i></div>
+
+        <h4>Custom style and clickDelete</h4>
+        <p>
+            Use right mouse click or Ctrl+left click to delete tags.
+        </p>
+        <pre>
+$(<b>'#demo5'</b>).tagEditor({
+    clickDelete: true,
+    initialTags: [ ... ],
+    placeholder: <b>'Enter tags ...'</b>
+});</pre>
+        <div style="margin:0 0 1.2em"><textarea id="demo5"></textarea></div>
+        <pre>
+<i>/* overwrite default CSS for tiny, dark tags */</i>
+
+<b>#demo5+.tag-editor</b> { background: <em>#fafafa</em>; font-size: <em>12px</em>; }
+<b>#demo5+.tag-editor .tag-editor-tag</b> {
+    color: <em>#fff</em>; background: <em>#555</em>;
+    border-radius: <em>2px</em>;
+}
+<b>#demo5+.tag-editor .tag-editor-spacer</b> { width: <em>7px</em>; }
+<b>#demo5+.tag-editor .tag-editor-delete</b> { display: <em>none</em>; }</pre>
+        <p>
+            This jQuery plugin was designed with custom styling in mind. In this example we've enabled the <span class="inline-code">clickDelete</span> feature while hiding all delete icons. Both options may be used at the same time, as well.
+            By fiddling around with the default stylesheet, you can achieve almost any desired look for your tag Editor.
+            Comments inside the CSS file will help you understand what rule controls which object inside the editor.
+        </p>
+
+        <h4>Custom CSS classes for tags</h4>
+        <p>
+            Using the onChange callback for adding custom CSS classes to specific tags.
+        </p>
+        <pre>
+$(<b>'#demo6'</b>).tagEditor({
+    initialTags: [<b>'custom'</b>, <b>'class'</b>, <b>'red'</b>, <b>'green'</b>, <b>'demo'</b>],
+    onChange: tag_classes
+});
+
+function tag_classes(field, editor, tags) {
+    $(<b>'li'</b>, editor).each(function(){
+        var li = $(this);
+        if (li.find(<b>'.tag-editor-tag'</b>).html() == <b>'red'</b>) li.addClass(<b>'red-tag'</b>);
+        else if (li.find(<b>'.tag-editor-tag'</b>).html() == <b>'green'</b>) li.addClass(<b>'green-tag'</b>)
+        else li.removeClass(<b>'red-tag green-tag'</b>);
+    });
+}
+
+<i>// first assign tag classes after initializing tagEditor; onChange is not called on init</i>
+tag_classes(null, $('#demo6').tagEditor('getTags')[0].editor);</pre>
+        <div style="margin:0 0 1.2em"><textarea id="demo6"></textarea></div>
+        <p>
+            In the onChange callback we iterate over all tags and assign custom CSS classes where appropriate.
+            The DOM structure of the editor looks like this:
+        </p>
+        <pre>&lt;ul&gt;
+    &lt;li&gt;
+        &lt;div class=<b>&quot;tag-editor-spacer&quot;</b>&gt;&lt;/div&gt;
+        &lt;div class=<b>&quot;tag-editor-tag&quot;</b>&gt;Tag content&lt;/div&gt;
+        &lt;div class=<b>&quot;tag-editor-delete&quot;</b>&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;/li&gt;
+    [...]
+&lt;/ul&gt;</pre>
+
+        <p>
+            In the example, we simply add CSS classes to the <span class="inline-code">&lt;li&gt;</span> elements.
+            This is just an exampe of what the onChange callback may be used for. Inside of it, <span class="inline-code">addTag</span> and <span class="inline-code">removeTag</span> may be called to dynamically change the current list of tags.
+        </p>
+
+        <div style="margin:40px 0;overflow:hidden">
+            <span id="github_social"></span>
+            <div style="float:left;margin-right:35px">
+                <a href="#" data-width="70" class="twitter-share-button" data-text="jQuery tagEditor Plugin"></a>
+            </div>
+            <div style="float:left">
+                <div class="g-plusone" data-size="medium"></div>
+            </div>
+            <div style="float:left;width:140px" class="fb-like" data-send="false" data-layout="button_count" data-width="140" data-show-faces="false"></div>
+        </div>
+
+        <p style="border-top:1px solid #eee;padding-top:30px">Please report any bugs and issues at the <a href="https://github.com/Pixabay/jQuery-tagEditor">GitHub repositiory</a>.</p>
+        <p>This software is released as Open Source under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> by <a href="https://pixabay.com/users/Simon/">Simon Steinberger / Pixabay.com</a>.</p>
+
+    </div>
+
+    <div style="background:#fafafa;border-top:1px solid #eee;padding:15px;font-size:.9em">
+        <div style="max-width:900px;margin:auto;padding:0 10px">
+            <a style="float:right;margin-left:20px" href="https://pixabay.com/en/service/about/">About Us</a>
+            <a style="float:right;margin-left:20px" href="https://pixabay.com/en/blog/">Blog</a>
+            <a style="float:right;margin-left:20px" href="https://goodies.pixabay.com/">More Goodies</a>
+            © <a href="https://pixabay.com/">Pixabay.com</a> / Simon Steinberger / Hans Braxmeier
+        </div>
+    </div>
+
+    <div id="fb-root"></div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+    <script src="jquery.caret.min.js"></script>
+    <script src="jquery.tag-editor.js"></script>
+    <script>
+        // jQuery UI autocomplete extension - suggest labels may contain HTML tags
+        // github.com/scottgonzalez/jquery-ui-extensions/blob/master/src/autocomplete/jquery.ui.autocomplete.html.js
+        (function($){var proto=$.ui.autocomplete.prototype,initSource=proto._initSource;function filter(array,term){var matcher=new RegExp($.ui.autocomplete.escapeRegex(term),"i");return $.grep(array,function(value){return matcher.test($("<div>").html(value.label||value.value||value).text());});}$.extend(proto,{_initSource:function(){if(this.options.html&&$.isArray(this.options.source)){this.source=function(request,response){response(filter(this.options.source,request.term));};}else{initSource.call(this);}},_renderItem:function(ul,item){return $("<li></li>").data("item.autocomplete",item).append($("<a></a>")[this.options.html?"html":"text"](item.label)).appendTo(ul);}});})(jQuery);
+
+        var cache = {};
+        function googleSuggest(request, response) {
+            var term = request.term;
+            if (term in cache) { response(cache[term]); return; }
+            $.ajax({
+                url: 'https://query.yahooapis.com/v1/public/yql',
+                dataType: 'JSONP',
+                data: { format: 'json', q: 'select * from xml where url="http://google.com/complete/search?output=toolbar&q='+term+'"' },
+                success: function(data) {
+                    var suggestions = [];
+                    try { var results = data.query.results.toplevel.CompleteSuggestion; } catch(e) { var results = []; }
+                    $.each(results, function() {
+                        try {
+                            var s = this.suggestion.data.toLowerCase();
+                            suggestions.push({label: s.replace(term, '<b>'+term+'</b>'), value: s});
+                        } catch(e){}
+                    });
+                    cache[term] = suggestions;
+                    response(suggestions);
+                }
+            });
+        }
+
+        $(function() {
+            $('#hero-demo').tagEditor({
+                placeholder: 'Enter tags ...',
+                autocomplete: { source: googleSuggest, minLength: 3, delay: 250, html: true, position: { collision: 'flip' } }
+            });
+
+            $('#demo1').tagEditor({ initialTags: ['Hello', 'World', 'Example', 'Tags'], delimiter: ', ', placeholder: 'Enter tags ...' }).css('display', 'block').attr('readonly', true);
+
+            $('#demo2').tagEditor({
+                autocomplete: { delay: 0, position: { collision: 'flip' }, source: ['ActionScript', 'AppleScript', 'Asp', 'BASIC', 'C', 'C++', 'CSS', 'Clojure', 'COBOL', 'ColdFusion', 'Erlang', 'Fortran', 'Groovy', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Lisp', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala', 'Scheme'] },
+                forceLowercase: false,
+                placeholder: 'Programming languages ...'
+            });
+
+            $('#demo3').tagEditor({ initialTags: ['Hello', 'World'], placeholder: 'Enter tags ...' });
+            $('#remove_all_tags').click(function() {
+                var tags = $('#demo3').tagEditor('getTags')[0].tags;
+                for (i=0;i<tags.length;i++){ $('#demo3').tagEditor('removeTag', tags[i]); }
+            });
+
+            $('#demo4').tagEditor({
+                initialTags: ['Hello', 'World'],
+                placeholder: 'Enter tags ...',
+                onChange: function(field, editor, tags) { $('#response').prepend('Tags changed to: <i>'+(tags.length ? tags.join(', ') : '----')+'</i><hr>'); },
+                beforeTagSave: function(field, editor, tags, tag, val) { $('#response').prepend('Tag <i>'+val+'</i> saved'+(tag ? ' over <i>'+tag+'</i>' : '')+'.<hr>'); },
+                beforeTagDelete: function(field, editor, tags, val) {
+                    var q = confirm('Remove tag "'+val+'"?');
+                    if (q) $('#response').prepend('Tag <i>'+val+'</i> deleted.<hr>');
+                    else $('#response').prepend('Removal of <i>'+val+'</i> discarded.<hr>');
+                    return q;
+                }
+            });
+
+            $('#demo5').tagEditor({ clickDelete: true, initialTags: ['custom style', 'dark tags', 'delete on click', 'no delete icon', 'hello', 'world'], placeholder: 'Enter tags ...' });
+
+            function tag_classes(field, editor, tags) {
+                $('li', editor).each(function(){
+                    var li = $(this);
+                    if (li.find('.tag-editor-tag').html() == 'red') li.addClass('red-tag');
+                    else if (li.find('.tag-editor-tag').html() == 'green') li.addClass('green-tag')
+                    else li.removeClass('red-tag green-tag');
+                });
+            }
+            $('#demo6').tagEditor({ initialTags: ['custom', 'class', 'red', 'green', 'demo'], onChange: tag_classes });
+            tag_classes(null, $('#demo6').tagEditor('getTags')[0].editor); // or editor == $('#demo6').next()
+        });
+
+        if (~window.location.href.indexOf('http')) {
+            (function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
+            (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=114593902037957";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+            $('#github_social').html('\
+                <iframe style="float:left;margin-right:15px" src="//ghbtns.com/github-btn.html?user=Pixabay&repo=jQuery-tagEditor&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>\
+                <iframe style="float:left;margin-right:15px" src="//ghbtns.com/github-btn.html?user=Pixabay&repo=jQuery-tagEditor&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>\
+            ');
+        }
+    </script>
+</body>
+</html>

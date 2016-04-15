@@ -29,14 +29,13 @@ public class ImageTag extends JTag {
 		String src = getParam("src");
 
 		Thumbnail tb = Jpress.currentTemplate().getThumbnailByName(name);
-		
+
 		int inserTo = src.lastIndexOf(".");
-		
-		String newPath = src.substring(0, inserTo) + "_"
-				+ tb.getSizeAsString() + src.substring(inserTo, src.length());
+
+		String newPath = src.substring(0, inserTo) + "_" + tb.getSizeAsString() + src.substring(inserTo, src.length());
 
 		String imageTag = String.format("<img src=\"%s\" style=\"%s\" />", newPath, style);
-		
+
 		renderText(imageTag);
 
 	}

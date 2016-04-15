@@ -26,8 +26,8 @@ public abstract class JWidget {
 	public JWidget() {
 		config = new WidgetConfig();
 	}
-	
-	public void put(String key,Object value){
+
+	public void put(String key, Object value) {
 		config.put(key, value);
 	}
 
@@ -70,43 +70,46 @@ public abstract class JWidget {
 			return value == null ? false : Boolean.valueOf(value.toString());
 		}
 	}
-	
-	public static class WidgetStorage{
+
+	public static class WidgetStorage {
 		private String className;
 		private String data;
-		
+
 		public WidgetStorage(JWidget widget) {
 			className = widget.getClass().getName();
 			data = JSON.toJSONString(widget);
 		}
-		
+
 		public String getClassName() {
 			return className;
 		}
+
 		public void setClassName(String className) {
 			this.className = className;
 		}
+
 		public String getData() {
 			return data;
 		}
+
 		public void setData(String data) {
 			this.data = data;
 		}
-		
+
 		@SuppressWarnings("unchecked")
-		public JWidget getWidget(){
+		public JWidget getWidget() {
 			Class<? extends JWidget> clazz = null;
 			try {
 				clazz = (Class<? extends JWidget>) Class.forName(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			if(clazz != null){
+			if (clazz != null) {
 				return JSON.parseObject(data, clazz);
 			}
 			return null;
 		}
-		
+
 	}
 
 }

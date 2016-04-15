@@ -50,10 +50,10 @@ public class FileUtils {
 	public static void writeString(File file, String string) {
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(file,false);
+			fos = new FileOutputStream(file, false);
 			fos.write(string.getBytes());
-		} catch (Exception e) {}
-		finally {
+		} catch (Exception e) {
+		} finally {
 			close(null, fos);
 		}
 	}

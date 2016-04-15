@@ -42,13 +42,13 @@ public class MessagePlugin implements IPlugin {
 		try {
 			listener = listenerClass.newInstance();
 		} catch (Exception e) {
-			log.error(String.format("listener \"%s\" newInstance is error. ", listenerClass) , e);
+			log.error(String.format("listener \"%s\" newInstance is error. ", listenerClass), e);
 			return;
 		}
 
 		MessageAction actions = new MessageAction();
 		listener.onRegisterAction(actions);
-		
+
 		for (String action : actions.getActions()) {
 
 			List<MessageListener> list = listenerMap.get(action);
@@ -80,9 +80,7 @@ public class MessagePlugin implements IPlugin {
 					try {
 						listener.onMessage(message);
 					} catch (Exception e) {
-						log.error(String.format(
-								"listener[%s] onMessage is erro! ",
-								listener.getClass()), e);
+						log.error(String.format("listener[%s] onMessage is erro! ", listener.getClass()), e);
 					}
 				}
 			});

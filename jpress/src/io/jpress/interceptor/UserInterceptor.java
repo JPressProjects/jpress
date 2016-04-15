@@ -23,17 +23,16 @@ import com.jfinal.aop.Invocation;
 
 public class UserInterceptor implements Interceptor {
 
-
 	@Override
 	public void intercept(Invocation inv) {
-		
-		User  user = InterUtils.tryToGetUser(inv);
-		
-		if(user != null ){
+
+		User user = InterUtils.tryToGetUser(inv);
+
+		if (user != null) {
 			inv.getController().setAttr("user", user);
 			inv.getController().setAttr("ucode", HashUtils.generateUcode(user));
 			inv.invoke();
-		}else{
+		} else {
 			inv.getController().redirect("/user/login");
 		}
 

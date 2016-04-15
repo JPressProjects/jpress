@@ -15,8 +15,6 @@
  */
 package io.jpress.core.ui;
 
-import java.io.File;
-
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.IErrorRenderFactory;
 import com.jfinal.render.Render;
@@ -26,9 +24,9 @@ import io.jpress.core.Jpress;
 import io.jpress.template.TemplateUtils;
 
 public class JErrorRenderFactory extends FreeMarkerRender implements IErrorRenderFactory {
-	
+
 	private int errorCode;
-	
+
 	public JErrorRenderFactory() {
 		super(null);// FreeMarkerRender view,init view in render() method
 	}
@@ -42,35 +40,35 @@ public class JErrorRenderFactory extends FreeMarkerRender implements IErrorRende
 	@Override
 	public void render() {
 		request.setAttribute("errorCode", errorCode);
-		
-		if(!Jpress.isInstalled()){
+
+		if (!Jpress.isInstalled()) {
 			renderText("404 error in jpress.");
 			return;
 		}
-		
+
 		String templateName = TemplateUtils.getTemplateName();
-		if(null == templateName){
+		if (null == templateName) {
 			renderText(String.format("%s error!you haven't configure your template yet.", errorCode));
 			return;
 		}
-		
-		if(errorCode > 500) 
+
+		if (errorCode > 500)
 			errorCode = 500;
-		
-		String htmlName = errorCode+".html";
-		
-		if(!TemplateUtils.existsFile(htmlName)){
-			renderText(String.format("%s error! template \"%s\" not found in \"%s\" .",errorCode,htmlName,templateName));
-		}else{
-			this.view = Jpress.currentTemplate().getPath()+"/"+htmlName;
+
+		String htmlName = errorCode + ".html";
+
+		if (!TemplateUtils.existsFile(htmlName)) {
+			renderText(String.format("%s error! template \"%s\" not found in \"%s\" .", errorCode, htmlName,
+					templateName));
+		} else {
+			this.view = Jpress.currentTemplate().getPath() + "/" + htmlName;
 			super.render();
 		}
-		
+
 	}
 
 	private void renderText(String text) {
 		new TextRender(text).setContext(request, response).render();
 	}
-	
 
 }

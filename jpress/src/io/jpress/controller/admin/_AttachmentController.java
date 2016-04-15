@@ -66,7 +66,6 @@ public class _AttachmentController extends BaseAdminController<Attachment> {
 
 			processThumbnail(newPath);
 			processWatermark(newPath);
-			
 
 			redirect("/admin/attachment?p=attachment&c=list", true);
 		} else {
@@ -76,10 +75,10 @@ public class _AttachmentController extends BaseAdminController<Attachment> {
 
 	private void processThumbnail(String newPath) {
 		List<Thumbnail> tbs = Jpress.currentTemplate().getThumbnails();
-		if(tbs!= null && tbs.size() > 0){
-			for(Thumbnail tb : tbs){
+		if (tbs != null && tbs.size() > 0) {
+			for (Thumbnail tb : tbs) {
 				try {
-					String newSrc =ImageUtils.scale(PathKit.getWebRootPath()+newPath, tb.getWidth(), tb.getHeight());
+					String newSrc = ImageUtils.scale(PathKit.getWebRootPath() + newPath, tb.getWidth(), tb.getHeight());
 					processWatermark(newSrc.substring(PathKit.getWebRootPath().length()));
 				} catch (IOException e) {
 					e.printStackTrace();

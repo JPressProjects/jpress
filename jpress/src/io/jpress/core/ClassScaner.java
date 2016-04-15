@@ -30,8 +30,7 @@ public class ClassScaner {
 		return scanSubClass(pclazz, false);
 	}
 
-	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz,
-			boolean mustbeCanNewInstance) {
+	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz, boolean mustbeCanNewInstance) {
 		if (pclazz == null) {
 			logger.error("scanClass: parent clazz is null");
 			return null;
@@ -44,8 +43,7 @@ public class ClassScaner {
 		for (File file : classFileList) {
 			int start = PathKit.getRootClassPath().length();
 			int end = file.toString().length() - 6; // 6 == ".class".length();
-			String className = file.toString().substring(start + 1, end)
-					.replace(File.separator, ".");
+			String className = file.toString().substring(start + 1, end).replace(File.separator, ".");
 
 			Class<T> clazz = classForName(className);
 

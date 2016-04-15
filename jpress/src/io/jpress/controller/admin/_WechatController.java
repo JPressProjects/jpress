@@ -32,7 +32,7 @@ public class _WechatController extends BaseAdminController<Content> {
 	private String getModule() {
 		return "wechatReplay";
 	}
-	
+
 	private String getStatus() {
 		return getPara("s");
 	}
@@ -41,9 +41,9 @@ public class _WechatController extends BaseAdminController<Content> {
 	public void index() {
 		setAttr("module", getModule());
 
-		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModule(),Content.STATUS_DELETE));
-		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModule(),Content.STATUS_DRAFT));
-		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModule(),Content.STATUS_NORMAL));
+		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_DELETE));
+		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_DRAFT));
+		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_NORMAL));
 		setAttr("count", mDao.findCountInNormalByModule(getModule()));
 
 		super.index();
@@ -52,9 +52,9 @@ public class _WechatController extends BaseAdminController<Content> {
 	@Override
 	public Page<Content> onPageLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize,getModule(), getStatus());
+			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModule(), getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize,getModule());
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModule());
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -122,9 +122,5 @@ public class _WechatController extends BaseAdminController<Content> {
 		}
 		render("edit.html");
 	}
-
-
-
-
 
 }

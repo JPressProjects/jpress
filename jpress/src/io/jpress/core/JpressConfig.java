@@ -45,18 +45,17 @@ import io.jpress.plugin.router.RouterPlugin;
 
 public abstract class JpressConfig extends JFinalConfig {
 
-
 	public void configConstant(Constants constants) {
 		PropKit.use("jpress.properties");
-		
+
 		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
 		constants.setViewType(ViewType.FREE_MARKER);
 		constants.setI18nDefaultBaseName("language");
 		constants.setErrorRenderFactory(new JErrorRenderFactory());
 		constants.setBaseUploadPath("attachment");
 		constants.setEncoding("utf-8");
-		
-//		constants.setTokenCache(new JTokenCache());
+
+		// constants.setTokenCache(new JTokenCache());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,70 +65,65 @@ public abstract class JpressConfig extends JFinalConfig {
 			for (Class<?> clazz : controllerClassList) {
 				UrlMapping urlMapping = clazz.getAnnotation(UrlMapping.class);
 				if (null != urlMapping && null != urlMapping.url() && !"".equals(urlMapping.url())) {
-					if(StrKit.notBlank(urlMapping.viewPath())){
-						routes.add(urlMapping.url(), (Class<? extends Controller>) clazz,urlMapping.viewPath());
-					}else{
+					if (StrKit.notBlank(urlMapping.viewPath())) {
+						routes.add(urlMapping.url(), (Class<? extends Controller>) clazz, urlMapping.viewPath());
+					} else {
 						routes.add(urlMapping.url(), (Class<? extends Controller>) clazz);
 					}
 				}
 			}
 		}
 	}
-	
 
 	public void configPlugin(Plugins plugins) {
 		plugins.add(new RouterPlugin());
 		plugins.add(new MessagePlugin());
 		plugins.add(new EhCachePlugin());
-		
-		if(Jpress.isInstalled()){
+
+		if (Jpress.isInstalled()) {
 			DruidPlugin druidPlugin = createDruidPlugin();
 			plugins.add(druidPlugin);
-	
+
 			ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(druidPlugin);
 			plugins.add(activeRecordPlugin);
 		}
 	}
-	
-	
 
 	public DruidPlugin createDruidPlugin() {
-		
-		Prop dbProp =  PropKit.use("db.properties");
+
+		Prop dbProp = PropKit.use("db.properties");
 		String db_host = dbProp.get("db_host").trim();
 		String db_name = dbProp.get("db_name").trim();
 		String db_user = dbProp.get("db_user").trim();
 		String db_password = dbProp.get("db_password").trim();
-		
-		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host,db_name,db_user,db_password);
+
+		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host, db_name, db_user, db_password);
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ActiveRecordPlugin createRecordPlugin(DruidPlugin druidPlugin) {
 		ActiveRecordPlugin arPlugin = new ActiveRecordPlugin(druidPlugin);
 		List<Class<Model>> modelClassList = ClassScaner.scanSubClass(Model.class);
 		if (modelClassList != null) {
 			String tablePrefix = PropKit.use("db.properties").get("db_tablePrefix");
-			tablePrefix = (StrKit.isBlank(tablePrefix)) ? "": (tablePrefix.trim());
+			tablePrefix = (StrKit.isBlank(tablePrefix)) ? "" : (tablePrefix.trim());
 			for (Class<?> clazz : modelClassList) {
 				Table tb = clazz.getAnnotation(Table.class);
 				if (tb == null)
 					continue;
-				
-				String tname = tablePrefix+tb.tableName();
-				
+				String tname = tablePrefix + tb.tableName();
 				if (null != tb.primaryKey() && !"".equals(tb.primaryKey())) {
-					arPlugin.addMapping(tname,tb.primaryKey(), (Class<? extends Model<?>>) clazz);
+					arPlugin.addMapping(tname, tb.primaryKey(), (Class<? extends Model<?>>) clazz);
 				} else {
-					arPlugin.addMapping(tname,(Class<? extends Model<?>>) clazz);
+					arPlugin.addMapping(tname, (Class<? extends Model<?>>) clazz);
 				}
-				
+
 				DbDialect.mapping(clazz.getSimpleName().toLowerCase(), tname);
 			}
 		}
-		
+
 		arPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
-		
+
 		return arPlugin;
 	}
 
@@ -142,16 +136,15 @@ public abstract class JpressConfig extends JFinalConfig {
 		DruidStatViewHandler druidViewHandler = new DruidStatViewHandler("/admin/druid");
 		handlers.add(druidViewHandler);
 	}
-	
-	
+
 	@Override
 	public void afterJFinalStart() {
-		if(Jpress.isInstalled()){
+		if (Jpress.isInstalled()) {
 			Jpress.loadFinished();
 		}
 		onJfinalStarted();
 	}
-	
+
 	public abstract void onJfinalStarted();
 
 }

@@ -26,7 +26,7 @@ public class MenuTag extends JTag {
 	@Override
 	public void onRender() {
 
-//		String menuName = getParam("name");
+		// String menuName = getParam("name");
 
 		List<Content> list = Content.DAO.findMenuList();
 		ModelSorter.tree(list);

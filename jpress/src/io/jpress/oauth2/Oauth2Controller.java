@@ -25,18 +25,18 @@ public abstract class Oauth2Controller extends JBaseController {
 		String processerName = getPara();
 		OauthConnector op = ProcesserFactory.createProcesser(processerName);
 		String state = UUID.randomUUID().toString().replace("-", "");
-		
+
 		String requestUrl = getRequest().getRequestURL().toString();
-		String callBackUrl =requestUrl.replace("/"+processerName, "/callback/"+processerName);
-		String url = op.getAuthorizeUrl(state,callBackUrl);
-		
+		String callBackUrl = requestUrl.replace("/" + processerName, "/callback/" + processerName);
+		String url = op.getAuthorizeUrl(state, callBackUrl);
+
 		setSessionAttr("oauth_state", state);
 		redirect(url);
 	}
 
-	//xxx/callback/qq
-	//xxx/callback/weibo
-	//xxx/callback/qq
+	// xxx/callback/qq
+	// xxx/callback/weibo
+	// xxx/callback/qq
 	public void callback() {
 		String sessionState = getSessionAttr("oauth_state");
 		String state = getPara("state");
@@ -59,6 +59,7 @@ public abstract class Oauth2Controller extends JBaseController {
 	}
 
 	public abstract void onCallBack(OauthUser oauthUser);
+
 	public abstract void onError(String errorMessage);
 
 }

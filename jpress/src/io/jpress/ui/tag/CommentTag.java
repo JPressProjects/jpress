@@ -24,12 +24,11 @@ public class CommentTag extends JTag {
 
 	@Override
 	public void onRender() {
-		
-		
+
 		Page<Content> page = Content.DAO.doPaginate(1, 10);
-		
+
 		setVariable("comment", page.getList());
-		
+
 		renderBody();
 	}
 

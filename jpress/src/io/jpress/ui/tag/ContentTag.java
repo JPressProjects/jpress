@@ -23,7 +23,7 @@ import io.jpress.model.Content;
  * @created 2016年3月28日
  * 
  *          使用方法：<br />
- *          <@jp_content >  </@jp_content>
+ *          <@jp_content > </@jp_content>
  * 
  * 
  */
@@ -33,9 +33,9 @@ public class ContentTag extends JTag {
 	public void onRender() {
 
 		Long id = getParamToLong("id");
-		
+
 		Content content = null;
-		
+
 		setVariable("content", content);
 
 		renderBody();

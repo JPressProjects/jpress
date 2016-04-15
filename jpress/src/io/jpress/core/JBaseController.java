@@ -29,39 +29,41 @@ import com.jfinal.i18n.Res;
 public class JBaseController extends Controller {
 	private static final char URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator().toCharArray()[0];
 	private JSession session;
+
 	public JBaseController() {
 		session = new JSession(this);
 	}
-	
+
 	@Override
 	public String getPara(String name) {
 		String result = getRequest().getParameter(name);
-		if(null != result ){
+		if (null != result) {
 			return Jsoup.clean(result, Whitelist.relaxed());
 		}
 		return null;
 	}
-	
+
 	@Override
-	public String getPara(String name,String defaultValue) {
+	public String getPara(String name, String defaultValue) {
 		String result = getRequest().getParameter(name);
-		if(null != result ){
+		if (null != result) {
 			return Jsoup.clean(result, Whitelist.relaxed());
 		}
 		return defaultValue;
 	}
-	
+
 	private int mParaCount = -1;
-	public int getParaCount(){
-		if(mParaCount != -1) 
+
+	public int getParaCount() {
+		if (mParaCount != -1)
 			return mParaCount;
 		int mParaCount = 0;
-		char[] parachars = getPara()==null? null : getPara().toCharArray();
-		if(parachars != null){
+		char[] parachars = getPara() == null ? null : getPara().toCharArray();
+		if (parachars != null) {
 			mParaCount = 1;
-			for(char c : parachars){
-				if(URL_PARA_SEPARATOR == c){
-					mParaCount ++;
+			for (char c : parachars) {
+				if (URL_PARA_SEPARATOR == c) {
+					mParaCount++;
 				}
 			}
 		}
@@ -72,12 +74,11 @@ public class JBaseController extends Controller {
 		String header = getRequest().getHeader("X-Requested-With");
 		return "XMLHttpRequest".equalsIgnoreCase(header);
 	}
-	
-	public boolean isMultipartRequest(){
-		String contentType = getRequest().getContentType();
-		return contentType != null && contentType.toLowerCase().indexOf("multipart") != -1 ;
-	}
 
+	public boolean isMultipartRequest() {
+		String contentType = getRequest().getContentType();
+		return contentType != null && contentType.toLowerCase().indexOf("multipart") != -1;
+	}
 
 	protected int getPageNumbere() {
 		int page = getParaToInt("page", 1);
@@ -94,59 +95,56 @@ public class JBaseController extends Controller {
 		}
 		return size;
 	}
-	
-	public void setHeader(String key,String value){
+
+	public void setHeader(String key, String value) {
 		getResponse().setHeader(key, value);
 	}
-	
-	
-	public Res getI18nRes(){
-		//Attribute set in JI18nInterceptor.class
+
+	public Res getI18nRes() {
+		// Attribute set in JI18nInterceptor.class
 		return getAttr("i18n");
 	}
-	
-	public String getI18nValue(String key){
+
+	public String getI18nValue(String key) {
 		return getI18nRes().get(key);
 	}
-	
+
 	@Before(NotAction.class)
-	public void renderAjaxResultForSuccess(){
-		renderAjaxResult("success",0,null);
+	public void renderAjaxResultForSuccess() {
+		renderAjaxResult("success", 0, null);
 	}
-	
-	public void renderAjaxResultForSuccess(String message){
-		renderAjaxResult(message,0,null);
+
+	public void renderAjaxResultForSuccess(String message) {
+		renderAjaxResult(message, 0, null);
 	}
-	
+
 	@Before(NotAction.class)
-	public void renderAjaxResultForError(){
+	public void renderAjaxResultForError() {
 		renderAjaxResult("error", 1, null);
 	}
-	
-	public void renderAjaxResultForError(String message){
+
+	public void renderAjaxResultForError(String message) {
 		renderAjaxResult(message, 1, null);
 	}
-	
-	
-	public void renderAjaxResult(String message,int errorCode){
+
+	public void renderAjaxResult(String message, int errorCode) {
 		renderAjaxResult(message, errorCode, null);
 	}
-	
-	public void renderAjaxResult(String message,int errorCode,Object data){
+
+	public void renderAjaxResult(String message, int errorCode, Object data) {
 		AjaxResult ar = new AjaxResult();
 		ar.setMessage(message);
 		ar.setErrorCode(errorCode);
 		ar.setData(data);
 		renderJson(ar);
 	}
-	
-	
+
 	@Override
 	@Before(NotAction.class)
 	public void createToken() {
 		createToken("jtoken");
 	}
-	
+
 	@Override
 	public boolean validateToken() {
 		return validateToken("jtoken");
@@ -173,7 +171,7 @@ public class JBaseController extends Controller {
 		session.setAttribute(key, value);
 		return this;
 	}
-	
+
 	@Override
 	public Controller removeSessionAttr(String key) {
 		session.removeAttribute(key);
@@ -185,10 +183,10 @@ public class JBaseController extends Controller {
 	public void renderCaptcha() {
 		render(new JCaptchaRender(this));
 	}
-	
+
 	@Override
 	public boolean validateCaptcha(String paraName) {
 		return JCaptchaRender.validate(this, getPara(paraName));
 	}
-	
+
 }

@@ -23,7 +23,9 @@ public interface ISearcher {
 	public void init();
 
 	public void addBean(SearcherBean bean) throws IOException;
+
 	public void deleteBean(String beanId) throws IOException;
+
 	public void updateBean(SearcherBean bean) throws IOException;
 
 	public List<SearcherBean> search(String keyword) throws IOException;

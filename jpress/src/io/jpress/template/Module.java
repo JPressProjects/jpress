@@ -49,18 +49,18 @@ public class Module {
 
 	public List<String> getStyles() {
 		List<String> moduleStyles = null;
-		File f = new File(PathKit.getWebRootPath(),TemplateUtils.getTemplatePath());
+		File f = new File(PathKit.getWebRootPath(), TemplateUtils.getTemplatePath());
 		String[] fileNames = f.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String fileName) {
 				return fileName.startsWith("content_" + name + "_");
 			}
 		});
-		if(fileNames!=null && fileNames.length > 0){
+		if (fileNames != null && fileNames.length > 0) {
 			moduleStyles = new ArrayList<String>();
 			int start = ("content_" + name + "_").length();
 			for (String fileName : fileNames) {
-				moduleStyles.add(fileName.substring(start,fileName.lastIndexOf(".")));
+				moduleStyles.add(fileName.substring(start, fileName.lastIndexOf(".")));
 			}
 		}
 		return moduleStyles;
@@ -119,9 +119,8 @@ public class Module {
 
 	@Override
 	public String toString() {
-		return "Module [title=" + title + ", name=" + name + ", listTitle="
-				+ listTitle + ", addTitle=" + addTitle + ", commentTitle="
-				+ commentTitle + ", taxonomyTypes=" + taxonomyTypes + "]";
+		return "Module [title=" + title + ", name=" + name + ", listTitle=" + listTitle + ", addTitle=" + addTitle
+				+ ", commentTitle=" + commentTitle + ", taxonomyTypes=" + taxonomyTypes + "]";
 	}
 
 	public static class TaxonomyType {
@@ -167,8 +166,7 @@ public class Module {
 
 		@Override
 		public String toString() {
-			return "TaxonomyType [title=" + title + ", name=" + name
-					+ ", formType=" + formType + "]";
+			return "TaxonomyType [title=" + title + ", name=" + name + ", formType=" + formType + "]";
 		}
 
 	}

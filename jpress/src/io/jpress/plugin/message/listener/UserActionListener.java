@@ -24,21 +24,18 @@ import io.jpress.plugin.message.MessageListener;
 
 public class UserActionListener implements MessageListener {
 
-
 	@Override
 	public void onMessage(Message message) {
-		if(message.getAction().equals(Actions.USER_LOGINED)){
+		if (message.getAction().equals(Actions.USER_LOGINED)) {
 			User user = message.getData();
 			user.setLogged(new Date());
 			user.update();
 		}
 	}
 
-
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {
 		messageAction.register(Actions.USER_LOGINED);
 	}
-
 
 }

@@ -28,6 +28,7 @@ import io.jpress.model.Option;
 public class TemplateUtils {
 
 	private static Map<String, Boolean> cache = new ConcurrentHashMap<String, Boolean>();
+
 	private static boolean exists(String path) {
 		Boolean result = cache.get(path);
 		if (null == result || !result) {
@@ -36,10 +37,10 @@ public class TemplateUtils {
 		}
 		return result;
 	}
-	
+
 	public static boolean existsFile(String fileName) {
-		String viewPath = getTemplatePath()+File.separator+fileName;
-		return exists(PathKit.getWebRootPath()+viewPath);
+		String viewPath = getTemplatePath() + File.separator + fileName;
+		return exists(PathKit.getWebRootPath() + viewPath);
 	}
 
 	public static String getTemplateName() {
@@ -55,8 +56,8 @@ public class TemplateUtils {
 			return PropKit.get("default_template");
 		}
 	}
-	
-	public static String getTemplatePath(){
+
+	public static String getTemplatePath() {
 		return Jpress.currentTemplate().getPath();
 	}
 

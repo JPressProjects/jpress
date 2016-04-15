@@ -37,45 +37,49 @@ public class Jpress {
 		JFinal.start("WebRoot", port, "/", 5);
 	}
 
-	public static void addTag(String key,JTag tag) {
+	public static void addTag(String key, JTag tag) {
 		FreeMarkerRender.getConfiguration().setSharedVariable(key, tag);
 	}
-	
+
 	public static void addFunction(String key, JFunction function) {
 		FreeMarkerRender.getConfiguration().setSharedVariable(key, function);
 	}
 
 	private static boolean isInstalled = false;
+
 	public static boolean isInstalled() {
-		if (!isInstalled){
+		if (!isInstalled) {
 			File dbConfig = new File(PathKit.getRootClassPath(), "db.properties");
 			isInstalled = dbConfig.exists();
 		}
 		return isInstalled;
 	}
-	
+
 	private static Template cTemplate;
-	public static Template currentTemplate(){
-		if(cTemplate == null){
+
+	public static Template currentTemplate() {
+		if (cTemplate == null) {
 			String tName = TemplateUtils.getTemplateName();
 			cTemplate = new ConfigParser().parser(tName);
 		}
 		return cTemplate;
 	}
-	
-	public static void templateChanged(){
+
+	public static void templateChanged() {
 		cTemplate = null;
 	}
-	
-	public static boolean isDevMode(){
+
+	public static boolean isDevMode() {
 		return JFinal.me().getConstants().getDevMode();
 	}
 
 	private static boolean isLoaded = false;
-	public static boolean isLoaded(){
-		return isLoaded ;
+
+	public static boolean isLoaded() {
+		return isLoaded;
 	}
-	public static void loadFinished(){
+
+	public static void loadFinished() {
 		isLoaded = true;
 	}
 }

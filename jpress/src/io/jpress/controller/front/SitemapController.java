@@ -20,17 +20,15 @@ import com.jfinal.core.Controller;
 import io.jpress.core.annotation.UrlMapping;
 
 @UrlMapping(url = "/sitemap")
-public class SitemapController extends Controller{
+public class SitemapController extends Controller {
 
-	
 	public void index() {
 		render("index.xml");
 	}
-	
-	
+
 	@Override
 	public void render(String view) {
-		renderXml("/WEB-INF/sitemap/"+view);
+		renderXml("/WEB-INF/sitemap/" + view);
 	}
 
 }

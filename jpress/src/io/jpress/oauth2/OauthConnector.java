@@ -26,53 +26,44 @@ public abstract class OauthConnector {
 	// 第三步，通过 access token 获取用户的open_id
 	// 第四步，通过 open_id 获取用户信息
 	private static final Log LOGGER = Log.getLog(OauthConnector.class);
-	
-	
-	private String clientId ;
-	private String clientSecret ;
-	private String name ;
-	private String redirectUri ;
-	
+
+	private String clientId;
+	private String clientSecret;
+	private String name;
+	private String redirectUri;
+
 	public String getClientId() {
 		return clientId;
 	}
-
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
 
-
 	public String getClientSecret() {
 		return clientSecret;
 	}
-
 
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
 	}
 
-
 	public String getName() {
 		return name;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
 	public String getRedirectUri() {
 		return redirectUri;
 	}
 
-
-	public String getAuthorizeUrl(String state,String redirectUri){
+	public String getAuthorizeUrl(String state, String redirectUri) {
 		this.redirectUri = redirectUri;
 		return createAuthorizeUrl(state);
 	}
-	
 
 	protected String httpGet(String url) {
 		try {
@@ -84,8 +75,8 @@ public abstract class OauthConnector {
 	}
 
 	public abstract String createAuthorizeUrl(String state);
+
 	protected abstract OauthUser getOauthUser(String code);
-	
 
 	public OauthUser getUser(String code) {
 		return getOauthUser(code);

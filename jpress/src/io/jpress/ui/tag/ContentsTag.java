@@ -23,19 +23,19 @@ import java.util.List;
 /**
  * @title Contents 标签
  * 
- *          使用方法：<br />
- *          <@jp_contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx"
- *          pagesize="" typeid="1,2" module="article,bbs"
- *          style="article,video,audio" userid="123" parentid="1" userid="" ><br>
- * <br>
- *          <#list contents as content><br>
- *          ${content.id} : ${content.title!} <br>
- *          <//#list><br>
- * <br>
- *          </@jp_contents>
+ *        使用方法：<br />
+ *        <@jp_contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx"
+ *        pagesize="" typeid="1,2" module="article,bbs" style=
+ *        "article,video,audio" userid="123" parentid="1" userid="" ><br>
+ *        <br>
+ *        <#list contents as content><br>
+ *        ${content.id} : ${content.title!} <br>
+ *        <//#list><br>
+ *        <br>
+ *        </@jp_contents>
  * 
  * 
- *          orderBy 的值有：views,lastpost,created,vote_up,vote_down
+ *        orderBy 的值有：views,lastpost,created,vote_up,vote_down
  * 
  * 
  */
@@ -59,10 +59,9 @@ public class ContentsTag extends JTag {
 		Integer[] userIds = getParamToIntArray("userid");
 		Integer[] parentIds = getParamToIntArray("parentid");
 
-		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize,
-				orderBy, keyword, typeIds, typeSlugs, modules, styles, slugs,
-				userIds, parentIds, tags);
-		
+		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
+				modules, styles, slugs, userIds, parentIds, tags);
+
 		setVariable("contents", data);
 
 		renderBody();

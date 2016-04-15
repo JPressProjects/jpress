@@ -53,9 +53,10 @@ public class JTokenCache implements ITokenCache {
 				}
 			}
 		} catch (Exception e) {
-			//jfinal 2.2 has a bug in tokenManager
-			//java.lang.IllegalStateException: The CacheManager has been shut down. It can no longer be used.
-//			e.printStackTrace();
+			// jfinal 2.2 has a bug in tokenManager
+			// java.lang.IllegalStateException: The CacheManager has been shut
+			// down. It can no longer be used.
+			// e.printStackTrace();
 		}
 		return ret;
 	}

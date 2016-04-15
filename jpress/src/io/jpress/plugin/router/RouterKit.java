@@ -32,7 +32,7 @@ public class RouterKit {
 		rcManager.register(clazz);
 	}
 
-	public static String converte(String target, HttpServletRequest request,HttpServletResponse response) {
+	public static String converte(String target, HttpServletRequest request, HttpServletResponse response) {
 
 		IRouterConverter converter = rcManager.match(target);
 		if (null == converter) {
@@ -42,10 +42,8 @@ public class RouterKit {
 		String newTarget = converter.converter(target, request, response);
 
 		if (Jpress.isDevMode()) {
-			System.err.println(String.format(
-					"target\"%s\" was converted to \"%s\" by %s.(%s.java:1)",
-					target, newTarget, converter.getClass().getName(),
-					converter.getClass().getSimpleName()));
+			System.err.println(String.format("target\"%s\" was converted to \"%s\" by %s.(%s.java:1)", target,
+					newTarget, converter.getClass().getName(), converter.getClass().getSimpleName()));
 		}
 
 		return newTarget;

@@ -33,7 +33,6 @@ public class TaxonomyRouterConverter implements IRouterConverter {
 		return false;
 	}
 
-	
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
 		String moduleName = tryToGetModuleName(target);
@@ -41,7 +40,6 @@ public class TaxonomyRouterConverter implements IRouterConverter {
 		return target;
 	}
 
-	
 	private String tryToGetModuleName(String target) {
 		String newTarget = target.substring(1);
 		String moduleName = newTarget;

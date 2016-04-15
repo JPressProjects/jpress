@@ -25,12 +25,12 @@ import io.jpress.model.Content;
  * @created 2016年2月19日
  * 
  *          使用方法：<br />
- *          <@jp_commentpage  page="" pagesize=""  module="article" orderby ><br>
- * <br>
+ *          <@jp_commentpage page="" pagesize="" module="article" orderby ><br>
+ *          <br>
  *          <#list page.getList() as content><br>
  *          ${content.id} : ${content.title!} <br>
  *          </#list><br>
- * <br>
+ *          <br>
  *          </@jp_commentpage>
  * 
  */
@@ -45,7 +45,7 @@ public class CommentPageTag extends JTag {
 		String module = getParam("module");
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
-		
+
 		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module, status));
 
 		renderBody();

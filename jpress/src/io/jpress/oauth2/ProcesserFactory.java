@@ -26,6 +26,7 @@ import io.jpress.oauth2.connector.WeiboConnector;
 public class ProcesserFactory {
 
 	private static final Map<String, OauthConnector> oauths = new HashMap<String, OauthConnector>();
+
 	static {
 		oauths.put("qq", new QQConnector());
 		oauths.put("oschina", new OSChinaConnector());

@@ -29,12 +29,12 @@ import io.jpress.utils.HashUtils;
 import java.util.Date;
 
 @UrlMapping(url = "/oauth")
-public class OauthController extends Oauth2Controller{
-	
+public class OauthController extends Oauth2Controller {
+
 	@Override
 	public void onCallBack(OauthUser ouser) {
-		User user = User.DAO.findFirstFromMetadata(ouser.getSource()+"_open_id", ouser.getOpenId());
-		if(null == user){ //first login
+		User user = User.DAO.findFirstFromMetadata(ouser.getSource() + "_open_id", ouser.getOpenId());
+		if (null == user) { // first login
 			user = new User();
 			user.setAvatar(ouser.getAvatar());
 			user.setNickname(ouser.getNickname());
@@ -42,36 +42,35 @@ public class OauthController extends Oauth2Controller{
 			user.setCreated(new Date());
 			user.setGender(ouser.getGender());
 			user.setSalt(HashUtils.salt());
-			
-			user.save(); 
+
+			user.save();
 			MessageKit.sendMessage(Actions.USER_CREATED, user);
-			
+
 			Long userId = user.getId();
-			if(userId != null && userId > 0){
+			if (userId != null && userId > 0) {
 				Metadata md = user.createMetadata();
-				md.setMetaKey(ouser.getSource()+"_open_id");
+				md.setMetaKey(ouser.getSource() + "_open_id");
 				md.setMetaValue(ouser.getOpenId());
 				md.saveOrUpdate();
 			}
 		}
-		
+
 		doAuthorizeSuccess(user);
 	}
-
 
 	@Override
 	public void onError(String errorMessage) {
 		doAuthorizeFailure();
 	}
-	
-	private void doAuthorizeFailure(){
+
+	private void doAuthorizeFailure() {
 		redirect(Consts.LOGIN_BASE_URL);
 	}
-	
-	private void doAuthorizeSuccess(User user){
-		EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER,user.getId());
+
+	private void doAuthorizeSuccess(User user) {
+		EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 		MessageKit.sendMessage(Actions.USER_LOGINED, user);
 		redirect(Consts.USER_CENTER_BASE_URL);
 	}
-	
+
 }

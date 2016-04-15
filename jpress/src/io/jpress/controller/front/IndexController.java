@@ -21,10 +21,10 @@ import io.jpress.core.annotation.UrlMapping;
 public class IndexController extends BaseFrontController {
 
 	public void index() {
-		
-		if(getPara() != null)
+
+		if (getPara() != null)
 			renderError(404);
-		
+
 		render("index.html");
 	}
 

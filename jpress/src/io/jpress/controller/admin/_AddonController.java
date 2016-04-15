@@ -22,21 +22,21 @@ import io.jpress.core.addon.AddonManager;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 
-@UrlMapping(url="/admin/addon" ,viewPath ="/WEB-INF/admin/addon")
+@UrlMapping(url = "/admin/addon", viewPath = "/WEB-INF/admin/addon")
 @Before(AdminInterceptor.class)
 public class _AddonController extends JBaseController {
 
-	public void index(){
+	public void index() {
 		keepPara();
 		setAttr("addons", AddonManager.get().getAddons());
 	}
-	
-	public void install(){
+
+	public void install() {
 		keepPara();
 	}
-	
-	public void edit(){
+
+	public void edit() {
 		keepPara();
 	}
-	
+
 }

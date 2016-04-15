@@ -22,17 +22,16 @@ import java.util.List;
 public class ModelSorter {
 
 	public static <M extends ISortModel> void sort(List<M> tlist) {
-		if(tlist == null)
+		if (tlist == null)
 			return;
-		
+
 		List<M> newList = new ArrayList<M>();
 		sort(tlist, newList, (long) 0, 0);
 		tlist.clear();
 		tlist.addAll(newList);
 	}
 
-	private static <M extends ISortModel> void sort(List<M> tlist,
-			List<M> newlist, Long parentId, int layer) {
+	private static <M extends ISortModel> void sort(List<M> tlist, List<M> newlist, Long parentId, int layer) {
 		for (M model : tlist) {
 			if (parentId == null || parentId == 0) {
 				if (model.getParentId() == null || model.getParentId() == 0) {
@@ -51,9 +50,9 @@ public class ModelSorter {
 	}
 
 	public static <M extends ISortModel> void tree(List<M> tlist) {
-		if(tlist == null)
+		if (tlist == null)
 			return;
-		
+
 		List<M> newList = new ArrayList<M>();
 		tree(tlist, newList, null);
 		tlist.clear();

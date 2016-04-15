@@ -21,20 +21,20 @@ import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 
-@UrlMapping(url="/admin/widget" ,viewPath ="/WEB-INF/admin/widget")
+@UrlMapping(url = "/admin/widget", viewPath = "/WEB-INF/admin/widget")
 @Before(AdminInterceptor.class)
 public class _WidgetController extends JBaseController {
 
-	public void index(){
+	public void index() {
 		keepPara();
 	}
-	
-	public void install(){
+
+	public void install() {
 		keepPara();
 	}
-	
-	public void edit(){
+
+	public void edit() {
 		keepPara();
 	}
-	
+
 }

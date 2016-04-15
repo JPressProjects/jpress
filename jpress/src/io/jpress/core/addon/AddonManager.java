@@ -59,6 +59,7 @@ public class AddonManager {
 	public List<Addon> getAddons() {
 		return addonList;
 	}
+
 	public List<Addon> getStartedAddons() {
 		return addonList;
 	}
@@ -91,7 +92,7 @@ public class AddonManager {
 			Manifest mf = jarFile.getManifest();
 			Attributes attr = mf.getMainAttributes();
 			if (attr != null) {
-				
+
 				String className = attr.getValue("Addon-Class");
 				String title = attr.getValue("Addon-Title");
 				String description = attr.getValue("Addon-Description");
@@ -104,7 +105,7 @@ public class AddonManager {
 				acl.init();
 				@SuppressWarnings("unchecked")
 				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
-				
+
 				Addon addon = new Addon();
 				addon.setAddonImpl(clazz.newInstance());
 				addon.setTitle(title);

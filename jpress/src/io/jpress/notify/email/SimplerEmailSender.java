@@ -64,7 +64,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
 		if (useSSL) {
 			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 			props.setProperty("mail.smtp.port", "465");
 		}
 
@@ -75,8 +75,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 		Message message = new MimeMessage(session);
 
 		try {
-			message.setFrom(new InternetAddress(MimeUtility.encodeText(name)
-					+ "<" + name + ">"));
+			message.setFrom(new InternetAddress(MimeUtility.encodeText(name) + "<" + name + ">"));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -110,10 +109,8 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 			message.setSubject(email.getSubject());
 			message.setContent(email.getContent(), "text/html;charset=utf-8");
 
-			message.setRecipients(Message.RecipientType.TO,
-					toAddress(email.getTo()));
-			message.setRecipients(Message.RecipientType.CC,
-					toAddress(email.getCc()));
+			message.setRecipients(Message.RecipientType.TO, toAddress(email.getTo()));
+			message.setRecipients(Message.RecipientType.CC, toAddress(email.getCc()));
 
 			Transport.send(message);
 		} catch (MessagingException e) {

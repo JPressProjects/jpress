@@ -30,17 +30,17 @@ public class DbSearcher implements ISearcher {
 
 	@Override
 	public void addBean(SearcherBean bean) {
-		
+
 	}
 
 	@Override
 	public void deleteBean(String beanId) {
-		
+
 	}
 
 	@Override
 	public void updateBean(SearcherBean bean) {
-		
+
 	}
 
 	@Override

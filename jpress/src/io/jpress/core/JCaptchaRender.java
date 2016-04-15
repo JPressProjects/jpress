@@ -34,54 +34,50 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-public class JCaptchaRender extends Render{
-
+public class JCaptchaRender extends Render {
 
 	private static String captchaName = "_jpress_captcha";
 
 	// 默认的验证码大小
 	private static final int WIDTH = 108, HEIGHT = 40;
 	// 验证码随机字符数组
-	private static final String[] strArr = {"3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y"};
+	private static final String[] strArr = { "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H",
+			"J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y" };
 	// 验证码字体
-	private static final Font[] RANDOM_FONT = new Font[] {
-		new Font("nyala", Font.BOLD, 38),
-		new Font("Arial", Font.BOLD, 32),
-		new Font("Bell MT", Font.BOLD, 32),
-		new Font("Credit valley", Font.BOLD, 34),
-		new Font("Impact", Font.BOLD, 32),
-		new Font(Font.MONOSPACED, Font.BOLD, 40)
-	};
-	
-	
+	private static final Font[] RANDOM_FONT = new Font[] { new Font("nyala", Font.BOLD, 38),
+			new Font("Arial", Font.BOLD, 32), new Font("Bell MT", Font.BOLD, 32),
+			new Font("Credit valley", Font.BOLD, 34), new Font("Impact", Font.BOLD, 32),
+			new Font(Font.MONOSPACED, Font.BOLD, 40) };
+
 	private final JBaseController controller;
+
 	public JCaptchaRender(JBaseController controller) {
 		this.controller = controller;
 	}
-	
+
 	/**
 	 * 生成验证码
 	 */
 	public void render() {
 		BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		String vCode = drawGraphic(image);
-		vCode = vCode.toUpperCase();	// 转成大写重要
+		vCode = vCode.toUpperCase(); // 转成大写重要
 		vCode = HashKit.md5(vCode);
-//		Cookie cookie = new Cookie(captchaName, vCode);
-//		cookie.setMaxAge(-1);
-//		cookie.setPath("/");
-//		try {
-//			// try catch 用来兼容不支持 httpOnly 的 tomcat、jetty
-//			cookie.setHttpOnly(true);
-//		} catch (Exception e) {
-//			LogKit.logNothing(e);
-//		}
-//		response.addCookie(cookie);
-		
+		// Cookie cookie = new Cookie(captchaName, vCode);
+		// cookie.setMaxAge(-1);
+		// cookie.setPath("/");
+		// try {
+		// // try catch 用来兼容不支持 httpOnly 的 tomcat、jetty
+		// cookie.setHttpOnly(true);
+		// } catch (Exception e) {
+		// LogKit.logNothing(e);
+		// }
+		// response.addCookie(cookie);
+
 		controller.setSessionAttr(captchaName, vCode);
-		
-		response.setHeader("Pragma","no-cache");
-		response.setHeader("Cache-Control","no-cache");
+
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		response.setDateHeader("Expires", 0);
 		response.setContentType("image/jpeg");
 
@@ -97,12 +93,16 @@ public class JCaptchaRender extends Render{
 			throw new RenderException(e);
 		} finally {
 			if (sos != null) {
-				try {sos.close();} catch (IOException e) {LogKit.logNothing(e);}
+				try {
+					sos.close();
+				} catch (IOException e) {
+					LogKit.logNothing(e);
+				}
 			}
 		}
 	}
 
-	private String drawGraphic(BufferedImage image){
+	private String drawGraphic(BufferedImage image) {
 		// 获取图形上下文
 		Graphics2D g = image.createGraphics();
 
@@ -116,14 +116,14 @@ public class JCaptchaRender extends Render{
 		g.setColor(getRandColor(200, 250));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
-		//生成随机类
+		// 生成随机类
 		Random random = new Random();
-		//设定字体
+		// 设定字体
 		g.setFont(RANDOM_FONT[random.nextInt(RANDOM_FONT.length)]);
 
 		// 画蛋蛋，有蛋的生活才精彩
 		Color color;
-		for(int i = 0; i < 10; i++){
+		for (int i = 0; i < 10; i++) {
 			color = getRandColor(120, 200);
 			g.setColor(color);
 			g.drawOval(random.nextInt(WIDTH), random.nextInt(HEIGHT), 5 + random.nextInt(10), 5 + random.nextInt(10));
@@ -132,34 +132,35 @@ public class JCaptchaRender extends Render{
 
 		// 取随机产生的认证码(4位数字)
 		String sRand = "";
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			String rand = String.valueOf(strArr[random.nextInt(strArr.length)]);
 			sRand += rand;
-			//旋转度数 最好小于45度
+			// 旋转度数 最好小于45度
 			int degree = random.nextInt(28);
 			if (i % 2 == 0) {
 				degree = degree * (-1);
 			}
-			//定义坐标
+			// 定义坐标
 			int x = 22 * i, y = 21;
-			//旋转区域
+			// 旋转区域
 			g.rotate(Math.toRadians(degree), x, y);
-			//设定字体颜色
+			// 设定字体颜色
 			color = getRandColor(20, 130);
 			g.setColor(color);
-			//将认证码显示到图象中
+			// 将认证码显示到图象中
 			g.drawString(rand, x + 8, y + 10);
-			//旋转之后，必须旋转回来
+			// 旋转之后，必须旋转回来
 			g.rotate(-Math.toRadians(degree), x, y);
 			color = null;
 		}
-		//图片中间线
+		// 图片中间线
 		g.setColor(getRandColor(0, 60));
-		//width是线宽,float型
+		// width是线宽,float型
 		BasicStroke bs = new BasicStroke(3);
 		g.setStroke(bs);
-		//画出曲线
-		QuadCurve2D.Double curve = new QuadCurve2D.Double(0d, random.nextInt(HEIGHT - 8) + 4, WIDTH / 2, HEIGHT / 2, WIDTH, random.nextInt(HEIGHT - 8) + 4);
+		// 画出曲线
+		QuadCurve2D.Double curve = new QuadCurve2D.Double(0d, random.nextInt(HEIGHT - 8) + 4, WIDTH / 2, HEIGHT / 2,
+				WIDTH, random.nextInt(HEIGHT - 8) + 4);
 		g.draw(curve);
 		// 销毁图像
 		g.dispose();
@@ -183,16 +184,19 @@ public class JCaptchaRender extends Render{
 
 	/**
 	 * 仅能验证一次，验证后立即销毁 cookie
-	 * @param controller 控制器
-	 * @param userInputCaptcha 用户输入的验证码
+	 * 
+	 * @param controller
+	 *            控制器
+	 * @param userInputCaptcha
+	 *            用户输入的验证码
 	 * @return 验证通过返回 true, 否则返回 false
 	 */
 	public static boolean validate(JBaseController controller, String userInputCaptcha) {
 		if (StrKit.isBlank(userInputCaptcha)) {
 			return false;
 		}
-		
-		userInputCaptcha = userInputCaptcha.toUpperCase();	// 转成大写重要
+
+		userInputCaptcha = userInputCaptcha.toUpperCase(); // 转成大写重要
 		userInputCaptcha = HashKit.md5(userInputCaptcha);
 		boolean result = userInputCaptcha.equals(controller.getSessionAttr(captchaName));
 		if (result == true) {

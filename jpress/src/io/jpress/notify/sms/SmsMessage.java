@@ -16,14 +16,13 @@
 package io.jpress.notify.sms;
 
 public class SmsMessage {
-	
+
 	private String rec_num;
 	private String sign_name;
 	private String param;
 	private String template;
 	private String content;
-	
-	
+
 	public String getRec_num() {
 		return rec_num;
 	}
@@ -64,12 +63,11 @@ public class SmsMessage {
 		this.content = content;
 	}
 
-
 	public static SmsMessage create() {
 		return new SmsMessage();
 	}
-	
-	public void send(){
+
+	public void send() {
 		SmsSenderFactory.createSender().send(this);
 	}
 

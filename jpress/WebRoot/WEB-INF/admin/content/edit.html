@@ -165,17 +165,23 @@ function save(){
 								</li>
 								</#if>
 								<li>
-									<a href="#tab_4" data-toggle="tab">元数据</a>
+									<a href="#tab_4" data-toggle="tab">备注</a>
 								</li>
 								<li>
-									<a href="#tab_5" data-toggle="tab">备注</a>
+									<a href="#tab_5" data-toggle="tab">元数据</a>
 								</li>
 
 							</ul>
 							<div class="tab-content jp-aside-hg">
-								<div class="tab-pane active jp-left-margv35" id="tab_1">设置</div>
+								<div class="tab-pane active jp-left-margv35" id="tab_1">
+								Flag: <input type="text" name="content.flag" value="${(content.flag)!}">
+								作者: <input type="text" name="content.flag" value="${(content.flag)!}">
+								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="tab_2">seo</div>
+								<div class="tab-pane" id="tab_2">
+									META 关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
+									META 描述: <input type="text" name="content.meta_description" value="${(content.meta_description)!}">
+								</div>
 								<#if module.styles ??>
 								<div class="tab-pane" id="tab_3">
 									<li class="jp-release-set">
@@ -194,8 +200,8 @@ function save(){
 									</#list>
 								</div>
 								</#if>
-								<div class="tab-pane" id="tab_4">元数据</div>
-								<div class="tab-pane" id="tab_5">备注</div>
+								<div class="tab-pane" id="tab_4">备注: <input type="text" name="content.remarks" value="${(content.remarks)!}"></div>
+								<div class="tab-pane" id="tab_5">元数据</div>
 								<!-- /.tab-pane -->
 							</div>
 							<!-- /.tab-content -->

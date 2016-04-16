@@ -1,132 +1,7 @@
 <#include "_inc/_layout.html"/>
-<#macro script> 
-$(function(){
-    	   
-           $(".jp-onmouse").mouseover(function(){
-               $(".row-actions").show();
-           }).mouseout(function(){  $(".row-actions").hide()})
-
-
-           $(".jp-title-btn-show").click(function(){
-               $(".jp-title-table-show").show();
-               $(".jp-title-help").hide();
-               $(".jp-title-btn-help").css("visibility","hidden");
-               var $box =$(this).parents(".box").first();
-
-               if( $box.find(".fa").hasClass("fa-sort-desc")){
-                   $box.find(".box-body").slideDown("200",function(){
-                   $box.find(".fa").removeClass("fa-sort-desc").addClass("fa-sort-up");})
-               }else{
-                   $box.find(".box-body").slideUp("200",function(){
-                       $(".jp-title-table-show").hide();
-                       $(".jp-title-btn-help").css("visibility","visible");
-                       $box.find(".fa").removeClass("fa-sort-up").addClass("fa-sort-desc");
-
-                   })
-               }
-           });
-               $(".jp-title-btn-help").click(function(){
-                   $(".jp-title-help").show();
-                   $(".jp-title-table-show").hide();
-                   $(".jp-title-btn-show").css("visibility","hidden");
-                   var $box =$(this).parents(".box").first();
-
-                   if( $box.find(".fa").hasClass("fa-sort-desc")){
-                       $box.find(".box-body").slideDown("200",function(){
-                           $box.find(".fa").removeClass("fa-sort-desc").addClass("fa-sort-up");})
-                   }else{
-                       $box.find(".box-body").slideUp("200",function(){
-                           $(".jp-title-help").hide();
-                           $(".jp-title-btn-show").css("visibility","visible");
-                           $box.find(".fa").removeClass("fa-sort-up").addClass("fa-sort-desc");
-
-                       })
-                   }
-               });
-
-       });
-</#macro>
 
 <@layout active_id="dashboard" >
-<div class="jp-title-pad"></div>
-<div class="col-xs-12 jp-set-table">
-<!-- Bar chart -->
-    <div class="box box-primary collapsed-box">
-        <div class="box-body" style="display: none">
-             <div class="jp-title-table-show">
-                 <fieldset class="metabox-prefs">
-                     <legend>模块</legend>
-                     <label class="checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox1" value="option1"> 概览
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox" id="inlineCheckbox2" value="option2">活动
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox" id="inlineCheckbox3" value="option3"> 快速草稿
-                     </label>
-                 </fieldset>
-             </div>
-            <div class="jp-title-help">
-                <!-- Custom Tabs -->
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">Tab 1</a></li>
-                        <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
-                        <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
 
-
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-                            <b>How to use:</b>
-
-                            <p>Exactly like the original bootstrap tabs except you should use
-                                the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.</p>
-                            A wonderful serenity has taken possession of my entire soul,
-                            like these sweet mornings of spring which I enjoy with my whole heart.
-                            I am alone, and feel the charm of existence in this spot,
-                            which was created for the bliss of souls like mine. I am so happy,
-                            my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
-                            that I neglect my talents. I should be incapable of drawing a single stroke
-                            at the present moment; and yet I feel that I never was a greater artist than now.
-                        </div>
-                        <!-- /.tab-pane -->
-                        <div class="tab-pane" id="tab_2">
-                            The European languages are members of the same family. Their separate existence is a myth.
-                            For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                            in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                            new common language would be desirable: one could refuse to pay expensive translators. To
-                            achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                            words. If several languages coalesce, the grammar of the resulting language is more simple
-                            and regular than that of the individual languages.
-                        </div>
-                        <!-- /.tab-pane -->
-                        <div class="tab-pane" id="tab_3">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                            It has survived not only five centuries, but also the leap into electronic typesetting,
-                            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                            like Aldus PageMaker including versions of Lorem Ipsum.
-                        </div>
-                        <!-- /.tab-pane -->
-                    </div>
-                    <!-- /.tab-content -->
-                </div>
-                <!-- nav-tabs-custom -->
-            </div>
-
-        </div>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-white jp-title-btn-show" >显示选项<i class="fa fa-sort-desc"></i></button>
-            <button type="button" class="btn btn-white jp-title-btn-help">帮助<i class="fa fa-sort-desc"></i></button>
-        </div>
-    </div>
-</div>
-
-  	<div class="clr"></div>
   <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -143,8 +18,6 @@ $(function(){
                     <div class="jp-welcome-content">
                         <h3>欢迎使用JPress <span class="caret"></span></h3>
                         <p class="jp-welcome-description">我们准备了几个链接供您开始：</p>
-                        <a href="#" class="jp-welcome-close"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>不在显示</a>
-
                     </div>
                     <div class="row jp-welcome-down">
                         <div class="col-md-4">
@@ -171,9 +44,6 @@ $(function(){
                             </ul>
                         </div>
                     </div>
-
-
-
 
                     <!-- /.box-body-->
                 </div>
@@ -285,32 +155,6 @@ $(function(){
             <!-- /.col -->
 
             <div class="col-md-6">
-                <!-- Bar chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-
-                        <h3 class="box-title">快速草稿</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <form>
-                            <div class="form-group">
-                                <label class="sr-only" for="jp-draft-title"></label>
-                                <input type="text" class="form-control" id="jp-draft-title" placeholder="标题"/>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" rows="3" placeholder="你想说什么"></textarea>
-                            </div>
-                            <button type="button" class="btn btn-primary btn-md">保存草稿 </button>
-                        </form>
-                    </div>
-                    <!-- /.box-body-->
-                </div>
-                <!-- /.box -->
 
                 <!-- Donut chart -->
                 <div class="box box-primary">

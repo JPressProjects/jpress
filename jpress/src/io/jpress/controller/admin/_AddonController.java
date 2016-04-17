@@ -15,7 +15,11 @@
  */
 package io.jpress.controller.admin;
 
+import java.io.File;
+
 import com.jfinal.aop.Before;
+import com.jfinal.kit.PathKit;
+import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
 import io.jpress.core.addon.AddonManager;
@@ -33,9 +37,41 @@ public class _AddonController extends JBaseController {
 
 	public void install() {
 		keepPara();
+		if (isMultipartRequest()) {
+			UploadFile ufile = getFile();
+			String webRoot = PathKit.getWebRootPath();
+
+			StringBuilder newFileName = new StringBuilder(webRoot).append("/WEB-INFO/addons/")
+					.append(ufile.getFileName());
+
+			File newfile = new File(newFileName.toString());
+
+			if (newfile.exists()) {
+				renderAjaxResultForError("该插件已经安装！");
+				return;
+			}
+
+			if (!newfile.getParentFile().exists()) {
+				newfile.getParentFile().mkdirs();
+			}
+
+			ufile.getFile().renameTo(newfile);
+
+			renderAjaxResultForSuccess();
+		}
 	}
 
-	public void edit() {
+	public void uninstall() {
+		keepPara();
+
+		// AddonManager.get().stop(addon);
+	}
+
+	public void start() {
+		keepPara();
+	}
+
+	public void stop() {
 		keepPara();
 	}
 

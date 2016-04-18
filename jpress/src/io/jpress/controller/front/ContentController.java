@@ -42,6 +42,10 @@ public class ContentController extends BaseFrontController {
 			renderError(404);
 			return;
 		}
+		
+		setAttr("WEB_TITLE", content.getTitle());
+		setAttr("META_KEYWORDS", content.getMetaKeywords());
+		setAttr("META_DESCRIPTION", content.getMetaDescription());
 
 		int pageNumber = getPageNumber();
 		setAttr("pageNumber", pageNumber);

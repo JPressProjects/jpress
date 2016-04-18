@@ -23,7 +23,7 @@ import io.jpress.oauth2.Oauth2Controller;
 import io.jpress.oauth2.OauthUser;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
-import io.jpress.utils.EncryptCookieUtils;
+import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 
 import java.util.Date;
@@ -68,7 +68,7 @@ public class OauthController extends Oauth2Controller {
 	}
 
 	private void doAuthorizeSuccess(User user) {
-		EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+		CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 		MessageKit.sendMessage(Actions.USER_LOGINED, user);
 		redirect(Consts.USER_CENTER_BASE_URL);
 	}

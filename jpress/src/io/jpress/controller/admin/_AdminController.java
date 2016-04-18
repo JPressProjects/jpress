@@ -26,7 +26,7 @@ import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
-import io.jpress.utils.EncryptCookieUtils;
+import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 import io.jpress.utils.StringUtils;
 
@@ -59,7 +59,7 @@ public class _AdminController extends JBaseController {
 
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 
-			EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			CacheKit.put("user", user.getId(), user);
 			renderAjaxResultForSuccess("登陆成功");
 		} else {
@@ -68,7 +68,7 @@ public class _AdminController extends JBaseController {
 	}
 
 	public void logout() {
-		EncryptCookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
+		CookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
 		redirect("/admin");
 	}
 

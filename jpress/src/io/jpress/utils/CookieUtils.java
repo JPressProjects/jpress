@@ -25,7 +25,7 @@ import com.jfinal.kit.PropKit;
  * web/authentication/rememberme/TokenBasedRememberMeServices.java
  * ....AbstractRememberMeServices.java
  */
-public class EncryptCookieUtils {
+public class CookieUtils {
 
 	private final static String COOKIE_SEPARATOR = "#JP#";
 

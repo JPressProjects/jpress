@@ -22,7 +22,7 @@ import io.jpress.interceptor.UserInterceptor;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
-import io.jpress.utils.EncryptCookieUtils;
+import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 import io.jpress.utils.StringUtils;
 
@@ -55,7 +55,7 @@ public class UserController extends BaseFrontController {
 
 	@Clear
 	public void doLogin() {
-		long errorTimes = EncryptCookieUtils.getLong(this, "_login_errors", 0);
+		long errorTimes = CookieUtils.getLong(this, "_login_errors", 0);
 		if (errorTimes >= 3) {
 			if (!validateCaptcha("_login_captcha")) { // 验证码没验证成功！
 				if (isAjaxRequest()) {
@@ -78,13 +78,13 @@ public class UserController extends BaseFrontController {
 			} else {
 				redirect(Consts.LOGIN_BASE_URL);
 			}
-			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
+			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 			return;
 		}
 
 		if (HashUtils.verlifyUser(user, password)) {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
-			EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			if (this.isAjaxRequest()) {
 				renderAjaxResultForSuccess("登陆成功");
 			} else {
@@ -100,13 +100,13 @@ public class UserController extends BaseFrontController {
 			} else {
 				redirect(Consts.LOGIN_BASE_URL);
 			}
-			EncryptCookieUtils.put(this, "_login_errors", errorTimes + 1);
+			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void logout() {
-		EncryptCookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
+		CookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
 		redirect("/");
 	}
 
@@ -165,7 +165,7 @@ public class UserController extends BaseFrontController {
 		user.setCreated(new Date());
 		user.save();
 
-		EncryptCookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+		CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 
 		MessageKit.sendMessage(Actions.USER_CREATED, user);
 

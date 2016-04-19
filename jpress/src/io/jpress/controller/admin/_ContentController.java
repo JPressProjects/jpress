@@ -21,6 +21,7 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Mapping;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.User;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.StringUtils;
@@ -184,10 +185,10 @@ public class _ContentController extends BaseAdminController<Content> {
 						if (id == 0) {
 							Taxonomy taxonomy = new Taxonomy();
 							taxonomy.setTitle(title);
+							taxonomy.setSlug(title);
 							taxonomy.setContentModule(moduleName);
 							taxonomy.setType(type.getName());
 							taxonomy.save();
-
 							id = taxonomy.getId();
 						}
 						tIds.add(id);
@@ -204,7 +205,7 @@ public class _ContentController extends BaseAdminController<Content> {
 
 	private long getIdFromList(String string, List<Taxonomy> list) {
 		for (Taxonomy taxonomy : list) {
-			if (string.equals(taxonomy.getTitle()))
+			if (string.equals(taxonomy.getSlug()))
 				return taxonomy.getId();
 		}
 		return 0;
@@ -213,11 +214,22 @@ public class _ContentController extends BaseAdminController<Content> {
 	@Before(UCodeInterceptor.class)
 	@Override
 	public void save() {
+		
 		Content content = getContent();
 		if (null == content.getSlug()) {
 			String title = content.getTitle();
 			String slug = title.replace(".", "_").replaceAll("\\s+", "_");
 			content.setSlug(slug);
+		}
+		
+		String username = getPara("username");
+		if(StringUtils.isNotBlank(username)){
+			User user = User.findUserByUsername(username);
+			if(user == null){
+				renderAjaxResultForError("系统没有该用户："+username);
+				return;
+			}
+			content.setUserId(user.getId());
 		}
 
 		Content dbContent = mDao.findBySlug(content.getSlug());

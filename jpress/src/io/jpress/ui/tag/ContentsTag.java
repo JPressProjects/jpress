@@ -55,12 +55,13 @@ public class ContentsTag extends JTag {
 		String[] tags = getParamToStringArray("tag");
 		String[] modules = getParamToStringArray("module");
 		String[] styles = getParamToStringArray("style");
+		String[] flags = getParamToStringArray("flag");
 		String[] slugs = getParamToStringArray("slug");
 		Integer[] userIds = getParamToIntArray("userid");
 		Integer[] parentIds = getParamToIntArray("parentid");
 
 		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
-				modules, styles, slugs, userIds, parentIds, tags);
+				modules, styles, flags, slugs, userIds, parentIds, tags);
 
 		setVariable("contents", data);
 

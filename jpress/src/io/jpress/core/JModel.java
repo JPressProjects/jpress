@@ -345,5 +345,22 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 		return needWhere;
 	}
+	
+	public static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
+		if (null != array && array.length > 0) {
+			needWhere = appendWhereOrAnd(builder, needWhere);
+			builder.append(" (");
+			for (int i = 0; i < array.length; i++) {
+				if (i == 0) {
+					builder.append(" ").append(colName).append(" like ? ");
+				} else {
+					builder.append(" OR ").append(colName).append(" like ? ");
+				}
+				params.add("%"+array[i]+"%");
+			}
+			builder.append(" ) ");
+		}
+		return needWhere;
+	}
 
 }

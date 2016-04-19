@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -114,7 +117,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	
 	public List<Content> findListInNormal(int page, int pagesize, long taxonomyId,String orderBy){
-		return findListInNormal(page, pagesize, orderBy, null, new Long[]{taxonomyId}, null, null, null, null, null, null, null);
+		return findListInNormal(page, pagesize, orderBy, null, new Long[]{taxonomyId}, null, null, null, null,null, null, null, null);
 	}
 
 	/**
@@ -133,7 +136,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	 * @return
 	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, Long[] typeIds,
-			String[] typeSlugs, String[] modules, String[] styles, String[] slugs, Integer[] userIds,
+			String[] typeSlugs, String[] modules, String[] styles, String[] flags,String[] slugs, Integer[] userIds,
 			Integer[] parentIds, String[] tags) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
@@ -142,21 +145,23 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		LinkedList<Object> params = new LinkedList<Object>();
 		
 		boolean needWhere = false;
-		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,needWhere);
-		appendIfNotEmpty(sqlBuilder, "c.module", modules, params,needWhere);
-		appendIfNotEmpty(sqlBuilder, "c.style",styles, params,needWhere);
-		appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,needWhere);
-		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,needWhere);
-		appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,needWhere);
-		appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.module", modules, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.style",styles, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,needWhere);
+		needWhere = appendIfNotEmptyWithLike(sqlBuilder,"c.flag",flags, params,needWhere);
 
 		if (null != tags && tags.length > 0) {
-			appendIfNotEmpty(sqlBuilder, "t.name",tags, params,needWhere);
+			needWhere = appendIfNotEmpty(sqlBuilder, "t.name",tags, params,needWhere);
 			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
 		}
 
 		if (null != keyword && !"".equals(keyword.trim())) {
-			sqlBuilder.append(" AND c.title like ?");
+			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
+			sqlBuilder.append(" c.title like ?");
 			params.add("'%"+keyword+"%'");
 		}
 
@@ -434,6 +439,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.CONTENT_BASE_URL;
 		String slug = getSlug()==null ? getId()+"" : getSlug();
 		return JFinal.me().getContextPath()+start+"/"+slug;
+	}
+	
+	
+	public String getFirstImageUrl(){
+		if(getText() == null)
+			return null;
+		Elements es = Jsoup.parse(getText()).select("img");
+		if(es != null && es.size() > 0)
+			return es.first().absUrl("src");
+		
+		return null;
 	}
 	
 	

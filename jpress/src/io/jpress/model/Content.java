@@ -104,8 +104,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			fromBuilder.append(" ORDER BY c.created DESC");
 		}
 		
-		System.out.println("--->>>"+select+fromBuilder.toString());
-		
 		return paginate(page, pagesize, true,select, fromBuilder.toString() ,params.toArray());
 	}
 

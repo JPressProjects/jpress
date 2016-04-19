@@ -39,7 +39,7 @@ public class TaxonomyController extends BaseFrontController {
 	// http://www.xxx.com/t/article-1 		module ---> article ,page--->1
 
 	// http://www.xxx.com/t/article-tag1-1 	module ---> article ,slug-tag1, page--->1
-	// http://www.xxx.com/t/article-1-1 	module ---> article, slug-tag1, page--->1
+	// http://www.xxx.com/t/article-1-1 	module ---> article, id-1, page--->1
 
 	public void index() {
 		Module module = tryToGetModule();
@@ -47,16 +47,36 @@ public class TaxonomyController extends BaseFrontController {
 			renderError(404);
 			return;
 		}
-
+		
 		Taxonomy taxonomy = null;
 		try {
-			taxonomy = tryToGetTaxonomy();
-		} catch (Exception e) {
-		}
+			if (getParaCount() == 2) { // 2 para
+				if ( StringUtils.toInt(getPara(1), 0) == 0) { // the 2th para is not number
+					taxonomy =  Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
+					if( null == taxonomy){
+						renderError(404);
+						return;
+					}
+				}
+			}else if (getParaCount() >= 3) { // 3 para
+				long id = StringUtils.toLong(getPara(1), (long) 0);
+				if( id > 0){
+					taxonomy = Taxonomy.DAO.findById(id);
+				}else{
+					taxonomy = Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
+				}
+				if( null  == taxonomy){
+					renderError(404);
+					return;
+				}
+			}
+		} catch (UnsupportedEncodingException e) { }
+		
 		int pageNumber = tryToGetPageNumber();
 
 		setAttr("pageNumber", pageNumber);
 		setAttr("taxonomy", taxonomy);
+		setAttr("module", module.getName());
 
 		if (null == taxonomy) {
 			render(String.format("taxonomy_%s.html", module.getName()));
@@ -66,21 +86,6 @@ public class TaxonomyController extends BaseFrontController {
 
 	}
 
-	private Taxonomy tryToGetTaxonomy() throws UnsupportedEncodingException {
-		if (getParaCount() == 2) { // 2 para
-			if (StringUtils.toInt(getPara(1), 0) != 0) { //
-				return null;
-			}
-			return Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
-		}
-
-		if (getParaCount() >= 3) { // 3 para
-			long id = StringUtils.toLong(getPara(1), (long) 0);
-			return id > 0 ? Taxonomy.DAO.findById(id) : Taxonomy.DAO.findBySlug(URLDecoder.decode(getPara(1),"utf-8"));
-		}
-
-		return null;
-	}
 
 	private Module tryToGetModule() {
 		return Jpress.currentTemplate().getModuleByName(getPara(0));

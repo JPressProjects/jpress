@@ -38,8 +38,10 @@
                         <div class="jp-art-main">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
+                                	 <@jp_contents  module="article" flag="hot">
+           							 <#list contents as content>
                                     <div class="swiper-slide">
-                                        <img class="jp-width100 jp-img-maxh" src="imgs/photo4.jpg"/>
+                                        <img class="jp-width100 jp-img-maxh" src="${content.thumbnail!}"/>
                                         <div class="jp-art-sub">
                                             <div class="row jp-art-info">
                                                 <div class="jp-right">
@@ -50,44 +52,8 @@
                                             </div>
                                         </div>
                                      </div>
-                                    <div class="swiper-slide">
-                                        <img class="jp-width100 jp-img-maxh" src="imgs/photo3.jpg"/>
-                                        <div class="jp-art-sub">
-                                            <div class="row jp-art-info">
-                                                <div class="jp-right">
-                                                    <img  src="imgs/user160.jpg">
-                                                </div>
-                                                111公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
-                                                总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
-                                            </div>
-                                        </div>
-                                    </div>
-									
-                                    <div class="swiper-slide">
-                                        <img class="jp-width100 jp-img-maxh" src="imgs/photo2.jpg"/>
-                                        <div class="jp-art-sub">
-                                            <div class="row jp-art-info">
-                                                <div class="jp-right">
-                                                    <img  src="imgs/photo2.jpg">
-                                                </div>
-                                                公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
-                                                总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="swiper-slide">
-                                        <img class="jp-width100 jp-img-maxh" src="imgs/photo1.jpg"/>
-                                        <div class="jp-art-sub">
-                                            <div class="row jp-art-info">
-                                                <div class="jp-right">
-                                                    <img  src="imgs/photo1.jpg">
-                                                </div>
-                                                公交总队刑侦支队提供的工作证明显示，接到电话后，各级领导高度重视。
-                                                总队长临阵指挥民警1114名,于发案后对全市各站地铁加强巡控
-                                            </div>
-                                        </div>
-                                    </div>
+                                     </#list>
+            						</@jp_contents>
                                 </div>
                                 <!-- Add Pagination -->
                                 <div class="swiper-pagination"></div>
@@ -104,7 +70,13 @@
             <#list contents as content>
             <article class="content">
                 <div class="row">
-                    <div class="col-xs-4"> <img class="jp-width100" src="${content.thumbnail!}"/></div>
+                    <div class="col-xs-4"> 
+                    <#if content.thumbnail ??>
+                    	<img class="jp-width100" src="${content.thumbnail!}"/>
+                    <#else>
+                    	<img class="jp-width100" src="${content.firstImageUrl!}"/>
+                    </#if>
+                    </div>
                     <div class="col-xs-8 ">
                         <h5 class="jp-margin-top"><a href="${content.url}">${content.title}</a></h5>
                         <h6>By<span class="content-author">${content.username!}</span>

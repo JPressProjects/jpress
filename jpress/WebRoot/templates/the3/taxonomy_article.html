@@ -3,11 +3,14 @@
 <div class="container">
     <div class="row">
         <section class="col-xs-12 col-md-9 ">
+        
+        	<@jp_content_page page=pageNumber pageSize="10" module=module>
+        	<#list page.getList() as content>
             <article class="content">
                 <div class="row">
                     <div class="col-xs-4"> <img class="jp-width100" src="imgs/photo3.jpg"/></div>
                     <div class="col-xs-8 ">
-                        <h5 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a></h5>
+                        <h5 class="jp-margin-top"><a href="${content.url!}">${content.title!}</a></h5>
                         <h6>By<span class="content-author">大宏</span>
                             <span class="release-time">2016-02-03</span>
                         </h6>
@@ -23,6 +26,8 @@
                     </div>
                 </div>
             </article>
+            </#list>
+            </@jp_content_page>
             <article class="content">
                 <div class="row">
                     <div class="col-xs-4"> <img class="jp-width100" src="imgs/photo3.jpg"/></div>

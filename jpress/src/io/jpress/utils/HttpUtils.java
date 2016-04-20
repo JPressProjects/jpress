@@ -37,7 +37,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class HttpUtils {
 
-	private static final String TAG = "HttpHandler";
+	private static final String TAG = "HttpUtils";
 	private static final int mReadTimeOut = 1000 * 10; // 10秒
 	private static final int mConnectTimeOut = 1000 * 5; // 5秒
 	private static final String CHAR_SET = "utf-8";

@@ -15,22 +15,21 @@
  */
 package io.jpress.controller.admin;
 
+import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.template.Module;
-
-import java.util.Date;
-
-import com.jfinal.aop.Before;
-import com.jfinal.plugin.activerecord.Page;
+import io.jpress.wechat.WechatReplay;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends BaseAdminController<Content> {
 
 	private String getModule() {
-		return "wechatReplay";
+		return WechatReplay.MODULE;
 	}
 
 	private String getStatus() {
@@ -39,13 +38,6 @@ public class _WechatController extends BaseAdminController<Content> {
 
 	@Override
 	public void index() {
-		setAttr("module", getModule());
-
-		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_DELETE));
-		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_DRAFT));
-		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModule(), Content.STATUS_NORMAL));
-		setAttr("count", mDao.findCountInNormalByModule(getModule()));
-
 		super.index();
 	}
 
@@ -81,19 +73,6 @@ public class _WechatController extends BaseAdminController<Content> {
 		}
 	}
 
-	@Before(UCodeInterceptor.class)
-	public void restore() {
-		long id = getParaToLong("id");
-		Content c = Content.DAO.findById(id);
-		if (c != null && c.isDelete()) {
-			c.setStatus(Content.STATUS_DRAFT);
-			c.setModified(new Date());
-			c.saveOrUpdate();
-			renderAjaxResultForSuccess("success");
-		} else {
-			renderAjaxResultForError("restore error!");
-		}
-	}
 
 	@Before(UCodeInterceptor.class)
 	public void delete() {

@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core;
+package io.jpress.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.core.Controller;
 
-public class JTokenInterceptor implements Interceptor {
+import io.jpress.ui.tag.Tags;
+
+public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-		if (inv.getController().validateToken()) {
-			inv.invoke();
-		} else {
-			Controller c = inv.getController();
-			if (c instanceof JBaseController) {
-				((JBaseController) c).renderAjaxResultForError("非法提交");
-			} else {
-				c.renderError(404);
-			}
-		}
+
+		Tags.initInInterceptor(inv);
+		
+		inv.invoke();
+
 	}
 
 }

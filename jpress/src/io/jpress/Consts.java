@@ -18,17 +18,15 @@ package io.jpress;
 public class Consts {
 
 	public static final String COOKIE_LOGINED_USER = "user";
-	
-	
+
 	public static final String SYS_MODULE_PAGE = "page";
-	
+
 	public static final String CONTENT_BASE_URL = "/c";
 	public static final String TAXONOMY_BASE_URL = "/t";
 	public static final String USER_BASE_URL = "/user";
-	public static final String USER_CENTER_BASE_URL = USER_BASE_URL+"/center";
-	public static final String LOGIN_BASE_URL = USER_BASE_URL+"/login";
-	
-	
+	public static final String USER_CENTER_BASE_URL = USER_BASE_URL + "/center";
+	public static final String LOGIN_BASE_URL = USER_BASE_URL + "/login";
+
 	public static final int ERROR_CODE_NOT_VALIDATE_CAPTHCHE = 1;
 	public static final int ERROR_CODE_USERNAME_EMPTY = 2;
 	public static final int ERROR_CODE_USERNAME_EXIST = 3;
@@ -38,6 +36,7 @@ public class Consts {
 	public static final int ERROR_CODE_PHONE_EXIST = 7;
 	public static final int ERROR_CODE_PASSWORD_EMPTY = 8;
 
-	
+	public static final String ATTR_PAGE_NUMBER = "_page_number";
+	public static final String ATTR_MUDULE = "_mudule";
 
 }

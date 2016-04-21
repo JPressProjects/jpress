@@ -15,8 +15,12 @@
  */
 package io.jpress.ui.tag;
 
+import com.jfinal.core.Controller;
+
+import io.jpress.Consts;
 import io.jpress.core.ui.JTag;
 import io.jpress.model.Content;
+import io.jpress.template.Module;
 
 /**
  * @title Content 标签
@@ -36,17 +40,26 @@ import io.jpress.model.Content;
  */
 public class ContentPageTag extends JTag {
 
+	final Controller controller;
+	
+	
+
+	public ContentPageTag(Controller c) {
+		this.controller = c;
+	}
+
+	
 	@Override
 	public void onRender() {
 
-		int pageNumber = getParamToInt("page", 1);
+		int pageNumber = controller.getAttr(Consts.ATTR_PAGE_NUMBER);
 		int pageSize = getParamToInt("pagesize", 10);
 
-		String module = getParam("module");
+		Module module = controller.getAttr("module");
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module, status));
+		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module.getName(), status));
 
 		renderBody();
 	}

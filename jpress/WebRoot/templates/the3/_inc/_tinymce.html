@@ -1,0 +1,37 @@
+<#macro script>
+tinymce.init({
+        selector: '.textarea',
+        height: 100,
+        language: 'zh_CN',
+        menubar: false,
+        automatic_uploads: true,
+        paste_data_images: true,
+        convert_urls: false,
+        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        imagetools_proxy: '${CPATH}/admin/tinymce/image/proxy',
+        images_upload_url: '${CPATH}/admin/tinymce/image/upload',
+        wordcount_countregex: /[\u4e00-\u9fa5_a-zA-Z0-9]/g,
+		file_picker_callback: function(callback, value, meta) {
+		 	layer.open({
+			    type: 2,
+			    title: '选择图片',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['90%', '90%'],
+			    content: '${CPATH}/admin/attachment/choose_layer',
+			    end:function(){
+			    	callback(data.url, {alt: data.alt});
+			    }
+			}); 
+		 },
+        plugins: [
+		    "advlist autolink autosave link image imagetools lists charmap print preview hr anchor pagebreak spellchecker",
+		    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+		    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+		  ],
+        toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr  |  alignleft aligncenter alignright alignjustify | bullist numlist  |  outdent indent | forecolor backcolor | code   ',
+    });
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
+</#macro>

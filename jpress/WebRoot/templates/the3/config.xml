@@ -9,22 +9,22 @@
 		<versionCode>1</versionCode>
 		<updateUrl>http://www.jpress.io</updateUrl>
 	</infos>
-	
+
 	<module title="文章" name="article" list="所有文章" add="添加文章" comment="评论">
 		<taxonomy title="分类" name="category" formType="select" />
 		<taxonomy title="专题" name="feature" formType="select" />
 		<taxonomy title="标签" name="tag" formType="input" />
 	</module>
-	
+
 	<module title="论坛" name="forum" list="所有帖子" add="发布帖子" comment="所有回帖">
 		<taxonomy title="板块" name="category" formType="select" />
 		<taxonomy title="标签" name="tag" formType="input" />
 	</module>
-	
+
 	<module title="页面" name="page" list="所有页面" add="新建页面" comment="评论">
 	</module>
-	
+
 	<thumbnail name="index_item" size="100 x 500" />
 	<thumbnail name="index_item1" size="500 x 500" />
-	
+
 </config>

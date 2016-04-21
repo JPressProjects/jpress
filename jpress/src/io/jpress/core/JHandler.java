@@ -37,6 +37,8 @@ public class JHandler extends Handler {
 
 		request.setAttribute("CPATH", cpath);
 		request.setAttribute("SPATH", cpath + "/static");
+		request.setAttribute("URI", request.getRequestURI());
+		request.setAttribute("URL", request.getRequestURL().toString());
 
 		if (target.indexOf('.') != -1) {
 			if (isDisableAccess(target)) {

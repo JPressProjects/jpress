@@ -15,17 +15,29 @@
  */
 package io.jpress.core.dialect;
 
+import com.jfinal.kit.PropKit;
+
 public class DbDialectFactory {
+
 	static DbDialect dialect;
 
 	public static DbDialect getDbDialect() {
 
 		if (dialect == null) {
-			// 暂时只支持 Mysql
-			dialect = new MysqlDialect();
+			dialect = getDialectFromConfig();
 		}
 
 		return dialect;
+	}
+
+	private static DbDialect getDialectFromConfig() {
+		String dialect = PropKit.get("db_dialect");
+		// 目前只支持 mysql
+		if ("mysql".equalsIgnoreCase(dialect)) {
+			return new MysqlDialect();
+		}
+
+		return null;
 	}
 
 }

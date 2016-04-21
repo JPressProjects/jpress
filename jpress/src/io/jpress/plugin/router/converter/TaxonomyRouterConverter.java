@@ -45,8 +45,13 @@ public class TaxonomyRouterConverter implements IRouterConverter {
 		String moduleName = newTarget;
 
 		if (newTarget.indexOf("/") != -1) {
-			moduleName = newTarget.substring(0, newTarget.indexOf("/"));
+			moduleName = moduleName.substring(0, moduleName.indexOf("/"));
 		}
+		
+		if(moduleName.indexOf("-") != -1){
+			moduleName = moduleName.substring(0, moduleName.indexOf("-"));
+		}
+		
 		return moduleName;
 	}
 

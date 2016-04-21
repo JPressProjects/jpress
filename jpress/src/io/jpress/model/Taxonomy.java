@@ -124,8 +124,8 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return find(sql, type, contentId);
 	}
 
-	public Taxonomy findBySlug(String slug) {
-		return doFindFirst("slug = ?", slug);
+	public Taxonomy findBySlugAndModule(String slug,String module) {
+		return doFindFirst("slug = ? and content_module=?", slug,module);
 	}
 
 	public List<Taxonomy> findListCategoryByContentId(long contentId) {

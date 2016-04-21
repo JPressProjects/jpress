@@ -4,7 +4,7 @@
     <div class="row">
         <section class="col-xs-12 col-md-9 ">
         
-        	<@jp_content_page >
+        	<@jp_content_page pagesize="1" >
         	<#list page.getList() as content>
             <article class="content">
                 <div class="row">
@@ -27,7 +27,7 @@
             </article>
             </#list>
             <section class="jp-right">
-                <ul class="pagination">
+                <!-- <ul class="pagination">
                     <li class="active"><a href="#">&laquo;</a></li>
                     <li><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
@@ -35,7 +35,11 @@
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
                     <li><a href="#">&raquo;</a></li>
-                </ul>
+                </ul> 
+                 -->
+                
+                <#include "_inc/_paginate.html" />
+               
             </section>
             </@jp_content_page>
 

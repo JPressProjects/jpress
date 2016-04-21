@@ -20,6 +20,7 @@ import com.jfinal.core.Controller;
 import io.jpress.Consts;
 import io.jpress.core.ui.JTag;
 import io.jpress.model.Content;
+import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 
 /**
@@ -41,25 +42,24 @@ import io.jpress.template.Module;
 public class ContentPageTag extends JTag {
 
 	final Controller controller;
-	
-	
 
 	public ContentPageTag(Controller c) {
 		this.controller = c;
 	}
 
-	
 	@Override
 	public void onRender() {
 
 		int pageNumber = controller.getAttr(Consts.ATTR_PAGE_NUMBER);
-		int pageSize = getParamToInt("pagesize", 10);
-
 		Module module = controller.getAttr("module");
+		Taxonomy taxonomy = controller.getAttr("taxonomy");
+		long taxonomyId = taxonomy == null ? 0 : taxonomy.getId();
+
+		int pageSize = getParamToInt("pagesize", 10);
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module.getName(), status));
+		setVariable("page", Content.DAO.doPaginate(pageNumber, pageSize, module.getName(), status, taxonomyId, 0, orderby));
 
 		renderBody();
 	}

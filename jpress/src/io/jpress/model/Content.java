@@ -450,6 +450,20 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return null;
 	}
 	
+	public String getSummaryWithLen(int len){
+		if(getText() == null)
+			return null;
+		String text = Jsoup.parse(getText()).text();
+		if(text!= null && text.length() >= len){
+			return text.substring(0, len);
+		}
+		return text;
+	}
+	
+	public String getSummary(){
+		return getSummaryWithLen(100);
+	}
+	
 	
 	private StringBuilder getBaseSelectSql() {
 		StringBuilder sqlBuilder = new StringBuilder("select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");

@@ -1,3 +1,9 @@
+<#macro script>
+</#macro> 
+<#macro script_import>
+</#macro> 
+<#macro css_import>
+</#macro> 
 <#macro layout>
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns="http://www.w3.org/1999/html">
@@ -11,6 +17,7 @@
     <link rel="stylesheet" href="${SPATH}/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${TPATH}/js/swiper/css/swiper.min.css">
     <link rel="stylesheet" href="${TPATH}/css/style.css">
+    <@css_import />
 </head>
 <body>
 <header class="navbar bs-docs-nav jp-navbar-default">
@@ -88,16 +95,9 @@
     <script type="text/javascript" src="${SPATH}/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${TPATH}/js/swiper/js/swiper.min.js"></script>
     <script type="text/javascript" src="${TPATH}/js/jcommon.js"></script>
+    <@script_import />
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        slidesPerView: 1,
-        paginationClickable: true,
-        spaceBetween: 30,
-        loop: true
-    });
+	<@script /> 
 </script>
 </body>
 </html>

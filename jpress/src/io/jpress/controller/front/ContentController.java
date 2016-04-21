@@ -18,19 +18,22 @@ package io.jpress.controller.front;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.CONTENT_BASE_URL)
 public class ContentController extends BaseFrontController {
 
-	// http://www.xxx.com/c/123 		content.id:123 page:1
-	// http://www.xxx.com/c/123-2 		content.id:123 page:2
+	// http://www.xxx.com/c/123 content.id:123 page:1
+	// http://www.xxx.com/c/123-2 content.id:123 page:2
 
-	// http://www.xxx.com/c/abc 		content.slug:abc page:1
-	// http://www.xxx.com/c/abc-2 		content.slug:abc page:2
+	// http://www.xxx.com/c/abc content.slug:abc page:1
+	// http://www.xxx.com/c/abc-2 content.slug:abc page:2
 
 	public void index() {
 		Content content = null;
@@ -42,14 +45,19 @@ public class ContentController extends BaseFrontController {
 			renderError(404);
 			return;
 		}
-		
+
+		int pageNumber = getParaToInt(1, 1);
+
+		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, 10, content.getId());
+
 		setAttr("WEB_TITLE", content.getTitle());
 		setAttr("META_KEYWORDS", content.getMetaKeywords());
 		setAttr("META_DESCRIPTION", content.getMetaDescription());
 
-		int pageNumber = getPageNumber();
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
+		setAttr("page", page);
+		setAttr("PAGE_URL",Consts.CONTENT_BASE_URL + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
@@ -58,7 +66,4 @@ public class ContentController extends BaseFrontController {
 		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(URLDecoder.decode(getPara(0), "utf-8"));
 	}
 
-	private int getPageNumber() {
-		return getParaToInt(1, 1);
-	}
 }

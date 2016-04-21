@@ -74,9 +74,9 @@ public class TaxonomyController extends BaseFrontController {
 		
 		int pageNumber = tryToGetPageNumber();
 
-		setAttr("pageNumber", pageNumber);
+		setAttr(Consts.ATTR_PAGE_NUMBER, pageNumber);
 		setAttr("taxonomy", taxonomy);
-		setAttr("module", module.getName());
+		setAttr("module", module);
 
 		if (null == taxonomy) {
 			render(String.format("taxonomy_%s.html", module.getName()));

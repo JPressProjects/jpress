@@ -15,9 +15,7 @@
  */
 package io.jpress;
 
-import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
-import io.jpress.core.ui.JWidgetContainer;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.ContentListener;
 import io.jpress.plugin.message.listener.SettingChangedListener;
@@ -25,44 +23,16 @@ import io.jpress.plugin.message.listener.UserActionListener;
 import io.jpress.plugin.router.RouterKit;
 import io.jpress.plugin.router.converter.PageRouterConverter;
 import io.jpress.plugin.router.converter.TaxonomyRouterConverter;
-import io.jpress.ui.function.OptionCache;
-import io.jpress.ui.function.OptionChecked;
-import io.jpress.ui.function.OptionLoad;
-import io.jpress.ui.function.TaxonomyBox;
-import io.jpress.ui.tag.CommentPageTag;
-import io.jpress.ui.tag.CommentTag;
-import io.jpress.ui.tag.CommentsTag;
-import io.jpress.ui.tag.ContentPageTag;
-import io.jpress.ui.tag.ContentTag;
-import io.jpress.ui.tag.ContentsTag;
-import io.jpress.ui.tag.MenuTag;
-import io.jpress.ui.tag.ModuleTag;
+import io.jpress.ui.function.Functions;
+import io.jpress.ui.tag.Tags;
 
 public class Config extends JpressConfig {
 
 	@Override
 	public void onJfinalStarted() {
 
-		{ // tags
-			Jpress.addTag("jp_content", new ContentTag());
-			Jpress.addTag("jp_contents", new ContentsTag());
-			Jpress.addTag("jp_content_page", new ContentPageTag());
-
-			Jpress.addTag("jp_comment", new CommentTag());
-			Jpress.addTag("jp_comments", new CommentsTag());
-			Jpress.addTag("jp_comment_page", new CommentPageTag());
-
-			Jpress.addTag("jp_menu", new MenuTag());
-			Jpress.addTag("jp_module", new ModuleTag());
-			Jpress.addTag("jp_widgets", new JWidgetContainer());
-		}
-
-		{ // functions
-			Jpress.addFunction("taxonomyBox", new TaxonomyBox());
-			Jpress.addFunction("option", new OptionCache());
-			Jpress.addFunction("optionLoad", new OptionLoad());
-			Jpress.addFunction("checked", new OptionChecked());
-		}
+		Tags.initInStarted();
+		Functions.initInStarted();
 
 		{ // target converters
 			RouterKit.register(TaxonomyRouterConverter.class);

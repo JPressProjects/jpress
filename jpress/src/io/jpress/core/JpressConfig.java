@@ -40,6 +40,8 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
 import io.jpress.core.ui.JErrorRenderFactory;
+import io.jpress.interceptor.GlobalInterceptor;
+import io.jpress.interceptor.JI18nInterceptor;
 import io.jpress.plugin.message.MessagePlugin;
 import io.jpress.plugin.router.RouterPlugin;
 
@@ -128,6 +130,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public void configInterceptor(Interceptors interceptors) {
+		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new JI18nInterceptor());
 	}
 

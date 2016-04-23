@@ -38,7 +38,7 @@ public class _AdminController extends JBaseController {
 		render("index.html");
 	}
 
-	@Clear
+	@Clear(AdminInterceptor.class)
 	public void login() {
 		String username = getPara("username");
 		String password = getPara("password");

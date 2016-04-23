@@ -35,9 +35,9 @@ public class _CommentController extends BaseAdminController<Comment> {
 	private String getType() {
 		return getPara("t");
 	}
-
+	
 	@Override
-	public Page<Comment> onPageLoad(int pageNumber, int pageSize) {
+	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType());
 	}
 

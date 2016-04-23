@@ -65,7 +65,7 @@ public class _TaxonomyController extends BaseAdminController<Taxonomy> {
 	}
 
 	@Override
-	public Page<Taxonomy> onPageLoad(int pageNumber, int pageSize) {
+	public Page<Taxonomy> onIndexDataLoad(int pageNumber, int pageSize) {
 		Page<Taxonomy> page = mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType());
 		ModelSorter.sort(page.getList());
 		return page;

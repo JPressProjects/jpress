@@ -65,7 +65,7 @@ public class _ContentController extends BaseAdminController<Content> {
 	}
 
 	@Override
-	public Page<Content> onPageLoad(int pageNumber, int pageSize) {
+	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
 			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
 		}
@@ -135,18 +135,11 @@ public class _ContentController extends BaseAdminController<Content> {
 
 	@Override
 	public void edit() {
-		keepPara();
-		String moduleName = getModuleName();
-		setAttr("m", moduleName);
-
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
+		
+		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
-
-		String id = getPara("id");
-		if (id != null) {
-			setAttr("content", mDao.findById(id));
-		}
-		render("edit.html");
+		
+		super.edit();
 	}
 
 	private Content getContent() {

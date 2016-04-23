@@ -42,7 +42,7 @@ public class _WechatController extends BaseAdminController<Content> {
 	}
 
 	@Override
-	public Page<Content> onPageLoad(int pageNumber, int pageSize) {
+	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
 			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModule(), getStatus());
 		}

@@ -17,6 +17,7 @@ package io.jpress.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 
 import io.jpress.ui.tag.Tags;
 
@@ -24,7 +25,15 @@ public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-
+		
+		Controller c = inv.getController();
+		c.setAttr("c", c.getPara("c"));
+		c.setAttr("p", c.getPara("p"));
+		c.setAttr("m", c.getPara("m"));
+		c.setAttr("t", c.getPara("t"));
+		c.setAttr("page", c.getPara("page"));
+		
+		
 		Tags.initInInterceptor(inv);
 		
 		inv.invoke();

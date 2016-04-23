@@ -1,24 +1,10 @@
-/**
- * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
- *
- * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package io.jpress.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -40,7 +26,6 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 			logger.error("get ParameterizedType error in _BaseController.class");
 			return null;
 		}
-
 		Type genericSuperclass = clazz.getGenericSuperclass();
 		if (genericSuperclass instanceof ParameterizedType) {
 			return (ParameterizedType) genericSuperclass;
@@ -51,28 +36,41 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 
 	@SuppressWarnings("unchecked")
 	public void index() {
-		Page<M> page = onPageLoad(getPageNumbere(), getPageSize());
+		Page<M> page = onIndexDataLoad(getPageNumbere(), getPageSize());
 		if (null == page) {
 			page = (Page<M>) mDao.doPaginate(getPageNumbere(), getPageSize());
 		}
-		keepPara();
 		setAttr("page", page);
 		render("index.html");
 	}
 
 	public void edit() {
-		keepPara();
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
+			setAttr(StrKit.firstCharToLowerCase(mClazz.getSimpleName()), mDao.findById(id));
+		}
 		render("edit.html");
 	}
 
 	public void save() {
-		getModel(mClazz).save();
+		M m = getModel(mClazz);
+
+		if (!onModelSaveBefore(m)) {
+			renderAjaxResultForError();
+			return;
+		}
+		m.saveOrUpdate();
 		renderAjaxResultForSuccess("ok");
 	}
 
 	public void delete() {
-		mDao.deleteById(getParaToLong());
-		renderAjaxResultForSuccess("删除成功");
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
+			mDao.deleteById(id);
+			renderAjaxResultForSuccess("删除成功");
+		} else {
+			renderAjaxResultForError();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -87,8 +85,13 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 		return m;
 	}
 
-	public Page<M> onPageLoad(int pageNumber, int pageSize) {
+	public Page<M> onIndexDataLoad(int pageNumber, int pageSize) {
 		return null;
+	}
+
+	public boolean onModelSaveBefore(M m) {
+		// do nothing
+		return true;
 	}
 
 }

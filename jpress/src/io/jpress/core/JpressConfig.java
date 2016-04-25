@@ -39,6 +39,7 @@ import io.jpress.core.annotation.Table;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.core.render.JpressRenderFactory;
 import io.jpress.core.ui.JErrorRenderFactory;
 import io.jpress.interceptor.GlobalInterceptor;
 import io.jpress.interceptor.JI18nInterceptor;
@@ -56,6 +57,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setErrorRenderFactory(new JErrorRenderFactory());
 		constants.setBaseUploadPath("attachment");
 		constants.setEncoding("utf-8");
+		constants.setMainRenderFactory(new JpressRenderFactory());
 
 		// constants.setTokenCache(new JTokenCache());
 	}

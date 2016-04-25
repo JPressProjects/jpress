@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 
 import com.jfinal.plugin.activerecord.Page;
 
-public class TaxonomyTag extends JTag {
+public class LoopTag extends JTag {
 
 	@Override
 	public void onRender() {
+
+		int id = getParamToInt("id", 0);
+		System.out.println("cccid--->" + id);
 
 		Page<Content> page = Content.DAO.doPaginate(1, 10);
 

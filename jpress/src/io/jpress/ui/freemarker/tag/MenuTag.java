@@ -13,30 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.widget;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JWidget;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Content;
+import io.jpress.model.ModelSorter;
 
-public class CCPostWidget extends JWidget {
+import java.util.List;
 
-	public CCPostWidget() {
-		super();
-		put("aa1", "bb1");
-		put("aa2", "bb2");
-		put("aa3", "bb3");
-		put("aa4", "bb4");
-	}
+public class MenuTag extends JTag {
 
 	@Override
-	public String onRenderHtmlForSetting(WidgetConfig config) {
+	public void onRender() {
 
-		return null;
-	}
+		// String menuName = getParam("name");
 
-	@Override
-	public String onRenderHtml(WidgetConfig config) {
-
-		return null;
+		List<Content> list = Content.DAO.findMenuList();
+		ModelSorter.tree(list);
+		setVariable("menus", list);
+		renderBody();
 	}
 
 }

@@ -21,8 +21,8 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
 import com.jfinal.render.FreeMarkerRender;
 
-import io.jpress.core.ui.JFunction;
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JFunction;
+import io.jpress.core.render.freemarker.JTag;
 import io.jpress.template.ConfigParser;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;

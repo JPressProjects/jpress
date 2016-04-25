@@ -19,7 +19,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
-import io.jpress.ui.tag.Tags;
+import io.jpress.ui.freemarker.tag.Tags;
 
 public class GlobalInterceptor implements Interceptor {
 

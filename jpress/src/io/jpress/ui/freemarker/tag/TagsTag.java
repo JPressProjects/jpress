@@ -13,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.Jpress;
-import io.jpress.core.ui.JTag;
-import io.jpress.template.Thumbnail;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Taxonomy;
 
-public class ImageTag extends JTag {
+import com.jfinal.plugin.activerecord.Page;
+
+public class TagsTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		String name = getParam("name");
-		String style = getParam("style");
-		String src = getParam("src");
+		int count = getParamToInt("count", 0);
+		count = count <= 0 ? 10 : count;
 
-		Thumbnail tb = Jpress.currentTemplate().getThumbnailByName(name);
-
-		int inserTo = src.lastIndexOf(".");
-
-		String newPath = src.substring(0, inserTo) + "_" + tb.getSizeAsString() + src.substring(inserTo, src.length());
-
-		String imageTag = String.format("<img src=\"%s\" style=\"%s\" />", newPath, style);
-
-		renderText(imageTag);
-
+		Page<Taxonomy> page = Taxonomy.DAO.doPaginate(1, count, "tag");
+		setVariable("tags", page.getList());
+		renderBody();
 	}
 
 }

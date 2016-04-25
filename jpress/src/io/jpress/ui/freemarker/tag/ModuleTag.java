@@ -13,15 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JTag;
+import java.util.List;
 
-public class WidgetTag extends JTag {
+import io.jpress.core.Jpress;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.template.Module;
+import io.jpress.template.Template;
+
+public class ModuleTag extends JTag {
 
 	@Override
 	public void onRender() {
 
+		Template t = Jpress.currentTemplate();
+
+		if (t != null) {
+			List<Module> modules = t.getModules();
+			setVariable("modules", modules);
+		}
+
+		renderBody();
 	}
 
 }

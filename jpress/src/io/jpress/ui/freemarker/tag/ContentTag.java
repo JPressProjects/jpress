@@ -13,17 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Content;
 
-public class GlobalTag extends JTag {
+/**
+ * @title Content 标签
+ * @created 2016年3月28日
+ * 
+ *          使用方法：<br />
+ *          <@jp_content > </@jp_content>
+ * 
+ * 
+ */
+public class ContentTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		renderText("/templates/zx");
+		Long id = getParamToLong("id");
 
+		Content content = null;
+
+		setVariable("content", content);
+
+		renderBody();
 	}
 
 }

@@ -8,103 +8,102 @@
 <!-- Main content -->
 <section class="content">
 	<p>新建用户，并将用户加入此站点。</p>
-	
-	<form class="form-horizontal">
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">用户名 (必填)</label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">密码 (必填)</label>
-                  <div class="col-sm-5">
-                    <input type="password" class="form-control" >
-                  </div>
-                </div>
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">电子邮件 </label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">手机号</label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">QQ</label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label ">微信号</label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                
-                  <div class="form-group">
-	                  <label class="col-sm-2 control-label">微博</label>
-	                  <div class="col-sm-5">
-	                    <input type="text" class="form-control"  name="user.username">
-	                  </div>
-                </div>
-                
-                 <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">个人说明</label>
-                  <div class="col-sm-5">
-                    <textarea class="form-control" rows="4"></textarea>
-								<p>分享关于您的一些信息。可能会被公开。</p>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox"> 向新用户发送有关账户详情的电子邮件。
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">角色</label>
-	                  <div class="col-sm-5">
-	                    <select class="form-control input-sm" >
-								<option value="25">订阅者</option>
-								<option value="50">投稿者</option>
-								<option value="25">作者</option>
-								<option value="50">编辑</option>
-								<option value="25">管理员</option>
-							</select>
-	                  </div>
-                </div>
-                
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">头像</label>
-	                  <div class="col-sm-5">
-	                   <button type="button" class="btn btn-default btn-sm" >选择 </button>
-	                  </div>
-                </div>
-                
-                
-                <div class="form-group">
-	                  <label class="col-sm-2 control-label">微博</label>
-	                  <div class="col-sm-5">
-	                   <button type="button" class="btn btn-default btn-sm" >保存更改 </button>
-	                  </div>
-                </div>
-              </form>
+	<form class="form-horizontal" action="${CPATH/admin/user/save}">
+		<input type="hidden" name="user.id" value="${(user.id)!}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">用户名 (必填)</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">密码 (必填)</label>
+			<div class="col-sm-5">
+				<input type="password" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">电子邮件 </label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">手机号</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">QQ</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label ">微信号</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">微博</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="user.username">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputPassword3" class="col-sm-2 control-label">个人说明</label>
+			<div class="col-sm-5">
+				<textarea class="form-control" rows="4"></textarea>
+				<p>分享关于您的一些信息。可能会被公开。</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<div class="checkbox">
+					<label> <input type="checkbox"> 向新用户发送有关账户详情的电子邮件。
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">角色</label>
+			<div class="col-sm-5">
+				<select class="form-control input-sm">
+					<option value="25">订阅者</option>
+					<option value="50">投稿者</option>
+					<option value="25">作者</option>
+					<option value="50">编辑</option>
+					<option value="25">管理员</option>
+				</select>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">头像</label>
+			<div class="col-sm-5">
+				<button type="button" class="btn btn-default btn-sm">选择</button>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">微博</label>
+			<div class="col-sm-5">
+				<button type="button" class="btn btn-default btn-sm">保存更改</button>
+			</div>
+		</div>
+	</form>
 </section>
 <!-- /.content -->
 </@layout>

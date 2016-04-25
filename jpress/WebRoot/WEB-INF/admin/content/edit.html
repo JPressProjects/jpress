@@ -5,7 +5,7 @@ $("#title").keyup(function(){
     var url = window.location.protocol  +"//"+ window.location.host+"${CPATH}";
     url+="/c/"+this.value;
     $("#titleurl").attr("href",url);
-     $("#slug").text(url);
+     $("#titleurl").text(url);
 });
 var data={
     url:'',
@@ -63,7 +63,7 @@ function save(){
 			type : "post", //提交方式  
 			dataType : "json", //数据类型  
 			success : function(data) { //提交成功的回调函数 
-				alert(data.message);
+				toastr.success(data.message,'操作成功');
 			},
 			error : function() {
 				alert("信息提交错误");
@@ -90,33 +90,26 @@ function save(){
  $('#_${taxonomyType.name}').tagEditor();
 </#list>
 </#if>
+$.fn.editable.defaults.mode = 'inline';
+$('#titleurl').editable();
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
 <script src="${CPATH}/static/plugins/tag/jquery.caret.min.js"></script>
 <script src="${CPATH}/static/plugins/tag/jquery.tag-editor.min.js"></script>
+<script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
+<script src="${CPATH}/static/plugins/editable/bootstrap-editable.min.js"></script>
 </#macro>
 <#macro css_import>
 <link rel="stylesheet" href="${CPATH}/static/plugins/tag/jquery.tag-editor.css">
+<link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
+<link rel="stylesheet" href="${CPATH}/static/plugins/editable/bootstrap-editable..css">
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>撰写新文章</h1>
 </section>
-<div class="pad margin no-print">
-	<div class=" alert alert-info  alert-dismissible callout">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<h4>
-			<i class="icon fa fa-check"></i>
-			成功!
-		</h4>
-		文章发布成功！您可以点击 这里 查看，或返回
-		<a href="#">文章列表</a>
-		。
-	</div>
-</div>
-
 <!-- Main content -->
 <section class="content">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
@@ -132,7 +125,7 @@ function save(){
 					<label class="sr-only"></label> <input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
 				</div>
 				<div class="input-group">
-					<label>网址：<a href="" target="_blank" id="titleurl"><b id="slug"></b></a></label>
+					<label>网址：<a href="" target="_blank" id="titleurl"></a></label>
 				</div>
 				<div class="box box-primary">
 					<div class=" box-info">

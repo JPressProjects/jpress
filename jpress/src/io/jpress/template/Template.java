@@ -35,6 +35,7 @@ public class Template {
 	private int versionCode;
 	private String updateUrl;
 	private String path;
+	private String renderType;
 
 	private List<Module> modules;
 	private List<Thumbnail> thumbnails;
@@ -118,6 +119,14 @@ public class Template {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+	
+	public String getRenderType() {
+		return renderType;
+	}
+
+	public void setRenderType(String renderType) {
+		this.renderType = renderType;
 	}
 
 	public List<String> getWidgetContainers() {

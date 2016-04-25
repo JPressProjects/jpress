@@ -18,6 +18,7 @@ package io.jpress.controller.admin;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -26,7 +27,7 @@ import io.jpress.template.Module;
 import io.jpress.wechat.WechatReplay;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
-public class _WechatController extends BaseAdminController<Content> {
+public class _WechatController extends JBaseCRUDController<Content> {
 
 	private String getModule() {
 		return WechatReplay.MODULE;

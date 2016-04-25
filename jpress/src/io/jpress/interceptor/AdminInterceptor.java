@@ -25,9 +25,15 @@ public class AdminInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
+		
+		String target = inv.getController().getRequest().getRequestURI();
+		String cpath = inv.getController().getRequest().getContextPath();
+
+		if (!target.startsWith(cpath + "/admin")) {
+			inv.invoke();
+		}
 
 		User user = InterUtils.tryToGetUser(inv);
-
 		if (user != null && user.isAdministrator()) {
 			inv.getController().setAttr("user", user);
 			inv.getController().setAttr("ucode", HashUtils.generateUcode(user));

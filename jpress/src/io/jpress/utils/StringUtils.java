@@ -1,6 +1,28 @@
 package io.jpress.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 public class StringUtils {
+
+	public static String urlDecode(String string) {
+		try {
+			return URLDecoder.decode(string, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return string;
+	}
+
+	public static String urlEncode(String string) {
+		try {
+			return URLEncoder.encode(string, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return string;
+	}
 
 	public static boolean areNotEmpty(String... strings) {
 		if (strings == null || strings.length == 0)

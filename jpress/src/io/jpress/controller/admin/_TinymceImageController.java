@@ -15,13 +15,6 @@
  */
 package io.jpress.controller.admin;
 
-import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
-import io.jpress.interceptor.AdminInterceptor;
-import io.jpress.model.Attachment;
-import io.jpress.model.User;
-import io.jpress.utils.AttachmentUtils;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,14 +23,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
-import com.jfinal.aop.Before;
 import com.jfinal.kit.LogKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.core.JBaseController;
+import io.jpress.core.annotation.UrlMapping;
+import io.jpress.model.Attachment;
+import io.jpress.model.User;
+import io.jpress.utils.AttachmentUtils;
+
 @UrlMapping(url = "/admin/tinymce/image")
-@Before(AdminInterceptor.class)
 public class _TinymceImageController extends JBaseController {
 
 	public void proxy() {

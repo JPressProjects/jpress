@@ -38,5 +38,6 @@ public class Consts {
 
 	public static final String ATTR_PAGE_NUMBER = "_page_number";
 	public static final String ATTR_MUDULE = "_mudule";
+	public static final String ATTR_USER = "_user";
 
 }

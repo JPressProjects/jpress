@@ -15,14 +15,15 @@
  */
 package io.jpress.controller.admin;
 
+import com.jfinal.plugin.activerecord.Page;
+
+import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
 import io.jpress.template.Module;
 
-import com.jfinal.plugin.activerecord.Page;
-
 @UrlMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
-public class _CommentController extends BaseAdminController<Comment> {
+public class _CommentController extends JBaseCRUDController<Comment> {
 
 	private String getContentModule() {
 		String module = getPara("m");

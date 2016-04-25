@@ -32,7 +32,6 @@ import io.jpress.utils.HashUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin", viewPath = "/WEB-INF/admin")
-@Before(AdminInterceptor.class)
 public class _AdminController extends JBaseController {
 
 	public void index() {

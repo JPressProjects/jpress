@@ -149,7 +149,9 @@ public class ConfigParser extends DefaultHandler {
 			template.setAuthorWebsite(value);
 		} else if ("version".equalsIgnoreCase(cName)) {
 			template.setVersion(value);
-		} else if ("versionCode".equalsIgnoreCase(cName)) {
+		} else if ("renderType".equalsIgnoreCase(cName)) {
+			template.setRenderType(value);
+		}else if ("versionCode".equalsIgnoreCase(cName)) {
 			int versionCode = 0;
 			try {
 				versionCode = Integer.parseInt(value.trim());

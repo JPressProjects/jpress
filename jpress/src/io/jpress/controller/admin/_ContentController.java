@@ -15,17 +15,6 @@
  */
 package io.jpress.controller.admin;
 
-import io.jpress.core.Jpress;
-import io.jpress.core.annotation.UrlMapping;
-import io.jpress.interceptor.UCodeInterceptor;
-import io.jpress.model.Content;
-import io.jpress.model.Mapping;
-import io.jpress.model.Taxonomy;
-import io.jpress.model.User;
-import io.jpress.template.Module;
-import io.jpress.template.Module.TaxonomyType;
-import io.jpress.utils.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,8 +26,21 @@ import org.jsoup.nodes.Document;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.Consts;
+import io.jpress.core.JBaseCRUDController;
+import io.jpress.core.Jpress;
+import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Content;
+import io.jpress.model.Mapping;
+import io.jpress.model.Taxonomy;
+import io.jpress.model.User;
+import io.jpress.template.Module;
+import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.StringUtils;
+
 @UrlMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
-public class _ContentController extends BaseAdminController<Content> {
+public class _ContentController extends JBaseCRUDController<Content> {
 
 	private String getModuleName() {
 		String module = getPara("m");
@@ -155,7 +157,9 @@ public class _ContentController extends BaseAdminController<Content> {
 
 		content.setCreated(new Date());
 		content.setModified(new Date());
-		content.setUserId(getLoginedUser().getId());
+		
+		User user = getAttr(Consts.ATTR_USER);
+		content.setUserId(user.getId());
 
 		return content;
 	}

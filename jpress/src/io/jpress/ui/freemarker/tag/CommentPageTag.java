@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import com.jfinal.core.Controller;
-
-import io.jpress.Consts;
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
-import io.jpress.model.Taxonomy;
-import io.jpress.template.Module;
 
 /**
  * @title Content 标签
@@ -30,36 +25,28 @@ import io.jpress.template.Module;
  * @created 2016年2月19日
  * 
  *          使用方法：<br />
- *          <@jp_cpage page="" pagesize="" module="article" orderby ><br>
+ *          <@jp_commentpage page="" pagesize="" module="article" orderby ><br>
  *          <br>
  *          <#list page.getList() as content><br>
  *          ${content.id} : ${content.title!} <br>
  *          </#list><br>
  *          <br>
- *          </@jp_cpage>
+ *          </@jp_commentpage>
  * 
  */
-public class ContentPageTag extends JTag {
-
-	final Controller controller;
-
-	public ContentPageTag(Controller c) {
-		this.controller = c;
-	}
+public class CommentPageTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		int pageNumber = controller.getAttr(Consts.ATTR_PAGE_NUMBER);
-		Module module = controller.getAttr("module");
-		Taxonomy taxonomy = controller.getAttr("taxonomy");
-		long taxonomyId = taxonomy == null ? 0 : taxonomy.getId();
-
+		int pageNumber = getParamToInt("page", 1);
 		int pageSize = getParamToInt("pagesize", 10);
+
+		String module = getParam("module");
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginate(pageNumber, pageSize, module.getName(), status, taxonomyId, 0, orderby));
+		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module, status));
 
 		renderBody();
 	}

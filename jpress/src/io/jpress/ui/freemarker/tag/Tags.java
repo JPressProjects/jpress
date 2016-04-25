@@ -1,9 +1,8 @@
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
 import com.jfinal.aop.Invocation;
 
 import io.jpress.core.Jpress;
-import io.jpress.core.ui.JWidgetContainer;
 
 public class Tags {
 
@@ -17,7 +16,6 @@ public class Tags {
 
 		Jpress.addTag("jp_menu", new MenuTag());
 		Jpress.addTag("jp_module", new ModuleTag());
-		Jpress.addTag("jp_widgets", new JWidgetContainer());
 	}
 
 	public static void initInInterceptor(Invocation invocation) {

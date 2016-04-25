@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ui;
+package io.jpress.core.render.freemarker;
 
 import java.io.IOException;
 import java.io.Writer;

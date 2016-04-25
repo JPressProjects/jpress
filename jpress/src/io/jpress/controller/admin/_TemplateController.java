@@ -207,9 +207,6 @@ public class _TemplateController extends JBaseController {
 		renderAjaxResultForSuccess("成功！");
 	}
 
-	public void widget() {
-		keepPara();
-	}
 
 	private List<Template> scanTemplates() {
 		String basePath = PathKit.getWebRootPath() + "/templates";

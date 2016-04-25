@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
-import io.jpress.model.ModelSorter;
 
-import java.util.List;
+import com.jfinal.plugin.activerecord.Page;
 
-public class MenuTag extends JTag {
+public class TaxonomyTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		// String menuName = getParam("name");
+		Page<Content> page = Content.DAO.doPaginate(1, 10);
 
-		List<Content> list = Content.DAO.findMenuList();
-		ModelSorter.tree(list);
-		setVariable("menus", list);
+		setVariable("contentList", page.getList());
+
 		renderBody();
 	}
 

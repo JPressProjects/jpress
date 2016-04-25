@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
+jp_contents * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
  *
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import java.util.List;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Content;
 
-import io.jpress.core.Jpress;
-import io.jpress.core.ui.JTag;
-import io.jpress.template.Module;
-import io.jpress.template.Template;
+import com.jfinal.plugin.activerecord.Page;
 
-public class ModuleTag extends JTag {
+public class CommentsTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		Template t = Jpress.currentTemplate();
+		Page<Content> page = Content.DAO.doPaginate(1, 10);
 
-		if (t != null) {
-			List<Module> modules = t.getModules();
-			setVariable("modules", modules);
-		}
+		setVariable("comments", page.getList());
 
 		renderBody();
 	}

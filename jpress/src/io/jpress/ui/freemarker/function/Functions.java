@@ -1,4 +1,4 @@
-package io.jpress.ui.function;
+package io.jpress.ui.freemarker.function;
 
 import io.jpress.core.Jpress;
 

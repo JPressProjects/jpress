@@ -13,9 +13,9 @@ jp_contents * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.co
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.tag;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JTag;
+import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 
 import com.jfinal.plugin.activerecord.Page;

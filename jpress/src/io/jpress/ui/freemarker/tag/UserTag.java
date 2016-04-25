@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.function;
+package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.ui.JFunction;
-import io.jpress.model.Option;
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Content;
 
-public class OptionCache extends JFunction {
+import com.jfinal.plugin.activerecord.Page;
+
+public class UserTag extends JTag {
 
 	@Override
-	public Object onExec() {
-		String key = getToString(0);
-		return Option.cacheValue(key);
+	public void onRender() {
+
+		int id = getParamToInt("id", 0);
+		System.out.println("cccid--->" + id);
+
+		Page<Content> page = Content.DAO.doPaginate(1, 10);
+
+		setVariable("contentList", page.getList());
+
+		renderBody();
 	}
 
 }

@@ -37,6 +37,9 @@ import io.jpress.utils.AttachmentUtils;
 @UrlMapping(url = "/admin/tinymce/image")
 public class _TinymceImageController extends JBaseController {
 
+	/**
+	 * 下载远程文件
+	 */
 	public void proxy() {
 		String url = getPara("url");
 		HttpURLConnection conn = null;
@@ -49,12 +52,14 @@ public class _TinymceImageController extends JBaseController {
 			setHeader("Content-Type", conn.getContentType());
 
 			render(new StreamRender(is));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * 上传文件
+	 */
 	public void upload() {
 		UploadFile uploadFile = getFile();
 		String newPath = AttachmentUtils.moveFile(uploadFile);
@@ -73,6 +78,11 @@ public class _TinymceImageController extends JBaseController {
 		renderJson("location", newPath);
 	}
 
+	/**
+	 * 流复制 宣传器
+	 * 
+	 * @author michael
+	 */
 	public class StreamRender extends Render {
 		final InputStream stream;
 
@@ -112,7 +122,6 @@ public class _TinymceImageController extends JBaseController {
 						LogKit.error(e.getMessage(), e);
 					}
 			}
-
 		}
 
 	}

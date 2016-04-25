@@ -16,16 +16,21 @@
 package io.jpress.controller.front;
 
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/")
 public class IndexController extends BaseFrontController {
 
 	public void index() {
 
-		if (getPara() != null)
-			renderError(404);
+		String page = getPara();
+		
+		if (StringUtils.isNotBlank(page)) {
+			render("page_" + page + ".html");
+		} else {
+			render("index.html");
+		}
 
-		render("index.html");
 	}
 
 }

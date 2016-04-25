@@ -23,6 +23,7 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
+import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
@@ -67,6 +68,7 @@ public class _AdminController extends JBaseController {
 		}
 	}
 
+	@Before(UCodeInterceptor.class)
 	public void logout() {
 		CookieUtils.remove(this, Consts.COOKIE_LOGINED_USER);
 		redirect("/admin");

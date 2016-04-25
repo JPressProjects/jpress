@@ -15,7 +15,6 @@
  */
 package io.jpress.core.render;
 
-import com.jfinal.kit.PropKit;
 import com.jfinal.render.IErrorRenderFactory;
 import com.jfinal.render.Render;
 import com.jfinal.render.TextRender;
@@ -25,30 +24,35 @@ import io.jpress.template.TemplateUtils;
 
 public class JErrorRenderFactory implements IErrorRenderFactory {
 
-
 	@Override
 	public Render getRender(int errorCode, String view) {
-		if(!Jpress.isInstalled()){
+		if (!Jpress.isInstalled()) {
 			return new TextRender(errorCode + " error in jpress.");
 		}
-		
+
 		String templateName = TemplateUtils.getTemplateName();
 		if (null == templateName) {
 			return new TextRender(String.format("%s error!you haven't configure your template yet.", errorCode));
 		}
+
+		String errorHtml = Jpress.currentTemplate().getPath() + "/" + errorCode + ".html";
+
+		// String configRender = PropKit.get("render");
+
+		String renderType = Jpress.currentTemplate().getRenderType();
 		
-		String errorHtml = Jpress.currentTemplate().getPath() + "/"+errorCode + ".html";
-		
-		String configRender = PropKit.get("render");
-		
-		if("freemarker".equalsIgnoreCase(configRender)){
+		//the default is freemarker
+		if (renderType == null || "".equals(renderType.trim())) {
 			return new JFreemarkerRender(errorHtml);
-		}else if("thymeleaf".equalsIgnoreCase(configRender)){
+		}
+
+		if ("freemarker".equalsIgnoreCase(renderType)) {
+			return new JFreemarkerRender(errorHtml);
+		} else if ("thymeleaf".equalsIgnoreCase(renderType)) {
 			return new ThymeleafRender(errorHtml);
 		}
-		
+
 		return new TextRender(errorCode + " error in jpress.");
 	}
-
 
 }

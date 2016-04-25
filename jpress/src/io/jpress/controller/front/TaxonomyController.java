@@ -15,9 +15,6 @@
  */
 package io.jpress.controller.front;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
@@ -63,31 +60,28 @@ public class TaxonomyController extends BaseFrontController {
 		}
 
 		Taxonomy taxonomy = null;
-		try {
-			if (getParaCount() == 2) { // 2 para
+		if (getParaCount() == 2) { // 2 para
 
-				// the 2th para is not number
-				if (StringUtils.toInt(getPara(1), 0) == 0) {
-					taxonomy = Taxonomy.DAO.findBySlugAndModule(URLDecoder.decode(getPara(1), "utf-8"), moduleName);
-					if (null == taxonomy) {
-						renderError(404);
-						return;
-					}
-				}
-			} else if (getParaCount() >= 3) { // 3 para
-
-				long id = StringUtils.toLong(getPara(1), (long) 0);
-				if (id > 0) {
-					taxonomy = Taxonomy.DAO.findById(id);
-				} else {
-					taxonomy = Taxonomy.DAO.findBySlugAndModule(URLDecoder.decode(getPara(1), "utf-8"), moduleName);
-				}
+			// the 2th para is not number
+			if (StringUtils.toInt(getPara(1), 0) == 0) {
+				taxonomy = Taxonomy.DAO.findBySlugAndModule(StringUtils.urlDecode(getPara(1)), moduleName);
 				if (null == taxonomy) {
 					renderError(404);
 					return;
 				}
 			}
-		} catch (UnsupportedEncodingException e) {
+		} else if (getParaCount() >= 3) { // 3 para
+
+			long id = StringUtils.toLong(getPara(1), (long) 0);
+			if (id > 0) {
+				taxonomy = Taxonomy.DAO.findById(id);
+			} else {
+				taxonomy = Taxonomy.DAO.findBySlugAndModule(StringUtils.urlDecode(getPara(1)), moduleName);
+			}
+			if (null == taxonomy) {
+				renderError(404);
+				return;
+			}
 		}
 
 		int pageNumber = StringUtils.toInt(getPara(getParaCount() - 1), 1);

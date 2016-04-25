@@ -15,9 +15,6 @@
  */
 package io.jpress.controller.front;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
@@ -36,11 +33,8 @@ public class ContentController extends BaseFrontController {
 	// http://www.xxx.com/c/abc-2 content.slug:abc page:2
 
 	public void index() {
-		Content content = null;
-		try {
-			content = tryToGetContent();
-		} catch (Exception e) {
-		}
+		Content content = tryToGetContent();
+		
 		if (null == content) {
 			renderError(404);
 			return;
@@ -61,9 +55,9 @@ public class ContentController extends BaseFrontController {
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
-	private Content tryToGetContent() throws UnsupportedEncodingException {
+	private Content tryToGetContent() {
 		long id = StringUtils.toLong(getPara(0), (long) 0);
-		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(URLDecoder.decode(getPara(0), "utf-8"));
+		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(getPara(0)));
 	}
 
 }

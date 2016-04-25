@@ -1,34 +1,25 @@
 package io.jpress.core.render;
 
-import com.jfinal.kit.PropKit;
 import com.jfinal.render.IMainRenderFactory;
 import com.jfinal.render.Render;
 
+import io.jpress.core.Jpress;
+
 public class JpressRenderFactory implements IMainRenderFactory {
 
-	private static final int RENDER_TYPE_FREEMARKER = 1;
-	private static final int RENDER_TYPE_THYMELEAF = 2;
-
-	private int render_type = 0;
-
 	public JpressRenderFactory() {
-		if ("freemarker".equalsIgnoreCase(PropKit.get("render"))) {
-			render_type = RENDER_TYPE_FREEMARKER;
-		} else if ("thymeleaf".equalsIgnoreCase(PropKit.get("render"))) {
-			render_type = RENDER_TYPE_THYMELEAF;
-		}
 	}
 
 	@Override
 	public Render getRender(String view) {
-
-		switch (render_type) {
-		case RENDER_TYPE_FREEMARKER:
-			return new JFreemarkerRender(view);
-
-		case RENDER_TYPE_THYMELEAF:
-			return new ThymeleafRender(view);
-
+		// front url
+		if (view.startsWith("/templates")) {
+			String renderType = Jpress.currentTemplate().getRenderType();
+			if ("thymeleaf".equalsIgnoreCase(renderType)) {
+				return new ThymeleafRender(view);
+			} else if ("freemarker".equalsIgnoreCase(renderType)) {
+				return new JFreemarkerRender(view);
+			}
 		}
 
 		return new JFreemarkerRender(view);

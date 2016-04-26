@@ -15,6 +15,7 @@
  */
 package io.jpress.interceptor;
 
+import io.jpress.Consts;
 import io.jpress.model.User;
 import io.jpress.utils.HashUtils;
 
@@ -35,7 +36,7 @@ public class AdminInterceptor implements Interceptor {
 
 		User user = InterUtils.tryToGetUser(inv);
 		if (user != null && user.isAdministrator()) {
-			inv.getController().setAttr("user", user);
+			inv.getController().setAttr(Consts.ATTR_USER, user);
 			inv.getController().setAttr("ucode", HashUtils.generateUcode(user));
 			inv.invoke();
 			return;

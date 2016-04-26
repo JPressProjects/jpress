@@ -137,11 +137,20 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Override
 	public void edit() {
-		
+
 		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
 		
+		String _editor = getCookie("_editor", "tinymce");
+		setAttr("_editor", _editor);
+
 		super.edit();
+	}
+	
+	public void changeEditor(){
+		String name = getPara();
+		setCookie("_editor", name, Integer.MAX_VALUE);
+		renderAjaxResultForSuccess();
 	}
 
 	private Content getContent() {
@@ -157,7 +166,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		content.setCreated(new Date());
 		content.setModified(new Date());
-		
+
 		User user = getAttr(Consts.ATTR_USER);
 		content.setUserId(user.getId());
 
@@ -211,19 +220,19 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	@Override
 	public void save() {
-		
+
 		Content content = getContent();
 		if (null == content.getSlug()) {
 			String title = content.getTitle();
 			String slug = title.replace(".", "_").replaceAll("\\s+", "_");
 			content.setSlug(slug);
 		}
-		
+
 		String username = getPara("username");
-		if(StringUtils.isNotBlank(username)){
+		if (StringUtils.isNotBlank(username)) {
 			User user = User.findUserByUsername(username);
-			if(user == null){
-				renderAjaxResultForError("系统没有该用户："+username);
+			if (user == null) {
+				renderAjaxResultForError("系统没有该用户：" + username);
 				return;
 			}
 			content.setUserId(user.getId());

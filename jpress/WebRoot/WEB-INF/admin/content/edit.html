@@ -6,11 +6,14 @@ $("#title").keyup(function(){
     url+="/c/"+this.value;
     $("#titleurl").attr("href",url);
      $("#titleurl").text(url);
+     $('#titleurl').editable('setValue',url);
 });
 var data={
     url:'',
     alt:''
 };
+
+function initTinymce(){
 tinymce.init({
         selector: '#textarea',
         height: 500,
@@ -44,12 +47,37 @@ tinymce.init({
         toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr table image | link  anchor unlink | alignleft aligncenter alignright alignjustify | bullist numlist  | fullscreen code   ',
         toolbar2: '  formatselect | outdent indent | forecolor backcolor  | undo redo  ',
     });
+}
+
+var simplemde ;
+function initMarkdownEditor(){
+	 simplemde = new SimpleMDE({ element: $("#textarea")[0] });
+	// simplemde.toTextArea();
+}
+
+var _editor = "${_editor!}";
+if("tinymce" == _editor){
+ 		initTinymce();
+ 	}else{
+ 		initMarkdownEditor();
+}
     
 function save(){
-	tinymce.activeEditor.uploadImages(function(success) {
-		tinymce.triggerSave();
- 		doSubmit();
-	});
+	//simplemde.toTextArea();
+	//alert(simplemde.markdown(simplemde.value()));
+	//alert($("#textarea").text());
+	//simplemde = null;
+	
+	
+	if("tinymce" == _editor){
+		tinymce.activeEditor.uploadImages(function(success) {
+			tinymce.triggerSave();
+	 		doSubmit();
+		});
+	}else{
+		$("#textarea").text(simplemde.markdown(simplemde.value()));
+		doSubmit();
+	}
 	return false;
  }
  
@@ -71,7 +99,7 @@ function save(){
 	});
  }
  
- function doSelectThumbnail(){
+function doSelectThumbnail(){
  	layer.open({
 			    type: 2,
 			    title: '选择图片',
@@ -87,16 +115,29 @@ function save(){
  }
  
  function change_editer(){
- 	tinymce.EditorManager.execCommand('mceRemoveEditor',true, "textarea");
- 	var simplemde = new SimpleMDE({ element: $("#textarea")[0] });
+ 	if("tinymce" == _editor){
+ 		doAjax('${CPATH}/admin/content/changeEditor/markdown');
+ 	}else{
+ 		doAjax('${CPATH}/admin/content/changeEditor/tinymce');
+ 	}
  }
+ 
+function doAjax(url){
+	  $.get(url, function(result){
+			if(result.errorCode > 0){
+				alert(result.message);
+			}else{
+				location.reload();
+			}
+	  }); 
+  }
  
 <#if module ??> 
 <#list module.taxonomyTypes! as taxonomyType > 
  $('#_${taxonomyType.name}').tagEditor();
 </#list>
 </#if>
-$.fn.editable.defaults.mode = 'inline';
+//$.fn.editable.defaults.mode = 'inline';
 $('#titleurl').editable();
 </#macro> 
 <#macro script_import>

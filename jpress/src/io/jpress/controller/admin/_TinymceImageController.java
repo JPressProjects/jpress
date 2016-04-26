@@ -74,7 +74,7 @@ public class _TinymceImageController extends JBaseController {
 		attachment.setMimeType(uploadFile.getContentType());
 
 		attachment.save();
-
+		
 		renderJson("location", newPath);
 	}
 

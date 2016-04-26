@@ -12,7 +12,7 @@ var data={
     alt:''
 };
 tinymce.init({
-        selector: '.textarea',
+        selector: '#textarea',
         height: 500,
         language: 'zh_CN',
         menubar: false,
@@ -85,6 +85,12 @@ function save(){
 			    }
 			}); 
  }
+ 
+ function change_editer(){
+ 	tinymce.EditorManager.execCommand('mceRemoveEditor',true, "textarea");
+ 	var simplemde = new SimpleMDE({ element: $("#textarea")[0] });
+ }
+ 
 <#if module ??> 
 <#list module.taxonomyTypes! as taxonomyType > 
  $('#_${taxonomyType.name}').tagEditor();
@@ -99,11 +105,13 @@ $('#titleurl').editable();
 <script src="${CPATH}/static/plugins/tag/jquery.tag-editor.min.js"></script>
 <script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
 <script src="${CPATH}/static/plugins/editable/bootstrap-editable.min.js"></script>
+<script src="${CPATH}/static/simplemde/simplemde.min.js"></script>
 </#macro>
 <#macro css_import>
 <link rel="stylesheet" href="${CPATH}/static/plugins/tag/jquery.tag-editor.css">
 <link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
-<link rel="stylesheet" href="${CPATH}/static/plugins/editable/bootstrap-editable..css">
+<link rel="stylesheet" href="${CPATH}/static/plugins/editable/bootstrap-editable.css">
+<link rel="stylesheet" href="${CPATH}/static/simplemde/simplemde.min.css">
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
@@ -111,7 +119,7 @@ $('#titleurl').editable();
 	<h1>撰写新文章</h1>
 </section>
 <!-- Main content -->
-<section class="content">
+<section class="content" style="z-index: 9999">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
 		<input type="hidden" name="content.module" value="${m!}"> 
 		<input type="hidden" name="content.id" value="${(content.id)!}"> 
@@ -124,12 +132,11 @@ $('#titleurl').editable();
 				<div class="form-group">
 					<label class="sr-only"></label> <input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
 				</div>
-				<div class="input-group">
+					<div class="pull-right"><a href="javascript:void(0);" onclick="change_editer()">切换编辑器 </a> </div>
 					<label>网址：<a href="" target="_blank" id="titleurl"></a></label>
-				</div>
 				<div class="box box-primary">
 					<div class=" box-info">
-						<textarea class="textarea" name="content.text">${(content.text)!}</textarea>
+						<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
 					</div>
 				</div>
 				<div class="box box-solid">

@@ -303,3 +303,13 @@ input[type="number"] {
 }
 
 .list-inline li{font-size:12px}
+
+.main-header {
+    z-index: 9;
+}
+.main-sidebar, .left-side {
+    z-index: 8;
+}
+.skin-blue .main-header .navbar {
+    z-index: 8;
+}

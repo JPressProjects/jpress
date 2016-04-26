@@ -302,7 +302,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 	}
 
-	public static boolean appendWhereOrAnd(StringBuilder builder, boolean needWhere) {
+	protected static boolean appendWhereOrAnd(StringBuilder builder, boolean needWhere) {
 		if (needWhere) {
 			builder.append(" WHERE ");
 		} else {
@@ -311,7 +311,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return false;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean needWhere) {
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean needWhere) {
 		if(StringUtils.isNotBlank(value)){
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
@@ -320,7 +320,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return needWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean needWhere) {
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean needWhere) {
 		if(value > 0){
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
@@ -329,7 +329,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return needWhere;
 	}
 	
-	public static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" (");
@@ -346,7 +346,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return needWhere;
 	}
 	
-	public static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
+	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" (");

@@ -61,7 +61,6 @@ public class _OptionController extends JBaseCRUDController<User> {
 						}
 					}
 				}
-
 				if (value == null) {
 					value = getPara(key, "");
 				}

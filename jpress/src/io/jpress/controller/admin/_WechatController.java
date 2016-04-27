@@ -41,6 +41,11 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void index() {
 		super.index();
 	}
+	
+	
+	public void menu(){
+		
+	}
 
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {

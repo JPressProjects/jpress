@@ -1,0 +1,153 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				if(data.errorCode == 0){
+					window.location.reload();
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+      <h1>
+        微信菜单设置
+      </h1>
+    </section>
+<!-- Main content -->
+<section class="content">
+	<div class="jp-set-table">
+
+		<form class="form-horizontal" style="float: right">
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search"
+					value="" name="" placeholder="搜索">&nbsp; <input
+					id="search-submit" class="btn btn-default btn-sm" type="submit"
+					value="搜索文章">
+			</div>
+		</form>
+	</div>
+	<div class="clr"></div>
+	<div class="row">
+		<div class="col-md-4">
+			<form action="${CPATH}/admin/taxonomy/save" method="POST" id="form">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<h4 class="jp-common-pad">添加</h4>
+				<div class="form-group jp-article-format">
+					<label for="tag-name">名称</label> 
+					<input id="tag-name" class="form-control" type="text"  name="taxonomy.title">
+					<p>这将是它在站点上显示的名字。</p>
+				</div>
+
+				<div class="form-group jp-article-format">
+					<label for="tag-slug">别名</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug">
+					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+				</div>
+				<div class="form-group jp-article-format">
+					<div class="col-xs-5 jp-common-pad">
+						<label>父节点</label> 
+						<select class="form-control input-sm" name="taxonomy.parent_id">
+							<option value="0">无</option>
+						</select>
+					</div>
+					<div class="clr"></div>
+					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
+				</div>
+				<div class="form-group jp-article-format">
+
+					<label>图像描述</label>
+					<textarea class="form-control"  name="taxonomy.text" rows="3"></textarea>
+					<p>描述只会在一部分主题中显示。</p>
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加新分类目录</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-8 ">
+			<div class="col-xs-12 jp-common-pad jp-bottom-pad5">
+				<div class="jp-left ">
+					<select style="width: 120px" class="form-control input-sm"
+						name="example1_length" aria-controls="example1">
+						<option value="10">批量操作</option>
+						<option value="25">删除</option>
+					</select>
+				</div>
+				<div class="jp-left jp-left-pad5 jp-right-pad10">
+					<button class="btn  btn-sm btn-default" type="button">应用</button>
+				</div>
+			</div>
+
+			<div class="clr"></div>
+			<div class="box box-primary" style="margin-bottom: 0">
+
+				<!-- /.box-header -->
+				<div class="box-body jp-common-pad">
+					<table id="example1" class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 20px"><label class="jp-common-pad "><input
+										class="jp-common-pad " id="allid" onclick="doallcheck()"
+										title="全选" type="checkbox"></label></th>
+
+								<th style="width: 30%">名称</th>
+								<th>图像描述</th>
+								<th style="width: 20%">别名</th>
+								<th style="width: 10%">总数</i></th>
+
+							</tr>
+						</thead>
+						<tbody>
+
+							<#if page??> 
+							<#list page.getList() as bean>
+							<tr class="jp-onmouse">
+								<td><label class="jp-common-pad"><input
+										class="jp-common-pad" name="chkItem" type="checkbox"></label>
+								</td>
+								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-common-pad">
+											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+										</p>
+									</div></td>
+								<td>${bean.text!}</td>
+								<td>${bean.slug!}</td>
+								<td>${bean.contentCount!}</td>
+							</tr>
+							</#list> 
+							</#if>
+						</tbody>
+
+					</table>
+				</div>
+				<!-- /.box-body -->
+
+				<!-- /.box-footer -->
+			</div>
+			
+			<!-- /. box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

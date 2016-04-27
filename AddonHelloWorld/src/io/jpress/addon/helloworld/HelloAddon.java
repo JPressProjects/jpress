@@ -22,9 +22,9 @@ public class HelloAddon implements IAddon {
 
 	@Override
 	public void onStart(Hooks hooks) {
-		
+
 		hooks.register(HelloHook.HOOK_PROCESS_CONTROLLER, HelloHook.class);
-		
+
 		System.err.println("------->>>>>>HelloAddon started");
 	}
 

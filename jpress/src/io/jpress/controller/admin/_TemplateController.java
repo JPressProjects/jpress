@@ -41,7 +41,6 @@ import io.jpress.utils.FileUtils;
 public class _TemplateController extends JBaseController {
 
 	public void index() {
-		keepPara();
 		List<Template> themeList = scanTemplates();
 		setAttr("templateList", themeList);
 	}
@@ -81,7 +80,6 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void edit() {
-		keepPara();
 
 		String path = Jpress.currentTemplate().getPath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
@@ -119,7 +117,6 @@ public class _TemplateController extends JBaseController {
 		}
 
 		setAttr("f", fileName);
-
 		if (editFile != null) {
 			String fileContent = FileUtils.readString(editFile);
 			if (fileContent != null) {
@@ -191,11 +188,12 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void setting() {
+		
 		keepPara();
 
 		if (TemplateUtils.existsFile("template_setting.html")) {
-			String include = "../../..%s/template_setting.html";
-			setAttr("include", String.format(include, TemplateUtils.getTemplatePath()));
+			String include = TemplateUtils.getTemplatePath() + "/template_setting.html"; 
+			setAttr("include", "../../.."+include);
 		}
 	}
 

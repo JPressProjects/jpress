@@ -80,7 +80,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void edit() {
-
+		keepPara();
 		String path = Jpress.currentTemplate().getPath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
 

@@ -180,8 +180,13 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 
-	public List<Content> findMenuList() {
-		return doFind("module = ? order by order_number ASC", "menu");
+	public List<Content> findByModule(String module) {
+		return doFind("module = ? ", module);
+	}
+	
+	
+	public List<Content> findByModule(String module,String orderby) {
+		return doFind("module = ? order by ?", module,orderby);
 	}
 
 	public Content findBySlug(String slug) {

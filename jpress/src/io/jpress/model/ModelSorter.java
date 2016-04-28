@@ -34,7 +34,7 @@ public class ModelSorter {
 	private static <M extends ISortModel> void sort(List<M> tlist, List<M> newlist, BigInteger parentId, int layer) {
 		for (M model : tlist) {
 			if (parentId == null) {
-				if (model.getParentId() == null || model.getParentId().compareTo(new BigInteger("0")) <= 0) {
+				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
 					model.setLayer(0);// 为顶层分类
 					newlist.add(model);
 					sort(tlist, newlist, model.getId(), 0);
@@ -62,7 +62,7 @@ public class ModelSorter {
 	private static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
 		for (M model : tlist) {
 			if (parent == null) {
-				if (model.getParentId() == null || model.getParentId().compareTo(new BigInteger("0")) <= 0) {
+				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
 					newlist.add(model);
 					tree(tlist, newlist, model);
 				}

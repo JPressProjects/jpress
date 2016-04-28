@@ -15,6 +15,8 @@
  */
 package io.jpress.utils;
 
+import java.math.BigInteger;
+
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PropKit;
@@ -33,8 +35,12 @@ public class CookieUtils {
 		put(ctr, key, value, 60 * 60 * 24 * 7);
 	}
 
+	public static void put(Controller ctr, String key, BigInteger value) {
+		put(ctr, key, value.toString());
+	}
+	
 	public static void put(Controller ctr, String key, long value) {
-		put(ctr, key, value + "");
+		put(ctr, key, value+"");
 	}
 
 	public static void put(Controller ctr, String key, String value, int maxAgeInSeconds) {

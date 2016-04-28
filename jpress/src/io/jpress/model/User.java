@@ -15,6 +15,8 @@
  */
 package io.jpress.model;
 
+import java.math.BigInteger;
+
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseUser;
 
@@ -30,7 +32,7 @@ public class User extends BaseUser<User> {
 		return DAO.doFindFirst("content_id = ?", contentId);
 	}
 
-	public static User findUserById(long userId) {
+	public static User findUserById(BigInteger userId) {
 		return DAO.findById(userId);
 	}
 

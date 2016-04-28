@@ -15,6 +15,7 @@
  */
 package io.jpress.model;
 
+import java.math.BigInteger;
 import java.sql.SQLException;
 
 import com.jfinal.plugin.activerecord.Db;
@@ -30,16 +31,16 @@ public class Mapping extends BaseMapping<Mapping> {
 
 	public static final Mapping DAO = new Mapping();
 
-	public int doDelByContentId(long contentId) {
+	public int doDelByContentId(BigInteger contentId) {
 		return doDelete("content_id = ?", contentId);
 	}
 
-	public boolean doBatchUpdate(final long contentId, final Long[] taxonomyIds) {
+	public boolean doBatchUpdate(final BigInteger contentId, final BigInteger[] taxonomyIds) {
 		return Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
 				doDelByContentId(contentId);
-				for (long taxonomyid : taxonomyIds) {
+				for (BigInteger taxonomyid : taxonomyIds) {
 					Mapping mapping = new Mapping();
 					mapping.setContentId(contentId);
 					mapping.setTaxonomyId(taxonomyid);

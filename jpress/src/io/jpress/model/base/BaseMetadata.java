@@ -19,6 +19,7 @@ import io.jpress.core.JModel;
 import io.jpress.model.Metadata;
 
 import java.util.List;
+import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -55,7 +56,7 @@ public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JModel<M> 
 	public M findFirstFromMetadata(String key,Object value){
 		Metadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);
 		if(md != null){
-			long id = md.getObjectId();
+			BigInteger id = md.getObjectId();
 			return findById(id);
 		}
 		return null;
@@ -77,11 +78,11 @@ public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JModel<M> 
 		return md;
 	}
 
-	public void setId(java.lang.Long id) {
+	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public java.math.BigInteger getId() {
 		return get("id");
 	}
 
@@ -109,11 +110,11 @@ public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JModel<M> 
 		return get("object_type");
 	}
 
-	public void setObjectId(java.lang.Long objectId) {
+	public void setObjectId(java.math.BigInteger objectId) {
 		set("object_id", objectId);
 	}
 
-	public java.lang.Long getObjectId() {
+	public java.math.BigInteger getObjectId() {
 		return get("object_id");
 	}
 

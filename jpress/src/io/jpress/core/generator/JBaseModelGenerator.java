@@ -78,7 +78,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\tpublic M findFirstFromMetadata(String key,Object value){%n"
 				+ "\t\tMetadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);%n"
 				+ "\t\tif(md != null){%n"
-				+ "\t\t\tlong id = md.getObjectId();%n"
+				+ "\t\t\tBigInteger id = md.getObjectId();%n"
 				+ "\t\t\treturn findById(id);%n"
 				+ "\t\t}%n"
 				+ "\t\treturn null;%n"
@@ -107,7 +107,8 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 		
 		this.importTemplate = "import io.jpress.core.JModel;%n"
 				+ "import io.jpress.model.Metadata;%n%n"
-				+ "import java.util.List;%n%n"
+				+ "import java.util.List;%n"
+				+ "import java.math.BigInteger;%n%n"
 				+ "import com.jfinal.plugin.activerecord.IBean;%n"
 				+ "import com.jfinal.plugin.ehcache.CacheKit;%n%n";
 		

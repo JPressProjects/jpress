@@ -26,6 +26,7 @@ import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 @UrlMapping(url = "/oauth")
@@ -46,8 +47,8 @@ public class OauthController extends Oauth2Controller {
 			user.save();
 			MessageKit.sendMessage(Actions.USER_CREATED, user);
 
-			Long userId = user.getId();
-			if (userId != null && userId > 0) {
+			BigInteger userId = user.getId();
+			if (userId != null && userId.compareTo(new BigInteger("0")) > 0) {
 				Metadata md = user.createMetadata();
 				md.setMetaKey(ouser.getSource() + "_open_id");
 				md.setMetaValue(ouser.getOpenId());

@@ -22,6 +22,7 @@ import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.utils.StringUtils;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -295,7 +296,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 						// propertes[1] == meta_key
 						// propertes[2] == meta_value
 						Metadata md = new Metadata();
-						md.setId(Long.parseLong(propertes[0]));
+						md.setId(new BigInteger(propertes[0]));
 						md.setObjectType(METADATA_TYPE);
 						md.setMetaKey(propertes[1]);
 						md.setMetaValue(propertes[2]);
@@ -395,7 +396,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				String[] propertes = taxonomyStr.split(":");
 				// by method doPaginateByModuleAndStatus
 				Taxonomy taxonomy = new Taxonomy();
-				taxonomy.setId(Long.parseLong(propertes[0]));
+				taxonomy.setId(new BigInteger(propertes[0]));
 				taxonomy.setTitle(propertes[1]);
 				taxonomy.setType(propertes[2]);
 				taxonomys.add(taxonomy);

@@ -15,6 +15,8 @@
  */
 package io.jpress.wechat;
 
+import java.math.BigInteger;
+
 import io.jpress.model.Content;
 
 /**
@@ -22,7 +24,7 @@ import io.jpress.model.Content;
  */
 public class WechatReplay {
 
-	private long id;
+	private BigInteger id;
 	private String key;
 	private String content;
 	private String trigger;
@@ -41,11 +43,11 @@ public class WechatReplay {
 		this.enable = Content.STATUS_NORMAL.equals(c.getStatus()) ? true : false;
 	}
 
-	public long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

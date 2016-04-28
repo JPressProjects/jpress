@@ -15,11 +15,13 @@
  */
 package io.jpress.interceptor;
 
+import java.math.BigInteger;
+
+import com.jfinal.aop.Invocation;
+
 import io.jpress.Consts;
 import io.jpress.model.User;
 import io.jpress.utils.CookieUtils;
-
-import com.jfinal.aop.Invocation;
 
 public class InterUtils {
 
@@ -29,7 +31,7 @@ public class InterUtils {
 			String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 
 			if (userId != null && !"".equals(userId))
-				user = User.findUserById(Long.parseLong(userId));
+				user = User.findUserById(new BigInteger(userId));
 		}
 		return user;
 	}

@@ -18,6 +18,7 @@ package io.jpress.model;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseMetadata;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Table(tableName = "metadata", primaryKey = "id")
@@ -43,7 +44,7 @@ public class Metadata extends BaseMetadata<Metadata> {
 		return super.update();
 	}
 
-	public static List<Metadata> findListByTypeAndId(String type, long id) {
+	public static List<Metadata> findListByTypeAndId(String type, BigInteger id) {
 		return DAO.doFind("object_type = ? and object_id = ?", type, id);
 	}
 
@@ -59,7 +60,7 @@ public class Metadata extends BaseMetadata<Metadata> {
 
 	}
 
-	public static Metadata findByTypeAndIdAndKey(String type, long id, String key) {
+	public static Metadata findByTypeAndIdAndKey(String type, BigInteger id, String key) {
 
 		return DAO.doFindFirstByCache(CACHE_NAME, key + id, "object_type = ? and object_id = ? and meta_key = ? ", type,
 				id, key);

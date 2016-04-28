@@ -15,6 +15,8 @@
  */
 package io.jpress.core;
 
+import java.math.BigInteger;
+
 import javax.servlet.http.HttpSession;
 
 import org.jsoup.Jsoup;
@@ -187,6 +189,17 @@ public class JBaseController extends Controller {
 	@Override
 	public boolean validateCaptcha(String paraName) {
 		return JCaptchaRender.validate(this, getPara(paraName));
+	}
+	
+	
+	public BigInteger[] getParaValuesToBigInteger(String name) {
+		String[] values = getRequest().getParameterValues(name);
+		if (values == null)
+			return null;
+		BigInteger[] result = new BigInteger[values.length];
+		for (int i=0; i<result.length; i++)
+			result[i] = new BigInteger(values[i]);
+		return result;
 	}
 
 }

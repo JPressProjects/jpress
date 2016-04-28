@@ -18,6 +18,8 @@ package io.jpress.model;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseComment;
 
+import java.math.BigInteger;
+
 import com.jfinal.plugin.activerecord.Page;
 
 @Table(tableName = "comment", primaryKey = "id")
@@ -35,7 +37,7 @@ public class Comment extends BaseComment<Comment> {
 		return paginate(pageNumber, pageSize, select, sqlExceptSelect);
 	}
 
-	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, long contentId) {
+	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
 
 		String select = " select c.*,content.title content_title,u.username";
 		String sqlExceptSelect = " from comment c " 

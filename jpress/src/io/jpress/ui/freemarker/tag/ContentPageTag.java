@@ -15,6 +15,8 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.math.BigInteger;
+
 import com.jfinal.core.Controller;
 
 import io.jpress.Consts;
@@ -53,7 +55,7 @@ public class ContentPageTag extends JTag {
 		int pageNumber = controller.getAttr(Consts.ATTR_PAGE_NUMBER);
 		Module module = controller.getAttr("module");
 		Taxonomy taxonomy = controller.getAttr("taxonomy");
-		long taxonomyId = taxonomy == null ? 0 : taxonomy.getId();
+		BigInteger taxonomyId = taxonomy == null ? new BigInteger("0") : taxonomy.getId();
 
 		int pageSize = getParamToInt("pagesize", 10);
 		String orderby = getParam("orderby");

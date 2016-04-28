@@ -64,7 +64,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		Content c = getModel(Content.class);
 		c.setModule("wechat_menu");
 		c.setModified(new Date());
-		if (c.getId() == null || c.getId() == 0) {
+		if (c.getCreated() == null ) {
 			c.setCreated(new Date());
 		}
 		c.saveOrUpdate();

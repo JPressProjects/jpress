@@ -168,7 +168,7 @@ public class _TemplateController extends JBaseController {
 		Content c = getModel(Content.class);
 		c.setModule("menu");
 		c.setModified(new Date());
-		if (c.getId() == null || c.getId() == 0) {
+		if (c.getCreated() == null) {
 			c.setCreated(new Date());
 		}
 		c.saveOrUpdate();
@@ -187,12 +187,12 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void setting() {
-		
+
 		keepPara();
 
 		if (TemplateUtils.existsFile("template_setting.html")) {
-			String include = TemplateUtils.getTemplatePath() + "/template_setting.html"; 
-			setAttr("include", "../../.."+include);
+			String include = TemplateUtils.getTemplatePath() + "/template_setting.html";
+			setAttr("include", "../../.." + include);
 		}
 	}
 
@@ -201,7 +201,6 @@ public class _TemplateController extends JBaseController {
 		keepPara();
 		renderAjaxResultForSuccess("成功！");
 	}
-
 
 	private List<Template> scanTemplates() {
 		String basePath = PathKit.getWebRootPath() + "/templates";

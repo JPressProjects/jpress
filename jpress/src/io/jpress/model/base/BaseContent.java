@@ -19,6 +19,7 @@ import io.jpress.core.JModel;
 import io.jpress.model.Metadata;
 
 import java.util.List;
+import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -55,7 +56,7 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 	public M findFirstFromMetadata(String key,Object value){
 		Metadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);
 		if(md != null){
-			long id = md.getObjectId();
+			BigInteger id = md.getObjectId();
 			return findById(id);
 		}
 		return null;
@@ -77,11 +78,11 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return md;
 	}
 
-	public void setId(java.lang.Long id) {
+	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public java.math.BigInteger getId() {
 		return get("id");
 	}
 
@@ -125,27 +126,27 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("style");
 	}
 
-	public void setUserId(java.lang.Long userId) {
+	public void setUserId(java.math.BigInteger userId) {
 		set("user_id", userId);
 	}
 
-	public java.lang.Long getUserId() {
+	public java.math.BigInteger getUserId() {
 		return get("user_id");
 	}
 
-	public void setParentId(java.lang.Long parentId) {
+	public void setParentId(java.math.BigInteger parentId) {
 		set("parent_id", parentId);
 	}
 
-	public java.lang.Long getParentId() {
+	public java.math.BigInteger getParentId() {
 		return get("parent_id");
 	}
 
-	public void setObjectId(java.lang.Long objectId) {
+	public void setObjectId(java.math.BigInteger objectId) {
 		set("object_id", objectId);
 	}
 
-	public java.lang.Long getObjectId() {
+	public java.math.BigInteger getObjectId() {
 		return get("object_id");
 	}
 

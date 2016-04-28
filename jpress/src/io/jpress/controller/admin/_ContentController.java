@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.admin;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -173,10 +174,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		return content;
 	}
 
-	public List<Long> getOrCreateTaxonomyIds(String moduleName) {
+	public List<BigInteger> getOrCreateTaxonomyIds(String moduleName) {
 		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
 		List<TaxonomyType> types = module.getTaxonomyTypes();
-		List<Long> tIds = new ArrayList<Long>();
+		List<BigInteger> tIds = new ArrayList<BigInteger>();
 		for (TaxonomyType type : types) {
 			if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
 				String data = getPara("_" + type.getName());
@@ -187,8 +188,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				if (titles != null && titles.length > 0) {
 					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(moduleName, type.getName());
 					for (String title : titles) {
-						long id = getIdFromList(title, list);
-						if (id == 0) {
+						BigInteger id = getIdFromList(title, list);
+						if (id == null) {
 							Taxonomy taxonomy = new Taxonomy();
 							taxonomy.setTitle(title);
 							taxonomy.setSlug(title);
@@ -201,7 +202,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					}
 				}
 			} else if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
-				Long[] ids = getParaValuesToLong("_" + type.getName());
+				BigInteger[] ids = getParaValuesToBigInteger("_" + type.getName());
 				if (ids != null && ids.length > 0)
 					tIds.addAll(Arrays.asList(ids));
 			}
@@ -209,12 +210,12 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		return tIds;
 	}
 
-	private long getIdFromList(String string, List<Taxonomy> list) {
+	private BigInteger getIdFromList(String string, List<Taxonomy> list) {
 		for (Taxonomy taxonomy : list) {
 			if (string.equals(taxonomy.getSlug()))
 				return taxonomy.getId();
 		}
-		return 0;
+		return null;
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -246,8 +247,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		content.saveOrUpdate();
 
-		List<Long> ids = getOrCreateTaxonomyIds(content.getModule());
-		Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new Long[0]));
+		List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
+		Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
 
 		renderAjaxResultForSuccess("save ok");
 	}

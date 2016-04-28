@@ -19,6 +19,7 @@ import io.jpress.core.JModel;
 import io.jpress.model.Metadata;
 
 import java.util.List;
+import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -55,7 +56,7 @@ public abstract class BaseMapping<M extends BaseMapping<M>> extends JModel<M> im
 	public M findFirstFromMetadata(String key,Object value){
 		Metadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);
 		if(md != null){
-			long id = md.getObjectId();
+			BigInteger id = md.getObjectId();
 			return findById(id);
 		}
 		return null;
@@ -77,27 +78,27 @@ public abstract class BaseMapping<M extends BaseMapping<M>> extends JModel<M> im
 		return md;
 	}
 
-	public void setId(java.lang.Long id) {
+	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public java.math.BigInteger getId() {
 		return get("id");
 	}
 
-	public void setContentId(java.lang.Long contentId) {
+	public void setContentId(java.math.BigInteger contentId) {
 		set("content_id", contentId);
 	}
 
-	public java.lang.Long getContentId() {
+	public java.math.BigInteger getContentId() {
 		return get("content_id");
 	}
 
-	public void setTaxonomyId(java.lang.Long taxonomyId) {
+	public void setTaxonomyId(java.math.BigInteger taxonomyId) {
 		set("taxonomy_id", taxonomyId);
 	}
 
-	public java.lang.Long getTaxonomyId() {
+	public java.math.BigInteger getTaxonomyId() {
 		return get("taxonomy_id");
 	}
 

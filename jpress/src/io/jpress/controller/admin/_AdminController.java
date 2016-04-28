@@ -59,7 +59,7 @@ public class _AdminController extends JBaseController {
 
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 
-			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
 			CacheKit.put("user", user.getId(), user);
 			renderAjaxResultForSuccess("登陆成功");
 		} else {

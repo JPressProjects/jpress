@@ -19,6 +19,7 @@ import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return DAO.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? ", module, type);
 	}
 
-	public List<Taxonomy> findListByContentId(long contentId) {
+	public List<Taxonomy> findListByContentId(BigInteger contentId) {
 
 		String sql = "select * from mapping m,taxonomy ";
 		sql += "where  m.`taxonomy_id` = taxonomy.id ";
@@ -113,7 +114,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return find(sql, contentId);
 	}
 
-	public List<Taxonomy> findListByTypeAndContentId(String type, long contentId) {
+	public List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
 
 		String sql = "select * from mapping m,taxonomy ";
 		sql += "where  m.`taxonomy_id` = taxonomy.id ";
@@ -128,11 +129,11 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return doFindFirst("slug = ? and content_module=?", slug,module);
 	}
 
-	public List<Taxonomy> findListCategoryByContentId(long contentId) {
+	public List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(TYPE_CATEGORY, contentId);
 	}
 
-	public List<Taxonomy> findListTagByContentId(long contentId) {
+	public List<Taxonomy> findListTagByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(TYPE_TAG, contentId);
 	}
 

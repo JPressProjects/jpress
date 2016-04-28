@@ -19,6 +19,7 @@ import io.jpress.core.JModel;
 import io.jpress.model.Metadata;
 
 import java.util.List;
+import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.IBean;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -55,7 +56,7 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 	public M findFirstFromMetadata(String key,Object value){
 		Metadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);
 		if(md != null){
-			long id = md.getObjectId();
+			BigInteger id = md.getObjectId();
 			return findById(id);
 		}
 		return null;
@@ -77,11 +78,11 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return md;
 	}
 
-	public void setId(java.lang.Long id) {
+	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public java.math.BigInteger getId() {
 		return get("id");
 	}
 
@@ -133,11 +134,11 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return get("content_count");
 	}
 
-	public void setParentId(java.lang.Long parentId) {
+	public void setParentId(java.math.BigInteger parentId) {
 		set("parent_id", parentId);
 	}
 
-	public java.lang.Long getParentId() {
+	public java.math.BigInteger getParentId() {
 		return get("parent_id");
 	}
 
@@ -149,11 +150,11 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return get("template");
 	}
 
-	public void setObjectId(java.lang.Long objectId) {
+	public void setObjectId(java.math.BigInteger objectId) {
 		set("object_id", objectId);
 	}
 
-	public java.lang.Long getObjectId() {
+	public java.math.BigInteger getObjectId() {
 		return get("object_id");
 	}
 

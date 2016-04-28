@@ -48,7 +48,7 @@ public class OauthController extends Oauth2Controller {
 			MessageKit.sendMessage(Actions.USER_CREATED, user);
 
 			BigInteger userId = user.getId();
-			if (userId != null && userId.compareTo(new BigInteger("0")) > 0) {
+			if (userId != null && userId.compareTo(BigInteger.ZERO) > 0) {
 				Metadata md = user.createMetadata();
 				md.setMetaKey(ouser.getSource() + "_open_id");
 				md.setMetaValue(ouser.getOpenId());

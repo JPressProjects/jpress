@@ -2,8 +2,6 @@ package io.jpress.wechat;
 
 import java.math.BigInteger;
 
-import com.alibaba.fastjson.JSONObject;
-
 public class WechatMenuItem {
 
 	public static final String TYPE_CLICK = "click"; //点击推事件

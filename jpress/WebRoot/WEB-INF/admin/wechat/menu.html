@@ -47,9 +47,20 @@ function doSubmit(){
 				</div>
 
 				<div class="form-group jp-article-format">
-					<label for="tag-slug">URL地址</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="content.text" value="${(wechat_menu.text)!}">
-					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+					<div class="col-xs-5 jp-common-pad">
+						<label>菜单类型</label> 
+						<select class="form-control input-sm" name="content.flag">
+							<option value="click">点击推事件</option>
+							<option value="view">跳转URL</option>
+							<option value="scancode_push">扫码推事件</option>
+							<option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
+							<option value="pic_sysphoto">弹出系统拍照发图</option>
+							<option value="pic_photo_or_album">弹出拍照或者相册发图</option>
+							<option value="pic_weixin">弹出微信相册发图器</option>
+							<option value="location_select">弹出地理位置选择器</option>
+						</select>
+					</div>
+					<div class="clr"></div>
 				</div>
 				<div class="form-group jp-article-format">
 					<label for="tag-slug">排序</label> 
@@ -119,7 +130,6 @@ function doSubmit(){
 										<p class="row-actions jp-common-pad">
 											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
-											<span class="trash">| <a class="delete vim-d vim-destructive" href="#" target="_blank">查看</a></span>
 										</p>
 									</div></td>
 								<td>${bean.text!}</td>

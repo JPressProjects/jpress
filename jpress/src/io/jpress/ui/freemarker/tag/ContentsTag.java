@@ -18,6 +18,7 @@ package io.jpress.ui.freemarker.tag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class ContentsTag extends JTag {
 		int pageNumber = getParamToInt("page", 1);
 		int pageSize = getParamToInt("pagesize", 10);
 
-		Long[] typeIds = getParamToLongArray("typeid");
+		BigInteger[] typeIds = getParamToBigIntegerArray("typeid");
 		String[] typeSlugs = getParamToStringArray("typeslug");
 		String[] tags = getParamToStringArray("tag");
 		String[] modules = getParamToStringArray("module");

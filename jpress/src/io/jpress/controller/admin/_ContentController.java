@@ -90,7 +90,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
-		Long[] ids = getParaValuesToLong("dataItem");
+		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
 		int count = mDao.batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
@@ -101,7 +101,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void batchDelete() {
-		Long[] ids = getParaValuesToLong("dataItem");
+		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
 		int count = mDao.batchDelete(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
@@ -112,7 +112,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void restore() {
-		long id = getParaToLong("id");
+		BigInteger id = getParaToBigInteger("id");
 		Content c = Content.DAO.findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
@@ -126,7 +126,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void delete() {
-		long id = getParaToLong("id");
+		BigInteger id = getParaToBigInteger("id");
 		Content c = Content.DAO.findById(id);
 		if (c != null && c.isDelete()) {
 			c.delete();

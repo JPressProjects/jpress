@@ -17,6 +17,7 @@ package io.jpress.core.render.freemarker;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigInteger;
 import java.util.Map;
 
 import com.jfinal.log.Log;
@@ -242,6 +243,29 @@ public abstract class JTag implements TemplateDirectiveModel {
 		try {
 			for (String str : array) {
 				ids[i++] = Long.valueOf(str.trim());
+			}
+			return ids;
+		} catch (NumberFormatException e) {
+			throw e;
+		}
+	}
+	
+	public BigInteger[] getParamToBigIntegerArray(String key) {
+		String string = getParam(key);
+		if (null == string || "".equals(string.trim())) {
+			return null;
+		}
+		
+		if (!string.contains(",")) {
+			return new BigInteger[] { new BigInteger(string.trim()) };
+		}
+		
+		String[] array = string.split(",");
+		BigInteger[] ids = new BigInteger[array.length];
+		int i = 0;
+		try {
+			for (String str : array) {
+				ids[i++] = new BigInteger(str.trim());
 			}
 			return ids;
 		} catch (NumberFormatException e) {

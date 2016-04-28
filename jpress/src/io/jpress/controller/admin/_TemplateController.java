@@ -18,6 +18,7 @@ package io.jpress.controller.admin;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -156,8 +157,8 @@ public class _TemplateController extends JBaseController {
 		ModelSorter.sort(list);
 		setAttr("menus", list);
 
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			Content c = Content.DAO.findById(id);
 			setAttr("menu", c);
 		}
@@ -177,8 +178,8 @@ public class _TemplateController extends JBaseController {
 
 	@Before(UCodeInterceptor.class)
 	public void menudel() {
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			if (Content.DAO.deleteById(id)) {
 				renderAjaxResultForSuccess();
 			}

@@ -23,6 +23,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.ActionException;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
@@ -200,6 +201,29 @@ public class JBaseController extends Controller {
 		for (int i=0; i<result.length; i++)
 			result[i] = new BigInteger(values[i]);
 		return result;
+	}
+	
+	
+	public BigInteger getParaToBigInteger(String name) {
+		return toBigInteger(getRequest().getParameter(name), null);
+	}
+	
+	public BigInteger getParaToBigInteger(String name, BigInteger defaultValue) {
+		return toBigInteger(getRequest().getParameter(name), defaultValue);
+	}
+	
+	private BigInteger toBigInteger(String value, BigInteger defaultValue) {
+		try {
+			if (value == null || "".equals(value.trim()))
+				return defaultValue;
+			value = value.trim();
+			if (value.startsWith("N") || value.startsWith("n"))
+				return  new BigInteger(value).negate();
+			return new BigInteger(value);
+		}
+		catch (Exception e) {
+			throw new ActionException(404,  "Can not parse the parameter \"" + value + "\" to BigInteger value.");
+		}
 	}
 
 }

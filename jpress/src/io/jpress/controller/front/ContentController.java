@@ -15,6 +15,8 @@
  */
 package io.jpress.controller.front;
 
+import java.math.BigInteger;
+
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
@@ -56,8 +58,8 @@ public class ContentController extends BaseFrontController {
 	}
 
 	private Content tryToGetContent() {
-		long id = StringUtils.toLong(getPara(0), (long) 0);
-		return id > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(getPara(0)));
+		BigInteger id = StringUtils.toBigInteger(getPara(0), BigInteger.ZERO);
+		return id.compareTo(BigInteger.ZERO) > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(getPara(0)));
 	}
 
 }

@@ -79,7 +79,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return doPaginate(page, pagesize, module, STATUS_NORMAL, 0, 0, null);
 	}
 	
-	public Page<Content> doPaginate(int page, int pagesize, String module, String status, long taxonomyId,long userId,String orderBy) {
+	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,BigInteger userId,String orderBy) {
 		
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 		
@@ -115,8 +115,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	
-	public List<Content> findListInNormal(int page, int pagesize, long taxonomyId,String orderBy){
-		return findListInNormal(page, pagesize, orderBy, null, new Long[]{taxonomyId}, null, null, null, null,null, null, null, null);
+	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId,String orderBy){
+		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[]{taxonomyId}, null, null, null, null,null, null, null, null);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	 * @param tags
 	 * @return
 	 */
-	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, Long[] typeIds,
+	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
 			String[] typeSlugs, String[] modules, String[] styles, String[] flags,String[] slugs, Integer[] userIds,
 			Integer[] parentIds, String[] tags) {
 
@@ -197,7 +197,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return findFirst(sql.toString(),slug);
 	}
 	
-	public Content findById(long id) {
+	public Content findById(BigInteger id) {
 		StringBuilder sql = getBaseSelectSql();
 		sql.append(" WHERE c.id = ?");
 		sql.append(" GROUP BY c.id");
@@ -221,7 +221,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return User.findUserById(getUserId());
 	}
 
-	public int batchTrash(Long... ids) {
+	public int batchTrash(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
 			List<Object> params = new LinkedList<Object>();
 			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
@@ -239,7 +239,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return 0;
 	}
 	
-	public int batchDelete(Long... ids) {
+	public int batchDelete(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
 			List<Object> params = new LinkedList<Object>();
 			StringBuilder sb = new StringBuilder("DELETE FROM content ");

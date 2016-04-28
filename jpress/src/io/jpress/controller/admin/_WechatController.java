@@ -135,7 +135,6 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Override
 	public void edit() {
-		keepPara();
 		String moduleName = getModule();
 		setAttr("m", moduleName);
 

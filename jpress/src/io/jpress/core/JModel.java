@@ -18,6 +18,7 @@ package io.jpress.core;
 import io.jpress.core.dialect.DbDialectFactory;
 import io.jpress.utils.StringUtils;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -320,8 +321,8 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return needWhere;
 	}
 	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, long value, List<Object> params, boolean needWhere) {
-		if(value > 0){
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, BigInteger value, List<Object> params, boolean needWhere) {
+		if(value!=null && value.compareTo(BigInteger.ZERO) > 0){
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);

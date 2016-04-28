@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.admin;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		ModelSorter.sort(list);
 		setAttr("wechat_menus", list);
 
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			Content c = Content.DAO.findById(id);
 			setAttr("wechat_menu", c);
 		}
@@ -112,7 +113,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
-		Long[] ids = getParaValuesToLong("dataItem");
+		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
 		int count = mDao.batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
@@ -123,7 +124,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void delete() {
-		long id = getParaToLong("id");
+		BigInteger id = getParaToBigInteger("id");
 		Content c = Content.DAO.findById(id);
 		if (c != null && c.isDelete()) {
 			c.delete();

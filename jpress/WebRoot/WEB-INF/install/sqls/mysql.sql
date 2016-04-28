@@ -12,10 +12,10 @@
 DROP TABLE IF EXISTS `{table_prefix}attachment`;
 
 CREATE TABLE `{table_prefix}attachment` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` text,
-  `user_id` int(11) unsigned DEFAULT '0',
-  `content_id` int(11) DEFAULT '0',
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `content_id` bigint(20) unsigned DEFAULT NULL,
   `path` varchar(512) DEFAULT NULL,
   `mime_type` varchar(128) DEFAULT NULL,
   `suffix` varchar(32) DEFAULT NULL,
@@ -35,12 +35,12 @@ CREATE TABLE `{table_prefix}attachment` (
 DROP TABLE IF EXISTS `{table_prefix}comment`;
 
 CREATE TABLE `{table_prefix}comment` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) unsigned DEFAULT '0',
-  `content_id` int(11) unsigned DEFAULT '0',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(20) unsigned DEFAULT NULL,
+  `content_id` bigint(20) unsigned DEFAULT NULL,
   `content_module` varchar(32) DEFAULT NULL,
-  `comment_count` int(11) DEFAULT '0',
-  `user_id` int(11) unsigned DEFAULT '0',
+  `comment_count` int(11) unsigned DEFAULT '0',
+  `user_id` bigint(20) unsigned DEFAULT NULL,
   `ip` varchar(64) DEFAULT NULL,
   `author` varchar(11) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL,
@@ -50,8 +50,8 @@ CREATE TABLE `{table_prefix}comment` (
   `slug` varchar(128) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
   `status` varchar(32) DEFAULT NULL,
-  `vote_up` int(11) DEFAULT NULL,
-  `vote_down` int(11) DEFAULT NULL,
+  `vote_up` int(11) unsigned DEFAULT '0',
+  `vote_down` int(11) unsigned DEFAULT '0',
   `lat` decimal(20,16) DEFAULT NULL,
   `lng` decimal(20,16) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -66,21 +66,22 @@ CREATE TABLE `{table_prefix}comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};
 
 
+
 # Dump of table content
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `{table_prefix}content`;
 
 CREATE TABLE `{table_prefix}content` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` text,
   `text` longtext,
   `thumbnail` varchar(128) DEFAULT NULL,
   `module` varchar(32) DEFAULT NULL,
   `style` varchar(32) DEFAULT NULL,
-  `user_id` int(11) unsigned DEFAULT '0',
-  `parent_id` int(11) unsigned DEFAULT '0',
-  `object_id` int(11) unsigned DEFAULT '0',
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `parent_id` bigint(20) unsigned DEFAULT NULL,
+  `object_id` bigint(20) unsigned DEFAULT NULL,
   `order_number` int(11) DEFAULT '0',
   `status` varchar(32) DEFAULT NULL,
   `vote_up` int(11) unsigned DEFAULT '0',
@@ -88,7 +89,7 @@ CREATE TABLE `{table_prefix}content` (
   `price` decimal(10,2) DEFAULT '0.00',
   `comment_status` varchar(32) DEFAULT NULL,
   `comment_count` int(11) unsigned DEFAULT '0',
-  `view_count` int(11) unsigned DEFAULT NULL,
+  `view_count` int(11) unsigned DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `created_gmt` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -119,13 +120,14 @@ CREATE TABLE `{table_prefix}content` (
 DROP TABLE IF EXISTS `{table_prefix}mapping`;
 
 CREATE TABLE `{table_prefix}mapping` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `content_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `taxonomy_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `content_id` bigint(20) unsigned NOT NULL,
+  `taxonomy_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `taxonomy_id` (`taxonomy_id`),
   KEY `content_id` (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};
+
 
 
 # Dump of table metadata
@@ -134,13 +136,14 @@ CREATE TABLE `{table_prefix}mapping` (
 DROP TABLE IF EXISTS `{table_prefix}metadata`;
 
 CREATE TABLE `{table_prefix}metadata` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `meta_key` varchar(255) DEFAULT NULL,
   `meta_value` text,
   `object_type` varchar(32) DEFAULT NULL,
-  `object_id` int(11) unsigned DEFAULT NULL,
+  `object_id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};
+
 
 
 # Dump of table option
@@ -149,11 +152,12 @@ CREATE TABLE `{table_prefix}metadata` (
 DROP TABLE IF EXISTS `{table_prefix}option`;
 
 CREATE TABLE `{table_prefix}option` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `option_key` varchar(32) DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `option_key` varchar(128) DEFAULT NULL,
   `option_value` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};
+
 
 
 # Dump of table taxonomy
@@ -162,26 +166,26 @@ CREATE TABLE `{table_prefix}option` (
 DROP TABLE IF EXISTS `{table_prefix}taxonomy`;
 
 CREATE TABLE `{table_prefix}taxonomy` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(512) DEFAULT NULL,
   `text` text,
   `slug` varchar(128) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL,
   `content_module` varchar(32) DEFAULT NULL,
-  `content_count` int(11) DEFAULT '0',
-  `parent_id` int(11) unsigned DEFAULT '0',
-  `template` varchar(32) DEFAULT NULL,
-  `object_id` int(11) unsigned DEFAULT '0',
+  `content_count` int(11) unsigned DEFAULT '0',
+  `parent_id` bigint(20) unsigned DEFAULT NULL,
+  `template` varchar(128) DEFAULT NULL,
+  `object_id` bigint(20) unsigned DEFAULT NULL,
   `lat` decimal(20,16) DEFAULT NULL,
   `lng` decimal(20,16) DEFAULT NULL,
   `meta_keywords` varchar(256) DEFAULT NULL,
   `meta_description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`),
   KEY `parent_id` (`parent_id`),
   KEY `object_id` (`object_id`),
   KEY `content_module` (`content_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};
+
 
 
 # Dump of table user
@@ -190,12 +194,12 @@ CREATE TABLE `{table_prefix}taxonomy` (
 DROP TABLE IF EXISTS `{table_prefix}user`;
 
 CREATE TABLE `{table_prefix}user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(64) DEFAULT NULL,
   `password` varchar(64) DEFAULT NULL,
   `salt` varchar(32) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
-  `cell_number` varchar(32) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
   `nickname` varchar(64) DEFAULT NULL,
   `amount` decimal(10,2) unsigned DEFAULT '0.00',
   `gender` varchar(16) DEFAULT NULL,
@@ -213,7 +217,7 @@ CREATE TABLE `{table_prefix}user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `cell_number` (`cell_number`),
+  UNIQUE KEY `cell_number` (`phone`),
   KEY `status` (`status`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET={charset};

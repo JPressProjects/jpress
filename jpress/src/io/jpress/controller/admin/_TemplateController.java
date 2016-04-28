@@ -152,8 +152,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void menu() {
-		keepPara();
-		List<Content> list = Content.DAO.findMenuList();
+		List<Content> list = Content.DAO.findByModule("menu", "order_number ASC");
 		ModelSorter.sort(list);
 		setAttr("menus", list);
 

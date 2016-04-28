@@ -1,4 +1,4 @@
-<#include "../_inc/_layout.html"/>
+<#include "../_inc/_layout.html"/> 
 <#macro script>
 function doSubmit(){
  	$("#form").ajaxSubmit({
@@ -16,61 +16,61 @@ function doSubmit(){
 			}
 	});
  }
+ function doMenuDel(id){
+ 	$.get("${CPATH}/admin/wechat/menuDel?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+ }
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
       <h1>
-        微信菜单设置
+        菜单设置
       </h1>
     </section>
 <!-- Main content -->
 <section class="content">
-	<div class="jp-set-table">
-
-		<form class="form-horizontal" style="float: right">
-			<div class="input-group input-group-sm">
-				<input id="post-search-input" class="form-control" type="search"
-					value="" name="" placeholder="搜索">&nbsp; <input
-					id="search-submit" class="btn btn-default btn-sm" type="submit"
-					value="搜索文章">
-			</div>
-		</form>
-	</div>
-	<div class="clr"></div>
 	<div class="row">
 		<div class="col-md-4">
-			<form action="${CPATH}/admin/taxonomy/save" method="POST" id="form">
+			<form id="form" action="${CPATH}/admin/wechat/menuSave" method="POST">
 				<input type="hidden" name="ucode" value="${ucode}">
-				<h4 class="jp-common-pad">添加</h4>
+				<input type="hidden" name="content.id" value="${(menu.id)!}">
+				<h4 class="jp-common-pad">添加新菜单</h4>
 				<div class="form-group jp-article-format">
 					<label for="tag-name">名称</label> 
-					<input id="tag-name" class="form-control" type="text"  name="taxonomy.title">
+					<input id="tag-name" class="form-control" type="text"  name="content.title" value="${(wechat_menu.title)!}">
 					<p>这将是它在站点上显示的名字。</p>
 				</div>
 
 				<div class="form-group jp-article-format">
-					<label for="tag-slug">别名</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug">
+					<label for="tag-slug">URL地址</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.text" value="${(wechat_menu.text)!}">
+					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+				</div>
+				<div class="form-group jp-article-format">
+					<label for="tag-slug">排序</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.order_id" value="${(wechat_menu.orderId)!}">
 					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
 				</div>
 				<div class="form-group jp-article-format">
 					<div class="col-xs-5 jp-common-pad">
 						<label>父节点</label> 
-						<select class="form-control input-sm" name="taxonomy.parent_id">
+						<select class="form-control input-sm" name="content.parent_id">
 							<option value="0">无</option>
+							<#list wechat_menus! as menu>
+							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option>
+							</#list>
 						</select>
 					</div>
 					<div class="clr"></div>
 					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
 				</div>
-				<div class="form-group jp-article-format">
 
-					<label>图像描述</label>
-					<textarea class="form-control"  name="taxonomy.text" rows="3"></textarea>
-					<p>描述只会在一部分主题中显示。</p>
-				</div>
-
-				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加新分类目录</button>
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加</button>
 
 			</form>
 			<!-- /.box -->
@@ -103,16 +103,13 @@ function doSubmit(){
 										title="全选" type="checkbox"></label></th>
 
 								<th style="width: 30%">名称</th>
-								<th>图像描述</th>
-								<th style="width: 20%">别名</th>
-								<th style="width: 10%">总数</i></th>
-
+								<th>URL地址</th>
+								<th>排序</th>
 							</tr>
 						</thead>
 						<tbody>
 
-							<#if page??> 
-							<#list page.getList() as bean>
+							<#list wechat_menus!  as bean>
 							<tr class="jp-onmouse">
 								<td><label class="jp-common-pad"><input
 										class="jp-common-pad" name="chkItem" type="checkbox"></label>
@@ -120,17 +117,15 @@ function doSubmit(){
 								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
-											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
-											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="#" target="_blank">查看</a></span>
 										</p>
 									</div></td>
 								<td>${bean.text!}</td>
-								<td>${bean.slug!}</td>
-								<td>${bean.contentCount!}</td>
+								<td>${bean.orderId!}</td>
 							</tr>
 							</#list> 
-							</#if>
 						</tbody>
 
 					</table>
@@ -139,7 +134,7 @@ function doSubmit(){
 
 				<!-- /.box-footer -->
 			</div>
-			
+
 			<!-- /. box -->
 		</div>
 		<!-- /.col -->
@@ -148,6 +143,3 @@ function doSubmit(){
 </section>
 <!-- /.content -->
 </@layout>
-
-
-

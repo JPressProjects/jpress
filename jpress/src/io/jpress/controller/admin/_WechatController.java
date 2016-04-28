@@ -15,6 +15,9 @@
  */
 package io.jpress.controller.admin;
 
+import java.util.Date;
+import java.util.List;
+
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -23,6 +26,7 @@ import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
+import io.jpress.model.ModelSorter;
 import io.jpress.template.Module;
 import io.jpress.wechat.WechatReplay;
 
@@ -41,11 +45,49 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void index() {
 		super.index();
 	}
+
+	
+	public void menu() {
+		List<Content> list = Content.DAO.findByModule("wechat_menu", "order_number ASC");
+		ModelSorter.sort(list);
+		setAttr("wechat_menus", list);
+
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
+			Content c = Content.DAO.findById(id);
+			setAttr("wechat_menu", c);
+		}
+	}
+
+	@Before(UCodeInterceptor.class)
+	public void menuSave() {
+		Content c = getModel(Content.class);
+		c.setModule("wechat_menu");
+		c.setModified(new Date());
+		if (c.getId() == null || c.getId() == 0) {
+			c.setCreated(new Date());
+		}
+		c.saveOrUpdate();
+		renderAjaxResultForSuccess();
+	}
 	
 	
-	public void menu(){
+	@Before(UCodeInterceptor.class)
+	public void menuDel() {
+		long id = getParaToLong("id", (long) 0);
+		if (id > 0) {
+			if (Content.DAO.deleteById(id)) {
+				renderAjaxResultForSuccess();
+			}
+		}
+		renderAjaxResultForError();
+	}
+	
+	public void menuSync() {
 		
 	}
+	
+	
 
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
@@ -78,7 +120,6 @@ public class _WechatController extends JBaseCRUDController<Content> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
-
 
 	@Before(UCodeInterceptor.class)
 	public void delete() {

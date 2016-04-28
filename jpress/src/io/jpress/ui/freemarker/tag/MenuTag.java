@@ -28,7 +28,7 @@ public class MenuTag extends JTag {
 
 		// String menuName = getParam("name");
 
-		List<Content> list = Content.DAO.findMenuList();
+		List<Content> list = Content.DAO.findByModule("menu", "order_number ASC");
 		ModelSorter.tree(list);
 		setVariable("menus", list);
 		renderBody();

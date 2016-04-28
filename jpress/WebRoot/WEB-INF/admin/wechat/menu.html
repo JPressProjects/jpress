@@ -6,7 +6,7 @@ function doSubmit(){
 			dataType : "json", //数据类型  
 			success : function(data) { //提交成功的回调函数 
 				if(data.errorCode == 0){
-					window.location.reload();
+					window.location.href="${CPATH}/admin/wechat/menu?p=wechat&c=menu";
 				}else{
 					alert(data.message);
 				}
@@ -25,31 +25,26 @@ function doSubmit(){
 		}
 	});
  }
-</#macro>
+</#macro> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-      <h1>
-        菜单设置
-      </h1>
-    </section>
+	<h1>菜单设置</h1>
+</section>
 <!-- Main content -->
 <section class="content">
 	<div class="row">
 		<div class="col-md-4">
 			<form id="form" action="${CPATH}/admin/wechat/menuSave" method="POST">
-				<input type="hidden" name="ucode" value="${ucode}">
-				<input type="hidden" name="content.id" value="${(menu.id)!}">
+				<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="content.id" value="${(wechat_menu.id)!}">
 				<h4 class="jp-common-pad">添加新菜单</h4>
 				<div class="form-group jp-article-format">
-					<label for="tag-name">名称</label> 
-					<input id="tag-name" class="form-control" type="text"  name="content.title" value="${(wechat_menu.title)!}">
-					<p>这将是它在站点上显示的名字。</p>
+					<label for="tag-name">名称</label> <input id="tag-name" class="form-control" type="text" name="content.title" value="${(wechat_menu.title)!}">
+					<p>这将显示在微信的菜单底部。</p>
 				</div>
 
-				<div class="form-group jp-article-format">
+				<div class="form-group ">
 					<div class="col-xs-5 jp-common-pad">
-						<label>菜单类型</label> 
-						<select class="form-control input-sm" name="content.flag">
+						<label>菜单类型</label> <select class="form-control input-sm" name="content.flag">
 							<option value="click">点击推事件</option>
 							<option value="view">跳转URL</option>
 							<option value="scancode_push">扫码推事件</option>
@@ -63,25 +58,25 @@ function doSubmit(){
 					<div class="clr"></div>
 				</div>
 				<div class="form-group jp-article-format">
-					<label for="tag-slug">排序</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="content.order_number" value="${(wechat_menu.order_number)!}">
-					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+					<label for="tag-slug">关键字</label> <input id="tag-slug" class="form-control" type="text" name="content.text" value="${(wechat_menu.text)!}">
+					<p>填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。</p>
+				</div>
+				<div class="form-group jp-article-format">
+					<label for="tag-slug">排序</label> <input id="tag-slug" class="form-control" type="text" name="content.order_number" value="${(wechat_menu.order_number)!}">
+					<p>排序数字。</p>
 				</div>
 				<div class="form-group jp-article-format">
 					<div class="col-xs-5 jp-common-pad">
-						<label>父节点</label> 
-						<select class="form-control input-sm" name="content.parent_id">
-							<option value="0">无</option>
-							<#list wechat_menus! as menu>
-							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option>
-							</#list>
+						<label>父节点</label> <select class="form-control input-sm" name="content.parent_id">
+							<option value="0">无</option> <#list wechat_menus! as menu>
+							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> </#list>
 						</select>
 					</div>
 					<div class="clr"></div>
-					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
+					<p>父级菜单。</p>
 				</div>
 
-				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加</button>
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
 
 			</form>
 			<!-- /.box -->
@@ -89,59 +84,46 @@ function doSubmit(){
 		<!-- /.col -->
 		<div class="col-md-8 ">
 			<div class="col-xs-12 jp-common-pad jp-bottom-pad5">
-				<div class="jp-left ">
-					<select style="width: 120px" class="form-control input-sm"
-						name="example1_length" aria-controls="example1">
-						<option value="10">批量操作</option>
-						<option value="25">删除</option>
-					</select>
-				</div>
 				<div class="jp-left jp-left-pad5 jp-right-pad10">
-					<button class="btn  btn-sm btn-default" type="button">应用</button>
+					<button class="btn  btn-sm btn-default" type="button">同步到微信菜单</button>
 				</div>
 			</div>
-
 			<div class="clr"></div>
 			<div class="box box-primary" style="margin-bottom: 0">
 
 				<!-- /.box-header -->
 				<div class="box-body jp-common-pad">
-					<table id="example1" class="table table-striped">
+					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width: 20px"><label class="jp-common-pad "><input
-										class="jp-common-pad " id="allid" onclick="doallcheck()"
-										title="全选" type="checkbox"></label></th>
-
 								<th style="width: 30%">名称</th>
-								<th>URL地址</th>
+								<th>菜单类型</th>
+								<th>关键字</th>
 								<th>排序</th>
 							</tr>
 						</thead>
 						<tbody>
 
-							<#list wechat_menus!  as bean>
+							<#list wechat_menus! as bean>
 							<tr class="jp-onmouse">
-								<td><label class="jp-common-pad"><input
-										class="jp-common-pad" name="chkItem" type="checkbox"></label>
-								</td>
 								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
-											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
+											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span> <span class="spam">| <a class="vim-s vim-destructive"
+													href="javascript:doMenuDel('${bean.id}')">删除</a>
+											</span>
 										</p>
 									</div></td>
+								<td>${bean.flag!}</td>
 								<td>${bean.text!}</td>
-								<td>${bean.orderId!}</td>
+								<td>${bean.order_number!}</td>
 							</tr>
-							</#list> 
+							</#list>
 						</tbody>
 
 					</table>
 				</div>
 				<!-- /.box-body -->
-
 				<!-- /.box-footer -->
 			</div>
 

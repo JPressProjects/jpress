@@ -22,7 +22,7 @@ import io.jpress.model.Content;
 /**
  * @author michael
  */
-public class WechatReplay {
+public class WechatReply {
 
 	private BigInteger id;
 	private String key;
@@ -32,10 +32,10 @@ public class WechatReplay {
 
 	public static final String MODULE = "wechat_replay";
 
-	public WechatReplay() {
+	public WechatReply() {
 	}
 
-	public WechatReplay(Content c) {
+	public WechatReply(Content c) {
 		this.id = c.getId();
 		this.key = c.getTitle();
 		this.content = c.getText();

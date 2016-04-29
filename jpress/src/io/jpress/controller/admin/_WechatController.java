@@ -47,7 +47,14 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		super.index();
 	}
 
-	
+	public void replay_default() {
+
+	}
+
+	public void option() {
+
+	}
+
 	public void menu() {
 		List<Content> list = Content.DAO.findByModule("wechat_menu", "order_number ASC");
 		ModelSorter.sort(list);
@@ -65,14 +72,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		Content c = getModel(Content.class);
 		c.setModule("wechat_menu");
 		c.setModified(new Date());
-		if (c.getCreated() == null ) {
+		if (c.getCreated() == null) {
 			c.setCreated(new Date());
 		}
 		c.saveOrUpdate();
 		renderAjaxResultForSuccess();
 	}
-	
-	
+
 	@Before(UCodeInterceptor.class)
 	public void menuDel() {
 		long id = getParaToLong("id", (long) 0);
@@ -83,12 +89,10 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		}
 		renderAjaxResultForError();
 	}
-	
+
 	public void menuSync() {
-		
+
 	}
-	
-	
 
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {

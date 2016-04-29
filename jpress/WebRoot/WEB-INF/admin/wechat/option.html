@@ -113,10 +113,12 @@ function doSubmit(){
 			<p>
 				JPress让。。。 
 			</p>
+			<#if modules ??>
+			<#list modules as module>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
 					<div class="col-sm-3  jp-set-font-line jp-set-font">
-						开启搜索功能</div>
+						${module.title!}搜索功能开启</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 						<input type="checkbox" value="ture">开启
@@ -126,7 +128,7 @@ function doSubmit(){
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3  jp-set-font-line jp-set-font">
-						搜素前缀</div>
+						 ${module.title!} 搜素前缀</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text"
@@ -138,7 +140,7 @@ function doSubmit(){
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3  jp-set-font-line jp-set-font">
-						搜索结果条数</div>
+						 ${module.title!} 搜索结果条数</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text"
@@ -148,6 +150,8 @@ function doSubmit(){
 					<div class="clr"></div>
 				</li>
 			</ul>
+			</#list>
+			</#if>
 			</div>
 		</div>
 		<div class="row">

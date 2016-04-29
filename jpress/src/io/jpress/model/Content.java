@@ -67,16 +67,16 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	
 	
 	public Page<Content> doPaginateByModule(int page, int pagesize, String module) {
-		return doPaginate(page, pagesize, module, null, 0, 0, null);
+		return doPaginate(page, pagesize, module, null, null, null, null);
 	}
 
 	public Page<Content> doPaginateByModuleAndStatus(int page, int pagesize, String module, String status) {
-		return doPaginate(page, pagesize, module, status, 0, 0, null);
+		return doPaginate(page, pagesize, module, status, null, null, null);
 	}
 
 	
 	public Page<Content> doPaginateByModuleInNormal(int page, int pagesize, String module) {
-		return doPaginate(page, pagesize, module, STATUS_NORMAL, 0, 0, null);
+		return doPaginate(page, pagesize, module, STATUS_NORMAL, null, null, null);
 	}
 	
 	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,BigInteger userId,String orderBy) {

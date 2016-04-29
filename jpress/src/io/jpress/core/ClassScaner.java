@@ -24,6 +24,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
 public class ClassScaner {
+	
 	private static final Log logger = Log.getLog(ClassScaner.class);
 
 	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz) {
@@ -41,11 +42,12 @@ public class ClassScaner {
 
 		List<Class<T>> classList = new ArrayList<Class<T>>();
 		for (File file : classFileList) {
+			
 			int start = PathKit.getRootClassPath().length();
 			int end = file.toString().length() - 6; // 6 == ".class".length();
-			String className = file.toString().substring(start + 1, end).replace(File.separator, ".");
-
-			Class<T> clazz = classForName(className);
+			
+			String classFile = file.toString().substring(start + 1, end);
+			Class<T> clazz = classForName(classFile.replace(File.separator, "."));
 
 			if (clazz != null && pclazz.isAssignableFrom(clazz)) {
 				if (mustbeCanNewInstance) {
@@ -54,7 +56,6 @@ public class ClassScaner {
 
 					if (Modifier.isAbstract(clazz.getModifiers()))
 						continue;
-
 				}
 				classList.add(clazz);
 			}
@@ -69,7 +70,8 @@ public class ClassScaner {
 		try {
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
 			clazz = (Class<T>) Class.forName(className, false, cl);
-		} catch (Exception e1) {
+		} catch (Exception e) {
+			logger.error("classForName is error", e);
 		}
 		return clazz;
 	}

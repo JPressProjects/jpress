@@ -99,6 +99,7 @@ public class Option extends BaseOption<Option> {
 		}
 		return null;
 	}
+	
 
 	public static Float findValueAsFloat(String key) {
 		Option option = DAO.doFindFirst("option_key =  ?", key);

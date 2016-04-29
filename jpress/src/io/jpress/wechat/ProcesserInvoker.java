@@ -28,9 +28,9 @@ public class ProcesserInvoker {
 		List<Class<IMessageProcesser>> clist = ClassScaner.scanSubClass(IMessageProcesser.class, true);
 		if (clist != null && clist.size() > 0) {
 			for (Class<? extends IMessageProcesser> clazz : clist) {
-				Replay replay = clazz.getAnnotation(Replay.class);
-				if (null != replay && StringUtils.isNotBlank(replay.key())) {
-					map.put(replay.key(), clazz);
+				Reply reply = clazz.getAnnotation(Reply.class);
+				if (null != reply && StringUtils.isNotBlank(reply.key())) {
+					map.put("[" + reply.key() + "]", clazz);
 				}
 			}
 		}
@@ -40,8 +40,9 @@ public class ProcesserInvoker {
 
 	private static IMessageProcesser getProcesser(String replyContent) {
 
+		String key = replyContent.substring(0, replyContent.indexOf("]") + 1);
 		String config = replyContent.substring(replyContent.indexOf("]") + 1);
-		String key = replyContent.substring(1, replyContent.indexOf("]"));
+
 		Class<? extends IMessageProcesser> clazz = map.get(key);
 		try {
 			IMessageProcesser processer = clazz.newInstance();

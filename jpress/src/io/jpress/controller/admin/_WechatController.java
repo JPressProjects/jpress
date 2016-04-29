@@ -29,13 +29,13 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.template.Module;
-import io.jpress.wechat.WechatReplay;
+import io.jpress.wechat.WechatReply;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends JBaseCRUDController<Content> {
 
 	private String getModule() {
-		return WechatReplay.MODULE;
+		return WechatReply.MODULE;
 	}
 
 	private String getStatus() {

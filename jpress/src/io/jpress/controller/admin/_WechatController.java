@@ -52,7 +52,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void option() {
-
+		setAttr("modules", Jpress.currentTemplate().getModules());
 	}
 
 	public void menu() {

@@ -31,10 +31,14 @@ public class Comment extends BaseComment<Comment> {
 	public Page<Comment> doPaginate(int pageNumber, int pageSize, String module, String type) {
 
 		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c " + "left join content on c.content_id = content.id "
-				+ "left join `user` u on c.user_id = u.id " + "order by c.created";
+		String sqlExceptSelect = " from comment c " 
+				+ "left join content on c.content_id = content.id "
+				+ "left join `user` u on c.user_id = u.id " 
+				+ "where c.content_module = ? "
+				+ "and c.`type` = ? "
+				+ "order by c.created";
 
-		return paginate(pageNumber, pageSize, select, sqlExceptSelect);
+		return paginate(pageNumber, pageSize, select, sqlExceptSelect,module,type);
 	}
 
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {

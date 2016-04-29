@@ -215,7 +215,5 @@ public class Jdb {
 		return Db.paginate(pageNumber, pageSize, tx(select), tx(sqlExceptSelect));
 	}
 	
-	
-	
 
 }

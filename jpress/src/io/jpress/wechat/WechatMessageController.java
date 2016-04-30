@@ -197,7 +197,12 @@ public class WechatMessageController extends MsgController {
 
 						// 开始搜索
 						if (searcheKey != null) {
-							List<Content> contents = Content.DAO.findByModuleAndTitle(module.getName(), searcheKey, 10);
+							Integer count = Option.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
+							if(count == null || count <= 0 || count >10){
+								count = 10;
+							}
+								
+							List<Content> contents = Content.DAO.findByModuleAndTitle(module.getName(), searcheKey, count);
 							if (contents != null && contents.size() > 0) {
 								OutNewsMsg out = new OutNewsMsg(message);
 								for (Content content : contents) {

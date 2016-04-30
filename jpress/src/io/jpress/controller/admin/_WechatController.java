@@ -47,7 +47,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		super.index();
 	}
 
-	public void replay_default() {
+	public void reply_default() {
 
 	}
 

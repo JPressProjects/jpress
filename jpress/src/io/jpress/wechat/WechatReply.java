@@ -30,7 +30,7 @@ public class WechatReply {
 	private String trigger;
 	private boolean enable;
 
-	public static final String MODULE = "wechat_replay";
+	public static final String MODULE = "wechat_reply";
 
 	public WechatReply() {
 	}

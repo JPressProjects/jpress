@@ -1,53 +1,8 @@
 <#include "../_inc/_layout.html"/> 
 <#macro script>
 
-var data={
-    url:'',
-    alt:''
-};
-
-function initTinymce(){
-tinymce.init({
-        selector: '#textarea',
-        height: 500,
-        language: 'zh_CN',
-        menubar: false,
-        automatic_uploads: true,
-        paste_data_images: true,
-        convert_urls: false,
-        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
-        imagetools_proxy: '${CPATH}/admin/tinymce/image/proxy',
-        images_upload_url: '${CPATH}/admin/tinymce/image/upload',
-        wordcount_countregex: /[\u4e00-\u9fa5_a-zA-Z0-9]/g,
-		file_picker_callback: function(callback, value, meta) {
-		 	layer.open({
-			    type: 2,
-			    title: '选择图片',
-			    shadeClose: true,
-			    shade: 0.8,
-			    area: ['90%', '90%'],
-			    content: '${CPATH}/admin/attachment/choose_layer',
-			    end:function(){
-			    	callback(data.url, {alt: data.alt});
-			    }
-			}); 
-		 },
-        plugins: [
-		    "advlist autolink autosave link image imagetools lists charmap print preview hr anchor pagebreak spellchecker",
-		    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-		    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
-		  ],
-        toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr table image | link  anchor unlink | alignleft aligncenter alignright alignjustify | bullist numlist  | fullscreen code   ',
-        toolbar2: '  formatselect | outdent indent | forecolor backcolor  | undo redo  ',
-    });
-}
-initTinymce();
-
 function save(){
-	tinymce.activeEditor.uploadImages(function(success) {
-			tinymce.triggerSave();
-	 		doSubmit();
-		});
+	doSubmit();
 	return false;
  }
  
@@ -56,7 +11,7 @@ function save(){
  	save();
  }
  
- function doSubmit(){
+function doSubmit(){
  	$("#form").ajaxSubmit({
 			type : "post", //提交方式  
 			dataType : "json", //数据类型  
@@ -69,22 +24,6 @@ function save(){
 	});
  }
  
-function doSelectThumbnail(){
- 	layer.open({
-			    type: 2,
-			    title: '选择图片',
-			    shadeClose: true,
-			    shade: 0.8,
-			    area: ['90%', '90%'],
-			    content: '${CPATH}/admin/attachment/choose_layer',
-			    end:function(){
-			    	$("#thumbnail").attr("src",data.url);
-			    	$("#content_thumbnail").attr("value",data.url);
-			    }
-			}); 
- }
- 
- 
 function doAjax(url){
 	  $.get(url, function(result){
 			if(result.errorCode > 0){
@@ -94,55 +33,44 @@ function doAjax(url){
 			}
 	  }); 
   }
- 
 </#macro> 
 <#macro script_import>
-<script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
 <script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
-</#macro>
-<#macro css_import>
+</#macro> <#macro css_import>
 <link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
-</#macro>
-<@layout active_id=p child_active_id=c>
+</#macro> <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>添加自动回复</h1>
 </section>
 <!-- Main content -->
 <section class="content" style="z-index: 9999">
-	<form action="${CPATH}/admin/content/save" id="form" method="post">
-		<input type="hidden" name="content.module" value="${m!}"> 
+	<form action="${CPATH}/admin/wechat/save" id="form" method="post">
+		<input type="hidden" name="content.module" value="wechat_reply"> 
 		<input type="hidden" name="content.id" value="${(content.id)!}"> 
 		<input type="hidden" name="content.status" value="normal" id="content_status"> 
-		<input type="hidden" name="content.created" value="${(content.created)!}" > 
 		<input type="hidden" name="ucode" value="${ucode}">
 		<div class="row">
 			<!-- /.col -->
 			<div class="col-md-9">
 				<div class="form-group">
 					<label class="sr-only"></label> 
-					<input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
+					<input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入关键字">
 				</div>
-				<div class="form-group ">
-					<div class="col-xs-5 jp-common-pad">
-						<label>菜单类型</label> <select class="form-control input-sm" name="content.flag">
-							<option value="click">点击推事件</option>
-							<option value="view">跳转URL</option>
-							<option value="scancode_push">扫码推事件</option>
-							<option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
-							<option value="pic_sysphoto">弹出系统拍照发图</option>
-							<option value="pic_photo_or_album">弹出拍照或者相册发图</option>
-							<option value="pic_weixin">弹出微信相册发图器</option>
-							<option value="location_select">弹出地理位置选择器</option>
-						</select>
-					</div>
-					<div class="clr"></div>
-				</div>
-				<div class="box box-primary">
-					<div class=" box-info">
-						<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
-					</div>
-				</div>
+				<div class="form-group">
+                  <label>回复内容</label><a class="pull-right" href="#">高级回复</a>
+                  <textarea class="form-control" rows="6" placeholder="请输入内容 ..." name="content.text">${(content.text)!}</textarea>
+                </div>
+                 <div class="form-group">
+                  <label>发布时间</label>
+                  <input type="text" class="form-control" name="content.created" value="${(content.created)?string["yyyy-MM-dd HH:mm:ss"]}">
+                </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox">
+                      是否启用
+                    </label>
+                  </div>
 			</div>
 			<!-- /.col -->
 			<div class="col-md-3">
@@ -153,35 +81,8 @@ function doAjax(url){
 						<a href="#">移至回收站</a>
 					</div>
 				</div>
-				
-				
-				<div class="box box-solid">
-					<div class="box-header with-border">
-						<h3 class="box-title">缩略图</h3>
-						<div class="box-tools">
-							<button type="button" class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-					</div>
-					<div class="box-body no-padding">
-						<ul class="nav ">
-							<li class="jp-release-set">
-								<div class="col-xs-12 jp-cancel-pad">
-									<img  src="${(content.thumbnail)!}" id="thumbnail" class="jp-grids-photos img-responsive"/>
-									<input type="hidden" name="content.thumbnail" value="${(content.thumbnail)!}" id="content_thumbnail">
-								</div>
-								<div class="clr"></div>
-							</li>
-							<li class="jp-release-set jp-borde-top">				
-								<button type="button" class="btn  btn-sm" onclick="doSelectThumbnail()">选择图片</button>
-								<div class="clr"></div>
-							</li>
-						</ul>
-					</div>
-					<!-- /.box-body -->
-				</div>
-				<!-- /. box -->
+
+
 			</div>
 			<!-- /.col -->
 		</div>

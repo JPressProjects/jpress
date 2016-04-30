@@ -44,11 +44,7 @@ import io.jpress.utils.StringUtils;
 public class _ContentController extends JBaseCRUDController<Content> {
 
 	private String getModuleName() {
-		String module = getPara("m");
-		if (null == module || "".equals(module.trim()))
-			module = Module.ARTICLE;
-
-		return module;
+		return getPara("m");
 	}
 
 	private String getStatus() {

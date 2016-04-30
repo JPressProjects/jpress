@@ -51,7 +51,7 @@ function del(id){
 <section class="content-header">
 	<h1>
 		所有内容
-		<a href="${CPATH}/admin/wechat/edit?p=wechat&c=replay" class="btn btn-default btn-sm" > 添加 </a>
+		<a href="${CPATH}/admin/wechat/edit?p=wechat&c=reply" class="btn btn-default btn-sm" > 添加 </a>
 	</h1>
 </section>
 
@@ -60,7 +60,6 @@ function del(id){
 <section class="content">
 
 	<div class="row pad margin no-print">
-
 		<form class="form-horizontal" style="float: right">
 			<div class="input-group input-group-sm">
 				<input id="post-search-input" class="form-control" type="search" value="" name="" placeholder="请输入关键词"> 
@@ -79,10 +78,10 @@ function del(id){
 					<thead>
 						<tr>
 							<th style="width: 20px"><input name="dataItem" onclick="check_all(this)" type="checkbox"></th>
-							<th style="width: 10%">关键字</th>
-							<th>回复类型</th>
+							<th style="width: 30%">关键字</th>
 							<th>回复内容</th>
 							<th style="width: 10%">发布日期</th>
+							<th style="width: 10%">状态</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -92,36 +91,28 @@ function del(id){
 							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong>
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
-										<#if "delete" != s!> 
 										<span class="approve"> 
-											<a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
+											<a class="vim-a" href="${CPATH}/admin/wechat/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
 										</span> 
 										<span class="spam"> 
 										| <a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
 										</span> 
-										<span class="trash"> 
-										| <a class="delete vim-d vim-destructive" href="#">查看</a>
-										</span> 
-										<#else> 
-										<span class="approve"> <a class="vim-a" href="javascript:restore(${bean.id})">还原</a> </span> 
-										<span class="spam"> | <a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a> </span> 
-										</#if>
 									</p>
 
 								</div></td>
-							<td>${(bean.username)!}</td>
-							<td>${(bean.categorysAsString)!}</td>
-							<td>${bean.created!}</td>
+							<td>${(bean.text)!}</td>
+							<td>${(bean.created)!}</td>
+							<td>${bean.status!}</td>
 						</tr>
 						</#list> </#if>
 					</tbody>
 					<tfoot>
 						<tr>
 							<th style="width: 20px"><input name="dataItem" onclick="check_all(this)" type="checkbox"></th>
-							<th style="width: 10%">关键字</th>
-							<th>回复类型</th>
+							<th style="width: 30%">关键字</th>
 							<th>回复内容</th>
 							<th style="width: 10%">发布日期</th>
+							<th style="width: 10%">状态</th>
 						</tr>
 					</tfoot>
 				</table>

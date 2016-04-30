@@ -23,14 +23,6 @@ import java.util.List;
 import com.jfinal.kit.PathKit;
 
 public class Module {
-	public static final String ARTICLE = "article";
-	public static final String PAGE = "page";
-	public static final String FORUM = "forum";
-	public static final String MENU = "menu";
-	public static final String QA = "qa";
-	public static final String GOODS = "goods";
-	public static final String GOODS_ORDER = "goods_order";
-	public static final String USER_COLLECTION = "user_collection";
 
 	private String title;
 	private String name;

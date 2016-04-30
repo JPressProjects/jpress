@@ -34,11 +34,7 @@ import io.jpress.template.Module.TaxonomyType;
 public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	private String getContentModule() {
-		String module = getPara("m");
-		if (null == module || "".equals(module)) {
-			module = Module.ARTICLE;
-		}
-		return module;
+		return getPara("m");
 	}
 
 	private String getType() {

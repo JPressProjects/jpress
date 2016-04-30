@@ -44,6 +44,7 @@ import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
+import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
@@ -86,82 +87,93 @@ public class WechatMessageController extends MsgController {
 
 	// 处理接收到的语音消息
 	protected void processInVoiceMsg(InVoiceMsg inVoiceMsg) {
-		processDefaultReplay("processInVoiceMsg", inVoiceMsg);
+		processDefaultReplay("wechat_processInVoiceMsg", inVoiceMsg);
 	}
 
 	// 处理接收到的视频消息
 	protected void processInVideoMsg(InVideoMsg inVideoMsg) {
-		processDefaultReplay("processInVideoMsg", inVideoMsg);
+		processDefaultReplay("wechat_processInVideoMsg", inVideoMsg);
 	}
 
 	// 处理接收到的视频消息
 	protected void processInShortVideoMsg(InShortVideoMsg inShortVideoMsg) {
-		processDefaultReplay("processInShortVideoMsg", inShortVideoMsg);
+		//同：processInVideoMsg
+		processDefaultReplay("wechat_processInVideoMsg", inShortVideoMsg);
 	}
 
 	// 处理接收到的地址位置消息
 	protected void processInLocationMsg(InLocationMsg inLocationMsg) {
-		processDefaultReplay("processInLocationMsg", inLocationMsg);
+		processDefaultReplay("wechat_processInLocationMsg", inLocationMsg);
 	}
 
 	// 处理接收到的链接消息
 	protected void processInLinkMsg(InLinkMsg inLinkMsg) {
-		processDefaultReplay("processInLinkMsg", inLinkMsg);
+		processDefaultReplay("wechat_processInLinkMsg", inLinkMsg);
 	}
 
 	// 处理接收到的多客服管理事件
 	protected void processInCustomEvent(InCustomEvent inCustomEvent) {
-		processDefaultReplay("processInCustomEvent", inCustomEvent);
+		processDefaultReplay("wechat_processInCustomEvent", inCustomEvent);
 	}
 
 	// 处理接收到的关注/取消关注事件
 	protected void processInFollowEvent(InFollowEvent inFollowEvent) {
-		processDefaultReplay("processInFollowEvent", inFollowEvent);
+		
+		//用户关注公众号了
+		if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
+			processDefaultReplay("wechat_processInFollowEvent", inFollowEvent);
+		}
+		
+		// 如果为取消关注事件，将无法接收到传回的信息
+		if (InFollowEvent.EVENT_INFOLLOW_UNSUBSCRIBE.equals(inFollowEvent.getEvent())) {
+			// 取消关注，无法发送消息给用户了，可以做一些系统处理。
+		}
+
 	}
 
 	// 处理接收到的扫描带参数二维码事件
 	protected void processInQrCodeEvent(InQrCodeEvent inQrCodeEvent) {
-		processDefaultReplay("processInQrCodeEvent", inQrCodeEvent);
+		processDefaultReplay("wechat_processInQrCodeEvent", inQrCodeEvent);
 	}
 
 	// 处理接收到的上报地理位置事件
 	protected void processInLocationEvent(InLocationEvent inLocationEvent) {
-		processDefaultReplay("processInLocationEvent", inLocationEvent);
+		processDefaultReplay("wechat_processInLocationEvent", inLocationEvent);
 	}
 
 	// 处理接收到的群发任务结束时通知事件
 	protected void processInMassEvent(InMassEvent inMassEvent) {
-		processDefaultReplay("processInMassEvent", inMassEvent);
+		processDefaultReplay("wechat_processInMassEvent", inMassEvent);
 	}
 
 	// 处理接收到的语音识别结果
 	protected void processInSpeechRecognitionResults(InSpeechRecognitionResults inSpeechRecognitionResults) {
-		processDefaultReplay("processInSpeechRecognitionResults", inSpeechRecognitionResults);
+		processDefaultReplay("wechat_processInSpeechRecognitionResults", inSpeechRecognitionResults);
 	}
 
 	// 处理接收到的模板消息是否送达成功通知事件
 	protected void processInTemplateMsgEvent(InTemplateMsgEvent inTemplateMsgEvent) {
-		processDefaultReplay("processInTemplateMsgEvent", inTemplateMsgEvent);
+		processDefaultReplay("wechat_processInTemplateMsgEvent", inTemplateMsgEvent);
 	}
 
 	// 处理微信摇一摇事件
 	protected void processInShakearoundUserShakeEvent(InShakearoundUserShakeEvent inShakearoundUserShakeEvent) {
-		processDefaultReplay("processInShakearoundUserShakeEvent", inShakearoundUserShakeEvent);
+		processDefaultReplay("wechat_processInShakearoundUserShakeEvent", inShakearoundUserShakeEvent);
 	}
 
 	// 资质认证成功 || 名称认证成功 || 年审通知 || 认证过期失效通知
 	protected void processInVerifySuccessEvent(InVerifySuccessEvent inVerifySuccessEvent) {
-		processDefaultReplay("processInVerifySuccessEvent", inVerifySuccessEvent);
+		processDefaultReplay("wechat_processInVerifySuccessEvent", inVerifySuccessEvent);
 	}
 
 	// 资质认证失败 || 名称认证失败
 	protected void processInVerifyFailEvent(InVerifyFailEvent inVerifyFailEvent) {
-		processDefaultReplay("processInVerifyFailEvent", inVerifyFailEvent);
+		processDefaultReplay("wechat_processInVerifyFailEvent", inVerifyFailEvent);
 	}
 
 	// 门店在审核事件消息
 	protected void processInPoiCheckNotifyEvent(InPoiCheckNotifyEvent inPoiCheckNotifyEvent) {
-		processDefaultReplay("processInPoiCheckNotifyEvent", inPoiCheckNotifyEvent);
+		processDefaultReplay("wechat_processInPoiCheckNotifyEvent", inPoiCheckNotifyEvent);
 	}
 
 	private void processTextReplay(InMsg message, String userInput) {
@@ -197,12 +209,14 @@ public class WechatMessageController extends MsgController {
 
 						// 开始搜索
 						if (searcheKey != null) {
-							Integer count = Option.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
-							if(count == null || count <= 0 || count >10){
+							Integer count = Option
+									.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
+							if (count == null || count <= 0 || count > 10) {
 								count = 10;
 							}
-								
-							List<Content> contents = Content.DAO.findByModuleAndTitle(module.getName(), searcheKey, count);
+
+							List<Content> contents = Content.DAO.searchByModuleAndTitle(module.getName(), searcheKey,
+									count);
 							if (contents != null && contents.size() > 0) {
 								OutNewsMsg out = new OutNewsMsg(message);
 								for (Content content : contents) {
@@ -225,26 +239,27 @@ public class WechatMessageController extends MsgController {
 			}
 		}
 
-		String replyContent = null;
-
-		// 是否是高级回复
-		textOrSeniorRender(message, replyContent);
-
+		Content content = Content.DAO.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_reply, userInput);
+		if (content != null && content.getText() != null) {
+			// 是否是高级回复
+			textOrSeniorRender(message, content.getText());
+		} else {
+			processDefaultReplay("wechat_search_no_matching", message);
+		}
 	}
 
-
 	private void processDefaultReplay(String optionKey, InMsg message) {
-		
+
 		String replyContent = Option.findValue(optionKey);
-		
+
 		if (!StringUtils.isNotBlank(replyContent)) {
 			renderNull();
 			return;
 		}
-		
+
 		textOrSeniorRender(message, replyContent);
 	}
-	
+
 	private void textOrSeniorRender(InMsg message, String replyContent) {
 		if (isSeniorReplay(replyContent)) {
 			OutMsg outMsg = ProcesserInvoker.invoke(replyContent, message);

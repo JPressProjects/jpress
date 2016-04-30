@@ -39,5 +39,16 @@ public class Consts {
 	public static final String ATTR_PAGE_NUMBER = "_page_number";
 	public static final String ATTR_MUDULE = "_mudule";
 	public static final String ATTR_USER = "user";
-
+	
+	
+	public static final String MODULE_ARTICLE = "article";
+	public static final String MODULE_PAGE = "page";
+	public static final String MODULE_FOURM = "forum";
+	public static final String MODULE_MENU = "menu";
+	public static final String MODULE_QA = "qa";
+	public static final String MODULE_GOODS = "goods";
+	public static final String MODULE_GOODS_ORDER = "goods_order";
+	public static final String MODULE_WECHAT_MENU = "wechat_menu";
+	public static final String MODULE_WECHAT_reply = "wechat_reply";
+	public static final String MODULE_USER_COLLECTION = "user_collection";
 }

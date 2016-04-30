@@ -20,17 +20,12 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
-import io.jpress.template.Module;
 
 @UrlMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
 public class _CommentController extends JBaseCRUDController<Comment> {
 
 	private String getContentModule() {
-		String module = getPara("m");
-		if (null == module || "".equals(module)) {
-			module = Module.ARTICLE;
-		}
-		return module;
+		return getPara("m");
 	}
 
 	private String getType() {

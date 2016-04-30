@@ -28,7 +28,6 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
-import io.jpress.template.Module;
 import io.jpress.wechat.WechatReply;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
@@ -45,6 +44,14 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 		super.index();
+	}
+	
+	@Override
+	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
+		if (getStatus() != null && !"".equals(getStatus().trim())) {
+			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModule(), getStatus());
+		}
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModule());
 	}
 
 	public void reply_default() {
@@ -94,13 +101,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	}
 
-	@Override
-	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
-		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModule(), getStatus());
-		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModule());
-	}
+	
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
@@ -140,17 +141,25 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Override
 	public void edit() {
-		String moduleName = getModule();
-		setAttr("m", moduleName);
-
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
-		setAttr("module", module);
 
 		String id = getPara("id");
 		if (id != null) {
 			setAttr("content", mDao.findById(id));
+		} else {
+			Content c = new Content();
+			c.setCreated(new Date());
+			setAttr("content", c);
 		}
+
 		render("edit.html");
+	}
+
+	@Before(UCodeInterceptor.class)
+	public void save() {
+		Content content = getModel(Content.class);
+
+		content.saveOrUpdate();
+		renderAjaxResultForSuccess();
 	}
 
 }

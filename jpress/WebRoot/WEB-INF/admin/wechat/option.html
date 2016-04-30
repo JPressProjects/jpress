@@ -121,7 +121,7 @@ function doSubmit(){
 						${module.title!}搜索功能开启</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-						<input type="checkbox" value="ture">开启
+						<input type="checkbox" value="ture" name="wechat_search_${module.name}_enable">开启
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -131,8 +131,7 @@ function doSubmit(){
 						 ${module.title!} 搜素前缀</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text"
-								placeholder=".input-sm">
+							<input class="form-control input-md" type="text" name="wechat_search_${module.name}_prefix">
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -143,8 +142,7 @@ function doSubmit(){
 						 ${module.title!} 搜索结果条数</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text"
-								placeholder=".input-sm">
+							<input class="form-control input-md" type="text" name="wechat_search_${module.name}_count">
 						</div>
 					</div>
 					<div class="clr"></div>

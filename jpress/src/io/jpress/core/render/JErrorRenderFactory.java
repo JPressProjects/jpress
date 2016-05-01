@@ -41,7 +41,7 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 
 		String renderType = Jpress.currentTemplate().getRenderType();
 		
-		//the default is freemarker
+		//the default render type is freemarker
 		if (renderType == null || "".equals(renderType.trim())) {
 			return new JFreemarkerRender(errorHtml);
 		}

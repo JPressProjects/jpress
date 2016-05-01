@@ -16,6 +16,7 @@ public class Tags {
 
 		Jpress.addTag("jp_menu", new MenuTag());
 		Jpress.addTag("jp_module", new ModuleTag());
+		Jpress.addTag("jp_tags", new TagsTag());
 	}
 
 	public static void initInInterceptor(Invocation invocation) {

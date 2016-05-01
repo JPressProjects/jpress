@@ -30,7 +30,7 @@ public class TagsTag extends JTag {
 		count = count <= 0 ? 10 : count;
 
 		String module = getParam("module", Consts.MODULE_ARTICLE);
-		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(module, "tags", count);
+		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(module, "tag", count);
 		setVariable("tags", list);
 
 		renderBody();

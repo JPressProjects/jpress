@@ -86,6 +86,10 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public List<Taxonomy> findListByModuleAndType(String module, String type) {
 		return doFind("content_module = ? and type = ?", module, type);
 	}
+	
+	public List<Taxonomy> findListByModuleAndType(String module, String type,int limit) {
+		return doFind("content_module = ? and type = ? limit ?", module, type,limit);
+	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
 		List<Taxonomy> list = findListByModuleAndType(module, type);

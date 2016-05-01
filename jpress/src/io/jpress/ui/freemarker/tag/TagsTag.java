@@ -15,10 +15,11 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.util.List;
+
+import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Taxonomy;
-
-import com.jfinal.plugin.activerecord.Page;
 
 public class TagsTag extends JTag {
 
@@ -28,8 +29,10 @@ public class TagsTag extends JTag {
 		int count = getParamToInt("count", 0);
 		count = count <= 0 ? 10 : count;
 
-		Page<Taxonomy> page = Taxonomy.DAO.doPaginate(1, count, "tag");
-		setVariable("tags", page.getList());
+		String module = getParam("module", Consts.MODULE_ARTICLE);
+		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(module, "tags", count);
+		setVariable("tags", list);
+
 		renderBody();
 	}
 

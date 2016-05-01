@@ -61,7 +61,7 @@ public class ContentPageTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginate(pageNumber, pageSize, module.getName(), status, taxonomyId, 0, orderby));
+		setVariable("page", Content.DAO.doPaginate(pageNumber, pageSize, module.getName(), status, taxonomyId, null, orderby));
 
 		renderBody();
 	}

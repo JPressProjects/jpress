@@ -58,8 +58,8 @@ public class ContentsTag extends JTag {
 		String[] styles = getParamToStringArray("style");
 		String[] flags = getParamToStringArray("flag");
 		String[] slugs = getParamToStringArray("slug");
-		Integer[] userIds = getParamToIntArray("userid");
-		Integer[] parentIds = getParamToIntArray("parentid");
+		BigInteger[] userIds = getParamToBigIntegerArray("userid");
+		BigInteger[] parentIds = getParamToBigIntegerArray("parentid");
 
 		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
 				modules, styles, flags, slugs, userIds, parentIds, tags);

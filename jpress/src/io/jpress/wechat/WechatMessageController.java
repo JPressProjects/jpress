@@ -192,12 +192,12 @@ public class WechatMessageController extends MsgController {
 			String dkf_quit_key = Option.findValue("wechat_dkf_quit_key");
 			if (StringUtils.isNotBlank(dkf_quit_key) && dkf_quit_key.equals(userInput)) {
 				CacheKit.remove("wechat_dkf", message.getFromUserName());
-				
+
 				String quit_message = Option.findValue("wechat_dkf_quit_message");
 				OutTextMsg otm = new OutTextMsg(message);
 				otm.setContent(quit_message);
 				render(otm);
-				
+
 				return;
 			}
 
@@ -230,7 +230,7 @@ public class WechatMessageController extends MsgController {
 			}
 		}
 
-		// 是否是搜索
+		// 搜索相关
 		{
 			List<Module> modules = Jpress.currentTemplate().getModules();
 			if (modules != null && modules.size() > 0) {
@@ -287,7 +287,7 @@ public class WechatMessageController extends MsgController {
 			}
 		}
 
-		Content content = Content.DAO.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_reply, userInput);
+		Content content = Content.DAO.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
 		if (content != null && content.getText() != null) {
 			// 是否是高级回复
 			textOrSeniorRender(message, content.getText());

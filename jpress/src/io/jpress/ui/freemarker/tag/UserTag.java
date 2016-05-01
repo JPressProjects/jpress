@@ -26,7 +26,6 @@ public class UserTag extends JTag {
 	public void onRender() {
 
 		int id = getParamToInt("id", 0);
-		System.out.println("cccid--->" + id);
 
 		Page<Content> page = Content.DAO.doPaginate(1, 10);
 

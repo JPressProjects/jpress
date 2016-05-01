@@ -3,47 +3,12 @@
 		<span class="side-cloro"></span>热门标签
 	</h4>
 	<ul class="list-inline jp-common">
+		<@jp_tags >
+		<#list tags as tag>
 		<li>
-			<a>google</a>
+			<a href="${CPATH}/${tag.slug!}">${tag.title!}</a>
 		</li>
-		<li>
-			<a>fackbook</a>
-		</li>
-		<li>
-			<a>苹果</a>
-		</li>
-		<li>
-			<a>google</a>
-		</li>
-		<li>
-			<a>小米</a>
-		</li>
-		<li>
-			<a>fackbook</a>
-		</li>
-		<li>
-			<a>苹果</a>
-		</li>
-		<li>
-			<a>google</a>
-		</li>
-		<li>
-			<a>fackbook</a>
-		</li>
-		<li>
-			<a>苹果</a>
-		</li>
-		<li>
-			<a>google</a>
-		</li>
-		<li>
-			<a>小米</a>
-		</li>
-		<li>
-			<a>fackbook</a>
-		</li>
-		<li>
-			<a>苹果</a>
-		</li>
+		</#list>
+		</@jp_tags >
 	</ul>
 </section>

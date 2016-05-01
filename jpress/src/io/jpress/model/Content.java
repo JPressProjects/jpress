@@ -135,8 +135,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	 * @return
 	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
-			String[] typeSlugs, String[] modules, String[] styles, String[] flags,String[] slugs, Integer[] userIds,
-			Integer[] parentIds, String[] tags) {
+			String[] typeSlugs, String[] modules, String[] styles, String[] flags,String[] slugs, BigInteger[] userIds,
+			BigInteger[] parentIds, String[] tags) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
@@ -185,10 +185,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return doFind("module = ? ", module);
 	}
 	
-	
-//	public List<Content> findByModuleAndTitle(String module,String title) {
-//		return doFind("module = ? and title like ? order by id desc", module,"%"+title+"%");
-//	}
 	
 	public List<Content> findByModuleAndTitle(String module,String title,int limit) {
 		return doFind("module = ? and title = ? order by id desc limit ?", module,title,limit);

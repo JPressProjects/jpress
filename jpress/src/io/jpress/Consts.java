@@ -49,6 +49,6 @@ public class Consts {
 	public static final String MODULE_GOODS = "goods";
 	public static final String MODULE_GOODS_ORDER = "goods_order";
 	public static final String MODULE_WECHAT_MENU = "wechat_menu";
-	public static final String MODULE_WECHAT_reply = "wechat_reply";
+	public static final String MODULE_WECHAT_REPLY = "wechat_reply";
 	public static final String MODULE_USER_COLLECTION = "user_collection";
 }

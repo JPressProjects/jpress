@@ -17,6 +17,7 @@ package io.jpress.wechat;
 
 import java.util.List;
 
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InImageMsg;
@@ -40,6 +41,7 @@ import com.jfinal.weixin.sdk.msg.in.event.InVerifyFailEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InVerifySuccessEvent;
 import com.jfinal.weixin.sdk.msg.in.speech_recognition.InSpeechRecognitionResults;
 import com.jfinal.weixin.sdk.msg.out.News;
+import com.jfinal.weixin.sdk.msg.out.OutCustomMsg;
 import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
@@ -75,9 +77,9 @@ public class WechatMessageController extends MsgController {
 		if (InMenuEvent.EVENT_INMENU_CLICK.equals(inMenuEvent.getEvent())) {
 			String text = inMenuEvent.getEventKey();
 			processTextReplay(inMenuEvent, text);
+		} else {
+			renderNull();
 		}
-
-		renderNull();
 	}
 
 	// 处理接收到的图片消息
@@ -97,7 +99,7 @@ public class WechatMessageController extends MsgController {
 
 	// 处理接收到的视频消息
 	protected void processInShortVideoMsg(InShortVideoMsg inShortVideoMsg) {
-		//同：processInVideoMsg
+		// 同：processInVideoMsg
 		processDefaultReplay("wechat_processInVideoMsg", inShortVideoMsg);
 	}
 
@@ -113,17 +115,23 @@ public class WechatMessageController extends MsgController {
 
 	// 处理接收到的多客服管理事件
 	protected void processInCustomEvent(InCustomEvent inCustomEvent) {
+
+		// 关闭多客服
+		if (InCustomEvent.EVENT_INCUSTOM_KF_CLOSE_SESSION.equals(inCustomEvent.getEvent())) {
+
+		}
+
 		processDefaultReplay("wechat_processInCustomEvent", inCustomEvent);
 	}
 
 	// 处理接收到的关注/取消关注事件
 	protected void processInFollowEvent(InFollowEvent inFollowEvent) {
-		
-		//用户关注公众号了
+
+		// 用户关注公众号了
 		if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
 			processDefaultReplay("wechat_processInFollowEvent", inFollowEvent);
 		}
-		
+
 		// 如果为取消关注事件，将无法接收到传回的信息
 		if (InFollowEvent.EVENT_INFOLLOW_UNSUBSCRIBE.equals(inFollowEvent.getEvent())) {
 			// 取消关注，无法发送消息给用户了，可以做一些系统处理。
@@ -178,11 +186,45 @@ public class WechatMessageController extends MsgController {
 
 	private void processTextReplay(InMsg message, String userInput) {
 
-		// 是否进入多客服
+		// 多客服的相关处理
 		{
-			String string = Option.findValue("wechat_dkf_key");
-			// 进入多客服
-			if (userInput.equals(string)) {
+
+			String dkf_quit_key = Option.findValue("wechat_dkf_quit_key");
+			if (StringUtils.isNotBlank(dkf_quit_key) && dkf_quit_key.equals(userInput)) {
+				CacheKit.remove("wechat_dkf", message.getFromUserName());
+				
+				String quit_message = Option.findValue("wechat_dkf_quit_message");
+				OutTextMsg otm = new OutTextMsg(message);
+				otm.setContent(quit_message);
+				render(otm);
+				
+				return;
+			}
+
+			Boolean isInDkf = CacheKit.get("wechat_dkf", message.getFromUserName());
+			if (isInDkf != null && isInDkf == true) {
+
+				// 重新更新ehcache存储的开始时间，5分钟后失效。
+				{
+					CacheKit.remove("wechat_dkf", message.getFromUserName());
+					CacheKit.put("wechat_dkf", message.getFromUserName(), true);
+				}
+
+				OutCustomMsg outCustomMsg = new OutCustomMsg(message);
+				render(outCustomMsg);
+				return;
+			}
+
+			String dkf_enter_key = Option.findValue("wechat_dkf_enter_key");
+			if (StringUtils.isNotBlank(dkf_enter_key) && dkf_enter_key.equals(userInput)) {
+				// ehcache的过期时间为5分钟，如果用户5分钟未咨询，自动失效。
+				CacheKit.put("wechat_dkf", message.getFromUserName(), true);
+
+				// 进入多客服
+				String quit_message = Option.findValue("wechat_dkf_enter_message");
+				OutTextMsg otm = new OutTextMsg(message);
+				otm.setContent(quit_message);
+				render(otm);
 
 				return;
 			}
@@ -193,12 +235,15 @@ public class WechatMessageController extends MsgController {
 			List<Module> modules = Jpress.currentTemplate().getModules();
 			if (modules != null && modules.size() > 0) {
 				for (Module module : modules) {
+
+					// 是否启用搜索
 					Boolean bool = Option.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
 					if (bool != null && bool) {
+
+						// 搜索关键字 前缀
 						String prefix = Option.findValue(String.format("wechat_search_%s_prefix", module.getName()));
 
 						String searcheKey = null;
-
 						if (StringUtils.isNotBlank(prefix)) {
 							if (userInput.startsWith(prefix)) {
 								searcheKey = userInput.substring(prefix.length());
@@ -209,6 +254,8 @@ public class WechatMessageController extends MsgController {
 
 						// 开始搜索
 						if (searcheKey != null) {
+
+							// 搜索结果数量
 							Integer count = Option
 									.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
 							if (count == null || count <= 0 || count > 10) {
@@ -229,6 +276,7 @@ public class WechatMessageController extends MsgController {
 								}
 								render(out);
 							} else {
+								// 搜索不到内容时
 								processDefaultReplay("wechat_search_none_content", message);
 							}
 

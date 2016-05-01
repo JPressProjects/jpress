@@ -96,7 +96,51 @@ function doSubmit(){
 					</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" name="wechat_token" value="${option('wechat_token')!}" >
+							<input class="form-control input-md" type="text" name="wechat_dkf_enter_key" value="${option('wechat_dkf_enter_key')!}" >
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-font-line jp-set-font ">
+							进入多客服欢迎文字
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" name="wechat_dkf_enter_message" value="${option('wechat_dkf_enter_message')!}" >
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-font-line jp-set-font ">
+							退出多客服关键字
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${option('wechat_dkf_quit_key')!}" >
+						</div>
+						默认，如果用户5分钟未咨，也会自动退出多客服。
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-font-line jp-set-font ">
+							进入多客服结束文字
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" name="wechat_dkf_quit_message" value="${option('wechat_dkf_quit_message')!}" >
 						</div>
 					</div>
 					<div class="clr"></div>

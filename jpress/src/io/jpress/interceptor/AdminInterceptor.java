@@ -32,6 +32,7 @@ public class AdminInterceptor implements Interceptor {
 
 		if (!target.startsWith(cpath + "/admin")) {
 			inv.invoke();
+			return;
 		}
 
 		User user = InterUtils.tryToGetUser(inv);

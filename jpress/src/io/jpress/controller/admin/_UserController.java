@@ -21,6 +21,13 @@ import io.jpress.model.User;
 
 @UrlMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
 public class _UserController extends JBaseCRUDController<User> {
+	
+	
 
+	public void info(){
+		
+	}
+	
+	
 
 }

@@ -20,7 +20,6 @@ import java.math.BigInteger;
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
-import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;

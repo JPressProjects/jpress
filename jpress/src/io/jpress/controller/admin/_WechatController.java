@@ -33,7 +33,7 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.wechat.WeixinApi;
-import io.jpress.wechat.WeixinErrors;
+import io.jpress.wechat.WeixinConsts;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends JBaseCRUDController<Content> {
@@ -136,7 +136,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 			if (result.isSucceed()) {
 				renderAjaxResultForSuccess();
 			} else {
-				String message = WeixinErrors.getMessage(result.getErrorCode());
+				String message = WeixinConsts.getErrorMessage(result.getErrorCode());
 				renderAjaxResultForError(message);
 			}
 		} else {

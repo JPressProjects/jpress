@@ -22,13 +22,16 @@ public class WeixinConsts {
 	static Map<Integer, String> errors = new HashMap<Integer, String>();
 
 	static {
+		errors.put(-1, "微信服务器繁忙，此时请稍候再试");
+		errors.put(40001, "获取accessToken时AppSecret错误，或者accessToken无效");
+		errors.put(40013, "不合法的AppID，请开发者检查AppID的正确性，避免异常字符，注意大小写");
 		errors.put(40015, "不合法的菜单类型");
 		errors.put(40016, "菜单按钮数量超出限制,一级菜单最多3个,二级菜单最多5个");
 		errors.put(40017, "菜单按钮数量超出限制");
 		errors.put(40018, "一级菜单名称长度超出限制,一级菜单最多4个汉字");
 		errors.put(40019, "菜单点击事件的key值长度超出限制");
 		errors.put(40020, "菜单URL长度超出限制");
-		errors.put(40021, "");
+		errors.put(40021, "不合法的菜单版本号");
 		errors.put(40022, "菜单级数超出限制,请确保只有两级菜单,且一级菜单不超过三个,二级菜单不超过5个");
 		errors.put(40023, "二级菜单数量超出限制,请确保每个一级菜单下的二级菜单不超过5个");
 		errors.put(40024, "菜单类型错误,请检查菜单类型是否是key和URL的其中一个");

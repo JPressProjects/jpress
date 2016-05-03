@@ -231,7 +231,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public User findUser() {
-		return User.findUserById(getUserId());
+		return User.DAO.findUserById(getUserId());
 	}
 
 	public int batchTrash(BigInteger... ids) {

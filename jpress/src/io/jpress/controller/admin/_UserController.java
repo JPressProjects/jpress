@@ -15,6 +15,9 @@
  */
 package io.jpress.controller.admin;
 
+import com.jfinal.plugin.activerecord.Page;
+
+import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.User;
@@ -23,9 +26,16 @@ import io.jpress.model.User;
 public class _UserController extends JBaseCRUDController<User> {
 	
 	
+	@Override
+	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
+		return mDao.doPaginateWithContent(pageNumber, pageSize);
+	}
+	
 
 	public void info(){
-		
+		User user = getAttr(Consts.ATTR_USER);
+		setAttr("user", user);
+		render("edit.html");
 	}
 	
 	

@@ -71,7 +71,7 @@ public class UserController extends BaseFrontController {
 		String password = getPara("password");
 		String from = getPara("from");
 
-		User user = User.findUserByUsername(username);
+		User user = User.DAO.findUserByUsername(username);
 		if (null == user) {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
@@ -137,17 +137,17 @@ public class UserController extends BaseFrontController {
 			return;
 		}
 
-		if (User.findUserByUsername(username) != null) {
+		if (User.DAO.findUserByUsername(username) != null) {
 			renderAjaxResult("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
 			return;
 		}
 
-		if (User.findUserByEmail(email) != null) {
+		if (User.DAO.findUserByEmail(email) != null) {
 			renderAjaxResult("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
 			return;
 		}
 
-		if (null != phone && User.findUserByPhone(phone) != null) {
+		if (null != phone && User.DAO.findUserByPhone(phone) != null) {
 			renderAjaxResult("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}

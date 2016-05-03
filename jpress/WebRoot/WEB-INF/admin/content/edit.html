@@ -197,18 +197,21 @@ $('#titleurl').editable();
 									<a href="#tab_1" data-toggle="tab">常用</a>
 								</li>
 								<li>
-									<a href="#tab_2" data-toggle="tab">SEO</a>
+									<a href="#tab_seo" data-toggle="tab">SEO</a>
 								</li>
 								<#if module.styles ??>
 								<li>
-									<a href="#tab_3" data-toggle="tab">样式</a>
+									<a href="#tab_style" data-toggle="tab">样式</a>
 								</li>
 								</#if>
 								<li>
-									<a href="#tab_4" data-toggle="tab">备注</a>
+									<a href="#tab_position" data-toggle="tab">位置</a>
 								</li>
 								<li>
-									<a href="#tab_5" data-toggle="tab">元数据</a>
+									<a href="#tab_remarks" data-toggle="tab">备注</a>
+								</li>
+								<li>
+									<a href="#tab_metadata" data-toggle="tab">元数据</a>
 								</li>
 
 							</ul>
@@ -218,12 +221,12 @@ $('#titleurl').editable();
 								作者: <input type="text" name="username" value="${(content.username)!}">
 								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="tab_2">
+								<div class="tab-pane" id="tab_seo">
 									META 关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
 									META 描述: <input type="text" name="content.meta_description" value="${(content.meta_description)!}">
 								</div>
 								<#if module.styles ??>
-								<div class="tab-pane" id="tab_3">
+								<div class="tab-pane" id="tab_style">
 									<li class="jp-release-set">
 										<div class="radio jp-cancel-pad">
 											<label> <input type="radio" name="content.style" value=""> <i class="fa fa-envelope-o"></i>默认
@@ -240,8 +243,12 @@ $('#titleurl').editable();
 									</#list>
 								</div>
 								</#if>
-								<div class="tab-pane" id="tab_4">备注: <input type="text" name="content.remarks" value="${(content.remarks)!}"></div>
-								<div class="tab-pane" id="tab_5">元数据</div>
+								<div class="tab-pane" id="tab_position">
+								经度: <input type="text" name="content.lng" value="${(content.lng)!}">
+								纬度: <input type="text" name="content.lat" value="${(content.lat)!}">
+								</div>
+								<div class="tab-pane" id="tab_remarks">备注: <input type="text" name="content.remarks" value="${(content.remarks)!}"></div>
+								<div class="tab-pane" id="tab_metadata">元数据</div>
 								<!-- /.tab-pane -->
 							</div>
 							<!-- /.tab-content -->

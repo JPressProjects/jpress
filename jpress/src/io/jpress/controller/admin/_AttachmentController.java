@@ -92,14 +92,20 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	public void processWatermark(String newPath) {
 		Boolean watermark_enable = Option.findValueAsBool("watermark_enable");
 		if (watermark_enable != null && watermark_enable) {
+			
 			int position = Option.findValueAsInteger("watermark_position");
 			String watermarkImg = Option.findValue("watermark_image");
 			String srcImageFile = newPath;
+			
+			Float transparency = Option.findValueAsFloat("watermark_transparency");
+			if(transparency == null || transparency<0 || transparency >1){
+				transparency = 1f;
+			}
 
 			watermarkImg = PathKit.getWebRootPath() + watermarkImg;
 			srcImageFile = PathKit.getWebRootPath() + srcImageFile;
 
-			ImageUtils.pressImage(watermarkImg, srcImageFile, srcImageFile, position, 1);
+			ImageUtils.pressImage(watermarkImg, srcImageFile, srcImageFile, position, transparency);
 		}
 	}
 

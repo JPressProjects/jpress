@@ -77,7 +77,7 @@ public class JHandler extends Handler {
 		request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
 		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
 		if (cdnEnable != null && cdnEnable) {
-			String cdnDomain = Option.cacheValue("cdn_domain");
+			String cdnDomain = Option.findValue("cdn_domain");
 			if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
 				request.setAttribute("CDN", cdnDomain);
 			}

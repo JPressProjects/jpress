@@ -17,6 +17,7 @@ package io.jpress.model;
 
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseOption;
+import io.jpress.utils.StringUtils;
 
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
@@ -31,16 +32,8 @@ public class Option extends BaseOption<Option> {
 	public static final String KEY_WEB_NAME = "web_name";
 	public static final String KEY_TEMPLATE_NAME = "web_template_name";
 
-	public static String findTemplateName() {
-		return cacheValue(KEY_TEMPLATE_NAME);
-	}
-
-	public static String findWebName() {
-		return cacheValue(KEY_WEB_NAME);
-	}
-
 	public static void saveOrUpdate(String key, String value) {
-		Option option = findByKey(key);
+		Option option = DAO.doFindFirst("option_key =  ?", key);
 		if (null == option) {
 			option = new Option();
 		}
@@ -53,71 +46,50 @@ public class Option extends BaseOption<Option> {
 		option.saveOrUpdate();
 	}
 
-	public static String cacheValue(final String key) {
+	public static String findValue(final String key) {
 		return CacheKit.get(CACHE_NAME, key, new IDataLoader() {
 			@Override
 			public Object load() {
-				return findValue(key);
+				Option option = DAO.doFindFirst("option_key =  ?", key);
+				if (null != option && option.getOptionValue() != null) {
+					return option.getOptionValue();
+				}
+				return "";
 			}
 		});
 	}
 
-	public static String findValue(String key) {
-		Option option = DAO.doFindFirst("option_key =  ?", key);
-		if (null != option) {
-			return option.getOptionValue();
-		}
-		return null;
-	}
-
 	public static Boolean findValueAsBool(String key) {
-		Option option = DAO.doFindFirst("option_key =  ?", key);
-		if (null != option) {
-			String value = option.getOptionValue();
-			if (value != null) {
-				try {
-					return Boolean.parseBoolean(value);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+		String value = findValue(key);
+		if (StringUtils.isNotBlank(value)) {
+			try {
+				return Boolean.parseBoolean(value);
+			} catch (Exception e) {
 			}
 		}
 		return null;
 	}
 
 	public static Integer findValueAsInteger(String key) {
-		Option option = DAO.doFindFirst("option_key =  ?", key);
-		if (null != option) {
-			String value = option.getOptionValue();
-			if (value != null) {
-				try {
-					return Integer.parseInt(value);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+		String value = findValue(key);
+		if (StringUtils.isNotBlank(value)) {
+			try {
+				return Integer.parseInt(value);
+			} catch (Exception e) {
 			}
 		}
 		return null;
 	}
-	
 
 	public static Float findValueAsFloat(String key) {
-		Option option = DAO.doFindFirst("option_key =  ?", key);
-		if (null != option) {
-			String value = option.getOptionValue();
-			if (value != null) {
-				try {
-					return Float.parseFloat(value);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+		String value = findValue(key);
+		if (StringUtils.isNotBlank(value)) {
+			try {
+				return Float.parseFloat(value);
+			} catch (Exception e) {
 			}
 		}
 		return null;
-	}
-
-	public static Option findByKey(String key) {
-		return DAO.doFindFirst("option_key =  ?", key);
 	}
 
 }

@@ -227,7 +227,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
-			User user = User.findUserByUsername(username);
+			User user = User.DAO.findUserByUsername(username);
 			if (user == null) {
 				renderAjaxResultForError("系统没有该用户：" + username);
 				return;

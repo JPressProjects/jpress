@@ -17,34 +17,41 @@ package io.jpress.model;
 
 import java.math.BigInteger;
 
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseUser;
 
 @Table(tableName = "user", primaryKey = "id")
 public class User extends BaseUser<User> {
-
 	private static final long serialVersionUID = 1L;
 	public static final User DAO = new User();
 
-	public static String ROLE_ADMINISTRATOR = "administrator";
+	public  String ROLE_ADMINISTRATOR = "administrator";
+	
+	public Page<User> doPaginateWithContent(int pageNumber, int pageSize){
+		String select = "select u.*,count(c.id) as content_count ";
+		String sqlExceptSelect = "from `user` u left join `content` c on u.id = c.user_id group by u.id";
+		return paginate(pageNumber, pageSize, true, select, sqlExceptSelect);
+	}
 
-	public static User findUserByContentId(Long contentId) {
+	public  User findUserByContentId(Long contentId) {
 		return DAO.doFindFirst("content_id = ?", contentId);
 	}
 
-	public static User findUserById(BigInteger userId) {
+	public  User findUserById(BigInteger userId) {
 		return DAO.findById(userId);
 	}
 
-	public static User findUserByEmail(String email) {
+	public  User findUserByEmail(String email) {
 		return DAO.doFindFirst("email = ?", email);
 	}
 
-	public static User findUserByUsername(String username) {
+	public  User findUserByUsername(String username) {
 		return DAO.doFindFirst("username = ?", username);
 	}
 
-	public static User findUserByPhone(String phone) {
+	public  User findUserByPhone(String phone) {
 		return DAO.doFindFirst("phone = ?", phone);
 	}
 

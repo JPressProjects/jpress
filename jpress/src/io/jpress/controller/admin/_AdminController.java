@@ -48,7 +48,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 
-		User user = User.findUserByUsername(username);
+		User user = User.DAO.findUserByUsername(username);
 
 		if (null == user) {
 			renderAjaxResultForError("没有该用户");

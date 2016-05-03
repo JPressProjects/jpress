@@ -31,7 +31,7 @@ public class InterUtils {
 			String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 
 			if (userId != null && !"".equals(userId))
-				user = User.findUserById(new BigInteger(userId));
+				user = User.DAO.findUserById(new BigInteger(userId));
 		}
 		return user;
 	}

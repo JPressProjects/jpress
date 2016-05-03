@@ -79,16 +79,17 @@
 					<table id="example1" class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width: 20px"><label class="jp-common-pad "><input
-										class="jp-common-pad " id="dataItem" onclick="check_all()"
-										title="全选" type="checkbox"></label></th>
+								<th style="width: 20px">
+								<label class="jp-common-pad ">
+									<input class="jp-common-pad " id="dataItem" onclick="check_all()" title="全选" type="checkbox">
+								</label>
+								</th>
 								<th>用户名</th>
 								<th>昵称</th>
 								<th>简介</th>
 								<th>电子邮件</th>
 								<th>角色</th>
 								<th>文章数量</th>
-
 							</tr>
 						</thead>
 						<tbody>
@@ -100,12 +101,20 @@
 									<input class="jp-common-pad" name="chkItem" type="checkbox">
 									</label>
 								</td>
-								<td><strong><a href="#">${bean.username!}</a></strong></td>
+								<td><strong><a href="${CPATH}/admin/user/edit?id=${bean.id}&c=edit&p=${p!}">${bean.username!}</a></strong>
+								<div class="jp-flash-comment">
+									<p class="row-actions jp-cancel-pad">
+										<span class="approve"> 
+										<a class="vim-a" href="${CPATH}/admin/user/edit?id=${bean.id}&c=edit&p=${p!}">编辑</a>
+										</span>
+									</p>
+								</div>
+								</td>
 								<td>${bean.nickname!}</td>
 								<td>${bean.signature!}</td>
 								<td>${bean.email!}</td>
 								<td>${bean.role!}</td>
-								<td>5</td>
+								<td>${bean.content_count!'0'}</td>
 							</tr>
 							</#list> 
 							</#if>

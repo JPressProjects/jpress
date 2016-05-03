@@ -6,7 +6,7 @@ function doSubmit(){
 			dataType : "json", //数据类型  
 			success : function(data) { //提交成功的回调函数 
 				if(data.errorCode == 0){
-					window.location.reload();
+					window.location.href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}";
 				}else{
 					alert(data.message);
 				}
@@ -42,17 +42,18 @@ function doSubmit(){
 			<form action="${CPATH}/admin/taxonomy/save" method="POST" id="form">
 				<input type="hidden" name="taxonomy.content_module" value="${module.name}">
 				<input type="hidden" name="taxonomy.type" value="${type.name}">
+				<input type="hidden" name="taxonomy.id" value="${(taxonomy.id)!}">
 				<input type="hidden" name="ucode" value="${ucode}">
 				<h4 class="jp-common-pad">添加新 ${type.title}</h4>
 				<div class="form-group jp-article-format">
 					<label for="tag-name">名称</label> 
-					<input id="tag-name" class="form-control" type="text"  name="taxonomy.title">
+					<input id="tag-name" class="form-control" type="text"  name="taxonomy.title" value="${(taxonomy.title)!}">
 					<p>这将是它在站点上显示的名字。</p>
 				</div>
 
 				<div class="form-group jp-article-format">
 					<label for="tag-slug">别名</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug">
+					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug" value="${(taxonomy.slug)!}">
 					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
 				</div>
 				<#if type.formType == "select">
@@ -73,11 +74,11 @@ function doSubmit(){
 				<div class="form-group jp-article-format">
 
 					<label>图像描述</label>
-					<textarea class="form-control"  name="taxonomy.text" rows="3"></textarea>
+					<textarea class="form-control"  name="taxonomy.text" rows="3">${(taxonomy.text)!}</textarea>
 					<p>描述只会在一部分主题中显示。</p>
 				</div>
 
-				<button type="button" onclick="doSubmit()" class="btn btn-primary">添加新分类目录</button>
+				<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
 
 			</form>
 			<!-- /.box -->
@@ -127,7 +128,8 @@ function doSubmit(){
 								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
+										<!-- /admin/taxonomy?m=article&t=category&p=article&c=category# -->
+											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
 											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
 										</p>

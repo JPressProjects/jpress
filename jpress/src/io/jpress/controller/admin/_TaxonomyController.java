@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.admin;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
@@ -51,6 +52,11 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		setAttr("module", module);
 		setAttr("type", type);
 		setAttr("taxonomys", list);
+		
+		BigInteger id = getParaToBigInteger("id");
+		if(id != null){
+			setAttr("taxonomy", Taxonomy.DAO.findById(id));
+		}
 
 		super.index();
 	}

@@ -137,7 +137,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 				renderAjaxResultForSuccess();
 			} else {
 				String message = WeixinConsts.getErrorMessage(result.getErrorCode());
-				renderAjaxResultForError(message);
+				renderAjaxResult(message, result.getErrorCode());
 			}
 		} else {
 			renderAjaxResultForError("还没有添加菜单信息");

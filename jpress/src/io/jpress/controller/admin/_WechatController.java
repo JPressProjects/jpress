@@ -31,6 +31,7 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.wechat.WeixinApi;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends JBaseCRUDController<Content> {
@@ -97,7 +98,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	public void menuSync() {
 		List<Content> wechatMenus = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
-		ModelSorter.sort(wechatMenus);
+		ModelSorter.tree(wechatMenus);
 
 		if (wechatMenus != null) {
 			JSONArray button = new JSONArray();
@@ -127,11 +128,12 @@ public class _WechatController extends JBaseCRUDController<Content> {
 			
 			JSONObject wechatMenuJson = new JSONObject();
 			wechatMenuJson.put("button", button);
-			String weString = wechatMenuJson.toJSONString();
+			String jsonString = wechatMenuJson.toJSONString();
 			
-			System.out.println(weString);
+			WeixinApi.createMenu(jsonString);
 		}
 
+		renderAjaxResultForSuccess();
 	}
 
 	@Before(UCodeInterceptor.class)

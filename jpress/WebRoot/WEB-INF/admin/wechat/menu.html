@@ -25,6 +25,17 @@ function doSubmit(){
 		}
 	});
  }
+ 
+ function doSync(){
+ 	$.get("${CPATH}/admin/wechat/menuSync?ucode=${ucode}", function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			toastr.success("同步成功！");
+		}
+	});
+ 
+ }
 </#macro> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -85,7 +96,7 @@ function doSubmit(){
 		<div class="col-md-8 ">
 			<div class="col-xs-12 jp-common-pad jp-bottom-pad5">
 				<div class="jp-left jp-left-pad5 jp-right-pad10">
-					<button class="btn  btn-sm btn-default" type="button">同步到微信菜单</button>
+					<button class="btn  btn-sm btn-default" type="button" onclick="doSync()">同步到微信菜单</button>
 				</div>
 			</div>
 			<div class="clr"></div>

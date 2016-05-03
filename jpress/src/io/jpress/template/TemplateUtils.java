@@ -44,7 +44,7 @@ public class TemplateUtils {
 	}
 
 	public static String getTemplateName() {
-		String templateName = Option.findTemplateName();
+		String templateName = Option.findValue(Option.KEY_TEMPLATE_NAME);
 
 		if (null != templateName && !"".equals(templateName.trim())) {
 			return templateName;

@@ -42,7 +42,7 @@ public class OptionChecked extends JFunction {
 	}
 
 	private Boolean tryToGetBool(String key) {
-		String value = Option.cacheValue(key);
+		String value = Option.findValue(key);
 		Boolean ret = null;
 		try {
 			ret = Boolean.parseBoolean(value);

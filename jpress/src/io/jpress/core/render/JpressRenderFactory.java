@@ -22,6 +22,7 @@ public class JpressRenderFactory implements IMainRenderFactory {
 			}
 		}
 
+		//admin url
 		return new JFreemarkerRender(view);
 	}
 

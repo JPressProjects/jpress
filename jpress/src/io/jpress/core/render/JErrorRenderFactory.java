@@ -37,8 +37,6 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 
 		String errorHtml = Jpress.currentTemplate().getPath() + "/" + errorCode + ".html";
 
-		// String configRender = PropKit.get("render");
-
 		String renderType = Jpress.currentTemplate().getRenderType();
 		
 		//the default render type is freemarker

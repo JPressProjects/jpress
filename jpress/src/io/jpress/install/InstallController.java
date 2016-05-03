@@ -25,12 +25,12 @@ import java.util.List;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 
-@UrlMapping(url = "/install")
+@UrlMapping(url = "/install", viewPath = "/WEB-INF/install")
 @Before(InstallInterceptor.class)
 public class InstallController extends JBaseController {
 
 	public void index() {
-		render("/WEB-INF/install/step1.html");
+		render("step1.html");
 	}
 
 	public void step2() {
@@ -41,7 +41,7 @@ public class InstallController extends JBaseController {
 		String db_table_prefix = getPara("db_tablePrefix");
 
 		if (!StrKit.notBlank(db_host, db_name, db_user)) {
-			render("/WEB-INF/install/step2.html");
+			render("step2.html");
 			return;
 		}
 
@@ -85,7 +85,6 @@ public class InstallController extends JBaseController {
 						&& tableList.contains(db_table_prefix + "taxonomy")
 						&& tableList.contains(db_table_prefix + "user")) {
 					// createJpressDatabase success
-					// keepParaToCache();
 					redirect("/install/step3");
 					return;
 				}
@@ -100,7 +99,7 @@ public class InstallController extends JBaseController {
 
 	public void step2_error() {
 
-		render("/WEB-INF/install/step2_error.html");
+		render("step2_error.html");
 	}
 
 	public void step3() throws SQLException {
@@ -110,7 +109,7 @@ public class InstallController extends JBaseController {
 		String password = getPara("password");
 
 		if (StrKit.isBlank(webname) || StrKit.isBlank(username) || StrKit.isBlank(password)) {
-			render("/WEB-INF/install/step3.html");
+			render("step3.html");
 			return;
 		}
 

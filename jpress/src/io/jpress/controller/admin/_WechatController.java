@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.weixin.sdk.api.ApiResult;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
@@ -32,6 +33,7 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.wechat.WeixinApi;
+import io.jpress.wechat.WeixinErrors;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends JBaseCRUDController<Content> {
@@ -125,15 +127,21 @@ public class _WechatController extends JBaseCRUDController<Content> {
 					button.add(jsonObject);
 				}
 			}
-			
+
 			JSONObject wechatMenuJson = new JSONObject();
 			wechatMenuJson.put("button", button);
 			String jsonString = wechatMenuJson.toJSONString();
-			
-			WeixinApi.createMenu(jsonString);
-		}
 
-		renderAjaxResultForSuccess();
+			ApiResult result = WeixinApi.createMenu(jsonString);
+			if (result.isSucceed()) {
+				renderAjaxResultForSuccess();
+			} else {
+				String message = WeixinErrors.getMessage(result.getErrorCode());
+				renderAjaxResultForError(message);
+			}
+		} else {
+			renderAjaxResultForError("还没有添加菜单信息");
+		}
 	}
 
 	@Before(UCodeInterceptor.class)

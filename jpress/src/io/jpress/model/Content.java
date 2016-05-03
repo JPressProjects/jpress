@@ -452,6 +452,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		childList.add(child);
 	}
 	
+	public List<Content> getChildList(){
+		return childList;
+	}
+	
+	public boolean hasChild(){
+		return childList !=null && !childList.isEmpty();
+	}
+	
 	public String getUrl(){
 		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.CONTENT_BASE_URL;
 		String slug = getSlug()==null ? getId()+"" : getSlug();

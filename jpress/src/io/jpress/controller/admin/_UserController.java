@@ -32,6 +32,7 @@ public class _UserController extends JBaseCRUDController<User> {
 		return mDao.doPaginateWithContent(pageNumber, pageSize);
 	}
 	
+	
 	@Override
 	public boolean onModelSaveBefore(User m) {
 		

@@ -24,18 +24,21 @@ function doSubmit(){
 </section>
 <!-- Main content -->
 <section class="content">
-	<form action="${CPATH}/admin/user/save" method="post">
+	<form action="${CPATH}/admin/user/save" method="post" id="form">
 	<input type="hidden" name="user.id" value="${(user.id)!}">
 	<div class="col-xs-12 ">
 		<div class="row">
 			<h4 class="jp-set-pad jp-set-font">姓名</h4>
-
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
 					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-font">用户名 (必填)</div>
 					<div class="col-sm-9 jp-common-pad jp-line-height40">
 						<div class="col-sm-6 jp-top-pad5 ">
+							<#if user.id ??>
+							<input class="form-control input-md" type="text" name="user.username" value="${(user.username)!}" disabled="disabled">
+							<#else>
 							<input class="form-control input-md" type="text" name="user.username" value="${(user.username)!}">
+							</#if>
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -124,9 +127,8 @@ function doSubmit(){
 					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-font">密码</div>
 					<div class="col-sm-9 jp-common-pad jp-line-height40">
 						<div class="col-sm-6 jp-top-pad5 input-group ">
-
-							<input id="display-pw" class="form-control input-md" type="password" name="user.password" value="${(user.passowrd)!}">
-							<button class="btn btn-default btn-sm" id="show-pw">显示密码</button>
+							<input id="display-pw" class="form-control input-md" autocomplete="off" spellcheck="false"  type="password" name="user.password" value="${(user.passowrd)!}">
+							<button class="btn btn-default btn-sm" id="show-pw" >显示密码</button>
 						</div>
 					</div>
 					<div class="clr"></div>

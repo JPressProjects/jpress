@@ -60,6 +60,12 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 			return;
 		}
 		m.saveOrUpdate();
+
+		if (!onModelSaveAfter(m)) {
+			renderAjaxResultForError();
+			return;
+		}
+
 		renderAjaxResultForSuccess("ok");
 	}
 
@@ -90,6 +96,11 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	}
 
 	public boolean onModelSaveBefore(M m) {
+		// do nothing
+		return true;
+	}
+
+	public boolean onModelSaveAfter(M m) {
 		// do nothing
 		return true;
 	}

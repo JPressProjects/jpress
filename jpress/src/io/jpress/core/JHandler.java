@@ -96,7 +96,7 @@ public class JHandler extends Handler {
 			return true;
 		}
 		// 防止直接访问jsp文件页面
-		if (target.toLowerCase().endsWith(".jsp")) {
+		if (".jsp".equalsIgnoreCase(target.substring(target.lastIndexOf(".")))) {
 			return true;
 		}
 

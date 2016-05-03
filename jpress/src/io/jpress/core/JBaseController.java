@@ -60,7 +60,8 @@ public class JBaseController extends Controller {
 	public int getParaCount() {
 		if (mParaCount != -1)
 			return mParaCount;
-		int mParaCount = 0;
+
+		mParaCount = 0;
 		char[] parachars = getPara() == null ? null : getPara().toCharArray();
 		if (parachars != null) {
 			mParaCount = 1;
@@ -191,38 +192,35 @@ public class JBaseController extends Controller {
 	public boolean validateCaptcha(String paraName) {
 		return JCaptchaRender.validate(this, getPara(paraName));
 	}
-	
-	
+
 	public BigInteger[] getParaValuesToBigInteger(String name) {
 		String[] values = getRequest().getParameterValues(name);
 		if (values == null)
 			return null;
 		BigInteger[] result = new BigInteger[values.length];
-		for (int i=0; i<result.length; i++)
+		for (int i = 0; i < result.length; i++)
 			result[i] = new BigInteger(values[i]);
 		return result;
 	}
-	
-	
+
 	public BigInteger getParaToBigInteger(String name) {
 		return toBigInteger(getRequest().getParameter(name), null);
 	}
-	
+
 	public BigInteger getParaToBigInteger(String name, BigInteger defaultValue) {
 		return toBigInteger(getRequest().getParameter(name), defaultValue);
 	}
-	
+
 	private BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		try {
 			if (value == null || "".equals(value.trim()))
 				return defaultValue;
 			value = value.trim();
 			if (value.startsWith("N") || value.startsWith("n"))
-				return  new BigInteger(value).negate();
+				return new BigInteger(value).negate();
 			return new BigInteger(value);
-		}
-		catch (Exception e) {
-			throw new ActionException(404,  "Can not parse the parameter \"" + value + "\" to BigInteger value.");
+		} catch (Exception e) {
+			throw new ActionException(404, "Can not parse the parameter \"" + value + "\" to BigInteger value.");
 		}
 	}
 

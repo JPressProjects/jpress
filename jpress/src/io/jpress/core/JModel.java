@@ -52,57 +52,57 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return paginateByCache(cacheName, key, pageNumber, pageSize, "SELECT *", from, params);
 	}
 
-	private String sql_select() {
+	private String createSelectSql() {
 		return DbDialectFactory.getDbDialect().forSelect(getTableName());
 	}
 	
 
-	private String sql_delete() {
+	private String createDeleteSql() {
 		return DbDialectFactory.getDbDialect().forDelete(getTableName());
 	}
 
-	private String sql_select_where() {
-		return sql_select() + " WHERE ";
+	private String createSelectWhereSql() {
+		return createSelectSql() + " WHERE ";
 	}
 
 	public List<M> doFind() {
-		return find(sql_select());
+		return find(createSelectSql());
 	}
 
 	public List<M> doFind(String where) {
-		return find(sql_select_where() + where);
+		return find(createSelectWhereSql() + where);
 	}
 
 	public List<M> doFind(String where, Object... params) {
-		return find(sql_select_where() + where, params);
+		return find(createSelectWhereSql() + where, params);
 	}
 
 	public List<M> doFindByCache(String cacheName, Object key) {
-		return findByCache(cacheName, key, sql_select());
+		return findByCache(cacheName, key, createSelectSql());
 	}
 
 	public List<M> doFindByCache(String cacheName, Object key, String where) {
-		return findByCache(cacheName, key, sql_select_where() + where);
+		return findByCache(cacheName, key, createSelectWhereSql() + where);
 	}
 
 	public List<M> doFindByCache(String cacheName, Object key, String where, Object... params) {
-		return findByCache(cacheName, key, sql_select_where() + where, params);
+		return findByCache(cacheName, key, createSelectWhereSql() + where, params);
 	}
 
 	public M doFindFirst(String where) {
-		return findFirst(sql_select_where() + where);
+		return findFirst(createSelectWhereSql() + where);
 	}
 
 	public M doFindFirst(String where, Object... params) {
-		return findFirst(sql_select_where() + where, params);
+		return findFirst(createSelectWhereSql() + where, params);
 	}
 
 	public M doFindFirstByCache(String cacheName, Object key, String where) {
-		return findFirstByCache(cacheName, key, sql_select_where() + where);
+		return findFirstByCache(cacheName, key, createSelectWhereSql() + where);
 	}
 
 	public M doFindFirstByCache(String cacheName, Object key, String where, Object... params) {
-		return findFirstByCache(cacheName, key, sql_select_where() + where, params);
+		return findFirstByCache(cacheName, key, createSelectWhereSql() + where, params);
 	}
 
 	public long doFindCount() {
@@ -137,7 +137,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	public int doDelete(String where, Object... objs) {
-		String sql = sql_delete() + " WHERE " + where;
+		String sql = createDeleteSql() + " WHERE " + where;
 		return Db.update(sql, objs);
 	}
 

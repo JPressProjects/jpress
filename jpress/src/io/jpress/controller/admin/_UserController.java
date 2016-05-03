@@ -21,6 +21,7 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.User;
+import io.jpress.utils.HashUtils;
 
 @UrlMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
 public class _UserController extends JBaseCRUDController<User> {
@@ -31,12 +32,35 @@ public class _UserController extends JBaseCRUDController<User> {
 		return mDao.doPaginateWithContent(pageNumber, pageSize);
 	}
 	
+	@Override
+	public boolean onModelSaveBefore(User m) {
+		
+		//修改了密码
+		if(m.getId() != null && m.getPassword() != null){
+			User dbUser = User.DAO.findById(m.getId());
+			m.setSalt(dbUser.getSalt());
+			String password = HashUtils.md5WithSalt(m.getPassword(), dbUser.getSalt());
+			m.setPassword(password);
+		}
+		
+		//新建用户
+		if(m.getId() == null && m.getPassword() != null){
+			String salt = HashUtils.salt();
+			m.setSalt(salt);
+			
+			String password = HashUtils.md5WithSalt(m.getPassword(), salt);
+			m.setPassword(password);
+		}
+		
+		return super.onModelSaveBefore(m);
+	}
 
 	public void info(){
 		User user = getAttr(Consts.ATTR_USER);
 		setAttr("user", user);
 		render("edit.html");
 	}
+	
 	
 	
 

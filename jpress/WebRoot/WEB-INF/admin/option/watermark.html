@@ -1,39 +1,9 @@
 <#include "../_inc/_layout.html"/> 
-<#macro script>
-function doSubmit(){
- 	$("#form").ajaxSubmit({
-			type : "post", //提交方式  
-			dataType : "json", //数据类型  
-			success : function(data) { //提交成功的回调函数 
-				if(data.errorCode == 0){
-					$(".message").show();
-				}else{
-					alert(data.message);
-				}
-			},
-			error : function() {
-				alert("信息提交错误");
-			}
-	});
- }
- function closeMessage(){
- 	$(".message").hide();
- }
-</#macro>
+<#include "_option_script.html"/> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
 	<h1>微信设置</h1>
 </section>
-
-<div class="pad margin no-print message" style="display: none;">
-	<div class=" alert alert-info  alert-dismissible callout ">
-		<button type="button" class="close" onclick="closeMessage()">&times;</button>
-		<h4>
-			<i class="icon fa fa-check"></i> 成功!
-		</h4>
-		数据保存成功。
-	</div>
-</div>
 
 <!-- Main content -->
 <section class="content">

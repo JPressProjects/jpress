@@ -19,23 +19,21 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
-import io.jpress.wechat.WechatReply;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 public class _WechatController extends JBaseCRUDController<Content> {
-
-	private String getModule() {
-		return WechatReply.MODULE;
-	}
 
 	private String getStatus() {
 		return getPara("s");
@@ -45,13 +43,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void index() {
 		super.index();
 	}
-	
+
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModule(), getStatus());
+			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_MENU, getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModule());
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_MENU);
 	}
 
 	public void reply_default() {
@@ -63,7 +61,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void menu() {
-		List<Content> list = Content.DAO.findByModule("wechat_menu", "order_number ASC");
+		List<Content> list = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.sort(list);
 		setAttr("wechat_menus", list);
 
@@ -77,7 +75,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void menuSave() {
 		Content c = getModel(Content.class);
-		c.setModule("wechat_menu");
+		c.setModule(Consts.MODULE_WECHAT_MENU);
 		c.setModified(new Date());
 		if (c.getCreated() == null) {
 			c.setCreated(new Date());
@@ -98,10 +96,43 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void menuSync() {
+		List<Content> wechatMenus = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		ModelSorter.sort(wechatMenus);
+
+		if (wechatMenus != null) {
+			JSONArray button = new JSONArray();
+			for (Content content : wechatMenus) {
+				if (content.hasChild()) {
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("name", content.getTitle());
+					List<Content> childMenus = content.getChildList();
+					JSONArray sub_buttons = new JSONArray();
+					for (Content c : childMenus) {
+						JSONObject sub_button = new JSONObject();
+						sub_button.put("type", c.getFlag());
+						sub_button.put("name", c.getTitle());
+						sub_button.put("key", c.getText());
+						sub_buttons.add(sub_button);
+					}
+					jsonObject.put("sub_button", sub_buttons);
+					button.add(jsonObject);
+				} else {
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("type", content.getFlag());
+					jsonObject.put("name", content.getTitle());
+					jsonObject.put("key", content.getText());
+					button.add(jsonObject);
+				}
+			}
+			
+			JSONObject wechatMenuJson = new JSONObject();
+			wechatMenuJson.put("button", button);
+			String weString = wechatMenuJson.toJSONString();
+			
+			System.out.println(weString);
+		}
 
 	}
-
-	
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {

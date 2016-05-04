@@ -45,7 +45,6 @@ import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.GlobalInterceptor;
 import io.jpress.interceptor.JI18nInterceptor;
 import io.jpress.plugin.message.MessagePlugin;
-import io.jpress.plugin.router.RouterPlugin;
 
 public abstract class JpressConfig extends JFinalConfig {
 
@@ -81,7 +80,6 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public void configPlugin(Plugins plugins) {
-		plugins.add(new RouterPlugin());
 		plugins.add(new MessagePlugin());
 		plugins.add(new EhCachePlugin());
 

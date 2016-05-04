@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.router;
+package io.jpress.router;
+
+import io.jpress.core.Jpress;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouterConverterManager {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-	List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
+public class RouterKit {
 
-	public void register(Class<? extends IRouterConverter> clazz) {
+	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
+
+	public static void register(Class<? extends IRouterConverter> clazz) {
 		for (IRouterConverter tc : converters) {
 			if (tc.getClass() == clazz) {
 				throw new RuntimeException(String.format("Class [%s] has registered", clazz.getName()));
@@ -36,12 +41,27 @@ public class RouterConverterManager {
 		}
 	}
 
-	public IRouterConverter match(String target) {
-		for (IRouterConverter converter : converters) {
-			if (converter.match(target))
-				return converter;
+	public static String converte(String target, HttpServletRequest request, HttpServletResponse response) {
+
+		final Boolean[] bools = new Boolean[] { false };
+		try {
+			for (IRouterConverter c : converters) {
+
+				String newTarget = c.converter(target, request, response, bools);
+
+				if (bools[0] == true && newTarget != null) {
+					if (Jpress.isDevMode()) {
+						System.err.println(String.format("target\"%s\" was converted to \"%s\" by %s.(%s.java:1)",
+								target, newTarget, c.getClass().getName(), c.getClass().getSimpleName()));
+					}
+					return newTarget;
+				}
+			}
+		} catch (Exception e) {
 		}
-		return null;
+
+		return target;
+
 	}
 
 }

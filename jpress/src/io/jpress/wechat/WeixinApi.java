@@ -17,9 +17,13 @@ public class WeixinApi {
 		return config;
 	}
 
-	public static ApiResult createMenu(String jsonString) {
+	private static void doApiInvokBefore() {
 		ApiConfig ac = getApiConfig();
 		ApiConfigKit.setThreadLocalApiConfig(ac);
+	}
+
+	public static ApiResult createMenu(String jsonString) {
+		doApiInvokBefore();
 		return MenuApi.createMenu(jsonString);
 	}
 

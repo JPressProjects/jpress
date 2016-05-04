@@ -5,13 +5,15 @@ import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-public class StringUtils {
+import com.jfinal.log.Log;
 
+public class StringUtils {
+	private static final Log log = Log.getLog(StringUtils.class);
 	public static String urlDecode(String string) {
 		try {
 			return URLDecoder.decode(string, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("urlDecode is error", e);
 		}
 		return string;
 	}
@@ -20,7 +22,7 @@ public class StringUtils {
 		try {
 			return URLEncoder.encode(string, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("urlEncode is error", e);
 		}
 		return string;
 	}

@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
@@ -39,7 +40,7 @@ import io.jpress.utils.ImageUtils;
  */
 @UrlMapping(url = "/admin/attachment", viewPath = "/WEB-INF/admin/attachment")
 public class _AttachmentController extends JBaseCRUDController<Attachment> {
-
+	private static final Log log = Log.getLog(_AttachmentController.class);
 	public void detail_layer() {
 	}
 
@@ -84,7 +85,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 					String newSrc = ImageUtils.scale(PathKit.getWebRootPath() + newPath, tb.getWidth(), tb.getHeight());
 					processWatermark(FileUtils.removeRootPath(newSrc));
 				} catch (IOException e) {
-					e.printStackTrace();
+					log.error("processWatermark error", e);
 				}
 			}
 		}

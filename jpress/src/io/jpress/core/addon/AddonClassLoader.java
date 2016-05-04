@@ -20,8 +20,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-public class AddonClassLoader extends URLClassLoader {
+import com.jfinal.log.Log;
 
+public class AddonClassLoader extends URLClassLoader {
+	private static final Log log = Log.getLog(AddonClassLoader.class);
 	private String path;
 
 	public AddonClassLoader(String path) {
@@ -34,7 +36,7 @@ public class AddonClassLoader extends URLClassLoader {
 		try {
 			addURL(jarFile.toURI().toURL());
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			log.error("AddonClassLoader init error",e);
 		}
 	}
 

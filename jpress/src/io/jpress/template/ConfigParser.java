@@ -15,9 +15,6 @@
  */
 package io.jpress.template;
 
-import io.jpress.template.Module.TaxonomyType;
-import io.jpress.utils.FileUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +27,13 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
+
+import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.FileUtils;
 
 public class ConfigParser extends DefaultHandler {
-
+	private static final Log log = Log.getLog(ConfigParser.class);
 	final Template template;
 
 	private String cName;
@@ -55,7 +56,7 @@ public class ConfigParser extends DefaultHandler {
 			SAXParser parser = factory.newSAXParser();
 			parser.parse(configFile, this);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("ConfigParser parser exception", e);
 		}
 		path = FileUtils.removeRootPath(configFile.getParent());
 		template.setPath(path.replace("\\", "/"));

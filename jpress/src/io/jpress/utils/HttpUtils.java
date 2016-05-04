@@ -248,12 +248,7 @@ public class HttpUtils {
 			return null;
 		}
 		if (strUrl.toLowerCase().startsWith("https")) {
-			try {
-				return getHttpsConnection(strUrl);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
+			return getHttpsConnection(strUrl);
 		} else {
 			return getHttpConnection(strUrl);
 		}

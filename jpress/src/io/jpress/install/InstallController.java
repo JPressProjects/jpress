@@ -15,19 +15,22 @@
  */
 package io.jpress.install;
 
-import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
-import io.jpress.utils.HashUtils;
-
 import java.sql.SQLException;
 import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
+import com.jfinal.log.Log;
+
+import io.jpress.core.JBaseController;
+import io.jpress.core.annotation.UrlMapping;
+import io.jpress.utils.HashUtils;
 
 @UrlMapping(url = "/install", viewPath = "/WEB-INF/install")
 @Before(InstallInterceptor.class)
 public class InstallController extends JBaseController {
+	
+	private static final Log log = Log.getLog(InstallController.class);
 
 	public void index() {
 		render("step1.html");
@@ -91,7 +94,7 @@ public class InstallController extends JBaseController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("InstallController step2 is erro", e);
 		}
 
 		redirect("/install/step2_error");

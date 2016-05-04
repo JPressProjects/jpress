@@ -32,8 +32,10 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
-public class ImageUtils {
+import com.jfinal.log.Log;
 
+public class ImageUtils {
+	private static final Log log = Log.getLog(ImageUtils.class);
 	public static String scale(String src, int w, int h) throws IOException {
 		int inserTo = src.lastIndexOf(".");
 		String dest = src.substring(0, inserTo) + String.format("_%sx%s", w, h) + src.substring(inserTo, src.length());
@@ -183,7 +185,7 @@ public class ImageUtils {
 			graphics.dispose();
 			ImageIO.write((BufferedImage) image, "JPEG", new File(destImageFile));
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("ImageUtils pressImage error", e);
 		}
 	}
 

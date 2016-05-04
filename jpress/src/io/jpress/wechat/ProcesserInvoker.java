@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.out.OutMsg;
 
@@ -11,7 +12,7 @@ import io.jpress.core.ClassScaner;
 import io.jpress.utils.StringUtils;
 
 public class ProcesserInvoker {
-
+	private static final Log log = Log.getLog(ProcesserInvoker.class);
 	private static Map<String, Class<? extends IMessageProcesser>> map = new HashMap<String, Class<? extends IMessageProcesser>>();
 	private static boolean isInited = false;
 
@@ -49,7 +50,7 @@ public class ProcesserInvoker {
 			processer.onConfig(config);
 			return processer;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("wechat ProcesserInvoker getProcesser error", e);
 		}
 		return null;
 	}

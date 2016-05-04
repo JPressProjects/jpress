@@ -24,6 +24,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 
 /**
  * 插件管理器，负责加载、启动、停止插件。
@@ -31,6 +32,8 @@ import com.jfinal.kit.PathKit;
  * @author michael
  */
 public class AddonManager {
+
+	private static final Log log = Log.getLog(AddonManager.class);
 
 	private List<Addon> addonList = new ArrayList<Addon>();
 	private static AddonManager manager = new AddonManager();
@@ -118,7 +121,7 @@ public class AddonManager {
 				return addon;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("AddonManager loadAddon error", e);
 		}
 		return null;
 	}

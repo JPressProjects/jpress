@@ -26,14 +26,14 @@ import io.jpress.utils.CookieUtils;
 public class InterUtils {
 
 	public static User tryToGetUser(Invocation inv) {
-		User user = inv.getController().getAttr("user");
-		if (user == null) {
-			String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 
-			if (userId != null && !"".equals(userId))
-				user = User.DAO.findUserById(new BigInteger(userId));
+		String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
+		if (userId != null && !"".equals(userId)) {
+			// findUserById has cache
+			return User.DAO.findUserById(new BigInteger(userId));
 		}
-		return user;
+
+		return null;
 	}
 
 }

@@ -45,6 +45,7 @@ public class AdminInterceptor implements Interceptor {
 		controller.setAttr("page", controller.getPara("page"));
 
 		User user = InterUtils.tryToGetUser(inv);
+		
 		if (user != null && user.isAdministrator()) {
 			controller.setAttr(Consts.ATTR_USER, user);
 			controller.setAttr("ucode", HashUtils.generateUcode(user));

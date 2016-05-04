@@ -15,11 +15,6 @@
  */
 package io.jpress.install;
 
-import io.jpress.core.dialect.DbDialect;
-import io.jpress.core.dialect.DbDialectFactory;
-import io.jpress.router.RouterKit;
-import io.jpress.utils.DateUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,8 +37,12 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
+import io.jpress.core.dialect.DbDialect;
+import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.utils.DateUtils;
+
 public class InstallUtils {
-	private static final Log log = Log.getLog(RouterKit.class);
+	private static final Log log = Log.getLog(InstallUtils.class);
 	private static String dbHost;
 	private static String dbName;
 	private static String dbUser;

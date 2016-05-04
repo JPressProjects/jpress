@@ -49,7 +49,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\tpublic static final String CACHE_NAME = \"%s\";%n"
 				+ "\tpublic static final String METADATA_TYPE = \"%s\";%n%n"
 				
-				+ "\tpublic void removeCache(String key){%n"
+				+ "\tpublic void removeCache(Object key){%n"
 				+ "\t\tCacheKit.remove(CACHE_NAME, key);%n"
 				+ "\t}%n%n"
 				
@@ -61,6 +61,11 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				
 				+ "\tpublic M getCache(Object key){%n"
 				+ "\t\treturn CacheKit.get(CACHE_NAME, key);%n"
+				+ "\t}%n%n"
+				
+				
+				+ "\tpublic M getCache(Object key,IDataLoader dataloader){%n"
+				+ "\t\treturn CacheKit.get(CACHE_NAME, key, dataloader);%n"
 				+ "\t}%n%n"
 				
 				
@@ -110,7 +115,8 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "import java.util.List;%n"
 				+ "import java.math.BigInteger;%n%n"
 				+ "import com.jfinal.plugin.activerecord.IBean;%n"
-				+ "import com.jfinal.plugin.ehcache.CacheKit;%n%n";
+				+ "import com.jfinal.plugin.ehcache.CacheKit;%n"
+				+ "import com.jfinal.plugin.ehcache.IDataLoader;%n%n";
 		
 
 	}

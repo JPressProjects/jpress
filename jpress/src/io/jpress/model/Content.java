@@ -15,13 +15,6 @@
  */
 package io.jpress.model;
 
-import io.jpress.Consts;
-import io.jpress.core.Jdb;
-import io.jpress.core.annotation.Table;
-import io.jpress.model.ModelSorter.ISortModel;
-import io.jpress.model.base.BaseContent;
-import io.jpress.utils.StringUtils;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,6 +25,14 @@ import org.jsoup.select.Elements;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.ehcache.IDataLoader;
+
+import io.jpress.Consts;
+import io.jpress.core.Jdb;
+import io.jpress.core.annotation.Table;
+import io.jpress.model.ModelSorter.ISortModel;
+import io.jpress.model.base.BaseContent;
+import io.jpress.utils.StringUtils;
 
 @Table(tableName = "content", primaryKey = "id")
 public class Content extends BaseContent<Content> implements ISortModel<Content> {
@@ -49,23 +50,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private List<Content> childList;
 	private Content parent;
 	private List<Metadata> metadatas;
-	
+
 	public Page<Content> doPaginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
 		return paginate(page, pagesize, true, "select * ",
 				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
 						+ "GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username"
-						+ " FROM content c" 
-						+ " left join mapping m on c.id = m.`content_id`"
-						+ " left join taxonomy  t on m.`taxonomy_id` = t.id"
-						+ " left join user u on c.user_id = u.id"
+						+ " FROM content c" + " left join mapping m on c.id = m.`content_id`"
+						+ " left join taxonomy  t on m.`taxonomy_id` = t.id" + " left join user u on c.user_id = u.id"
 						+ " left join metadata md on c.id = md.`object_id` and md.`object_type`='content'"
-						+ " where c.`metadatas` like ?"
-						+ " GROUP BY c.id" 
-						+ " ORDER BY c.created DESC) c ",
+						+ " where c.`metadatas` like ?" + " GROUP BY c.id" + " ORDER BY c.created DESC) c ",
 				"%:" + meta_key + ":" + meta_value);
 	}
-	
-	
+
 	public Page<Content> doPaginateByModule(int page, int pagesize, String module) {
 		return doPaginate(page, pagesize, module, null, null, null, null);
 	}
@@ -74,49 +70,48 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return doPaginate(page, pagesize, module, status, null, null, null);
 	}
 
-	
 	public Page<Content> doPaginateByModuleInNormal(int page, int pagesize, String module) {
 		return doPaginate(page, pagesize, module, STATUS_NORMAL, null, null, null);
 	}
-	
-	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,BigInteger userId,String orderBy) {
-		
+
+	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,
+			BigInteger userId, String orderBy) {
+
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
-		
+
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id");
-		
+
 		LinkedList<Object> params = new LinkedList<Object>();
-		
+
 		boolean needWhere = true;
 		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
-		
+
 		fromBuilder.append(" group by c.id");
-		
+
 		if (null != orderBy && !"".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY ? DESC");
 			params.add(orderBy);
 		} else {
 			fromBuilder.append(" ORDER BY c.created DESC");
 		}
-		
-		return paginate(page, pagesize, true,select, fromBuilder.toString() ,params.toArray());
+
+		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
-	
 	@Override
 	public Content findById(Object idValue) {
-		return findFirst(getBaseSelectSql()+" WHERE c.id=? ",idValue);
+		return findFirst(getBaseSelectSql() + " WHERE c.id=? ", idValue);
 	}
 
-	
-	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId,String orderBy){
-		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[]{taxonomyId}, null, null, null, null,null, null, null, null);
+	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
+		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
+				null, null, null, null);
 	}
 
 	/**
@@ -135,33 +130,33 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	 * @return
 	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
-			String[] typeSlugs, String[] modules, String[] styles, String[] flags,String[] slugs, BigInteger[] userIds,
+			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
 			BigInteger[] parentIds, String[] tags) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
 
 		LinkedList<Object> params = new LinkedList<Object>();
-		
+
 		boolean needWhere = false;
-		needWhere = appendIfNotEmpty(sqlBuilder, "m.taxonomy_id",typeIds, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.module", modules, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.style",styles, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.slug",slugs, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.parent_id",parentIds, params,needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder,"t.slug",typeSlugs, params,needWhere);
-		needWhere = appendIfNotEmptyWithLike(sqlBuilder,"c.flag",flags, params,needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "m.taxonomy_id", typeIds, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.module", modules, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.style", styles, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.slug", slugs, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "c.parent_id", parentIds, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "t.slug", typeSlugs, params, needWhere);
+		needWhere = appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, needWhere);
 
 		if (null != tags && tags.length > 0) {
-			needWhere = appendIfNotEmpty(sqlBuilder, "t.name",tags, params,needWhere);
+			needWhere = appendIfNotEmpty(sqlBuilder, "t.name", tags, params, needWhere);
 			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
 		}
 
 		if (null != keyword && !"".equals(keyword.trim())) {
 			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
 			sqlBuilder.append(" c.title like ?");
-			params.add("'%"+keyword+"%'");
+			params.add("'%" + keyword + "%'");
 		}
 
 		sqlBuilder.append("GROUP BY c.id");
@@ -172,51 +167,71 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		} else {
 			sqlBuilder.append(" ORDER BY c.created DESC");
 		}
-		
+
 		sqlBuilder.append(" LIMIT ?, ?");
-		params.add( page -1);
+		params.add(page - 1);
 		params.add(pagesize);
 
 		return find(sqlBuilder.toString(), params.toArray());
 	}
 
-
 	public List<Content> findByModule(String module) {
 		return doFind("module = ? ", module);
 	}
-	
-	
-	public List<Content> findByModuleAndTitle(String module,String title,int limit) {
-		return doFind("module = ? and title = ? order by id desc limit ?", module,title,limit);
-	}
-	
-	public Content findFirstByModuleAndTitle(String module,String title) {
-		return doFindFirst("module = ? and title = ? order by id desc", module,title);
-	}
-	
-	public List<Content> searchByModuleAndTitle(String module,String title,int limit) {
-		return doFind("module = ? and title like ? order by id desc limit ?", module,"%"+title+"%",limit);
-	}
-	
-	
-	public List<Content> findByModule(String module,String orderby) {
-		return doFind("module = ? order by ?", module,orderby);
+
+	public List<Content> findByModuleAndTitle(String module, String title, int limit) {
+		return doFind("module = ? and title = ? order by id desc limit ?", module, title, limit);
 	}
 
-	public Content findBySlug(String slug) {
-		StringBuilder sql = getBaseSelectSql();
+	public Content findFirstByModuleAndTitle(String module, String title) {
+		return doFindFirst("module = ? and title = ? order by id desc", module, title);
+	}
+
+	public List<Content> searchByModuleAndTitle(String module, String title, int limit) {
+		return doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);
+	}
+
+	public List<Content> findByModule(String module, String orderby) {
+		return doFind("module = ? order by ?", module, orderby);
+	}
+
+	public Content findBySlug(final String slug) {
+		final StringBuilder sql = getBaseSelectSql();
+
 		sql.append(" WHERE c.slug = ?");
 		sql.append(" GROUP BY c.id");
-		return findFirst(sql.toString(),slug);
+
+		return getCache(slug, new IDataLoader() {
+			@Override
+			public Object load() {
+				return findFirst(sql.toString(), slug);
+			}
+		});
 	}
-	
-	public Content findById(BigInteger id) {
-		StringBuilder sql = getBaseSelectSql();
+
+	public Content findById(final BigInteger id) {
+		final StringBuilder sql = getBaseSelectSql();
 		sql.append(" WHERE c.id = ?");
 		sql.append(" GROUP BY c.id");
-		return findFirst(sql.toString(),id);
+
+		return getCache(id, new IDataLoader() {
+			@Override
+			public Object load() {
+				return findFirst(sql.toString(), id);
+			}
+		});
 	}
-	
+
+	@Override
+	public boolean update() {
+		if (getId() != null) {
+			removeCache(getId());
+		}
+		if (getSlug() != null) {
+			removeCache(getSlug());
+		}
+		return super.update();
+	}
 
 	public long findCountByModule(String module) {
 		return doFindCount("module = ?", module);
@@ -240,9 +255,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
 			params.add(STATUS_DELETE);
 			for (int i = 0; i < ids.length; i++) {
-				if(i == 0 ){
+				if (i == 0) {
 					sb.append(" WHERE id = ? ");
-				}else{
+				} else {
 					sb.append(" OR id = ? ");
 				}
 				params.add(ids[i]);
@@ -251,15 +266,15 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 		return 0;
 	}
-	
+
 	public int batchDelete(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
 			List<Object> params = new LinkedList<Object>();
 			StringBuilder sb = new StringBuilder("DELETE FROM content ");
 			for (int i = 0; i < ids.length; i++) {
-				if(i == 0 ){
+				if (i == 0) {
 					sb.append(" WHERE id = ? ");
-				}else{
+				} else {
 					sb.append(" OR id = ? ");
 				}
 				params.add(ids[i]);
@@ -328,7 +343,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public String getTagsAsString() {
 		return getTaxonomyAsString(Taxonomy.TYPE_TAG);
 	}
-	
+
 	public String getTagsAsUrl() {
 		return getTaxonomyAsUrl(Taxonomy.TYPE_TAG);
 	}
@@ -360,14 +375,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				}
 			}
 		}
-		
-		if(retBuilder.length() > 0){
+
+		if (retBuilder.length() > 0) {
 			retBuilder.deleteCharAt(retBuilder.length() - 1);
 		}
 
 		return retBuilder.toString();
 	}
-	
+
 	public String getTaxonomyAsUrl(String type) {
 		StringBuilder retBuilder = new StringBuilder();
 		String taxonomyString = get("taxonomys");
@@ -382,17 +397,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				// by method doPaginateByModuleAndStatus
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
-						String string = String.format("<a href=\"/%s/%s\" >%s</a>",getModule(),propertes[1],propertes[2]);
+						String string = String.format("<a href=\"/%s/%s\" >%s</a>", getModule(), propertes[1],
+								propertes[2]);
 						retBuilder.append(string).append(",");
 					}
 				}
 			}
 		}
-		
-		if(retBuilder.length() > 0){
-			retBuilder.deleteCharAt(retBuilder.length()-1);
+
+		if (retBuilder.length() > 0) {
+			retBuilder.deleteCharAt(retBuilder.length() - 1);
 		}
-		
+
 		return retBuilder.toString();
 	}
 
@@ -451,49 +467,48 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 		childList.add(child);
 	}
-	
-	public List<Content> getChildList(){
+
+	public List<Content> getChildList() {
 		return childList;
 	}
-	
-	public boolean hasChild(){
-		return childList !=null && !childList.isEmpty();
+
+	public boolean hasChild() {
+		return childList != null && !childList.isEmpty();
 	}
-	
-	public String getUrl(){
+
+	public String getUrl() {
 		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.CONTENT_BASE_URL;
-		String slug = getSlug()==null ? getId()+"" : getSlug();
-		return JFinal.me().getContextPath()+start+"/"+slug;
+		String slug = getSlug() == null ? getId() + "" : getSlug();
+		return JFinal.me().getContextPath() + start + "/" + slug;
 	}
-	
-	
-	public String getFirstImageUrl(){
-		if(getText() == null)
+
+	public String getFirstImageUrl() {
+		if (getText() == null)
 			return null;
 		Elements es = Jsoup.parse(getText()).select("img");
-		if(es != null && es.size() > 0)
+		if (es != null && es.size() > 0)
 			return es.first().absUrl("src");
-		
+
 		return null;
 	}
-	
-	public String getSummaryWithLen(int len){
-		if(getText() == null)
+
+	public String getSummaryWithLen(int len) {
+		if (getText() == null)
 			return null;
 		String text = Jsoup.parse(getText()).text();
-		if(text!= null && text.length() >= len){
+		if (text != null && text.length() >= len) {
 			return text.substring(0, len);
 		}
 		return text;
 	}
-	
-	public String getSummary(){
+
+	public String getSummary() {
 		return getSummaryWithLen(100);
 	}
-	
-	
+
 	private StringBuilder getBaseSelectSql() {
-		StringBuilder sqlBuilder = new StringBuilder("select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");
+		StringBuilder sqlBuilder = new StringBuilder(
+				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");
 		sqlBuilder.append(" from content c");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");

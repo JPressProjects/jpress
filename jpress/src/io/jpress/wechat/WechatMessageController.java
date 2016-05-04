@@ -60,11 +60,7 @@ public class WechatMessageController extends MsgController {
 
 	@Override
 	public ApiConfig getApiConfig() {
-		ApiConfig config = new ApiConfig();
-		config.setAppId(Option.findValue("wechat_appid"));
-		config.setAppSecret(Option.findValue("wechat_appsecret"));
-		config.setToken(Option.findValue("wechat_token"));
-		return config;
+		return WeixinApi.getApiConfig();
 	}
 
 	// 处理接收到的文本消息

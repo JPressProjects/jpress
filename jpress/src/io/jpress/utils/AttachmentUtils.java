@@ -55,7 +55,7 @@ public class AttachmentUtils {
 
 		file.renameTo(newfile);
 
-		return newfile.getAbsolutePath().substring(webRoot.length());
+		return FileUtils.removePrefix(newfile.getAbsolutePath(), webRoot);
 
 	}
 

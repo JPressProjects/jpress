@@ -25,9 +25,29 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipFile;import com.jfinal.kit.PathKit;
 
 public class FileUtils {
+
+	public static String getSuffix(String fileName) {
+		if (fileName != null && fileName.contains(".")) {
+			return fileName.substring(fileName.lastIndexOf("."));
+		}
+		return null;
+	}
+	
+	
+	public static String removePrefix(String src, String prefix) {
+		if (src != null && src.startsWith(prefix)) {
+			return src.substring(prefix.length());
+		}
+		return src;
+	}
+	
+	
+	public static String removeRootPath(String src){
+		return removePrefix(src, PathKit.getWebRootPath());
+	}
 
 	public static String readString(File file) {
 		ByteArrayOutputStream baos = null;

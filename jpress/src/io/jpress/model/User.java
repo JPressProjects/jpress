@@ -18,6 +18,7 @@ package io.jpress.model;
 import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseUser;
@@ -27,32 +28,49 @@ public class User extends BaseUser<User> {
 	private static final long serialVersionUID = 1L;
 	public static final User DAO = new User();
 
-	public  String ROLE_ADMINISTRATOR = "administrator";
-	
-	public Page<User> doPaginateWithContent(int pageNumber, int pageSize){
+	public String ROLE_ADMINISTRATOR = "administrator";
+
+	public Page<User> doPaginateWithContent(int pageNumber, int pageSize) {
 		String select = "select u.*,count(c.id) as content_count ";
 		String sqlExceptSelect = "from `user` u left join `content` c on u.id = c.user_id group by u.id";
 		return paginate(pageNumber, pageSize, true, select, sqlExceptSelect);
 	}
 
-	public  User findUserByContentId(Long contentId) {
-		return DAO.doFindFirst("content_id = ?", contentId);
+
+	public User findUserById(final BigInteger userId) {
+		return getCache(userId, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.findById(userId);
+			}
+		});
 	}
 
-	public  User findUserById(BigInteger userId) {
-		return DAO.findById(userId);
+	public User findUserByEmail(final String email) {
+		return getCache(email, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.doFindFirst("email = ?", email);
+			}
+		});
 	}
 
-	public  User findUserByEmail(String email) {
-		return DAO.doFindFirst("email = ?", email);
+	public User findUserByUsername(final String username) {
+		return getCache(username, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.doFindFirst("username = ?", username);
+			}
+		});
 	}
 
-	public  User findUserByUsername(String username) {
-		return DAO.doFindFirst("username = ?", username);
-	}
-
-	public  User findUserByPhone(String phone) {
-		return DAO.doFindFirst("phone = ?", phone);
+	public User findUserByPhone(final String phone) {
+		return getCache(phone, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.doFindFirst("phone = ?", phone);
+			}
+		});
 	}
 
 	public boolean isAdministrator() {

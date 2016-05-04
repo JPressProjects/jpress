@@ -13,40 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.router.converter;
+package io.jpress.router.converter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
-import io.jpress.model.Content;
-import io.jpress.plugin.router.IRouterConverter;
+import io.jpress.router.IRouterConverter;
 
-public class PageRouterConverter implements IRouterConverter {
+public class TaxonomyRouterConverter implements IRouterConverter {
 
 	@Override
-	public boolean match(String target) {
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
 		if (Jpress.isInstalled()) {
-			String slug = tryToGetContentSlug(target);
-			if (null != slug) {
-				Content c = Content.DAO.findBySlug(slug);
-				return c != null && Consts.SYS_MODULE_PAGE.equals(c.getModule());
+			String moduleName = tryToGetModuleName(target);
+			if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
+				bools[0] = true;
+				return Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
 			}
 		}
-		return false;
+		return null;
 	}
 
-	@Override
-	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-		return Consts.CONTENT_BASE_URL + target;
-	}
-
-	private String tryToGetContentSlug(String target) {
+	private String tryToGetModuleName(String target) {
 		String newTarget = target.substring(1);
-		if ("".equals(newTarget))
-			return null;
-		return newTarget.indexOf("/") == -1 ? newTarget : null;
+		String moduleName = newTarget;
+
+		if (newTarget.indexOf("/") != -1) {
+			moduleName = moduleName.substring(0, moduleName.indexOf("/"));
+		}
+
+		if (moduleName.indexOf("-") != -1) {
+			moduleName = moduleName.substring(0, moduleName.indexOf("-"));
+		}
+
+		return moduleName;
 	}
 
 }

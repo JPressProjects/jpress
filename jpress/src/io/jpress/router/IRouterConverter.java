@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.router;
+package io.jpress.router;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface IRouterConverter {
 
-	public boolean match(String target);
-
-	public String converter(String target, HttpServletRequest request, HttpServletResponse response);
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools);
 
 }

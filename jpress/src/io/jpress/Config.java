@@ -20,9 +20,9 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.ContentListener;
 import io.jpress.plugin.message.listener.SettingChangedListener;
 import io.jpress.plugin.message.listener.UserActionListener;
-import io.jpress.plugin.router.RouterKit;
-import io.jpress.plugin.router.converter.PageRouterConverter;
-import io.jpress.plugin.router.converter.TaxonomyRouterConverter;
+import io.jpress.router.RouterKit;
+import io.jpress.router.converter.PageRouterConverter;
+import io.jpress.router.converter.TaxonomyRouterConverter;
 import io.jpress.ui.freemarker.function.Functions;
 import io.jpress.ui.freemarker.tag.Tags;
 

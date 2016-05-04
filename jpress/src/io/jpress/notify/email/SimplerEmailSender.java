@@ -16,6 +16,7 @@
 package io.jpress.notify.email;
 
 import io.jpress.model.Option;
+import io.jpress.router.RouterKit;
 
 import java.util.HashSet;
 import java.util.Properties;
@@ -36,7 +37,6 @@ import javax.mail.internet.MimeUtility;
 import com.jfinal.log.Log;
 
 public class SimplerEmailSender extends Authenticator implements IEmailSender {
-
 	private static final Log logger = Log.getLog(SimplerEmailSender.class);
 
 	private String host;
@@ -114,7 +114,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
 			Transport.send(message);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			logger.error("InstallUtils executeSQL erro", e);
 		}
 
 	}

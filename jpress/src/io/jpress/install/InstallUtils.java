@@ -17,6 +17,7 @@ package io.jpress.install;
 
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.router.RouterKit;
 import io.jpress.utils.DateUtils;
 
 import java.io.File;
@@ -37,11 +38,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
 public class InstallUtils {
-
+	private static final Log log = Log.getLog(RouterKit.class);
 	private static String dbHost;
 	private static String dbName;
 	private static String dbUser;
@@ -84,7 +86,7 @@ public class InstallUtils {
 			fos = new FileOutputStream(pFile);
 			p.store(fos, "Auto create by JPress");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("InstallUtils save erro", e);
 			return false;
 		} finally {
 			if (fos != null)
@@ -141,7 +143,7 @@ public class InstallUtils {
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.warn("InstallUtils executeSQL erro", e);
 		} finally {
 			pstmt.close();
 			conn.close();

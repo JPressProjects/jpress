@@ -70,7 +70,7 @@ public abstract class JTag implements TemplateDirectiveModel {
 		try {
 			mEnv.getOut().write(text == null ? "null" : text);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("JTag renderText error", e);
 		}
 	}
 
@@ -78,9 +78,9 @@ public abstract class JTag implements TemplateDirectiveModel {
 		try {
 			mBody.render(mEnv.getOut());
 		} catch (TemplateException e) {
-			log.error("renderBody is error!", e);
+			log.error("JTag renderBody is error!", e);
 		} catch (IOException e) {
-			log.error("renderBody is error!", e);
+			log.error("JTag renderBody is error!", e);
 		}
 	}
 
@@ -88,9 +88,9 @@ public abstract class JTag implements TemplateDirectiveModel {
 		try {
 			mBody.render(writer);
 		} catch (TemplateException e) {
-			log.error("renderBody(Writer writer) is error!", e);
+			log.error("JTag renderBody(Writer writer) is error!", e);
 		} catch (IOException e) {
-			log.error("renderBody(Writer writer) is error!", e);
+			log.error("JTag renderBody(Writer writer) is error!", e);
 		}
 	}
 

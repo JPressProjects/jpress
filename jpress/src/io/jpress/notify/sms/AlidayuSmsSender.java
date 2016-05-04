@@ -20,11 +20,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.jfinal.log.Log;
+
 import io.jpress.utils.HttpUtils;
 import io.jpress.utils.StringUtils;
 
 public class AlidayuSmsSender implements ISmsSender {
 	private static final String CHARSET_UTF8 = "utf-8";
+	private static final Log log = Log.getLog(AlidayuSmsSender.class);
 
 	@Override
 	public void send(SmsMessage sms) {
@@ -55,7 +58,7 @@ public class AlidayuSmsSender implements ISmsSender {
 		try {
 			HttpUtils.post("http://gw.api.taobao.com/router/rest", params, headers);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("IRouterConverter converter exception", e);
 		}
 	}
 
@@ -82,7 +85,7 @@ public class AlidayuSmsSender implements ISmsSender {
 		try {
 			return data.getBytes(CHARSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("InstallUtils executeSQL erro", e);
 		}
 		return null;
 	}

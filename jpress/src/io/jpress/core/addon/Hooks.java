@@ -19,8 +19,10 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Hooks {
+import com.jfinal.log.Log;
 
+public class Hooks {
+	private static final Log log = Log.getLog(Hooks.class);
 	private Map<String, Method> hookMethods = new ConcurrentHashMap<String, Method>();
 	private Map<String, Hook> hookObjects = new ConcurrentHashMap<String, Hook>();
 
@@ -41,7 +43,7 @@ public class Hooks {
 				try {
 					hookObjects.put(hook, clazz.newInstance());
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error("Hooks register error", e);
 				}
 			}
 			hookMethods.put(hook, method);

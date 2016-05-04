@@ -15,15 +15,18 @@
  */
 package io.jpress.router;
 
-import io.jpress.core.Jpress;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jfinal.log.Log;
+
+import io.jpress.core.Jpress;
+
 public class RouterKit {
+	private static final Log log = Log.getLog(RouterKit.class);
 
 	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
@@ -33,11 +36,10 @@ public class RouterKit {
 				throw new RuntimeException(String.format("Class [%s] has registered", clazz.getName()));
 			}
 		}
-
 		try {
 			converters.add(clazz.newInstance());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(String.format("class [%s] newInstance error", clazz), e);
 		}
 	}
 
@@ -46,9 +48,7 @@ public class RouterKit {
 		final Boolean[] bools = new Boolean[] { false };
 		try {
 			for (IRouterConverter c : converters) {
-
 				String newTarget = c.converter(target, request, response, bools);
-
 				if (bools[0] == true && newTarget != null) {
 					if (Jpress.isDevMode()) {
 						System.err.println(String.format("target\"%s\" was converted to \"%s\" by %s.(%s.java:1)",
@@ -58,6 +58,7 @@ public class RouterKit {
 				}
 			}
 		} catch (Exception e) {
+			log.warn("IRouterConverter converter exception", e);
 		}
 
 		return target;

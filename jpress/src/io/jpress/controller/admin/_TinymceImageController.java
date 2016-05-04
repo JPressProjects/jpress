@@ -52,9 +52,7 @@ public class _TinymceImageController extends JBaseController {
 			setHeader("Content-Type", conn.getContentType());
 
 			render(new StreamRender(is));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class _TinymceImageController extends JBaseController {
 		attachment.setMimeType(uploadFile.getContentType());
 
 		attachment.save();
-		
+
 		renderJson("location", newPath);
 	}
 

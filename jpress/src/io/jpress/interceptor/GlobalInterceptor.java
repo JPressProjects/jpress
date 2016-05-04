@@ -19,25 +19,39 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
+import io.jpress.core.Jpress;
+import io.jpress.model.Option;
 import io.jpress.ui.freemarker.tag.Tags;
 
 public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-		
-		Controller c = inv.getController();
-		c.setAttr("c", c.getPara("c"));
-		c.setAttr("p", c.getPara("p"));
-		c.setAttr("m", c.getPara("m"));
-		c.setAttr("t", c.getPara("t"));
-		c.setAttr("page", c.getPara("page"));
-		
-		
-		Tags.initInInterceptor(inv);
-		
-		inv.invoke();
 
+		Tags.initInInterceptor(inv);
+
+		if (Jpress.isInstalled() && Jpress.isLoaded()) {
+			setGlobalAttrs(inv.getController());
+		}
+
+		inv.invoke();
+	}
+
+	private void setGlobalAttrs(Controller c) {
+		c.setAttr("TPATH", c.getRequest().getContextPath() + Jpress.currentTemplate().getPath());
+
+		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
+		if (cdnEnable != null && cdnEnable == true) {
+			String cdnDomain = Option.findValue("cdn_domain");
+			if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
+				c.setAttr("CDN", cdnDomain);
+			}
+		}
+
+		c.setAttr("WEB_NAME", Option.findValue("web_name"));
+		c.setAttr("WEB_TITLE", Option.findValue("web_title"));
+		c.setAttr("META_KEYWORDS", Option.findValue("meta_keywords"));
+		c.setAttr("META_DESCRIPTION", Option.findValue("meta_description"));
 	}
 
 }

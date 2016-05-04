@@ -25,7 +25,6 @@ import io.jpress.router.IRouterConverter;
 
 public class PageRouterConverter implements IRouterConverter {
 
-
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
 		if (Jpress.isInstalled()) {

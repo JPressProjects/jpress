@@ -60,10 +60,6 @@ public class JHandler extends Handler {
 			return;
 		}
 
-		if (Jpress.isInstalled() && Jpress.isLoaded()) {
-			setGlobalAttrs(request);
-		}
-
 		target = RouterKit.converte(target, request, response);
 		target = HookInvoker.router_converte(target, request, response);
 
@@ -74,22 +70,7 @@ public class JHandler extends Handler {
 		}
 	}
 
-	private void setGlobalAttrs(HttpServletRequest request) {
-		request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
-		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
-		if (cdnEnable != null && cdnEnable) {
-			String cdnDomain = Option.findValue("cdn_domain");
-			if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
-				request.setAttribute("CDN", cdnDomain);
-			}
-		}
-
-		request.setAttribute("WEB_NAME", Option.findValue("web_name"));
-		request.setAttribute("WEB_TITLE", Option.findValue("web_title"));
-		request.setAttribute("META_KEYWORDS", Option.findValue("meta_keywords"));
-		request.setAttribute("META_DESCRIPTION", Option.findValue("meta_description"));
-
-	}
+	
 
 	private static boolean isDisableAccess(String target) {
 		// 防止直接访问模板文件

@@ -8,10 +8,10 @@
 				<div class="row forum-box jp-extend-r">
 					<div class="col-xs-12">
 						<img data-src="modify-img.html" data-title="图片设置" class="layer portrait jp-border-radius30"
-							src="imgs/photo3.jpg" />
+							src="${user.avatar!TPATH+'/imgs/avatar.jpg'}" />
 						<button type="submit" data-src="modify-user.html" data-title="Jpress账号资料修改"
 							class="layer jp-extend-sub-r btn btn-primary jp-margin-top10">修改</button>
-						<p class="jp-padding-top20 jp-font-size16">${user.username}</p>
+						<p class="jp-padding-top20 jp-font-size16">${user.username!}</p>
 					</div>
 				</div>
 				<div class="border-bottom"></div>
@@ -22,7 +22,7 @@
 						<button type="submit" data-src="modify-email.html" data-title="Jpress安全账号验证"
 							class="layer jp-extend-sub-r btn btn-primary jp-margin-top10">修改</button>
 						<h4 class="jp-margin-top">
-							安全邮箱：<span class="content-author">12321@163.com</span>
+							安全邮箱：<span class="content-author">${user.email!'（您还没设置安全邮箱）'}</span>
 						</h4>
 						<p>安全邮箱可以用登录JPress账号，重置密码或其他安全账号</p>
 					</div>
@@ -35,7 +35,7 @@
 						<button type="submit" data-src="modify-phone.html" data-title="Jpress安全账号验证"
 							class="layer jp-extend-sub-r btn btn-primary jp-margin-top10">修改</button>
 						<h4 class="jp-margin-top">
-							安全手机：<span class="content-author">12564453880</span>
+							安全手机：<span class="content-author">${user.phone!'（您还没设置手机号）'}</span>
 						</h4>
 						<p>安全手机可以用登录JPress账号，重置密码或其他安全账号</p>
 					</div>

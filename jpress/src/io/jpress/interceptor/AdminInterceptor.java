@@ -21,11 +21,19 @@ import io.jpress.utils.HashUtils;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 
 public class AdminInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
+		
+		Controller c = inv.getController();
+		c.setAttr("c", c.getPara("c"));
+		c.setAttr("p", c.getPara("p"));
+		c.setAttr("m", c.getPara("m"));
+		c.setAttr("t", c.getPara("t"));
+		c.setAttr("page", c.getPara("page"));
 		
 		String target = inv.getController().getRequest().getRequestURI();
 		String cpath = inv.getController().getRequest().getContextPath();

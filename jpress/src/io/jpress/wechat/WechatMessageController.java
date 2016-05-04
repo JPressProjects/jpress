@@ -52,6 +52,7 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.template.Module;
+import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/wechat")
@@ -246,7 +247,7 @@ public class WechatMessageController extends MsgController {
 						String searcheKey = null;
 						if (StringUtils.isNotBlank(prefix)) {
 							if (userInput.startsWith(prefix)) {
-								searcheKey = userInput.substring(prefix.length());
+								searcheKey = FileUtils.removePrefix(userInput, prefix);
 							}
 						} else {
 							searcheKey = userInput;

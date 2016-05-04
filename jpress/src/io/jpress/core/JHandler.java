@@ -25,6 +25,7 @@ import io.jpress.core.addon.HookInvoker;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.plugin.router.RouterKit;
+import io.jpress.utils.FileUtils;
 
 public class JHandler extends Handler {
 
@@ -96,7 +97,7 @@ public class JHandler extends Handler {
 			return true;
 		}
 		// 防止直接访问jsp文件页面
-		if (".jsp".equalsIgnoreCase(target.substring(target.lastIndexOf(".")))) {
+		if (".jsp".equalsIgnoreCase(FileUtils.getSuffix(target))) {
 			return true;
 		}
 

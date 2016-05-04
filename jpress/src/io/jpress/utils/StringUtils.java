@@ -5,8 +5,6 @@ import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import com.jfinal.core.ActionException;
-
 public class StringUtils {
 
 	public static String urlDecode(String string) {
@@ -84,19 +82,19 @@ public class StringUtils {
 		}
 		return defaultValue;
 	}
-	
+
 	public static BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		try {
 			if (value == null || "".equals(value.trim()))
 				return defaultValue;
 			value = value.trim();
 			if (value.startsWith("N") || value.startsWith("n"))
-				return  new BigInteger(value).negate();
+				return new BigInteger(value).negate();
 			return new BigInteger(value);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return defaultValue;
 	}
+	
 
 }

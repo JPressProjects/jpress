@@ -31,6 +31,7 @@ import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.AttachmentUtils;
+import io.jpress.utils.FileUtils;
 import io.jpress.utils.ImageUtils;
 
 /**
@@ -81,7 +82,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			for (Thumbnail tb : tbs) {
 				try {
 					String newSrc = ImageUtils.scale(PathKit.getWebRootPath() + newPath, tb.getWidth(), tb.getHeight());
-					processWatermark(newSrc.substring(PathKit.getWebRootPath().length()));
+					processWatermark(FileUtils.removeRootPath(newSrc));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

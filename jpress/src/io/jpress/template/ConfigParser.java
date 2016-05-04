@@ -16,6 +16,7 @@
 package io.jpress.template;
 
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ConfigParser extends DefaultHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		path = configFile.getParent().substring(PathKit.getWebRootPath().length());
+		path = FileUtils.removeRootPath(configFile.getParent());
 		template.setPath(path.replace("\\", "/"));
 		return template;
 	}

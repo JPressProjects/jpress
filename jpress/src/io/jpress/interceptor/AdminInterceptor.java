@@ -27,31 +27,32 @@ public class AdminInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
+
+		Controller controller = inv.getController();
 		
-		Controller c = inv.getController();
-		c.setAttr("c", c.getPara("c"));
-		c.setAttr("p", c.getPara("p"));
-		c.setAttr("m", c.getPara("m"));
-		c.setAttr("t", c.getPara("t"));
-		c.setAttr("page", c.getPara("page"));
-		
-		String target = inv.getController().getRequest().getRequestURI();
-		String cpath = inv.getController().getRequest().getContextPath();
+		String target = controller.getRequest().getRequestURI();
+		String cpath = controller.getRequest().getContextPath();
 
 		if (!target.startsWith(cpath + "/admin")) {
 			inv.invoke();
 			return;
 		}
 
+		controller.setAttr("c", controller.getPara("c"));
+		controller.setAttr("p", controller.getPara("p"));
+		controller.setAttr("m", controller.getPara("m"));
+		controller.setAttr("t", controller.getPara("t"));
+		controller.setAttr("page", controller.getPara("page"));
+
 		User user = InterUtils.tryToGetUser(inv);
 		if (user != null && user.isAdministrator()) {
-			inv.getController().setAttr(Consts.ATTR_USER, user);
-			inv.getController().setAttr("ucode", HashUtils.generateUcode(user));
+			controller.setAttr(Consts.ATTR_USER, user);
+			controller.setAttr("ucode", HashUtils.generateUcode(user));
 			inv.invoke();
 			return;
 		}
 
-		inv.getController().redirect("/admin/login");
+		controller.redirect("/admin/login");
 	}
 
 }

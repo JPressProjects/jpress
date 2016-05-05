@@ -18,14 +18,11 @@ package io.jpress.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -102,7 +99,6 @@ public class HttpUtils {
 	}
 
 	private static String doGet(String strUrl, Map<String, String> headers) throws Exception {
-		strUrl = urlEncode(strUrl, CHAR_SET);
 		HttpURLConnection connection = null;
 		InputStream stream = null;
 		try {
@@ -156,8 +152,9 @@ public class HttpUtils {
 		if (params != null && params.size() > 0) {
 			StringBuilder sbContent = new StringBuilder();
 			for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
-				if (entry.getKey() != null)
-					sbContent.append("&").append(entry.getKey().trim()).append("=").append(entry.getValue());
+				if (entry.getKey() != null && entry.getValue() != null)
+					sbContent.append("&").append(entry.getKey().trim()).append("=")
+							.append(URLEncoder.encode(entry.getValue().toString(), "utf-8"));
 			}
 			return tryToPost(url, sbContent.substring(1), headers);
 
@@ -292,16 +289,5 @@ public class HttpUtils {
 			return true;
 		}
 	};
-
-	public static String urlEncode(String str, String charset) throws UnsupportedEncodingException {
-		Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]+");
-		Matcher mathcer = pattern.matcher(str);
-		StringBuffer buffer = new StringBuffer();
-		while (mathcer.find()) {
-			mathcer.appendReplacement(buffer, URLEncoder.encode(mathcer.group(0), charset));
-		}
-		mathcer.appendTail(buffer);
-		return buffer.toString();
-	}
 
 }

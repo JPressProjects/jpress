@@ -15,8 +15,6 @@
  */
 package io.jpress.notify.sms;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -93,21 +91,13 @@ public class AlidayuSmsSender implements ISmsSender {
 	}
 
 	public static byte[] encryptMD5(String data) {
-		try {
-			return encryptMD5(data.getBytes(CHARSET_UTF8));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static byte[] encryptMD5(byte[] data) throws IOException {
 		byte[] bytes = null;
 		try {
+			bytes = data.getBytes(CHARSET_UTF8);
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			bytes = md.digest(data);
-		} catch (GeneralSecurityException gse) {
-			throw new IOException(gse.toString());
+			bytes = md.digest(bytes);
+		} catch (Exception e) {
+			log.error("AlidayuSmsSender encryptMD5 exception", e);
 		}
 		return bytes;
 	}
@@ -126,7 +116,7 @@ public class AlidayuSmsSender implements ISmsSender {
 
 	public static void main(String[] args) {
 		SmsMessage sms = new SmsMessage();
-		
+
 		sms.setContent("test");
 		sms.setRec_num("186000000000");
 		sms.setTemplate("SMS_6730856");

@@ -34,17 +34,39 @@ public class ContentController extends BaseFrontController {
 	// http://www.xxx.com/c/abc content.slug:abc page:1
 	// http://www.xxx.com/c/abc-2 content.slug:abc page:2
 
+	// http://www.xxx.com/c?id=1&
+
 	public void index() {
-		Content content = tryToGetContent();
-		
+
+		BigInteger id = null;
+		String slug = null;
+		int pageNumber = 0;
+		int pageSize = 0;
+
+		if (isRestFulUrl()) {
+			id = getAttr("_id");
+			slug = getAttr("_slug");
+			pageNumber = getAttrForInt("_pageNumber");
+			pageSize = getAttrForInt("_pageSize");
+		} else {
+			id = getParaToBigInteger("id");
+			slug = getPara("slug");
+			pageNumber = getParaToInt("pageNumber", 1);
+			pageSize = getParaToInt("pageSize", 10);
+		}
+
+		if (id == null && slug == null) {
+			renderError(404);
+			return;
+		}
+
+		Content content = id != null ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(slug));
 		if (null == content) {
 			renderError(404);
 			return;
 		}
 
-		int pageNumber = getParaToInt(1, 1);
-
-		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, 10, content.getId());
+		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
 
 		setAttr("WEB_TITLE", content.getTitle());
 		setAttr("META_KEYWORDS", content.getMetaKeywords());
@@ -53,13 +75,12 @@ public class ContentController extends BaseFrontController {
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
 		setAttr("page", page);
-		setAttr("PAGE_URL",Consts.CONTENT_BASE_URL + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
+		setAttr("PAGE_URL", Consts.CONTENT_BASE_URL + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
-	private Content tryToGetContent() {
-		BigInteger id = StringUtils.toBigInteger(getPara(0), BigInteger.ZERO);
-		return id.compareTo(BigInteger.ZERO) > 0 ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(getPara(0)));
+	private boolean isRestFulUrl() {
+		return getParaCount() > 0;
 	}
 
 }

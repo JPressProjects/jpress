@@ -19,22 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.router.IRouterConverter;
 
-public class PageRouterConverter implements IRouterConverter {
+public class ContentRouter implements IRouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
-		if (Jpress.isInstalled()) {
-			String slug = tryToGetContentSlug(target);
-			if (null != slug) {
-				Content c = Content.DAO.findBySlug(slug);
-				if (c != null && Consts.SYS_MODULE_PAGE.equals(c.getModule())) {
-					bools[0] = true;
-					return Consts.CONTENT_BASE_URL + target;
-				}
+		String slug = tryToGetContentSlug(target);
+		if (null != slug) {
+			Content c = Content.DAO.findBySlug(slug);
+			if (c != null && Consts.SYS_MODULE_PAGE.equals(c.getModule())) {
+				bools[0] = true;
+				return Consts.CONTENT_BASE_URL + target;
 			}
 		}
 
@@ -46,6 +43,11 @@ public class PageRouterConverter implements IRouterConverter {
 		if ("".equals(newTarget))
 			return null;
 		return newTarget.indexOf("/") == -1 ? newTarget : null;
+	}
+
+	public String getSettingType() {
+
+		return null;
 	}
 
 }

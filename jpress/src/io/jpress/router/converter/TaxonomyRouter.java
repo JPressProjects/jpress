@@ -22,16 +22,14 @@ import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.router.IRouterConverter;
 
-public class TaxonomyRouterConverter implements IRouterConverter {
+public class TaxonomyRouter implements IRouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
-		if (Jpress.isInstalled()) {
-			String moduleName = tryToGetModuleName(target);
-			if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
-				bools[0] = true;
-				return Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
-			}
+		String moduleName = tryToGetModuleName(target);
+		if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
+			bools[0] = true;
+			return Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
 		}
 		return null;
 	}

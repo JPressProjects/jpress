@@ -25,8 +25,8 @@ import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
 
-public class RouterKit {
-	private static final Log log = Log.getLog(RouterKit.class);
+public class RouterManager {
+	private static final Log log = Log.getLog(RouterManager.class);
 
 	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
@@ -44,6 +44,9 @@ public class RouterKit {
 	}
 
 	public static String converte(String target, HttpServletRequest request, HttpServletResponse response) {
+		if (!Jpress.isInstalled()) {
+			return target;
+		}
 
 		final Boolean[] bools = new Boolean[] { false };
 		try {

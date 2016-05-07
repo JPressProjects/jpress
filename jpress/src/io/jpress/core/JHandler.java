@@ -24,7 +24,7 @@ import com.jfinal.kit.HandlerKit;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
-import io.jpress.router.RouterKit;
+import io.jpress.router.RouterManager;
 import io.jpress.utils.FileUtils;
 
 public class JHandler extends Handler {
@@ -60,7 +60,7 @@ public class JHandler extends Handler {
 			return;
 		}
 
-		target = RouterKit.converte(target, request, response);
+		target = RouterManager.converte(target, request, response);
 		target = HookInvoker.router_converte(target, request, response);
 
 		next.handle(target, request, response, isHandled);

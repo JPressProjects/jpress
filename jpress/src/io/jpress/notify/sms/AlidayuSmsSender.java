@@ -118,9 +118,9 @@ public class AlidayuSmsSender implements ISmsSender {
 		SmsMessage sms = new SmsMessage();
 
 		sms.setContent("test");
-		sms.setRec_num("186000000000");
+		sms.setRec_num("18600000000");
 		sms.setTemplate("SMS_6730856");
-		sms.setParam("{\"code\":\"1234\",\"product\":\"JPress\",\"customer\":\"杨福海\"}");
+		sms.setParam("{\"code\":\"8888\",\"product\":\"JPress\",\"customer\":\"杨福海\"}");
 		sms.setSign_name("登录验证");
 
 		String retString = new AlidayuSmsSender().send(sms);

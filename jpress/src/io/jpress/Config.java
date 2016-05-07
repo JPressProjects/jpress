@@ -20,9 +20,9 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.ContentListener;
 import io.jpress.plugin.message.listener.SettingChangedListener;
 import io.jpress.plugin.message.listener.UserActionListener;
-import io.jpress.router.RouterKit;
-import io.jpress.router.converter.PageRouterConverter;
-import io.jpress.router.converter.TaxonomyRouterConverter;
+import io.jpress.router.RouterManager;
+import io.jpress.router.converter.ContentRouter;
+import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.ui.freemarker.function.Functions;
 import io.jpress.ui.freemarker.tag.Tags;
 
@@ -35,8 +35,8 @@ public class Config extends JpressConfig {
 		Functions.initInStarted();
 
 		{ // target converters
-			RouterKit.register(TaxonomyRouterConverter.class);
-			RouterKit.register(PageRouterConverter.class);
+			RouterManager.register(TaxonomyRouter.class);
+			RouterManager.register(ContentRouter.class);
 		}
 
 		{ // messageListeners

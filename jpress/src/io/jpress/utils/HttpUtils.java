@@ -18,6 +18,7 @@ package io.jpress.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -51,33 +52,41 @@ public class HttpUtils {
 	public static String get(String url, Map<String, ? extends Object> params, Map<String, String> headers)
 			throws Exception {
 		if (url == null || url.trim().length() == 0) {
-			throw new Exception(TAG + ": get url is null or empty!");
+			throw new Exception(TAG + ": url is null or empty!");
 		}
 
 		if (params != null && params.size() > 0) {
-			if (!url.contains("?"))
+			if (!url.contains("?")) {
 				url += "?";
-
-			StringBuilder sbContent = new StringBuilder();
-			if (url.charAt(url.length() - 1) == '?') { // 最后一个字符是 ?
-				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
-					if (entry.getKey() != null)
-						sbContent.append(entry.getKey().trim()).append("=").append(entry.getValue()).append("&");
-				}
-
-				if (sbContent.charAt(sbContent.length() - 1) == '&') {
-					sbContent.deleteCharAt(sbContent.length() - 1);
-				}
-			} else {
-				for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
-					if (entry.getKey() != null)
-						sbContent.append("&").append(entry.getKey().trim()).append("=").append(entry.getValue());
-				}
 			}
-			url += sbContent.toString();
+
+			if (url.charAt(url.length() - 1) != '?') {
+				url += "&";
+			}
+
+			url += buildParams(params);
 		}
 
 		return tryToGet(url, headers);
+	}
+
+	public static String buildParams(Map<String, ? extends Object> params) throws UnsupportedEncodingException {
+		if (params == null || params.isEmpty()) {
+			return null;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
+			if (entry.getKey() != null && entry.getValue() != null)
+				builder.append(entry.getKey().trim()).append("=")
+						.append(URLEncoder.encode(entry.getValue().toString(), CHAR_SET)).append("&");
+		}
+
+		if (builder.charAt(builder.length() - 1) == '&') {
+			builder.deleteCharAt(builder.length() - 1);
+		}
+
+		return builder.toString();
 	}
 
 	private static String tryToGet(String url, Map<String, String> headers) throws Exception {
@@ -146,18 +155,11 @@ public class HttpUtils {
 	public static String post(String url, Map<String, ? extends Object> params, Map<String, String> headers)
 			throws Exception {
 		if (url == null || url.trim().length() == 0) {
-			throw new Exception(TAG + ": post url is null or empty!");
+			throw new Exception(TAG + ":url is null or empty!");
 		}
 
 		if (params != null && params.size() > 0) {
-			StringBuilder sbContent = new StringBuilder();
-			for (Map.Entry<String, ? extends Object> entry : params.entrySet()) {
-				if (entry.getKey() != null && entry.getValue() != null)
-					sbContent.append("&").append(entry.getKey().trim()).append("=")
-							.append(URLEncoder.encode(entry.getValue().toString(), "utf-8"));
-			}
-			return tryToPost(url, sbContent.substring(1), headers);
-
+			return tryToPost(url, buildParams(params), headers);
 		} else {
 			return tryToPost(url, null, headers);
 		}

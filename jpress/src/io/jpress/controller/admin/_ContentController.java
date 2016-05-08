@@ -137,14 +137,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
-		
+
 		String _editor = getCookie("_editor", "tinymce");
 		setAttr("_editor", _editor);
 
 		super.edit();
 	}
-	
-	public void changeEditor(){
+
+	public void changeEditor() {
 		String name = getPara();
 		setCookie("_editor", name, Integer.MAX_VALUE);
 		renderAjaxResultForSuccess();
@@ -221,7 +221,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		Content content = getContent();
 		if (null == content.getSlug()) {
 			String title = content.getTitle();
-			String slug = title.replace(".", "_").replaceAll("\\s+", "_");
+			String slug = title.replaceAll("(?!_)\\pP|\\pS", "");
 			content.setSlug(slug);
 		}
 

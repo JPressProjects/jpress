@@ -10,7 +10,7 @@
 	<p>建议不要频繁改变此设置，频繁改变会影响到搜索引擎对网站内容的收录。</p>
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
 		<input type="hidden" name="ucode" value="${ucode}"> 
-		<input type="hidden" name="autosave" value="router_content_prefix,router_content_type,router_taxonomy_prefix,router_tag_prefix,router_fakestatic_enable">
+		<input type="hidden" name="autosave" value="router_content_prefix,router_content_type,router_fakestatic_suffix,router_fakestatic_enable">
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-font">内容详情设置</h4>
@@ -87,28 +87,10 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-pad jp-set-font">其他可选</h4>
+				<h4 class="jp-set-pad jp-set-font">伪静态</h4>
 				<p>JPress让。。。</p>
 				<ul class="list-unstyled">
-					<li class="jp-set-pad">
-						<div class="col-sm-3 jp-line-height40 jp-set-font">分类前缀</div>
-						<div class="col-sm-9  jp-set-font-line">
-							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="router_taxonomy_prefix" value="${option('router_taxonomy_prefix')!}">
-							</div>
-						</div>
-						<div class="clr"></div>
-					</li>
-					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-line-height40 jp-set-font">标签前缀</div>
-						<div class="col-sm-9  jp-set-font-line">
-							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="router_tag_prefix" value="${option('router_tag_prefix')!}">
-							</div>
-						</div>
-						<div class="clr"></div>
-					</li>
-
+				
 					<li class="jp-set-pad">
 						<div class="col-sm-3  jp-line-height40 jp-set-font">启用伪静态</div>
 						<div class="col-sm-9  jp-set-font-line">
@@ -119,7 +101,17 @@
 						</div>
 						<div class="clr"></div>
 					</li>
-
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 jp-line-height40 jp-set-font">后缀</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
+								默认是 .html
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
 				</ul>
 			</div>
 		</div>

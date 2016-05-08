@@ -28,9 +28,9 @@ import io.jpress.model.Option;
 import io.jpress.router.IRouterConverter;
 import io.jpress.router.RouterParams;
 import io.jpress.template.Module;
+import io.jpress.utils.StringUtils;
 
 public class ContentRouter extends IRouterConverter {
-
 
 	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
@@ -98,6 +98,19 @@ public class ContentRouter extends IRouterConverter {
 	}
 
 	public static String getRouter(Content content) {
+		String url = getRouterWithoutSuffix(content);
+		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+		if (fakeStaticEnable != null && fakeStaticEnable) {
+			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
+				fakeStaticSuffix = ".html";
+			}
+			url += fakeStaticSuffix;
+		}
+		return url;
+	}
+
+	private static String getRouterWithoutSuffix(Content content) {
 		String settingType = getSettingType();
 		String slugOrId = content.getSlug() != null ? content.getSlug() : content.getId().toString();
 		// 静态模型

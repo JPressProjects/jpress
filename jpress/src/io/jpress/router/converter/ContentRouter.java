@@ -15,8 +15,11 @@
  */
 package io.jpress.router.converter;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,35 +42,44 @@ public class ContentRouter implements IRouterConverter {
 	public static final String TYPE_STATIC_PREFIX = "_static_prefix"; // 静态前缀
 	public static final String TYPE_DYNAMIC = "_dynamic"; // 动态类型
 
+	// http://www.xxx.com/c/123_123
+
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
 
 		String[] targetDirs = parseTarget(target);
-		if (targetDirs == null || targetDirs.length != 2)
+		if (targetDirs == null || targetDirs.length != 2) {
 			return null;
+		}
 
 		String[] params = parseParam(targetDirs[1]);
+		if (params == null || params.length == 0) {
+			return null;
+		}
 
-		String type = getSettingType();
+		String settingType = getSettingType();
 		// 静态模型
-		if (TYPE_STATIC_MODULE.equals(type)) {
+		if (TYPE_STATIC_MODULE.equals(settingType)) {
 			Module m = Jpress.currentTemplate().getModuleByName(targetDirs[0]);
-			if (m != null) {
-				bools[0] = true;
-				buildAttr(request);
-				return Consts.ROUTER_CONTENT;
-			}
+			return m == null ? null : processTarget(request, bools, params);
 		}
 		// 静态日期
-		else if (TYPE_STATIC_DATE.equals(type)) {
-
+		else if (TYPE_STATIC_DATE.equals(settingType)) {
+			return processTarget(request, bools, params);
 		}
 		// 静态前缀
-		else if (TYPE_STATIC_PREFIX.equals(type)) {
-
+		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
+			String prefix = getSettignPrefix();
+			return prefix.equals(targetDirs[0]) ? processTarget(request, bools, params) : null;
 		}
 
 		return null;
+	}
+
+	private String processTarget(HttpServletRequest request, Boolean[] bools, String[] params) {
+		bools[0] = true;
+		buildAttr(request, params);
+		return Consts.ROUTER_CONTENT;
 	}
 
 	public static String getSettingType() {
@@ -85,8 +97,36 @@ public class ContentRouter implements IRouterConverter {
 		return prefix;
 	}
 
-	public static void buildAttr(HttpServletRequest request) {
+	private static void buildAttr(HttpServletRequest request, String[] params) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (int i = 0; i < params.length; i++) {
+			switch (i) {
+			case 0:
+				BigInteger id = tryGetBigInteger(params[i]);
+				if (id != null)
+					map.put("id", id);
+				else
+					map.put("slug", params[i]);
+				break;
+			case 1:
+				map.put("pageNumber", params[i]);
+				break;
+			case 2:
+				map.put("pageSize", params[i]);
+				break;
+			default:
+				break;
+			}
+		}
+		request.setAttribute("_router_map", map);
+	}
 
+	private static BigInteger tryGetBigInteger(String param) {
+		try {
+			return new BigInteger(param);
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	private static String[] parseTarget(String target) {

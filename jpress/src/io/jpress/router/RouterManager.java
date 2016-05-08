@@ -21,12 +21,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jfinal.core.Action;
+import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
 
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
+	private static final String[] urlPara = { null };
 
 	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
@@ -48,7 +51,12 @@ public class RouterManager {
 			return target;
 		}
 
+		Action action = JFinal.me().getAction(target, urlPara);
+		if (action != null) {
+			return target;
+		}
 		final Boolean[] bools = new Boolean[] { false };
+		
 		try {
 			for (IRouterConverter c : converters) {
 				String newTarget = c.converter(target, request, response, bools);

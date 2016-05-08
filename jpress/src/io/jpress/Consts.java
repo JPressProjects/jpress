@@ -39,6 +39,7 @@ public class Consts {
 	public static final String ATTR_PAGE_NUMBER = "_page_number";
 	public static final String ATTR_MUDULE = "_mudule";
 	public static final String ATTR_USER = "_user";
+	public static final String ATTR_ROUTER_ATTRS_MAP = "_router_attrs_map";
 	
 	
 	public static final String MODULE_ARTICLE = "article"; //文章模型

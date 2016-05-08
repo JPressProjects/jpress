@@ -15,7 +15,6 @@
  */
 package io.jpress.router.converter;
 
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.router.IRouterConverter;
-import io.jpress.router.RouterParams;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
@@ -36,8 +34,6 @@ public class ContentRouter extends IRouterConverter {
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
 	public static final String TYPE_STATIC_PREFIX = "_static_prefix"; // 静态前缀
 	public static final String TYPE_DYNAMIC = "_dynamic"; // 动态类型
-
-	// http://www.xxx.com/c/123_123
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -53,19 +49,9 @@ public class ContentRouter extends IRouterConverter {
 			if (TYPE_DYNAMIC.equals(settingType)) {
 				String prefix = getSettignPrefix();
 				return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT : null;
-			} else {
-
-				String slug = targetDirs[0];
-				Content content = Content.DAO.findBySlug(slug);
-				if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
-					RouterParams rp = new RouterParams();
-					rp.id(content.getId());
-					request.setAttribute(Consts.ATTR_ROUTER_ATTRS_MAP, rp);
-					return Consts.ROUTER_CONTENT;
-				}
-
-				return null;
 			}
+
+			return null;
 		}
 
 		String[] params = parseParam(targetDirs[1]);
@@ -77,13 +63,13 @@ public class ContentRouter extends IRouterConverter {
 		// 静态模型
 		if (TYPE_STATIC_MODULE.equals(settingType)) {
 			Module m = Jpress.currentTemplate().getModuleByName(targetDirs[0]);
-			return m == null ? null : processTarget(request, params);
+			return m == null ? null : Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
 		}
 		// 静态日期
 		else if (TYPE_STATIC_DATE.equals(settingType)) {
 			try {
 				Integer.valueOf(targetDirs[0]);
-				return processTarget(request, params);
+				return Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
 			} catch (Exception e) {
 			}
 			return null;
@@ -91,7 +77,7 @@ public class ContentRouter extends IRouterConverter {
 		// 静态前缀
 		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return prefix.equals(targetDirs[0]) ? processTarget(request, params) : null;
+			return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT + SLASH + targetDirs[1] : null;
 		}
 
 		return null;
@@ -99,6 +85,12 @@ public class ContentRouter extends IRouterConverter {
 
 	public static String getRouter(Content content) {
 		String url = getRouterWithoutSuffix(content);
+
+		String settingType = getSettingType();
+		if (TYPE_DYNAMIC.equals(settingType)) {
+			return url;
+		}
+
 		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
 		if (fakeStaticEnable != null && fakeStaticEnable) {
 			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
@@ -130,15 +122,10 @@ public class ContentRouter extends IRouterConverter {
 		// 动态前缀
 		else if (TYPE_DYNAMIC.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return SLASH + prefix + "?id" + content.getId();
+			return prefix + "?id=" + content.getId();
 		} else {
 			return Consts.ROUTER_CONTENT + "?id=" + content.getId();
 		}
-	}
-
-	private String processTarget(HttpServletRequest request, String[] params) {
-		buildAttr(request, params);
-		return Consts.ROUTER_CONTENT;
 	}
 
 	public static String getSettingType() {
@@ -151,33 +138,9 @@ public class ContentRouter extends IRouterConverter {
 
 	public static String getSettignPrefix() {
 		String prefix = Option.findValue("router_content_prefix");
-		if (prefix == null)
+		if (!StringUtils.isNotBlank(prefix))
 			prefix = Consts.ROUTER_CONTENT;
 		return prefix;
-	}
-
-	private static void buildAttr(HttpServletRequest request, String[] params) {
-		RouterParams rp = new RouterParams();
-		for (int i = 0; i < params.length; i++) {
-			switch (i) {
-			case 0:
-				BigInteger id = tryGetBigInteger(params[i]);
-				if (id != null)
-					rp.id(id);
-				else
-					rp.slug(params[i]);
-				break;
-			case 1:
-				rp.pageNumber(params[i]);
-				break;
-			case 2:
-				rp.pageSize(params[i]);
-				break;
-			default:
-				break;
-			}
-		}
-		request.setAttribute(Consts.ATTR_ROUTER_ATTRS_MAP, rp);
 	}
 
 }

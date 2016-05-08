@@ -23,26 +23,64 @@ import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
-import io.jpress.router.RouterParams;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.ROUTER_CONTENT)
 public class ContentController extends BaseFrontController {
 
+	private String slug;
+	private BigInteger id;
+	private int pageNumber;
+	private int pageSize;
+
 	public void index() {
 
-		BigInteger id = null;
-		String slug = null;
-		int pageNumber = 0;
-		int pageSize = 0;
+		initRequest();
 
-		RouterParams _paraMap = getAttr(Consts.ATTR_ROUTER_ATTRS_MAP);
+		Content content = queryContent();
+		if (null == content) {
+			renderError(404);
+			return;
+		}
 
-		if (_paraMap != null && _paraMap.size() > 0) {
-			id = _paraMap.id();
-			slug = _paraMap.slug();
-			pageNumber = _paraMap.pageNumberWithDefault(1);
-			pageSize = _paraMap.pageSizeWithDefault(10);
+		setGlobleAttrs(content);
+
+		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
+		setAttr("pageNumber", pageNumber);
+		setAttr("content", content);
+		setAttr("page", page);
+		
+		
+		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
+	}
+
+	private void setGlobleAttrs(Content content) {
+		setAttr("WEB_TITLE", content.getTitle());
+		setAttr("META_KEYWORDS", content.getMetaKeywords());
+		setAttr("META_DESCRIPTION", content.getMetaDescription());
+		
+		setAttr("PAGE_URL",
+				Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
+	}
+
+	private Content queryContent() {
+		if (id != null) {
+			return Content.DAO.findById(id);
+		} else {
+			return Content.DAO.findBySlug(StringUtils.urlDecode(slug));
+		}
+	}
+
+	private void initRequest() {
+		String idOrSlug = getPara(0);
+		if (StringUtils.isNotBlank(idOrSlug)) {
+			try {
+				id = new BigInteger(idOrSlug);
+			} catch (Exception e) {
+				slug = idOrSlug;
+			}
+			pageNumber = getParaToInt(1, 1);
+			pageSize = getParaToInt(2, 10);
 		} else {
 			id = getParaToBigInteger("id");
 			slug = getPara("slug");
@@ -50,29 +88,6 @@ public class ContentController extends BaseFrontController {
 			pageSize = getParaToInt("pageSize", 10);
 		}
 
-		if (id == null && slug == null) {
-			renderError(404);
-			return;
-		}
-
-		Content content = id != null ? Content.DAO.findById(id) : Content.DAO.findBySlug(StringUtils.urlDecode(slug));
-		if (null == content) {
-			renderError(404);
-			return;
-		}
-
-		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
-
-		setAttr("WEB_TITLE", content.getTitle());
-		setAttr("META_KEYWORDS", content.getMetaKeywords());
-		setAttr("META_DESCRIPTION", content.getMetaDescription());
-
-		setAttr("pageNumber", pageNumber);
-		setAttr("content", content);
-		setAttr("page", page);
-		setAttr("PAGE_URL",
-				Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
-		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
 }

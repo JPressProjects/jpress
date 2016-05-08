@@ -15,11 +15,52 @@
  */
 package io.jpress.router;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface IRouterConverter {
+import com.jfinal.core.JFinal;
 
-	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools);
+import io.jpress.utils.StringUtils;
+
+public abstract class IRouterConverter {
+
+	public static final String URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator();
+	public static final String SLASH = "/";
+
+	public abstract String converter(String target, HttpServletRequest request, HttpServletResponse response);
+
+	public static BigInteger tryGetBigInteger(String param) {
+		try {
+			return new BigInteger(param);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public static String[] parseTarget(String target) {
+		String[] strings = target.split(SLASH);
+		List<String> arrays = new ArrayList<String>();
+		for (String string : strings) {
+			if (StringUtils.isNotBlank(string)) {
+				arrays.add(string);
+			}
+		}
+		return arrays.toArray(new String[] {});
+	}
+
+	public static String[] parseParam(String param) {
+		String[] strings = param.split(URL_PARA_SEPARATOR);
+		List<String> arrays = new ArrayList<String>();
+		for (String string : strings) {
+			if (StringUtils.isNotBlank(string)) {
+				arrays.add(string);
+			}
+		}
+		return arrays.toArray(new String[] {});
+	}
 
 }

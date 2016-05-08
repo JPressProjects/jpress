@@ -25,6 +25,8 @@ import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
+import io.jpress.model.Option;
+import io.jpress.utils.StringUtils;
 
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
@@ -54,6 +56,20 @@ public class RouterManager {
 		// 可能会造成混乱
 		if (JFinal.me().getAction(target, urlPara) != null) {
 			return target;
+		}
+
+		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+		if (fakeStaticEnable != null && fakeStaticEnable) {
+			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+
+			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
+				fakeStaticSuffix = ".html";
+			}
+
+			int index = target.lastIndexOf(fakeStaticSuffix);
+			if (index != -1) {
+				target = target.substring(0, index);
+			}
 		}
 
 		try {

@@ -26,26 +26,24 @@ public class TaxonomyRouter extends IRouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-		String moduleName = tryToGetModuleName(target);
+
+		String[] targetDirs = parseTarget(target);
+
+		if (targetDirs == null || targetDirs.length != 1) {
+			return null;
+		}
+
+		String[] params = parseParam(targetDirs[0]);
+		if (params == null || params.length == 0) {
+			return null;
+		}
+
+		String moduleName = params[0];
 		if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
 			return Consts.ROUTER_TAXONOMY + target.replace(moduleName + "/", moduleName + "-");
 		}
+
 		return null;
-	}
-
-	private String tryToGetModuleName(String target) {
-		String newTarget = target.substring(1);
-		String moduleName = newTarget;
-
-		if (newTarget.indexOf("/") != -1) {
-			moduleName = moduleName.substring(0, moduleName.indexOf("/"));
-		}
-
-		if (moduleName.indexOf("-") != -1) {
-			moduleName = moduleName.substring(0, moduleName.indexOf("-"));
-		}
-
-		return moduleName;
 	}
 
 }

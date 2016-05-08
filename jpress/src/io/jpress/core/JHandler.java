@@ -33,30 +33,34 @@ public class JHandler extends Handler {
 
 		long time = System.currentTimeMillis();
 
-		String cpath = request.getContextPath();
-
-		request.setAttribute("CPATH", cpath);
-		request.setAttribute("SPATH", cpath + "/static");
+		String CPATH = request.getContextPath();
+		request.setAttribute("CPATH", CPATH);
+		request.setAttribute("SPATH", CPATH + "/static");
 		request.setAttribute("URI", request.getRequestURI());
 		request.setAttribute("URL", request.getRequestURL().toString());
 
-		if (target.indexOf('.') != -1) {
-			if (isDisableAccess(target)) {
-				HandlerKit.renderError404(request, response, isHandled);
+		// 程序还没有按照
+		if (!Jpress.isInstalled()) {
+			if (target.indexOf('.') != -1) {
+				return;
 			}
-			return;
-		}
-
-		// 检测是否安装
-		if (!Jpress.isInstalled() && !target.startsWith("/install")) {
-			HandlerKit.redirect(cpath + "/install", request, response, isHandled);
+			if (!target.startsWith("/install")) {
+				processNotInstall(request, response, isHandled);
+			}
 			return;
 		}
 
 		// 安装完成，但还没有加载完成...
 		if (Jpress.isInstalled() && !Jpress.isLoaded()) {
+			if (target.indexOf('.') != -1) {
+				return;
+			}
 			InstallUtils.renderInstallFinished(request, response, isHandled);
 			return;
+		}
+
+		if (isDisableAccess(target)) {
+			HandlerKit.renderError404(request, response, isHandled);
 		}
 
 		target = RouterManager.converte(target, request, response);
@@ -69,11 +73,14 @@ public class JHandler extends Handler {
 		}
 	}
 
-	
+	private void processNotInstall(HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+		String CPATH = request.getContextPath();
+		HandlerKit.redirect(CPATH + "/install", request, response, isHandled);
+	}
 
 	private static boolean isDisableAccess(String target) {
 		// 防止直接访问模板文件
-		if (target.startsWith("/templates") && target.endsWith(".html")) {
+		if (target.endsWith(".html") && target.startsWith("/templates")) {
 			return true;
 		}
 		// 防止直接访问jsp文件页面

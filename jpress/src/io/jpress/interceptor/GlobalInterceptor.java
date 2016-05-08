@@ -21,14 +21,11 @@ import com.jfinal.core.Controller;
 
 import io.jpress.core.Jpress;
 import io.jpress.model.Option;
-import io.jpress.ui.freemarker.tag.Tags;
 
 public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-
-		Tags.initInInterceptor(inv);
 
 		if (Jpress.isInstalled() && Jpress.isLoaded()) {
 			setGlobalAttrs(inv.getController());

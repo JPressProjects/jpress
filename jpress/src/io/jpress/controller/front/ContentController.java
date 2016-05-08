@@ -23,6 +23,7 @@ import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.ui.freemarker.tag.ContentPaginateTag;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.ROUTER_CONTENT)
@@ -45,12 +46,15 @@ public class ContentController extends BaseFrontController {
 
 		setGlobleAttrs(content);
 
-		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
+
+		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
 		setAttr("page", page);
-		
-		
+
+		ContentPaginateTag cpt = new ContentPaginateTag(page,content);
+		setAttr("pagination", cpt);
+
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 
@@ -58,9 +62,6 @@ public class ContentController extends BaseFrontController {
 		setAttr("WEB_TITLE", content.getTitle());
 		setAttr("META_KEYWORDS", content.getMetaKeywords());
 		setAttr("META_DESCRIPTION", content.getMetaDescription());
-		
-		setAttr("PAGE_URL",
-				Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
 	}
 
 	private Content queryContent() {

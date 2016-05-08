@@ -17,93 +17,77 @@ package io.jpress.controller.front;
 
 import java.math.BigInteger;
 
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
-import io.jpress.template.Module;
+import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.ROUTER_TAXONOMY)
 public class TaxonomyController extends BaseFrontController {
 
-	// http://www.xxx.com/t/module-slug-pageNumber.html
-	// http://www.xxx.com/t/module-id-pageNumber.html
-	// http://www.xxx.com/t/article-1-1.html
-	// http://www.xxx.com/t/article-slug1-1.html
-
-	// http://www.xxx.com/t/article module ---> article
-
-	// http://www.xxx.com/t/article-tag1 module ---> article ,slug--->tag1
-	// http://www.xxx.com/t/article-1 module ---> article ,page--->1
-
-	// http://www.xxx.com/t/article-tag1-1 module ---> article ,slug-tag1,
-	// page--->1
-	// http://www.xxx.com/t/article-1-1 module ---> article, id-1, page--->1
+	private String moduleName;
+	private String slug;
+	private int pageNumber;
 
 	public void index() {
-		String moduleName = getPara(0);
-		if (moduleName == null) {
+
+		init();
+
+		Taxonomy taxonomy = tryGetTaxonomy();
+		if (slug != null && taxonomy == null) {
 			renderError(404);
-			return;
 		}
-
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
-		if (module == null) {
-			renderError(404);
-			return;
-		}
-
-		if (getParaCount() >= 2) {
-			if (getPara(1) == null) {
-				renderError(404);
-				return;
-			}
-		}
-
-		Taxonomy taxonomy = null;
-		if (getParaCount() == 2) { // 2 para
-
-			// the 2th para is not number
-			if (StringUtils.toInt(getPara(1), 0) == 0) {
-				taxonomy = Taxonomy.DAO.findBySlugAndModule(StringUtils.urlDecode(getPara(1)), moduleName);
-				if (null == taxonomy) {
-					renderError(404);
-					return;
-				}
-			}
-		} else if (getParaCount() >= 3) { // 3 para
-
-			BigInteger id = StringUtils.toBigInteger(getPara(0), BigInteger.ZERO);
-			if (id.compareTo(BigInteger.ZERO) > 0) {
-				taxonomy = Taxonomy.DAO.findById(id);
-			} else {
-				taxonomy = Taxonomy.DAO.findBySlugAndModule(StringUtils.urlDecode(getPara(1)), moduleName);
-			}
-			if (null == taxonomy) {
-				renderError(404);
-				return;
-			}
-		}
-
-		int pageNumber = StringUtils.toInt(getPara(getParaCount() - 1), 1);
 
 		setAttr(Consts.ATTR_PAGE_NUMBER, pageNumber);
 		setAttr("taxonomy", taxonomy);
-		setAttr("module", module);
-		setAttr("PAGE_URL", getPageUrl(moduleName, taxonomy));
+		setAttr("module", Jpress.currentTemplate().getModuleByName(moduleName));
+
+		BigInteger id = taxonomy == null ? null : taxonomy.getId();
+		Page<Content> page = Content.DAO.doPaginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
+
+		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
+		setAttr("pagination", tpt);
 
 		if (null == taxonomy) {
-			render(String.format("taxonomy_%s.html", module.getName()));
+			render(String.format("taxonomy_%s.html", moduleName));
 		} else {
-			render(String.format("taxonomy_%s_%s.html", module.getName(), taxonomy.getSlug()));
+			render(String.format("taxonomy_%s_%s.html", moduleName, taxonomy.getSlug()));
+		}
+	}
+
+	private Taxonomy tryGetTaxonomy() {
+		return slug == null ? null : Taxonomy.DAO.findBySlugAndModule(slug, moduleName);
+	}
+
+	private void init() {
+		moduleName = getPara(0);
+		if (moduleName == null) {
+			renderError(404);
 		}
 
+		if (Jpress.currentTemplate().getModuleByName(moduleName) == null) {
+			renderError(404);
+		}
+
+		if (getParaCount() == 2) {
+			String pageNumberOrSlug = getPara(1);
+			if (StringUtils.toInt(pageNumberOrSlug, 0) > 0) {
+				pageNumber = StringUtils.toInt(pageNumberOrSlug, 0);
+			} else {
+				slug = pageNumberOrSlug;
+			}
+		}
+		// 3 para
+		else if (getParaCount() >= 3) {
+			slug = getPara(1);
+			pageNumber = getParaToInt(2);
+		}
 	}
 
-	private Object getPageUrl(String moduleName, Taxonomy taxonomy) {
-		String url = "/" + moduleName;
-		return taxonomy == null ? url + "/" : url + "/" + taxonomy.getSlug() + "-";
-	}
 
 }

@@ -1,6 +1,5 @@
 package io.jpress.ui.freemarker.tag;
 
-import com.jfinal.aop.Invocation;
 
 import io.jpress.core.Jpress;
 
@@ -19,8 +18,8 @@ public class Tags {
 		Jpress.addTag("jp_tags", new TagsTag());
 	}
 
-	public static void initInInterceptor(Invocation invocation) {
-		Jpress.addTag("jp_content_page", new ContentPageTag(invocation.getController()));
-	}
+//	public static void initInInterceptor(Invocation invocation) {
+//		Jpress.addTag("jp_content_page", new ContentPageTag(invocation.getController()));
+//	}
 
 }

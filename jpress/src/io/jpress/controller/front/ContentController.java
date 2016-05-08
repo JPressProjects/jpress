@@ -25,7 +25,7 @@ import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = Consts.CONTENT_BASE_URL)
+@UrlMapping(url = Consts.ROUTER_CONTENT)
 public class ContentController extends BaseFrontController {
 
 	// http://www.xxx.com/c/123 content.id:123 page:1
@@ -75,7 +75,7 @@ public class ContentController extends BaseFrontController {
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
 		setAttr("page", page);
-		setAttr("PAGE_URL", Consts.CONTENT_BASE_URL + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
+		setAttr("PAGE_URL", Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}
 

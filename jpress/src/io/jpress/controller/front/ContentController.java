@@ -23,18 +23,11 @@ import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.router.RouterParams;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.ROUTER_CONTENT)
 public class ContentController extends BaseFrontController {
-
-	// http://www.xxx.com/c/123 content.id:123 page:1
-	// http://www.xxx.com/c/123-2 content.id:123 page:2
-
-	// http://www.xxx.com/c/abc content.slug:abc page:1
-	// http://www.xxx.com/c/abc-2 content.slug:abc page:2
-
-	// http://www.xxx.com/c?id=1&
 
 	public void index() {
 
@@ -43,11 +36,13 @@ public class ContentController extends BaseFrontController {
 		int pageNumber = 0;
 		int pageSize = 0;
 
-		if (isRestFulUrl()) {
-			id = getAttr("_id");
-			slug = getAttr("_slug");
-			pageNumber = getAttrForInt("_pageNumber");
-			pageSize = getAttrForInt("_pageSize");
+		RouterParams _paraMap = getAttr(Consts.ATTR_ROUTER_ATTRS_MAP);
+
+		if (_paraMap != null && _paraMap.size() > 0) {
+			id = _paraMap.id();
+			slug = _paraMap.slug();
+			pageNumber = _paraMap.pageNumberWithDefault(1);
+			pageSize = _paraMap.pageSizeWithDefault(10);
 		} else {
 			id = getParaToBigInteger("id");
 			slug = getPara("slug");
@@ -75,12 +70,9 @@ public class ContentController extends BaseFrontController {
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
 		setAttr("page", page);
-		setAttr("PAGE_URL", Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
+		setAttr("PAGE_URL",
+				Consts.ROUTER_CONTENT + "/" + content.getSlug() == null ? content.getId() : content.getSlug() + "-");
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
-	}
-
-	private boolean isRestFulUrl() {
-		return getParaCount() > 0;
 	}
 
 }

@@ -18,9 +18,7 @@ package io.jpress.router.converter;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,12 +30,14 @@ import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.router.IRouterConverter;
+import io.jpress.router.RouterParams;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
 public class ContentRouter implements IRouterConverter {
 
 	private static final String URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator();
+	private static final String SLASH = "/";
 
 	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
@@ -50,17 +50,18 @@ public class ContentRouter implements IRouterConverter {
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
 
 		String[] targetDirs = parseTarget(target);
-		if (targetDirs == null || targetDirs.length != 2) {
-
+		if (targetDirs == null || targetDirs.length == 0) {
 			return null;
 		}
 
-		else if (targetDirs != null || targetDirs.length == 1) {
+		else if (targetDirs != null && targetDirs.length == 1) {
 			String settingType = getSettingType();
 			// 动态前缀
 			if (TYPE_DYNAMIC.equals(settingType)) {
 				String prefix = getSettignPrefix();
 				return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT : null;
+			} else {
+				return null;
 			}
 		}
 
@@ -93,22 +94,22 @@ public class ContentRouter implements IRouterConverter {
 		String slugOrId = content.getSlug() != null ? content.getSlug() : content.getId().toString();
 		// 静态模型
 		if (TYPE_STATIC_MODULE.equals(settingType)) {
-			return "/" + content.getModule() + "/" + slugOrId;
+			return SLASH + content.getModule() + SLASH + slugOrId;
 		}
 		// 静态日期
 		else if (TYPE_STATIC_DATE.equals(settingType)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			return "/" + sdf.format(content.getCreated()) + "/" + slugOrId;
+			return SLASH + sdf.format(content.getCreated()) + SLASH + slugOrId;
 		}
 		// 静态前缀
 		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return "/" + prefix + "/" + slugOrId;
+			return SLASH + prefix + SLASH + slugOrId;
 		}
 		// 动态前缀
 		else if (TYPE_DYNAMIC.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return "/" + prefix + "?id" + content.getId();
+			return SLASH + prefix + "?id" + content.getId();
 		} else {
 			return Consts.ROUTER_CONTENT + "?id=" + content.getId();
 		}
@@ -136,27 +137,27 @@ public class ContentRouter implements IRouterConverter {
 	}
 
 	private static void buildAttr(HttpServletRequest request, String[] params) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		RouterParams rp = new RouterParams();
 		for (int i = 0; i < params.length; i++) {
 			switch (i) {
 			case 0:
 				BigInteger id = tryGetBigInteger(params[i]);
 				if (id != null)
-					map.put("id", id);
+					rp.id(id);
 				else
-					map.put("slug", params[i]);
+					rp.slug(params[i]);
 				break;
 			case 1:
-				map.put("pageNumber", params[i]);
+				rp.pageNumber(params[i]);
 				break;
 			case 2:
-				map.put("pageSize", params[i]);
+				rp.pageSize(params[i]);
 				break;
 			default:
 				break;
 			}
 		}
-		request.setAttribute("_router_map", map);
+		request.setAttribute(Consts.ATTR_ROUTER_ATTRS_MAP, rp);
 	}
 
 	private static BigInteger tryGetBigInteger(String param) {
@@ -168,7 +169,7 @@ public class ContentRouter implements IRouterConverter {
 	}
 
 	private static String[] parseTarget(String target) {
-		String[] strings = target.split("/");
+		String[] strings = target.split(SLASH);
 		List<String> arrays = new ArrayList<String>();
 		for (String string : strings) {
 			if (StringUtils.isNotBlank(string)) {

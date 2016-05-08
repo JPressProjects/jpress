@@ -65,13 +65,13 @@ public class OauthController extends Oauth2Controller {
 	}
 
 	private void doAuthorizeFailure() {
-		redirect(Consts.LOGIN_BASE_URL);
+		redirect(Consts.ROUTER_USER_LOGIN);
 	}
 
 	private void doAuthorizeSuccess(User user) {
 		CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 		MessageKit.sendMessage(Actions.USER_LOGINED, user);
-		redirect(Consts.USER_CENTER_BASE_URL);
+		redirect(Consts.ROUTER_USER_CENTER);
 	}
 
 }

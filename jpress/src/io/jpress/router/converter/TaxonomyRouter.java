@@ -29,7 +29,7 @@ public class TaxonomyRouter implements IRouterConverter {
 		String moduleName = tryToGetModuleName(target);
 		if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
 			bools[0] = true;
-			return Consts.TAXONOMY_BASE_URL + target.replace(moduleName + "/", moduleName + "-");
+			return Consts.ROUTER_TAXONOMY + target.replace(moduleName + "/", moduleName + "-");
 		}
 		return null;
 	}

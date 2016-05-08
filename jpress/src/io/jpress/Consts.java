@@ -21,11 +21,11 @@ public class Consts {
 
 	public static final String SYS_MODULE_PAGE = "page";
 
-	public static final String CONTENT_BASE_URL = "/c";
-	public static final String TAXONOMY_BASE_URL = "/t";
-	public static final String USER_BASE_URL = "/user";
-	public static final String USER_CENTER_BASE_URL = USER_BASE_URL + "/center";
-	public static final String LOGIN_BASE_URL = USER_BASE_URL + "/login";
+	public static final String ROUTER_CONTENT = "/c";
+	public static final String ROUTER_TAXONOMY = "/t";
+	public static final String ROUTER_USER = "/user";
+	public static final String ROUTER_USER_CENTER = ROUTER_USER + "/center";
+	public static final String ROUTER_USER_LOGIN = ROUTER_USER + "/login";
 
 	public static final int ERROR_CODE_NOT_VALIDATE_CAPTHCHE = 1;
 	public static final int ERROR_CODE_USERNAME_EMPTY = 2;

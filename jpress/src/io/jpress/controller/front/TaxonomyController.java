@@ -24,7 +24,7 @@ import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = Consts.TAXONOMY_BASE_URL)
+@UrlMapping(url = Consts.ROUTER_TAXONOMY)
 public class TaxonomyController extends BaseFrontController {
 
 	// http://www.xxx.com/t/module-slug-pageNumber.html

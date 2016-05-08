@@ -31,7 +31,7 @@ import java.util.Date;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 
-@UrlMapping(url = Consts.USER_BASE_URL)
+@UrlMapping(url = Consts.ROUTER_USER)
 @Before(UserInterceptor.class)
 public class UserController extends BaseFrontController {
 
@@ -61,7 +61,7 @@ public class UserController extends BaseFrontController {
 				if (isAjaxRequest()) {
 					renderAjaxResultForError("没有该用户");
 				} else {
-					redirect(Consts.LOGIN_BASE_URL);
+					redirect(Consts.ROUTER_USER_LOGIN);
 				}
 				return;
 			}
@@ -76,7 +76,7 @@ public class UserController extends BaseFrontController {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
 			} else {
-				redirect(Consts.LOGIN_BASE_URL);
+				redirect(Consts.ROUTER_USER_LOGIN);
 			}
 			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 			return;
@@ -91,14 +91,14 @@ public class UserController extends BaseFrontController {
 				if (StringUtils.isNotEmpty(from)) {
 					redirect(from);
 				} else {
-					redirect(Consts.USER_CENTER_BASE_URL);
+					redirect(Consts.ROUTER_USER_CENTER);
 				}
 			}
 		} else {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("密码错误");
 			} else {
-				redirect(Consts.LOGIN_BASE_URL);
+				redirect(Consts.ROUTER_USER_LOGIN);
 			}
 			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}

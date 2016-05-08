@@ -477,7 +477,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getUrl() {
-		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.CONTENT_BASE_URL;
+		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.ROUTER_CONTENT;
 		String slug = getSlug() == null ? getId() + "" : getSlug();
 		return JFinal.me().getContextPath() + start + "/" + slug;
 	}

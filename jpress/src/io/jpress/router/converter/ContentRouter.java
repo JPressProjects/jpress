@@ -102,6 +102,25 @@ public class ContentRouter extends IRouterConverter {
 		return url;
 	}
 
+	public static String getRouter(Content content, int pageNumber) {
+		String url = getRouterWithoutSuffix(content);
+
+		String settingType = getSettingType();
+		if (TYPE_DYNAMIC.equals(settingType)) {
+			return url + "&pageNumber=" + pageNumber;
+		}
+
+		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+		if (fakeStaticEnable != null && fakeStaticEnable) {
+			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
+				fakeStaticSuffix = ".html";
+			}
+			return url + URL_PARA_SEPARATOR + pageNumber + fakeStaticSuffix;
+		}
+		return url + URL_PARA_SEPARATOR + pageNumber;
+	}
+
 	private static String getRouterWithoutSuffix(Content content) {
 		String settingType = getSettingType();
 		String slugOrId = content.getSlug() != null ? content.getSlug() : content.getId().toString();

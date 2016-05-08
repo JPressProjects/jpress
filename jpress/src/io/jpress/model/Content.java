@@ -27,11 +27,11 @@ import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
-import io.jpress.Consts;
 import io.jpress.core.Jdb;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
+import io.jpress.router.converter.ContentRouter;
 import io.jpress.utils.StringUtils;
 
 @Table(tableName = "content", primaryKey = "id")
@@ -477,9 +477,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getUrl() {
-		String start = Consts.SYS_MODULE_PAGE.equalsIgnoreCase(getModule()) ? "" : Consts.ROUTER_CONTENT;
-		String slug = getSlug() == null ? getId() + "" : getSlug();
-		return JFinal.me().getContextPath() + start + "/" + slug;
+		return JFinal.me().getContextPath() + ContentRouter.getRouter(this);
 	}
 
 	public String getFirstImageUrl() {

@@ -21,7 +21,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
@@ -51,19 +50,21 @@ public class RouterManager {
 			return target;
 		}
 
-		Action action = JFinal.me().getAction(target, urlPara);
-		if (action != null) {
+		// 已经有了映射的action，如果让converter去转化这个action
+		// 可能会造成混乱
+		if (JFinal.me().getAction(target, urlPara) != null) {
 			return target;
 		}
+
 		final Boolean[] bools = new Boolean[] { false };
-		
 		try {
 			for (IRouterConverter c : converters) {
 				String newTarget = c.converter(target, request, response, bools);
 				if (bools[0] == true && newTarget != null) {
 					if (Jpress.isDevMode()) {
-						System.err.println(String.format("target\"%s\" was converted to \"%s\" by %s.(%s.java:1)",
-								target, newTarget, c.getClass().getName(), c.getClass().getSimpleName()));
+						String formatString = "target\"%s\" was converted to \"%s\" by %s.(%s.java:1)";
+						System.err.println(String.format(formatString, target, newTarget, c.getClass().getName(),
+								c.getClass().getSimpleName()));
 					}
 					return newTarget;
 				}

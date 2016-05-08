@@ -10,7 +10,9 @@
 	<p>
 		建议不要频繁改变此设置，频繁改变会影响到搜索引擎对网站内容的收录。 
 	</p>
-
+		<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="router_content_prefix,router_content_type,router_taxonomy_prefix,router_tag_prefix,router_fakestatic_enable">
 		<div class="row">
 			<div class="col-xs-12">
 			<h4 class="jp-set-font">内容详情设置</h4>
@@ -25,7 +27,7 @@
 					</div>
 					<div class="col-sm-9  jp-line-height40">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" >
+							<input class="form-control input-md" type="text" name="router_content_prefix" value="${option('router_content_prefix')!}">
 							默认为“c”（content的首字母）
 						</div>
 					</div>
@@ -36,8 +38,8 @@
 					<div class="col-sm-3 ">
 						<div class="radio ">
 							<label class="jp-set-font" > <input
-								id="optinsadios1" type="radio" checked="" value="option1"
-								name="optionsRadios"> 动态前缀类型
+								id="optinsadios1" type="radio"  value="_dynamic"
+								name="router_content_type"> 动态前缀类型
 							</label>
 						</div>
 					</div>
@@ -51,8 +53,8 @@
 					<div class="col-sm-3 ">
 						<div class="radio ">
 							<label class="jp-set-font" > <input
-								id="optinsadios1" type="radio" checked="" value="option1"
-								name="optionsRadios"> 静态前缀类型
+								id="optinsadios1" type="radio"  value="_static_prefix"
+								name="router_content_type"> 静态前缀类型
 							</label>
 						</div>
 					</div>
@@ -66,8 +68,8 @@
 					<div class="col-sm-3 ">
 						<div class="radio ">
 							<label class="jp-set-font" > <input
-								id="optinsadios2" type="radio" checked="" value="option1"
-								name="optionsRadios"> 静态日期类型
+								id="optinsadios2" type="radio"  value="_static_date"
+								name="router_content_type"> 静态日期类型
 							</label>
 						</div>
 					</div>
@@ -80,7 +82,7 @@
 					<div class="col-sm-3 ">
 						<div class="radio ">
 							<label class="jp-set-font" > 
-							<input id="optinsadios3" type="radio" checked="" value="option1" name="optionsRadios">
+							<input id="optinsadios3" type="radio"  value="_static_module" name="router_content_type">
 							  静态模型类型
 							</label>
 						</div>
@@ -107,8 +109,7 @@
 						分类前缀</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text"
-								>
+							<input class="form-control input-md" type="text" name="router_taxonomy_prefix" value="${option('router_taxonomy_prefix')!}">
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -118,8 +119,7 @@
 						标签前缀</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text"
-								>
+							<input class="form-control input-md" type="text" name="router_tag_prefix" value="${option('router_tag_prefix')!}">
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -131,7 +131,7 @@
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<label>
-							<input  type="checkbox" value="true" /> 开启
+							<input  type="checkbox" value="true" name="router_fakestatic_enable"/> 开启
 							</label>
 						</div>
 					</div>
@@ -143,9 +143,10 @@
 		</div>
 		<div class="row">
 		<div class="col-xs-12">
-			<button type="submit" class="btn btn-primary">保存更改</button>
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
 		</div>
 		</div>
+		</form>
 	<!-- /.row -->
 </section>
 <!-- /.content -->

@@ -10,7 +10,9 @@
 	<p>
 		JPress让。。。 
 	</p>
-
+		<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="seo_index_title,seo_index_keywords,seo_index_description">
 		<div class="row">
 		<div class="col-xs-12">
 			<h4 class="jp-set-font">SEO基本设置</h4>
@@ -23,7 +25,7 @@
 					</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<textarea rows="3" class="form-control input-md" ></textarea>
+							<textarea rows="3" class="form-control input-md" name="seo_index_title">${option('seo_index_title')!}</textarea>
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -37,7 +39,7 @@
 					</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<textarea rows="3" class="form-control input-md" ></textarea>
+							<textarea rows="3" class="form-control input-md" name="seo_index_keywords">${option('seo_index_keywords')!}</textarea>
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -51,7 +53,7 @@
 					</div>
 					<div class="col-sm-9  jp-set-font-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<textarea rows="3" class="form-control input-md" ></textarea>
+							<textarea rows="3" class="form-control input-md" name="seo_index_description">${option('seo_index_description')!}</textarea>
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -64,9 +66,10 @@
 		
 		<div class="row">
 		<div class="col-xs-12">
-			<button type="submit" class="btn btn-primary">保存更改</button>
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
 		</div>
 		</div>
+		</form>
 	<!-- /.row -->
 </section>
 <!-- /.content -->

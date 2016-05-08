@@ -56,11 +56,10 @@ public class RouterManager {
 			return target;
 		}
 
-		final Boolean[] bools = new Boolean[] { false };
 		try {
 			for (IRouterConverter c : converters) {
-				String newTarget = c.converter(target, request, response, bools);
-				if (bools[0] == true && newTarget != null) {
+				String newTarget = c.converter(target, request, response);
+				if (newTarget != null) {
 					if (Jpress.isDevMode()) {
 						String formatString = "target\"%s\" was converted to \"%s\" by %s.(%s.java:1)";
 						System.err.println(String.format(formatString, target, newTarget, c.getClass().getName(),

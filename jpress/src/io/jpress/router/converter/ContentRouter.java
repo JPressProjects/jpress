@@ -17,13 +17,9 @@ package io.jpress.router.converter;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jfinal.core.JFinal;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
@@ -32,12 +28,9 @@ import io.jpress.model.Option;
 import io.jpress.router.IRouterConverter;
 import io.jpress.router.RouterParams;
 import io.jpress.template.Module;
-import io.jpress.utils.StringUtils;
 
-public class ContentRouter implements IRouterConverter {
+public class ContentRouter extends IRouterConverter {
 
-	private static final String URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator();
-	private static final String SLASH = "/";
 
 	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
@@ -47,7 +40,7 @@ public class ContentRouter implements IRouterConverter {
 	// http://www.xxx.com/c/123_123
 
 	@Override
-	public String converter(String target, HttpServletRequest request, HttpServletResponse response, Boolean[] bools) {
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
 
 		String[] targetDirs = parseTarget(target);
 		if (targetDirs == null || targetDirs.length == 0) {
@@ -61,6 +54,16 @@ public class ContentRouter implements IRouterConverter {
 				String prefix = getSettignPrefix();
 				return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT : null;
 			} else {
+
+				String slug = targetDirs[0];
+				Content content = Content.DAO.findBySlug(slug);
+				if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
+					RouterParams rp = new RouterParams();
+					rp.id(content.getId());
+					request.setAttribute(Consts.ATTR_ROUTER_ATTRS_MAP, rp);
+					return Consts.ROUTER_CONTENT;
+				}
+
 				return null;
 			}
 		}
@@ -74,16 +77,21 @@ public class ContentRouter implements IRouterConverter {
 		// 静态模型
 		if (TYPE_STATIC_MODULE.equals(settingType)) {
 			Module m = Jpress.currentTemplate().getModuleByName(targetDirs[0]);
-			return m == null ? null : processTarget(request, bools, params);
+			return m == null ? null : processTarget(request, params);
 		}
 		// 静态日期
 		else if (TYPE_STATIC_DATE.equals(settingType)) {
-			return processTarget(request, bools, params);
+			try {
+				Integer.valueOf(targetDirs[0]);
+				return processTarget(request, params);
+			} catch (Exception e) {
+			}
+			return null;
 		}
 		// 静态前缀
 		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return prefix.equals(targetDirs[0]) ? processTarget(request, bools, params) : null;
+			return prefix.equals(targetDirs[0]) ? processTarget(request, params) : null;
 		}
 
 		return null;
@@ -115,8 +123,7 @@ public class ContentRouter implements IRouterConverter {
 		}
 	}
 
-	private String processTarget(HttpServletRequest request, Boolean[] bools, String[] params) {
-		bools[0] = true;
+	private String processTarget(HttpServletRequest request, String[] params) {
 		buildAttr(request, params);
 		return Consts.ROUTER_CONTENT;
 	}
@@ -158,36 +165,6 @@ public class ContentRouter implements IRouterConverter {
 			}
 		}
 		request.setAttribute(Consts.ATTR_ROUTER_ATTRS_MAP, rp);
-	}
-
-	private static BigInteger tryGetBigInteger(String param) {
-		try {
-			return new BigInteger(param);
-		} catch (Exception e) {
-		}
-		return null;
-	}
-
-	private static String[] parseTarget(String target) {
-		String[] strings = target.split(SLASH);
-		List<String> arrays = new ArrayList<String>();
-		for (String string : strings) {
-			if (StringUtils.isNotBlank(string)) {
-				arrays.add(string);
-			}
-		}
-		return arrays.toArray(new String[] {});
-	}
-
-	private static String[] parseParam(String param) {
-		String[] strings = param.split(URL_PARA_SEPARATOR);
-		List<String> arrays = new ArrayList<String>();
-		for (String string : strings) {
-			if (StringUtils.isNotBlank(string)) {
-				arrays.add(string);
-			}
-		}
-		return arrays.toArray(new String[] {});
 	}
 
 }

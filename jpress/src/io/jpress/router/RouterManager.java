@@ -21,7 +21,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
@@ -30,7 +29,6 @@ import io.jpress.utils.StringUtils;
 
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
-	private static final String[] urlPara = { null };
 
 	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
@@ -52,24 +50,32 @@ public class RouterManager {
 			return target;
 		}
 
-		// 已经有了映射的action，如果让converter去转化这个action
-		// 可能会造成混乱
-		if (JFinal.me().getAction(target, urlPara) != null) {
+		if ("/".equals(target)) {
 			return target;
 		}
 
-		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
-		if (fakeStaticEnable != null && fakeStaticEnable) {
+		if (target.startsWith("/admin")) {
+			return target;
+		}
+
+		if (target.indexOf('.') != -1) {
+			Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+			if (fakeStaticEnable == null || !fakeStaticEnable) {
+				return target;
+			}
+
 			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
 
-			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
+			if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
 				fakeStaticSuffix = ".html";
 			}
 
 			int index = target.lastIndexOf(fakeStaticSuffix);
-			if (index != -1) {
-				target = target.substring(0, index);
+			if (-1 == index) {
+				return target;
 			}
+
+			target = target.substring(0, index);
 		}
 
 		try {

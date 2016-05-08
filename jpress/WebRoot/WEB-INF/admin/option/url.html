@@ -7,146 +7,128 @@
 
 <!-- Main content -->
 <section class="content">
-	<p>
-		建议不要频繁改变此设置，频繁改变会影响到搜索引擎对网站内容的收录。 
-	</p>
-		<form action="${CPATH}/admin/option/save" method="POST" id="form">
+	<p>建议不要频繁改变此设置，频繁改变会影响到搜索引擎对网站内容的收录。</p>
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
 		<input type="hidden" name="ucode" value="${ucode}"> 
 		<input type="hidden" name="autosave" value="router_content_prefix,router_content_type,router_taxonomy_prefix,router_tag_prefix,router_fakestatic_enable">
 		<div class="row">
 			<div class="col-xs-12">
-			<h4 class="jp-set-font">内容详情设置</h4>
-			<ul class="list-unstyled">
-			
-				<li class="jp-set-pad">
-					<div class="col-sm-3 ">
-						<div class="radio">
-							<label class="jp-set-font" > 内容详情前缀
-							</label>
+				<h4 class="jp-set-font">内容详情设置</h4>
+				<ul class="list-unstyled">
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio">
+								<label class="jp-set-font"> 内容详情前缀 </label>
+							</div>
 						</div>
-					</div>
-					<div class="col-sm-9  jp-line-height40">
-						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" name="router_content_prefix" value="${option('router_content_prefix')!}">
-							默认为“c”（content的首字母）
+						<div class="col-sm-9  jp-line-height40">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="router_content_prefix" value="${option('router_content_prefix')!}"> 默认为“c”（content的首字母）
+							</div>
 						</div>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-				<li class="jp-set-pad">
-					<div class="col-sm-3 ">
-						<div class="radio ">
-							<label class="jp-set-font" > <input
-								id="optinsadios1" type="radio"  value="_dynamic"
-								name="router_content_type"> 动态前缀类型
-							</label>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-font"> <input type="radio" value="_dynamic" name="router_content_type" ${checked('router_content_type','_dynamic')}> 动态前缀类型
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="col-sm-9  jp-line-height40">
-						<code>http://www.xxx.com/c?id=123</code>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-				<li class="jp-set-pad">
-					<div class="col-sm-3 ">
-						<div class="radio ">
-							<label class="jp-set-font" > <input
-								id="optinsadios1" type="radio"  value="_static_prefix"
-								name="router_content_type"> 静态前缀类型
-							</label>
+						<div class="col-sm-9  jp-line-height40">
+							<code>http://www.xxx.com/c?id=123</code>
 						</div>
-					</div>
-					<div class="col-sm-9  jp-line-height40">
-						<code>http://www.xxx.com/c/123</code>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-				<li class="jp-set-pad">
-					<div class="col-sm-3 ">
-						<div class="radio ">
-							<label class="jp-set-font" > <input
-								id="optinsadios2" type="radio"  value="_static_date"
-								name="router_content_type"> 静态日期类型
-							</label>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-font"> <input type="radio" value="_static_prefix" name="router_content_type" ${checked('router_content_type','_static_prefix')}> 静态前缀类型
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="col-sm-9  jp-line-height40">
-						<code>http://www.xxx.com/20160501/123</code>
-					</div>
-					<div class="clr"></div>
-				</li>
-				<li class="jp-set-pad">
-					<div class="col-sm-3 ">
-						<div class="radio ">
-							<label class="jp-set-font" > 
-							<input id="optinsadios3" type="radio"  value="_static_module" name="router_content_type">
-							  静态模型类型
-							</label>
+						<div class="col-sm-9  jp-line-height40">
+							<code>http://www.xxx.com/c/123</code>
 						</div>
-					</div>
-					<div class="col-sm-9  jp-line-height40">
-						<code>http://www.xxx.com/article/123 (or) /forum/123</code>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-			</ul>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-font"> <input id="optinsadios2" type="radio" value="_static_date" name="router_content_type" ${checked('router_content_type','_static_date')}> 静态日期类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  jp-line-height40">
+							<code>http://www.xxx.com/20160501/123</code>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-font"> <input id="optinsadios3" type="radio" value="_static_module" name="router_content_type" ${checked('router_content_type','_static_module')}> 静态模型类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  jp-line-height40">
+							<code>http://www.xxx.com/article/123 (or) /forum/123</code>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
 			</div>
 			<!-- /.box -->
 		</div>
 		<div class="row">
-		<div class="col-xs-12">
-			<h4 class="jp-set-pad jp-set-font">其他可选</h4>
-			<p>
-				JPress让。。。 
-			</p>
-			<ul class="list-unstyled">
-				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-line-height40 jp-set-font">
-						分类前缀</div>
-					<div class="col-sm-9  jp-set-font-line">
-						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" name="router_taxonomy_prefix" value="${option('router_taxonomy_prefix')!}">
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-font">其他可选</h4>
+				<p>JPress让。。。</p>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3 jp-line-height40 jp-set-font">分类前缀</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="router_taxonomy_prefix" value="${option('router_taxonomy_prefix')!}">
+							</div>
 						</div>
-					</div>
-					<div class="clr"></div>
-				</li>
-				<li class="jp-set-pad">
-					<div class="col-sm-3  jp-line-height40 jp-set-font">
-						标签前缀</div>
-					<div class="col-sm-9  jp-set-font-line">
-						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" name="router_tag_prefix" value="${option('router_tag_prefix')!}">
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-line-height40 jp-set-font">标签前缀</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="router_tag_prefix" value="${option('router_tag_prefix')!}">
+							</div>
 						</div>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-				<li class="jp-set-pad">
-					<div class="col-sm-3  jp-line-height40 jp-set-font">
-						启用伪静态</div>
-					<div class="col-sm-9  jp-set-font-line">
-						<div class="col-sm-6 jp-table-distance-top ">
-							<label>
-							<input  type="checkbox" value="true" name="router_fakestatic_enable"/> 开启
-							</label>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-line-height40 jp-set-font">启用伪静态</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label> <input type="checkbox" value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> 开启
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="clr"></div>
-				</li>
-				
-			</ul>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
 			</div>
 		</div>
 		<div class="row">
-		<div class="col-xs-12">
-			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			<div class="col-xs-12">
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			</div>
 		</div>
-		</div>
-		</form>
+	</form>
 	<!-- /.row -->
 </section>
 <!-- /.content -->

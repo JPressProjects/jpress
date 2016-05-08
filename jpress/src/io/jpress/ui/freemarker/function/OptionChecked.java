@@ -17,6 +17,7 @@ package io.jpress.ui.freemarker.function;
 
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.Option;
+import io.jpress.utils.StringUtils;
 
 public class OptionChecked extends JFunction {
 
@@ -26,14 +27,24 @@ public class OptionChecked extends JFunction {
 		if (key == null)
 			return "";
 
+		String value = getToString(1);
+		if (StringUtils.isNotBlank(value)) {
+			String setting = Option.findValue(key);
+			if (value.equals(setting)) {
+				return "checked=\"checked\"";
+			} else {
+				return "";
+			}
+		}
+
 		if (key.startsWith("!")) {
-			Boolean value = tryToGetBool(key.substring(1));
-			if (value != null && !value) {
+			Boolean bool = tryToGetBool(key.substring(1));
+			if (bool != null && !bool) {
 				return "checked=\"checked\"";
 			}
 		} else {
-			Boolean value = tryToGetBool(key);
-			if (value != null && value) {
+			Boolean bool = tryToGetBool(key);
+			if (bool != null && bool) {
 				return "checked=\"checked\"";
 			}
 		}

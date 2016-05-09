@@ -88,7 +88,11 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JModel<M> implemen
 	}
 
 	public java.math.BigInteger getId() {
-		return get("id");
+		Object id = get("id");
+		if (id == null)
+			return null;
+
+		return id instanceof BigInteger ? (BigInteger)id : new BigInteger(id.toString());
 	}
 
 	public void setUsername(java.lang.String username) {

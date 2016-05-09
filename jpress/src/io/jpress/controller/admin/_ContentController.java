@@ -226,7 +226,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 
 		if (slug != null) {
-			slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[$,，？-?、；;:!]", "_");
+			slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
 			slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
 		}
 

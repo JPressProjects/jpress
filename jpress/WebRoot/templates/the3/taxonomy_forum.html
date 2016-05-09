@@ -16,12 +16,14 @@
                     <span class="jp-right forum-send">发表新主题</span>
                 </p>
             </header>
+            
+            <#list page.getList() as content>
             <article class="forum-content clearfix">
                 <div class="border-top"></div>
                 <div class="row forum-box">
                     <div class="col-xs-12 col-md-9">
                         <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
+                        <h4 class="jp-margin-top"><a href="${content.url!}">${content.title!}</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
                         <h6><span class="content-author">大宏</span>
                             <span class="release-time">2016-02-03</span>
                         </h6>
@@ -38,148 +40,12 @@
                     </div>
                 </div>
             </article>
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <article class="forum-content clearfix">
-                <div class="border-top"></div>
-                <div class="row forum-box">
-                    <div class="col-xs-12 col-md-9">
-                        <img class="portrait" src="imgs/photo3.jpg"/>
-                        <h4 class="jp-margin-top"><a>民航专家张起淮：“我判断，这次飞机的客观因素</a><span class="font-ag forum-post">热贴</span><span class="font-ag forum-best">精华</span><span class="font-ag forum-commend">推荐</span></h4>
-                        <h6><span class="content-author">大宏</span>
-                            <span class="release-time">2016-02-03</span>
-                        </h6>
-                    </div>
-                    <div class="col-md-3 display-none-992">
-                        <div class="row">
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-eye fa-lg"></i>5</span>
-                            </div>
-                            <div class="col-xs-6 jp-common text-center forum-comment">
-                                <span class=" display-none-768"><i class="fa fa-comment-o fa-lg"></i>6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
+			 </#list>
 
         </section>
         <aside class="col-md-3 display-none-992 main-side jp-common">
             <section class="side-tag">
-                <h4 class=" jp-margin-top"><span class="side-cloro"></span>热门标签</h4>
-                <ul class="list-inline jp-common"><li><a>google</a></li><li><a>fackbook</a></li><li><a>苹果</a></li>
-                    <li><a>google</a></li><li><a>小米</a></li><li><a>fackbook</a></li><li><a>苹果</a></li>
-                    <li><a>google</a></li><li><a>fackbook</a></li><li><a>苹果</a></li>
-                    <li><a>google</a></li><li><a>小米</a></li><li><a>fackbook</a></li><li><a>苹果</a></li></ul>
+                <#include "_inc/_hot_tags.html"/> 
             </section>
             <section class="side-tag">
                 <h4 class=" jp-margin-top"><span class="side-cloro"></span>热文</h4>

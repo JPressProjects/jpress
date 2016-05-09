@@ -49,7 +49,8 @@ public class TaxonomyController extends BaseFrontController {
 
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();
 		Page<Content> page = Content.DAO.doPaginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
-
+		setAttr("page", page);
+		
 		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
 		setAttr("pagination", tpt);
 
@@ -73,8 +74,12 @@ public class TaxonomyController extends BaseFrontController {
 		if (Jpress.currentTemplate().getModuleByName(moduleName) == null) {
 			renderError(404);
 		}
+		
+		if(getParaCount() == 1){
+			pageNumber = 1;
+		}
 
-		if (getParaCount() == 2) {
+		else if (getParaCount() == 2) {
 			String pageNumberOrSlug = getPara(1);
 			if (StringUtils.toInt(pageNumberOrSlug, 0) > 0) {
 				pageNumber = StringUtils.toInt(pageNumberOrSlug, 0);

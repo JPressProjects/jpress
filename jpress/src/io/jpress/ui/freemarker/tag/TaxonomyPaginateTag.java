@@ -109,7 +109,7 @@ public class TaxonomyPaginateTag extends JTag {
 			pages.add(new PaginateItem(next, getUrl(currentPage + 1), "下一页"));
 		}
 
-		setVariable("pages", pages);
+		setVariable("pageItems", pages);
 		renderBody();
 	}
 

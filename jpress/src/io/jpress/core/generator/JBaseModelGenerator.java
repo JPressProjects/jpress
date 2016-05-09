@@ -15,7 +15,9 @@
  */
 package io.jpress.core.generator;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
+import com.jfinal.plugin.activerecord.generator.ColumnMeta;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 
 public class JBaseModelGenerator extends BaseModelGenerator {
@@ -125,6 +127,26 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 	protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
 		ret.append(String.format(classDefineTemplate, tableMeta.baseModelName,
 				tableMeta.baseModelName, tableMeta.name, tableMeta.name));
+	}
+	
+	protected String idGetterTemplate =
+			"\tpublic java.math.BigInteger getId() {%n" +
+				"\t\tObject id = get(\"id\");%n" +
+				"\t\tif (id == null)%n" +
+				"\t\t\treturn null;%n%n" +
+				"\t\treturn id instanceof BigInteger ? (BigInteger)id : new BigInteger(id.toString());%n" +
+			"\t}%n%n";
+	
+	
+	@Override
+	protected void genGetMethodName(ColumnMeta columnMeta, StringBuilder ret) {
+		if("id".equals(columnMeta.attrName)){
+			ret.append(String.format(idGetterTemplate));
+		}else{
+			String getterMethodName = "get" + StrKit.firstCharToUpperCase(columnMeta.attrName);
+			String getter = String.format(getterTemplate, columnMeta.javaType, getterMethodName, columnMeta.name);
+			ret.append(getter);
+		}
 	}
 
 }

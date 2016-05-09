@@ -88,7 +88,11 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JModel<M> im
 	}
 
 	public java.math.BigInteger getId() {
-		return get("id");
+		Object id = get("id");
+		if (id == null)
+			return null;
+
+		return id instanceof BigInteger ? (BigInteger)id : new BigInteger(id.toString());
 	}
 
 	public void setParentId(java.math.BigInteger parentId) {

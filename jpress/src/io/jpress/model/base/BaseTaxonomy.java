@@ -88,7 +88,11 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 	}
 
 	public java.math.BigInteger getId() {
-		return get("id");
+		Object id = get("id");
+		if (id == null)
+			return null;
+
+		return id instanceof BigInteger ? (BigInteger)id : new BigInteger(id.toString());
 	}
 
 	public void setTitle(java.lang.String title) {

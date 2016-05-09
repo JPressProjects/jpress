@@ -88,7 +88,11 @@ public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JModel<M> 
 	}
 
 	public java.math.BigInteger getId() {
-		return get("id");
+		Object id = get("id");
+		if (id == null)
+			return null;
+
+		return id instanceof BigInteger ? (BigInteger)id : new BigInteger(id.toString());
 	}
 
 	public void setMetaKey(java.lang.String metaKey) {

@@ -43,11 +43,13 @@ public class ProcesserInvoker {
 
 		String key = replyContent.substring(0, replyContent.indexOf("]") + 1);
 		String config = replyContent.substring(replyContent.indexOf("]") + 1);
-
 		Class<? extends IMessageProcesser> clazz = map.get(key);
+		if (clazz == null) {
+			return null;
+		}
 		try {
 			IMessageProcesser processer = clazz.newInstance();
-			processer.onConfig(config);
+			processer.onInit(config);
 			return processer;
 		} catch (Exception e) {
 			log.warn("wechat ProcesserInvoker getProcesser error", e);

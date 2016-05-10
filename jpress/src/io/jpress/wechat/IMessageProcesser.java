@@ -22,5 +22,5 @@ public interface IMessageProcesser {
 	
 	public OutMsg process(InMsg message); 
 	
-	public void onConfig(String configInfo);
+	public void onInit(String configInfo);
 }

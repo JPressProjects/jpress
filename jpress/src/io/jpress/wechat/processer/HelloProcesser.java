@@ -7,20 +7,22 @@ import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jpress.wechat.IMessageProcesser;
 import io.jpress.wechat.Reply;
 
-@Reply(key = "simple")
-public class SimpleProcesser implements IMessageProcesser {
+@Reply(key = "hello")
+public class HelloProcesser implements IMessageProcesser {
 
+	@Override
+	public void onInit(String configInfo) {
+		
+		
+	}
+	
 	@Override
 	public OutMsg process(InMsg message) {
 		OutTextMsg out = new OutTextMsg(message);
-		out.setContent("SimpleProcesser...");
+		out.setContent("hello...");
 		return out;
 	}
 
-	@Override
-	public void onConfig(String configInfo) {
-		
-		
-	}
+	
 
 }

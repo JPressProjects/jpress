@@ -184,104 +184,13 @@ public class WechatMessageController extends MsgController {
 	private void processTextReplay(InMsg message, String userInput) {
 
 		// 多客服的相关处理
-		{
-
-			String dkf_quit_key = Option.findValue("wechat_dkf_quit_key");
-			if (StringUtils.isNotBlank(dkf_quit_key) && dkf_quit_key.equals(userInput)) {
-				CacheKit.remove("wechat_dkf", message.getFromUserName());
-
-				String quit_message = Option.findValue("wechat_dkf_quit_message");
-				OutTextMsg otm = new OutTextMsg(message);
-				otm.setContent(quit_message);
-				render(otm);
-
-				return;
-			}
-
-			Boolean isInDkf = CacheKit.get("wechat_dkf", message.getFromUserName());
-			if (isInDkf != null && isInDkf == true) {
-
-				// 重新更新ehcache存储的开始时间，5分钟后失效。
-				{
-					CacheKit.remove("wechat_dkf", message.getFromUserName());
-					CacheKit.put("wechat_dkf", message.getFromUserName(), true);
-				}
-
-				OutCustomMsg outCustomMsg = new OutCustomMsg(message);
-				render(outCustomMsg);
-				return;
-			}
-
-			String dkf_enter_key = Option.findValue("wechat_dkf_enter_key");
-			if (StringUtils.isNotBlank(dkf_enter_key) && dkf_enter_key.equals(userInput)) {
-				// ehcache的过期时间为5分钟，如果用户5分钟未咨询，自动失效。
-				CacheKit.put("wechat_dkf", message.getFromUserName(), true);
-
-				// 进入多客服
-				String quit_message = Option.findValue("wechat_dkf_enter_message");
-				OutTextMsg otm = new OutTextMsg(message);
-				otm.setContent(quit_message);
-				render(otm);
-
-				return;
-			}
+		if (dkfProcess(message, userInput)) {
+			return;
 		}
 
 		// 搜索相关
-		{
-			List<Module> modules = Jpress.currentTemplate().getModules();
-			if (modules != null && modules.size() > 0) {
-				for (Module module : modules) {
-
-					// 是否启用搜索
-					Boolean bool = Option.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
-					if (bool != null && bool) {
-
-						// 搜索关键字 前缀
-						String prefix = Option.findValue(String.format("wechat_search_%s_prefix", module.getName()));
-
-						String searcheKey = null;
-						if (StringUtils.isNotBlank(prefix)) {
-							if (userInput.startsWith(prefix)) {
-								searcheKey = FileUtils.removePrefix(userInput, prefix);
-							}
-						} else {
-							searcheKey = userInput;
-						}
-
-						// 开始搜索
-						if (searcheKey != null) {
-
-							// 搜索结果数量
-							Integer count = Option
-									.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
-							if (count == null || count <= 0 || count > 10) {
-								count = 10;
-							}
-
-							List<Content> contents = Content.DAO.searchByModuleAndTitle(module.getName(), searcheKey,
-									count);
-							if (contents != null && contents.size() > 0) {
-								OutNewsMsg out = new OutNewsMsg(message);
-								for (Content content : contents) {
-									News news = new News();
-									news.setTitle(content.getTitle());
-									news.setDescription(content.getSummary());
-									news.setPicUrl(content.getFirstImageUrl());
-									news.setUrl(content.getUrl());
-									out.addNews(news);
-								}
-								render(out);
-							} else {
-								// 搜索不到内容时
-								processDefaultReplay("wechat_search_none_content", message);
-							}
-
-							return;
-						}
-					}
-				}
-			}
+		if (searchProcess(message, userInput)) {
+			return;
 		}
 
 		Content content = Content.DAO.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
@@ -293,6 +202,123 @@ public class WechatMessageController extends MsgController {
 		}
 	}
 
+	/**
+	 * 搜索相关处理
+	 * 
+	 * @param message
+	 * @param userInput
+	 * @return
+	 */
+	private boolean searchProcess(InMsg message, String userInput) {
+		List<Module> modules = Jpress.currentTemplate().getModules();
+		if (modules != null && modules.size() > 0) {
+			for (Module module : modules) {
+
+				// 是否启用搜索
+				Boolean bool = Option.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
+				if (bool != null && bool) {
+
+					// 搜索关键字 前缀
+					String prefix = Option.findValue(String.format("wechat_search_%s_prefix", module.getName()));
+
+					String searcheKey = null;
+					if (StringUtils.isNotBlank(prefix)) {
+						if (userInput.startsWith(prefix)) {
+							searcheKey = FileUtils.removePrefix(userInput, prefix);
+						}
+					} else {
+						searcheKey = userInput;
+					}
+
+					// 开始搜索
+					if (searcheKey != null) {
+
+						// 搜索结果数量
+						Integer count = Option
+								.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
+						if (count == null || count <= 0 || count > 10) {
+							count = 10;
+						}
+
+						List<Content> contents = Content.DAO.searchByModuleAndTitle(module.getName(), searcheKey,
+								count);
+						if (contents != null && contents.size() > 0) {
+							OutNewsMsg out = new OutNewsMsg(message);
+							for (Content content : contents) {
+								News news = new News();
+								news.setTitle(content.getTitle());
+								news.setDescription(content.getSummary());
+								news.setPicUrl(content.getFirstImageUrl());
+								news.setUrl(content.getUrl());
+								out.addNews(news);
+							}
+							render(out);
+						} else {
+							// 搜索不到内容时
+							processDefaultReplay("wechat_search_none_content", message);
+						}
+
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 多客服相关处理
+	 * 
+	 * @param message
+	 * @param userInput
+	 * @return
+	 */
+	private boolean dkfProcess(InMsg message, String userInput) {
+		String dkf_quit_key = Option.findValue("wechat_dkf_quit_key");
+		if (StringUtils.isNotBlank(dkf_quit_key) && dkf_quit_key.equals(userInput)) {
+			CacheKit.remove("wechat_dkf", message.getFromUserName());
+
+			String quit_message = Option.findValue("wechat_dkf_quit_message");
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent(quit_message);
+			render(otm);
+
+			return true;
+		}
+
+		Boolean isInDkf = CacheKit.get("wechat_dkf", message.getFromUserName());
+		if (isInDkf != null && isInDkf == true) {
+
+			// 重新更新ehcache存储的开始时间，5分钟后失效。
+			{
+				CacheKit.remove("wechat_dkf", message.getFromUserName());
+				CacheKit.put("wechat_dkf", message.getFromUserName(), true);
+			}
+
+			OutCustomMsg outCustomMsg = new OutCustomMsg(message);
+			render(outCustomMsg);
+			return true;
+		}
+
+		String dkf_enter_key = Option.findValue("wechat_dkf_enter_key");
+		if (StringUtils.isNotBlank(dkf_enter_key) && dkf_enter_key.equals(userInput)) {
+			// ehcache的过期时间为5分钟，如果用户5分钟未咨询，自动失效。
+			CacheKit.put("wechat_dkf", message.getFromUserName(), true);
+
+			// 进入多客服
+			String quit_message = Option.findValue("wechat_dkf_enter_message");
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent(quit_message);
+			render(otm);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	
+	
 	private void processDefaultReplay(String optionKey, InMsg message) {
 
 		String replyContent = Option.findValue(optionKey);

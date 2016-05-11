@@ -4,7 +4,6 @@
 <section class="content-header">
 	<h1>微信设置</h1>
 </section>
-
 <!-- Main content -->
 <section class="content">
 	<p>JPress让。。。</p>
@@ -15,48 +14,111 @@
 			<div class="col-xs-12">
 				<h4 class="jp-set-font">常规选项</h4>
 				<ul class="list-unstyled">
-				
+
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">
-								 开启API
-							</div>
+							<div class="  jp-set-font-line jp-set-font ">开启API</div>
 						</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox"  name="api_enable" value="true" ${checked('api_enable')}  >开启API</label>
-							</div>
-						</div>
-						<div class="clr"></div>
-					</li>
-					
-					<li class="jp-set-pad">
-						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">CDN域名</div>
-						</div>
-						<div class="col-sm-9  jp-set-font-line">
-							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}">
+								<label><input class=" " type="checkbox" name="api_enable" value="true"${checked('api_enable')}  >开启API</label>
 							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
 
-					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">排除文件</div>
-						<div class="col-sm-9  jp-set-font-line">
-							<div class="col-sm-6 jp-table-distance-top ">
-								<textarea name="cdn_exclude_files" rows="3" class="form-control input-md" placeholder="多个文件多行填写">${option('cdn_exclude_files')!}</textarea>
-							</div>
-						</div>
-						<div class="clr"></div>
-					</li>
 				</ul>
 			</div>
 			<!-- /.box -->
 		</div>
 		<div class="row">
-			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-font">应用列表</h4>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>应用名称</th>
+							<th style="width: 10%">app key</th>
+							<th style="width: 10%">app secret</i></th>
+							<th style="width: 10%">启用</i></th>
+							<th style="width: 10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="jp-onmouse">
+							<td><input name="dataItem" type="checkbox" value="x"></td>
+							<td><strong> <a href="#">爱自由行</a></strong></td>
+							<td>xlksjdlkfjslkj</td>
+							<td>slkjdflskjdfsl</td>
+							<td>xx</td>
+						</tr>
+
+						<#if page??> <#list page.getList() as bean>
+						<tr class="jp-onmouse">
+							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
+							<td><strong> <a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong></td>
+							<td>${(bean.username)!}</td>
+							<td>${bean.commentCount}</td>
+							<td>${bean.created!}</td>
+						</tr>
+						</#list> </#if>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>应用名称</th>
+							<th style="width: 10%">app key</th>
+							<th style="width: 10%">app secret</i></th>
+							<th style="width: 10%">启用</i></th>
+							<th style="width: 10%">操作</th>
+						</tr>
+					</tfoot>
+				</table>
+				<p>添加应用</p>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-font-line jp-set-font">应用名称</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP KEY</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP SECRET</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-font-line jp-set-font ">是否上线</div>
+						</div>
+						<div class="col-sm-9  jp-set-font-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="api_enable" value="true"${checked('api_enable')}  >上线</label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
 		</div>
 		<!-- /.row -->
 	</form>

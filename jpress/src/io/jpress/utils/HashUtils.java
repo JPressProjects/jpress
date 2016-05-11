@@ -50,9 +50,9 @@ public class HashUtils extends HashKit {
 	}
 
 	public static void main(String[] args) {
-		// System.out.println(md5WithSalt("123456","123"));
+		 System.out.println(md5WithSalt("123456","123"));
 		// 51e34a82801b3a98396e, d632686d14972f3
-		System.out.println(md5WithSalt("xxx", "d632686d14972f3"));
+//		System.out.println(md5WithSalt("xxx", "d632686d14972f3"));
 	}
 
 }

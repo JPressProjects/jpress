@@ -317,8 +317,6 @@ public class WechatMessageController extends MsgController {
 		return false;
 	}
 
-	
-	
 	private void processDefaultReplay(String optionKey, InMsg message) {
 
 		String replyContent = Option.findValue(optionKey);

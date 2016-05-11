@@ -50,11 +50,11 @@ public class JGenerator {
 		
 		String modelPackage = basePackage+".model";
 		String baseModelPackage = basePackage+".model.base";
-		String adminControllerPackage = basePackage+".controller.admin";
+//		String adminControllerPackage = basePackage+".controller.admin";
 		
 		String modelDir = PathKit.getWebRootPath() + "/../src/"+modelPackage.replace(".", "/");
 		String baseModelDir = PathKit.getWebRootPath() + "/../src/"+baseModelPackage.replace(".", "/");
-		String adminControllerDir = PathKit.getWebRootPath() + "/../src/"+adminControllerPackage.replace(".", "/");
+//		String adminControllerDir = PathKit.getWebRootPath() + "/../src/"+adminControllerPackage.replace(".", "/");
 		
 		
 		List<TableMeta> tableMetaList = new MetaBuilder(getDataSource()).build();

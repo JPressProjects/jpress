@@ -33,6 +33,15 @@ public class HashUtils extends HashKit {
 	}
 
 	public static boolean verlifyUser(User user, String password) {
+		if (user == null)
+			return false;
+
+		if (user.getPassword() == null)
+			return false;
+
+		if (user.getSalt() == null) {
+			return false;
+		}
 		return user.getPassword().equals(md5WithSalt(password, user.getSalt()));
 	}
 

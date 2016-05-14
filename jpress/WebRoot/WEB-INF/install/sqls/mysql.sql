@@ -6,6 +6,7 @@
 # ************************************************************
 
 
+
 # Dump of table attachment
 # ------------------------------------------------------------
 
@@ -25,7 +26,7 @@ CREATE TABLE `{table_prefix}attachment` (
   KEY `created` (`created`),
   KEY `suffix` (`suffix`),
   KEY `mime_type` (`mime_type`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -52,6 +53,7 @@ CREATE TABLE `{table_prefix}comment` (
   `status` varchar(32) DEFAULT NULL,
   `vote_up` int(11) unsigned DEFAULT '0',
   `vote_down` int(11) unsigned DEFAULT '0',
+  `flag` varchar(256) DEFAULT NULL,
   `lat` decimal(20,16) DEFAULT NULL,
   `lng` decimal(20,16) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -63,7 +65,7 @@ CREATE TABLE `{table_prefix}comment` (
   KEY `parent_id` (`parent_id`),
   KEY `content_module` (`content_module`),
   KEY `comment_count` (`comment_count`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -91,13 +93,11 @@ CREATE TABLE `{table_prefix}content` (
   `comment_count` int(11) unsigned DEFAULT '0',
   `view_count` int(11) unsigned DEFAULT '0',
   `created` datetime DEFAULT NULL,
-  `created_gmt` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_gmt` datetime DEFAULT NULL,
   `slug` varchar(128) DEFAULT NULL,
   `flag` varchar(256) DEFAULT NULL,
-  `lat` decimal(20,16) DEFAULT NULL,
   `lng` decimal(20,16) DEFAULT NULL,
+  `lat` decimal(20,16) DEFAULT NULL,
   `meta_keywords` varchar(256) DEFAULT NULL,
   `meta_description` varchar(256) DEFAULT NULL,
   `remarks` text,
@@ -110,7 +110,7 @@ CREATE TABLE `{table_prefix}content` (
   KEY `vote_down` (`vote_down`),
   KEY `vote_up` (`vote_up`),
   KEY `view_count` (`view_count`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -126,7 +126,7 @@ CREATE TABLE `{table_prefix}mapping` (
   PRIMARY KEY (`id`),
   KEY `taxonomy_id` (`taxonomy_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -142,7 +142,7 @@ CREATE TABLE `{table_prefix}metadata` (
   `object_type` varchar(32) DEFAULT NULL,
   `object_id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -156,7 +156,7 @@ CREATE TABLE `{table_prefix}option` (
   `option_key` varchar(128) DEFAULT NULL,
   `option_value` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -173,9 +173,11 @@ CREATE TABLE `{table_prefix}taxonomy` (
   `type` varchar(32) DEFAULT NULL,
   `content_module` varchar(32) DEFAULT NULL,
   `content_count` int(11) unsigned DEFAULT '0',
+  `order_number` int(11) DEFAULT NULL,
   `parent_id` bigint(20) unsigned DEFAULT NULL,
   `template` varchar(128) DEFAULT NULL,
   `object_id` bigint(20) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   `lat` decimal(20,16) DEFAULT NULL,
   `lng` decimal(20,16) DEFAULT NULL,
   `meta_keywords` varchar(256) DEFAULT NULL,
@@ -183,8 +185,9 @@ CREATE TABLE `{table_prefix}taxonomy` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `object_id` (`object_id`),
-  KEY `content_module` (`content_module`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
+  KEY `content_module` (`content_module`),
+  KEY `created` (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -220,5 +223,4 @@ CREATE TABLE `{table_prefix}user` (
   UNIQUE KEY `cell_number` (`phone`),
   KEY `status` (`status`),
   KEY `created` (`created`)
-) ENGINE=InnoDB DEFAULT CHARSET={charset};
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

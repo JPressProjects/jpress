@@ -223,6 +223,14 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JModel<M> im
 		return get("vote_down");
 	}
 
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+
+	public java.lang.String getFlag() {
+		return get("flag");
+	}
+
 	public void setLat(java.math.BigDecimal lat) {
 		set("lat", lat);
 	}

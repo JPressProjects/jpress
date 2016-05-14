@@ -231,28 +231,12 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("created");
 	}
 
-	public void setCreatedGmt(java.util.Date createdGmt) {
-		set("created_gmt", createdGmt);
-	}
-
-	public java.util.Date getCreatedGmt() {
-		return get("created_gmt");
-	}
-
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
 
 	public java.util.Date getModified() {
 		return get("modified");
-	}
-
-	public void setModifiedGmt(java.util.Date modifiedGmt) {
-		set("modified_gmt", modifiedGmt);
-	}
-
-	public java.util.Date getModifiedGmt() {
-		return get("modified_gmt");
 	}
 
 	public void setSlug(java.lang.String slug) {

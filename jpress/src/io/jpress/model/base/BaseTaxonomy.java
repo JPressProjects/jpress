@@ -143,6 +143,14 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return get("content_count");
 	}
 
+	public void setOrderNumber(java.lang.Integer orderNumber) {
+		set("order_number", orderNumber);
+	}
+
+	public java.lang.Integer getOrderNumber() {
+		return get("order_number");
+	}
+
 	public void setParentId(java.math.BigInteger parentId) {
 		set("parent_id", parentId);
 	}
@@ -165,6 +173,14 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 
 	public java.math.BigInteger getObjectId() {
 		return get("object_id");
+	}
+
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+
+	public java.util.Date getCreated() {
+		return get("created");
 	}
 
 	public void setLat(java.math.BigDecimal lat) {

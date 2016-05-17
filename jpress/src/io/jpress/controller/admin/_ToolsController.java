@@ -24,5 +24,10 @@ public class _ToolsController extends JBaseController {
 	public void index() {
 		
 	}
+	
+	public void druid() {
+		
+	}
 
+	
 }

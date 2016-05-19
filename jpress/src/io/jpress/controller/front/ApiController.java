@@ -27,14 +27,20 @@ public class ApiController extends JBaseController {
 		if (null != id) {
 			setAttr("content", Content.DAO.findById(id));
 		}
-		List<Content> contents = Content.DAO.findByModule("apiApp");
+		List<Content> contents = Content.DAO.findByModule("apiApplication");
 		setAttr("contents", contents);
 		render("/WEB-INF/admin/option/api.html");
 	}
 
 	@ActionKey("/admin/api/save")
 	public void save() {
-		render("/WEB-INF/admin/option/api.html");
+		Content c = getModel(Content.class);
+		if (c != null) {
+			c.saveOrUpdate();
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
 	}
 
 }

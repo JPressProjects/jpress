@@ -51,4 +51,12 @@ public class Mapping extends BaseMapping<Mapping> {
 		});
 	}
 
+	public long findCountByTaxonomyId(BigInteger id) {
+		return doFindCount("taxonomy_id = ?", id);
+	}
+
+	public long findCountByContentId(BigInteger id) {
+		return doFindCount("content_id = ?", id);
+	}
+
 }

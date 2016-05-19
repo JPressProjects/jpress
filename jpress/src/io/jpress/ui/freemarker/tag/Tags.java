@@ -5,7 +5,7 @@ import io.jpress.core.Jpress;
 
 public class Tags {
 
-	public static void initInStarted() {
+	public static void init() {
 		Jpress.addTag("jp_content", new ContentTag());
 		Jpress.addTag("jp_contents", new ContentsTag());
 
@@ -18,8 +18,5 @@ public class Tags {
 		Jpress.addTag("jp_tags", new TagsTag());
 	}
 
-//	public static void initInInterceptor(Invocation invocation) {
-//		Jpress.addTag("jp_content_page", new ContentPageTag(invocation.getController()));
-//	}
 
 }

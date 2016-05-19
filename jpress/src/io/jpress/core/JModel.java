@@ -105,11 +105,11 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		return findFirstByCache(cacheName, key, createSelectWhereSql() + where, params);
 	}
 
-	public long doFindCount() {
+	public Long doFindCount() {
 		return doFindCount(null);
 	}
 
-	public long doFindCount(String whereSQL, Object... params) {
+	public Long doFindCount(String whereSQL, Object... params) {
 		String sql = DbDialectFactory.getDbDialect().forSelectCount(getTableName());
 		final StringBuilder sqlBuilder = new StringBuilder(sql);
 		if (null != whereSQL && !"".equals(whereSQL.trim())) {

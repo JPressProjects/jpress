@@ -8,7 +8,7 @@
 <section class="content">
 	<p>JPress让。。。</p>
 
-	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+	<form action="${CPATH}/admin/api/save" method="POST" id="form">
 		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="api_enable">
 		<div class="row">
 			<div class="col-xs-12">
@@ -45,23 +45,17 @@
 						</tr>
 					</thead>
 					<tbody>
+						<#if contents ??>
+						<#list contents as content>
 						<tr class="jp-onmouse">
-							<td><strong> <a href="#">爱自由行</a></strong></td>
-							<td>xlksjdlkfjslkj</td>
-							<td>slkjdflskjdfsl</td>
-							<td>已经启用</td>
+							<td><strong>${content.flag!}</strong></td>
+							<td>${content.title!}</td>
+							<td>${content.text!}</td>
+							<td>${content.status!}</td>
 							<td>关闭 修改 删除</td>
 						</tr>
-
-						<#if page??> <#list page.getList() as bean>
-						<tr class="jp-onmouse">
-							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
-							<td><strong> <a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong></td>
-							<td>${(bean.username)!}</td>
-							<td>${bean.commentCount}</td>
-							<td>${bean.created!}</td>
-						</tr>
-						</#list> </#if>
+						</#list> 
+						</#if>
 					</tbody>
 					<tfoot>
 						<tr>
@@ -79,7 +73,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用名称</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text">
+								<input class="form-control input-md" type="text" name="content.flag">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -88,7 +82,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP KEY</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text">
+								<input class="form-control input-md" type="text" name="content.title">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -97,7 +91,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP SECRET</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text">
+								<input class="form-control input-md" type="text" name="content.text">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -108,12 +102,11 @@
 						</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox" name="api_enable" value="true"${checked('api_enable')}  >上线</label>
+								<label><input class=" " type="checkbox" name="content.status" value="enable"  >上线</label>
 							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
-
 				</ul>
 			</div>
 		</div>

@@ -15,39 +15,32 @@
  */
 package io.jpress.plugin.message.listener;
 
+import java.math.BigInteger;
+
+import io.jpress.model.Taxonomy;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
 
-public class ContentListener implements MessageListener {
-
-	static Object lock = new Object();
-
+public class ContentCountUpdateListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
-
-		// 文章添加到数据库
-		if (Actions.CONTENT_ADD.equals(message.getAction())) {
-			
-		}
-
-		// 文章被更新
-		else if (Actions.CONTENT_UPDATE.equals(message.getAction())) {
-			
-		}
-		
-		// 文章被删除
-		else if (Actions.CONTENT_DELETE.equals(message.getAction())) {
-			
+		BigInteger[] ids = message.getData();
+		if (ids != null && ids.length > 0) {
+			for (int i = 0; i < ids.length; i++) {
+				Taxonomy t = Taxonomy.DAO.findById(ids[i]);
+				long count = t.findContentCount();
+				if (count != 0) {
+					t.setContentCount(count);
+					t.saveOrUpdate();
+				}
+			}
 		}
 	}
 
-
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.CONTENT_ADD);
-		messageAction.register(Actions.CONTENT_UPDATE);
-		messageAction.register(Actions.CONTENT_DELETE);
+		messageAction.register(Actions.CONTENT_COUNT_UPDATE);
 	}
 
 }

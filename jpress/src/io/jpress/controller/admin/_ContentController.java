@@ -54,7 +54,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 		setAttr("module", Jpress.currentTemplate().getModuleByName(getModuleName()));
-
 		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
 		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
 		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));

@@ -86,9 +86,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public List<Taxonomy> findListByModuleAndType(String module, String type) {
 		return doFind("content_module = ? and type = ?", module, type);
 	}
-	
-	public List<Taxonomy> findListByModuleAndType(String module, String type,int limit) {
-		return doFind("content_module = ? and type = ? limit ?", module, type,limit);
+
+	public List<Taxonomy> findListByModuleAndType(String module, String type, int limit) {
+		return doFind("content_module = ? and type = ? limit ?", module, type, limit);
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
@@ -129,8 +129,8 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return find(sql, type, contentId);
 	}
 
-	public Taxonomy findBySlugAndModule(String slug,String module) {
-		return doFindFirst("slug = ? and content_module=?", slug,module);
+	public Taxonomy findBySlugAndModule(String slug, String module) {
+		return doFindFirst("slug = ? and content_module=?", slug, module);
 	}
 
 	public List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
@@ -139,6 +139,11 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 
 	public List<Taxonomy> findListTagByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(TYPE_TAG, contentId);
+	}
+
+	public long findContentCount() {
+		Long count = Mapping.DAO.findCountByTaxonomyId(getId());
+		return count == null ? 0 : count;
 	}
 
 }

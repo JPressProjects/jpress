@@ -1,5 +1,22 @@
 <#include "../_inc/_layout.html"/> 
-<#include "_option_script.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				if(data.errorCode == 0){
+					location.href="${CPATH}/admin/api?p=option&c=api";
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
 	<h1>微信设置</h1>
@@ -9,7 +26,9 @@
 	<p>JPress让。。。</p>
 
 	<form action="${CPATH}/admin/api/save" method="POST" id="form">
-		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="api_enable">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="content.module" value="apiApplication">
+		<input type="hidden" name="content.id" value="${(content.id)!}">
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-font">常规选项</h4>
@@ -52,7 +71,10 @@
 							<td>${content.title!}</td>
 							<td>${content.text!}</td>
 							<td>${content.status!}</td>
-							<td>关闭 修改 删除</td>
+							<td>
+							关闭 
+							<a href="${CPATH}/admin/api?p=option&c=api&id=${content.id!}">修改</a> 
+							删除</td>
 						</tr>
 						</#list> 
 						</#if>
@@ -73,7 +95,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用名称</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="content.flag">
+								<input class="form-control input-md" type="text" name="content.flag" value="${(content.flag)!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -82,7 +104,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP KEY</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="content.title">
+								<input class="form-control input-md" type="text" name="content.title" value="${(content.title)!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -91,7 +113,7 @@
 						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP SECRET</div>
 						<div class="col-sm-9  jp-set-font-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="content.text">
+								<input class="form-control input-md" type="text" name="content.text" value="${(content.text)!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -110,11 +132,12 @@
 				</ul>
 			</div>
 		</div>
+		</form>
 		<div class="row">
 			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
 		</div>
 		<!-- /.row -->
-	</form>
+	
 </section>
 <!-- /.content -->
 

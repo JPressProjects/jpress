@@ -15,8 +15,11 @@
  */
 package io.jpress.plugin.search.searcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.jpress.core.Jpress;
+import io.jpress.model.Content;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
 
@@ -44,12 +47,25 @@ public class DbSearcher implements ISearcher {
 
 	@Override
 	public List<SearcherBean> search(String keyword) {
-		return null;
+		return search(keyword, 1, 100);
 	}
 
 	@Override
-	public List<SearcherBean> search(String queryString, int pageNum, int pageSize) {
-		return null;
+	public List<SearcherBean> search(String keyword, int pageNum, int pageSize) {
+		
+		String[] modules = Jpress.currentTemplate().getModules().toArray(new String[] {});
+		
+		List<Content> list = Content.DAO.findListInNormal(pageNum, pageSize, "created DESC", keyword, null, null,
+				modules, null, null, null, null, null, null);
+
+		List<SearcherBean> datas = null;
+		if (list != null) {
+			datas = new ArrayList<SearcherBean>();
+			for (Content c : list) {
+				datas.add(new SearcherBean(c));
+			}
+		}
+		return datas;
 	}
 
 }

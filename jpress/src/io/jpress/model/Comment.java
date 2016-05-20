@@ -33,7 +33,7 @@ public class Comment extends BaseComment<Comment> {
 		String select = " select c.*,content.title content_title,u.username";
 		String sqlExceptSelect = " from comment c " 
 				+ "left join content on c.content_id = content.id "
-				+ "left join `user` u on c.user_id = u.id " 
+				+ "left join user u on c.user_id = u.id " 
 				+ "where c.content_module = ? "
 				+ "and c.`type` = ? "
 				+ "order by c.created";
@@ -46,7 +46,7 @@ public class Comment extends BaseComment<Comment> {
 		String select = " select c.*,content.title content_title,u.username";
 		String sqlExceptSelect = " from comment c " 
 				+ "left join content on c.content_id = content.id "
-				+ "left join `user` u on c.user_id = u.id " 
+				+ "left join user u on c.user_id = u.id " 
 				+ "where c.content_id = ? " + "order by c.created";
 
 		return paginate(pageNumber, pageSize, select, sqlExceptSelect, contentId);

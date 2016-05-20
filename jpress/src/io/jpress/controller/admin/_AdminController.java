@@ -17,7 +17,6 @@ package io.jpress.controller.admin;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
-import com.jfinal.plugin.ehcache.CacheKit;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
@@ -60,7 +59,7 @@ public class _AdminController extends JBaseController {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
-			
+
 			renderAjaxResultForSuccess("登陆成功");
 		} else {
 			renderAjaxResultForError("密码错误");

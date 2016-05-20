@@ -30,5 +30,5 @@ public interface ISearcher {
 
 	public List<SearcherBean> search(String keyword) throws IOException;
 
-	public List<SearcherBean> search(String queryString, int pageNum, int pageSize) throws IOException;
+	public List<SearcherBean> search(String queryString, int pageNum, int pageSize);
 }

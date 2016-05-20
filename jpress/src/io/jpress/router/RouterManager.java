@@ -21,6 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
@@ -29,7 +30,7 @@ import io.jpress.utils.StringUtils;
 
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
-
+	static String[] urlPara = {null};
 	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
 
 	public static void register(Class<? extends IRouterConverter> clazz) {
@@ -53,8 +54,9 @@ public class RouterManager {
 		if ("/".equals(target)) {
 			return target;
 		}
-
-		if (target.startsWith("/admin")) {
+		
+		//为安全起见，也防止路由混乱，禁止已经存在的路由被重写（暂时）
+		if (JFinal.me().getAction(target, urlPara) != null) {
 			return target;
 		}
 

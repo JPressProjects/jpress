@@ -30,7 +30,7 @@ import io.jpress.template.TemplateUtils;
 public class Jpress {
 
 	public static void start() {
-		start(8080);
+		start(8082);
 	}
 
 	public static void start(int port) {

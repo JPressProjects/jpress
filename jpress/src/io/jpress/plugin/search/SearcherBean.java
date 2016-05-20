@@ -15,6 +15,8 @@
  */
 package io.jpress.plugin.search;
 
+import io.jpress.model.Content;
+
 public class SearcherBean {
 
 	private String sid;
@@ -35,10 +37,9 @@ public class SearcherBean {
 		this.otherInfo = otherInfo;
 	}
 
-	// public SearcherBean(Document doc){
-	// this(doc.get("sid"), doc.get("title"), doc.get("description"),
-	// doc.get("content"), doc.get("otherInfo"), doc.get("type"));
-	// }
+	public SearcherBean(Content content) {
+		this(content.getId().toString(), content.getTitle(), content.getText(), content.getText(), null, null);
+	}
 
 	public String getSid() {
 		return sid;
@@ -79,36 +80,5 @@ public class SearcherBean {
 	public void setOtherInfo(String otherInfo) {
 		this.otherInfo = otherInfo;
 	}
-
-	// public Document toDocument() {
-	// Document document = new Document();
-	// FieldType idFieldType = createIdFieldType();
-	// Field idField = new Field("sid", getSid(), idFieldType);
-	// Field titleField = new Field("title", getTitle(), TextField.TYPE_STORED);
-	// Field descriptionField = new Field("description", getDescription(),
-	// TextField.TYPE_STORED);
-	// Field contentField = new Field("content", getContent(),
-	// TextField.TYPE_STORED);
-	// Field otherInfoField = new Field("otherInfo", getContent(),
-	// TextField.TYPE_STORED);
-	// Field typeField = new Field("type", getType(), TextField.TYPE_STORED);
-	//
-	// document.add(idField);
-	// document.add(titleField);
-	// document.add(descriptionField);
-	// document.add(contentField);
-	// document.add(otherInfoField);
-	// document.add(typeField);
-	// return document;
-	// }
-
-	// private static FieldType createIdFieldType() {
-	// FieldType fieldType = new FieldType();
-	// fieldType.setIndexed(true);// 是否索引
-	// fieldType.setStored(true);// 是否存储
-	// fieldType.setTokenized(false);// 是否分类
-	// fieldType.setOmitNorms(false);
-	// return fieldType;
-	// }
 
 }

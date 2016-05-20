@@ -15,7 +15,6 @@
  */
 package io.jpress.plugin.search.searcher;
 
-import java.io.IOException;
 import java.util.List;
 
 import io.jpress.plugin.search.ISearcher;
@@ -50,7 +49,7 @@ public class SolrSearcher implements ISearcher {
 	}
 
 	@Override
-	public List<SearcherBean> search(String queryString, int pageNum, int pageSize) throws IOException {
+	public List<SearcherBean> search(String queryString, int pageNum, int pageSize) {
 		return null;
 	}
 

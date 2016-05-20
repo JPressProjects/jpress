@@ -34,6 +34,10 @@ import io.jpress.utils.StringUtils;
 public class _AdminController extends JBaseController {
 
 	public void index() {
+		
+		
+		
+		
 		render("index.html");
 	}
 

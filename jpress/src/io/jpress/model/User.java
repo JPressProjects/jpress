@@ -32,7 +32,7 @@ public class User extends BaseUser<User> {
 
 	public Page<User> doPaginateWithContent(int pageNumber, int pageSize) {
 		String select = "select u.*,count(c.id) as content_count ";
-		String sqlExceptSelect = "from `user` u left join `content` c on u.id = c.user_id group by u.id";
+		String sqlExceptSelect = "from user u left join content c on u.id = c.user_id group by u.id";
 		return paginate(pageNumber, pageSize, true, select, sqlExceptSelect);
 	}
 

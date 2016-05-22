@@ -13,13 +13,13 @@
 		<input type="hidden" name="autosave" value="router_content_prefix,router_content_type,router_fakestatic_suffix,router_fakestatic_enable">
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-font">内容详情设置</h4>
+				<h4 class="jp-set-title">内容详情设置</h4>
 				<ul class="list-unstyled">
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio">
-								<label class="jp-set-font"> 内容详情前缀 </label>
+								<label class="jp-set-title"> 内容详情前缀 </label>
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
@@ -33,7 +33,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-font"> <input type="radio" value="_dynamic" name="router_content_type" ${checked('router_content_type','_dynamic')}> 动态前缀类型
+								<label class="jp-set-info"> <input type="radio" value="_dynamic" name="router_content_type" ${checked('router_content_type','_dynamic')}> 动态前缀类型
 								</label>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-font"> <input type="radio" value="_static_prefix" name="router_content_type" ${checked('router_content_type','_static_prefix')}> 静态前缀类型
+								<label class="jp-set-info"> <input type="radio" value="_static_prefix" name="router_content_type" ${checked('router_content_type','_static_prefix')}> 静态前缀类型
 								</label>
 							</div>
 						</div>
@@ -59,7 +59,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-font"> <input id="optinsadios2" type="radio" value="_static_date" name="router_content_type" ${checked('router_content_type','_static_date')}> 静态日期类型
+								<label class="jp-set-info"> <input id="optinsadios2" type="radio" value="_static_date" name="router_content_type" ${checked('router_content_type','_static_date')}> 静态日期类型
 								</label>
 							</div>
 						</div>
@@ -71,7 +71,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-font"> <input id="optinsadios3" type="radio" value="_static_module" name="router_content_type" ${checked('router_content_type','_static_module')}> 静态模型类型
+								<label class="jp-set-info"> <input id="optinsadios3" type="radio" value="_static_module" name="router_content_type" ${checked('router_content_type','_static_module')}> 静态模型类型
 								</label>
 							</div>
 						</div>
@@ -87,15 +87,15 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-pad jp-set-font">伪静态</h4>
+				<h4 class="jp-set-pad jp-set-title">伪静态</h4>
 				<p>JPress让。。。</p>
 				<ul class="list-unstyled">
 				
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-line-height40 jp-set-font">启用伪静态</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-line-height40 jp-set-info">启用伪静态</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label> <input type="checkbox" value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> 开启
+								<label> <input type="checkbox" value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
 								</label>
 							</div>
 						</div>
@@ -103,8 +103,8 @@
 					</li>
 					
 					<li class="jp-set-pad">
-						<div class="col-sm-3 jp-line-height40 jp-set-font">后缀</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3 jp-line-height40 jp-set-info"> <span class="jp-set-info"> 后缀</span></div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
 								默认是 .html

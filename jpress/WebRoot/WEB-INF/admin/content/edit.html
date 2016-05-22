@@ -137,7 +137,7 @@ function doAjax(url){
  $('#_${taxonomyType.name}').tagEditor();
 </#list>
 </#if>
-//$.fn.editable.defaults.mode = 'inline';
+$.fn.editable.defaults.mode = 'inline';
 $('#titleurl').editable();
 </#macro> 
 <#macro script_import>
@@ -215,15 +215,26 @@ $('#titleurl').editable();
 								</li>
 
 							</ul>
-							<div class="tab-content jp-aside-hg">
+							<div class="tab-content jp-aside-hg ">
 								<div class="tab-pane active jp-left-margv35" id="tab_1">
-								Flag: <input type="text" name="content.flag" value="${(content.flag)!}">
-								作者: <input type="text" name="username" value="${(content.username)!}">
+								<div class="jp-prop-input">
+									Flag: <input type="text" name="content.flag" value="${(content.flag)!}">
+								</div>
+								<div class="jp-prop-input">
+									作者: <input type="text" name="username" value="${(content.username)!}">
+								</div>
 								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="tab_seo">
-									META 关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
-									META 描述: <input type="text" name="content.meta_description" value="${(content.meta_description)!}">
+								<div class="tab-pane jp-prop-box" id="tab_seo">
+								<div class="jp-prop-input">
+									关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
+								</div>
+								
+								<div class="jp-prop-input">
+									描述: 
+									<input type="text" name="content.meta_description" value="${(content.meta_description)!}">
+								</div>
+				
 								</div>
 								<#if module.styles ??>
 								<div class="tab-pane" id="tab_style">
@@ -243,11 +254,18 @@ $('#titleurl').editable();
 									</#list>
 								</div>
 								</#if>
-								<div class="tab-pane" id="tab_position">
+								<div class="tab-pane jp-prop-box" id="tab_position">
+								<div class="jp-prop-input">
 								经度: <input type="text" name="content.lng" value="${(content.lng)!}">
+								</div>
+								<div class="jp-prop-input">
 								纬度: <input type="text" name="content.lat" value="${(content.lat)!}">
 								</div>
-								<div class="tab-pane" id="tab_remarks">备注: <input type="text" name="content.remarks" value="${(content.remarks)!}"></div>
+								</div>
+								<div class="tab-pane jp-prop-box" id="tab_remarks">
+								<span class="jp-prop-text">备注: </span>
+								<textarea rows="5"   name="content.remarks">${(content.remarks)!}</textarea>
+								</div>
 								<div class="tab-pane" id="tab_metadata">元数据</div>
 								<!-- /.tab-pane -->
 							</div>

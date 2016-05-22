@@ -13,18 +13,18 @@
 		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="cdn_enable,cdn_domain,cdn_exclude_files">
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-font">常规选项</h4>
+				<h4 class="jp-set-title">常规选项</h4>
 				<ul class="list-unstyled">
 				
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">
+							<div class="  jp-set-info ">
 								 开启CDN
 							</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  >开启CDN</label>
+								<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  > <span class="jp-set-info"> 开启CDN</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -32,9 +32,9 @@
 					
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">CDN域名</div>
+							<div class="  jp-set-info ">CDN域名</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}">
 							</div>
@@ -43,8 +43,8 @@
 					</li>
 
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">排除文件</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">排除文件</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<textarea name="cdn_exclude_files" rows="3" class="form-control input-md" placeholder="多个文件多行填写">${option('cdn_exclude_files')!}</textarea>
 							</div>
@@ -56,7 +56,9 @@
 			<!-- /.box -->
 		</div>
 		<div class="row">
+			<div class="col-xs-12">
 			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			</div>
 		</div>
 		<!-- /.row -->
 	</form>

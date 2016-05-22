@@ -11,8 +11,8 @@
 	<div class="box-body no-padding">
 		<ul class="nav ">
 			<li class="jp-release-set">
-				<div class="col-xs-12 jp-cancel-pad">
-					<img  src="${(content.thumbnail)!}" id="thumbnail" class="jp-grids-photos img-responsive"/>
+				<div class="col-xs-12 jp-cancel-pad jp-content-thumbnail-box">
+					<img  src="${(content.thumbnail)!CPATH+'/static/jpress/admin/image/nothumbnail.jpg'}" id="thumbnail" class="jp-content-thumbnail"/>
 					<input type="hidden" name="content.thumbnail" value="${(content.thumbnail)!}" id="content_thumbnail">
 				</div>
 				<div class="clr"></div>

@@ -19,7 +19,7 @@ function doSubmit(){
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>微信设置</h1>
+	<h1>API应用设置</h1>
 </section>
 <!-- Main content -->
 <section class="content">
@@ -31,16 +31,16 @@ function doSubmit(){
 		<input type="hidden" name="content.id" value="${(content.id)!}">
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-font">常规选项</h4>
+				<h4 class="jp-set-title">常规选项</h4>
 				<ul class="list-unstyled">
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">开启API</div>
+							<div class="jp-set-info ">开启API</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9 ">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox" name="api_enable" value="true"${checked('api_enable')}  >开启API</label>
+								<label><input class=" " type="checkbox" name="api_enable" value="true"${checked('api_enable')}> <span class="jp-set-info">开启API</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -52,7 +52,10 @@ function doSubmit(){
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-pad jp-set-font">应用列表</h4>
+				<h4 class="jp-set-pad jp-set-title">应用列表</h4>
+				<div class="box ">
+				<!-- /.box-header -->
+				<div class="box-body">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -89,11 +92,18 @@ function doSubmit(){
 						</tr>
 					</tfoot>
 				</table>
-				<p>添加应用</p>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">添加应用</h4>
 				<ul class="list-unstyled">
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">应用名称</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">应用名称</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="content.flag" value="${(content.flag)!}">
 							</div>
@@ -101,8 +111,8 @@ function doSubmit(){
 						<div class="clr"></div>
 					</li>
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP KEY</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">应用 APP KEY</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="content.title" value="${(content.title)!}">
 							</div>
@@ -110,8 +120,8 @@ function doSubmit(){
 						<div class="clr"></div>
 					</li>
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">应用 APP SECRET</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">应用 APP SECRET</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="content.text" value="${(content.text)!}">
 							</div>
@@ -120,22 +130,25 @@ function doSubmit(){
 					</li>
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">是否上线</div>
+							<div class="  jp-set-info ">是否上线</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox" name="content.status" value="enable"  >上线</label>
+								<label><input class=" " type="checkbox" name="content.status" value="enable"  > <span class="jp-set-info"> 上线</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
 				</ul>
 			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
+			</div>
 		</div>
 		</form>
-		<div class="row">
-			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
-		</div>
 		<!-- /.row -->
 	
 </section>

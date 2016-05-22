@@ -44,13 +44,13 @@ function doSubmit(){
 		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="wechat_appid,wechat_appsecret,wechat_token">
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-font">常规选项</h4>
+				<h4 class="jp-set-title">常规选项</h4>
 				<ul class="list-unstyled">
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">微信AppID</div>
+							<div class="  jp-set-info ">微信AppID</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_appid" value="${option('wechat_appid')!}">
 							</div>
@@ -60,9 +60,9 @@ function doSubmit(){
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">微信APPSecret</div>
+							<div class="  jp-set-info ">微信APPSecret</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_appsecret" value="${option('wechat_appsecret')!}">
 							</div>
@@ -72,9 +72,9 @@ function doSubmit(){
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">微信 Token</div>
+							<div class="  jp-set-info ">微信 Token</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_token" value="${option('wechat_token')!}">
 							</div>
@@ -88,15 +88,15 @@ function doSubmit(){
 
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-pad jp-set-font">多客服</h4>
+				<h4 class="jp-set-pad jp-set-title">多客服</h4>
 				<p>JPress让。。。</p>
 				<ul class="list-unstyled">
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">进入多客服关键字</div>
+							<div class="  jp-set-info ">进入多客服关键字</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_dkf_enter_key" value="${option('wechat_dkf_enter_key')!}">
 							</div>
@@ -107,9 +107,9 @@ function doSubmit(){
 
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
-							<div class="  jp-set-font-line jp-set-font ">退出多客服关键字</div>
+							<div class="  jp-set-info ">退出多客服关键字</div>
 						</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${option('wechat_dkf_quit_key')!}">
 							</div>
@@ -125,13 +125,13 @@ function doSubmit(){
 
 		<div class="row">
 			<div class="col-xs-12">
-				<h4 class="jp-set-pad jp-set-font">搜索</h4>
+				<h4 class="jp-set-pad jp-set-title">搜索</h4>
 				<p>JPress让。。。</p>
 				<#if modules ??> <#list modules as module>
 				<ul class="list-unstyled">
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">${module.title!}搜索功能开启</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">${module.title!}搜索功能开启</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input type="checkbox" value="ture" name="wechat_search_${module.name}_enable">开启
 							</div>
@@ -139,8 +139,8 @@ function doSubmit(){
 						<div class="clr"></div>
 					</li>
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">${module.title!} 搜素前缀</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">${module.title!} 搜素前缀</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_search_${module.name}_prefix">
 							</div>
@@ -149,8 +149,8 @@ function doSubmit(){
 					</li>
 
 					<li class="jp-set-pad">
-						<div class="col-sm-3  jp-set-font-line jp-set-font">${module.title!} 搜索结果条数</div>
-						<div class="col-sm-9  jp-set-font-line">
+						<div class="col-sm-3  jp-set-info">${module.title!} 搜索结果条数</div>
+						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_search_${module.name}_count">
 							</div>

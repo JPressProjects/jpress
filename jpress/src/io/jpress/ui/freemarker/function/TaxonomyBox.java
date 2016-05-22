@@ -63,7 +63,7 @@ public class TaxonomyBox extends JFunction {
 		htmlBuilder.append("<ul>");
 		for (Taxonomy taxonomy : list) {
 			boolean checked = contentTaxonomyList == null ? false : contentTaxonomyList.contains(taxonomy);
-			String html = "<li class=\"checkbox\" ><label><input  name=\"_%s\" value=\"%s\" %s type=\"checkbox\"/>%s</label></li>";
+			String html = "<li ><label><input  name=\"_%s\" value=\"%s\" %s type=\"checkbox\"/>%s</label></li>";
 			htmlBuilder.append(String.format(html, taxonomyType.getName(), taxonomy.getId(),
 					checked ? "checked=\"checked\"" : "", taxonomy.getTitle()));
 

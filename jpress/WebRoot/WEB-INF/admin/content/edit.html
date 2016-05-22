@@ -1,13 +1,7 @@
 <#include "../_inc/_layout.html"/> 
 <#macro script>
-$("#title").keyup(function(){
-   
-    var url = window.location.protocol  +"//"+ window.location.host+"${CPATH}";
-    url+="/c/"+this.value;
-    $("#titleurl").attr("href",url);
-     $("#titleurl").text(url);
-     $('#titleurl').editable('setValue',url);
-});
+
+
 var data={
     url:'',
     alt:''
@@ -68,6 +62,7 @@ function save(){
 	//alert($("#textarea").text());
 	//simplemde = null;
 	
+	  $('#content_slug').attr('value',$("#slug_text").text());
 	
 	if("tinymce" == _editor){
 		tinymce.activeEditor.uploadImages(function(success) {
@@ -92,6 +87,7 @@ function save(){
 			dataType : "json", //数据类型  
 			success : function(data) { //提交成功的回调函数 
 				toastr.success(data.message,'操作成功');
+				$("#content_id").attr("value",data.data);
 			},
 			error : function() {
 				alert("信息提交错误");
@@ -137,8 +133,29 @@ function doAjax(url){
  $('#_${taxonomyType.name}').tagEditor();
 </#list>
 </#if>
-$.fn.editable.defaults.mode = 'inline';
-$('#titleurl').editable();
+
+
+$("#title").keyup(function(){
+	if($('#content_slug').val() == ""){
+	   $("#slug_text").text(this.value);
+       $('#slug_text').editable('setValue',this.value);
+	}
+});
+
+$(document).ready(function(){
+	
+	 $.fn.editable.defaults.mode = 'inline';
+	 $('#slug_text').editable();
+	 
+	 var url = window.location.protocol  +"//"+ window.location.host+"${CPATH}${urlPreffix}" ;
+     $("#url_preffix").text(url);
+     $('#slug_text').editable('setValue'," ${(content.slug)!'标题'}");
+     
+     $('#titleurl').on('save', function(e, params) {
+    	 $('#content_slug').attr('value',params.newValue);
+	 });
+});
+
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
@@ -161,9 +178,10 @@ $('#titleurl').editable();
 <section class="content" style="z-index: 9999">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
 		<input type="hidden" name="content.module" value="${m!}"> 
-		<input type="hidden" name="content.id" value="${(content.id)!}"> 
+		<input type="hidden" id="content_id" name="content.id" value="${(content.id)!}"> 
 		<input type="hidden" name="content.status" value="normal" id="content_status"> 
 		<input type="hidden" name="content.created" value="${(content.created)!}" > 
+		<input type="hidden" id="content_slug" name="content.slug" value="${(content.slug)!}" > 
 		<input type="hidden" name="ucode" value="${ucode}">
 		<div class="row">
 			<!-- /.col -->
@@ -172,7 +190,9 @@ $('#titleurl').editable();
 					<label class="sr-only"></label> <input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
 				</div>
 					<div class="pull-right"><a href="javascript:void(0);" onclick="change_editer()">切换编辑器 </a> </div>
-					<label>网址：<a href="" target="_blank" id="titleurl"></a></label>
+					<label>网址：
+					<span id="url_preffix"></span><span id="slug_text">${(content.slug)!}</span>
+					</label>
 				<div class="box box-primary">
 					<div class=" box-info">
 						<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>

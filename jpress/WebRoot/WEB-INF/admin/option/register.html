@@ -16,26 +16,26 @@
 		<input type="hidden" name="autosave" value="cdn_domain,cdn_exclude_files">
 		<div class="row">
 		<div class="col-xs-12">
-			<h4 class="jp-set-font">常规选项</h4>
+			<h4 class="jp-set-title">常规选项</h4>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							是否邮件验证
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  >启用</label>
+							<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  > <span class="jp-set-info"> 启用</span></label>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 				
 				<li class="jp-set-pad">
-					<div class="col-sm-3  jp-set-font-line jp-set-font">
+					<div class="col-sm-3  jp-set-info">
 						邮件模板</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 						<textarea name="cdn_exclude_files" rows="3" class="form-control input-md" placeholder="多个文件多行填写">${option('cdn_exclude_files')!}</textarea>
 						</div>
@@ -45,22 +45,22 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							是否短信验证
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-						<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  >启用</label>
+						<label><input class=" " type="checkbox"  name="cdn_enable" value="true" ${checked('cdn_enable')}  ><span class="jp-set-info"> 启用</span></label>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 				
 				<li class="jp-set-pad">
-					<div class="col-sm-3  jp-set-font-line jp-set-font">
+					<div class="col-sm-3  jp-set-info">
 						短信模板</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 						<textarea name="cdn_exclude_files" rows="3" class="form-control input-md" placeholder="多个文件多行填写">${option('cdn_exclude_files')!}</textarea>
 						</div>
@@ -74,18 +74,18 @@
 		</div>
 		<div class="row">
 		<div class="col-xs-12">
-			<h4 class="jp-set-pad jp-set-font">第三方登陆</h4>
+			<h4 class="jp-set-pad jp-set-title">第三方登陆</h4>
 			<p>
 				JPress让。。。 
 			</p>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							QQ App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -94,11 +94,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							QQ App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -108,11 +108,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							微信 App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -121,11 +121,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							微信 App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -135,11 +135,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							新浪微博 App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -148,11 +148,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							新浪微博 App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -162,11 +162,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							开源中国 App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -175,11 +175,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							开源中国 App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -189,11 +189,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Github App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -202,11 +202,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Github App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -216,11 +216,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Facebook App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -229,11 +229,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Facebook App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -243,11 +243,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Twitter App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -256,11 +256,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							Twitter App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -270,11 +270,11 @@
 				
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							LinkedIn App Key
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>
@@ -283,11 +283,11 @@
 				</li>
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
-						<div class="  jp-set-font-line jp-set-font ">
+						<div class="  jp-set-info ">
 							LinkedIn App Secret
 						</div>
 					</div>
-					<div class="col-sm-9  jp-set-font-line">
+					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="cdn_domain" value="${option('cdn_domain')!}" >
 						</div>

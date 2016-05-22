@@ -28,16 +28,19 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
+import io.jpress.core.AjaxResult;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Mapping;
+import io.jpress.model.Option;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
@@ -133,12 +136,45 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Override
 	public void edit() {
-
-		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
+		
+		String moduleName = getModuleName();
+		BigInteger contentId = getParaToBigInteger("id");
+		
+		Content content = Content.DAO.findById(contentId);
+		if(content!=null){
+			setAttr("content", content);
+			moduleName = content.getModule();
+		}
+		
+		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
 		setAttr("module", module);
 
 		String _editor = getCookie("_editor", "tinymce");
 		setAttr("_editor", _editor);
+		
+		String urlPreffix = "";
+		String routerType = Option.findValue("router_content_type");
+		if("_dynamic".equals(routerType)){
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			urlPreffix = "/"+router_content_prefix+"?slug=";
+		}
+			
+		else if("_static_prefix".equals(routerType)){
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			urlPreffix = "/"+router_content_prefix+"/";
+		}
+		
+		else if("_static_date".equals(routerType)){
+			String router_content_prefix = DateUtils.DateString();
+			urlPreffix = "/"+router_content_prefix+"/";
+		}
+		
+		else if("_static_module".equals(routerType)){
+			String router_content_prefix = module.getName();
+			urlPreffix = "/"+router_content_prefix+"/";
+		}
+			
+		setAttr("urlPreffix", urlPreffix);
 
 		super.edit();
 	}
@@ -250,7 +286,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 		Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
 
-		renderAjaxResultForSuccess("save ok");
+		AjaxResult ar = new AjaxResult();
+		ar.setErrorCode(0);
+		ar.setData(content.getId());
+		renderAjaxResult("save ok", 0,content.getId());
 	}
 
 }

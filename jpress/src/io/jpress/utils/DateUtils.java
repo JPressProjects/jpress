@@ -21,10 +21,17 @@ import java.util.Date;
 public class DateUtils {
 
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyyMMdd");
 
 	public static String now() {
 		return sdf.format(new Date());
 	}
+	
+	public static String DateString() {
+		return dateSdf.format(new Date());
+	}
+	
+	
 
 	public static String format(Date date) {
 		if (null == date)

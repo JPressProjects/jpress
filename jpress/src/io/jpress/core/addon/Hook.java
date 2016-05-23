@@ -18,6 +18,7 @@ package io.jpress.core.addon;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jfinal.aop.Invocation;
 import com.jfinal.render.Render;
 
 /**
@@ -49,9 +50,13 @@ public class Hook {
 		return target;
 	}
 
-	public Render process_controller(HookController controller) {
+	public Render process_controller(AddonController controller) {
 
 		return null;
+	}
+	
+	public static  void intercept(Invocation inv) {
+		//do nothing
 	}
 
 }

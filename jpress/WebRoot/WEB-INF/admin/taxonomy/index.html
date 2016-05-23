@@ -25,18 +25,6 @@ function doSubmit(){
     </section>
 <!-- Main content -->
 <section class="content">
-	<div class="jp-set-table">
-
-		<form class="form-horizontal" style="float: right">
-			<div class="input-group input-group-sm">
-				<input id="post-search-input" class="form-control" type="search"
-					value="" name="" placeholder="搜索">&nbsp; <input
-					id="search-submit" class="btn btn-default btn-sm" type="submit"
-					value="搜索文章">
-			</div>
-		</form>
-	</div>
-	<div class="clr"></div>
 	<div class="row">
 		<div class="col-md-4">
 			<form action="${CPATH}/admin/taxonomy/save" method="POST" id="form">
@@ -44,22 +32,22 @@ function doSubmit(){
 				<input type="hidden" name="taxonomy.type" value="${type.name}">
 				<input type="hidden" name="taxonomy.id" value="${(taxonomy.id)!}">
 				<input type="hidden" name="ucode" value="${ucode}">
-				<h4 class="jp-common-pad">添加新 ${type.title}</h4>
-				<div class="form-group jp-article-format">
-					<label for="tag-name">名称</label> 
+				<h4 class="jp-common-pad">新${type.title}</h4>
+				<div class="form-group jp-input-item">
+					<label for="tag-name" class="input-title">名称</label> 
 					<input id="tag-name" class="form-control" type="text"  name="taxonomy.title" value="${(taxonomy.title)!}">
 					<p>这将是它在站点上显示的名字。</p>
 				</div>
 
-				<div class="form-group jp-article-format">
-					<label for="tag-slug">别名</label> 
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">别名</label> 
 					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug" value="${(taxonomy.slug)!}">
-					<p>“别名”是在URL中使用的别称，它可以令URL更美观。通常使用小写，只能包含字母，数字和连字符（-）。</p>
+					<p>别名是在URL中使用的别称，它可以令URL更美观，更加有利于SEO。通常使用小写，只能包含字母，数字和连字符“-”（中划线），不能全是数字。</p>
 				</div>
 				<#if type.formType == "select">
-				<div class="form-group jp-article-format">
+				<div class="form-group jp-input-item">
 					<div class="col-xs-5 jp-common-pad">
-						<label>父节点</label> 
+						<label class="input-title">父节点</label> 
 						<select class="form-control input-sm" name="taxonomy.parent_id">
 							<option value="0">无</option>
 							<#list taxonomys as taxonomy>
@@ -68,14 +56,12 @@ function doSubmit(){
 						</select>
 					</div>
 					<div class="clr"></div>
-					<p>分类目录和标签不同，它可以有层级关系。您可以有一个“音乐”分类目录，在这个目录下可以有叫做“流行”和“古典”的子目录。</p>
 				</div>
 				</#if>
-				<div class="form-group jp-article-format">
-
-					<label>图像描述</label>
+				<div class="form-group jp-input-item">
+					<label class="input-title">描述</label>
 					<textarea class="form-control"  name="taxonomy.text" rows="3">${(taxonomy.text)!}</textarea>
-					<p>描述只会在一部分主题中显示。</p>
+					<p>描述是否显示决定于模板。</p>
 				</div>
 
 				<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
@@ -93,17 +79,16 @@ function doSubmit(){
 						<option value="25">删除</option>
 					</select>
 				</div>
-				<div class="jp-left jp-left-pad5 jp-right-pad10">
+				<div class="jp-left jp-left-pad5 ">
 					<button class="btn  btn-sm btn-default" type="button">应用</button>
 				</div>
 			</div>
-
 			<div class="clr"></div>
-			<div class="box box-primary" style="margin-bottom: 0">
+			<div class="box ">
 
 				<!-- /.box-header -->
 				<div class="box-body jp-common-pad">
-					<table id="example1" class="table table-striped">
+					<table  class="table table-striped">
 						<thead>
 							<tr>
 								<th style="width: 20px"><label class="jp-common-pad "><input
@@ -111,7 +96,7 @@ function doSubmit(){
 										title="全选" type="checkbox"></label></th>
 
 								<th style="width: 30%">名称</th>
-								<th>图像描述</th>
+								<th>描述</th>
 								<th style="width: 20%">别名</th>
 								<th style="width: 10%">总数</i></th>
 
@@ -125,7 +110,7 @@ function doSubmit(){
 								<td><label class="jp-common-pad"><input
 										class="jp-common-pad" name="chkItem" type="checkbox"></label>
 								</td>
-								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
+								<td><strong><a href="#"><span class="article-title">${bean.layerString}${bean.title}</span></a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
 										<!-- /admin/taxonomy?m=article&t=category&p=article&c=category# -->
@@ -149,22 +134,18 @@ function doSubmit(){
 
 				<!-- /.box-footer -->
 			</div>
-			
-			<#if type.formType == "input">
-			<div class="box">
-				<div class="box-body jp-common-pad">
-					<div class="col-sm-12 ">
-						<div id="example2_paginate" class="dataTables_paginate paging_simple_numbers text-center">
-							<#include "../_inc/_paginate_wrapper.html" /> 
-						</div>
+			<!-- /. box -->
+				<#if type.formType == "input">
+				<div class="cf">
+					<div class="pull-right " >
+						<#include "../_inc/_paginate_wrapper.html" />
 					</div>
 				</div>
-			</div>
-			</#if>
-			<!-- /. box -->
+				</#if>
 		</div>
 		<!-- /.col -->
 	</div>
+	
 	<!-- /.row -->
 </section>
 <!-- /.content -->

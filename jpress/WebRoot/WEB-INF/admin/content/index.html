@@ -64,8 +64,8 @@ function del(id){
 <!-- Main content -->
 <section class="content">
 
-	<div class="row pad margin no-print">
-		<ul class="jp-cancel-pad list-inline" style="float: left">
+	<div class="row content-row">
+		<ul class="list-inline" style="float: left">
 			<li class="all">
 				<a class="current" href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}">
 					全部 <span class="count">(${count!"0"})</span>
@@ -101,18 +101,18 @@ function del(id){
 		</form>
 	</div>
 
-	<div class="row pad margin no-print">
+	<div class="row content-row">
 		<div class="jp-left">
 			<select class="form-control input-sm jp-width120" name="action">
 				<option value="">==批量操作==</option>
 				<option value="delete">删除</option>
 			</select>
 		</div>
-		<div class="jp-left jp-left-pad5 jp-right-pad10">
+		<div class="jp-left jp-left-pad5 ">
 			<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchAction()">应用</button>
 		</div>
 
-		<div class="jp-left jp-right-pad10">
+		<div class="jp-left ">
 			<select class="form-control input-sm jp-width120 ">
 				<option value="10">全部日期</option>
 				<option value="25">25</option>
@@ -133,7 +133,7 @@ function del(id){
 	</div>
 
 
-	<div class="box ">
+	<div class="box">
 		<!-- /.box-header -->
 		<div class="box-body">
 			<form action="" method="POST" id="form">
@@ -153,7 +153,7 @@ function del(id){
 						<#if page??> <#list page.getList() as bean>
 						<tr class="jp-onmouse">
 							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
-							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong>
+							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}"><span class="article-title">${bean.title}</span></a></strong>
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
 										<#if "delete" != s!> <span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
@@ -183,11 +183,17 @@ function del(id){
 						</tr>
 					</tfoot>
 				</table>
-			</form>
+				</form>
 		</div>
-		<div class="pull-right"><#include "../_inc/_paginate_wrapper.html" /></div>
 		<!-- /.box-body -->
 	</div>
+	
+	<div class="cf">
+		<div class="pull-right " >
+			<#include "../_inc/_paginate_wrapper.html" />
+		</div>
+	</div>
+		
 	<!-- /.row -->
 </section>
 <!-- /.content -->

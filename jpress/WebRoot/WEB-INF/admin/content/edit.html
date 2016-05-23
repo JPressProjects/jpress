@@ -169,6 +169,16 @@ $(document).ready(function(){
 <link rel="stylesheet" href="${CPATH}/static/plugins/editable/bootstrap-editable.css">
 <link rel="stylesheet" href="${CPATH}/static/simplemde/simplemde.min.css">
 </#macro>
+<#macro css>
+.editable-input {
+	width: 100%;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+</#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -193,11 +203,10 @@ $(document).ready(function(){
 					<label>网址：
 					<span id="url_preffix"></span><span id="slug_text">${(content.slug)!}</span>
 					</label>
-				<div class="box box-primary">
-					<div class=" box-info">
+					<div style="padding-bottom: 10px">
 						<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
 					</div>
-				</div>
+				
 				<div class="box box-solid">
 					<div class="box-header with-border">
 						<h3 class="box-title">属性设置</h3>
@@ -236,7 +245,7 @@ $(document).ready(function(){
 
 							</ul>
 							<div class="tab-content jp-aside-hg ">
-								<div class="tab-pane active jp-left-margv35" id="tab_1">
+								<div class="tab-pane active " id="tab_1">
 								<div class="jp-prop-input">
 									Flag: <input type="text" name="content.flag" value="${(content.flag)!}">
 								</div>

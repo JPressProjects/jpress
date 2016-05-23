@@ -1,17 +1,14 @@
+html,body,div,p,a,ul,ol,li,img,h1,h2,h3,h4,h5,h6,textarea,input,button{
+	margin:0;
+	padding:0;
+}
+body {
+	font-family: Microsoft YaHei;
+}
 .box {
-	border-top: 0px;
+    margin-bottom: 10px;
 }
-
-.box.box-primary {
-	border-top: 0px;
-}
-
 .jp-common-pad {
-	padding: 0;
-	margin: 0
-}
-
-.jp-cancel-pad {
 	padding: 0;
 	margin: 0
 }
@@ -52,25 +49,11 @@
 	padding-left: 5px
 }
 
-.jp-right-pad10 {
-	padding-right: 10px
+
+.jp-input-item {
+	margin-top: 15px;
 }
 
-.jp-right-pad40 {
-	padding-right: 40px
-}
-
-.jp-left-margv35 ul li {
-	margin-left: -35px
-}
-
-.jp-article-format {
-	padding: 15px 0;
-}
-
-.jp-common-pad30 {
-	padding: 30px
-}
 
 .jp-set-pad {
 	padding: 15px 0 5px;
@@ -86,12 +69,6 @@
 
 .jp-right {
 	float: right
-}
-
-@media ( max-width : 767px) {
-	.jp-set-table {
-		display: none;
-	}
 }
 
 .btn-white {
@@ -655,13 +632,29 @@ label{
 	z-index: 8;
 }
 
-.editable-input {
-	width: 100%;
-}
-.editable-input input{
-	width: 100%;
+.content-row{
+	padding: 0 15px 10px 15px;
 }
 
-body {
-	font-family: Microsoft YaHei;
+.cf{
+	width: 100%;
+	overflow: hidden;
+}
+
+.pagination {
+    margin:0; 
+}
+
+.main-footer {
+    background: #ecf0f5;
+    padding: 5px 15px;
+    color: #444;
+    font-size: 12px;
+    border: none;
+}
+.input-title{
+	font-weight: bold;
+}
+.article-title{
+	font-weight: bold;
 }

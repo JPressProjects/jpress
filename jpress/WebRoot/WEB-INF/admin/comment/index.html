@@ -8,8 +8,8 @@
 
 <!-- Main content -->
 <section class="content">
-	<div class="jp-set-table">
-		<ul class="jp-cancel-pad list-inline" style="float: left">
+	<div class="row content-row">
+		<ul class="list-inline" style="float: left">
 			<li class="all"><a class="current" href="#"> 全部 <span
 					class="count">（8）</span>
 			</a> |</li>
@@ -21,9 +21,8 @@
 
 
 		<form class="form-horizontal" style="float: right">
-
 			<div class="input-group input-group-sm">
-				<input id="post-search-input" class="form-control  jp-right-pad10" type="search"
+				<input id="post-search-input" class="form-control  " type="search"
 					value="" name="" placeholder="请输入关键词">&nbsp;&nbsp;<input
 					id="search-submit" class="btn btn-default btn-sm" type="submit"
 					value="搜索">
@@ -31,10 +30,8 @@
 
 		</form>
 	</div>
-	<div class="clr"></div>
-	<div class="col-xs-12 jp-cancel-pad jp-set-table jp-bottom-pad5">
-		
-			<div id="example1_length" class="jp-left ">
+	<div class="row content-row">
+			<div  class="jp-left ">
 				<select class="form-control input-sm jp-width120" name="example1_length"
 					aria-controls="example1">
 					<option value="10">==批量操作==</option>
@@ -42,11 +39,11 @@
 					<option value="50">置顶</option>
 				</select>
 			</div>
-			<div class="jp-left jp-left-pad5 jp-right-pad10 ">
+			<div class="jp-left jp-left-pad5  ">
 				<button class="btn btn-block btn-sm btn-default" type="button">应用</button>
 			</div>
 		
-		<div class="jp-left jp-right-pad10">
+		<div class="jp-left ">
 			<select class="form-control input-sm jp-width120 ">
 				<option value="10">全部日期</option>
 				<option value="25">25</option>
@@ -63,18 +60,14 @@
 		<div class="jp-left jp-left-pad5">
 			<button class="btn btn-block btn-sm btn-default" type="button">筛选</button>
 		</div>
-		
-
 	</div>
 
-	<div class="col-xs-12 ">
-		<div class="row">
 
-			<div class="box jp-cancel-pad">
+			<div class="box ">
 
 				<!-- /.box-header -->
 				<div class="box-body jp-cancel-pad">
-					<table id="example1" class="table table-striped">
+					<table  class="table table-striped">
 						<thead>
 							<tr>
 								<th style="width: 2%">
@@ -96,7 +89,7 @@
 									<input name="dataItem" type="checkbox">
 								</td>
 								<td>${bean.username!}</td>
-								<td><strong><a href="#">${bean.text!}</a></strong>
+								<td><strong><a href="#"><span class="article-title">${bean.text!}</span></a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-cancel-pad">
 											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
@@ -134,15 +127,11 @@
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
+		<div class="cf">
+			<div class="pull-right " >
+				<#include "../_inc/_paginate_wrapper.html" />
+			</div>
 		</div>
-		<!-- /.col -->
-		<div class="row">
-						<div id="example2_paginate" class="pull-right">
-							<#include "../_inc/_paginate_wrapper.html" /> 
-						</div>
-		</div>
-	</div>
-	<!-- /.row -->
 </section>
 <!-- /.content -->
 </@layout>

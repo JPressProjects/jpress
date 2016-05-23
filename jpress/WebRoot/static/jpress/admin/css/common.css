@@ -605,6 +605,10 @@ label{
 	padding: 0 15px 10px 15px;
 }
 
+.content-msg{
+	margin-bottom: 20px;
+	
+}
 .cf{
 	width: 100%;
 	overflow: hidden;

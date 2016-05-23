@@ -55,8 +55,9 @@ public class Hook {
 		return null;
 	}
 	
-	public static  void intercept(Invocation inv) {
+	public static Boolean intercept(Invocation inv) {
 		//do nothing
+		return null;
 	}
 
 }

@@ -24,9 +24,12 @@ public class HookInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-		
-		HookInvoker.intercept(inv);
-		
+
+		Boolean result = HookInvoker.intercept(inv);
+
+		if (result == null || !result) {
+			inv.invoke();
+		}
 	}
 
 }

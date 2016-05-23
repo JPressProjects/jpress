@@ -37,8 +37,8 @@ public class HookInvoker {
 		return (Render) invoke("process_controller", controller);
 	}
 	
-	public static  void intercept(Invocation inv) {
-		invoke("intercept", inv);
+	public static Boolean intercept(Invocation inv) {
+		return (Boolean) invoke("intercept", inv);
 	}
 
 	private static Object invoke(String hookName, Object... objects) {

@@ -16,6 +16,7 @@
 package io.jpress.controller.admin;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,11 @@ import io.jpress.utils.ImageUtils;
 @UrlMapping(url = "/admin/attachment", viewPath = "/WEB-INF/admin/attachment")
 public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	private static final Log log = Log.getLog(_AttachmentController.class);
+
 	public void detail_layer() {
+		BigInteger id = getParaToBigInteger("id");
+		Attachment attachment = Attachment.DAO.findById(id);
+		setAttr("attachment", attachment);
 	}
 
 	public void choose_layer() {
@@ -94,13 +99,13 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	public void processWatermark(String newPath) {
 		Boolean watermark_enable = Option.findValueAsBool("watermark_enable");
 		if (watermark_enable != null && watermark_enable) {
-			
+
 			int position = Option.findValueAsInteger("watermark_position");
 			String watermarkImg = Option.findValue("watermark_image");
 			String srcImageFile = newPath;
-			
+
 			Float transparency = Option.findValueAsFloat("watermark_transparency");
-			if(transparency == null || transparency<0 || transparency >1){
+			if (transparency == null || transparency < 0 || transparency > 1) {
 				transparency = 1f;
 			}
 

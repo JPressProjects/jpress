@@ -12,49 +12,51 @@ $(document).ready(function(){
 });
 </#macro> 
 <@layout >
-	<!-- Custom Tabs -->
-	<div class="nav-tabs-custom jp-media-tab-custom">
-		<div class="attachments-browser">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab_1" data-toggle="tab">上传文件</a></li>
-				<li><a href="#tab_2" data-toggle="tab">媒体库</a></li>
+<!-- Custom Tabs -->
+<div class="nav-tabs-custom jp-media-tab-custom">
+	<div class="attachments-browser">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#tab_1" data-toggle="tab">上传文件</a>
+			</li>
+			<li>
+				<a href="#tab_2" data-toggle="tab">媒体库</a>
+			</li>
 
-			</ul>
-			<div class="tab-content">
-				<div class="tab-pane active" id="tab_1">
-					<div class="jp-upload-content ">
-						<div class="col-xs-12">
-							<div class="col-xs-offset-4">
-								<input type="file" class="btn btn-default ">
-							</div>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_1">
+				<div class="jp-upload-content ">
+					<div class="col-xs-12">
+						<div class="col-xs-offset-4">
+							<input type="file" class="btn btn-default ">
 						</div>
 					</div>
 				</div>
-				<!-- /.tab-pane -->
-				<div class="tab-pane" id="tab_2">
-					<div class="col-upload-left ">
-						<div class="col-upload-left-content ">
-							<ul class="list-inline list-unstyled">
-								<#if page??> 
-								<#list page.getList() as bean>
-									<li><img src="${bean.path}" class="jp-grids-photos img-responsive" ></li> 
-								</#list> 
-								</#if>
-							</ul>
-						</div>
+			</div>
+			<!-- /.tab-pane -->
+			<div class="tab-pane" id="tab_2">
+				<div class="col-upload-left ">
+					<div class="col-upload-left-content ">
+						<ul class="list-inline list-unstyled">
+							<#if page??> <#list page.getList() as bean>
+							<li>
+								<img src="${bean.path}" class="jp-grids-photos img-responsive">
+							</li>
+							</#list> </#if>
+						</ul>
 					</div>
-					<div class="col-upload-right "></div>
-
 				</div>
+				<div class="col-upload-right "></div>
 
 			</div>
-		</div>
-		<!-- /.tab-content -->
 
+		</div>
+	</div>
+	<!-- /.tab-content -->
 
 	<div class="modal-footer jp-modal-footer">
-		<button type="button" class="btn btn-primary" onclick="doChoose()">Save
-			changes</button>
+		<button type="button" class="btn btn-primary" onclick="doChoose()">选择</button>
 	</div>
 </div>
 

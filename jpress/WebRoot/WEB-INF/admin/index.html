@@ -97,6 +97,8 @@
 					</div>
 				</div>
 				<div class="box-body">
+				
+					<#list comments! as comment>
 					<div class="comment-item cf">
 						<div class="comment-item-avatar">
 							<a href="">
@@ -105,10 +107,10 @@
 						</div>
 						<div class="comment-item-content">
 							<p>
-								<a href="#"> 海哥 </a>
-								评论了 <span>《世界上最好的语言是java语言》</span>
+								<a href="#"> ${comment.username!} </a>
+								评论了 <span>《${comment.content_title!}》</span>
 							</p>
-							<p>java是世界上最好的语言，php不是。</p>
+							<p>${comment.text!}</p>
 							<p class="comment-item-actions">
 								<a class="comment-item-green" href="">批准</a>
 								<span>|</span>
@@ -119,9 +121,9 @@
 								<a href="" class="comment-item-red">删除</a>
 							</p>
 						</div>
-						<div class="comment-item-time">2016-5-25</div>
+						<div class="comment-item-time">${comment.created!}</div>
 					</div>
-
+					</#list>
 				</div>
 
 			</div>

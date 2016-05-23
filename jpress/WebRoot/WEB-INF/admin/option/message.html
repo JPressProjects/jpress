@@ -2,7 +2,7 @@
 <#include "_option_script.html"/> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>常规选项</h1>
+	<h1>消息设置</h1>
 </section>
 
 <!-- Main content -->
@@ -29,6 +29,7 @@
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text" name="email_host" value="${option('email_host')!}" >
+							请填写邮箱的SMTP服务器。例如：smtp.qq.com (QQ邮箱)，smtp.163.com (网易邮箱)。
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -71,6 +72,7 @@
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<label><input class=" " type="checkbox"  name="email_usessl" value="true" ${checked('email_usessl')}  >  <span class="jp-set-info"> 使用SSL</span></label>
+							<br />QQ邮箱，gmail邮箱，163邮箱等请开启。
 						</div>
 					</div>
 					<div class="clr"></div>

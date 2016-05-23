@@ -2,7 +2,7 @@
 <#include "_option_script.html"/> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>常规选项</h1>
+	<h1>常规设置</h1>
 </section>
 
 <!-- Main content -->
@@ -20,7 +20,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="web_title" value="${option('web_title')!}" />
+								<input class="form-control input-md" placeholder="请输入网站名称" type="text" name="web_title" value="${option('web_title')!}" />
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -32,7 +32,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="web_subtitle" value="${option('web_subtitle')!}">
+								<input class="form-control input-md" placeholder="请输入网站副标题" type="text" name="web_subtitle" value="${option('web_subtitle')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -44,8 +44,10 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="web_domain" value="${option('web_domain')!}">
+								<input class="form-control input-md" placeholder="请输入域名" type="text" name="web_domain" value="${option('web_domain')!}">
+								请用http（或https）开头的域名，结尾不要包含“/”。</br >例如：http://jpress.io。
 							</div>
+							
 						</div>
 						<div class="clr"></div>
 					</li>

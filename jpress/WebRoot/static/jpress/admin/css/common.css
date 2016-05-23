@@ -662,6 +662,9 @@ label{
 	padding:15px 0 0 0;
 	color:#000;
 }
+.chart-row{
+	margin: 5px 0  20px 0;
+}
 .chart-item .chart-item-title{
 	font-size:14px;
 	margin-bottom:10px;

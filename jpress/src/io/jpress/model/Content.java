@@ -104,6 +104,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
+	public Long findCountByModuleAndStatus(String module, String status) {
+		return doFindCount("module = ? and status=?", module, status);
+	}
+
 	@Override
 	public Content findById(Object idValue) {
 		return findFirst(getBaseSelectSql() + " WHERE c.id=? ", idValue);
@@ -237,9 +241,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return doFindCount("module = ?", module);
 	}
 
-	public long findCountByModuleAndStatus(String module, String status) {
-		return doFindCount("module = ? AND status = ?", module, status);
-	}
 
 	public long findCountInNormalByModule(String module) {
 		return doFindCount("module = ? AND status <> ?", module, STATUS_DELETE);

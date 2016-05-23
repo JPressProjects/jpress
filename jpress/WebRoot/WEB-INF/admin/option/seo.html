@@ -2,7 +2,7 @@
 <#include "_option_script.html"/> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>网站设置</h1>
+	<h1>网站SEO设置</h1>
 </section>
 
 <!-- Main content -->
@@ -15,7 +15,7 @@
 		<input type="hidden" name="autosave" value="seo_index_title,seo_index_keywords,seo_index_description">
 		<div class="row">
 		<div class="col-xs-12">
-			<h4 class="jp-set-title">SEO基本设置</h4>
+			<h4 class="jp-set-title">基本设置</h4>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
 					<div class="col-sm-3 ">
@@ -26,6 +26,7 @@
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<textarea rows="3" class="form-control input-md" name="seo_index_title">${option('seo_index_title')!}</textarea>
+							此项设置，可能会覆盖掉网站首页标题和副标题的设置（是否覆盖决定于模板）。
 						</div>
 					</div>
 					<div class="clr"></div>

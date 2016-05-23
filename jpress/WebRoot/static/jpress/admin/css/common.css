@@ -655,6 +655,13 @@ label{
 	z-index: 8;
 }
 
+.editable-input {
+	width: 100%;
+}
+.editable-input input{
+	width: 100%;
+}
+
 body {
 	font-family: Microsoft YaHei;
 }

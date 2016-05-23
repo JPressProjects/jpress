@@ -11,18 +11,23 @@
 	</div>
 	<!-- /.box-header -->
 	<div class="box-body no-padding ">
-		<div class="nav-tabs-custom">
-		<ul class="nav">
-			<li>
-				<div class=" form-group">
-					<textarea name="_${taxonomyType.name}" id="_${taxonomyType.name}" class="form-control "  >
+		<div class="nav-tabs-custom1">
+			<ul class="nav">
+				<li>
+					<div class="form-group">
+						<textarea name="_${taxonomyType.name}" id="_${taxonomyType.name}" class="form-control ">
 						${(content.getTaxonomyAsString(taxonomyType.name))!}
 					</textarea>
-				</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				<li class="jp-release-set jp-borde-top">				
+					多个标签请用 “回车键” 或英文逗号 “,” 隔开。
 				<div class="clr"></div>
 			</li>
-		</ul>
+			</ul>
 		</div>
+		
 	</div>
 	<!-- /.box-body -->
 </div>

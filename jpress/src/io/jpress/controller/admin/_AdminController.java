@@ -15,17 +15,22 @@
  */
 package io.jpress.controller.admin;
 
+import java.util.List;
+
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.template.Module;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 import io.jpress.utils.StringUtils;
@@ -34,10 +39,25 @@ import io.jpress.utils.StringUtils;
 public class _AdminController extends JBaseController {
 
 	public void index() {
+
+		setAttr("modules", Jpress.currentTemplate().getModules());
+
+		List<Module> moduleList = Jpress.currentTemplate().getModules();
+
+		if (moduleList != null && moduleList.size() > 0) {
+			String moduels[] = new String[moduleList.size()];
+			for (int i = 0; i < moduleList.size(); i++) {
+				moduels[i] = moduleList.get(i).getName();
+			}
+
+			List<Content> contents = Content.DAO.findListInNormal(1, 20, null, null, null, null, moduels, null, null,
+					null, null, null, null);
+			setAttr("contents", contents);
+		}
 		
 		
-		
-		
+//		Comment.DAO.
+
 		render("index.html");
 	}
 

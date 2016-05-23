@@ -1,168 +1,135 @@
-<#include "_inc/_layout.html"/>
-
+<#include "_inc/_layout.html"/> 
 <@layout active_id="dashboard" >
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>JPress面板</h1>
+</section>
 
-  <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            JPress面板
-        </h1>
-    </section>
+<!-- Main content -->
+<section class="content">
 
-    <!-- Main content -->
-    <section class="content">
+	<div class="row">
+		<div class="col-md-6">
+			<!-- Line chart -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">概览</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
 
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Line chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">概览</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-xs-3">
-	                            <a class="chart-item" href="#">
-	                            	<p class="chart-item-title">总计</p>
-	                            	<h3 class="chart-item-amount">682</h3>
-	                            	<span  class="chart-item-bottom chart-bottom-c1"></span>
-								</a>
-							</div> 
-							<div class="col-xs-3">
-	                            <a class="chart-item" href="#">
-	                            	<p class="chart-item-title">总计</p>
-	                            	<h3 class="chart-item-amount">682</h3>
-	                            	<span  class="chart-item-bottom chart-bottom-c2"></span>
-								</a>
-							</div> 
-							<div class="col-xs-3">
-	                            <a class="chart-item" href="#">
-	                            	<p class="chart-item-title">总计</p>
-	                            	<h3 class="chart-item-amount">682</h3>
-	                            	<span  class="chart-item-bottom chart-bottom-c3"></span>
-								</a>
-							</div> 
-							<div class="col-xs-3">
-	                            <a class="chart-item" href="#">
-	                            	<p class="chart-item-title">总计</p>
-	                            	<h3 class="chart-item-amount">682</h3>
-	                            	<span  class="chart-item-bottom chart-bottom-c4"></span>
-								</a>
-							</div>                    
-                        </div>
-                        
-                    </div>
-                    <!-- /.box-body-->
-                </div>
-                <!-- /.box -->
+					<#list modules! as module>
+					<div class="row chart-row">
+						<div class="col-xs-4">
+							<a class="chart-item" href="${CPATH}/admin/content?m=${module.name!}&p=${module.name!}&c=list">
+								<p class="chart-item-title">${module.title!}总计</p>
+								<h3 class="chart-item-amount">${module.findNotDeleteContentCount()!}</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+						<div class="col-xs-4">
+							<a class="chart-item" href="${CPATH}/admin/content?m=${module.name!}&p=${module.name!}&c=list">
+								<p class="chart-item-title">${module.title!}草稿</p>
+								<h3 class="chart-item-amount">${module.findDraftContentCount()!}</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+						<div class="col-xs-4">
+							<a class="chart-item" href="#">
+								<p class="chart-item-title">${module.title!}评论</p>
+								<h3 class="chart-item-amount">682</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+					</div>
+					</#list>
+				</div>
+				<!-- /.box-body-->
+			</div>
+			<!-- /.box -->
 
-                <!-- Area chart -->
+			<!-- Area chart -->
 
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">最近发布</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div id="subsubsub" class="rss-widget">
-                            <ul class="list-unstyled ">
-                                <li>
-                                    <span >下午12:39 01月20日</span>
-                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=51&action=edit">逗比主人如何“装修”宠物的住处，第一张就笑喷了！</a>
-                                </li>
-                                <li>
-                                    <span>下午6:10 01月19日</span>
-                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=44&action=edit">选择3、4月份装修的重大好处，你造吗？</a>
-                                </li>
-                                <li>
-                                    <span>下午6:06 01月19日</span>
-                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=41&action=edit">最适合懒人的不锈钢橱柜！不锈钢也可以上档次！</a>
-                                </li>
-                                <li>
-                                    <span>下午6:00 01月19日</span>
-                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=38&action=edit">春季居家防尘4大绝招，明星都家中都这么防尘！</a>
-                                </li>
-                                <li>
-                                    <span>下午7:51 01月14日</span>
-                                    <a href="http://www.zhizhuangxiu.com/wp-admin/post.php?post=18&action=edit">4款源至美国的儿童房，正影响越来越多的中国孩子。</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.box-body-->
-                </div>
-                <!-- /.box -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">最近发布</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<div id="subsubsub" class="rss-widget">
+						<ul class="list-unstyled ">
+							<#list contents! as content>
+							<li>
+								<span>${content.created!}</span>
+								<a href="${content.url!}" target="_blank">${content.title!}</a>
+							</li>
+							</#list>
+						</ul>
+					</div>
+				</div>
+				<!-- /.box-body-->
+			</div>
+			<!-- /.box -->
 
-            </div>
-            <!-- /.col -->
+		</div>
+		<!-- /.col -->
 
-            <div class="col-md-6">
+		<div class="col-md-6">
 
-                <!-- Donut chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                         <h3 class="box-title">最新评论</h3>
+			<!-- Donut chart -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">最新评论</h3>
 
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
 
-                        </div>
-                    </div>
-                    <div class="box-body" >
-                        <div class="comment-item cf">
-                        	<div class="comment-item-avatar"><a href=""><img src="/static/jpress/admin/image/avatar.jpg" /></a></div>
-                        	<div  class="comment-item-content">
-                        		<p><a href="#"> 海哥 </a> 评论了 <span>《世界上最好的语言是java语言》</span></p>
-                        		<p>java是世界上最好的语言，php不是。</p>
-                        		<p class="comment-item-actions">
-                        			<a class="comment-item-green" href="">批准</a> <span>|</span>
-                        			<a href="" class="comment-item-blue">回复</a> <span>|</span>
-                        			<a href="" class="comment-item-red">垃圾箱</a> <span>|</span>
-                        			<a href="" class="comment-item-red">删除</a>
-                        		</p>
-                        	</div>
-                        	<div class="comment-item-time">2016-5-25</div>
-                        </div>
-                        <div class="comment-item cf">
-                        	<div class="comment-item-avatar"><a href=""><img src="/static/jpress/admin/image/avatar.jpg" /></a></div>
-                        	<div  class="comment-item-content">
-                        		<p><a href="#"> 海哥 </a> 评论了 <span>《世界上最好的语言是java语言》</span></p>
-                        		<p>java是世界上最好的语言，php不是。</p>
-                        	</div>
-                        	<div class="comment-item-time">2016-5-25</div>
-                        </div>
-                        <div class="comment-item cf">
-                        	<div class="comment-item-avatar"><a href=""><img src="/static/jpress/admin/image/avatar.jpg" /></a></div>
-                        	<div  class="comment-item-content">
-                        		<p><a href="#"> 海哥 </a> 评论了 <span>《世界上最好的语言是java语言》</span></p>
-                        		<p>java是世界上最好的语言，php不是。</p>
-                        	</div>
-                        	<div class="comment-item-time">2016-5-25</div>
-                        </div>
-                        <div class="comment-item cf">
-                        	<div class="comment-item-avatar"><a href=""><img src="/static/jpress/admin/image/avatar.jpg" /></a></div>
-                        	<div  class="comment-item-content">
-                        		<p><a href="#"> 海哥 </a> 评论了 <span>《世界上最好的语言是java语言》</span></p>
-                        		<p>java是世界上最好的语言，php不是。</p>
-                        	</div>
-                        	<div class="comment-item-time">2016-5-25</div>
-                        </div>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="comment-item cf">
+						<div class="comment-item-avatar">
+							<a href="">
+								<img src="/static/jpress/admin/image/avatar.jpg" />
+							</a>
+						</div>
+						<div class="comment-item-content">
+							<p>
+								<a href="#"> 海哥 </a>
+								评论了 <span>《世界上最好的语言是java语言》</span>
+							</p>
+							<p>java是世界上最好的语言，php不是。</p>
+							<p class="comment-item-actions">
+								<a class="comment-item-green" href="">批准</a>
+								<span>|</span>
+								<a href="" class="comment-item-blue">回复</a>
+								<span>|</span>
+								<a href="" class="comment-item-red">垃圾箱</a>
+								<span>|</span>
+								<a href="" class="comment-item-red">删除</a>
+							</p>
+						</div>
+						<div class="comment-item-time">2016-5-25</div>
+					</div>
 
-                    </div>
+				</div>
 
-                </div>
-                <!-- /.box -->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </section>
-    <!-- /.content -->
+			</div>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
 </@layout>

@@ -31,9 +31,9 @@ function doSubmit(){
 			<h4 class="jp-set-pad jp-set-title">姓名</h4>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">用户名 (必填)</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">用户名 (必填)</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<#if user  ??>
 							<input class="form-control input-md" type="text" name="user.username" value="${(user.username)!}" disabled="disabled">
 							<#else>
@@ -45,25 +45,25 @@ function doSubmit(){
 				</li>
 
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">昵称 (必填)</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">昵称 (必填)</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<input class="form-control input-md" type="text" name="user.nickname" value="${(user.nickname)!}">
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 			</ul>
-			<!-- /.box -->
+			
 		</div>
 		<div class="row">
 			<h4 class="jp-set-pad jp-set-title">联系信息</h4>
 			<ul class="list-unstyled">
 
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">电子邮件 (必填)</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">电子邮件 (必填)</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<input class="form-control input-md" type="text" name="user.email" value="${(user.email)!}">
 						</div>
 					</div>
@@ -71,9 +71,9 @@ function doSubmit(){
 				</li>
 
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">电话</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">电话</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<input class="form-control input-md" type="text" name="user.phone" value="${(user.phone)!}">
 						</div>
 					</div>
@@ -81,9 +81,9 @@ function doSubmit(){
 				</li>
 
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">QQ</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">QQ</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<input class="form-control input-md" type="text" name="user.qq" value="${(user.qq)!}">
 						</div>
 					</div>
@@ -91,24 +91,24 @@ function doSubmit(){
 				</li>
 
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">微博</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">微博</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-6  ">
 							<input class="form-control input-md" type="text" name="user.weibo" value="${(user.weibo)!}">
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 			</ul>
-			<!-- /.box -->
+			
 		</div>
 		<div class="row">
 			<h4 class="jp-set-pad jp-set-title">签名</h4>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">个人签名</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-7 jp-top-pad5 ">
+					<div class="col-sm-3 jp-common-pad  jp-set-info">个人签名</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-7  ">
 							<div class="form-group">
 								<textarea class="form-control" rows="4" name="user.signature">${(user.signature)!}</textarea>
 								<p>分享关于您的一些心情和公开信息。</p>
@@ -118,31 +118,35 @@ function doSubmit(){
 					<div class="clr"></div>
 				</li>
 			</ul>
-			<!-- /.box -->
+			
 		</div>
 		<div class="row">
 			<h4 class="jp-set-pad jp-set-title">密码</h4>
 			<ul class="list-unstyled">
 				<li class="jp-set-pad">
-					<div class="col-sm-3 jp-common-pad jp-line-height40 jp-set-title">密码</div>
-					<div class="col-sm-9 jp-common-pad jp-line-height40">
-						<div class="col-sm-6 jp-top-pad5 input-group ">
-							<input id="display-pw" class="form-control input-md" autocomplete="off" spellcheck="false"  type="password" name="user.password" value="${(user.passowrd)!}">
-							<button class="btn btn-default btn-sm" id="show-pw" >显示密码</button>
+					<div class="col-sm-3 jp-common-pad  jp-set-info">密码</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-7  ">
+							<div class="form-group">
+								<input id="display-pw" class="form-control input-md" autocomplete="off" spellcheck="false"  type="password" name="user.password" value="${(user.passowrd)!}">
+								<button class="btn btn-default btn-sm" id="show-pw" >显示密码</button>
+							</div>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 			</ul>
-			<!-- /.box -->
+			
 		</div>
-
-		<div class="row">
-			<button type="button" class="btn btn-primary" onclick="doSubmit()"> 保 存 </button>
-		</div>
+		
 	</div>
-	<!-- /.row -->
-	<div class="clr"></div>
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+		</div>
+		</div>
+		
 	</form>
 </section>
 <!-- /.content -->

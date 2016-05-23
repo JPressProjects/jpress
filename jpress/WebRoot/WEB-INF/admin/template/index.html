@@ -10,29 +10,26 @@
 			class="form-control" size=40 type="search" placeholder="搜索" name=""
 			value="">
 		</span>
-		<div class="clr"></div>
 	</h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-	<div class="col-xs-12 jp-common-pad  jp-bottom-pad5">
+	<div class="col-xs-12 jp-common-pad  ">
 		<div class="row">
 			<#if templateList ??>
 			<#list templateList as template>
 			<div class="col-md-4 col-sm-6 col-xs-12">
-				<div class="box box-widget widget-user">
-					<div class="theme" tabindex="0"
-						aria-describedby="twentysixteen-action twentysixteen-name">
+				<div class="box ">
+					<div class="theme" >
 						<div class="theme-screenshot">
 							<img alt="" src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg">
 						</div>
-						<span id="" class="more-details">主题详情</span>
+						<span  class="jp-more-details">主题详情</span>
 						<div class="theme-footer">
 							<h2 id="" class="theme-name">${template.title}</h2>
 							<div class="theme-actions">
-								<a class="btn btn-default btn-sm " href="#">启用</a> <a
-									class="btn btn-primary btn-sm " href="#">实时预览</a>
+								<a class="btn btn-default btn-sm " href="#">启用</a> 
 							</div>
 						</div>
 					</div>
@@ -43,7 +40,7 @@
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				<div class="box box-widget widget-user">
 					<div class="theme add-new-theme">
-						<a href=""> </a>
+						<a href=""> <img alt="" src="/static/jpress/admin/image/nothumbnail.jpg" style="max-width: 100%"> </a>
 					</div>
 				</div>
 			</div>

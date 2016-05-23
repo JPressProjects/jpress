@@ -134,11 +134,11 @@ $(document).keyup(function(e){
 				<#if files ??>
 				<#list files as file>
 					<#if file.name == f!>
-					<li class="jp-bottom-pad5 jp-top-pad5">
+					<li class=" ">
 						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}"><b>${file.name!} （编辑中...）</b></a>
 					</li>
 					<#else>
-					<li class="jp-bottom-pad5 jp-top-pad5">
+					<li class=" ">
 						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}">${file.name!} </a>
 					</li>
 					</#if>

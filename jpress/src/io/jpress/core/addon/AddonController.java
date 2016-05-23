@@ -20,8 +20,8 @@ import com.jfinal.render.Render;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 
-@UrlMapping(url = "/hook")
-public class HookController extends JBaseController {
+@UrlMapping(url = "/addon")
+public class AddonController extends JBaseController {
 
 	public void index() {
 		Render render = HookInvoker.process_controller(this);

@@ -43,6 +43,7 @@ import io.jpress.core.render.JErrorRenderFactory;
 import io.jpress.core.render.JpressRenderFactory;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.GlobalInterceptor;
+import io.jpress.interceptor.HookInterceptor;
 import io.jpress.interceptor.JI18nInterceptor;
 import io.jpress.plugin.message.MessagePlugin;
 
@@ -133,6 +134,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new JI18nInterceptor());
+		interceptors.add(new HookInterceptor());
 		interceptors.add(new AdminInterceptor());
 	}
 

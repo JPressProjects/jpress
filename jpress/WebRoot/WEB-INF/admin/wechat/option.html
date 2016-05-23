@@ -25,20 +25,9 @@ function doSubmit(){
 	<h1>微信设置</h1>
 </section>
 
-<div class="pad margin no-print message" style="display: none;">
-	<div class=" alert alert-info  alert-dismissible callout ">
-		<button type="button" class="close" onclick="closeMessage()">&times;</button>
-		<h4>
-			<i class="icon fa fa-check"></i>
-			成功!
-		</h4>
-		数据保存成功。
-	</div>
-</div>
-
 <!-- Main content -->
 <section class="content">
-	<p>JPress让。。。</p>
+	<p class="content-msg"> JPress让。。。</p>
 
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
 		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="wechat_appid,wechat_appsecret,wechat_token">
@@ -112,8 +101,8 @@ function doSubmit(){
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${option('wechat_dkf_quit_key')!}">
+								默认，如果用户5分钟未咨询，也会自动退出多客服。
 							</div>
-							默认，如果用户5分钟未咨询，也会自动退出多客服。
 						</div>
 						<div class="clr"></div>
 					</li>

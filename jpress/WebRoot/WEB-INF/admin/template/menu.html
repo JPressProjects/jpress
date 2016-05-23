@@ -58,7 +58,7 @@ function doSubmit(){
 					<p>菜单的显示顺序是按排序数字从大到小排序的。</p>
 				</div>
 				
-				<div class="form-group jp-input-item">
+				<div class="form-group jp-input-item cf">
 					<div class="col-xs-5 jp-common-pad">
 						<label class="input-title">父节点</label> 
 						<select class="form-control input-sm" name="taxonomy.parent_id">
@@ -68,10 +68,11 @@ function doSubmit(){
 							</#list>
 						</select>
 					</div>
-					<div class="clr"></div>
 				</div>
 
-				<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
+				<div class="form-group jp-input-item">
+					<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
+				</div>
 
 			</form>
 			<!-- /.box -->

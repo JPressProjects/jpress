@@ -36,12 +36,12 @@ public class ConfigParser extends DefaultHandler {
 	private static final Log log = Log.getLog(ConfigParser.class);
 	final Template template;
 
-	private String cName;
 	private Module cModule;
 	private List<Module> modules;
 	private List<TaxonomyType> cTaxonomys;
 	private List<Thumbnail> thumbnails;
 
+	private String value = null;
 	public ConfigParser() {
 		template = new Template();
 		modules = new ArrayList<Module>();
@@ -95,7 +95,6 @@ public class ConfigParser extends DefaultHandler {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
-		this.cName = qName;
 
 		if ("module".equalsIgnoreCase(qName)) {
 			cModule = new Module();
@@ -133,36 +132,35 @@ public class ConfigParser extends DefaultHandler {
 			cModule.setTaxonomyTypes(cTaxonomys);
 			modules.add(cModule);
 		}
+		
+		else if ("title".equalsIgnoreCase(qName)) {
+			template.setTitle(value);
+		} else if ("description".equalsIgnoreCase(qName)) {
+			template.setDescription(value);
+		} else if ("author".equalsIgnoreCase(qName)) {
+			template.setAuthor(value);
+		} else if ("authorWebsite".equalsIgnoreCase(qName)) {
+			template.setAuthorWebsite(value);
+		} else if ("version".equalsIgnoreCase(qName)) {
+			template.setVersion(value);
+		} else if ("renderType".equalsIgnoreCase(qName)) {
+			template.setRenderType(value);
+		}else if ("versionCode".equalsIgnoreCase(qName)) {
+			int versionCode = 0;
+			try {
+				versionCode = Integer.parseInt(value.trim());
+			} catch (Exception e) {}
+			template.setVersionCode(versionCode);
+		} else if ("updateUrl".equalsIgnoreCase(qName)) {
+			template.setUpdateUrl(value);
+		}
 
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 
-		String value = new String(ch, start, length);
-
-		if ("title".equalsIgnoreCase(cName)) {
-			template.setTitle(value);
-		} else if ("description".equalsIgnoreCase(cName)) {
-			template.setDescription(value);
-		} else if ("author".equalsIgnoreCase(cName)) {
-			template.setAuthor(value);
-		} else if ("authorWebsite".equalsIgnoreCase(cName)) {
-			template.setAuthorWebsite(value);
-		} else if ("version".equalsIgnoreCase(cName)) {
-			template.setVersion(value);
-		} else if ("renderType".equalsIgnoreCase(cName)) {
-			template.setRenderType(value);
-		}else if ("versionCode".equalsIgnoreCase(cName)) {
-			int versionCode = 0;
-			try {
-				versionCode = Integer.parseInt(value.trim());
-			} catch (Exception e) {
-			}
-			template.setVersionCode(versionCode);
-		} else if ("updateUrl".equalsIgnoreCase(cName)) {
-			template.setUpdateUrl(value);
-		}
+		value = new String(ch, start, length);
 
 	}
 

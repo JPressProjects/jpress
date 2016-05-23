@@ -6,31 +6,12 @@ body {
 	font-family: Microsoft YaHei;
 }
 .box {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 .jp-common-pad {
 	padding: 0;
 	margin: 0
-}
-
-.jp-line-height40 {
-	line-height: 40px
-}
-
-.jp-line-height30 {
-	line-height: 30px
-}
-
-.jp-line-height20 {
-	line-height: 20px
-}
-
-.jp-bottom-pad5 {
-	padding-bottom: 5px;
-}
-
-.jp-top-pad5 {
-	padding-top: 5px;
 }
 
 .jp-title-help {
@@ -40,15 +21,6 @@ body {
 .jp-display-none {
 	display: none;
 }
-
-.jp-top-pad10 {
-	padding-top: 10px;
-}
-
-.jp-left-pad5 {
-	padding-left: 5px
-}
-
 
 .jp-input-item {
 	margin-top: 15px;
@@ -526,11 +498,10 @@ label{
 	left: 0;
 	position: absolute;
 	top: 0;
-	transition: opacity 0.2s ease-in-out 0s;
 	width: 100%;
 }
 
-.theme .more-details {
+.jp-more-details {
 	background: rgba(0, 0, 0, 0.7) none repeat scroll 0 0;
 	border-radius: 3px;
 	color: #fff;
@@ -542,9 +513,8 @@ label{
 	position: absolute;
 	right: 25%;
 	text-align: center;
-	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
 	top: 35%;
-	transition: opacity 0.1s ease-in-out 0s;
 }
 
 .theme .theme-actions {
@@ -556,7 +526,6 @@ label{
 	position: absolute;
 	right: 0;
 	top: 0px;
-	transition: opacity 0.1s ease-in-out 0s;
 }
 
 .theme .theme-name {

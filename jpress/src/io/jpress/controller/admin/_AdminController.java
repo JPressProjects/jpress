@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
+import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
@@ -26,6 +27,7 @@ import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
@@ -54,9 +56,11 @@ public class _AdminController extends JBaseController {
 					null, null, null, null);
 			setAttr("contents", contents);
 		}
-		
-		
-//		Comment.DAO.
+
+		Page<Comment> commentPage = Comment.DAO.doPaginate(1, 10, null, Comment.TYPE_COMMENT);
+		if (commentPage != null) {
+			setAttr("comments", commentPage.getList());
+		}
 
 		render("index.html");
 	}

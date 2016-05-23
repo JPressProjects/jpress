@@ -19,6 +19,7 @@ import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseComment;
 
 import java.math.BigInteger;
+import java.util.LinkedList;
 
 import com.jfinal.plugin.activerecord.Page;
 
@@ -26,28 +27,33 @@ import com.jfinal.plugin.activerecord.Page;
 public class Comment extends BaseComment<Comment> {
 	private static final long serialVersionUID = 1L;
 
+	public static final String TYPE_COMMENT = "comment";
+
 	public static final Comment DAO = new Comment();
 
 	public Page<Comment> doPaginate(int pageNumber, int pageSize, String module, String type) {
 
 		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c " 
-				+ "left join content on c.content_id = content.id "
-				+ "left join user u on c.user_id = u.id " 
-				+ "where c.content_module = ? "
-				+ "and c.`type` = ? "
-				+ "order by c.created";
 
-		return paginate(pageNumber, pageSize, select, sqlExceptSelect,module,type);
+		StringBuilder fromBuilder = new StringBuilder("  from comment c");
+		fromBuilder.append(" left join content on c.content_id = content.id");
+		fromBuilder.append(" left join user u on c.user_id = u.id ");
+
+		LinkedList<Object> params = new LinkedList<Object>();
+		boolean needWhere = true;
+		needWhere = appendIfNotEmpty(fromBuilder, "c.`type`", type, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, " c.content_module", module, params, needWhere);
+
+		fromBuilder.append("order by c.created");
+
+		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
 
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
 
 		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c " 
-				+ "left join content on c.content_id = content.id "
-				+ "left join user u on c.user_id = u.id " 
-				+ "where c.content_id = ? " + "order by c.created";
+		String sqlExceptSelect = " from comment c " + "left join content on c.content_id = content.id "
+				+ "left join user u on c.user_id = u.id " + "where c.content_id = ? " + "order by c.created";
 
 		return paginate(pageNumber, pageSize, select, sqlExceptSelect, contentId);
 	}

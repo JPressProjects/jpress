@@ -1,14 +1,14 @@
 <#include "../_inc/_layout.html"/>
 <#macro script>
     
- function openlayer(){
+ function openlayer(id){
  	layer.open({
 			    type: 2,
 			    title: '查看附件',
 			    shadeClose: true,
 			    shade: 0.8,
-			    area: ['90%', '90%'],
-			    content: '${CPATH}/admin/attachment/detail_layer' //iframe的url
+			    area: ['70%', '70%'],
+			    content: '${CPATH}/admin/attachment/detail_layer?id='+id
 			}); 
  
  }
@@ -61,7 +61,7 @@
 							<ul class="list-inline list-unstyled">
 								<#if page??> <#list page.getList() as bean>
 								<li>
-									<img src="${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer(${bean.id})">
+									<img src="${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
 								</li>
 								</#list> </#if>
 							</ul>

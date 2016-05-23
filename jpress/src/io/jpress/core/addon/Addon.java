@@ -26,6 +26,7 @@ public class Addon {
 	private String version;
 	private int versionCode;
 	private String updateUrl;
+	private boolean hasError = false;
 
 	private IAddon addonImpl;
 	private final Hooks hooks = new Hooks();
@@ -112,6 +113,14 @@ public class Addon {
 
 	public Hooks getHooks() {
 		return hooks;
+	}
+	
+	public boolean getHasError() {
+		return hasError;
+	}
+
+	public void setHasError(boolean hasError) {
+		this.hasError = hasError;
 	}
 
 	public void start() {

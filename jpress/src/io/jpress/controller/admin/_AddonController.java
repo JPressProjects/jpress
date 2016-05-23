@@ -29,6 +29,7 @@ public class _AddonController extends JBaseController {
 
 	public void index() {
 		keepPara();
+		AddonManager.get().reload();
 		setAttr("addons", AddonManager.get().getAddons());
 	}
 

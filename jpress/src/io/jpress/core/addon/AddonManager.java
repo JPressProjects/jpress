@@ -43,6 +43,11 @@ public class AddonManager {
 		load();
 	}
 
+	public void reload() {
+		addonList.clear();
+		load();
+	}
+
 	public static AddonManager get() {
 		return manager;
 	}
@@ -90,6 +95,7 @@ public class AddonManager {
 	}
 
 	private static Addon loadAddon(File file) {
+		Addon addon = new Addon();
 		try {
 			JarFile jarFile = new JarFile(file);
 			Manifest mf = jarFile.getManifest();
@@ -104,13 +110,6 @@ public class AddonManager {
 				String version = attr.getValue("Addon-Version");
 				String versionCode = attr.getValue("Addon-Version-Code");
 
-				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
-				acl.init();
-				@SuppressWarnings("unchecked")
-				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
-
-				Addon addon = new Addon();
-				addon.setAddonImpl(clazz.newInstance());
 				addon.setTitle(title);
 				addon.setAddonClass(className);
 				addon.setDescription(description);
@@ -118,12 +117,20 @@ public class AddonManager {
 				addon.setAuthorWebsite(authorWebsite);
 				addon.setVersion(version);
 				addon.setVersionCode(Integer.parseInt(versionCode.trim()));
+
+				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
+				acl.init();
+				@SuppressWarnings("unchecked")
+				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
+				addon.setAddonImpl(clazz.newInstance());
+
 				return addon;
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
+			addon.setHasError(true);
 			log.error("AddonManager loadAddon error", e);
 		}
-		return null;
+		return addon;
 	}
 
 }

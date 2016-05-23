@@ -27,7 +27,7 @@ import com.jfinal.render.Render;
 
 public class HookInvoker {
 	private static final Log log = Log.getLog(HookInvoker.class);
-	
+
 	public static String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
 		String newTarget = (String) invoke("target_converte", request, response);
 		return newTarget == null ? target : newTarget;
@@ -36,7 +36,7 @@ public class HookInvoker {
 	public static Render process_controller(AddonController controller) {
 		return (Render) invoke("process_controller", controller);
 	}
-	
+
 	public static Boolean intercept(Invocation inv) {
 		return (Boolean) invoke("intercept", inv);
 	}
@@ -44,6 +44,9 @@ public class HookInvoker {
 	private static Object invoke(String hookName, Object... objects) {
 		List<Addon> addons = AddonManager.get().getStartedAddons();
 		for (Addon addon : addons) {
+			if (addon.getHasError()) {
+				continue;
+			}
 			Method method = addon.getHooks().method(hookName);
 			if (method != null)
 				try {
@@ -53,7 +56,8 @@ public class HookInvoker {
 						return ret;
 					}
 					hook.hookInvokeFinished();
-				} catch (Exception e) {
+				} catch (Throwable e) {
+					addon.setHasError(true);
 					log.error("HookInvoker invoke error", e);
 				}
 		}

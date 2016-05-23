@@ -16,57 +16,57 @@
 			
 			<#if (currentPage == 1)>
 				 <li  class="paginate_button previous disabled">
-                            <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">上页</a>
+                            <a href="#" data-dt-idx="0" tabindex="0">上页</a>
                   </li>
 			<#else>
 				 <li  class="paginate_button previous">
-                            <a href="${actionUrl}#{currentPage - 1}${urlParas!}" aria-controls="example2" data-dt-idx="0" tabindex="0">上页</a>
+                            <a href="${actionUrl}#{currentPage - 1}${urlParas!}" data-dt-idx="0" tabindex="0">上页</a>
                   </li>
 			</#if>
 			
 			<#if (currentPage > 8)>
 				 <li class="paginate_button">
-                     <a href="${actionUrl}#{1}${urlParas!}" aria-controls="example2" data-dt-idx="1" tabindex="0">#{1}</a>
+                     <a href="${actionUrl}#{1}${urlParas!}" data-dt-idx="1" tabindex="0">#{1}</a>
                  </li>
                  <li class="paginate_button ">
-                     <a href="${actionUrl}#{2}${urlParas!}" aria-controls="example2" data-dt-idx="2" tabindex="0">#{2}</a>
+                     <a href="${actionUrl}#{2}${urlParas!}" data-dt-idx="2" tabindex="0">#{2}</a>
                  </li>
                   <li class="paginate_button disabled">
-                     <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">…</a>
+                     <a href="#" data-dt-idx="2" tabindex="0">…</a>
                  </li>
 			</#if>
 			
 			<#list startPage..endPage as i>
 				<#if currentPage == i>
 					<li class="paginate_button active">
-                     <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">#{i}</a>
+                     <a href="#" data-dt-idx="1" tabindex="0">#{i}</a>
                  	</li>
 				<#else>
 					<li class="paginate_button">
-                     <a href="${actionUrl}#{i}${urlParas!}" aria-controls="example2" data-dt-idx="1" tabindex="0">#{i}</a>
+                     <a href="${actionUrl}#{i}${urlParas!}" data-dt-idx="1" tabindex="0">#{i}</a>
                  	</li>
 				</#if>
 			</#list>
 			
 			<#if ((totalPage - currentPage) >= 8)>
 				 <li class="paginate_button disabled">
-                     <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">…</a>
+                     <a href="#" data-dt-idx="2" tabindex="0">…</a>
                  </li>
 				<li class="paginate_button">
-                   <a href="${actionUrl}#{totalPage - 1}${urlParas!}" aria-controls="example2" data-dt-idx="1" tabindex="0">#{totalPage - 1}</a>
+                   <a href="${actionUrl}#{totalPage - 1}${urlParas!}" data-dt-idx="1" tabindex="0">#{totalPage - 1}</a>
                	</li>
                	<li class="paginate_button">
-                   <a href="${actionUrl}#{totalPage}${urlParas!}" aria-controls="example2" data-dt-idx="1" tabindex="0">#{totalPage}</a>
+                   <a href="${actionUrl}#{totalPage}${urlParas!}" data-dt-idx="1" tabindex="0">#{totalPage}</a>
                	</li>
 			</#if>
 			
 			<#if (currentPage == totalPage)>
 				 <li class="paginate_button next disabled">
-                     <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">下页</a>
+                     <a href="#" data-dt-idx="2" tabindex="0">下页</a>
                  </li>
 			<#else>
 			 	<li class="paginate_button next">
-                     <a href="${actionUrl}#{currentPage + 1}${urlParas!}" aria-controls="example2" data-dt-idx="2" tabindex="0">下页</a>
+                     <a href="${actionUrl}#{currentPage + 1}${urlParas!}" data-dt-idx="2" tabindex="0">下页</a>
                  </li>
 			</#if>
 	</ul>

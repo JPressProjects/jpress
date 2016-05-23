@@ -631,3 +631,26 @@ label{
 .article-title{
 	font-weight: bold;
 }
+
+.upload-box{
+
+}
+.upload-box .box{
+	height:100px;
+	line-height:100px;
+}
+.upload-box .upload-input{
+	display: block;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 40px;
+    color: #999;
+    font-size: 16px;
+}
+.upload-box .upload-text{
+	font-size:18px;
+	text-align: center;
+	color: #999;
+	margin-top: 10px;
+}
+

@@ -38,7 +38,7 @@ public class _AddonController extends JBaseController {
 			UploadFile ufile = getFile();
 			String webRoot = PathKit.getWebRootPath();
 
-			StringBuilder newFileName = new StringBuilder(webRoot).append("/WEB-INFO/addons/")
+			StringBuilder newFileName = new StringBuilder(webRoot).append("/WEB-INF/addons/")
 					.append(ufile.getFileName());
 
 			File newfile = new File(newFileName.toString());

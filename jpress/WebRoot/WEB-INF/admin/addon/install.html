@@ -1,28 +1,43 @@
-<#include "../_inc/_layout.html"/>
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", //提交方式  
+			dataType : "json", //数据类型  
+			success : function(data) { //提交成功的回调函数 
+				alert(data.message);
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>
-		插件安装
-	</h1>
+	<h1></h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-	<div class="col-xs-12 jp-common-pad  ">
-		<p class="text-center">如果您有.zip格式的主题，可以在这里通过上传的方式安装。</p>
+	<form action="${CPATH}/admin/addon/install" enctype=”multipart/form-data” id="form">
+	<div class="col-xs-12  upload-box ">
 		<div class="row">
 			<div class="col-md-offset-3 col-md-6  col-xs-12">
 				<div class="box  jp-content-theme">
 					<div class="col-xs-6">
-						<input type="file">
+						<input type="file" class="upload-input">
 					</div>
 					<div class="col-xs-6">
-						<input type="button" class="btn btn-default" value="现在安装">
+						<input type="button" class="btn btn-default" value="现在安装" onclick="doSubmit()">
 					</div>
 				</div>
 			</div>
-
 		</div>
+
+		<p class="upload-text">只能上传 .jar 格式的插件。</p>
+
 	</div>
+	</form>
 </section>
 </@layout>

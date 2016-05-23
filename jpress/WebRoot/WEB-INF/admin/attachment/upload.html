@@ -1,35 +1,33 @@
-<#include "../_inc/_layout.html"/>
+<#include "../_inc/_layout.html"/> 
 <@layout active_id=p child_active_id=c>
- <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-          上传媒体文件
-      </h1>
-    </section>
+<section class="content-header">
+	<h1></h1>
+</section>
 
-    <!-- Main content -->
-    <section class="content">
+<!-- Main content -->
+<section class="content">
+	<form  enctype="multipart/form-data"  method="post" action="/admin/attachment/doUpload">
+	<div class="col-xs-12  upload-box ">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6  col-xs-12">
+				<div class="box  jp-content-theme">
+					<div class="col-xs-6">
+						<input type="file" class="upload-input">
+					</div>
+					<div class="col-xs-6">
+						<input type="submit" class="btn btn-default" value="现在上传">
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <div class="col-xs-12 ">
-        <div class="row">
-            <div id="dropzone">
-                <form  enctype="multipart/form-data"  method="post" action="/admin/attachment/doUpload">
-                    <div class="fallback">
-                        <input name="fileField" id="fileField" type="file"  multiple />
-                        <input type="submit">
-                    </div>
-                    <div  id="dropzonew" class="dz-message needsclick">
-                        Drop files here or click to upload.<br>
-                        <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-      <!-- /.row -->
-        <div class="clr"></div>
-    </section>	
+		<p class="upload-text">最大上传文件大小：200 MB。</p>
+
+	</div>
+	</form>
+</section>
 </@layout>
+
 
 
 

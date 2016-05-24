@@ -4,7 +4,7 @@ html, body, div, p, a, dl, ul, ol, li, img, h1, h2, h3, h4, h5, h6, textarea, in
 }
 
 body {
-	font-family: "Microsoft YaHei", Open Sans ", "Lantinghei SC ", "Arial, "Hiragino Sans GB",
+	font-family: "Microsoft YaHei", Open Sans ", " Lantinghei SC ", " Arial, "Hiragino Sans GB",
 		"STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
 
@@ -596,8 +596,9 @@ label {
 	margin-right: -105px;
 }
 
-.list-inline li {
-	font-size: 12px
+.brower-image-list .list-inline>li {
+	font-size: 12px;
+	padding: 0;
 }
 
 .main-header {
@@ -792,7 +793,7 @@ label {
 .brower-image-list {
 	width: 80%;
 	float: left;
-	padding: 1%;
+	padding: 5px;
 }
 
 .brower-image-list img {
@@ -874,6 +875,23 @@ label {
 	margin-bottom: 20px;
 }
 
+li.jp-borwer-active-li {
+	-webkit-box-shadow: inset 0 0 0 3px #1e8cbe;
+	box-shadow: inset 0 0 0 3px #1e8cbe;
+	position: relative;
+}
+
+.brower-active-icon {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	text-align:center;
+	z-index: 999;
+	color: #1e8cbe;
+}
+
 @media all and (max-width: 640px) {
 	.brower-image {
 		width: 100%;
@@ -884,5 +902,18 @@ label {
 		float: none;
 		height: auto;
 		min-height: auto;
+	}
+	.brower-image-list {
+		width: 100%;
+		float: none;
+		padding: 5px;
+	}
+	.brower-image-prop {
+		border-left: 1px solid #ddd;
+		width: 100%;
+		float: none;
+		background: #eaeaea;
+		padding: 2%;
+		margin-bottom: 20px;
 	}
 }

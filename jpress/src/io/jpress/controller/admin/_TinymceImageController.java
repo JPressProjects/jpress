@@ -28,6 +28,7 @@ import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Attachment;
@@ -61,7 +62,7 @@ public class _TinymceImageController extends JBaseController {
 	public void upload() {
 		UploadFile uploadFile = getFile();
 		String newPath = AttachmentUtils.moveFile(uploadFile);
-		User user = getAttr("user");
+		User user = getAttr(Consts.ATTR_USER);
 
 		Attachment attachment = new Attachment();
 		attachment.setUserId(user.getId());

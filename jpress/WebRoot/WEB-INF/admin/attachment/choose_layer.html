@@ -3,11 +3,22 @@
 function doChoose(url,alt){
 	parent.data.url=url;
 	parent.data.alt=alt; 
-	parent.layer.closeAll(); //关闭所有的iframe层 
 }
+
+function doClose(){
+	parent.layer.closeAll(); 
+}
+
 $(document).ready(function(){
   $(".img-responsive").click(function(){
-    doChoose($(this).attr("src"),$(this).attr("alt"));
+  
+  	doChoose($(this).attr("src"),$(this).attr("alt"));
+  	 
+  	$(".list-inline li").removeClass("jp-borwer-active-li");
+  	$(".brower-active-icon").hide();
+  
+    $(this).parent().addClass("jp-borwer-active-li");
+    $(this).next().show();
   });
 });
 </#macro> 
@@ -16,7 +27,7 @@ $(document).ready(function(){
 	<div class="col-md-12">
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li >
+				<li>
 					<a href="#tab_1" data-toggle="tab">上传文件</a>
 				</li>
 				<li class="active">
@@ -24,8 +35,8 @@ $(document).ready(function(){
 				</li>
 			</ul>
 			<div class="tab-content">
-			
-			
+
+
 				<div class="tab-pane " id="tab_1">
 
 					<div class="jp-borwer-tab1">
@@ -38,20 +49,23 @@ $(document).ready(function(){
 					</div>
 
 				</div>
-				
-				
+
+
 				<div class="tab-pane active" id="tab_2">
 					<div class="jp-borwer">
 						<div class="brower-image-list">
-								<ul class="list-inline list-unstyled">
-									<#if page??> 
-									<#list page.getList() as bean>
-									<li>
-										<img src="${bean.path}" class="jp-grids-photos img-responsive">
-									</li>
-									</#list> 
-									</#if>
-								</ul>
+							<ul class="list-inline list-unstyled">
+								<#if page??> 
+								<#list page.getList() as bean>
+								<li>
+									<img src="${bean.path}" class="jp-grids-photos img-responsive">
+									<div class="brower-active-icon" style="display: none">
+										<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>
+									</div>
+								</li>
+								</#list>
+								</#if>
+							</ul>
 						</div>
 						<div class="brower-image-prop" id="brower-image-info">
 							<div class="brower-image-details">
@@ -73,52 +87,45 @@ $(document).ready(function(){
 							</div>
 
 
-							<div class="brower-settings">
-								<dl class="brower-horizontal">
-									<dt class="">URL</dt>
-									<dd>
-										<div class="form-group">
-											<label class="sr-only">URL</label> <input class="form-control" type="text" disabled="" placeholder="Enter ...">
-										</div>
-									</dd>
-								</dl>
-							</div>
-							<div class="brower-settings">
-								<dl class="brower-horizontal">
-									<dt class="">链接到</dt>
-									<dd>
-										<div class="form-group">
-											<label class="sr-only">链接到</label> 
-											<select class="form-control jp-form-select" placeholder="">
-											 	<option>媒体文件</option>
-											 	<option>附件页面</option>
-											 	<option>自定义URL</option>
-											 	<option>无</option>
-											 </select>
-											<input class="form-control" type="text" placeholder="Enter ...">
-										</div>
-									</dd>
-									<dt class="">尺寸</dt>
-									<dd>
-										<div class="form-group">
-											<label class="sr-only">说明</label>
-											<select class="form-control jp-form-select" placeholder="">
-											 	<option>缩略图-150X150</option>
-											 	<option>中等-300X122</option>
-											 	<option>大-1024X417</option>
-											 	<option>完整尺寸-2168X882</option>
-											 </select>
-										</div>
-									</dd>
-								</dl>
-							</div>
+							<dl class="brower-horizontal">
+								<dt class="">URL</dt>
+								<dd>
+									<div class="form-group">
+										<label class="sr-only">URL</label> <input class="form-control" type="text" disabled="disabled">
+									</div>
+								</dd>
+							</dl>
+							<dl class="brower-horizontal">
+								<dt class="">链接到</dt>
+								<dd>
+									<div class="form-group">
+										<label class="sr-only">链接到</label> <select class="form-control jp-form-select">
+											<option>无</option>
+											<option>附件页面</option>
+											<option>自定义URL</option>
+										</select> <input class="form-control" type="text">
+									</div>
+								</dd>
+								<dt class="">尺寸</dt>
+								<dd>
+									<div class="form-group">
+										<label class="sr-only">说明</label> <select class="form-control jp-form-select" placeholder="">
+											<option>缩略图-150X150</option>
+											<option>中等-300X122</option>
+											<option>大-1024X417</option>
+											<option>完整尺寸-2168X882</option>
+										</select>
+									</div>
+								</dd>
+							</dl>
 						</div>
 					</div>
-
+					<#include "../_inc/_paginate_wrapper.html" />
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<button class="btn btn-block btn-primary jp-submiti-button">插入至文章</button>
+
+<button class="btn btn-block btn-primary jp-submiti-button" onclick="doClose()">选择图片</button>
 </@layout>

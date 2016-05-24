@@ -12,52 +12,113 @@ $(document).ready(function(){
 });
 </#macro> 
 <@layout >
-<!-- Custom Tabs -->
-<div class="nav-tabs-custom jp-media-tab-custom">
-	<div class="attachments-browser">
-		<ul class="nav nav-tabs">
-			<li class="active">
-				<a href="#tab_1" data-toggle="tab">上传文件</a>
-			</li>
-			<li>
-				<a href="#tab_2" data-toggle="tab">媒体库</a>
-			</li>
+<div class="row">
+	<div class="col-md-12">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li >
+					<a href="#tab_1" data-toggle="tab">上传文件</a>
+				</li>
+				<li class="active">
+					<a href="#tab_2" data-toggle="tab">媒体库</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+			
+			
+				<div class="tab-pane " id="tab_1">
 
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="tab_1">
-				<div class="jp-upload-content ">
-					<div class="col-xs-12">
-						<div class="col-xs-offset-4">
-							<input type="file" class="btn btn-default ">
+					<div class="jp-borwer-tab1">
+						<div class="jp-brower-h3">拖文件到任何地方来上传</div>
+						<p class="jp-brower-or">或</p>
+						<p class="jp-brower-filebtn">
+							<a href="#">选择文件</a>
+						</p>
+						<p class="jp-brower-filesize">最大上传文件大小100MB</p>
+					</div>
+
+				</div>
+				
+				
+				<div class="tab-pane active" id="tab_2">
+					<div class="jp-borwer">
+						<div class="brower-image-list">
+								<ul class="list-inline list-unstyled">
+									<#if page??> 
+									<#list page.getList() as bean>
+									<li>
+										<img src="${bean.path}" class="jp-grids-photos img-responsive">
+									</li>
+									</#list> 
+									</#if>
+								</ul>
+						</div>
+						<div class="brower-image-prop" id="brower-image-info">
+							<div class="brower-image-details">
+								<div>
+									<strong>文件名：</strong> <span class="filename"></span>
+								</div>
+								<div>
+									<strong>文件类型：</strong> <span class="filetype"></span>
+								</div>
+								<div class="uploaded">
+									<strong>上传于：</strong> ${(attachment.created)!}
+								</div>
+								<div class="brower-image-size">
+									<strong>文件大小：</strong>
+								</div>
+								<div class="brower-image-dimensions">
+									<strong>分辨率：</strong> 580 × 435
+								</div>
+							</div>
+
+
+							<div class="brower-settings">
+								<dl class="brower-horizontal">
+									<dt class="">URL</dt>
+									<dd>
+										<div class="form-group">
+											<label class="sr-only">URL</label> <input class="form-control" type="text" disabled="" placeholder="Enter ...">
+										</div>
+									</dd>
+								</dl>
+							</div>
+							<div class="brower-settings">
+								<dl class="brower-horizontal">
+									<dt class="">链接到</dt>
+									<dd>
+										<div class="form-group">
+											<label class="sr-only">链接到</label> 
+											<select class="form-control jp-form-select" placeholder="">
+											 	<option>媒体文件</option>
+											 	<option>附件页面</option>
+											 	<option>自定义URL</option>
+											 	<option>无</option>
+											 </select>
+											<input class="form-control" type="text" placeholder="Enter ...">
+										</div>
+									</dd>
+									<dt class="">尺寸</dt>
+									<dd>
+										<div class="form-group">
+											<label class="sr-only">说明</label>
+											<select class="form-control jp-form-select" placeholder="">
+											 	<option>缩略图-150X150</option>
+											 	<option>中等-300X122</option>
+											 	<option>大-1024X417</option>
+											 	<option>完整尺寸-2168X882</option>
+											 </select>
+										</div>
+									</dd>
+								</dl>
+							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
-			<!-- /.tab-pane -->
-			<div class="tab-pane" id="tab_2">
-				<div class="col-upload-left ">
-					<div class="col-upload-left-content ">
-						<ul class="list-inline list-unstyled">
-							<#if page??> <#list page.getList() as bean>
-							<li>
-								<img src="${bean.path}" class="jp-grids-photos img-responsive">
-							</li>
-							</#list> </#if>
-						</ul>
-					</div>
-				</div>
-				<div class="col-upload-right "></div>
-
-			</div>
-
 		</div>
 	</div>
-	<!-- /.tab-content -->
-
-	<div class="modal-footer jp-modal-footer">
-		<button type="button" class="btn btn-primary" onclick="doChoose()">选择</button>
-	</div>
 </div>
-
+<button class="btn btn-block btn-primary jp-submiti-button">插入至文章</button>
 </@layout>

@@ -1,14 +1,18 @@
-html,body,div,p,a,ul,ol,li,img,h1,h2,h3,h4,h5,h6,textarea,input,button{
-	margin:0;
-	padding:0;
+html, body, div, p, a, dl, ul, ol, li, img, h1, h2, h3, h4, h5, h6, textarea, input, button {
+	margin: 0;
+	padding: 0;
 }
+
 body {
-	font-family: Microsoft YaHei;
+	font-family: "Microsoft YaHei", Open Sans ", "Lantinghei SC ", "Arial, "Hiragino Sans GB",
+		"STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
+
 .box {
-    margin-bottom: 5px;
-    margin-top: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
+
 .jp-common-pad {
 	padding: 0;
 	margin: 0
@@ -25,7 +29,6 @@ body {
 .jp-input-item {
 	margin-top: 15px;
 }
-
 
 .jp-set-pad {
 	padding: 15px 0 5px;
@@ -190,23 +193,27 @@ label.jp-common-pad {
 	overflow: auto;
 }
 
-.jp-prop-box{
-	width:100%;
-	overflow:hidden;
+.jp-prop-box {
+	width: 100%;
+	overflow: hidden;
 }
-.jp-prop-input{
-	width:50%;
-	float:left;
+
+.jp-prop-input {
+	width: 50%;
+	float: left;
 }
-.jp-prop-input input{
-	width:80%;
+
+.jp-prop-input input {
+	width: 80%;
 }
-.jp-prop-text{
-	vertical-align:top;
+
+.jp-prop-text {
+	vertical-align: top;
 }
-.jp-prop-box textarea{
-	width:90%;
-	border:1px solid #bfbfbf;
+
+.jp-prop-box textarea {
+	width: 90%;
+	border: 1px solid #bfbfbf;
 }
 
 code {
@@ -217,22 +224,20 @@ code {
 .jp-set-title {
 	color: #333;
 	font-weight: bold;
-	font-family: "Microsoft Yahei","Open Sans", sans-serif
+	font-family: "Microsoft Yahei", "Open Sans", sans-serif
 }
 
-.jp-set-title{
-	font-size:18px;
+.jp-set-title {
+	font-size: 18px;
 	color: #333;
 	font-weight: bold;
-	font-family: "Microsoft Yahei","Open Sans", sans-serif
-	
+	font-family: "Microsoft Yahei", "Open Sans", sans-serif
 }
-.jp-set-info{
-	font-size:14px;
+
+.jp-set-info {
+	font-size: 14px;
 	color: #333;
 	font-weight: normal;
-	font-family: "Microsoft Yahei","Open Sans", sans-serif
-	
 }
 /*   页面
 */
@@ -270,7 +275,7 @@ code {
 	margin-bottom: 0;
 	overflow: auto;
 	position: absolute;
-	top: 61px;
+	top: 10px;
 	width: 100%;
 }
 
@@ -409,43 +414,49 @@ input[type="number"] {
 	border: 1px solid #dfdfdf;
 }
 
-.jp-content-thumbnail{
+.jp-content-thumbnail {
 	max-width: 100%;
 }
-.jp-content-thumbnail-box{
+
+.jp-content-thumbnail-box {
 	min-height: 100px;
 }
 
 .tag-editor {
-    list-style-type: none;
-    padding: 0 5px 0 0;
-    margin: 0;
-    overflow: hidden;
-    border: none;
-    cursor: text;
-    font: normal 14px sans-serif;
-    color: #555;
-    background: #fff;
-    line-height: 20px;
+	list-style-type: none;
+	padding: 0 5px 0 0;
+	margin: 0;
+	overflow: hidden;
+	border: none;
+	cursor: text;
+	font: normal 14px sans-serif;
+	color: #555;
+	background: #fff;
+	line-height: 20px;
 }
-.jp-content-select-box{
-	padding:10px 0;
+
+.jp-content-select-box {
+	padding: 10px 0;
 }
-.jp-content-select-box ul,.jp-content-select-box li{
-	margin:0;
-	padding:0;
-	list-style:none;
+
+.jp-content-select-box ul, .jp-content-select-box li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
-.jp-content-select-box ul{
-	padding:4px 15px;
+
+.jp-content-select-box ul {
+	padding: 4px 15px;
 }
-.jp-content-select-box input{
-	margin-right:4px;
+
+.jp-content-select-box input {
+	margin-right: 4px;
 }
-label{
-	margin:0;
-	padding:0;
-	font-weight:normal;
+
+label {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
 }
 
 /*主题*/
@@ -601,141 +612,277 @@ label{
 	z-index: 8;
 }
 
-.content-row{
+.content-row {
 	padding: 0 15px 10px 15px;
 }
 
-.content-msg{
+.content-msg {
 	margin-bottom: 20px;
-	
 }
-.cf{
+
+.cf {
 	width: 100%;
 	overflow: hidden;
 }
 
 .pagination {
-    margin:0; 
+	margin: 0;
 }
 
 .main-footer {
-    background: #ecf0f5;
-    padding: 5px 15px;
-    color: #444;
-    font-size: 12px;
-    border: none;
+	background: #ecf0f5;
+	padding: 5px 15px;
+	color: #444;
+	font-size: 12px;
+	border: none;
 }
-.input-title{
-	font-weight: bold;
-}
-.article-title{
+
+.input-title {
 	font-weight: bold;
 }
 
-.upload-box{
+.article-title {
+	font-weight: bold;
+}
 
+.upload-box {
+	
 }
-.upload-box .box{
-	height:100px;
-	line-height:100px;
+
+.upload-box .box {
+	height: 100px;
+	line-height: 100px;
 }
-.upload-box .upload-input{
+
+.upload-box .upload-input {
 	display: block;
-    height: 20px;
-    line-height: 20px;
-    margin-top: 40px;
-    color: #999;
-    font-size: 16px;
+	height: 20px;
+	line-height: 20px;
+	margin-top: 40px;
+	color: #999;
+	font-size: 16px;
 }
-.upload-box .upload-text{
-	font-size:18px;
+
+.upload-box .upload-text {
+	font-size: 18px;
 	text-align: center;
 	color: #999;
 	margin-top: 10px;
 }
-.box-body .chart-item{
-	display:block;
-	width:100%;
-	height:100%;
-	background-color:#f3f3f3;
-	text-align:center;
-	padding:15px 0 0 0;
-	color:#000;
+
+.box-body .chart-item {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #f3f3f3;
+	text-align: center;
+	padding: 15px 0 0 0;
+	color: #000;
 }
-.chart-row{
-	margin: 5px 0  20px 0;
+
+.chart-row {
+	margin: 5px 0 20px 0;
 }
-.chart-item .chart-item-title{
-	font-size:14px;
-	margin-bottom:10px;
+
+.chart-item .chart-item-title {
+	font-size: 14px;
+	margin-bottom: 10px;
 }
-.chart-item .chart-item-amount{
-	font-size:24px;
-	font-weight:bold;
+
+.chart-item .chart-item-amount {
+	font-size: 24px;
+	font-weight: bold;
 }
-.chart-item .chart-item-bottom{
-	display:block;
-	width:100%;
-	height:5px;
-	margin-top:10px;
-	background-color:#737373;
+
+.chart-item .chart-item-bottom {
+	display: block;
+	width: 100%;
+	height: 5px;
+	margin-top: 10px;
+	background-color: #737373;
 }
-.chart-item .chart-bottom-c1{
-	background-color:#1f95f4;
+
+.chart-item .chart-bottom-c1 {
+	background-color: #1f95f4;
 }
-.chart-item .chart-bottom-c2{
-	background-color:#f8432e;
+
+.chart-item .chart-bottom-c2 {
+	background-color: #f8432e;
 }
-.chart-item .chart-bottom-c3{
-	background-color:#46b149;
+
+.chart-item .chart-bottom-c3 {
+	background-color: #46b149;
 }
-.chart-item .chart-bottom-c4{
-	background-color:#7c3e90;
+
+.chart-item .chart-bottom-c4 {
+	background-color: #7c3e90;
 }
-.comment-item{
-	padding:10px 0;
-	border-bottom:1px solid #eaeaea;
+
+.comment-item {
+	padding: 10px 0;
+	border-bottom: 1px solid #eaeaea;
 }
-.comment-item-avatar{
-	float:left;
-	width:8%;
+
+.comment-item-avatar {
+	float: left;
+	width: 8%;
 }
-.comment-item-time{
-	float:right;
-	width:20%;
+
+.comment-item-time {
+	float: right;
+	width: 20%;
 }
-.comment-item-content{
-	float:left;
-	width:68%;
-	padding:0 2%;
+
+.comment-item-content {
+	float: left;
+	width: 68%;
+	padding: 0 2%;
 }
-.comment-item-avatar img{
-	max-width:100%;
+
+.comment-item-avatar img {
+	max-width: 100%;
 	border-radius: 50%;
--webkit-border-radius: 50%;
--moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
 }
-.comment-item-actions{
-	margin-top:10px;
+
+.comment-item-actions {
+	margin-top: 10px;
 }
-.comment-item-actions span{
-	color:#e0e0e0;
+
+.comment-item-actions span {
+	color: #e0e0e0;
 }
-.comment-item-blue{
-	color:#2d8ab2;
+
+.comment-item-blue {
+	color: #2d8ab2;
 }
-.comment-item-green{
-	color:#0b700e;
+
+.comment-item-green {
+	color: #0b700e;
 }
-.comment-item-red{
-	color:#b21d0b;
+
+.comment-item-red {
+	color: #b21d0b;
 }
-.comment-item-blue:hover{
-	color:#0e7198;
+
+.comment-item-blue:hover {
+	color: #0e7198;
 }
-.comment-item-green:hover{
-	color:#034c06;
+
+.comment-item-green:hover {
+	color: #034c06;
 }
-.comment-item-red:hover{
-	color:#ff5549;
+
+.comment-item-red:hover {
+	color: #ff5549;
+}
+
+.brower-image {
+	width: 60%;
+	float: left;
+	padding: 2%;
+	text-align: center;
+}
+
+.brower-image img {
+	max-width: 100%;
+}
+
+.brower-image-list {
+	width: 80%;
+	float: left;
+	padding: 1%;
+}
+
+.brower-image-list img {
+	max-width: 100%;
+}
+
+.brower-image-info {
+	border-left: 1px solid #ddd;
+	width: 40%;
+	float: right;
+	background: #eaeaea;
+	padding: 2%;
+}
+
+.brower-image-prop {
+	border-left: 1px solid #ddd;
+	width: 20%;
+	float: right;
+	background: #eaeaea;
+	padding: 2%;
+}
+
+.brower-image-details {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 20px;
+}
+
+.jp-borwer {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.brower-settings {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.jp-borwer-tab1 {
+	text-align: center;
+}
+
+.jp-borwer-tab2 {
+	width: 100%;
+	overflow: hidden;
+}
+
+.jp-brower-h3 {
+	font-size: 20px;
+}
+
+.jp-brower-filebtn {
+	text-align: center;
+	margin: 20px auto;
+}
+
+.jp-brower-filebtn a {
+	background: #eaeaea;
+	border: 1px solid #ddd;
+	padding: 15px 35px;
+}
+
+.jp-brower-tab2-left {
+	
+}
+
+.jp-form-select {
+	width: 60%;
+	margin-bottom: 5px;
+}
+
+.jp-submiti-button {
+	width: 160px;
+	text-align: center;
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+@media all and (max-width: 640px) {
+	.brower-image {
+		width: 100%;
+		float: none;
+	}
+	.brower-image-info {
+		width: 100%;
+		float: none;
+		height: auto;
+		min-height: auto;
+	}
 }

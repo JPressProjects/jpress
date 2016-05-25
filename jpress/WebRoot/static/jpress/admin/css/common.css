@@ -476,10 +476,9 @@ label {
 	font-weight: 600;
 	padding: 4px 10px;
 	position: relative;
-	top: -1px;
 }
 
-.theme {
+.template-item {
 	border: 1px solid #dedede;
 	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
@@ -487,24 +486,24 @@ label {
 	position: relative;
 }
 
-.theme .theme-screenshot::after {
+.template-item .template-item-image::after {
 	content: "";
 	display: block;
 	padding-top: 66.6667%;
 }
 
-.theme .theme-screenshot {
+.template-item .template-item-image {
 	display: block;
 	overflow: hidden;
 	position: relative;
 	transition: opacity 0.2s ease-in-out 0s;
 }
 
-.theme:focus .theme-screenshot, .theme:hover .theme-screenshot {
+.template-item:focus .template-item-image, .template-item:hover .template-item-image {
 	background: #fff none repeat scroll 0 0;
 }
 
-.theme .theme-screenshot img {
+.template-item .template-item-image img {
 	height: auto;
 	left: 0;
 	position: absolute;
@@ -528,7 +527,7 @@ label {
 	top: 35%;
 }
 
-.theme .theme-actions {
+.template-item .template-item-actions {
 	background: rgba(244, 244, 244, 0.7) none repeat scroll 0 0;
 	border-left: 1px solid rgba(0, 0, 0, 0.05);
 	bottom: 0;
@@ -539,7 +538,7 @@ label {
 	top: 0px;
 }
 
-.theme .theme-name {
+.template-item .template-item-name {
 	font-size: 15px;
 	font-weight: 600;
 	overflow: hidden;
@@ -549,33 +548,10 @@ label {
 	white-space: nowrap;
 }
 
-.theme:focus .theme-screenshot img, .theme:hover .theme-screenshot img {
-	opacity: 0.4;
-}
-
-.theme:focus .more-details, .theme:hover .more-details, .theme:focus .theme-actions, .theme:hover .theme-actions
-	{
-	opacity: 1;
-}
 
 .theme-footer {
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) inset;
 	position: relative;
-}
-
-.theme-browser .theme.add-new-theme a::after {
-	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-	border: 5px dashed rgba(0, 0, 0, 0.1);
-	bottom: 0;
-	box-sizing: border-box;
-	content: "";
-	display: block;
-	left: 0;
-	padding: 0;
-	position: absolute;
-	right: 0;
-	text-shadow: none;
-	top: 0;
 }
 
 .jp-content-theme {
@@ -674,7 +650,6 @@ label {
 .box-body .chart-item {
 	display: block;
 	width: 100%;
-	height: 100%;
 	background-color: #f3f3f3;
 	text-align: center;
 	padding: 15px 0 0 0;

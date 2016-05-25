@@ -74,7 +74,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width: 20px"><label class="jp-common-pad "> <input class="jp-common-pad " id="dataItem" onclick="check_all()" title="全选" type="checkbox">
+						<th style="width: 20px"><label class="jp-common-pad "> <input class="jp-common-pad " id="dataItem" onclick="checkAll(this)" title="全选" type="checkbox">
 						</label></th>
 						<th>用户名</th>
 						<th>昵称</th>
@@ -87,7 +87,7 @@
 				<tbody>
 					<#if page??> <#list page.getList() as bean>
 					<tr class="jp-onmouse">
-						<td><label class="jp-common-pad"> <input class="jp-common-pad" name="chkItem" type="checkbox">
+						<td><label class="jp-common-pad"> <input class="jp-common-pad" name="dataItem" type="checkbox">
 						</label></td>
 						<td><strong><a href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">${bean.username!}</a></strong>
 							<div class="jp-flash-comment">

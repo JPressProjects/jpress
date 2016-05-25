@@ -21,14 +21,14 @@
 			<#list templateList as template>
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				<div class="box box-solid">
-					<div class="theme" >
-						<div class="theme-screenshot">
+					<div class="template-item" >
+						<div class="template-item-image">
 							<img alt="" src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg">
 						</div>
 						<span  class="jp-more-details">主题详情</span>
-						<div class="theme-footer">
-							<h2 id="" class="theme-name">${template.title}</h2>
-							<div class="theme-actions">
+						<div class="template-item-footer">
+							<h2 id="" class="template-item-name">${template.title}</h2>
+							<div class="template-item-actions">
 								<a class="btn btn-default btn-sm " href="#">启用</a> 
 							</div>
 						</div>
@@ -39,7 +39,7 @@
 			</#if>
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				<div class="box box-widget widget-user">
-					<div class="theme add-new-theme">
+					<div class="template-item add-new-theme">
 						<a href=""> <img alt="" src="/static/jpress/admin/image/nothumbnail.jpg" style="max-width: 100%"> </a>
 					</div>
 				</div>

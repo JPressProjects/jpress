@@ -92,7 +92,7 @@ function doSubmit(){
 						<thead>
 							<tr>
 								<th style="width: 20px"><label class="jp-common-pad "><input
-										class="jp-common-pad " id="allid" onclick="doallcheck()"
+										class="jp-common-pad " id="allid" onclick="checkAll(this)"
 										title="全选" type="checkbox"></label></th>
 
 								<th style="width: 30%">名称</th>
@@ -107,8 +107,8 @@ function doSubmit(){
 							<#if page??> 
 							<#list page.getList() as bean>
 							<tr class="jp-onmouse">
-								<td><label class="jp-common-pad"><input
-										class="jp-common-pad" name="chkItem" type="checkbox"></label>
+								<td><label class="jp-common-pad">
+								<input class="jp-common-pad" name="dataItem" type="checkbox"></label>
 								</td>
 								<td><strong><a href="#"><span class="article-title">${bean.layerString}${bean.title}</span></a></strong>
 									<div class="jp-flash-comment">

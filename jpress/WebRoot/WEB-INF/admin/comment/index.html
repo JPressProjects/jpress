@@ -1,48 +1,53 @@
 <#include "../_inc/_layout.html"/> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>
-		所有内容 
-	</h1>
+	<h1>所有内容</h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
 	<div class="row content-row">
 		<ul class="list-inline" style="float: left">
-			<li class="all"><a class="current" href="#"> 全部 <span
-					class="count">（8）</span>
-			</a> |</li>
-			<li class="publish"><a href="#"> 已发布 <span class="count">（8）</span>
-			</a> |</li>
-			<li class="trash"><a href="#"> 回收站 <span class="count">（1）</span>
-			</a></li>
+			<li class="all">
+				<a class="current" href="#">
+					全部 <span class="count">（8）</span>
+				</a>
+				|
+			</li>
+			<li class="publish">
+				<a href="#">
+					已发布 <span class="count">（8）</span>
+				</a>
+				|
+			</li>
+			<li class="trash">
+				<a href="#">
+					回收站 <span class="count">（1）</span>
+				</a>
+			</li>
 		</ul>
 
 
 		<form class="form-horizontal" style="float: right">
 			<div class="input-group input-group-sm">
-				<input id="post-search-input" class="form-control  " type="search"
-					value="" name="" placeholder="请输入关键词">&nbsp;&nbsp;<input
-					id="search-submit" class="btn btn-default btn-sm" type="submit"
-					value="搜索">
+				<input id="post-search-input" class="form-control  " type="search" value="" name="" placeholder="请输入关键词">&nbsp;&nbsp;
+				<input id="search-submit" class="btn btn-default btn-sm" type="submit" value="搜索">
 			</div>
 
 		</form>
 	</div>
 	<div class="row content-row">
-			<div  class="jp-left ">
-				<select class="form-control input-sm jp-width120" 
-					>
-					<option value="10">==批量操作==</option>
-					<option value="25">删除</option>
-					<option value="50">置顶</option>
-				</select>
-			</div>
-			<div class="jp-left   ">
-				<button class="btn btn-block btn-sm btn-default" type="button">应用</button>
-			</div>
-		
+		<div class="jp-left ">
+			<select class="form-control input-sm jp-width120">
+				<option value="10">==批量操作==</option>
+				<option value="25">删除</option>
+				<option value="50">置顶</option>
+			</select>
+		</div>
+		<div class="jp-left   ">
+			<button class="btn btn-block btn-sm btn-default" type="button">应用</button>
+		</div>
+
 		<div class="jp-left ">
 			<select class="form-control input-sm jp-width120 ">
 				<option value="10">全部日期</option>
@@ -63,75 +68,64 @@
 	</div>
 
 
-			<div class="box ">
+	<div class="box ">
 
-				<!-- /.box-header -->
-				<div class="box-body jp-cancel-pad">
-					<table  class="table table-striped">
-						<thead>
-							<tr>
-								<th style="width: 2%">
-									<input name="dataItem" onclick="check_all(this)"  type="checkbox">
-								</th>
-								<th style="width: 10%">作者</th>
-								<th style="width: 33%">内容</th>
-								<th style="width: 15%">回复至</th>
-								<th style="width: 10%"><i class="fa fa-commenting"></i></th>
-								<th style="width: 10%">日期</th>
-							</tr>
-						</thead>
-						<tbody>
+		<!-- /.box-header -->
+		<div class="box-body jp-cancel-pad">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="width: 2%"><input name="dataItem" onclick="checkAll(this)" type="checkbox"></th>
+						<th style="width: 10%">作者</th>
+						<th style="width: 33%">内容</th>
+						<th style="width: 15%">回复至</th>
+						<th style="width: 10%"><i class="fa fa-commenting"></i></th>
+						<th style="width: 10%">日期</th>
+					</tr>
+				</thead>
+				<tbody>
 
-							<#if page??> 
-							<#list page.getList() as bean>
-							<tr class="jp-onmouse">
-								<td>
-									<input name="dataItem" type="checkbox">
-								</td>
-								<td>${bean.username!}</td>
-								<td><strong><a href="#"><span class="article-title">${bean.text!}</span></a></strong>
-									<div class="jp-flash-comment">
-										<p class="row-actions jp-cancel-pad">
-											<span class="approve"><a class="vim-a" href="#">编辑</a></span>
-											<span class="edit">| <a title="编辑评论" href="#">快速编辑</a></span>
-											<span class="spam">| <a class="vim-s vim-destructive"
-												href="#">垃圾箱</a>
-											</span> <span class="trash">| <a
-												class="delete vim-d vim-destructive" href="#">查看</a></span>
-										</p>
-									</div></td>
-								
-								<td>${bean.content_title!}</td>
-								<td>${bean.comment_count!}</td>
-								<td>${bean.created!}</td>
-							</tr>
-							</#list> 
-							</#if>
+					<#if page??> <#list page.getList() as bean>
+					<tr class="jp-onmouse">
+						<td><input name="dataItem" type="checkbox"></td>
+						<td>${bean.username!}</td>
+						<td><strong><a href="#">
+									<span class="article-title">${bean.text!}</span>
+								</a></strong>
+							<div class="jp-flash-comment">
+								<p class="row-actions jp-cancel-pad">
+									<span class="approve"><a class="vim-a" href="#">编辑</a></span> <span class="edit">| <a title="编辑评论" href="#">快速编辑</a></span> <span class="spam">| <a class="vim-s vim-destructive"
+											href="#">垃圾箱</a>
+									</span> <span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+								</p>
+							</div></td>
+
+						<td>${bean.content_title!}</td>
+						<td>${bean.comment_count!}</td>
+						<td>${bean.created!}</td>
+					</tr>
+					</#list> </#if>
 
 
-						</tbody>
-						<tfoot>
-							<tr>
-								<th style="width: 20px"><input
-							 name="dataItem" onclick="check_all(this)"
-							 type="checkbox"></th>
-								<th>标题</th>
-								<th style="width: 10%">作者</th>
-								<th style="width: 15%">分类目录</th>
-								<th style="width: 10%"><i class="fa fa-commenting"></i></th>
-								<th style="width: 10%">日期</th>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-				<!-- /.box-body -->
-			</div>
-			<!-- /.box -->
-		<div class="cf">
-			<div class="pull-right " >
-				<#include "../_inc/_paginate_wrapper.html" />
-			</div>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th style="width: 20px"><input name="dataItem" onclick="checkAll(this)" type="checkbox"></th>
+						<th>标题</th>
+						<th style="width: 10%">作者</th>
+						<th style="width: 15%">分类目录</th>
+						<th style="width: 10%"><i class="fa fa-commenting"></i></th>
+						<th style="width: 10%">日期</th>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+	<div class="cf">
+		<div class="pull-right "><#include "../_inc/_paginate_wrapper.html" /></div>
+	</div>
 </section>
 <!-- /.content -->
 </@layout>

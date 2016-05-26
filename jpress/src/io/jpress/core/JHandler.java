@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 
+import io.jpress.Consts;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.install.InstallUtils;
+import io.jpress.model.Option;
 import io.jpress.router.RouterManager;
 import io.jpress.utils.FileUtils;
 
@@ -60,6 +62,10 @@ public class JHandler extends Handler {
 			return;
 		}
 		
+		if (Jpress.isInstalled() && Jpress.isLoaded()) {
+			setGlobalAttrs(request);
+		}
+		
 		if (isDisableAccess(target)) {
 			HandlerKit.renderError404(request, response, isHandled);
 		}
@@ -90,6 +96,24 @@ public class JHandler extends Handler {
 		}
 
 		return false;
+	}
+	
+	private void setGlobalAttrs(HttpServletRequest request) {
+
+		request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
+
+		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
+		if (cdnEnable != null && cdnEnable == true) {
+			String cdnDomain = Option.findValue("cdn_domain");
+			if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
+				request.setAttribute("CDN", cdnDomain);
+			}
+		}
+
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_NAME, Option.findValue("web_name"));
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_TITLE, Option.findValue("web_title"));
+		request.setAttribute(Consts.ATTR_GLOBAL_META_KEYWORDS, Option.findValue("meta_keywords"));
+		request.setAttribute(Consts.ATTR_GLOBAL_META_DESCRIPTION, Option.findValue("meta_description"));
 	}
 
 }

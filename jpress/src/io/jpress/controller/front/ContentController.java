@@ -59,9 +59,9 @@ public class ContentController extends BaseFrontController {
 	}
 
 	private void setGlobleAttrs(Content content) {
-		setAttr("WEB_TITLE", content.getTitle());
-		setAttr("META_KEYWORDS", content.getMetaKeywords());
-		setAttr("META_DESCRIPTION", content.getMetaDescription());
+		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, content.getTitle());
+		setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getMetaKeywords());
+		setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getMetaDescription());
 	}
 
 	private Content queryContent() {

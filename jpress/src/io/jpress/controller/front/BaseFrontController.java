@@ -15,16 +15,19 @@
  */
 package io.jpress.controller.front;
 
+import com.jfinal.aop.Clear;
+
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
+import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.template.TemplateUtils;
 
+@Clear(AdminInterceptor.class)
 public class BaseFrontController extends JBaseController {
 
 	private static final String FILE_SEPARATOR = "_";
 
 	public void render(String name) {
-		String originalName = name;
 		if (templateExists(name)) {
 			renderTemplate(name);
 			return;
@@ -33,35 +36,16 @@ public class BaseFrontController extends JBaseController {
 		if (name.indexOf(FILE_SEPARATOR) != -1) {
 			do {
 				if (templateExists(name)) {
-					break;
+					renderTemplate(name);
+					return;
 				}
 				name = clearProp(name);
 			} while (name.indexOf(FILE_SEPARATOR) != -1);
 		}
 
-		if (templateExists(name)) {
-			renderTemplate(name);
-		} else {
-			renderError(originalName);
+		if (getRender() == null) {
+			renderError(404);
 		}
-	}
-
-	private void renderError(String name) {
-//		List<String> list = new ArrayList<String>();
-//		list.add(name);
-//		
-//		if (name.indexOf(FILE_SEPARATOR) != -1) {
-//			do {
-//				name = clearProp(name);
-//				list.add(name);
-//			} while (name.indexOf(FILE_SEPARATOR) != -1);
-//		}
-//		
-//		String pagesName = Arrays.toString(list.toArray());
-//		renderText(String.format("html page \"%s\" not found in template \"%s\".", pagesName,
-//				TemplateUtils.getTemplateName()));
-		
-		renderError(404);
 	}
 
 	private void renderTemplate(String name) {

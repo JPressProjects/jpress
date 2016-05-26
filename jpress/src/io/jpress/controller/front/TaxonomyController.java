@@ -36,7 +36,7 @@ public class TaxonomyController extends BaseFrontController {
 
 	public void index() {
 
-		init();
+		initRequest();
 
 		Taxonomy taxonomy = tryGetTaxonomy();
 		if (slug != null && taxonomy == null) {
@@ -47,10 +47,14 @@ public class TaxonomyController extends BaseFrontController {
 		setAttr("taxonomy", taxonomy);
 		setAttr("module", Jpress.currentTemplate().getModuleByName(moduleName));
 
+		if (taxonomy != null) {
+			setGlobleAttrs(taxonomy);
+		}
+
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();
 		Page<Content> page = Content.DAO.doPaginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
 		setAttr("page", page);
-		
+
 		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
 		setAttr("pagination", tpt);
 
@@ -61,11 +65,17 @@ public class TaxonomyController extends BaseFrontController {
 		}
 	}
 
+	private void setGlobleAttrs(Taxonomy taxonomy) {
+		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, taxonomy.getTitle());
+		setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, taxonomy.getMetaKeywords());
+		setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, taxonomy.getMetaDescription());
+	}
+
 	private Taxonomy tryGetTaxonomy() {
 		return slug == null ? null : Taxonomy.DAO.findBySlugAndModule(slug, moduleName);
 	}
 
-	private void init() {
+	private void initRequest() {
 		moduleName = getPara(0);
 		if (moduleName == null) {
 			renderError(404);
@@ -74,8 +84,8 @@ public class TaxonomyController extends BaseFrontController {
 		if (Jpress.currentTemplate().getModuleByName(moduleName) == null) {
 			renderError(404);
 		}
-		
-		if(getParaCount() == 1){
+
+		if (getParaCount() == 1) {
 			pageNumber = 1;
 		}
 
@@ -93,6 +103,5 @@ public class TaxonomyController extends BaseFrontController {
 			pageNumber = getParaToInt(2);
 		}
 	}
-
 
 }

@@ -12,9 +12,9 @@ function trash(id){
 function batchTrash(){
 	$("#form").attr("action","${CPATH}/admin/content/batchTrash");
  	$("#form").ajaxSubmit({
-			type : "post", //提交方式  
-			dataType : "json", //数据类型  
-			success : function(result) { //提交成功的回调函数 
+			type : "post", 
+			dataType : "json", 
+			success : function(result) { 
 				if(result.errorCode > 0){
 					alert(result.message);
 				}else{

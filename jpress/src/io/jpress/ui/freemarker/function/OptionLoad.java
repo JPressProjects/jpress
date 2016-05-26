@@ -23,7 +23,9 @@ public class OptionLoad extends JFunction {
 	@Override
 	public Object onExec() {
 		String key = getToString(0);
-		return Option.findValue(key);
+		String value = Option.findValue(key);
+//		return value == null ? "" : value;
+		return value;
 	}
 
 }

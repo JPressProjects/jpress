@@ -15,6 +15,12 @@
  */
 package io.jpress.controller.front;
 
+import java.util.Date;
+
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
+import com.jfinal.core.ActionKey;
+
 import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -25,11 +31,6 @@ import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.HashUtils;
 import io.jpress.utils.StringUtils;
-
-import java.util.Date;
-
-import com.jfinal.aop.Before;
-import com.jfinal.aop.Clear;
 
 @UrlMapping(url = Consts.ROUTER_USER)
 @Before(UserInterceptor.class)
@@ -46,15 +47,19 @@ public class UserController extends BaseFrontController {
 		}
 	}
 
-	// 固定登陆的url
+	
 	@Clear(UserInterceptor.class)
+	@ActionKey(Consts.ROUTER_USER_LOGIN) //固定登陆的url
 	public void login() {
 		keepPara();
-		render("user_login.html");
-	}
+		String username = getPara("username");
+		String password = getPara("password");
 
-	@Clear(UserInterceptor.class)
-	public void doLogin() {
+		if (username == null || password == null) {
+			render("user_login.html");
+			return;
+		}
+
 		long errorTimes = CookieUtils.getLong(this, "_login_errors", 0);
 		if (errorTimes >= 3) {
 			if (!validateCaptcha("_login_captcha")) { // 验证码没验证成功！
@@ -67,16 +72,13 @@ public class UserController extends BaseFrontController {
 			}
 		}
 
-		String username = getPara("username");
-		String password = getPara("password");
-		String from = getPara("from");
-
 		User user = User.DAO.findUserByUsername(username);
 		if (null == user) {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
 			} else {
-				redirect(Consts.ROUTER_USER_LOGIN);
+				setAttr("errorMsg", "没有该用户");
+				render("user_login.html");
 			}
 			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 			return;
@@ -88,8 +90,9 @@ public class UserController extends BaseFrontController {
 			if (this.isAjaxRequest()) {
 				renderAjaxResultForSuccess("登陆成功");
 			} else {
-				if (StringUtils.isNotEmpty(from)) {
-					redirect(from);
+				String gotoUrl = getPara("goto");
+				if (StringUtils.isNotEmpty(gotoUrl)) {
+					redirect(gotoUrl);
 				} else {
 					redirect(Consts.ROUTER_USER_CENTER);
 				}
@@ -98,10 +101,12 @@ public class UserController extends BaseFrontController {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("密码错误");
 			} else {
-				redirect(Consts.ROUTER_USER_LOGIN);
+				setAttr("errorMsg", "密码错误");
+				render("user_login.html");
 			}
 			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}
+
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -182,7 +187,4 @@ public class UserController extends BaseFrontController {
 		render(String.format("ucenter_%s.html", action));
 	}
 
-	public void update() {
-
-	}
 }

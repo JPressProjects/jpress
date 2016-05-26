@@ -42,6 +42,7 @@ public class AdminInterceptor implements Interceptor {
 		controller.setAttr("p", controller.getPara("p"));
 		controller.setAttr("m", controller.getPara("m"));
 		controller.setAttr("t", controller.getPara("t"));
+		controller.setAttr("s", controller.getPara("s"));
 		controller.setAttr("page", controller.getPara("page"));
 
 		User user = InterUtils.tryToGetUser(inv);

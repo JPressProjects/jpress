@@ -21,30 +21,47 @@ import io.jpress.template.TemplateUtils;
 
 public class BaseFrontController extends JBaseController {
 
+	private static final String FILE_SEPARATOR = "_";
+
 	public void render(String name) {
+		String originalName = name;
 		if (templateExists(name)) {
 			renderTemplate(name);
 			return;
 		}
 
-		if (name.indexOf("_") != -1) {
+		if (name.indexOf(FILE_SEPARATOR) != -1) {
 			do {
 				if (templateExists(name)) {
 					break;
 				}
 				name = clearProp(name);
-			} while (name.indexOf("_") != -1);
+			} while (name.indexOf(FILE_SEPARATOR) != -1);
 		}
 
 		if (templateExists(name)) {
 			renderTemplate(name);
 		} else {
-			renderError(name);
+			renderError(originalName);
 		}
 	}
 
 	private void renderError(String name) {
-		renderText(String.format("template \"%s\" not found in \"%s\".", name, TemplateUtils.getTemplateName()));
+//		List<String> list = new ArrayList<String>();
+//		list.add(name);
+//		
+//		if (name.indexOf(FILE_SEPARATOR) != -1) {
+//			do {
+//				name = clearProp(name);
+//				list.add(name);
+//			} while (name.indexOf(FILE_SEPARATOR) != -1);
+//		}
+//		
+//		String pagesName = Arrays.toString(list.toArray());
+//		renderText(String.format("html page \"%s\" not found in template \"%s\".", pagesName,
+//				TemplateUtils.getTemplateName()));
+		
+		renderError(404);
 	}
 
 	private void renderTemplate(String name) {
@@ -52,7 +69,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	public String clearProp(String fname) {
-		return fname.substring(0, fname.lastIndexOf("_")) + ".html";
+		return fname.substring(0, fname.lastIndexOf(FILE_SEPARATOR)) + ".html";
 	}
 
 	private boolean templateExists(String htmlFileName) {

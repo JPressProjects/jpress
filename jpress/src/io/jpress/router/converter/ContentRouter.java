@@ -37,8 +37,9 @@ public class ContentRouter extends IRouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-
+		
 		String[] targetDirs = parseTarget(target);
+		
 		if (targetDirs == null || targetDirs.length == 0) {
 			return null;
 		}
@@ -141,7 +142,7 @@ public class ContentRouter extends IRouterConverter {
 		// 动态前缀
 		else if (TYPE_DYNAMIC.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			return prefix + "?id=" + content.getId();
+			return SLASH + prefix + "?id=" + content.getId();
 		} else {
 			return Consts.ROUTER_CONTENT + "?id=" + content.getId();
 		}

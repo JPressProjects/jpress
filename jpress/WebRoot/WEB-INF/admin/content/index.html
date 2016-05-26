@@ -155,15 +155,18 @@ function del(id){
 							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}"><span class="article-title">${bean.title}</span></a></strong>
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
-										<#if "delete" != s!> <span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
-										</span> <span class="spam"> | <a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
-										</span> <span class="trash"> | <a class="delete vim-d vim-destructive" href="#">查看</a>
-										</span> <#else> <span class="approve"> <a class="vim-a" href="javascript:restore(${bean.id})">还原</a>
-										</span> <span class="spam"> | <a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a>
-										</span> </#if>
+										<#if "delete" != s!> 
+										<span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
+										</span> <span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
+										</span> <span class="trash">|<a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a>
+										</span> 
+										<#else> 
+										<span class="approve"> <a class="vim-a" href="javascript:restore(${bean.id})">还原</a></span> 
+										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a></span> 
+										</#if>
 									</p>
-
-								</div></td>
+								</div>
+							</td>
 							<td>${(bean.username)!}</td> <#if module.taxonomyTypes ??> <#list module.taxonomyTypes as taxonomyType>
 							<td>${(bean.getTaxonomyAsString(taxonomyType.name))!}</td> </#list> </#if>
 							<td>${bean.commentCount}</td>

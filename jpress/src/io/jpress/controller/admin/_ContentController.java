@@ -61,7 +61,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
 		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
 		setAttr("count", mDao.findCountInNormalByModule(getModuleName()));
-
+		
 		super.index();
 	}
 

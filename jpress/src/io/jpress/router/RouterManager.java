@@ -21,7 +21,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
@@ -55,8 +54,8 @@ public class RouterManager {
 			return target;
 		}
 		
-		//为安全起见，也防止路由混乱，禁止已经存在的路由被重写（暂时）
-		if (JFinal.me().getAction(target, urlPara) != null) {
+		//防止更改后台路由
+		if(target.startsWith("/admin")){
 			return target;
 		}
 

@@ -35,7 +35,7 @@ import com.jfinal.aop.Clear;
 @Before(UserInterceptor.class)
 public class UserController extends BaseFrontController {
 
-	@Clear
+	@Clear(UserInterceptor.class)
 	public void index() {
 		String action = getPara();
 		if (StringUtils.isNotBlank(action)) {
@@ -47,13 +47,13 @@ public class UserController extends BaseFrontController {
 	}
 
 	// 固定登陆的url
-	@Clear
+	@Clear(UserInterceptor.class)
 	public void login() {
 		keepPara();
 		render("user_login.html");
 	}
 
-	@Clear
+	@Clear(UserInterceptor.class)
 	public void doLogin() {
 		long errorTimes = CookieUtils.getLong(this, "_login_errors", 0);
 		if (errorTimes >= 3) {
@@ -110,7 +110,7 @@ public class UserController extends BaseFrontController {
 		redirect("/");
 	}
 
-	@Clear
+	@Clear(UserInterceptor.class)
 	public void doRegister() {
 		if (!validateCaptcha("_register_captcha")) { // 验证码没验证成功！
 			renderAjaxResult("not validate captcha", Consts.ERROR_CODE_NOT_VALIDATE_CAPTHCHE);

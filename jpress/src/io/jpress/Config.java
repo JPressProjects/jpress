@@ -38,8 +38,8 @@ public class Config extends JpressConfig {
 
 		{ // target converters
 			RouterManager.register(TaxonomyRouter.class);
-			RouterManager.register(ContentRouter.class);
 			RouterManager.register(PageRouter.class);
+			RouterManager.register(ContentRouter.class);
 		}
 
 		{ // messageListeners

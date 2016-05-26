@@ -26,7 +26,6 @@ public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-
 		if (Jpress.isInstalled() && Jpress.isLoaded()) {
 			setGlobalAttrs(inv.getController());
 		}
@@ -35,6 +34,7 @@ public class GlobalInterceptor implements Interceptor {
 	}
 
 	private void setGlobalAttrs(Controller c) {
+
 		c.setAttr("TPATH", c.getRequest().getContextPath() + Jpress.currentTemplate().getPath());
 
 		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");

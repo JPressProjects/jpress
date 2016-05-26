@@ -1,0 +1,60 @@
+<#macro layout>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>${WEB_TITLE!} - ${WEB_NAME!}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="">
+  <link rel="stylesheet" href="${TPATH}/assets/css/app.css"/>
+  <link rel="stylesheet" href="${TPATH}/assets/font-awesome/css/font-awesome.min.css"/>
+</head>
+<body class="blog-body">
+<header class="x-layout-100">
+  <!-- -->
+  <div class="x-layout-100 x-background-white x-part-border-bottom">
+    <div class="x-pc-width clearfix x-li-heigth-2">
+      <ul class="x-pull-left x-layout-50 clearfix">
+        <li class="x-pull-left x-part-border-right x-part-border-left"><a class="x-font-grey x-font-small x-padding-left-rem1 x-padding-right-rem1" href="#">首页</a></li>
+        <li class="x-pull-left x-part-border-right x-padding-left-rem1 x-padding-right-rem1"><a class="x-font-grey x-font-small" href="#">联系我们</a></li>
+      </ul>
+      <ul class="x-pull-right x-layout-50 clearfix">
+        <li class="x-pull-right x-part-border-right"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-weibo" aria-hidden="true"></i></a></li>
+        <li class="x-pull-right x-part-border-right"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
+        <li class="x-pull-right x-part-border-right x-part-border-left"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-weixin" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- -->
+  <div class="x-layout-100 x-part-border-bottom">
+    <div class="x-pc-width clearfix x-item-space-6 x-item-lh-6">
+      <div class="x-layout-50 x-pull-left x-font-title24 x-sm-logo">${WEB_TITLE!}</div>
+      <div class="x-layout-50 x-pull-left x-sm-adv"><img class="x-full-image" src="${TPATH}/assets/images/banner-adv.jpg"/></div>
+    </div>
+  </div>
+  <!-- -->
+  <div class="x-layout-100 x-background-white x-part-border-bottom">
+    <div class="x-pc-width clearfix x-logo-height x-sm-logo-height">
+      <ul class="x-pull-left x-layout-100 clearfix x-sm-nav">
+      	<li class="x-pull-left x-layout-10 x-font-center"><a class="x-font-darkgray block-a person-relative x-a-active" href="${CPATH}/">首页<span class="x-a-border"></span></a></li>
+      	<@jp_menu>
+        	<#list menus as menu>
+        		<li><a href=""></a></li>
+        		<li class="x-pull-left x-layout-10 x-font-center"><a class="x-font-darkgray x-a-active person-relative block-a" href="${menu.text!}">${menu.title}</a></li>
+        	</#list>
+        </@jp_menu>
+      </ul>
+    </div>
+  </div>
+</header>
+<#nested> 
+<footer class="footer x-sm-footer">
+  <p>京ICP备15019915号 <a class="x-font-blue" href="#" target="_blank">www.meitimao.com</a> 2011-2015 © All Rights Reserved</p>
+</footer>
+</body>
+</html>
+</#macro>

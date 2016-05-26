@@ -58,8 +58,19 @@ public class ConfigParser extends DefaultHandler {
 		} catch (Exception e) {
 			log.warn("ConfigParser parser exception", e);
 		}
+		
+		String screenshot = path +"/screenshot.png";
+		if(!new File(screenshot).exists()){
+			screenshot = null;
+		}
+		
 		path = FileUtils.removeRootPath(configFile.getParent());
 		template.setPath(path.replace("\\", "/"));
+		
+		if(screenshot!=null){
+			template.setScreenshot(template.getPath()+"/screenshot.png");
+		}
+		
 		return template;
 	}
 

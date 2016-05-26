@@ -15,15 +15,7 @@
  */
 package io.jpress.template;
 
-import io.jpress.utils.FileUtils;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.jfinal.kit.PathKit;
 
 public class Template {
 
@@ -36,10 +28,10 @@ public class Template {
 	private String updateUrl;
 	private String path;
 	private String renderType;
+	private String screenshot;
 
 	private List<Module> modules;
 	private List<Thumbnail> thumbnails;
-	private List<String> widgetContainers;
 
 	public String getTitle() {
 		return title;
@@ -128,30 +120,16 @@ public class Template {
 	public void setRenderType(String renderType) {
 		this.renderType = renderType;
 	}
+	
 
-	public List<String> getWidgetContainers() {
-		if (widgetContainers == null) {
-			widgetContainers = new ArrayList<String>();
-			List<File> htmlFilelist = new ArrayList<File>();
-			scanHtmlFiles(new File(PathKit.getWebRootPath() + path), htmlFilelist);
-
-			for (File htmlFile : htmlFilelist) {
-				String htmlText = FileUtils.readString(htmlFile);
-				List<String> containers = getWidgetContainer(htmlText);
-				for (String c : containers) {
-					if (!widgetContainers.contains(c)) {
-						widgetContainers.add(c);
-					}
-				}
-			}
-		}
-
-		return widgetContainers;
+	public String getScreenshot() {
+		return screenshot;
 	}
 
-	public void setWidgetContainers(List<String> widgetContainers) {
-		this.widgetContainers = widgetContainers;
+	public void setScreenshot(String screenshot) {
+		this.screenshot = screenshot;
 	}
+
 
 	public Module getModuleByName(String name) {
 		if (modules != null && name != null) {
@@ -175,31 +153,5 @@ public class Template {
 		return null;
 	}
 
-	private void scanHtmlFiles(File file, List<File> fillToList) {
-		if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			if (null != files && files.length > 0) {
-				for (File f : files) {
-					if (f.isDirectory())
-						scanHtmlFiles(f, fillToList);
-					else if (f.getName().endsWith(".html"))
-						fillToList.add(f);
-				}
-			}
-		}
-	}
-
-	private static List<String> getWidgetContainer(String text) {
-		if (text == null || "".equals(text.trim())) {
-			return null;
-		}
-		Pattern p = Pattern.compile("(?<=<@jp_widgets(\\s)?name=\").*?(?=\"(\\s)?(/)?>)");
-		Matcher m = p.matcher(text);
-		List<String> list = new ArrayList<String>();
-		while (m.find()) {
-			list.add(m.group(0));
-		}
-		return list;
-	}
 
 }

@@ -82,5 +82,10 @@ public class Thumbnail {
 	public String getSizeAsString() {
 		return width + "x" + height;
 	}
+	
+	public String getUrl(String src){
+		int index = src.lastIndexOf(".");
+		return  src.substring(0, index) + "_"+getSizeAsString() + src.substring(index, src.length());
+	}
 
 }

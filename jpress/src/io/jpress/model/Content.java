@@ -15,23 +15,27 @@
  */
 package io.jpress.model;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.core.Jdb;
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.router.converter.ContentRouter;
+import io.jpress.template.Thumbnail;
+import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
 @Table(tableName = "content", primaryKey = "id")
@@ -241,7 +245,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return doFindCount("module = ?", module);
 	}
 
-
 	public long findCountInNormalByModule(String module) {
 		return doFindCount("module = ? AND status <> ?", module, STATUS_DELETE);
 	}
@@ -385,11 +388,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getTaxonomyAsUrl(String type) {
-		StringBuilder retBuilder = new StringBuilder();
+		StringBuilder retBuilder = null;
 		String taxonomyString = get("taxonomys");
 		if (taxonomyString != null) {
 			String[] taxonomyStrings = taxonomyString.split(",");
 			for (String taxonomyStr : taxonomyStrings) {
+				if (retBuilder == null) {
+					retBuilder = new StringBuilder();
+				}
 				String[] propertes = taxonomyStr.split(":");
 				// propertes[0] == id
 				// propertes[1] == slug
@@ -406,11 +412,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			}
 		}
 
-		if (retBuilder.length() > 0) {
-			retBuilder.deleteCharAt(retBuilder.length() - 1);
+		if (retBuilder != null) {
+			if (retBuilder.length() > 0) {
+				retBuilder.deleteCharAt(retBuilder.length() - 1);
+			}
+			return retBuilder.toString();
+		} else {
+			return null;
 		}
-
-		return retBuilder.toString();
 	}
 
 	public List<Taxonomy> getTaxonomys() {
@@ -482,16 +491,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getFirstImageUrl() {
-		if (getText() == null)
-			return null;
-		Elements es = Jsoup.parse(getText()).select("img");
-		if (es != null && es.size() > 0)
-			return es.first().absUrl("src");
+		return JsoupUtils.getFirstImageSrc(getText());
+	}
 
+	public String imageUrlByIndex(int index) {
+		List<String> list = JsoupUtils.getImageSrcs(getText());
+		if (list != null && list.size() > index - 1) {
+			return list.get(index);
+		}
 		return null;
 	}
 
-	public String getSummaryWithLen(int len) {
+	public String summaryWithLen(int len) {
 		if (getText() == null)
 			return null;
 		String text = Jsoup.parse(getText()).text();
@@ -502,12 +513,37 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getSummary() {
-		return getSummaryWithLen(100);
+		return summaryWithLen(100);
+	}
+
+	public String thumbnailWithName(String name) {
+		String thumbnailSrc = getThumbnail();
+		if (!StringUtils.isNotBlank(thumbnailSrc)) {
+			return null;
+		}
+
+		Thumbnail thumbnail = Jpress.currentTemplate().getThumbnailByName(name);
+		if (thumbnail == null) {
+			return thumbnailSrc;
+		}
+
+		String nameOfThumbnailSrc = thumbnail.getUrl(thumbnailSrc);
+
+		if (new File(PathKit.getWebRootPath(), nameOfThumbnailSrc).exists()) {
+			return nameOfThumbnailSrc;
+		}
+
+		return thumbnailSrc;
+	}
+
+	public int getImageCount() {
+		List<String> list = JsoupUtils.getImageSrcs(getText());
+		return list == null ? 0 : list.size();
 	}
 
 	private StringBuilder getBaseSelectSql() {
 		StringBuilder sqlBuilder = new StringBuilder(
-				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username");
+				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar");
 		sqlBuilder.append(" from content c");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");

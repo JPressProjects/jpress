@@ -88,14 +88,14 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-pad jp-set-title">伪静态</h4>
-				<p>JPress让。。。</p>
+				<p>若 以上 设置为【动态前缀类型】，此项设置无效。</p>
 				<ul class="list-unstyled">
 				
 					<li class="jp-set-pad">
 						<div class="col-sm-3  jp-line-height40 jp-set-info">启用伪静态</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label> <input type="checkbox" value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
+								<label> <input type="checkbox"  value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
 								</label>
 							</div>
 						</div>
@@ -106,8 +106,8 @@
 						<div class="col-sm-3 jp-line-height40 jp-set-info"> <span class="jp-set-info"> 后缀</span></div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
-								默认是 .html
+								<input class="form-control input-md" placeholder=".html" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
+								不填写默认是 .html
 							</div>
 						</div>
 						<div class="clr"></div>

@@ -23,6 +23,7 @@ import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.model.User;
 import io.jpress.ui.freemarker.tag.ContentPaginateTag;
 import io.jpress.utils.StringUtils;
 
@@ -48,6 +49,7 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
+		setAttr("user", User.DAO.findById(content.getUserId()));
 
 		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
 		setAttr("page", page);

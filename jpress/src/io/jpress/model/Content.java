@@ -493,6 +493,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public String getFirstImageUrl() {
 		return JsoupUtils.getFirstImageSrc(getText());
 	}
+	
+	public int getImageCount() {
+		List<String> list = JsoupUtils.getImageSrcs(getText());
+		return list == null ? 0 : list.size();
+	}
 
 	public String imageUrlByIndex(int index) {
 		List<String> list = JsoupUtils.getImageSrcs(getText());
@@ -534,11 +539,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 
 		return thumbnailSrc;
-	}
-
-	public int getImageCount() {
-		List<String> list = JsoupUtils.getImageSrcs(getText());
-		return list == null ? 0 : list.size();
 	}
 
 	private StringBuilder getBaseSelectSql() {

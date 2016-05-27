@@ -276,7 +276,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 
 		Content dbContent = mDao.findBySlug(content.getSlug());
-		if (dbContent != null && dbContent.getId() != content.getId()) {
+		if (dbContent != null && dbContent.getId().compareTo(content.getId()) != 0) {
 			renderAjaxResultForError();
 			return;
 		}

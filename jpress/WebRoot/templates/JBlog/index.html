@@ -31,17 +31,15 @@
 
 		<@jp_contents module="article"> 
 		<#list contents as content>
-		<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
-		
 			<#if content.thumbnail ??>
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
 			<div class="x-layout-100">
 				<p>
-					<a href="">
+					<a href="${content.url}">
 						<img src="${content.thumbnailWithName('t1')!}" />
 					</a>
 				</p>
 			</div>
-			</#if>
 			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
@@ -69,23 +67,24 @@
 					${content.comment_count!'0'}
 				</p>
 			</div>
-		</div>
-		</#list> 
-		</@jp_contents>
-		<!-- -->
-		<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 clearfix x-div-radius x-sm-item x-sm-item-display">
+			</div>
+			
+			<#elseif ((content.imageCount > 0) && (content.imageCount<3)) >
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 clearfix x-div-radius x-sm-item x-sm-item-display">
 			<div class="x-layout-30 x-pull-left">
 				<p>
-					<a href="">
-						<img class="x-image-size-11" src="assets/images/slide01.png" />
+					<a href="${content.url}">
+						<img class="x-image-size-11" src="${(content.firstImageUrl)!}" />
 					</a>
 				</p>
 			</div>
 			<div class="x-layout-68 x-pull-right">
 				<h3 class="x-font-title12 x-margin-bottom-10 x-item-space-4 clearfix">
-					<a class="x-a-active" href="#">Circle with Disney 上线新功能 Circle Go，方便家长随时随地管理孩子上网情况方便家长随时随地管理孩子上网情况</a>
+					<a class="x-a-active" href="${content.url}">${content.title}</a>
 				</h3>
-				<p class="x-font-body x-padding-bottom-10 x-margin-bottom-10 x-item-space-25 clearfix x-font-grey">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
+				<p class="x-font-body x-padding-bottom-10 x-margin-bottom-10 x-item-space-25 clearfix x-font-grey">
+				${content.summary}
+				</p>
 				<div class="x-layout-100 clearfix x-sm-info">
 					<p class="x-layout-20 x-pull-left x-font-small x-font-grey">
 						<img class="x-small-avatar x-image-radus x-vertical-middle" src="" />
@@ -109,31 +108,32 @@
 					</p>
 				</div>
 			</div>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
-			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				<a class="x-a-active" href="#">Circle with Disney 上线新功能 Circle Go，方便家长随时随地管理孩子上网情况方便家长随时随地管理孩子上网情况</a>
+			</div>
+			
+			<#elseif (content.imageCount>3) >
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
+				<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
 			</h3>
 			<div class="x-layout-100">
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
+					<a href="${content.url}">
 						<img src="assets/images/banner-bg.jpg" />
 					</a>
 				</p>
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
+					<a href="${content.url}">
 						<img src="assets/images/banner-bg.jpg" />
 					</a>
 				</p>
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
+					<a href="${content.url}">
 						<img src="assets/images/banner-bg.jpg" />
 					</a>
 				</p>
 			</div>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
+			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">${content.summary}</p>
 			<div class="x-layout-100 clearfix x-sm-info">
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
 					<img class="x-small-avatar x-image-radus x-vertical-middle" src="assets/images/avatar.jpg" />
@@ -156,22 +156,22 @@
 					134
 				</p>
 			</div>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
+			</div>
+			<#else>
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
 			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				<a class="x-a-active" href="#">Circle with Disney 上线新功能 Circle Go，方便家长随时随地管理孩子上网情况方便家长随时随地管理孩子上网情况</a>
+				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
 			</h3>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
+			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">${content.summary}</p>
 			<div class="x-layout-100 clearfix x-sm-info">
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
-					<img class="x-small-avatar x-image-radus x-vertical-middle" src="assets/images/avatar.jpg" />
-					海哥
+					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+					${content.nickname!}
 				</p>
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-bars" aria-hidden="true"></i>
-					未分类
+					${content.getTaxonomyAsUrl('category')!'未分类'}
 				</p>
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -179,62 +179,19 @@
 				</p>
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey x-sm-eye">
 					<i class="fa fa-eye" aria-hidden="true"></i>
-					10805
+					${content.view_count!'0'}
 				</p>
 				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-					134
+					${content.comment_count!'0'}
 				</p>
 			</div>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
-			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				<a class="x-a-active" href="#">Circle with Disney 上线新功能 Circle Go，方便家长随时随地管理孩子上网情况方便家长随时随地管理孩子上网情况</a>
-				<span class="x-title-border"></span>
-			</h3>
-			<div class="x-layout-100 x-sm-image3">
-				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
-						<img src="assets/images/banner-bg.jpg" />
-					</a>
-				</p>
-				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
-						<img src="assets/images/banner-bg.jpg" />
-					</a>
-				</p>
-				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
-					<a href="">
-						<img src="assets/images/banner-bg.jpg" />
-					</a>
-				</p>
 			</div>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
-			<div class="x-layout-100 clearfix x-sm-info">
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
-					<img class="x-small-avatar x-image-radus x-vertical-middle" src="assets/images/avatar.jpg" />
-					海哥
-				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
-					<i class="fa fa-bars" aria-hidden="true"></i>
-					未分类
-				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
-					<i class="fa fa-clock-o" aria-hidden="true"></i>
-					1天前
-				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey x-sm-eye">
-					<i class="fa fa-eye" aria-hidden="true"></i>
-					10805
-				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
-					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-					134
-				</p>
-			</div>
-		</div>
-		<!-- -->
+			</#if>
+		
+		</#list> 
+		</@jp_contents>
+		
 		<ul class="x-page">
 			<li>
 				<a href="#">上一页</a>

@@ -9,7 +9,7 @@
 <section class="content">
 	<p class="content-msg">JPress让。。。</p>
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
-		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="web_title,web_subtitle,web_domain">
+		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="web_name,web_title,web_subtitle,web_domain">
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-title">常规选项</h4>
@@ -20,12 +20,24 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" placeholder="请输入网站名称" type="text" name="web_title" value="${option('web_title')!}" />
+								<input class="form-control input-md" placeholder="请输入网站名称" type="text" name="web_name" value="${option('web_name')!}" />
 							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
 
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">网站标题</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" placeholder="请输入网站副标题" type="text" name="web_title" value="${option('web_title')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="  jp-set-info ">副标题</div>

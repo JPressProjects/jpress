@@ -40,6 +40,7 @@ public class Consts {
 	public static final String ATTR_USER = "_user";
 	public static final String ATTR_GLOBAL_WEB_NAME = "WEB_NAME";
 	public static final String ATTR_GLOBAL_WEB_TITLE = "WEB_TITLE";
+	public static final String ATTR_GLOBAL_WEB_SUBTITLE = "WEB_SUBTITLE";
 	public static final String ATTR_GLOBAL_META_KEYWORDS = "META_KEYWORDS";
 	public static final String ATTR_GLOBAL_META_DESCRIPTION = "META_DESCRIPTION";
 

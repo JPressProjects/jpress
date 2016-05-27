@@ -10,7 +10,7 @@
 
 	<form action="${CPATH}/admin/option/save" method="POST" id="form" enctype="multipart/form-data">
 		<input type="hidden" name="ucode" value="${ucode}"> <input
-			type="hidden" name="autosave" value="jpblog_wechat_pay_enable,jpblog_wechat_pay_image,jpblog_banner_image">
+			type="hidden" name="autosave" value="jpblog_wechat_pay_enable,jpblog_wechat_pay_image,jpblog_banner_image,jpblog_wechat_pay_tips">
 		<div class="row">
 		<div class="col-xs-12">
 			<h4 class="jp-set-title">奖赏设置</h4>
@@ -51,7 +51,7 @@
 					<div class="col-sm-3  jp-set-info">打赏勾搭 ~~</div>
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<input class="form-control input-md" type="text" placeholder="默认：打赏一个呗~~" name="content.title" value="${(content.title)!}">
+							<input class="form-control input-md" type="text" placeholder="默认：打赏一个呗~~" name="jpblog_wechat_pay_tips" value="${option('jpblog_wechat_pay_tips')!}">
 						</div>
 					</div>
 					<div class="clr"></div>

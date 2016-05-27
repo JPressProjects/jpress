@@ -112,6 +112,7 @@ public class JHandler extends Handler {
 
 		request.setAttribute(Consts.ATTR_GLOBAL_WEB_NAME, Option.findValue("web_name"));
 		request.setAttribute(Consts.ATTR_GLOBAL_WEB_TITLE, Option.findValue("web_title"));
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_SUBTITLE, Option.findValue("web_subtitle"));
 		request.setAttribute(Consts.ATTR_GLOBAL_META_KEYWORDS, Option.findValue("meta_keywords"));
 		request.setAttribute(Consts.ATTR_GLOBAL_META_DESCRIPTION, Option.findValue("meta_description"));
 	}

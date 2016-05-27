@@ -23,7 +23,8 @@ public class OptionValue extends JFunction {
 	@Override
 	public Object onExec() {
 		String key = getToString(0);
-		return Option.findValue(key);
+		String value = Option.findValue(key);
+		return "".equals(value) ? null : value;
 	}
 
 }

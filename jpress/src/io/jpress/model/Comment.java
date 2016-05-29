@@ -46,6 +46,9 @@ public class Comment extends BaseComment<Comment> {
 
 		fromBuilder.append("order by c.created");
 
+		if (params.isEmpty()) {
+			return paginate(pageNumber, pageSize, select, fromBuilder.toString());
+		}
 		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
 

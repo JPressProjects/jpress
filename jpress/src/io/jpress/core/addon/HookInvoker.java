@@ -48,18 +48,23 @@ public class HookInvoker {
 				continue;
 			}
 			Method method = addon.getHooks().method(hookName);
-			if (method != null)
+			if (method != null) {
+				Hook hook = null;
 				try {
-					Hook hook = addon.getHooks().hook(hookName);
+					hook = addon.getHooks().hook(hookName);
 					Object ret = method.invoke(hook, objects);
 					if (!hook.letNextHookInvoke()) {
 						return ret;
 					}
-					hook.hookInvokeFinished();
 				} catch (Throwable e) {
 					addon.setHasError(true);
 					log.error("HookInvoker invoke error", e);
+				} finally {
+					if (hook != null) {
+						hook.hookInvokeFinished();
+					}
 				}
+			}
 		}
 		return null;
 	}

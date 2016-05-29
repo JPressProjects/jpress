@@ -19,8 +19,6 @@ public class Consts {
 
 	public static final String COOKIE_LOGINED_USER = "user";
 
-	public static final String SYS_MODULE_PAGE = "page";
-
 	public static final String ROUTER_CONTENT = "/c";
 	public static final String ROUTER_TAXONOMY = "/t";
 	public static final String ROUTER_USER = "/user";

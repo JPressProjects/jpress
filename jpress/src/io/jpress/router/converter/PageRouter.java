@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
 import io.jpress.model.Content;
-import io.jpress.router.IRouterConverter;
+import io.jpress.router.RouterConverter;
 
-public class PageRouter extends IRouterConverter {
+public class PageRouter extends RouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -35,10 +35,19 @@ public class PageRouter extends IRouterConverter {
 		String slug = targetDirs[0];
 		Content content = Content.DAO.findBySlug(slug);
 		if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
-			return Consts.ROUTER_CONTENT + SLASH + slug;
+			return Consts.ROUTER_CONTENT + SLASH  + slug;
 		}
 
 		return null;
+	}
+
+	public static String getRouter(Content content) {
+		String url = SLASH + content.getSlug();
+
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
 	}
 
 }

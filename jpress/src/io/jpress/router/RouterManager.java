@@ -30,10 +30,10 @@ import io.jpress.utils.StringUtils;
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
 	static String[] urlPara = {null};
-	static List<IRouterConverter> converters = new ArrayList<IRouterConverter>();
+	static List<RouterConverter> converters = new ArrayList<RouterConverter>();
 
-	public static void register(Class<? extends IRouterConverter> clazz) {
-		for (IRouterConverter tc : converters) {
+	public static void register(Class<? extends RouterConverter> clazz) {
+		for (RouterConverter tc : converters) {
 			if (tc.getClass() == clazz) {
 				throw new RuntimeException(String.format("Class [%s] has registered", clazz.getName()));
 			}
@@ -80,7 +80,7 @@ public class RouterManager {
 		}
 
 		try {
-			for (IRouterConverter c : converters) {
+			for (RouterConverter c : converters) {
 				String newTarget = c.converter(target, request, response);
 				if (newTarget != null) {
 					if (Jpress.isDevMode()) {

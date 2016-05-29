@@ -24,9 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.core.JFinal;
 
+import io.jpress.model.Option;
 import io.jpress.utils.StringUtils;
 
-public abstract class IRouterConverter {
+public abstract class RouterConverter {
 
 	public static final String URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator();
 	public static final String SLASH = "/";
@@ -61,6 +62,19 @@ public abstract class IRouterConverter {
 			}
 		}
 		return arrays.toArray(new String[] {});
+	}
+
+	protected static boolean enalbleFakeStatic() {
+		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+		return fakeStaticEnable != null && fakeStaticEnable == true;
+	}
+
+	protected static String getFakeStaticSuffix() {
+		String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+		if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
+			fakeStaticSuffix = ".html";
+		}
+		return fakeStaticSuffix.trim();
 	}
 
 }

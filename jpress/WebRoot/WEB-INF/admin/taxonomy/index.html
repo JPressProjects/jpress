@@ -117,7 +117,7 @@ function doSubmit(){
 											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">设置</a></span>
 											<span class="approve">| <a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
-											<span class="trash">| <a class="delete vim-d vim-destructive" href="#">查看</a></span>
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a></span>
 										</p>
 									</div></td>
 								<td>${bean.text!}</td>

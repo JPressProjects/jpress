@@ -20,9 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
-import io.jpress.router.IRouterConverter;
+import io.jpress.model.Taxonomy;
+import io.jpress.router.RouterConverter;
 
-public class TaxonomyRouter extends IRouterConverter {
+public class TaxonomyRouter extends RouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -44,6 +45,29 @@ public class TaxonomyRouter extends IRouterConverter {
 		}
 
 		return null;
+	}
+
+	private static String getRouterWithoutSuffix(Taxonomy taxonomy) {
+		String url = SLASH + taxonomy.getContentModule() + URL_PARA_SEPARATOR
+				+ (taxonomy.getSlug() == null ? taxonomy.getId() : taxonomy.getSlug()) + URL_PARA_SEPARATOR + 1;
+
+		return url;
+	}
+
+	public static String getRouter(Taxonomy taxonomy) {
+		String url = getRouterWithoutSuffix(taxonomy);
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
+	}
+
+	public static String getRouter(Taxonomy taxonomy, int pageNumber) {
+		String url = getRouterWithoutSuffix(taxonomy);
+		if (enalbleFakeStatic()) {
+			return url + URL_PARA_SEPARATOR + pageNumber + getFakeStaticSuffix();
+		}
+		return url + URL_PARA_SEPARATOR + pageNumber;
 	}
 
 }

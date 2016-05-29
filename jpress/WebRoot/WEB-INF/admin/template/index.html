@@ -3,9 +3,15 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		<span class="jp-left "> 模板 <span
-			class="title-count theme-count">4</span> <a href="#"
-			class="btn btn-default btn-sm" type="button">添加</a>
+		<span class="jp-left "> 模板 
+		<span class="title-count theme-count">
+			<#if templateList ??>
+				${templateList.size()}
+			<#else>
+			 0	
+			</#if>
+		</span> 
+			<a href="${CPATH}/admin/template/install?p=template&c=install" class="btn btn-default btn-sm" type="button">安装新主题</a>
 		</span> <span class="jp-left input-group input-group-sm"> <input
 			class="form-control" size=40 type="search" placeholder="搜索" name=""
 			value="">
@@ -34,13 +40,6 @@
 			</div>
 			</#list>
 			</#if>
-			<div class="col-md-4 col-sm-6 col-xs-12">
-				<div class="box box-solid">
-					<div class=" add-new-template">
-						<a href=""> <img alt="" src="/static/jpress/admin/image/nothumbnail.jpg" style="max-width: 100%"> </a>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </section>

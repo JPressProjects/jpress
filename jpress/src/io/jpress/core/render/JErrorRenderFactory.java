@@ -20,6 +20,7 @@ import com.jfinal.render.Render;
 import com.jfinal.render.TextRender;
 
 import io.jpress.core.Jpress;
+import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 
 public class JErrorRenderFactory implements IErrorRenderFactory {
@@ -30,9 +31,9 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 			return new TextRender(errorCode + " error in jpress.");
 		}
 
-		String templateName = TemplateUtils.getTemplateName();
-		if (null == templateName) {
-			return new TextRender(String.format("%s error!you haven't configure your template yet.", errorCode));
+		Template template = TemplateUtils.currentTemplate();
+		if (null == template) {
+			return new TextRender(String.format("%s error! you haven't configure your template yet.", errorCode));
 		}
 
 		String errorHtml = Jpress.currentTemplate().getPath() + "/" + errorCode + ".html";

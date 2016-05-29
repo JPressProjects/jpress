@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,17 +32,34 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
-import io.jpress.template.ConfigParser;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.FileUtils;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/template", viewPath = "/WEB-INF/admin/template")
 public class _TemplateController extends JBaseController {
 
 	public void index() {
-		List<Template> themeList = scanTemplates();
-		setAttr("templateList", themeList);
+		List<Template> templateList = TemplateUtils.scanTemplates();
+		setAttr("templateList", templateList);
+	}
+
+	public void enable() {
+		String id = getPara("id");
+
+		if (!StringUtils.isNotBlank(id) ) {
+			renderAjaxResultForError();
+			return;
+		}
+		
+		boolean isSuccess = TemplateUtils.templateChang(id);
+		if(isSuccess){
+			
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
 	}
 
 	public void install() {
@@ -191,8 +207,8 @@ public class _TemplateController extends JBaseController {
 
 		keepPara();
 
-		if (TemplateUtils.existsFile("template_setting.html")) {
-			String include = TemplateUtils.getTemplatePath() + "/template_setting.html";
+		if (TemplateUtils.existsFile("tpl_setting.html")) {
+			String include = TemplateUtils.getTemplatePath() + "/tpl_setting.html";
 			setAttr("include", "../../.." + include);
 		}
 	}
@@ -203,39 +219,4 @@ public class _TemplateController extends JBaseController {
 		renderAjaxResultForSuccess("成功！");
 	}
 
-	private List<Template> scanTemplates() {
-		String basePath = PathKit.getWebRootPath() + "/templates";
-
-		List<File> themeFolderList = new ArrayList<File>();
-		scanThemeFloders(new File(basePath), themeFolderList);
-
-		List<Template> templatelist = null;
-		if (themeFolderList.size() > 0) {
-			templatelist = new ArrayList<Template>();
-			for (File themeFile : themeFolderList) {
-				templatelist.add(new ConfigParser().parser(themeFile.getName()));
-			}
-		}
-
-		return templatelist;
-	}
-
-	private void scanThemeFloders(File file, List<File> fillToList) {
-		if (file.isDirectory()) {
-
-			File configFile = new File(file, "config.xml");
-
-			if (configFile.exists() && configFile.isFile()) {
-				fillToList.add(file);
-			} else {
-				File[] files = file.listFiles();
-				if (null != files && files.length > 0) {
-					for (File f : files) {
-						if (f.isDirectory())
-							scanThemeFloders(f, fillToList);
-					}
-				}
-			}
-		}
-	}
 }

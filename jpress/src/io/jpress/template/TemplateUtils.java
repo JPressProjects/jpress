@@ -16,6 +16,8 @@
 package io.jpress.template;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,6 +26,7 @@ import com.jfinal.kit.PropKit;
 
 import io.jpress.core.Jpress;
 import io.jpress.model.Option;
+import io.jpress.utils.StringUtils;
 
 public class TemplateUtils {
 
@@ -43,17 +46,97 @@ public class TemplateUtils {
 		return exists(PathKit.getWebRootPath() + viewPath);
 	}
 
-	public static String getTemplateName() {
-		String templateName = Option.findValue(Option.KEY_TEMPLATE_NAME);
+	public static String getcurrentTemplateId() {
+		String templateId = Option.findValue(Option.KEY_TEMPLATE_ID);
 
-		if (null != templateName && !"".equals(templateName.trim())) {
-			return templateName;
+		if (StringUtils.isNotBlank(templateId)) {
+			return templateId;
 		}
 
-		if (Jpress.isDevMode()) {
-			return "default";
-		} else {
-			return PropKit.get("default_template");
+		return PropKit.get("default_template");
+	}
+
+	private static Template cTemplate;
+
+	public static Template currentTemplate() {
+		if (cTemplate == null) {
+
+			String templateId = TemplateUtils.getcurrentTemplateId();
+
+			List<Template> templateList = TemplateUtils.scanTemplates();
+			for (Template tpl : templateList) {
+				if (templateId.equals(tpl.getId())) {
+					cTemplate = tpl;
+				}
+			}
+
+		}
+
+		return cTemplate;
+	}
+
+	public static boolean templateChang(String templateId) {
+		List<Template> templateList = TemplateUtils.scanTemplates();
+
+		if (!StringUtils.isNotBlank(templateId) || templateList == null || templateList.isEmpty()) {
+			return false;
+		}
+
+		Template template = null;
+		for (Template tpl : templateList) {
+			if (templateId.equals(tpl.getId())) {
+				template = tpl;
+			}
+		}
+
+		if (template != null) {
+			Option option = Option.DAO.findByKey(Option.KEY_TEMPLATE_ID);
+			if (option == null) {
+				option = new Option();
+				option.setOptionKey(Option.KEY_TEMPLATE_ID);
+			}
+			option.setOptionValue(template.getId());
+			option.saveOrUpdate();
+
+			cTemplate = null;
+			return true;
+		}
+		return false;
+	}
+
+	public static List<Template> scanTemplates() {
+		String basePath = PathKit.getWebRootPath() + "/templates";
+
+		List<File> templateFolderList = new ArrayList<File>();
+		scanThemeFloders(new File(basePath), templateFolderList);
+
+		List<Template> templatelist = null;
+		if (templateFolderList.size() > 0) {
+			templatelist = new ArrayList<Template>();
+			for (File templateFolder : templateFolderList) {
+				templatelist.add(new TemplateConfigParser().parser(templateFolder));
+			}
+		}
+
+		return templatelist;
+	}
+
+	private static void scanThemeFloders(File file, List<File> fillToList) {
+		if (file.isDirectory()) {
+
+			File configFile = new File(file, "tpl_config.xml");
+
+			if (configFile.exists() && configFile.isFile()) {
+				fillToList.add(file);
+			} else {
+				File[] files = file.listFiles();
+				if (null != files && files.length > 0) {
+					for (File f : files) {
+						if (f.isDirectory())
+							scanThemeFloders(f, fillToList);
+					}
+				}
+			}
 		}
 	}
 

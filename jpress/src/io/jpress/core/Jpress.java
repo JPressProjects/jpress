@@ -23,7 +23,6 @@ import com.jfinal.render.FreeMarkerRender;
 
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.core.render.freemarker.JTag;
-import io.jpress.template.ConfigParser;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 
@@ -55,18 +54,9 @@ public class Jpress {
 		return isInstalled;
 	}
 
-	private static Template cTemplate;
 
 	public static Template currentTemplate() {
-		if (cTemplate == null) {
-			String tName = TemplateUtils.getTemplateName();
-			cTemplate = new ConfigParser().parser(tName);
-		}
-		return cTemplate;
-	}
-
-	public static void templateChanged() {
-		cTemplate = null;
+		return TemplateUtils.currentTemplate();
 	}
 
 	public static boolean isDevMode() {

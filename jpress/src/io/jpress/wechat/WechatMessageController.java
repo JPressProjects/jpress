@@ -248,7 +248,7 @@ public class WechatMessageController extends MsgController {
 								News news = new News();
 								news.setTitle(content.getTitle());
 								news.setDescription(content.getSummary());
-								news.setPicUrl(content.getFirstImageUrl());
+								news.setPicUrl(content.getFirstImage());
 								news.setUrl(content.getUrl());
 								out.addNews(news);
 							}

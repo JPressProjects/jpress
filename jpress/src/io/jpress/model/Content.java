@@ -104,7 +104,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		} else {
 			fromBuilder.append(" ORDER BY c.created DESC");
 		}
-		
+
 		if (params.isEmpty()) {
 			return paginate(page, pagesize, select, fromBuilder.toString());
 		}
@@ -183,7 +183,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		sqlBuilder.append(" LIMIT ?, ?");
 		params.add(page - 1);
 		params.add(pagesize);
-		
 
 		return find(sqlBuilder.toString(), params.toArray());
 	}
@@ -495,21 +494,50 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return JFinal.me().getContextPath() + ContentRouter.getRouter(this);
 	}
 
-	public String getFirstImageUrl() {
+	public String getFirstImage() {
 		return JsoupUtils.getFirstImageSrc(getText());
 	}
-	
+
+	public String firstImageByName(String name) {
+		String imageSrc = getFirstImage();
+		return imageByName(name, imageSrc);
+	}
+
+	private String imageByName(String name, String imageSrc) {
+		if (!StringUtils.isNotBlank(imageSrc)) {
+			return null;
+		}
+
+		Thumbnail thumbnail = Jpress.currentTemplate().getThumbnailByName(name);
+		if (thumbnail == null) {
+			return imageSrc;
+		}
+
+		String nameOfImageSrc = thumbnail.getUrl(imageSrc);
+
+		if (new File(PathKit.getWebRootPath(), nameOfImageSrc).exists()) {
+			return nameOfImageSrc;
+		}
+
+		return imageSrc;
+	}
+
 	public int getImageCount() {
 		List<String> list = JsoupUtils.getImageSrcs(getText());
 		return list == null ? 0 : list.size();
 	}
 
-	public String imageUrlByIndex(int index) {
+	public String imageByIndex(int index) {
 		List<String> list = JsoupUtils.getImageSrcs(getText());
 		if (list != null && list.size() > index - 1) {
 			return list.get(index);
 		}
 		return null;
+	}
+
+	public String imageByIndex(int index, String name) {
+		String imageSrc = imageByIndex(index);
+		return imageByName(name, imageSrc);
 	}
 
 	public String summaryWithLen(int len) {
@@ -526,24 +554,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return summaryWithLen(100);
 	}
 
-	public String thumbnailWithName(String name) {
+	public String thumbnailByName(String name) {
 		String thumbnailSrc = getThumbnail();
-		if (!StringUtils.isNotBlank(thumbnailSrc)) {
-			return null;
-		}
-
-		Thumbnail thumbnail = Jpress.currentTemplate().getThumbnailByName(name);
-		if (thumbnail == null) {
-			return thumbnailSrc;
-		}
-
-		String nameOfThumbnailSrc = thumbnail.getUrl(thumbnailSrc);
-
-		if (new File(PathKit.getWebRootPath(), nameOfThumbnailSrc).exists()) {
-			return nameOfThumbnailSrc;
-		}
-
-		return thumbnailSrc;
+		return imageByName(name, thumbnailSrc);
 	}
 
 	private StringBuilder getBaseSelectSql() {

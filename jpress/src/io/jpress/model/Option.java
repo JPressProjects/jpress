@@ -45,6 +45,12 @@ public class Option extends BaseOption<Option> {
 
 		option.saveOrUpdate();
 	}
+	
+	@Override
+	public boolean saveOrUpdate() {
+		CacheKit.remove(CACHE_NAME, getOptionKey());
+		return super.saveOrUpdate();
+	}
 
 	public static String findValue(final String key) {
 		return CacheKit.get(CACHE_NAME, key, new IDataLoader() {

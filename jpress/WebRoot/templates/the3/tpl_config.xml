@@ -2,6 +2,7 @@
 <config>
 	<infos>
 		<title>THE3</title>
+		<id>the3</id>
 		<description>THE3 is the 3th template by JPress</description>
 		<author>jpress</author>
 		<authorWebsite>http://www.jpress.io</authorWebsite>

@@ -43,6 +43,7 @@ public class _TemplateController extends JBaseController {
 	public void index() {
 		List<Template> templateList = TemplateUtils.scanTemplates();
 		setAttr("templateList", templateList);
+		setAttr("currentTemplate", TemplateUtils.currentTemplate());
 	}
 
 	public void enable() {
@@ -55,7 +56,6 @@ public class _TemplateController extends JBaseController {
 		
 		boolean isSuccess = TemplateUtils.templateChang(id);
 		if(isSuccess){
-			
 			renderAjaxResultForSuccess();
 		} else {
 			renderAjaxResultForError();

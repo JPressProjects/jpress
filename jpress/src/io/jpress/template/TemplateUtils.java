@@ -60,10 +60,10 @@ public class TemplateUtils {
 
 	public static Template currentTemplate() {
 		if (cTemplate == null) {
-
+			
 			String templateId = TemplateUtils.getcurrentTemplateId();
-
 			List<Template> templateList = TemplateUtils.scanTemplates();
+			
 			for (Template tpl : templateList) {
 				if (templateId.equals(tpl.getId())) {
 					cTemplate = tpl;

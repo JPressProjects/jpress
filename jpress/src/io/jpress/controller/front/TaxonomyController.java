@@ -32,7 +32,7 @@ public class TaxonomyController extends BaseFrontController {
 
 	private String moduleName;
 	private String slug;
-	private int pageNumber;
+	private Integer pageNumber;
 
 	public void index() {
 
@@ -85,11 +85,7 @@ public class TaxonomyController extends BaseFrontController {
 			renderError(404);
 		}
 
-		if (getParaCount() == 1) {
-			pageNumber = 1;
-		}
-
-		else if (getParaCount() == 2) {
+		if (getParaCount() == 2) {
 			String pageNumberOrSlug = getPara(1);
 			if (StringUtils.toInt(pageNumberOrSlug, 0) > 0) {
 				pageNumber = StringUtils.toInt(pageNumberOrSlug, 0);
@@ -101,6 +97,14 @@ public class TaxonomyController extends BaseFrontController {
 		else if (getParaCount() >= 3) {
 			slug = getPara(1);
 			pageNumber = getParaToInt(2);
+		}
+
+		if (slug != null) {
+			slug = StringUtils.urlDecode(slug);
+		}
+		
+		if(pageNumber == null){
+			pageNumber = 1;
 		}
 	}
 

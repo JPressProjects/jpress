@@ -43,9 +43,12 @@ public class BaseFrontController extends JBaseController {
 			} while (name.indexOf(FILE_SEPARATOR) != -1);
 		}
 
-		if (getRender() == null) {
+		if (templateExists(name)) {
+			renderTemplate(name);
+		} else {
 			renderError(404);
 		}
+
 	}
 
 	private void renderTemplate(String name) {

@@ -18,6 +18,7 @@ package io.jpress.model;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
+import io.jpress.router.converter.TaxonomyRouter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -143,6 +144,10 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public long findContentCount() {
 		Long count = Mapping.DAO.findCountByTaxonomyId(getId());
 		return count == null ? 0 : count;
+	}
+
+	public String getUrl() {
+		return TaxonomyRouter.getRouter(this);
 	}
 
 }

@@ -28,12 +28,14 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
+import io.jpress.Consts;
 import io.jpress.core.Jdb;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.router.converter.ContentRouter;
+import io.jpress.router.converter.PageRouter;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
@@ -469,7 +471,13 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getUrl() {
-		return JFinal.me().getContextPath() + ContentRouter.getRouter(this);
+		String baseUrl = null;
+		if (Consts.MODULE_PAGE.equals(this.getModule())) {
+			baseUrl = PageRouter.getRouter(this);
+		} else {
+			baseUrl = ContentRouter.getRouter(this);
+		}
+		return JFinal.me().getContextPath() + baseUrl;
 	}
 
 	public String getFirstImage() {

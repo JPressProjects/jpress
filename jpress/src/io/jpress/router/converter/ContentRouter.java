@@ -24,11 +24,11 @@ import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
-import io.jpress.router.IRouterConverter;
+import io.jpress.router.RouterConverter;
 import io.jpress.template.Module;
 import io.jpress.utils.StringUtils;
 
-public class ContentRouter extends IRouterConverter {
+public class ContentRouter extends RouterConverter {
 
 	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
@@ -85,6 +85,7 @@ public class ContentRouter extends IRouterConverter {
 	}
 
 	public static String getRouter(Content content) {
+		
 		String url = getRouterWithoutSuffix(content);
 
 		String settingType = getSettingType();
@@ -92,13 +93,8 @@ public class ContentRouter extends IRouterConverter {
 			return url;
 		}
 
-		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
-		if (fakeStaticEnable != null && fakeStaticEnable) {
-			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
-			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
-				fakeStaticSuffix = ".html";
-			}
-			url += fakeStaticSuffix;
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
 		}
 		return url;
 	}
@@ -111,13 +107,8 @@ public class ContentRouter extends IRouterConverter {
 			return url + "&pageNumber=" + pageNumber;
 		}
 
-		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
-		if (fakeStaticEnable != null && fakeStaticEnable) {
-			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
-			if (!StringUtils.isNotEmpty(fakeStaticSuffix)) {
-				fakeStaticSuffix = ".html";
-			}
-			return url + URL_PARA_SEPARATOR + pageNumber + fakeStaticSuffix;
+		if (enalbleFakeStatic()) {
+			return url + URL_PARA_SEPARATOR + pageNumber + getFakeStaticSuffix();
 		}
 		return url + URL_PARA_SEPARATOR + pageNumber;
 	}

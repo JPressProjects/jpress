@@ -83,6 +83,17 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JModel
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseAttachment<?>)){return false;}
+
+		BaseAttachment<?> m = (BaseAttachment<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

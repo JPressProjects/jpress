@@ -83,6 +83,17 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JModel<M> im
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseComment<?>)){return false;}
+
+		BaseComment<?> m = (BaseComment<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

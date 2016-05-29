@@ -292,28 +292,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return 0;
 	}
 
-	public List<Taxonomy> findTaxonomyList() {
-		return Taxonomy.DAO.findListByContentId(getId());
-	}
-
-	public List<Taxonomy> findTaxonomyList(String type) {
-		return Taxonomy.DAO.findListByTypeAndContentId(type, getId());
-	}
-
-	public String findTaxonomyListAsString(String type) {
-		StringBuilder sb = new StringBuilder();
-		List<Taxonomy> list = findTaxonomyList(type);
-		if (list != null && list.size() > 0) {
-			for (Taxonomy taxonomy : list) {
-				sb.append(taxonomy.getTitle()).append(",");
-			}
-		}
-		if (sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-		return sb.toString();
-	}
-
 	public String getUsername() {
 		return get("username");
 	}

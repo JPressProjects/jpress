@@ -83,6 +83,17 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseContent<?>)){return false;}
+
+		BaseContent<?> m = (BaseContent<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

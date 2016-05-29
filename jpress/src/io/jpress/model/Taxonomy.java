@@ -111,7 +111,6 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 
 		String sql = "select * from mapping m,taxonomy ";
 		sql += "where  m.`taxonomy_id` = taxonomy.id ";
-		sql += "and `type`='category'  ";
 		sql += "and content_id = ? ";
 		sql += "group by taxonomy.id ";
 

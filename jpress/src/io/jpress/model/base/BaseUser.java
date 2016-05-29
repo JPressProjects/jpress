@@ -83,6 +83,17 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JModel<M> implemen
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseUser<?>)){return false;}
+
+		BaseUser<?> m = (BaseUser<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

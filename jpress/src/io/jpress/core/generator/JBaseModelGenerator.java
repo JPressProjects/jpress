@@ -107,6 +107,16 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\t\tmd.setMetaKey(key);%n"
 				+ "\t\tmd.setMetaValue(value);%n"
 				+ "\t\treturn md;%n"
+				+ "\t}%n%n"
+		
+		
+				+ "\t@Override%n"
+				+ "\tpublic boolean equals(Object o) {%n"
+				+ "\t\tif(o == null){ return false; }%n"
+				+ "\t\tif(!(o instanceof %s<?>)){return false;}%n%n"
+				+ "\t\t%s<?> m = (%s<?>) o;%n"
+				+ "\t\tif(m.getId() == null){return false;}%n%n"
+				+ "\t\treturn m.getId().compareTo(this.getId()) == 0;%n"
 				+ "\t}%n%n";
 
 		
@@ -126,7 +136,8 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 	@Override
 	protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
 		ret.append(String.format(classDefineTemplate, tableMeta.baseModelName,
-				tableMeta.baseModelName, tableMeta.name, tableMeta.name));
+				tableMeta.baseModelName, tableMeta.name, tableMeta.name,tableMeta.baseModelName,
+				tableMeta.baseModelName,tableMeta.baseModelName));
 	}
 	
 	protected String idGetterTemplate =

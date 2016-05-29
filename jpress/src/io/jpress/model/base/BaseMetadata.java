@@ -83,6 +83,17 @@ public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JModel<M> 
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseMetadata<?>)){return false;}
+
+		BaseMetadata<?> m = (BaseMetadata<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

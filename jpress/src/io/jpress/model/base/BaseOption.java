@@ -83,6 +83,17 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JModel<M> impl
 		return md;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){ return false; }
+		if(!(o instanceof BaseOption<?>)){return false;}
+
+		BaseOption<?> m = (BaseOption<?>) o;
+		if(m.getId() == null){return false;}
+
+		return m.getId().compareTo(this.getId()) == 0;
+	}
+
 	public void setId(java.math.BigInteger id) {
 		set("id", id);
 	}

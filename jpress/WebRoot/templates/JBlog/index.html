@@ -4,28 +4,30 @@
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
 		<div class="x-layout-100 clearfix">
+			<@jp_contents  flag="hot">
+           	<#list contents as content>
+           	<#if content?index == 0 >
 			<div class="x-pull-left x-layout-70 banner-left x-sm-banner-left person-relative">
 				<p>
 					<a href="">
-						<img src="assets/images/slide01.png" />
+						<img src="${(content.firstImage)!}" />
 					</a>
 				</p>
 				<div class="x-abolute-submit x-box-border">
-					<p>近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能：</p>
+					<p>${(content.title)!}</p>
 				</div>
 			</div>
+			<#else>
 			<div class="x-pull-right x-layout-28 banner-right x-sm-banner-right">
 				<p>
 					<a href="">
-						<img src="assets/images/slide01.png" />
-					</a>
-				</p>
-				<p>
-					<a href="">
-						<img src="assets/images/slide01.png" />
+						<img src="${(content.firstImage)!}" />
 					</a>
 				</p>
 			</div>
+			</#if>
+			</#list>
+            </@jp_contents>
 		</div>
 		<!-- -->
 
@@ -36,7 +38,7 @@
 			<div class="x-layout-100">
 				<p>
 					<a href="${content.url}">
-						<img src="${content.thumbnailWithName('t1')!}" />
+						<img src="${content.thumbnailByName('t1')!}" />
 					</a>
 				</p>
 			</div>
@@ -74,7 +76,7 @@
 			<div class="x-layout-30 x-pull-left">
 				<p>
 					<a href="${content.url}">
-						<img class="x-image-size-11" src="${(content.firstImageUrl)!}" />
+						<img class="x-image-size-11" src="${(content.firstImage)!}" />
 					</a>
 				</p>
 			</div>

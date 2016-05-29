@@ -187,7 +187,7 @@ $(document).ready(function(){
 <!-- Main content -->
 <section class="content" style="z-index: 9999">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
-		<input type="hidden" name="content.module" value="${m!}"> 
+		<input type="hidden" name="content.module" value="${(content.module)!m!}"> 
 		<input type="hidden" id="content_id" name="content.id" value="${(content.id)!}"> 
 		<input type="hidden" name="content.status" value="normal" id="content_status"> 
 		<input type="hidden" name="content.created" value="${(content.created)!}" > 

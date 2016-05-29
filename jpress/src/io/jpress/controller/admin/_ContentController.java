@@ -196,7 +196,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			}
 		}
 
-		content.setCreated(new Date());
+		if(content.getCreated() == null){
+			content.setCreated(new Date());
+		}
 		content.setModified(new Date());
 
 		User user = getAttr(Consts.ATTR_USER);

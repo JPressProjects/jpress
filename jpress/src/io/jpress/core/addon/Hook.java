@@ -30,14 +30,20 @@ public class Hook {
 
 	private ThreadLocal<Boolean> tl = new ThreadLocal<Boolean>();
 
-	protected void nextInvoker() {
+	protected void nextInvoke() {
 		tl.set(true);
 	}
 
-	protected void hookInvokeFinished() {
+	/**
+	 * 子类不要调用此方法
+	 */
+	public void hookInvokeFinished() {
 		tl.remove();
 	}
 
+	/**
+	 * 子类不要调用此方法
+	 */
 	public boolean letNextHookInvoke() {
 		return tl.get() != null && tl.get() == true;
 	}

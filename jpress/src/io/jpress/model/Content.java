@@ -104,6 +104,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		} else {
 			fromBuilder.append(" ORDER BY c.created DESC");
 		}
+		
+		if (params.isEmpty()) {
+			return paginate(page, pagesize, select, fromBuilder.toString());
+		}
 
 		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
@@ -179,6 +183,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		sqlBuilder.append(" LIMIT ?, ?");
 		params.add(page - 1);
 		params.add(pagesize);
+		
 
 		return find(sqlBuilder.toString(), params.toArray());
 	}

@@ -26,14 +26,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
 import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.FileUtils;
 
-public class ConfigParser extends DefaultHandler {
-	private static final Log log = Log.getLog(ConfigParser.class);
+public class TemplateConfigParser extends DefaultHandler {
+	private static final Log log = Log.getLog(TemplateConfigParser.class);
 	final Template template;
 
 	private Module cModule;
@@ -42,15 +41,14 @@ public class ConfigParser extends DefaultHandler {
 	private List<Thumbnail> thumbnails;
 
 	private String value = null;
-	public ConfigParser() {
+	public TemplateConfigParser() {
 		template = new Template();
 		modules = new ArrayList<Module>();
 		thumbnails = new ArrayList<Thumbnail>();
 	}
 
-	public Template parser(String tName) {
-		String path = PathKit.getWebRootPath() + "/templates/" + tName;
-		File configFile = getConfigFile(new File(path));
+	public Template parser(File templateFolder) {
+		File configFile = new File(templateFolder, "tpl_config.xml");
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser parser = factory.newSAXParser();
@@ -59,45 +57,18 @@ public class ConfigParser extends DefaultHandler {
 			log.warn("ConfigParser parser exception", e);
 		}
 		
-		String screenshot = path +"/screenshot.png";
-		if(!new File(screenshot).exists()){
-			screenshot = null;
+		File screenshotFile = new File(templateFolder, "tpl_screenshot.png");
+		if(screenshotFile.exists()){
+			template.setScreenshot(FileUtils.removeRootPath(screenshotFile.getAbsolutePath()));
 		}
 		
-		path = FileUtils.removeRootPath(configFile.getParent());
+		String path = FileUtils.removeRootPath(templateFolder.getAbsolutePath());
 		template.setPath(path.replace("\\", "/"));
-		
-		if(screenshot!=null){
-			template.setScreenshot(template.getPath()+"/screenshot.png");
-		}
 		
 		return template;
 	}
 
-	private File getConfigFile(File file) {
-		if (file.isDirectory()) {
-			File configFile = new File(file, "config.xml");
-
-			if (configFile.exists() && configFile.isFile()) {
-				return configFile;
-			} else {
-				File[] files = file.listFiles();
-				if (null != files && files.length > 0) {
-					for (File f : files) {
-						if (f.isDirectory()) {
-							File cf = getConfigFile(f);
-							if (cf != null) {
-								return cf;
-							}
-						}
-
-					}
-				}
-			}
-		}
-		return null;
-	}
-
+	
 	@Override
 	public void endDocument() throws SAXException {
 		template.setModules(modules);
@@ -146,7 +117,9 @@ public class ConfigParser extends DefaultHandler {
 		
 		else if ("title".equalsIgnoreCase(qName)) {
 			template.setTitle(value);
-		} else if ("description".equalsIgnoreCase(qName)) {
+		} else if ("id".equalsIgnoreCase(qName)) {
+			template.setId(value);
+		}else if ("id".equalsIgnoreCase(qName)) {
 			template.setDescription(value);
 		} else if ("author".equalsIgnoreCase(qName)) {
 			template.setAuthor(value);

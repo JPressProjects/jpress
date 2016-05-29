@@ -30,7 +30,7 @@ public class Option extends BaseOption<Option> {
 	public static final Option DAO = new Option();
 
 	public static final String KEY_WEB_NAME = "web_name";
-	public static final String KEY_TEMPLATE_NAME = "web_template_name";
+	public static final String KEY_TEMPLATE_ID = "web_template_id";
 
 	public static void saveOrUpdate(String key, String value) {
 		Option option = DAO.doFindFirst("option_key =  ?", key);
@@ -57,6 +57,10 @@ public class Option extends BaseOption<Option> {
 				return "";
 			}
 		});
+	}
+
+	public Option findByKey(String key) {
+		return DAO.doFindFirst("option_key =  ?", key);
 	}
 
 	public static Boolean findValueAsBool(String key) {

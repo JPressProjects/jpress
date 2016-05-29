@@ -2,6 +2,7 @@
 <config>
 	<infos>
 		<title>JBlog</title>
+		<id>JBlog</id>
 		<description>JBlog是JPress内置的博客模板，后续会持续升级。</description>
 		<author>jpress</author>
 		<authorWebsite>http://www.jpress.io</authorWebsite>

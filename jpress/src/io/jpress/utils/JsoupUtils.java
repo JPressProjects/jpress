@@ -16,7 +16,7 @@ public class JsoupUtils {
 
 		Elements es = Jsoup.parseBodyFragment(html).select("img");
 		if (es != null && es.size() > 0)
-			return es.first().absUrl("src");
+			return es.first().attr("src");
 
 		return null;
 	}

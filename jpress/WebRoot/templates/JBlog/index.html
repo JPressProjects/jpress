@@ -4,13 +4,13 @@
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
 		<div class="x-layout-100 clearfix">
-			<@jp_contents  flag="hot">
+			<@jp_contents  flag="hot" module="article" count="3" >
            	<#list contents as content>
-           	<#if content?index == 0 >
+           	<#if content?is_first >
 			<div class="x-pull-left x-layout-70 banner-left x-sm-banner-left person-relative">
 				<p>
-					<a href="">
-						<img src="${(content.firstImage)!}" />
+					<a href="${(content.url)!}">
+						<img src="${(content.thumbnail)!}" />
 					</a>
 				</p>
 				<div class="x-abolute-submit x-box-border">
@@ -20,8 +20,8 @@
 			<#else>
 			<div class="x-pull-right x-layout-28 banner-right x-sm-banner-right">
 				<p>
-					<a href="">
-						<img src="${(content.firstImage)!}" />
+					<a href="${(content.url)!}">
+						<img src="${(content.thumbnail)!}" />
 					</a>
 				</p>
 			</div>

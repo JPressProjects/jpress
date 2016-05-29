@@ -51,6 +51,11 @@ public class ContentsTag extends JTag {
 		int pageNumber = getParamToInt("page", 1);
 		int pageSize = getParamToInt("pagesize", 10);
 
+		Integer count = getParamToInt("count");
+		if (count != null && count > 0) {
+			pageSize = count;
+		}
+
 		BigInteger[] typeIds = getParamToBigIntegerArray("typeid");
 		String[] typeSlugs = getParamToStringArray("typeslug");
 		String[] tags = getParamToStringArray("tag");

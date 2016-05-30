@@ -36,6 +36,7 @@ import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.router.converter.PageRouter;
+import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
@@ -388,8 +389,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				// by method doPaginateByModuleAndStatus
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
-						String string = String.format("<a href=\"/%s/%s\" >%s</a>", getModule(), propertes[1],
-								propertes[2]);
+						String url = TaxonomyRouter.getRouter(getModule(), propertes[1]);
+						String string = String.format("<a href=\""+url+"\" >%s</a>", propertes[2]);
 						retBuilder.append(string).append(",");
 					}
 				}

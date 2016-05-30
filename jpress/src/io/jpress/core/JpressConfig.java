@@ -138,6 +138,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void configHandler(Handlers handlers) {
 		handlers.add(new JHandler());
+		handlers.add(new JCacheHandler());
 		DruidStatViewHandler druidViewHandler = new DruidStatViewHandler("/admin/druid");
 		handlers.add(druidViewHandler);
 	}

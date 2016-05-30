@@ -54,8 +54,22 @@ public class TaxonomyRouter extends RouterConverter {
 		return url;
 	}
 
+	private static String getRouterWithoutSuffix(String module, String slug) {
+		String url = SLASH + module + URL_PARA_SEPARATOR + slug + URL_PARA_SEPARATOR + 1;
+
+		return url;
+	}
+
 	public static String getRouter(Taxonomy taxonomy) {
 		String url = getRouterWithoutSuffix(taxonomy);
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
+	}
+
+	public static String getRouter(String module, String slug) {
+		String url = getRouterWithoutSuffix(module, slug);
 		if (enalbleFakeStatic()) {
 			url += getFakeStaticSuffix();
 		}

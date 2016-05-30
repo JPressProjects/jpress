@@ -15,12 +15,14 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.core.annotation.ActionCache;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/")
 public class IndexController extends BaseFrontController {
 
+	@ActionCache
 	public void index() {
 
 		String page = getPara();

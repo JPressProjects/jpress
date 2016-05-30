@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.annotation;
+package io.jpress.core.cache;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -27,6 +27,5 @@ import com.jfinal.core.Const;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ActionCache {
-	String name() default "";
 	String contentType() default "text/html; charset=" + Const.DEFAULT_ENCODING;
 }

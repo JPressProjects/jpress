@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core;
+package io.jpress.core.cache;
 
 import java.io.PrintWriter;
 
@@ -24,16 +24,15 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.render.RenderFactory;
 
-import io.jpress.core.annotation.ActionCache;
-import io.jpress.utils.StringUtils;
+import io.jpress.core.Jpress;
 
-public class JCacheHandler extends Handler {
+public class ActionCacheHandler extends Handler {
 
 	static String[] urlPara = { null };
-	static Log log = Log.getLog(JCacheHandler.class);
+	static Log log = Log.getLog(ActionCacheHandler.class);
+	static String DEFAULT_CACHE_NAME = "actionCache";
 
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
@@ -50,13 +49,19 @@ public class JCacheHandler extends Handler {
 			return;
 		}
 
-		String cacheKey = StringUtils.isNotBlank(actionCache.name()) ? actionCache.name() : target;
+		String cacheKey = target;
 
-		request.setAttribute("_use_cache", true);
-		request.setAttribute("_use_cache_key", cacheKey);
-		request.setAttribute("_use_cache_content_type", actionCache.contentType());
+		String queryString = request.getQueryString();
+		if (queryString != null) {
+			queryString = "?" + queryString;
+			cacheKey += queryString;
+		}
 
-		String renderContent = CacheKit.get("actionCache", cacheKey);
+		ActionCacheManager.enableCache(request);
+		ActionCacheManager.setCacheKey(request, cacheKey);
+		ActionCacheManager.setCacheContentType(request, actionCache.contentType());
+
+		String renderContent = ActionCacheManager.getCache(cacheKey);
 		if (renderContent != null) {
 			response.setContentType(actionCache.contentType());
 

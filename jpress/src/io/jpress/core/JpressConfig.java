@@ -37,6 +37,7 @@ import com.jfinal.render.ViewType;
 
 import io.jpress.core.annotation.Table;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCacheHandler;
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
 import io.jpress.core.render.JErrorRenderFactory;
@@ -138,7 +139,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void configHandler(Handlers handlers) {
 		handlers.add(new JHandler());
-		handlers.add(new JCacheHandler());
+		handlers.add(new ActionCacheHandler());
 		DruidStatViewHandler druidViewHandler = new DruidStatViewHandler("/admin/druid");
 		handlers.add(druidViewHandler);
 	}

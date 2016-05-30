@@ -363,99 +363,14 @@
 				热门标签 <span class="x-title-border"></span>
 			</h3>
 			<ul class="x-tag">
+				<@jp_tags >
+				<#list tags as tag>
 				<li>
-					<a href="#">页面设计</a>
+					<a href="${tag.url!}">${tag.title!}</a>
 				</li>
-				<li>
-					<a href="#">外包</a>
-				</li>
-				<li>
-					<a href="#">36氪</a>
-				</li>
-				<li>
-					<a href="#">海哥</a>
-				</li>
-				<li>
-					<a href="#">JPress</a>
-				</li>
-				<li>
-					<a href="#">Jfina</a>
-				</li>
-				<li>
-					<a href="#">页面开发</a>
-				</li>
-				<li>
-					<a href="#">页面设计</a>
-				</li>
-				<li>
-					<a href="#">外包</a>
-				</li>
-				<li>
-					<a href="#">36氪</a>
-				</li>
-				<li>
-					<a href="#">海哥</a>
-				</li>
-				<li>
-					<a href="#">JPress</a>
-				</li>
-				<li>
-					<a href="#">Jfina</a>
-				</li>
-				<li>
-					<a href="#">页面开发</a>
-				</li>
-			</ul>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
-			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				友情链接 <span class="x-title-border"></span>
-			</h3>
-			<ul class="x-link">
-				<li>
-					<a href="#">页面设计</a>
-				</li>
-				<li>
-					<a href="#">外包</a>
-				</li>
-				<li>
-					<a href="#">36氪</a>
-				</li>
-				<li>
-					<a href="#">海哥</a>
-				</li>
-				<li>
-					<a href="#">JPress</a>
-				</li>
-				<li>
-					<a href="#">Jfina</a>
-				</li>
-				<li>
-					<a href="#">页面开发</a>
-				</li>
-				<li>
-					<a href="#">页面设计</a>
-				</li>
-				<li>
-					<a href="#">外包</a>
-				</li>
-				<li>
-					<a href="#">36氪</a>
-				</li>
-				<li>
-					<a href="#">海哥</a>
-				</li>
-				<li>
-					<a href="#">JPress</a>
-				</li>
-				<li>
-					<a href="#">Jfina</a>
-				</li>
-				<li>
-					<a href="#">页面开发</a>
-				</li>
-			</ul>
+				</#list>
+				</@jp_tags >
+		
 		</div>
 	</div>
 </div>

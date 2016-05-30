@@ -15,8 +15,8 @@
  */
 package io.jpress.controller.front;
 
-import io.jpress.core.annotation.ActionCache;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCache;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/")

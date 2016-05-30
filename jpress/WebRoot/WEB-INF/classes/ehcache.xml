@@ -36,6 +36,16 @@
 		  overflowToDisk="true"
 		  diskPersistent="true"
   		 />
+  		 
+    <cache name="actionCache"
+		  maxElementsInMemory="10000"
+		  maxElementsOnDisk="100000000"
+		  eternal="false"
+		  timeToIdleSeconds="3600"
+		  timeToLiveSeconds="0"
+		  overflowToDisk="true"
+		  diskPersistent="true"
+  		 />
     
     <cache name="token"
 		  maxElementsInMemory="10000"

@@ -23,11 +23,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.RenderException;
 
 import freemarker.template.Template;
+import io.jpress.core.cache.ActionCacheManager;
 
 public class JFreemarkerRender extends FreeMarkerRender {
 
@@ -39,18 +39,12 @@ public class JFreemarkerRender extends FreeMarkerRender {
 	@Override
 	public void render() {
 
-		boolean useCache = (Boolean) (request.getAttribute("_use_cache") == null ? false
-				: request.getAttribute("_use_cache"));
-
-		if (!useCache) {
+		if (!ActionCacheManager.isEnableCache(request)) {
 			super.render();
 			return;
 		}
 
-		String cacheKey = (String) request.getAttribute("_use_cache_key");
-		String cacheContentType = (String) request.getAttribute("_use_cache_content_type");
-
-		response.setContentType(cacheContentType);
+		response.setContentType(ActionCacheManager.getCacheContentType(request));
 
 		Map data = new HashMap();
 		for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements();) {
@@ -71,23 +65,26 @@ public class JFreemarkerRender extends FreeMarkerRender {
 
 			String renderContent = new String(baos.toByteArray());
 			responseWriter.write(renderContent);
-			CacheKit.put("actionCache", cacheKey, renderContent);
-
+			
+			ActionCacheManager.putCache(request, renderContent);
+			
 		} catch (Exception e) {
 			throw new RenderException(e);
 		} finally {
-			if (osw != null) {
-				try {
-					osw.close();
-				} catch (IOException e) {
-				}
-			}
+			close(osw, responseWriter);
+		}
+	}
 
-			if (responseWriter != null) {
-				responseWriter.close();
+	private void close(OutputStreamWriter osw, PrintWriter responseWriter) {
+		if (osw != null) {
+			try {
+				osw.close();
+			} catch (IOException e) {
 			}
 		}
-
+		if (responseWriter != null) {
+			responseWriter.close();
+		}
 	}
 
 }

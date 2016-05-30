@@ -38,42 +38,30 @@
       </div>
     </div>
     <!-- -->
+     <#if page ??> 
     <div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius">
       <h3 class="x-font-title14 x-padding-top-10 x-margin-bottom-10">
-        全部评论：<span>3条</span>
+        全部评论：<span>${page.totalRow!}条</span>
       </h3>
+      
+	  <#list page.getList() as comment>
       <div class="x-layout-100 clearfix x-part-border-bottom x-padding-bottom-10 x-padding-top-10">
-        <div class="x-pull-left x-layout-10 x-box-border"><a href="#"><img class="x-image-radus x-item-space-4 x-sm-image" src="assets/images/haige.jpg"/> </a></div>
+        <div class="x-pull-left x-layout-10 x-box-border">
+        <a href="#">
+        	<img class="x-image-radus x-item-space-4 x-sm-image" src="${TPATH}/assets/images/avatar.jpg"/> 
+        </a>
+        </div>
         <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border">
-          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">tanjinc <span class="x-font-grey">2016-04-03 15:09</span></p>
-          <p>海哥给力啊</p>
+          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.username!} <span class="x-font-grey">${comment.created!}</span></p>
+          <p>${comment.text!}</p>
         </div>
         <div class="x-layout-100 clearfix">
           <p class="x-pull-right"><a href="#">回复</a></p>
         </div>
       </div>
-      <div class="x-layout-100 clearfix x-part-border-bottom x-padding-bottom-10 x-padding-top-10">
-        <div class="x-pull-left x-layout-10 x-box-border"><a href="#"><img class="x-image-radus x-item-space-4 x-sm-image" src="assets/images/haige.jpg"/> </a></div>
-        <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border">
-          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">tanjinc <span class="x-font-grey">2016-04-03 15:09</span></p>
-          <p>海哥给力啊</p>
-        </div>
-        <div class="x-layout-100 clearfix">
-          <p class="x-pull-right"><a href="#">回复</a></p>
-        </div>
-      </div>
-      <div class="x-layout-100 clearfix x-part-border-bottom x-padding-bottom-10 x-padding-top-10">
-        <div class="x-pull-left x-layout-10 x-box-border"><a href="#"><img class="x-image-radus x-item-space-4 x-sm-image" src="assets/images/haige.jpg"/> </a></div>
-        <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border">
-          <p class="x-margin-bottom-5 x-padding-top-2">tanjinc <span class="x-font-grey">2016-04-03 15:09</span></p>
-          <p>海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊海哥给力啊</p>
-        </div>
-        <div class="x-layout-100 clearfix">
-          <p class="x-pull-right"><a href="#">回复</a></p>
-        </div>
-      </div>
-
+	  </#list>
     </div>
+    </#if>
     <!-- -->
   </div>
   <!-- -->
@@ -183,20 +171,13 @@
         <span class="x-title-border"></span>
       </h3>
       <ul class="x-tag">
-        <li><a href="#">页面设计</a> </li>
-        <li><a href="#">外包</a> </li>
-        <li><a href="#">36氪</a> </li>
-        <li><a href="#">海哥</a> </li>
-        <li><a href="#">JPress</a> </li>
-        <li><a href="#">Jfina</a> </li>
-        <li><a href="#">页面开发</a> </li>
-        <li><a href="#">页面设计</a> </li>
-        <li><a href="#">外包</a> </li>
-        <li><a href="#">36氪</a> </li>
-        <li><a href="#">海哥</a> </li>
-        <li><a href="#">JPress</a> </li>
-        <li><a href="#">Jfina</a> </li>
-        <li><a href="#">页面开发</a> </li>
+        <@jp_tags >
+				<#list tags as tag>
+				<li>
+					<a href="${tag.url!}">${tag.title!}</a>
+				</li>
+				</#list>
+				</@jp_tags >
       </ul>
     </div>
   </div>

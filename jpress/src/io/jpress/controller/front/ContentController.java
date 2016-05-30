@@ -53,7 +53,7 @@ public class ContentController extends BaseFrontController {
 
 		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
 		setAttr("page", page);
-
+		
 		ContentPaginateTag cpt = new ContentPaginateTag(page,content);
 		setAttr("pagination", cpt);
 

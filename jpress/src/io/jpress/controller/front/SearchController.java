@@ -3,6 +3,7 @@ package io.jpress.controller.front;
 import java.util.List;
 
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCache;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
 import io.jpress.plugin.search.SearcherFactory;
@@ -10,7 +11,7 @@ import io.jpress.plugin.search.SearcherFactory;
 @UrlMapping(url = "/s")
 public class SearchController extends BaseFrontController {
 
-
+	@ActionCache
 	public void index() {
 		String keyword = getPara("k");
 		int pageNumber = getParaToInt("n");

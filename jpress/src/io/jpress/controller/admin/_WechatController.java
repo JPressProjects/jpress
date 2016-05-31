@@ -29,6 +29,7 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -36,16 +37,13 @@ import io.jpress.wechat.WeixinApi;
 import io.jpress.wechat.WeixinConsts;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
+@Before(ActionCacheClearInterceptor.class)
 public class _WechatController extends JBaseCRUDController<Content> {
 
 	private String getStatus() {
 		return getPara("s");
 	}
 
-	@Override
-	public void index() {
-		super.index();
-	}
 
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {

@@ -17,14 +17,17 @@ package io.jpress.controller.admin;
 
 import java.io.File;
 
+import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 
 @UrlMapping(url = "/admin/addon", viewPath = "/WEB-INF/admin/addon")
+@Before(ActionCacheClearInterceptor.class)
 public class _AddonController extends JBaseController {
 
 	public void index() {

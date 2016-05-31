@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.controller.admin;
+package io.jpress.interceptor;
 
-import com.jfinal.aop.Before;
+import com.jfinal.aop.Interceptor;
+import com.jfinal.aop.Invocation;
 
-import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.cache.ActionCacheManager;
 
-@UrlMapping(url = "/admin/tools", viewPath = "/WEB-INF/admin/tools")
-@Before(ActionCacheClearInterceptor.class)
-public class _ToolsController extends JBaseController {
+public class ActionCacheClearInterceptor implements Interceptor {
 
-	public void index() {
-		
-	}
-	
-	public void druid() {
-		
+	@Override
+	public void intercept(Invocation inv) {
+		inv.invoke();
+		ActionCacheManager.clearCache();
 	}
 
-	
 }

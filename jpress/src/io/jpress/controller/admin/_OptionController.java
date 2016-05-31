@@ -22,6 +22,7 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Option;
 import io.jpress.model.User;
@@ -30,6 +31,7 @@ import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.AttachmentUtils;
 
 @UrlMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
+@Before(ActionCacheClearInterceptor.class)
 public class _OptionController extends JBaseCRUDController<User> {
 
 	public void index() {

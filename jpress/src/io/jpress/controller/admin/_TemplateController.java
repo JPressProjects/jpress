@@ -29,6 +29,7 @@ import com.jfinal.upload.UploadFile;
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -38,6 +39,7 @@ import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/template", viewPath = "/WEB-INF/admin/template")
+@Before(ActionCacheClearInterceptor.class)
 public class _TemplateController extends JBaseController {
 
 	public void index() {

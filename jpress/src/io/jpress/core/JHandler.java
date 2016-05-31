@@ -33,8 +33,6 @@ public class JHandler extends Handler {
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-		long time = System.currentTimeMillis();
-
 		String CPATH = request.getContextPath();
 		request.setAttribute("REQUEST", request);
 		request.setAttribute("CPATH", CPATH);
@@ -45,7 +43,7 @@ public class JHandler extends Handler {
 			if (target.indexOf('.') != -1) {
 				return;
 			}
-
+			
 			if (!target.startsWith("/install")) {
 				processNotInstall(request, response, isHandled);
 				return;
@@ -73,10 +71,6 @@ public class JHandler extends Handler {
 		target = HookInvoker.router_converte(target, request, response);
 
 		next.handle(target, request, response, isHandled);
-
-		if (Jpress.isDevMode()) {
-			System.err.println("--->spend time:" + (System.currentTimeMillis() - time));
-		}
 	}
 
 	private void processNotInstall(HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {

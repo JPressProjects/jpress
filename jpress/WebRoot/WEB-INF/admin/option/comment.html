@@ -10,7 +10,9 @@
 	<p class="content-msg">
 		JPress让。。。 
 	</p>
-
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+	<input type="hidden" name="ucode" value="${ucode}"> 
+	<input type="hidden" name="autosave" value="comment_must_logined,comment_must_audited,comment_default_nickname,comment_default_avatar">
 	<div class="row">
 		<div class="col-xs-12">
 		<h4 class="jp-set-title">常规选项</h4>
@@ -22,19 +24,10 @@
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
 						<div class="checkbox">
-
-
-							<label><input type="checkbox"> 用户必须注册并登录才可以发表评论 。</label>
+							<label><input type="checkbox" value="true" name="comment_must_logined" ${checked('comment_must_logined')}> 用户必须登录才可以发表评论。</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox"> 评论必须经人工批准。 </label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox"> 评论者先前须有评论通过了审核 。</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox">
-								当某条评论包含超过2个超链接时，将其放入等待审队列 。</label>
+							<label><input type="checkbox" value="true" name="comment_must_audited" ${checked('comment_must_audited')}> 评论必须经过管理员审核。 </label>
 						</div>
 					</div>
 				</div>
@@ -48,40 +41,46 @@
 	</div>
 	<div class="row">
 	<div class="col-xs-12">
-		<h4 class="jp-set-pad jp-set-title">头像</h4>
+		<h4 class="jp-set-pad jp-set-title">未登录评论设置</h4>
 		<p>
 			JPress让。。。 
 		</p>
 		<ul class="list-unstyled">
 			<li class="jp-set-pad">
-				<div class="col-sm-3  jp-set-info">默认头像</div>
+				<div class="col-sm-3  jp-set-info">未登录用户昵称</div>
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
-						<textarea rows="3" class="form-control input-md"
-							></textarea>
+						<input type="text" class="form-control input-md" name="comment_default_nickname" value="${option('comment_default_nickname')!}" />
 					</div>
 				</div>
 				<div class="clr"></div>
 			</li>
 			<li class="jp-set-pad">
-				<div class="col-sm-3  jp-set-info">随机头像</div>
-				<div class="col-sm-9  jp-set-title-line">
-					<div class="col-sm-6 jp-table-distance-top ">
-						<input class="form-control input-md" type="text"
-							>
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">未登录用户头像</div>
 					</div>
-				</div>
-				<div class="clr"></div>
-			</li>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<#if option('comment_default_avatar') ??>
+								<img alt="" src="${option('comment_default_avatar')!}">
+							</#if>
+							<input class="form-control input-md" type="text"
+								name="comment_default_avatar" value="${option('comment_default_avatar')!}">
+								<input name="comment_default_avatar" type="file" >
+							
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
 		</ul>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<button type="submit" class="btn btn-primary">保存更改</button>
+			<button type="button" class="btn btn-primary" onclick="doSubmit()">保存更改</button>
 		</div>
 	</div>
-	<!-- /.row -->
+	</form>
 </section>
 <!-- /.content -->
 

@@ -28,6 +28,9 @@ public class Comment extends BaseComment<Comment> {
 	private static final long serialVersionUID = 1L;
 
 	public static final String TYPE_COMMENT = "comment";
+	public static String STATUS_DELETE = "delete";
+	public static String STATUS_DRAFT = "draft";
+	public static String STATUS_NORMAL = "normal";
 
 	public static final Comment DAO = new Comment();
 

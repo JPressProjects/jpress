@@ -96,74 +96,65 @@
     </div>
     <!-- -->
     <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
-      <h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-        最新文章
-        <span class="x-title-border"></span>
-      </h3>
-      <div class="x-layout-100 person-relative">
-        <p><a href=""><img src="assets/images/slide01.png" /></a></p>
-        <div class="x-abolute-submit x-box-border">
-          <p class="x-font-small">1天前</p>
-          <p>近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能：</p>
-        </div>
-      </div>
-      <div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-        <div class="x-layout-30 x-pull-left"><p><a href=""><img class="x-item-space-5" src="assets/images/slide01.png" /></a></p></div>
-        <div class="x-layout-68 x-pull-right">
-          <p class="x-font-small x-item-space-56 clearfix x-font-grey5">111近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
-          <div class="x-layout-100 x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> 1天前</div>
-        </div>
-      </div>
-      <div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-        <div class="x-layout-30 x-pull-left"><p><a href=""><img class="x-item-space-5" src="assets/images/slide01.png" /></a></p></div>
-        <div class="x-layout-68 x-pull-right">
-          <p class="x-font-small x-item-space-56 clearfix x-font-grey5">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
-          <div class="x-layout-100 x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> 1天前</div>
-        </div>
-      </div>
-      <div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-        <div class="x-layout-30 x-pull-left"><p><a href=""><img class="x-item-space-5" src="assets/images/slide01.png" /></a></p></div>
-        <div class="x-layout-68 x-pull-right">
-          <p class="x-font-small x-item-space-56 clearfix x-font-grey5">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
-          <div class="x-layout-100 x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> 1天前</div>
-        </div>
-      </div>
-      <div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-        <div class="x-layout-30 x-pull-left"><p><a href=""><img class="x-item-space-5" src="assets/images/slide01.png" /></a></p></div>
-        <div class="x-layout-68 x-pull-right">
-          <p class="x-font-small x-item-space-56 clearfix x-font-grey5">近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能： Circle Go。家长可以每月支付 9.95 美元来购买这项功能，用以监控孩子离开家庭 wifi 范围后的网络使用情况。</p>
-          <div class="x-layout-100 x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> 1天前</div>
-        </div>
-      </div>
-    </div>
+		<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+			最新文章 <span class="x-title-border"></span>
+		</h3>
+		<@jp_contents  flag="hot" module="article" count="10" >
+          	<#list contents as content>
+          	<#if content?is_first >
+		<div class="x-layout-100 person-relative">
+			<p>
+				<a href="${(content.url)!}">
+					<img src="${(content.thumbnail)!}" />
+				</a>
+			</p>
+			<div class="x-abolute-submit x-box-border">
+				<p class="x-font-small">1天前</p>
+				<p>${(content.title)!}</p>
+			</div>
+		</div>
+		<#else>
+		<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
+			<div class="x-layout-30 x-pull-left">
+				<p>
+					<a href="${(content.url)!}">
+						<img class="x-item-space-5" src="${(content.thumbnail)!}" />
+					</a>
+				</p>
+			</div>
+			<div class="x-layout-68 x-pull-right">
+				<p class="x-font-small x-item-space-56 clearfix x-font-grey5">${(content.title)!}</p>
+				<div class="x-layout-100 x-font-small x-font-grey">
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					1天前
+				</div>
+			</div>
+		</div>
+		</#if>
+		</#list>
+		</@jp_contents>
+	</div>
     <!-- -->
     <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
-      <h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-        热评文章
-        <span class="x-title-border"></span>
-      </h3>
-      <div class="x-layout-100 person-relative x-margin-bottom-10">
-        <p><a href=""><img src="assets/images/slide01.png" /></a></p>
-        <div class="x-abolute-submit x-box-border">
-          <p class="x-font-small">1天前</p>
-          <p>近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能：</p>
-        </div>
-      </div>
-      <div class="x-layout-100 person-relative x-margin-bottom-10">
-        <p><a href=""><img src="assets/images/slide01.png" /></a></p>
-        <div class="x-abolute-submit x-box-border">
-          <p class="x-font-small">1天前</p>
-          <p>近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能：</p>
-        </div>
-      </div>
-      <div class="x-layout-100 person-relative x-margin-bottom-10">
-        <p><a href=""><img src="assets/images/slide01.png" /></a></p>
-        <div class="x-abolute-submit x-box-border">
-          <p class="x-font-small">1天前</p>
-          <p>近期，这款智能硬件在其配套 app 上线了一项订阅制的新功能：</p>
-        </div>
-      </div>
-    </div>
+		<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+			热评文章 <span class="x-title-border"></span>
+		</h3>
+		<@jp_contents  flag="hot" module="article" count="3" >
+          	<#list contents as content>
+		<div class="x-layout-100 person-relative x-margin-bottom-10">
+			<p>
+				<a href="${(content.url)!}">
+					<img src="${(content.thumbnail)!}" />
+				</a>
+			</p>
+			<div class="x-abolute-submit x-box-border">
+				<p class="x-font-small">1天前</p>
+				<p>${(content.title)!}</p>
+			</div>
+		</div>
+		</#list>
+		</@jp_contents>
+	</div>
     <!-- -->
     <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
       <h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">

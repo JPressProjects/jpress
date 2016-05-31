@@ -26,8 +26,6 @@ import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.jfinal.render.RenderFactory;
 
-import io.jpress.core.Jpress;
-
 public class ActionCacheHandler extends Handler {
 
 	static String[] urlPara = { null };
@@ -56,7 +54,7 @@ public class ActionCacheHandler extends Handler {
 			queryString = "?" + queryString;
 			cacheKey += queryString;
 		}
-
+		
 		ActionCacheManager.enableCache(request);
 		ActionCacheManager.setCacheKey(request, cacheKey);
 		ActionCacheManager.setCacheContentType(request, actionCache.contentType());
@@ -69,13 +67,6 @@ public class ActionCacheHandler extends Handler {
 			try {
 				writer = response.getWriter();
 				writer.write(renderContent);
-
-				if (Jpress.isDevMode()) {
-					String msg = "\r\n==================================================================\r\n";
-					msg += "======================cached target:" + target + "===========================\r\n";
-					msg += "==================================================================\r\n";
-					log.error(msg);
-				}
 				isHandled[0] = true;
 			} catch (Exception e) {
 				RenderFactory.me().getErrorRender(500).setContext(request, response, action.getViewPath()).render();

@@ -64,10 +64,10 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			osw.flush();
 
 			String renderContent = new String(baos.toByteArray());
+
 			responseWriter.write(renderContent);
-			
 			ActionCacheManager.putCache(request, renderContent);
-			
+
 		} catch (Exception e) {
 			throw new RenderException(e);
 		} finally {

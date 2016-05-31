@@ -35,10 +35,10 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.render.FreeMarkerRender;
 
 import io.jpress.core.dialect.DbDialect;
 import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.core.render.JFreemarkerRender;
 import io.jpress.utils.DateUtils;
 
 public class InstallUtils {
@@ -226,7 +226,7 @@ public class InstallUtils {
 	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response,
 			boolean[] isHandled) {
 		isHandled[0] = true;
-		new FreeMarkerRender("/WEB-INF/install/finished.html").setContext(request, response).render();
+		new JFreemarkerRender("/WEB-INF/install/finished.html").setContext(request, response).render();
 	}
 
 }

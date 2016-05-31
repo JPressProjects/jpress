@@ -3,8 +3,8 @@
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
   <!-- -->
   <div class="x-pull-left x-layout-73 blog-sm-left">
-    <div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius x-item-border">
-      <h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+    <div class="x-white-box">
+      <h3 class="x-box-title">
         <a class="x-a-active" href="#">${content.title!}</a>
         <span class="x-title-border"></span>
       </h3>
@@ -26,8 +26,8 @@
       </div>
     </div>
     <!-- -->
-    <div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius x-item-border">
-      <h3 class="x-font-title14 x-padding-top-10 x-margin-bottom-10">
+    <div class="x-white-box">
+      <h3 class="x-box-title">
         发表评论
       </h3>
       <div class="x-layout-100 clearfix">
@@ -39,8 +39,8 @@
     </div>
     <!-- -->
      <#if page ??> 
-    <div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius x-item-border">
-      <h3 class="x-font-title14 x-padding-top-10 x-margin-bottom-10">
+    <div class="x-white-box">
+      <h3 class="x-box-title">
         全部评论：<span>${page.totalRow!}条</span>
       </h3>
       
@@ -66,7 +66,7 @@
   </div>
   <!-- -->
   <div class="x-pull-right x-layout-25 blog-sm-right">
-    <div class="x-background-white x-padding-10 x-div-radius x-item-border">
+    <div class="x-white-box">
       <div class="x-padding-top-10 x-padding-bottom-10 x-font-center">
         <p><a href="#"><img class="x-image-radus x-item-space-6" src="${(user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/> </a></p>
         <p><a href="#">${(user.nickname)!}</a></p>
@@ -83,94 +83,9 @@
         </div>
       </div>
     </div>
-    <!-- -->
-    <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-      <h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-        邮件订阅
-        <span class="x-title-border"></span>
-      </h3>
-      <div class=" person-relative x-padding-top-10 x-padding-bottom-10">
-        <input class="x-layout-100 x-item-space-2 x-padding-left-5 x-padding-right-20 x-box-border x-border-grey body-bacground" placeholder="your@email.com" />
-        <a href="#" class="x-rss-btn x-background-whiteblue">订阅</a>
-      </div>
-    </div>
-    <!-- -->
-    <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-		<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-			最新文章 <span class="x-title-border"></span>
-		</h3>
-		<@jp_contents  flag="hot" module="article" count="10" >
-          	<#list contents as content>
-          	<#if content?is_first >
-		<div class="x-layout-100 person-relative">
-			<p>
-				<a href="${(content.url)!}">
-					<img src="${(content.thumbnail)!}" />
-				</a>
-			</p>
-			<div class="x-abolute-submit x-box-border">
-				<p class="x-font-small">1天前</p>
-				<p>${(content.title)!}</p>
-			</div>
-		</div>
-		<#else>
-		<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-			<div class="x-layout-30 x-pull-left">
-				<p>
-					<a href="${(content.url)!}">
-						<img class="x-item-space-5" src="${(content.thumbnail)!}" />
-					</a>
-				</p>
-			</div>
-			<div class="x-layout-68 x-pull-right">
-				<p class="x-font-small x-item-space-56 clearfix x-font-grey5">${(content.title)!}</p>
-				<div class="x-layout-100 x-font-small x-font-grey">
-					<i class="fa fa-clock-o" aria-hidden="true"></i>
-					1天前
-				</div>
-			</div>
-		</div>
-		</#if>
-		</#list>
-		</@jp_contents>
-	</div>
-    <!-- -->
-    <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-		<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-			热评文章 <span class="x-title-border"></span>
-		</h3>
-		<@jp_contents  flag="hot" module="article" count="3" >
-          	<#list contents as content>
-		<div class="x-layout-100 person-relative x-margin-bottom-10">
-			<p>
-				<a href="${(content.url)!}">
-					<img src="${(content.thumbnail)!}" />
-				</a>
-			</p>
-			<div class="x-abolute-submit x-box-border">
-				<p class="x-font-small">1天前</p>
-				<p>${(content.title)!}</p>
-			</div>
-		</div>
-		</#list>
-		</@jp_contents>
-	</div>
-    <!-- -->
-    <div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-      <h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-        热门标签
-        <span class="x-title-border"></span>
-      </h3>
-      <ul class="x-tag">
-        <@jp_tags >
-				<#list tags as tag>
-				<li>
-					<a href="${tag.url!}">${tag.title!}</a>
-				</li>
-				</#list>
-				</@jp_tags >
-      </ul>
-    </div>
+ 	<#include "_newest_box.html"/> 
+	<#include "_hot_box.html"/> 
+	<#include "_tags_box.html"/> 
   </div>
 </div>
 </@layout>

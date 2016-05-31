@@ -8,7 +8,7 @@
            	<#list contents as content>
            	<#if content?is_first >
 			<div class="x-pull-left x-layout-70 image-box">
-				<p>
+				<p class="">
 					<a href="${(content.url)!}">
 						<img src="${(content.thumbnail)!}" />
 					</a>
@@ -18,8 +18,8 @@
 				</div>
 			</div>
 			<#else>
-			<div class="x-pull-right x-layout-28 image-box">
-				<p>
+			<div class="x-pull-right x-layout-28 sub-image-box">
+				<p class="">
 					<a href="${(content.url)!}">
 						<img src="${(content.thumbnail)!}" />
 					</a>
@@ -210,85 +210,14 @@
 			<h3 class="x-box-title">
 				邮件订阅 <span class="x-title-border"></span>
 			</h3>
-			<div class=" person-relative x-padding-top-10 x-padding-bottom-10">
-				<input class="x-layout-100 x-item-space-2 x-padding-left-5 x-padding-right-20 x-box-border x-border-grey body-bacground" placeholder="your@email.com" />
+			<div class="jblog-rss-content">
+				<input class="x-box-border" placeholder="your@email.com" />
 				<a href="#" class="x-rss-btn x-background-whiteblue">订阅</a>
 			</div>
 		</div>
-		<!-- -->
-		<div class="x-white-box">
-			<h3 class="x-box-title">
-				最新文章 <span class="x-title-border"></span>
-			</h3>
-			<@jp_contents  flag="hot" module="article" count="10" >
-           	<#list contents as content>
-           	<#if content?is_first >
-			<div class="x-layout-100 person-relative image-box">
-				<p>
-					<a href="${(content.url)!}">
-						<img src="${(content.thumbnail)!}" />
-					</a>
-				</p>
-				<div class="x-abolute-submit x-box-border">
-					<p>${(content.title)!}</p>
-				</div>
-			</div>
-			<#else>
-			<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-				<div class="x-layout-30 x-pull-left">
-					<p>
-						<a href="${(content.url)!}">
-							<img class="x-item-space-5" src="${(content.thumbnail)!}" />
-						</a>
-					</p>
-				</div>
-				<div class="x-layout-68 x-pull-right">
-					<p class="right-box-title">${(content.title)!}</p>
-					<div class="x-layout-100 x-font-small x-font-grey">
-						<i class="fa fa-clock-o" aria-hidden="true"></i>
-						1天前
-					</div>
-				</div>
-			</div>
-			</#if>
-			</#list>
-			</@jp_contents>
-		</div>
-		<!-- -->
-		<div class="x-white-box">
-			<h3 class="x-box-title">
-				热评文章 <span class="x-title-border"></span>
-			</h3>
-			<@jp_contents  flag="hot" module="article" count="3" >
-           	<#list contents as content>
-			<div class="x-layout-100 person-relative x-margin-bottom-10 image-box">
-				<p>
-					<a href="${(content.url)!}">
-						<img src="${(content.thumbnail)!}" />
-					</a>
-				</p>
-				<div class="x-abolute-submit x-box-border">
-					<p>${(content.title)!}</p>
-				</div>
-			</div>
-			</#list>
-			</@jp_contents>
-		</div>
-		<!-- -->
-		<div class="x-white-box">
-			<h3 class="x-box-title">
-				热门标签 <span class="x-title-border"></span>
-			</h3>
-			<ul class="x-tag">
-				<@jp_tags >
-				<#list tags as tag>
-				<li>
-					<a href="${tag.url!}">${tag.title!}</a>
-				</li>
-				</#list>
-				</@jp_tags >
-		
-		</div>
+		<#include "_newest_box.html"/> 
+		<#include "_hot_box.html"/> 
+		<#include "_tags_box.html"/> 
 	</div>
 </div>
 </@layout>

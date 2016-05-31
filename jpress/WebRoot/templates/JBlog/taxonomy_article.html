@@ -6,7 +6,7 @@
 	
 		<#list page.getList() as content>
 			<#if content.thumbnail ??>
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
+			<div class="x-white-box">
 			<div class="x-layout-100">
 				<p>
 					<a href="${content.url}">
@@ -14,29 +14,29 @@
 					</a>
 				</p>
 			</div>
-			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+			<h3 class="x-box-title x-padding-top-10">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
 			</h3>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">${content.summary}</p>
-			<div class="x-layout-100 clearfix x-sm-info">
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p class="x-pull-left x-font-small x-font-grey">
 					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
 					${content.nickname!}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p class=" x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-bars" aria-hidden="true"></i>
 					${content.getTaxonomyAsUrl('category')!'未分类'}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p class=" x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
 					1天前
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey x-sm-eye">
+				<p class=" x-pull-left x-font-small x-font-grey x-sm-eye">
 					<i class="fa fa-eye" aria-hidden="true"></i>
 					${content.view_count!'0'}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p class=" x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 					${content.comment_count!'0'}
 				</p>
@@ -44,7 +44,7 @@
 			</div>
 			
 			<#elseif ((content.imageCount > 0) && (content.imageCount<3)) >
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 clearfix x-div-radius x-sm-item x-sm-item-display x-item-border">
+			<div class="x-white-box clearfix">
 			<div class="x-layout-30 x-pull-left">
 				<p>
 					<a href="${content.url}">
@@ -53,30 +53,30 @@
 				</p>
 			</div>
 			<div class="x-layout-68 x-pull-right">
-				<h3 class="x-font-title12 x-margin-bottom-10 x-item-space-4 clearfix">
+				<h3 class="x-box-title ">
 					<a class="x-a-active" href="${content.url}">${content.title}</a>
 				</h3>
-				<p class="x-font-body x-padding-bottom-10 x-margin-bottom-10 x-item-space-25 clearfix x-font-grey">
+				<p class="x-box-summary x-item-space-25 clearfix">
 				${content.summary}
 				</p>
-				<div class="x-layout-100 clearfix x-sm-info">
-					<p class="x-layout-20 x-pull-left x-font-small x-font-grey">
+				<div class="x-box-tags">
+					<p  >
 						<img class="x-small-avatar x-image-radus x-vertical-middle" src="" />
 						海哥
 					</p>
-					<p class="x-layout-20 x-pull-left x-font-small x-font-grey x-sm-eye">
+					<p  >
 						<i class="fa fa-bars" aria-hidden="true"></i>
 						未分类
 					</p>
-					<p class="x-layout-20 x-pull-left x-font-small x-font-grey">
+					<p >
 						<i class="fa fa-clock-o" aria-hidden="true"></i>
 						1天前
 					</p>
-					<p class="x-layout-20 x-pull-left x-font-small x-font-grey x-sm-eye">
+					<p>
 						<i class="fa fa-eye" aria-hidden="true"></i>
 						10805
 					</p>
-					<p class="x-layout-20 x-pull-left x-font-small x-font-grey">
+					<p >
 						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 						134
 					</p>
@@ -85,8 +85,8 @@
 			</div>
 			
 			<#elseif (content.imageCount>3) >
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
-				<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+			<div class="x-white-box">
+				<h3 class="x-box-title">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
 			</h3>
@@ -107,62 +107,61 @@
 					</a>
 				</p>
 			</div>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">${content.summary}</p>
-			<div class="x-layout-100 clearfix x-sm-info">
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p >
 					<img class="x-small-avatar x-image-radus x-vertical-middle" src="assets/images/avatar.jpg" />
 					海哥
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-bars" aria-hidden="true"></i>
 					未分类
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
 					1天前
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey x-sm-eye">
+				<p >
 					<i class="fa fa-eye" aria-hidden="true"></i>
 					10805
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 					134
 				</p>
 			</div>
 			</div>
 			<#else>
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
-			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+			<div class="x-white-box">
+			<h3 class="x-box-title">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
 			</h3>
-			<p class="x-font-body x-padding-bottom-10 x-padding-top-10 x-font-grey">${content.summary}</p>
-			<div class="x-layout-100 clearfix x-sm-info">
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p >
 					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
 					${content.nickname!}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-bars" aria-hidden="true"></i>
 					${content.getTaxonomyAsUrl('category')!'未分类'}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
 					1天前
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey x-sm-eye">
+				<p >
 					<i class="fa fa-eye" aria-hidden="true"></i>
 					${content.view_count!'0'}
 				</p>
-				<p class="x-layout-10 x-pull-left x-font-small x-font-grey">
+				<p >
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 					${content.comment_count!'0'}
 				</p>
 			</div>
 			</div>
 			</#if>
-		
 		</#list>
 		
 		<ul class="x-page">
@@ -178,98 +177,18 @@
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">
-		<div class="x-background-white person-relative x-div-radius x-item-border">
+		<div class="x-white-box">
 			<input class="x-layout-90 x-item-space-3 x-padding-left-5 x-padding-right-5 x-box-border x-border-none" placeholder="要不找一找" />
 			<a href="#" class="x-search-icon">
 				<i class="fa fa-search" aria-hidden="true"></i>
 			</a>
 		</div>
 		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				邮件订阅 <span class="x-title-border"></span>
-			</h3>
-			<div class=" person-relative x-padding-top-10 x-padding-bottom-10">
-				<input class="x-layout-100 x-item-space-2 x-padding-left-5 x-padding-right-20 x-box-border x-border-grey body-bacground" placeholder="your@email.com" />
-				<a href="#" class="x-rss-btn x-background-whiteblue">订阅</a>
-			</div>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				最新文章 <span class="x-title-border"></span>
-			</h3>
-			<@jp_contents  flag="hot" module="article" count="10" >
-           	<#list contents as content>
-           	<#if content?is_first >
-			<div class="x-layout-100 person-relative">
-				<p>
-					<a href="${(content.url)!}">
-						<img src="${(content.thumbnail)!}" />
-					</a>
-				</p>
-				<div class="x-abolute-submit x-box-border">
-					<p class="x-font-small">1天前</p>
-					<p>${(content.title)!}</p>
-				</div>
-			</div>
-			<#else>
-			<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
-				<div class="x-layout-30 x-pull-left">
-					<p>
-						<a href="${(content.url)!}">
-							<img class="x-item-space-5" src="${(content.thumbnail)!}" />
-						</a>
-					</p>
-				</div>
-				<div class="x-layout-68 x-pull-right">
-					<p class="x-font-small x-item-space-56 clearfix x-font-grey5">${(content.title)!}</p>
-					<div class="x-layout-100 x-font-small x-font-grey">
-						<i class="fa fa-clock-o" aria-hidden="true"></i>
-						1天前
-					</div>
-				</div>
-			</div>
-			</#if>
-			</#list>
-			</@jp_contents>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				热评文章 <span class="x-title-border"></span>
-			</h3>
-			<@jp_contents  flag="hot" module="article" count="3" >
-           	<#list contents as content>
-			<div class="x-layout-100 person-relative x-margin-bottom-10">
-				<p>
-					<a href="${(content.url)!}">
-						<img src="${(content.thumbnail)!}" />
-					</a>
-				</p>
-				<div class="x-abolute-submit x-box-border">
-					<p class="x-font-small">1天前</p>
-					<p>${(content.title)!}</p>
-				</div>
-			</div>
-			</#list>
-			</@jp_contents>
-		</div>
-		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
-			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-				热门标签 <span class="x-title-border"></span>
-			</h3>
-			<ul class="x-tag">
-				<@jp_tags >
-				<#list tags as tag>
-				<li>
-					<a href="${tag.url!}">${tag.title!}</a>
-				</li>
-				</#list>
-				</@jp_tags >
-			</ul>
-		</div>
+		
+		<#include "_newest_box.html"/> 
+		<#include "_hot_box.html"/> 
+		<#include "_tags_box.html"/> 
+		
 	</div>
 </div>
 </@layout>

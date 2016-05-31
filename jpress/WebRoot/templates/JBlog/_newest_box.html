@@ -1,0 +1,38 @@
+<div class="x-white-box">
+	<h3 class="x-box-title">
+		最新文章 <span class="x-title-border"></span>
+	</h3>
+	<@jp_contents flag="hot" module="article" count="10" > 
+	<#list contents as content> 
+	<#if content?is_first >
+	<div class="x-layout-100 person-relative image-box">
+		<p>
+			<a href="${(content.url)!}">
+				<img src="${(content.thumbnail)!}" />
+			</a>
+		</p>
+		<div class="x-abolute-submit x-box-border">
+			<p>${(content.title)!}</p>
+		</div>
+	</div>
+	<#else>
+	<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
+		<div class="x-layout-30 x-pull-left">
+			<p>
+				<a href="${(content.url)!}">
+					<img class="x-item-space-5" src="${(content.thumbnail)!}" />
+				</a>
+			</p>
+		</div>
+		<div class="x-layout-68 x-pull-right">
+			<p class="right-box-title">${(content.title)!}</p>
+			<div class="x-layout-100 x-font-small x-font-grey">
+				<i class="fa fa-clock-o" aria-hidden="true"></i>
+				1天前
+			</div>
+		</div>
+	</div>
+	</#if> 
+	</#list> 
+	</@jp_contents>
+</div>

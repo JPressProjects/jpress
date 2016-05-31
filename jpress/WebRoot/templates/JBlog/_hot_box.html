@@ -1,0 +1,19 @@
+<div class="x-white-box">
+	<h3 class="x-box-title">
+		热评文章 <span class="x-title-border"></span>
+	</h3>
+	<@jp_contents flag="hot" module="article" count="3" > 
+	<#list contents as content>
+	<div class="x-layout-100 person-relative x-margin-bottom-10 image-box">
+		<p>
+			<a href="${(content.url)!}">
+				<img src="${(content.thumbnail)!}" />
+			</a>
+		</p>
+		<div class="x-abolute-submit x-box-border">
+			<p>${(content.title)!}</p>
+		</div>
+	</div>
+	</#list> 
+	</@jp_contents>
+</div>

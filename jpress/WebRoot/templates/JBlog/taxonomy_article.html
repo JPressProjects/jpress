@@ -6,7 +6,7 @@
 	
 		<#list page.getList() as content>
 			<#if content.thumbnail ??>
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
 			<div class="x-layout-100">
 				<p>
 					<a href="${content.url}">
@@ -44,7 +44,7 @@
 			</div>
 			
 			<#elseif ((content.imageCount > 0) && (content.imageCount<3)) >
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 clearfix x-div-radius x-sm-item x-sm-item-display">
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 clearfix x-div-radius x-sm-item x-sm-item-display x-item-border">
 			<div class="x-layout-30 x-pull-left">
 				<p>
 					<a href="${content.url}">
@@ -85,7 +85,7 @@
 			</div>
 			
 			<#elseif (content.imageCount>3) >
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
 				<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
@@ -132,7 +132,7 @@
 			</div>
 			</div>
 			<#else>
-			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item">
+			<div class="x-background-white x-margin-bottom-10 x-margin-top-10 x-padding-10 x-div-radius x-sm-item x-item-border">
 			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				<a class="x-a-active" href="${content.url}">${content.title}</a>
 				<span class="x-title-border"></span>
@@ -178,14 +178,14 @@
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">
-		<div class="x-background-white person-relative x-div-radius">
+		<div class="x-background-white person-relative x-div-radius x-item-border">
 			<input class="x-layout-90 x-item-space-3 x-padding-left-5 x-padding-right-5 x-box-border x-border-none" placeholder="要不找一找" />
 			<a href="#" class="x-search-icon">
 				<i class="fa fa-search" aria-hidden="true"></i>
 			</a>
 		</div>
 		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
+		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
 			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				邮件订阅 <span class="x-title-border"></span>
 			</h3>
@@ -195,7 +195,7 @@
 			</div>
 		</div>
 		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
+		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
 			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				最新文章 <span class="x-title-border"></span>
 			</h3>
@@ -235,7 +235,7 @@
 			</@jp_contents>
 		</div>
 		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
+		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
 			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				热评文章 <span class="x-title-border"></span>
 			</h3>
@@ -256,7 +256,7 @@
 			</@jp_contents>
 		</div>
 		<!-- -->
-		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius">
+		<div class="x-background-white x-padding-10 x-margin-top-10 x-div-radius x-item-border">
 			<h3 class="x-font-title12 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
 				热门标签 <span class="x-title-border"></span>
 			</h3>

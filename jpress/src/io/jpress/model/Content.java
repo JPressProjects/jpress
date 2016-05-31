@@ -223,6 +223,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			}
 		});
 	}
+	
+	public Content findCacheBySlug(final String slug) {
+		return getCache(slug);
+	}
 
 	public Content findById(final BigInteger id) {
 		final StringBuilder sql = getBaseSelectSql();
@@ -245,7 +249,33 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getSlug() != null) {
 			removeCache(getSlug());
 		}
+		
+		putCache(getId(), this);
+		putCache(getSlug(), this);
+		
 		return super.update();
+	}
+	
+	@Override
+	public boolean saveOrUpdate() {
+		if (getId() != null) {
+			removeCache(getId());
+		}
+		if (getSlug() != null) {
+			removeCache(getSlug());
+		}
+		
+		putCache(getId(), this);
+		putCache(getSlug(), this);
+		
+		return super.saveOrUpdate();
+	}
+	
+	@Override
+	public boolean save() {
+		putCache(getId(), this);
+		putCache(getSlug(), this);
+		return super.save();
 	}
 
 	public long findCountByModule(String module) {

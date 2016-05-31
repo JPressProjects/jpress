@@ -24,6 +24,7 @@ html,body,div,p,a,dl,dt,dd,ul,ol,li,img,h1,h2,h3,h4,h5,pre,code,form,fieldset,le
 h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
 a{
     text-decoration: none;
+    color:#333;
 }
 ul,li{
     list-style: none;
@@ -827,6 +828,51 @@ ul,li{
 .x-padding-5{
     padding:0.5rem;
 }
+.x-info-padding p{
+	padding-right:1rem;
+}
+.x-white-box{
+	background:#fff;
+	margin-bottom:1rem;
+	margin-top:1rem;
+	padding:1rem;
+	border-radius:4px;
+	border:1px solid #ededed;
+	box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.x-box-title{
+	font-size:1.2rem;
+	padding-bottom:1rem;
+	margin-bottom:1rem;
+	border-bottom:1px solid #ededed;
+	position:relative;
+}
+
+.x-box-summary{
+	font-size:1rem;
+	padding-bottom:1rem;
+	color:#999;
+}
+.x-box-tags{
+	width:100%;
+	overflow:hidden;
+	height:2rem;
+	line-height:2rem;
+}
+.x-box-tags p{
+	float:left;
+	font-size:0.8rem;
+	color:#999;
+	padding-right:1rem;
+	color:#999;
+}
+.x-box-tags a{
+	color:#999;
+}
+
 
 
 /**************************common Spacing end***************************/
@@ -930,7 +976,6 @@ ul,li{
 .x-font-verticla{
     vertical-align: text-top;
 }
-/**************************common fonts elements start***************************/
 /**************************cut-off rule***************************/
 .x-hr{
     height: 1px;
@@ -1034,11 +1079,7 @@ a.lable-weight:hover{
     height: 100%;
 }
 
-.app-header-title{
-    height: 2rem;
-    background-color:#171616;
 
-}
 .border-line{
     width: 100%;
     height: 1px;
@@ -1075,51 +1116,7 @@ a.lable-weight:hover{
     width: 2rem;
     vertical-align: middle;
 }
-.person-relative{
-    position: relative;
-}
-.person-absolute{
-    position: absolute;
-    top:60%;
-    left:0;
-    z-index: 999;
-}
-.person-absolute-banner-btn{
-    position: absolute;
-    top:70%;
-    left:50%;
-    z-index: 999;
-    margin-left:-7.5rem;
-}
-.x-banner-btn{
-    display: block;
-    padding:0.8rem 0;
-    width: 15rem;
-    text-align: center;
-    color:#fff;
-    font-size:1.2rem;
-    border-radius:0.5rem;
-    background-color: #8faec2;
-    cursor: pointer;
-}
-.x-banner-btn:hover{
-    background-color: #7ea0b6;
-}
-.person-absolute-img{
-    position: absolute;
-    top:0;
-    left:0;
-}
-.jjbs-position-center{
-    width: 1120px;
-    position: absolute;
-    top:5rem;
-    left:50%;
-    margin-left:-560px;
-}
-.x-border-blue{
-    border-left:3px solid #11a6e8;
-}
+
 .footer{
     background-color: #272727;
     padding:3rem 0;
@@ -1129,51 +1126,7 @@ a.lable-weight:hover{
 /**************************common elements end***************************/
 
 
-/**************************modules start*************************/
-.izyx-item{
-    width: 90%;
-    padding:0 5%;
-    border-bottom:1px solid #ededed;
-}
-.izyx-user-content{
-    width: 90%;
-    padding:0 5%;
-}
-.izxy-person-detail-part{
-    background-color: #fff;
-}
-.izxy-person-fixed{
-    position: fixed;
-    left:0;
-    top:9rem;
-}
-.izxy-person-absolute{
-    position: absolute;
-    left:0;
-    top:48%;
-}
-.izyx-item-header{
-    margin-top:1rem;
-    width: 100%;
-    overflow: hidden;
-}
-
-.izyx-item-images{
-
-}
-.izyx-item-info{
-    width: 100%;
-    overflow: hidden;
-    padding: 0.5rem 0;
-}
-.izyx-item-footer{
-}
 /**************************modules end*************************/
-
-.izyx-header-info{
-    padding:0 0 0.5rem 1rem;
-}
-/*fans part*/
 .fans-part{
     border-bottom:1px solid #ededed;
 }
@@ -1188,21 +1141,6 @@ a.lable-weight:hover{
 }
 .x-part-border-left{
     border-left:1px solid #ededed;
-}
-/*izyx-item-sudoku*/
-.izyx-item-sudoku li{
-    float: left;
-    width: 32.3%;
-    padding:0 0.5%;
-}
-/*izyx-item-sgrid4*/
-.izyx-item-sgrid4 li{
-    float: left;
-    width: 24%;
-    padding:0 0.5%;
-}
-.izyx-item-sgrid4{
-    padding:1rem 5%;
 }
 .clearfix{
     overflow: hidden;
@@ -1230,9 +1168,6 @@ a.lable-weight:hover{
     line-height: 4rem;
 }
 .banner-bg img{
-    width: 100%;
-}
-.jjbs-bg img{
     width: 100%;
 }
 .x-full-image{
@@ -1302,12 +1237,17 @@ a.x-a-active:hover{
     left:0;
     bottom:0;
     width: 100%;
-    height: 3.2rem;
+    height: 2.7rem;
     background-color: #000;
     color:#fff;
-    font-size:0.9rem;
-    padding:3%;
+    padding:0.2rem 3%;
     filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8;
+	overflow:hidden;
+}
+.x-abolute-submit p{
+	line-height:1.2rem;
+	font-size:0.9rem;
+	text-overflow: ellipsis;	
 }
 /*x-tag*/
 .x-tag{
@@ -1422,6 +1362,66 @@ a.x-a-active:hover{
     max-width: 10rem;
     border:1px solid #e4e4e4;
 }
+.x-item-border{
+	border:1px solid #ededed;
+	box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+	
+}
+.right-box-title{
+	font-size:1rem;
+	height:60px;
+	overflow:hidden;
+	color:#555;
+}
+.image-box{
+    position:relative;
+}
+.image-box p{
+}
+.image-box div{
+}
+.image-box img{
+	max-width:100%;
+}
+.jblog-nav{
+	width:100%;
+	background:#fff;
+	border-bottom:1px solid #ededed;
+}
+.jblog-nav-content{
+	width:1120px;
+	margin:0 auto;
+	overflow:hidden;
+	height:4rem;
+	line-height:4rem;
+}
+.jblog-nav-content ul{
+	float:left;
+	width:100%;
+	overflow:hidden;	
+}
+.jblog-nav-content ul li{
+	float:left;
+	width:10%;
+	text-align:center;
+}
+/*x-font-darkgray block-a person-relative x-a-active  */
+.jblog-nav-content ul li a{
+	color:#2a2a2a;
+	display: block;
+    width: 100%;
+    height: 100%;
+    color:#333;
+    position: relative;
+} 
+.jblog-nav-content ul li a:hover{
+    color:#19b5fe;
+}
+
+
+
 @media all and (max-width:1120px){
     .x-pc-width{
         width: 100%;
@@ -1437,7 +1437,7 @@ a.x-a-active:hover{
     .blog-sm-right{
         display: none;
     }
-    .x-sm-adv{
+    .jblog-nav-content{
         display: none;
     }
     .x-sm-logo{
@@ -1445,13 +1445,13 @@ a.x-a-active:hover{
         float: none;
         padding-left:1rem;
     }
-    .x-sm-nav li{
+    .jblog-nav-content li{
         width: auto;
     }
-    .x-sm-nav li a{
+    .jblog-nav-content li a{
         padding:0 0.5rem;
     }
-    .x-sm-info p{
+    .x-box-tags p{
         width: 25%;
     }
     .x-sm-footer{
@@ -1463,7 +1463,7 @@ a.x-a-active:hover{
         max-width:100%;
         height: auto;
     }
-    .x-page,.x-sm-eye{
+    .x-page,.x-sm-eye,.x-box-tags p{
         display: none;
     }
     .x-sm-image3 p{
@@ -1487,16 +1487,25 @@ a.x-a-active:hover{
         width: 100%;
         height: 140px;
     }
+    .image-box{
+        float: none;
+        width: 100%;
+        height: 140px;
+    }
     .x-sm-banner-right{
         display: none;
     }
-    .x-sm-nav a{
+    .jblog-nav-content a{
         font-size:0.9rem;
     }
     .x-sm-item-display{
         display: none;
     }
     .x-sm-logo-height{
+        height: 3rem;
+        line-height: 3rem;
+    }
+     .jblog-nav-content{
         height: 3rem;
         line-height: 3rem;
     }

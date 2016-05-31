@@ -25,6 +25,7 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Comment;
@@ -40,10 +41,9 @@ import io.jpress.utils.StringUtils;
 @UrlMapping(url = "/admin", viewPath = "/WEB-INF/admin")
 public class _AdminController extends JBaseController {
 
+	@Before(ActionCacheClearInterceptor.class)
 	public void index() {
-
 		setAttr("modules", Jpress.currentTemplate().getModules());
-
 		List<Module> moduleList = Jpress.currentTemplate().getModules();
 
 		if (moduleList != null && moduleList.size() > 0) {

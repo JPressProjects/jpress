@@ -22,6 +22,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
@@ -34,6 +35,7 @@ public class TaxonomyController extends BaseFrontController {
 	private String slug;
 	private Integer pageNumber;
 
+	@ActionCache
 	public void index() {
 
 		initRequest();

@@ -15,15 +15,18 @@
  */
 package io.jpress.controller.admin;
 
+import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
 import io.jpress.utils.HashUtils;
 
 @UrlMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
+@Before(ActionCacheClearInterceptor.class)
 public class _UserController extends JBaseCRUDController<User> {
 	
 	

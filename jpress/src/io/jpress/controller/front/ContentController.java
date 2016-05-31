@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
@@ -35,6 +36,7 @@ public class ContentController extends BaseFrontController {
 	private int pageNumber;
 	private int pageSize;
 
+	@ActionCache
 	public void index() {
 
 		initRequest();

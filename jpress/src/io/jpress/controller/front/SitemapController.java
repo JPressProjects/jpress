@@ -18,10 +18,12 @@ package io.jpress.controller.front;
 import com.jfinal.core.Controller;
 
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCache;
 
 @UrlMapping(url = "/sitemap")
 public class SitemapController extends Controller {
-
+	
+	@ActionCache
 	public void index() {
 		render("index.xml");
 	}

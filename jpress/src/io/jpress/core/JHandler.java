@@ -36,23 +36,22 @@ public class JHandler extends Handler {
 		long time = System.currentTimeMillis();
 
 		String CPATH = request.getContextPath();
+		request.setAttribute("REQUEST", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
-		request.setAttribute("URI", request.getRequestURI());
-		request.setAttribute("URL", request.getRequestURL().toString());
 
 		// 程序还没有安装
 		if (!Jpress.isInstalled()) {
 			if (target.indexOf('.') != -1) {
 				return;
 			}
-			
+
 			if (!target.startsWith("/install")) {
 				processNotInstall(request, response, isHandled);
 				return;
 			}
 		}
-		
+
 		// 安装完成，但还没有加载完成...
 		if (Jpress.isInstalled() && !Jpress.isLoaded()) {
 			if (target.indexOf('.') != -1) {
@@ -61,15 +60,15 @@ public class JHandler extends Handler {
 			InstallUtils.renderInstallFinished(request, response, isHandled);
 			return;
 		}
-		
+
 		if (Jpress.isInstalled() && Jpress.isLoaded()) {
 			setGlobalAttrs(request);
 		}
-		
+
 		if (isDisableAccess(target)) {
 			HandlerKit.renderError404(request, response, isHandled);
 		}
-		
+
 		target = RouterManager.converte(target, request, response);
 		target = HookInvoker.router_converte(target, request, response);
 
@@ -97,10 +96,15 @@ public class JHandler extends Handler {
 
 		return false;
 	}
-	
-	private void setGlobalAttrs(HttpServletRequest request) {
 
-		request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
+	private void setGlobalAttrs(HttpServletRequest request) {
+		
+		if(null != Jpress.currentTemplate()){
+			request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
+		}else{
+			request.setAttribute("TPATH", "");
+		}
+		
 
 		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
 		if (cdnEnable != null && cdnEnable == true) {

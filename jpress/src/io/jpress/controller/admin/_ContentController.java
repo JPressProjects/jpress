@@ -77,8 +77,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		long id = getParaToLong("id");
-		Content c = Content.DAO.findById(id);
+		Content c = Content.DAO.findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);
 			c.saveOrUpdate();

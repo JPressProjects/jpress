@@ -3,6 +3,7 @@ package io.jpress.core;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
@@ -45,18 +46,17 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	}
 
 	public void edit() {
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			setAttr(StrKit.firstCharToLowerCase(mClazz.getSimpleName()), mDao.findById(id));
 		}
 		render("edit.html");
 	}
 
-	
 	public void save() {
 		M m = getModel(mClazz);
-		
-		if(isMultipartRequest()){
+
+		if (isMultipartRequest()) {
 			getFile();
 		}
 
@@ -75,8 +75,8 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	}
 
 	public void delete() {
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			mDao.deleteById(id);
 			renderAjaxResultForSuccess("删除成功");
 		} else {

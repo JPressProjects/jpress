@@ -44,7 +44,6 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		return getPara("s");
 	}
 
-
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
@@ -87,8 +86,8 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void menuDel() {
-		long id = getParaToLong("id", (long) 0);
-		if (id > 0) {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
 			if (Content.DAO.deleteById(id)) {
 				renderAjaxResultForSuccess();
 			}
@@ -144,7 +143,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		long id = getParaToLong("id");
+		BigInteger id = getParaToBigInteger("id");
 		Content c = Content.DAO.findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);

@@ -15,6 +15,7 @@
  */
 package io.jpress.core.render.freemarker;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import freemarker.ext.beans.BeanModel;
@@ -101,6 +102,27 @@ public abstract class JFunction implements TemplateMethodModelEx {
 		}
 
 		return Long.parseLong(stringValue);
+	}
+	
+	public BigInteger getToBigInteger(int index) {
+		
+		String stringValue = getToString(index);
+		
+		if (null == stringValue || "".equals(stringValue.trim())) {
+			return null;
+		}
+		
+		return new BigInteger(stringValue);
+	}
+	
+	public BigInteger getToBigInteger(int index, BigInteger defaultValue) {
+		String stringValue = getToString(index);
+		
+		if (null == stringValue) {
+			return defaultValue;
+		}
+		
+		return new BigInteger(stringValue);
 	}
 
 }

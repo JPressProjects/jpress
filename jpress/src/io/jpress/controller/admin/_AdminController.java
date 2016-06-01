@@ -57,7 +57,7 @@ public class _AdminController extends JBaseController {
 			setAttr("contents", contents);
 		}
 
-		Page<Comment> commentPage = Comment.DAO.doPaginate(1, 10, null, Comment.TYPE_COMMENT);
+		Page<Comment> commentPage = Comment.DAO.doPaginate(1, 10, null, null, null, null);
 		if (commentPage != null) {
 			setAttr("comments", commentPage.getList());
 		}

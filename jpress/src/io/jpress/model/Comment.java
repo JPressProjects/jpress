@@ -34,7 +34,8 @@ public class Comment extends BaseComment<Comment> {
 
 	public static final Comment DAO = new Comment();
 
-	public Page<Comment> doPaginate(int pageNumber, int pageSize, String module, String type) {
+	public Page<Comment> doPaginate(int pageNumber, int pageSize, String module, String type, BigInteger contentId,
+			String status) {
 
 		String select = " select c.*,content.title content_title,u.username";
 
@@ -46,8 +47,10 @@ public class Comment extends BaseComment<Comment> {
 		boolean needWhere = true;
 		needWhere = appendIfNotEmpty(fromBuilder, "c.`type`", type, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, " c.content_module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, " c.`status`", status, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, " content.id", contentId, params, needWhere);
 
-		fromBuilder.append("order by c.created");
+		fromBuilder.append("order by c.created desc");
 
 		if (params.isEmpty()) {
 			return paginate(pageNumber, pageSize, select, fromBuilder.toString());
@@ -56,16 +59,7 @@ public class Comment extends BaseComment<Comment> {
 	}
 
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
-
-		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c " 
-				+ "left join content on c.content_id = content.id "
-				+ "left join user u on c.user_id = u.id " 
-				+ "where c.content_id = ? " 
-				+ "and c.status = ? "
-				+ "order by c.created DESC";
-
-		return paginate(pageNumber, pageSize, select, sqlExceptSelect, contentId, STATUS_NORMAL);
+		return doPaginate(pageNumber, pageSize, null, null, contentId, STATUS_NORMAL);
 	}
 
 	public String getUsername() {

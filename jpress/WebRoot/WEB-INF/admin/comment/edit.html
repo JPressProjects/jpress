@@ -48,7 +48,7 @@ initTinymce();
     
 function save(){
 	
-	  $('#content_slug').attr('value',$("#slug_text").text());
+	  $('#comment_slug').attr('value',$("#slug_text").text());
 	
 	if("tinymce" == _editor){
 		tinymce.activeEditor.uploadImages(function(success) {
@@ -63,7 +63,7 @@ function save(){
  }
  
  function saveAsDraft(){
- 	$("#content_status").attr("value","draft");
+ 	$("#comment_status").attr("value","draft");
  	save();
  }
  
@@ -73,7 +73,7 @@ function save(){
 			dataType : "json", 
 			success : function(data) { 
 				toastr.success(data.message,'操作成功');
-				$("#content_id").attr("value",data.data);
+				$("#comment_id").attr("value",data.data);
 			},
 			error : function() {
 				alert("信息提交错误");
@@ -120,22 +120,23 @@ function doAjax(url){
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>${(module.addTitle)!}</h1>
+	<h1>评论编辑</h1>
 </section>
 <!-- Main content -->
 <section class="content" style="z-index: 9999">
 	<form action="${CPATH}/admin/content/save" id="form" method="post">
 		<input type="hidden" name="comment.module" value="${(comment.module)!m!}"> 
-		<input type="hidden" id="content_id" name="comment.id" value="${(comment.id)!}"> 
-		<input type="hidden" name="comment.status" value="normal" id="content_status"> 
+		<input type="hidden" id="comment_id" name="comment.id" value="${(comment.id)!}"> 
+		<input type="hidden" name="comment.status" value="normal" id="comment_status"> 
 		<input type="hidden" name="comment.created" value="${(comment.created)!}" > 
-		<input type="hidden" id="content_slug" name="comment.slug" value="${(comment.slug)!}" > 
+		<input type="hidden" id="comment_slug" name="comment.slug" value="${(comment.slug)!}" > 
 		<input type="hidden" name="ucode" value="${ucode}">
 		<div class="row">
 			<!-- /.col -->
 			<div class="col-md-9">
 				<div class="form-group">
-					<label class="sr-only"></label> <input name="comment.title" class="form-control input-lg" id="title" value="${(comment.title)!}" type="text" placeholder="在此输入标题">
+					<label class="sr-only"></label> 
+					评论文章：《<a href="${(contentUrl(comment.content_id))!}" target="_blank">${comment.content_title!}</a>》
 				</div>
 				<div class="box box-solid">
 					<div  class="box-body no-padding">
@@ -172,7 +173,6 @@ function doAjax(url){
 								<li>
 									<a href="#tab_metadata" data-toggle="tab">元数据</a>
 								</li>
-
 							</ul>
 							<div class="tab-content jp-aside-hg ">
 								<div class="tab-pane active " id="tab_1">
@@ -219,6 +219,33 @@ function doAjax(url){
 			<!-- /.col -->
 			<div class="col-md-3">
 			<#include "_action_box.html" /> 
+			
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h3 class="box-title">昵称</h3>
+					<div class="box-tools">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body no-padding ">
+					<div class="nav-tabs-custom1">
+						<ul class="nav">
+							<li>
+								<div class="form-group">
+									<textarea name="comment.author"  class="form-control "></textarea>
+								</div>
+								<div class="clr"></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			
+			
 			</div>
 			<!-- /.col -->
 		</div>

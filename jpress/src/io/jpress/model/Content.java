@@ -224,9 +224,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		});
 	}
 	
-	public Content findCacheBySlug(final String slug) {
-		return getCache(slug);
-	}
 
 	public Content findById(final BigInteger id) {
 		final StringBuilder sql = getBaseSelectSql();

@@ -1,12 +1,16 @@
 package io.jpress.controller.front;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
+import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.Comment;
+import io.jpress.model.Content;
 import io.jpress.model.Option;
+import io.jpress.model.User;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
 
@@ -19,18 +23,25 @@ public class CommentController extends JBaseController {
 
 	public void submit() {
 		String gotoUrl = getPara("goto");
-		String userId = CookieUtils.get(this, Consts.COOKIE_LOGINED_USER);
+		if (gotoUrl == null) {
+			gotoUrl = getRequest().getHeader("Referer");
+		}
+		
+		String anchor = getPara("anchor");
+		if(gotoUrl != null && anchor!=null ){
+			gotoUrl += "#"+anchor;
+		}
+		
+		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 必须登录
 		Boolean comment_must_logined = Option.findValueAsBool("comment_must_logined");
 		if (comment_must_logined != null && comment_must_logined) {
-			if (!StringUtils.isNotBlank(userId)) {
+			if (userId == null) {
 				if (isAjaxRequest()) {
 					renderAjaxResultForError("user not logined!");
 				} else {
-					if (gotoUrl != null) {
-						redirect(gotoUrl);
-					}
+					renderText("comment fail,user not logined");
 				}
 				return;
 			}
@@ -42,7 +53,19 @@ public class CommentController extends JBaseController {
 			status = Comment.STATUS_DRAFT;
 		}
 
-		String module = getPara("module");
+		BigInteger contentId = getParaToBigInteger("cid");
+		Content content = null;
+		if (contentId != null) {
+			content = Content.DAO.findById(contentId);
+		} else {
+			if (isAjaxRequest()) {
+				renderAjaxResultForError("content id is null!");
+			} else {
+				renderText("comment fail,content id is null!");
+			}
+			return;
+		}
+
 		String author = getPara("author");
 		String text = getPara("text");
 		String email = getPara("email");
@@ -51,9 +74,18 @@ public class CommentController extends JBaseController {
 		String agent = getUserAgent();
 		String type = Comment.TYPE_COMMENT;
 
-		Comment comment = new Comment();
+		if (userId != null) {
+			User user = User.DAO.findById(userId);
+			if (user != null && StringUtils.isNotBlank(user.getNickname())) {
+				author = user.getNickname();
+			} else {
+				author = user.getUsername();
+			}
+		}
 
-		comment.setContentModule(module);
+		Comment comment = new Comment();
+		comment.setContentModule(content.getModule());
+		comment.setContentId(content.getId());
 		comment.setText(text);
 		comment.setIp(ip);
 		comment.setAgent(agent);
@@ -61,20 +93,21 @@ public class CommentController extends JBaseController {
 		comment.setEmail(email);
 		comment.setType(type);
 		comment.setStatus(status);
-
-		if (userId != null) {
-			comment.setUserId(new BigInteger(userId));
-		}
-
+		comment.setUserId(userId);
+		comment.setCreated(new Date());
 		comment.save();
-
+		
 		if (isAjaxRequest()) {
 			renderAjaxResultForSuccess();
 		} else {
 			if (gotoUrl != null) {
 				redirect(gotoUrl);
+			}else{
+				renderText("comment ok");
 			}
 		}
+		
+		ActionCacheManager.clearCache();
 	}
 
 	private String getIPAddress() {
@@ -82,19 +115,19 @@ public class CommentController extends JBaseController {
 		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("X-Forwarded-For");
 		}
-		if (!StringUtils.isNotBlank(ip)|| "unknown".equalsIgnoreCase(ip)) {
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("Proxy-Client-IP");
 		}
-		if (!StringUtils.isNotBlank(ip)|| "unknown".equalsIgnoreCase(ip)) {
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("WL-Proxy-Client-IP");
 		}
-		if (!StringUtils.isNotBlank(ip)|| "unknown".equalsIgnoreCase(ip)) {
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("HTTP_CLIENT_IP");
 		}
-		if (!StringUtils.isNotBlank(ip)|| "unknown".equalsIgnoreCase(ip)) {
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("HTTP_X_FORWARDED_FOR");
 		}
-		if (!StringUtils.isNotBlank(ip)|| "unknown".equalsIgnoreCase(ip)) {
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getRemoteAddr();
 		}
 		return ip;

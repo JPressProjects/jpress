@@ -58,10 +58,14 @@ public class Comment extends BaseComment<Comment> {
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
 
 		String select = " select c.*,content.title content_title,u.username";
-		String sqlExceptSelect = " from comment c " + "left join content on c.content_id = content.id "
-				+ "left join user u on c.user_id = u.id " + "where c.content_id = ? " + "order by c.created";
+		String sqlExceptSelect = " from comment c " 
+				+ "left join content on c.content_id = content.id "
+				+ "left join user u on c.user_id = u.id " 
+				+ "where c.content_id = ? " 
+				+ "and c.status = ? "
+				+ "order by c.created DESC";
 
-		return paginate(pageNumber, pageSize, select, sqlExceptSelect, contentId);
+		return paginate(pageNumber, pageSize, select, sqlExceptSelect, contentId, STATUS_NORMAL);
 	}
 
 	public String getUsername() {

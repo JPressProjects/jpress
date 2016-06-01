@@ -19,15 +19,14 @@ import java.math.BigInteger;
 
 import javax.servlet.http.HttpSession;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionException;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
+
+import io.jpress.utils.JsoupUtils;
 
 public class JBaseController extends Controller {
 	private static final char URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator().toCharArray()[0];
@@ -39,18 +38,14 @@ public class JBaseController extends Controller {
 
 	@Override
 	public String getPara(String name) {
-		String result = getRequest().getParameter(name);
-		if (null != result) {
-			return Jsoup.clean(result, Whitelist.relaxed());
-		}
-		return null;
+		return JsoupUtils.clear(getRequest().getParameter(name));
 	}
 
 	@Override
 	public String getPara(String name, String defaultValue) {
-		String result = getRequest().getParameter(name);
-		if (null != result) {
-			return Jsoup.clean(result, Whitelist.relaxed());
+		String html = getRequest().getParameter(name);
+		if (null != html) {
+			return JsoupUtils.clear(html);
 		}
 		return defaultValue;
 	}

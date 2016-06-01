@@ -62,6 +62,18 @@ public class Comment extends BaseComment<Comment> {
 		return doPaginate(pageNumber, pageSize, null, null, contentId, STATUS_NORMAL);
 	}
 
+	@Override
+	public Comment findById(Object idValue) {
+		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username");
+		sqlBuilder.append(" from comment c");
+		sqlBuilder.append(" left join content on c.content_id = content.id");
+		sqlBuilder.append(" left join user u on c.user_id = u.id ");
+		sqlBuilder.append(" where c.id = ?");
+		
+		return findFirst(sqlBuilder.toString(), idValue);
+	}
+	
+	
 	public String getUsername() {
 		return get("username");
 	}

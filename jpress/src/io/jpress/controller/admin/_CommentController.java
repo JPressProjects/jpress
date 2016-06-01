@@ -39,5 +39,11 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType(),null,null);
 	}
-
+	
+	
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+		super.save();
+	}
 }

@@ -17,8 +17,10 @@ package io.jpress.wechat;
 
 import java.util.List;
 
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InImageMsg;
 import com.jfinal.weixin.sdk.msg.in.InLinkMsg;
@@ -52,6 +54,7 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.template.Module;
+import io.jpress.utils.CookieUtils;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -60,7 +63,37 @@ public class WechatMessageController extends MsgController {
 
 	@Override
 	public ApiConfig getApiConfig() {
-		return WeixinApi.getApiConfig();
+		return WechatApi.getApiConfig();
+	}
+
+	public void callback() {
+		String gotoUrl = getPara("goto");
+		String code = getPara("code");
+
+		String appId = PropKit.get("wechat_app_id").trim();
+		String appSecret = PropKit.get("wechat_app_secret").trim();
+
+		ApiResult result = WechatApi.getOpenId(appId, appSecret, code);
+
+		if (result != null) {
+			String openId = result.getStr("openid");
+			CookieUtils.put(this, Consts.COOKIE_WECHAT_OPENID, openId);
+
+			ApiResult ai = WechatApi.getUserInfo(openId);
+
+			String nickname = ai.getStr("nickname");
+			if (nickname != null) {
+				nickname = StringUtils.urlEncode(nickname);
+			}
+
+			CookieUtils.put(this, Consts.COOKIE_WECHAT_NICKNAME, nickname);
+
+			String avator = ai.getStr("headimgurl");
+			CookieUtils.put(this, Consts.COOKIE_WECHAT_AVATAR, avator);
+
+		}
+
+		redirect(gotoUrl);
 	}
 
 	// 处理接收到的文本消息

@@ -3,7 +3,7 @@ package io.jpress.wechat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WeixinConsts {
+public class WechatConsts {
 
 	public static final String TYPE_CLICK = "click"; // 点击推事件
 	public static final String TYPE_VIEW = "view"; // 跳转URL

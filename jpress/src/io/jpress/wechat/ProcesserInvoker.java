@@ -29,7 +29,7 @@ public class ProcesserInvoker {
 		List<Class<IMessageProcesser>> clist = ClassScaner.scanSubClass(IMessageProcesser.class, true);
 		if (clist != null && clist.size() > 0) {
 			for (Class<? extends IMessageProcesser> clazz : clist) {
-				Reply reply = clazz.getAnnotation(Reply.class);
+				MessageProcesser reply = clazz.getAnnotation(MessageProcesser.class);
 				if (null != reply && StringUtils.isNotBlank(reply.key())) {
 					map.put("[" + reply.key() + "]", clazz);
 				}

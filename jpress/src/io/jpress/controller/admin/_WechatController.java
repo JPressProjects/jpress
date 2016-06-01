@@ -33,8 +33,8 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
-import io.jpress.wechat.WeixinApi;
-import io.jpress.wechat.WeixinConsts;
+import io.jpress.wechat.WechatApi;
+import io.jpress.wechat.WechatConsts;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 @Before(ActionCacheClearInterceptor.class)
@@ -129,11 +129,11 @@ public class _WechatController extends JBaseCRUDController<Content> {
 			wechatMenuJson.put("button", button);
 			String jsonString = wechatMenuJson.toJSONString();
 
-			ApiResult result = WeixinApi.createMenu(jsonString);
+			ApiResult result = WechatApi.createMenu(jsonString);
 			if (result.isSucceed()) {
 				renderAjaxResultForSuccess();
 			} else {
-				String message = WeixinConsts.getErrorMessage(result.getErrorCode());
+				String message = WechatConsts.getErrorMessage(result.getErrorCode());
 				renderAjaxResult(message, result.getErrorCode());
 			}
 		} else {

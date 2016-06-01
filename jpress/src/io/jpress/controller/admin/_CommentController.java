@@ -37,7 +37,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
-		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType());
+		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType(),null,null);
 	}
 
 }

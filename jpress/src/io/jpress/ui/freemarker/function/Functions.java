@@ -8,5 +8,6 @@ public class Functions {
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());
 		Jpress.addFunction("checked", new OptionChecked());
+		Jpress.addFunction("contentUrl", new ContentUrl());
 	}
 }

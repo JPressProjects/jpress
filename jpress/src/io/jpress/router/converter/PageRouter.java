@@ -33,7 +33,7 @@ public class PageRouter extends RouterConverter {
 		}
 
 		String slug = targetDirs[0];
-		Content content = Content.DAO.findCacheBySlug(slug);
+		Content content = Content.DAO.findBySlug(slug);
 		if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
 			return Consts.ROUTER_CONTENT + SLASH  + slug;
 		}

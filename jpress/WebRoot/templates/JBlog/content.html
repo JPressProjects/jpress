@@ -26,17 +26,21 @@
       </div>
     </div>
     <!-- -->
+    <form action="${CPATH}/comment/submit" method="post"  id="comment">
+    <input type="hidden" name="cid" value="${(content.id)!}" >
+    <input type="hidden" name="anchor" value="comment" >
     <div class="x-white-box">
       <h3 class="x-box-title">
         发表评论
       </h3>
       <div class="x-layout-100 clearfix">
-        <textarea class="x-layout-100 x-border-grey x-box-border x-padding-5 x-item-space-8 body-bacground" placeholder="说点什么吧..."></textarea>
+        <textarea name="text" class="x-layout-100 x-border-grey x-box-border x-padding-5 x-item-space-8 body-bacground" placeholder="说点什么吧..."></textarea>
       </div>
       <div class="x-layout-100 clearfix">
-        <button class="x-button-primary x-border-none pull-right x-margin-top-5">发表评论</button>
+        <button type="submit" class="x-button-primary x-border-none pull-right x-margin-top-5">发表评论</button>
       </div>
     </div>
+    </form>
     <!-- -->
      <#if page ??> 
     <div class="x-white-box">

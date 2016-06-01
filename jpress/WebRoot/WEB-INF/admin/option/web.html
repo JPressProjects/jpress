@@ -9,7 +9,8 @@
 <section class="content">
 	<p class="content-msg">JPress让。。。</p>
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
-		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="web_name,web_title,web_subtitle,web_domain">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="web_name,web_title,web_subtitle,web_domain,web_copyright,web_icp_number">
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-title">常规选项</h4>
@@ -76,7 +77,7 @@
 						<div class="col-sm-3  jp-set-info">版权信息</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<textarea rows="3" class="form-control input-md" ></textarea>
+								<textarea rows="3" class="form-control input-md" name="web_copyright">${option('web_copyright')!}</textarea>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -85,7 +86,7 @@
 						<div class="col-sm-3  jp-set-info">网站ICP备案号</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" >
+								<input class="form-control input-md" type="text"  name="web_icp_number" value="${option('web_icp_number')!}" />
 							</div>
 						</div>
 						<div class="clr"></div>

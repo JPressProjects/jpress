@@ -69,7 +69,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			attachment.setCreated(new Date());
 			attachment.setTitle("");
 			attachment.setPath(newPath);
-			attachment.setSuffix(AttachmentUtils.getFileExt(uploadFile.getFileName()));
+			attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 			attachment.setMimeType(uploadFile.getContentType());
 			attachment.save();
 

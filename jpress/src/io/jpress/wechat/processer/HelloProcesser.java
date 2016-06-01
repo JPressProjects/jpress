@@ -5,9 +5,9 @@ import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
 import io.jpress.wechat.IMessageProcesser;
-import io.jpress.wechat.Reply;
+import io.jpress.wechat.MessageProcesser;
 
-@Reply(key = "hello")
+@MessageProcesser(key = "hello")
 public class HelloProcesser implements IMessageProcesser {
 
 	@Override

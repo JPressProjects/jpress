@@ -32,6 +32,8 @@ public class AttachmentUtils {
 	 * @return new file relative path
 	 */
 	public static String moveFile(UploadFile uploadFile) {
+		if (uploadFile == null)
+			return null;
 
 		File file = uploadFile.getFile();
 		String webRoot = PathKit.getWebRootPath();
@@ -45,7 +47,7 @@ public class AttachmentUtils {
 				.append(dateFormat.format(new Date()))
 				.append(File.separator)
 				.append(uuid)
-				.append(getFileExt(file.getName()));
+				.append(FileUtils.getSuffix(file.getName()));
 
 		File newfile = new File(newFileName.toString());
 
@@ -59,8 +61,5 @@ public class AttachmentUtils {
 
 	}
 
-	public static String getFileExt(String fileName) {
-		return fileName.substring(fileName.lastIndexOf('.'));
-	}
 
 }

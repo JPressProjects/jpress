@@ -36,6 +36,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Attachment;
 import io.jpress.model.User;
 import io.jpress.utils.AttachmentUtils;
+import io.jpress.utils.FileUtils;
 
 @UrlMapping(url = "/admin/tinymce/image")
 @Before(ActionCacheClearInterceptor.class)
@@ -72,7 +73,7 @@ public class _TinymceImageController extends JBaseController {
 		attachment.setCreated(new Date());
 		attachment.setTitle("");
 		attachment.setPath(newPath);
-		attachment.setSuffix(AttachmentUtils.getFileExt(uploadFile.getFileName()));
+		attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 		attachment.setMimeType(uploadFile.getContentType());
 
 		attachment.save();

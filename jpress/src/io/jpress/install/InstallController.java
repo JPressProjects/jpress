@@ -112,6 +112,7 @@ public class InstallController extends JBaseController {
 		String password = getPara("password");
 
 		if (StrKit.isBlank(webname) || StrKit.isBlank(username) || StrKit.isBlank(password)) {
+			keepPara();
 			render("step3.html");
 			return;
 		}

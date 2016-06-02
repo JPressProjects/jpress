@@ -48,7 +48,7 @@ public class JsoupUtils {
 	}
 	
 	/**
-	 * 做自己的白名单，运行base64的图片通过等
+	 * 做自己的白名单，允许base64的图片通过等
 	 * @author michael
 	 */
 	public static class MyWhitelist extends org.jsoup.safety.Whitelist {

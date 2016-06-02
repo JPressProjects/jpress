@@ -22,7 +22,8 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PropKit;
 
 /**
- * 参考：spring-security https://github.com/spring-projects/spring-security/
+ * 参考：spring-security 
+ * https://github.com/spring-projects/spring-security/
  * blob/master/web/src/main/java/org/springframework/security/
  * web/authentication/rememberme/TokenBasedRememberMeServices.java
  * ....AbstractRememberMeServices.java

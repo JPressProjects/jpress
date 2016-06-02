@@ -133,8 +133,14 @@ public class ContentRouter extends RouterConverter {
 		// 动态前缀
 		else if (TYPE_DYNAMIC.equals(settingType)) {
 			String prefix = getSettignPrefix();
+			if(StringUtils.isNotBlank(content.getSlug())){
+				return SLASH + prefix + "?slug=" + content.getSlug(); 
+			}
 			return SLASH + prefix + "?id=" + content.getId();
 		} else {
+			if(StringUtils.isNotBlank(content.getSlug())){
+				return Consts.ROUTER_CONTENT + "?slug=" + content.getSlug(); 
+			}
 			return Consts.ROUTER_CONTENT + "?id=" + content.getId();
 		}
 	}

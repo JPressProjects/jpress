@@ -9,6 +9,8 @@ import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Content;
+import io.jpress.model.Option;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/api")
 @Before(ActionCacheClearInterceptor.class)
@@ -25,13 +27,17 @@ public class _ApiController extends JBaseController {
 	}
 
 	public void save() {
+
+		Boolean apiEnable = getParaToBoolean("api_enable", Boolean.FALSE);
+		Option.saveOrUpdate("api_enable", apiEnable.toString());
+
 		Content c = getModel(Content.class);
-		if (c != null) {
+		
+		if(StringUtils.areNotBlank(c.getTitle(),c.getText(),c.getFlag())){
 			c.saveOrUpdate();
-			renderAjaxResultForSuccess();
-		} else {
-			renderAjaxResultForError();
 		}
+		
+		renderAjaxResultForSuccess();
 	}
 
 }

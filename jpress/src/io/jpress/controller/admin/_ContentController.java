@@ -237,14 +237,18 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		Content content = getContent();
 
 		String slug = content.getSlug();
-		if (null == slug) {
+		if (!StringUtils.isNotBlank(slug)) {
 			slug = content.getTitle();
 		}
 
 		if (slug != null) {
 			slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
 			slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
+			
+			content.setSlug(slug);
 		}
+		
+		
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {

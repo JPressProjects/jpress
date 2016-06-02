@@ -10,7 +10,7 @@ import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
 @SuppressWarnings("unused")
@@ -67,7 +67,7 @@ public class ApiController extends JBaseController {
 		}
 		params.remove("sign");
 
-		String mySign = HashUtils.signForRequest(params, appSecret);
+		String mySign = EncryptUtils.signForRequest(params, appSecret);
 		if (!sign.equals(mySign)) {
 			renderAjaxResultForError("sign is error!");
 			return;
@@ -94,8 +94,7 @@ public class ApiController extends JBaseController {
 		method.invoke(this);
 	}
 
-	///////////////////////////////////////////// api
-	///////////////////////////////////////////// methods///////////////////////////////////////////////////
+	/////////////////////// api methods////////////////////////////
 	private void test() {
 		renderText("test ok!");
 	}

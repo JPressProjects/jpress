@@ -24,7 +24,7 @@ import com.jfinal.log.Log;
 
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 
 @UrlMapping(url = "/install", viewPath = "/WEB-INF/install")
 @Before(InstallInterceptor.class)
@@ -118,8 +118,8 @@ public class InstallController extends JBaseController {
 
 		InstallUtils.setWebName(webname);
 
-		String salt = HashUtils.salt();
-		password = HashUtils.md5WithSalt(password, salt);
+		String salt = EncryptUtils.salt();
+		password = EncryptUtils.md5WithSalt(password, salt);
 		InstallUtils.setWebFirstUser(username, password, salt);
 
 		InstallUtils.createDbProperties();

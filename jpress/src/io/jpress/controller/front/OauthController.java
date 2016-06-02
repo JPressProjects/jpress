@@ -24,7 +24,7 @@ import io.jpress.oauth2.OauthUser;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.CookieUtils;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -42,7 +42,7 @@ public class OauthController extends Oauth2Controller {
 			user.setCreateSource(ouser.getSource());
 			user.setCreated(new Date());
 			user.setGender(ouser.getGender());
-			user.setSalt(HashUtils.salt());
+			user.setSalt(EncryptUtils.salt());
 
 			user.save();
 			MessageKit.sendMessage(Actions.USER_CREATED, user);

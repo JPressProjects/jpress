@@ -22,7 +22,7 @@ import java.util.Map;
 
 import com.jfinal.log.Log;
 
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.HttpUtils;
 
 public class AlidayuSmsSender implements ISmsSender {
@@ -56,7 +56,7 @@ public class AlidayuSmsSender implements ISmsSender {
 		params.put("sms_type", "normal");
 		params.put("app_key", app_key);
 
-		String sign = HashUtils.signForRequest(params, app_secret);
+		String sign = EncryptUtils.signForRequest(params, app_secret);
 		params.put("sign", sign);
 
 		Map<String, String> headers = new HashMap<String, String>();

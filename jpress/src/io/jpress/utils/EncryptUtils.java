@@ -23,7 +23,7 @@ import com.jfinal.kit.HashKit;
 
 import io.jpress.model.User;
 
-public class HashUtils extends HashKit {
+public class EncryptUtils extends HashKit {
 	
 	public static String salt() {
 		int random = (int) (10 + (Math.random() * 10));

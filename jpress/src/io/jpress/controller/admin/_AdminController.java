@@ -35,7 +35,7 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.template.Module;
 import io.jpress.utils.CookieUtils;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin", viewPath = "/WEB-INF/admin")
@@ -82,7 +82,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 
-		if (HashUtils.verlifyUser(user, password) && user.isAdministrator()) {
+		if (EncryptUtils.verlifyUser(user, password) && user.isAdministrator()) {
 
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 

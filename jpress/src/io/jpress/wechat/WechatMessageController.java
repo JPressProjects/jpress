@@ -17,6 +17,7 @@ package io.jpress.wechat;
 
 import java.util.List;
 
+import com.jfinal.aop.Before;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
@@ -66,6 +67,7 @@ public class WechatMessageController extends MsgController {
 		return WechatApi.getApiConfig();
 	}
 
+	@Before(WechatApiConfigInterceptor.class)
 	public void callback() {
 		String gotoUrl = getPara("goto");
 		String code = getPara("code");

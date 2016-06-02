@@ -73,6 +73,18 @@ public class Comment extends BaseComment<Comment> {
 		return findFirst(sqlBuilder.toString(), idValue);
 	}
 	
+	public long findCountByModule(String module) {
+		return doFindCount("content_module = ?", module);
+	}
+
+	public long findCountInNormalByModule(String module) {
+		return doFindCount("content_module = ? AND status <> ?", module, STATUS_DELETE);
+	}
+	
+	public Long findCountByModuleAndStatus(String module, String status) {
+		return doFindCount("content_module = ? and status=?", module, status);
+	}
+	
 	
 	public String getUsername() {
 		return get("username");

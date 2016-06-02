@@ -19,6 +19,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
+import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Comment;
@@ -35,6 +36,16 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 
 	private String getType() {
 		return getPara("t");
+	}
+	
+	@Override
+	public void index() {
+		super.index();
+		setAttr("module", Jpress.currentTemplate().getModuleByName(getContentModule()));
+		setAttr("delete_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
+		setAttr("draft_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
+		setAttr("normal_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
+		setAttr("count", mDao.findCountInNormalByModule(getContentModule()));
 	}
 
 	@Override

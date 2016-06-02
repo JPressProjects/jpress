@@ -9,23 +9,30 @@
 	<div class="row content-row">
 		<ul class="list-inline" style="float: left">
 			<li class="all">
-				<a class="current" href="#">
-					全部 <span class="count">（8）</span>
+				<a class="current" href="${CPATH}/admin/comment?m=${m!}&p=${p!}&c=${c!}">
+					全部 <span class="count">(${count!"0"})</span>
 				</a>
 				|
 			</li>
 			<li class="publish">
-				<a href="#">
-					已发布 <span class="count">（8）</span>
+				<a href="${CPATH}/admin/comment?m=${m!}&p=${p!}&c=${c!}&s=normal">
+					已发布 <span class="count">(${normal_count!"0"})</span>
+				</a>
+				|
+			</li>
+			<li class="publish">
+				<a href="${CPATH}/admin/comment?m=${m!}&p=${p!}&c=${c!}&s=draft">
+					草稿 <span class="count">(${draft_count!"0"})</span>
 				</a>
 				|
 			</li>
 			<li class="trash">
-				<a href="#">
-					回收站 <span class="count">（1）</span>
+				<a href="${CPATH}/admin/comment?m=${m!}&p=${p!}&c=${c!}&s=delete">
+					回收站 <span class="count">(${delete_count!"0"})</span>
 				</a>
 			</li>
 		</ul>
+
 
 
 		<form class="form-horizontal" style="float: right">

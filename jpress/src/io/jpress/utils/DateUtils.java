@@ -31,8 +31,6 @@ public class DateUtils {
 		return dateSdf.format(new Date());
 	}
 	
-	
-
 	public static String format(Date date) {
 		if (null == date)
 			return null;

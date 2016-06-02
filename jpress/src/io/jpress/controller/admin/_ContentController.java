@@ -173,6 +173,12 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		else if("_static_module".equals(routerType)){
 			String router_content_prefix = module.getName();
 			urlPreffix = "/"+router_content_prefix+"/";
+		}else{
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			if(!StringUtils.isNotBlank(router_content_prefix)){
+				router_content_prefix = Consts.ROUTER_CONTENT;
+			}
+			urlPreffix = "/"+router_content_prefix+"?slug=";
 		}
 			
 		setAttr("urlPreffix", urlPreffix);

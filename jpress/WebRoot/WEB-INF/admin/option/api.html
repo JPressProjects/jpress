@@ -16,6 +16,16 @@ function doSubmit(){
 			}
 	});
  }
+ 
+ function doDelete(id){
+	$.get("${CPATH}/admin/api/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -75,22 +85,13 @@ function doSubmit(){
 							<td>${content.flag!}</td>
 							<td>${content.status!}</td>
 							<td>
-							关闭 
 							<a href="${CPATH}/admin/api?p=option&c=api&id=${content.id!}">修改</a> 
-							删除</td>
+							<a href="#" onclick="doDelete('${content.id!}')">删除</a> 
+							</td>
 						</tr>
 						</#list> 
 						</#if>
 					</tbody>
-					<tfoot>
-						<tr>
-							<th>应用名称</th>
-							<th style="width: 10%">app key</th>
-							<th style="width: 10%">app secret</i></th>
-							<th style="width: 10%">启用</i></th>
-							<th style="width: 10%">操作</th>
-						</tr>
-					</tfoot>
 				</table>
 				</div>
 				</div>

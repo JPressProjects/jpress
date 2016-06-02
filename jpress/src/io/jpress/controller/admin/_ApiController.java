@@ -8,6 +8,7 @@ import com.jfinal.aop.Before;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.utils.StringUtils;
@@ -40,4 +41,14 @@ public class _ApiController extends JBaseController {
 		renderAjaxResultForSuccess();
 	}
 
+	@Before(UCodeInterceptor.class)
+	public void delete() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
+			Content.DAO.deleteById(id);
+			renderAjaxResultForSuccess("删除成功");
+		} else {
+			renderAjaxResultForError();
+		}
+	}
 }

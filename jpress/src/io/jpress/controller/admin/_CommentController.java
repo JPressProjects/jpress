@@ -22,6 +22,8 @@ import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Comment;
+import io.jpress.model.User;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
 @Before(ActionCacheClearInterceptor.class)
@@ -34,16 +36,28 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	private String getType() {
 		return getPara("t");
 	}
-	
+
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
-		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType(),null,null);
+		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType(), null, null);
 	}
-	
-	
+
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
-		super.save();
+		Comment comment = getModel(Comment.class);
+
+		String username = getPara("username");
+		if (StringUtils.isNotBlank(username)) {
+			User user = User.DAO.findUserByUsername(username);
+			if (user == null) {
+				renderAjaxResultForError("系统没有该用户：" + username);
+				return;
+			}
+			comment.setUserId(user.getId());
+		}
+
+		comment.saveOrUpdate();
+
+		renderAjaxResultForSuccess("ok");
 	}
 }

@@ -15,14 +15,16 @@
  */
 package io.jpress.utils;
 
-import io.jpress.model.User;
-
+import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 
 import com.jfinal.kit.HashKit;
 
-public class HashUtils extends HashKit {
+import io.jpress.model.User;
 
+public class HashUtils extends HashKit {
+	
 	public static String salt() {
 		int random = (int) (10 + (Math.random() * 10));
 		return UUID.randomUUID().toString().replace("-", "").substring(random);
@@ -48,6 +50,26 @@ public class HashUtils extends HashKit {
 	public static String generateUcode(User user) {
 		return md5(user.getSalt() + user.getId());
 	}
+	
+	
+	public static String signForRequest(Map<String, String> params, String secret) {
+		String[] keys = params.keySet().toArray(new String[0]);
+		Arrays.sort(keys);
+
+		StringBuilder query = new StringBuilder();
+		query.append(secret);
+		for (String key : keys) {
+			String value = params.get(key);
+			if (StringUtils.areNotEmpty(key, value)) {
+				query.append(key).append(value);
+			}
+		}
+
+		query.append(secret);
+		return HashKit.md5(query.toString());
+	}
+
+
 
 	public static void main(String[] args) {
 		 System.out.println(md5WithSalt("123456","123"));

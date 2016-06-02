@@ -15,20 +15,17 @@
  */
 package io.jpress.notify.sms;
 
-import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.log.Log;
 
+import io.jpress.utils.HashUtils;
 import io.jpress.utils.HttpUtils;
-import io.jpress.utils.StringUtils;
 
 public class AlidayuSmsSender implements ISmsSender {
-	private static final String CHARSET_UTF8 = "utf-8";
 	private static final Log log = Log.getLog(AlidayuSmsSender.class);
 
 	/**
@@ -59,7 +56,7 @@ public class AlidayuSmsSender implements ISmsSender {
 		params.put("sms_type", "normal");
 		params.put("app_key", app_key);
 
-		String sign = signTopRequest(params, app_secret);
+		String sign = HashUtils.signForRequest(params, app_secret);
 		params.put("sign", sign);
 
 		Map<String, String> headers = new HashMap<String, String>();
@@ -72,47 +69,7 @@ public class AlidayuSmsSender implements ISmsSender {
 		return null;
 	}
 
-	public static String signTopRequest(Map<String, String> params, String secret) {
-		String[] keys = params.keySet().toArray(new String[0]);
-		Arrays.sort(keys);
-
-		StringBuilder query = new StringBuilder();
-		query.append(secret);
-		for (String key : keys) {
-			String value = params.get(key);
-			if (StringUtils.areNotEmpty(key, value)) {
-				query.append(key).append(value);
-			}
-		}
-
-		query.append(secret);
-		byte[] bytes = encryptMD5(query.toString());
-		return byte2hex(bytes);
-	}
-
-	public static byte[] encryptMD5(String data) {
-		byte[] bytes = null;
-		try {
-			bytes = data.getBytes(CHARSET_UTF8);
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			bytes = md.digest(bytes);
-		} catch (Exception e) {
-			log.error("AlidayuSmsSender encryptMD5 exception", e);
-		}
-		return bytes;
-	}
-
-	public static String byte2hex(byte[] bytes) {
-		StringBuilder sign = new StringBuilder();
-		for (int i = 0; i < bytes.length; i++) {
-			String hex = Integer.toHexString(bytes[i] & 0xFF);
-			if (hex.length() == 1) {
-				sign.append("0");
-			}
-			sign.append(hex.toUpperCase());
-		}
-		return sign.toString();
-	}
+	
 
 	public static void main(String[] args) {
 		SmsMessage sms = new SmsMessage();

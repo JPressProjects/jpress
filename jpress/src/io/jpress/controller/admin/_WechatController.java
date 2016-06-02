@@ -34,6 +34,7 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.wechat.WechatApi;
+import io.jpress.wechat.WechatApiConfigInterceptor;
 import io.jpress.wechat.WechatConsts;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
@@ -95,6 +96,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		renderAjaxResultForError();
 	}
 
+	@Before(WechatApiConfigInterceptor.class)
 	public void menuSync() {
 		List<Content> wechatMenus = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.tree(wechatMenus);

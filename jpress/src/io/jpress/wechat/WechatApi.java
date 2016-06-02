@@ -1,7 +1,6 @@
 package io.jpress.wechat;
 
 import com.jfinal.weixin.sdk.api.ApiConfig;
-import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MenuApi;
 import com.jfinal.weixin.sdk.api.UserApi;
@@ -19,31 +18,13 @@ public class WechatApi {
 		return config;
 	}
 
-	private static void doApiInvokBefore() {
-		ApiConfig ac = getApiConfig();
-		ApiConfigKit.setThreadLocalApiConfig(ac);
-	}
-	
-	private static void doApiInvokAfter() {
-		ApiConfigKit.removeThreadLocalApiConfig();
-	}
 
 	public static ApiResult createMenu(String jsonString) {
-		try{
-			doApiInvokBefore();
-			return MenuApi.createMenu(jsonString);
-		}finally{
-			doApiInvokAfter();
-		}
+		return MenuApi.createMenu(jsonString);
 	}
 	
 	public static ApiResult getUserInfo(String openId){
-		try{
-			doApiInvokBefore();
-			return  UserApi.getUserInfo(openId);
-		}finally{
-			doApiInvokAfter();
-		}
+		return  UserApi.getUserInfo(openId);
 	}
 	
 	public static ApiResult getOpenId(String appId, String appSecret, String code) {

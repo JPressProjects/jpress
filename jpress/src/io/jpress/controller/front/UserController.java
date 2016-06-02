@@ -29,7 +29,7 @@ import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.CookieUtils;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = Consts.ROUTER_USER)
@@ -84,7 +84,7 @@ public class UserController extends BaseFrontController {
 			return;
 		}
 
-		if (HashUtils.verlifyUser(user, password)) {
+		if (EncryptUtils.verlifyUser(user, password)) {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			if (this.isAjaxRequest()) {
@@ -162,8 +162,8 @@ public class UserController extends BaseFrontController {
 		user.setEmail(email);
 		user.setPhone(phone);
 
-		String salt = HashUtils.salt();
-		password = HashUtils.md5WithSalt(password, salt);
+		String salt = EncryptUtils.salt();
+		password = EncryptUtils.md5WithSalt(password, salt);
 		user.setPassword(password);
 		user.setSalt(salt);
 		user.setCreateSource("register");

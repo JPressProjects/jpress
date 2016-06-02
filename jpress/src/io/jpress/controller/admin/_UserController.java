@@ -23,7 +23,7 @@ import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 
 @UrlMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
 @Before(ActionCacheClearInterceptor.class)
@@ -43,16 +43,16 @@ public class _UserController extends JBaseCRUDController<User> {
 		if(m.getId() != null && m.getPassword() != null){
 			User dbUser = User.DAO.findById(m.getId());
 			m.setSalt(dbUser.getSalt());
-			String password = HashUtils.md5WithSalt(m.getPassword(), dbUser.getSalt());
+			String password = EncryptUtils.md5WithSalt(m.getPassword(), dbUser.getSalt());
 			m.setPassword(password);
 		}
 		
 		//新建用户
 		if(m.getId() == null && m.getPassword() != null){
-			String salt = HashUtils.salt();
+			String salt = EncryptUtils.salt();
 			m.setSalt(salt);
 			
-			String password = HashUtils.md5WithSalt(m.getPassword(), salt);
+			String password = EncryptUtils.md5WithSalt(m.getPassword(), salt);
 			m.setPassword(password);
 		}
 		

@@ -17,7 +17,7 @@ package io.jpress.interceptor;
 
 import io.jpress.core.JBaseController;
 import io.jpress.model.User;
-import io.jpress.utils.HashUtils;
+import io.jpress.utils.EncryptUtils;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
@@ -42,7 +42,7 @@ public class UCodeInterceptor implements Interceptor {
 			return;
 		}
 
-		if (!ucode.equals(HashUtils.generateUcode(user))) {
+		if (!ucode.equals(EncryptUtils.generateUcode(user))) {
 			renderError(inv);
 			return;
 		}

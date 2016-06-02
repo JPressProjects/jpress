@@ -36,12 +36,11 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Mapping;
-import io.jpress.model.Option;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
+import io.jpress.router.converter.ContentRouter;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
-import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
@@ -152,39 +151,12 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String _editor = getCookie("_editor", "tinymce");
 		setAttr("_editor", _editor);
-		
-		String urlPreffix = "";
-		String routerType = Option.findValue("router_content_type");
-		if("_dynamic".equals(routerType)){
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			urlPreffix = "/"+router_content_prefix+"?slug=";
-		}
 			
-		else if("_static_prefix".equals(routerType)){
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			urlPreffix = "/"+router_content_prefix+"/";
-		}
-		
-		else if("_static_date".equals(routerType)){
-			String router_content_prefix = DateUtils.DateString();
-			urlPreffix = "/"+router_content_prefix+"/";
-		}
-		
-		else if("_static_module".equals(routerType)){
-			String router_content_prefix = module.getName();
-			urlPreffix = "/"+router_content_prefix+"/";
-		}else{
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			if(!StringUtils.isNotBlank(router_content_prefix)){
-				router_content_prefix = Consts.ROUTER_CONTENT;
-			}
-			urlPreffix = "/"+router_content_prefix+"?slug=";
-		}
-			
-		setAttr("urlPreffix", urlPreffix);
+		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 
 		super.edit();
 	}
+
 
 	public void changeEditor() {
 		String name = getPara();

@@ -26,6 +26,7 @@ import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.router.RouterConverter;
 import io.jpress.template.Module;
+import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
 public class ContentRouter extends RouterConverter {
@@ -158,6 +159,48 @@ public class ContentRouter extends RouterConverter {
 		if (!StringUtils.isNotBlank(prefix))
 			prefix = Consts.ROUTER_CONTENT;
 		return prefix;
+	}
+	
+	
+
+	public static String getContentRouterPreffix(Module module) {
+		String urlPreffix = "";
+		String routerType = Option.findValue("router_content_type");
+		if("_dynamic".equals(routerType)){
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			if(!StringUtils.isNotBlank(router_content_prefix)){
+				urlPreffix = Consts.ROUTER_CONTENT + "?slug=";
+			}else{
+				urlPreffix = "/"+router_content_prefix+"?slug=";
+			}
+		}
+			
+		else if("_static_prefix".equals(routerType)){
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			if(!StringUtils.isNotBlank(router_content_prefix)){
+				urlPreffix = Consts.ROUTER_CONTENT + "/";
+			}else{
+				urlPreffix = "/"+router_content_prefix+"/";
+			}
+		}
+		
+		else if("_static_date".equals(routerType)){
+			String router_content_prefix = DateUtils.DateString();
+			urlPreffix = "/"+router_content_prefix+"/";
+		}
+		
+		else if("_static_module".equals(routerType)){
+			String router_content_prefix = module.getName();
+			urlPreffix = "/"+router_content_prefix+"/";
+		}else{
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			if(!StringUtils.isNotBlank(router_content_prefix)){
+				urlPreffix = Consts.ROUTER_CONTENT + "?slug=";
+			}else{
+				urlPreffix = "/"+router_content_prefix+"?slug=";
+			}
+		}
+		return urlPreffix;
 	}
 
 }

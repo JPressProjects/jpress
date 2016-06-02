@@ -55,10 +55,12 @@ public class JHandler extends Handler {
 			if (target.indexOf('.') != -1) {
 				return;
 			}
+			
 			InstallUtils.renderInstallFinished(request, response, isHandled);
 			return;
 		}
 
+		
 		if (Jpress.isInstalled() && Jpress.isLoaded()) {
 			setGlobalAttrs(request);
 		}
@@ -69,8 +71,9 @@ public class JHandler extends Handler {
 
 		target = RouterManager.converte(target, request, response);
 		target = HookInvoker.router_converte(target, request, response);
-
+		
 		next.handle(target, request, response, isHandled);
+		
 	}
 
 	private void processNotInstall(HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {

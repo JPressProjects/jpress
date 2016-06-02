@@ -1,4 +1,4 @@
-<#include "_inc/_layout.html"/> \
+<#include "_inc/_layout.html"/>
 <@layout active_id="dashboard" >
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -108,7 +108,7 @@
 						<div class="comment-item-content">
 							<p>
 								<a href="#"> ${comment.username!} </a>
-								评论了 <span>《<a href="${(contentUrl(comment.content_id))!}" target="_blank">${comment.content_title!}</a>》</span>
+								评论了 <span>《<a href="${(contentUrl(comment.content_id!))!}" target="_blank">${comment.content_title!}</a>》</span>
 							</p>
 							<p>${comment.text!}</p>
 							<p class="comment-item-actions">

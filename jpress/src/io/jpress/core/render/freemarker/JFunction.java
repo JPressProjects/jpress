@@ -70,6 +70,9 @@ public abstract class JFunction implements TemplateMethodModelEx {
 		if (index > argList.size() - 1)
 			return null;
 
+		if (argList.get(index) == null)
+			return null;
+
 		return argList.get(index).toString();
 	}
 
@@ -103,25 +106,25 @@ public abstract class JFunction implements TemplateMethodModelEx {
 
 		return Long.parseLong(stringValue);
 	}
-	
+
 	public BigInteger getToBigInteger(int index) {
-		
+
 		String stringValue = getToString(index);
-		
+
 		if (null == stringValue || "".equals(stringValue.trim())) {
 			return null;
 		}
-		
+
 		return new BigInteger(stringValue);
 	}
-	
+
 	public BigInteger getToBigInteger(int index, BigInteger defaultValue) {
 		String stringValue = getToString(index);
-		
+
 		if (null == stringValue) {
 			return defaultValue;
 		}
-		
+
 		return new BigInteger(stringValue);
 	}
 

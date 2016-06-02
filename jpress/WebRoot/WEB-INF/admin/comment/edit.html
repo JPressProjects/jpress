@@ -48,17 +48,12 @@ initTinymce();
     
 function save(){
 	
-	  $('#comment_slug').attr('value',$("#slug_text").text());
+	$('#comment_slug').attr('value',$("#slug_text").text());
 	
-	if("tinymce" == _editor){
-		tinymce.activeEditor.uploadImages(function(success) {
+	tinymce.activeEditor.uploadImages(function(success) {
 			tinymce.triggerSave();
 	 		doSubmit();
 		});
-	}else{
-		$("#textarea").text(simplemde.markdown(simplemde.value()));
-		doSubmit();
-	}
 	return false;
  }
  
@@ -81,31 +76,9 @@ function save(){
 	});
  }
  
- 
-function doAjax(url){
-	  $.get(url, function(result){
-			if(result.errorCode > 0){
-				alert(result.message);
-			}else{
-				location.reload();
-			}
-	  }); 
-  }
- 
-
-
 </#macro> 
 <#macro script_import>
 <script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
-<script src="${CPATH}/static/plugins/tag/jquery.caret.min.js"></script>
-<script src="${CPATH}/static/plugins/tag/jquery.tag-editor.min.js"></script>
-<script src="${CPATH}/static/plugins/editable/bootstrap-editable.min.js"></script>
-<script src="${CPATH}/static/simplemde/simplemde.min.js"></script>
-</#macro>
-<#macro css_import>
-<link rel="stylesheet" href="${CPATH}/static/plugins/tag/jquery.tag-editor.css">
-<link rel="stylesheet" href="${CPATH}/static/plugins/editable/bootstrap-editable.css">
-<link rel="stylesheet" href="${CPATH}/static/simplemde/simplemde.min.css">
 </#macro>
 <#macro css>
 .editable-input {
@@ -124,12 +97,10 @@ function doAjax(url){
 </section>
 <!-- Main content -->
 <section class="content" style="z-index: 9999">
-	<form action="${CPATH}/admin/content/save" id="form" method="post">
-		<input type="hidden" name="comment.module" value="${(comment.module)!m!}"> 
+	<form action="${CPATH}/admin/comment/save" id="form" method="post">
 		<input type="hidden" id="comment_id" name="comment.id" value="${(comment.id)!}"> 
 		<input type="hidden" name="comment.status" value="normal" id="comment_status"> 
 		<input type="hidden" name="comment.created" value="${(comment.created)!}" > 
-		<input type="hidden" id="comment_slug" name="comment.slug" value="${(comment.slug)!}" > 
 		<input type="hidden" name="ucode" value="${ucode}">
 		<div class="row">
 			<!-- /.col -->
@@ -162,13 +133,10 @@ function doAjax(url){
 									<a href="#tab_1" data-toggle="tab">常用</a>
 								</li>
 								<li>
-									<a href="#tab_seo" data-toggle="tab">SEO</a>
+									<a href="#tab_seo" data-toggle="tab">投票</a>
 								</li>
 								<li>
 									<a href="#tab_position" data-toggle="tab">位置</a>
-								</li>
-								<li>
-									<a href="#tab_remarks" data-toggle="tab">备注</a>
 								</li>
 								<li>
 									<a href="#tab_metadata" data-toggle="tab">元数据</a>
@@ -177,35 +145,37 @@ function doAjax(url){
 							<div class="tab-content jp-aside-hg ">
 								<div class="tab-pane active " id="tab_1">
 								<div class="jp-prop-input">
-									Flag: <input type="text" name="comment.flag" value="${(comment.flag)!}">
+									系统用户: <input type="text" name="username" value="${(comment.username)!}">
 								</div>
 								<div class="jp-prop-input">
-									作者: <input type="text" name="username" value="${(comment.username)!}">
+									评论昵称: <input type="text" name="comment.author" value="${(comment.author)!}">
+								</div>
+								<div class="jp-prop-input">
+									邮箱: <input type="text" name="comment.email" value="${(comment.email)!}">
+								</div>
+								<div class="jp-prop-input">
+									IP地址: <input type="text" name="comment.ip" value="${(comment.ip)!}">
+								</div>
+								<div class="jp-prop-input">
+									Flag: <input type="text" name="comment.flag" value="${(comment.flag)!}">
 								</div>
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane jp-prop-box" id="tab_seo">
-								<div class="jp-prop-input">
-									关键字: <input type="text" name="comment.meta_keywords" value="${(comment.meta_keywords)!}">
-								</div>
-								
-								<div class="jp-prop-input">
-									描述: 
-									<input type="text" name="comment.meta_description" value="${(comment.meta_description)!}">
-								</div>
-				
+									<div class="jp-prop-input">
+										支持: <input type="text" name="comment.vote_up" value="${(comment.vote_up)!}">
+									</div>
+									<div class="jp-prop-input">
+										反对: <input type="text" name="comment.vote_down" value="${(comment.vote_down)!}">
+									</div>
 								</div>
 								<div class="tab-pane jp-prop-box" id="tab_position">
-								<div class="jp-prop-input">
-								经度: <input type="text" name="comment.lng" value="${(comment.lng)!}">
-								</div>
-								<div class="jp-prop-input">
-								纬度: <input type="text" name="comment.lat" value="${(comment.lat)!}">
-								</div>
-								</div>
-								<div class="tab-pane jp-prop-box" id="tab_remarks">
-								<span class="jp-prop-text">备注: </span>
-								<textarea rows="5"   name="comment.remarks">${(comment.remarks)!}</textarea>
+									<div class="jp-prop-input">
+									经度: <input type="text" name="comment.lng" value="${(comment.lng)!}">
+									</div>
+									<div class="jp-prop-input">
+									纬度: <input type="text" name="comment.lat" value="${(comment.lat)!}">
+									</div>
 								</div>
 								<div class="tab-pane" id="tab_metadata">元数据</div>
 								<!-- /.tab-pane -->

@@ -71,20 +71,10 @@
   <!-- -->
   <div class="x-pull-right x-layout-25 blog-sm-right">
     <div class="x-white-box">
-      <div class="x-padding-top-10 x-padding-bottom-10 x-font-center">
+      <div class="x-white-box">
         <p><a href="#"><img class="x-image-radus x-item-space-6" src="${(user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/> </a></p>
-        <p><a href="#">${(user.nickname)!}</a></p>
+        <p><a href="#">${(user.nickname)!(user.username)!}</a></p>
         <p class="x-font-grey5 x-margin-bottom-10 x-margin-top-10">${(user.signature)!'这家伙很赖，连签名都懒得填写...'}</p>
-        <div class="x-layout-60 x-layout-auto clearfix x-font-grey">
-          <div class="x-pull-left x-layout-50 x-part-border-right x-box-border">
-            <p>118</p>
-            <p>文章</p>
-          </div>
-          <div class="x-pull-right x-layout-50">
-            <p>112</p>
-            <p>回复</p>
-          </div>
-        </div>
       </div>
     </div>
  	<#include "_newest_box.html"/> 

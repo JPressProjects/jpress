@@ -50,13 +50,12 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
-		return mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType(), null, null);
+		return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null , getPara("s"));
 	}
 
 	@Override
 	public void save() {
 		Comment comment = getModel(Comment.class);
-
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
 			User user = User.DAO.findUserByUsername(username);

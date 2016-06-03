@@ -22,8 +22,10 @@ import java.util.Map;
 
 import com.jfinal.log.Log;
 
+import io.jpress.model.Option;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.HttpUtils;
+import io.jpress.utils.StringUtils;
 
 public class AlidayuSmsSender implements ISmsSender {
 	private static final Log log = Log.getLog(AlidayuSmsSender.class);
@@ -34,12 +36,23 @@ public class AlidayuSmsSender implements ISmsSender {
 	 */
 
 	@Override
-	public String send(SmsMessage sms) {
-		String app_key = "your app key";
-		String app_secret = "your app secret";
-		return doSend(sms, app_key, app_secret);
+	public boolean send(SmsMessage sms) {
+		String app_key =  Option.findValue("sms_app_key");//"your app key";
+		String app_secret =  Option.findValue("sms_app_secret");//"your app secret"
+		
+		String sendResult = doSend(sms, app_key, app_secret);
+		
+		if(StringUtils.isNotBlank(sendResult)){
+			if (sendResult != null && sendResult.contains("alibaba_aliqin_fc_sms_num_send_response")
+					&& sendResult.contains("success") && sendResult.contains("true")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
+	
+	
 	private static String doSend(SmsMessage sms, String app_key, String app_secret) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("format", "json");
@@ -70,6 +83,7 @@ public class AlidayuSmsSender implements ISmsSender {
 	}
 
 	
+	
 
 	public static void main(String[] args) {
 		SmsMessage sms = new SmsMessage();
@@ -80,9 +94,9 @@ public class AlidayuSmsSender implements ISmsSender {
 		sms.setParam("{\"code\":\"8888\",\"product\":\"JPress\",\"customer\":\"杨福海\"}");
 		sms.setSign_name("登录验证");
 
-		String retString = new AlidayuSmsSender().send(sms);
+		boolean sendOk = new AlidayuSmsSender().send(sms);
 
-		System.out.println(retString);
+		System.out.println(sendOk);
 		System.out.println("===============finished!===================");
 	}
 

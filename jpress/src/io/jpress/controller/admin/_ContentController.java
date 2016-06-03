@@ -153,6 +153,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("_editor", _editor);
 			
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
+		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
 		super.edit();
 	}

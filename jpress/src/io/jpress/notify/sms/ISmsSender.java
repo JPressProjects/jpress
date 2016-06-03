@@ -17,6 +17,6 @@ package io.jpress.notify.sms;
 
 public interface ISmsSender {
 
-	public String send(SmsMessage sms);
+	public boolean send(SmsMessage sms);
 
 }

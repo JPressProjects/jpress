@@ -1,5 +1,5 @@
 /**
- （编辑中...） * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
  *
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,31 @@
  */
 package io.jpress.notify.sms;
 
+import io.jpress.model.Option;
+import io.jpress.utils.StringUtils;
+
 public class SmsSenderFactory {
 	
-	public static ISmsSender createSender(){
+
+	public static ISmsSender createSender() {
+		
+		String provider = Option.findValue("sms_app_provider");
+		
+		if(!StringUtils.isNotBlank(provider)){
+			return new AlidayuSmsSender();
+		}
+		
+		else if("sms_provider_alidayu".equals(provider)){
+			return new AlidayuSmsSender();
+		}
+		
+//		其他短信服务商
+//		else if("sms_provider_xxx".equals(provider)){
+//			return new XXXSmsSender();
+//		}
 		
 		return new AlidayuSmsSender();
-		
+
 	}
-	
 
 }

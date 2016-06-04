@@ -36,6 +36,21 @@ import com.jfinal.log.Log;
 
 public class ImageUtils {
 	private static final Log log = Log.getLog(ImageUtils.class);
+
+	public static int[] ratio(String src) throws IOException {
+		BufferedImage bufferedImage = ImageIO.read(new File(src));
+		int width = bufferedImage.getWidth();
+		int height = bufferedImage.getHeight();
+		return new int[] { width, height };
+	}
+
+	public static String ratioAsString(String src) throws IOException {
+		BufferedImage bufferedImage = ImageIO.read(new File(src));
+		int width = bufferedImage.getWidth();
+		int height = bufferedImage.getHeight();
+		return String.format("%s x %s", width, height);
+	}
+
 	public static String scale(String src, int w, int h) throws IOException {
 		int inserTo = src.lastIndexOf(".");
 		String dest = src.substring(0, inserTo) + String.format("_%sx%s", w, h) + src.substring(inserTo, src.length());

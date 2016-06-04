@@ -49,13 +49,13 @@ function doSubmit(){
 				<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="content.id" value="${(wechat_menu.id)!}">
 				<h4 class="jp-common-pad">添加新菜单</h4>
 				<div class="form-group jp-input-item">
-					<label for="tag-name">名称</label> <input id="tag-name" class="form-control" type="text" name="content.title" value="${(wechat_menu.title)!}">
+					<label for="tag-name" class="input-title">名称</label> <input id="tag-name" class="form-control" type="text" name="content.title" value="${(wechat_menu.title)!}">
 					<p>这将显示在微信的菜单底部。</p>
 				</div>
 
 				<div class="form-group ">
 					<div class="col-xs-5 jp-common-pad">
-						<label>菜单类型</label> <select class="form-control input-sm" name="content.flag">
+						<label class="input-title">菜单类型</label> <select class="form-control input-sm" name="content.flag">
 							<option value="click">点击推事件</option>
 							<option value="view">跳转URL</option>
 							<option value="scancode_push">扫码推事件</option>
@@ -69,16 +69,16 @@ function doSubmit(){
 					<div class="clr"></div>
 				</div>
 				<div class="form-group jp-input-item">
-					<label for="tag-slug">关键字</label> <input id="tag-slug" class="form-control" type="text" name="content.text" value="${(wechat_menu.text)!}">
+					<label for="tag-slug" class="input-title">关键字</label> <input id="tag-slug" class="form-control" type="text" name="content.text" value="${(wechat_menu.text)!}">
 					<p>填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。</p>
 				</div>
 				<div class="form-group jp-input-item">
-					<label for="tag-slug">排序</label> <input id="tag-slug" class="form-control" type="text" name="content.order_number" value="${(wechat_menu.order_number)!}">
+					<label for="tag-slug" class="input-title">排序</label> <input id="tag-slug" class="form-control" type="text" name="content.order_number" value="${(wechat_menu.order_number)!}">
 					<p>排序数字。</p>
 				</div>
 				<div class="form-group jp-input-item">
 					<div class="col-xs-5 jp-common-pad">
-						<label>父节点</label> <select class="form-control input-sm" name="content.parent_id">
+						<label class="input-title">父节点</label> <select class="form-control input-sm" name="content.parent_id">
 							<option value="0">无</option> <#list wechat_menus! as menu>
 							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> </#list>
 						</select>

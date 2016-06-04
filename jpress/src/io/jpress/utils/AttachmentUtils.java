@@ -17,7 +17,9 @@ package io.jpress.utils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.jfinal.kit.PathKit;
@@ -40,13 +42,8 @@ public class AttachmentUtils {
 
 		String uuid = UUID.randomUUID().toString().replace("-", "");
 
-		StringBuilder newFileName = new StringBuilder(webRoot)
-				.append(File.separator)
-				.append("attachment")
-				.append(File.separator)
-				.append(dateFormat.format(new Date()))
-				.append(File.separator)
-				.append(uuid)
+		StringBuilder newFileName = new StringBuilder(webRoot).append(File.separator).append("attachment")
+				.append(File.separator).append(dateFormat.format(new Date())).append(File.separator).append(uuid)
 				.append(FileUtils.getSuffix(file.getName()));
 
 		File newfile = new File(newFileName.toString());
@@ -58,8 +55,26 @@ public class AttachmentUtils {
 		file.renameTo(newfile);
 
 		return FileUtils.removePrefix(newfile.getAbsolutePath(), webRoot);
-
 	}
 
+	static List<String> imageSuffix = new ArrayList<String>();
+	static {
+		imageSuffix.add(".jpg");
+		imageSuffix.add(".jpeg");
+		imageSuffix.add(".png");
+		imageSuffix.add(".bmp");
+		// imageSuffix.add(".gif");
+	}
+
+	public static boolean isImage(String path) {
+		String sufffix = FileUtils.getSuffix(path);
+		if (StringUtils.isNotBlank(sufffix))
+			return imageSuffix.contains(sufffix.toLowerCase());
+		return false;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(FileUtils.getSuffix("xxx.jpg"));
+	}
 
 }

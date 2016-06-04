@@ -58,6 +58,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setErrorRenderFactory(new JErrorRenderFactory());
 		constants.setBaseUploadPath("attachment");
 		constants.setEncoding("utf-8");
+		constants.setMaxPostSize(1024*1024*200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
 
 		// constants.setTokenCache(new JTokenCache());

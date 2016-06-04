@@ -72,13 +72,33 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 			attachment.setMimeType(uploadFile.getContentType());
 			attachment.save();
-
-			processThumbnail(newPath);
-			processWatermark(newPath);
-
-			redirect("/admin/attachment?p=attachment&c=list", true);
+			
+			processImage(newPath);
+			
+			//{"success":true}
+			renderJson("success", true);
+//			redirect("/admin/attachment?p=attachment&c=list", true);
 		} else {
-			redirect("/admin/attachment/upload?p=attachment&c=upload", true);
+			renderJson("success", false);
+//			redirect("/admin/attachment/upload?p=attachment&c=upload", true);
+		}
+	}
+
+	private void processImage(String newPath) {
+		if(!AttachmentUtils.isImage(newPath))
+			return;
+		
+		try {
+			//由于内存不够等原因可能会出未知问题
+			processThumbnail(newPath);
+		} catch (Throwable e) {
+			log.error("processThumbnail error",e);
+		}
+		try {
+			//由于内存不够等原因可能会出未知问题
+			processWatermark(newPath);
+		} catch (Throwable e) {
+			log.error("processWatermark error",e);
 		}
 	}
 

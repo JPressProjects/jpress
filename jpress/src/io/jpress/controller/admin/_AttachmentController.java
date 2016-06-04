@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.admin;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Date;
@@ -48,6 +49,28 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		BigInteger id = getParaToBigInteger("id");
 		Attachment attachment = Attachment.DAO.findById(id);
 		setAttr("attachment", attachment);
+		
+		File attachmentFile = new File(PathKit.getWebRootPath(), attachment.getPath());
+		setAttr("attachmentName", attachmentFile.getName());
+		
+		long fileLen = attachmentFile.length();
+		String fileLenUnit = "Byte";
+		if(fileLen > 1024){
+			fileLen = fileLen / 1024;
+			fileLenUnit = "KB";
+		}
+		if(fileLen > 1024){
+			fileLen = fileLen / 1024;
+			fileLenUnit = "MB";
+		}
+		setAttr("attachmentSize", fileLen + fileLenUnit );
+		try {
+			if(AttachmentUtils.isImage(attachment.getPath())){
+				setAttr("attachmentRatio", ImageUtils.ratioAsString(attachmentFile.getAbsolutePath()));
+			}
+		} catch (Throwable e) {
+			log.error("detail_layer ratioAsString error",e);
+		}
 	}
 
 	public void choose_layer() {

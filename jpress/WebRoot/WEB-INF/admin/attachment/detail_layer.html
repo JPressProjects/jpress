@@ -15,20 +15,20 @@ $(document).ready(function(){
 	<div class="brower-image-info" id="brower-image-info">
 		<div class="brower-image-details">
 			<div>
-				<strong>文件名：</strong> <span class="filename"></span>
+				<strong>文件名：</strong> <span class="filename">${(attachmentName)!}</span>
 			</div>
 			<div>
-				<strong>文件类型：</strong> <span class="filetype"></span>
+				<strong>文件类型：</strong> <span class="filetype">${attachment.mime_type!}（${attachment.suffix!}）</span>
 			</div>
 			<div class="uploaded">
 				<strong>上传于：</strong> ${attachment.created!}
 			</div>
 			<div class="brower-image-size">
-				<strong>文件大小：</strong>
+				<strong>文件大小：</strong>${(attachmentSize)!}
 	
 			</div>
 			<div class="brower-image-dimensions">
-				<strong>分辨率：</strong> 580 × 435
+				<strong>分辨率：</strong> ${(attachmentRatio)!}
 			</div>
 		</div>
 	
@@ -38,13 +38,14 @@ $(document).ready(function(){
 				<dt class="">URL</dt>
 				<dd>
 					<div class="form-group">
-						<label class="sr-only">URL</label> <input class="form-control" type="text" disabled="" placeholder="Enter ...">
+						<label class="sr-only">URL</label> 
+						<textarea class="form-control" disabled="disabled" rows="2">${CPATH}${attachment.path!}</textarea>
 					</div>
 				</dd>
 				<dt class="">标题</dt>
 				<dd>
 					<div class="form-group">
-						<label class="sr-only">标题</label> <input class="form-control" type="text" placeholder="Enter ...">
+						<label class="sr-only">标题</label> <input class="form-control" type="text" value="${attachment.title!}">
 					</div>
 				</dd>
 				<dt class="">说明</dt>

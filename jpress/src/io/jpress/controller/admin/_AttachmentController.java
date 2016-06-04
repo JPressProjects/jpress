@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
@@ -53,6 +54,11 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		index();
 		render("choose_layer.html");
 	}
+	
+	@Override
+	protected int getPageSize() {
+		return 18;
+	}
 
 	public void upload() {
 		keepPara();
@@ -76,7 +82,10 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			processImage(newPath);
 			
 			//{"success":true}
-			renderJson("success", true);
+			JSONObject json = new JSONObject();
+			json.put("success", true);
+			json.put("src", newPath);
+			renderJson(json.toString());
 //			redirect("/admin/attachment?p=attachment&c=list", true);
 		} else {
 			renderJson("success", false);

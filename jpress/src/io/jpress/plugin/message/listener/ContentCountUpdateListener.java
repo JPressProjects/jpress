@@ -29,11 +29,8 @@ public class ContentCountUpdateListener implements MessageListener {
 		if (ids != null && ids.length > 0) {
 			for (int i = 0; i < ids.length; i++) {
 				Taxonomy t = Taxonomy.DAO.findById(ids[i]);
-				long count = t.findContentCount();
-				if (count != 0) {
-					t.setContentCount(count);
-					t.saveOrUpdate();
-				}
+				if (t != null)
+					t.updateContentCount();
 			}
 		}
 	}

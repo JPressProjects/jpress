@@ -41,6 +41,8 @@ import io.jpress.model.Content;
 import io.jpress.model.Mapping;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
+import io.jpress.plugin.message.MessageKit;
+import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
@@ -247,7 +249,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void save() {
 
-		Content content = getContent();
+		final Content content = getContent();
 
 		String slug = content.getSlug();
 		if (!StringUtils.isNotBlank(slug)) {
@@ -277,10 +279,38 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-		content.saveOrUpdate();
+		boolean saved = Db.tx(new IAtom() {
+			@Override
+			public boolean run() throws SQLException {
 
-		List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
-		Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
+				Content oldContent = null;
+				if (content.getId() != null) {
+					oldContent = mDao.findById(content.getId());
+				}
+
+				content.saveOrUpdate();
+				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
+				Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
+
+				MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));
+
+				if (oldContent != null && oldContent.getTaxonomys() != null) {
+					List<Taxonomy> taxonomys = oldContent.getTaxonomys();
+					BigInteger[] taxonomyIds = new BigInteger[taxonomys.size()];
+					for (int i = 0; i < taxonomys.size(); i++) {
+						taxonomyIds[i] = taxonomys.get(i).getId();
+					}
+					MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, taxonomyIds);
+				}
+
+				return true;
+			}
+		});
+
+		if (!saved) {
+			renderAjaxResultForError();
+			return;
+		}
 
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);

@@ -25,6 +25,8 @@ import java.util.concurrent.Executors;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
 
+import io.jpress.core.ClassScaner;
+
 public class MessagePlugin implements IPlugin {
 
 	private final ExecutorService threadPool;
@@ -37,7 +39,6 @@ public class MessagePlugin implements IPlugin {
 	}
 
 	public void registerListener(Class<? extends MessageListener> listenerClass) {
-
 		MessageListener listener = null;
 		try {
 			listener = listenerClass.newInstance();
@@ -79,7 +80,7 @@ public class MessagePlugin implements IPlugin {
 				public void run() {
 					try {
 						listener.onMessage(message);
-					} catch (Exception e) {
+					} catch (Throwable e) {
 						log.error(String.format("listener[%s] onMessage is erro! ", listener.getClass()), e);
 					}
 				}
@@ -90,7 +91,17 @@ public class MessagePlugin implements IPlugin {
 	@Override
 	public boolean start() {
 		MessageKit.init(this);
+		autoRegister();
 		return true;
+	}
+
+	private void autoRegister() {
+		List<Class<MessageListener>> list = ClassScaner.scanSubClass(MessageListener.class, true);
+		if (list != null && list.size() > 0) {
+			for (Class<MessageListener> clazz : list) {
+				registerListener(clazz);
+			}
+		}
 	}
 
 	@Override

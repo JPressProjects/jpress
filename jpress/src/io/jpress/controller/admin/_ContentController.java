@@ -16,6 +16,7 @@
 package io.jpress.controller.admin;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,6 +26,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
@@ -62,7 +65,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
 		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
 		setAttr("count", mDao.findCountInNormalByModule(getModuleName()));
-		
+
 		super.index();
 	}
 
@@ -125,39 +128,48 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = Content.DAO.findById(id);
+		final Content c = Content.DAO.findById(id);
 		if (c != null && c.isDelete()) {
-			c.delete();
-			renderAjaxResultForSuccess("success");
-		} else {
-			renderAjaxResultForError("restore error!");
+			boolean isSuccess = Db.tx(new IAtom() {
+				@Override
+				public boolean run() throws SQLException {
+					c.delete();
+					Mapping.DAO.deleteByContentId(c.getId());
+					return true;
+				}
+			});
+
+			if (isSuccess) {
+				renderAjaxResultForSuccess();
+				return;
+			}
 		}
+		renderAjaxResultForError();
 	}
 
 	@Override
 	public void edit() {
-		
+
 		String moduleName = getModuleName();
 		BigInteger contentId = getParaToBigInteger("id");
-		
+
 		Content content = Content.DAO.findById(contentId);
-		if(content!=null){
+		if (content != null) {
 			setAttr("content", content);
 			moduleName = content.getModule();
 		}
-		
+
 		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
 		setAttr("module", module);
 
 		String _editor = getCookie("_editor", "tinymce");
 		setAttr("_editor", _editor);
-			
+
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
 		super.edit();
 	}
-
 
 	public void changeEditor() {
 		String name = getPara();
@@ -176,7 +188,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			}
 		}
 
-		if(content.getCreated() == null){
+		if (content.getCreated() == null) {
 			content.setCreated(new Date());
 		}
 		content.setModified(new Date());
@@ -245,11 +257,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		if (slug != null) {
 			slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
 			slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
-			
+
 			content.setSlug(slug);
 		}
-		
-		
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
@@ -275,7 +285,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);
 		ar.setData(content.getId());
-		renderAjaxResult("save ok", 0,content.getId());
+		renderAjaxResult("save ok", 0, content.getId());
 	}
 
 }

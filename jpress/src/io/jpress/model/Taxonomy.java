@@ -15,16 +15,16 @@
  */
 package io.jpress.model;
 
-import io.jpress.core.annotation.Table;
-import io.jpress.model.ModelSorter.ISortModel;
-import io.jpress.model.base.BaseTaxonomy;
-import io.jpress.router.converter.TaxonomyRouter;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
+
+import io.jpress.core.annotation.Table;
+import io.jpress.model.ModelSorter.ISortModel;
+import io.jpress.model.base.BaseTaxonomy;
+import io.jpress.router.converter.TaxonomyRouter;
 
 @Table(tableName = "taxonomy", primaryKey = "id")
 public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxonomy> {
@@ -132,6 +132,14 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public Taxonomy findBySlugAndModule(String slug, String module) {
 		return doFindFirst("slug = ? and content_module=?", slug, module);
 	}
+	
+	public void updateContentCount(){
+		long count  = Mapping.DAO.findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
+		if(count > 0){
+			setContentCount(count);
+			this.update();
+		}
+	}
 
 	public List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(TYPE_CATEGORY, contentId);
@@ -149,5 +157,25 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public String getUrl() {
 		return TaxonomyRouter.getRouter(this);
 	}
+	
+	@Override
+	public boolean saveOrUpdate() {
+		if (getId() != null) {
+			removeCache(getId());
+			putCache(getId(), this);
+		}
+		
+		
+		return super.saveOrUpdate();
+	}
+	
+	public boolean update() {
+		if (getId() != null) {
+			removeCache(getId());
+			putCache(getId(), this);
+		}
+		return super.update();
+	}
+	
 
 }

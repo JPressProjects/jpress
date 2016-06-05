@@ -16,12 +16,6 @@
 package io.jpress;
 
 import io.jpress.core.JpressConfig;
-import io.jpress.plugin.message.MessageKit;
-import io.jpress.plugin.message.listener.CommentListener;
-import io.jpress.plugin.message.listener.ContentCountUpdateListener;
-import io.jpress.plugin.message.listener.ContentListener;
-import io.jpress.plugin.message.listener.SettingChangedListener;
-import io.jpress.plugin.message.listener.UserActionListener;
 import io.jpress.router.RouterManager;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.router.converter.PageRouter;
@@ -43,13 +37,6 @@ public class Config extends JpressConfig {
 			RouterManager.register(ContentRouter.class);
 		}
 
-		{ // messageListeners
-			MessageKit.register(ContentListener.class);
-			MessageKit.register(ContentCountUpdateListener.class);
-			MessageKit.register(UserActionListener.class);
-			MessageKit.register(SettingChangedListener.class);
-			MessageKit.register(CommentListener.class);
-		}
 
 	}
 

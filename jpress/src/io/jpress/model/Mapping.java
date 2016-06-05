@@ -64,6 +64,14 @@ public class Mapping extends BaseMapping<Mapping> {
 	public long findCountByTaxonomyId(BigInteger id) {
 		return doFindCount("taxonomy_id = ?", id);
 	}
+	
+	
+	public long findCountByTaxonomyId(BigInteger id,String contentStatus) {
+		String sql = "SELECT COUNT(*) FROM mapping m ";
+		sql += "left join content c ON m.content.id=c.id";
+		sql += "where m.taxonomy_id = ? and c.status = ?";
+		return Jdb.queryLong(sql,id,contentStatus);
+	}
 
 	public long findCountByContentId(BigInteger id) {
 		return doFindCount("content_id = ?", id);

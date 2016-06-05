@@ -257,23 +257,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public boolean saveOrUpdate() {
 		if (getId() != null) {
 			removeCache(getId());
-		}
-		if (getSlug() != null) {
-			removeCache(getSlug());
+			putCache(getId(), this);
 		}
 		
-		putCache(getId(), this);
-		putCache(getSlug(), this);
+		if (getSlug() != null) {
+			removeCache(getSlug());
+			putCache(getSlug(), this);
+		}
 		
 		return super.saveOrUpdate();
 	}
 	
-	@Override
-	public boolean save() {
-		putCache(getId(), this);
-		putCache(getSlug(), this);
-		return super.save();
-	}
+	
 
 	public long findCountByModule(String module) {
 		return doFindCount("module = ?", module);

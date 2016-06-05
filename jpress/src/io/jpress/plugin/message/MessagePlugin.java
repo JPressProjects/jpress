@@ -65,7 +65,7 @@ public class MessagePlugin implements IPlugin {
 	}
 
 	public void pulish(final Message message) {
-		String key = message.getClass().getName();
+		String key = message.getAction();
 		List<MessageListener> listeners = listenerMap.get(key);
 
 		if (null == listeners || listeners.size() == 0) {

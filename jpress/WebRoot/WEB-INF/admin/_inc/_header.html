@@ -1,36 +1,29 @@
 <header class="main-header">
 	<!-- Logo -->
-	<a href="#" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels-->
-		<span class="logo-mini"><b>JP</b></span> <!-- logo for regular state and mobile devices -->
+	<a href="#" class="logo">
+		<span class="logo-mini"><b>JP</b></span> 
 		<span class="logo-lg"><b>JPress</b></span>
 	</a>
-	<!-- Header Navbar: style can be found in header.less -->
+
 	<nav class="navbar navbar-static-top" role="navigation">
-		<!-- Sidebar toggle button-->
-		<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
-			role="button"> <span class="sr-only">开关</span> <span
-			class="icon-bar"></span> <span class="icon-bar"></span> <span
-			class="icon-bar"></span>
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">开关</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 		</a>
 
 		<div class="navbar-custom-menu" style="padding-right: 2rem">
 			<ul class="nav navbar-nav">
 
-				<!-- User Account: style can be found in dropdown.less -->
 				<li class="dropdown user user-menu">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
-					<span class="hidden-xs">${_user.username}， 您好</span>
-					<img src="${CPATH}/static/jpress/admin/image/avatar.jpg" class="user-image" alt="User Image">
-				</a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="hidden-xs">${_user.username}， 您好</span>
+						<img src="${CPATH}/static/jpress/admin/image/avatar.jpg" class="user-image" alt="User Image">
+					</a>
 					<ul class="dropdown-menu">
 						<!-- User image -->
-						<li class="user-header"><img
-							src="${CPATH}/static/jpress/admin/image/avatar.jpg" class="img-circle"
-							alt="User Image">
-							<p>
-								${_user.username} - 超级管理员 
-							</p></li>
-						<!-- Menu Footer-->
+						<li class="user-header">
+							<img src="${CPATH}/static/jpress/admin/image/avatar.jpg" class="img-circle" alt="User Image">
+							<p>${_user.username} - 超级管理员</p>
+							</li>
 						<li class="user-footer">
 							<div class="pull-left">
 								<a href="${CPATH}/admin/user/info?p=user&c=info" class="btn btn-default btn-flat">资料</a>
@@ -40,7 +33,7 @@
 							</div>
 						</li>
 					</ul>
-					</li>
+				</li>
 			</ul>
 		</div>
 	</nav>

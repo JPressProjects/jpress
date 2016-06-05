@@ -16,15 +16,20 @@
 package io.jpress.controller.admin;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Mapping;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
@@ -64,7 +69,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 	@Override
 	public void save() {
 		super.save();
-		renderAjaxResultForSuccess("ok");
+		renderAjaxResultForSuccess();
 	}
 
 	@Override
@@ -72,6 +77,25 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		Page<Taxonomy> page = mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType());
 		ModelSorter.sort(page.getList());
 		return page;
+	}
+	
+	@Before(UCodeInterceptor.class)
+	public void delete(){
+		final BigInteger id = getParaToBigInteger("id");
+		if (id == null) {
+			renderAjaxResultForError();
+			return;
+		}
+			
+		Db.tx(new IAtom() {
+			@Override
+			public boolean run() throws SQLException {
+				mDao.deleteById(id);
+				Mapping.DAO.deleteByTaxonomyId(id);
+				return true;
+			}
+		});
+		
 	}
 
 }

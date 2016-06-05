@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 
+import io.jpress.core.Jdb;
 import io.jpress.core.annotation.Table;
 import io.jpress.model.base.BaseMapping;
 
@@ -49,6 +50,15 @@ public class Mapping extends BaseMapping<Mapping> {
 				return true;
 			}
 		});
+	}
+	
+	
+	public void deleteByContentId(BigInteger id){
+		Jdb.update("DELETE * FROM mapping m where  m.content_id = ?",id);
+	}
+	
+	public void deleteByTaxonomyId(BigInteger id){
+		Jdb.update("DELETE * FROM mapping m where  m.taxonomy_id = ?",id);
 	}
 
 	public long findCountByTaxonomyId(BigInteger id) {

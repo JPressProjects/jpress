@@ -16,6 +16,16 @@ function doSubmit(){
 			}
 	});
  }
+ 
+ function del(id){
+	$.get("${CPATH}/admin/taxonomy/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+} 
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -116,7 +126,7 @@ function doSubmit(){
 										<!-- /admin/taxonomy?m=article&t=category&p=article&c=category# -->
 											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">设置</a></span>
 											<span class="approve">| <a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
-											<span class="spam">| <a class="vim-s vim-destructive" href="#">删除</a> </span> 
+											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:;" onclick="del('${bean.id}')">删除</a> </span> 
 											<span class="trash">| <a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a></span>
 										</p>
 									</div></td>

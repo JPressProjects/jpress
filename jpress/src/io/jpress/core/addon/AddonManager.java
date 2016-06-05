@@ -17,6 +17,7 @@ package io.jpress.core.addon;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -131,6 +132,35 @@ public class AddonManager {
 			log.error("AddonManager loadAddon error", e);
 		}
 		return addon;
+	}
+	
+	
+	public Object invokeHook(String hookName, Object... objects) {
+		List<Addon> addons = getStartedAddons();
+		for (Addon addon : addons) {
+			if (addon.getHasError()) {
+				continue;
+			}
+			Method method = addon.getHooks().method(hookName);
+			if (method != null) {
+				Hook hook = null;
+				try {
+					hook = addon.getHooks().hook(hookName);
+					Object ret = method.invoke(hook, objects);
+					if (!hook.letNextHookInvoke()) {
+						return ret;
+					}
+				} catch (Throwable e) {
+					addon.setHasError(true);
+					log.error("HookInvoker invoke error", e);
+				} finally {
+					if (hook != null) {
+						hook.hookInvokeFinished();
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }

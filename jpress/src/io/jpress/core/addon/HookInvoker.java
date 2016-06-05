@@ -15,58 +15,25 @@
  */
 package io.jpress.core.addon;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.aop.Invocation;
-import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 
 public class HookInvoker {
-	private static final Log log = Log.getLog(HookInvoker.class);
 
 	public static String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
-		String newTarget = (String) invoke("target_converte", request, response);
+		String newTarget = (String) AddonManager.get().invokeHook("target_converte", request, response);
 		return newTarget == null ? target : newTarget;
 	}
 
 	public static Render process_controller(AddonController controller) {
-		return (Render) invoke("process_controller", controller);
+		return (Render) AddonManager.get().invokeHook("process_controller", controller);
 	}
 
 	public static Boolean intercept(Invocation inv) {
-		return (Boolean) invoke("intercept", inv);
-	}
-
-	private static Object invoke(String hookName, Object... objects) {
-		List<Addon> addons = AddonManager.get().getStartedAddons();
-		for (Addon addon : addons) {
-			if (addon.getHasError()) {
-				continue;
-			}
-			Method method = addon.getHooks().method(hookName);
-			if (method != null) {
-				Hook hook = null;
-				try {
-					hook = addon.getHooks().hook(hookName);
-					Object ret = method.invoke(hook, objects);
-					if (!hook.letNextHookInvoke()) {
-						return ret;
-					}
-				} catch (Throwable e) {
-					addon.setHasError(true);
-					log.error("HookInvoker invoke error", e);
-				} finally {
-					if (hook != null) {
-						hook.hookInvokeFinished();
-					}
-				}
-			}
-		}
-		return null;
+		return (Boolean) AddonManager.get().invokeHook("intercept", inv);
 	}
 
 }

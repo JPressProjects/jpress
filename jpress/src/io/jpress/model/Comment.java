@@ -34,8 +34,8 @@ public class Comment extends BaseComment<Comment> {
 
 	public static final Comment DAO = new Comment();
 
-	public Page<Comment> doPaginateWithContent(int pageNumber, int pageSize, String module, String type, BigInteger contentId,
-			String status) {
+	public Page<Comment> doPaginateWithContent(int pageNumber, int pageSize, String module, String type,
+			BigInteger contentId, String status) {
 
 		String select = " select c.*,content.title content_title,u.username";
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
@@ -61,6 +61,22 @@ public class Comment extends BaseComment<Comment> {
 		return doPaginateWithContent(pageNumber, pageSize, null, null, contentId, STATUS_NORMAL);
 	}
 
+	public long findCountByContentIdInNormal(BigInteger contentId) {
+		return findCountByContentId(contentId, STATUS_NORMAL );
+	}
+	
+	public long findCountByContentId(BigInteger contentId,String status) {
+		return doFindCount(" content_id = ? and status=? ",contentId, status);
+	}
+	
+	public long findCountByUserIdInNormal(BigInteger userId) {
+		return findCountByUserId(userId,STATUS_NORMAL);
+	}
+	
+	public long findCountByUserId(BigInteger userId,String status) {
+		return doFindCount(" user_id = ? and status=? ",userId, status);
+	}
+
 	@Override
 	public Comment findById(Object idValue) {
 		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username");
@@ -68,10 +84,10 @@ public class Comment extends BaseComment<Comment> {
 		sqlBuilder.append(" left join content on c.content_id = content.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id ");
 		sqlBuilder.append(" where c.id = ?");
-		
+
 		return findFirst(sqlBuilder.toString(), idValue);
 	}
-	
+
 	public long findCountByModule(String module) {
 		return doFindCount("content_module = ?", module);
 	}
@@ -79,12 +95,11 @@ public class Comment extends BaseComment<Comment> {
 	public long findCountInNormalByModule(String module) {
 		return doFindCount("content_module = ? AND status <> ?", module, STATUS_DELETE);
 	}
-	
+
 	public Long findCountByModuleAndStatus(String module, String status) {
 		return doFindCount("content_module = ? and status=?", module, status);
 	}
-	
-	
+
 	public String getUsername() {
 		return get("username");
 	}

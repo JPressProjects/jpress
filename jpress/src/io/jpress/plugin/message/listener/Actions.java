@@ -25,6 +25,8 @@ public class Actions {
 	public static String CONTENT_ADD = "content:add";
 	public static String CONTENT_UPDATE = "content:update";
 	public static String CONTENT_DELETE = "content:delete";
+	
+	public static String COMMENT_ADD = "comment:add";
 
 	public static String CONTENT_COUNT_UPDATE = "content:count_update";
 

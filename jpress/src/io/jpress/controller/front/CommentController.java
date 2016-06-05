@@ -11,6 +11,8 @@ import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.plugin.message.MessageKit;
+import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
 
@@ -83,7 +85,7 @@ public class CommentController extends JBaseController {
 			}
 		}
 
-		Comment comment = new Comment();
+		final Comment comment = new Comment();
 		comment.setContentModule(content.getModule());
 		comment.setContentId(content.getId());
 		comment.setText(text);
@@ -95,7 +97,10 @@ public class CommentController extends JBaseController {
 		comment.setStatus(status);
 		comment.setUserId(userId);
 		comment.setCreated(new Date());
-		comment.save();
+		
+		if(comment.save()){
+			MessageKit.sendMessage(Actions.COMMENT_ADD, comment);
+		}
 		
 		if (isAjaxRequest()) {
 			renderAjaxResultForSuccess();

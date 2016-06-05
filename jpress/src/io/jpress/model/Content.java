@@ -321,6 +321,15 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 		return 0;
 	}
+	
+	public boolean updateCommentCount() {
+		long count  = Comment.DAO.findCountByContentIdInNormal(getId());
+		if(count > 0){
+			setCommentCount(count);
+			this.update();
+		}
+		return false;
+	}
 
 	public String getUsername() {
 		return get("username");

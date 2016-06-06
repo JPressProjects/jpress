@@ -16,7 +16,6 @@
 package io.jpress.notify.email;
 
 import io.jpress.model.Option;
-import io.jpress.router.RouterManager;
 
 import java.util.HashSet;
 import java.util.Properties;

@@ -223,7 +223,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			}
 		});
 	}
-	
 
 	public Content findById(final BigInteger id) {
 		final StringBuilder sql = getBaseSelectSql();
@@ -246,29 +245,27 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getSlug() != null) {
 			removeCache(getSlug());
 		}
-		
+
 		putCache(getId(), this);
 		putCache(getSlug(), this);
-		
+
 		return super.update();
 	}
-	
+
 	@Override
 	public boolean saveOrUpdate() {
 		if (getId() != null) {
 			removeCache(getId());
 			putCache(getId(), this);
 		}
-		
+
 		if (getSlug() != null) {
 			removeCache(getSlug());
 			putCache(getSlug(), this);
 		}
-		
+
 		return super.saveOrUpdate();
 	}
-	
-	
 
 	public long findCountByModule(String module) {
 		return doFindCount("module = ?", module);
@@ -316,10 +313,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 		return 0;
 	}
-	
+
 	public boolean updateCommentCount() {
-		long count  = Comment.DAO.findCountByContentIdInNormal(getId());
-		if(count > 0){
+		long count = Comment.DAO.findCountByContentIdInNormal(getId());
+		if (count > 0) {
 			setCommentCount(count);
 			this.update();
 		}
@@ -421,7 +418,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
 						String url = TaxonomyRouter.getRouter(getModule(), propertes[1]);
-						String string = String.format("<a href=\""+url+"\" >%s</a>", propertes[2]);
+						String string = String.format("<a href=\"" + url + "\" >%s</a>", propertes[2]);
 						retBuilder.append(string).append(",");
 					}
 				}
@@ -444,7 +441,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 
 		String taxonomyString = get("taxonomys");
-		if (taxonomys != null) {
+		if (taxonomys != null && taxonomyString != null) {
 			String[] taxonomyStrings = taxonomyString.split(",");
 
 			for (String taxonomyStr : taxonomyStrings) {

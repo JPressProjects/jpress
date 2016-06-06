@@ -86,7 +86,7 @@ function save(){
 			type : "post", 
 			dataType : "json", 
 			success : function(data) { 
-				toastr.success(data.message,'操作成功');
+				toastr.success('保存成功！','操作成功');
 				$("#content_id").attr("value",data.data);
 			},
 			error : function() {

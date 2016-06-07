@@ -51,17 +51,21 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		String moduleName = getContentModule();
 		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
 		TaxonomyType type = module.getTaxonomyTypeByType(getType());
+		BigInteger id = getParaToBigInteger("id");
 
-		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndTypeAsSort(moduleName, type.getName());
+		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByModuleAndTypeAsSort(moduleName, type.getName());
+
+		if (id != null) {
+			setAttr("taxonomy", Taxonomy.DAO.findById(id));
+		}
+		
+		if (id != null && taxonomys != null) {
+			ModelSorter.removeTreeBranch(taxonomys, id);
+		}
 
 		setAttr("module", module);
 		setAttr("type", type);
-		setAttr("taxonomys", list);
-		
-		BigInteger id = getParaToBigInteger("id");
-		if(id != null){
-			setAttr("taxonomy", Taxonomy.DAO.findById(id));
-		}
+		setAttr("taxonomys", taxonomys);
 
 		super.index();
 	}
@@ -78,15 +82,15 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		ModelSorter.sort(page.getList());
 		return page;
 	}
-	
+
 	@Before(UCodeInterceptor.class)
-	public void delete(){
+	public void delete() {
 		final BigInteger id = getParaToBigInteger("id");
 		if (id == null) {
 			renderAjaxResultForError();
 			return;
 		}
-			
+
 		Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
@@ -95,7 +99,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 				return true;
 			}
 		});
-		
+
 	}
 
 }

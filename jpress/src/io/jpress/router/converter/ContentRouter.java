@@ -158,7 +158,7 @@ public class ContentRouter extends RouterConverter {
 	public static String getSettignPrefix() {
 		String prefix = Option.findValue("router_content_prefix");
 		if (!StringUtils.isNotBlank(prefix))
-			prefix = Consts.ROUTER_CONTENT;
+			prefix = Consts.ROUTER_CONTENT.substring(1);
 		return prefix;
 	}
 
@@ -185,41 +185,37 @@ public class ContentRouter extends RouterConverter {
 	public static String getContentRouterPreffix(Module module) {
 
 		if (Consts.MODULE_PAGE.equals(module.getName())) {
-			return "/";
+			return SLASH;
 		}
 		
 		String urlPreffix = "";
 		String routerType = Option.findValue("router_content_type");
 		if (TYPE_DYNAMIC_ID.equals(routerType)) {
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			urlPreffix = "/" + router_content_prefix + "?id=";
+			String router_content_prefix = getSettignPrefix();
+			urlPreffix = SLASH + router_content_prefix + "?id=";
 		}
 		
 		else if (TYPE_DYNAMIC_SLUG.equals(routerType)) {
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			urlPreffix = "/" + router_content_prefix + "?slug=";
+			String router_content_prefix = getSettignPrefix();
+			urlPreffix = SLASH + router_content_prefix + "?slug=";
 		}
 
 		else if (TYPE_STATIC_PREFIX.equals(routerType)) {
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			if (!StringUtils.isNotBlank(router_content_prefix)) {
-				urlPreffix = Consts.ROUTER_CONTENT + "/";
-			} else {
-				urlPreffix = "/" + router_content_prefix + "/";
-			}
+			String router_content_prefix = getSettignPrefix();
+			urlPreffix = SLASH + router_content_prefix + SLASH;
 		}
 
 		else if (TYPE_STATIC_DATE.equals(routerType)) {
 			String router_content_prefix = DateUtils.DateString();
-			urlPreffix = "/" + router_content_prefix + "/";
+			urlPreffix = SLASH + router_content_prefix + SLASH;
 		}
 
 		else if (TYPE_STATIC_MODULE.equals(routerType)) {
 			String router_content_prefix = module.getName();
-			urlPreffix = "/" + router_content_prefix + "/";
+			urlPreffix = SLASH + router_content_prefix + SLASH;
 		} else {
-			String router_content_prefix = Option.findValue("router_content_prefix");
-			urlPreffix = "/" + router_content_prefix + "?id=";
+			String router_content_prefix = getSettignPrefix();
+			urlPreffix = SLASH + router_content_prefix + "?id=";
 		}
 		return urlPreffix;
 	}

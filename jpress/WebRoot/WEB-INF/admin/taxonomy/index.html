@@ -60,8 +60,16 @@ function doSubmit(){
 						<label class="input-title">父节点</label> 
 						<select class="form-control input-sm" name="taxonomy.parent_id">
 							<option value="0">无</option>
-							<#list taxonomys as taxonomy>
-							<option value="${taxonomy.id}">${taxonomy.layerString}${taxonomy.title}</option>
+							<#list taxonomys as t>
+								<#if taxonomy ??>
+									<#if  t.id == taxonomy.parentId	>
+									<option value="${t.id}" selected="selected">${t.layerString}${t.title}</option>
+									<#else>
+									<option value="${t.id}" >${t.layerString}${t.title}</option>
+									</#if>
+								<#else>
+								<option value="${t.id}" >${t.layerString}${t.title}</option>
+								</#if>
 							</#list>
 						</select>
 					</div>

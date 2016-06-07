@@ -33,12 +33,25 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_dynamic" name="router_content_type" ${checked('router_content_type','_dynamic')}> 动态前缀类型
+								<label class="jp-set-info"> <input type="radio" value="_dynamic_id" name="router_content_type" ${checked('router_content_type','_dynamic_id')}> 动态ID类型
 								</label>
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
-							<code>http://www.xxx.com/c?id=123 （或：http://www.xxx.com/c?slug=你好jpress）</code>
+							<code>http://www.xxx.com/c?id=123 </code>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-info"> <input type="radio" value="_dynamic_slug" name="router_content_type" ${checked('router_content_type','_dynamic_slug')}> 动态SLUG类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  jp-line-height40">
+							<code>http://www.xxx.com/c?slug=press</code>
 						</div>
 						<div class="clr"></div>
 					</li>
@@ -51,7 +64,7 @@
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
-							<code>http://www.xxx.com/c/123</code>
+							<code>http://www.xxx.com/c/jpress</code>
 						</div>
 						<div class="clr"></div>
 					</li>
@@ -64,7 +77,7 @@
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
-							<code>http://www.xxx.com/20160501/123</code>
+							<code>http://www.xxx.com/20160501/jpress</code>
 						</div>
 						<div class="clr"></div>
 					</li>
@@ -76,7 +89,7 @@
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
-							<code>http://www.xxx.com/article/123 (or) /forum/123</code>
+							<code>http://www.xxx.com/article/jpress</code>
 						</div>
 						<div class="clr"></div>
 					</li>
@@ -88,7 +101,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-pad jp-set-title">伪静态</h4>
-				<p>若 以上 设置为【动态前缀类型】，此项设置无效。</p>
+				<p>若 以上 设置为【动态】类型，此项设置无效。</p>
 				<ul class="list-unstyled">
 				
 					<li class="jp-set-pad">

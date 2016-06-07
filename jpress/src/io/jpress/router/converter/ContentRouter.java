@@ -34,7 +34,8 @@ public class ContentRouter extends RouterConverter {
 	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
 	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
 	public static final String TYPE_STATIC_PREFIX = "_static_prefix"; // 静态前缀
-	public static final String TYPE_DYNAMIC = "_dynamic"; // 动态类型
+	public static final String TYPE_DYNAMIC_ID = "_dynamic_id"; // 动态类型
+	public static final String TYPE_DYNAMIC_SLUG = "_dynamic_slug"; // 动态类型
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -48,7 +49,7 @@ public class ContentRouter extends RouterConverter {
 		else if (targetDirs != null && targetDirs.length == 1) {
 			String settingType = getSettingType();
 			// 动态前缀
-			if (TYPE_DYNAMIC.equals(settingType)) {
+			if (TYPE_DYNAMIC_ID.equals(settingType) || TYPE_DYNAMIC_SLUG.equals(settingType)) {
 				String prefix = getSettignPrefix();
 				return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT : null;
 			}
@@ -90,7 +91,7 @@ public class ContentRouter extends RouterConverter {
 		String url = getRouterWithoutSuffix(content);
 
 		String settingType = getSettingType();
-		if (TYPE_DYNAMIC.equals(settingType)) {
+		if (TYPE_DYNAMIC_ID.equals(settingType) || TYPE_DYNAMIC_SLUG.equals(settingType)) {
 			return url;
 		}
 
@@ -104,7 +105,7 @@ public class ContentRouter extends RouterConverter {
 		String url = getRouterWithoutSuffix(content);
 
 		String settingType = getSettingType();
-		if (TYPE_DYNAMIC.equals(settingType)) {
+		if (TYPE_DYNAMIC_ID.equals(settingType) || TYPE_DYNAMIC_SLUG.equals(settingType)) {
 			return url + "&pageNumber=" + pageNumber;
 		}
 
@@ -131,17 +132,17 @@ public class ContentRouter extends RouterConverter {
 			String prefix = getSettignPrefix();
 			return SLASH + prefix + SLASH + slugOrId;
 		}
-		// 动态前缀
-		else if (TYPE_DYNAMIC.equals(settingType)) {
+		// 动态ID
+		else if (TYPE_DYNAMIC_ID.equals(settingType)) {
 			String prefix = getSettignPrefix();
-			if (StringUtils.isNotBlank(content.getSlug())) {
-				return SLASH + prefix + "?slug=" + content.getSlug();
-			}
 			return SLASH + prefix + "?id=" + content.getId();
-		} else {
-			if (StringUtils.isNotBlank(content.getSlug())) {
-				return Consts.ROUTER_CONTENT + "?slug=" + content.getSlug();
-			}
+		} 
+		// 动态SLUG
+		else if (TYPE_DYNAMIC_SLUG.equals(settingType)) {
+			String prefix = getSettignPrefix();
+			return SLASH + prefix + "?slug=" + content.getSlug();
+		}
+		else {
 			return Consts.ROUTER_CONTENT + "?id=" + content.getId();
 		}
 	}
@@ -169,7 +170,7 @@ public class ContentRouter extends RouterConverter {
 			return "";
 		}else{
 			String routerType = Option.findValue("router_content_type");
-			if ("_dynamic".equals(routerType)) {
+			if (TYPE_DYNAMIC_ID.equals(routerType) || TYPE_DYNAMIC_SLUG.equals(routerType)) {
 				return "";
 			}else{
 				if (enalbleFakeStatic()) {
@@ -186,19 +187,20 @@ public class ContentRouter extends RouterConverter {
 		if (Consts.MODULE_PAGE.equals(module.getName())) {
 			return "/";
 		}
-
+		
 		String urlPreffix = "";
 		String routerType = Option.findValue("router_content_type");
-		if ("_dynamic".equals(routerType)) {
+		if (TYPE_DYNAMIC_ID.equals(routerType)) {
 			String router_content_prefix = Option.findValue("router_content_prefix");
-			if (!StringUtils.isNotBlank(router_content_prefix)) {
-				urlPreffix = Consts.ROUTER_CONTENT + "?slug=";
-			} else {
-				urlPreffix = "/" + router_content_prefix + "?slug=";
-			}
+			urlPreffix = "/" + router_content_prefix + "?id=";
+		}
+		
+		else if (TYPE_DYNAMIC_SLUG.equals(routerType)) {
+			String router_content_prefix = Option.findValue("router_content_prefix");
+			urlPreffix = "/" + router_content_prefix + "?slug=";
 		}
 
-		else if ("_static_prefix".equals(routerType)) {
+		else if (TYPE_STATIC_PREFIX.equals(routerType)) {
 			String router_content_prefix = Option.findValue("router_content_prefix");
 			if (!StringUtils.isNotBlank(router_content_prefix)) {
 				urlPreffix = Consts.ROUTER_CONTENT + "/";
@@ -207,21 +209,17 @@ public class ContentRouter extends RouterConverter {
 			}
 		}
 
-		else if ("_static_date".equals(routerType)) {
+		else if (TYPE_STATIC_DATE.equals(routerType)) {
 			String router_content_prefix = DateUtils.DateString();
 			urlPreffix = "/" + router_content_prefix + "/";
 		}
 
-		else if ("_static_module".equals(routerType)) {
+		else if (TYPE_STATIC_MODULE.equals(routerType)) {
 			String router_content_prefix = module.getName();
 			urlPreffix = "/" + router_content_prefix + "/";
 		} else {
 			String router_content_prefix = Option.findValue("router_content_prefix");
-			if (!StringUtils.isNotBlank(router_content_prefix)) {
-				urlPreffix = Consts.ROUTER_CONTENT + "?slug=";
-			} else {
-				urlPreffix = "/" + router_content_prefix + "?slug=";
-			}
+			urlPreffix = "/" + router_content_prefix + "?id=";
 		}
 		return urlPreffix;
 	}

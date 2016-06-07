@@ -200,8 +200,10 @@ $(document).ready(function(){
 					<label class="sr-only"></label> <input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
 				</div>
 					<div class="pull-right"><a href="javascript:void(0);" onclick="change_editer()">切换编辑器 </a> </div>
-					<label>网址：
-					<span id="url_preffix"></span><span id="slug_text">${(content.slug)!}</span>${(urlSuffix)!}
+					<label>
+					<div ${slugDisplay!} >
+						网址：<span id="url_preffix"></span><span id="slug_text">${(content.slug)!}</span>${(urlSuffix)!}
+					</div>
 					</label>
 					<div class="box box-solid">
 						<div  class="box-body no-padding">

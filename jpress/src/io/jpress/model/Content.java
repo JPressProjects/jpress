@@ -47,6 +47,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public static String STATUS_DELETE = "delete";
 	public static String STATUS_DRAFT = "draft";
 	public static String STATUS_NORMAL = "normal";
+	
+	public static String COMMENT_STATUS_OPEN = "open";
+	public static String COMMENT_STATUS_CLOSE = "close";
 
 	private static final long serialVersionUID = 1L;
 	public static final Content DAO = new Content();

@@ -1,6 +1,15 @@
 <#include "../_inc/_layout.html"/>
 <#macro script>
 function doSubmit(){
+	if($("#tag-name").val() == ""){
+		alert("名称不能为空！");
+		return;
+	}
+	if($("#taxonomy_slug").val() == ""){
+		alert("别名不能为空！");
+		return;
+	}
+	
  	$("#form").ajaxSubmit({
 			type : "post", 
 			dataType : "json", 
@@ -50,8 +59,8 @@ function doSubmit(){
 				</div>
 
 				<div class="form-group jp-input-item">
-					<label for="tag-slug" class="input-title">别名</label> 
-					<input id="tag-slug" class="form-control" type="text"  name="taxonomy.slug" value="${(taxonomy.slug)!}">
+					<label for="taxonomy_slug" class="input-title">别名</label> 
+					<input id="taxonomy_slug" class="form-control" type="text"  name="taxonomy.slug" value="${(taxonomy.slug)!}">
 					<p>别名是在URL中使用的别称，它可以令URL更美观，更加有利于SEO。通常使用小写，只能包含字母，数字和连字符“-”（中划线），不能全是数字。</p>
 				</div>
 				<#if type.formType == "select">
@@ -63,12 +72,12 @@ function doSubmit(){
 							<#list taxonomys as t>
 								<#if taxonomy ??>
 									<#if  t.id == taxonomy.parentId	>
-									<option value="${t.id}" selected="selected">${t.layerString}${t.title}</option>
+									<option value="${t.id}" selected="selected">${t.layerString}${t.title!}</option>
 									<#else>
-									<option value="${t.id}" >${t.layerString}${t.title}</option>
+									<option value="${t.id}" >${t.layerString}${t.title!}</option>
 									</#if>
 								<#else>
-								<option value="${t.id}" >${t.layerString}${t.title}</option>
+								<option value="${t.id}" >${t.layerString}${t.title!}</option>
 								</#if>
 							</#list>
 						</select>
@@ -128,10 +137,9 @@ function doSubmit(){
 								<td><label class="jp-common-pad">
 								<input class="jp-common-pad" name="dataItem" type="checkbox"></label>
 								</td>
-								<td><strong><a href="#"><span class="article-title">${bean.layerString}${bean.title}</span></a></strong>
+								<td><strong><a href="#"><span class="article-title">${bean.layerString}${bean.title!}</span></a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-										<!-- /admin/taxonomy?m=article&t=category&p=article&c=category# -->
 											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">设置</a></span>
 											<span class="approve">| <a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:;" onclick="del('${bean.id}')">删除</a> </span> 

@@ -34,6 +34,7 @@ import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/taxonomy", viewPath = "/WEB-INF/admin/taxonomy")
 @Before(ActionCacheClearInterceptor.class)
@@ -71,9 +72,34 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 	}
 
 	@Override
+	public boolean onModelSaveBefore(Taxonomy m) {
+		
+		return super.onModelSaveBefore(m);
+	}
+	
+	
+
 	public void save() {
-		super.save();
-		renderAjaxResultForSuccess();
+		Taxonomy m = getModel(Taxonomy.class);
+		
+		if(!StringUtils.isNotBlank(m.getTitle())){
+			renderAjaxResultForError("名称不能为空！");
+			return;
+		}
+		
+		if(!StringUtils.isNotBlank(m.getSlug())){
+			renderAjaxResultForError("别名不能为空！");
+			return;
+		}
+		
+		Taxonomy dbTaxonomy = Taxonomy.DAO.findBySlugAndModule(m.getSlug(), m.getContentModule());
+		if(m.getId() != null && dbTaxonomy!=null && m.getId().compareTo(dbTaxonomy.getId()) != 0){
+			renderAjaxResultForError("别名已经存在！");
+			return;
+		}
+		
+		m.saveOrUpdate();
+		renderAjaxResultForSuccess("ok");
 	}
 
 	@Override

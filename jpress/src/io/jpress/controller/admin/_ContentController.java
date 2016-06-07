@@ -39,6 +39,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Mapping;
+import io.jpress.model.Option;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
@@ -169,6 +170,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
+		
+		String routerType = Option.findValue("router_content_type");
+		if (ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)) {
+			setAttr("slugDisplay", " style=\"display: none\"");
+		}
 
 		super.edit();
 	}

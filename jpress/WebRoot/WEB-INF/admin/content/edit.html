@@ -232,6 +232,9 @@ $(document).ready(function(){
 								<li>
 									<a href="#tab_seo" data-toggle="tab">SEO</a>
 								</li>
+								<li>
+									<a href="#tab_comment" data-toggle="tab">评论</a>
+								</li>
 								<#if module.styles ??>
 								<li>
 									<a href="#tab_style" data-toggle="tab">样式</a>
@@ -259,16 +262,35 @@ $(document).ready(function(){
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane jp-prop-box" id="tab_seo">
-								<div class="jp-prop-input">
-									关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
+									<div class="jp-prop-input">
+										关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
+									</div>
+									
+									<div class="jp-prop-input">
+										描述: 
+										<input type="text" name="content.meta_description" value="${(content.meta_description)!}">
+									</div>
 								</div>
 								
-								<div class="jp-prop-input">
-									描述: 
-									<input type="text" name="content.meta_description" value="${(content.meta_description)!}">
+								<div class="tab-pane jp-prop-box" id="tab_comment">
+									<div class="jp-prop-input">
+										评论: <select name="content.comment_status">
+												<option value="">默认</option>
+												<#if (content.comment_status)?? && "open" == content.comment_status >
+												<option value="open"  selected="selected">开启</option>
+												<#else>
+												<option value="open">开启</option>
+												</#if>
+												
+												<#if (content.comment_status)?? && "close" == content.comment_status >
+												<option value="close"  selected="selected">关闭</option>
+												<#else>
+												<option value="close">开启</option>
+												</#if>
+											 </select>
+									</div>
 								</div>
-				
-								</div>
+								
 								<#if module.styles ??>
 								<div class="tab-pane" id="tab_style">
 									<li class="jp-release-set">

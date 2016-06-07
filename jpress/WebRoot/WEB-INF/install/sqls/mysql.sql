@@ -46,7 +46,7 @@ CREATE TABLE `{table_prefix}comment` (
   `author` varchar(11) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL,
   `text` longtext,
-  `agent` varchar(11) DEFAULT NULL,
+  `agent` text,
   `created` datetime DEFAULT NULL,
   `slug` varchar(128) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,

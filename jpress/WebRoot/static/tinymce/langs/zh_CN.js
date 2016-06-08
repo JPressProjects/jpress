@@ -213,5 +213,7 @@ tinymce.addI18n('zh_CN',{
 "Zoom out": "\u7f29\u5c0f",
 "Edit image": "\u56fe\u7247\u7f16\u8f91",
 "Image options": "\u56fe\u7247\u9009\u9879",
-"Format": "\u683c\u5f0f"
+"Format": "\u683c\u5f0f",
+"Insert/Edit code sample":"\u63d2\u5165/\u7f16\u8f91\u4ee3\u7801",
+"Language":"\u8bed\u8a00"
 });

@@ -47,6 +47,8 @@ public class ContentController extends BaseFrontController {
 			return;
 		}
 
+		updateContentViewCount(content);
+		
 		setGlobleAttrs(content);
 
 		setAttr("pageNumber", pageNumber);
@@ -60,6 +62,13 @@ public class ContentController extends BaseFrontController {
 		setAttr("pagination", cpt);
 
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
+	}
+
+	private void updateContentViewCount(Content content) {
+		long visitorCount = VisitorCounter.getVisitorCount(content.getId());
+		Long viewCount = content.getViewCount() == null ? visitorCount : content.getViewCount() + visitorCount;
+		content.setViewCount(viewCount);
+		content.update();
 	}
 
 	private void setGlobleAttrs(Content content) {

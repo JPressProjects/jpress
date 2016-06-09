@@ -21,9 +21,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jfinal.core.Action;
+import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
+import io.jpress.core.addon.HookInvoker;
 import io.jpress.model.Option;
 import io.jpress.utils.StringUtils;
 
@@ -58,6 +61,25 @@ public class RouterManager {
 		if(target.startsWith("/admin")){
 			return target;
 		}
+		
+		Action action = JFinal.me().getAction(target, urlPara);
+		if (action != null) {
+			RouterNotAllowConvert notAllowConvert = action.getControllerClass().getAnnotation(RouterNotAllowConvert.class);
+			if (notAllowConvert != null) {
+				return target;
+			}
+			
+			notAllowConvert = action.getMethod().getAnnotation(RouterNotAllowConvert.class);
+			if (notAllowConvert != null) {
+				return target;
+			}
+		}
+
+		String hookTarget = HookInvoker.router_converte(target, request, response);
+		if(StringUtils.isNotBlank(hookTarget)){
+			return hookTarget;
+		}
+		
 
 		if (target.indexOf('.') != -1) {
 			Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");

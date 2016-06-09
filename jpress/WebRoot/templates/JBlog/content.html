@@ -1,4 +1,7 @@
 <#include "_layout.html"/> 
+<#macro script_import>
+ <script src="${CPATH}/counter?cid=${content.id!}"></script>
+</#macro> 
 <@layout>
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
   <!-- -->
@@ -9,10 +12,10 @@
         <span class="x-title-border"></span>
       </h3>
       <div class="x-layout-100 clearfix x-sm-info">
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-bars" aria-hidden="true"></i> 未分类</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> 1天前</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-eye" aria-hidden="true"></i> 10805</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-commenting" aria-hidden="true"></i> 134</p>
+        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-bars" aria-hidden="true"></i>${content.getTaxonomyAsUrl('category')!'未分类'}</p>
+        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> ${content.created!}</p>
+        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-eye" aria-hidden="true"></i> ${content.viewCount!'0'}</p>
+        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-commenting" aria-hidden="true"></i> ${content.commentCount!'0'}</p>
       </div>
       <div class="x-details-content x-padding-top-10 x-padding-bottom-10">
         

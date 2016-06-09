@@ -53,7 +53,7 @@ public class Hook {
 
 	public String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
 
-		return target;
+		return null;
 	}
 
 	public Render process_controller(AddonController controller) {

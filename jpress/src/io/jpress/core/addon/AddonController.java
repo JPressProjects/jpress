@@ -24,7 +24,7 @@ import io.jpress.core.annotation.UrlMapping;
 public class AddonController extends JBaseController {
 
 	public void index() {
-		Render render = HookInvoker.process_controller(this);
+		Render render = HookInvoker.processController(this);
 		if (null == render) {
 			renderError(404);
 			return;

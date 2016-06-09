@@ -48,15 +48,16 @@ public class Hook {
 		return tl.get() != null && tl.get() == true;
 	}
 
-	public static final String HOOK_ROUTER_CONVERTE = "router_converte";
-	public static final String HOOK_PROCESS_CONTROLLER = "process_controller";
+	public static final String HOOK_ROUTER_CONVERTE = "routerConverte";
+	public static final String HOOK_PROCESS_CONTROLLER = "processController";
+	public static final String HOOK_INTERCEPT = "intercept";
 
-	public String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
+	public String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
 
 		return null;
 	}
 
-	public Render process_controller(AddonController controller) {
+	public Render processController(AddonController controller) {
 
 		return null;
 	}

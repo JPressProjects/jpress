@@ -83,6 +83,30 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public Page<Content> doPaginateByModuleInNormal(int page, int pagesize, String module) {
 		return doPaginate(page, pagesize, module, STATUS_NORMAL, null, null, null);
 	}
+	
+	public Page<Content> doPaginateByModuleNotInDelete(int page, int pagesize, String module) {
+		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
+
+		StringBuilder fromBuilder = new StringBuilder(" from content c");
+		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
+		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
+		fromBuilder.append(" left join user u on c.user_id = u.id");
+		fromBuilder.append(" where c.status <> ?");
+
+		LinkedList<Object> params = new LinkedList<Object>();
+		params.add(STATUS_DELETE);
+
+		boolean needWhere = false;
+		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
+		fromBuilder.append(" group by c.id");
+		fromBuilder.append(" ORDER BY c.created DESC");
+
+		if (params.isEmpty()) {
+			return paginate(page, pagesize, select, fromBuilder.toString());
+		}
+
+		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+	}
 
 	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,
 			BigInteger userId, String orderBy) {

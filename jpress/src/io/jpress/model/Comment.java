@@ -56,6 +56,18 @@ public class Comment extends BaseComment<Comment> {
 		}
 		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
+	
+	public Page<Comment> doPaginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
+		
+		String select = " select c.*,content.title content_title,u.username";
+		StringBuilder fromBuilder = new StringBuilder("  from comment c");
+		fromBuilder.append(" left join content on c.content_id = content.id");
+		fromBuilder.append(" left join user u on c.user_id = u.id ");
+		fromBuilder.append(" where c.status <> ?");
+		fromBuilder.append("order by c.created desc");
+		
+		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), STATUS_DELETE);
+	}
 
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
 		return doPaginateWithContent(pageNumber, pageSize, null, null, contentId, STATUS_NORMAL);
@@ -106,5 +118,9 @@ public class Comment extends BaseComment<Comment> {
 
 	public String getcontentTitle() {
 		return get("content_title");
+	}
+	
+	public boolean isDelete() {
+		return STATUS_DELETE.equals(getStatus());
 	}
 }

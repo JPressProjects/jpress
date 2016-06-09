@@ -152,7 +152,8 @@ function del(id){
 						<#if page??> <#list page.getList() as bean>
 						<tr class="jp-onmouse">
 							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
-							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}"><span class="article-title">${bean.title}</span></a></strong>
+							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">
+							<span class="article-title">${bean.title}</span></a> <#if "draft" == bean.status!>(草稿)</#if></strong>
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
 										<#if "delete" != s!> 

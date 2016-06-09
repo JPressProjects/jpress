@@ -24,7 +24,7 @@ import io.jpress.core.addon.Hook;
 public class HelloHook extends Hook {
 
 	@Override
-	public Render process_controller(AddonController controller) {
+	public Render processController(AddonController controller) {
 		return new TextRender("hello addon");
 	}
 

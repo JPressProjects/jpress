@@ -37,8 +37,8 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
-import io.jpress.core.dialect.DbDialect;
-import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.core.db.DbDialect;
+import io.jpress.core.db.DbDialectFactory;
 import io.jpress.utils.DateUtils;
 
 public class InstallUtils {

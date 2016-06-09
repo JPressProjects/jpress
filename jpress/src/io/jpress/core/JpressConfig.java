@@ -35,17 +35,17 @@ import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
-import io.jpress.core.annotation.Table;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.cache.ActionCacheHandler;
-import io.jpress.core.dialect.DbDialect;
-import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.core.db.DbDialect;
+import io.jpress.core.db.DbDialectFactory;
+import io.jpress.core.db.Table;
 import io.jpress.core.render.JErrorRenderFactory;
 import io.jpress.core.render.JpressRenderFactory;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.HookInterceptor;
 import io.jpress.interceptor.JI18nInterceptor;
 import io.jpress.plugin.message.MessagePlugin;
+import io.jpress.router.RouterMapping;
 
 public abstract class JpressConfig extends JFinalConfig {
 
@@ -69,7 +69,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		List<Class<Controller>> controllerClassList = ClassScaner.scanSubClass(Controller.class);
 		if (controllerClassList != null) {
 			for (Class<?> clazz : controllerClassList) {
-				UrlMapping urlMapping = clazz.getAnnotation(UrlMapping.class);
+				RouterMapping urlMapping = clazz.getAnnotation(RouterMapping.class);
 				if (null != urlMapping && null != urlMapping.url() && !"".equals(urlMapping.url())) {
 					if (StrKit.notBlank(urlMapping.viewPath())) {
 						routes.add(urlMapping.url(), (Class<? extends Controller>) clazz, urlMapping.viewPath());

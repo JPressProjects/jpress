@@ -23,10 +23,10 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
+import io.jpress.router.RouterMapping;
 import io.jpress.utils.EncryptUtils;
 
-@UrlMapping(url = "/install", viewPath = "/WEB-INF/install")
+@RouterMapping(url = "/install", viewPath = "/WEB-INF/install")
 @Before(InstallInterceptor.class)
 public class InstallController extends JBaseController {
 	

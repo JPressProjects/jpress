@@ -26,18 +26,18 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Mapping;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/admin/taxonomy", viewPath = "/WEB-INF/admin/taxonomy")
+@RouterMapping(url = "/admin/taxonomy", viewPath = "/WEB-INF/admin/taxonomy")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {

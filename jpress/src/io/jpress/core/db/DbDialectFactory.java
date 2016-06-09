@@ -13,19 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.annotation;
+package io.jpress.core.db;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.jfinal.kit.PropKit;
 
-@Inherited
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Table {
-	String tableName();
+public class DbDialectFactory {
 
-	String primaryKey() default "";
+	static DbDialect dialect;
+
+	public static DbDialect getDbDialect() {
+
+		if (dialect == null) {
+			dialect = getDialectFromConfig();
+		}
+
+		return dialect;
+	}
+
+	private static DbDialect getDialectFromConfig() {
+		String dialect = PropKit.get("db_dialect");
+		// 目前只支持 mysql
+		if ("mysql".equalsIgnoreCase(dialect)) {
+			return new MysqlDialect();
+		}
+
+		return null;
+	}
+
 }

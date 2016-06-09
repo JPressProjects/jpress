@@ -21,8 +21,8 @@ import java.sql.SQLException;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 
-import io.jpress.core.Jdb;
-import io.jpress.core.annotation.Table;
+import io.jpress.core.db.Jdb;
+import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseMapping;
 
 @Table(tableName = "mapping", primaryKey = "id")

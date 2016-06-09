@@ -29,9 +29,9 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.Consts;
-import io.jpress.core.Jdb;
 import io.jpress.core.Jpress;
-import io.jpress.core.annotation.Table;
+import io.jpress.core.db.Jdb;
+import io.jpress.core.db.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.router.converter.ContentRouter;

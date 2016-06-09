@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.annotation;
+package io.jpress.core.db;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -24,8 +24,8 @@ import java.lang.annotation.Target;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
-public @interface UrlMapping {
-	String url();
+public @interface Table {
+	String tableName();
 
-	String viewPath() default "";
+	String primaryKey() default "";
 }

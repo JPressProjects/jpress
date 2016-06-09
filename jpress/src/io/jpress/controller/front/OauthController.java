@@ -16,20 +16,20 @@
 package io.jpress.controller.front;
 
 import io.jpress.Consts;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
 import io.jpress.oauth2.Oauth2Controller;
 import io.jpress.oauth2.OauthUser;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterMapping;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 
 import java.math.BigInteger;
 import java.util.Date;
 
-@UrlMapping(url = "/oauth")
+@RouterMapping(url = "/oauth")
 public class OauthController extends Oauth2Controller {
 
 	@Override

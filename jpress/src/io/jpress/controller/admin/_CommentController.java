@@ -22,7 +22,6 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Comment;
@@ -30,10 +29,11 @@ import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
+@RouterMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _CommentController extends JBaseCRUDController<Comment> {

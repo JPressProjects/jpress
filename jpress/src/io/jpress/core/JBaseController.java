@@ -26,6 +26,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
 
+import io.jpress.core.render.JCaptchaRender;
 import io.jpress.utils.JsoupUtils;
 
 public class JBaseController extends Controller {

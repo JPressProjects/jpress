@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core;
+package io.jpress.core.render;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,6 +33,8 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
+
+import io.jpress.core.JBaseController;
 
 public class JCaptchaRender extends Render {
 

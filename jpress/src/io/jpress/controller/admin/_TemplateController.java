@@ -33,6 +33,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.FileUtils;
@@ -40,6 +41,7 @@ import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/template", viewPath = "/WEB-INF/admin/template")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _TemplateController extends JBaseController {
 
 	public void index() {

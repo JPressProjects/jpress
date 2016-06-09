@@ -33,12 +33,14 @@ import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin", viewPath = "/WEB-INF/admin")
+@RouterNotAllowConvert
 public class _AdminController extends JBaseController {
 
 	@Before(ActionCacheClearInterceptor.class)

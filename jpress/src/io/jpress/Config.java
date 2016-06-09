@@ -15,28 +15,39 @@
  */
 package io.jpress;
 
+import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
-import io.jpress.router.RouterManager;
-import io.jpress.router.converter.ContentRouter;
-import io.jpress.router.converter.PageRouter;
-import io.jpress.router.converter.TaxonomyRouter;
-import io.jpress.ui.freemarker.function.Functions;
-import io.jpress.ui.freemarker.tag.Tags;
+import io.jpress.ui.freemarker.function.ContentUrl;
+import io.jpress.ui.freemarker.function.OptionChecked;
+import io.jpress.ui.freemarker.function.OptionValue;
+import io.jpress.ui.freemarker.function.TaxonomyBox;
+import io.jpress.ui.freemarker.tag.CommentPageTag;
+import io.jpress.ui.freemarker.tag.CommentTag;
+import io.jpress.ui.freemarker.tag.CommentsTag;
+import io.jpress.ui.freemarker.tag.ContentTag;
+import io.jpress.ui.freemarker.tag.ContentsTag;
+import io.jpress.ui.freemarker.tag.MenuTag;
+import io.jpress.ui.freemarker.tag.ModuleTag;
+import io.jpress.ui.freemarker.tag.TagsTag;
 
 public class Config extends JpressConfig {
 
 	@Override
 	public void onJfinalStarted() {
-
-		Tags.init();
-		Functions.init();
-
-		{ // target converters
-			RouterManager.register(TaxonomyRouter.class);
-			RouterManager.register(PageRouter.class);
-			RouterManager.register(ContentRouter.class);
-		}
-
+		
+		Jpress.addTag("jp_content", new ContentTag());
+		Jpress.addTag("jp_contents", new ContentsTag());
+		Jpress.addTag("jp_comment", new CommentTag());
+		Jpress.addTag("jp_comments", new CommentsTag());
+		Jpress.addTag("jp_comment_page", new CommentPageTag());
+		Jpress.addTag("jp_menu", new MenuTag());
+		Jpress.addTag("jp_module", new ModuleTag());
+		Jpress.addTag("jp_tags", new TagsTag());
+		
+		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
+		Jpress.addFunction("option", new OptionValue());
+		Jpress.addFunction("checked", new OptionChecked());
+		Jpress.addFunction("contentUrl", new ContentUrl());
 
 	}
 

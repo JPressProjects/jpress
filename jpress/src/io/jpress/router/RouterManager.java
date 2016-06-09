@@ -28,25 +28,21 @@ import com.jfinal.log.Log;
 import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.model.Option;
+import io.jpress.router.converter.ContentRouter;
+import io.jpress.router.converter.PageRouter;
+import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
 public class RouterManager {
 	private static final Log log = Log.getLog(RouterManager.class);
 	static String[] urlPara = {null};
 	static List<RouterConverter> converters = new ArrayList<RouterConverter>();
-
-	public static void register(Class<? extends RouterConverter> clazz) {
-		for (RouterConverter tc : converters) {
-			if (tc.getClass() == clazz) {
-				throw new RuntimeException(String.format("Class [%s] has registered", clazz.getName()));
-			}
-		}
-		try {
-			converters.add(clazz.newInstance());
-		} catch (Exception e) {
-			log.error(String.format("class [%s] newInstance error", clazz), e);
-		}
+	static{
+		converters.add(new TaxonomyRouter());
+		converters.add(new PageRouter());
+		converters.add(new ContentRouter());
 	}
+
 
 	public static String converte(String target, HttpServletRequest request, HttpServletResponse response) {
 		if (!Jpress.isInstalled()) {
@@ -54,11 +50,6 @@ public class RouterManager {
 		}
 
 		if ("/".equals(target)) {
-			return target;
-		}
-		
-		//防止更改后台路由
-		if(target.startsWith("/admin")){
 			return target;
 		}
 		

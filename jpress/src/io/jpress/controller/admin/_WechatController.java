@@ -33,12 +33,14 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.wechat.WechatApi;
 import io.jpress.wechat.WechatApiConfigInterceptor;
 import io.jpress.wechat.WechatConsts;
 
 @UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _WechatController extends JBaseCRUDController<Content> {
 
 	private String getStatus() {

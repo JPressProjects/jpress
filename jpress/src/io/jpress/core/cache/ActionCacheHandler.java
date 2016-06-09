@@ -26,6 +26,8 @@ import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.jfinal.render.RenderFactory;
 
+import io.jpress.utils.StringUtils;
+
 public class ActionCacheHandler extends Handler {
 
 	static String[] urlPara = { null };
@@ -43,11 +45,17 @@ public class ActionCacheHandler extends Handler {
 
 		ActionCache actionCache = action.getMethod().getAnnotation(ActionCache.class);
 		if (actionCache == null) {
-			next.handle(target, request, response, isHandled);
-			return;
+			actionCache = action.getControllerClass().getAnnotation(ActionCache.class);
+			if (actionCache == null) {
+				next.handle(target, request, response, isHandled);
+				return;
+			}
 		}
+		
+		
 
-		String cacheKey = target;
+		String originalTarget = (String) request.getAttribute("_original_target");
+		String cacheKey = StringUtils.isNotBlank(originalTarget) ? originalTarget : target;
 
 		String queryString = request.getQueryString();
 		if (queryString != null) {

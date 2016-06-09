@@ -1,3 +1,5 @@
+<#macro script_import>
+</#macro> 
 <#macro layout>
 <!DOCTYPE html>
 <html>
@@ -10,6 +12,7 @@
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <link rel="stylesheet" href="${TPATH}/assets/css/app.css"/>
   <link rel="stylesheet" href="${TPATH}/assets/font-awesome/css/font-awesome.min.css"/>
+  
 </head>
 <body class="blog-body">
 <header class="x-layout-100">
@@ -53,6 +56,7 @@
 <footer class="footer x-sm-footer">
   <p>${option('web_copyright')!'暂未填写版权信息'}</p>
 </footer>
+<@script_import />
 </body>
 </html>
 </#macro>

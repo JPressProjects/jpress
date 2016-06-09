@@ -22,7 +22,6 @@ import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 
 import io.jpress.Consts;
-import io.jpress.core.addon.HookInvoker;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.router.RouterManager;
@@ -68,9 +67,13 @@ public class JHandler extends Handler {
 		if (isDisableAccess(target)) {
 			HandlerKit.renderError404(request, response, isHandled);
 		}
-
+		
+		String originalTarget = target;
 		target = RouterManager.converte(target, request, response);
-		target = HookInvoker.router_converte(target, request, response);
+		
+		if(!originalTarget.equals(target)){
+			request.setAttribute("_original_target", originalTarget);
+		}
 		
 		next.handle(target, request, response, isHandled);
 		

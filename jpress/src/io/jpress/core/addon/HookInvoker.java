@@ -24,8 +24,7 @@ import com.jfinal.render.Render;
 public class HookInvoker {
 
 	public static String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
-		String newTarget = (String) AddonManager.get().invokeHook("target_converte", request, response);
-		return newTarget == null ? target : newTarget;
+		return (String) AddonManager.get().invokeHook("target_converte", request, response);
 	}
 
 	public static Render process_controller(AddonController controller) {

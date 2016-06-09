@@ -32,12 +32,14 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Mapping;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/taxonomy", viewPath = "/WEB-INF/admin/taxonomy")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	private String getContentModule() {

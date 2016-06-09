@@ -28,10 +28,12 @@ import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.AttachmentUtils;
 
 @UrlMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _OptionController extends JBaseCRUDController<User> {
 
 	public void index() {

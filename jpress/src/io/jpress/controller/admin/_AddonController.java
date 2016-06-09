@@ -25,9 +25,11 @@ import io.jpress.core.JBaseController;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.router.RouterNotAllowConvert;
 
 @UrlMapping(url = "/admin/addon", viewPath = "/WEB-INF/admin/addon")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _AddonController extends JBaseController {
 
 	public void index() {

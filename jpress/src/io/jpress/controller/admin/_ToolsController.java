@@ -20,9 +20,11 @@ import com.jfinal.aop.Before;
 import io.jpress.core.JBaseController;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.router.RouterNotAllowConvert;
 
 @UrlMapping(url = "/admin/tools", viewPath = "/WEB-INF/admin/tools")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _ToolsController extends JBaseController {
 
 	public void index() {

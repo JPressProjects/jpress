@@ -134,5 +134,15 @@
         memoryStoreEvictionPolicy="LFU"
         transactionalMode="off"
          />
+         
+   <cache name="visitor_counter"
+        maxEntriesLocalHeap="10000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="600"
+        timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LFU"
+        transactionalMode="off"
+         />
     
 </ehcache>

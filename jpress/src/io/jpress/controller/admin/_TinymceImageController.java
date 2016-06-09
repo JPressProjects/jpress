@@ -35,11 +35,13 @@ import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Attachment;
 import io.jpress.model.User;
+import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.FileUtils;
 
 @UrlMapping(url = "/admin/tinymce/image")
 @Before(ActionCacheClearInterceptor.class)
+@RouterNotAllowConvert
 public class _TinymceImageController extends JBaseController {
 
 	/**

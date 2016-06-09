@@ -16,6 +16,7 @@ import io.jpress.router.RouterNotAllowConvert;
 public class VisitorCounter extends JBaseController {
 
 	private static final String CACHE_NAME = "visitor_counter";
+	private static final String CID = "cid_";
 
 	public void index() {
 		BigInteger id = getParaToBigInteger("cid");
@@ -24,9 +25,12 @@ public class VisitorCounter extends JBaseController {
 			return;
 		}
 
-		Long visitorCount = CacheKit.get(CACHE_NAME, "cid:" + id);
+		Long visitorCount = CacheKit.get(CACHE_NAME, CID + id);
 		visitorCount = visitorCount == null ? 0 : visitorCount;
-		CacheKit.put(CACHE_NAME, "cid:" + id, visitorCount + 1);
+		CacheKit.put(CACHE_NAME, CID + id, visitorCount + 1);
+		
+		System.out.println(CID+id+"   count:"+(visitorCount + 1));
+		
 		renderJavascript("");
 	}
 
@@ -37,15 +41,19 @@ public class VisitorCounter extends JBaseController {
 			return;
 		}
 
-		Long visitorCount = CacheKit.get(CACHE_NAME, "cid:" + id);
+		Long visitorCount = CacheKit.get(CACHE_NAME, CID + id);
 		visitorCount = visitorCount == null ? 0 : visitorCount;
 		renderText(visitorCount + "");
 	}
 
 	public static long getVisitorCount(BigInteger id) {
-		Long visitorCount = CacheKit.get(CACHE_NAME, "cid:" + id);
+		Long visitorCount = CacheKit.get(CACHE_NAME, CID + id);
 		visitorCount = visitorCount == null ? 0 : visitorCount;
 		return visitorCount;
+	}
+	
+	public static void clearVisitorCount(BigInteger id) {
+		CacheKit.remove(CACHE_NAME, CID + id);
 	}
 
 }

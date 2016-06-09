@@ -32,20 +32,24 @@ public class Mapping extends BaseMapping<Mapping> {
 
 	public static final Mapping DAO = new Mapping();
 
-	public int doDelByContentId(BigInteger contentId) {
-		return doDelete("content_id = ?", contentId);
+	public boolean doDelByContentId(BigInteger contentId) {
+		return doDelete("content_id = ?", contentId) > 0;
 	}
 
 	public boolean doBatchUpdate(final BigInteger contentId, final BigInteger[] taxonomyIds) {
 		return Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				doDelByContentId(contentId);
+				if(!doDelByContentId(contentId)){
+					return false;
+				}
 				for (BigInteger taxonomyid : taxonomyIds) {
 					Mapping mapping = new Mapping();
 					mapping.setContentId(contentId);
 					mapping.setTaxonomyId(taxonomyid);
-					mapping.save();
+					if(!mapping.save()){
+						return false;
+					}
 				}
 				return true;
 			}
@@ -53,12 +57,12 @@ public class Mapping extends BaseMapping<Mapping> {
 	}
 	
 	
-	public void deleteByContentId(BigInteger id){
-		Jdb.update("DELETE * FROM mapping m where  m.content_id = ?",id);
+	public boolean deleteByContentId(BigInteger id){
+		return Jdb.update("DELETE * FROM mapping m where  m.content_id = ?",id) > 0;
 	}
 	
-	public void deleteByTaxonomyId(BigInteger id){
-		Jdb.update("DELETE * FROM mapping m where  m.taxonomy_id = ?",id);
+	public boolean  deleteByTaxonomyId(BigInteger id){
+		return Jdb.update("DELETE * FROM mapping m where  m.taxonomy_id = ?",id) > 0;
 	}
 
 	public long findCountByTaxonomyId(BigInteger id) {

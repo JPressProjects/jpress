@@ -46,13 +46,20 @@ public class CommentListener implements MessageListener {
 
 		// 文章被删除
 		else if (Actions.CONTENT_DELETE.equals(message.getAction())) {
-
+			Comment comment = message.getData();
+			if (comment != null && comment.getContentId() != null) {
+				Content content = Content.DAO.findById(comment.getContentId());
+				if (content != null) {
+					content.updateCommentCount();
+				}
+			}
 		}
 	}
 
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {
 		messageAction.register(Actions.COMMENT_ADD);
+		messageAction.register(Actions.COMMENT_DELETE);
 	}
 
 }

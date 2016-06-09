@@ -120,9 +120,10 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				mDao.deleteById(id);
-				Mapping.DAO.deleteByTaxonomyId(id);
-				return true;
+				if(mDao.deleteById(id)){
+					return Mapping.DAO.deleteByTaxonomyId(id);
+				}
+				return false;
 			}
 		});
 

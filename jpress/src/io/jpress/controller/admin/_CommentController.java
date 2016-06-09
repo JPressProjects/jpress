@@ -15,6 +15,8 @@
  */
 package io.jpress.controller.admin;
 
+import java.math.BigInteger;
+
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -22,8 +24,12 @@ import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Comment;
+import io.jpress.model.Content;
 import io.jpress.model.User;
+import io.jpress.plugin.message.MessageKit;
+import io.jpress.plugin.message.listener.Actions;
 import io.jpress.utils.StringUtils;
 
 @UrlMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
@@ -38,6 +44,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		return getPara("t");
 	}
 	
+	
 	@Override
 	public void index() {
 		super.index();
@@ -50,8 +57,88 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
-		return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null , getPara("s"));
+		if (StringUtils.isNotBlank(getPara("s"))) {
+			return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null , getPara("s"));
+		}
+		return mDao.doPaginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
+	
+	
+	@Before(UCodeInterceptor.class)
+	public void trash() {
+		Comment c = Comment.DAO.findById(getParaToBigInteger("id"));
+		if (c != null) {
+			c.setStatus(Comment.STATUS_DELETE);
+			c.saveOrUpdate();
+			renderAjaxResultForSuccess("success");
+		} else {
+			renderAjaxResultForError("trash error!");
+		}
+	}
+	
+	
+
+	@Before(UCodeInterceptor.class)
+	public void restore() {
+		BigInteger id = getParaToBigInteger("id");
+		Comment c = Comment.DAO.findById(id);
+		if (c != null && c.isDelete()) {
+			c.setStatus(Content.STATUS_DRAFT);
+			c.saveOrUpdate();
+			renderAjaxResultForSuccess("success");
+		} else {
+			renderAjaxResultForError("restore error!");
+		}
+	}
+	
+	@Before(UCodeInterceptor.class)
+	public void pub() {
+		BigInteger id = getParaToBigInteger("id");
+		Comment c = Comment.DAO.findById(id);
+		if (c != null ) {
+			c.setStatus(Content.STATUS_NORMAL);
+			if(c.saveOrUpdate()){
+				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
+				renderAjaxResultForSuccess("success");
+			}else{
+				renderAjaxResultForError("pub fail!");
+			}
+		} else {
+			renderAjaxResultForError("pub error!");
+		}
+	}
+	
+	@Before(UCodeInterceptor.class)
+	public void draft() {
+		BigInteger id = getParaToBigInteger("id");
+		Comment c = Comment.DAO.findById(id);
+		if (c != null) {
+			c.setStatus(Content.STATUS_DRAFT);
+			if(c.saveOrUpdate()){
+				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
+				renderAjaxResultForSuccess("success");
+			}else{
+				renderAjaxResultForError("draft fail!");
+			}
+		} else {
+			renderAjaxResultForError("draft error!");
+		}
+	}
+
+	@Before(UCodeInterceptor.class)
+	public void delete() {
+		BigInteger id = getParaToBigInteger("id");
+		final Comment c = Comment.DAO.findById(id);
+		if (c != null && c.isDelete()) {
+			if (c.delete()) {
+				MessageKit.sendMessage(Actions.COMMENT_DELETE, c);
+				renderAjaxResultForSuccess();
+				return;
+			}
+		}
+		renderAjaxResultForError();
+	}
+	
 
 	@Override
 	public void save() {
@@ -65,9 +152,11 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			}
 			comment.setUserId(user.getId());
 		}
-
-		comment.saveOrUpdate();
-
-		renderAjaxResultForSuccess("ok");
+		if(comment.saveOrUpdate()){
+			renderAjaxResultForSuccess();
+		}else{
+			renderAjaxResultForError();
+		}
+		
 	}
 }

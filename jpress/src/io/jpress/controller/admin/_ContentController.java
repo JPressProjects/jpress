@@ -74,10 +74,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
-		if (getStatus() != null && !"".equals(getStatus().trim())) {
+		if (StringUtils.isNotBlank(getStatus())) {
 			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, getModuleName());
+		return mDao.doPaginateByModuleNotInDelete(pageNumber, pageSize, getModuleName());
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -136,9 +136,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			boolean isSuccess = Db.tx(new IAtom() {
 				@Override
 				public boolean run() throws SQLException {
-					c.delete();
-					Mapping.DAO.deleteByContentId(c.getId());
-					return true;
+					if(c.delete()){
+						return Mapping.DAO.deleteByContentId(c.getId());
+					}
+					return false;
 				}
 			});
 
@@ -170,7 +171,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
-		
+
 		String routerType = Option.findValue("router_content_type");
 		if (ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)) {
 			setAttr("slugDisplay", " style=\"display: none\"");
@@ -294,9 +295,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					oldContent = mDao.findById(content.getId());
 				}
 
-				content.saveOrUpdate();
+				if(!content.saveOrUpdate()){
+					return false;
+				}
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
-				Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
+				
+				if(!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))){
+					return false;
+				}
 
 				MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));
 

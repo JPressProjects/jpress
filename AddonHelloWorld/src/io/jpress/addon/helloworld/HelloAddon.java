@@ -24,8 +24,9 @@ public class HelloAddon implements IAddon {
 	public void onStart(Hooks hooks) {
 
 		hooks.register(HelloHook.HOOK_PROCESS_CONTROLLER, HelloHook.class);
+		
+		System.out.println("=================HelloAddon Started!========================");
 
-		System.err.println("------->>>>>>HelloAddon started");
 	}
 
 	@Override

@@ -132,7 +132,8 @@ function del(id){
 						<td>${bean.username!}</td>
 						<td><strong><a href="#">
 									<span class="article-title">${bean.text!}</span>
-								</a></strong>
+								</a><#if "draft" == bean.status!>(待审核)</#if>
+								</strong>
 							<div class="jp-flash-comment">
 								<p class="row-actions jp-cancel-pad">
 									<#if "draft" == s!> 
@@ -141,16 +142,17 @@ function del(id){
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a></span> 
 									<#elseif "delete" != s!> 
 									<span class="approve"><a class="vim-a" href="${CPATH}/admin/comment/edit?id=${bean.id!}&p=${(p)!}&c=${(c)!}">编辑</a></span> 
-									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:draft(${bean.id})">待审核</a></span> 
+									<#if "draft" != bean.status!>
+									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:draft(${bean.id})">待审核</a></span>
+									<#else>
+									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:pub(${bean.id})">允许发布</a></span>
+									</#if>
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a></span> 
 									<#else> 
 									<span class="approve"> <a class="vim-a" href="javascript:restore(${bean.id})">还原</a></span> 
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a></span> 
 									</#if>
 								</p>
-								
-							
-										
 							</div>
 							</td>
 

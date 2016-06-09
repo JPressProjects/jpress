@@ -68,7 +68,9 @@ public class ContentController extends BaseFrontController {
 		long visitorCount = VisitorCounter.getVisitorCount(content.getId());
 		Long viewCount = content.getViewCount() == null ? visitorCount : content.getViewCount() + visitorCount;
 		content.setViewCount(viewCount);
-		content.update();
+		if(content.update()){
+			VisitorCounter.clearVisitorCount(content.getId());
+		}
 	}
 
 	private void setGlobleAttrs(Content content) {

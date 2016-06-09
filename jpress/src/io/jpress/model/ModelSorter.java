@@ -62,25 +62,25 @@ public class ModelSorter {
 	
 	
 	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist,BigInteger branchId) {
-		List<Integer> indexes = new ArrayList<Integer>();
-		findIndexInBranch(treelist, indexes, branchId);
-		if(indexes.size() > 0){
-			for(int index : indexes ){
-				treelist.remove(index);
+		List<ISortModel> removeModels = new ArrayList<ISortModel>();
+		findModelsInBranch(treelist, removeModels, branchId);
+		if(removeModels.size() > 0){
+			for(ISortModel model : removeModels ){
+				treelist.remove(model);
 			}
 		}
 	}
 	
-	private static <M extends ISortModel> void findIndexInBranch(List<M> treelist,List<Integer> removeIndexes,BigInteger branchId) {
+	private static <M extends ISortModel> void findModelsInBranch(List<M> treelist,List<ISortModel> removeModels,BigInteger branchId) {
 		for (int i = 0; i < treelist.size(); i++) {
 			ISortModel model = treelist.get(i);
 			
 			if(model.getId().compareTo(branchId) == 0){
-				removeIndexes.add(i);
+				removeModels.add(model);
 			}
 			
 			if(branchId.compareTo(model.getParentId()) == 0){
-				findIndexInBranch(treelist,removeIndexes,model.getId());
+				findModelsInBranch(treelist,removeModels,model.getId());
 			}
 		}
 	}

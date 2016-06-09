@@ -75,7 +75,7 @@ public class RouterManager {
 			}
 		}
 
-		String hookTarget = HookInvoker.router_converte(target, request, response);
+		String hookTarget = HookInvoker.routerConverte(target, request, response);
 		if(StringUtils.isNotBlank(hookTarget)){
 			return hookTarget;
 		}

@@ -23,12 +23,12 @@ import com.jfinal.render.Render;
 
 public class HookInvoker {
 
-	public static String router_converte(String target, HttpServletRequest request, HttpServletResponse response) {
-		return (String) AddonManager.get().invokeHook("target_converte", request, response);
+	public static String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
+		return (String) AddonManager.get().invokeHook("routerConverte", request, response);
 	}
 
-	public static Render process_controller(AddonController controller) {
-		return (Render) AddonManager.get().invokeHook("process_controller", controller);
+	public static Render processController(AddonController controller) {
+		return (Render) AddonManager.get().invokeHook("processController", controller);
 	}
 
 	public static Boolean intercept(Invocation inv) {

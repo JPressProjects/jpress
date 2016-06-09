@@ -28,17 +28,17 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.wechat.WechatApi;
 import io.jpress.wechat.WechatApiConfigInterceptor;
 import io.jpress.wechat.WechatConsts;
 
-@UrlMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
+@RouterMapping(url = "/admin/wechat", viewPath = "/WEB-INF/admin/wechat")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _WechatController extends JBaseCRUDController<Content> {

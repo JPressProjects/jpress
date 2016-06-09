@@ -15,7 +15,7 @@
  */
 package io.jpress.model;
 
-import io.jpress.core.annotation.Table;
+import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseAttachment;
 
 /**

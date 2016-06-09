@@ -13,31 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.dialect;
+package io.jpress.router;
 
-import com.jfinal.kit.PropKit;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class DbDialectFactory {
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
+public @interface RouterMapping {
+	String url();
 
-	static DbDialect dialect;
-
-	public static DbDialect getDbDialect() {
-
-		if (dialect == null) {
-			dialect = getDialectFromConfig();
-		}
-
-		return dialect;
-	}
-
-	private static DbDialect getDialectFromConfig() {
-		String dialect = PropKit.get("db_dialect");
-		// 目前只支持 mysql
-		if ("mysql".equalsIgnoreCase(dialect)) {
-			return new MysqlDialect();
-		}
-
-		return null;
-	}
-
+	String viewPath() default "";
 }

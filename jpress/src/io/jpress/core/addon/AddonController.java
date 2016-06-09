@@ -18,9 +18,9 @@ package io.jpress.core.addon;
 import com.jfinal.render.Render;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
+import io.jpress.router.RouterMapping;
 
-@UrlMapping(url = "/addon")
+@RouterMapping(url = "/addon")
 public class AddonController extends JBaseController {
 
 	public void index() {

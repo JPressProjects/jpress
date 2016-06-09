@@ -22,17 +22,17 @@ import com.jfinal.aop.Clear;
 import com.jfinal.core.ActionKey;
 
 import io.jpress.Consts;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.interceptor.UserInterceptor;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterMapping;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = Consts.ROUTER_USER)
+@RouterMapping(url = Consts.ROUTER_USER)
 @Before(UserInterceptor.class)
 public class UserController extends BaseFrontController {
 

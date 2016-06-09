@@ -21,15 +21,15 @@ import java.util.List;
 import com.jfinal.aop.Before;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/admin/api")
+@RouterMapping(url = "/admin/api")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _ApiController extends JBaseController {

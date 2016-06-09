@@ -15,9 +15,9 @@
  */
 package io.jpress.controller.front;
 
-import io.jpress.core.annotation.UrlMapping;
+import io.jpress.router.RouterMapping;
 
-@UrlMapping(url = "/captcha")
+@RouterMapping(url = "/captcha")
 public class CaptchaController extends BaseFrontController {
 
 	public void index() {

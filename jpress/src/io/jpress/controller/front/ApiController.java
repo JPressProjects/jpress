@@ -22,14 +22,14 @@ import java.util.Map;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
+import io.jpress.router.RouterMapping;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
 @SuppressWarnings("unused")
-@UrlMapping(url = "/api")
+@RouterMapping(url = "/api")
 public class ApiController extends JBaseController {
 
 	public void index() {

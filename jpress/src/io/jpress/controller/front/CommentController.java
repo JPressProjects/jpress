@@ -20,7 +20,6 @@ import java.util.Date;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
@@ -28,10 +27,11 @@ import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterMapping;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
 
-@UrlMapping(url = "/comment")
+@RouterMapping(url = "/comment")
 public class CommentController extends JBaseController {
 
 	public void index() {

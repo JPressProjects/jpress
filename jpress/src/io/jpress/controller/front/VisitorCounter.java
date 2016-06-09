@@ -21,13 +21,13 @@ import com.jfinal.aop.Clear;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.annotation.UrlMapping;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 
 
 @Clear
 @RouterNotAllowConvert
-@UrlMapping(url = "/counter")
+@RouterMapping(url = "/counter")
 public class VisitorCounter extends JBaseController {
 
 	private static final String CACHE_NAME = "visitor_counter";

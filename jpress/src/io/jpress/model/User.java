@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
-import io.jpress.core.annotation.Table;
+import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseUser;
 
 @Table(tableName = "user", primaryKey = "id")

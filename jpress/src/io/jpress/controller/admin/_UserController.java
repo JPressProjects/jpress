@@ -20,13 +20,13 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.EncryptUtils;
 
-@UrlMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
+@RouterMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _UserController extends JBaseCRUDController<User> {

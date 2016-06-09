@@ -21,17 +21,17 @@ import com.jfinal.aop.Before;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
+import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.AttachmentUtils;
 
-@UrlMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
+@RouterMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _OptionController extends JBaseCRUDController<User> {

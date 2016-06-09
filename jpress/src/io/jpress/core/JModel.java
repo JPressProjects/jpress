@@ -15,7 +15,7 @@
  */
 package io.jpress.core;
 
-import io.jpress.core.dialect.DbDialectFactory;
+import io.jpress.core.db.DbDialectFactory;
 import io.jpress.utils.StringUtils;
 
 import java.math.BigInteger;

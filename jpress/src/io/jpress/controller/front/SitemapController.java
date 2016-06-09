@@ -17,10 +17,10 @@ package io.jpress.controller.front;
 
 import com.jfinal.core.Controller;
 
-import io.jpress.core.annotation.UrlMapping;
 import io.jpress.core.cache.ActionCache;
+import io.jpress.router.RouterMapping;
 
-@UrlMapping(url = "/sitemap")
+@RouterMapping(url = "/sitemap")
 public class SitemapController extends Controller {
 	
 	@ActionCache

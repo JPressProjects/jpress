@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
 
-import io.jpress.core.annotation.Table;
+import io.jpress.core.db.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
 import io.jpress.router.converter.TaxonomyRouter;

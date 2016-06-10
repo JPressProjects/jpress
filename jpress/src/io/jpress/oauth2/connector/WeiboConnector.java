@@ -15,14 +15,15 @@
  */
 package io.jpress.oauth2.connector;
 
+import io.jpress.model.Option;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 public class WeiboConnector extends OauthConnector {
 
 	public WeiboConnector() {
-		setClientId("4067662683");
-		setClientSecret("02f2d6c8b5993acd3e16c3b8f24035c3");
+		setClientId(Option.findValue("oauth2_weibo_appkey"));
+		setClientSecret(Option.findValue("oauth2_weibo_appsecret"));
 		setName("weibo");
 	}
 

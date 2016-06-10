@@ -55,11 +55,11 @@ public class CommentController extends JBaseController {
 		Boolean comment_must_logined = Option.findValueAsBool("comment_must_logined");
 		if (comment_must_logined != null && comment_must_logined) {
 			if (userId == null) {
-				if (isAjaxRequest()) {
-					renderAjaxResultForError("user not logined!");
-				} else {
-					renderText("comment fail,user not logined");
+				String redirect = Consts.ROUTER_USER_LOGIN;
+				if(StringUtils.isNotBlank(gotoUrl)){
+					redirect += "?goto="+gotoUrl;
 				}
+				redirect(redirect);
 				return;
 			}
 		}

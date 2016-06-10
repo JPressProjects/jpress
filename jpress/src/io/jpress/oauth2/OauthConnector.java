@@ -15,9 +15,9 @@
  */
 package io.jpress.oauth2;
 
-import io.jpress.utils.HttpUtils;
-
 import com.jfinal.log.Log;
+
+import io.jpress.utils.HttpUtils;
 
 public abstract class OauthConnector {
 

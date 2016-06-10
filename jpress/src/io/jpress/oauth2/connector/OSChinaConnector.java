@@ -17,6 +17,7 @@ package io.jpress.oauth2.connector;
 
 import com.alibaba.fastjson.JSONObject;
 
+import io.jpress.model.Option;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
@@ -25,8 +26,8 @@ public class OSChinaConnector extends OauthConnector {
 	// DOC : http://www.oschina.net/openapi/
 
 	public OSChinaConnector() {
-		setClientId("UtAmn9NbODbgE6mzDiIQ");
-		setClientSecret("FzrmOxLLl7IE84RWLQxrd2eSTspP5yAC");
+		setClientId(Option.findValue("oauth2_oschina_appkey"));
+		setClientSecret(Option.findValue("oauth2_oschina_appsecret"));
 		setName("oschina");
 	}
 

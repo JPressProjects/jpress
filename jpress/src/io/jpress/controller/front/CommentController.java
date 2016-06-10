@@ -49,6 +49,11 @@ public class CommentController extends JBaseController {
 			gotoUrl += "#"+anchor;
 		}
 		
+		if(StringUtils.isNotBlank(gotoUrl)){
+			gotoUrl = StringUtils.urlEncode(gotoUrl);
+		}
+		
+		
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 必须登录

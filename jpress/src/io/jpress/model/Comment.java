@@ -37,7 +37,7 @@ public class Comment extends BaseComment<Comment> {
 	public Page<Comment> doPaginateWithContent(int pageNumber, int pageSize, String module, String type,
 			BigInteger contentId, String status) {
 
-		String select = " select c.*,content.title content_title,u.username";
+		String select = " select c.*,content.title content_title,u.username,u.nickname";
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
@@ -59,7 +59,7 @@ public class Comment extends BaseComment<Comment> {
 	
 	public Page<Comment> doPaginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
 		
-		String select = " select c.*,content.title content_title,u.username";
+		String select = " select c.*,content.title content_title,u.username,u.nickname";
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
@@ -91,7 +91,7 @@ public class Comment extends BaseComment<Comment> {
 
 	@Override
 	public Comment findById(Object idValue) {
-		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username");
+		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname");
 		sqlBuilder.append(" from comment c");
 		sqlBuilder.append(" left join content on c.content_id = content.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id ");

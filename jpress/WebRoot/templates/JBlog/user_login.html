@@ -6,18 +6,20 @@
 				用户登录
 				<span class="x-title-border"></span>
 			</h3>
-			
+			<form action="${CPATH}/user/login">
+			<input type="hidden" name="goto" value="${goto!}">
 			<div class="clearfix login-box">
 				<p class="x-pull-left x-layout-20 login-box-title">用户名：</p>
 				<p class="x-pull-left x-layout-80"><input type="text" name="username"> <span class="login-tip">还没有账号？点击<a href="${CPATH}/user/register"> 这里 </a>注册</span></p>
 			</div>
 			<div class="clearfix login-box">
 				<p class="x-pull-left x-layout-20 login-box-title">密码：</p>
-				<p class="x-pull-left x-layout-80"><input type="text" name="password"></p>
+				<p class="x-pull-left x-layout-80"><input type="password" name="password"></p>
 			</div>
 			<div class="clearfix login-button-box">
-				<input type="button" value="登录"> 
+				<input type="submit" value="登录"> 
 			</div>
+			</form>
 			<div class=" login-button-box">
 				<p><img src="${TPATH}/assets/images/qq.jpg"> <a href="${CPATH}/oauth/qq">QQ登录</a></p>
 				<p><img src="${TPATH}/assets/images/oschina.jpg"> <a href="${CPATH}/oauth/oschina?goto=${goto!}">OSCHINA登录</a></p>

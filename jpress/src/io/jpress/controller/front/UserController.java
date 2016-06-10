@@ -47,11 +47,17 @@ public class UserController extends BaseFrontController {
 		}
 	}
 
-	
 	@Clear(UserInterceptor.class)
-	@ActionKey(Consts.ROUTER_USER_LOGIN) //固定登陆的url
+	@ActionKey(Consts.ROUTER_USER_LOGIN) // 固定登陆的url
 	public void login() {
 		keepPara();
+
+		String gotoUrl = getPara("goto");
+		if (StringUtils.isNotBlank(gotoUrl)) {
+			gotoUrl = StringUtils.urlEncode(gotoUrl);
+			setAttr("goto", gotoUrl);
+		}
+
 		String username = getPara("username");
 		String password = getPara("password");
 
@@ -90,7 +96,6 @@ public class UserController extends BaseFrontController {
 			if (this.isAjaxRequest()) {
 				renderAjaxResultForSuccess("登陆成功");
 			} else {
-				String gotoUrl = getPara("goto");
 				if (StringUtils.isNotEmpty(gotoUrl)) {
 					redirect(gotoUrl);
 				} else {
@@ -106,7 +111,6 @@ public class UserController extends BaseFrontController {
 			}
 			CookieUtils.put(this, "_login_errors", errorTimes + 1);
 		}
-
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -135,6 +139,8 @@ public class UserController extends BaseFrontController {
 		if (!StringUtils.isNotBlank(email)) {
 			renderAjaxResult("email is empty!", Consts.ERROR_CODE_EMAIL_EMPTY);
 			return;
+		}else{
+			email = email.toLowerCase();
 		}
 
 		if (!StringUtils.isNotBlank(password)) {

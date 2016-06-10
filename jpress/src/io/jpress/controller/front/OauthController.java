@@ -15,6 +15,10 @@
  */
 package io.jpress.controller.front;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.util.Date;
+
 import io.jpress.Consts;
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
@@ -25,12 +29,19 @@ import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
-
-import java.math.BigInteger;
-import java.util.Date;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/oauth")
 public class OauthController extends Oauth2Controller {
+
+	@Override
+	public void index() {
+		String gotoUrl = getPara("goto");
+		if (StringUtils.isNotBlank(gotoUrl)) {
+			setSessionAttr("_goto_url", gotoUrl);
+		}
+		super.index();
+	}
 
 	@Override
 	public void onCallBack(OauthUser ouser) {
@@ -65,13 +76,31 @@ public class OauthController extends Oauth2Controller {
 	}
 
 	private void doAuthorizeFailure() {
-		redirect(Consts.ROUTER_USER_LOGIN);
+		String redirect = getPara("goto");
+		redirect = StringUtils.isNotBlank(redirect) ? redirect : Consts.ROUTER_USER_LOGIN;
+		redirect(redirect);
 	}
 
 	private void doAuthorizeSuccess(User user) {
 		CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 		MessageKit.sendMessage(Actions.USER_LOGINED, user);
-		redirect(Consts.ROUTER_USER_CENTER);
+
+		String redirect = getPara("goto");
+		if (!StringUtils.isNotBlank(redirect)) {
+			redirect = getSessionAttr("_goto_url");
+		}
+
+		if (StringUtils.isNotBlank(redirect)) {
+			try {
+				redirect = new String(redirect.getBytes("UTF-8"), "ISO8859_1");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		} else {
+			redirect = Consts.ROUTER_USER_CENTER;
+		}
+
+		redirect(redirect);
 	}
 
 }

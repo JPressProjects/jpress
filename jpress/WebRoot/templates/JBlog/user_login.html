@@ -1,0 +1,21 @@
+<#include "_layout.html"/> <@layout>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
+	<!-- -->
+	<div class="x-pull-left x-layout-100 blog-sm-left">
+		<div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius">
+			<h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
+				<a class="x-a-active" href="#">用户登录</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<div class="x-details-content x-padding-top-10 x-padding-bottom-10">
+				<input type="text" name="username">
+				<input type="text" name="password">
+				<input type="button" value="登录">
+				<br/>
+				<a href="${CPATH}/oauth/qq">QQ登录</a>
+				<a href="${CPATH}/oauth/oschina?goto=${goto!}">OSCHINA登录</a>
+			</div>
+		</div>
+	</div>
+</div>
+</@layout>

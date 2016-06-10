@@ -15,6 +15,7 @@
  */
 package io.jpress.oauth2.connector;
 
+import io.jpress.model.Option;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
@@ -28,8 +29,8 @@ public class QQConnector extends OauthConnector {
 	 */
 	public QQConnector() {
 
-		setClientId("101296865");
-		setClientSecret("9c8ed6da1cf7f26dacf02587db74f2ea");
+		setClientId(Option.findValue("oauth2_qq_appkey"));
+		setClientSecret(Option.findValue("oauth2_qq_appsecret"));
 		setName("qq");
 	}
 

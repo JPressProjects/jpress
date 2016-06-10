@@ -15,6 +15,7 @@
  */
 package io.jpress.oauth2.connector;
 
+import io.jpress.model.Option;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
@@ -26,8 +27,8 @@ public class WechatConnector extends OauthConnector {
 	// https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
 
 	public WechatConnector() {
-		setClientId("wxe7b4997b8a3b17bc");
-		setClientSecret("380e67c024233d469284174ba5d47e6b");
+		setClientId(Option.findValue("oauth2_wechat_appkey"));
+		setClientSecret(Option.findValue("oauth2_wechat_appsecret"));
 		setName("wechat");
 	}
 

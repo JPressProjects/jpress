@@ -15,9 +15,9 @@
  */
 package io.jpress.oauth2;
 
-import io.jpress.core.JBaseController;
-
 import java.util.UUID;
+
+import io.jpress.core.JBaseController;
 
 public abstract class Oauth2Controller extends JBaseController {
 
@@ -29,7 +29,7 @@ public abstract class Oauth2Controller extends JBaseController {
 		String requestUrl = getRequest().getRequestURL().toString();
 		String callBackUrl = requestUrl.replace("/" + processerName, "/callback/" + processerName);
 		String url = op.getAuthorizeUrl(state, callBackUrl);
-
+		
 		setSessionAttr("oauth_state", state);
 		redirect(url);
 	}

@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import io.jpress.Consts;
-import io.jpress.core.JBaseController;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
@@ -32,7 +31,7 @@ import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/comment")
-public class CommentController extends JBaseController {
+public class CommentController extends BaseFrontController {
 
 	public void index() {
 
@@ -49,9 +48,7 @@ public class CommentController extends JBaseController {
 			gotoUrl += "#"+anchor;
 		}
 		
-		if(StringUtils.isNotBlank(gotoUrl)){
-			gotoUrl = StringUtils.urlEncode(gotoUrl);
-		}
+		System.err.println("submit====goto:"+gotoUrl);
 		
 		
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
@@ -62,7 +59,7 @@ public class CommentController extends JBaseController {
 			if (userId == null) {
 				String redirect = Consts.ROUTER_USER_LOGIN;
 				if(StringUtils.isNotBlank(gotoUrl)){
-					redirect += "?goto="+gotoUrl;
+					redirect += "?goto="+StringUtils.urlEncode(gotoUrl);
 				}
 				redirect(redirect);
 				return;

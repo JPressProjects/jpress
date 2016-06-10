@@ -6,11 +6,11 @@
 				用户登录
 				<span class="x-title-border"></span>
 			</h3>
-			<form action="${CPATH}/user/login">
+			<form action="${CPATH}/user/login" method="post">
 			<input type="hidden" name="goto" value="${goto!}">
 			<div class="clearfix login-box">
 				<p class="x-pull-left x-layout-20 login-box-title">用户名：</p>
-				<p class="x-pull-left x-layout-80"><input type="text" name="username"> <span class="login-tip">还没有账号？点击<a href="${CPATH}/user/register"> 这里 </a>注册</span></p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="username"> <span class="login-tip">还没有账号？点击<a href="${CPATH}/user/register?goto=${goto!}"> 这里 </a>注册</span></p>
 			</div>
 			<div class="clearfix login-box">
 				<p class="x-pull-left x-layout-20 login-box-title">密码：</p>

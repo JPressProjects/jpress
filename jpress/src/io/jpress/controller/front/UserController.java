@@ -52,12 +52,6 @@ public class UserController extends BaseFrontController {
 	public void login() {
 		keepPara();
 
-		String gotoUrl = getPara("goto");
-		if (StringUtils.isNotBlank(gotoUrl)) {
-			gotoUrl = StringUtils.urlEncode(gotoUrl);
-			setAttr("goto", gotoUrl);
-		}
-
 		String username = getPara("username");
 		String password = getPara("password");
 
@@ -96,7 +90,10 @@ public class UserController extends BaseFrontController {
 			if (this.isAjaxRequest()) {
 				renderAjaxResultForSuccess("登陆成功");
 			} else {
+				String gotoUrl = getPara("goto");
 				if (StringUtils.isNotEmpty(gotoUrl)) {
+					gotoUrl = StringUtils.urlDecode(gotoUrl);
+					gotoUrl = StringUtils.urlRedirect(gotoUrl);
 					redirect(gotoUrl);
 				} else {
 					redirect(Consts.ROUTER_USER_CENTER);
@@ -125,11 +122,14 @@ public class UserController extends BaseFrontController {
 			renderAjaxResult("not validate captcha", Consts.ERROR_CODE_NOT_VALIDATE_CAPTHCHE);
 			return;
 		}
+		
+		keepPara();
 
 		String username = getPara("username");
 		String email = getPara("email");
 		String phone = getPara("phone");
 		String password = getPara("password");
+		String confirm_password = getPara("confirm_password");
 
 		if (!StringUtils.isNotBlank(username)) {
 			renderAjaxResult("username is empty!", Consts.ERROR_CODE_USERNAME_EMPTY);
@@ -146,6 +146,13 @@ public class UserController extends BaseFrontController {
 		if (!StringUtils.isNotBlank(password)) {
 			renderAjaxResult("password is empty!", Consts.ERROR_CODE_PASSWORD_EMPTY);
 			return;
+		}
+		
+		if(StringUtils.isNotEmpty(confirm_password)){
+			if(!confirm_password.equals(password)){
+				renderAjaxResult("password is not equals confirm_password!", Consts.ERROR_CODE_PASSWORD_EMPTY);
+				return;
+			}
 		}
 
 		if (User.DAO.findUserByUsername(username) != null) {
@@ -165,6 +172,7 @@ public class UserController extends BaseFrontController {
 
 		User user = new User();
 		user.setUsername(username);
+		user.setNickname(username);
 		user.setEmail(email);
 		user.setPhone(phone);
 
@@ -174,23 +182,32 @@ public class UserController extends BaseFrontController {
 		user.setSalt(salt);
 		user.setCreateSource("register");
 		user.setCreated(new Date());
-		user.save();
-
-		CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
-
-		MessageKit.sendMessage(Actions.USER_CREATED, user);
-
-		if (isAjaxRequest()) {
-			renderAjaxResultForSuccess();
-		} else {
-			redirect("/user/center");
+		
+		if(user.save()){
+			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
+			MessageKit.sendMessage(Actions.USER_CREATED, user);
+			
+			if (isAjaxRequest()) {
+				renderAjaxResultForSuccess();
+			} else {
+				String gotoUrl = getPara("goto");
+				if (StringUtils.isNotEmpty(gotoUrl)) {
+					gotoUrl = StringUtils.urlDecode(gotoUrl);
+					gotoUrl = StringUtils.urlRedirect(gotoUrl);
+					redirect(gotoUrl);
+				} else {
+					redirect(Consts.ROUTER_USER_CENTER);
+				}
+			}
+		}else{
+			renderAjaxResultForError();
 		}
 	}
 
 	public void center() {
 		keepPara();
 		String action = getPara(0, "index");
-		render(String.format("ucenter_%s.html", action));
+		render(String.format("user_center_%s.html", action));
 	}
 
 }

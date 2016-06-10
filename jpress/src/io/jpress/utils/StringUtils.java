@@ -41,6 +41,15 @@ public class StringUtils {
 		}
 		return string;
 	}
+	
+	public static String urlRedirect(String redirect){
+		try {
+			redirect = new String(redirect.getBytes("UTF-8"), "ISO8859_1");
+		} catch (UnsupportedEncodingException e) {
+			log.error("urlRedirect is error", e);
+		}
+		return redirect;
+	}
 
 	public static boolean areNotEmpty(String... strings) {
 		if (strings == null || strings.length == 0)

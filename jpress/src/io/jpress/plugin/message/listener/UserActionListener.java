@@ -31,11 +31,18 @@ public class UserActionListener implements MessageListener {
 			user.setLogged(new Date());
 			user.update();
 		}
+		
+		else if (message.getAction().equals(Actions.USER_CREATED)) {
+			User user = message.getData();
+			user.setLogged(new Date());
+			user.update();
+		}
 	}
 
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {
 		messageAction.register(Actions.USER_LOGINED);
+		messageAction.register(Actions.USER_CREATED);
 	}
 
 }

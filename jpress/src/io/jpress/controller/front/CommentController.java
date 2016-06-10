@@ -48,9 +48,6 @@ public class CommentController extends BaseFrontController {
 			gotoUrl += "#"+anchor;
 		}
 		
-		System.err.println("submit====goto:"+gotoUrl);
-		
-		
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 必须登录

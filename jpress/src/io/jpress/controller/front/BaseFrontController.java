@@ -16,11 +16,13 @@
 package io.jpress.controller.front;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.core.Controller;
 
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.template.TemplateUtils;
+import io.jpress.utils.StringUtils;
 
 @Clear(AdminInterceptor.class)
 public class BaseFrontController extends JBaseController {
@@ -62,5 +64,27 @@ public class BaseFrontController extends JBaseController {
 	private boolean templateExists(String htmlFileName) {
 		return TemplateUtils.existsFile(htmlFileName);
 	}
+	
+	@Override
+	public Controller keepPara() {
+		super.keepPara();
+
+		String gotoUrl = getPara("goto");
+		if (StringUtils.isNotBlank(gotoUrl)) {
+			setAttr("goto", StringUtils.urlEncode(gotoUrl));
+		}
+		
+		return this;
+	}
+	
+//	@Override
+//	public void redirect(String url) {
+//		try {
+//			url = new String(url.getBytes("UTF-8"), "ISO8859_1");
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//		super.redirect(url);
+//	}
 
 }

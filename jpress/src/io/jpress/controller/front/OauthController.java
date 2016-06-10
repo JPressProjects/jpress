@@ -15,7 +15,6 @@
  */
 package io.jpress.controller.front;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -89,13 +88,9 @@ public class OauthController extends Oauth2Controller {
 		if (!StringUtils.isNotBlank(redirect)) {
 			redirect = getSessionAttr("_goto_url");
 		}
-
+		
 		if (StringUtils.isNotBlank(redirect)) {
-			try {
-				redirect = new String(redirect.getBytes("UTF-8"), "ISO8859_1");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			redirect = StringUtils.urlRedirect(redirect);
 		} else {
 			redirect = Consts.ROUTER_USER_CENTER;
 		}

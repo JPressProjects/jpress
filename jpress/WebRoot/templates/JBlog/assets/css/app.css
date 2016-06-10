@@ -1467,6 +1467,10 @@ a.x-a-active:hover{
 	max-width:1.4rem;
 	vertical-align: middle;
 }
+.jblog-captcha{
+	padding-left:20%;
+	padding-top:1rem;
+}
 .login-button-box input{
 	background-color: #367fa9;
 	color: #fff;

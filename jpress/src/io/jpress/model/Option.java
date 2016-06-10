@@ -53,7 +53,7 @@ public class Option extends BaseOption<Option> {
 	}
 
 	public static String findValue(final String key) {
-		return CacheKit.get(CACHE_NAME, key, new IDataLoader() {
+		String value = CacheKit.get(CACHE_NAME, key, new IDataLoader() {
 			@Override
 			public Object load() {
 				Option option = DAO.doFindFirst("option_key =  ?", key);
@@ -63,6 +63,8 @@ public class Option extends BaseOption<Option> {
 				return "";
 			}
 		});
+		
+		return "".equals(value) ? null : value;
 	}
 
 	public Option findByKey(String key) {

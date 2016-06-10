@@ -16,8 +16,10 @@
 package io.jpress.controller.front;
 
 import io.jpress.router.RouterMapping;
+import io.jpress.router.RouterNotAllowConvert;
 
 @RouterMapping(url = "/captcha")
+@RouterNotAllowConvert
 public class CaptchaController extends BaseFrontController {
 
 	public void index() {

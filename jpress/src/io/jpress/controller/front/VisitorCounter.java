@@ -43,9 +43,6 @@ public class VisitorCounter extends JBaseController {
 		Long visitorCount = CacheKit.get(CACHE_NAME, CID + id);
 		visitorCount = visitorCount == null ? 0 : visitorCount;
 		CacheKit.put(CACHE_NAME, CID + id, visitorCount + 1);
-		
-		System.out.println(CID+id+"   count:"+(visitorCount + 1));
-		
 		renderJavascript("");
 	}
 

@@ -15,11 +15,11 @@
  */
 package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.render.freemarker.JTag;
-import io.jpress.model.Content;
-
 import java.math.BigInteger;
 import java.util.List;
+
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Content;
 
 /**
  * @title Contents 标签
@@ -65,12 +65,17 @@ public class ContentsTag extends JTag {
 		String[] slugs = getParamToStringArray("slug");
 		BigInteger[] userIds = getParamToBigIntegerArray("userid");
 		BigInteger[] parentIds = getParamToBigIntegerArray("parentid");
-
+		Boolean hasThumbnail = getParamToBool("hasThumbnail");
+		
 		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
-				modules, styles, flags, slugs, userIds, parentIds, tags);
+				modules, styles, flags, slugs, userIds, parentIds, tags,hasThumbnail);
 
+		if(data==null || data.isEmpty()){
+			renderText("");
+			return;
+		}
+		
 		setVariable("contents", data);
-
 		renderBody();
 	}
 

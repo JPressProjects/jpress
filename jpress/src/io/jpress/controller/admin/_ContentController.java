@@ -138,7 +138,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			boolean isSuccess = Db.tx(new IAtom() {
 				@Override
 				public boolean run() throws SQLException {
-					if(c.delete()){
+					if (c.delete()) {
 						return Mapping.DAO.deleteByContentId(c.getId());
 					}
 					return false;
@@ -283,7 +283,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 
 		Content dbContent = mDao.findBySlug(content.getSlug());
-		if (dbContent != null && dbContent.getId().compareTo(content.getId()) != 0) {
+		if (dbContent != null && content.getId() != null && dbContent.getId().compareTo(content.getId()) != 0) {
 			renderAjaxResultForError();
 			return;
 		}
@@ -297,13 +297,13 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					oldContent = mDao.findById(content.getId());
 				}
 
-				if(!content.saveOrUpdate()){
+				if (!content.saveOrUpdate()) {
 					return false;
 				}
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
-				
-				if(ids !=null && ids.size() > 0){
-					if(!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))){
+
+				if (ids != null && ids.size() > 0) {
+					if (!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
 						return false;
 					}
 				}

@@ -40,7 +40,7 @@ public class ModelSorter {
 					sort(tlist, newlist, model.getId(), 0);
 				}
 			} else {
-				if (model.getParentId()!= null && parentId.compareTo(model.getParentId()) == 0) {
+				if (model.getParentId() != null && parentId.compareTo(model.getParentId()) == 0) {
 					model.setLayer(layer + 1);
 					newlist.add(model);
 					sort(tlist, newlist, model.getId(), layer + 1);
@@ -58,29 +58,28 @@ public class ModelSorter {
 		tlist.clear();
 		tlist.addAll(newList);
 	}
-	
-	
-	
-	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist,BigInteger branchId) {
+
+	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist, BigInteger branchId) {
 		List<ISortModel> removeModels = new ArrayList<ISortModel>();
 		findModelsInBranch(treelist, removeModels, branchId);
-		if(removeModels.size() > 0){
-			for(ISortModel model : removeModels ){
+		if (removeModels.size() > 0) {
+			for (ISortModel model : removeModels) {
 				treelist.remove(model);
 			}
 		}
 	}
-	
-	private static <M extends ISortModel> void findModelsInBranch(List<M> treelist,List<ISortModel> removeModels,BigInteger branchId) {
+
+	private static <M extends ISortModel> void findModelsInBranch(List<M> treelist, List<ISortModel> removeModels,
+			BigInteger branchId) {
 		for (int i = 0; i < treelist.size(); i++) {
 			ISortModel model = treelist.get(i);
-			
-			if(model.getId().compareTo(branchId) == 0){
+
+			if (model.getId().compareTo(branchId) == 0) {
 				removeModels.add(model);
 			}
-			
-			if(branchId.compareTo(model.getParentId()) == 0){
-				findModelsInBranch(treelist,removeModels,model.getId());
+
+			if (model.getParentId() != null && branchId.compareTo(model.getParentId()) == 0) {
+				findModelsInBranch(treelist, removeModels, model.getId());
 			}
 		}
 	}
@@ -93,7 +92,8 @@ public class ModelSorter {
 					tree(tlist, newlist, model);
 				}
 			} else {
-				if (parent.getId()!= null && model.getParentId()!= null && parent.getId().compareTo(model.getParentId()) == 0) {
+				if (parent.getId() != null && model.getParentId() != null
+						&& parent.getId().compareTo(model.getParentId()) == 0) {
 					model.setParent(parent);
 					parent.addChild(model);
 					tree(tlist, null, model);

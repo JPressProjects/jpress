@@ -32,17 +32,15 @@ public class Mapping extends BaseMapping<Mapping> {
 
 	public static final Mapping DAO = new Mapping();
 
-	public boolean doDelByContentId(BigInteger contentId) {
-		return doDelete("content_id = ?", contentId) > 0;
+	public int doDelByContentId(BigInteger contentId) {
+		return doDelete("content_id = ?", contentId);
 	}
 
 	public boolean doBatchUpdate(final BigInteger contentId, final BigInteger[] taxonomyIds) {
 		return Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				if(!doDelByContentId(contentId)){
-					return false;
-				}
+				doDelByContentId(contentId);
 				for (BigInteger taxonomyid : taxonomyIds) {
 					Mapping mapping = new Mapping();
 					mapping.setContentId(contentId);

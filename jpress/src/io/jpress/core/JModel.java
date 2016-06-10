@@ -204,7 +204,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginate(pageNumber, pageSize, select, tc(sqlExceptSelect), paras);
+		return super.paginate(pageNumber, pageSize, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
@@ -212,13 +212,13 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginate(pageNumber, pageSize, isGroupBySql, select, tc(sqlExceptSelect), paras);
+		return super.paginate(pageNumber, pageSize, isGroupBySql, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
 	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect) {
 		// TODO Auto-generated method stub
-		return super.paginate(pageNumber, pageSize, select, tc(sqlExceptSelect));
+		return super.paginate(pageNumber, pageSize, tc(select), tc(sqlExceptSelect));
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize, select, tc(sqlExceptSelect), paras);
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
@@ -286,7 +286,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			String select, String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, select, tc(sqlExceptSelect),
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, tc(select), tc(sqlExceptSelect),
 				paras);
 	}
 
@@ -294,7 +294,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String select,
 			String sqlExceptSelect) {
 		// TODO Auto-generated method stub
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize, select, tc(sqlExceptSelect));
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, tc(select), tc(sqlExceptSelect));
 	}
 
 	private void debugPrintParas(Object... objects) {

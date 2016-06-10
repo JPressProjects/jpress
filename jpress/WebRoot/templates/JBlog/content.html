@@ -1,6 +1,20 @@
 <#include "_layout.html"/> 
 <#macro script_import>
  <script src="${CPATH}/counter?cid=${content.id!}"></script>
+ <script src="${TPATH}/assets/highlight/highlight.js"></script>
+ <script src="${TPATH}/assets/js/jquery-2.1.1.min.js"></script>
+</#macro> 
+<#macro script>
+//hljs.initHighlighting();
+//hljs.initHighlightingOnLoad();
+$(document).ready(function() {
+  $('code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+</#macro> 
+<#macro css_import>
+<link rel="stylesheet" href="${TPATH}/assets/highlight/styles/zenburn.css">
 </#macro> 
 <@layout>
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">

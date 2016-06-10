@@ -118,11 +118,12 @@ public class UserController extends BaseFrontController {
 
 	@Clear(UserInterceptor.class)
 	public void doRegister() {
+
 		if (!validateCaptcha("_register_captcha")) { // 验证码没验证成功！
-			renderAjaxResult("not validate captcha", Consts.ERROR_CODE_NOT_VALIDATE_CAPTHCHE);
+			renderForRegister("not validate captcha", Consts.ERROR_CODE_NOT_VALIDATE_CAPTHCHE);
 			return;
 		}
-		
+
 		keepPara();
 
 		String username = getPara("username");
@@ -132,41 +133,41 @@ public class UserController extends BaseFrontController {
 		String confirm_password = getPara("confirm_password");
 
 		if (!StringUtils.isNotBlank(username)) {
-			renderAjaxResult("username is empty!", Consts.ERROR_CODE_USERNAME_EMPTY);
+			renderForRegister("username is empty!", Consts.ERROR_CODE_USERNAME_EMPTY);
 			return;
 		}
 
 		if (!StringUtils.isNotBlank(email)) {
-			renderAjaxResult("email is empty!", Consts.ERROR_CODE_EMAIL_EMPTY);
+			renderForRegister("email is empty!", Consts.ERROR_CODE_EMAIL_EMPTY);
 			return;
-		}else{
+		} else {
 			email = email.toLowerCase();
 		}
 
 		if (!StringUtils.isNotBlank(password)) {
-			renderAjaxResult("password is empty!", Consts.ERROR_CODE_PASSWORD_EMPTY);
+			renderForRegister("password is empty!", Consts.ERROR_CODE_PASSWORD_EMPTY);
 			return;
 		}
-		
-		if(StringUtils.isNotEmpty(confirm_password)){
-			if(!confirm_password.equals(password)){
-				renderAjaxResult("password is not equals confirm_password!", Consts.ERROR_CODE_PASSWORD_EMPTY);
+
+		if (StringUtils.isNotEmpty(confirm_password)) {
+			if (!confirm_password.equals(password)) {
+				renderForRegister("password is not equals confirm_password!", Consts.ERROR_CODE_PASSWORD_EMPTY);
 				return;
 			}
 		}
 
 		if (User.DAO.findUserByUsername(username) != null) {
-			renderAjaxResult("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
+			renderForRegister("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
 			return;
 		}
 
 		if (User.DAO.findUserByEmail(email) != null) {
-			renderAjaxResult("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
+			renderForRegister("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
 			return;
 		}
 
 		if (null != phone && User.DAO.findUserByPhone(phone) != null) {
-			renderAjaxResult("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
+			renderForRegister("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}
 
@@ -182,11 +183,11 @@ public class UserController extends BaseFrontController {
 		user.setSalt(salt);
 		user.setCreateSource("register");
 		user.setCreated(new Date());
-		
-		if(user.save()){
+
+		if (user.save()) {
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			MessageKit.sendMessage(Actions.USER_CREATED, user);
-			
+
 			if (isAjaxRequest()) {
 				renderAjaxResultForSuccess();
 			} else {
@@ -199,8 +200,17 @@ public class UserController extends BaseFrontController {
 					redirect(Consts.ROUTER_USER_CENTER);
 				}
 			}
-		}else{
+		} else {
 			renderAjaxResultForError();
+		}
+	}
+	
+	private void renderForRegister(String message, int errorCode) {
+		String referer = getRequest().getHeader("Referer");
+		if (isAjaxRequest()) {
+			renderAjaxResult(message, errorCode);
+		} else {
+			redirect(referer + "?errorcode=" + errorCode);
 		}
 	}
 

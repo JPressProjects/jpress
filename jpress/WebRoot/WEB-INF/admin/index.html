@@ -1,4 +1,55 @@
 <#include "_inc/_layout.html"/>
+<#macro script>
+function trash(id){
+	$.get("${CPATH}/admin/comment/trash?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function restore(id){
+	$.get("${CPATH}/admin/comment/restore?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function pub(id){
+	$.get("${CPATH}/admin/comment/pub?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function draft(id){
+	$.get("${CPATH}/admin/comment/draft?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/comment/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
 <@layout active_id="dashboard" >
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -105,17 +156,22 @@
 						<div class="comment-item-content">
 							<p>
 								<a href="#"> ${comment.username!} </a>
-								评论了 <span>《<a href="${(contentUrl(comment.content_id!))!}" target="_blank">${comment.content_title!}</a>》</span>
+								评论了 <span>《<a href="${(contentUrl(comment.content_id!))!}" target="_blank">${comment.content_title!}</a>》
+								评论状态：
+							<#if "normal" == comment.status!><a class="comment-item-green" href="javascript:;"> √ 通过审核</a></#if>
+							<#if "draft" == comment.status!><a class="comment-item-red" href="javascript:;">待审核...</a></#if>
+								</span>
 							</p>
-							<p>${comment.text!}</p>
+							<p>${comment.text!} </p>
 							<p class="comment-item-actions">
-								<a class="comment-item-green" href="">批准</a>
-								<span>|</span>
-								<a href="" class="comment-item-blue">回复</a>
-								<span>|</span>
-								<a href="" class="comment-item-red">垃圾箱</a>
-								<span>|</span>
-								<a href="" class="comment-item-red">删除</a>
+								<#if "draft" != comment.status!>
+								<span ><a class="comment-item-blue" href="javascript:draft(${comment.id})">移至待审核</a></span>
+								<#else>
+								<span ><a class="comment-item-green" href="javascript:pub(${comment.id})">批准发布</a></span>
+								</#if>
+								<span >|<a class="comment-item-red" href="javascript:trash(${comment.id})">垃圾箱</a></span> 
+								<span >|<a class="comment-item-red" href="javascript:del(${comment.id})">永久删除</a></span> 
+									
 							</p>
 						</div>
 						<div class="comment-item-time">${comment.created!}</div>

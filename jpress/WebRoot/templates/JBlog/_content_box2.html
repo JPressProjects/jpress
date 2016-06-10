@@ -1,8 +1,8 @@
 <div class="x-white-box">
 	<h3 class="x-box-title">
-		最新文章 <span class="x-title-border"></span>
+		推荐文章 <span class="x-title-border"></span>
 	</h3>
-	<@jp_contents flag="hot" module="article" count="10" > 
+	<@jp_contents  module="article" count="10" orderby="view_count" hasThumbnail="true"> 
 	<#list contents as content> 
 	<#if content?is_first >
 	<div class="x-layout-100 person-relative image-box">

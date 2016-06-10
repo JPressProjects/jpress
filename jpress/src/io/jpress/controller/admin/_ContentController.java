@@ -175,7 +175,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
 		String routerType = Option.findValue("router_content_type");
-		if (ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)) {
+		if (!StringUtils.isNotBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)) {
 			setAttr("slugDisplay", " style=\"display: none\"");
 		}
 
@@ -302,8 +302,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				}
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 				
-				if(!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))){
-					return false;
+				if(ids !=null && ids.size() > 0){
+					if(!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))){
+						return false;
+					}
 				}
 
 				MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));

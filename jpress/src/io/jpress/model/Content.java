@@ -153,7 +153,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
 		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
-				null, null, null, null);
+				null, null, null, null,null);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
 			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
-			BigInteger[] parentIds, String[] tags) {
+			BigInteger[] parentIds, String[] tags,Boolean hasThumbnail) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
@@ -199,6 +199,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
 			sqlBuilder.append(" c.title like ?");
 			params.add("'%" + keyword + "%'");
+		}
+		
+		if( null != hasThumbnail){
+			if(hasThumbnail){
+				sqlBuilder.append(" and c.thumbnail is not null ");
+			}else{
+				sqlBuilder.append(" and c.thumbnail is null ");
+			}
 		}
 
 		sqlBuilder.append("GROUP BY c.id");

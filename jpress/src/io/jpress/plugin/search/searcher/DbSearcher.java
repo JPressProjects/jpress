@@ -56,7 +56,7 @@ public class DbSearcher implements ISearcher {
 		String[] modules = Jpress.currentTemplate().getModules().toArray(new String[] {});
 		
 		List<Content> list = Content.DAO.findListInNormal(pageNum, pageSize, "created DESC", keyword, null, null,
-				modules, null, null, null, null, null, null);
+				modules, null, null, null, null, null, null,null);
 
 		List<SearcherBean> datas = null;
 		if (list != null) {

@@ -3,8 +3,8 @@
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
+		<@jp_contents  flag="hot" module="article" count="3" >
 		<div class="x-layout-100 clearfix" style="height:260px;">
-			<@jp_contents  flag="hot" module="article" count="3" >
            	<#list contents as content>
            	<#if content?is_first >
 			<div class="x-pull-left x-layout-70 image-box">
@@ -30,8 +30,8 @@
 			</div>
 			</#if>
 			</#list>
-            </@jp_contents>
 		</div>
+		</@jp_contents>
 		<!-- -->
 
 		<@jp_contents module="article"> 
@@ -208,8 +208,8 @@
 				<a href="#" class="x-rss-btn x-background-whiteblue">订阅</a>
 			</div>
 		</div>
-		<#include "_newest_box.html"/> 
-		<#include "_hot_box.html"/> 
+		<#include "_content_box1.html"/> 
+		<#include "_content_box2.html"/> 
 		<#include "_tags_box.html"/> 
 	</div>
 </div>

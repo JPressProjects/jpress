@@ -467,6 +467,9 @@ ul,li{
 .x-margin-bottom-100{
     margin-bottom:10rem;
 }
+.x-margin-bottom-120{
+    margin-bottom:12rem;
+}
 
 .x-padding-top-1{
     padding-top:0.1rem;
@@ -1441,7 +1444,43 @@ a.x-a-active:hover{
 	border:1px solid #e6e6e6;
 	background-color: #f9f9f9;
 }
-
+/* login*/
+.login-box{
+	padding:0.5rem 0;
+}
+.login-box a{
+	color:#367fa9;
+}
+.login-box input{
+	border:1px solid #d2d6de;
+	padding:0.3rem 0.5rem;
+	width:40%;
+}
+.login-box-title{
+	text-align:right;
+}
+.login-button-box{
+	padding-left:20%;
+	padding-top:1rem;
+}
+.login-button-box img{
+	max-width:1.4rem;
+	vertical-align: middle;
+}
+.login-button-box input{
+	background-color: #367fa9;
+	color: #fff;
+    border:1px solid #204d74;
+    padding:0.2rem 1.5rem;
+    font-size:1rem;
+}
+.login-button-box a{
+	font-size:0.8rem;
+	padding-left:0.5rem;
+}
+.login-button-box a:hover,.login-box a:hover{
+	text-decoration:underline;
+}
 
 
 @media all and (max-width:1120px){
@@ -1531,6 +1570,12 @@ a.x-a-active:hover{
         height: 3rem;
         line-height: 3rem;
     }
+    .login-box input{
+	width:80%;
+	}
+	.login-tip{
+	display:block;
+	}
 }
 @media all and (max-width: 320px){
     .izxy-person-absolute{

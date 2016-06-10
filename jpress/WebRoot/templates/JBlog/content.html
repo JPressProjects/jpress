@@ -11,12 +11,24 @@
         <a class="x-a-active" href="#">${content.title!}</a>
         <span class="x-title-border"></span>
       </h3>
-      <div class="x-layout-100 clearfix x-sm-info">
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-bars" aria-hidden="true"></i>${content.getTaxonomyAsUrl('category')!'未分类'}</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-clock-o" aria-hidden="true"></i> ${content.created!}</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-eye" aria-hidden="true"></i> ${content.viewCount!'0'}</p>
-        <p class="x-layout-10 x-pull-left x-font-small x-font-grey"><i class="fa fa-commenting" aria-hidden="true"></i> ${content.commentCount!'0'}</p>
-      </div>
+      <div class="x-box-tags">
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-bars" aria-hidden="true"></i>
+					${content.getTaxonomyAsUrl('category')!'未分类'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					${content.created!}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey x-sm-eye">
+					<i class="fa fa-eye" aria-hidden="true"></i>
+					${content.view_count!'0'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+					${content.comment_count!'0'}
+				</p>
+	  </div>
       <div class="x-details-content x-padding-top-10 x-padding-bottom-10">
         
         ${content.text!}
@@ -59,7 +71,7 @@
         </a>
         </div>
         <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border">
-          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.username!} <span class="x-font-grey">${comment.created!}</span></p>
+          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.username!comment.nickname!} <span class="x-font-grey">${comment.created!}</span></p>
           <p>${comment.text!}</p>
         </div>
         <div class="x-layout-100 clearfix">
@@ -73,12 +85,10 @@
   </div>
   <!-- -->
   <div class="x-pull-right x-layout-25 blog-sm-right">
-    <div class="x-white-box">
-      <div class="x-white-box">
-        <p><a href="#"><img class="x-image-radus x-item-space-6" src="${(user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/> </a></p>
-        <p><a href="#">${(user.nickname)!(user.username)!}</a></p>
-        <p class="x-font-grey5 x-margin-bottom-10 x-margin-top-10">${(user.signature)!'这家伙很赖，连签名都懒得填写...'}</p>
-      </div>
+    <div class="x-white-box x-font-center">
+        <p><img class="x-image-radus x-item-space-6" src="${(user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/></p>
+        <p>${(user.nickname)!(user.username)!}</p>
+        <p class="x-font-grey x-margin-bottom-10 x-margin-top-10">${(user.signature)!'这家伙很赖，连签名都懒得填写...'}</p>
     </div>
  	<#include "_newest_box.html"/> 
 	<#include "_hot_box.html"/> 

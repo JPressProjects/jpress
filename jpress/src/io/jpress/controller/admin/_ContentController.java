@@ -31,9 +31,9 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
-import io.jpress.core.AjaxResult;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
+import io.jpress.core.render.AjaxResult;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;

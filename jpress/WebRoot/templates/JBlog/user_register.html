@@ -1,17 +1,45 @@
 <#include "_layout.html"/> 
 <@layout>
-<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
-  <!-- -->
-  <div class="x-pull-left x-layout-100 blog-sm-left">
-    <div class="x-background-white x-margin-bottom-10 x-padding-10 x-div-radius">
-      <h3 class="x-font-title12 x-padding-top-10 x-padding-bottom-10 x-part-border-bottom x-margin-bottom-10 person-relative">
-        <a class="x-a-active" href="#">用户注册</a>
-        <span class="x-title-border"></span>
-      </h3>
-      <div class="x-details-content x-padding-top-10 x-padding-bottom-10">
-        找不到这个页面了
-      </div>
-    </div>
-  </div>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-60">
+	<!-- -->
+		<div class="x-white-box">
+			<h3 class="x-box-title">
+				用户注册
+				<span class="x-title-border"></span>
+			</h3>
+			
+			<div class="clearfix login-box">
+				<p class="x-pull-left x-layout-20 login-box-title">用户名：</p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="username"></p>
+			</div>
+			<div class="clearfix login-box">
+				<p class="x-pull-left x-layout-20 login-box-title">邮箱：</p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="username"></p>
+			</div>
+			<div class="clearfix login-box">
+				<p class="x-pull-left x-layout-20 login-box-title">密码：</p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="password"></p>
+			</div>
+			<div class="clearfix login-box">
+				<p class="x-pull-left x-layout-20 login-box-title">确认密码：</p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="password"></p>
+			</div>
+			
+			<div class="clearfix login-box">
+				<p class="x-pull-left x-layout-20 login-box-title">验证码：</p>
+				<p class="x-pull-left x-layout-80"><input type="text" name="password"></p>
+			</div>
+			<div class="clearfix login-button-box">
+				<img src="${CPATH}/captcha" onclick="this.src='${CPATH}/captcha?d='+Math.random();" >
+			</div>
+			
+			<div class="clearfix login-button-box">
+				<input type="button" value="注册">
+			</div>
+			<div class=" login-button-box">
+				<p><a href="${CPATH}/oauth/qq">QQ登录</a></p>
+				<p><a href="${CPATH}/oauth/oschina?goto=${goto!}">OSCHINA登录</a></p>
+			</div>
+		</div>
 </div>
 </@layout>

@@ -5,6 +5,18 @@ $(document).ready(function(){
 	$("#brower-image-info").css("height",height+"px");
 	$("#brower-image-info").css("min-height",height+"px");
 });
+
+function del(id){
+	$.get("${CPATH}/admin/attachment/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			parent.reload = true;
+			parent.layer.closeAll();
+		}
+	});
+
+}
 </#macro>
 <@layout >
 <!-- Main content -->
@@ -60,7 +72,7 @@ $(document).ready(function(){
 		<p class="comment-item-actions">
 			<a class="comment-item-green" href="">保存</a>
 			<span>|</span>
-			<a href="" class="comment-item-red">彻底删除</a>
+			<a href="javascript:;" class="comment-item-red" onclick="del('${attachment.id!}')">彻底删除</a>
 		</p>
 	
 	</div>

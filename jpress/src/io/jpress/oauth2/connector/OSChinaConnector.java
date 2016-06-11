@@ -73,7 +73,7 @@ public class OSChinaConnector extends OauthConnector {
 
 		String accessToken = getAccessToken(code);
 
-		String url = "http://www.oschina.net/action/openapi/user?" + "access_token=" + accessToken + "&dataType=json";
+		String url = "http://www.oschina.net/action/openapi/user?access_token=" + accessToken + "&dataType=json";
 
 		String httpString = httpGet(url);
 		// {"gender":"male","name":"michaely","location":"北京 朝阳","id":111634,

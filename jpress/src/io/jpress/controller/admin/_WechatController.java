@@ -16,6 +16,7 @@
 package io.jpress.controller.admin;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.utils.StringUtils;
 import io.jpress.wechat.WechatApi;
 import io.jpress.wechat.WechatApiConfigInterceptor;
 import io.jpress.wechat.WechatConsts;
@@ -66,18 +68,55 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void menu() {
 		List<Content> list = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.sort(list);
-		setAttr("wechat_menus", list);
-
+		
+		List<Content> wechat_menulist = new ArrayList<Content>();
+		wechat_menulist.addAll(list);
+		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
 			Content c = Content.DAO.findById(id);
 			setAttr("wechat_menu", c);
+			
+			setAttr(c.getFlag()+"_selected", "selected=\"selected\"");
+
+			if (id != null && list != null) {
+				ModelSorter.removeTreeBranch(list, id);
+			}
 		}
+
+		setAttr("wechat_menus", list);
+		setAttr("wechat_menulist",  wechat_menulist);
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void menuSave() {
 		Content c = getModel(Content.class);
+
+		if (!StringUtils.isNotBlank(c.getTitle())) {
+			renderAjaxResultForError("名称不能为空！");
+			return;
+		}
+
+		if (!StringUtils.isNotBlank(c.getText())) {
+			renderAjaxResultForError("关键字不能为空！");
+			return;
+		}
+		
+		if(c.getParentId() == null){
+			long count = Content.DAO.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			if(count > 3){
+				renderAjaxResultForError("顶级菜单不能超过3个！");
+				return;
+			}
+		}else{
+			long count = Content.DAO.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			if(count > 5){
+				renderAjaxResultForError("子级菜单不能超过5个！");
+				return;
+			}
+		}
+
+		c.setStatus(Content.STATUS_NORMAL);
 		c.setModule(Consts.MODULE_WECHAT_MENU);
 		c.setModified(new Date());
 		if (c.getCreated() == null) {
@@ -95,7 +134,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 				renderAjaxResultForSuccess();
 			}
 		}
-		renderAjaxResultForError();
+		renderAjaxResultForSuccess();
 	}
 
 	@Before(WechatApiConfigInterceptor.class)

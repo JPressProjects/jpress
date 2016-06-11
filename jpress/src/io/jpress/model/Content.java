@@ -309,6 +309,13 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public long findCountInNormalByModule(String module) {
 		return doFindCount("module = ? AND status <> ?", module, STATUS_DELETE);
 	}
+	
+	public long findCountInNormalByParentId(BigInteger id ,String module) {
+		if(id == null){
+			return doFindCount("parent_id is null AND module = ? AND status <> ?",  module, STATUS_DELETE);
+		}
+		return doFindCount("parent_id = ? AND module = ? AND status <> ?", id , module, STATUS_DELETE);
+	}
 
 	public User findUser() {
 		return User.DAO.findUserById(getUserId());

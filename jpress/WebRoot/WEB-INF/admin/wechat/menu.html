@@ -55,15 +55,16 @@ function doSubmit(){
 
 				<div class="form-group ">
 					<div class="col-xs-5 jp-common-pad">
-						<label class="input-title">菜单类型</label> <select class="form-control input-sm" name="content.flag">
-							<option value="click">点击推事件</option>
-							<option value="view">跳转URL</option>
-							<option value="scancode_push">扫码推事件</option>
-							<option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
-							<option value="pic_sysphoto">弹出系统拍照发图</option>
-							<option value="pic_photo_or_album">弹出拍照或者相册发图</option>
-							<option value="pic_weixin">弹出微信相册发图器</option>
-							<option value="location_select">弹出地理位置选择器</option>
+						<label class="input-title">菜单类型</label> 
+						<select class="form-control input-sm" name="content.flag">
+							<option value="click"  ${click_selected!}>点击推事件</option>
+							<option value="view" ${view_selected!} >跳转URL</option>
+							<option value="scancode_push" ${scancode_push_selected!}>扫码推事件</option>
+							<option value="scancode_waitmsg" ${scancode_waitmsg_selected!}>扫码推事件且弹出“消息接收中”提示框</option>
+							<option value="pic_sysphoto" ${pic_sysphoto_selected!}>弹出系统拍照发图</option>
+							<option value="pic_photo_or_album" ${pic_photo_or_album_selected!}>弹出拍照或者相册发图</option>
+							<option value="pic_weixin" ${pic_weixin_selected!}>弹出微信相册发图器</option>
+							<option value="location_select" ${location_select_selected!}>弹出地理位置选择器</option>
 						</select>
 					</div>
 					<div class="clr"></div>
@@ -79,8 +80,18 @@ function doSubmit(){
 				<div class="form-group jp-input-item">
 					<div class="col-xs-5 jp-common-pad">
 						<label class="input-title">父节点</label> <select class="form-control input-sm" name="content.parent_id">
-							<option value="0">无</option> <#list wechat_menus! as menu>
-							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> </#list>
+							<option value="">无</option> 
+							<#list wechat_menus! as menu>
+							<#if wechat_menu ??>
+								<#if  menu.id?? && wechat_menu.parent_id?? && menu.id == wechat_menu.parent_id	>
+								<option value="${menu.id}" selected="selected">${menu.layerString!}${menu.title!}</option> 
+								<#else>
+								<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> 
+								</#if>
+							<#else>
+							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> 
+							</#if>
+							</#list>
 						</select>
 					</div>
 					<div class="clr"></div>
@@ -115,7 +126,7 @@ function doSubmit(){
 						</thead>
 						<tbody>
 
-							<#list wechat_menus! as bean>
+							<#list wechat_menulist! as bean>
 							<tr class="jp-onmouse">
 								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
 									<div class="jp-flash-comment">

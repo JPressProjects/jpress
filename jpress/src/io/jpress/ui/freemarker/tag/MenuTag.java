@@ -15,6 +15,7 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -25,7 +26,7 @@ public class MenuTag extends JTag {
 
 	@Override
 	public void onRender() {
-		List<Content> list = Content.DAO.findByModule("menu", "order_number ASC");
+		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		ModelSorter.tree(list);
 		setVariable("menus", list);
 		renderBody();

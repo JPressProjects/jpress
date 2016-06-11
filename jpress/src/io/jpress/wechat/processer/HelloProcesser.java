@@ -34,7 +34,7 @@ public class HelloProcesser implements IMessageProcesser {
 	@Override
 	public OutMsg process(InMsg message) {
 		OutTextMsg out = new OutTextMsg(message);
-		out.setContent("hello...您是通过高级回复设置此内容。");
+		out.setContent("hello...欢迎使用JPress高级回复功能。");
 		return out;
 	}
 

@@ -10,7 +10,7 @@
 
 	<form action="${CPATH}/admin/option/save" method="POST" id="form" enctype="multipart/form-data">
 		<input type="hidden" name="ucode" value="${ucode}"> <input
-			type="hidden" name="autosave" value="jpblog_wechat_pay_enable,jpblog_wechat_pay_image,jpblog_banner_image,jpblog_wechat_pay_tips">
+			type="hidden" name="autosave" value="jpblog_wechat_pay_enable,jpblog_wechat_pay_image,jpblog_banner_image,jpblog_banner_url,jpblog_wechat_pay_tips">
 		<div class="row">
 		<div class="col-xs-12">
 			<h4 class="jp-set-title">奖赏设置</h4>
@@ -38,10 +38,8 @@
 						<div class="col-sm-6 jp-table-distance-top ">
 							<img alt="" src="${option('jpblog_wechat_pay_image')!}">
 							<br />
-							<input class="form-control input-md" type="text"
-								name="jpblog_wechat_pay_image" value="${option('jpblog_wechat_pay_image')!}">
-								<input name="jpblog_wechat_pay_image" type="file">
-							
+							<input name="jpblog_wechat_pay_image" type="file">
+							<input class="form-control input-md" type="text" name="jpblog_wechat_pay_image" value="${option('jpblog_wechat_pay_image')!}">
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -72,10 +70,20 @@
 						<div class="col-sm-6 jp-table-distance-top ">
 							<img alt="" src="${option('jpblog_banner_image')!}">
 							<br />
-							<input class="form-control input-md" type="text"
-								name="jpblog_banner_image" value="${option('jpblog_banner_image')!}">
-								<input name="jpblog_banner_image" type="file">
+							<input name="jpblog_banner_image" type="file">
+							<input class="form-control input-md" type="text" name="jpblog_banner_image" value="${option('jpblog_banner_image')!}">
 							
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">banner图片连接地址</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" name="jpblog_banner_url" value="${option('jjpblog_banner_url')!}">
 						</div>
 					</div>
 					<div class="clr"></div>

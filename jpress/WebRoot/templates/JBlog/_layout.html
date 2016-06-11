@@ -49,11 +49,20 @@
   <div class="jblog-nav">
     <div class="jblog-nav-content">
       <ul>
-      	<li><a href="${CPATH}/">首页<span class="x-a-border"></span></a></li>
+      	<li><a href="${CPATH}/">首页 
+      	<#if "/" == _request.requestURI!>
+      	<span class="x-a-border"></span>
+      	</#if>
+      	</a></li>
       	<@jp_menu>
         	<#list menus as menu>
-        		<li><a href=""></a></li>
-        		<li class="x-pull-left x-layout-10 x-font-center"><a class="x-font-darkgray x-a-active person-relative block-a" href="${menu.text!}">${menu.title}</a></li>
+        		<li class="x-pull-left x-layout-10 x-font-center">
+        		<a class="x-font-darkgray x-a-active person-relative block-a" href="${menu.text!}">${menu.title}
+        		<#if menu.flag ??>
+        			<span class="x-a-border"></span>
+        		</#if>
+        		</a>
+        		</li>
         	</#list>
         </@jp_menu>
       </ul>

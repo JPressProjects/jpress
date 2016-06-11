@@ -33,7 +33,7 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
 		String CPATH = request.getContextPath();
-		request.setAttribute("REQUEST", request);
+		request.setAttribute("_request", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
 

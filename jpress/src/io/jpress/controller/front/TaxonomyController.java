@@ -25,6 +25,7 @@ import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.router.RouterMapping;
+import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
 import io.jpress.utils.StringUtils;
 
@@ -51,6 +52,7 @@ public class TaxonomyController extends BaseFrontController {
 
 		if (taxonomy != null) {
 			setGlobleAttrs(taxonomy);
+			setAttr("jp_menu", new MenuTag(taxonomy));
 		}
 
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();

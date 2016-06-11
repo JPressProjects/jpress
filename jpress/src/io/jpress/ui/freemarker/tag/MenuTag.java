@@ -15,18 +15,55 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
-
-import java.util.List;
+import io.jpress.model.Taxonomy;
+import io.jpress.router.converter.TaxonomyRouter;
+import io.jpress.utils.StringUtils;
 
 public class MenuTag extends JTag {
+
+	private List<Taxonomy> currentTaxonomys;
+
+	public MenuTag() {
+	}
+
+	public MenuTag(List<Taxonomy> taxonomys) {
+		currentTaxonomys = taxonomys;
+	}
+
+	public MenuTag(Taxonomy taxonomy) {
+		currentTaxonomys = new ArrayList<Taxonomy>();
+		currentTaxonomys.add(taxonomy);
+	}
 
 	@Override
 	public void onRender() {
 		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+
+		if (list == null || list.isEmpty()) {
+			renderText("");
+			return;
+		}
+
+		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {
+			for (Taxonomy taxonomy : currentTaxonomys) {
+				String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
+				if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
+					for(Content content : list){
+						if(content.getText() !=null && content.getText().startsWith(routerWithoutPageNumber)){
+							content.setFlag("active");
+						}
+					}
+				}
+			}
+		}
+
 		ModelSorter.tree(list);
 		setVariable("menus", list);
 		renderBody();

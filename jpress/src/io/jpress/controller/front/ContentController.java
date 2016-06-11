@@ -16,6 +16,7 @@
 package io.jpress.controller.front;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
 
@@ -23,9 +24,11 @@ import io.jpress.Consts;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.router.RouterMapping;
 import io.jpress.ui.freemarker.tag.ContentPaginateTag;
+import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = Consts.ROUTER_CONTENT)
@@ -60,6 +63,11 @@ public class ContentController extends BaseFrontController {
 		
 		ContentPaginateTag cpt = new ContentPaginateTag(page,content);
 		setAttr("pagination", cpt);
+		
+		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByContentId(content.getId());
+		setAttr("taxonomys", taxonomys);
+		
+		setAttr("jp_menu", new MenuTag(taxonomys));
 
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}

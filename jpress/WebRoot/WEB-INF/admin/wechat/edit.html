@@ -58,7 +58,7 @@ function doAjax(url){
 					<input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入关键字">
 				</div>
 				<div class="form-group">
-                  <label>回复内容</label><a class="pull-right" href="#">高级回复</a>
+                  <label>回复内容</label><a class="pull-right" href="${CPATH}/admin/wechat/reply_advanced?c=${c!}&p=${(p)!}">高级回复</a>
                   <textarea class="form-control" rows="6" placeholder="请输入内容 ..." name="content.text">${(content.text)!}</textarea>
                 </div>
                  <div class="form-group">

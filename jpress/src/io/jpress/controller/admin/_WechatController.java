@@ -52,13 +52,17 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_MENU, getStatus());
+			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_MENU);
+		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
 	}
 
 	public void reply_default() {
 
+	}
+	
+	public void reply_advanced() {
+		
 	}
 
 	public void option() {

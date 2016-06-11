@@ -1,14 +1,21 @@
 <#include "../_inc/_layout.html"/>
 <#macro script>
-    
- function openlayer(id){
+
+var reload = false;
+function openlayer(id){
+	reload = false;
  	layer.open({
 			    type: 2,
 			    title: '查看附件',
 			    shadeClose: true,
 			    shade: 0.8,
 			    area: ['70%', '70%'],
-			    content: '${CPATH}/admin/attachment/detail_layer?id='+id
+			    content: '${CPATH}/admin/attachment/detail_layer?id='+id,
+			    end:function(){
+			    	if(reload){
+			    		location.reload();
+			    	}
+			    }
 			}); 
  
  }
@@ -43,7 +50,7 @@
 				</select>
 			</div>
 			<div class="jp-left ">
-				<button class="btn  btn-sm btn-default" type="button">批量选择</button>
+				<button class="btn  btn-sm btn-default" type="button">筛选</button>
 			</div>
 			<div class="jp-right ">
 					<label class="sr-only"></label> <input class="form-control jp-inp-width280" type="text" placeholder="搜索">

@@ -60,25 +60,25 @@
 				${content.summary}
 				</p>
 				<div class="x-box-tags">
-					<p  >
-						<img class="x-small-avatar x-image-radus x-vertical-middle" src="" />
-						海哥
+					<p >
+						<img class="x-small-avatar x-image-radus x-vertical-middle" src="${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+						${content.nickname!}
 					</p>
-					<p  >
+					<p >
 						<i class="fa fa-bars" aria-hidden="true"></i>
-						未分类
+						${content.getTaxonomyAsUrl('category')!'未分类'}
 					</p>
 					<p >
 						<i class="fa fa-clock-o" aria-hidden="true"></i>
-						1天前
+						${content.created?string("yyyy-MM-dd")}
 					</p>
-					<p>
+					<p >
 						<i class="fa fa-eye" aria-hidden="true"></i>
-						10805
+						${content.view_count!'0'}
 					</p>
 					<p >
 						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-						134
+						${content.comment_count!'0'}
 					</p>
 				</div>
 			</div>
@@ -93,41 +93,41 @@
 			<div class="x-layout-100">
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
 					<a href="${content.url}">
-						<img src="assets/images/banner-bg.jpg" />
+						<img src="${(content.imageByIndex(0,'t2'))}" />
 					</a>
 				</p>
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
 					<a href="${content.url}">
-						<img src="assets/images/banner-bg.jpg" />
+						<img src="${(content.imageByIndex(1,'t2'))}" />
 					</a>
 				</p>
 				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
 					<a href="${content.url}">
-						<img src="assets/images/banner-bg.jpg" />
+						<img src="${(content.imageByIndex(2,'t2'))}" />
 					</a>
 				</p>
 			</div>
 			<p class="x-box-summary">${content.summary}</p>
 			<div class="x-box-tags">
 				<p >
-					<img class="x-small-avatar x-image-radus x-vertical-middle" src="assets/images/avatar.jpg" />
-					海哥
+					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+					${content.nickname!}
 				</p>
 				<p >
 					<i class="fa fa-bars" aria-hidden="true"></i>
-					未分类
+					${content.getTaxonomyAsUrl('category')!'未分类'}
 				</p>
 				<p >
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
-					1天前
+					${content.created?string("yyyy-MM-dd")}
 				</p>
 				<p >
 					<i class="fa fa-eye" aria-hidden="true"></i>
-					10805
+					${content.view_count!'0'}
 				</p>
 				<p >
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-					134
+					${content.comment_count!'0'}
 				</p>
 			</div>
 			</div>
@@ -149,7 +149,7 @@
 				</p>
 				<p >
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
-					1天前
+					${content.created?string("yyyy-MM-dd")}
 				</p>
 				<p >
 					<i class="fa fa-eye" aria-hidden="true"></i>

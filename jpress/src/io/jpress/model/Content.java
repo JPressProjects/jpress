@@ -295,12 +295,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public boolean saveOrUpdate() {
 		if (getId() != null) {
 			removeCache(getId());
-			putCache(getId(), this);
 		}
 
 		if (getSlug() != null) {
 			removeCache(getSlug());
-			putCache(getSlug(), this);
 		}
 
 		return super.saveOrUpdate();

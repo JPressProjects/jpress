@@ -90,6 +90,13 @@ function doSubmit(){
 					<textarea class="form-control"  name="taxonomy.text" rows="3">${(taxonomy.text)!}</textarea>
 					<p>描述是否显示决定于模板。</p>
 				</div>
+				
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">是否添加到导航菜单</label> 
+					<div class="checkbox">
+							<label><input id="tag-slug"  type="checkbox" ${addToMenuSelete!''}   name="addToMenu" value="true"> 添加到导航菜单 </label>
+						</div>
+				</div>
 
 				<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
 

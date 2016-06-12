@@ -24,10 +24,12 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
+import io.jpress.model.Content;
 import io.jpress.model.Mapping;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
@@ -59,7 +61,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByModuleAndTypeAsSort(moduleName, type.getName());
 
 		if (id != null) {
-			setAttr("taxonomy", Taxonomy.DAO.findById(id));
+			Taxonomy taxonomy = Taxonomy.DAO.findById(id);
+			setAttr("taxonomy", taxonomy);
+			Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU,taxonomy.getId());
+			if(content != null){
+				setAttr("addToMenuSelete", "checked=\"checked\"");
+			}
 		}
 		
 		if (id != null && taxonomys != null) {
@@ -100,7 +107,24 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			return;
 		}
 		
-		m.saveOrUpdate();
+		if(m.saveOrUpdate()){
+			
+			boolean addToMenu = getParaToBoolean("addToMenu", false);
+			if(addToMenu){
+				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU,m.getId());
+				if(content == null){
+					content = new Content();
+					content.setModule(Consts.MODULE_MENU);
+				}
+				
+				content.setText(m.getUrl());
+				content.setTitle(m.getTitle());
+				content.setObjectId(m.getId());
+				
+				content.saveOrUpdate();
+			}
+			
+		}
 		renderAjaxResultForSuccess("ok");
 	}
 

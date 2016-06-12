@@ -236,10 +236,15 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public Content findFirstByModuleAndTitle(String module, String title) {
 		return doFindFirst("module = ? and title = ? order by id desc", module, title);
 	}
+	
+	public Content findFirstByModuleAndObjectId(String module, BigInteger objectId) {
+		return doFindFirst("module = ? and object_id = ? order by id desc", module, objectId);
+	}
 
 	public List<Content> searchByModuleAndTitle(String module, String title, int limit) {
 		return doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);
 	}
+	
 
 	public List<Content> findByModule(String module, String orderby) {
 		return doFind("module = ? order by ?", module, orderby);

@@ -77,7 +77,8 @@ function doSubmit(){
 						</select>
 					</div>
 				</div>
-
+				
+				
 				<div class="form-group jp-input-item">
 					<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
 				</div>
@@ -128,7 +129,7 @@ function doSubmit(){
 										<p class="row-actions jp-common-pad">
 											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
-											<span class="trash">| <a class="delete vim-d vim-destructive" href="#" target="_blank">查看</a></span>
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="${bean.text!}" target="_blank">查看</a></span>
 										</p>
 									</div></td>
 								<td>${bean.text!}</td>

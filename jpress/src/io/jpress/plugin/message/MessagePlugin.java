@@ -53,6 +53,7 @@ public class MessagePlugin implements IPlugin {
 		for (String action : actions.getActions()) {
 
 			List<MessageListener> list = listenerMap.get(action);
+
 			if (null == list) {
 				list = new ArrayList<MessageListener>();
 			}
@@ -73,7 +74,6 @@ public class MessagePlugin implements IPlugin {
 			log.warn("there is no listeners for message : " + message);
 			return;
 		}
-
 		for (final MessageListener listener : listeners) {
 			threadPool.execute(new Runnable() {
 				@Override

@@ -16,12 +16,14 @@
 package io.jpress.model;
 
 import java.math.BigInteger;
+import java.util.List;
 
-import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
+import io.jpress.core.Jpress;
 import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseUser;
+import io.jpress.template.Module;
 
 @Table(tableName = "user", primaryKey = "id")
 public class User extends BaseUser<User> {
@@ -29,12 +31,6 @@ public class User extends BaseUser<User> {
 	public static final User DAO = new User();
 
 	public String ROLE_ADMINISTRATOR = "administrator";
-
-	public Page<User> doPaginateWithContent(int pageNumber, int pageSize) {
-		String select = "select u.*,count(c.id) as content_count ";
-		String sqlExceptSelect = "from user u left join content c on u.id = c.user_id group by u.id";
-		return paginate(pageNumber, pageSize, true, select, sqlExceptSelect);
-	}
 
 
 	public User findUserById(final BigInteger userId) {
@@ -75,6 +71,30 @@ public class User extends BaseUser<User> {
 
 	public boolean isAdministrator() {
 		return "administrator".equals(getRole());
+	}
+
+	public long findAdminCount() {
+		return doFindCount(" role = ? ", "administrator");
+	}
+	
+	public boolean updateContentCount() {
+		long count = 0;
+		List<Module> modules = Jpress.currentTemplate().getModules();
+		if(modules!=null && !modules.isEmpty()){
+			for(Module m : modules){
+				long moduleCount = Content.DAO.findCountInNormalByModuleAndUserId(m.getName(), getId());
+				count += moduleCount;
+			}
+		}
+		
+		this.setContentCount(count);
+		return this.update();
+	}
+	
+	public boolean updateCommentCount() {
+		long count = Comment.DAO.findCountByUserIdInNormal(getId());
+		this.setCommentCount(count);
+		return this.update();
 	}
 
 }

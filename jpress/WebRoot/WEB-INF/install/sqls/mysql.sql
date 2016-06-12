@@ -209,6 +209,8 @@ CREATE TABLE `{table_prefix}user` (
   `gender` varchar(16) DEFAULT NULL,
   `role` varchar(32) DEFAULT 'visitor',
   `signature` varchar(2048) DEFAULT NULL,
+  `content_count` int(11) unsigned DEFAULT '0',
+  `comment_count` int(11) unsigned DEFAULT '0',
   `qq` varchar(16) DEFAULT NULL,
   `wechat` varchar(32) DEFAULT NULL,
   `weibo` varchar(64) DEFAULT NULL,
@@ -223,5 +225,7 @@ CREATE TABLE `{table_prefix}user` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `cell_number` (`phone`),
   KEY `status` (`status`),
-  KEY `created` (`created`)
+  KEY `created` (`created`),
+  KEY `content_count` (`content_count`),
+  KEY `comment_count` (`comment_count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

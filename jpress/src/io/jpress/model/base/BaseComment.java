@@ -138,6 +138,14 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JModel<M> im
 		return get("comment_count");
 	}
 
+	public void setOrderNumber(java.lang.Long orderNumber) {
+		set("order_number", orderNumber);
+	}
+
+	public java.lang.Long getOrderNumber() {
+		return get("order_number");
+	}
+
 	public void setUserId(java.math.BigInteger userId) {
 		set("user_id", userId);
 	}

@@ -23,8 +23,6 @@ import io.jpress.plugin.message.MessageListener;
 
 public class CommentListener implements MessageListener {
 
-	static Object lock = new Object();
-
 	@Override
 	public void onMessage(Message message) {
 
@@ -40,12 +38,12 @@ public class CommentListener implements MessageListener {
 		}
 
 		// 文章被更新
-		else if (Actions.CONTENT_UPDATE.equals(message.getAction())) {
+		else if (Actions.COMMENT_UPDATE.equals(message.getAction())) {
 
 		}
 
 		// 文章被删除
-		else if (Actions.CONTENT_DELETE.equals(message.getAction())) {
+		else if (Actions.COMMENT_DELETE.equals(message.getAction())) {
 			Comment comment = message.getData();
 			if (comment != null && comment.getContentId() != null) {
 				Content content = Content.DAO.findById(comment.getContentId());

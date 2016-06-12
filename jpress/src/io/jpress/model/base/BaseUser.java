@@ -186,6 +186,22 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JModel<M> implemen
 		return get("signature");
 	}
 
+	public void setContentCount(java.lang.Long contentCount) {
+		set("content_count", contentCount);
+	}
+
+	public java.lang.Long getContentCount() {
+		return get("content_count");
+	}
+
+	public void setCommentCount(java.lang.Long commentCount) {
+		set("comment_count", commentCount);
+	}
+
+	public java.lang.Long getCommentCount() {
+		return get("comment_count");
+	}
+
 	public void setQq(java.lang.String qq) {
 		set("qq", qq);
 	}

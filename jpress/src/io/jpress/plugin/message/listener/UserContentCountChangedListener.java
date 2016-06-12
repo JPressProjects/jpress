@@ -15,32 +15,44 @@
  */
 package io.jpress.plugin.message.listener;
 
+import io.jpress.model.Content;
+import io.jpress.model.User;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
 
-public class ContentListener implements MessageListener {
-
+public class UserContentCountChangedListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
 
 		// 文章添加到数据库
 		if (Actions.CONTENT_ADD.equals(message.getAction())) {
-			
+			updateUserConentCount(message);
 		}
 
 		// 文章被更新
 		else if (Actions.CONTENT_UPDATE.equals(message.getAction())) {
-			
+			updateUserConentCount(message);
 		}
-		
+
 		// 文章被删除
 		else if (Actions.CONTENT_DELETE.equals(message.getAction())) {
-			
+			updateUserConentCount(message);
 		}
 	}
 
+	private void updateUserConentCount(Message message) {
+		Object temp = message.getData();
+		if (temp != null && temp instanceof Content) {
+			Content content = (Content) temp;
+			if (Content.STATUS_NORMAL.equals(content.getStatus()) && content.getUserId() != null) {
+				User user = User.DAO.findById(content.getUserId());
+				if (user != null)
+					user.updateContentCount();
+			}
+		}
+	}
 
 	@Override
 	public void onRegisterAction(MessageAction messageAction) {

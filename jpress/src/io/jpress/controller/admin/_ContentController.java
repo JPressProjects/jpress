@@ -259,6 +259,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	public void save() {
 
 		final Content content = getContent();
+		
+		boolean isAddAction = content.getId() == null ;
 
 		String slug = content.getSlug();
 		if (!StringUtils.isNotBlank(slug)) {
@@ -328,6 +330,12 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
+		if(isAddAction){
+			MessageKit.sendMessage(Actions.CONTENT_ADD, content);
+		}else{
+			MessageKit.sendMessage(Actions.CONTENT_UPDATE, content);
+		}
+		
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);
 		ar.setData(content.getId());

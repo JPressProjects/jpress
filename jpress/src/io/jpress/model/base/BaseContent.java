@@ -170,11 +170,11 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		return get("object_id");
 	}
 
-	public void setOrderNumber(java.lang.Integer orderNumber) {
+	public void setOrderNumber(java.lang.Long orderNumber) {
 		set("order_number", orderNumber);
 	}
 
-	public java.lang.Integer getOrderNumber() {
+	public java.lang.Long getOrderNumber() {
 		return get("order_number");
 	}
 

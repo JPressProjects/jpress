@@ -34,7 +34,10 @@ public class _UserController extends JBaseCRUDController<User> {
 	
 	@Override
 	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
-		return mDao.doPaginateWithContent(pageNumber, pageSize);
+		setAttr("userCount", User.DAO.doFindCount());
+		setAttr("adminCount", User.DAO.findAdminCount());
+		
+		return mDao.doPaginate(pageNumber, pageSize);
 	}
 	
 	

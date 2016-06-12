@@ -69,6 +69,10 @@ public class _TinymceImageController extends JBaseController {
 		UploadFile uploadFile = getFile();
 		String newPath = AttachmentUtils.moveFile(uploadFile);
 		User user = getAttr(Consts.ATTR_USER);
+		
+		if(newPath !=null){
+			newPath = newPath.replace("\\", "/");
+		}
 
 		Attachment attachment = new Attachment();
 		attachment.setUserId(user.getId());

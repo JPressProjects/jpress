@@ -67,6 +67,8 @@ public class _OptionController extends JBaseCRUDController<User> {
 				}
 				if (value == null) {
 					value = getPara(key, "");
+				}else{
+					value = value.replace("\\", "/");
 				}
 				Option.saveOrUpdate(key, value);
 			}

@@ -99,22 +99,19 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			attachment.setUserId(user.getId());
 			attachment.setCreated(new Date());
 			attachment.setTitle("");
-			attachment.setPath(newPath);
+			attachment.setPath(newPath.replace("\\", "/"));
 			attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 			attachment.setMimeType(uploadFile.getContentType());
 			attachment.save();
 			
 			processImage(newPath);
 			
-			//{"success":true}
 			JSONObject json = new JSONObject();
 			json.put("success", true);
 			json.put("src", newPath);
 			renderJson(json.toString());
-//			redirect("/admin/attachment?p=attachment&c=list", true);
 		} else {
 			renderJson("success", false);
-//			redirect("/admin/attachment/upload?p=attachment&c=upload", true);
 		}
 	}
 

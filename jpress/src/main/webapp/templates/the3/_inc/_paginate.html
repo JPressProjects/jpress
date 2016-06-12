@@ -1,0 +1,9 @@
+<@pagination>
+<ul class="pagination">
+	<#list pageItems as pi>
+	<li class="${pi.style!}">
+		<a href="${pi.url!}">${pi.text!}</a>
+	</li>
+	</#list>
+</ul>
+</@pagination>

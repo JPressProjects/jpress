@@ -1,0 +1,80 @@
+<#include "_inc/_layout.html"/> 
+<@layout>
+<section  class="content-wrapper">
+    <p class="con-header clearfix">
+        <span class="jp-left con-info-bottom">注册JPress，让程序更简单</span>
+        <span class="jp-right"><a href="${CPATH}/user/login" class="con-info-color">使用已有账号登录</a></span>
+    </p>
+
+    <div class="con-box">
+    <div class="register-box-body">
+
+        <div class="form-group jp-form">
+            <label class="sr-only" for="phone-number"></label>
+            <div class="input-group jp-input-group">
+                <select class="form-control jp-border-none" >
+                    <option selected="selected">中国大陆(+86)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group jp-form">
+            <label class="sr-only" for="phone-number"></label>
+            <div class="input-group jp-input-group">
+                <div class="input-group-addon jp-border-none"><i class="fa fa-phone fa-lg"></i></div>
+                <input id="phone-number" type="text" class="form-control jp-border-none" placeholder="手机号/邮箱"/>
+            </div>
+        </div>
+
+        <div class="form-group jp-form">
+            <label class="sr-only" for="phone-password"></label>
+            <div class="input-group jp-input-group ">
+                <div class="input-group-addon jp-border-none">
+                    <i class="fa fa-unlock-alt fa-lg"></i>
+                </div>
+                <input id="phone-password" type="password" class="form-control jp-border-none" placeholder="密码" />
+                <div class="input-group-addon jp-border-none">
+                    <i class="fa fa-keyboard-o fa-lg"></i>
+                </div>
+            </div>
+        </div>
+        <div class="form-group jp-form">
+            <label class="sr-only" for="phone-password-comfire"></label>
+            <div class="input-group jp-input-group ">
+                <div class="input-group-addon jp-border-none">
+                    <i class="fa fa-unlock-alt fa-lg"></i>
+                </div>
+                <input id="phone-password-comfire" type="password" class="form-control jp-border-none" placeholder="再次确认密码" />
+                <div class="input-group-addon jp-border-none">
+                    <i class="fa fa-keyboard-o fa-lg"></i>
+                </div>
+            </div>
+        </div>
+
+
+            <div class="form-group jp-form con-reg jp-form-inline2 ">
+                <button class="btn btn-primary jp-inline-right1"><i class="fa fa-mobile-phone fa-lg"></i></button>
+                <button class="btn btn-primary jp-inline-right2"><i class="fa fa-envelope fa-lg"></i></button>
+                <label class="sr-only" ></label>
+                <div class="input-group jp-input-group ">
+                    <div class="input-group-addon jp-border-none">
+                        <i class="fa fa-eye fa-lg"></i>
+                    </div>
+                    <input type="password" size=20 class="form-control jp-border-none" placeholder="验证码输入" />
+
+                </div>
+
+                 <div class="con-reg-commend">
+                     <div class="arrow-left"></div>
+                     <div class="arrow-left-l">推荐使用语言验证</div>
+                 </div>
+            </div>
+
+        <button class="btn btn-primary btn-block">立即登录</button>
+        <h6> <span class="jp-left">使用邮箱注册</span>
+            <span class="jp-right"><a>为何我收不到验证码</a></span></h6>
+    </div>
+    </div>
+
+</section>
+</@layout>

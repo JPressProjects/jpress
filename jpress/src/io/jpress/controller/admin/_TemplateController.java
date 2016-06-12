@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
@@ -58,7 +60,7 @@ public class _TemplateController extends JBaseController {
 			return;
 		}
 		
-		boolean isSuccess = TemplateUtils.templateChang(id);
+		boolean isSuccess = TemplateUtils.templateChange(id);
 		if(isSuccess){
 			renderAjaxResultForSuccess();
 		} else {
@@ -173,21 +175,31 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void menu() {
-		List<Content> list = Content.DAO.findByModule("menu", "order_number ASC");
+		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		ModelSorter.sort(list);
-		setAttr("menus", list);
-
+		
+		List<Content> menulist = new ArrayList<Content>();
+		menulist.addAll(list);
+		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
 			Content c = Content.DAO.findById(id);
 			setAttr("menu", c);
+
+			if (id != null && list != null) {
+				ModelSorter.removeTreeBranch(list, id);
+			}
 		}
+
+		setAttr("menus", list);
+		setAttr("menulist",  menulist);
+		
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void menusave() {
 		Content c = getModel(Content.class);
-		c.setModule("menu");
+		c.setModule(Consts.MODULE_MENU);
 		c.setModified(new Date());
 		if (c.getCreated() == null) {
 			c.setCreated(new Date());

@@ -75,7 +75,7 @@ public class TemplateUtils {
 		return cTemplate;
 	}
 
-	public static boolean templateChang(String templateId) {
+	public static boolean templateChange(String templateId) {
 		List<Template> templateList = TemplateUtils.scanTemplates();
 
 		if (!StringUtils.isNotBlank(templateId) || templateList == null || templateList.isEmpty()) {

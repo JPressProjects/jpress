@@ -61,10 +61,18 @@ function doSubmit(){
 				<div class="form-group jp-input-item cf">
 					<div class="col-xs-5 jp-common-pad">
 						<label class="input-title">父节点</label> 
-						<select class="form-control input-sm" name="taxonomy.parent_id">
-							<option value="0">无</option>
-							<#list menus! as menu>
-							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option>
+						<select class="form-control input-sm" name="content.parent_id">
+							<option value="">无</option>
+							<#list menus! as m>
+							<#if menu ??>
+								<#if  m.id?? && menu.parent_id?? && m.id == menu.parent_id	>
+								<option value="${m.id}" selected="selected">${m.layerString!}${m.title!}</option>
+								<#else>
+								<option value="${m.id}">${m.layerString!}${m.title!}</option>
+								</#if>
+							<#else>
+								<option value="${m.id}">${m.layerString!}${m.title!}</option>
+							</#if>
 							</#list>
 						</select>
 					</div>
@@ -110,7 +118,7 @@ function doSubmit(){
 						</thead>
 						<tbody>
 
-							<#list menus!  as bean>
+							<#list menulist!  as bean>
 							<tr class="jp-onmouse">
 								<td><label class="jp-common-pad"><input
 										class="jp-common-pad" name="chkItem" type="checkbox"></label>

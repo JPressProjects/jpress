@@ -1,4 +1,5 @@
 # JPress
+![](http://7xv9xp.com1.z0.glb.clouddn.com/1.png)
 
 
 ## 简介
@@ -62,5 +63,17 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 
 
 ## 最最重要的的是
-JPress使用了最宽松的LGPL开源协议，和国内的那些采用了**私有协议**的“开源”产品并不是一个级别的。
+JPress使用了最宽松的LGPL开源协议，和国内的那些采用了 **私有协议** 的“开源”产品并不是一个级别的。
 
+###最后来几张截图
+![](http://7xv9xp.com1.z0.glb.clouddn.com/1.png)
+![](http://7xv9xp.com1.z0.glb.clouddn.com/2.png)
+![](http://7xv9xp.com1.z0.glb.clouddn.com/3.png)
+![](http://7xv9xp.com1.z0.glb.clouddn.com/4.png)
+![](http://7xv9xp.com1.z0.glb.clouddn.com/5.png)
+备注：第二套模板（the3）还不完善，如果要做网站请使用第一套模板 或者 自行设计一套模板。
+
+### 目前我在全职开发JPress，如果您觉得这个产品对您有用，您可以资助下我，让我有理由继续下去，非常感谢。
+![](http://7xv9xp.com1.z0.glb.clouddn.com/zz.jpg)
+
+### 您也可以加入JPress交流QQ群：288397536 欢迎给我提建议，我们相互学习。<br >或者给我邮件：fuhai999@gmail.com 

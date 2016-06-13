@@ -138,7 +138,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				@Override
 				public boolean run() throws SQLException {
 					if (c.delete()) {
-						return Mapping.DAO.deleteByContentId(c.getId());
+						Mapping.DAO.deleteByContentId(c.getId());
+						return true;
 					}
 					return false;
 				}

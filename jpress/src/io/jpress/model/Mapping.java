@@ -55,12 +55,12 @@ public class Mapping extends BaseMapping<Mapping> {
 	}
 	
 	
-	public boolean deleteByContentId(BigInteger id){
-		return Jdb.update("DELETE * FROM mapping m where  m.content_id = ?",id) > 0;
+	public void deleteByContentId(BigInteger id){
+		Jdb.update("DELETE FROM mapping WHERE content_id = ?",id);
 	}
 	
-	public boolean  deleteByTaxonomyId(BigInteger id){
-		return Jdb.update("DELETE * FROM mapping m where  m.taxonomy_id = ?",id) > 0;
+	public void  deleteByTaxonomyId(BigInteger id){
+		Jdb.update("DELETE FROM mapping WHERE taxonomy_id = ? ",id) ;
 	}
 
 	public long findCountByTaxonomyId(BigInteger id) {

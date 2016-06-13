@@ -120,7 +120,7 @@ public class InstallController extends JBaseController {
 		InstallUtils.setWebName(webname);
 
 		String salt = EncryptUtils.salt();
-		password = EncryptUtils.md5WithSalt(password, salt);
+		password = EncryptUtils.encryptPassword(password, salt);
 		InstallUtils.setWebFirstUser(username, password, salt);
 
 		InstallUtils.createDbProperties();

@@ -24,15 +24,16 @@ import com.jfinal.kit.HashKit;
 import io.jpress.model.User;
 
 public class EncryptUtils extends HashKit {
-	
+
 	public static String salt() {
 		int random = (int) (10 + (Math.random() * 10));
-		return UUID.randomUUID().toString().replace("-", "").substring(random);
+		return UUID.randomUUID().toString().replace("-", "").substring(random);// 随机长度
 	}
 
-	public static String md5WithSalt(String text, String salt) {
-		return md5(md5(text) + salt).substring(0, 20);
+	public static String encryptPassword(String password, String salt) {
+		return sha256(password + salt);
 	}
+	
 
 	public static boolean verlifyUser(User user, String password) {
 		if (user == null)
@@ -44,14 +45,13 @@ public class EncryptUtils extends HashKit {
 		if (user.getSalt() == null) {
 			return false;
 		}
-		return user.getPassword().equals(md5WithSalt(password, user.getSalt()));
+		return user.getPassword().equals(encryptPassword(password, user.getSalt()));
 	}
 
 	public static String generateUcode(User user) {
 		return md5(user.getSalt() + user.getId());
 	}
-	
-	
+
 	public static String signForRequest(Map<String, String> params, String secret) {
 		String[] keys = params.keySet().toArray(new String[0]);
 		Arrays.sort(keys);
@@ -64,17 +64,14 @@ public class EncryptUtils extends HashKit {
 				query.append(key).append(value);
 			}
 		}
-
 		query.append(secret);
 		return HashKit.md5(query.toString());
 	}
 
-
-
 	public static void main(String[] args) {
-		 System.out.println(md5WithSalt("123456","123"));
+		System.out.println(encryptPassword("123456", "8037242c9bafc941"));
 		// 51e34a82801b3a98396e, d632686d14972f3
-//		System.out.println(md5WithSalt("xxx", "d632686d14972f3"));
+		// System.out.println(md5WithSalt("xxx", "d632686d14972f3"));
 	}
 
 }

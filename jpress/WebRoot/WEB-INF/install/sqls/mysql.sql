@@ -199,12 +199,12 @@ DROP TABLE IF EXISTS `{table_prefix}user`;
 
 CREATE TABLE `{table_prefix}user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) DEFAULT NULL,
-  `password` varchar(64) DEFAULT NULL,
+  `username` varchar(128) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
   `salt` varchar(32) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
   `phone` varchar(32) DEFAULT NULL,
-  `nickname` varchar(64) DEFAULT NULL,
+  `nickname` varchar(128) DEFAULT NULL,
   `amount` decimal(10,2) unsigned DEFAULT '0.00',
   `gender` varchar(16) DEFAULT NULL,
   `role` varchar(32) DEFAULT 'visitor',

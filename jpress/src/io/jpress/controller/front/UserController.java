@@ -178,7 +178,7 @@ public class UserController extends BaseFrontController {
 		user.setPhone(phone);
 
 		String salt = EncryptUtils.salt();
-		password = EncryptUtils.md5WithSalt(password, salt);
+		password = EncryptUtils.encryptPassword(password, salt);
 		user.setPassword(password);
 		user.setSalt(salt);
 		user.setCreateSource("register");

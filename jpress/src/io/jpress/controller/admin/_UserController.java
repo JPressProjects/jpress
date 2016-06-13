@@ -48,7 +48,7 @@ public class _UserController extends JBaseCRUDController<User> {
 		if(m.getId() != null && m.getPassword() != null){
 			User dbUser = User.DAO.findById(m.getId());
 			m.setSalt(dbUser.getSalt());
-			String password = EncryptUtils.md5WithSalt(m.getPassword(), dbUser.getSalt());
+			String password = EncryptUtils.encryptPassword(m.getPassword(), dbUser.getSalt());
 			m.setPassword(password);
 		}
 		
@@ -57,7 +57,7 @@ public class _UserController extends JBaseCRUDController<User> {
 			String salt = EncryptUtils.salt();
 			m.setSalt(salt);
 			
-			String password = EncryptUtils.md5WithSalt(m.getPassword(), salt);
+			String password = EncryptUtils.encryptPassword(m.getPassword(), salt);
 			m.setPassword(password);
 		}
 		

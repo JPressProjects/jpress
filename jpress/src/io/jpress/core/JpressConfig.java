@@ -35,6 +35,7 @@ import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
+import io.jpress.Consts;
 import io.jpress.core.cache.ActionCacheHandler;
 import io.jpress.core.db.DbDialect;
 import io.jpress.core.db.DbDialectFactory;
@@ -57,7 +58,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setI18nDefaultBaseName("language");
 		constants.setErrorRenderFactory(new JErrorRenderFactory());
 		constants.setBaseUploadPath("attachment");
-		constants.setEncoding("utf-8");
+		constants.setEncoding(Consts.CHARTSET_UTF8);
 		constants.setMaxPostSize(1024*1024*200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
 

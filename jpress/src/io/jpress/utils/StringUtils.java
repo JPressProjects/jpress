@@ -22,11 +22,13 @@ import java.net.URLEncoder;
 
 import com.jfinal.log.Log;
 
+import io.jpress.Consts;
+
 public class StringUtils {
 	private static final Log log = Log.getLog(StringUtils.class);
 	public static String urlDecode(String string) {
 		try {
-			return URLDecoder.decode(string, "utf-8");
+			return URLDecoder.decode(string, Consts.CHARTSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
 			log.error("urlDecode is error", e);
 		}
@@ -35,7 +37,7 @@ public class StringUtils {
 
 	public static String urlEncode(String string) {
 		try {
-			return URLEncoder.encode(string, "utf-8");
+			return URLEncoder.encode(string, Consts.CHARTSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
 			log.error("urlEncode is error", e);
 		}
@@ -44,7 +46,7 @@ public class StringUtils {
 	
 	public static String urlRedirect(String redirect){
 		try {
-			redirect = new String(redirect.getBytes("UTF-8"), "ISO8859_1");
+			redirect = new String(redirect.getBytes(Consts.CHARTSET_UTF8), "ISO8859_1");
 		} catch (UnsupportedEncodingException e) {
 			log.error("urlRedirect is error", e);
 		}

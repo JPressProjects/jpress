@@ -33,12 +33,14 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import io.jpress.Consts;
+
 public class HttpUtils {
 
 	private static final String TAG = "HttpUtils";
 	private static final int mReadTimeOut = 1000 * 10; // 10秒
 	private static final int mConnectTimeOut = 1000 * 5; // 5秒
-	private static final String CHAR_SET = "utf-8";
+	private static final String CHAR_SET = Consts.CHARTSET_UTF8;
 	private static final int mRetry = 2; // 默认尝试访问次数
 
 	public static String get(String url) throws Exception {

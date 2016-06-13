@@ -19,6 +19,8 @@ public class Consts {
 
 	public static final String COOKIE_LOGINED_USER = "user";
 
+	public static final String CHARTSET_UTF8 = "UTF-8";
+
 	public static final String ROUTER_CONTENT = "/c";
 	public static final String ROUTER_TAXONOMY = "/t";
 	public static final String ROUTER_USER = "/user";
@@ -41,7 +43,7 @@ public class Consts {
 	public static final String ATTR_GLOBAL_WEB_SUBTITLE = "WEB_SUBTITLE";
 	public static final String ATTR_GLOBAL_META_KEYWORDS = "META_KEYWORDS";
 	public static final String ATTR_GLOBAL_META_DESCRIPTION = "META_DESCRIPTION";
-	
+
 	public static final String COOKIE_WECHAT_OPENID = "_wechat_openid";
 	public static final String COOKIE_WECHAT_NICKNAME = "_wechat_nickname";
 	public static final String COOKIE_WECHAT_AVATAR = "_wechat_avatar";

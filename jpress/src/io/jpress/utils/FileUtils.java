@@ -27,6 +27,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;import com.jfinal.kit.PathKit;
 
+import io.jpress.Consts;
+
 public class FileUtils {
 
 	public static String getSuffix(String fileName) {
@@ -59,12 +61,12 @@ public class FileUtils {
 			for (int len = 0; (len = fis.read(buffer)) > 0;) {
 				baos.write(buffer, 0, len);
 			}
-
+			return new String(baos.toByteArray(),Consts.CHARTSET_UTF8);
 		} catch (Exception e) {
 		} finally {
 			close(fis, baos);
 		}
-		return new String(baos.toByteArray());
+		return null;
 	}
 
 	public static void writeString(File file, String string) {

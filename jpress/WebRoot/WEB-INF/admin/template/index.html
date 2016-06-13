@@ -1,7 +1,7 @@
 <#include "../_inc/_layout.html"/>
 <#macro script>
 function doAjax(id){
-	 var url = "/admin/template/enable?ucode=${(ucode)!}&id="+id;
+	 var url = "${CPATH}/admin/template/enable?ucode=${(ucode)!}&id="+id;
 	  $.get(url, function(result){
 			if(result.errorCode > 0){
 				alert(result.message);

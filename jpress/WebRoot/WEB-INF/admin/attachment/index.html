@@ -65,11 +65,13 @@ function openlayer(id){
 					<div class="col-xs-12 ">
 						<div class="row">
 							<ul class="list-inline list-unstyled">
-								<#if page??> <#list page.getList() as bean>
+								<#if page??> 
+								<#list page.getList() as bean>
 								<li>
-									<img src="${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+									<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
 								</li>
-								</#list> </#if>
+								</#list> 
+								</#if>
 							</ul>
 
 						</div>

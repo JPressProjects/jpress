@@ -38,16 +38,17 @@ public class CommentController extends BaseFrontController {
 	}
 
 	public void submit() {
+
 		String gotoUrl = getPara("goto");
 		if (gotoUrl == null) {
 			gotoUrl = getRequest().getHeader("Referer");
 		}
-		
+
 		String anchor = getPara("anchor");
-		if(gotoUrl != null && anchor!=null ){
-			gotoUrl += "#"+anchor;
+		if (gotoUrl != null && anchor != null) {
+			gotoUrl += "#" + anchor;
 		}
-		
+
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 必须登录
@@ -55,8 +56,8 @@ public class CommentController extends BaseFrontController {
 		if (comment_must_logined != null && comment_must_logined) {
 			if (userId == null) {
 				String redirect = Consts.ROUTER_USER_LOGIN;
-				if(StringUtils.isNotBlank(gotoUrl)){
-					redirect += "?goto="+StringUtils.urlEncode(gotoUrl);
+				if (StringUtils.isNotBlank(gotoUrl)) {
+					redirect += "?goto=" + StringUtils.urlEncode(gotoUrl);
 				}
 				redirect(redirect);
 				return;
@@ -82,8 +83,17 @@ public class CommentController extends BaseFrontController {
 			return;
 		}
 
-		String author = getPara("author");
 		String text = getPara("text");
+		if (!StringUtils.isNotBlank(text)) {
+			if (isAjaxRequest()) {
+				renderAjaxResultForError("text is blank!");
+			} else {
+				renderText("comment fail,text is blank!");
+			}
+			return;
+		}
+
+		String author = getPara("author");
 		String email = getPara("email");
 
 		String ip = getIPAddress();
@@ -101,6 +111,7 @@ public class CommentController extends BaseFrontController {
 
 		final Comment comment = new Comment();
 		comment.setContentModule(content.getModule());
+		comment.setType(Comment.TYPE_COMMENT);
 		comment.setContentId(content.getId());
 		comment.setText(text);
 		comment.setIp(ip);
@@ -111,21 +122,21 @@ public class CommentController extends BaseFrontController {
 		comment.setStatus(status);
 		comment.setUserId(userId);
 		comment.setCreated(new Date());
-		
-		if(comment.save()){
+
+		if (comment.save()) {
 			MessageKit.sendMessage(Actions.COMMENT_ADD, comment);
 		}
-		
+
 		if (isAjaxRequest()) {
 			renderAjaxResultForSuccess();
 		} else {
 			if (gotoUrl != null) {
 				redirect(gotoUrl);
-			}else{
+			} else {
 				renderText("comment ok");
 			}
 		}
-		
+
 		ActionCacheManager.clearCache();
 	}
 

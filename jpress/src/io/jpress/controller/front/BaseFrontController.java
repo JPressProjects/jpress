@@ -77,14 +77,5 @@ public class BaseFrontController extends JBaseController {
 		return this;
 	}
 	
-//	@Override
-//	public void redirect(String url) {
-//		try {
-//			url = new String(url.getBytes("UTF-8"), "ISO8859_1");
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-//		super.redirect(url);
-//	}
 
 }

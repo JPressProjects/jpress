@@ -99,8 +99,7 @@ public class ApiController extends JBaseController {
 		}
 	}
 
-	private void invoke(String methodName) throws SecurityException, NoSuchMethodException, IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	private void invoke(String methodName) throws NoSuchMethodException, Exception {
 		Method method = ApiController.class.getDeclaredMethod(methodName);
 		if (method == null) {
 			throw new NoSuchMethodException();

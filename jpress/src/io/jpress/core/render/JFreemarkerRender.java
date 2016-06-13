@@ -56,7 +56,7 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		OutputStreamWriter osw = null;
 		PrintWriter responseWriter = null;
 		try {
-			osw = new OutputStreamWriter(baos, "utf-8");
+			osw = new OutputStreamWriter(baos);
 			responseWriter = response.getWriter();
 
 			Template template = getConfiguration().getTemplate(view);

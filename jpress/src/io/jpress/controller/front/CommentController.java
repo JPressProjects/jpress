@@ -53,7 +53,9 @@ public class CommentController extends BaseFrontController {
 
 		// 必须登录
 		Boolean comment_must_logined = Option.findValueAsBool("comment_must_logined");
-		if (comment_must_logined != null && comment_must_logined) {
+
+		// 不设置，默认必须登录
+		if (comment_must_logined == null || comment_must_logined == true) {
 			if (userId == null) {
 				String redirect = Consts.ROUTER_USER_LOGIN;
 				if (StringUtils.isNotBlank(gotoUrl)) {
@@ -107,6 +109,11 @@ public class CommentController extends BaseFrontController {
 			} else {
 				author = user.getUsername();
 			}
+		}
+
+		if (!StringUtils.isNotBlank(author)) {
+			String defautAuthor = Option.findValue("comment_default_nickname");
+			author = StringUtils.isNotBlank(defautAuthor) ? defautAuthor : "网友";
 		}
 
 		final Comment comment = new Comment();

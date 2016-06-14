@@ -25,6 +25,7 @@ import io.jpress.model.User;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.EncryptUtils;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/user", viewPath = "/WEB-INF/admin/user")
 @Before(ActionCacheClearInterceptor.class)
@@ -44,20 +45,22 @@ public class _UserController extends JBaseCRUDController<User> {
 	@Override
 	public boolean onModelSaveBefore(User m) {
 		
+		String password = getPara("password");
+		
 		//修改了密码
-		if(m.getId() != null && m.getPassword() != null){
+		if(m.getId() != null && StringUtils.isNotEmpty(password)){
 			User dbUser = User.DAO.findById(m.getId());
 			m.setSalt(dbUser.getSalt());
-			String password = EncryptUtils.encryptPassword(m.getPassword(), dbUser.getSalt());
+			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
 			m.setPassword(password);
 		}
 		
 		//新建用户
-		if(m.getId() == null && m.getPassword() != null){
+		if(m.getId() == null && StringUtils.isNotEmpty(password)){
 			String salt = EncryptUtils.salt();
 			m.setSalt(salt);
 			
-			String password = EncryptUtils.encryptPassword(m.getPassword(), salt);
+			password = EncryptUtils.encryptPassword(password, salt);
 			m.setPassword(password);
 		}
 		

@@ -23,9 +23,8 @@ public class SettingChangedListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
-
-		String[] keys = message.getData();
-
+//		List<String> keys = message.getData();
+		//do thing
 	}
 
 	@Override

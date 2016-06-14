@@ -15,7 +15,9 @@
  */
 package io.jpress.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.upload.UploadFile;
@@ -30,6 +32,7 @@ import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.AttachmentUtils;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
 @Before(ActionCacheClearInterceptor.class)
@@ -48,34 +51,44 @@ public class _OptionController extends JBaseCRUDController<User> {
 			fileList = getFiles();
 		}
 
-		String autosaveString = getPara("autosave");
-		if (autosaveString == null || "".equals(autosaveString.trim())) {
-			renderAjaxResultForError("there is nothing to save.");
-			return;
+		
+		List<String> keyList = new ArrayList<String>();
+		Map<String, String[]> paraMap = getParaMap();
+		if (paraMap != null && !paraMap.isEmpty()) {
+			for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
+				if (entry.getValue() != null && entry.getValue().length > 0) {
+					keyList.add(entry.getKey());
+					autoSave(entry.getKey(), entry.getValue()[0], fileList);
+				}
+			}
 		}
+		
 
-		String[] keys = autosaveString.split(",");
-		if (keys != null && keys.length > 0) {
-			for (String key : keys) {
-				String value = null;
-				if (fileList != null && fileList.size() > 0) {
-					for (UploadFile ufile : fileList) {
-						if (key.equals(ufile.getParameterName())) {
-							value = AttachmentUtils.moveFile(ufile);
-						}
-					}
+		String autosaveString = getPara("autosave");
+		if (StringUtils.isNotBlank(autosaveString)) {
+			String[] keys = autosaveString.split(",");
+			if (keys != null && keys.length > 0) {
+				for (String key : keys) {
+					keyList.add(key);
+					autoSave(key, getPara(key, ""), fileList);
 				}
-				if (value == null) {
-					value = getPara(key, "");
-				}else{
-					value = value.replace("\\", "/");
-				}
-				Option.saveOrUpdate(key, value);
 			}
 		}
 
-		MessageKit.sendMessage(Actions.SETTING_CHANGED, keys);
+		MessageKit.sendMessage(Actions.SETTING_CHANGED, keyList);
 		renderAjaxResultForSuccess("save ok");
+	}
+
+	private void autoSave(String key, String value, List<UploadFile> fileList) {
+		if (fileList != null && fileList.size() > 0) {
+			for (UploadFile ufile : fileList) {
+				if (key.equals(ufile.getParameterName())) {
+					value = AttachmentUtils.moveFile(ufile);
+					value = value.replace("\\", "/");
+				}
+			}
+		}
+		Option.saveOrUpdate(key, value);
 	}
 
 }

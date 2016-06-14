@@ -20,27 +20,27 @@
 <body class="blog-body">
 <header class="x-layout-100">
   <!-- -->
-  <div class="x-layout-100 x-background-white x-part-border-bottom">
-    <div class="x-pc-width clearfix x-li-heigth-2">
-      <ul class="x-pull-left x-layout-50 clearfix">
-        <li class="x-pull-left x-part-border-right x-part-border-left"><a class="x-font-grey x-font-small x-padding-left-rem1 x-padding-right-rem1" href="${CPATH!}/">首页</a></li>
-        <li class="x-pull-left x-part-border-right x-padding-left-rem1 x-padding-right-rem1"><a class="x-font-grey x-font-small" href="${CPATH!}/about">联系我们</a></li>
+  <div class="x-layout-100 jblog-link">
+    <div class="jblog-link-content">
+      <ul class="jblog-link-content-left">
+        <li class="x-part-border-left"><a class="x-padding-left-rem1 x-padding-right-rem1" href="${CPATH!}/">首页</a></li>
+        <li class="x-padding-left-rem1 x-padding-right-rem1"><a href="${CPATH!}/about">联系我们</a></li>
       </ul>
-      <ul class="x-pull-right x-layout-50 clearfix">
-        <li class="x-pull-right x-part-border-right"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-weibo" aria-hidden="true"></i></a></li>
-        <li class="x-pull-right x-part-border-right"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
-        <li class="x-pull-right x-part-border-right x-part-border-left"><a class="x-font-grey x-padding-left-rem1 x-padding-right-rem1" href="#"><i class="fa fa-weixin" aria-hidden="true"></i></a></li>
+      <ul class="jblog-link-content-right">
+        <li><a href="#"><i class="fa fa-weibo" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
+        <li class="x-part-border-left"><a href="#"><i class="fa fa-weixin" aria-hidden="true"></i></a></li>
       </ul>
     </div>
   </div>
   <!-- -->
-  <div class="x-layout-100 x-part-border-bottom">
-    <div class="x-pc-width clearfix x-item-space-6 x-item-lh-6">
-      <div class="x-layout-50 x-pull-left x-font-title24 x-sm-logo"><a href="${CPATH}/">${WEB_NAME!}</a></div>
-      <div class="x-layout-50 x-pull-left x-sm-adv">
-      <a href="${option('jpblog_banner_url')!'#'}">
-      <img class="x-full-image" src="${option('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
-      </a>
+  <div class="x-layout-100 jblog-link-logo">
+    <div class="jblog-link-logo-content">
+      <div class="jblog-link-logo-image"><a href="${CPATH}/">${WEB_NAME!}</a></div>
+      <div class="jblog-link-logo-adv">
+	      <a href="${option('jpblog_banner_url')!'#'}">
+	      	<img src="${option('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
+	      </a>
       </div>
     </div>
   </div>
@@ -48,18 +48,20 @@
   <div class="jblog-nav">
     <div class="jblog-nav-content">
       <ul>
-      	<li><a href="${CPATH}/">首页 
+      	<li><a href="${CPATH}/">首页
       	<#if "/" == _request.requestURI!>
       	<span class="x-a-border"></span>
       	</#if>
-      	</a></li>
+      	</a>
+      	</li>
       	<@jp_menu>
         	<#list menus as menu>
-        		<li class="x-pull-left x-layout-10 x-font-center">
-        		<a class="x-font-darkgray x-a-active person-relative block-a" href="${menu.text!}">${menu.title}
+        		<li >
+        		<a  href="${menu.text!}">${menu.title}
         		<#if menu.flag ??>
         			<span class="x-a-border"></span>
         		</#if>
+        		<span class="x-a-border"></span>
         		</a>
         		</li>
         	</#list>

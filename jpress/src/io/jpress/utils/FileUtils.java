@@ -73,7 +73,7 @@ public class FileUtils {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file, false);
-			fos.write(string.getBytes());
+			fos.write(string.getBytes(Consts.CHARTSET_UTF8));
 		} catch (Exception e) {
 		} finally {
 			close(null, fos);

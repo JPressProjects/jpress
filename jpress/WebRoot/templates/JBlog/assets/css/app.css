@@ -1416,8 +1416,9 @@ a.x-a-active:hover{
 }
 .jblog-nav-content ul li{
 	float:left;
-	width:10%;
 	text-align:center;
+	margin-right:2rem;
+	
 }
 .jblog-nav-content ul li a{
 	color:#2a2a2a;
@@ -1426,6 +1427,8 @@ a.x-a-active:hover{
     height: 100%;
     color:#333;
     position: relative;
+    padding:0 0.3rem;
+    
 } 
 .jblog-nav-content ul li a:hover{
     color:#19b5fe;
@@ -1485,7 +1488,64 @@ a.x-a-active:hover{
 .login-button-box a:hover,.login-box a:hover{
 	text-decoration:underline;
 }
-
+.jblog-link{
+	background-color: #fff;
+	border-bottom:1px solid #ededed;
+}
+.jblog-link-content{
+	width: 1120px;
+	margin:0 auto;
+	height: 2rem;
+	line-height: 2rem;
+}
+.jblog-link-content ul{
+	float: left;
+	width: 50%;
+	overflow: hidden;
+}
+.jblog-link-content-right li{
+	float: right;
+	border-right:1px solid #ededed;
+}
+.jblog-link-content-right li a{
+	color:#999;
+	padding-left:1rem;
+	padding-right:1rem;
+}
+.jblog-link-content-right li a:hover{
+	color:#19b5fe;
+}
+.jblog-link-content-left li{
+	float: left;
+	border-right:1px solid #ededed;
+}
+.jblog-link-content-left li a{
+	color:#999;
+	font-size:0.8rem;
+}
+.jblog-link-logo{
+	border-bottom:1px solid #ededed;
+}
+.jblog-link-logo-content{
+	width: 1120px;
+	margin:0 auto;
+	overflow: hidden;
+	height:6rem;
+	line-height: 6rem;
+}
+.jblog-link-logo-image{
+	width: 50%;
+	float: left;
+	font-size:2.4rem;
+}
+.jblog-link-logo-adv{
+	width: 50%;
+	float: left;
+}
+.jblog-link-logo-adv img{
+	width: 100%;
+	height: 100%;
+}
 
 @media all and (max-width:1120px){
     .x-pc-width{
@@ -1502,9 +1562,6 @@ a.x-a-active:hover{
     .blog-sm-right{
         display: none;
     }
-    .jblog-nav-content{
-        display: none;
-    }
     .x-sm-logo{
         width: 100%;
         float: none;
@@ -1512,9 +1569,11 @@ a.x-a-active:hover{
     }
     .jblog-nav-content li{
         width: auto;
+        margin-right:1rem;
     }
-    .jblog-nav-content li a{
-        padding:0 0.5rem;
+    .jblog-nav-content ul li a{
+        padding:0 0.1rem;
+        
     }
     .x-box-tags p{
         width: 25%;
@@ -1560,8 +1619,14 @@ a.x-a-active:hover{
     .x-sm-banner-right{
         display: none;
     }
-    .jblog-nav-content a{
+    .jblog-nav-content ul li{
+    margin-right:0.4rem;
+    }
+    .jblog-nav-content ul li a{
         font-size:0.9rem;
+        padding:0 0.1rem;
+        
+    
     }
     .x-sm-item-display{
         display: none;

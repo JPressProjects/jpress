@@ -108,6 +108,12 @@ public class ContentController extends BaseFrontController {
 		} else {
 			id = getParaToBigInteger("id");
 			slug = getPara("slug");
+			
+			if(id == null && slug == null){
+				renderError(404);
+				return;
+			}
+			
 			pageNumber = getParaToInt("pageNumber", 1);
 			pageSize = getParaToInt("pageSize", 10);
 		}

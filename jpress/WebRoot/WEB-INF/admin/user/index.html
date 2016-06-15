@@ -1,4 +1,35 @@
 <#include "../_inc/_layout.html"/> 
+<#macro script>
+function frozen(id){
+	$.get("${CPATH}/admin/user/frozen?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function restore(id){
+	$.get("${CPATH}/admin/user/restore?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/user/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -73,7 +104,7 @@
 					<tr>
 						<th style="width: 20px"><label class="jp-common-pad "> <input class="jp-common-pad " id="dataItem" onclick="checkAll(this)" title="全选" type="checkbox">
 						</label></th>
-						<th>用户名</th>
+						<th style="width: 20%">用户名</th>
 						<th>昵称</th>
 						<th>简介</th>
 						<th>电子邮件</th>
@@ -86,13 +117,20 @@
 					<tr class="jp-onmouse">
 						<td><label class="jp-common-pad"> <input class="jp-common-pad" name="dataItem" type="checkbox">
 						</label></td>
-						<td><strong><a href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">${bean.username!}</a></strong>
+						<td>
+						<strong><a href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">${bean.username!}</a> <#if "frozen" == bean.status!> (冻结)</#if></strong>
 							<div class="jp-flash-comment">
 								<p class="row-actions jp-cancel-pad">
-									<span class="approve"> <a class="vim-a" href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">编辑</a>
-									</span>
+									<span class="approve"> <a class="vim-a" href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">编辑</a></span>
+									<#if "frozen" != bean.status!> 
+									<span class="spam"> | <a class="vim-s vim-destructive" href="javascript:;" onclick="frozen('${bean.id}')">冻结</a></span> 
+									<#else> 
+									<span class="approve"> | <a class="vim-a" href="javascript:;" onclick="restore('${bean.id}')">解冻</a></span> 
+									</#if>
+									<span class="spam"> | <a class="vim-s vim-destructive" href="javascript:;" onclick="del('${bean.id}')">永久删除</a></span> 
 								</p>
-							</div></td>
+							</div>
+						</td>
 						<td>${bean.nickname!}</td>
 						<td>${bean.signature!}</td>
 						<td>${bean.email!}</td>

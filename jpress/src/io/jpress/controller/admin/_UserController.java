@@ -15,8 +15,11 @@
  */
 package io.jpress.controller.admin;
 
+import java.math.BigInteger;
+
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
@@ -24,6 +27,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
@@ -31,49 +35,82 @@ import io.jpress.utils.StringUtils;
 @Before(ActionCacheClearInterceptor.class)
 @RouterNotAllowConvert
 public class _UserController extends JBaseCRUDController<User> {
-	
-	
+
 	@Override
 	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
 		setAttr("userCount", User.DAO.doFindCount());
 		setAttr("adminCount", User.DAO.findAdminCount());
-		
+
 		return mDao.doPaginate(pageNumber, pageSize);
 	}
-	
-	
+
 	@Override
 	public boolean onModelSaveBefore(User m) {
-		
+
 		String password = getPara("password");
-		
-		//修改了密码
-		if(m.getId() != null && StringUtils.isNotEmpty(password)){
+
+		// 修改了密码
+		if (m.getId() != null && StringUtils.isNotEmpty(password)) {
 			User dbUser = User.DAO.findById(m.getId());
 			m.setSalt(dbUser.getSalt());
 			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
 			m.setPassword(password);
 		}
-		
-		//新建用户
-		if(m.getId() == null && StringUtils.isNotEmpty(password)){
+
+		// 新建用户
+		if (m.getId() == null && StringUtils.isNotEmpty(password)) {
 			String salt = EncryptUtils.salt();
 			m.setSalt(salt);
-			
+
 			password = EncryptUtils.encryptPassword(password, salt);
 			m.setPassword(password);
 		}
-		
+
+		UploadFile uf = getFile();
+		if (uf != null) {
+			String newPath = AttachmentUtils.moveFile(uf);
+			m.setAvatar(newPath);
+		}else{
+			String url = getPara("user_avatar");
+			if(StringUtils.isNotBlank(url)){
+				m.setAvatar(url.trim());
+			}
+		}
+
 		return super.onModelSaveBefore(m);
 	}
 
-	public void info(){
+	public void info() {
 		User user = getAttr(Consts.ATTR_USER);
+		if(user !=null){
+			user = User.DAO.findById(user.getId());
+		}
 		setAttr("user", user);
 		render("edit.html");
 	}
-	
-	
-	
+
+	public void frozen() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
+			User user = User.DAO.findById(id);
+			user.setStatus(User.STATUS_FROZEN);
+			user.update();
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
+	}
+
+	public void restore() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
+			User user = User.DAO.findById(id);
+			user.setStatus(User.STATUS_NORMAL);
+			user.update();
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
+	}
 
 }

@@ -16,6 +16,11 @@ function doSubmit(){
 			}
 	});
  }
+ 
+ $(document).ready(function(){
+  	$("#password").show();
+});
+
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
@@ -24,7 +29,7 @@ function doSubmit(){
 </section>
 <!-- Main content -->
 <section class="content">
-	<form action="${CPATH}/admin/user/save" method="post" id="form">
+	<form action="${CPATH}/admin/user/save" method="post" id="form" enctype="multipart/form-data">
 	<input type="hidden" name="user.id" value="${(user.id)!}">
 	<div class="col-xs-12 ">
 		<div class="row">
@@ -117,6 +122,22 @@ function doSubmit(){
 					</div>
 					<div class="clr"></div>
 				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 jp-set-info">
+						头像
+					</div>
+					<div class="col-sm-9 jp-common-pad ">
+						<div class="col-sm-7 ">
+							<img alt="" src="${(user.avatar)!}" class="jp-grids-photos img-responsive">
+							<br />
+							<input name="user_avatar_file" type="file">
+							<input class="form-control input-md" type="text" name="user_avatar" value="${(user.avatar)!}">
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
 			</ul>
 			
 		</div>
@@ -128,15 +149,14 @@ function doSubmit(){
 					<div class="col-sm-9 jp-common-pad ">
 						<div class="col-sm-7  ">
 							<div class="form-group">
-								<input id="display-pw" class="form-control input-md" autocomplete="off" spellcheck="false"  type="password" name="password" >
-								<button class="btn btn-default btn-sm" id="show-pw" >显示密码</button>
+								<input class="form-control input-md" class="pull-left" id="password" name="password" autocomplete="off" spellcheck="false"  type="password" >
+								<input type="password" style="max-height: 1px;max-width: 1px;opacity:0;"><!-- 防止密码被自动填充 -->
 							</div>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</li>
 			</ul>
-			
 		</div>
 		
 	</div>
@@ -146,7 +166,6 @@ function doSubmit(){
 			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
 		</div>
 		</div>
-		
 	</form>
 </section>
 <!-- /.content -->

@@ -30,8 +30,9 @@ public class User extends BaseUser<User> {
 	private static final long serialVersionUID = 1L;
 	public static final User DAO = new User();
 
-	public String ROLE_ADMINISTRATOR = "administrator";
-
+	public static final String ROLE_ADMINISTRATOR = "administrator";
+	public static final String STATUS_NORMAL = "normal";
+	public static final String STATUS_FROZEN = "frozen";
 
 	public User findUserById(final BigInteger userId) {
 		return getCache(userId, new IDataLoader() {
@@ -76,21 +77,21 @@ public class User extends BaseUser<User> {
 	public long findAdminCount() {
 		return doFindCount(" role = ? ", "administrator");
 	}
-	
+
 	public boolean updateContentCount() {
 		long count = 0;
 		List<Module> modules = Jpress.currentTemplate().getModules();
-		if(modules!=null && !modules.isEmpty()){
-			for(Module m : modules){
+		if (modules != null && !modules.isEmpty()) {
+			for (Module m : modules) {
 				long moduleCount = Content.DAO.findCountInNormalByModuleAndUserId(m.getName(), getId());
 				count += moduleCount;
 			}
 		}
-		
+
 		this.setContentCount(count);
 		return this.update();
 	}
-	
+
 	public boolean updateCommentCount() {
 		long count = Comment.DAO.findCountByUserIdInNormal(getId());
 		this.setCommentCount(count);

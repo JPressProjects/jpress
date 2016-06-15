@@ -18,16 +18,19 @@ package io.jpress.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 
+import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 
 public class HookInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
-
-		Boolean result = HookInvoker.intercept(inv);
-
-		if (result == null || !result) {
+		if (Jpress.isInstalled() && Jpress.isLoaded()) {
+			Boolean result = HookInvoker.intercept(inv);
+			if (result == null || !result) {
+				inv.invoke();
+			}
+		} else {
 			inv.invoke();
 		}
 	}

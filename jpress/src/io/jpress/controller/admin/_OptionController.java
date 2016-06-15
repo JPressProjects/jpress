@@ -51,7 +51,6 @@ public class _OptionController extends JBaseCRUDController<User> {
 			fileList = getFiles();
 		}
 
-		
 		List<String> keyList = new ArrayList<String>();
 		Map<String, String[]> paraMap = getParaMap();
 		if (paraMap != null && !paraMap.isEmpty()) {
@@ -62,21 +61,23 @@ public class _OptionController extends JBaseCRUDController<User> {
 				}
 			}
 		}
-		
 
 		String autosaveString = getPara("autosave");
 		if (StringUtils.isNotBlank(autosaveString)) {
 			String[] keys = autosaveString.split(",");
 			if (keys != null && keys.length > 0) {
 				for (String key : keys) {
-					keyList.add(key);
-					autoSave(key, getPara(key, ""), fileList);
+					if (StringUtils.isNotBlank(key)) {
+						key = key.trim();
+						keyList.add(key);
+						autoSave(key, getRequest().getParameter(key), fileList);
+					}
 				}
 			}
 		}
 
 		MessageKit.sendMessage(Actions.SETTING_CHANGED, keyList);
-		renderAjaxResultForSuccess("save ok");
+		renderAjaxResultForSuccess();
 	}
 
 	private void autoSave(String key, String value, List<UploadFile> fileList) {
@@ -88,6 +89,11 @@ public class _OptionController extends JBaseCRUDController<User> {
 				}
 			}
 		}
+
+		if ("".equals(value)) {
+			value = null;
+		}
+
 		Option.saveOrUpdate(key, value);
 	}
 

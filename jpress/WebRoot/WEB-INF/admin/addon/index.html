@@ -1,4 +1,35 @@
-<#include "../_inc/_layout.html"/> 
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function stop(id){
+	$.get("${CPATH}/admin/addon/stop?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function start(id){
+	$.get("${CPATH}/admin/addon/start?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function uninstall(id){
+	$.get("${CPATH}/admin/addon/uninstall?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -70,10 +101,16 @@
 						<#list addons as addon>
 						<tr class="jp-onmouse">
 							<td><label class="jp-common-pad"><input class="jp-common-pad" name="chkItem" type="checkbox"></label></td>
-							<td><strong>${addon.title!}</strong>
+							<td><strong>${addon.title!}</strong> <#if addon.getStart() >（已启用）<#else >（尚未启用）</#if>
 								<div class="jp-flash-comment">
 									<p class="jp-common-pad">
-										<span class="approve"><a class="vim-a" href="#">编辑</a></span> <span class="edit">| <a title="停用" href="#">停用</a></span>
+										<span class="approve"><a class="vim-a" href="#">编辑</a></span> 
+										<#if addon.getStart() >
+										<span class="edit">| <a title="停用" href="javascript:;" onclick="stop('${addon.id!}')">停用</a></span>
+										<#else >
+										<span class="edit">| <a title="启用" href="javascript:;"  onclick="start('${addon.id!}')">启用</a></span>
+										</#if>
+										<span class="edit">| <a title="卸载" href="javascript:;"  onclick="uninstall('${addon.id!}')">卸载</a></span>
 									</p>
 								</div></td>
 							<td>${addon.description!}

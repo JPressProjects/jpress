@@ -17,7 +17,7 @@ package io.jpress.core.addon;
 
 public interface IAddon {
 
-	public void onStart(Hooks hooks);
+	public boolean onStart(Hooks hooks);
 
-	public void onStop();
+	public boolean onStop();
 }

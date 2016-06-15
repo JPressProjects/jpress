@@ -27,6 +27,10 @@ import java.util.jar.Manifest;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
+import io.jpress.model.Option;
+import io.jpress.utils.FileUtils;
+import io.jpress.utils.StringUtils;
+
 /**
  * 插件管理器，负责加载、启动、停止插件。
  * 
@@ -37,32 +41,70 @@ public class AddonManager {
 	private static final Log log = Log.getLog(AddonManager.class);
 
 	private List<Addon> addonList = new ArrayList<Addon>();
+	private List<Addon> startedAddonList = new ArrayList<Addon>();
 	private static AddonManager manager = new AddonManager();
 
 	private AddonManager() {
 		addonList.clear();
-		load();
+		startedAddonList.clear();
+		loadAllAddons();
 	}
 
 	public void reload() {
 		addonList.clear();
-		load();
+		startedAddonList.clear();
+		loadAllAddons();
 	}
 
 	public static AddonManager get() {
 		return manager;
 	}
 
-	public void start() {
+	public Addon findById(String id) {
+		if (id == null) {
+			return null;
+		}
 
+		for (Addon addon : addonList) {
+			if (id.equals(addon.getId())) {
+				return addon;
+			}
+		}
+
+		return null;
 	}
 
-	public void start(Addon addon) {
-
+	public boolean start(Addon addon) {
+		Option.saveOrUpdate("addon_start_" + addon.getId(), Boolean.TRUE.toString());
+		boolean isSuccess = addon.start();
+		if (!isSuccess) {
+			log.warn("addon:" + addon.getId() + " start fail!!!");
+		} else {
+			startedAddonList.add(addon);
+		}
+		return isSuccess;
 	}
 
-	public void stop(Addon addon) {
+	public boolean stop(Addon addon) {
+		Option.saveOrUpdate("addon_start_" + addon.getId(), Boolean.FALSE.toString());
+		boolean isSuccess = addon.stop();
+		if (!isSuccess) {
+			log.warn("addon:" + addon.getId() + " stop fail!!!");
+		} else {
+			startedAddonList.remove(addon);
+		}
+		return isSuccess;
+	}
 
+	public boolean uninstall(Addon addon) {
+		AddonManager.get().stop(addon);
+
+		File addonJarFile = new File(PathKit.getWebRootPath(), addon.getJarPath());
+		if (addonJarFile.exists()) {
+			addonList.remove(addon);
+			return addonJarFile.delete();
+		}
+		return false;
 	}
 
 	public List<Addon> getAddons() {
@@ -70,10 +112,10 @@ public class AddonManager {
 	}
 
 	public List<Addon> getStartedAddons() {
-		return addonList;
+		return startedAddonList;
 	}
 
-	private void load() {
+	private void loadAllAddons() {
 		File addonsFile = new File(PathKit.getWebRootPath(), "/WEB-INF/addons");
 		if (addonsFile.exists()) {
 			File[] files = addonsFile.listFiles(new FilenameFilter() {
@@ -85,10 +127,19 @@ public class AddonManager {
 
 			if (files != null && files.length > 0) {
 				for (File file : files) {
+
 					Addon addon = loadAddon(file);
-					if (addon != null) {
-						addon.start();
-						addonList.add(addon);
+					if (addon == null) {
+						continue;
+					}
+
+					addonList.add(addon);
+
+					Boolean start = Option.findValueAsBool("addon_start_" + addon.getId());
+					if (start != null && start == true) {
+						if (addon.start()) {// 启动成功
+							startedAddonList.add(addon);
+						}
 					}
 				}
 			}
@@ -96,12 +147,18 @@ public class AddonManager {
 	}
 
 	private static Addon loadAddon(File file) {
-		Addon addon = new Addon();
+		Addon addon = null;
 		try {
 			JarFile jarFile = new JarFile(file);
 			Manifest mf = jarFile.getManifest();
 			Attributes attr = mf.getMainAttributes();
 			if (attr != null) {
+
+				String id = attr.getValue("Addon-Id");
+				if (!StringUtils.isNotBlank(id)) {
+					log.warn("addon " + file.getParentFile() + " must has id");
+					return null;
+				}
 
 				String className = attr.getValue("Addon-Class");
 				String title = attr.getValue("Addon-Title");
@@ -111,6 +168,8 @@ public class AddonManager {
 				String version = attr.getValue("Addon-Version");
 				String versionCode = attr.getValue("Addon-Version-Code");
 
+				addon = new Addon();
+				addon.setId(id);
 				addon.setTitle(title);
 				addon.setAddonClass(className);
 				addon.setDescription(description);
@@ -118,6 +177,7 @@ public class AddonManager {
 				addon.setAuthorWebsite(authorWebsite);
 				addon.setVersion(version);
 				addon.setVersionCode(Integer.parseInt(versionCode.trim()));
+				addon.setJarPath(FileUtils.removeRootPath(file.getAbsolutePath()));
 
 				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
 				acl.init();
@@ -133,8 +193,7 @@ public class AddonManager {
 		}
 		return addon;
 	}
-	
-	
+
 	public Object invokeHook(String hookName, Object... objects) {
 		List<Addon> addons = getStartedAddons();
 		for (Addon addon : addons) {

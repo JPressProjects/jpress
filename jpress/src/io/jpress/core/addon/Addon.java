@@ -17,6 +17,7 @@ package io.jpress.core.addon;
 
 public class Addon {
 
+	private String id;
 	private String jarPath;
 	private String addonClass;
 	private String title;
@@ -27,9 +28,18 @@ public class Addon {
 	private int versionCode;
 	private String updateUrl;
 	private boolean hasError = false;
+	private boolean start = false;
 
 	private IAddon addonImpl;
 	private final Hooks hooks = new Hooks();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getJarPath() {
 		return jarPath;
@@ -114,7 +124,7 @@ public class Addon {
 	public Hooks getHooks() {
 		return hooks;
 	}
-	
+
 	public boolean getHasError() {
 		return hasError;
 	}
@@ -123,16 +133,24 @@ public class Addon {
 		this.hasError = hasError;
 	}
 
-	public void start() {
-		if (addonImpl != null) {
-			addonImpl.onStart(hooks);
-		}
+	public boolean getStart() {
+		return start;
 	}
 
-	public void stop() {
+	public boolean start() {
 		if (addonImpl != null) {
-			addonImpl.onStop();
+			start = addonImpl.onStart(hooks);
+			return start;
 		}
+		return false;
+	}
+
+	public boolean stop() {
+		if (addonImpl != null) {
+			start = addonImpl.onStop();
+			return start;
+		}
+		return false;
 	}
 
 }

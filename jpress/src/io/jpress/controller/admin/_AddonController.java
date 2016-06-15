@@ -22,10 +22,12 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
+import io.jpress.core.addon.Addon;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/addon", viewPath = "/WEB-INF/admin/addon")
 @Before(ActionCacheClearInterceptor.class)
@@ -34,8 +36,8 @@ public class _AddonController extends JBaseController {
 
 	public void index() {
 		keepPara();
-		AddonManager.get().reload();
 		
+		AddonManager.get().reload();
 		
 		setAttr("addons", AddonManager.get().getAddons());
 		setAttr("addonCount", AddonManager.get().getAddons().size());
@@ -44,42 +46,103 @@ public class _AddonController extends JBaseController {
 
 	public void install() {
 		keepPara();
-		if (isMultipartRequest()) {
-			UploadFile ufile = getFile();
-			String webRoot = PathKit.getWebRootPath();
-
-			StringBuilder newFileName = new StringBuilder(webRoot).append("/WEB-INF/addons/")
-					.append(ufile.getFileName());
-
-			File newfile = new File(newFileName.toString());
-
-			if (newfile.exists()) {
-				renderAjaxResultForError("该插件已经安装！");
-				return;
-			}
-
-			if (!newfile.getParentFile().exists()) {
-				newfile.getParentFile().mkdirs();
-			}
-
-			ufile.getFile().renameTo(newfile);
-
-			renderAjaxResultForSuccess();
+		
+		if (!isMultipartRequest()) {
+			return;
 		}
+
+		UploadFile ufile = getFile();
+		if (ufile == null) {
+			renderAjaxResultForError("您还为选择插件文件");
+			return;
+		}
+
+		String webRoot = PathKit.getWebRootPath();
+
+		StringBuilder newFileName = new StringBuilder(webRoot).append("/WEB-INF/addons/").append(ufile.getFileName());
+
+		File newfile = new File(newFileName.toString());
+
+		if (newfile.exists()) {
+			renderAjaxResultForError("该插件已经安装！");
+			return;
+		}
+
+		if (!newfile.getParentFile().exists()) {
+			newfile.getParentFile().mkdirs();
+		}
+
+		ufile.getFile().renameTo(newfile);
+
+		renderAjaxResultForSuccess();
 	}
 
 	public void uninstall() {
 		keepPara();
 
-		// AddonManager.get().stop(addon);
+		String id = getPara("id");
+		if (!StringUtils.isNotBlank(id)) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		Addon addon = AddonManager.get().findById(id);
+		if (addon == null) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		if(AddonManager.get().uninstall(addon)){
+			renderAjaxResultForSuccess();
+		}else{
+			renderAjaxResultForError();
+		}
+		
 	}
 
 	public void start() {
 		keepPara();
+
+		String id = getPara("id");
+		if (!StringUtils.isNotBlank(id)) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		Addon addon = AddonManager.get().findById(id);
+		if (addon == null) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		if (AddonManager.get().start(addon)) {
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
+
 	}
 
 	public void stop() {
 		keepPara();
+
+		String id = getPara("id");
+		if (!StringUtils.isNotBlank(id)) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		Addon addon = AddonManager.get().findById(id);
+		if (addon == null) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		if (AddonManager.get().stop(addon)) {
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
 	}
 
 }

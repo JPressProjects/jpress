@@ -21,16 +21,20 @@ import io.jpress.core.addon.IAddon;
 public class HelloAddon implements IAddon {
 
 	@Override
-	public void onStart(Hooks hooks) {
+	public boolean onStart(Hooks hooks) {
 
 		hooks.register(HelloHook.HOOK_PROCESS_CONTROLLER, HelloHook.class);
 		
-		System.out.println("=================HelloAddon Started!========================");
+		System.out.println("=============HelloAddon started=============");
+		
+		return true;
 
 	}
 
 	@Override
-	public void onStop() {
+	public boolean onStop() {
+		
+		return true;
 
 	}
 

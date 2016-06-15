@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
+import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
@@ -38,7 +39,15 @@ public class TaxonomyController extends BaseFrontController {
 
 	@ActionCache
 	public void index() {
+		try {
+			onRenderBefore();
+			doRender();
+		} finally {
+			onRenderAfter();
+		}
+	}
 
+	private void doRender() {
 		initRequest();
 
 		Taxonomy taxonomy = tryGetTaxonomy();
@@ -106,10 +115,18 @@ public class TaxonomyController extends BaseFrontController {
 		if (slug != null) {
 			slug = StringUtils.urlDecode(slug);
 		}
-		
-		if(pageNumber == null){
+
+		if (pageNumber == null) {
 			pageNumber = 1;
 		}
+	}
+
+	private void onRenderBefore() {
+		HookInvoker.taxonomyRenderBefore(this);
+	}
+
+	private void onRenderAfter() {
+		HookInvoker.taxonomyRenderAfter(this);
 	}
 
 }

@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.StringUtils;
@@ -24,14 +25,29 @@ public class IndexController extends BaseFrontController {
 
 	@ActionCache
 	public void index() {
+		try {
+			onRenderBefore();
+			doRender();
+		} finally {
+			onRenderAfter();
+		}
+	}
+
+	private void doRender() {
 		String page = getPara();
-		
 		if (StringUtils.isNotBlank(page)) {
 			render("page_" + page + ".html");
 		} else {
 			render("index.html");
 		}
+	}
 
+	private void onRenderBefore() {
+		HookInvoker.indexRenderBefore(this);
+	}
+
+	private void onRenderAfter() {
+		HookInvoker.indexRenderAfter(this);
 	}
 
 }

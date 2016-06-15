@@ -33,7 +33,6 @@ public class EncryptUtils extends HashKit {
 	public static String encryptPassword(String password, String salt) {
 		return sha256(password + salt);
 	}
-	
 
 	public static boolean verlifyUser(User user, String password) {
 		if (user == null)
@@ -69,9 +68,7 @@ public class EncryptUtils extends HashKit {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(encryptPassword("123456", "8037242c9bafc941"));
-		// 51e34a82801b3a98396e, d632686d14972f3
-		// System.out.println(md5WithSalt("xxx", "d632686d14972f3"));
+		System.out.println(encryptPassword("123456", "abc"));
 	}
 
 }

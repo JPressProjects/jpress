@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.aop.Invocation;
 import com.jfinal.render.Render;
 
+import io.jpress.controller.front.ContentController;
+import io.jpress.controller.front.IndexController;
+import io.jpress.controller.front.TaxonomyController;
+
 /**
  * Hook的定义，插件钩子都要继承此类。 同时，此类的方法是从HookInvoker复制过来的，保证方法名和参数完全一致。
  * 
@@ -51,6 +55,12 @@ public class Hook {
 	public static final String HOOK_ROUTER_CONVERTE = "routerConverte";
 	public static final String HOOK_PROCESS_CONTROLLER = "processController";
 	public static final String HOOK_INTERCEPT = "intercept";
+	public static final String HOOK_INDEX_RENDER_BEFORE = "indexRenderBefore";
+	public static final String HOOK_INDEX_RENDER_AFTER = "indexRenderAfter";
+	public static final String HOOK_TAXONOMY_RENDER_BEFORE = "taxonomyRenderBefore";
+	public static final String HOOK_TAXONOMY_RENDER_AFTER = "taxonomyRenderAfter";
+	public static final String HOOK_CONTENT_RENDER_BEFORE = "contentRenderBefore";
+	public static final String HOOK_CONTENT_RENDER_AFTER = "contentRenderAfter";
 
 	public String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
 
@@ -61,10 +71,34 @@ public class Hook {
 
 		return null;
 	}
-	
-	public static Boolean intercept(Invocation inv) {
-		//do nothing
+
+	public Boolean intercept(Invocation inv) {
+		// do nothing
 		return null;
+	}
+
+	public void indexRenderBefore(IndexController controller) {
+		// do nothing
+	}
+
+	public void indexRenderAfter(IndexController controller) {
+		// do nothing
+	}
+
+	public void taxonomyRenderBefore(TaxonomyController controller) {
+		// do nothing
+	}
+
+	public void taxonomyRenderAfter(TaxonomyController controller) {
+		// do nothing
+	}
+
+	public void contentRenderBefore(ContentController controller) {
+		// do nothing
+	}
+
+	public void contentRenderAfter(ContentController controller) {
+		// do nothing
 	}
 
 }

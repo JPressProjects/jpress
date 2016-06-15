@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.aop.Invocation;
 import com.jfinal.render.Render;
 
+import io.jpress.controller.front.ContentController;
+import io.jpress.controller.front.IndexController;
+import io.jpress.controller.front.TaxonomyController;
+
 public class HookInvoker {
 
 	public static String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -33,6 +37,30 @@ public class HookInvoker {
 
 	public static Boolean intercept(Invocation inv) {
 		return (Boolean) AddonManager.get().invokeHook("intercept", inv);
+	}
+
+	public static void indexRenderBefore(IndexController controller) {
+		AddonManager.get().invokeHook("indexRenderBefore", controller);
+	}
+
+	public static void indexRenderAfter(IndexController controller) {
+		AddonManager.get().invokeHook("indexRenderAfter", controller);
+	}
+	
+	public static void taxonomyRenderBefore(TaxonomyController controller) {
+		AddonManager.get().invokeHook("taxonomyRenderBefore", controller);
+	}
+
+	public static void taxonomyRenderAfter(TaxonomyController controller) {
+		AddonManager.get().invokeHook("taxonomyRenderAfter", controller);
+	}
+	
+	public static void contentRenderBefore(ContentController controller) {
+		AddonManager.get().invokeHook("contentRenderBefore", controller);
+	}
+	
+	public static void contentRenderAfter(ContentController controller) {
+		AddonManager.get().invokeHook("contentRenderAfter", controller);
 	}
 
 }

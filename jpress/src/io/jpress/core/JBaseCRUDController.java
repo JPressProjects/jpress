@@ -69,11 +69,12 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	}
 
 	public void save() {
-		M m = getModel(mClazz);
 
 		if (isMultipartRequest()) {
 			getFile();
 		}
+		
+		M m = getModel(mClazz);
 
 		if (!onModelSaveBefore(m)) {
 			renderAjaxResultForError();

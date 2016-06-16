@@ -25,6 +25,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
+import com.jfinal.render.JsonRender;
 
 import io.jpress.core.render.AjaxResult;
 import io.jpress.core.render.JCaptchaRender;
@@ -137,7 +138,26 @@ public class JBaseController extends Controller {
 		ar.setMessage(message);
 		ar.setErrorCode(errorCode);
 		ar.setData(data);
-		renderJson(ar);
+
+		if (isIEBrowser()) {
+			render(new JsonRender(ar).forIE());
+		} else {
+			renderJson(ar);
+		}
+
+	}
+
+	public boolean isIEBrowser() {
+		String ua = getRequest().getHeader("User-Agent").toLowerCase();
+		if (ua != null && ua.indexOf("msie") > 0) {
+			return true;
+		}
+
+		if (ua != null && ua.indexOf("gecko") > 0 && ua.indexOf("rv:11") > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

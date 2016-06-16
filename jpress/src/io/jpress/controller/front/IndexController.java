@@ -15,8 +15,10 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.Consts;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
+import io.jpress.model.Option;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.StringUtils;
 
@@ -38,9 +40,29 @@ public class IndexController extends BaseFrontController {
 		if (StringUtils.isNotBlank(page)) {
 			render("page_" + page + ".html");
 		} else {
+			setGlobleAttrs();
 			render("index.html");
 		}
 	}
+	
+	private void setGlobleAttrs() {
+		String title = Option.findValue("seo_index_title");
+		String keywords = Option.findValue("seo_index_keywords");
+		String description = Option.findValue("seo_index_description");
+		
+		if(StringUtils.isNotBlank(title)){
+			setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, title);
+		}
+		
+		if(StringUtils.isNotBlank(keywords)){
+			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, keywords);
+		}
+		
+		if(StringUtils.isNotBlank(description)){
+			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, description);
+		}
+	}
+
 
 	private void onRenderBefore() {
 		HookInvoker.indexRenderBefore(this);

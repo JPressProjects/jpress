@@ -96,9 +96,22 @@ public class ContentController extends BaseFrontController {
 	}
 
 	private void setGlobleAttrs(Content content) {
+		
 		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, content.getTitle());
-		setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getMetaKeywords());
-		setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getMetaDescription());
+		
+		if(StringUtils.isNotBlank(content.getMetaKeywords())){
+			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getMetaKeywords());
+		}else{
+			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getTaxonomyAsString(null));
+		}
+		
+		
+		if(StringUtils.isNotBlank(content.getMetaDescription())){
+			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getMetaDescription());
+		}else{
+			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getSummary());
+		}
+		
 	}
 
 	private Content queryContent() {

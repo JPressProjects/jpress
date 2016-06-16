@@ -430,7 +430,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				// propertes[3] == type
 				// by method doPaginateByModuleAndStatus
 				if (propertes != null && propertes.length == 4) {
-					if (type.equals(propertes[3])) {
+					if (type == null) {
+						retBuilder.append(propertes[2]).append(",");
+					} else if (type.equals(propertes[3])) {
 						retBuilder.append(propertes[2]).append(",");
 					}
 				}

@@ -59,7 +59,7 @@
       	<@jp_menu>
         	<#list menus as menu>
         		<li >
-        		<a  href="${menu.text!}">${menu.title}
+        		<a  href="${menu.text!}">${menu.title!}
         		<#if menu.flag ??>
         			<span class="x-a-border"></span>
         		</#if>

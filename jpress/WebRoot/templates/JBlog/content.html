@@ -28,7 +28,7 @@ $(document).ready(function() {
 				</p>
 				<p class=" x-pull-left x-font-small x-font-grey">
 					<i class="fa fa-clock-o" aria-hidden="true"></i>
-					${content.created!}
+					${content.created?string('yyyy-MM-dd')!}
 				</p>
 				<p class=" x-pull-left x-font-small x-font-grey x-sm-eye">
 					<i class="fa fa-eye" aria-hidden="true"></i>
@@ -81,7 +81,7 @@ $(document).ready(function() {
         </a>
         </div>
         <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border">
-          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.username!comment.nickname!} <span class="x-font-grey">${comment.created!}</span></p>
+          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.username!comment.nickname!} <span class="x-font-grey">${comment.created?string('yyyy-MM-dd')!}</span></p>
           <p>${comment.text!}</p>
         </div>
         <div class="x-layout-100 clearfix">

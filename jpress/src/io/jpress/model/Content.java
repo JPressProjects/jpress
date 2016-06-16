@@ -284,10 +284,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getSlug() != null) {
 			removeCache(getSlug());
 		}
-
-		putCache(getId(), this);
-		putCache(getSlug(), this);
-
 		return super.update();
 	}
 

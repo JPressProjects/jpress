@@ -175,7 +175,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
 		String routerType = ContentRouter.getRouterType();
-		if (!StringUtils.isNotBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)) {
+		if (!StringUtils.isNotBlank(routerType) 
+				|| ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
+				|| ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType) 
+				|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType) 
+				|| ContentRouter.TYPE_STATIC_PREFIX_ID.equals(routerType)) {
 			setAttr("slugDisplay", " style=\"display: none\"");
 		}
 

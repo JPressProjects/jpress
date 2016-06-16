@@ -20,7 +20,6 @@ import java.util.List;
 
 import io.jpress.Consts;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
 import io.jpress.model.Taxonomy;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
@@ -30,29 +29,28 @@ public class MenuChangedListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
-		
 		Object temp = message.getData();
 		if (temp != null && (temp instanceof List<?>)) {
 
 			@SuppressWarnings("unchecked")
 			List<String> keys = (List<String>) temp;
-			
 			// 路由状态发生变化
-			if (keys.contains("router_content_type") || keys.contains("router_fakestatic_enable")) { 
+			if (keys.contains("router_content_type") || keys.contains("router_fakestatic_enable")) {
+				updateMenus();
+			}
+		}
+	}
 
-				Option.findValue("router_content_type");
-
-				List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
-				if (list != null && list.size() > 0) {
-					for (Content content : list) {
-						BigInteger taxonomyId = content.getObjectId();
-						if (taxonomyId != null) {
-							Taxonomy taxonomy = Taxonomy.DAO.findById(taxonomyId);
-							if (taxonomy != null) {
-								content.setText(taxonomy.getUrl());
-								content.saveOrUpdate();
-							}
-						}
+	private void updateMenus() {
+		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+		if (list != null && list.size() > 0) {
+			for (Content content : list) {
+				BigInteger taxonomyId = content.getObjectId();
+				if (taxonomyId != null) {
+					Taxonomy taxonomy = Taxonomy.DAO.findById(taxonomyId);
+					if (taxonomy != null) {
+						content.setText(taxonomy.getUrl());
+						content.saveOrUpdate();
 					}
 				}
 			}

@@ -12,7 +12,7 @@
 	</p>
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
 	<input type="hidden" name="ucode" value="${ucode}"> 
-	<input type="hidden" name="autosave" value="comment_must_logined,comment_must_audited,comment_default_nickname,comment_default_avatar">
+	<input type="hidden" name="autosave" value="comment_allow_not_login,comment_must_audited,comment_default_nickname,comment_default_avatar">
 	<div class="row">
 		<div class="col-xs-12">
 		<h4 class="jp-set-title">常规选项</h4>
@@ -24,7 +24,7 @@
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
 						<div class="checkbox">
-							<label><input type="checkbox" value="true" name="comment_must_logined" ${checked('comment_must_logined')}> 用户必须登录才可以发表评论。</label>
+							<label><input type="checkbox" value="true" name="comment_allow_not_login" ${checked('comment_allow_not_login')}> 允许未登录用户发表评论。</label>
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" value="true" name="comment_must_audited" ${checked('comment_must_audited')}> 评论必须经过管理员审核。 </label>
@@ -50,7 +50,7 @@
 				<div class="col-sm-3  jp-set-info">未登录用户昵称</div>
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
-						<input type="text" class="form-control input-md" name="comment_default_nickname" value="${option('comment_default_nickname')!}" />
+						<input type="text" class="form-control input-md" placeholder="不填写默认为 网友" name="comment_default_nickname" value="${option('comment_default_nickname')!}" />
 					</div>
 				</div>
 				<div class="clr"></div>

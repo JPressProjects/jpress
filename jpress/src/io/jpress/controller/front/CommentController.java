@@ -51,11 +51,11 @@ public class CommentController extends BaseFrontController {
 
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
-		// 必须登录
-		Boolean comment_must_logined = Option.findValueAsBool("comment_must_logined");
+		// 允许未登陆用户评论
+		Boolean comment_allow_not_login = Option.findValueAsBool("comment_allow_not_login");
 
-		// 不设置，默认必须登录
-		if (comment_must_logined == null || comment_must_logined == true) {
+		// 允许未登陆用户评论
+		if (comment_allow_not_login == null || comment_allow_not_login == false) {
 			if (userId == null) {
 				String redirect = Consts.ROUTER_USER_LOGIN;
 				if (StringUtils.isNotBlank(gotoUrl)) {
@@ -77,21 +77,13 @@ public class CommentController extends BaseFrontController {
 		if (contentId != null) {
 			content = Content.DAO.findById(contentId);
 		} else {
-			if (isAjaxRequest()) {
-				renderAjaxResultForError("content id is null!");
-			} else {
-				renderText("comment fail,content id is null!");
-			}
+			renderForCommentError("comment fail,content id is null!", 1);
 			return;
 		}
 
 		String text = getPara("text");
 		if (!StringUtils.isNotBlank(text)) {
-			if (isAjaxRequest()) {
-				renderAjaxResultForError("text is blank!");
-			} else {
-				renderText("comment fail,text is blank!");
-			}
+			renderForCommentError("comment fail,text is blank!", 2);
 			return;
 		}
 
@@ -145,6 +137,15 @@ public class CommentController extends BaseFrontController {
 		}
 
 		ActionCacheManager.clearCache();
+	}
+
+	private void renderForCommentError(String message, int errorCode) {
+		String referer = getRequest().getHeader("Referer");
+		if (isAjaxRequest()) {
+			renderAjaxResult(message, errorCode);
+		} else {
+			redirect(referer + "#" + getPara("anchor"));
+		}
 	}
 
 	private String getIPAddress() {

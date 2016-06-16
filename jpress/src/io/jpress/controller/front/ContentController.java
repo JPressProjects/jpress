@@ -21,6 +21,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
+import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Comment;
@@ -58,9 +59,13 @@ public class ContentController extends BaseFrontController {
 			renderError(404);
 			return;
 		}
+		
+		if(Jpress.currentTemplate().getModuleByName(content.getModule()) == null){
+			renderError(404);
+			return;
+		}
 
 		updateContentViewCount(content);
-
 		setGlobleAttrs(content);
 
 		setAttr("pageNumber", pageNumber);

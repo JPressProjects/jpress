@@ -1,5 +1,13 @@
 <#include "../_inc/_layout.html"/> 
 <#include "_option_script.html"/> 
+<#macro css>
+.checkbox, .radio {
+    position: relative;
+    display: block;
+    margin-top: 0px; 
+    margin-bottom: 0px; 
+}
+</#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
 	<h1>网页链接样式设置</h1>
@@ -22,8 +30,8 @@
 								<label class="jp-set-info"> 内容详情前缀 </label>
 							</div>
 						</div>
-						<div class="col-sm-9  jp-line-height40">
-							<div class="col-sm-6 jp-table-distance-top ">
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
 								<input class="form-control input-md" type="text" name="router_content_prefix" value="${option('router_content_prefix')!}"> 默认为“c”（content的首字母）
 							</div>
 						</div>
@@ -37,12 +45,14 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-9  jp-line-height40">
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
 							<code>http://www.xxx.com/c?id=123 </code>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
-					
+						
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
@@ -50,50 +60,102 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-9  jp-line-height40">
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
 							<code>http://www.xxx.com/c?slug=press</code>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
-
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_prefix" name="router_content_type" ${checked('router_content_type','_static_prefix')}> 静态前缀类型
+								<label class="jp-set-info"> <input type="radio" value="_static_prefix_id" name="router_content_type" ${checked('router_content_type','_static_prefix_id')}> 静态前缀ID类型
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-9  jp-line-height40">
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
+							<code>http://www.xxx.com/c/123</code>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-info"> <input type="radio" value="_static_prefix_slug" name="router_content_type" ${checked('router_content_type','_static_prefix_slug')}> 静态前缀SLUG类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
 							<code>http://www.xxx.com/c/jpress</code>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
-
+					
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input  type="radio" value="_static_date" name="router_content_type" ${checked('router_content_type','_static_date')}> 静态日期类型
+								<label class="jp-set-info"> <input  type="radio" value="_static_date_id" name="router_content_type" ${checked('router_content_type','_static_date_id')}> 静态日期ID类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
+							<code>http://www.xxx.com/20160501/123</code>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-info"> <input  type="radio" value="_static_date_slug" name="router_content_type" ${checked('router_content_type','_static_date_slug')}> 静态日期SLUG类型
 								</label>
 							</div>
 						</div>
 						<div class="col-sm-9  jp-line-height40">
+							<div class="col-sm-6  ">
 							<code>http://www.xxx.com/20160501/jpress</code>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
+					
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_module" name="router_content_type" ${checked('router_content_type','_static_module')}> 静态模型类型
+								<label class="jp-set-info"> <input type="radio" value="_static_module_id" name="router_content_type" ${checked('router_content_type','_static_module_id')}> 静态模型ID类型
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-9  jp-line-height40">
-							<code>http://www.xxx.com/article/jpress</code>
+						<div class="col-sm-9 ">
+							<div class="col-sm-6  ">
+							<code>http://www.xxx.com/article/123</code>
+							</div>
 						</div>
 						<div class="clr"></div>
 					</li>
-
+					
+					<li class="jp-set-pad" >
+						<div class="col-sm-3 ">
+							<div class="radio ">
+								<label class="jp-set-info"> <input type="radio" value="_static_module_slug" name="router_content_type" ${checked('router_content_type','_static_module_slug')}> 静态模型SLUG类型
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-9  ">
+							<div class="col-sm-6  ">
+							<code>http://www.xxx.com/article/jpress</code>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
 				</ul>
 			</div>
 			<!-- /.box -->
@@ -107,7 +169,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3  jp-line-height40 jp-set-info">启用伪静态</div>
 						<div class="col-sm-9  jp-set-title-line">
-							<div class="col-sm-6 jp-table-distance-top ">
+							<div class="col-sm-6  ">
 								<label> <input type="checkbox"  value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
 								</label>
 							</div>
@@ -118,7 +180,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 jp-line-height40 jp-set-info"> <span class="jp-set-info"> 后缀</span></div>
 						<div class="col-sm-9  jp-set-title-line">
-							<div class="col-sm-6 jp-table-distance-top ">
+							<div class="col-sm-6  ">
 								<input class="form-control input-md" placeholder=".html" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
 								不填写默认是 .html
 							</div>

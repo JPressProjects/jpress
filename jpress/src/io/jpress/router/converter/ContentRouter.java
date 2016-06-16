@@ -31,13 +31,17 @@ import io.jpress.utils.StringUtils;
 
 public class ContentRouter extends RouterConverter {
 
-	public static final String TYPE_STATIC_MODULE = "_static_module"; // 静态模型
-	public static final String TYPE_STATIC_DATE = "_static_date"; // 静态日期
-	public static final String TYPE_STATIC_PREFIX = "_static_prefix"; // 静态前缀
+	public static final String TYPE_STATIC_MODULE_SLUG = "_static_module_slug"; // 模型SLUG
+	public static final String TYPE_STATIC_MODULE_ID = "_static_module_id"; // 静态模型ID
+	public static final String TYPE_STATIC_DATE_SLUG = "_static_date_slug"; // 静态日期slug
+	public static final String TYPE_STATIC_DATE_ID = "_static_date_id"; // 静态日期id
+	public static final String TYPE_STATIC_PREFIX_SLUG = "_static_prefix_slug"; // 静态slug
+	public static final String TYPE_STATIC_PREFIX_ID = "_static_prefix_id"; // 静态ID
+	
 	public static final String TYPE_DYNAMIC_ID = "_dynamic_id"; // 动态类型
 	public static final String TYPE_DYNAMIC_SLUG = "_dynamic_slug"; // 动态类型
 	
-	public static final String DEFAULT_TYPE = TYPE_STATIC_PREFIX;
+	public static final String DEFAULT_TYPE = TYPE_STATIC_PREFIX_SLUG;
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -66,12 +70,12 @@ public class ContentRouter extends RouterConverter {
 
 		String settingType = getRouterType();
 		// 静态模型
-		if (TYPE_STATIC_MODULE.equals(settingType)) {
+		if (TYPE_STATIC_MODULE_SLUG.equals(settingType) || TYPE_STATIC_MODULE_ID.equals(settingType)) {
 			Module m = Jpress.currentTemplate().getModuleByName(targetDirs[0]);
 			return m == null ? null : Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
 		}
 		// 静态日期
-		else if (TYPE_STATIC_DATE.equals(settingType)) {
+		else if (TYPE_STATIC_DATE_SLUG.equals(settingType) || TYPE_STATIC_DATE_ID.equals(settingType)) {
 			try {
 				Integer.valueOf(targetDirs[0]);
 				return Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
@@ -80,7 +84,7 @@ public class ContentRouter extends RouterConverter {
 			return null;
 		}
 		// 静态前缀
-		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
+		else if (TYPE_STATIC_PREFIX_SLUG.equals(settingType) || TYPE_STATIC_PREFIX_ID.equals(settingType)) {
 			String prefix = getRouterPrefix();
 			return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT + SLASH + targetDirs[1] : null;
 		}
@@ -119,20 +123,34 @@ public class ContentRouter extends RouterConverter {
 
 	private static String getRouterWithoutSuffix(Content content) {
 		String settingType = getRouterType();
-		String slugOrId = content.getSlug() != null ? content.getSlug() : content.getId().toString();
-		// 静态模型
-		if (TYPE_STATIC_MODULE.equals(settingType)) {
-			return SLASH + content.getModule() + SLASH + slugOrId;
+//		String slugOrId = content.getSlug() != null ? content.getSlug() : content.getId().toString();
+		// 模型SLUG
+		if (TYPE_STATIC_MODULE_SLUG.equals(settingType)) {
+			return SLASH + content.getModule() + SLASH + content.getSlug();
 		}
-		// 静态日期
-		else if (TYPE_STATIC_DATE.equals(settingType)) {
+		// 模型ID
+		else if (TYPE_STATIC_MODULE_ID.equals(settingType)) {
+			return SLASH + content.getModule() + SLASH + content.getId();
+		}
+		// 日期SLUG
+		else if (TYPE_STATIC_DATE_SLUG.equals(settingType)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			return SLASH + sdf.format(content.getCreated()) + SLASH + slugOrId;
+			return SLASH + sdf.format(content.getCreated()) + SLASH + content.getSlug();
 		}
-		// 静态前缀
-		else if (TYPE_STATIC_PREFIX.equals(settingType)) {
+		// 日期ID
+		else if (TYPE_STATIC_DATE_ID.equals(settingType)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			return SLASH + sdf.format(content.getCreated()) + SLASH + content.getId();
+		}
+		// 前缀SLUG
+		else if (TYPE_STATIC_PREFIX_SLUG.equals(settingType)) {
 			String prefix = getRouterPrefix();
-			return SLASH + prefix + SLASH + slugOrId;
+			return SLASH + prefix + SLASH + content.getSlug();
+		}
+		// 前缀ID
+		else if (TYPE_STATIC_PREFIX_ID.equals(settingType)) {
+			String prefix = getRouterPrefix();
+			return SLASH + prefix + SLASH + content.getId();
 		}
 		// 动态ID
 		else if (TYPE_DYNAMIC_ID.equals(settingType)) {
@@ -172,7 +190,7 @@ public class ContentRouter extends RouterConverter {
 			return "";
 		}else{
 			String routerType = getRouterType();
-			if (TYPE_DYNAMIC_ID.equals(routerType) || TYPE_DYNAMIC_SLUG.equals(routerType)) {
+			if (TYPE_DYNAMIC_ID.equals(routerType) || TYPE_DYNAMIC_SLUG.equals(routerType) ) {
 				return "";
 			}else{
 				if (enalbleFakeStatic()) {
@@ -181,7 +199,6 @@ public class ContentRouter extends RouterConverter {
 				return "";
 			}
 		}
-		
 	}
 
 	public static String getContentRouterPreffix(Module module) {
@@ -202,17 +219,17 @@ public class ContentRouter extends RouterConverter {
 			urlPreffix = SLASH + router_content_prefix + "?slug=";
 		}
 
-		else if (TYPE_STATIC_PREFIX.equals(routerType)) {
+		else if (TYPE_STATIC_PREFIX_SLUG.equals(routerType)) {
 			String router_content_prefix = getRouterPrefix();
 			urlPreffix = SLASH + router_content_prefix + SLASH;
 		}
 
-		else if (TYPE_STATIC_DATE.equals(routerType)) {
+		else if (TYPE_STATIC_DATE_SLUG.equals(routerType)) {
 			String router_content_prefix = DateUtils.DateString();
 			urlPreffix = SLASH + router_content_prefix + SLASH;
 		}
 
-		else if (TYPE_STATIC_MODULE.equals(routerType)) {
+		else if (TYPE_STATIC_MODULE_SLUG.equals(routerType)) {
 			String router_content_prefix = module.getName();
 			urlPreffix = SLASH + router_content_prefix + SLASH;
 		} else {

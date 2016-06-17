@@ -45,8 +45,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	private String getType() {
 		return getPara("t");
 	}
-	
-	
+
 	@Override
 	public void index() {
 		super.index();
@@ -60,12 +59,11 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null , getPara("s"));
+			return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
 		}
 		return mDao.doPaginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
-	
-	
+
 	@Before(UCodeInterceptor.class)
 	public void trash() {
 		Comment c = Comment.DAO.findById(getParaToBigInteger("id"));
@@ -77,8 +75,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
-	
-	
 
 	@Before(UCodeInterceptor.class)
 	public void restore() {
@@ -92,34 +88,34 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			renderAjaxResultForError("restore error!");
 		}
 	}
-	
+
 	@Before(UCodeInterceptor.class)
 	public void pub() {
 		BigInteger id = getParaToBigInteger("id");
 		Comment c = Comment.DAO.findById(id);
-		if (c != null ) {
+		if (c != null) {
 			c.setStatus(Content.STATUS_NORMAL);
-			if(c.saveOrUpdate()){
+			if (c.saveOrUpdate()) {
 				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
-			}else{
+			} else {
 				renderAjaxResultForError("pub fail!");
 			}
 		} else {
 			renderAjaxResultForError("pub error!");
 		}
 	}
-	
+
 	@Before(UCodeInterceptor.class)
 	public void draft() {
 		BigInteger id = getParaToBigInteger("id");
 		Comment c = Comment.DAO.findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DRAFT);
-			if(c.saveOrUpdate()){
+			if (c.saveOrUpdate()) {
 				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
-			}else{
+			} else {
 				renderAjaxResultForError("draft fail!");
 			}
 		} else {
@@ -131,7 +127,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
 		final Comment c = Comment.DAO.findById(id);
-		if (c != null && c.isDelete()) {
+		if (c != null) {
 			if (c.delete()) {
 				MessageKit.sendMessage(Actions.COMMENT_DELETE, c);
 				renderAjaxResultForSuccess();
@@ -140,7 +136,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		}
 		renderAjaxResultForError();
 	}
-	
 
 	@Override
 	public void save() {
@@ -154,11 +149,11 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			}
 			comment.setUserId(user.getId());
 		}
-		if(comment.saveOrUpdate()){
+		if (comment.saveOrUpdate()) {
 			renderAjaxResultForSuccess();
-		}else{
+		} else {
 			renderAjaxResultForError();
 		}
-		
+
 	}
 }

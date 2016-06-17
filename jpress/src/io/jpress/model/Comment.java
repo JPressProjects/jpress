@@ -63,10 +63,11 @@ public class Comment extends BaseComment<Comment> {
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
-		fromBuilder.append(" where c.status <> ?");
+		fromBuilder.append(" where c.content_module = ?");
+		fromBuilder.append(" and c.status <> ?");
 		fromBuilder.append("order by c.created desc");
 		
-		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), STATUS_DELETE);
+		return paginate(pageNumber, pageSize, select, fromBuilder.toString(),module, STATUS_DELETE);
 	}
 
 	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {

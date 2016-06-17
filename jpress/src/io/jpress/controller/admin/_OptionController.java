@@ -84,6 +84,9 @@ public class _OptionController extends JBaseCRUDController<User> {
 		if (fileList != null && fileList.size() > 0) {
 			for (UploadFile ufile : fileList) {
 				if (key.equals(ufile.getParameterName())) {
+					if(!ufile.getFile().exists()){
+						return;
+					}
 					value = AttachmentUtils.moveFile(ufile);
 					value = value.replace("\\", "/");
 				}

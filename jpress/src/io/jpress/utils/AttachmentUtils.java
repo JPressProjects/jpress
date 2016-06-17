@@ -38,6 +38,10 @@ public class AttachmentUtils {
 			return null;
 
 		File file = uploadFile.getFile();
+		if (!file.exists()) {
+			return null;
+		}
+
 		String webRoot = PathKit.getWebRootPath();
 
 		String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -58,6 +62,7 @@ public class AttachmentUtils {
 	}
 
 	static List<String> imageSuffix = new ArrayList<String>();
+
 	static {
 		imageSuffix.add(".jpg");
 		imageSuffix.add(".jpeg");

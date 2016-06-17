@@ -91,7 +91,7 @@ function del(id){
 						</div>
 						<div class="col-xs-4">
 							<a class="chart-item" href="#">
-								<p class="chart-item-title">${module.title!}回收站</p>
+								<p class="chart-item-title">${module.title!}垃圾箱</p>
 								<h3 class="chart-item-amount">${module.findDeleteContentCount()!}</h3>
 								<span class="chart-item-bottom chart-bottom-c3"></span>
 							</a>
@@ -169,7 +169,7 @@ function del(id){
 								<#else>
 								<span ><a class="comment-item-green" href="javascript:pub(${comment.id})">批准发布</a></span>
 								</#if>
-								<span >|<a class="comment-item-red" href="javascript:trash(${comment.id})">垃圾箱</a></span> 
+								<span >|<a class="comment-item-red" href="javascript:trash(${comment.id})">移至垃圾箱</a></span> 
 								<span >|<a class="comment-item-red" href="javascript:del(${comment.id})">永久删除</a></span> 
 									
 							</p>

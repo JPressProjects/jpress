@@ -55,11 +55,11 @@ public class _AdminController extends JBaseController {
 			}
 
 			List<Content> contents = Content.DAO.findListInNormal(1, 20, null, null, null, null, moduels, null, null,
-					null, null, null, null,null);
+					null, null, null, null, null);
 			setAttr("contents", contents);
 		}
 
-		Page<Comment> commentPage = Comment.DAO.doPaginateWithContent(1, 10, null, null, null, null);
+		Page<Comment> commentPage = Comment.DAO.doPaginateWithContentNotInDelete(1, 10, null);
 		if (commentPage != null) {
 			setAttr("comments", commentPage.getList());
 		}

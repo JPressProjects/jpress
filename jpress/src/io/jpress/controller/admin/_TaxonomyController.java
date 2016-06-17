@@ -63,12 +63,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		if (id != null) {
 			Taxonomy taxonomy = Taxonomy.DAO.findById(id);
 			setAttr("taxonomy", taxonomy);
-			Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU,taxonomy.getId());
-			if(content != null){
+			Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			if (content != null) {
 				setAttr("addToMenuSelete", "checked=\"checked\"");
 			}
 		}
-		
+
 		if (id != null && taxonomys != null) {
 			ModelSorter.removeTreeBranch(taxonomys, id);
 		}
@@ -82,48 +82,51 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	@Override
 	public boolean onModelSaveBefore(Taxonomy m) {
-		
+
 		return super.onModelSaveBefore(m);
 	}
-	
-	
 
 	public void save() {
 		Taxonomy m = getModel(Taxonomy.class);
-		
-		if(!StringUtils.isNotBlank(m.getTitle())){
+
+		if (!StringUtils.isNotBlank(m.getTitle())) {
 			renderAjaxResultForError("名称不能为空！");
 			return;
 		}
-		
-		if(!StringUtils.isNotBlank(m.getSlug())){
+
+		if (!StringUtils.isNotBlank(m.getSlug())) {
 			renderAjaxResultForError("别名不能为空！");
 			return;
 		}
-		
+
 		Taxonomy dbTaxonomy = Taxonomy.DAO.findBySlugAndModule(m.getSlug(), m.getContentModule());
-		if(m.getId() != null && dbTaxonomy!=null && m.getId().compareTo(dbTaxonomy.getId()) != 0){
+		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
 			renderAjaxResultForError("别名已经存在！");
 			return;
 		}
-		
-		if(m.saveOrUpdate()){
-			
+
+		if (m.saveOrUpdate()) {
+
 			boolean addToMenu = getParaToBoolean("addToMenu", false);
-			if(addToMenu){
-				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU,m.getId());
-				if(content == null){
+			if (addToMenu) {
+				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				if (content == null) {
 					content = new Content();
 					content.setModule(Consts.MODULE_MENU);
 				}
-				
+
 				content.setText(m.getUrl());
 				content.setTitle(m.getTitle());
 				content.setObjectId(m.getId());
-				
 				content.saveOrUpdate();
+
+			} else {
+				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				if (content != null) {
+					content.delete();
+				}
 			}
-			
+
 		}
 		renderAjaxResultForSuccess("ok");
 	}
@@ -146,7 +149,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		boolean deleted = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				if(mDao.deleteById(id)){
+				if (mDao.deleteById(id)) {
 					Mapping.DAO.deleteByTaxonomyId(id);
 					return true;
 				}
@@ -154,9 +157,9 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			}
 		});
 
-		if(deleted){
+		if (deleted) {
 			renderAjaxResultForSuccess();
-		}else{
+		} else {
 			renderAjaxResultForError();
 		}
 	}

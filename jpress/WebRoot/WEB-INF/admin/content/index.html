@@ -142,8 +142,12 @@ function del(id){
 						<tr>
 							<th style="width: 20px"><input name="dataItem" onclick="checkAll(this)" type="checkbox" value="0"></th>
 							<th>标题</th>
-							<th style="width: 10%">作者</th> <#if module.taxonomyTypes ??> <#list module.taxonomyTypes as taxonomyType>
-							<th style="width: 15%">${taxonomyType.title}</th> </#list> </#if>
+							<th style="width: 10%">作者</th> 
+							<#if (module.taxonomyTypes) ??> 
+								<#list module.taxonomyTypes as taxonomyType>
+								<th style="width: 15%">${taxonomyType.title}</th> 
+								</#list> 
+							</#if>
 							<th style="width: 10%"><i class="fa fa-commenting"></i></th>
 							<th style="width: 10%">发布日期</th>
 						</tr>
@@ -168,8 +172,12 @@ function del(id){
 									</p>
 								</div>
 							</td>
-							<td>${(bean.username)!}</td> <#if module.taxonomyTypes ??> <#list module.taxonomyTypes as taxonomyType>
-							<td>${(bean.getTaxonomyAsString(taxonomyType.name))!}</td> </#list> </#if>
+							<td>${(bean.username)!}</td> 
+							<#if (module.taxonomyTypes) ??>  
+								<#list module.taxonomyTypes as taxonomyType>
+								<td>${(bean.getTaxonomyAsString(taxonomyType.name))!}</td> 
+								</#list> 
+							</#if>
 							<td>${bean.commentCount}</td>
 							<td>${bean.created!}</td>
 						</tr>

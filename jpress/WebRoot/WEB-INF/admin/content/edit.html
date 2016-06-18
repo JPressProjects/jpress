@@ -86,8 +86,12 @@ function save(){
 			type : "post", 
 			dataType : "json", 
 			success : function(data) { 
-				toastr.success('保存成功！','操作成功');
-				$("#content_id").attr("value",data.data);
+				if(data.errorCode == 0){
+					$("#content_id").attr("value",data.data);
+					toastr.success('保存成功！','操作成功');
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
 			},
 			error : function() {
 				alert("信息提交错误");

@@ -210,141 +210,22 @@ $(document).ready(function(){
 						<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
 					</div>
 					</div>
-				
-				<div class="box box-solid">
-					<div class="box-header with-border">
-						<h3 class="box-title">属性设置</h3>
-
-						<div class="box-tools">
-							<button type="button" class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body no-padding">
-						<!-- Custom Tabs -->
-						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
-								<li class="active">
-									<a href="#tab_1" data-toggle="tab">常用</a>
-								</li>
-								<li>
-									<a href="#tab_seo" data-toggle="tab">SEO</a>
-								</li>
-								<li>
-									<a href="#tab_comment" data-toggle="tab">评论</a>
-								</li>
-								<#if module.styles ??>
-								<li>
-									<a href="#tab_style" data-toggle="tab">样式</a>
-								</li>
-								</#if>
-								<li>
-									<a href="#tab_position" data-toggle="tab">位置</a>
-								</li>
-								<li>
-									<a href="#tab_remarks" data-toggle="tab">备注</a>
-								</li>
-								<li>
-									<a href="#tab_metadata" data-toggle="tab">元数据</a>
-								</li>
-
-							</ul>
-							<div class="tab-content jp-aside-hg ">
-								<div class="tab-pane active " id="tab_1">
-								<div class="jp-prop-input">
-									Flag: <input type="text" name="content.flag" value="${(content.flag)!}">
-								</div>
-								<div class="jp-prop-input">
-									作者: <input type="text" name="username" value="${(content.username)!}">
-								</div>
-								</div>
-								<!-- /.tab-pane -->
-								<div class="tab-pane jp-prop-box" id="tab_seo">
-									<div class="jp-prop-input">
-										关键字: <input type="text" name="content.meta_keywords" value="${(content.meta_keywords)!}">
-									</div>
-									
-									<div class="jp-prop-input">
-										描述: 
-										<input type="text" name="content.meta_description" value="${(content.meta_description)!}">
-									</div>
-								</div>
-								
-								<div class="tab-pane jp-prop-box" id="tab_comment">
-									<div class="jp-prop-input">
-										评论: <select name="content.comment_status">
-												<option value="">默认</option>
-												<#if (content.comment_status)?? && "open" == content.comment_status >
-												<option value="open"  selected="selected">开启</option>
-												<#else>
-												<option value="open">开启</option>
-												</#if>
-												
-												<#if (content.comment_status)?? && "close" == content.comment_status >
-												<option value="close"  selected="selected">关闭</option>
-												<#else>
-												<option value="close">关闭</option>
-												</#if>
-											 </select>
-									</div>
-								</div>
-								
-								<#if module.styles ??>
-								<div class="tab-pane" id="tab_style">
-									<li class="jp-release-set">
-										<div class="radio jp-cancel-pad">
-											<label> <input type="radio" name="content.style" value=""> <i class="fa fa-envelope-o"></i>默认
-											</label>
-										</div>
-									</li>
-									<#list module.styles! as style >
-									<li class="jp-release-set">
-										<div class="radio jp-cancel-pad">
-											<label> <input type="radio" name="content.style" value="${style}"> <i class="fa fa-envelope-o"></i>${style}
-											</label>
-										</div>
-									</li>
-									</#list>
-								</div>
-								</#if>
-								<div class="tab-pane jp-prop-box" id="tab_position">
-								<div class="jp-prop-input">
-								经度: <input type="text" name="content.lng" value="${(content.lng)!}">
-								</div>
-								<div class="jp-prop-input">
-								纬度: <input type="text" name="content.lat" value="${(content.lat)!}">
-								</div>
-								</div>
-								<div class="tab-pane jp-prop-box" id="tab_remarks">
-								<span class="jp-prop-text">备注: </span>
-								<textarea rows="5"   name="content.remarks">${(content.remarks)!}</textarea>
-								</div>
-								<div class="tab-pane" id="tab_metadata">元数据</div>
-								<!-- /.tab-pane -->
-							</div>
-							<!-- /.tab-content -->
-						</div>
-						<!-- nav-tabs-custom -->
-					</div>
-				</div>
+					<#include "_props_box.html" /> 
 			</div>
 			<!-- /.col -->
 			<div class="col-md-3">
 			<#include "_action_box.html" /> 
 			<#if module ??> 
 				<#list module.taxonomyTypes! as taxonomyType > 
-				<#if taxonomyType.formType == "select"> 
-					<#include "_select_box.html" />
-				<#else> 
-					<#include "_input_box.html" /> 
-				</#if> 
+					<#if taxonomyType.formType == "select"> 
+						<#include "_select_box.html" />
+					<#else> 
+						<#include "_input_box.html" /> 
+					</#if> 
 				</#list>
 			</#if> 
-			
-			<#include "_thumbnail_box.html" /></div>
-			<!-- /.col -->
+			<#include "_thumbnail_box.html" />
+			</div>
 		</div>
 		<!-- /.row -->
 	</form>

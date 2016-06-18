@@ -116,7 +116,7 @@ public class TaxonomyController extends BaseFrontController {
 			slug = StringUtils.urlDecode(slug);
 		}
 
-		if (pageNumber == null) {
+		if (pageNumber == null || pageNumber <= 0) {
 			pageNumber = 1;
 		}
 	}

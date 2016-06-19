@@ -15,6 +15,8 @@
  */
 package io.jpress.model;
 
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseAttachment;
 
@@ -26,4 +28,9 @@ public class Attachment extends BaseAttachment<Attachment> {
 	private static final long serialVersionUID = 1L;
 
 	public static final Attachment DAO = new Attachment();
+	
+	public Page<Attachment> doPaginate(int pageNumber, int pageSize) {
+		String sqlExceptSelect = " FROM attachment a ORDER BY a.created DESC";
+		return paginate(pageNumber, pageSize, "SELECT * ", sqlExceptSelect);
+	}
 }

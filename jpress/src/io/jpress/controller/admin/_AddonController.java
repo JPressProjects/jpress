@@ -53,7 +53,7 @@ public class _AddonController extends JBaseController {
 
 		UploadFile ufile = getFile();
 		if (ufile == null) {
-			renderAjaxResultForError("您还为选择插件文件");
+			renderAjaxResultForError("您还未选择插件文件");
 			return;
 		}
 

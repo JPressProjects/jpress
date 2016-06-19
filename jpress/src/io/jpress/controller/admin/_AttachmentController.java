@@ -51,27 +51,27 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		BigInteger id = getParaToBigInteger("id");
 		Attachment attachment = Attachment.DAO.findById(id);
 		setAttr("attachment", attachment);
-		
+
 		File attachmentFile = new File(PathKit.getWebRootPath(), attachment.getPath());
 		setAttr("attachmentName", attachmentFile.getName());
-		
+
 		long fileLen = attachmentFile.length();
 		String fileLenUnit = "Byte";
-		if(fileLen > 1024){
+		if (fileLen > 1024) {
 			fileLen = fileLen / 1024;
 			fileLenUnit = "KB";
 		}
-		if(fileLen > 1024){
+		if (fileLen > 1024) {
 			fileLen = fileLen / 1024;
 			fileLenUnit = "MB";
 		}
-		setAttr("attachmentSize", fileLen + fileLenUnit );
+		setAttr("attachmentSize", fileLen + fileLenUnit);
 		try {
-			if(AttachmentUtils.isImage(attachment.getPath())){
+			if (AttachmentUtils.isImage(attachment.getPath())) {
 				setAttr("attachmentRatio", ImageUtils.ratioAsString(attachmentFile.getAbsolutePath()));
 			}
 		} catch (Throwable e) {
-			log.error("detail_layer ratioAsString error",e);
+			log.error("detail_layer ratioAsString error", e);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		index();
 		render("choose_layer.html");
 	}
-	
+
 	@Override
 	protected int getPageSize() {
 		return 18;
@@ -103,12 +103,12 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 			attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 			attachment.setMimeType(uploadFile.getContentType());
 			attachment.save();
-			
+
 			processImage(newPath);
-			
+
 			JSONObject json = new JSONObject();
 			json.put("success", true);
-			json.put("src", newPath);
+			json.put("src", getRequest().getContextPath() + newPath);
 			renderJson(json.toString());
 		} else {
 			renderJson("success", false);
@@ -116,20 +116,20 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	}
 
 	private void processImage(String newPath) {
-		if(!AttachmentUtils.isImage(newPath))
+		if (!AttachmentUtils.isImage(newPath))
 			return;
-		
+
 		try {
-			//由于内存不够等原因可能会出未知问题
+			// 由于内存不够等原因可能会出未知问题
 			processThumbnail(newPath);
 		} catch (Throwable e) {
-			log.error("processThumbnail error",e);
+			log.error("processThumbnail error", e);
 		}
 		try {
-			//由于内存不够等原因可能会出未知问题
+			// 由于内存不够等原因可能会出未知问题
 			processWatermark(newPath);
 		} catch (Throwable e) {
-			log.error("processWatermark error",e);
+			log.error("processWatermark error", e);
 		}
 	}
 
@@ -160,10 +160,14 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 				transparency = 1f;
 			}
 
-			watermarkImg = PathKit.getWebRootPath() + watermarkImg;
 			srcImageFile = PathKit.getWebRootPath() + srcImageFile;
 
-			ImageUtils.pressImage(watermarkImg, srcImageFile, srcImageFile, position, transparency);
+			File watermarkFile = new File(PathKit.getWebRootPath(), watermarkImg);
+			if (!watermarkFile.exists()) {
+				return;
+			}
+
+			ImageUtils.pressImage(watermarkFile.getAbsolutePath(), srcImageFile, srcImageFile, position, transparency);
 		}
 	}
 

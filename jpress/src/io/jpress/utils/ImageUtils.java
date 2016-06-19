@@ -68,7 +68,8 @@ public class ImageUtils {
 	 * @throws IOException
 	 */
 	public static void scale(String src, String dest, int w, int h) throws IOException {
-		Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName("jpg");
+		String srcSuffix = src.substring(src.lastIndexOf(".")+1);
+		Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName(srcSuffix);
 		ImageReader reader = (ImageReader) iterator.next();
 
 		InputStream in = new FileInputStream(src);
@@ -84,7 +85,7 @@ public class ImageUtils {
 		graphics.dispose();
 		srcBuffered.flush();
 
-		ImageIO.write(targetBuffered, "jpg", new File(dest));
+		ImageIO.write(targetBuffered, srcSuffix, new File(dest));
 		targetBuffered.flush();
 	}
 

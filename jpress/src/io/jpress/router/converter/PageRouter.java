@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import io.jpress.Consts;
 import io.jpress.model.Content;
 import io.jpress.router.RouterConverter;
+import io.jpress.utils.StringUtils;
 
 public class PageRouter extends RouterConverter {
 
@@ -33,7 +34,7 @@ public class PageRouter extends RouterConverter {
 		}
 
 		String slug = targetDirs[0];
-		Content content = Content.DAO.findBySlug(slug);
+		Content content = Content.DAO.findBySlug(StringUtils.urlDecode(slug));
 		if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
 			return Consts.ROUTER_CONTENT + SLASH  + slug;
 		}

@@ -214,6 +214,7 @@ public class _TemplateController extends JBaseController {
 		if (id != null) {
 			if (Content.DAO.deleteById(id)) {
 				renderAjaxResultForSuccess();
+				return;
 			}
 		}
 		renderAjaxResultForError();

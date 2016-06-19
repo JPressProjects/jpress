@@ -157,17 +157,17 @@ function del(id){
 						<tr class="jp-onmouse">
 							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
 							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">
-							<span class="article-title">${bean.title}</span></a> <#if "draft" == bean.status!>(草稿)</#if></strong>
+							<span class="article-title">${bean.title!}</span></a> <#if "draft" == bean.status!>(草稿)</#if></strong>
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
 										<#if "delete" != s!> 
 										<span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
-										</span> <span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
+										</span> <span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash('${bean.id}')">垃圾箱</a>
 										</span> <span class="trash">|<a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a>
 										</span> 
 										<#else> 
-										<span class="approve"> <a class="vim-a" href="javascript:restore(${bean.id})">还原</a></span> 
-										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:del(${bean.id})">永久删除</a></span> 
+										<span class="approve"> <a class="vim-a" href="javascript:restore('${bean.id}')">还原</a></span> 
+										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:del('${bean.id}')">永久删除</a></span> 
 										</#if>
 									</p>
 								</div>
@@ -178,7 +178,7 @@ function del(id){
 								<td>${(bean.getTaxonomyAsString(taxonomyType.name))!}</td> 
 								</#list> 
 							</#if>
-							<td>${bean.commentCount}</td>
+							<td>${bean.commentCount!}</td>
 							<td>${bean.created!}</td>
 						</tr>
 						</#list> </#if>
@@ -188,7 +188,7 @@ function del(id){
 							<th style="width: 20px"><input name="dataItem" onclick="checkAll(this)" type="checkbox" value="0"></th>
 							<th>标题</th>
 							<th style="width: 10%">作者</th> <#if module.taxonomyTypes ??> <#list module.taxonomyTypes as taxonomyType>
-							<th style="width: 15%">${taxonomyType.title}</th> </#list> </#if>
+							<th style="width: 15%">${(taxonomyType.title)!}</th> </#list> </#if>
 							<th style="width: 10%"><i class="fa fa-commenting"></i></th>
 							<th style="width: 10%">发布日期</th>
 						</tr>

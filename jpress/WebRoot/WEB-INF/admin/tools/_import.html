@@ -1,0 +1,58 @@
+<#include "../_inc/_layout.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>导入设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+	 目前JPress暂时只支持从WordPress和微信公众号导入文章，今后会增加更多的导入渠道。
+	</p>
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="web_name,web_title,web_subtitle,web_domain,web_administrator_email,web_administrator_phone,web_administrator_wechat_openid,web_copyright,web_icp_number">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">WordPress导入</h4>
+				<ul class="list-unstyled">
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">WordPress导入</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-3 ">
+								<a class="btn btn-block btn-primary" href="${CPATH}/admin/tools/wordpressImport?p=${p!}&c=${c!}">开始导入</a>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">微信公众号导入</h4>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信公众号导入</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-3 ">
+								<a class="btn btn-block btn-primary" href="${CPATH}/admin/tools/wechatImport?p=${p!}&c=${c!}">开始导入</a>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+</section>
+<!-- /.content -->
+</@layout>

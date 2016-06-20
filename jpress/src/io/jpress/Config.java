@@ -46,7 +46,7 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("option", new OptionValue());
 		Jpress.addFunction("checked", new OptionChecked());
 		Jpress.addFunction("contentUrl", new ContentUrl());
-
+		
 	}
 
 }

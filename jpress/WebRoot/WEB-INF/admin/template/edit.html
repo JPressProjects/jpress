@@ -20,9 +20,9 @@ function doSubmit(){
 			dataType : "json", 
 			success : function(data) { 
 				if(data.errorCode == 0){
-					alert("保存成功！");
+					toastr.success('保存成功！','操作成功');
 				}else{
-					alert(data.message);
+					toastr.error(data.message,'操作失败');
 				}
 			},
 			error : function() {

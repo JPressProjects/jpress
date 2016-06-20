@@ -63,13 +63,12 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setEncoding(Consts.CHARTSET_UTF8);
 		constants.setMaxPostSize(1024 * 1024 * 200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
-
+		
 		// constants.setTokenCache(new JTokenCache());
 	}
 
 	@SuppressWarnings("unchecked")
 	public void configRoute(Routes routes) {
-		routes.clear();
 		List<Class<Controller>> controllerClassList = ClassScaner.scanSubClass(Controller.class);
 		if (controllerClassList != null) {
 			for (Class<?> clazz : controllerClassList) {
@@ -154,6 +153,8 @@ public abstract class JpressConfig extends JFinalConfig {
 		if (Jpress.isInstalled()) {
 			Jpress.loadFinished();
 		}
+		
+		Jpress.renderImmediately();
 		onJfinalStarted();
 	}
 

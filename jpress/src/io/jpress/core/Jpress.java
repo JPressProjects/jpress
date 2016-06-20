@@ -44,6 +44,10 @@ public class Jpress {
 		FreeMarkerRender.getConfiguration().setSharedVariable(key, function);
 	}
 
+	public static void renderImmediately() {
+		FreeMarkerRender.getConfiguration().setTemplateUpdateDelayMilliseconds(0);
+	}
+
 	private static boolean isInstalled = false;
 
 	public static boolean isInstalled() {
@@ -53,7 +57,6 @@ public class Jpress {
 		}
 		return isInstalled;
 	}
-
 
 	public static Template currentTemplate() {
 		return TemplateUtils.currentTemplate();
@@ -72,5 +75,5 @@ public class Jpress {
 	public static void loadFinished() {
 		isLoaded = true;
 	}
-	
+
 }

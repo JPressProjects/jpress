@@ -21,13 +21,25 @@ import java.util.List;
 public class MessageAction {
 
 	private List<String> actions = new ArrayList<String>();
+	private List<String> syncActions = new ArrayList<String>();
 
 	public void register(String action) {
 		actions.add(action);
 	}
 
+	public void register(String action, boolean sync) {
+		if (sync)
+			syncActions.add(action);
+		else
+			actions.add(action);
+	}
+
 	public List<String> getActions() {
 		return actions;
+	}
+
+	public List<String> getSyncActions() {
+		return syncActions;
 	}
 
 }

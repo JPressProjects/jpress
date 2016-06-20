@@ -72,4 +72,5 @@ public class Jpress {
 	public static void loadFinished() {
 		isLoaded = true;
 	}
+	
 }

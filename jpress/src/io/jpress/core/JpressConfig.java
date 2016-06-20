@@ -50,6 +50,7 @@ import io.jpress.router.RouterMapping;
 import io.jpress.utils.StringUtils;
 
 public abstract class JpressConfig extends JFinalConfig {
+	
 
 	public void configConstant(Constants constants) {
 		PropKit.use("jpress.properties");
@@ -68,6 +69,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	@SuppressWarnings("unchecked")
 	public void configRoute(Routes routes) {
+		routes.clear();
 		List<Class<Controller>> controllerClassList = ClassScaner.scanSubClass(Controller.class);
 		if (controllerClassList != null) {
 			for (Class<?> clazz : controllerClassList) {

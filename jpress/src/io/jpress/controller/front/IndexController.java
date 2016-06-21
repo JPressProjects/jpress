@@ -18,7 +18,7 @@ package io.jpress.controller.front;
 import io.jpress.Consts;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.StringUtils;
 
@@ -46,9 +46,9 @@ public class IndexController extends BaseFrontController {
 	}
 	
 	private void setGlobleAttrs() {
-		String title = Option.findValue("seo_index_title");
-		String keywords = Option.findValue("seo_index_keywords");
-		String description = Option.findValue("seo_index_description");
+		String title = OptionQuery.findValue("seo_index_title");
+		String keywords = OptionQuery.findValue("seo_index_keywords");
+		String description = OptionQuery.findValue("seo_index_description");
 		
 		if(StringUtils.isNotBlank(title)){
 			setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, title);

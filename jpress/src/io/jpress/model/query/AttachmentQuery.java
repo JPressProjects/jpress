@@ -1,5 +1,5 @@
 /**
-jp_contents * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
  *
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,25 @@ jp_contents * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.co
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.freemarker.tag;
+package io.jpress.model.query;
 
-import io.jpress.core.render.freemarker.JTag;
-import io.jpress.model.Content;
+import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.Page;
 
-public class CommentsTag extends JTag {
+import io.jpress.model.Attachment;
 
-	@Override
-	public void onRender() {
+public class AttachmentQuery extends JBaseQuery {
 
-		Page<Content> page = Content.DAO.doPaginate(1, 10);
+	private static final Attachment MODEL = new Attachment();
 
-		setVariable("comments", page.getList());
-
-		renderBody();
+	public static Page<Attachment> paginate(int pageNumber, int pageSize) {
+		String sqlExceptSelect = " FROM attachment a ORDER BY a.created DESC";
+		return MODEL.paginate(pageNumber, pageSize, "SELECT * ", sqlExceptSelect);
+	}
+	
+	public static Attachment findById(BigInteger id){
+		return MODEL.findById(id);
 	}
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 
 /**
  * @title Contents 标签
@@ -67,7 +68,7 @@ public class ContentsTag extends JTag {
 		BigInteger[] parentIds = getParamToBigIntegerArray("parentid");
 		Boolean hasThumbnail = getParamToBool("hasThumbnail");
 		
-		List<Content> data = Content.DAO.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
+		List<Content> data = ContentQuery.findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
 				modules, styles, flags, slugs, userIds, parentIds, tags,hasThumbnail);
 
 		if(data==null || data.isEmpty()){

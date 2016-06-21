@@ -24,8 +24,10 @@ import com.jfinal.core.Controller;
 import io.jpress.Consts;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.StringUtils;
 
@@ -37,10 +39,10 @@ public class SitemapController extends Controller {
 	public void index() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildSitemapHeader(xmlBuilder);
-		String domain = Option.findValue("web_domain");
+		String domain = OptionQuery.findValue("web_domain");
 
 		buildSitemap(xmlBuilder, domain + "/sitemap/site", new Date().toString());
-		List<Taxonomy> taxonomys = Taxonomy.DAO.doFind();
+		List<Taxonomy> taxonomys = TaxonomyQuery.findAll();
 		if (taxonomys != null && !taxonomys.isEmpty()) {
 			for (Taxonomy t : taxonomys) {
 				buildSitemap(xmlBuilder, domain + "/sitemap/taxonomy/" + t.getId(), new Date().toString());
@@ -54,7 +56,7 @@ public class SitemapController extends Controller {
 	public void site() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
-		buildUrl(xmlBuilder, Option.findValue("web_domain"), new Date().toString(), "always", "1.0");
+		buildUrl(xmlBuilder, OptionQuery.findValue("web_domain"), new Date().toString(), "always", "1.0");
 		buildUrlsetFooter(xmlBuilder);
 		renderText(xmlBuilder.toString(), contentType);
 	}
@@ -69,8 +71,8 @@ public class SitemapController extends Controller {
 		BigInteger id = new BigInteger(idString);
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
-		String domain = Option.findValue("web_domain");
-		List<Content> contents = Content.DAO.findListInNormal(1, 500, id, null);
+		String domain = OptionQuery.findValue("web_domain");
+		List<Content> contents = ContentQuery.findListInNormal(1, 500, id, null);
 		if (contents != null && !contents.isEmpty()) {
 			for (Content c : contents) {
 				buildUrl(xmlBuilder, domain + c.getUrl(), new Date().toString(), "daily", "1.0");

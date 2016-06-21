@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jfinal.core.JFinal;
 
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public abstract class RouterConverter {
@@ -65,12 +65,12 @@ public abstract class RouterConverter {
 	}
 
 	protected static boolean enalbleFakeStatic() {
-		Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+		Boolean fakeStaticEnable = OptionQuery.findValueAsBool("router_fakestatic_enable");
 		return fakeStaticEnable != null && fakeStaticEnable == true;
 	}
 
 	protected static String getFakeStaticSuffix() {
-		String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+		String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
 		if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
 			fakeStaticSuffix = ".html";
 		}

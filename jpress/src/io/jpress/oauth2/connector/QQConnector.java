@@ -15,12 +15,12 @@
  */
 package io.jpress.oauth2.connector;
 
-import io.jpress.model.Option;
-import io.jpress.oauth2.OauthConnector;
-import io.jpress.oauth2.OauthUser;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+
+import io.jpress.model.query.OptionQuery;
+import io.jpress.oauth2.OauthConnector;
+import io.jpress.oauth2.OauthUser;
 
 public class QQConnector extends OauthConnector {
 
@@ -29,8 +29,8 @@ public class QQConnector extends OauthConnector {
 	 */
 	public QQConnector() {
 
-		setClientId(Option.findValue("oauth2_qq_appkey"));
-		setClientSecret(Option.findValue("oauth2_qq_appsecret"));
+		setClientId(OptionQuery.findValue("oauth2_qq_appkey"));
+		setClientSecret(OptionQuery.findValue("oauth2_qq_appsecret"));
 		setName("qq");
 	}
 

@@ -18,22 +18,19 @@ package io.jpress.model;
 import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.jsoup.Jsoup;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
-import io.jpress.core.db.Jdb;
 import io.jpress.core.db.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
+import io.jpress.model.query.CommentQuery;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.router.converter.PageRouter;
 import io.jpress.router.converter.TaxonomyRouter;
@@ -52,7 +49,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public static String COMMENT_STATUS_CLOSE = "close";
 
 	private static final long serialVersionUID = 1L;
-	public static final Content DAO = new Content();
 
 	private List<Taxonomy> taxonomys;
 
@@ -61,224 +57,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Content parent;
 	private List<Metadata> metadatas;
 
-	public Page<Content> doPaginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
-		return paginate(page, pagesize, true, "select * ",
-				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
-						+ "GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username"
-						+ " FROM content c" + " left join mapping m on c.id = m.`content_id`"
-						+ " left join taxonomy  t on m.`taxonomy_id` = t.id" + " left join user u on c.user_id = u.id"
-						+ " left join metadata md on c.id = md.`object_id` and md.`object_type`='content'"
-						+ " where c.`metadatas` like ?" + " GROUP BY c.id" + " ORDER BY c.created DESC) c ",
-				"%:" + meta_key + ":" + meta_value);
-	}
-
-	public Page<Content> doPaginateByModule(int page, int pagesize, String module) {
-		return doPaginate(page, pagesize, module, null, null, null, null);
-	}
-
-	public Page<Content> doPaginateByModuleAndStatus(int page, int pagesize, String module, String status) {
-		return doPaginate(page, pagesize, module, status, null, null, null);
-	}
-
-	public Page<Content> doPaginateByModuleInNormal(int page, int pagesize, String module) {
-		return doPaginate(page, pagesize, module, STATUS_NORMAL, null, null, null);
-	}
-
-	public Page<Content> doPaginateByModuleNotInDelete(int page, int pagesize, String module) {
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
-
-		StringBuilder fromBuilder = new StringBuilder(" from content c");
-		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id");
-		fromBuilder.append(" where c.status <> ?");
-
-		LinkedList<Object> params = new LinkedList<Object>();
-		params.add(STATUS_DELETE);
-
-		boolean needWhere = false;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
-		fromBuilder.append(" group by c.id");
-		fromBuilder.append(" ORDER BY c.created DESC");
-
-		if (params.isEmpty()) {
-			return paginate(page, pagesize, select, fromBuilder.toString());
-		}
-
-		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
-	}
-
-	public Page<Content> doPaginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,
-			BigInteger userId, String orderBy) {
-
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
-
-		StringBuilder fromBuilder = new StringBuilder(" from content c");
-		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id");
-
-		LinkedList<Object> params = new LinkedList<Object>();
-
-		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
-
-		fromBuilder.append(" group by c.id");
-
-		if (null != orderBy && !"".equals(orderBy)) {
-			fromBuilder.append(" ORDER BY ? DESC");
-			params.add(orderBy);
-		} else {
-			fromBuilder.append(" ORDER BY c.created DESC");
-		}
-
-		if (params.isEmpty()) {
-			return paginate(page, pagesize, select, fromBuilder.toString());
-		}
-
-		return paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
-	}
-
-	public Long findCountByModuleAndStatus(String module, String status) {
-		return doFindCount("module = ? and status=?", module, status);
-	}
-
-	@Override
-	public Content findById(Object idValue) {
-		return findFirst(getBaseSelectSql() + " WHERE c.id=? ", idValue);
-	}
-
-	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
-		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
-				null, null, null, null, null);
-	}
-
-	/**
-	 * @param page
-	 * @param pagesize
-	 * @param orderBy
-	 * @param keyword
-	 * @param typeIds
-	 * @param typeSlugs
-	 * @param modules
-	 * @param styles
-	 * @param slugs
-	 * @param userIds
-	 * @param parentIds
-	 * @param tags
-	 * @return
-	 */
-	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
-			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
-			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail) {
-
-		StringBuilder sqlBuilder = getBaseSelectSql();
-		sqlBuilder.append(" where c.status = 'normal' ");
-
-		LinkedList<Object> params = new LinkedList<Object>();
-
-		boolean needWhere = false;
-		needWhere = appendIfNotEmpty(sqlBuilder, "m.taxonomy_id", typeIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.module", modules, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.style", styles, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.slug", slugs, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.parent_id", parentIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "t.slug", typeSlugs, params, needWhere);
-		needWhere = appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, needWhere);
-
-		if (null != tags && tags.length > 0) {
-			needWhere = appendIfNotEmpty(sqlBuilder, "t.name", tags, params, needWhere);
-			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
-		}
-
-		if (null != keyword && !"".equals(keyword.trim())) {
-			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
-			sqlBuilder.append(" c.title like ?");
-			params.add("'%" + keyword + "%'");
-		}
-
-		if (null != hasThumbnail) {
-			if (hasThumbnail) {
-				sqlBuilder.append(" and c.thumbnail is not null ");
-			} else {
-				sqlBuilder.append(" and c.thumbnail is null ");
-			}
-		}
-
-		sqlBuilder.append("GROUP BY c.id");
-
-		if (null != orderBy && !"".equals(orderBy)) {
-			sqlBuilder.append(" ORDER BY ? DESC");
-			params.add(orderBy);
-		} else {
-			sqlBuilder.append(" ORDER BY c.created DESC");
-		}
-
-		sqlBuilder.append(" LIMIT ?, ?");
-		params.add(page - 1);
-		params.add(pagesize);
-
-		return find(sqlBuilder.toString(), params.toArray());
-	}
-
-	public List<Content> findByModule(String module) {
-		return doFind("module = ? ", module);
-	}
-
-	public List<Content> findByModuleAndTitle(String module, String title, int limit) {
-		return doFind("module = ? and title = ? order by id desc limit ?", module, title, limit);
-	}
-
-	public Content findFirstByModuleAndTitle(String module, String title) {
-		return doFindFirst("module = ? and title = ? order by id desc", module, title);
-	}
-
-	public Content findFirstByModuleAndObjectId(String module, BigInteger objectId) {
-		return doFindFirst("module = ? and object_id = ? order by id desc", module, objectId);
-	}
-
-	public List<Content> searchByModuleAndTitle(String module, String title, int limit) {
-		return doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);
-	}
-
-	public List<Content> findByModule(String module, String orderby) {
-		return doFind("module = ? order by ?", module, orderby);
-	}
 	
-	public List<Content> findByModule(String module,BigInteger parentId, String orderby) {
-		return doFind("module = ? AND parent_id = ? order by ?", module, parentId,orderby);
-	}
-
-	public Content findBySlug(final String slug) {
-		final StringBuilder sql = getBaseSelectSql();
-
-		sql.append(" WHERE c.slug = ?");
-		sql.append(" GROUP BY c.id");
-
-		return getCache(slug, new IDataLoader() {
-			@Override
-			public Object load() {
-				return findFirst(sql.toString(), slug);
-			}
-		});
-	}
-
-	public Content findById(final BigInteger id) {
-		final StringBuilder sql = getBaseSelectSql();
-		sql.append(" WHERE c.id = ?");
-		sql.append(" GROUP BY c.id");
-
-		return getCache(id, new IDataLoader() {
-			@Override
-			public Object load() {
-				return findFirst(sql.toString(), id);
-			}
-		});
-	}
 
 	@Override
 	public boolean update() {
@@ -304,66 +83,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return super.saveOrUpdate();
 	}
 
-	public long findCountByModule(String module) {
-		return doFindCount("module = ?", module);
-	}
 
-	public long findCountInNormalByModule(String module) {
-		return doFindCount("module = ? AND status <> ?", module, STATUS_DELETE);
-	}
-
-	public long findCountInNormalByModuleAndUserId(String module, BigInteger userId) {
-		return doFindCount("module = ? AND status <> ? and user_id = ? ", module, STATUS_DELETE, userId);
-	}
-
-	public long findCountInNormalByParentId(BigInteger id, String module) {
-		if (id == null) {
-			return doFindCount("parent_id is null AND module = ? AND status <> ?", module, STATUS_DELETE);
-		}
-		return doFindCount("parent_id = ? AND module = ? AND status <> ?", id, module, STATUS_DELETE);
-	}
-
-	public User findUser() {
-		return User.DAO.findUserById(getUserId());
-	}
-
-	public int batchTrash(BigInteger... ids) {
-		if (ids != null && ids.length > 0) {
-			List<Object> params = new LinkedList<Object>();
-			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
-			params.add(STATUS_DELETE);
-			for (int i = 0; i < ids.length; i++) {
-				if (i == 0) {
-					sb.append(" WHERE id = ? ");
-				} else {
-					sb.append(" OR id = ? ");
-				}
-				params.add(ids[i]);
-			}
-			return Jdb.update(sb.toString(), params.toArray());
-		}
-		return 0;
-	}
-
-	public int batchDelete(BigInteger... ids) {
-		if (ids != null && ids.length > 0) {
-			List<Object> params = new LinkedList<Object>();
-			StringBuilder sb = new StringBuilder("DELETE FROM content ");
-			for (int i = 0; i < ids.length; i++) {
-				if (i == 0) {
-					sb.append(" WHERE id = ? ");
-				} else {
-					sb.append(" OR id = ? ");
-				}
-				params.add(ids[i]);
-			}
-			return Jdb.update(sb.toString(), params.toArray());
-		}
-		return 0;
-	}
 
 	public boolean updateCommentCount() {
-		long count = Comment.DAO.findCountByContentIdInNormal(getId());
+		long count = CommentQuery.findCountByContentIdInNormal(getId());
 		if (count > 0) {
 			setCommentCount(count);
 			return this.update();
@@ -624,14 +347,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return imageByName(name, thumbnailSrc);
 	}
 
-	private StringBuilder getBaseSelectSql() {
-		StringBuilder sqlBuilder = new StringBuilder(
-				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar");
-		sqlBuilder.append(" from content c");
-		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		sqlBuilder.append(" left join user u on c.user_id = u.id");
-		return sqlBuilder;
-	}
+
 
 }

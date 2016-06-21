@@ -21,6 +21,8 @@ import java.util.List;
 import io.jpress.Consts;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
@@ -42,12 +44,12 @@ public class MenuChangedListener implements MessageListener {
 	}
 
 	private void updateMenus() {
-		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		if (list != null && list.size() > 0) {
 			for (Content content : list) {
 				BigInteger taxonomyId = content.getObjectId();
 				if (taxonomyId != null) {
-					Taxonomy taxonomy = Taxonomy.DAO.findById(taxonomyId);
+					Taxonomy taxonomy = TaxonomyQuery.findById(taxonomyId);
 					if (taxonomy != null) {
 						content.setText(taxonomy.getUrl());
 						content.saveOrUpdate();

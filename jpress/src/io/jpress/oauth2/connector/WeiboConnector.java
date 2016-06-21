@@ -20,15 +20,15 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 public class WeiboConnector extends OauthConnector {
 
 	public WeiboConnector() {
-		setClientId(Option.findValue("oauth2_weibo_appkey"));
-		setClientSecret(Option.findValue("oauth2_weibo_appsecret"));
+		setClientId(OptionQuery.findValue("oauth2_weibo_appkey"));
+		setClientSecret(OptionQuery.findValue("oauth2_weibo_appsecret"));
 		setName("weibo");
 	}
 

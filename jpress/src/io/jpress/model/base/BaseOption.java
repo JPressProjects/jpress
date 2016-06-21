@@ -17,6 +17,7 @@ package io.jpress.model.base;
 
 import io.jpress.core.JModel;
 import io.jpress.model.Metadata;
+import io.jpress.model.query.MetaDataQuery;
 
 import java.util.List;
 import java.math.BigInteger;
@@ -51,15 +52,15 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JModel<M> impl
 	}
 
 	public Metadata findMetadata(String key){
-		return Metadata.findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		return MetaDataQuery.findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
 	}
 
 	public List<Metadata> findMetadataList(){
-		return Metadata.findListByTypeAndId(METADATA_TYPE, getId());
+		return MetaDataQuery.findListByTypeAndId(METADATA_TYPE, getId());
 	}
 
 	public M findFirstFromMetadata(String key,Object value){
-		Metadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);
+		Metadata md = MetaDataQuery.findFirstByTypeAndValue(METADATA_TYPE, key, value);
 		if(md != null){
 			BigInteger id = md.getObjectId();
 			return findById(id);

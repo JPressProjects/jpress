@@ -21,6 +21,7 @@ import java.util.Date;
 import io.jpress.Consts;
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
+import io.jpress.model.query.UserQuery;
 import io.jpress.oauth2.Oauth2Controller;
 import io.jpress.oauth2.OauthUser;
 import io.jpress.plugin.message.MessageKit;
@@ -44,7 +45,7 @@ public class OauthController extends Oauth2Controller {
 
 	@Override
 	public void onCallBack(OauthUser ouser) {
-		User user = User.DAO.findFirstFromMetadata(ouser.getSource() + "_open_id", ouser.getOpenId());
+		User user = UserQuery.findFirstFromMetadata(ouser.getSource() + "_open_id", ouser.getOpenId());
 		if (null == user) { // first login
 			user = new User();
 			user.setAvatar(ouser.getAvatar());

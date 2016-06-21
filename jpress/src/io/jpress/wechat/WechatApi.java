@@ -20,16 +20,16 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MenuApi;
 import com.jfinal.weixin.sdk.api.UserApi;
 
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.HttpUtils;
 
 public class WechatApi {
 
 	public static ApiConfig getApiConfig() {
 		ApiConfig config = new ApiConfig();
-		config.setAppId(Option.findValue("wechat_appid"));
-		config.setAppSecret(Option.findValue("wechat_appsecret"));
-		config.setToken(Option.findValue("wechat_token"));
+		config.setAppId(OptionQuery.findValue("wechat_appid"));
+		config.setAppSecret(OptionQuery.findValue("wechat_appsecret"));
+		config.setToken(OptionQuery.findValue("wechat_token"));
 		return config;
 	}
 

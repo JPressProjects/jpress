@@ -27,7 +27,7 @@ import com.jfinal.log.Log;
 
 import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.router.converter.PageRouter;
 import io.jpress.router.converter.TaxonomyRouter;
@@ -73,12 +73,12 @@ public class RouterManager {
 		
 
 		if (target.indexOf('.') != -1) {
-			Boolean fakeStaticEnable = Option.findValueAsBool("router_fakestatic_enable");
+			Boolean fakeStaticEnable = OptionQuery.findValueAsBool("router_fakestatic_enable");
 			if (fakeStaticEnable == null || !fakeStaticEnable) {
 				return target;
 			}
 
-			String fakeStaticSuffix = Option.findValue("router_fakestatic_suffix");
+			String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
 
 			if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
 				fakeStaticSuffix = ".html";

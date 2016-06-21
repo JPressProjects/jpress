@@ -34,6 +34,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Template;
@@ -175,7 +176,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void menu() {
-		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		ModelSorter.sort(list);
 		
 		List<Content> menulist = new ArrayList<Content>();
@@ -183,7 +184,7 @@ public class _TemplateController extends JBaseController {
 		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			Content c = Content.DAO.findById(id);
+			Content c = ContentQuery.findById(id);
 			setAttr("menu", c);
 
 			if (id != null && list != null) {
@@ -212,7 +213,7 @@ public class _TemplateController extends JBaseController {
 	public void menudel() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			if (Content.DAO.deleteById(id)) {
+			if (ContentQuery.deleteById(id)) {
 				renderAjaxResultForSuccess();
 				return;
 			}

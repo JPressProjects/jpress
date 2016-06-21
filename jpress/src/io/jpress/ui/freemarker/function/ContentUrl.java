@@ -19,6 +19,7 @@ import java.math.BigInteger;
 
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 
 public class ContentUrl extends JFunction {
 	@Override
@@ -28,7 +29,7 @@ public class ContentUrl extends JFunction {
 			return null;
 		}
 
-		Content content = Content.DAO.findById(id);
+		Content content = ContentQuery.findById(id);
 		if (content != null) {
 			return content.getUrl();
 		}

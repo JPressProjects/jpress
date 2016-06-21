@@ -24,6 +24,8 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
@@ -33,7 +35,7 @@ import io.jpress.utils.StringUtils;
 public class ApiController extends JBaseController {
 
 	public void index() {
-		Boolean isOpen = Option.findValueAsBool("api_enable");
+		Boolean isOpen = OptionQuery.findValueAsBool("api_enable");
 		if (isOpen == null || isOpen == false) {
 			renderAjaxResult("api is not open", 1);
 			return;
@@ -45,8 +47,7 @@ public class ApiController extends JBaseController {
 			return;
 		}
 
-		String sql = "select * from content where module = ? and text = ?";
-		Content content = Content.DAO.findFirst(sql, Consts.MODULE_API_APPLICATION, appkey);
+		Content content = ContentQuery.findFirstByModuleAndText( Consts.MODULE_API_APPLICATION, appkey);
 		if (content == null) {
 			renderAjaxResultForError("appkey is error!");
 			return;

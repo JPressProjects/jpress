@@ -17,12 +17,6 @@ package io.jpress.model;
 
 import io.jpress.core.db.Table;
 import io.jpress.model.base.BaseComment;
-import io.jpress.utils.StringUtils;
-
-import java.math.BigInteger;
-import java.util.LinkedList;
-
-import com.jfinal.plugin.activerecord.Page;
 
 @Table(tableName = "comment", primaryKey = "id")
 public class Comment extends BaseComment<Comment> {
@@ -33,94 +27,7 @@ public class Comment extends BaseComment<Comment> {
 	public static String STATUS_DRAFT = "draft";
 	public static String STATUS_NORMAL = "normal";
 
-	public static final Comment DAO = new Comment();
 
-	public Page<Comment> doPaginateWithContent(int pageNumber, int pageSize, String module, String type,
-			BigInteger contentId, String status) {
-
-		String select = " select c.*,content.title content_title,u.username,u.nickname";
-		StringBuilder fromBuilder = new StringBuilder("  from comment c");
-		fromBuilder.append(" left join content on c.content_id = content.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id ");
-
-		LinkedList<Object> params = new LinkedList<Object>();
-		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.`type`", type, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, " c.content_module", module, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, " c.`status`", status, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, " content.id", contentId, params, needWhere);
-
-		fromBuilder.append("order by c.created desc");
-
-		if (params.isEmpty()) {
-			return paginate(pageNumber, pageSize, select, fromBuilder.toString());
-		}
-		return paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
-	}
-
-	public Page<Comment> doPaginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
-
-		String select = " select c.*,content.title content_title,u.username,u.nickname";
-		StringBuilder fromBuilder = new StringBuilder("  from comment c");
-		fromBuilder.append(" left join content on c.content_id = content.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id ");
-		fromBuilder.append(" where c.status <> ?");
-		
-		if (StringUtils.isNotBlank(module)) {
-			fromBuilder.append(" and c.content_module = ?");
-		}
-		fromBuilder.append("order by c.created desc");
-		
-		if (StringUtils.isNotBlank(module)) {
-			return paginate(pageNumber, pageSize, select, fromBuilder.toString(), module, STATUS_DELETE);
-		} else {
-			return paginate(pageNumber, pageSize, select, fromBuilder.toString(), STATUS_DELETE);
-		}
-
-	}
-
-	public Page<Comment> doPaginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
-		return doPaginateWithContent(pageNumber, pageSize, null, null, contentId, STATUS_NORMAL);
-	}
-
-	public long findCountByContentIdInNormal(BigInteger contentId) {
-		return findCountByContentId(contentId, STATUS_NORMAL);
-	}
-
-	public long findCountByContentId(BigInteger contentId, String status) {
-		return doFindCount(" content_id = ? and status=? ", contentId, status);
-	}
-
-	public long findCountByUserIdInNormal(BigInteger userId) {
-		return findCountByUserId(userId, STATUS_NORMAL);
-	}
-
-	public long findCountByUserId(BigInteger userId, String status) {
-		return doFindCount(" user_id = ? and status=? ", userId, status);
-	}
-
-	@Override
-	public Comment findById(Object idValue) {
-		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname");
-		sqlBuilder.append(" from comment c");
-		sqlBuilder.append(" left join content on c.content_id = content.id");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		sqlBuilder.append(" where c.id = ?");
-
-		return findFirst(sqlBuilder.toString(), idValue);
-	}
-
-	public long findCountByModule(String module) {
-		return doFindCount("content_module = ?", module);
-	}
-
-	public long findCountInNormalByModule(String module) {
-		return doFindCount("content_module = ? AND status <> ?", module, STATUS_DELETE);
-	}
-
-	public Long findCountByModuleAndStatus(String module, String status) {
-		return doFindCount("content_module = ? and status=?", module, status);
-	}
 
 	public String getUsername() {
 		return get("username");

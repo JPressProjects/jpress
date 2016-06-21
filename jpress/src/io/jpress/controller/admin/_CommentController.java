@@ -27,6 +27,8 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
+import io.jpress.model.query.CommentQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -50,23 +52,23 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public void index() {
 		super.index();
 		setAttr("module", Jpress.currentTemplate().getModuleByName(getContentModule()));
-		setAttr("delete_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
-		setAttr("draft_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
-		setAttr("normal_count", mDao.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
-		setAttr("count", mDao.findCountInNormalByModule(getContentModule()));
+		setAttr("delete_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
+		setAttr("draft_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
+		setAttr("normal_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
+		setAttr("count", CommentQuery.findCountInNormalByModule(getContentModule()));
 	}
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return mDao.doPaginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
+			return CommentQuery.paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
 		}
-		return mDao.doPaginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
+		return CommentQuery.paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		Comment c = Comment.DAO.findById(getParaToBigInteger("id"));
+		Comment c = CommentQuery.findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Comment.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -79,7 +81,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = Comment.DAO.findById(id);
+		Comment c = CommentQuery.findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
 			c.saveOrUpdate();
@@ -92,7 +94,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void pub() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = Comment.DAO.findById(id);
+		Comment c = CommentQuery.findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_NORMAL);
 			if (c.saveOrUpdate()) {
@@ -109,7 +111,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void draft() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = Comment.DAO.findById(id);
+		Comment c = CommentQuery.findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DRAFT);
 			if (c.saveOrUpdate()) {
@@ -126,7 +128,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		final Comment c = Comment.DAO.findById(id);
+		final Comment c = CommentQuery.findById(id);
 		if (c != null) {
 			if (c.delete()) {
 				MessageKit.sendMessage(Actions.COMMENT_DELETE, c);
@@ -142,7 +144,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment comment = getModel(Comment.class);
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
-			User user = User.DAO.findUserByUsername(username);
+			User user = UserQuery.findUserByUsername(username);
 			if (user == null) {
 				renderAjaxResultForError("系统没有该用户：" + username);
 				return;

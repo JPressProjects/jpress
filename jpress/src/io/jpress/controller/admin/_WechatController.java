@@ -33,6 +33,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.StringUtils;
@@ -52,9 +53,9 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
+			return ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
 		}
-		return mDao.doPaginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
+		return ContentQuery.paginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
 	}
 
 	public void reply_default() {
@@ -70,7 +71,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void menu() {
-		List<Content> list = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.sort(list);
 		
 		List<Content> wechat_menulist = new ArrayList<Content>();
@@ -78,7 +79,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			Content c = Content.DAO.findById(id);
+			Content c = ContentQuery.findById(id);
 			setAttr("wechat_menu", c);
 			
 			setAttr(c.getFlag()+"_selected", "selected=\"selected\"");
@@ -107,13 +108,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		}
 		
 		if(c.getParentId() == null){
-			long count = Content.DAO.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			long count = ContentQuery.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
 			if(count > 3){
 				renderAjaxResultForError("顶级菜单不能超过3个！");
 				return;
 			}
 		}else{
-			long count = Content.DAO.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			long count = ContentQuery.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
 			if(count > 5){
 				renderAjaxResultForError("子级菜单不能超过5个！");
 				return;
@@ -134,7 +135,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void menuDel() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			if (Content.DAO.deleteById(id)) {
+			if (ContentQuery.deleteById(id)) {
 				renderAjaxResultForSuccess();
 			}
 		}
@@ -143,7 +144,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(WechatApiConfigInterceptor.class)
 	public void menuSync() {
-		List<Content> wechatMenus = Content.DAO.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> wechatMenus = ContentQuery.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.tree(wechatMenus);
 
 		if (wechatMenus != null) {
@@ -191,7 +192,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void trash() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = Content.DAO.findById(id);
+		Content c = ContentQuery.findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -204,7 +205,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = mDao.batchTrash(ids);
+		int count = ContentQuery.batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -215,7 +216,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = Content.DAO.findById(id);
+		Content c = ContentQuery.findById(id);
 		if (c != null && c.isDelete()) {
 			c.delete();
 			renderAjaxResultForSuccess("success");
@@ -229,7 +230,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 		String id = getPara("id");
 		if (id != null) {
-			setAttr("content", mDao.findById(id));
+			setAttr("content", ContentQuery.findById(id));
 		} else {
 			Content c = new Content();
 			c.setCreated(new Date());

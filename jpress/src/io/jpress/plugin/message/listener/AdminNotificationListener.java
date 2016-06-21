@@ -17,6 +17,7 @@ package io.jpress.plugin.message.listener;
 
 import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.plugin.message.Message;
@@ -51,10 +52,10 @@ public class AdminNotificationListener implements MessageListener {
 	}
 
 	private void notifyByEmail(User registedUser) {
-		Boolean notify = Option.findValueAsBool("notify_admin_by_email_when_user_registed");
+		Boolean notify = OptionQuery.findValueAsBool("notify_admin_by_email_when_user_registed");
 		if (notify != null && notify == true) {
 			
-			String toemail = Option.findValue("web_administrator_email");
+			String toemail = OptionQuery.findValue("web_administrator_email");
 			if(!StringUtils.isNotBlank(toemail)){
 				return;
 			}
@@ -62,7 +63,7 @@ public class AdminNotificationListener implements MessageListener {
 			Email email = new Email();
 			email.subject("您的网站有人注册了！");
 
-			String content = Option.findValue("notify_admin_by_content_email_when_user_registed");
+			String content = OptionQuery.findValue("notify_admin_by_content_email_when_user_registed");
 			
 			System.err.println("======content:"+content);
 			

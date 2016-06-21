@@ -27,7 +27,10 @@ import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
-import io.jpress.model.User;
+import io.jpress.model.query.CommentQuery;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.ui.freemarker.tag.ContentPaginateTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
@@ -70,15 +73,15 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("pageNumber", pageNumber);
 		setAttr("content", content);
-		setAttr("user", User.DAO.findById(content.getUserId()));
+		setAttr("user", UserQuery.findById(content.getUserId()));
 
-		Page<Comment> page = Comment.DAO.doPaginateByContentId(pageNumber, pageSize, content.getId());
+		Page<Comment> page = CommentQuery.paginateByContentId(pageNumber, pageSize, content.getId());
 		setAttr("page", page);
 
 		ContentPaginateTag cpt = new ContentPaginateTag(page, content);
 		setAttr("pagination", cpt);
 
-		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByContentId(content.getId());
+		List<Taxonomy> taxonomys = TaxonomyQuery.findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
 		setAttr("jp_menu", new MenuTag(getRequest(),taxonomys));
@@ -116,9 +119,9 @@ public class ContentController extends BaseFrontController {
 
 	private Content queryContent() {
 		if (id != null) {
-			return Content.DAO.findById(id);
+			return ContentQuery.findById(id);
 		} else {
-			return Content.DAO.findBySlug(StringUtils.urlDecode(slug));
+			return ContentQuery.findBySlug(StringUtils.urlDecode(slug));
 		}
 	}
 

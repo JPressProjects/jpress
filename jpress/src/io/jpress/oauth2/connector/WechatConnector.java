@@ -15,11 +15,11 @@
  */
 package io.jpress.oauth2.connector;
 
-import io.jpress.model.Option;
+import com.alibaba.fastjson.JSONObject;
+
+import io.jpress.model.query.OptionQuery;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
-
-import com.alibaba.fastjson.JSONObject;
 
 public class WechatConnector extends OauthConnector {
 
@@ -27,8 +27,8 @@ public class WechatConnector extends OauthConnector {
 	// https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
 
 	public WechatConnector() {
-		setClientId(Option.findValue("oauth2_wechat_appkey"));
-		setClientSecret(Option.findValue("oauth2_wechat_appsecret"));
+		setClientId(OptionQuery.findValue("oauth2_wechat_appkey"));
+		setClientSecret(OptionQuery.findValue("oauth2_wechat_appsecret"));
 		setName("wechat");
 	}
 

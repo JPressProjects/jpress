@@ -18,6 +18,7 @@ package io.jpress.ui.freemarker.function;
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.template.Module.TaxonomyType;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class TaxonomyBox extends JFunction {
 		this.content = (Content) get(1);
 
 		if (content != null) {
-			contentTaxonomyList = Taxonomy.DAO.findListByContentId(content.getId());
+			contentTaxonomyList = TaxonomyQuery.findListByContentId(content.getId());
 		} else {
 			contentTaxonomyList = null;
 		}
@@ -50,7 +51,7 @@ public class TaxonomyBox extends JFunction {
 
 		String moduleName = taxonomyType.getModule().getName();
 		String txType = taxonomyType.getName();
-		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndTypeAsTree(moduleName, txType);
+		List<Taxonomy> list = TaxonomyQuery.findListByModuleAndTypeAsTree(moduleName, txType);
 		StringBuilder htmlBuilder = new StringBuilder();
 
 		if (list != null && list.size() > 0) {

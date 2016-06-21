@@ -25,8 +25,8 @@ import com.jfinal.upload.UploadFile;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
-import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -97,7 +97,7 @@ public class _OptionController extends JBaseCRUDController<User> {
 			value = null;
 		}
 
-		Option.saveOrUpdate(key, value);
+		OptionQuery.saveOrUpdate(key, value);
 	}
 
 }

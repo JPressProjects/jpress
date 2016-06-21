@@ -25,7 +25,8 @@ import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 
 import io.jpress.model.Content;
-import io.jpress.model.Option;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 import io.jpress.wechat.IMessageProcesser;
 import io.jpress.wechat.MessageProcesser;
@@ -56,7 +57,7 @@ public class ContentsProcesser implements IMessageProcesser {
 		
 		if(contentIds!=null && contentIds.size() > 0){
 			for(BigInteger id : contentIds){
-				contents.add(Content.DAO.findById(id));
+				contents.add(ContentQuery.findById(id));
 			}
 		}
 		
@@ -72,10 +73,10 @@ public class ContentsProcesser implements IMessageProcesser {
 			}
 		}else{
 			News news = new News();
-			news.setTitle("配置错误，暂为找到相应内容！");
+			news.setTitle("配置错误，暂未找到相应内容！");
 			news.setDescription("配置错误，请管理员查看JPress帮助文档....");
 			news.setUrl("http://jpress.io");
-			news.setPicUrl(Option.findValue("web_domain")+"/static/jpress/admin/image/nothunmbnail.jpg");
+			news.setPicUrl(OptionQuery.findValue("web_domain")+"/static/jpress/admin/image/nothunmbnail.jpg");
 			out.addNews(news);
 		}
 		

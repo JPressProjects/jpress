@@ -37,9 +37,12 @@ import io.jpress.core.render.AjaxResult;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
-import io.jpress.model.Mapping;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.MappingQuery;
+import io.jpress.model.query.TaxonomyQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -65,10 +68,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 		setAttr("module", Jpress.currentTemplate().getModuleByName(getModuleName()));
-		setAttr("delete_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
-		setAttr("draft_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
-		setAttr("normal_count", mDao.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
-		setAttr("count", mDao.findCountInNormalByModule(getModuleName()));
+		setAttr("delete_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
+		setAttr("draft_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
+		setAttr("normal_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
+		setAttr("count", ContentQuery.findCountInNormalByModule(getModuleName()));
 
 		super.index();
 	}
@@ -76,14 +79,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getStatus())) {
-			return mDao.doPaginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
+			return ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
 		}
-		return mDao.doPaginateByModuleNotInDelete(pageNumber, pageSize, getModuleName());
+		return ContentQuery.paginateByModuleNotInDelete(pageNumber, pageSize, getModuleName());
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		Content c = Content.DAO.findById(getParaToBigInteger("id"));
+		Content c = ContentQuery.findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -96,7 +99,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = mDao.batchTrash(ids);
+		int count = ContentQuery.batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -107,7 +110,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchDelete() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = mDao.batchDelete(ids);
+		int count = ContentQuery.batchDelete(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -118,7 +121,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = Content.DAO.findById(id);
+		Content c = ContentQuery.findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
 			c.setModified(new Date());
@@ -132,13 +135,13 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		final Content c = Content.DAO.findById(id);
+		final Content c = ContentQuery.findById(id);
 		if (c != null && c.isDelete()) {
 			boolean isSuccess = Db.tx(new IAtom() {
 				@Override
 				public boolean run() throws SQLException {
 					if (c.delete()) {
-						Mapping.DAO.deleteByContentId(c.getId());
+						MappingQuery.deleteByContentId(c.getId());
 						return true;
 					}
 					return false;
@@ -159,7 +162,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		String moduleName = getModuleName();
 		BigInteger contentId = getParaToBigInteger("id");
 
-		Content content = Content.DAO.findById(contentId);
+		Content content = ContentQuery.findById(contentId);
 		if (content != null) {
 			setAttr("content", content);
 			moduleName = content.getModule();
@@ -226,7 +229,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				}
 				String[] titles = data.split(",");
 				if (titles != null && titles.length > 0) {
-					List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(moduleName, type.getName());
+					List<Taxonomy> list = TaxonomyQuery.findListByModuleAndType(moduleName, type.getName());
 					for (String title : titles) {
 						BigInteger id = getIdFromList(title, list);
 						if (id == null) {
@@ -285,7 +288,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
-			User user = User.DAO.findUserByUsername(username);
+			User user = UserQuery.findUserByUsername(username);
 			if (user == null) {
 				renderAjaxResultForError("系统没有该用户：" + username);
 				return;
@@ -293,7 +296,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			content.setUserId(user.getId());
 		}
 
-		Content dbContent = mDao.findBySlug(content.getSlug());
+		Content dbContent = ContentQuery.findBySlug(content.getSlug());
 		if (dbContent != null && content.getId() != null && dbContent.getId().compareTo(content.getId()) != 0) {
 			renderAjaxResultForError();
 			return;
@@ -305,7 +308,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 				Content oldContent = null;
 				if (content.getId() != null) {
-					oldContent = mDao.findById(content.getId());
+					oldContent = ContentQuery.findById(content.getId());
 				}
 
 				if (!content.saveOrUpdate()) {
@@ -314,7 +317,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 
 				if (ids != null && ids.size() > 0) {
-					if (!Mapping.DAO.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
+					if (!MappingQuery.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
 						return false;
 					}
 				}

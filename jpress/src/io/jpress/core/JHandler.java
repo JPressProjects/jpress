@@ -23,7 +23,7 @@ import com.jfinal.kit.HandlerKit;
 
 import io.jpress.Consts;
 import io.jpress.install.InstallUtils;
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterManager;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.FileUtils;
@@ -111,19 +111,19 @@ public class JHandler extends Handler {
 		}
 		
 
-		Boolean cdnEnable = Option.findValueAsBool("cdn_enable");
+		Boolean cdnEnable = OptionQuery.findValueAsBool("cdn_enable");
 		if (cdnEnable != null && cdnEnable == true) {
-			String cdnDomain = Option.findValue("cdn_domain");
+			String cdnDomain = OptionQuery.findValue("cdn_domain");
 			if (cdnDomain != null && !"".equals(cdnDomain.trim())) {
 				request.setAttribute("CDN", cdnDomain);
 			}
 		}
 
-		request.setAttribute(Consts.ATTR_GLOBAL_WEB_NAME, Option.findValue("web_name"));
-		request.setAttribute(Consts.ATTR_GLOBAL_WEB_TITLE, Option.findValue("web_title"));
-		request.setAttribute(Consts.ATTR_GLOBAL_WEB_SUBTITLE, Option.findValue("web_subtitle"));
-		request.setAttribute(Consts.ATTR_GLOBAL_META_KEYWORDS, Option.findValue("meta_keywords"));
-		request.setAttribute(Consts.ATTR_GLOBAL_META_DESCRIPTION, Option.findValue("meta_description"));
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_NAME, OptionQuery.findValue("web_name"));
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_TITLE, OptionQuery.findValue("web_title"));
+		request.setAttribute(Consts.ATTR_GLOBAL_WEB_SUBTITLE, OptionQuery.findValue("web_subtitle"));
+		request.setAttribute(Consts.ATTR_GLOBAL_META_KEYWORDS, OptionQuery.findValue("meta_keywords"));
+		request.setAttribute(Consts.ATTR_GLOBAL_META_DESCRIPTION, OptionQuery.findValue("meta_description"));
 	}
 
 }

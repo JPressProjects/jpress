@@ -25,6 +25,7 @@ import io.jpress.Consts;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.interceptor.UserInterceptor;
 import io.jpress.model.User;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -72,7 +73,7 @@ public class UserController extends BaseFrontController {
 			}
 		}
 
-		User user = User.DAO.findUserByUsername(username);
+		User user = UserQuery.findUserByUsername(username);
 		if (null == user) {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
@@ -156,17 +157,17 @@ public class UserController extends BaseFrontController {
 			}
 		}
 
-		if (User.DAO.findUserByUsername(username) != null) {
+		if (UserQuery.findUserByUsername(username) != null) {
 			renderForRegister("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
 			return;
 		}
 
-		if (User.DAO.findUserByEmail(email) != null) {
+		if (UserQuery.findUserByEmail(email) != null) {
 			renderForRegister("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
 			return;
 		}
 
-		if (null != phone && User.DAO.findUserByPhone(phone) != null) {
+		if (null != phone && UserQuery.findUserByPhone(phone) != null) {
 			renderForRegister("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}

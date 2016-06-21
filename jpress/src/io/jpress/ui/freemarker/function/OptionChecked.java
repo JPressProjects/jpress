@@ -16,7 +16,7 @@
 package io.jpress.ui.freemarker.function;
 
 import io.jpress.core.render.freemarker.JFunction;
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class OptionChecked extends JFunction {
@@ -29,7 +29,7 @@ public class OptionChecked extends JFunction {
 
 		String value = getToString(1);
 		if (StringUtils.isNotBlank(value)) {
-			String setting = Option.findValue(key);
+			String setting = OptionQuery.findValue(key);
 			if (value.equals(setting)) {
 				return "checked=\"checked\"";
 			} else {
@@ -53,7 +53,7 @@ public class OptionChecked extends JFunction {
 	}
 
 	private Boolean tryToGetBool(String key) {
-		String value = Option.findValue(key);
+		String value = OptionQuery.findValue(key);
 		Boolean ret = null;
 		try {
 			ret = Boolean.parseBoolean(value);

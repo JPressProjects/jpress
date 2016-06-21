@@ -72,18 +72,18 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				
 				
 				+ "\tpublic Metadata findMetadata(String key){%n"
-				+ "\t\treturn Metadata.findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);%n"
+				+ "\t\treturn MetaDataQuery.findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);%n"
 				+ "\t}%n%n"
 				
 
 				+ "\tpublic List<Metadata> findMetadataList(){%n"
-				+ "\t\treturn Metadata.findListByTypeAndId(METADATA_TYPE, getId());%n"
+				+ "\t\treturn MetaDataQuery.findListByTypeAndId(METADATA_TYPE, getId());%n"
 				+ "\t}%n%n"
 				
 				
 				
 				+ "\tpublic M findFirstFromMetadata(String key,Object value){%n"
-				+ "\t\tMetadata md = Metadata.findFirstByTypeAndValue(METADATA_TYPE, key, value);%n"
+				+ "\t\tMetadata md = MetaDataQuery.findFirstByTypeAndValue(METADATA_TYPE, key, value);%n"
 				+ "\t\tif(md != null){%n"
 				+ "\t\t\tBigInteger id = md.getObjectId();%n"
 				+ "\t\t\treturn findById(id);%n"
@@ -123,7 +123,8 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 
 		
 		this.importTemplate = "import io.jpress.core.JModel;%n"
-				+ "import io.jpress.model.Metadata;%n%n"
+				+ "import io.jpress.model.Metadata;%n"
+				+ "import io.jpress.model.query.MetaDataQuery;%n%n"
 				+ "import java.util.List;%n"
 				+ "import java.math.BigInteger;%n%n"
 				+ "import com.jfinal.plugin.activerecord.IBean;%n"

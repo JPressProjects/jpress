@@ -25,6 +25,8 @@ import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
@@ -65,7 +67,7 @@ public class TaxonomyController extends BaseFrontController {
 		}
 
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();
-		Page<Content> page = Content.DAO.doPaginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
+		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
 		setAttr("page", page);
 
 		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
@@ -85,7 +87,7 @@ public class TaxonomyController extends BaseFrontController {
 	}
 
 	private Taxonomy tryGetTaxonomy() {
-		return slug == null ? null : Taxonomy.DAO.findBySlugAndModule(slug, moduleName);
+		return slug == null ? null : TaxonomyQuery.findBySlugAndModule(slug, moduleName);
 	}
 
 	private void initRequest() {

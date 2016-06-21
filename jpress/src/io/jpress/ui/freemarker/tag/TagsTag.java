@@ -20,6 +20,7 @@ import java.util.List;
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.TaxonomyQuery;
 
 public class TagsTag extends JTag {
 
@@ -30,7 +31,7 @@ public class TagsTag extends JTag {
 		count = count <= 0 ? 10 : count;
 
 		String module = getParam("module", Consts.MODULE_ARTICLE);
-		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(module, "tag", count);
+		List<Taxonomy> list = TaxonomyQuery.findListByModuleAndType(module, "tag", count);
 		setVariable("tags", list);
 
 		renderBody();

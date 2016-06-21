@@ -21,6 +21,7 @@ import com.jfinal.aop.Invocation;
 
 import io.jpress.Consts;
 import io.jpress.model.User;
+import io.jpress.model.query.UserQuery;
 import io.jpress.utils.CookieUtils;
 
 public class InterUtils {
@@ -30,7 +31,7 @@ public class InterUtils {
 		String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 		if (userId != null && !"".equals(userId)) {
 			// findUserById has cache
-			return User.DAO.findUserById(new BigInteger(userId));
+			return UserQuery.findById(new BigInteger(userId));
 		}
 
 		return null;

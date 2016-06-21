@@ -22,8 +22,10 @@ import io.jpress.Consts;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -52,7 +54,7 @@ public class CommentController extends BaseFrontController {
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 允许未登陆用户评论
-		Boolean comment_allow_not_login = Option.findValueAsBool("comment_allow_not_login");
+		Boolean comment_allow_not_login = OptionQuery.findValueAsBool("comment_allow_not_login");
 
 		// 允许未登陆用户评论
 		if (comment_allow_not_login == null || comment_allow_not_login == false) {
@@ -67,7 +69,7 @@ public class CommentController extends BaseFrontController {
 		}
 
 		String status = Comment.STATUS_NORMAL;
-		Boolean comment_must_audited = Option.findValueAsBool("comment_must_audited");
+		Boolean comment_must_audited = OptionQuery.findValueAsBool("comment_must_audited");
 		if (comment_must_audited != null && comment_must_audited) {
 			status = Comment.STATUS_DRAFT;
 		}
@@ -75,7 +77,7 @@ public class CommentController extends BaseFrontController {
 		BigInteger contentId = getParaToBigInteger("cid");
 		Content content = null;
 		if (contentId != null) {
-			content = Content.DAO.findById(contentId);
+			content = ContentQuery.findById(contentId);
 		} else {
 			renderForCommentError("comment fail,content id is null!", 1);
 			return;
@@ -95,7 +97,7 @@ public class CommentController extends BaseFrontController {
 		String type = Comment.TYPE_COMMENT;
 
 		if (userId != null) {
-			User user = User.DAO.findById(userId);
+			User user = UserQuery.findById(userId);
 			if (user != null && StringUtils.isNotBlank(user.getNickname())) {
 				author = user.getNickname();
 			} else {
@@ -104,7 +106,7 @@ public class CommentController extends BaseFrontController {
 		}
 
 		if (!StringUtils.isNotBlank(author)) {
-			String defautAuthor = Option.findValue("comment_default_nickname");
+			String defautAuthor = OptionQuery.findValue("comment_default_nickname");
 			author = StringUtils.isNotBlank(defautAuthor) ? defautAuthor : "网友";
 		}
 

@@ -30,6 +30,9 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
+import io.jpress.model.query.CommentQuery;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.message.listener.Actions;
 import io.jpress.router.RouterMapping;
@@ -54,12 +57,12 @@ public class _AdminController extends JBaseController {
 				moduels[i] = moduleList.get(i).getName();
 			}
 
-			List<Content> contents = Content.DAO.findListInNormal(1, 20, null, null, null, null, moduels, null, null,
+			List<Content> contents = ContentQuery.findListInNormal(1, 20, null, null, null, null, moduels, null, null,
 					null, null, null, null, null);
 			setAttr("contents", contents);
 		}
 
-		Page<Comment> commentPage = Comment.DAO.doPaginateWithContentNotInDelete(1, 10, null);
+		Page<Comment> commentPage = CommentQuery.paginateWithContentNotInDelete(1, 10, null);
 		if (commentPage != null) {
 			setAttr("comments", commentPage.getList());
 		}
@@ -77,7 +80,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 
-		User user = User.DAO.findUserByUsername(username);
+		User user = UserQuery.findUserByUsername(username);
 
 		if (null == user) {
 			renderAjaxResultForError("没有该用户");

@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.jpress.core.Jpress;
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
 
@@ -55,7 +56,7 @@ public class DbSearcher implements ISearcher {
 		
 		String[] modules = Jpress.currentTemplate().getModules().toArray(new String[] {});
 		
-		List<Content> list = Content.DAO.findListInNormal(pageNum, pageSize, "created DESC", keyword, null, null,
+		List<Content> list = ContentQuery.findListInNormal(pageNum, pageSize, "created DESC", keyword, null, null,
 				modules, null, null, null, null, null, null,null);
 
 		List<SearcherBean> datas = null;

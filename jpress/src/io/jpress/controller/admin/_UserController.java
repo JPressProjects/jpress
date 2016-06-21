@@ -25,6 +25,7 @@ import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
+import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.AttachmentUtils;
@@ -38,10 +39,10 @@ public class _UserController extends JBaseCRUDController<User> {
 
 	@Override
 	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
-		setAttr("userCount", User.DAO.doFindCount());
-		setAttr("adminCount", User.DAO.findAdminCount());
+		setAttr("userCount", UserQuery.findCount());
+		setAttr("adminCount",UserQuery.findAdminCount());
 
-		return mDao.doPaginate(pageNumber, pageSize);
+		return UserQuery.paginate(pageNumber, pageSize);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class _UserController extends JBaseCRUDController<User> {
 
 		// 修改了密码
 		if (m.getId() != null && StringUtils.isNotEmpty(password)) {
-			User dbUser = User.DAO.findById(m.getId());
+			User dbUser = UserQuery.findById(m.getId());
 			m.setSalt(dbUser.getSalt());
 			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
 			m.setPassword(password);
@@ -83,7 +84,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void info() {
 		User user = getAttr(Consts.ATTR_USER);
 		if(user !=null){
-			user = User.DAO.findById(user.getId());
+			user = UserQuery.findById(user.getId());
 		}
 		setAttr("user", user);
 		render("edit.html");
@@ -92,7 +93,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void frozen() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			User user = User.DAO.findById(id);
+			User user = UserQuery.findById(id);
 			user.setStatus(User.STATUS_FROZEN);
 			user.update();
 			renderAjaxResultForSuccess();
@@ -104,7 +105,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			User user = User.DAO.findById(id);
+			User user = UserQuery.findById(id);
 			user.setStatus(User.STATUS_NORMAL);
 			user.update();
 			renderAjaxResultForSuccess();

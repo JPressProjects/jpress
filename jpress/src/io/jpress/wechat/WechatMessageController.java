@@ -52,7 +52,8 @@ import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.Module;
 import io.jpress.utils.CookieUtils;
@@ -228,7 +229,7 @@ public class WechatMessageController extends MsgController {
 			return;
 		}
 
-		Content content = Content.DAO.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
+		Content content = ContentQuery.findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
 		if (content != null && content.getText() != null) {
 			// 是否是高级回复
 			textOrSeniorRender(message, content.getText());
@@ -250,11 +251,11 @@ public class WechatMessageController extends MsgController {
 			for (Module module : modules) {
 
 				// 是否启用搜索
-				Boolean bool = Option.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
+				Boolean bool = OptionQuery.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
 				if (bool != null && bool) {
 
 					// 搜索关键字 前缀
-					String prefix = Option.findValue(String.format("wechat_search_%s_prefix", module.getName()));
+					String prefix = OptionQuery.findValue(String.format("wechat_search_%s_prefix", module.getName()));
 
 					String searcheKey = null;
 					if (StringUtils.isNotBlank(prefix)) {
@@ -269,13 +270,13 @@ public class WechatMessageController extends MsgController {
 					if (searcheKey != null) {
 
 						// 搜索结果数量
-						Integer count = Option
+						Integer count = OptionQuery
 								.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
 						if (count == null || count <= 0 || count > 10) {
 							count = 10;
 						}
 
-						List<Content> contents = Content.DAO.searchByModuleAndTitle(module.getName(), searcheKey,
+						List<Content> contents = ContentQuery.searchByModuleAndTitle(module.getName(), searcheKey,
 								count);
 						if (contents != null && contents.size() > 0) {
 							OutNewsMsg out = new OutNewsMsg(message);
@@ -309,11 +310,11 @@ public class WechatMessageController extends MsgController {
 	 * @return
 	 */
 	private boolean dkfProcess(InMsg message, String userInput) {
-		String dkf_quit_key = Option.findValue("wechat_dkf_quit_key");
+		String dkf_quit_key = OptionQuery.findValue("wechat_dkf_quit_key");
 		if (StringUtils.isNotBlank(dkf_quit_key) && dkf_quit_key.equals(userInput)) {
 			CacheKit.remove("wechat_dkf", message.getFromUserName());
 
-			String quit_message = Option.findValue("wechat_dkf_quit_message");
+			String quit_message = OptionQuery.findValue("wechat_dkf_quit_message");
 			OutTextMsg otm = new OutTextMsg(message);
 			otm.setContent(quit_message);
 			render(otm);
@@ -335,13 +336,13 @@ public class WechatMessageController extends MsgController {
 			return true;
 		}
 
-		String dkf_enter_key = Option.findValue("wechat_dkf_enter_key");
+		String dkf_enter_key = OptionQuery.findValue("wechat_dkf_enter_key");
 		if (StringUtils.isNotBlank(dkf_enter_key) && dkf_enter_key.equals(userInput)) {
 			// ehcache的过期时间为5分钟，如果用户5分钟未咨询，自动失效。
 			CacheKit.put("wechat_dkf", message.getFromUserName(), true);
 
 			// 进入多客服
-			String quit_message = Option.findValue("wechat_dkf_enter_message");
+			String quit_message = OptionQuery.findValue("wechat_dkf_enter_message");
 			OutTextMsg otm = new OutTextMsg(message);
 			otm.setContent(quit_message);
 			render(otm);
@@ -354,7 +355,7 @@ public class WechatMessageController extends MsgController {
 
 	private void processDefaultReplay(String optionKey, InMsg message) {
 
-		String replyContent = Option.findValue(optionKey);
+		String replyContent = OptionQuery.findValue(optionKey);
 
 		if (!StringUtils.isNotBlank(replyContent)) {
 			renderNull();

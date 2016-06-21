@@ -17,6 +17,7 @@ package io.jpress.ui.freemarker.tag;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 
 /**
  * @title Content 标签
@@ -46,7 +47,7 @@ public class CommentPageTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginateByModuleAndStatus(pageNumber, pageSize, module, status));
+		setVariable("page", ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, module, status));
 
 		renderBody();
 	}

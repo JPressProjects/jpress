@@ -24,6 +24,7 @@ import io.jpress.Consts;
 import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterConverter;
 import io.jpress.template.Module;
 import io.jpress.utils.DateUtils;
@@ -168,7 +169,7 @@ public class ContentRouter extends RouterConverter {
 	}
 
 	public static String getRouterType() {
-		String type = Option.findValue("router_content_type");
+		String type = OptionQuery.findValue("router_content_type");
 		if (!StringUtils.isNotBlank(type))
 			return DEFAULT_TYPE;
 
@@ -176,7 +177,7 @@ public class ContentRouter extends RouterConverter {
 	}
 
 	public static String getRouterPrefix() {
-		String prefix = Option.findValue("router_content_prefix");
+		String prefix = OptionQuery.findValue("router_content_prefix");
 		if (!StringUtils.isNotBlank(prefix))
 			prefix = Consts.ROUTER_CONTENT.substring(1);
 		return prefix;

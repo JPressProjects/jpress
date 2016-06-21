@@ -26,6 +26,7 @@ import com.jfinal.kit.PropKit;
 
 import io.jpress.core.Jpress;
 import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class TemplateUtils {
@@ -47,7 +48,7 @@ public class TemplateUtils {
 	}
 
 	public static String getcurrentTemplateId() {
-		String templateId = Option.findValue(Option.KEY_TEMPLATE_ID);
+		String templateId = OptionQuery.findValue(Option.KEY_TEMPLATE_ID);
 
 		if (StringUtils.isNotBlank(templateId)) {
 			return templateId;
@@ -90,14 +91,7 @@ public class TemplateUtils {
 		}
 
 		if (template != null) {
-			Option option = Option.DAO.findByKey(Option.KEY_TEMPLATE_ID);
-			if (option == null) {
-				option = new Option();
-				option.setOptionKey(Option.KEY_TEMPLATE_ID);
-			}
-			option.setOptionValue(template.getId());
-			option.saveOrUpdate();
-
+			OptionQuery.saveOrUpdate(Option.KEY_TEMPLATE_ID, template.getId());
 			cTemplate = null;
 			return true;
 		}

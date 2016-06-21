@@ -23,6 +23,7 @@ import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.template.Module;
 
 /**
@@ -61,7 +62,7 @@ public class MyContentTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", Content.DAO.doPaginate(pageNumber, pageSize, module.getName(), status, taxonomyId, null, orderby));
+		setVariable("page", ContentQuery.paginate(pageNumber, pageSize, module.getName(), status, taxonomyId, null, orderby));
 
 		renderBody();
 	}

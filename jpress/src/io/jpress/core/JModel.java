@@ -15,10 +15,6 @@
  */
 package io.jpress.core;
 
-import io.jpress.core.db.DbDialectFactory;
-import io.jpress.utils.StringUtils;
-
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +25,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
+
+import io.jpress.core.db.DbDialectFactory;
 
 @SuppressWarnings("serial")
 public class JModel<M extends JModel<M>> extends Model<M> {
@@ -303,65 +301,5 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 	}
 
-	protected static boolean appendWhereOrAnd(StringBuilder builder, boolean needWhere) {
-		if (needWhere) {
-			builder.append(" WHERE ");
-		} else {
-			builder.append(" AND ");
-		}
-		return false;
-	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean needWhere) {
-		if(StringUtils.isNotBlank(value)){
-			needWhere = appendWhereOrAnd(builder, needWhere);
-			builder.append(" ").append(colName).append(" = ? ");
-			params.add(value);
-		}
-		return needWhere;
-	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, BigInteger value, List<Object> params, boolean needWhere) {
-		if(value!=null && value.compareTo(BigInteger.ZERO) > 0){
-			needWhere = appendWhereOrAnd(builder, needWhere);
-			builder.append(" ").append(colName).append(" = ? ");
-			params.add(value);
-		}
-		return needWhere;
-	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
-		if (null != array && array.length > 0) {
-			needWhere = appendWhereOrAnd(builder, needWhere);
-			builder.append(" (");
-			for (int i = 0; i < array.length; i++) {
-				if (i == 0) {
-					builder.append(" ").append(colName).append(" = ? ");
-				} else {
-					builder.append(" OR ").append(colName).append(" = ? ");
-				}
-				params.add(array[i]);
-			}
-			builder.append(" ) ");
-		}
-		return needWhere;
-	}
-	
-	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
-		if (null != array && array.length > 0) {
-			needWhere = appendWhereOrAnd(builder, needWhere);
-			builder.append(" (");
-			for (int i = 0; i < array.length; i++) {
-				if (i == 0) {
-					builder.append(" ").append(colName).append(" like ? ");
-				} else {
-					builder.append(" OR ").append(colName).append(" like ? ");
-				}
-				params.add("%"+array[i]+"%");
-			}
-			builder.append(" ) ");
-		}
-		return needWhere;
-	}
 
 }

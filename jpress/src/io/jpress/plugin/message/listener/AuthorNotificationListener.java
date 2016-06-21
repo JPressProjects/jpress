@@ -19,8 +19,10 @@ import java.math.BigInteger;
 
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.OptionQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.notify.sms.SmsMessage;
@@ -50,7 +52,7 @@ public class AuthorNotificationListener implements MessageListener {
 		
 		Comment comment = (Comment) temp;
 		if (Comment.STATUS_NORMAL.equals(comment.getStatus()) && comment.getContentId() != null) {
-			Content content = Content.DAO.findById(comment.getContentId());
+			Content content = ContentQuery.findById(comment.getContentId());
 			if (content != null) {
 				BigInteger authorId = content.getUserId();
 				notifyAuthor(authorId);
@@ -64,14 +66,14 @@ public class AuthorNotificationListener implements MessageListener {
 	}
 
 	private void notifyBySms(BigInteger id) {
-		Boolean notify = Option.findValueAsBool("notify_author_by_sms_when_has_comment");
+		Boolean notify = OptionQuery.findValueAsBool("notify_author_by_sms_when_has_comment");
 		if (notify != null && notify == true) {
-			User user = User.DAO.findById(id);
+			User user = UserQuery.findById(id);
 			if (user == null || user.getPhone() == null) {
 				return;
 			}
 
-			String content = Option.findValue("notify_author_content_by_sms_when_has_comment");
+			String content = OptionQuery.findValue("notify_author_content_by_sms_when_has_comment");
 			if (!StringUtils.isNotBlank(content)) {
 				return;
 			}
@@ -90,9 +92,9 @@ public class AuthorNotificationListener implements MessageListener {
 	}
 
 	private void notifyByEmail(BigInteger id) {
-		Boolean notify = Option.findValueAsBool("notify_author_by_email_when_has_comment");
+		Boolean notify = OptionQuery.findValueAsBool("notify_author_by_email_when_has_comment");
 		if (notify != null && notify == true) {
-			User user = User.DAO.findById(id);
+			User user = UserQuery.findById(id);
 			if (user == null || user.getEmail() == null) {
 				return;
 			}
@@ -100,7 +102,7 @@ public class AuthorNotificationListener implements MessageListener {
 			Email email = new Email();
 			email.subject("有人评论了您的文章！");
 
-			String content = Option.findValue("notify_author_content_by_email_when_has_comment");
+			String content = OptionQuery.findValue("notify_author_content_by_email_when_has_comment");
 			if (!StringUtils.isNotBlank(content)) {
 				content = "有人评论了您的文章！";
 			}

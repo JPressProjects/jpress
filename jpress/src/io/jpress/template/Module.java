@@ -23,6 +23,7 @@ import java.util.List;
 import com.jfinal.kit.PathKit;
 
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 
 public class Module {
 
@@ -61,7 +62,7 @@ public class Module {
 	}
 
 	public long findContentCount(String status) {
-		return Content.DAO.findCountByModuleAndStatus(getName(), status);
+		return ContentQuery.findCountByModuleAndStatus(getName(), status);
 	}
 
 	public long findNormalContentCount() {
@@ -77,7 +78,7 @@ public class Module {
 	}
 
 	public long findNotDeleteContentCount() {
-		return Content.DAO.findCountInNormalByModule(getName());
+		return ContentQuery.findCountInNormalByModule(getName());
 	}
 
 	public String getTitle() {

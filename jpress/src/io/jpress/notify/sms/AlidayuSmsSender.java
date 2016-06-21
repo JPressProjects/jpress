@@ -22,7 +22,7 @@ import java.util.Map;
 
 import com.jfinal.log.Log;
 
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.HttpUtils;
 import io.jpress.utils.StringUtils;
@@ -37,8 +37,8 @@ public class AlidayuSmsSender implements ISmsSender {
 
 	@Override
 	public boolean send(SmsMessage sms) {
-		String app_key =  Option.findValue("sms_app_key");//"your app key";
-		String app_secret =  Option.findValue("sms_app_secret");//"your app secret"
+		String app_key =  OptionQuery.findValue("sms_app_key");//"your app key";
+		String app_secret =  OptionQuery.findValue("sms_app_secret");//"your app secret"
 		
 		String sendResult = doSend(sms, app_key, app_secret);
 		

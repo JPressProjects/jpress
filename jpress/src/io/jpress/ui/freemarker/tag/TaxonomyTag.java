@@ -19,6 +19,7 @@ import java.util.List;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.TaxonomyQuery;
 
 public class TaxonomyTag extends JTag {
 
@@ -31,7 +32,7 @@ public class TaxonomyTag extends JTag {
 		String module = getParam("module");
 		String type = getParam("type");
 
-		List<Taxonomy> list = Taxonomy.DAO.findListByModuleAndType(module, type, count);
+		List<Taxonomy> list = TaxonomyQuery.findListByModuleAndType(module, type, count);
 		setVariable("taxonomys", list);
 		renderBody();
 	}

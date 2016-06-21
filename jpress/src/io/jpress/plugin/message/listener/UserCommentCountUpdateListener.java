@@ -17,6 +17,7 @@ package io.jpress.plugin.message.listener;
 
 import io.jpress.model.Comment;
 import io.jpress.model.User;
+import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
@@ -48,9 +49,9 @@ public class UserCommentCountUpdateListener implements MessageListener {
 		if (temp != null && temp instanceof Comment) {
 			Comment comment = (Comment) temp;
 			if (Comment.STATUS_NORMAL.equals(comment.getStatus()) && comment.getUserId() != null) {
-				User user = User.DAO.findById(comment.getUserId());
+				User user = UserQuery.findById(comment.getUserId());
 				if (user != null)
-					user.updateContentCount();
+					UserQuery.updateContentCount(user);
 			}
 		}
 	}

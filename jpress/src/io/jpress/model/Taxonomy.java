@@ -15,23 +15,19 @@
  */
 package io.jpress.model;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.db.Table;
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
+import io.jpress.model.query.MappingQuery;
 import io.jpress.router.converter.TaxonomyRouter;
 
 @Table(tableName = "taxonomy", primaryKey = "id")
 public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxonomy> {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final Taxonomy DAO = new Taxonomy();
 
 	public static final String TYPE_TAG = "tag"; // tag
 	public static final String TYPE_SPECIAL = "special"; // 专题
@@ -80,77 +76,18 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		this.parent = parent;
 	}
 
-	public Page<Taxonomy> doPaginate(int page, int pagesize, String module) {
-		return doPaginate(page, pagesize, "content_module = ?", module);
-	}
-
-	public List<Taxonomy> findListByModuleAndType(String module, String type) {
-		return doFind("content_module = ? and type = ?", module, type);
-	}
-
-	public List<Taxonomy> findListByModuleAndType(String module, String type, int limit) {
-		return doFind("content_module = ? and type = ? limit ?", module, type, limit);
-	}
-
-	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
-		List<Taxonomy> list = findListByModuleAndType(module, type);
-		ModelSorter.tree(list);
-		return list;
-	}
-
-	public List<Taxonomy> findListByModuleAndTypeAsSort(String module, String type) {
-		List<Taxonomy> list = findListByModuleAndType(module, type);
-		ModelSorter.sort(list);
-		return list;
-	}
-
-	public Page<Taxonomy> doPaginate(int pageNumber, int pageSize, String module, String type) {
-		return DAO.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? ", module, type);
-	}
-
-	public List<Taxonomy> findListByContentId(BigInteger contentId) {
-
-		String sql = "select * from mapping m,taxonomy ";
-		sql += "where  m.`taxonomy_id` = taxonomy.id ";
-		sql += "and content_id = ? ";
-		sql += "group by taxonomy.id ";
-
-		return find(sql, contentId);
-	}
-
-	public List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
-
-		String sql = "select * from mapping m,taxonomy ";
-		sql += "where  m.`taxonomy_id` = taxonomy.id ";
-		sql += "and `type`= ?  ";
-		sql += "and content_id = ? ";
-		sql += "group by taxonomy.id ";
-
-		return find(sql, type, contentId);
-	}
-
-	public Taxonomy findBySlugAndModule(String slug, String module) {
-		return doFindFirst("slug = ? and content_module=?", slug, module);
-	}
 	
 	public void updateContentCount(){
-		long count  = Mapping.DAO.findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
+		long count  = MappingQuery.findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
 		if(count > 0){
 			setContentCount(count);
 			this.update();
 		}
 	}
 
-	public List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
-		return findListByTypeAndContentId(TYPE_CATEGORY, contentId);
-	}
-
-	public List<Taxonomy> findListTagByContentId(BigInteger contentId) {
-		return findListByTypeAndContentId(TYPE_TAG, contentId);
-	}
-
+	
 	public long findContentCount() {
-		Long count = Mapping.DAO.findCountByTaxonomyId(getId());
+		Long count = MappingQuery.findCountByTaxonomyId(getId());
 		return count == null ? 0 : count;
 	}
 
@@ -164,7 +101,6 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 			removeCache(getId());
 			putCache(getId(), this);
 		}
-		
 		
 		return super.saveOrUpdate();
 	}

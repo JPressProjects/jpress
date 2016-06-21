@@ -15,7 +15,6 @@
  */
 package io.jpress.core;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
@@ -28,13 +27,13 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 
 	private static final Log logger = Log.getLog(JBaseCRUDController.class);;
 	private final Class<M> mClazz;
-	protected final M mDao;
+//	protected final M mDao;
 
 	@SuppressWarnings("unchecked")
 	public JBaseCRUDController() {
 		ParameterizedType type = getParameterizedType(getClass());
 		mClazz = (Class<M>) type.getActualTypeArguments()[0];
-		mDao = getDao();
+//		mDao = getDao();
 	}
 
 	private ParameterizedType getParameterizedType(Class<?> clazz) {
@@ -54,7 +53,7 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	public void index() {
 		Page<M> page = onIndexDataLoad(getPageNumbere(), getPageSize());
 		if (null == page) {
-			page = (Page<M>) mDao.doPaginate(getPageNumbere(), getPageSize());
+			page = (Page<M>) getDao().doPaginate(getPageNumbere(), getPageSize());
 		}
 		setAttr("page", page);
 		render("index.html");
@@ -63,13 +62,12 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	public void edit() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			setAttr(StrKit.firstCharToLowerCase(mClazz.getSimpleName()), mDao.findById(id));
+			setAttr(StrKit.firstCharToLowerCase(mClazz.getSimpleName()), getDao().findById(id));
 		}
 		render("edit.html");
 	}
 
 	public void save() {
-
 		if (isMultipartRequest()) {
 			getFile();
 		}
@@ -93,19 +91,17 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			mDao.deleteById(id);
+			getDao().deleteById(id);
 			renderAjaxResultForSuccess("删除成功");
 		} else {
 			renderAjaxResultForError();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private M getDao() {
 		M m = null;
 		try {
-			Field field = mClazz.getDeclaredField("DAO");
-			m = (M) field.get(null);
+			m = mClazz.newInstance();
 		} catch (Exception e) {
 			logger.error("get DAO error.", e);
 		}

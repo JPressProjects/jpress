@@ -16,14 +16,14 @@
 package io.jpress.ui.freemarker.function;
 
 import io.jpress.core.render.freemarker.JFunction;
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 
 public class OptionValue extends JFunction {
 
 	@Override
 	public Object onExec() {
 		String key = getToString(0);
-		return Option.findValue(key);
+		return OptionQuery.findValue(key);
 	}
 
 }

@@ -26,6 +26,7 @@ import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
@@ -55,9 +56,9 @@ public class MenuTag extends JTag {
 		BigInteger parentId = getParamToBigInteger("parentId");
 		List<Content> list = null;
 		if (parentId != null) {
-			list = Content.DAO.findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
+			list = ContentQuery.findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
 		} else {
-			list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+			list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		}
 
 		if (list == null || list.isEmpty()) {

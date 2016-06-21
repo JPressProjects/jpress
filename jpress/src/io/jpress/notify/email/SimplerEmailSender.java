@@ -15,8 +15,6 @@
  */
 package io.jpress.notify.email;
 
-import io.jpress.model.Option;
-
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -35,6 +33,8 @@ import javax.mail.internet.MimeUtility;
 
 import com.jfinal.log.Log;
 
+import io.jpress.model.query.OptionQuery;
+
 public class SimplerEmailSender extends Authenticator implements IEmailSender {
 	private static final Log logger = Log.getLog(SimplerEmailSender.class);
 
@@ -45,10 +45,10 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 	private boolean useSSL = true;
 
 	public SimplerEmailSender() {
-		this.host = Option.findValue("email_host");// "smtp.qq.com";
-		this.name = Option.findValue("email_username");// "198819880@qq.com";
-		this.password = Option.findValue("email_password");
-		this.useSSL = Boolean.parseBoolean(Option.findValue("email_usessl"));
+		this.host = OptionQuery.findValue("email_host");// "smtp.qq.com";
+		this.name = OptionQuery.findValue("email_username");// "198819880@qq.com";
+		this.password = OptionQuery.findValue("email_password");
+		this.useSSL = Boolean.parseBoolean(OptionQuery.findValue("email_usessl"));
 	}
 
 	private Message createMessage() {

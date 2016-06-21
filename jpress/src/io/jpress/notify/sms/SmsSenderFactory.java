@@ -15,7 +15,7 @@
  */
 package io.jpress.notify.sms;
 
-import io.jpress.model.Option;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class SmsSenderFactory {
@@ -23,7 +23,7 @@ public class SmsSenderFactory {
 
 	public static ISmsSender createSender() {
 		
-		String provider = Option.findValue("sms_app_provider");
+		String provider = OptionQuery.findValue("sms_app_provider");
 		
 		if(!StringUtils.isNotBlank(provider)){
 			return new AlidayuSmsSender();

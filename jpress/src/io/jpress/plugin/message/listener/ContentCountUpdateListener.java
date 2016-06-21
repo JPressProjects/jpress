@@ -18,6 +18,7 @@ package io.jpress.plugin.message.listener;
 import java.math.BigInteger;
 
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
@@ -28,7 +29,7 @@ public class ContentCountUpdateListener implements MessageListener {
 		BigInteger[] ids = message.getData();
 		if (ids != null && ids.length > 0) {
 			for (int i = 0; i < ids.length; i++) {
-				Taxonomy t = Taxonomy.DAO.findById(ids[i]);
+				Taxonomy t = TaxonomyQuery.findById(ids[i]);
 				if (t != null)
 					t.updateContentCount();
 			}

@@ -17,6 +17,7 @@ package io.jpress.plugin.message.listener;
 
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
 import io.jpress.plugin.message.MessageListener;
@@ -30,7 +31,7 @@ public class CommentListener implements MessageListener {
 		if (Actions.COMMENT_ADD.equals(message.getAction())) {
 			Comment comment = message.getData();
 			if (comment != null && comment.getContentId() != null) {
-				Content content = Content.DAO.findById(comment.getContentId());
+				Content content = ContentQuery.findById(comment.getContentId());
 				if (content != null) {
 					content.updateCommentCount();
 				}
@@ -46,7 +47,7 @@ public class CommentListener implements MessageListener {
 		else if (Actions.COMMENT_DELETE.equals(message.getAction())) {
 			Comment comment = message.getData();
 			if (comment != null && comment.getContentId() != null) {
-				Content content = Content.DAO.findById(comment.getContentId());
+				Content content = ContentQuery.findById(comment.getContentId());
 				if (content != null) {
 					content.updateCommentCount();
 				}

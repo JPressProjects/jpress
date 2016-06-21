@@ -32,8 +32,9 @@ import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Attachment;
-import io.jpress.model.Option;
 import io.jpress.model.User;
+import io.jpress.model.query.AttachmentQuery;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Thumbnail;
@@ -49,7 +50,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 
 	public void detail_layer() {
 		BigInteger id = getParaToBigInteger("id");
-		Attachment attachment = Attachment.DAO.findById(id);
+		Attachment attachment = AttachmentQuery.findById(id);
 		setAttr("attachment", attachment);
 
 		File attachmentFile = new File(PathKit.getWebRootPath(), attachment.getPath());
@@ -148,14 +149,14 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	}
 
 	public void processWatermark(String newPath) {
-		Boolean watermark_enable = Option.findValueAsBool("watermark_enable");
+		Boolean watermark_enable = OptionQuery.findValueAsBool("watermark_enable");
 		if (watermark_enable != null && watermark_enable) {
 
-			int position = Option.findValueAsInteger("watermark_position");
-			String watermarkImg = Option.findValue("watermark_image");
+			int position = OptionQuery.findValueAsInteger("watermark_position");
+			String watermarkImg = OptionQuery.findValue("watermark_image");
 			String srcImageFile = newPath;
 
-			Float transparency = Option.findValueAsFloat("watermark_transparency");
+			Float transparency = OptionQuery.findValueAsFloat("watermark_transparency");
 			if (transparency == null || transparency < 0 || transparency > 1) {
 				transparency = 1f;
 			}

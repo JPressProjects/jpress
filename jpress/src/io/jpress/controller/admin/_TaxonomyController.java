@@ -30,9 +30,11 @@ import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
-import io.jpress.model.Mapping;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.MappingQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
@@ -58,12 +60,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		TaxonomyType type = module.getTaxonomyTypeByType(getType());
 		BigInteger id = getParaToBigInteger("id");
 
-		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByModuleAndTypeAsSort(moduleName, type.getName());
+		List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(moduleName, type.getName());
 
 		if (id != null) {
-			Taxonomy taxonomy = Taxonomy.DAO.findById(id);
+			Taxonomy taxonomy = TaxonomyQuery.findById(id);
 			setAttr("taxonomy", taxonomy);
-			Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			if (content != null) {
 				setAttr("addToMenuSelete", "checked=\"checked\"");
 			}
@@ -99,7 +101,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			return;
 		}
 
-		Taxonomy dbTaxonomy = Taxonomy.DAO.findBySlugAndModule(m.getSlug(), m.getContentModule());
+		Taxonomy dbTaxonomy =  TaxonomyQuery.findBySlugAndModule(m.getSlug(), m.getContentModule());
 		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
 			renderAjaxResultForError("别名已经存在！");
 			return;
@@ -109,7 +111,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 			boolean addToMenu = getParaToBoolean("addToMenu", false);
 			if (addToMenu) {
-				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
 				if (content == null) {
 					content = new Content();
 					content.setModule(Consts.MODULE_MENU);
@@ -121,7 +123,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 				content.saveOrUpdate();
 
 			} else {
-				Content content = Content.DAO.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
 				if (content != null) {
 					content.delete();
 				}
@@ -133,7 +135,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	@Override
 	public Page<Taxonomy> onIndexDataLoad(int pageNumber, int pageSize) {
-		Page<Taxonomy> page = mDao.doPaginate(pageNumber, pageSize, getContentModule(), getType());
+		Page<Taxonomy> page = TaxonomyQuery.doPaginate(pageNumber, pageSize, getContentModule(), getType());
 		ModelSorter.sort(page.getList());
 		return page;
 	}
@@ -149,8 +151,8 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		boolean deleted = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				if (mDao.deleteById(id)) {
-					Mapping.DAO.deleteByTaxonomyId(id);
+				if (TaxonomyQuery.deleteById(id)) {
+					MappingQuery.deleteByTaxonomyId(id);
 					return true;
 				}
 				return false;

@@ -15,8 +15,11 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
@@ -29,44 +32,65 @@ import io.jpress.utils.StringUtils;
 public class MenuTag extends JTag {
 
 	private List<Taxonomy> currentTaxonomys;
+	private HttpServletRequest request;
 
-	public MenuTag() {
+	public MenuTag(HttpServletRequest request) {
+		this.request = request;
 	}
 
-	public MenuTag(List<Taxonomy> taxonomys) {
+	public MenuTag(HttpServletRequest request, List<Taxonomy> taxonomys) {
+		this.request = request;
 		currentTaxonomys = taxonomys;
 	}
 
-	public MenuTag(Taxonomy taxonomy) {
+	public MenuTag(HttpServletRequest request, Taxonomy taxonomy) {
+		this.request = request;
 		currentTaxonomys = new ArrayList<Taxonomy>();
 		currentTaxonomys.add(taxonomy);
 	}
 
 	@Override
 	public void onRender() {
-		List<Content> list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+
+		BigInteger parentId = getParamToBigInteger("parentId");
+		List<Content> list = null;
+		if (parentId != null) {
+			list = Content.DAO.findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
+		} else {
+			list = Content.DAO.findByModule(Consts.MODULE_MENU, "order_number ASC");
+		}
 
 		if (list == null || list.isEmpty()) {
 			renderText("");
 			return;
 		}
 
+		setActiveMenu(list);
+		ModelSorter.tree(list);
+		setVariable("menus", list);
+		renderBody();
+	}
+
+	private void setActiveMenu(List<Content> list) {
 		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {
 			for (Taxonomy taxonomy : currentTaxonomys) {
 				String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
 				if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
-					for(Content content : list){
-						if(content.getText() !=null && content.getText().startsWith(routerWithoutPageNumber)){
+					for (Content content : list) {
+						if (content.getText() != null && content.getText().startsWith(routerWithoutPageNumber)) {
 							content.setFlag("active");
 						}
 					}
 				}
 			}
 		}
-
-		ModelSorter.tree(list);
-		setVariable("menus", list);
-		renderBody();
+		
+		for (Content c : list) {
+			if (c.getText() != null && c.getText().equals(request.getRequestURI())) {
+				c.setFlag("active");
+			}
+		}
+		
 	}
 
 }

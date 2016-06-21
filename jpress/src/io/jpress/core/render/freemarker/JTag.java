@@ -166,6 +166,41 @@ public abstract class JTag implements TemplateDirectiveModel {
 
 		return null;
 	}
+	
+	public BigInteger getParamToBigInteger(String key, BigInteger defaultValue) {
+		BigInteger value = getParamToBigInteger(key);
+		if (value != null)
+			return value;
+
+		return defaultValue;
+	}
+	
+	public BigInteger getParamToBigInteger(String key) {
+		TemplateModel model = (TemplateModel) mParams.get(key);
+		
+		if (model == null) {
+			return null;
+		}
+		
+		try {
+			if (model instanceof TemplateNumberModel) {
+				long number = ((TemplateNumberModel) model).getAsNumber().longValue();
+				return BigInteger.valueOf(number);
+			}
+			
+			if (model instanceof TemplateScalarModel) {
+				String string = ((TemplateScalarModel) model).getAsString();
+				if (null == string || "".equals(string.trim())) {
+					return null;
+				}
+				return new BigInteger(string);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("must number!", e);
+		}
+		
+		return null;
+	}
 
 	public Integer getParamToInt(String key, Integer defaultValue) {
 

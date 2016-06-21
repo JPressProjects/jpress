@@ -264,6 +264,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		final Content content = getContent();
 		
+		if(!StringUtils.isNotBlank(content.getTitle())){
+			renderAjaxResultForError("内容标题不能为空！");
+			return;
+		}
+		
 		boolean isAddAction = content.getId() == null ;
 
 		String slug = content.getSlug();

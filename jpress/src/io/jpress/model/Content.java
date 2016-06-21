@@ -248,6 +248,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public List<Content> findByModule(String module, String orderby) {
 		return doFind("module = ? order by ?", module, orderby);
 	}
+	
+	public List<Content> findByModule(String module,BigInteger parentId, String orderby) {
+		return doFind("module = ? AND parent_id = ? order by ?", module, parentId,orderby);
+	}
 
 	public Content findBySlug(final String slug) {
 		final StringBuilder sql = getBaseSelectSql();

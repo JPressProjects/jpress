@@ -25,7 +25,6 @@ import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.CommentTag;
 import io.jpress.ui.freemarker.tag.CommentsTag;
 import io.jpress.ui.freemarker.tag.ContentsTag;
-import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.ModuleTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
 
@@ -38,7 +37,6 @@ public class Config extends JpressConfig {
 		Jpress.addTag("jp_comment", new CommentTag());
 		Jpress.addTag("jp_comments", new CommentsTag());
 		Jpress.addTag("jp_comment_page", new CommentPageTag());
-		Jpress.addTag("jp_menu", new MenuTag());
 		Jpress.addTag("jp_module", new ModuleTag());
 		Jpress.addTag("jp_tags", new TagsTag());
 		

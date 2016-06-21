@@ -81,7 +81,7 @@ public class ContentController extends BaseFrontController {
 		List<Taxonomy> taxonomys = Taxonomy.DAO.findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
-		setAttr("jp_menu", new MenuTag(taxonomys));
+		setAttr("jp_menu", new MenuTag(getRequest(),taxonomys));
 
 		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
 	}

@@ -25,6 +25,7 @@ import io.jpress.Consts;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.Option;
 import io.jpress.router.RouterManager;
+import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.FileUtils;
 
 public class JHandler extends Handler {
@@ -33,9 +34,11 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
 		String CPATH = request.getContextPath();
+		
 		request.setAttribute("_request", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
+		
 
 		// 程序还没有安装
 		if (!Jpress.isInstalled()) {
@@ -98,6 +101,8 @@ public class JHandler extends Handler {
 	}
 
 	private void setGlobalAttrs(HttpServletRequest request) {
+		
+		request.setAttribute("jp_menu", new MenuTag(request));
 		
 		if(null != Jpress.currentTemplate()){
 			request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());

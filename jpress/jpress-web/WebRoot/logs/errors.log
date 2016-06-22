@@ -1,0 +1,36 @@
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.DiskStorePathManager.resolveAndLockIfNeeded()]: diskStorePath '/var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T' is already used by an existing CacheManager either in the same VM or in a different process.
+The diskStore path for this CacheManager will be set to /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore.
+To avoid this warning consider using the CacheManager factory methods to create a singleton CacheManager or specifying a separate ehcache configuration (ehcache.xml) for each CacheManager instance.
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore/token.data
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore/action%0043ache.data
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore/jpress.data
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore/session.data
+
+2016-06-22 20:04:55
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/ehcache_auto_created4683251272470175186diskstore/option.data
+
+2016-06-22 20:05:42
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: The index for data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/action%0043ache.data is out of date, probably due to an unclean shutdown. Deleting index file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/action%0043ache.index
+
+2016-06-22 20:05:42
+[WARN]-[Thread: main]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: The index for data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.data is out of date, probably due to an unclean shutdown. Deleting index file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.index

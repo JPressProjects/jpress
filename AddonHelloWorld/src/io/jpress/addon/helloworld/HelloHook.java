@@ -15,16 +15,17 @@
  */
 package io.jpress.addon.helloworld;
 
+
+import com.jfinal.core.Controller;
 import com.jfinal.render.Render;
 import com.jfinal.render.TextRender;
 
-import io.jpress.core.addon.AddonController;
 import io.jpress.core.addon.Hook;
 
 public class HelloHook extends Hook {
 
 	@Override
-	public Render processController(AddonController controller) {
+	public Render processController(Controller controller) {
 		return new TextRender("hello addon");
 	}
 

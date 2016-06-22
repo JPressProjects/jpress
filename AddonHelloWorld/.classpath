@@ -5,5 +5,17 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 6 [1.6.0_65-b14-468]"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container/jpress"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jpress"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-addon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-consts"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-db-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-db-mysql"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-message"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-oauth2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-search-api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-web-template-jblog"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpress-web-template-the3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

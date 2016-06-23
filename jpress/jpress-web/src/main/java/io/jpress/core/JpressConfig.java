@@ -56,6 +56,8 @@ public abstract class JpressConfig extends JFinalConfig {
 	public void configConstant(Constants constants) {
 		PropKit.use("jpress.properties");
 
+		onJfinalStartBefore();
+		
 		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
 		constants.setViewType(ViewType.FREE_MARKER);
 		constants.setI18nDefaultBaseName("language");
@@ -156,9 +158,11 @@ public abstract class JpressConfig extends JFinalConfig {
 		}
 		
 		Jpress.renderImmediately();
-		onJfinalStarted();
+		onJfinalStartAfter();
 	}
+	
 
-	public abstract void onJfinalStarted();
+	public abstract void onJfinalStartAfter();
+	public abstract void onJfinalStartBefore();
 
 }

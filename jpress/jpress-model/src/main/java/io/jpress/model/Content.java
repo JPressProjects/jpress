@@ -15,6 +15,7 @@
  */
 package io.jpress.model;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 import org.jsoup.Jsoup;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 
 import io.jpress.Consts;
 import io.jpress.model.ModelSorter.ISortModel;
@@ -31,6 +33,8 @@ import io.jpress.model.query.CommentQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
 import io.jpress.model.utils.TaxonomyRouter;
+import io.jpress.template.TemplateUtils;
+import io.jpress.template.Thumbnail;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
@@ -286,40 +290,40 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return JsoupUtils.getFirstImageSrc(getText());
 	}
 
-//	public String firstImageByName(String name) {
-//		String imageSrc = getFirstImage();
-//		return imageByName(name, imageSrc);
-//	}
-//
-//	private String imageByName(String name, String imageSrc) {
-//		if (!StringUtils.isNotBlank(imageSrc)) {
-//			return null;
-//		}
-//
-//		Thumbnail thumbnail = Jpress.currentTemplate().getThumbnailByName(name);
-//		if (thumbnail == null) {
-//			return imageSrc;
-//		}
-//
-//		String nameOfImageSrc = thumbnail.getUrl(imageSrc);
-//
-//		if (new File(PathKit.getWebRootPath(), nameOfImageSrc).exists()) {
-//			return nameOfImageSrc;
-//		}
-//
-//		return imageSrc;
-//	}
-//	
-//	public String imageByIndex(int index, String name) {
-//		String imageSrc = imageByIndex(index);
-//		return imageByName(name, imageSrc);
-//	}
-//
-//
-//	public String thumbnailByName(String name) {
-//		String thumbnailSrc = getThumbnail();
-//		return imageByName(name, thumbnailSrc);
-//	}
+	public String firstImageByName(String name) {
+		String imageSrc = getFirstImage();
+		return imageByName(name, imageSrc);
+	}
+
+	private String imageByName(String name, String imageSrc) {
+		if (!StringUtils.isNotBlank(imageSrc)) {
+			return null;
+		}
+
+		Thumbnail thumbnail = TemplateUtils.currentTemplate().getThumbnailByName(name);
+		if (thumbnail == null) {
+			return imageSrc;
+		}
+
+		String nameOfImageSrc = thumbnail.getUrl(imageSrc);
+
+		if (new File(PathKit.getWebRootPath(), nameOfImageSrc).exists()) {
+			return nameOfImageSrc;
+		}
+
+		return imageSrc;
+	}
+	
+	public String imageByIndex(int index, String name) {
+		String imageSrc = imageByIndex(index);
+		return imageByName(name, imageSrc);
+	}
+
+
+	public String thumbnailByName(String name) {
+		String thumbnailSrc = getThumbnail();
+		return imageByName(name, thumbnailSrc);
+	}
 
 	public int getImageCount() {
 		List<String> list = JsoupUtils.getImageSrcs(getText());

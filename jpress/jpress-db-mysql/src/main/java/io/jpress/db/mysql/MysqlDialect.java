@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jpress.db.mysql;
-
-import io.jpress.core.db.DbDialect;
-import io.jpress.utils.FileUtils;
+package io.jpress.db.mysql;
 
 import java.io.File;
 import java.util.Map;
 
 import com.alibaba.druid.filter.stat.StatFilter;
-import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.druid.DruidPlugin;
+
+import io.jpress.core.db.DbDialect;
+import io.jpress.utils.FileUtils;
 
 public class MysqlDialect extends DbDialect {
 
@@ -78,10 +77,6 @@ public class MysqlDialect extends DbDialect {
 
 		DruidPlugin druidPlugin = new DruidPlugin(jdbc_url, dbUser, dbPassword);
 		druidPlugin.addFilter(new StatFilter());
-
-//		WallFilter wall = new WallFilter();
-//		wall.setDbType("mysql");
-//		druidPlugin.addFilter(wall);
 
 		return druidPlugin;
 	}

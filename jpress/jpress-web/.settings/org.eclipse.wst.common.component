@@ -23,6 +23,9 @@
         <dependent-module archiveName="jpress-search-api-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jpress-search-api/jpress-search-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="jpress-search-dbsimple-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jpress-search-dbsimple/jpress-search-dbsimple">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="jpress-consts-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jpress-consts/jpress-consts">
             <dependency-type>uses</dependency-type>
         </dependent-module>

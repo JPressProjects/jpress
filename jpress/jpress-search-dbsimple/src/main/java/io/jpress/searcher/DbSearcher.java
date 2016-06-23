@@ -18,11 +18,11 @@ package io.jpress.searcher;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
+import io.jpress.template.TemplateUtils;
 
 public class DbSearcher implements ISearcher {
 
@@ -54,7 +54,7 @@ public class DbSearcher implements ISearcher {
 	@Override
 	public List<SearcherBean> search(String keyword, int pageNum, int pageSize) {
 		
-		String[] modules = Jpress.currentTemplate().getModules().toArray(new String[] {});
+		String[] modules = TemplateUtils.currentTemplate().getModules().toArray(new String[] {});
 		
 		List<Content> list = ContentQuery.findListInNormal(pageNum, pageSize, "created DESC", keyword, null, null,
 				modules, null, null, null, null, null, null,null);

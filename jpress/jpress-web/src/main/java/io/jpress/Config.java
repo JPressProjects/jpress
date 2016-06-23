@@ -15,8 +15,11 @@
  */
 package io.jpress;
 
+import com.jfinal.kit.PropKit;
+
 import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
+import io.jpress.core.db.DbDialectFactory;
 import io.jpress.plugin.search.SearcherFactory;
 import io.jpress.ui.freemarker.function.ContentUrl;
 import io.jpress.ui.freemarker.function.OptionChecked;
@@ -26,25 +29,50 @@ import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModuleTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
+import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
 
+	
 	@Override
-	public void onJfinalStarted() {
-		
+	public void onJfinalStartBefore() {
+		dbDialectConfig();
+	}
+	
+	@Override
+	public void onJfinalStartAfter() {
+
 		Jpress.addTag("jp_contents", new ContentsTag());
 		Jpress.addTag("jp_comment_page", new CommentPageTag());
 		Jpress.addTag("jp_module", new ModuleTag());
 		Jpress.addTag("jp_tags", new TagsTag());
-		
+
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());
 		Jpress.addFunction("checked", new OptionChecked());
 		Jpress.addFunction("contentUrl", new ContentUrl());
-		
-		
-		SearcherFactory.use("io.jpress.searcher.DbSearcher");
+
+		searcherConfig();
 		
 	}
+
+	private void searcherConfig() {
+		if (!Jpress.isInstalled()) {
+			return;
+		}
+		String searcher = PropKit.get("jpress_searcher");
+		if (StringUtils.isNotBlank(searcher)) {
+			SearcherFactory.use(searcher);
+		}
+	}
+
+	private void dbDialectConfig() {
+		String dialect = PropKit.get("jpress_db_dialect");
+		if (StringUtils.isNotBlank(dialect)) {
+			DbDialectFactory.use(dialect);
+		}
+	}
+
+	
 
 }

@@ -24,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 
-import io.jpress.core.Jpress;
 import io.jpress.model.Option;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
@@ -62,7 +61,7 @@ public class TemplateUtils {
 	public static Template currentTemplate() {
 		if (cTemplate == null) {
 			
-			String templateId = TemplateUtils.getcurrentTemplateId();
+			String templateId = getcurrentTemplateId();
 			List<Template> templateList = TemplateUtils.scanTemplates();
 			
 			for (Template tpl : templateList) {
@@ -70,7 +69,6 @@ public class TemplateUtils {
 					cTemplate = tpl;
 				}
 			}
-
 		}
 
 		return cTemplate;
@@ -135,7 +133,7 @@ public class TemplateUtils {
 	}
 
 	public static String getTemplatePath() {
-		return Jpress.currentTemplate().getPath();
+		return currentTemplate().getPath();
 	}
 
 }

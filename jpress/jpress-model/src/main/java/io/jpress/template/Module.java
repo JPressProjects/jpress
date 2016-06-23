@@ -61,25 +61,6 @@ public class Module {
 		return moduleStyles;
 	}
 
-	public long findContentCount(String status) {
-		return ContentQuery.findCountByModuleAndStatus(getName(), status);
-	}
-
-	public long findNormalContentCount() {
-		return findContentCount(Content.STATUS_NORMAL);
-	}
-
-	public long findDraftContentCount() {
-		return findContentCount(Content.STATUS_DRAFT);
-	}
-
-	public long findDeleteContentCount() {
-		return findContentCount(Content.STATUS_DELETE);
-	}
-
-	public long findNotDeleteContentCount() {
-		return ContentQuery.findCountInNormalByModule(getName());
-	}
 
 	public String getTitle() {
 		return title;
@@ -132,6 +113,27 @@ public class Module {
 		return null;
 	}
 
+	public long findContentCount(String status) {
+		return ContentQuery.findCountByModuleAndStatus(getName(), status);
+	}
+
+	public long findNormalContentCount() {
+		return findContentCount(Content.STATUS_NORMAL);
+	}
+
+	public long findDraftContentCount() {
+		return findContentCount(Content.STATUS_DRAFT);
+	}
+
+	public long findDeleteContentCount() {
+		return findContentCount(Content.STATUS_DELETE);
+	}
+
+	public long findNotDeleteContentCount() {
+		return ContentQuery.findCountInNormalByModule(getName());
+	}
+
+	
 	@Override
 	public String toString() {
 		return "Module [title=" + title + ", name=" + name + ", listTitle=" + listTitle + ", addTitle=" + addTitle

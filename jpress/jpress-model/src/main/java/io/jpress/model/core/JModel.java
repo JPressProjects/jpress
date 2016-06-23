@@ -22,6 +22,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Table;
 import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
@@ -53,7 +54,6 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	private String createSelectSql() {
 		return DbDialectFactory.getDbDialect().forSelect(getTableName());
 	}
-	
 
 	private String createDeleteSql() {
 		return DbDialectFactory.getDbDialect().forDelete(getTableName());
@@ -165,7 +165,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	public String getPrimaryKey() {
-		String[] primaryKeys = TableMapping.me().getTable(getUsefulClass()).getPrimaryKey();
+		String[] primaryKeys = getPrimaryKeys();
 		if (null != primaryKeys && primaryKeys.length == 1) {
 			return primaryKeys[0];
 		}
@@ -173,7 +173,11 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	public String[] getPrimaryKeys() {
-		return TableMapping.me().getTable(getUsefulClass()).getPrimaryKey();
+		Table t = TableMapping.me().getTable(getUsefulClass());
+		if (t == null) {
+			throw new RuntimeException("can't get table of " + getUsefulClass() + " , maybe jpress install incorrect");
+		}
+		return t.getPrimaryKey();
 	}
 
 	public boolean hasColumn(String columnLabel) {
@@ -187,12 +191,6 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		// com.demo.blog.Blog$$EnhancerByCGLIB$$69a17158
 	}
 
-	/**
-	 * if user set table prefix,this method auto add the prefix in sql.
-	 * 
-	 * @param sql
-	 * @return new sql with table prefix
-	 */
 	private static String tc(String sql) {
 		return DbDialectFactory.getDbDialect().doTableConvert(sql);
 	}
@@ -284,8 +282,8 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			String select, String sqlExceptSelect, Object... paras) {
 		// TODO Auto-generated method stub
 		debugPrintParas(paras);
-		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, tc(select), tc(sqlExceptSelect),
-				paras);
+		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, tc(select),
+				tc(sqlExceptSelect), paras);
 	}
 
 	@Override
@@ -300,6 +298,5 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			System.out.println("\r\n---------------Paras: " + Arrays.toString(objects) + "----------------");
 		}
 	}
-
 
 }

@@ -200,6 +200,11 @@ public class _TemplateController extends JBaseController {
 	@Before(UCodeInterceptor.class)
 	public void menusave() {
 		Content c = getModel(Content.class);
+		if(!StringUtils.isNotBlank(c.getTitle())){
+			renderAjaxResultForError("菜单名称不能为空！");
+			return;
+		}
+		
 		c.setModule(Consts.MODULE_MENU);
 		c.setModified(new Date());
 		if (c.getCreated() == null) {

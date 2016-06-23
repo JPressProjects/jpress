@@ -112,10 +112,10 @@ function doSubmit(){
 					<table  class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width: 20px"><label class="jp-common-pad "><input
-										class="jp-common-pad " id="allid" onclick="doallcheck()"
-										title="全选" type="checkbox"></label></th>
-
+								<th style="width: 20px">
+								<label class="jp-common-pad ">
+									<input class="jp-common-pad " id="allid" onclick="checkAll(this)" title="全选" type="checkbox">
+								</label></th>
 								<th style="width: 30%">名称</th>
 								<th>URL地址</th>
 								<th>排序</th>
@@ -128,7 +128,7 @@ function doSubmit(){
 								<td><label class="jp-common-pad"><input
 										class="jp-common-pad" name="chkItem" type="checkbox"></label>
 								</td>
-								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
+								<td><strong><a href="#">${bean.layerString}${bean.title!}</a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
 											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>

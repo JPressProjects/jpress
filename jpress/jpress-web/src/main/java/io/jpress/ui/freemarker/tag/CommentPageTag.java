@@ -47,7 +47,7 @@ public class CommentPageTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, module, status));
+		setVariable("page", ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, module, status, orderby));
 
 		renderBody();
 	}

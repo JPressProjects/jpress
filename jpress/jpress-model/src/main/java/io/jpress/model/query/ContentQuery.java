@@ -28,11 +28,11 @@ import io.jpress.model.Content;
 public class ContentQuery extends JBaseQuery {
 
 	private static final Content MODEL = new Content();
-	
-	public static boolean deleteById(BigInteger id){
+
+	public static boolean deleteById(BigInteger id) {
 		return MODEL.deleteById(id);
 	}
-	
+
 	public static Page<Content> paginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
 		return MODEL.paginate(page, pagesize, true, "select * ",
 				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
@@ -46,6 +46,11 @@ public class ContentQuery extends JBaseQuery {
 
 	public static Page<Content> paginateByModule(int page, int pagesize, String module) {
 		return paginate(page, pagesize, module, null, null, null, null);
+	}
+
+	public static Page<Content> paginateByModuleAndStatus(int page, int pagesize, String module, String status,
+			String orderBy) {
+		return paginate(page, pagesize, module, status, null, null, orderBy);
 	}
 
 	public static Page<Content> paginateByModuleAndStatus(int page, int pagesize, String module, String status) {
@@ -117,7 +122,6 @@ public class ContentQuery extends JBaseQuery {
 	public static Long findCountByModuleAndStatus(String module, String status) {
 		return MODEL.doFindCount("module = ? and status=?", module, status);
 	}
-	
 
 	public static List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
 		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
@@ -139,9 +143,9 @@ public class ContentQuery extends JBaseQuery {
 	 * @param tags
 	 * @return
 	 */
-	public static List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
-			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
-			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail) {
+	public static List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword,
+			BigInteger[] typeIds, String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs,
+			BigInteger[] userIds, BigInteger[] parentIds, String[] tags, Boolean hasThumbnail) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
@@ -204,7 +208,7 @@ public class ContentQuery extends JBaseQuery {
 	public static Content findFirstByModuleAndTitle(String module, String title) {
 		return MODEL.doFindFirst("module = ? and title = ? order by id desc", module, title);
 	}
-	
+
 	public static Content findFirstByModuleAndText(String module, String text) {
 		return MODEL.doFindFirst("module = ? and text = ? order by id desc", module, text);
 	}
@@ -220,9 +224,9 @@ public class ContentQuery extends JBaseQuery {
 	public static List<Content> findByModule(String module, String orderby) {
 		return MODEL.doFind("module = ? order by ?", module, orderby);
 	}
-	
-	public static List<Content> findByModule(String module,BigInteger parentId, String orderby) {
-		return MODEL.doFind("module = ? AND parent_id = ? order by ?", module, parentId,orderby);
+
+	public static List<Content> findByModule(String module, BigInteger parentId, String orderby) {
+		return MODEL.doFind("module = ? AND parent_id = ? order by ?", module, parentId, orderby);
 	}
 
 	public static Content findBySlug(final String slug) {
@@ -251,7 +255,7 @@ public class ContentQuery extends JBaseQuery {
 			}
 		});
 	}
-	
+
 	private static StringBuilder getBaseSelectSql() {
 		StringBuilder sqlBuilder = new StringBuilder(
 				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar");
@@ -261,11 +265,11 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" left join user u on c.user_id = u.id");
 		return sqlBuilder;
 	}
-	
+
 	public static Content findById(Object idValue) {
 		return MODEL.findFirst(getBaseSelectSql() + " WHERE c.id=? ", idValue);
 	}
-	
+
 	public static long findCountByModule(String module) {
 		return MODEL.doFindCount("module = ?", module);
 	}
@@ -284,7 +288,6 @@ public class ContentQuery extends JBaseQuery {
 		}
 		return MODEL.doFindCount("parent_id = ? AND module = ? AND status <> ?", id, module, Content.STATUS_DELETE);
 	}
-
 
 	public static int batchTrash(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
@@ -320,6 +323,5 @@ public class ContentQuery extends JBaseQuery {
 		}
 		return 0;
 	}
-
 
 }

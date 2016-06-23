@@ -103,7 +103,7 @@ public class ClassScaner {
 			JarEntry jarEntry = entries.nextElement();
 			String entryName = jarEntry.getName();
 			if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
-				String className = entryName.replaceAll(File.separator, ".").substring(0, entryName.length() - 6);
+				String className = entryName.replace(File.separator, ".").substring(0, entryName.length() - 6);
 				Class<T> clazz = classForName(className);
 				if (clazz != null && pclazz.isAssignableFrom(clazz)) {
 					if (mustbeCanNewInstance) {

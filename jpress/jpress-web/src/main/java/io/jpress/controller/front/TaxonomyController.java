@@ -64,6 +64,10 @@ public class TaxonomyController extends BaseFrontController {
 		if (taxonomy != null) {
 			setGlobleAttrs(taxonomy);
 			setAttr("jp_menu", new MenuTag(getRequest(),taxonomy));
+			
+			Content c =  ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			setAttr("jp_current_menu", c);
+			
 		}
 
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();

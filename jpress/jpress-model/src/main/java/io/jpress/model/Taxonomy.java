@@ -41,6 +41,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return layer;
 	}
 
+	@Override
 	public void setLayer(int tier) {
 		this.layer = tier;
 	}
@@ -61,6 +62,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		this.childList = childList;
 	}
 
+	@Override
 	public void addChild(Taxonomy child) {
 		if (null == childList) {
 			childList = new ArrayList<Taxonomy>();
@@ -68,10 +70,12 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		childList.add(child);
 	}
 
+	@Override
 	public Taxonomy getParent() {
 		return parent;
 	}
 
+	@Override
 	public void setParent(Taxonomy parent) {
 		this.parent = parent;
 	}

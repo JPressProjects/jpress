@@ -87,7 +87,8 @@ public class ModelSorter {
 	private static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
 		for (M model : tlist) {
 			if (parent == null) {
-				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
+				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0
+						|| model.getParent() == null) {
 					newlist.add(model);
 					tree(tlist, newlist, model);
 				}
@@ -110,6 +111,8 @@ public class ModelSorter {
 		public BigInteger getParentId();
 
 		public void setParent(M parent);
+
+		public M getParent();
 
 		public void addChild(M child);
 	}

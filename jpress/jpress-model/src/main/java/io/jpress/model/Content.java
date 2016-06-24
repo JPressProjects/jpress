@@ -252,6 +252,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		this.parent = parent;
 	}
 
+	@Override
 	public Content getParent() {
 		return parent;
 	}

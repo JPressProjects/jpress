@@ -9,6 +9,7 @@ $(document).ready(function() {
   $('code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
+  $('video,audio').mediaelementplayer();
 });
 </#macro> 
 <#macro css_import>

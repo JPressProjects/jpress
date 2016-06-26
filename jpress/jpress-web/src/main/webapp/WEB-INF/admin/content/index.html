@@ -110,25 +110,27 @@ function del(id){
 		<div class="jp-left  ">
 			<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchAction()">应用</button>
 		</div>
-
-		<div class="jp-left ">
-			<select class="form-control input-sm jp-width120 ">
-				<option value="10">全部日期</option>
-				<option value="25">25</option>
-				<option value="50">50</option>
-			</select>
-		</div>
-		<div class="jp-left">
-			<select class="form-control input-sm jp-width120">
-				<option value="10">全部分类</option>
-				<option value="25">25</option>
-				<option value="50">50</option>
-			</select>
-		</div>
+		
+		<#if _typeMap ??>
+		<#list  _typeMap.keySet()  as  _title>
+			<div class="jp-left">
+				<select class="form-control input-sm jp-width120" name="">
+					<option value="">全部${_title!}</option>
+					<#if _typeMap.get(_title) ??>
+						<#list _typeMap.get(_title) as taxonomy >
+						<option value="${taxonomy.id!}">${taxonomy.title!}</option>
+						</#list> 
+					</#if>
+				</select>
+			</div>
+		</#list> 
+		</#if>
+		
+		<#if _typeMap ??>
 		<div class="jp-left  ">
 			<button class="btn btn-block btn-sm btn-default" type="button">筛选</button>
 		</div>
-
+		</#if>	
 	</div>
 
 

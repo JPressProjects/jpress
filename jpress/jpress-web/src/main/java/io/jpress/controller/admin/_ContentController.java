@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -67,11 +68,29 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Override
 	public void index() {
-		setAttr("module", Jpress.currentTemplate().getModuleByName(getModuleName()));
+
+		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
+		setAttr("module", module);
 		setAttr("delete_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
 		setAttr("draft_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
 		setAttr("normal_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
 		setAttr("count", ContentQuery.findCountInNormalByModule(getModuleName()));
+
+		if (module != null) {
+			List<TaxonomyType> types = module.getTaxonomyTypes();
+			if(types!=null && !types.isEmpty()){
+				HashMap<String, List<Taxonomy>> map = new HashMap<String, List<Taxonomy>>();
+				for (TaxonomyType tt : types) {
+					
+					//排除标签类的分类删选
+					if(TaxonomyType.TYPE_SELECT.equals(tt.getFormType())){
+						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),tt.getName());
+						map.put(tt.getTitle(), taxonomys);
+					}
+				}
+				setAttr("_typeMap", map);
+			}
+		}
 
 		super.index();
 	}
@@ -178,10 +197,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
 		String routerType = ContentRouter.getRouterType();
-		if (!StringUtils.isNotBlank(routerType) 
-				|| ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
-				|| ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType) 
-				|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType) 
+		if (!StringUtils.isNotBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
+				|| ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType)
+				|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType)
 				|| ContentRouter.TYPE_STATIC_PREFIX_ID.equals(routerType)) {
 			setAttr("slugDisplay", " style=\"display: none\"");
 		}
@@ -266,13 +284,13 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	public void save() {
 
 		final Content content = getContent();
-		
-		if(!StringUtils.isNotBlank(content.getTitle())){
+
+		if (!StringUtils.isNotBlank(content.getTitle())) {
 			renderAjaxResultForError("内容标题不能为空！");
 			return;
 		}
-		
-		boolean isAddAction = content.getId() == null ;
+
+		boolean isAddAction = content.getId() == null;
 
 		String slug = content.getSlug();
 		if (!StringUtils.isNotBlank(slug)) {
@@ -342,12 +360,12 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-		if(isAddAction){
+		if (isAddAction) {
 			MessageKit.sendMessage(Actions.CONTENT_ADD, content);
-		}else{
+		} else {
 			MessageKit.sendMessage(Actions.CONTENT_UPDATE, content);
 		}
-		
+
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);
 		ar.setData(content.getId());

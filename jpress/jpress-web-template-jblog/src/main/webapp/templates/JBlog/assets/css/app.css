@@ -1570,11 +1570,27 @@ a.x-a-active:hover{
     .jblog-nav-content li{
         width: auto;
         margin-right:1rem;
+        margin-left:1rem;
     }
+    .jblog-link-logo-image {
+    width: 100%;
+    float: none;
+    font-size: 2rem;
+}
     .jblog-nav-content ul li a{
         padding:0 0.1rem;
-        
     }
+    .jblog-link-logo-adv{
+		display:none;
+	}
+	.jblog-link-content,.jblog-nav-content {
+	width: 100%;
+	
+}
+	.jblog-link-logo-content{
+	padding-left:1rem;
+	width:95%;
+	}
     .x-box-tags p{
         width: 25%;
     }

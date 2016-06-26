@@ -27,7 +27,7 @@
 
 
 	<properties>
-		<jdk.version>1.8</jdk.version>
+		<jdk.version>1.7</jdk.version>
 		<servlet.api.version>3.0.1</servlet.api.version>
 		<junit.version>4.11</junit.version>
 		<mysql.version>5.1.21</mysql.version>

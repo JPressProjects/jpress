@@ -170,7 +170,7 @@ public class ContentQuery extends JBaseQuery {
 		if (null != keyword && !"".equals(keyword.trim())) {
 			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
 			sqlBuilder.append(" c.title like ?");
-			params.add("'%" + keyword + "%'");
+			params.add("%" + keyword + "%");
 		}
 
 		if (null != hasThumbnail) {

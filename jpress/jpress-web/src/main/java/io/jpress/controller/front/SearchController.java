@@ -27,9 +27,11 @@ public class SearchController extends BaseFrontController {
 
 	@ActionCache
 	public void index() {
+		keepPara();
+		
 		String keyword = getPara("k");
-		int pageNumber = getParaToInt("n");
-		int pageSize = getParaToInt("s");
+		int pageNumber = getParaToInt("n",1);
+		int pageSize = getParaToInt("s",20);
 
 		List<SearcherBean> results = SearcherKit.search(keyword, pageNumber, pageSize);
 		setAttr("result", results);

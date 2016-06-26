@@ -15,24 +15,30 @@
  */
 package io.jpress.plugin.search;
 
+import java.util.Date;
+
 public class SearcherBean {
 
 	private String sid;
 	private String title;
 	private String description;
 	private String content;
+	private String url;
+	private Date created;
 
 	private String otherInfo; // 保存其他信息，不是用来检索的
 
 	public SearcherBean() {
 	}
 
-	public SearcherBean(String sid, String title, String description, String content, String otherInfo, String type) {
+	public SearcherBean(String sid, String title, String description, String content, String otherInfo, String type,String url,Date created) {
 		this.sid = sid;
 		this.title = title;
 		this.description = description;
 		this.content = content;
 		this.otherInfo = otherInfo;
+		this.url=url;
+		this.created=created;
 	}
 
 
@@ -76,4 +82,19 @@ public class SearcherBean {
 		this.otherInfo = otherInfo;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
 }

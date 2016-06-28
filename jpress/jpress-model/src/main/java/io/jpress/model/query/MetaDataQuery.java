@@ -18,13 +18,11 @@ package io.jpress.model.query;
 import java.math.BigInteger;
 import java.util.List;
 
-
 import io.jpress.model.Metadata;
 
 public class MetaDataQuery extends JBaseQuery {
 
 	private static Metadata MODEL = new Metadata();
-
 
 	public static List<Metadata> findListByTypeAndId(String type, BigInteger id) {
 		return MODEL.doFind("object_type = ? and object_id = ?", type, id);
@@ -43,9 +41,8 @@ public class MetaDataQuery extends JBaseQuery {
 	}
 
 	public static Metadata findByTypeAndIdAndKey(String type, BigInteger id, String key) {
-
-		return MODEL.doFindFirstByCache(Metadata.CACHE_NAME, key + id, "object_type = ? and object_id = ? and meta_key = ? ", type,
-				id, key);
+		String cachekey = type + key + id;
+		return MODEL.doFindFirstByCache(Metadata.CACHE_NAME, cachekey,"object_type = ? and object_id = ? and meta_key = ? ", type, id, key);
 
 	}
 }

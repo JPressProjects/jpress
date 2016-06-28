@@ -28,8 +28,10 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.jfinal.log.Log;
 
+import io.jpress.template.Module.Metadata;
 import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.FileUtils;
+import io.jpress.utils.StringUtils;
 
 public class TemplateConfigParser extends DefaultHandler {
 	private static final Log log = Log.getLog(TemplateConfigParser.class);
@@ -38,6 +40,7 @@ public class TemplateConfigParser extends DefaultHandler {
 	private Module cModule;
 	private List<Module> modules;
 	private List<TaxonomyType> cTaxonomys;
+	private List<Metadata> cMetadatas;
 	private List<Thumbnail> thumbnails;
 
 	private String value = null;
@@ -87,6 +90,8 @@ public class TemplateConfigParser extends DefaultHandler {
 			cModule.setCommentTitle(attrs.getValue("comment"));
 
 			cTaxonomys = new ArrayList<Module.TaxonomyType>();
+			cMetadatas = new ArrayList<Module.Metadata>();
+			
 		}
 
 		if ("taxonomy".equalsIgnoreCase(qName)) {
@@ -97,6 +102,20 @@ public class TemplateConfigParser extends DefaultHandler {
 			tt.setFormType(attrs.getValue("formType"));
 
 			cTaxonomys.add(tt);
+		}
+		
+		if ("metadata".equalsIgnoreCase(qName)) {
+			Metadata meta = new Metadata();
+			
+			meta.setName(attrs.getValue("name"));
+			meta.setText(attrs.getValue("text"));
+			meta.setPlaceholder(attrs.getValue("placeholder"));
+			String dataType = attrs.getValue("placeholder");
+			if(StringUtils.isNotBlank(dataType)){
+				meta.setDataType(dataType);
+			}
+			
+			cMetadatas.add(meta);
 		}
 
 		if ("thumbnail".equalsIgnoreCase(qName)) {
@@ -112,6 +131,7 @@ public class TemplateConfigParser extends DefaultHandler {
 
 		if ("module".equalsIgnoreCase(qName)) {
 			cModule.setTaxonomyTypes(cTaxonomys);
+			cModule.setMetadatas(cMetadatas);
 			modules.add(cModule);
 		}
 		

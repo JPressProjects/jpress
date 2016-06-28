@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -39,6 +40,7 @@ import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
 import io.jpress.model.Content;
+import io.jpress.model.Metadata;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.model.query.ContentQuery;
@@ -78,13 +80,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		if (module != null) {
 			List<TaxonomyType> types = module.getTaxonomyTypes();
-			if(types!=null && !types.isEmpty()){
+			if (types != null && !types.isEmpty()) {
 				HashMap<String, List<Taxonomy>> map = new HashMap<String, List<Taxonomy>>();
 				for (TaxonomyType tt : types) {
-					
-					//排除标签类的分类删选
-					if(TaxonomyType.TYPE_SELECT.equals(tt.getFormType())){
-						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),tt.getName());
+
+					// 排除标签类的分类删选
+					if (TaxonomyType.TYPE_SELECT.equals(tt.getFormType())) {
+						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),
+								tt.getName());
 						map.put(tt.getTitle(), taxonomys);
 					}
 				}
@@ -320,6 +323,16 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
+		final HashMap<String, String> metas = new HashMap<String, String>();
+		Map<String, String[]> requestMap = getParaMap();
+		if (requestMap != null) {
+			for (Map.Entry<String, String[]> entry : requestMap.entrySet()) {
+				if (entry.getKey().startsWith("meta_")) {
+					metas.put(entry.getKey().substring(5), entry.getValue()[0]);
+				}
+			}
+		}
+
 		boolean saved = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
@@ -332,10 +345,25 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				if (!content.saveOrUpdate()) {
 					return false;
 				}
-				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 
+				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 				if (ids != null && ids.size() > 0) {
 					if (!MappingQuery.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
+						return false;
+					}
+				}
+
+				for (Map.Entry<String, String> entry : metas.entrySet()) {
+
+					Metadata metadata = content.findMetadata(entry.getKey());
+					if (metadata == null) {
+						metadata = new Metadata();
+					}
+					metadata.setMetaKey(entry.getKey());
+					metadata.setMetaValue(entry.getValue());
+					metadata.setObjectId(content.getId());
+					metadata.setObjectType(Content.METADATA_TYPE);
+					if (!metadata.saveOrUpdate()) {
 						return false;
 					}
 				}

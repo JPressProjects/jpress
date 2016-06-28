@@ -23,23 +23,11 @@ public class Metadata extends BaseMetadata<Metadata> {
 
 	private static final long serialVersionUID = 1L;
 
-
-	@Override
-	public boolean save() {
-
-		removeCache(getObjectType() + getObjectId());
-
-		return super.save();
-	}
-
 	@Override
 	public boolean update() {
-
-		removeCache(getObjectType() + getObjectId());
-
+		removeCache(getId());
+		removeCache(getObjectType() + getMetaKey() + getObjectId());
 		return super.update();
 	}
-
-	
 
 }

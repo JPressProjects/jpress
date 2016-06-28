@@ -57,8 +57,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Content parent;
 	private List<Metadata> metadatas;
 
-	
-
 	@Override
 	public boolean update() {
 		if (getId() != null) {
@@ -83,8 +81,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return super.saveOrUpdate();
 	}
 
-
-
 	public boolean updateCommentCount() {
 		long count = CommentQuery.findCountByContentIdInNormal(getId());
 		if (count > 0) {
@@ -107,7 +103,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				if (medadataStrings != null && medadataStrings.length > 0) {
 					for (String metadataStr : medadataStrings) {
 						String[] propertes = metadataStr.split(":");
-						// by method doPaginateByMetadata
+						// by method paginateByMetadata
 						// propertes[0] == id
 						// propertes[1] == meta_key
 						// propertes[2] == meta_value
@@ -282,8 +278,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 		return JFinal.me().getContextPath() + baseUrl;
 	}
-	
-	public String getUrlWithPageNumber(int pagenumber){
+
+	public String getUrlWithPageNumber(int pagenumber) {
 		return ContentRouter.getRouter(this, pagenumber);
 	}
 
@@ -314,12 +310,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 		return imageSrc;
 	}
-	
+
 	public String imageByIndex(int index, String name) {
 		String imageSrc = imageByIndex(index);
 		return imageByName(name, imageSrc);
 	}
-
 
 	public String thumbnailByName(String name) {
 		String thumbnailSrc = getThumbnail();
@@ -339,7 +334,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return null;
 	}
 
-	
 	public String summaryWithLen(int len) {
 		if (getText() == null)
 			return null;
@@ -353,9 +347,13 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public String getSummary() {
 		return summaryWithLen(100);
 	}
-	
 
-
-
+	public String metadata(String key) {
+		Metadata m = findMetadata(key);
+		if (m != null) {
+			return m.getMetaValue();
+		}
+		return null;
+	}
 
 }

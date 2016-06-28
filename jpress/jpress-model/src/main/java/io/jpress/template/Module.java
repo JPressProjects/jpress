@@ -33,6 +33,7 @@ public class Module {
 	private String addTitle;
 	private String commentTitle;
 	private List<TaxonomyType> taxonomyTypes;
+	private List<Metadata> metadatas;
 
 	public List<TaxonomyType> getTaxonomyTypes() {
 		return taxonomyTypes;
@@ -40,6 +41,15 @@ public class Module {
 
 	public void setTaxonomyTypes(List<TaxonomyType> taxonomys) {
 		this.taxonomyTypes = taxonomys;
+	}
+	
+
+	public List<Metadata> getMetadatas() {
+		return metadatas;
+	}
+
+	public void setMetadatas(List<Metadata> metadatas) {
+		this.metadatas = metadatas;
 	}
 
 	public List<String> getStyles() {
@@ -60,7 +70,6 @@ public class Module {
 		}
 		return moduleStyles;
 	}
-
 
 	public String getTitle() {
 		return title;
@@ -133,7 +142,6 @@ public class Module {
 		return ContentQuery.findCountInNormalByModule(getName());
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Module [title=" + title + ", name=" + name + ", listTitle=" + listTitle + ", addTitle=" + addTitle
@@ -185,7 +193,42 @@ public class Module {
 		public String toString() {
 			return "TaxonomyType [title=" + title + ", name=" + name + ", formType=" + formType + "]";
 		}
+	}
 
+	public static class Metadata {
+		private String name;
+		private String text;
+		private String placeholder;
+		private String dataType = DATA_TYPE_INPUT;
+
+		public static String DATA_TYPE_INPUT = "input";
+		public static String DATA_TYPE_SELECT = "select";
+		public static String DATA_TYPE_CHECKBOX = "checkbox";
+		
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getText() {
+			return text;
+		}
+		public void setText(String text) {
+			this.text = text;
+		}
+		public String getPlaceholder() {
+			return placeholder;
+		}
+		public void setPlaceholder(String placeholder) {
+			this.placeholder = placeholder;
+		}
+		public String getDataType() {
+			return dataType;
+		}
+		public void setDataType(String dataType) {
+			this.dataType = dataType;
+		}
 	}
 
 }

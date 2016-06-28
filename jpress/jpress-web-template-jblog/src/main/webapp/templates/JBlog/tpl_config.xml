@@ -15,6 +15,9 @@
 		<taxonomy title="分类" name="category" formType="select" />
 		<taxonomy title="专题" name="feature" formType="select" />
 		<taxonomy title="标签" name="tag" formType="input" />
+		
+		<metadata dataType="input" name="_meta1" text="元数据1"  placeholder="元数据测试1"/>
+		<metadata dataType="input" name="_meta2" text="元数据2"  placeholder="元数据测试2"/>
 	</module>
 
 	<module title="页面" name="page" list="所有页面" add="新建页面" comment="评论">

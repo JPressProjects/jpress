@@ -5,6 +5,8 @@
 
 JPress官网：[http://jpress.io](http://jpress.io) 
 
+JPress文档：[https://github.com/JpressProjects/doc](https://github.com/JpressProjects/doc) 
+
 
 ## 简介
 JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似wordpress的几乎所有功能，比如：模板，插件等。同时在模板上，JPress提出了“模板即模型”的概念，方便模板制作人灵活制作业务模型，移除了widget等繁杂功能，同时在模板和插件制作上比wordpress更加灵活简洁。
@@ -85,6 +87,7 @@ JPress使用了最宽松的LGPL开源协议，和国内的那些采用了 **私�
 
 | 名字      | 金额   | 方式  | 说明  | 时间  |
 | :-------: |:----: | :-----:|----- |-----|
+| 射手座     | ￥30.00  | 微信捐助   | 无 | 2016-6-28 13:21|
 | Jack     | ￥6.66  | 微信捐助   | 无 | 2016-6-24 22:04|
 | 刘亮     | ￥88.00  | 微信捐助   | 无 | 2016-6-24 13:18|
 | 取名字真的很烦     | ￥20.00  | 微信捐助   | 无 | 2016-6-24 00:02|

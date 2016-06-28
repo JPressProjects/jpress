@@ -78,7 +78,11 @@ $('#fine-uploader-gallery').fineUploader({
 								<#if page??> 
 								<#list page.getList() as bean>
 								<li>
-									<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive">
+									<#if bean.isImage() >
+										<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" >
+									<#else>
+										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" class="jp-grids-photos img-responsive">
+									</#if>
 									<div class="brower-active-icon" style="display: none">
 										<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>
 									</div>

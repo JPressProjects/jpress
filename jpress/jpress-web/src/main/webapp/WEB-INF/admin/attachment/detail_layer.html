@@ -22,7 +22,11 @@ function del(id){
 <!-- Main content -->
 <div class="jp-borwer" >
 	<div class="brower-image">
-		<img src="${CPATH}${attachment.path!}" class="">
+		<#if attachment.isImage() >
+			<img src="${CPATH}${attachment.path!}" >
+		<#else>
+			<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" >
+		</#if>
 	</div>
 	<div class="brower-image-info" id="brower-image-info">
 		<div class="brower-image-details">

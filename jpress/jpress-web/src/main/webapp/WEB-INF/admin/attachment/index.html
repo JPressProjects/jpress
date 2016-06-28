@@ -67,9 +67,13 @@ function openlayer(id){
 							<ul class="list-inline list-unstyled">
 								<#if page??> 
 								<#list page.getList() as bean>
-								<li>
-									<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
-								</li>
+									<li>
+									<#if bean.isImage() >
+										<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+									<#else>
+										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+									</#if>
+									</li>
 								</#list> 
 								</#if>
 							</ul>

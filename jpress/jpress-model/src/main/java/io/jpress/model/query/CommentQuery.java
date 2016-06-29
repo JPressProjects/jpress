@@ -59,12 +59,12 @@ public class CommentQuery extends JBaseQuery {
 		fromBuilder.append(" where c.status <> ?");
 
 		if (StringUtils.isNotBlank(module)) {
-			fromBuilder.append(" and c.content_module = ?");
+			fromBuilder.append(" and c.content_module = ? ");
 		}
-		fromBuilder.append("order by c.created desc");
+		fromBuilder.append(" order by c.created desc");
 
 		if (StringUtils.isNotBlank(module)) {
-			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), module, Comment.STATUS_DELETE);
+			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE, module);
 		} else {
 			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE);
 		}

@@ -15,7 +15,6 @@
  */
 package io.jpress.listener;
 
-import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.notify.email.Email;

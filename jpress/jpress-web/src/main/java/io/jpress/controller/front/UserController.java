@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.front;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import com.jfinal.aop.Before;
@@ -40,11 +41,27 @@ public class UserController extends BaseFrontController {
 	@Clear(UserInterceptor.class)
 	public void index() {
 		String action = getPara();
-		if (StringUtils.isNotBlank(action)) {
-			keepPara();
-			render(String.format("user_%s.html", action));
-		} else {
+		if (!StringUtils.isNotBlank(action)) {
 			renderError(404);
+		}
+
+		keepPara();
+
+		BigInteger userId = StringUtils.toBigInteger(action, null);
+
+		if (userId != null) {
+			User user = UserQuery.findById(userId);
+			if (user != null) {
+				setAttr("user", user);
+				render(String.format("user_detail.html", action));
+			} else {
+				renderError(404);
+			}
+		} else {
+			if ("detail".equalsIgnoreCase(action)) {
+				renderError(404);
+			}
+			render(String.format("user_%s.html", action));
 		}
 	}
 
@@ -85,7 +102,7 @@ public class UserController extends BaseFrontController {
 			return;
 		}
 
-		if (EncryptUtils.verlifyUser(user.getPassword(),user.getSalt(), password)) {
+		if (EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), password)) {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			if (this.isAjaxRequest()) {
@@ -205,7 +222,7 @@ public class UserController extends BaseFrontController {
 			renderAjaxResultForError();
 		}
 	}
-	
+
 	private void renderForRegister(String message, int errorCode) {
 		String referer = getRequest().getHeader("Referer");
 		if (isAjaxRequest()) {

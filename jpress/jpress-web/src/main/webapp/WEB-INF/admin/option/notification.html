@@ -149,17 +149,50 @@
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<div class="  jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_author_by_email_when_has_comment" ${checked('notify_author_by_email_when_has_comment')}> 邮件通知。</label>
+								<label><input type="checkbox" value="true" name="notify_author_by_email_when_has_comment" ${checked('notify_author_by_email_when_has_comment')}> 开启邮件通知</label>
 								<textarea rows="3" class="form-control input-md" name="notify_author_content_by_email_when_has_comment" placeholder="邮件通知内容">${option('notify_author_content_by_email_when_has_comment')!}</textarea>
 							</div>
 								
 							<div class=" jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_author_by_sms_when_has_comment" ${checked('notify_author_by_sms_when_has_comment')}> 短信通知。 </label>
+								<label><input type="checkbox" value="true" name="notify_author_by_sms_when_has_comment" ${checked('notify_author_by_sms_when_has_comment')}> 开启短信通知 </label>
 									<textarea rows="2" class="form-control input-md" name="notify_author_content_by_sms_when_has_comment" placeholder="短信通知内容">${option('notify_author_content_by_sms_when_has_comment')!}</textarea>
 								</div>
 							<div class=" jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_author_by_wechat_when_has_comment" ${checked('notify_author_by_wechat_when_has_comment')}> 微信通知。 </label>
+								<label><input type="checkbox" value="true" name="notify_author_by_wechat_when_has_comment" ${checked('notify_author_by_wechat_when_has_comment')}> 开启微信通知 </label>
 								<textarea rows="2" class="form-control input-md" name="notify_author_content_by_wechat_when_has_comment" placeholder="微信通知内容">${option('notify_author_content_by_wechat_when_has_comment')!}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+			</ul>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-xs-12">
+			<h4 class="jp-set-title">@通知</h4>
+			<ul class="list-unstyled">
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">当用户被@时</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<div class="  jp-set-title-line">
+								<label><input type="checkbox" value="true" name="notify_author_by_email_when_at" ${checked('notify_author_by_email_when_at')}> 开启邮件通知</label>
+								<textarea rows="3" class="form-control input-md" name="notify_author_content_by_email_when_at" placeholder="邮件通知内容">${option('notify_author_content_by_email_when_at')!}</textarea>
+							</div>
+								
+							<div class=" jp-set-title-line">
+								<label><input type="checkbox" value="true" name="notify_author_by_sms_when_at" ${checked('notify_author_by_sms_when_at')}> 开启短信通知 </label>
+									<textarea rows="2" class="form-control input-md" name="notify_author_content_by_sms_when_at" placeholder="短信通知内容">${option('notify_author_content_by_sms_when_at')!}</textarea>
+								</div>
+							<div class=" jp-set-title-line">
+								<label><input type="checkbox" value="true" name="notify_author_by_wechat_when_at" ${checked('notify_author_by_wechat_when_at')}> 开启微信通知 </label>
+								<textarea rows="2" class="form-control input-md" name="notify_author_content_by_wechat_when_at" placeholder="微信通知内容">${option('notify_author_content_by_wechat_when_at')!}</textarea>
 							</div>
 						</div>
 					</div>
@@ -184,16 +217,16 @@
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
 							<div class="jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_admin_by_email_when_user_registed" ${checked('notify_admin_by_email_when_user_registed')}> 邮件通知。</label>
+								<label><input type="checkbox" value="true" name="notify_admin_by_email_when_user_registed" ${checked('notify_admin_by_email_when_user_registed')}> 开启邮件通知</label>
 								<textarea rows="3" class="form-control input-md" name="notify_admin_by_content_email_when_user_registed" placeholder="邮件通知内容">${option('notify_admin_by_content_email_when_user_registed')!}</textarea>
 							</div>
 								
 							<div class="jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_admin_by_sms_when_user_registed" ${checked('notify_admin_by_sms_when_user_registed')}> 短信通知。 </label>
+								<label><input type="checkbox" value="true" name="notify_admin_by_sms_when_user_registed" ${checked('notify_admin_by_sms_when_user_registed')}> 开启短信通知 </label>
 									<textarea rows="2" class="form-control input-md" name="notify_admin_content_by_sms_when_user_registed" placeholder="短信通知内容">${option('notify_admin_content_by_sms_when_user_registed')!}</textarea>
 								</div>
 							<div class="jp-set-title-line">
-								<label><input type="checkbox" value="true" name="notify_admin_by_wechat_when_user_registed" ${checked('notify_admin_by_wechat_when_user_registed')}> 微信通知。 </label>
+								<label><input type="checkbox" value="true" name="notify_admin_by_wechat_when_user_registed" ${checked('notify_admin_by_wechat_when_user_registed')}> 开启微信通知 </label>
 								<textarea rows="2" class="form-control input-md" name="notify_admin_content_by_wechat_when_user_registed" placeholder="微信通知内容">${option('notify_admin_content_by_wechat_when_user_registed')!}</textarea>
 							</div>
 						</div>

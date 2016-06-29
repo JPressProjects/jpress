@@ -25,11 +25,13 @@ public class User extends BaseUser<User> {
 	public static final String ROLE_ADMINISTRATOR = "administrator";
 	public static final String STATUS_NORMAL = "normal";
 	public static final String STATUS_FROZEN = "frozen";
-	
+
 	public boolean isAdministrator() {
-		return "administrator".equals(getRole());
+		return ROLE_ADMINISTRATOR.equals(getRole());
 	}
 
-
+	public boolean isFrozen() {
+		return STATUS_FROZEN.equals(getStatus());
+	}
 
 }

@@ -16,11 +16,14 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.User;
+import io.jpress.template.Module;
+import io.jpress.template.TemplateUtils;
 
 public class UserQuery extends JBaseQuery {
 	private static User MODEL = new User();
@@ -77,21 +80,21 @@ public class UserQuery extends JBaseQuery {
 		});
 	}
 
-//	public static boolean updateContentCount(User user) {
-//		long count = 0;
-//		List<Module> modules = Jpress.currentTemplate().getModules();
-//		if (modules != null && !modules.isEmpty()) {
-//			for (Module m : modules) {
-//				long moduleCount = ContentQuery.findCountInNormalByModuleAndUserId(m.getName(), user.getId());
-//				count += moduleCount;
-//			}
-//		}
-//
-//		user.setContentCount(count);
-//		return user.update();
-//	}
+	public static boolean updateContentCount(User user) {
+		long count = 0;
+		List<Module> modules = TemplateUtils.currentTemplate().getModules();
+		if (modules != null && !modules.isEmpty()) {
+			for (Module m : modules) {
+				long moduleCount = ContentQuery.findCountInNormalByModuleAndUserId(m.getName(), user.getId());
+				count += moduleCount;
+			}
+		}
 
-	public boolean updateCommentCount(User user) {
+		user.setContentCount(count);
+		return user.update();
+	}
+
+	public static boolean updateCommentCount(User user) {
 		long count = CommentQuery.findCountByUserIdInNormal(user.getId());
 		user.setCommentCount(count);
 		return user.update();

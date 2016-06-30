@@ -304,7 +304,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 		String nameOfImageSrc = thumbnail.getUrl(imageSrc);
 
-		if (new File(PathKit.getWebRootPath(), nameOfImageSrc).exists()) {
+		if (new File(PathKit.getWebRootPath(), nameOfImageSrc.substring(JFinal.me().getContextPath().length())).exists()) {
 			return nameOfImageSrc;
 		}
 

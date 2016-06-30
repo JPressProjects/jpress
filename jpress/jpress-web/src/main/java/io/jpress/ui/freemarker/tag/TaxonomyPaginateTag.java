@@ -18,11 +18,13 @@ package io.jpress.ui.freemarker.tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class TaxonomyPaginateTag extends JTag {
@@ -67,7 +69,7 @@ public class TaxonomyPaginateTag extends JTag {
 		if (endPage > totalPage) {
 			endPage = totalPage;
 		}
-		
+
 		if (currentPage <= 8) {
 			startPage = 1;
 		}
@@ -114,17 +116,34 @@ public class TaxonomyPaginateTag extends JTag {
 	}
 
 	private String getUrl(int pageNumber) {
-		String url = "/" + moduleName;
+		String url = JFinal.me().getContextPath() + "/" + moduleName;
 		if (taxonomy != null) {
 			url += "-" + taxonomy.getSlug();
 		}
 
 		url += "-" + pageNumber;
 
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+
 		if (StringUtils.isNotBlank(anchor)) {
 			url += "#" + anchor;
 		}
 		return url;
+	}
+
+	protected static boolean enalbleFakeStatic() {
+		Boolean fakeStaticEnable = OptionQuery.findValueAsBool("router_fakestatic_enable");
+		return fakeStaticEnable != null && fakeStaticEnable == true;
+	}
+
+	protected static String getFakeStaticSuffix() {
+		String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
+		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
+			return fakeStaticSuffix.trim();
+		}
+		return ".html";
 	}
 
 	public static class PaginateItem {

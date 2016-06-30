@@ -9,7 +9,7 @@
            	<#if content?is_first >
 			<div class="x-pull-left x-layout-70 image-box">
 		        <div class="yfh-banner-image">
-		        	<img src="${(content.thumbnail)!}" style="width: 100%;height: 100%;" />
+		        	<img src="${(content.thumbnail)!}"  />
 		        </div>
 		        <div class="x-box-border yfh-banner-transfer">
 		       	 <a href="${(content.url)!}">
@@ -21,7 +21,7 @@
 			<#else>
 			<div class="x-pull-right x-layout-28 sub-image-box ">
 				 <div class="yfh-banner-image">
-		        	<img src="${(content.thumbnail)!}" style="width: 100%;height: 100%;" />
+		        	<img src="${(content.thumbnail)!}" />
 		        </div>
 		        <div class="x-box-border yfh-banner-transfer">
 		       	 <a href="${(content.url)!}">

@@ -35,6 +35,8 @@ import io.jpress.utils.StringUtils;
 public class ApiController extends JBaseController {
 
 	public void index() {
+		corsSetting();
+
 		Boolean isOpen = OptionQuery.findValueAsBool("api_enable");
 		if (isOpen == null || isOpen == false) {
 			renderAjaxResult("api is not open", 1);
@@ -47,7 +49,7 @@ public class ApiController extends JBaseController {
 			return;
 		}
 
-		Content content = ContentQuery.findFirstByModuleAndText( Consts.MODULE_API_APPLICATION, appkey);
+		Content content = ContentQuery.findFirstByModuleAndText(Consts.MODULE_API_APPLICATION, appkey);
 		if (content == null) {
 			renderAjaxResultForError("appkey is error!");
 			return;
@@ -94,13 +96,18 @@ public class ApiController extends JBaseController {
 		} catch (NoSuchMethodException e) {
 			renderAjaxResultForError("hava no this method : " + method);
 			return;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			renderAjaxResultForError("system error!");
 			return;
 		}
 	}
 
-	private void invoke(String methodName) throws NoSuchMethodException, Exception {
+	private void corsSetting() {
+		getResponse().setHeader("Access-Control-Allow-Origin", "*");
+		getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST");
+	}
+
+	private void invoke(String methodName) throws NoSuchMethodException, Throwable {
 		Method method = ApiController.class.getDeclaredMethod(methodName);
 		if (method == null) {
 			throw new NoSuchMethodException();

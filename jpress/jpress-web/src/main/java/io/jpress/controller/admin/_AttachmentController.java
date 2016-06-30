@@ -29,7 +29,6 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Attachment;
 import io.jpress.model.User;
@@ -37,6 +36,7 @@ import io.jpress.model.query.AttachmentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.template.TemplateUtils;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.FileUtils;
@@ -135,7 +135,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	}
 
 	private void processThumbnail(String newPath) {
-		List<Thumbnail> tbs = Jpress.currentTemplate().getThumbnails();
+		List<Thumbnail> tbs = TemplateUtils.currentTemplate().getThumbnails();
 		if (tbs != null && tbs.size() > 0) {
 			for (Thumbnail tb : tbs) {
 				try {

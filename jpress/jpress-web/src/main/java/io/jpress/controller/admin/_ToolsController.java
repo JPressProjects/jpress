@@ -34,12 +34,12 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
@@ -73,7 +73,7 @@ public class _ToolsController extends JBaseController {
 		keepPara();
 
 		if (!isMultipartRequest()) {
-			setAttr("modules", Jpress.currentTemplate().getModules());
+			setAttr("modules", TemplateUtils.currentTemplate().getModules());
 			return;
 		}
 

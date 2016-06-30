@@ -26,7 +26,6 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
@@ -39,6 +38,7 @@ import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/taxonomy", viewPath = "/WEB-INF/admin/taxonomy")
@@ -56,7 +56,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	public void index() {
 		String moduleName = getContentModule();
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
+		Module module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
 		TaxonomyType type = module.getTaxonomyTypeByType(getType());
 		BigInteger id = getParaToBigInteger("id");
 

@@ -36,9 +36,9 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 			return new TextRender(String.format("%s error! you haven't configure your template yet.", errorCode));
 		}
 
-		String errorHtml = Jpress.currentTemplate().getPath() + "/" + errorCode + ".html";
+		String errorHtml = TemplateUtils.currentTemplate().getPath() + "/" + errorCode + ".html";
 
-		String renderType = Jpress.currentTemplate().getRenderType();
+		String renderType = TemplateUtils.currentTemplate().getRenderType();
 		
 		//the default render type is freemarker
 		if (renderType == null || "".equals(renderType.trim())) {

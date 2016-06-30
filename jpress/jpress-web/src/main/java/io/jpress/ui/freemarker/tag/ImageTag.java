@@ -15,8 +15,8 @@
  */
 package io.jpress.ui.freemarker.tag;
 
-import io.jpress.core.Jpress;
 import io.jpress.core.render.freemarker.JTag;
+import io.jpress.template.TemplateUtils;
 import io.jpress.template.Thumbnail;
 
 public class ImageTag extends JTag {
@@ -28,7 +28,7 @@ public class ImageTag extends JTag {
 		String style = getParam("style");
 		String src = getParam("src");
 
-		Thumbnail tb = Jpress.currentTemplate().getThumbnailByName(name);
+		Thumbnail tb = TemplateUtils.currentTemplate().getThumbnailByName(name);
 
 		int inserTo = src.lastIndexOf(".");
 

@@ -23,18 +23,9 @@ import com.jfinal.render.FreeMarkerRender;
 
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.core.render.freemarker.JTag;
-import io.jpress.template.Template;
-import io.jpress.template.TemplateUtils;
 
 public class Jpress {
 
-	public static void start() {
-		start(8080);
-	}
-
-	public static void start(int port) {
-		JFinal.start("WebRoot", port, "/", 5);
-	}
 
 	public static void addTag(String key, JTag tag) {
 		FreeMarkerRender.getConfiguration().setSharedVariable(key, tag);
@@ -58,9 +49,6 @@ public class Jpress {
 		return isInstalled;
 	}
 
-	public static Template currentTemplate() {
-		return TemplateUtils.currentTemplate();
-	}
 
 	public static boolean isDevMode() {
 		return JFinal.me().getConstants().getDevMode();

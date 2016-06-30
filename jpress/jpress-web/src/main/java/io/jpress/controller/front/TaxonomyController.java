@@ -20,7 +20,6 @@ import java.math.BigInteger;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;
@@ -28,6 +27,7 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
+import io.jpress.template.TemplateUtils;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
 import io.jpress.utils.StringUtils;
@@ -59,7 +59,7 @@ public class TaxonomyController extends BaseFrontController {
 
 		setAttr(Consts.ATTR_PAGE_NUMBER, pageNumber);
 		setAttr("taxonomy", taxonomy);
-		setAttr("module", Jpress.currentTemplate().getModuleByName(moduleName));
+		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(moduleName));
 
 		if (taxonomy != null) {
 			setGlobleAttrs(taxonomy);
@@ -100,7 +100,7 @@ public class TaxonomyController extends BaseFrontController {
 			renderError(404);
 		}
 
-		if (Jpress.currentTemplate().getModuleByName(moduleName) == null) {
+		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) == null) {
 			renderError(404);
 		}
 

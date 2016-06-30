@@ -34,7 +34,6 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.Jpress;
 import io.jpress.core.render.AjaxResult;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -53,6 +52,7 @@ import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.router.converter.ContentRouter;
 import io.jpress.template.Module;
 import io.jpress.template.Module.TaxonomyType;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
@@ -71,7 +71,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 
-		Module module = Jpress.currentTemplate().getModuleByName(getModuleName());
+		Module module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
 		setAttr("delete_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
 		setAttr("draft_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
@@ -190,7 +190,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			moduleName = content.getModule();
 		}
 
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
+		Module module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
 		setAttr("module", module);
 
 		String _editor = getCookie("_editor", "tinymce");
@@ -239,7 +239,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	}
 
 	public List<BigInteger> getOrCreateTaxonomyIds(String moduleName) {
-		Module module = Jpress.currentTemplate().getModuleByName(moduleName);
+		Module module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
 		List<TaxonomyType> types = module.getTaxonomyTypes();
 		List<BigInteger> tIds = new ArrayList<BigInteger>();
 		for (TaxonomyType type : types) {

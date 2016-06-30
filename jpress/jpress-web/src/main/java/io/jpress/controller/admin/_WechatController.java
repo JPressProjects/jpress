@@ -28,7 +28,6 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
@@ -36,6 +35,7 @@ import io.jpress.model.ModelSorter;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 import io.jpress.wechat.WechatApi;
 import io.jpress.wechat.WechatApiConfigInterceptor;
@@ -67,7 +67,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void option() {
-		setAttr("modules", Jpress.currentTemplate().getModules());
+		setAttr("modules", TemplateUtils.currentTemplate().getModules());
 	}
 
 	public void menu() {

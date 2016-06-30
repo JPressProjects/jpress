@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.model.Taxonomy;
 import io.jpress.router.RouterConverter;
+import io.jpress.template.TemplateUtils;
 
 public class TaxonomyRouter extends RouterConverter {
 
@@ -40,7 +40,7 @@ public class TaxonomyRouter extends RouterConverter {
 		}
 
 		String moduleName = params[0];
-		if (Jpress.currentTemplate().getModuleByName(moduleName) != null) {
+		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) != null) {
 			return Consts.ROUTER_TAXONOMY + target;
 		}
 

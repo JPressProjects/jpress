@@ -50,12 +50,12 @@ import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.Module;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
@@ -246,7 +246,7 @@ public class WechatMessageController extends MsgController {
 	 * @return
 	 */
 	private boolean searchProcess(InMsg message, String userInput) {
-		List<Module> modules = Jpress.currentTemplate().getModules();
+		List<Module> modules = TemplateUtils.currentTemplate().getModules();
 		if (modules != null && modules.size() > 0) {
 			for (Module module : modules) {
 

@@ -17,17 +17,17 @@ package io.jpress.ui.freemarker.tag;
 
 import java.util.List;
 
-import io.jpress.core.Jpress;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.template.Module;
 import io.jpress.template.Template;
+import io.jpress.template.TemplateUtils;
 
 public class ModuleTag extends JTag {
 
 	@Override
 	public void onRender() {
 
-		Template t = Jpress.currentTemplate();
+		Template t = TemplateUtils.currentTemplate();
 
 		if (t != null) {
 			List<Module> modules = t.getModules();

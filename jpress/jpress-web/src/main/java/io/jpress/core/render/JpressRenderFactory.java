@@ -18,7 +18,7 @@ package io.jpress.core.render;
 import com.jfinal.render.IMainRenderFactory;
 import com.jfinal.render.Render;
 
-import io.jpress.core.Jpress;
+import io.jpress.template.TemplateUtils;
 
 public class JpressRenderFactory implements IMainRenderFactory {
 
@@ -29,7 +29,7 @@ public class JpressRenderFactory implements IMainRenderFactory {
 	public Render getRender(String view) {
 		// front url
 		if (view.startsWith("/templates")) {
-			String renderType = Jpress.currentTemplate().getRenderType();
+			String renderType = TemplateUtils.currentTemplate().getRenderType();
 			if ("thymeleaf".equalsIgnoreCase(renderType)) {
 				return new ThymeleafRender(view);
 			} else if ("freemarker".equalsIgnoreCase(renderType)) {

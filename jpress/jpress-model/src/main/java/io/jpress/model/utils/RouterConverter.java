@@ -29,7 +29,6 @@ public abstract class RouterConverter {
 	public static final String URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator();
 	public static final String SLASH = "/";
 
-
 	public static BigInteger tryGetBigInteger(String param) {
 		try {
 			return new BigInteger(param);
@@ -67,10 +66,10 @@ public abstract class RouterConverter {
 
 	protected static String getFakeStaticSuffix() {
 		String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
-		if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
-			fakeStaticSuffix = ".html";
+		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
+			return fakeStaticSuffix.trim();
 		}
-		return fakeStaticSuffix.trim();
+		return ".html";
 	}
 
 }

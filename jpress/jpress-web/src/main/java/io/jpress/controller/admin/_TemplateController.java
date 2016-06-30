@@ -29,7 +29,6 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
@@ -105,7 +104,7 @@ public class _TemplateController extends JBaseController {
 
 	public void edit() {
 		keepPara();
-		String path = Jpress.currentTemplate().getPath();
+		String path = TemplateUtils.currentTemplate().getPath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
 
 		File[] dirs = pathFile.listFiles(new FileFilter() {
@@ -153,7 +152,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void editsave() {
-		String path = Jpress.currentTemplate().getPath();
+		String path = TemplateUtils.currentTemplate().getPath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
 
 		String dirName = getPara("d");

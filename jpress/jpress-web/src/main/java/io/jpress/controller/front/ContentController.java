@@ -21,7 +21,6 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Comment;
@@ -32,6 +31,7 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
+import io.jpress.template.TemplateUtils;
 import io.jpress.ui.freemarker.tag.ContentPaginateTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.StringUtils;
@@ -63,7 +63,7 @@ public class ContentController extends BaseFrontController {
 			return;
 		}
 		
-		if(Jpress.currentTemplate().getModuleByName(content.getModule()) == null){
+		if(TemplateUtils.currentTemplate().getModuleByName(content.getModule()) == null){
 			renderError(404);
 			return;
 		}
@@ -71,7 +71,7 @@ public class ContentController extends BaseFrontController {
 		updateContentViewCount(content);
 		setGlobleAttrs(content);
 
-		setAttr("pageNumber", pageNumber);
+		setAttr("p", pageNumber);
 		setAttr("content", content);
 		setAttr("user", UserQuery.findById(content.getUserId()));
 
@@ -144,8 +144,8 @@ public class ContentController extends BaseFrontController {
 				return;
 			}
 
-			pageNumber = getParaToInt("pageNumber", 1);
-			pageSize = getParaToInt("pageSize", 10);
+			pageNumber = getParaToInt("p", 1);
+			pageSize = getParaToInt("s", 10);
 		}
 
 	}

@@ -23,7 +23,6 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -38,6 +37,7 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Module;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
@@ -48,8 +48,8 @@ public class _AdminController extends JBaseController {
 
 	@Before(ActionCacheClearInterceptor.class)
 	public void index() {
-		setAttr("modules", Jpress.currentTemplate().getModules());
-		List<Module> moduleList = Jpress.currentTemplate().getModules();
+		setAttr("modules", TemplateUtils.currentTemplate().getModules());
+		List<Module> moduleList = TemplateUtils.currentTemplate().getModules();
 
 		if (moduleList != null && moduleList.size() > 0) {
 			String moduels[] = new String[moduleList.size()];

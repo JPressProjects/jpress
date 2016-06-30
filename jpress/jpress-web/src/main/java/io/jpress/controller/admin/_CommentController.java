@@ -21,7 +21,6 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
@@ -33,6 +32,7 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
@@ -51,7 +51,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Override
 	public void index() {
 		super.index();
-		setAttr("module", Jpress.currentTemplate().getModuleByName(getContentModule()));
+		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getContentModule()));
 		setAttr("delete_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
 		setAttr("draft_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
 		setAttr("normal_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));

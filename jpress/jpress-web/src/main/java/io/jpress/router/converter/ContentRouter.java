@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
-import io.jpress.core.Jpress;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterConverter;
 import io.jpress.template.Module;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
@@ -68,7 +68,7 @@ public class ContentRouter extends RouterConverter {
 		String settingType = getRouterType();
 		// 静态模型
 		if (TYPE_STATIC_MODULE_SLUG.equals(settingType) || TYPE_STATIC_MODULE_ID.equals(settingType)) {
-			Module m = Jpress.currentTemplate().getModuleByName(targetDirs[0]);
+			Module m = TemplateUtils.currentTemplate().getModuleByName(targetDirs[0]);
 			return m == null ? null : Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
 		}
 		// 静态日期

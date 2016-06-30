@@ -25,6 +25,7 @@ import io.jpress.Consts;
 import io.jpress.install.InstallUtils;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterManager;
+import io.jpress.template.TemplateUtils;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.FileUtils;
 
@@ -104,8 +105,8 @@ public class JHandler extends Handler {
 		
 		request.setAttribute("jp_menu", new MenuTag(request));
 		
-		if(null != Jpress.currentTemplate()){
-			request.setAttribute("TPATH", request.getContextPath() + Jpress.currentTemplate().getPath());
+		if(null != TemplateUtils.currentTemplate()){
+			request.setAttribute("TPATH", request.getContextPath() + TemplateUtils.currentTemplate().getPath());
 		}else{
 			request.setAttribute("TPATH", "");
 		}

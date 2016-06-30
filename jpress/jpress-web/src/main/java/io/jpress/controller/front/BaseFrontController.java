@@ -19,7 +19,6 @@ import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.Jpress;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
@@ -54,7 +53,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private void renderTemplate(String name) {
-		super.render(Jpress.currentTemplate().getPath() + "/" + name);
+		super.render(TemplateUtils.currentTemplate().getPath() + "/" + name);
 	}
 
 	public String clearProp(String fname) {

@@ -57,7 +57,7 @@ public class ContentRouter extends RouterConverter {
 
 		String settingType = getRouterType();
 		if (TYPE_DYNAMIC_ID.equals(settingType) || TYPE_DYNAMIC_SLUG.equals(settingType)) {
-			return url + "&pageNumber=" + pageNumber;
+			return url + "&p=" + pageNumber;
 		}
 
 		if (enalbleFakeStatic()) {

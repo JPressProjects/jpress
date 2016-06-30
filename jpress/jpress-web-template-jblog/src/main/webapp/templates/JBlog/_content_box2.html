@@ -6,14 +6,16 @@
 	<#list contents as content> 
 	<#if content?is_first >
 	<div class="x-layout-100 person-relative image-box">
-		<p>
-			<a href="${(content.url)!}">
-				<img src="${(content.thumbnail)!}" />
-			</a>
-		</p>
-		<div class="x-abolute-submit x-box-border">
-			<p>${(content.title)!}</p>
-		</div>
+
+		<div class="yfh-banner-image">
+        	<img src="${(content.thumbnail)!}" style="width: 100%;height: 100%;" />
+        </div>
+        <div class="x-box-border yfh-banner-transfer">
+       	 <a href="${(content.url)!}">
+          <p>${(content.title)!}</p>
+          </a>
+        </div>
+        
 	</div>
 	<#else>
 	<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
@@ -28,7 +30,7 @@
 			<p class="right-box-title">${(content.title)!}</p>
 			<div class="x-layout-100 x-font-small x-font-grey">
 				<i class="fa fa-clock-o" aria-hidden="true"></i>
-				1天前
+				${(content.created)!}
 			</div>
 		</div>
 	</div>

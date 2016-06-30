@@ -1547,6 +1547,32 @@ a.x-a-active:hover{
 	height: 100%;
 }
 
+.yfh-banner-transfer{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom:0;
+    left:0;
+    transition: all .3s ease;
+    background: -webkit-gradient(linear,0 30%,0 100%,from(rgba(0,0,0,0)),to(#121515));
+    background: -moz-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0),#121515);
+    background: -ms-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0),#121515);
+    background: -o-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0),#121515);
+    cursor: pointer;
+}
+.yfh-banner-transfer p{
+    position: absolute;
+    bottom:0.5rem;
+    color:#fff;
+    font-size:1rem;
+    margin:0 0.5rem;
+}
+
+.yfh-banner-transfer a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
 @media all and (max-width:1120px){
     .x-pc-width{
         width: 100%;

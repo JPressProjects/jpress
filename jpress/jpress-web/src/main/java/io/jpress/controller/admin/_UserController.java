@@ -40,7 +40,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	@Override
 	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
 		setAttr("userCount", UserQuery.findCount());
-		setAttr("adminCount",UserQuery.findAdminCount());
+		setAttr("adminCount", UserQuery.findAdminCount());
 
 		return UserQuery.paginate(pageNumber, pageSize);
 	}
@@ -71,9 +71,9 @@ public class _UserController extends JBaseCRUDController<User> {
 		if (uf != null) {
 			String newPath = AttachmentUtils.moveFile(uf);
 			m.setAvatar(newPath);
-		}else{
+		} else {
 			String url = getPara("user_avatar");
-			if(StringUtils.isNotBlank(url)){
+			if (StringUtils.isNotBlank(url)) {
 				m.setAvatar(url.trim());
 			}
 		}
@@ -81,9 +81,18 @@ public class _UserController extends JBaseCRUDController<User> {
 		return super.onModelSaveBefore(m);
 	}
 
+	@Override
+	public boolean onModelSaveAfter(User m) {
+		User user = getAttr(Consts.ATTR_USER);
+		if (user != null && m.getId().compareTo(user.getId()) == 0) {
+			removeAttr(Consts.ATTR_USER);
+		}
+		return super.onModelSaveAfter(m);
+	}
+
 	public void info() {
 		User user = getAttr(Consts.ATTR_USER);
-		if(user !=null){
+		if (user != null) {
 			user = UserQuery.findById(user.getId());
 		}
 		setAttr("user", user);

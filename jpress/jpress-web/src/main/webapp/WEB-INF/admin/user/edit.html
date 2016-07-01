@@ -6,9 +6,9 @@ function doSubmit(){
 			dataType : "json", 
 			success : function(data) { 
 				if(data.errorCode == 0){
-					toastr.success(data.message,'操作成功');
+					location.reload();
 				}else{
-					alert(data.message);
+					toastr.error(data.message);
 				}
 			},
 			error : function() {
@@ -129,7 +129,7 @@ function doSubmit(){
 					</div>
 					<div class="col-sm-9 jp-common-pad ">
 						<div class="col-sm-7 ">
-							<img alt="" src="${(user.avatar)!}" class="jp-grids-photos img-responsive">
+							<img alt="" src="${CPATH}${(user.avatar)!}" class="jp-grids-photos img-responsive">
 							<br />
 							<input name="user_avatar_file" type="file">
 							<input class="form-control input-md" type="text" name="user_avatar" value="${(user.avatar)!}">

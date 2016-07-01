@@ -79,6 +79,7 @@ public class UserQuery extends JBaseQuery {
 			}
 		});
 	}
+	
 
 	public static boolean updateContentCount(User user) {
 		long count = 0;

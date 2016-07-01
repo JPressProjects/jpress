@@ -62,8 +62,8 @@ public class ContentController extends BaseFrontController {
 			renderError(404);
 			return;
 		}
-		
-		if(TemplateUtils.currentTemplate().getModuleByName(content.getModule()) == null){
+
+		if (TemplateUtils.currentTemplate().getModuleByName(content.getModule()) == null) {
 			renderError(404);
 			return;
 		}
@@ -84,9 +84,15 @@ public class ContentController extends BaseFrontController {
 		List<Taxonomy> taxonomys = TaxonomyQuery.findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
-		setAttr("jp_menu", new MenuTag(getRequest(),taxonomys));
+		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys));
 
-		render(String.format("content_%s_%s.html", content.getModule(), content.getStyle()));
+		String style = content.getStyle();
+		if (StringUtils.isNotBlank(style)) {
+			render(String.format("content_%s_%s.html", content.getModule(), style.trim()));
+		} else {
+			render(String.format("content_%s.html", content.getModule()));
+		}
+
 	}
 
 	private void updateContentViewCount(Content content) {
@@ -99,22 +105,21 @@ public class ContentController extends BaseFrontController {
 	}
 
 	private void setGlobleAttrs(Content content) {
-		
+
 		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, content.getTitle());
-		
-		if(StringUtils.isNotBlank(content.getMetaKeywords())){
+
+		if (StringUtils.isNotBlank(content.getMetaKeywords())) {
 			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getMetaKeywords());
-		}else{
+		} else {
 			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, content.getTaxonomyAsString(null));
 		}
-		
-		
-		if(StringUtils.isNotBlank(content.getMetaDescription())){
+
+		if (StringUtils.isNotBlank(content.getMetaDescription())) {
 			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getMetaDescription());
-		}else{
+		} else {
 			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, content.getSummary());
 		}
-		
+
 	}
 
 	private Content queryContent() {

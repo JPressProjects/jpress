@@ -122,5 +122,23 @@ public class _UserController extends JBaseCRUDController<User> {
 			renderAjaxResultForError();
 		}
 	}
+	
+	
+	@Override
+	public void delete() {
+		BigInteger id = getParaToBigInteger("id");
+		if(id == null ){
+			renderAjaxResultForError();
+			return;
+		}
+		
+		User user = getAttr(Consts.ATTR_USER);
+		if(user.getId().compareTo(id) == 0){
+			renderAjaxResultForError("不能删除自己...");
+			return;
+		}
+		
+		super.delete();
+	}
 
 }

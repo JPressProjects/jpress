@@ -21,7 +21,7 @@ function batchAction(){
 			dataType : "json",
 			success : function(result) { 
 				if(result.errorCode > 0){
-					alert(result.message);
+					toastr.error(result.message,'操作失败');
 				}else{
 					location.reload();
 				}
@@ -35,7 +35,17 @@ function batchAction(){
 function restore(id){
 	$.get("${CPATH}/admin/content/restore?ucode=${ucode}&id="+id, function(result){
 		if(result.errorCode > 0){
-			alert(result.message);
+			toastr.error(result.message,'操作失败');
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function draft(id){
+	$.get("${CPATH}/admin/content/draft?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			toastr.error(result.message,'操作失败');
 		}else{
 			location.reload();
 		}
@@ -45,7 +55,7 @@ function restore(id){
 function del(id){
 	$.get("${CPATH}/admin/content/delete?ucode=${ucode}&id="+id, function(result){
 		if(result.errorCode > 0){
-			alert(result.message);
+			toastr.error(result.message,'操作失败');
 		}else{
 			location.reload();
 		}
@@ -163,9 +173,12 @@ function del(id){
 								<div class="jp-flash-comment">
 									<p class="row-actions jp-cancel-pad">
 										<#if "delete" != s!> 
-										<span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a>
-										</span> <span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash('${bean.id}')">垃圾箱</a>
-										</span> <span class="trash">|<a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a>
+										<span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a></span> 
+											<#if "draft" != bean.status!> 
+											<span class="approve">|<a class="vim-a" href="javascript:draft('${bean.id}')">草稿</a></span> 
+											</#if>
+										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash('${bean.id}')">垃圾箱</a></span> 
+										<span class="trash">|<a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a>
 										</span> 
 										<#else> 
 										<span class="approve"> <a class="vim-a" href="javascript:restore('${bean.id}')">还原</a></span> 

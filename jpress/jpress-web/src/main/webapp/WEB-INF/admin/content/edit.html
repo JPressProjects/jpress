@@ -126,7 +126,7 @@ function doSelectThumbnail(){
 function doAjax(url){
 	  $.get(url, function(result){
 			if(result.errorCode > 0){
-				alert(result.message);
+				toastr.error(result.message,'操作失败');
 			}else{
 				location.reload();
 			}

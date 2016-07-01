@@ -117,6 +117,18 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
+	
+	@Before(UCodeInterceptor.class)
+	public void draft() {
+		Content c = ContentQuery.findById(getParaToBigInteger("id"));
+		if (c != null) {
+			c.setStatus(Content.STATUS_DRAFT);
+			c.saveOrUpdate();
+			renderAjaxResultForSuccess("success");
+		} else {
+			renderAjaxResultForError("trash error!");
+		}
+	}
 
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {

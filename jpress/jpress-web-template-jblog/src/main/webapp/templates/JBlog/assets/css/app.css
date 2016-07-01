@@ -1,9 +1,10 @@
 /**************************page start*************************/
 body{
-    font-family: "Microsoft YaHei", Verdana, Arial, Helvetica, sans-serif;;
     margin:0;
     padding:0;
+    font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei",  "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
+
 html,html .body-bacground{
     background-color: #f9f9f9;
 }
@@ -1588,6 +1589,66 @@ a.x-a-active:hover{
 .sub-image-box:hover img{
 	transform: scale(1.1);
 }
+
+
+.aritcle h1{
+	font-size:2rem;
+	font-weight: bold;
+	padding:1rem 0;
+}
+.aritcle h2{
+	font-size:1.8rem;
+	font-weight: bold;
+	padding:1rem 0;
+}
+.aritcle h3{
+	font-size:1.6rem;
+	font-weight: bold;
+	padding:1rem 0;
+}
+.aritcle h4{
+	font-size:1.4rem;
+	font-weight: bold;
+	padding:1rem 0;	
+}
+.aritcle h5{
+	font-size:1.2rem;
+	font-weight: bold;
+	padding:1rem 0;
+
+}
+.aritcle h6{
+	font-size:1rem;
+	font-weight: bold;
+	padding:1rem 0;
+}
+.aritcle{
+	padding:0.5rem;
+}
+
+.aritcle p{
+	line-height: 1.4rem;
+	color:#666;
+	margin-bottom:1rem;
+	font-size:1rem;
+	font-weight: normal;
+}
+.aritcle ul li{
+	line-height: 1.4rem;
+	font-size:1rem;
+	font-weight: normal;
+	margin:1rem 1rem 0.5rem 2rem;
+	list-style:disc;
+	color:#666;
+}
+.aritcle ul li ul li{
+	list-style:circle;
+	margin-left:2rem;
+}
+
+
+
+
 
 @media all and (max-width:1120px){
     .x-pc-width{

@@ -3,6 +3,8 @@
 
 演示站点：[http://www.yangfuhai.com](http://www.yangfuhai.com)
 
+JFinal和JPress视频教程：[http://www.yangfuhai.com/post/6.html](http://www.yangfuhai.com/post/6.html)
+
 JPress官网：[http://jpress.io](http://jpress.io) 
 
 JPress文档：[https://github.com/JpressProjects/doc](https://github.com/JpressProjects/doc) 
@@ -87,6 +89,7 @@ JPress使用了最宽松的LGPL开源协议，和国内的那些采用了 **私�
 
 | 名字      | 金额   | 方式  | 说明  | 时间  |
 | :-------: |:----: | :-----:|----- |-----|
+| 曾     | ￥20.00  | 支付宝   | z201 没玩过jfinal，来观摩下。 | 2016-6-30 22:43|
 | 一诺雨     | ￥6.60  | 微信捐助   | 无 | 2016-6-29 18:17|
 | 射手座     | ￥30.00  | 微信捐助   | 无 | 2016-6-28 13:21|
 | Jack     | ￥6.66  | 微信捐助   | 无 | 2016-6-24 22:04|

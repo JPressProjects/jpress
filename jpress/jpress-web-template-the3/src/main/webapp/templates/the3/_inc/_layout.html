@@ -32,12 +32,21 @@
             <nav  class="navbar-collapse collapse jp-collapse" aria-expanded="true">
 
                     <ul class="nav navbar-nav jp-navbar-nav jp-navbar">
-                        <li class="active"><a href="${CPATH}/"">首页</a></li>
-                        <@jp_menu>
-                        	<#list menus as menu>
-                        		<li><a href="${menu.text!}">${menu.title}</a></li>
-                        	</#list>
-                        </@jp_menu>
+				      	<#if "/" == _request.requestURI!>
+				      	 <li class="active"><a href="${CPATH}/"">首页</a></li>
+				      	 <#else>
+				      	 <li><a href="${CPATH}/"">首页</a></li>
+				      	</#if>
+				      	<@jp_menu>
+				        	<#list menus as menu>
+				        		<#if menu.flag ??>
+				        			<li class="active"><a href="${CPATH}${menu.text!}">${menu.title}</a></li>
+				        		<#else>
+				        			<li><a href="${CPATH}${menu.text!}">${menu.title}</a></li>
+				        		</#if>
+				        	</#list>
+				        </@jp_menu>
+        
                     </ul>
                     <ul class="nav navbar-nav jp-navbar-nav display-none-1200 pull-right">
                         <li><a href="${CPATH}/user/center"><img class="user-image" src="${TPATH}/imgs/avatar.jpg"/> </a></li>

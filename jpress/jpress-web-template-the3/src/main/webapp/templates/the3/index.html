@@ -17,6 +17,13 @@ var swiper = new Swiper('.swiper-container', {
               <section class="side-tag">
                   <h5 class="side-left-head">feature tag</h5>
                   <dl class="dl-horizontal">
+                  	   <@jp_tags > 
+                  	   <#list tags as tag>
+						<dt><i class="fa fa-mobile fa-2x"></i></dt>
+                        <dd><a href="${CPATH!}${tag.url!}">${tag.title!}</a>(${tag.content_count!})</dd>
+						</#list> 
+						</@jp_tags >
+						<!-- 
                       <dt><i class="fa fa-mobile fa-2x"></i></dt>
                       <dd>技术频道(8)</dd>
                       <dt><i class="fa fa-home fa-lg"></i></dt>
@@ -34,7 +41,7 @@ var swiper = new Swiper('.swiper-container', {
                       <dt><i class="fa fa-graduation-cap fa-lg"></i></dt>
                       <dd>创业成长(9)</dd>
                       <dt><i class="fa fa-tablet fa-lg"></i></dt>
-                      <dd>融资</dd>
+                      <dd>融资</dd> -->
                   </dl>
               </section>
             <section class="side-tag">

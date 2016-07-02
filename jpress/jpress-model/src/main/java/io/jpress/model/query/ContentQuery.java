@@ -105,18 +105,50 @@ public class ContentQuery extends JBaseQuery {
 
 		fromBuilder.append(" group by c.id");
 
-		if (null != orderBy && !"".equals(orderBy)) {
-			fromBuilder.append(" ORDER BY ? DESC");
-			params.add(orderBy);
-		} else {
-			fromBuilder.append(" ORDER BY c.created DESC");
-		}
+		buildOrderBy(orderBy, fromBuilder);
 
 		if (params.isEmpty()) {
 			return MODEL.paginate(page, pagesize, select, fromBuilder.toString());
 		}
 
 		return MODEL.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+	}
+
+	private static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+		if("view_count".equals(orderBy)){
+			fromBuilder.append(" ORDER BY c.view_count DESC");
+		}
+		
+		else if ("comment_count".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.comment_count DESC");
+		} 
+		
+		else if ("modified".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.modified DESC");
+		} 
+		
+		else if ("vote_up".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.vote_up DESC");
+		} 
+		
+		else if ("vote_down".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.vote_down DESC");
+		} 
+		
+		else if ("order_number".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.order_number DESC");
+		} 
+		
+		else if ("parent_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.parent_id DESC");
+		} 
+		
+		else if ("object_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.object_id DESC");
+		} 
+		else {
+			fromBuilder.append(" ORDER BY c.created DESC");
+		}
 	}
 
 	public static Long findCountByModuleAndStatus(String module, String status) {
@@ -183,12 +215,7 @@ public class ContentQuery extends JBaseQuery {
 
 		sqlBuilder.append("GROUP BY c.id");
 
-		if (null != orderBy && !"".equals(orderBy)) {
-			sqlBuilder.append(" ORDER BY ? DESC");
-			params.add(orderBy);
-		} else {
-			sqlBuilder.append(" ORDER BY c.created DESC");
-		}
+		buildOrderBy(orderBy, sqlBuilder);
 
 		sqlBuilder.append(" LIMIT ?, ?");
 		params.add(page - 1);

@@ -30,10 +30,11 @@ public class Option extends BaseOption<Option> {
 	public static final String KEY_TEMPLATE_ID = "web_template_id";
 
 	
+	
 	@Override
-	public boolean saveOrUpdate() {
+	public boolean update() {
 		CacheKit.remove(CACHE_NAME, getOptionKey());
-		return super.saveOrUpdate();
+		return super.update();
 	}
 
 	

@@ -16,6 +16,7 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
@@ -27,16 +28,40 @@ import io.jpress.template.TemplateUtils;
 
 public class UserQuery extends JBaseQuery {
 	private static User MODEL = new User();
-	
-	public static User findFirstFromMetadata(String key,Object value){
-		return MODEL.findFirstFromMetadata( key, value);
+
+	public static List<User> findList(int page, int pagesize, String gender, String role, String status,
+			String orderBy) {
+		StringBuilder sqlBuilder = new StringBuilder("select * from user u ");
+		LinkedList<Object> params = new LinkedList<Object>();
+
+		boolean needWhere = true;
+		needWhere = appendIfNotEmpty(sqlBuilder, "u.gender", gender, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "u.role", role, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "u.status", status, params, needWhere);
+
+		buildOrderBy(orderBy, sqlBuilder);
+
+		sqlBuilder.append(" LIMIT ?, ?");
+		params.add(page - 1);
+		params.add(pagesize);
+
+		if (params.isEmpty()) {
+			return MODEL.find(sqlBuilder.toString());
+		} else {
+			return MODEL.find(sqlBuilder.toString(), params.toArray());
+		}
+
 	}
-	
-	public static Page<User> paginate(int pageNumber, int pageSize){
+
+	public static User findFirstFromMetadata(String key, Object value) {
+		return MODEL.findFirstFromMetadata(key, value);
+	}
+
+	public static Page<User> paginate(int pageNumber, int pageSize) {
 		return MODEL.doPaginate(pageNumber, pageSize);
 	}
-	
-	public static long findCount(){
+
+	public static long findCount() {
 		return MODEL.doFindCount();
 	}
 
@@ -79,7 +104,6 @@ public class UserQuery extends JBaseQuery {
 			}
 		});
 	}
-	
 
 	public static boolean updateContentCount(User user) {
 		long count = 0;
@@ -99,6 +123,40 @@ public class UserQuery extends JBaseQuery {
 		long count = CommentQuery.findCountByUserIdInNormal(user.getId());
 		user.setCommentCount(count);
 		return user.update();
+	}
+
+	private static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+		if ("content_count".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.content_count DESC");
+		}
+
+		else if ("comment_count".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.comment_count DESC");
+		}
+
+		else if ("username".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.username DESC");
+		}
+
+		else if ("nickname".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.nickname DESC");
+		}
+
+		else if ("amount".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.amount DESC");
+		}
+
+		else if ("logged".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.logged DESC");
+		}
+
+		else if ("activated".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY u.activated DESC");
+		}
+
+		else {
+			fromBuilder.append(" ORDER BY u.created DESC");
+		}
 	}
 
 }

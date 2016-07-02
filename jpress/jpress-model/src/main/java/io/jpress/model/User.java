@@ -33,11 +33,15 @@ public class User extends BaseUser<User> {
 	public boolean isFrozen() {
 		return STATUS_FROZEN.equals(getStatus());
 	}
-	
+
 	@Override
 	public boolean update() {
 		removeCache(getId());
 		return super.update();
+	}
+
+	public String getUrl() {
+		return "/user/" + getId();
 	}
 
 }

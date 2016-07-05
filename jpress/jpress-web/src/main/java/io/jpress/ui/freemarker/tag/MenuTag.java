@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.core.JFinal;
+
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
@@ -61,15 +63,36 @@ public class MenuTag extends JTag {
 			list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		}
 
+		boolean autoWithCPATH = getParamToBool("withContextPath", true);
+
 		if (list == null || list.isEmpty()) {
 			renderText("");
 			return;
+		}
+
+		if (autoWithCPATH) {
+			processContextPath(list);
 		}
 
 		setActiveMenu(list);
 		ModelSorter.tree(list);
 		setVariable("menus", list);
 		renderBody();
+	}
+
+	private void processContextPath(List<Content> list) {
+		for (Content c : list) {
+			String url = c.getText();
+			if (!StringUtils.isNotBlank(url)) {
+				continue;
+			}
+
+			if (!url.toLowerCase().startsWith("http:") && !url.toLowerCase().startsWith("https:")) {
+				url = JFinal.me().getContextPath() + url;
+			}
+			
+			c.setText(url);
+		}
 	}
 
 	private void setActiveMenu(List<Content> list) {
@@ -85,13 +108,12 @@ public class MenuTag extends JTag {
 				}
 			}
 		}
-		
+
 		for (Content c : list) {
 			if (c.getText() != null && c.getText().equals(request.getRequestURI())) {
 				c.setFlag("active");
 			}
 		}
-		
 	}
 
 }

@@ -338,7 +338,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getText() == null)
 			return null;
 		String text = Jsoup.parse(getText()).text();
-		if (text != null && text.length() >= len) {
+		if (text != null && text.length() > len) {
 			return text.substring(0, len);
 		}
 		return text;

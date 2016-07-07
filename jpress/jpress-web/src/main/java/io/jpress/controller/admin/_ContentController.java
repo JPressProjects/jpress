@@ -94,17 +94,22 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				setAttr("_typeMap", map);
 			}
 		}
-
-		super.index();
-	}
-
-	@Override
-	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
+		
+		
+		String keyword = getPara("k","").trim();
+		
+		
+		Page<Content> page = null;
 		if (StringUtils.isNotBlank(getStatus())) {
-			return ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, getModuleName(), getStatus());
+			page = ContentQuery.paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword ,getStatus());
+		}else{
+			page = ContentQuery.paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(),keyword);
 		}
-		return ContentQuery.paginateByModuleNotInDelete(pageNumber, pageSize, getModuleName());
+		
+		setAttr("page", page);
+		render("index.html");
 	}
+
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {

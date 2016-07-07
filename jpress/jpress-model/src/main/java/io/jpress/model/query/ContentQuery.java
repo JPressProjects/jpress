@@ -24,6 +24,7 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.core.db.Jdb;
 import io.jpress.model.Content;
+import io.jpress.utils.StringUtils;
 
 public class ContentQuery extends JBaseQuery {
 
@@ -45,23 +46,27 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public static Page<Content> paginateByModule(int page, int pagesize, String module) {
-		return paginate(page, pagesize, module, null, null, null, null);
+		return paginate(page, pagesize, module, null,null, null, null, null);
 	}
 
 	public static Page<Content> paginateByModuleAndStatus(int page, int pagesize, String module, String status,
 			String orderBy) {
-		return paginate(page, pagesize, module, status, null, null, orderBy);
+		return paginate(page, pagesize, module, null,status, null, null, orderBy);
 	}
 
-	public static Page<Content> paginateByModuleAndStatus(int page, int pagesize, String module, String status) {
-		return paginate(page, pagesize, module, status, null, null, null);
+	public static Page<Content> paginateByModuleAndStatus(int page, int pagesize, String module,String status) {
+		return paginate(page, pagesize, module,null, status, null, null, null);
+	}
+	
+	public static Page<Content> paginateBySearch(int page, int pagesize, String module,String keyword, String status) {
+		return paginate(page, pagesize, module,keyword, status, null, null, null);
 	}
 
 	public static Page<Content> paginateByModuleInNormal(int page, int pagesize, String module) {
-		return paginate(page, pagesize, module, Content.STATUS_NORMAL, null, null, null);
+		return paginate(page, pagesize, module, null,Content.STATUS_NORMAL, null, null, null);
 	}
 
-	public static Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module) {
+	public static Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module,String keyword) {
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
@@ -75,6 +80,20 @@ public class ContentQuery extends JBaseQuery {
 
 		boolean needWhere = false;
 		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
+		
+		if(StringUtils.isNotBlank(keyword)){
+			if(needWhere ){
+				fromBuilder.append(" WHERE ");
+				needWhere = false;
+			}else{
+				fromBuilder.append(" AND ");
+			}
+			
+			fromBuilder.append(" c.title like ? ");
+			params.add("%"+keyword+"%");
+		}
+		
+		
 		fromBuilder.append(" group by c.id");
 		fromBuilder.append(" ORDER BY c.created DESC");
 
@@ -85,7 +104,7 @@ public class ContentQuery extends JBaseQuery {
 		return MODEL.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
-	public static Page<Content> paginate(int page, int pagesize, String module, String status, BigInteger taxonomyId,
+	public static Page<Content> paginate(int page, int pagesize, String module, String keyword, String status, BigInteger taxonomyId,
 			BigInteger userId, String orderBy) {
 
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
@@ -102,6 +121,18 @@ public class ContentQuery extends JBaseQuery {
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
+		
+		if(StringUtils.isNotBlank(keyword)){
+			if(needWhere ){
+				fromBuilder.append(" WHERE ");
+				needWhere = false;
+			}else{
+				fromBuilder.append(" AND ");
+			}
+			
+			fromBuilder.append(" c.title like ? ");
+			params.add("%"+keyword+"%");
+		}
 
 		fromBuilder.append(" group by c.id");
 

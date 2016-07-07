@@ -101,12 +101,11 @@ function del(id){
 		</ul>
 
 
-		<form class="form-horizontal" style="float: right">
+		<form class="form-horizontal" method="POST" style="float: right" action="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=${s!}">
 			<div class="input-group input-group-sm">
-				<input id="post-search-input" class="form-control" type="search" value="" name="" placeholder="请输入关键词">&nbsp;&nbsp;<input id="search-submit" class="btn btn-default btn-sm" type="submit"
-					value="搜索">
+				<input id="post-search-input" class="form-control" type="search" value="${k!}" name="k" placeholder="请输入关键词">&nbsp;&nbsp;
+				<input id="search-submit" class="btn btn-default btn-sm" type="submit" value="搜索">
 			</div>
-
 		</form>
 	</div>
 
@@ -216,7 +215,9 @@ function del(id){
 	
 	<div class="cf">
 		<div class="pull-right " >
+			
 			<#include "../_inc/_paginate_wrapper.html" />
+
 		</div>
 	</div>
 		

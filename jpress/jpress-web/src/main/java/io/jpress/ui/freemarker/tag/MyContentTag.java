@@ -62,7 +62,7 @@ public class MyContentTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", ContentQuery.paginate(pageNumber, pageSize, module.getName(), status, taxonomyId, null, orderby));
+		setVariable("page", ContentQuery.paginate(pageNumber, pageSize, module.getName(), null,status, taxonomyId, null, orderby));
 
 		renderBody();
 	}

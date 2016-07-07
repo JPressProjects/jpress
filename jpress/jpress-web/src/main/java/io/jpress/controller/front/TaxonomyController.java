@@ -71,7 +71,7 @@ public class TaxonomyController extends BaseFrontController {
 		}
 
 		BigInteger id = taxonomy == null ? null : taxonomy.getId();
-		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName, Content.STATUS_NORMAL, id, null, null);
+		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName,null, Content.STATUS_NORMAL, id, null, null);
 		setAttr("page", page);
 
 		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);

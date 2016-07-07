@@ -78,38 +78,74 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("normal_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
 		setAttr("count", ContentQuery.findCountInNormalByModule(getModuleName()));
 
-		if (module != null) {
-			List<TaxonomyType> types = module.getTaxonomyTypes();
-			if (types != null && !types.isEmpty()) {
-				HashMap<String, List<Taxonomy>> map = new HashMap<String, List<Taxonomy>>();
-				for (TaxonomyType tt : types) {
-
-					// 排除标签类的分类删选
-					if (TaxonomyType.TYPE_SELECT.equals(tt.getFormType())) {
-						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),
-								tt.getName());
-						map.put(tt.getTitle(), taxonomys);
-					}
+		setAttr("tids", getPara("tids"));
+		BigInteger[] tids = null;
+		String[] tidStrings = getPara("tids", "").split(",");
+		if (tidStrings != null && tidStrings.length > 0) {
+			List<BigInteger> tidList = new ArrayList<BigInteger>();
+			for (String stringid : tidStrings) {
+				if (StringUtils.isNotBlank(stringid)) {
+					tidList.add(new BigInteger(stringid));
 				}
-				setAttr("_typeMap", map);
 			}
+			tids = tidList.toArray(new BigInteger[] {});
 		}
-		
-		
-		String keyword = getPara("k","").trim();
-		
-		
+
+		String keyword = getPara("k", "").trim();
+
 		Page<Content> page = null;
 		if (StringUtils.isNotBlank(getStatus())) {
-			page = ContentQuery.paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword ,getStatus());
-		}else{
-			page = ContentQuery.paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(),keyword);
+			page = ContentQuery.paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword, getStatus(),
+					tids);
+		} else {
+			page = ContentQuery.paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(), keyword,
+					tids);
 		}
-		
+
+		filterUI(tids);
+
 		setAttr("page", page);
 		render("index.html");
 	}
 
+	private void filterUI(BigInteger[] tids) {
+		Module module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
+
+		if (module != null) {
+			List<TaxonomyType> types = module.getTaxonomyTypes();
+			if (types != null && !types.isEmpty()) {
+				HashMap<String, List<Taxonomy>> _taxonomyMap = new HashMap<String, List<Taxonomy>>();
+
+				for (TaxonomyType type : types) {
+					// 排除标签类的分类删选
+					if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
+						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),
+								type.getName());
+						processSelected(tids, taxonomys);
+						_taxonomyMap.put(type.getTitle(), taxonomys);
+					}
+				}
+
+				setAttr("_taxonomyMap", _taxonomyMap);
+			}
+		}
+	}
+
+	private void processSelected(BigInteger[] tids, List<Taxonomy> taxonomys) {
+		if (taxonomys == null || taxonomys.isEmpty()) {
+			return;
+		}
+		if (tids == null || tids.length == 0) {
+			return;
+		}
+		for (Taxonomy t : taxonomys) {
+			for (BigInteger id : tids) {
+				if (t.getId().compareTo(id) == 0) {
+					t.put("_selected", "selected=\"selected\"");
+				}
+			}
+		}
+	}
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
@@ -122,7 +158,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			renderAjaxResultForError("trash error!");
 		}
 	}
-	
+
 	@Before(UCodeInterceptor.class)
 	public void draft() {
 		Content c = ContentQuery.findById(getParaToBigInteger("id"));

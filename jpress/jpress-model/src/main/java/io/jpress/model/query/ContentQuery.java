@@ -58,15 +58,15 @@ public class ContentQuery extends JBaseQuery {
 		return paginate(page, pagesize, module,null, status, null, null, null);
 	}
 	
-	public static Page<Content> paginateBySearch(int page, int pagesize, String module,String keyword, String status) {
-		return paginate(page, pagesize, module,keyword, status, null, null, null);
+	public static Page<Content> paginateBySearch(int page, int pagesize, String module,String keyword, String status , BigInteger[] tids) {
+		return paginate(page, pagesize, module,keyword, status, tids, null, null);
 	}
 
 	public static Page<Content> paginateByModuleInNormal(int page, int pagesize, String module) {
 		return paginate(page, pagesize, module, null,Content.STATUS_NORMAL, null, null, null);
 	}
 
-	public static Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module,String keyword) {
+	public static Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module,String keyword,BigInteger[] taxonomyIds) {
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
@@ -82,15 +82,12 @@ public class ContentQuery extends JBaseQuery {
 		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
 		
 		if(StringUtils.isNotBlank(keyword)){
-			if(needWhere ){
-				fromBuilder.append(" WHERE ");
-				needWhere = false;
-			}else{
-				fromBuilder.append(" AND ");
-			}
-			
-			fromBuilder.append(" c.title like ? ");
+			fromBuilder.append(" AND c.title like ? ");
 			params.add("%"+keyword+"%");
+		}
+		
+		if(taxonomyIds != null && taxonomyIds.length > 0){
+			fromBuilder.append(" AND t.id in " + toString(taxonomyIds));
 		}
 		
 		
@@ -104,7 +101,7 @@ public class ContentQuery extends JBaseQuery {
 		return MODEL.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
-	public static Page<Content> paginate(int page, int pagesize, String module, String keyword, String status, BigInteger taxonomyId,
+	public static Page<Content> paginate(int page, int pagesize, String module, String keyword, String status, BigInteger[] taxonomyIds,
 			BigInteger userId, String orderBy) {
 
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
@@ -119,7 +116,6 @@ public class ContentQuery extends JBaseQuery {
 		boolean needWhere = true;
 		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "t.id", taxonomyId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
 		
 		if(StringUtils.isNotBlank(keyword)){
@@ -133,6 +129,18 @@ public class ContentQuery extends JBaseQuery {
 			fromBuilder.append(" c.title like ? ");
 			params.add("%"+keyword+"%");
 		}
+		
+		if(taxonomyIds != null && taxonomyIds.length > 0){
+			if(needWhere ){
+				fromBuilder.append(" WHERE ");
+				needWhere = false;
+			}else{
+				fromBuilder.append(" AND ");
+			}
+			
+			fromBuilder.append(" t.id in " + toString(taxonomyIds));
+		}
+		
 
 		fromBuilder.append(" group by c.id");
 
@@ -143,6 +151,20 @@ public class ContentQuery extends JBaseQuery {
 		}
 
 		return MODEL.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+	}
+	
+	private static String toString(Object[] a) {
+
+		int iMax = a.length - 1;
+
+		StringBuilder b = new StringBuilder();
+		b.append('(');
+		for (int i = 0;; i++) {
+			b.append(String.valueOf(a[i]));
+			if (i == iMax)
+				return b.append(')').toString();
+			b.append(", ");
+		}
 	}
 
 	private static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {

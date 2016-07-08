@@ -18,20 +18,17 @@ package io.jpress.ui.freemarker.tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.Comment;
 import io.jpress.model.Content;
-import io.jpress.model.Taxonomy;
-import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
-public class TaxonomyPaginateTag extends JTag {
+public class CommentPaginateTag extends JTag {
 
-	final Page<Content> page;
-	final String moduleName;
-	final Taxonomy taxonomy;
+	final Page<Comment> page;
+	final Content content;
 
 	String previous;
 	String next;
@@ -39,10 +36,9 @@ public class TaxonomyPaginateTag extends JTag {
 	String disabled;
 	String anchor;
 
-	public TaxonomyPaginateTag(Page<Content> page, String moduleName, Taxonomy taxonomy) {
+	public CommentPaginateTag(Page<Comment> page, Content content) {
 		this.page = page;
-		this.moduleName = moduleName;
-		this.taxonomy = taxonomy;
+		this.content = content;
 	}
 
 	@Override
@@ -78,7 +74,7 @@ public class TaxonomyPaginateTag extends JTag {
 			endPage = totalPage;
 		}
 
-		List<PaginateItem> pages = new ArrayList<TaxonomyPaginateTag.PaginateItem>();
+		List<PaginateItem> pages = new ArrayList<CommentPaginateTag.PaginateItem>();
 		if (currentPage == 1) {
 			pages.add(new PaginateItem(previous + " " + disabled, "#", "上一页"));
 		} else {
@@ -116,34 +112,11 @@ public class TaxonomyPaginateTag extends JTag {
 	}
 
 	private String getUrl(int pageNumber) {
-		String url = JFinal.me().getContextPath() + "/" + moduleName;
-		if (taxonomy != null) {
-			url += "-" + taxonomy.getSlug();
-		}
-
-		url += "-" + pageNumber;
-
-		if (enalbleFakeStatic()) {
-			url += getFakeStaticSuffix();
-		}
-
+		String url = content.getUrlWithPageNumber(pageNumber);
 		if (StringUtils.isNotBlank(anchor)) {
 			url += "#" + anchor;
 		}
 		return url;
-	}
-
-	protected static boolean enalbleFakeStatic() {
-		Boolean fakeStaticEnable = OptionQuery.findValueAsBool("router_fakestatic_enable");
-		return fakeStaticEnable != null && fakeStaticEnable == true;
-	}
-
-	protected static String getFakeStaticSuffix() {
-		String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
-		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
-			return fakeStaticSuffix.trim();
-		}
-		return ".html";
 	}
 
 	public static class PaginateItem {

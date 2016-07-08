@@ -25,7 +25,6 @@ import io.jpress.ui.freemarker.function.ContentUrl;
 import io.jpress.ui.freemarker.function.OptionChecked;
 import io.jpress.ui.freemarker.function.OptionValue;
 import io.jpress.ui.freemarker.function.TaxonomyBox;
-import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModuleTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
@@ -43,7 +42,6 @@ public class Config extends JpressConfig {
 	public void onJfinalStartAfter() {
 
 		Jpress.addTag("jp_contents", new ContentsTag());
-		Jpress.addTag("jp_comment_page", new CommentPageTag());
 		Jpress.addTag("jp_module", new ModuleTag());
 		Jpress.addTag("jp_tags", new TagsTag());
 

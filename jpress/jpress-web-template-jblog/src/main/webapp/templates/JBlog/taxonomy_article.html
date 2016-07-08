@@ -3,7 +3,7 @@
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
-	
+		<@contentPage pagesize="10" >
 		<#list page.getList() as content>
 			<#if content.thumbnail ??>
 			<div class="x-white-box">
@@ -173,7 +173,7 @@
 				</#list>
 			</@pagination>
 		</ul>
-
+		</@contentPage>
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">

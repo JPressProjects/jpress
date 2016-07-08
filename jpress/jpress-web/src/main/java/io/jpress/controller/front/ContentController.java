@@ -18,21 +18,17 @@ package io.jpress.controller.front;
 import java.math.BigInteger;
 import java.util.List;
 
-import com.jfinal.plugin.activerecord.Page;
-
 import io.jpress.Consts;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
-import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
-import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
-import io.jpress.ui.freemarker.tag.ContentPaginateTag;
+import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.StringUtils;
 
@@ -42,7 +38,6 @@ public class ContentController extends BaseFrontController {
 	private String slug;
 	private BigInteger id;
 	private int pageNumber;
-	private int pageSize;
 
 	@ActionCache
 	public void index() {
@@ -75,11 +70,13 @@ public class ContentController extends BaseFrontController {
 		setAttr("content", content);
 		setAttr("user", UserQuery.findById(content.getUserId()));
 
-		Page<Comment> page = CommentQuery.paginateByContentId(pageNumber, pageSize, content.getId());
-		setAttr("page", page);
-
-		ContentPaginateTag cpt = new ContentPaginateTag(page, content);
-		setAttr("pagination", cpt);
+//		Page<Comment> page = CommentQuery.paginateByContentId(pageNumber, pageSize, content.getId());
+//		setAttr("page", page);
+//
+//		ContentPaginateTag cpt = new ContentPaginateTag(page, content);
+//		setAttr("pagination", cpt);
+		
+		setAttr("commentPageTag", new CommentPageTag(content, pageNumber));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
@@ -139,7 +136,6 @@ public class ContentController extends BaseFrontController {
 				slug = idOrSlug;
 			}
 			pageNumber = getParaToInt(1, 1);
-			pageSize = getParaToInt(2, 10);
 		} else {
 			id = getParaToBigInteger("id");
 			slug = getPara("slug");
@@ -150,7 +146,6 @@ public class ContentController extends BaseFrontController {
 			}
 
 			pageNumber = getParaToInt("p", 1);
-			pageSize = getParaToInt("s", 10);
 		}
 
 	}

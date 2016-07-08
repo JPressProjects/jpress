@@ -15,49 +15,39 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.math.BigInteger;
+
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
-import io.jpress.model.Comment;
 import io.jpress.model.Content;
-import io.jpress.model.query.CommentQuery;
+import io.jpress.model.Taxonomy;
+import io.jpress.model.query.ContentQuery;
 
-/**
- * @title Content 标签
- * @author Michael Yang （http://www.yangfuhai.com）
- * @version 1.0
- * @created 2016年2月19日
- * 
- *          使用方法：<br />
- *          <@jp_commentpage page="" pagesize="" module="article" orderby ><br>
- *          <br>
- *          <#list page.getList() as content><br>
- *          ${content.id} : ${content.title!} <br>
- *          </#list><br>
- *          <br>
- *          </@jp_commentpage>
- * 
- */
-public class CommentPageTag extends JTag {
-
-	Content content;
+public class ContentPageTag extends JTag {
 	int pageNumber;
+	String moduleName;
+	Taxonomy taxonomy;
 
-	public CommentPageTag(Content content, int pageNumber) {
-		this.content = content;
+	public ContentPageTag(int pageNumber, String moduleName, Taxonomy taxonomy) {
 		this.pageNumber = pageNumber;
+		this.moduleName = moduleName;
+		this.taxonomy = taxonomy;
 	}
 
 	@Override
 	public void onRender() {
 
-		int pageSize = getParamToInt("pagesize", 10);
+		int pagesize = getParamToInt("pagesize", 10);
 
-		Page<Comment> page = CommentQuery.paginateByContentId(pageNumber, pageSize, content.getId());
+		BigInteger[] tids = taxonomy == null ? null : new BigInteger[] { taxonomy.getId() };
+
+		Page<Content> page = ContentQuery.paginate(pageNumber, pagesize, moduleName, null, Content.STATUS_NORMAL, tids,
+				null, null);
 		setVariable("page", page);
 
-		CommentPaginateTag cpt = new CommentPaginateTag(page, content);
-		setVariable("pagination", cpt);
+		ContentPaginateTag tpt = new ContentPaginateTag(page, moduleName, taxonomy);
+		setVariable("pagination", tpt);
 
 		renderBody();
 	}

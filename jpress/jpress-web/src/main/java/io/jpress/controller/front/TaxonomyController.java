@@ -15,10 +15,6 @@
  */
 package io.jpress.controller.front;
 
-import java.math.BigInteger;
-
-import com.jfinal.plugin.activerecord.Page;
-
 import io.jpress.Consts;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
@@ -29,7 +25,7 @@ import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
 import io.jpress.ui.freemarker.tag.MenuTag;
-import io.jpress.ui.freemarker.tag.TaxonomyPaginateTag;
+import io.jpress.ui.freemarker.tag.ContentPageTag;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = Consts.ROUTER_TAXONOMY)
@@ -67,15 +63,16 @@ public class TaxonomyController extends BaseFrontController {
 			
 			Content c =  ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			setAttr("jp_current_menu", c);
-			
 		}
+		
+		setAttr("contentPage", new ContentPageTag(pageNumber, moduleName, taxonomy));
 
-		BigInteger id = taxonomy == null ? null : taxonomy.getId();
-		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName,null, Content.STATUS_NORMAL, new BigInteger[]{id}, null, null);
-		setAttr("page", page);
-
-		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
-		setAttr("pagination", tpt);
+//		BigInteger[] tids = taxonomy == null ? null : new BigInteger[]{taxonomy.getId()};
+//		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName,null, Content.STATUS_NORMAL, tids, null, null);
+//		setAttr("page", page);
+//
+//		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
+//		setAttr("pagination", tpt);
 
 		if (null == taxonomy) {
 			render(String.format("taxonomy_%s.html", moduleName));

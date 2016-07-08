@@ -1646,8 +1646,23 @@ a.x-a-active:hover{
 	margin-left:2rem;
 }
 
-
-
+.x-page .disabled{
+	color:#999;
+	cursor:not-allowed;
+}
+.x-page li.disabled a{
+	color:#999;
+	cursor:not-allowed;
+}
+.x-page li.disabled a:hover{
+	background-color: #fff;
+	border:1px solid #ddd;
+}
+.x-page>li.active a{
+    background-color: #19b5fe;
+    border-color: #19b5fe;
+    color: #fff;
+}
 
 
 @media all and (max-width:1120px){

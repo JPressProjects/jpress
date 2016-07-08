@@ -80,7 +80,7 @@ public class ContentPaginateTag extends JTag {
 
 		List<PaginateItem> pages = new ArrayList<ContentPaginateTag.PaginateItem>();
 		if (currentPage == 1) {
-			pages.add(new PaginateItem(previous + " " + disabled, "#", "上一页"));
+			pages.add(new PaginateItem(previous + " " + disabled, "javascript:;", "上一页"));
 		} else {
 			pages.add(new PaginateItem(previous, getUrl(currentPage - 1), "上一页"));
 		}
@@ -88,25 +88,25 @@ public class ContentPaginateTag extends JTag {
 		if (currentPage > 8) {
 			pages.add(new PaginateItem("", getUrl(1), "1"));
 			pages.add(new PaginateItem("", getUrl(2), "2"));
-			pages.add(new PaginateItem(disabled, "#", "..."));
+			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
 		}
 
 		for (int i = startPage; i <= endPage; i++) {
 			if (currentPage == i) {
-				pages.add(new PaginateItem(active, "#", i));
+				pages.add(new PaginateItem(active, "javascript:;", i));
 			} else {
 				pages.add(new PaginateItem("", getUrl(i), i));
 			}
 		}
 
 		if ((totalPage - currentPage) >= 8) {
-			pages.add(new PaginateItem(disabled, "#", "..."));
+			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
 			pages.add(new PaginateItem("", getUrl(totalPage - 1), totalPage - 1));
 			pages.add(new PaginateItem("", getUrl(totalPage), totalPage));
 		}
 
 		if (currentPage == totalPage) {
-			pages.add(new PaginateItem(next + " " + disabled, "#", "下一页"));
+			pages.add(new PaginateItem(next + " " + disabled, "javascript:;", "下一页"));
 		} else {
 			pages.add(new PaginateItem(next, getUrl(currentPage + 1), "下一页"));
 		}

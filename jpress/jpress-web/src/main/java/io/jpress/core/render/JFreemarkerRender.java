@@ -21,13 +21,21 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.RenderException;
 
 import freemarker.template.Template;
 import io.jpress.core.cache.ActionCacheManager;
+import io.jpress.model.query.OptionQuery;
+import io.jpress.utils.StringUtils;
 
 public class JFreemarkerRender extends FreeMarkerRender {
 
@@ -65,6 +73,9 @@ public class JFreemarkerRender extends FreeMarkerRender {
 
 			String renderContent = new String(baos.toByteArray());
 
+			// CDN处理
+			renderContent = processCDN(renderContent);
+
 			responseWriter.write(renderContent);
 			ActionCacheManager.putCache(request, renderContent);
 
@@ -85,6 +96,71 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		if (responseWriter != null) {
 			responseWriter.close();
 		}
+	}
+
+	private String processCDN(String content) {
+		Boolean cdn_enable = OptionQuery.findValueAsBool("cdn_enable");
+		if (cdn_enable == null || !cdn_enable) {
+			return content;
+		}
+
+		String cdn_domain = OptionQuery.findValue("cdn_domain");
+		if (!StringUtils.isNotBlank(cdn_domain)) {
+			return content;
+		}
+
+		Document doc = Jsoup.parse(content);
+
+		Elements jsElements = doc.select("script[src]");
+		srcReplace(jsElements, cdn_domain);
+
+		Elements imgElements = doc.select("img[src]");
+		srcReplace(imgElements, cdn_domain);
+
+		Elements linkElements = doc.select("link[href]");
+		hrefReplace(linkElements, cdn_domain);
+
+		return doc.toString();
+
+	}
+
+	public static void srcReplace(Elements elements, String cdn_domain) {
+		Iterator<Element> iterator = elements.iterator();
+		while (iterator.hasNext()) {
+			Element element = iterator.next();
+			String src = element.attr("src");
+			if (isExcludeFiles(src))
+				continue;
+			if (src != null && src.startsWith("/")) {
+				src = cdn_domain + src;
+			}
+			element.attr("src", src);
+		}
+	}
+
+	public static void hrefReplace(Elements elements, String cdn_domain) {
+		Iterator<Element> iterator = elements.iterator();
+		while (iterator.hasNext()) {
+			Element element = iterator.next();
+			String href = element.attr("href");
+			if (isExcludeFiles(href))
+				continue;
+			if (href != null && href.startsWith("/")) {
+				href = cdn_domain + href;
+			}
+			element.attr("href", href);
+		}
+	}
+
+	private static boolean isExcludeFiles(String link) {
+		if (!StringUtils.isNotBlank(link))
+			return false;
+
+		String cdn_exclude_files = OptionQuery.findValue("cdn_exclude_files");
+		if (StringUtils.isNotBlank(cdn_exclude_files) && cdn_exclude_files.contains(link)) {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
@@ -47,6 +48,11 @@ import io.jpress.utils.ImageUtils;
 @RouterNotAllowConvert
 public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	private static final Log log = Log.getLog(_AttachmentController.class);
+	
+	@Override
+	public Page<Attachment> onIndexDataLoad(int pageNumber, int pageSize) {
+		return AttachmentQuery.paginate(pageNumber, pageSize);
+	}
 
 	public void detail_layer() {
 		BigInteger id = getParaToBigInteger("id");

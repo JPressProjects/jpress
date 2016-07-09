@@ -48,8 +48,7 @@ public class EncryptUtils extends HashKit {
 		return md5(id + salt);
 	}
 
-	public static String signForRequest(Map<String, String> params,
-			String secret) {
+	public static String signForRequest(Map<String, String> params,String secret) {
 		String[] keys = params.keySet().toArray(new String[0]);
 		Arrays.sort(keys);
 
@@ -62,7 +61,7 @@ public class EncryptUtils extends HashKit {
 			}
 		}
 		query.append(secret);
-		return HashKit.md5(query.toString());
+		return HashKit.md5(query.toString()).toLowerCase();
 	}
 
 	public static void main(String[] args) {

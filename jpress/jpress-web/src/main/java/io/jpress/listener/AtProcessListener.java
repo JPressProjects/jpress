@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.jfinal.core.JFinal;
+
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
@@ -97,7 +99,6 @@ public class AtProcessListener implements MessageListener {
 	}
 
 	static Pattern userPattern = Pattern.compile("@([^@^\\s^:]{1,})([\\s\\:\\,\\;]{0,1})");
-
 	public static String generateUserLinks(String msg, List<BigInteger> userIds) {
 		StringBuilder html = new StringBuilder();
 		int lastIdx = 0;
@@ -108,7 +109,8 @@ public class AtProcessListener implements MessageListener {
 			html.append(msg.substring(lastIdx, matchr.start()));
 			User user = UserQuery.findUserByUsername(username);
 			if (user != null && !user.isFrozen()) {
-				html.append("<a href='/user/" + user.getId() + "' class='referer' target='_blank'>@");
+				String userUrl = JFinal.me().getContextPath() + user.getUrl();
+				html.append("<a href=\"" + userUrl + "\" class='referer' target='_blank'>@");
 				html.append(username.trim());
 				html.append("</a> ");
 				if (userIds != null && !userIds.contains(user.getId())) {

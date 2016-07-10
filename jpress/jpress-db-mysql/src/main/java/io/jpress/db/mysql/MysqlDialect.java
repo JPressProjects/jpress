@@ -70,10 +70,11 @@ public class MysqlDialect extends DbDialect {
 	}
 
 	@Override
-	public DruidPlugin createDuidPlugin(String dbHost, String dbName, String dbUser, String dbPassword) {
+	public DruidPlugin createDuidPlugin(String dbHost, String dbHostPort, String dbName, String dbUser,
+			String dbPassword) {
 
-		String jdbc_url = "jdbc:mysql://" + dbHost + "/" + dbName + "?" + "useUnicode=true&" + "characterEncoding=utf8&"
-				+ "zeroDateTimeBehavior=convertToNull";
+		String jdbc_url = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?" + "useUnicode=true&"
+				+ "characterEncoding=utf8&" + "zeroDateTimeBehavior=convertToNull";
 
 		DruidPlugin druidPlugin = new DruidPlugin(jdbc_url, dbUser, dbPassword);
 		druidPlugin.addFilter(new StatFilter());

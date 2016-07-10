@@ -54,6 +54,6 @@ public abstract class DbDialect {
 	 */
 	public abstract String doTableConvert(String sql);
 
-	public abstract DruidPlugin createDuidPlugin(String dbHost, String dbName, String dbUser, String dbPassword);
+	public abstract DruidPlugin createDuidPlugin(String dbHost,String dbHostPort, String dbName, String dbUser, String dbPassword);
 
 }

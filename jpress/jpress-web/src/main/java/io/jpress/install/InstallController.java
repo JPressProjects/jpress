@@ -38,17 +38,18 @@ public class InstallController extends JBaseController {
 
 	public void step2() {
 		String db_host = getPara("db_host");
+		String db_host_port = getPara("db_host_port");
 		String db_name = getPara("db_name");
 		String db_user = getPara("db_user");
 		String db_password = getPara("db_password");
 		String db_table_prefix = getPara("db_tablePrefix");
 
-		if (!StrKit.notBlank(db_host, db_name, db_user)) {
+		if (!StrKit.notBlank(db_host,db_host_port, db_name, db_user)) {
 			render("step2.html");
 			return;
 		}
 
-		InstallUtils.init(db_host, db_name, db_user, db_password, db_table_prefix);
+		InstallUtils.init(db_host,db_host_port,db_name, db_user, db_password, db_table_prefix);
 
 		try {
 			List<String> tableList = InstallUtils.getTableList();

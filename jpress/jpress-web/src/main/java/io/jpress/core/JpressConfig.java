@@ -104,11 +104,12 @@ public abstract class JpressConfig extends JFinalConfig {
 
 		Prop dbProp = PropKit.use("db.properties");
 		String db_host = dbProp.get("db_host").trim();
+		String db_host_port = dbProp.get("db_host_port").trim();
 		String db_name = dbProp.get("db_name").trim();
 		String db_user = dbProp.get("db_user").trim();
 		String db_password = dbProp.get("db_password").trim();
 
-		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host, db_name, db_user, db_password);
+		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host,db_host_port, db_name, db_user, db_password);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

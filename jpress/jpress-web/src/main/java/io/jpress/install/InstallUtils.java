@@ -44,6 +44,7 @@ import io.jpress.utils.DateUtils;
 public class InstallUtils {
 	private static final Log log = Log.getLog(InstallUtils.class);
 	private static String dbHost;
+	private static String dbHostPort;
 	private static String dbName;
 	private static String dbUser;
 	private static String dbPassword;
@@ -51,8 +52,10 @@ public class InstallUtils {
 
 	public static DbDialect mDialect;
 
-	public static void init(String db_host, String db_name, String db_user, String db_password, String db_tablePrefix) {
+	public static void init(String db_host, String db_host_port, String db_name, String db_user, String db_password,
+			String db_tablePrefix) {
 		dbHost = db_host;
+		dbHostPort = db_host_port;
 		dbName = db_name;
 		dbUser = db_user;
 		dbPassword = db_password;
@@ -63,6 +66,7 @@ public class InstallUtils {
 	public static boolean createDbProperties() {
 		Properties p = new Properties();
 		p.put("db_host", dbHost);
+		p.put("db_host_port", dbHostPort);
 		p.put("db_name", dbName);
 		p.put("db_user", dbUser);
 		p.put("db_password", dbPassword);
@@ -216,7 +220,7 @@ public class InstallUtils {
 	}
 
 	private static DruidPlugin createDruidPlugin() {
-		DruidPlugin plugin = mDialect.createDuidPlugin(dbHost, dbName, dbUser, dbPassword);
+		DruidPlugin plugin = mDialect.createDuidPlugin(dbHost, dbHostPort, dbName, dbUser, dbPassword);
 
 		plugin.start();
 
@@ -226,7 +230,7 @@ public class InstallUtils {
 	public static void renderInstallFinished(HttpServletRequest request, HttpServletResponse response,
 			boolean[] isHandled) {
 		isHandled[0] = true;
-		//这里不能用 JFreeMarkerRender，否则出现安装完成后缓存安装页面。
+		// 这里不能用 JFreeMarkerRender，否则出现安装完成后缓存安装页面。
 		new FreeMarkerRender("/WEB-INF/install/finished.html").setContext(request, response).render();
 	}
 

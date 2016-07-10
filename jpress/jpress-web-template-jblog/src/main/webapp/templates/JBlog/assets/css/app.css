@@ -1369,6 +1369,13 @@ a.x-a-active:hover{
    color:#bb3030;
 }
 
+.comment a {
+    color: #0a44ff;
+}
+.comment a:HOVER {
+   color:#bb3030;
+}
+
 .reward-content{
     margin-top:4rem;
     text-align: center;

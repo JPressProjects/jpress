@@ -157,9 +157,20 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			return false;
 
 		String cdn_exclude_files = OptionQuery.findValue("cdn_exclude_files");
-		if (StringUtils.isNotBlank(cdn_exclude_files) && cdn_exclude_files.contains(link)) {
-			return true;
+		if (StringUtils.isNotBlank(cdn_exclude_files) ) {
+			if(cdn_exclude_files.contains(link)  
+					|| link.contains("/counter")){
+				return true;
+			}
+			
+			String[] lines = cdn_exclude_files.split("\\n");
+			for(String regex : lines){
+				if(StringUtils.match(link, regex)){
+					return true;
+				}
+			}
 		}
+		
 		return false;
 	}
 

@@ -34,7 +34,7 @@
 		<mysql.version>5.1.21</mysql.version>
 		<jfinal.version>2.2</jfinal.version>
 		<jfinal.weixin.version>1.7</jfinal.weixin.version>
-		<druid.version>1.0.20</druid.version>
+		<druid.version>1.0.22</druid.version>
 		<ehcache.version>2.10.2.2.21</ehcache.version>
 		<fastjson.version>1.2.12</fastjson.version>
 		<freemarker.version>2.3.23</freemarker.version>

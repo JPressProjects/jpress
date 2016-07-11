@@ -19,12 +19,15 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
 
 public class StringUtils {
 	private static final Log log = Log.getLog(StringUtils.class);
+
 	public static String urlDecode(String string) {
 		try {
 			return URLDecoder.decode(string, JFinal.me().getConstants().getEncoding());
@@ -42,8 +45,8 @@ public class StringUtils {
 		}
 		return string;
 	}
-	
-	public static String urlRedirect(String redirect){
+
+	public static String urlRedirect(String redirect) {
 		try {
 			redirect = new String(redirect.getBytes(JFinal.me().getConstants().getEncoding()), "ISO8859_1");
 		} catch (UnsupportedEncodingException e) {
@@ -110,8 +113,6 @@ public class StringUtils {
 		return defaultValue;
 	}
 
-	
-	
 	public static BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		try {
 			if (value == null || "".equals(value.trim()))
@@ -124,6 +125,11 @@ public class StringUtils {
 		}
 		return defaultValue;
 	}
-	
+
+	public static boolean match(String string, String regex) {
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(string);
+		return matcher.matches();
+	}
 
 }

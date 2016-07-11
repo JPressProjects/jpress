@@ -25,6 +25,7 @@ import com.jfinal.log.Log;
 import io.jpress.core.JBaseController;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.EncryptUtils;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/install", viewPath = "/WEB-INF/install")
 @Before(InstallInterceptor.class)
@@ -39,6 +40,7 @@ public class InstallController extends JBaseController {
 	public void step2() {
 		String db_host = getPara("db_host");
 		String db_host_port = getPara("db_host_port");
+		db_host_port = StringUtils.isNotBlank(db_host_port) ? db_host_port.trim() : "3306";
 		String db_name = getPara("db_name");
 		String db_user = getPara("db_user");
 		String db_password = getPara("db_password");

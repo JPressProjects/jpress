@@ -51,13 +51,12 @@ import io.jpress.utils.ClassScaner;
 import io.jpress.utils.StringUtils;
 
 public abstract class JpressConfig extends JFinalConfig {
-	
 
 	public void configConstant(Constants constants) {
 		PropKit.use("jpress.properties");
 
 		onJfinalStartBefore();
-		
+
 		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
 		constants.setViewType(ViewType.FREE_MARKER);
 		constants.setI18nDefaultBaseName("language");
@@ -66,7 +65,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setEncoding(Consts.CHARTSET_UTF8);
 		constants.setMaxPostSize(1024 * 1024 * 200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
-		
+
 		// constants.setTokenCache(new JTokenCache());
 	}
 
@@ -104,12 +103,15 @@ public abstract class JpressConfig extends JFinalConfig {
 
 		Prop dbProp = PropKit.use("db.properties");
 		String db_host = dbProp.get("db_host").trim();
-		String db_host_port = dbProp.get("db_host_port").trim();
+
+		String db_host_port = dbProp.get("db_host_port");
+		db_host_port = StringUtils.isNotBlank(db_host_port) ? db_host_port.trim() : "3306";
+
 		String db_name = dbProp.get("db_name").trim();
 		String db_user = dbProp.get("db_user").trim();
 		String db_password = dbProp.get("db_password").trim();
 
-		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host,db_host_port, db_name, db_user, db_password);
+		return DbDialectFactory.getDbDialect().createDuidPlugin(db_host, db_host_port, db_name, db_user, db_password);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -157,13 +159,13 @@ public abstract class JpressConfig extends JFinalConfig {
 		if (Jpress.isInstalled()) {
 			Jpress.loadFinished();
 		}
-		
+
 		Jpress.renderImmediately();
 		onJfinalStartAfter();
 	}
-	
 
 	public abstract void onJfinalStartAfter();
+
 	public abstract void onJfinalStartBefore();
 
 }

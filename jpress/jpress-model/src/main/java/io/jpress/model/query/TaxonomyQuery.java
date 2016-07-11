@@ -73,23 +73,21 @@ public class TaxonomyQuery extends JBaseQuery {
 
 	public static List<Taxonomy> findListByContentId(BigInteger contentId) {
 
-		String sql = "select * from mapping m,taxonomy ";
-		sql += "where  m.`taxonomy_id` = taxonomy.id ";
-		sql += "and content_id = ? ";
-		sql += "group by taxonomy.id ";
+		StringBuilder sqlBuilder = new StringBuilder("select * from taxonomy t");
+		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
+		sqlBuilder.append(" where m.content_id = ? ");
 
-		return MODEL.find(sql, contentId);
+		return MODEL.find(sqlBuilder.toString(), contentId);
 	}
 
 	public static List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
 
-		String sql = "select * from mapping m,taxonomy ";
-		sql += "where  m.`taxonomy_id` = taxonomy.id ";
-		sql += "and `type`= ?  ";
-		sql += "and content_id = ? ";
-		sql += "group by taxonomy.id ";
+		StringBuilder sqlBuilder = new StringBuilder("select * from taxonomy t");
+		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
+		sqlBuilder.append(" where m.content_id = ? ");
+		sqlBuilder.append(" and t.`type` = ? ");
 
-		return MODEL.find(sql, type, contentId);
+		return MODEL.find(sqlBuilder.toString(), type, contentId);
 	}
 
 	public static Taxonomy findBySlugAndModule(String slug, String module) {

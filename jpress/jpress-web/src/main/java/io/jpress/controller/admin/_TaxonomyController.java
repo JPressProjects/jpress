@@ -121,6 +121,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 					content.setModule(Consts.MODULE_MENU);
 				}
 
+				content.setOrderNumber(0l);
 				content.setText(m.getUrl());
 				content.setTitle(m.getTitle());
 				content.setObjectId(m.getId());

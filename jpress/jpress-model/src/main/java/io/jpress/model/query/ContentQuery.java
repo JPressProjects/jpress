@@ -318,14 +318,14 @@ public class ContentQuery extends JBaseQuery {
 
 	public static List<Content> findByModule(String module, String orderby) {
 		StringBuilder sqlBuilder = new StringBuilder("select * from content c");
-		sqlBuilder.append(" module = ? ");
+		sqlBuilder.append(" where module = ? ");
 		buildOrderBy(orderby, sqlBuilder);
 		return MODEL.find(sqlBuilder.toString(), module);
 	}
 
 	public static List<Content> findByModule(String module, BigInteger parentId, String orderby) {
 		StringBuilder sqlBuilder = new StringBuilder("select * from content c");
-		sqlBuilder.append(" module = ? ");
+		sqlBuilder.append(" where module = ? ");
 		sqlBuilder.append(" AND  parent_id = ? ");
 		buildOrderBy(orderby, sqlBuilder);
 		return MODEL.find(sqlBuilder.toString(), module,parentId);

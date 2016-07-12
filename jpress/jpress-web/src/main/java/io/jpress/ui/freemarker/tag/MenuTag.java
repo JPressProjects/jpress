@@ -57,6 +57,7 @@ public class MenuTag extends JTag {
 
 		BigInteger parentId = getParamToBigInteger("parentId");
 		List<Content> list = null;
+		
 		if (parentId != null) {
 			list = ContentQuery.findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
 		} else {
@@ -73,7 +74,8 @@ public class MenuTag extends JTag {
 		}
 
 		setActiveMenu(list);
-		ModelSorter.tree(list);
+		Content content = parentId == null ? null : ContentQuery.findById(parentId);
+		ModelSorter.tree(list, content);
 		setVariable("menus", list);
 		renderBody();
 	}
@@ -88,7 +90,7 @@ public class MenuTag extends JTag {
 			if (!url.toLowerCase().startsWith("http:") && !url.toLowerCase().startsWith("https:")) {
 				url = JFinal.me().getContextPath() + url;
 			}
-			
+
 			c.setText(url);
 		}
 	}

@@ -58,6 +58,16 @@ public class ModelSorter {
 		tlist.clear();
 		tlist.addAll(newList);
 	}
+	
+	public static <M extends ISortModel> void tree(List<M> tlist,M top) {
+		if (tlist == null)
+			return;
+		
+		List<M> newList = new ArrayList<M>();
+		tree(tlist, newList, top);
+		tlist.clear();
+		tlist.addAll(newList);
+	}
 
 	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist, BigInteger branchId) {
 		List<ISortModel> removeModels = new ArrayList<ISortModel>();
@@ -88,7 +98,8 @@ public class ModelSorter {
 		for (M model : tlist) {
 			if (parent == null) {
 				if (model.getParentId() == null 
-						|| model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
+						|| model.getParentId().compareTo(BigInteger.ZERO) <= 0
+						|| model.getParent() == null) {
 					newlist.add(model);
 					tree(tlist, newlist, model);
 				}

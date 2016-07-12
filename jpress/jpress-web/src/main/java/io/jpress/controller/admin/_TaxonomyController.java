@@ -74,26 +74,23 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		if (id != null && taxonomys != null) {
 			ModelSorter.removeTreeBranch(taxonomys, id);
 		}
+		
+		if(TaxonomyType.TYPE_SELECT.equals(type.getFormType())){
+			Page<Taxonomy> page = TaxonomyQuery.doPaginate(1, Integer.MAX_VALUE, getContentModule(), getType());
+			ModelSorter.sort(page.getList());
+			setAttr("page", page);
+		}else if(TaxonomyType.TYPE_INPUT.equals(type.getFormType())){
+			Page<Taxonomy> page = TaxonomyQuery.doPaginate(getPageNumbere(), getPageSize(), getContentModule(), getType());
+			setAttr("page", page);
+		}
+		
 
 		setAttr("module", module);
 		setAttr("type", type);
 		setAttr("taxonomys", taxonomys);
-
-		super.index();
 	}
 
-	@Override
-	public Page<Taxonomy> onIndexDataLoad(int pageNumber, int pageSize) {
-		Page<Taxonomy> page = TaxonomyQuery.doPaginate(pageNumber, pageSize, getContentModule(), getType());
-		ModelSorter.sort(page.getList());
-		return page;
-	}
 
-	@Override
-	public boolean onModelSaveBefore(Taxonomy m) {
-
-		return super.onModelSaveBefore(m);
-	}
 
 	public void save() {
 		Taxonomy m = getModel(Taxonomy.class);

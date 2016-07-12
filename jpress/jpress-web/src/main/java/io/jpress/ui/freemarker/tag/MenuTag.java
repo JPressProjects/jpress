@@ -63,14 +63,12 @@ public class MenuTag extends JTag {
 			list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
 		}
 
-		boolean autoWithCPATH = getParamToBool("withContextPath", true);
-
 		if (list == null || list.isEmpty()) {
 			renderText("");
 			return;
 		}
 
-		if (autoWithCPATH) {
+		if (getParamToBool("withContextPath", true)) {
 			processContextPath(list);
 		}
 

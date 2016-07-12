@@ -68,7 +68,7 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	public static Page<Taxonomy> doPaginate(int pageNumber, int pageSize, String module, String type) {
-		return MODEL.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? ", module, type);
+		return MODEL.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? order by created desc", module, type);
 	}
 
 	public static List<Taxonomy> findListByContentId(BigInteger contentId) {

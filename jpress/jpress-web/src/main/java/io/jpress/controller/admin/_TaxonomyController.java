@@ -83,6 +83,13 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 	}
 
 	@Override
+	public Page<Taxonomy> onIndexDataLoad(int pageNumber, int pageSize) {
+		Page<Taxonomy> page = TaxonomyQuery.doPaginate(pageNumber, pageSize, getContentModule(), getType());
+		ModelSorter.sort(page.getList());
+		return page;
+	}
+
+	@Override
 	public boolean onModelSaveBefore(Taxonomy m) {
 
 		return super.onModelSaveBefore(m);
@@ -101,7 +108,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			return;
 		}
 
-		Taxonomy dbTaxonomy =  TaxonomyQuery.findBySlugAndModule(m.getSlug(), m.getContentModule());
+		Taxonomy dbTaxonomy = TaxonomyQuery.findBySlugAndModule(m.getSlug(), m.getContentModule());
 		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
 			renderAjaxResultForError("别名已经存在！");
 			return;
@@ -131,13 +138,6 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 		}
 		renderAjaxResultForSuccess("ok");
-	}
-
-	@Override
-	public Page<Taxonomy> onIndexDataLoad(int pageNumber, int pageSize) {
-		Page<Taxonomy> page = TaxonomyQuery.doPaginate(pageNumber, pageSize, getContentModule(), getType());
-		ModelSorter.sort(page.getList());
-		return page;
 	}
 
 	@Before(UCodeInterceptor.class)

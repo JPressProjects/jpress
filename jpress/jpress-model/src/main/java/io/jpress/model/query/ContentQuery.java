@@ -170,6 +170,7 @@ public class ContentQuery extends JBaseQuery {
 	private static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 		
 		if(!StringUtils.isNotBlank(orderBy)){
+			fromBuilder.append(" ORDER BY c.created DESC");
 			return;
 		}
 		
@@ -207,7 +208,9 @@ public class ContentQuery extends JBaseQuery {
 
 		else if ("object_id".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.object_id ");
-		} else {
+		} 
+		
+		else{
 			fromBuilder.append(" ORDER BY c.created ");
 		}
 		

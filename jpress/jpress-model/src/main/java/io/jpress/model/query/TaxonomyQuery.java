@@ -73,7 +73,7 @@ public class TaxonomyQuery extends JBaseQuery {
 
 	public static List<Taxonomy> findListByContentId(BigInteger contentId) {
 
-		StringBuilder sqlBuilder = new StringBuilder("select * from taxonomy t");
+		StringBuilder sqlBuilder = new StringBuilder("select t.* from taxonomy t");
 		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
 		sqlBuilder.append(" where m.content_id = ? ");
 
@@ -82,7 +82,7 @@ public class TaxonomyQuery extends JBaseQuery {
 
 	public static List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
 
-		StringBuilder sqlBuilder = new StringBuilder("select * from taxonomy t");
+		StringBuilder sqlBuilder = new StringBuilder("select t.* from taxonomy t");
 		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
 		sqlBuilder.append(" where m.content_id = ? ");
 		sqlBuilder.append(" and t.`type` = ? ");

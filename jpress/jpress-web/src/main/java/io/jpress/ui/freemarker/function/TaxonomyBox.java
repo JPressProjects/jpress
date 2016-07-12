@@ -15,13 +15,13 @@
  */
 package io.jpress.ui.freemarker.function;
 
+import java.util.List;
+
 import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.template.Module.TaxonomyType;
-
-import java.util.List;
 
 public class TaxonomyBox extends JFunction {
 
@@ -63,7 +63,8 @@ public class TaxonomyBox extends JFunction {
 	private void doBuilder(List<Taxonomy> list, StringBuilder htmlBuilder) {
 		htmlBuilder.append("<ul>");
 		for (Taxonomy taxonomy : list) {
-			boolean checked = contentTaxonomyList == null ? false : contentTaxonomyList.contains(taxonomy);
+			
+			boolean checked = contentTaxonomyList != null && contentTaxonomyList.contains(taxonomy);
 			String html = "<li ><label><input  name=\"_%s\" value=\"%s\" %s type=\"checkbox\"/>%s</label></li>";
 			htmlBuilder.append(String.format(html, taxonomyType.getName(), taxonomy.getId(),
 					checked ? "checked=\"checked\"" : "", taxonomy.getTitle()));

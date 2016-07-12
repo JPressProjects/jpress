@@ -332,7 +332,6 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" AND  parent_id = ? ");
 		buildOrderBy(orderby, sqlBuilder);
 		return MODEL.find(sqlBuilder.toString(), module,parentId);
-		
 	}
 
 	public static Content findBySlug(final String slug) {

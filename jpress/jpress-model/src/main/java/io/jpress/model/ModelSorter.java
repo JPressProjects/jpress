@@ -87,13 +87,15 @@ public class ModelSorter {
 	private static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
 		for (M model : tlist) {
 			if (parent == null) {
-				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0
-						|| model.getParent() == null) {
+				if (model.getParentId() == null 
+						|| model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
 					newlist.add(model);
 					tree(tlist, newlist, model);
 				}
-			} else {
-				if (parent.getId() != null && model.getParentId() != null
+			} 
+			else {
+				if (parent.getId() != null 
+						&& model.getParentId() != null
 						&& parent.getId().compareTo(model.getParentId()) == 0) {
 					model.setParent(parent);
 					parent.addChild(model);

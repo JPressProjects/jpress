@@ -16,6 +16,7 @@
 package io.jpress.controller.front;
 
 import io.jpress.Consts;
+import io.jpress.core.BaseFrontController;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.query.OptionQuery;

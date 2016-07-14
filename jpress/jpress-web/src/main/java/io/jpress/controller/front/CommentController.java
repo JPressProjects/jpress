@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import io.jpress.Consts;
+import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.listener.Actions;
 import io.jpress.model.Comment;

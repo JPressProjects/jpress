@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.front;
 
+import io.jpress.core.BaseFrontController;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 

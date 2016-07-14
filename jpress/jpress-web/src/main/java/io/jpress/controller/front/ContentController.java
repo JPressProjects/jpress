@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import io.jpress.Consts;
+import io.jpress.core.BaseFrontController;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.Content;

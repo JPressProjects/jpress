@@ -17,6 +17,7 @@ package io.jpress.controller.front;
 
 import java.util.List;
 
+import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.plugin.search.SearcherBean;
 import io.jpress.plugin.search.SearcherKit;

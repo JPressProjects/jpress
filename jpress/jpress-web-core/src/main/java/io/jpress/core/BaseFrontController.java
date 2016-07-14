@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.controller.front;
+package io.jpress.core;
 
-import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
-import io.jpress.core.JBaseController;
-import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
-@Clear(AdminInterceptor.class)
 public class BaseFrontController extends JBaseController {
 
 	private static final String FILE_SEPARATOR = "_";

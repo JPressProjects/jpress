@@ -23,6 +23,7 @@ import com.jfinal.aop.Clear;
 import com.jfinal.core.ActionKey;
 
 import io.jpress.Consts;
+import io.jpress.core.BaseFrontController;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.interceptor.UserInterceptor;
 import io.jpress.listener.Actions;

@@ -26,7 +26,7 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -60,12 +60,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		TaxonomyType type = module.getTaxonomyTypeByType(getType());
 		BigInteger id = getParaToBigInteger("id");
 
-		List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(moduleName, type.getName());
+		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByModuleAndTypeAsSort(moduleName, type.getName());
 
 		if (id != null) {
-			Taxonomy taxonomy = TaxonomyQuery.findById(id);
+			Taxonomy taxonomy = TaxonomyQuery.me().findById(id);
 			setAttr("taxonomy", taxonomy);
-			Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			Content content = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			if (content != null) {
 				setAttr("addToMenuSelete", "checked=\"checked\"");
 			}
@@ -76,11 +76,11 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		}
 		
 		if(TaxonomyType.TYPE_SELECT.equals(type.getFormType())){
-			Page<Taxonomy> page = TaxonomyQuery.doPaginate(1, Integer.MAX_VALUE, getContentModule(), getType());
+			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(1, Integer.MAX_VALUE, getContentModule(), getType());
 			ModelSorter.sort(page.getList());
 			setAttr("page", page);
 		}else if(TaxonomyType.TYPE_INPUT.equals(type.getFormType())){
-			Page<Taxonomy> page = TaxonomyQuery.doPaginate(getPageNumbere(), getPageSize(), getContentModule(), getType());
+			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(getPageNumbere(), getPageSize(), getContentModule(), getType());
 			setAttr("page", page);
 		}
 		
@@ -105,7 +105,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			return;
 		}
 
-		Taxonomy dbTaxonomy = TaxonomyQuery.findBySlugAndModule(m.getSlug(), m.getContentModule());
+		Taxonomy dbTaxonomy = TaxonomyQuery.me().findBySlugAndModule(m.getSlug(), m.getContentModule());
 		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
 			renderAjaxResultForError("别名已经存在！");
 			return;
@@ -115,7 +115,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 			boolean addToMenu = getParaToBoolean("addToMenu", false);
 			if (addToMenu) {
-				Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				Content content = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
 				if (content == null) {
 					content = new Content();
 					content.setModule(Consts.MODULE_MENU);
@@ -128,7 +128,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 				content.saveOrUpdate();
 
 			} else {
-				Content content = ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
+				Content content = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, m.getId());
 				if (content != null) {
 					content.delete();
 				}
@@ -149,8 +149,8 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		boolean deleted = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
-				if (TaxonomyQuery.deleteById(id)) {
-					MappingQuery.deleteByTaxonomyId(id);
+				if (TaxonomyQuery.me().deleteById(id)) {
+					MappingQuery.me().deleteByTaxonomyId(id);
 					return true;
 				}
 				return false;

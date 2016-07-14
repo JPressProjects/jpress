@@ -23,7 +23,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
 import io.jpress.model.query.OptionQuery;
@@ -96,7 +96,7 @@ public class _OptionController extends JBaseController {
 			value = null;
 		}
 
-		OptionQuery.saveOrUpdate(key, value);
+		OptionQuery.me().saveOrUpdate(key, value);
 	}
 
 }

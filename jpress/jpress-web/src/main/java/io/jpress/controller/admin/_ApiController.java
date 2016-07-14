@@ -21,7 +21,7 @@ import java.util.List;
 import com.jfinal.aop.Before;
 
 import io.jpress.core.JBaseController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
@@ -38,9 +38,9 @@ public class _ApiController extends JBaseController {
 	public void index() {
 		BigInteger id = getParaToBigInteger("id");
 		if (null != id) {
-			setAttr("content", ContentQuery.findById(id));
+			setAttr("content", ContentQuery.me().findById(id));
 		}
-		List<Content> contents = ContentQuery.findByModule("apiApplication");
+		List<Content> contents = ContentQuery.me().findByModule("apiApplication");
 		setAttr("contents", contents);
 		render("/WEB-INF/admin/option/api.html");
 	}
@@ -48,7 +48,7 @@ public class _ApiController extends JBaseController {
 	public void save() {
 
 		Boolean apiEnable = getParaToBoolean("api_enable", Boolean.FALSE);
-		OptionQuery.saveOrUpdate("api_enable", apiEnable.toString());
+		OptionQuery.me().saveOrUpdate("api_enable", apiEnable.toString());
 
 		Content c = getModel(Content.class);
 		
@@ -63,7 +63,7 @@ public class _ApiController extends JBaseController {
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			ContentQuery.deleteById(id);
+			ContentQuery.me().deleteById(id);
 			renderAjaxResultForSuccess("删除成功");
 		} else {
 			renderAjaxResultForError();

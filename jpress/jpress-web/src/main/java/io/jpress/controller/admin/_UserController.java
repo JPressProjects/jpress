@@ -23,7 +23,7 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.User;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
@@ -39,10 +39,10 @@ public class _UserController extends JBaseCRUDController<User> {
 
 	@Override
 	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
-		setAttr("userCount", UserQuery.findCount());
-		setAttr("adminCount", UserQuery.findAdminCount());
+		setAttr("userCount", UserQuery.me().findCount());
+		setAttr("adminCount", UserQuery.me().findAdminCount());
 
-		return UserQuery.paginate(pageNumber, pageSize);
+		return UserQuery.me().paginate(pageNumber, pageSize);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class _UserController extends JBaseCRUDController<User> {
 
 		// 修改了密码
 		if (m.getId() != null && StringUtils.isNotEmpty(password)) {
-			User dbUser = UserQuery.findById(m.getId());
+			User dbUser = UserQuery.me().findById(m.getId());
 			m.setSalt(dbUser.getSalt());
 			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
 			m.setPassword(password);
@@ -93,7 +93,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void info() {
 		User user = getAttr(Consts.ATTR_USER);
 		if (user != null) {
-			user = UserQuery.findById(user.getId());
+			user = UserQuery.me().findById(user.getId());
 		}
 		setAttr("user", user);
 		render("edit.html");
@@ -102,7 +102,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void frozen() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			User user = UserQuery.findById(id);
+			User user = UserQuery.me().findById(id);
 			user.setStatus(User.STATUS_FROZEN);
 			user.update();
 			renderAjaxResultForSuccess();
@@ -114,7 +114,7 @@ public class _UserController extends JBaseCRUDController<User> {
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			User user = UserQuery.findById(id);
+			User user = UserQuery.me().findById(id);
 			user.setStatus(User.STATUS_NORMAL);
 			user.update();
 			renderAjaxResultForSuccess();

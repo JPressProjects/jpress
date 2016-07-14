@@ -54,7 +54,7 @@ public class CommentController extends BaseFrontController {
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 允许未登陆用户评论
-		Boolean comment_allow_not_login = OptionQuery.findValueAsBool("comment_allow_not_login");
+		Boolean comment_allow_not_login = OptionQuery.me().findValueAsBool("comment_allow_not_login");
 
 		// 允许未登陆用户评论
 		if (comment_allow_not_login == null || comment_allow_not_login == false) {
@@ -69,7 +69,7 @@ public class CommentController extends BaseFrontController {
 		}
 
 		String status = Comment.STATUS_NORMAL;
-		Boolean comment_must_audited = OptionQuery.findValueAsBool("comment_must_audited");
+		Boolean comment_must_audited = OptionQuery.me().findValueAsBool("comment_must_audited");
 		if (comment_must_audited != null && comment_must_audited) {
 			status = Comment.STATUS_DRAFT;
 		}
@@ -77,7 +77,7 @@ public class CommentController extends BaseFrontController {
 		BigInteger contentId = getParaToBigInteger("cid");
 		Content content = null;
 		if (contentId != null) {
-			content = ContentQuery.findById(contentId);
+			content = ContentQuery.me().findById(contentId);
 		} else {
 			renderForCommentError("comment fail,content id is null!", 1);
 			return;
@@ -97,7 +97,7 @@ public class CommentController extends BaseFrontController {
 		String type = Comment.TYPE_COMMENT;
 
 		if (userId != null) {
-			User user = UserQuery.findById(userId);
+			User user = UserQuery.me().findById(userId);
 			if (user != null && StringUtils.isNotBlank(user.getNickname())) {
 				author = user.getNickname();
 			} else {
@@ -106,7 +106,7 @@ public class CommentController extends BaseFrontController {
 		}
 
 		if (!StringUtils.isNotBlank(author)) {
-			String defautAuthor = OptionQuery.findValue("comment_default_nickname");
+			String defautAuthor = OptionQuery.me().findValue("comment_default_nickname");
 			author = StringUtils.isNotBlank(defautAuthor) ? defautAuthor : "网友";
 		}
 

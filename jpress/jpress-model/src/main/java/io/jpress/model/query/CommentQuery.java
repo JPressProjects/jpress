@@ -25,9 +25,14 @@ import io.jpress.utils.StringUtils;
 
 public class CommentQuery extends JBaseQuery {
 
-	private static final Comment MODEL = new Comment();
+	private static final Comment DAO = new Comment();
+	private static final CommentQuery QUERY = new CommentQuery();
 
-	public static Page<Comment> paginateWithContent(int pageNumber, int pageSize, String module, String type,
+	public static CommentQuery me() {
+		return QUERY;
+	}
+
+	public Page<Comment> paginateWithContent(int pageNumber, int pageSize, String module, String type,
 			BigInteger contentId, String status) {
 
 		String select = " select c.*,content.title content_title,u.username,u.nickname";
@@ -45,12 +50,12 @@ public class CommentQuery extends JBaseQuery {
 		fromBuilder.append("order by c.created desc");
 
 		if (params.isEmpty()) {
-			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString());
+			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString());
 		}
-		return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
+		return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
 
-	public static Page<Comment> paginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
+	public Page<Comment> paginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
 
 		String select = " select c.*,content.title content_title,u.username,u.nickname";
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
@@ -64,53 +69,53 @@ public class CommentQuery extends JBaseQuery {
 		fromBuilder.append(" order by c.created desc");
 
 		if (StringUtils.isNotBlank(module)) {
-			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE, module);
+			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE, module);
 		} else {
-			return MODEL.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE);
+			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE);
 		}
 
 	}
 
-	public static Page<Comment> paginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
+	public Page<Comment> paginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
 		return paginateWithContent(pageNumber, pageSize, null, null, contentId, Comment.STATUS_NORMAL);
 	}
 
-	public static long findCountByContentIdInNormal(BigInteger contentId) {
+	public long findCountByContentIdInNormal(BigInteger contentId) {
 		return findCountByContentId(contentId, Comment.STATUS_NORMAL);
 	}
 
-	public static long findCountByContentId(BigInteger contentId, String status) {
-		return MODEL.doFindCount(" content_id = ? and status=? ", contentId, status);
+	public long findCountByContentId(BigInteger contentId, String status) {
+		return DAO.doFindCount(" content_id = ? and status=? ", contentId, status);
 	}
 
-	public static long findCountByUserIdInNormal(BigInteger userId) {
+	public long findCountByUserIdInNormal(BigInteger userId) {
 		return findCountByUserId(userId, Comment.STATUS_NORMAL);
 	}
 
-	public static long findCountByUserId(BigInteger userId, String status) {
-		return MODEL.doFindCount(" user_id = ? and status=? ", userId, status);
+	public long findCountByUserId(BigInteger userId, String status) {
+		return DAO.doFindCount(" user_id = ? and status=? ", userId, status);
 	}
 
-	public static Comment findById(Object idValue) {
+	public Comment findById(Object idValue) {
 		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname");
 		sqlBuilder.append(" from comment c");
 		sqlBuilder.append(" left join content on c.content_id = content.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id ");
 		sqlBuilder.append(" where c.id = ?");
 
-		return MODEL.findFirst(sqlBuilder.toString(), idValue);
+		return DAO.findFirst(sqlBuilder.toString(), idValue);
 	}
 
-	public static long findCountByModule(String module) {
-		return MODEL.doFindCount("content_module = ?", module);
+	public long findCountByModule(String module) {
+		return DAO.doFindCount("content_module = ?", module);
 	}
 
-	public static long findCountInNormalByModule(String module) {
-		return MODEL.doFindCount("content_module = ? AND status <> ?", module, Comment.STATUS_DELETE);
+	public long findCountInNormalByModule(String module) {
+		return DAO.doFindCount("content_module = ? AND status <> ?", module, Comment.STATUS_DELETE);
 	}
 
-	public static long findCountByModuleAndStatus(String module, String status) {
-		return MODEL.doFindCount("content_module = ? and status=?", module, status);
+	public long findCountByModuleAndStatus(String module, String status) {
+		return DAO.doFindCount("content_module = ? and status=?", module, status);
 	}
 
 }

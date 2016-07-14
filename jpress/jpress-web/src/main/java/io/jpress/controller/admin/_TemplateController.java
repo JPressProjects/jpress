@@ -29,7 +29,7 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -175,7 +175,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void menu() {
-		List<Content> list = ContentQuery.findByModule(Consts.MODULE_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, "order_number ASC");
 		ModelSorter.sort(list);
 		
 		List<Content> menulist = new ArrayList<Content>();
@@ -183,7 +183,7 @@ public class _TemplateController extends JBaseController {
 		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			Content c = ContentQuery.findById(id);
+			Content c = ContentQuery.me().findById(id);
 			setAttr("menu", c);
 
 			if (id != null && list != null) {
@@ -217,7 +217,7 @@ public class _TemplateController extends JBaseController {
 	public void menudel() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			if (ContentQuery.deleteById(id)) {
+			if (ContentQuery.me().deleteById(id)) {
 				renderAjaxResultForSuccess();
 				return;
 			}

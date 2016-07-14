@@ -25,77 +25,83 @@ import io.jpress.model.Taxonomy;
 
 public class TaxonomyQuery extends JBaseQuery {
 
-	private static Taxonomy MODEL = new Taxonomy();
-	
-	public static Taxonomy findById(BigInteger id){
-		return MODEL.findById(id);
-	}
-	
-	public static List<Taxonomy> findAll(){
-		return MODEL.doFind();
+	private static final Taxonomy DAO = new Taxonomy();
+	private static final TaxonomyQuery QUERY = new TaxonomyQuery();
+
+	public static TaxonomyQuery me() {
+		return QUERY;
 	}
 
-	public static List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
+	public Taxonomy findById(BigInteger id) {
+		return DAO.findById(id);
+	}
+
+	public List<Taxonomy> findAll() {
+		return DAO.doFind();
+	}
+
+	public List<Taxonomy> findListCategoryByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(Taxonomy.TYPE_CATEGORY, contentId);
 	}
 
-	public static List<Taxonomy> findListTagByContentId(BigInteger contentId) {
+	public List<Taxonomy> findListTagByContentId(BigInteger contentId) {
 		return findListByTypeAndContentId(Taxonomy.TYPE_TAG, contentId);
 	}
 
-	public static Page<Taxonomy> doPaginate(int page, int pagesize, String module) {
-		return MODEL.doPaginate(page, pagesize, "content_module = ?", module);
+	public Page<Taxonomy> doPaginate(int page, int pagesize, String module) {
+		return DAO.doPaginate(page, pagesize, "content_module = ?", module);
 	}
 
-	public static List<Taxonomy> findListByModuleAndType(String module, String type) {
-		return MODEL.doFind("content_module = ? and type = ?", module, type);
+	public List<Taxonomy> findListByModuleAndType(String module, String type) {
+		return DAO.doFind("content_module = ? and type = ?", module, type);
 	}
 
-	public static List<Taxonomy> findListByModuleAndType(String module, String type, int limit) {
-		return MODEL.doFind("content_module = ? and type = ? limit ?", module, type, limit);
+	public List<Taxonomy> findListByModuleAndType(String module, String type, int limit) {
+		return DAO.doFind("content_module = ? and type = ? limit ?", module, type, limit);
 	}
 
-	public static List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
+	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
 		List<Taxonomy> list = findListByModuleAndType(module, type);
 		ModelSorter.tree(list);
 		return list;
 	}
 
-	public static List<Taxonomy> findListByModuleAndTypeAsSort(String module, String type) {
+	public List<Taxonomy> findListByModuleAndTypeAsSort(String module, String type) {
 		List<Taxonomy> list = findListByModuleAndType(module, type);
 		ModelSorter.sort(list);
 		return list;
 	}
 
-	public static Page<Taxonomy> doPaginate(int pageNumber, int pageSize, String module, String type) {
-		return MODEL.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? order by created desc", module, type);
+	public Page<Taxonomy> doPaginate(int pageNumber, int pageSize, String module, String type) {
+		return DAO.doPaginate(pageNumber, pageSize, "content_module = ? and type = ? order by created desc", module,
+				type);
 	}
 
-	public static List<Taxonomy> findListByContentId(BigInteger contentId) {
+	public List<Taxonomy> findListByContentId(BigInteger contentId) {
 
 		StringBuilder sqlBuilder = new StringBuilder("select t.* from taxonomy t");
 		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
 		sqlBuilder.append(" where m.content_id = ? ");
 
-		return MODEL.find(sqlBuilder.toString(), contentId);
+		return DAO.find(sqlBuilder.toString(), contentId);
 	}
 
-	public static List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
+	public List<Taxonomy> findListByTypeAndContentId(String type, BigInteger contentId) {
 
 		StringBuilder sqlBuilder = new StringBuilder("select t.* from taxonomy t");
 		sqlBuilder.append(" left join mapping m on t.id = m.taxonomy_id ");
 		sqlBuilder.append(" where m.content_id = ? ");
 		sqlBuilder.append(" and t.`type` = ? ");
 
-		return MODEL.find(sqlBuilder.toString(), type, contentId);
+		return DAO.find(sqlBuilder.toString(), type, contentId);
 	}
 
-	public static Taxonomy findBySlugAndModule(String slug, String module) {
-		return MODEL.doFindFirst("slug = ? and content_module=?", slug, module);
+	public Taxonomy findBySlugAndModule(String slug, String module) {
+		return DAO.doFindFirst("slug = ? and content_module=?", slug, module);
 	}
-	
-	public static boolean deleteById(BigInteger id){
-		return MODEL.deleteById(id);
+
+	public boolean deleteById(BigInteger id) {
+		return DAO.deleteById(id);
 	}
 
 }

@@ -39,10 +39,10 @@ public class SitemapController extends Controller {
 	public void index() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildSitemapHeader(xmlBuilder);
-		String domain = OptionQuery.findValue("web_domain");
+		String domain = OptionQuery.me().findValue("web_domain");
 
 		buildSitemap(xmlBuilder, domain + "/sitemap/site", new Date().toString());
-		List<Taxonomy> taxonomys = TaxonomyQuery.findAll();
+		List<Taxonomy> taxonomys = TaxonomyQuery.me().findAll();
 		if (taxonomys != null && !taxonomys.isEmpty()) {
 			for (Taxonomy t : taxonomys) {
 				buildSitemap(xmlBuilder, domain + "/sitemap/taxonomy/" + t.getId(), new Date().toString());
@@ -56,7 +56,7 @@ public class SitemapController extends Controller {
 	public void site() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
-		buildUrl(xmlBuilder, OptionQuery.findValue("web_domain"), new Date().toString(), "always", "1.0");
+		buildUrl(xmlBuilder, OptionQuery.me().findValue("web_domain"), new Date().toString(), "always", "1.0");
 		buildUrlsetFooter(xmlBuilder);
 		renderText(xmlBuilder.toString(), contentType);
 	}
@@ -71,8 +71,8 @@ public class SitemapController extends Controller {
 		BigInteger id = new BigInteger(idString);
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
-		String domain = OptionQuery.findValue("web_domain");
-		List<Content> contents = ContentQuery.findListInNormal(1, 500, id, null);
+		String domain = OptionQuery.me().findValue("web_domain");
+		List<Content> contents = ContentQuery.me().findListInNormal(1, 500, id, null);
 		if (contents != null && !contents.isEmpty()) {
 			for (Content c : contents) {
 				buildUrl(xmlBuilder, domain + c.getUrl(), new Date().toString(), "daily", "1.0");

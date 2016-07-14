@@ -15,11 +15,13 @@
  */
 package io.jpress;
 
+import com.jfinal.config.Interceptors;
 import com.jfinal.kit.PropKit;
 
 import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
 import io.jpress.core.db.DbDialectFactory;
+import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.plugin.search.SearcherFactory;
 import io.jpress.ui.freemarker.function.ContentUrl;
 import io.jpress.ui.freemarker.function.OptionChecked;
@@ -32,12 +34,17 @@ import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
 
-	
+	@Override
+	public void configInterceptor(Interceptors interceptors) {
+		super.configInterceptor(interceptors);
+		interceptors.add(new AdminInterceptor());
+	}
+
 	@Override
 	public void onJfinalStartBefore() {
 		dbDialectConfig();
 	}
-	
+
 	@Override
 	public void onJfinalStartAfter() {
 
@@ -51,7 +58,6 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("contentUrl", new ContentUrl());
 
 		searcherConfig();
-		
 	}
 
 	private void searcherConfig() {
@@ -70,7 +76,5 @@ public class Config extends JpressConfig {
 			DbDialectFactory.use(dialect);
 		}
 	}
-
-	
 
 }

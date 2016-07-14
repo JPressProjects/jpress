@@ -50,7 +50,7 @@ public class UserController extends BaseFrontController {
 		BigInteger userId = StringUtils.toBigInteger(action, null);
 
 		if (userId != null) {
-			User user = UserQuery.findById(userId);
+			User user = UserQuery.me().findById(userId);
 			if (user != null) {
 				setAttr("user", user);
 				render(String.format("user_detail.html", action));
@@ -90,7 +90,7 @@ public class UserController extends BaseFrontController {
 			}
 		}
 
-		User user = UserQuery.findUserByUsername(username);
+		User user = UserQuery.me().findUserByUsername(username);
 		if (null == user) {
 			if (isAjaxRequest()) {
 				renderAjaxResultForError("没有该用户");
@@ -174,17 +174,17 @@ public class UserController extends BaseFrontController {
 			}
 		}
 
-		if (UserQuery.findUserByUsername(username) != null) {
+		if (UserQuery.me().findUserByUsername(username) != null) {
 			renderForRegister("username has exist!", Consts.ERROR_CODE_USERNAME_EXIST);
 			return;
 		}
 
-		if (UserQuery.findUserByEmail(email) != null) {
+		if (UserQuery.me().findUserByEmail(email) != null) {
 			renderForRegister("email has exist!", Consts.ERROR_CODE_EMAIL_EXIST);
 			return;
 		}
 
-		if (null != phone && UserQuery.findUserByPhone(phone) != null) {
+		if (null != phone && UserQuery.me().findUserByPhone(phone) != null) {
 			renderForRegister("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}

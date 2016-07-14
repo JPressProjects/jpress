@@ -23,15 +23,20 @@ import io.jpress.model.Attachment;
 
 public class AttachmentQuery extends JBaseQuery {
 
-	private static final Attachment MODEL = new Attachment();
+	private static final Attachment DAO = new Attachment();
+	private static final AttachmentQuery QUERY = new AttachmentQuery();
+	
+	public static AttachmentQuery me(){
+		return QUERY;
+	}
 
-	public static Page<Attachment> paginate(int pageNumber, int pageSize) {
+	public Page<Attachment> paginate(int pageNumber, int pageSize) {
 		String sqlExceptSelect = " FROM attachment a ORDER BY a.created DESC";
-		return MODEL.paginate(pageNumber, pageSize, "SELECT * ", sqlExceptSelect);
+		return DAO.paginate(pageNumber, pageSize, "SELECT * ", sqlExceptSelect);
 	}
 	
-	public static Attachment findById(BigInteger id){
-		return MODEL.findById(id);
+	public Attachment findById(BigInteger id){
+		return DAO.findById(id);
 	}
 
 }

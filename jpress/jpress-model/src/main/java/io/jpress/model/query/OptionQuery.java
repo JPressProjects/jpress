@@ -23,26 +23,30 @@ import io.jpress.utils.StringUtils;
 
 public class OptionQuery extends JBaseQuery {
 
-	private static Option MODEL = new Option();
+	private static final Option DAO = new Option();
+	private static final OptionQuery QUERY = new OptionQuery();
 
+	public static OptionQuery me() {
+		return QUERY;
+	}
 
-	public static String findValue(final String key) {
+	public String findValue(final String key) {
 		String value = CacheKit.get(Option.CACHE_NAME, key, new IDataLoader() {
 			@Override
 			public Object load() {
-				Option option = MODEL.doFindFirst("option_key =  ?", key);
+				Option option = DAO.doFindFirst("option_key =  ?", key);
 				if (null != option && option.getOptionValue() != null) {
 					return option.getOptionValue();
 				}
 				return "";
 			}
 		});
-		
+
 		return "".equals(value) ? null : value;
 	}
-	
-	public static void saveOrUpdate(String key, String value) {
-		Option option = MODEL.doFindFirst("option_key =  ?", key);
+
+	public void saveOrUpdate(String key, String value) {
+		Option option = DAO.doFindFirst("option_key =  ?", key);
 		if (null == option) {
 			option = new Option();
 		}
@@ -53,11 +57,11 @@ public class OptionQuery extends JBaseQuery {
 		option.saveOrUpdate();
 	}
 
-	public static Option findByKey(String key) {
-		return MODEL.doFindFirst("option_key =  ?", key);
+	public Option findByKey(String key) {
+		return DAO.doFindFirst("option_key =  ?", key);
 	}
 
-	public static Boolean findValueAsBool(String key) {
+	public Boolean findValueAsBool(String key) {
 		String value = findValue(key);
 		if (StringUtils.isNotBlank(value)) {
 			try {
@@ -68,7 +72,7 @@ public class OptionQuery extends JBaseQuery {
 		return null;
 	}
 
-	public static Integer findValueAsInteger(String key) {
+	public Integer findValueAsInteger(String key) {
 		String value = findValue(key);
 		if (StringUtils.isNotBlank(value)) {
 			try {
@@ -79,7 +83,7 @@ public class OptionQuery extends JBaseQuery {
 		return null;
 	}
 
-	public static Float findValueAsFloat(String key) {
+	public Float findValueAsFloat(String key) {
 		String value = findValue(key);
 		if (StringUtils.isNotBlank(value)) {
 			try {

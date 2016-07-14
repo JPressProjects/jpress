@@ -27,9 +27,9 @@ public class WechatApi {
 
 	public static ApiConfig getApiConfig() {
 		ApiConfig config = new ApiConfig();
-		config.setAppId(OptionQuery.findValue("wechat_appid"));
-		config.setAppSecret(OptionQuery.findValue("wechat_appsecret"));
-		config.setToken(OptionQuery.findValue("wechat_token"));
+		config.setAppId(OptionQuery.me().findValue("wechat_appid"));
+		config.setAppSecret(OptionQuery.me().findValue("wechat_appsecret"));
+		config.setToken(OptionQuery.me().findValue("wechat_token"));
 		return config;
 	}
 

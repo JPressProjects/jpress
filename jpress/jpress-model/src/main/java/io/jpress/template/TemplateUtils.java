@@ -47,7 +47,7 @@ public class TemplateUtils {
 	}
 
 	public static String getcurrentTemplateId() {
-		String templateId = OptionQuery.findValue(Option.KEY_TEMPLATE_ID);
+		String templateId = OptionQuery.me().findValue(Option.KEY_TEMPLATE_ID);
 
 		if (StringUtils.isNotBlank(templateId)) {
 			return templateId;
@@ -89,7 +89,7 @@ public class TemplateUtils {
 		}
 
 		if (template != null) {
-			OptionQuery.saveOrUpdate(Option.KEY_TEMPLATE_ID, template.getId());
+			OptionQuery.me().saveOrUpdate(Option.KEY_TEMPLATE_ID, template.getId());
 			cTemplate = null;
 			return true;
 		}

@@ -21,7 +21,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
 import io.jpress.model.Comment;
@@ -52,23 +52,23 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public void index() {
 		super.index();
 		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getContentModule()));
-		setAttr("delete_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
-		setAttr("draft_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
-		setAttr("normal_count", CommentQuery.findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
-		setAttr("count", CommentQuery.findCountInNormalByModule(getContentModule()));
+		setAttr("delete_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
+		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
+		setAttr("normal_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
+		setAttr("count", CommentQuery.me().findCountInNormalByModule(getContentModule()));
 	}
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return CommentQuery.paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
+			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
 		}
-		return CommentQuery.paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
+		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		Comment c = CommentQuery.findById(getParaToBigInteger("id"));
+		Comment c = CommentQuery.me().findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Comment.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -81,7 +81,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = CommentQuery.findById(id);
+		Comment c = CommentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
 			c.saveOrUpdate();
@@ -94,7 +94,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void pub() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = CommentQuery.findById(id);
+		Comment c = CommentQuery.me().findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_NORMAL);
 			if (c.saveOrUpdate()) {
@@ -111,7 +111,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void draft() {
 		BigInteger id = getParaToBigInteger("id");
-		Comment c = CommentQuery.findById(id);
+		Comment c = CommentQuery.me().findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DRAFT);
 			if (c.saveOrUpdate()) {
@@ -128,7 +128,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		final Comment c = CommentQuery.findById(id);
+		final Comment c = CommentQuery.me().findById(id);
 		if (c != null) {
 			if (c.delete()) {
 				MessageKit.sendMessage(Actions.COMMENT_DELETE, c);
@@ -144,7 +144,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment comment = getModel(Comment.class);
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
-			User user = UserQuery.findUserByUsername(username);
+			User user = UserQuery.me().findUserByUsername(username);
 			if (user == null) {
 				renderAjaxResultForError("系统没有该用户：" + username);
 				return;

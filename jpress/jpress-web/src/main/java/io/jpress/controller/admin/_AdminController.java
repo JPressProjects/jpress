@@ -23,7 +23,7 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
@@ -57,12 +57,12 @@ public class _AdminController extends JBaseController {
 				moduels[i] = moduleList.get(i).getName();
 			}
 
-			List<Content> contents = ContentQuery.findListInNormal(1, 20, null, null, null, null, moduels, null, null,
+			List<Content> contents = ContentQuery.me().findListInNormal(1, 20, null, null, null, null, moduels, null, null,
 					null, null, null, null, null);
 			setAttr("contents", contents);
 		}
 
-		Page<Comment> commentPage = CommentQuery.paginateWithContentNotInDelete(1, 10, null);
+		Page<Comment> commentPage = CommentQuery.me().paginateWithContentNotInDelete(1, 10, null);
 		if (commentPage != null) {
 			setAttr("comments", commentPage.getList());
 		}
@@ -80,7 +80,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 
-		User user = UserQuery.findUserByUsername(username);
+		User user = UserQuery.me().findUserByUsername(username);
 
 		if (null == user) {
 			renderAjaxResultForError("没有该用户");

@@ -22,27 +22,31 @@ import io.jpress.model.Metadata;
 
 public class MetaDataQuery extends JBaseQuery {
 
-	private static Metadata MODEL = new Metadata();
-
-	public static List<Metadata> findListByTypeAndId(String type, BigInteger id) {
-		return MODEL.doFind("object_type = ? and object_id = ?", type, id);
+	private static final Metadata DAO = new Metadata();
+	private static final MetaDataQuery QUERY = new MetaDataQuery();
+	public static MetaDataQuery me() {
+		return QUERY;
 	}
 
-	public static Metadata findFirstByTypeAndValue(String type, String key, Object value) {
+	public List<Metadata> findListByTypeAndId(String type, BigInteger id) {
+		return DAO.doFind("object_type = ? and object_id = ?", type, id);
+	}
 
-		return MODEL.doFindFirst("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
+	public Metadata findFirstByTypeAndValue(String type, String key, Object value) {
+
+		return DAO.doFindFirst("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
 
 	}
 
-	public static List<Metadata> findListByTypeAndValue(String type, String key, Object value) {
+	public List<Metadata> findListByTypeAndValue(String type, String key, Object value) {
 
-		return MODEL.doFind("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
+		return DAO.doFind("object_type = ? and meta_key = ? and meta_value = ?", type, key, value);
 
 	}
 
-	public static Metadata findByTypeAndIdAndKey(String type, BigInteger id, String key) {
+	public Metadata findByTypeAndIdAndKey(String type, BigInteger id, String key) {
 		String cachekey = type + key + id;
-		return MODEL.doFindFirstByCache(Metadata.CACHE_NAME, cachekey,"object_type = ? and object_id = ? and meta_key = ? ", type, id, key);
+		return DAO.doFindFirstByCache(Metadata.CACHE_NAME, cachekey,"object_type = ? and object_id = ? and meta_key = ? ", type, id, key);
 
 	}
 }

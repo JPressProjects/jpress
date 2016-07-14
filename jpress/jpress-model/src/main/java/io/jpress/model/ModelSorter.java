@@ -59,15 +59,6 @@ public class ModelSorter {
 		tlist.addAll(newList);
 	}
 	
-	public static <M extends ISortModel> void tree(List<M> tlist,M top) {
-		if (tlist == null)
-			return;
-		
-		List<M> newList = new ArrayList<M>();
-		tree(tlist, newList, top);
-		tlist.clear();
-		tlist.addAll(newList);
-	}
 
 	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist, BigInteger branchId) {
 		List<ISortModel> removeModels = new ArrayList<ISortModel>();
@@ -128,6 +119,8 @@ public class ModelSorter {
 		public M getParent();
 
 		public void addChild(M child);
+		
+		public List<M> getChildList();
 	}
 
 }

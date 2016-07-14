@@ -34,8 +34,8 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.core.render.AjaxResult;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.listener.Actions;
 import io.jpress.model.Content;
@@ -44,6 +44,7 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.MappingQuery;
+import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.MessageKit;
@@ -73,10 +74,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		Module module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
-		setAttr("delete_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
-		setAttr("draft_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
-		setAttr("normal_count", ContentQuery.findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
-		setAttr("count", ContentQuery.findCountInNormalByModule(getModuleName()));
+		setAttr("delete_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
+		setAttr("draft_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
+		setAttr("normal_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_NORMAL));
+		setAttr("count", ContentQuery.me().findCountInNormalByModule(getModuleName()));
 
 		setAttr("tids", getPara("tids"));
 		BigInteger[] tids = null;
@@ -95,10 +96,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		Page<Content> page = null;
 		if (StringUtils.isNotBlank(getStatus())) {
-			page = ContentQuery.paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword, getStatus(),
+			page = ContentQuery.me().paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword, getStatus(),
 					tids);
 		} else {
-			page = ContentQuery.paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(), keyword,
+			page = ContentQuery.me().paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(), keyword,
 					tids);
 		}
 
@@ -119,7 +120,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				for (TaxonomyType type : types) {
 					// 排除标签类的分类删选
 					if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
-						List<Taxonomy> taxonomys = TaxonomyQuery.findListByModuleAndTypeAsSort(getModuleName(),
+						List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByModuleAndTypeAsSort(getModuleName(),
 								type.getName());
 						processSelected(tids, taxonomys);
 						_taxonomyMap.put(type.getTitle(), taxonomys);
@@ -149,7 +150,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
-		Content c = ContentQuery.findById(getParaToBigInteger("id"));
+		Content c = ContentQuery.me().findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -161,7 +162,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 	@Before(UCodeInterceptor.class)
 	public void draft() {
-		Content c = ContentQuery.findById(getParaToBigInteger("id"));
+		Content c = ContentQuery.me().findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Content.STATUS_DRAFT);
 			c.saveOrUpdate();
@@ -174,7 +175,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = ContentQuery.batchTrash(ids);
+		int count = ContentQuery.me().batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -185,7 +186,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchDelete() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = ContentQuery.batchDelete(ids);
+		int count = ContentQuery.me().batchDelete(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -196,7 +197,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void restore() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = ContentQuery.findById(id);
+		Content c = ContentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
 			c.setModified(new Date());
@@ -210,13 +211,13 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		final Content c = ContentQuery.findById(id);
+		final Content c = ContentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			boolean isSuccess = Db.tx(new IAtom() {
 				@Override
 				public boolean run() throws SQLException {
 					if (c.delete()) {
-						MappingQuery.deleteByContentId(c.getId());
+						MappingQuery.me().deleteByContentId(c.getId());
 						return true;
 					}
 					return false;
@@ -237,7 +238,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		String moduleName = getModuleName();
 		BigInteger contentId = getParaToBigInteger("id");
 
-		Content content = ContentQuery.findById(contentId);
+		Content content = ContentQuery.me().findById(contentId);
 		if (content != null) {
 			setAttr("content", content);
 			moduleName = content.getModule();
@@ -306,7 +307,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				}
 				String[] titles = data.split(",");
 				if (titles != null && titles.length > 0) {
-					List<Taxonomy> list = TaxonomyQuery.findListByModuleAndType(moduleName, type.getName());
+					List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(moduleName, type.getName());
 					for (String title : titles) {
 						BigInteger id = getIdFromList(title, list);
 						if (id == null) {
@@ -365,7 +366,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {
-			User user = UserQuery.findUserByUsername(username);
+			User user = UserQuery.me().findUserByUsername(username);
 			if (user == null) {
 				renderAjaxResultForError("系统没有该用户：" + username);
 				return;
@@ -373,7 +374,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			content.setUserId(user.getId());
 		}
 
-		Content dbContent = ContentQuery.findBySlug(content.getSlug());
+		Content dbContent = ContentQuery.me().findBySlug(content.getSlug());
 		if (dbContent != null && content.getId() != null && dbContent.getId().compareTo(content.getId()) != 0) {
 			renderAjaxResultForError();
 			return;
@@ -395,7 +396,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 				Content oldContent = null;
 				if (content.getId() != null) {
-					oldContent = ContentQuery.findById(content.getId());
+					oldContent = ContentQuery.me().findById(content.getId());
 				}
 
 				if (!content.saveOrUpdate()) {
@@ -404,14 +405,15 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 				if (ids != null && ids.size() > 0) {
-					if (!MappingQuery.doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
+					if (!MappingQuery.me().doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
 						return false;
 					}
 				}
 
 				for (Map.Entry<String, String> entry : metas.entrySet()) {
 
-					Metadata metadata = content.findMetadata(entry.getKey());
+					Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(Content.METADATA_TYPE, content.getId(), entry.getKey());
+					
 					if (metadata == null) {
 						metadata = new Metadata();
 					}

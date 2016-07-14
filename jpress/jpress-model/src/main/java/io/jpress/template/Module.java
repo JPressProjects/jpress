@@ -123,7 +123,7 @@ public class Module {
 	}
 
 	public long findContentCount(String status) {
-		return ContentQuery.findCountByModuleAndStatus(getName(), status);
+		return ContentQuery.me().findCountByModuleAndStatus(getName(), status);
 	}
 
 	public long findNormalContentCount() {
@@ -139,7 +139,7 @@ public class Module {
 	}
 
 	public long findNotDeleteContentCount() {
-		return ContentQuery.findCountInNormalByModule(getName());
+		return ContentQuery.me().findCountInNormalByModule(getName());
 	}
 
 	@Override

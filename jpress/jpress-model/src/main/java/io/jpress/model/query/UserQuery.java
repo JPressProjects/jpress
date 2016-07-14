@@ -22,15 +22,20 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
+import io.jpress.model.Metadata;
 import io.jpress.model.User;
 import io.jpress.template.Module;
 import io.jpress.template.TemplateUtils;
 
 public class UserQuery extends JBaseQuery {
-	private static User MODEL = new User();
+	private static final User DAO = new User();
+	private static final UserQuery QUERY = new UserQuery();
 
-	public static List<User> findList(int page, int pagesize, String gender, String role, String status,
-			String orderBy) {
+	public static UserQuery me() {
+		return QUERY;
+	}
+
+	public List<User> findList(int page, int pagesize, String gender, String role, String status, String orderBy) {
 		StringBuilder sqlBuilder = new StringBuilder("select * from user u ");
 		LinkedList<Object> params = new LinkedList<Object>();
 
@@ -46,71 +51,77 @@ public class UserQuery extends JBaseQuery {
 		params.add(pagesize);
 
 		if (params.isEmpty()) {
-			return MODEL.find(sqlBuilder.toString());
+			return DAO.find(sqlBuilder.toString());
 		} else {
-			return MODEL.find(sqlBuilder.toString(), params.toArray());
+			return DAO.find(sqlBuilder.toString(), params.toArray());
 		}
 
 	}
 
-	public static User findFirstFromMetadata(String key, Object value) {
-		return MODEL.findFirstFromMetadata(key, value);
+	public User findFirstFromMetadata(String key, Object value) {
+//		return DAO.findFirstFromMetadata(key, value);
+		Metadata md = MetaDataQuery.me().findFirstByTypeAndValue(User.METADATA_TYPE, key, value);
+		if (md != null) {
+			BigInteger id = md.getObjectId();
+			return findById(id);
+		}
+		return null;
 	}
 
-	public static Page<User> paginate(int pageNumber, int pageSize) {
-		return MODEL.doPaginate(pageNumber, pageSize);
+	public Page<User> paginate(int pageNumber, int pageSize) {
+		return DAO.doPaginate(pageNumber, pageSize);
 	}
 
-	public static long findCount() {
-		return MODEL.doFindCount();
+	public long findCount() {
+		return DAO.doFindCount();
 	}
 
-	public static long findAdminCount() {
-		return MODEL.doFindCount(" role = ? ", "administrator");
+	public long findAdminCount() {
+		return DAO.doFindCount(" role = ? ", "administrator");
 	}
 
-	public static User findById(final BigInteger userId) {
-		return MODEL.getCache(userId, new IDataLoader() {
+	public User findById(final BigInteger userId) {
+		return DAO.getCache(userId, new IDataLoader() {
 			@Override
 			public Object load() {
-				return MODEL.findById(userId);
+				return DAO.findById(userId);
 			}
 		});
 	}
 
-	public static User findUserByEmail(final String email) {
-		return MODEL.getCache(email, new IDataLoader() {
+	public User findUserByEmail(final String email) {
+		return DAO.getCache(email, new IDataLoader() {
 			@Override
 			public Object load() {
-				return MODEL.doFindFirst("email = ?", email);
+				return DAO.doFindFirst("email = ?", email);
 			}
 		});
 	}
 
-	public static User findUserByUsername(final String username) {
-		return MODEL.getCache(username, new IDataLoader() {
+	public User findUserByUsername(final String username) {
+		return DAO.getCache(username, new IDataLoader() {
 			@Override
 			public Object load() {
-				return MODEL.doFindFirst("username = ?", username);
+				return DAO.doFindFirst("username = ?", username);
 			}
 		});
 	}
 
-	public static User findUserByPhone(final String phone) {
-		return MODEL.getCache(phone, new IDataLoader() {
+	public User findUserByPhone(final String phone) {
+		return DAO.getCache(phone, new IDataLoader() {
 			@Override
 			public Object load() {
-				return MODEL.doFindFirst("phone = ?", phone);
+				return DAO.doFindFirst("phone = ?", phone);
 			}
 		});
 	}
 
-	public static boolean updateContentCount(User user) {
+	public boolean updateContentCount(User user) {
 		long count = 0;
 		List<Module> modules = TemplateUtils.currentTemplate().getModules();
 		if (modules != null && !modules.isEmpty()) {
 			for (Module m : modules) {
-				long moduleCount = ContentQuery.findCountInNormalByModuleAndUserId(m.getName(), user.getId());
+				long moduleCount = ContentQuery.me().findCountInNormalByModuleAndUserId(m.getName(), user.getId());
 				count += moduleCount;
 			}
 		}
@@ -119,8 +130,8 @@ public class UserQuery extends JBaseQuery {
 		return user.update();
 	}
 
-	public static boolean updateCommentCount(User user) {
-		long count = CommentQuery.findCountByUserIdInNormal(user.getId());
+	public boolean updateCommentCount(User user) {
+		long count = CommentQuery.me().findCountByUserIdInNormal(user.getId());
 		user.setCommentCount(count);
 		return user.update();
 	}

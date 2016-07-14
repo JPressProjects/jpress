@@ -30,8 +30,7 @@ public class InterUtils {
 
 		String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
 		if (userId != null && !"".equals(userId)) {
-			// findUserById has cache
-			return UserQuery.findById(new BigInteger(userId));
+			return UserQuery.me().findById(new BigInteger(userId));
 		}
 
 		return null;

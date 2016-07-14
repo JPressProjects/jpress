@@ -82,16 +82,15 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 
 	
 	public void updateContentCount(){
-		long count  = MappingQuery.findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
+		long count  = MappingQuery.me().findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
 		if(count > 0){
 			setContentCount(count);
 			this.update();
 		}
 	}
-
 	
 	public long findContentCount() {
-		Long count = MappingQuery.findCountByTaxonomyId(getId());
+		Long count = MappingQuery.me().findCountByTaxonomyId(getId());
 		return count == null ? 0 : count;
 	}
 

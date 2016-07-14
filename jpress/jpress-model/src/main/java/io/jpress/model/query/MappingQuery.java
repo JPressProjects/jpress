@@ -26,13 +26,18 @@ import io.jpress.model.Mapping;
 
 public class MappingQuery extends JBaseQuery {
 
-	private static final Mapping MODEL = new Mapping();
+	private static final Mapping DAO = new Mapping();
+	private static final MappingQuery QUERY = new MappingQuery();
 
-	public static int doDelByContentId(BigInteger contentId) {
-		return MODEL.doDelete("content_id = ?", contentId);
+	public static MappingQuery me() {
+		return QUERY;
 	}
 
-	public static boolean doBatchUpdate(final BigInteger contentId, final BigInteger[] taxonomyIds) {
+	public int doDelByContentId(BigInteger contentId) {
+		return DAO.doDelete("content_id = ?", contentId);
+	}
+
+	public boolean doBatchUpdate(final BigInteger contentId, final BigInteger[] taxonomyIds) {
 		return Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
@@ -41,7 +46,7 @@ public class MappingQuery extends JBaseQuery {
 					Mapping mapping = new Mapping();
 					mapping.setContentId(contentId);
 					mapping.setTaxonomyId(taxonomyid);
-					if(!mapping.save()){
+					if (!mapping.save()) {
 						return false;
 					}
 				}
@@ -49,29 +54,27 @@ public class MappingQuery extends JBaseQuery {
 			}
 		});
 	}
-	
-	
-	public static void deleteByContentId(BigInteger id){
-		Jdb.update("DELETE FROM mapping WHERE content_id = ?",id);
-	}
-	
-	public static void  deleteByTaxonomyId(BigInteger id){
-		Jdb.update("DELETE FROM mapping WHERE taxonomy_id = ? ",id) ;
+
+	public void deleteByContentId(BigInteger id) {
+		Jdb.update("DELETE FROM mapping WHERE content_id = ?", id);
 	}
 
-	public static long findCountByTaxonomyId(BigInteger id) {
-		return MODEL.doFindCount("taxonomy_id = ?", id);
+	public void deleteByTaxonomyId(BigInteger id) {
+		Jdb.update("DELETE FROM mapping WHERE taxonomy_id = ? ", id);
 	}
-	
-	
-	public static long findCountByTaxonomyId(BigInteger id,String contentStatus) {
+
+	public long findCountByTaxonomyId(BigInteger id) {
+		return DAO.doFindCount("taxonomy_id = ?", id);
+	}
+
+	public long findCountByTaxonomyId(BigInteger id, String contentStatus) {
 		String sql = "SELECT COUNT(*) FROM mapping m ";
 		sql += "left join content c ON m.content_id=c.id ";
 		sql += "where m.taxonomy_id = ? and c.status = ?";
-		return Jdb.queryLong(sql,id,contentStatus);
+		return Jdb.queryLong(sql, id, contentStatus);
 	}
 
-	public static long findCountByContentId(BigInteger id) {
-		return MODEL.doFindCount("content_id = ?", id);
+	public long findCountByContentId(BigInteger id) {
+		return DAO.doFindCount("content_id = ?", id);
 	}
 }

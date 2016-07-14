@@ -82,7 +82,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public boolean updateCommentCount() {
-		long count = CommentQuery.findCountByContentIdInNormal(getId());
+		long count = CommentQuery.me().findCountByContentIdInNormal(getId());
 		if (count > 0) {
 			setCommentCount(count);
 			return this.update();
@@ -346,14 +346,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public String getSummary() {
 		return summaryWithLen(100);
-	}
-
-	public String metadata(String key) {
-		Metadata m = findMetadata(key);
-		if (m != null) {
-			return m.getMetaValue();
-		}
-		return null;
 	}
 
 }

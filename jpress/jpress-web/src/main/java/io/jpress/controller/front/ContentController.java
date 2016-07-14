@@ -68,17 +68,12 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("p", pageNumber);
 		setAttr("content", content);
-		setAttr("user", UserQuery.findById(content.getUserId()));
+		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
-//		Page<Comment> page = CommentQuery.paginateByContentId(pageNumber, pageSize, content.getId());
-//		setAttr("page", page);
-//
-//		ContentPaginateTag cpt = new ContentPaginateTag(page, content);
-//		setAttr("pagination", cpt);
 		
 		setAttr("commentPageTag", new CommentPageTag(content, pageNumber));
 
-		List<Taxonomy> taxonomys = TaxonomyQuery.findListByContentId(content.getId());
+		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
 		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys));
@@ -121,9 +116,9 @@ public class ContentController extends BaseFrontController {
 
 	private Content queryContent() {
 		if (id != null) {
-			return ContentQuery.findById(id);
+			return ContentQuery.me().findById(id);
 		} else {
-			return ContentQuery.findBySlug(StringUtils.urlDecode(slug));
+			return ContentQuery.me().findBySlug(StringUtils.urlDecode(slug));
 		}
 	}
 

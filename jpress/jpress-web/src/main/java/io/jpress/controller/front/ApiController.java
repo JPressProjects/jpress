@@ -37,7 +37,7 @@ public class ApiController extends JBaseController {
 	public void index() {
 		corsSetting();
 
-		Boolean isOpen = OptionQuery.findValueAsBool("api_enable");
+		Boolean isOpen = OptionQuery.me().findValueAsBool("api_enable");
 		if (isOpen == null || isOpen == false) {
 			renderAjaxResult("api is not open", 1);
 			return;
@@ -49,7 +49,7 @@ public class ApiController extends JBaseController {
 			return;
 		}
 
-		Content content = ContentQuery.findFirstByModuleAndText(Consts.MODULE_API_APPLICATION, appkey);
+		Content content = ContentQuery.me().findFirstByModuleAndText(Consts.MODULE_API_APPLICATION, appkey);
 		if (content == null) {
 			renderAjaxResultForError("appkey is error!");
 			return;

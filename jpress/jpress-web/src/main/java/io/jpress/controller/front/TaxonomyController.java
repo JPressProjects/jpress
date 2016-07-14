@@ -61,7 +61,7 @@ public class TaxonomyController extends BaseFrontController {
 			setGlobleAttrs(taxonomy);
 			setAttr("jp_menu", new MenuTag(getRequest(),taxonomy));
 			
-			Content c =  ContentQuery.findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			Content c =  ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			setAttr("jp_current_menu", c);
 		}
 		
@@ -88,7 +88,7 @@ public class TaxonomyController extends BaseFrontController {
 	}
 
 	private Taxonomy tryGetTaxonomy() {
-		return slug == null ? null : TaxonomyQuery.findBySlugAndModule(slug, moduleName);
+		return slug == null ? null : TaxonomyQuery.me().findBySlugAndModule(slug, moduleName);
 	}
 
 	private void initRequest() {

@@ -75,7 +75,7 @@ public class AddonManager {
 	}
 
 	public boolean start(Addon addon) {
-		OptionQuery.saveOrUpdate("addon_start_" + addon.getId(), Boolean.TRUE.toString());
+		OptionQuery.me().saveOrUpdate("addon_start_" + addon.getId(), Boolean.TRUE.toString());
 		boolean isSuccess = addon.start();
 		if (!isSuccess) {
 			log.warn("addon:" + addon.getId() + " start fail!!!");
@@ -86,7 +86,7 @@ public class AddonManager {
 	}
 
 	public boolean stop(Addon addon) {
-		OptionQuery.saveOrUpdate("addon_start_" + addon.getId(), Boolean.FALSE.toString());
+		OptionQuery.me().saveOrUpdate("addon_start_" + addon.getId(), Boolean.FALSE.toString());
 		boolean isSuccess = addon.stop();
 		if (!isSuccess) {
 			log.warn("addon:" + addon.getId() + " stop fail!!!");
@@ -135,7 +135,7 @@ public class AddonManager {
 
 					addonList.add(addon);
 
-					Boolean start = OptionQuery.findValueAsBool("addon_start_" + addon.getId());
+					Boolean start = OptionQuery.me().findValueAsBool("addon_start_" + addon.getId());
 					if (start != null && start == true) {
 						if (addon.start()) {// 启动成功
 							startedAddonList.add(addon);

@@ -46,9 +46,9 @@ public class IndexController extends BaseFrontController {
 	}
 	
 	private void setGlobleAttrs() {
-		String title = OptionQuery.findValue("seo_index_title");
-		String keywords = OptionQuery.findValue("seo_index_keywords");
-		String description = OptionQuery.findValue("seo_index_description");
+		String title = OptionQuery.me().findValue("seo_index_title");
+		String keywords = OptionQuery.me().findValue("seo_index_keywords");
+		String description = OptionQuery.me().findValue("seo_index_description");
 		
 		if(StringUtils.isNotBlank(title)){
 			setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, title);

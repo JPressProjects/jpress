@@ -34,7 +34,7 @@ import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.router.RouterMapping;

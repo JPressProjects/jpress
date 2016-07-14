@@ -28,7 +28,7 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
-import io.jpress.interceptor.ActionCacheClearInterceptor;
+import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
@@ -53,9 +53,9 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return ContentQuery.paginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
+			return ContentQuery.me().paginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
 		}
-		return ContentQuery.paginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
+		return ContentQuery.me().paginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
 	}
 
 	public void reply_default() {
@@ -71,7 +71,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void menu() {
-		List<Content> list = ContentQuery.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.sort(list);
 		
 		List<Content> wechat_menulist = new ArrayList<Content>();
@@ -79,7 +79,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			Content c = ContentQuery.findById(id);
+			Content c = ContentQuery.me().findById(id);
 			setAttr("wechat_menu", c);
 			
 			setAttr(c.getFlag()+"_selected", "selected=\"selected\"");
@@ -108,13 +108,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		}
 		
 		if(c.getParentId() == null){
-			long count = ContentQuery.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			long count = ContentQuery.me().findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
 			if(count > 3){
 				renderAjaxResultForError("顶级菜单不能超过3个！");
 				return;
 			}
 		}else{
-			long count = ContentQuery.findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
+			long count = ContentQuery.me().findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
 			if(count > 5){
 				renderAjaxResultForError("子级菜单不能超过5个！");
 				return;
@@ -135,7 +135,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void menuDel() {
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			if (ContentQuery.deleteById(id)) {
+			if (ContentQuery.me().deleteById(id)) {
 				renderAjaxResultForSuccess();
 			}
 		}
@@ -144,7 +144,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(WechatApiConfigInterceptor.class)
 	public void menuSync() {
-		List<Content> wechatMenus = ContentQuery.findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> wechatMenus = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.tree(wechatMenus);
 
 		if (wechatMenus != null) {
@@ -192,7 +192,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void trash() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = ContentQuery.findById(id);
+		Content c = ContentQuery.me().findById(id);
 		if (c != null) {
 			c.setStatus(Content.STATUS_DELETE);
 			c.saveOrUpdate();
@@ -205,7 +205,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void batchTrash() {
 		BigInteger[] ids = getParaValuesToBigInteger("dataItem");
-		int count = ContentQuery.batchTrash(ids);
+		int count = ContentQuery.me().batchTrash(ids);
 		if (count > 0) {
 			renderAjaxResultForSuccess("success");
 		} else {
@@ -216,7 +216,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Before(UCodeInterceptor.class)
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		Content c = ContentQuery.findById(id);
+		Content c = ContentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			c.delete();
 			renderAjaxResultForSuccess("success");
@@ -230,7 +230,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 		String id = getPara("id");
 		if (id != null) {
-			setAttr("content", ContentQuery.findById(id));
+			setAttr("content", ContentQuery.me().findById(id));
 		} else {
 			Content c = new Content();
 			c.setCreated(new Date());

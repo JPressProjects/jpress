@@ -60,12 +60,12 @@ public abstract class RouterConverter {
 	}
 
 	protected static boolean enalbleFakeStatic() {
-		Boolean fakeStaticEnable = OptionQuery.findValueAsBool("router_fakestatic_enable");
+		Boolean fakeStaticEnable = OptionQuery.me().findValueAsBool("router_fakestatic_enable");
 		return fakeStaticEnable != null && fakeStaticEnable == true;
 	}
 
 	protected static String getFakeStaticSuffix() {
-		String fakeStaticSuffix = OptionQuery.findValue("router_fakestatic_suffix");
+		String fakeStaticSuffix = OptionQuery.me().findValue("router_fakestatic_suffix");
 		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
 			return fakeStaticSuffix.trim();
 		}

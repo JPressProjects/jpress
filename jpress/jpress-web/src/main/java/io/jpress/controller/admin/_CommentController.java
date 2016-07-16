@@ -65,6 +65,13 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		}
 		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
+	
+	@Override
+	public void edit() {
+		BigInteger id = getParaToBigInteger("id");
+		Comment comment = CommentQuery.me().findById(id);
+		setAttr("comment", comment);
+	}
 
 	@Before(UCodeInterceptor.class)
 	public void trash() {
@@ -156,6 +163,10 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		} else {
 			renderAjaxResultForError();
 		}
-
+	}
+	
+	public void reply_layer(){
+		BigInteger id = getParaToBigInteger("id");
+		setAttr("comment", CommentQuery.me().findById(id));
 	}
 }

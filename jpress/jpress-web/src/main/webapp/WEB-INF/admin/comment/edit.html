@@ -10,7 +10,7 @@ var data={
 function initTinymce(){
 tinymce.init({
         selector: '#textarea',
-        height: 500,
+        height: 300,
         language: 'zh_CN',
         menubar: false,
         automatic_uploads: true,
@@ -114,77 +114,7 @@ function save(){
 					<textarea id="textarea"  name="comment.text" >${(comment.text)!}</textarea>
 				</div>
 				</div>
-				
-				<div class="box box-solid">
-					<div class="box-header with-border">
-						<h3 class="box-title">属性设置</h3>
-						<div class="box-tools">
-							<button type="button" class="btn btn-box-tool" data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
-						</div>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body no-padding">
-						<!-- Custom Tabs -->
-						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
-								<li class="active">
-									<a href="#tab_1" data-toggle="tab">常用</a>
-								</li>
-								<li>
-									<a href="#tab_seo" data-toggle="tab">投票</a>
-								</li>
-								<li>
-									<a href="#tab_position" data-toggle="tab">位置</a>
-								</li>
-								<li>
-									<a href="#tab_metadata" data-toggle="tab">元数据</a>
-								</li>
-							</ul>
-							<div class="tab-content jp-aside-hg ">
-								<div class="tab-pane active " id="tab_1">
-								<div class="jp-prop-input">
-									系统用户: <input type="text" name="username" value="${(comment.username)!}">
-								</div>
-								<div class="jp-prop-input">
-									评论昵称: <input type="text" name="comment.author" value="${(comment.author)!}">
-								</div>
-								<div class="jp-prop-input">
-									邮箱: <input type="text" name="comment.email" value="${(comment.email)!}">
-								</div>
-								<div class="jp-prop-input">
-									IP地址: <input type="text" name="comment.ip" value="${(comment.ip)!}">
-								</div>
-								<div class="jp-prop-input">
-									Flag: <input type="text" name="comment.flag" value="${(comment.flag)!}">
-								</div>
-								</div>
-								<!-- /.tab-pane -->
-								<div class="tab-pane jp-prop-box" id="tab_seo">
-									<div class="jp-prop-input">
-										支持: <input type="text" name="comment.vote_up" value="${(comment.vote_up)!}">
-									</div>
-									<div class="jp-prop-input">
-										反对: <input type="text" name="comment.vote_down" value="${(comment.vote_down)!}">
-									</div>
-								</div>
-								<div class="tab-pane jp-prop-box" id="tab_position">
-									<div class="jp-prop-input">
-									经度: <input type="text" name="comment.lng" value="${(comment.lng)!}">
-									</div>
-									<div class="jp-prop-input">
-									纬度: <input type="text" name="comment.lat" value="${(comment.lat)!}">
-									</div>
-								</div>
-								<div class="tab-pane" id="tab_metadata">元数据</div>
-								<!-- /.tab-pane -->
-							</div>
-							<!-- /.tab-content -->
-						</div>
-						<!-- nav-tabs-custom -->
-					</div>
-				</div>
+				<#include "_props_box.html" /> 
 			</div>
 			<!-- /.col -->
 			<div class="col-md-3">

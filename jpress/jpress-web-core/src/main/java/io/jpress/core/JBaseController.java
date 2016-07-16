@@ -30,6 +30,7 @@ import com.jfinal.render.JsonRender;
 import io.jpress.core.render.AjaxResult;
 import io.jpress.core.render.JCaptchaRender;
 import io.jpress.utils.JsoupUtils;
+import io.jpress.utils.StringUtils;
 
 public class JBaseController extends Controller {
 	private static final char URL_PARA_SEPARATOR = JFinal.me().getConstants().getUrlParaSeparator().toCharArray()[0];
@@ -239,6 +240,35 @@ public class JBaseController extends Controller {
 		} catch (Exception e) {
 			throw new ActionException(404, "Can not parse the parameter \"" + value + "\" to BigInteger value.");
 		}
+	}
+	
+	@Before(NotAction.class)
+	public String getIPAddress() {
+		String ip = getRequest().getHeader("X-getRequest()ed-For");
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getHeader("X-Forwarded-For");
+		}
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getHeader("Proxy-Client-IP");
+		}
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getHeader("WL-Proxy-Client-IP");
+		}
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getHeader("HTTP_CLIENT_IP");
+		}
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = getRequest().getRemoteAddr();
+		}
+		return ip;
+	}
+
+	@Before(NotAction.class)
+	public String getUserAgent() {
+		return getRequest().getHeader("User-Agent");
 	}
 
 }

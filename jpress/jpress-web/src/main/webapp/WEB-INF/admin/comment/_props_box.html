@@ -1,0 +1,79 @@
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">属性设置</h3>
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body no-padding">
+		<!-- Custom Tabs -->
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#tab_1" data-toggle="tab">基本</a>
+				</li>
+				<li>
+					<a href="#tab_seo" data-toggle="tab">投票</a>
+				</li>
+				<li>
+					<a href="#tab_position" data-toggle="tab">位置</a>
+				</li>
+				<li>
+					<a href="#tab_metadata" data-toggle="tab">元数据</a>
+				</li>
+			</ul>
+			<div class="tab-content jp-aside-hg ">
+				<div class="tab-pane active form-horizontal" id="tab_1">
+					<div class="form-group">
+	                  <label for="_ip" class="col-sm-1 control-label">IP地址</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_ip"  name="comment.ip" value="${(comment.ip)!}">
+	                  </div>
+	                </div>
+					<div class="form-group">
+	                  <label for="_flag" class="col-sm-1 control-label">Flag</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_flag"  name="comment.flag" value="${(comment.flag)!}">
+	                  </div>
+	                </div>
+				</div>
+				<!-- /.tab-pane -->
+				<div class="tab-pane jp-prop-box form-horizontal" id="tab_seo">
+					<div class="form-group">
+	                  <label for="_vote_up" class="col-sm-1 control-label">支持</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_vote_up"  name="comment.vote_up" value="${(comment.vote_up)!}">
+	                  </div>
+	                </div>
+					<div class="form-group">
+	                  <label for="_vote_down" class="col-sm-1 control-label">反对</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_vote_down"  name="comment.vote_down" value="${(comment.vote_down)!}">
+	                  </div>
+	                </div>
+				</div>
+				<div class="tab-pane jp-prop-box form-horizontal" id="tab_position">
+					<div class="form-group">
+	                  <label for="_lng" class="col-sm-1 control-label">经度</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_lng"  name="comment.lng" value="${(comment.lng)!}">
+	                  </div>
+	                </div>
+					<div class="form-group">
+	                  <label for="_lat" class="col-sm-1 control-label">纬度</label>
+	                  <div class="col-sm-11">
+	                    <input type="text" class="form-control"  id="_lat"  name="comment.lat" value="${(comment.lat)!}">
+	                  </div>
+	                </div>
+				</div>
+				<div class="tab-pane" id="tab_metadata">元数据</div>
+				<!-- /.tab-pane -->
+			</div>
+			<!-- /.tab-content -->
+		</div>
+		<!-- nav-tabs-custom -->
+	</div>
+</div>

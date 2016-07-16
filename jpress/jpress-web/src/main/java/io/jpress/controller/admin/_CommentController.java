@@ -16,10 +16,15 @@
 package io.jpress.controller.admin;
 
 import java.math.BigInteger;
+import java.util.Date;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -168,5 +173,33 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public void reply_layer(){
 		BigInteger id = getParaToBigInteger("id");
 		setAttr("comment", CommentQuery.me().findById(id));
+	}
+	
+	
+	public void reply(){
+		Comment comment = getModel(Comment.class);
+		
+		comment.setType(Comment.TYPE_COMMENT);
+		comment.setIp(getIPAddress());
+		comment.setAgent(getUserAgent());
+		User user = getAttr(Consts.ATTR_USER);
+		String author = StringUtils.isNotBlank(user.getNickname()) ? user.getNickname() : user.getUsername();
+		comment.setAuthor(author);
+		comment.setEmail(user.getEmail());
+		comment.setStatus(Comment.STATUS_NORMAL);
+		comment.setUserId(user.getId());
+		comment.setCreated(new Date());
+
+		
+		String text = comment.getText();
+		if (null != text && !"".equals(text)) {
+			Document document = Jsoup.parse(text);
+			if (null != document && document.body() != null) {
+				comment.setText(document.body().html().toString());
+			}
+		}
+		
+		comment.save();
+		renderAjaxResultForSuccess();
 	}
 }

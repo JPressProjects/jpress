@@ -23,7 +23,6 @@ import io.jpress.core.JpressConfig;
 import io.jpress.core.db.DbDialectFactory;
 import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.plugin.search.SearcherFactory;
-import io.jpress.ui.freemarker.function.ContentUrl;
 import io.jpress.ui.freemarker.function.OptionChecked;
 import io.jpress.ui.freemarker.function.OptionValue;
 import io.jpress.ui.freemarker.function.TaxonomyBox;
@@ -55,7 +54,6 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());
 		Jpress.addFunction("checked", new OptionChecked());
-		Jpress.addFunction("contentUrl", new ContentUrl());
 
 		searcherConfig();
 	}

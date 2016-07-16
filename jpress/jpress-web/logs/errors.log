@@ -1,3 +1,0 @@
-
-2016-07-12 19:43:52
-[WARN]-[Thread: localhost-startStop-1]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: The index for data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.data is out of date, probably due to an unclean shutdown. Deleting index file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.index

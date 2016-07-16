@@ -15,8 +15,11 @@
  */
 package io.jpress.model;
 
+import java.math.BigInteger;
+
 import io.jpress.model.base.BaseComment;
 import io.jpress.model.core.Table;
+import io.jpress.model.query.ContentQuery;
 
 @Table(tableName = "comment", primaryKey = "id")
 public class Comment extends BaseComment<Comment> {
@@ -26,8 +29,6 @@ public class Comment extends BaseComment<Comment> {
 	public static String STATUS_DELETE = "delete";
 	public static String STATUS_DRAFT = "draft";
 	public static String STATUS_NORMAL = "normal";
-
-
 
 	public String getUsername() {
 		return get("username");
@@ -39,5 +40,14 @@ public class Comment extends BaseComment<Comment> {
 
 	public boolean isDelete() {
 		return STATUS_DELETE.equals(getStatus());
+	}
+
+	public String getContentUrl() {
+		BigInteger contentId = getContentId();
+		if (contentId == null)
+			return null;
+
+		Content c = ContentQuery.me().findById(contentId);
+		return c == null ? null : c.getUrl();
 	}
 }

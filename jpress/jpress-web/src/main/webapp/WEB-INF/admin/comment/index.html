@@ -173,7 +173,9 @@ function reply(id){
 							</div>
 							</td>
 
-						<td>${bean.content_title!}</td>
+						<td>
+						<a href="${bean.contentUrl!}" target="_blank">${bean.content_title!}</a>
+						</td>
 						<td>${bean.comment_count!}</td>
 						<td>${bean.created!}</td>
 					</tr>

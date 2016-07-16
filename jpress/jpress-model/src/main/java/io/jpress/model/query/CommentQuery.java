@@ -35,10 +35,15 @@ public class CommentQuery extends JBaseQuery {
 	public Page<Comment> paginateWithContent(int pageNumber, int pageSize, String module, String type,
 			BigInteger contentId, String status) {
 
-		String select = " select c.*,content.title content_title,u.username,u.nickname";
+		String select = " select c.*,content.title content_title,u.username,u.nickname,"
+				+ "quote_comment.text qc_content,quote_comment.author qc_author,"
+				+ "quote_user.username qc_username,quote_user.nickname qc_nickname";
+		
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
+		fromBuilder.append(" left join comment quote_comment on c.parent_id = quote_comment.id");
+		fromBuilder.append(" left join user quote_user on quote_comment.user_id = quote_user.id ");
 
 		LinkedList<Object> params = new LinkedList<Object>();
 		boolean needWhere = true;

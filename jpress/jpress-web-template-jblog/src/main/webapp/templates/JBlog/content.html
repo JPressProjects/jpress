@@ -11,6 +11,9 @@ $(document).ready(function() {
   });
   $('video,audio').mediaelementplayer();
 });
+function reply(id){
+	$("#parent_id").val(id);
+}
 </#macro> 
 <#macro css_import>
 <link rel="stylesheet" href="${TPATH}/assets/highlight/styles/zenburn.css">
@@ -55,6 +58,7 @@ $(document).ready(function() {
     <form action="${CPATH}/comment/submit" method="post"  id="comment">
     <input type="hidden" name="cid" value="${(content.id)!}" >
     <input type="hidden" name="anchor" value="comment" >
+    <input type="hidden" id="parent_id" name="parent_id" >
     <div class="x-white-box">
       <h3 class="x-box-title">
         发表评论
@@ -83,11 +87,21 @@ $(document).ready(function() {
         </a>
         </div>
         <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border comment">
-          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.author!comment.nickname!comment.username!} <span class="x-font-grey">${comment.created?string('yyyy-MM-dd')!}</span></p>
+          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.author!comment.nickname!comment.username!} 
+          <span class="x-font-grey">${comment.created?string('yyyy-MM-dd')!}</span>
+          </p>
+          
+          <#if comment.qc_content ??>
+          <div class="jblog-comment-replay">
+          	<h4>引用来之于${comment.qc_author!}的内容</h4>
+          	${comment.qc_content!}
+          </div>
+          </#if>
+          
           <p>${comment.text!}</p>
         </div>
         <div class="x-layout-100 clearfix">
-          <p class="x-pull-right"><a href="#">回复</a></p>
+          <p class="x-pull-right"><a href="#comment" onclick="reply('${comment.id!}')">回复</a></p>
         </div>
       </div>
 	  </#list>

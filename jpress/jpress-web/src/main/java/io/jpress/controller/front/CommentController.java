@@ -110,6 +110,8 @@ public class CommentController extends BaseFrontController {
 			String defautAuthor = OptionQuery.me().findValue("comment_default_nickname");
 			author = StringUtils.isNotBlank(defautAuthor) ? defautAuthor : "网友";
 		}
+		
+		BigInteger parentId = getParaToBigInteger("parent_id");
 
 		final Comment comment = new Comment();
 		comment.setContentModule(content.getModule());
@@ -124,6 +126,7 @@ public class CommentController extends BaseFrontController {
 		comment.setStatus(status);
 		comment.setUserId(userId);
 		comment.setCreated(new Date());
+		comment.setParentId(parentId);
 
 		if (comment.save()) {
 			MessageKit.sendMessage(Actions.COMMENT_ADD, comment);

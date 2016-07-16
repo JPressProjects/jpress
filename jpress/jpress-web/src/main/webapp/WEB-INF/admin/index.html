@@ -49,6 +49,22 @@ function del(id){
 		}
 	});
 }
+
+function reply(id){
+ 	layer.open({
+			    type: 2,
+			    title: '查看附件',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['70%', '70%'],
+			    content: '${CPATH}/admin/comment/reply_layer?id='+id,
+			    end:function(){
+			    	location.reload();
+			    }
+			}); 
+ 
+ }
+
 </#macro> 
 <@layout active_id="dashboard" >
 <!-- Content Header (Page header) -->
@@ -164,10 +180,11 @@ function del(id){
 							</p>
 							<p>${comment.text!} </p>
 							<p class="comment-item-actions">
+								<span ><a class="comment-item-blue" href="javascript:reply(${comment.id})">回复</a></span>
 								<#if "draft" != comment.status!>
-								<span ><a class="comment-item-blue" href="javascript:draft(${comment.id})">移至待审核</a></span>
+								<span >|<a class="comment-item-blue" href="javascript:draft(${comment.id})">移至待审核</a></span>
 								<#else>
-								<span ><a class="comment-item-green" href="javascript:pub(${comment.id})">批准发布</a></span>
+								<span >|<a class="comment-item-green" href="javascript:pub(${comment.id})">批准发布</a></span>
 								</#if>
 								<span >|<a class="comment-item-red" href="javascript:trash(${comment.id})">移至垃圾箱</a></span> 
 								<span >|<a class="comment-item-red" href="javascript:del(${comment.id})">永久删除</a></span> 

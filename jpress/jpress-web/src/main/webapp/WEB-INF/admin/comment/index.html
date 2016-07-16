@@ -49,6 +49,22 @@ function del(id){
 		}
 	});
 }
+
+function reply(id){
+ 	layer.open({
+			    type: 2,
+			    title: '查看附件',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['70%', '70%'],
+			    content: '${CPATH}/admin/comment/reply_layer?id='+id,
+			    end:function(){
+			    	location.reload();
+			    }
+			}); 
+ 
+ }
+ 
 </#macro> 
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -136,12 +152,13 @@ function del(id){
 								</strong>
 							<div class="jp-flash-comment">
 								<p class="row-actions jp-cancel-pad">
+									<span class="approve"><a class="vim-a" href="javascript:reply(${bean.id})">回复</a></span> 
 									<#if "draft" == s!> 
-									<span class="approve"><a class="vim-a" href="${CPATH}/admin/comment/edit?id=${bean.id!}&p=${(p)!}&c=${(c)!}">编辑</a></span> 
+									<span class="approve">|<a class="vim-a" href="${CPATH}/admin/comment/edit?id=${bean.id!}&p=${(p)!}&c=${(c)!}">编辑</a></span> 
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:pub(${bean.id})">允许发布</a></span> 
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a></span> 
 									<#elseif "delete" != s!> 
-									<span class="approve"><a class="vim-a" href="${CPATH}/admin/comment/edit?id=${bean.id!}&p=${(p)!}&c=${(c)!}">编辑</a></span> 
+									<span class="approve">|<a class="vim-a" href="${CPATH}/admin/comment/edit?id=${bean.id!}&p=${(p)!}&c=${(c)!}">编辑</a></span> 
 									<#if "draft" != bean.status!>
 									<span class="spam">|<a class="vim-s vim-destructive" href="javascript:draft(${bean.id})">待审核</a></span>
 									<#else>

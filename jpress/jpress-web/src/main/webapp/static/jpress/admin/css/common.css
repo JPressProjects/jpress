@@ -433,6 +433,7 @@ input[type="number"] {
 	color: #555;
 	background: #fff;
 	line-height: 20px;
+	min-height: 40px;
 }
 
 .jp-content-select-box {

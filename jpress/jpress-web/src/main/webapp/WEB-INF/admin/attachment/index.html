@@ -6,10 +6,10 @@ function openlayer(id){
 	reload = false;
  	layer.open({
 			    type: 2,
-			    title: '查看附件',
+			    title: '回复评论',
 			    shadeClose: true,
 			    shade: 0.8,
-			    area: ['70%', '70%'],
+			    area: ['70%', '90%'],
 			    content: '${CPATH}/admin/attachment/detail_layer?id='+id,
 			    end:function(){
 			    	if(reload){

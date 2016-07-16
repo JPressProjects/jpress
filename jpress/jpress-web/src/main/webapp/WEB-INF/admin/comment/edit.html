@@ -89,6 +89,13 @@ function save(){
     width: 100%;
     vertical-align: middle;
 }
+
+.mybox label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
 </#macro>
 <@layout active_id=p child_active_id=c>
 <!-- Content Header (Page header) -->
@@ -122,7 +129,7 @@ function save(){
 			
 			<div class="box box-solid">
 				<div class="box-header with-border">
-					<h3 class="box-title">昵称</h3>
+					<h3 class="box-title">用户</h3>
 					<div class="box-tools">
 						<button type="button" class="btn btn-box-tool" data-widget="collapse">
 							<i class="fa fa-minus"></i>
@@ -130,17 +137,19 @@ function save(){
 					</div>
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body no-padding ">
-					<div class="nav-tabs-custom1">
-						<ul class="nav">
-							<li>
-								<div class="form-group">
-									<textarea name="comment.author"  class="form-control "></textarea>
-								</div>
-								<div class="clr"></div>
-							</li>
-						</ul>
-					</div>
+				<div class="box-body  mybox">
+		                <div class="form-group">
+		                  <label for="_user" >评论作者昵称</label>
+		                   <input type="text" class="form-control"  id="_author" name="comment.author" value="${(comment.author)!}">
+		                </div>
+		                <div class="form-group">
+		                  <label for="_email" >评论作者邮箱</label>
+		                   <input type="text" class="form-control"  id="_email"  name="comment.email" value="${(comment.email)!}">
+		                </div>
+		                <div class="form-group">
+		                  <label for="_user" >评论用户</label>
+		                   <input type="text" class="form-control"  id="_user"  name="username" value="${(comment.username)!}">
+		                </div>
 				</div>
 				<!-- /.box-body -->
 			</div>

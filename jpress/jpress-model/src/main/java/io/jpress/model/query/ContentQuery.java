@@ -271,11 +271,11 @@ public class ContentQuery extends JBaseQuery {
 		needWhere = appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, needWhere);
 
 		if (null != tags && tags.length > 0) {
-			needWhere = appendIfNotEmpty(sqlBuilder, "t.name", tags, params, needWhere);
+			needWhere = appendIfNotEmpty(sqlBuilder, "t.title", tags, params, needWhere);
 			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
 		}
 
-		if (null != keyword && !"".equals(keyword.trim())) {
+		if (StringUtils.isNotBlank(keyword)) {
 			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
 			sqlBuilder.append(" c.title like ?");
 			params.add("%" + keyword + "%");

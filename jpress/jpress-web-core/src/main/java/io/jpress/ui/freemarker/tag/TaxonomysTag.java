@@ -31,8 +31,9 @@ public class TaxonomysTag extends JTag {
 
 		String module = getParam("module");
 		String type = getParam("type");
+		String orderby = getParam("orderby");
 
-		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, count);
+		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, count);
 		setVariable("taxonomys", list);
 		renderBody();
 	}

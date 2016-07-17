@@ -23,6 +23,7 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
+import io.jpress.utils.StringUtils;
 
 public class TaxonomyQuery extends JBaseQuery {
 
@@ -54,17 +55,19 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	public List<Taxonomy> findListByModuleAndType(String module, String type) {
-		return findListByModuleAndType(module, type, null);
+		return findListByModuleAndType(module, type, null, null);
 	}
 
-	public List<Taxonomy> findListByModuleAndType(String module, String type, Integer limit) {
+	public List<Taxonomy> findListByModuleAndType(String module, String type, String orderby ,Integer limit) {
 
-		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy ");
+		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy t");
 
 		boolean needWhere = true;
 		List<Object> params = new LinkedList<Object>();
-		needWhere = appendIfNotEmpty(sqlBuilder, "content_module", module, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "type", type, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "t.content_module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "t.`type`", type, params, needWhere);
+		
+		buildOrderBy(orderby, sqlBuilder);
 
 		if (limit != null) {
 			sqlBuilder.append(" limit ? ");
@@ -116,6 +119,57 @@ public class TaxonomyQuery extends JBaseQuery {
 
 	public boolean deleteById(BigInteger id) {
 		return DAO.deleteById(id);
+	}
+	
+	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+
+		if (!StringUtils.isNotBlank(orderBy)) {
+			fromBuilder.append(" ORDER BY t.created DESC");
+			return;
+		}
+
+		// maybe orderby == "view_count desc";
+		String orderbyInfo[] = orderBy.trim().split("\\s+");
+		orderBy = orderbyInfo[0];
+
+		if ("title".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.title ");
+		}
+
+		else if ("slug".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.slug ");
+		}
+
+		else if ("content_count".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.content_count ");
+		}
+
+		else if ("order_number".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.order_number ");
+		}
+
+		else if ("parent_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.parent_id ");
+		}
+
+		else if ("object_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.object_id ");
+		}
+
+		else if ("text".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY t.text ");
+		}
+
+		else {
+			fromBuilder.append(" ORDER BY t.created ");
+		}
+
+		if (orderbyInfo.length == 1) {
+			fromBuilder.append(" DESC ");
+		} else {
+			fromBuilder.append(orderbyInfo[1]);
+		}
+
 	}
 
 }

@@ -16,6 +16,7 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
@@ -53,11 +54,24 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	public List<Taxonomy> findListByModuleAndType(String module, String type) {
-		return DAO.doFind("content_module = ? and type = ?", module, type);
+		return findListByModuleAndType(module, type, null);
 	}
 
-	public List<Taxonomy> findListByModuleAndType(String module, String type, int limit) {
-		return DAO.doFind("content_module = ? and type = ? limit ?", module, type, limit);
+	public List<Taxonomy> findListByModuleAndType(String module, String type, Integer limit) {
+
+		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy ");
+
+		boolean needWhere = true;
+		List<Object> params = new LinkedList<Object>();
+		needWhere = appendIfNotEmpty(sqlBuilder, "content_module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "type", type, params, needWhere);
+
+		if (limit != null) {
+			sqlBuilder.append(" limit ? ");
+			params.add(limit);
+		}
+
+		return DAO.find(sqlBuilder.toString(), params.toArray());
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {

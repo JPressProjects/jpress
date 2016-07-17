@@ -29,6 +29,7 @@ import io.jpress.ui.freemarker.function.TaxonomyBox;
 import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModuleTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
+import io.jpress.ui.freemarker.tag.TaxonomysTag;
 import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
@@ -50,6 +51,7 @@ public class Config extends JpressConfig {
 		Jpress.addTag("jp_contents", new ContentsTag());
 		Jpress.addTag("jp_module", new ModuleTag());
 		Jpress.addTag("jp_tags", new TagsTag());
+		Jpress.addTag("jp_taxonomys", new TaxonomysTag());
 
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());

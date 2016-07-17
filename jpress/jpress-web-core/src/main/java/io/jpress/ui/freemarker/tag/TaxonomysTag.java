@@ -21,7 +21,7 @@ import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
 
-public class TaxonomyTag extends JTag {
+public class TaxonomysTag extends JTag {
 
 	@Override
 	public void onRender() {

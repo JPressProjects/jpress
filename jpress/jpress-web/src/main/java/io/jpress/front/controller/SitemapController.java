@@ -16,6 +16,7 @@
 package io.jpress.front.controller;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -34,18 +35,21 @@ import io.jpress.utils.StringUtils;
 @RouterMapping(url = "/sitemap")
 public class SitemapController extends Controller {
 	private static final String contentType = "text/xml; charset=" + Consts.CHARTSET_UTF8;
+	
+	static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:ss:mm'Z'");
 
 	@ActionCache
 	public void index() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildSitemapHeader(xmlBuilder);
 		String domain = OptionQuery.me().findValue("web_domain");
+		if(!StringUtils.isNotBlank(domain)) domain = "";
 
-		buildSitemap(xmlBuilder, domain + "/sitemap/site", new Date().toString());
+		buildSitemap(xmlBuilder, domain + "/sitemap/site", format.format(new Date()));
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findAll();
 		if (taxonomys != null && !taxonomys.isEmpty()) {
 			for (Taxonomy t : taxonomys) {
-				buildSitemap(xmlBuilder, domain + "/sitemap/taxonomy/" + t.getId(), new Date().toString());
+				buildSitemap(xmlBuilder, domain + "/sitemap/taxonomy/" + t.getId(), format.format(new Date()));
 			}
 		}
 		buildSitemapFooter(xmlBuilder);
@@ -56,7 +60,7 @@ public class SitemapController extends Controller {
 	public void site() {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
-		buildUrl(xmlBuilder, OptionQuery.me().findValue("web_domain"), new Date().toString(), "always", "1.0");
+		buildUrl(xmlBuilder, OptionQuery.me().findValue("web_domain"), format.format(new Date()), "always", "1.0");
 		buildUrlsetFooter(xmlBuilder);
 		renderText(xmlBuilder.toString(), contentType);
 	}
@@ -75,7 +79,7 @@ public class SitemapController extends Controller {
 		List<Content> contents = ContentQuery.me().findListInNormal(1, 500, id, null);
 		if (contents != null && !contents.isEmpty()) {
 			for (Content c : contents) {
-				buildUrl(xmlBuilder, domain + c.getUrl(), new Date().toString(), "daily", "1.0");
+				buildUrl(xmlBuilder, domain + c.getUrl(), format.format(new Date()), "daily", "1.0");
 			}
 		}
 		buildUrlsetFooter(xmlBuilder);

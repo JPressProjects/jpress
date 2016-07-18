@@ -15,12 +15,11 @@
  */
 package io.jpress.plugin.message;
 
-import java.util.EventListener;
+public abstract class BaseMessageListener implements MessageListener {
 
-public interface MessageListener extends EventListener {
-	
-	public void onMessage(Message message);
-	public void onRegisterAction(MessageAction messageAction);
-	public int onGetWeight();
+	@Override
+	public int onGetWeight() {
+		return 50;
+	}
 
 }

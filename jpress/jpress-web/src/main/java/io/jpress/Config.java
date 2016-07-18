@@ -27,7 +27,7 @@ import io.jpress.ui.freemarker.function.OptionChecked;
 import io.jpress.ui.freemarker.function.OptionValue;
 import io.jpress.ui.freemarker.function.TaxonomyBox;
 import io.jpress.ui.freemarker.tag.ContentsTag;
-import io.jpress.ui.freemarker.tag.ModuleTag;
+import io.jpress.ui.freemarker.tag.ModulesTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
 import io.jpress.utils.StringUtils;
@@ -49,7 +49,7 @@ public class Config extends JpressConfig {
 	public void onJfinalStartAfter() {
 
 		Jpress.addTag("jp_contents", new ContentsTag());
-		Jpress.addTag("jp_module", new ModuleTag());
+		Jpress.addTag("jp_modules", new ModulesTag());
 		Jpress.addTag("jp_tags", new TagsTag());
 		Jpress.addTag("jp_taxonomys", new TaxonomysTag());
 
@@ -59,6 +59,7 @@ public class Config extends JpressConfig {
 
 		searcherConfig();
 	}
+
 
 	private void searcherConfig() {
 		if (!Jpress.isInstalled()) {
@@ -76,5 +77,6 @@ public class Config extends JpressConfig {
 			DbDialectFactory.use(dialect);
 		}
 	}
+	
 
 }

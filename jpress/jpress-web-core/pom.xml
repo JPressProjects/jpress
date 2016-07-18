@@ -42,6 +42,11 @@
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jfinal-weixin</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>io.jpress</groupId>

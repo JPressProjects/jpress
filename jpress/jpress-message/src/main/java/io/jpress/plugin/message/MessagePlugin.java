@@ -16,6 +16,7 @@
 package io.jpress.plugin.message;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,6 +71,12 @@ public class MessagePlugin implements IPlugin {
 			if (!list.contains(listener)) {
 				list.add(listener);
 			}
+			list.sort(new Comparator<MessageListener>() {
+				@Override
+				public int compare(MessageListener o1, MessageListener o2) {
+					return o2.onGetWeight() - o1.onGetWeight();
+				}
+			});
 			listenerMap.put(action, list);
 		}
 
@@ -81,6 +88,12 @@ public class MessagePlugin implements IPlugin {
 			if (!list.contains(listener)) {
 				list.add(listener);
 			}
+			list.sort(new Comparator<MessageListener>() {
+				@Override
+				public int compare(MessageListener o1, MessageListener o2) {
+					return o2.onGetWeight() - o1.onGetWeight();
+				}
+			});
 			syncListenerMap.put(action, list);
 		}
 	}

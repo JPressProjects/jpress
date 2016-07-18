@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.listener;
 
-import java.util.EventListener;
+import io.jpress.plugin.message.Actions;
+import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Message;
+import io.jpress.plugin.message.MessageAction;
 
-public interface MessageListener extends EventListener {
-	
-	public void onMessage(Message message);
-	public void onRegisterAction(MessageAction messageAction);
-	public int onGetWeight();
+public class SettingChangedListener extends BaseMessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+//		List<String> keys = message.getData();
+		//do thing
+	}
+
+	@Override
+	public void onRegisterAction(MessageAction messageAction) {
+		messageAction.register(Actions.SETTING_CHANGED);
+	}
 
 }

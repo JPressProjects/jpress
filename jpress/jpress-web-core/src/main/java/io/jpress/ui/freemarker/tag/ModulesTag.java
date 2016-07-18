@@ -13,14 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.ui.freemarker.tag;
 
-import java.util.EventListener;
+import java.util.List;
 
-public interface MessageListener extends EventListener {
-	
-	public void onMessage(Message message);
-	public void onRegisterAction(MessageAction messageAction);
-	public int onGetWeight();
+import io.jpress.core.render.freemarker.JTag;
+import io.jpress.template.Module;
+import io.jpress.template.Template;
+import io.jpress.template.TemplateUtils;
+
+public class ModulesTag extends JTag {
+
+	@Override
+	public void onRender() {
+
+		Template t = TemplateUtils.currentTemplate();
+
+		if (t != null) {
+			List<Module> modules = t.getModules();
+			setVariable("modules", modules);
+			renderBody();
+		} else {
+			renderText("");
+		}
+	}
 
 }

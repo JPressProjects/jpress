@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.front.controller;
 
-import java.util.EventListener;
+import com.jfinal.render.Render;
 
-public interface MessageListener extends EventListener {
-	
-	public void onMessage(Message message);
-	public void onRegisterAction(MessageAction messageAction);
-	public int onGetWeight();
+import io.jpress.core.JBaseController;
+import io.jpress.core.addon.HookInvoker;
+import io.jpress.router.RouterMapping;
 
+@RouterMapping(url = "/addon")
+public class AddonController extends JBaseController {
+
+	public void index() {
+		Render render = HookInvoker.processController(this);
+		if (null == render) {
+			renderError(404);
+			return;
+		}
+
+		render(render);
+	}
 }

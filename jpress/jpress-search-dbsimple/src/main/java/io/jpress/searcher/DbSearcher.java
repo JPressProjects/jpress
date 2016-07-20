@@ -72,7 +72,7 @@ public class DbSearcher implements ISearcher {
 		if (list != null) {
 			datas = new ArrayList<SearcherBean>();
 			for (Content c : list) {
-				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getText(), c.getText(), null, null,c.getUrl(),c.getCreated()));
+				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getSummary(), c.getText(), null, null,c.getUrl(),c.getCreated()));
 			}
 		}
 		return datas;

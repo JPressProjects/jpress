@@ -30,6 +30,7 @@ import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
+import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
 import io.jpress.model.utils.TaxonomyRouter;
@@ -304,7 +305,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 		String nameOfImageSrc = thumbnail.getUrl(imageSrc);
 
-		if (new File(PathKit.getWebRootPath(), nameOfImageSrc.substring(JFinal.me().getContextPath().length())).exists()) {
+		if (new File(PathKit.getWebRootPath(), nameOfImageSrc.substring(JFinal.me().getContextPath().length()))
+				.exists()) {
 			return nameOfImageSrc;
 		}
 
@@ -346,6 +348,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public String getSummary() {
 		return summaryWithLen(100);
+	}
+
+	public String metadata(String key) {
+		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		if (m != null) {
+			return m.getMetaValue();
+		}
+		return null;
 	}
 
 }

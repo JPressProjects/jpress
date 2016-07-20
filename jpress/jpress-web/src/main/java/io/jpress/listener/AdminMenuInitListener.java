@@ -110,8 +110,8 @@ public class AdminMenuInitListener extends BaseMessageListener {
 
 		{
 			group.addMenuItem(new MenuItem("list", "/admin/user", "所有用户"));
-			group.addMenuItem(new MenuItem("edit", "/admin/edit", "添加"));
-			group.addMenuItem(new MenuItem("info", "/admin/info", "我的资料"));
+			group.addMenuItem(new MenuItem("edit", "/admin/user/edit", "添加"));
+			group.addMenuItem(new MenuItem("info", "/admin/user/info", "我的资料"));
 		}
 		return group;
 	}

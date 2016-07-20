@@ -60,8 +60,7 @@ public class VisitorCounter extends JBaseController {
 
 	public static long getVisitorCount(BigInteger id) {
 		Long visitorCount = CacheKit.get(CACHE_NAME, CID + id);
-		visitorCount = visitorCount == null ? 0 : visitorCount;
-		return visitorCount;
+		return visitorCount == null ? 0 : visitorCount;
 	}
 	
 	public static void clearVisitorCount(BigInteger id) {

@@ -93,7 +93,7 @@ function save(){
 			<!-- /.col -->
 			<div class="col-md-12">
 				<div class="form-group">
-					您准备回复 ${comment.author!}在文章《<a href="${(contentUrl(comment.content_id))!}" target="_blank">${comment.content_title!}</a>》评论的如下内容：<br />
+					您准备回复 ${comment.author!}在文章《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》评论的如下内容：<br />
 					${(comment.text)!}
 				</div>
 				<div class="box box-solid">

@@ -172,7 +172,7 @@ function reply(id){
 						<div class="comment-item-content">
 							<p>
 								<a href="#"> ${comment.username!} </a>
-								评论了 <span>《<a href="${(contentUrl(comment.content_id!))!}" target="_blank">${comment.content_title!}</a>》
+								评论了 <span>《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》
 								评论状态：
 							<#if "normal" == comment.status!><a class="comment-item-green" href="javascript:;"> √ 通过审核</a></#if>
 							<#if "draft" == comment.status!><a class="comment-item-red" href="javascript:;">待审核...</a></#if>

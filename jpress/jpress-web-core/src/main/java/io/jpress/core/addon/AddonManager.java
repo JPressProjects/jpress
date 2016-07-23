@@ -17,6 +17,7 @@ package io.jpress.core.addon;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,9 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
 import io.jpress.model.query.OptionQuery;
+import io.jpress.plugin.message.MessageKit;
+import io.jpress.plugin.message.MessageListener;
+import io.jpress.utils.ClassScaner;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -139,6 +143,18 @@ public class AddonManager {
 					if (start != null && start == true) {
 						if (addon.start()) {// 启动成功
 							startedAddonList.add(addon);
+
+							List<Class<MessageListener>> list = null;
+							try {
+								list = ClassScaner.scanSubClass(MessageListener.class, new JarFile(file), true);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							if (list != null && list.size() > 0) {
+								for (Class<MessageListener> clazz : list) {
+									MessageKit.register(clazz);
+								}
+							}
 						}
 					}
 				}

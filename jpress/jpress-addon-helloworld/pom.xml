@@ -45,7 +45,7 @@
 
 		<dependency>
 			<groupId>io.jpress</groupId>
-			<artifactId>jpress-addon</artifactId>
+			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>

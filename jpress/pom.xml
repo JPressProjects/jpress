@@ -19,7 +19,6 @@
 		<module>jpress-search-api</module>
 		<module>jpress-model</module>
 		<module>jpress-consts</module>
-		<module>jpress-addon</module>
 		<module>jpress-web-template-jblog</module>
 		<module>jpress-web-template-the3</module>
 		<module>jpress-search-dbsimple</module>

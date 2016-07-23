@@ -156,14 +156,6 @@
 
 		<dependency>
 			<groupId>io.jpress</groupId>
-			<artifactId>jpress-addon</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>

@@ -22,6 +22,8 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.render.Render;
 
+import io.jpress.menu.MenuManager;
+
 public class HookInvoker {
 
 	public static String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
@@ -58,6 +60,14 @@ public class HookInvoker {
 	
 	public static void contentRenderAfter(Controller controller) {
 		AddonManager.get().invokeHook("contentRenderAfter", controller);
+	}
+	
+	public static void menuInitBefore(MenuManager menuManager){
+		AddonManager.get().invokeHook("menuInitBefore", menuManager);
+	}
+	
+	public static void menuInitAfter(MenuManager menuManager){
+		AddonManager.get().invokeHook("menuInitAfter", menuManager);
 	}
 
 }

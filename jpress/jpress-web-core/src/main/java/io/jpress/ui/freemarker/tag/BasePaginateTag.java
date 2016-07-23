@@ -21,6 +21,8 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
+import io.jpress.model.query.OptionQuery;
+import io.jpress.utils.StringUtils;
 
 public abstract class BasePaginateTag extends JTag {
 
@@ -104,6 +106,19 @@ public abstract class BasePaginateTag extends JTag {
 
 		setVariable("pageItems", pages);
 		renderBody();
+	}
+	
+	protected static boolean enalbleFakeStatic() {
+		Boolean fakeStaticEnable = OptionQuery.me().findValueAsBool("router_fakestatic_enable");
+		return fakeStaticEnable != null && fakeStaticEnable == true;
+	}
+
+	protected static String getFakeStaticSuffix() {
+		String fakeStaticSuffix = OptionQuery.me().findValue("router_fakestatic_suffix");
+		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
+			return fakeStaticSuffix.trim();
+		}
+		return ".html";
 	}
 
 

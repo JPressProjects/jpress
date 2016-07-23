@@ -22,22 +22,6 @@ import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.query.CommentQuery;
 
-/**
- * @title Content 标签
- * @author Michael Yang （http://www.yangfuhai.com）
- * @version 1.0
- * @created 2016年2月19日
- * 
- *          使用方法：<br />
- *          <@jp_commentpage page="" pagesize="" module="article" orderby ><br>
- *          <br>
- *          <#list page.getList() as content><br>
- *          ${content.id} : ${content.title!} <br>
- *          </#list><br>
- *          <br>
- *          </@jp_commentpage>
- * 
- */
 public class CommentPageTag extends JTag {
 
 	Content content;

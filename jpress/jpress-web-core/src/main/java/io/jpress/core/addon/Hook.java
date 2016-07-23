@@ -22,6 +22,8 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.render.Render;
 
+import io.jpress.menu.MenuManager;
+
 
 /**
  * Hook的定义，插件钩子都要继承此类。 同时，此类的方法是从HookInvoker复制过来的，保证方法名和参数完全一致。
@@ -96,6 +98,14 @@ public class Hook {
 	}
 
 	public void contentRenderAfter(Controller controller) {
+		// do nothing
+	}
+	
+	public void menuInitBefore(MenuManager menuManager){
+		// do nothing
+	}
+	
+	public void menuInitAfter(MenuManager menuManager){
 		// do nothing
 	}
 

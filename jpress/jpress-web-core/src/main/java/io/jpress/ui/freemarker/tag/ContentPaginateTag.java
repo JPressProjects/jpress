@@ -20,7 +20,6 @@ import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
-import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class ContentPaginateTag extends BasePaginateTag {
@@ -53,19 +52,6 @@ public class ContentPaginateTag extends BasePaginateTag {
 			url += "#" + anchor;
 		}
 		return url;
-	}
-
-	protected static boolean enalbleFakeStatic() {
-		Boolean fakeStaticEnable = OptionQuery.me().findValueAsBool("router_fakestatic_enable");
-		return fakeStaticEnable != null && fakeStaticEnable == true;
-	}
-
-	protected static String getFakeStaticSuffix() {
-		String fakeStaticSuffix = OptionQuery.me().findValue("router_fakestatic_suffix");
-		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
-			return fakeStaticSuffix.trim();
-		}
-		return ".html";
 	}
 
 }

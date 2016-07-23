@@ -52,7 +52,7 @@ public class AdminInterceptor implements Interceptor {
 		if (user != null && user.isAdministrator()) {
 			controller.setAttr(Consts.ATTR_USER, user);
 			controller.setAttr("ucode", EncryptUtils.generateUcode(user.getId(),user.getSalt()));
-			controller.setAttr("_menu_html", MenuManager.me().html());
+			controller.setAttr("_menu_html", MenuManager.me().generateHtml());
 			inv.invoke();
 			return;
 		}

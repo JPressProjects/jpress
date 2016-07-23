@@ -87,21 +87,30 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 
 ## 模板开发
 ###模板结构
-JPress的模板结构如下：
+JPress的模板主要分为如下几类：
+> * 首页模板  (index.html)
+> * 分类页面模板 (taxonomy.html)
+> * 详情页模板 (content.html)
+> * 错误页模板 (404.html)
+> * 用户中心模板 (user_*.html)
+> * 搜索结果模板 (search.html)
+
+
+JPress的模板结构大概如下：
 
 ```
-404.html
-content.html
 index.html
 taxonomy.html
-tpl_config.xml
-tpl_screenshot.png
-tpl_setting.html
+content.html
+404.html
 user_center.html
 user_detail.html
 user_login.html
 user_register.html
 page_test.html
+tpl_config.xml
+tpl_screenshot.png
+tpl_setting.html
 ```
 
 * **index.html** 首页

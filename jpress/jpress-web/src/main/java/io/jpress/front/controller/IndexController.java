@@ -21,6 +21,7 @@ import io.jpress.core.addon.HookInvoker;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
+import io.jpress.ui.freemarker.tag.IndexPageTag;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/")
@@ -37,33 +38,55 @@ public class IndexController extends BaseFrontController {
 	}
 
 	private void doRender() {
-		String page = getPara();
-		if (StringUtils.isNotBlank(page)) {
-			render("page_" + page + ".html");
-		} else {
-			setGlobleAttrs();
+		setGlobleAttrs();
+
+		String para = getPara();
+
+		if (!StringUtils.isNotBlank(para)) {
+			setAttr("indexPage", new IndexPageTag(null, 1));
 			render("index.html");
+			return;
 		}
+
+		String[] paras = para.split("-");
+		if (paras.length == 1) {
+			if (!StringUtils.isNumeric(para.trim())) {
+				setAttr("indexPage", new IndexPageTag(para.trim(), 1));
+				render("page_" + para + ".html");
+			} else {
+				setAttr("indexPage", new IndexPageTag(null, StringUtils.toInt(para.trim(), 0)));
+				render("index.html");
+			}
+		} else if (paras.length == 2) {
+			if(!StringUtils.isNumeric(paras[1])){
+				renderError(404);
+			}
+			
+			setAttr("indexPage", new IndexPageTag(paras[0], StringUtils.toInt(paras[1], 1)));
+			render("page_" + paras[0] + ".html");
+		} else {
+			renderError(404);
+		}
+
 	}
-	
+
 	private void setGlobleAttrs() {
 		String title = OptionQuery.me().findValue("seo_index_title");
 		String keywords = OptionQuery.me().findValue("seo_index_keywords");
 		String description = OptionQuery.me().findValue("seo_index_description");
-		
-		if(StringUtils.isNotBlank(title)){
+
+		if (StringUtils.isNotBlank(title)) {
 			setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, title);
 		}
-		
-		if(StringUtils.isNotBlank(keywords)){
+
+		if (StringUtils.isNotBlank(keywords)) {
 			setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, keywords);
 		}
-		
-		if(StringUtils.isNotBlank(description)){
+
+		if (StringUtils.isNotBlank(description)) {
 			setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, description);
 		}
 	}
-
 
 	private void onRenderBefore() {
 		HookInvoker.indexRenderBefore(this);

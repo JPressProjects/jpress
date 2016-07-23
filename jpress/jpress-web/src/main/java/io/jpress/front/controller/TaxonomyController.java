@@ -68,13 +68,6 @@ public class TaxonomyController extends BaseFrontController {
 		
 		setAttr("contentPage", new ContentPageTag(pageNumber, moduleName, taxonomy));
 
-//		BigInteger[] tids = taxonomy == null ? null : new BigInteger[]{taxonomy.getId()};
-//		Page<Content> page = ContentQuery.paginate(pageNumber, 10, moduleName,null, Content.STATUS_NORMAL, tids, null, null);
-//		setAttr("page", page);
-//
-//		TaxonomyPaginateTag tpt = new TaxonomyPaginateTag(page, moduleName, taxonomy);
-//		setAttr("pagination", tpt);
-
 		if (null == taxonomy) {
 			render(String.format("taxonomy_%s.html", moduleName));
 		} else {
@@ -104,7 +97,7 @@ public class TaxonomyController extends BaseFrontController {
 
 		if (getParaCount() == 2) {
 			String pageNumberOrSlug = getPara(1);
-			if (StringUtils.toInt(pageNumberOrSlug, 0) > 0) {
+			if (StringUtils.isNumeric(pageNumberOrSlug)) {
 				pageNumber = StringUtils.toInt(pageNumberOrSlug, 0);
 			} else {
 				slug = pageNumberOrSlug;

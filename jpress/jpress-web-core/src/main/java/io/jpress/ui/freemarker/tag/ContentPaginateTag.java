@@ -15,107 +15,29 @@
  */
 package io.jpress.ui.freemarker.tag;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
-import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
-public class ContentPaginateTag extends JTag {
+public class ContentPaginateTag extends BasePaginateTag {
 
-	final Page<Content> page;
 	final String moduleName;
 	final Taxonomy taxonomy;
 
-	String previous;
-	String next;
-	String active;
-	String disabled;
-	String anchor;
-
 	public ContentPaginateTag(Page<Content> page, String moduleName, Taxonomy taxonomy) {
-		this.page = page;
+		super(page);
 		this.moduleName = moduleName;
 		this.taxonomy = taxonomy;
 	}
+	
+	
 
 	@Override
-	public void onRender() {
-
-		previous = getParam("previous", "previous");
-		next = getParam("next", "next");
-		active = getParam("active", "active");
-		disabled = getParam("disabled", "disabled");
-		anchor = getParam("anchor");
-
-		int currentPage = page.getPageNumber();
-		int totalPage = page.getTotalPage();
-
-		if ((totalPage <= 0) || (currentPage > totalPage)) {
-			return;
-		}
-
-		int startPage = currentPage - 4;
-		if (startPage < 1) {
-			startPage = 1;
-		}
-		int endPage = currentPage + 4;
-		if (endPage > totalPage) {
-			endPage = totalPage;
-		}
-
-		if (currentPage <= 8) {
-			startPage = 1;
-		}
-
-		if ((totalPage - currentPage) < 8) {
-			endPage = totalPage;
-		}
-
-		List<PaginateItem> pages = new ArrayList<ContentPaginateTag.PaginateItem>();
-		if (currentPage == 1) {
-			pages.add(new PaginateItem(previous + " " + disabled, "javascript:;", "上一页"));
-		} else {
-			pages.add(new PaginateItem(previous, getUrl(currentPage - 1), "上一页"));
-		}
-
-		if (currentPage > 8) {
-			pages.add(new PaginateItem("", getUrl(1), "1"));
-			pages.add(new PaginateItem("", getUrl(2), "2"));
-			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
-		}
-
-		for (int i = startPage; i <= endPage; i++) {
-			if (currentPage == i) {
-				pages.add(new PaginateItem(active, "javascript:;", i));
-			} else {
-				pages.add(new PaginateItem("", getUrl(i), i));
-			}
-		}
-
-		if ((totalPage - currentPage) >= 8) {
-			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
-			pages.add(new PaginateItem("", getUrl(totalPage - 1), totalPage - 1));
-			pages.add(new PaginateItem("", getUrl(totalPage), totalPage));
-		}
-
-		if (currentPage == totalPage) {
-			pages.add(new PaginateItem(next + " " + disabled, "javascript:;", "下一页"));
-		} else {
-			pages.add(new PaginateItem(next, getUrl(currentPage + 1), "下一页"));
-		}
-
-		setVariable("pageItems", pages);
-		renderBody();
-	}
-
-	private String getUrl(int pageNumber) {
+	protected String getUrl(int pageNumber) {
 		String url = JFinal.me().getContextPath() + "/" + moduleName;
 		if (taxonomy != null) {
 			url += "-" + taxonomy.getSlug();
@@ -144,48 +66,6 @@ public class ContentPaginateTag extends JTag {
 			return fakeStaticSuffix.trim();
 		}
 		return ".html";
-	}
-
-	public static class PaginateItem {
-		private String style;
-		private String url;
-		private String text;
-
-		public PaginateItem(String style, String url, String text) {
-			this.style = style;
-			this.url = url;
-			this.text = text;
-		}
-
-		public PaginateItem(String style, String url, int text) {
-			this.style = style;
-			this.url = url;
-			this.text = text + "";
-		}
-
-		public String getStyle() {
-			return style;
-		}
-
-		public void setStyle(String style) {
-			this.style = style;
-		}
-
-		public String getUrl() {
-			return url;
-		}
-
-		public void setUrl(String url) {
-			this.url = url;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
 	}
 
 }

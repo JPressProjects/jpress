@@ -171,6 +171,35 @@ tpl_setting.html
 * thumbnail 是缩略图，name是缩略图的名称，size是缩略图的大写。模板配置好缩略图后，当用户或管理员上传图片，图片会被剪切成模板定义的缩略图。
 
 ###模板标签
+目前JPress提供的有如下标签，今后会一直更新，所以标签有可能一直在增加或修改：
+
+```
+IndexPageTag
+ContentPageTag
+CommentPageTag
+ContentsTag
+TaxonomysTag
+TagsTag
+UsersTag
+UserContentPageTag
+ModulesTag
+MenuTag
+ImageTag
+```
+其中：
+
+* **IndexPageTag** 用于在首页或单页面，即 index.html模板或page_*.html模板
+* **ContentPageTag** 内容列表页，也就是分类页，即taxonomy.html 或 taxonomy_*.html
+* **CommnetPageTag** 评论分页列表，只能用在内容详情页。即content.html 或 content_*.html
+* **UserContentPageTag** 用户内容列表，只能用户用户中心，用来显示用户`发布的`、`收藏的`和`评论的`内容。
+* **ContentsTag** 文本列表（没有分页），可以用于任何页面
+* **UsersTag** 用户列表（没有分页），可以用于任何页面
+* **MenuTag** 网站菜单，可以用于任何页面
+* **TaxonomysTag** 分类列表，可以用于任何页面
+* **TagsTag** 标签列表，可以用于任何页面
+
+
+
 ###模板设置
 
 ## 插件开发

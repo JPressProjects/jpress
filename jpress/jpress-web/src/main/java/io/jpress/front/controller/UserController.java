@@ -31,6 +31,7 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.plugin.message.Actions;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
+import io.jpress.ui.freemarker.tag.UserContentPageTag;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
@@ -237,6 +238,11 @@ public class UserController extends BaseFrontController {
 		keepPara();
 		String action = getPara(0, "index");
 		render(String.format("user_center_%s.html", action));
+
+		int pageNumber = getParaToInt(1, 1);
+		BigInteger userId = ((User) getAttr("user")).getId();
+
+		setAttr("userContentPage", new UserContentPageTag(userId, pageNumber));
 	}
 
 }

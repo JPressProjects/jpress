@@ -77,7 +77,7 @@ public class _TinymceImageController extends JBaseController {
 		Attachment attachment = new Attachment();
 		attachment.setUserId(user.getId());
 		attachment.setCreated(new Date());
-		attachment.setTitle("");
+		attachment.setTitle(uploadFile.getOriginalFileName());
 		attachment.setPath(newPath);
 		attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
 		attachment.setMimeType(uploadFile.getContentType());

@@ -69,9 +69,9 @@ function openlayer(id){
 								<#list page.getList() as bean>
 									<li>
 									<#if bean.isImage() >
-										<img src="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+										<img src="${CPATH}${bean.path!}" alt="${bean.title!}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
 									<#else>
-										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg"  alt="${bean.title!}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
 									</#if>
 									</li>
 								</#list> 

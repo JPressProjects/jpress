@@ -152,12 +152,12 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return get("parent_id");
 	}
 
-	public void setTemplate(java.lang.String template) {
-		set("template", template);
+	public void setIcon(java.lang.String icon) {
+		set("icon", icon);
 	}
 
-	public java.lang.String getTemplate() {
-		return get("template");
+	public java.lang.String getIcon() {
+		return get("icon");
 	}
 
 	public void setObjectId(java.math.BigInteger objectId) {

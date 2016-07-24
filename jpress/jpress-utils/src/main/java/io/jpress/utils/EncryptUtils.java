@@ -61,7 +61,7 @@ public class EncryptUtils extends HashKit {
 			}
 		}
 		query.append(secret);
-		return HashKit.md5(query.toString()).toLowerCase();
+		return HashKit.md5(query.toString()).toUpperCase();
 	}
 
 	public static void main(String[] args) {

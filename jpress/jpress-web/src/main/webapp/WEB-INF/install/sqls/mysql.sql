@@ -176,7 +176,7 @@ CREATE TABLE `{table_prefix}taxonomy` (
   `content_count` int(11) unsigned DEFAULT '0',
   `order_number` int(11) DEFAULT NULL,
   `parent_id` bigint(20) unsigned DEFAULT NULL,
-  `template` varchar(128) DEFAULT NULL,
+  `icon` varchar(128) DEFAULT NULL,
   `object_id` bigint(20) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `lat` decimal(20,16) DEFAULT NULL,

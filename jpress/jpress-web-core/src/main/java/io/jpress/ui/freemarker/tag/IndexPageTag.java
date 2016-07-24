@@ -17,18 +17,20 @@ package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.utils.StringUtils;
 
 public class IndexPageTag extends JTag {
 
 	int pageNumber;
 	String pagePara;
 
-	public IndexPageTag(String pagePara,int pageNumber) {
+	public IndexPageTag(String pagePara, int pageNumber) {
 		this.pagePara = pagePara;
 		this.pageNumber = pageNumber;
 	}
@@ -48,12 +50,43 @@ public class IndexPageTag extends JTag {
 		Page<Content> cpage = ContentQuery.me().paginate(pageNumber, pagesize, module, keyword, status, typeIds, null,
 				orderBy);
 		setVariable("page", cpage);
-		
 
-		IndexPaginateTag indexPagination = new IndexPaginateTag(cpage,pagePara);
+		IndexPaginateTag indexPagination = new IndexPaginateTag(cpage, pagePara);
 		setVariable("pagination", indexPagination);
 
 		renderBody();
+	}
+
+	public static class IndexPaginateTag extends BasePaginateTag {
+
+		String pagePara;
+
+		public IndexPaginateTag(Page<Content> page, String pagePara) {
+			super(page);
+			this.pagePara = pagePara;
+		}
+
+		@Override
+		protected String getUrl(int pageNumber) {
+			String url = JFinal.me().getContextPath() + "/";
+
+			if (StringUtils.isNotBlank(pagePara)) {
+				url += pagePara + "-" + pageNumber;
+			} else {
+				url += pageNumber;
+			}
+
+			if (enalbleFakeStatic()) {
+				url += getFakeStaticSuffix();
+			}
+
+			if (StringUtils.isNotBlank(anchor)) {
+				url += "#" + anchor;
+			}
+			
+			return url;
+		}
+
 	}
 
 }

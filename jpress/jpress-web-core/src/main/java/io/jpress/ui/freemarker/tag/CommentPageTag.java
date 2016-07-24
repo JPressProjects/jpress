@@ -21,6 +21,7 @@ import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.query.CommentQuery;
+import io.jpress.utils.StringUtils;
 
 public class CommentPageTag extends JTag {
 
@@ -44,6 +45,26 @@ public class CommentPageTag extends JTag {
 		setVariable("pagination", cpt);
 
 		renderBody();
+	}
+
+	public static class CommentPaginateTag extends BasePaginateTag {
+
+		final Content content;
+
+		public CommentPaginateTag(Page<Comment> page, Content content) {
+			super(page);
+			this.content = content;
+		}
+
+		@Override
+		protected String getUrl(int pageNumber) {
+			String url = content.getUrlWithPageNumber(pageNumber);
+			if (StringUtils.isNotBlank(anchor)) {
+				url += "#" + anchor;
+			}
+			return url;
+		}
+
 	}
 
 }

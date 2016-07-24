@@ -17,12 +17,14 @@ package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.utils.StringUtils;
 
 public class ContentPageTag extends JTag {
 	int pageNumber;
@@ -51,5 +53,42 @@ public class ContentPageTag extends JTag {
 
 		renderBody();
 	}
+	
+	
+
+	public static class ContentPaginateTag extends BasePaginateTag {
+
+		final String moduleName;
+		final Taxonomy taxonomy;
+
+		public ContentPaginateTag(Page<Content> page, String moduleName, Taxonomy taxonomy) {
+			super(page);
+			this.moduleName = moduleName;
+			this.taxonomy = taxonomy;
+		}
+		
+		
+
+		@Override
+		protected String getUrl(int pageNumber) {
+			String url = JFinal.me().getContextPath() + "/" + moduleName;
+			if (taxonomy != null) {
+				url += "-" + taxonomy.getSlug();
+			}
+
+			url += "-" + pageNumber;
+
+			if (enalbleFakeStatic()) {
+				url += getFakeStaticSuffix();
+			}
+
+			if (StringUtils.isNotBlank(anchor)) {
+				url += "#" + anchor;
+			}
+			return url;
+		}
+
+	}
+	
 
 }

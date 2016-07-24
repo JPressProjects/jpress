@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.ui.freemarker.tag;
+package io.jpress.core.render.freemarker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
 
-import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
@@ -28,11 +27,11 @@ public abstract class BasePaginateTag extends JTag {
 
 	final Page<?> page;
 
-	String previous;
-	String next;
-	String active;
-	String disabled;
-	String anchor;
+	private String previous;
+	private String next;
+	private String active;
+	private String disabled;
+	private String anchor;
 
 	public BasePaginateTag(Page<?> page) {
 		this.page = page;
@@ -46,6 +45,9 @@ public abstract class BasePaginateTag extends JTag {
 		active = getParam("active", "active");
 		disabled = getParam("disabled", "disabled");
 		anchor = getParam("anchor");
+		
+		String previousText = getParam("previousText", "上一页");
+		String nextText = getParam("nextText", "下一页");
 
 		int currentPage = page.getPageNumber();
 		int totalPage = page.getTotalPage();
@@ -73,9 +75,9 @@ public abstract class BasePaginateTag extends JTag {
 
 		List<PaginateItem> pages = new ArrayList<BasePaginateTag.PaginateItem>();
 		if (currentPage == 1) {
-			pages.add(new PaginateItem(previous + " " + disabled, "javascript:;", "上一页"));
+			pages.add(new PaginateItem(previous + " " + disabled, "javascript:;", previousText));
 		} else {
-			pages.add(new PaginateItem(previous, getUrl(currentPage - 1), "上一页"));
+			pages.add(new PaginateItem(previous, getUrl(currentPage - 1), previousText));
 		}
 
 		if (currentPage > 8) {
@@ -99,9 +101,9 @@ public abstract class BasePaginateTag extends JTag {
 		}
 
 		if (currentPage == totalPage) {
-			pages.add(new PaginateItem(next + " " + disabled, "javascript:;", "下一页"));
+			pages.add(new PaginateItem(next + " " + disabled, "javascript:;", nextText));
 		} else {
-			pages.add(new PaginateItem(next, getUrl(currentPage + 1), "下一页"));
+			pages.add(new PaginateItem(next, getUrl(currentPage + 1), nextText));
 		}
 
 		setVariable("pageItems", pages);
@@ -121,6 +123,33 @@ public abstract class BasePaginateTag extends JTag {
 		return ".html";
 	}
 
+	
+	public Page<?> getPage() {
+		return page;
+	}
+
+	public String getPrevious() {
+		return previous;
+	}
+
+	public String getNext() {
+		return next;
+	}
+
+	public String getDisabled() {
+		return disabled;
+	}
+
+	public String getAnchor() {
+		return anchor;
+	}
+
+	protected abstract String getUrl(int pageNumber);
+	
+	
+	
+	
+	
 
 	public static class PaginateItem {
 		private String style;
@@ -163,7 +192,5 @@ public abstract class BasePaginateTag extends JTag {
 			this.text = text;
 		}
 	}
-	
-	protected abstract String getUrl(int pageNumber);
 
 }

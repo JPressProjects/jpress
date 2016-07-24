@@ -18,6 +18,7 @@ package io.jpress.ui.freemarker.tag;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.core.render.freemarker.BasePaginateTag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.plugin.search.SearcherBean;
 import io.jpress.plugin.search.SearcherKit;
@@ -66,8 +67,8 @@ public class SearchResultPageTag extends JTag {
 			url += "&k=" + StringUtils.urlDecode(keyword);
 			url += "&p=" + pageNumber;
 
-			if (StringUtils.isNotBlank(anchor)) {
-				url += "#" + anchor;
+			if (StringUtils.isNotBlank(getAnchor())) {
+				url += "#" + getAnchor();
 			}
 			return url;
 		}

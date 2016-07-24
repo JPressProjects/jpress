@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.core.render.freemarker.BasePaginateTag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
@@ -80,8 +81,8 @@ public class IndexPageTag extends JTag {
 				url += getFakeStaticSuffix();
 			}
 
-			if (StringUtils.isNotBlank(anchor)) {
-				url += "#" + anchor;
+			if (StringUtils.isNotBlank(getAnchor())) {
+				url += "#" + getAnchor();
 			}
 			
 			return url;

@@ -17,6 +17,7 @@ package io.jpress.ui.freemarker.tag;
 
 import com.jfinal.plugin.activerecord.Page;
 
+import io.jpress.core.render.freemarker.BasePaginateTag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
@@ -59,8 +60,8 @@ public class CommentPageTag extends JTag {
 		@Override
 		protected String getUrl(int pageNumber) {
 			String url = content.getUrlWithPageNumber(pageNumber);
-			if (StringUtils.isNotBlank(anchor)) {
-				url += "#" + anchor;
+			if (StringUtils.isNotBlank(getAnchor())) {
+				url += "#" + getAnchor();
 			}
 			return url;
 		}

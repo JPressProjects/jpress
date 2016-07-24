@@ -30,12 +30,13 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
+import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/sitemap")
 public class SitemapController extends Controller {
 	private static final String contentType = "text/xml; charset=" + Consts.CHARTSET_UTF8;
-	
+
 	static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:ss:mm'Z'");
 
 	@ActionCache
@@ -43,7 +44,8 @@ public class SitemapController extends Controller {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildSitemapHeader(xmlBuilder);
 		String domain = OptionQuery.me().findValue("web_domain");
-		if(!StringUtils.isNotBlank(domain)) domain = "";
+		if (!StringUtils.isNotBlank(domain))
+			domain = "";
 
 		buildSitemap(xmlBuilder, domain + "/sitemap/site", format.format(new Date()));
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findAll();
@@ -79,7 +81,21 @@ public class SitemapController extends Controller {
 		List<Content> contents = ContentQuery.me().findListInNormal(1, 500, id, null);
 		if (contents != null && !contents.isEmpty()) {
 			for (Content c : contents) {
-				buildUrl(xmlBuilder, domain + c.getUrl(), format.format(new Date()), "daily", "1.0");
+				if (c.getModified() == null)
+					continue;
+
+				String changefreq = "daily";
+				String priority = "1.0";
+				int dayDiff = DateUtils.getDayDiff(new Date(), c.getModified());
+				if (dayDiff > 30) {
+					changefreq = "monthly";
+					priority = "0.3";
+				} else if (dayDiff > 7) {
+					changefreq = "weekly";
+					priority = "0.9";
+				}
+
+				buildUrl(xmlBuilder, domain + c.getUrl(), format.format(c.getModified()), changefreq, priority);
 			}
 		}
 		buildUrlsetFooter(xmlBuilder);

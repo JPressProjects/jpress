@@ -16,7 +16,8 @@
 package io.jpress.plugin.search;
 
 import java.io.IOException;
-import java.util.List;
+
+import com.jfinal.plugin.activerecord.Page;
 
 public interface ISearcher {
 
@@ -28,7 +29,7 @@ public interface ISearcher {
 
 	public void updateBean(SearcherBean bean) throws IOException;
 
-	public List<SearcherBean> search(String keyword) throws IOException;
+	public Page<SearcherBean> search(String keyword,String module) throws IOException;
 
-	public List<SearcherBean> search(String queryString, int pageNum, int pageSize);
+	public Page<SearcherBean> search(String queryString,String module, int pageNum, int pageSize);
 }

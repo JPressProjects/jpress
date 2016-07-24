@@ -16,9 +16,9 @@
 package io.jpress.plugin.search;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 
 public class SearcherKit {
 
@@ -51,19 +51,34 @@ public class SearcherKit {
 	 * @param keyword
 	 * @return List<SearcherBean>
 	 */
-	public static List<SearcherBean> search(String keyword) {
+	public static Page<SearcherBean> search(String keyword) {
 		checkSearcher();
 		try {
-			return mSearcher.search(keyword);
+			return mSearcher.search(keyword,null);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
+	}
+	
+	public static Page<SearcherBean> search(String keyword,String module) {
+		checkSearcher();
+		try {
+			return mSearcher.search(keyword,module);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
 
-	public static List<SearcherBean> search(String queryString, int pageNum, int pageSize) {
+	public static Page<SearcherBean> search(String queryString, int pageNum, int pageSize) {
 		checkSearcher();
-		return mSearcher.search(queryString, pageNum, pageSize);
+		return mSearcher.search(queryString, null,pageNum, pageSize);
+	}
+	
+	public static Page<SearcherBean> search(String queryString,String module, int pageNum, int pageSize) {
+		checkSearcher();
+		return mSearcher.search(queryString, module,pageNum, pageSize);
 	}
 
 	public static void checkSearcher() {

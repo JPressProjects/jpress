@@ -70,6 +70,14 @@
 			<scope>compile</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-search-api</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
 	</dependencies>
 
 

@@ -15,13 +15,13 @@
  */
 package io.jpress.front.controller;
 
-import java.util.List;
-
+import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCache;
-import io.jpress.plugin.search.SearcherBean;
-import io.jpress.plugin.search.SearcherKit;
 import io.jpress.router.RouterMapping;
+import io.jpress.template.TemplateUtils;
+import io.jpress.ui.freemarker.tag.SearchResultPageTag;
+import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/s")
 public class SearchController extends BaseFrontController {
@@ -29,14 +29,21 @@ public class SearchController extends BaseFrontController {
 	@ActionCache
 	public void index() {
 		keepPara();
-		
+
 		String keyword = getPara("k");
-		int pageNumber = getParaToInt("n",1);
-		int pageSize = getParaToInt("s",20);
+		if (!StringUtils.isNotBlank(keyword)) {
+			renderError(404);
+		}
 
-		List<SearcherBean> results = SearcherKit.search(keyword, pageNumber, pageSize);
-		setAttr("result", results);
+		keyword = StringUtils.urlDecode(keyword);
 
+		String moduleName = getPara("m", Consts.MODULE_ARTICLE);
+		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) == null) {
+			renderError(404);
+		}
+
+		int pageNumber = getParaToInt("p", 1);
+		setAttr("searchResultPage", new SearchResultPageTag(keyword, moduleName, pageNumber));
 		render("search.html");
 	}
 

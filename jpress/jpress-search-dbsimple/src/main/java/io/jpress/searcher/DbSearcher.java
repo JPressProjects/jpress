@@ -18,12 +18,15 @@ package io.jpress.searcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Page;
+
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
 import io.jpress.template.Module;
 import io.jpress.template.TemplateUtils;
+import io.jpress.utils.StringUtils;
 
 public class DbSearcher implements ISearcher {
 
@@ -48,34 +51,44 @@ public class DbSearcher implements ISearcher {
 	}
 
 	@Override
-	public List<SearcherBean> search(String keyword) {
-		return search(keyword, 1, 100);
+	public Page<SearcherBean> search(String keyword, String module) {
+		return search(keyword, module, 1, 10);
 	}
 
 	@Override
-	public List<SearcherBean> search(String keyword, int pageNum, int pageSize) {
+	public Page<SearcherBean> search(String keyword, String module, int pageNum, int pageSize) {
 
-		List<Module> modules = TemplateUtils.currentTemplate().getModules();
-		if (modules == null || modules.size() == 0) {
-			return null;
-		}
+		String[] moduleStrings = null;
+		if (StringUtils.isNotBlank(module)) {
+			moduleStrings = new String[] { module };
+		} else {
+			List<Module> modules = TemplateUtils.currentTemplate().getModules();
+			if (modules == null || modules.size() == 0) {
+				return null;
+			}
 
-		String[] moduleStrings = new String[modules.size()];
-		for (int i = 0; i < moduleStrings.length; i++) {
-			moduleStrings[i] = modules.get(i).getName();
-		}
-
-		List<Content> list = ContentQuery.me().findListInNormal(pageNum, pageSize, "created", keyword, null, null,
-				moduleStrings, null, null, null, null, null, null, null);
-
-		List<SearcherBean> datas = null;
-		if (list != null) {
-			datas = new ArrayList<SearcherBean>();
-			for (Content c : list) {
-				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getSummary(), c.getText(), null, null,c.getUrl(),c.getCreated()));
+			moduleStrings = new String[modules.size()];
+			for (int i = 0; i < moduleStrings.length; i++) {
+				moduleStrings[i] = modules.get(i).getName();
 			}
 		}
-		return datas;
+
+		Page<Content> cpage = ContentQuery.me().paginate(pageNum, pageSize, moduleStrings, keyword,
+				Content.STATUS_NORMAL, null, null, null);
+
+		if (cpage != null) {
+			List<SearcherBean> datas = new ArrayList<SearcherBean>();
+			for (Content c : cpage.getList()) {
+				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getSummary(), c.getText(), null, null,
+						c.getUrl(), c.getCreated()));
+			}
+
+			return new Page<>(datas, cpage.getPageNumber(), cpage.getPageSize(), cpage.getTotalPage(),
+					cpage.getTotalRow());
+		}
+
+		return null;
+
 	}
 
 }

@@ -110,6 +110,14 @@ public class ContentQuery extends JBaseQuery {
 	public Page<Content> paginate(int page, int pagesize, String module, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
 
+		String[] modules = StringUtils.isNotBlank(module) ? new String[] { module } : null;
+
+		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, orderBy);
+	}
+
+	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
+			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
+
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
@@ -120,7 +128,7 @@ public class ContentQuery extends JBaseQuery {
 		LinkedList<Object> params = new LinkedList<Object>();
 
 		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "c.module", modules, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
 

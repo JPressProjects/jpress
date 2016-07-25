@@ -58,7 +58,7 @@ public class _AdminController extends JBaseController {
 			}
 
 			List<Content> contents = ContentQuery.me().findListInNormal(1, 20, null, null, null, null, moduels, null, null,
-					null, null, null, null, null);
+					null, null, null, null, null,null);
 			setAttr("contents", contents);
 		}
 

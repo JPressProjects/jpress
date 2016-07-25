@@ -69,7 +69,7 @@ public class ContentsTag extends JTag {
 		Boolean hasThumbnail = getParamToBool("hasThumbnail");
 		
 		List<Content> data = ContentQuery.me().findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
-				modules, styles, flags, slugs, userIds, parentIds, tags,hasThumbnail);
+				modules, styles, flags, slugs, userIds, parentIds, tags,hasThumbnail,null);
 
 		if(data==null || data.isEmpty()){
 			renderText("");

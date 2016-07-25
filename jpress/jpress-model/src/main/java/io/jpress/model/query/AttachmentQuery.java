@@ -78,7 +78,7 @@ public class AttachmentQuery extends JBaseQuery {
 	}
 
 	public List<Archive> findArchives() {
-		String sql = "SELECT DATE_FORMAT( created, \"%Y-%m\" ) as d, COUNT( * ) c FROM content GROUP BY DATE_FORMAT( created, \"%Y-%m\" )";
+		String sql = "SELECT DATE_FORMAT( created, \"%Y-%m\" ) as d, COUNT( * ) c FROM attachment GROUP BY d";
 		List<Record> list = Jdb.find(sql);
 		if (list == null || list.isEmpty())
 			return null;

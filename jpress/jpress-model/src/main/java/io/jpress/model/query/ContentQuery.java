@@ -16,14 +16,17 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.core.db.Jdb;
 import io.jpress.model.Content;
+import io.jpress.model.vo.Archive;
 import io.jpress.utils.StringUtils;
 
 public class ContentQuery extends JBaseQuery {
@@ -40,14 +43,23 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
-		return DAO.paginate(page, pagesize, true, "select * ",
-				"FROM (select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,"
-						+ "GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username"
-						+ " FROM content c" + " left join mapping m on c.id = m.`content_id`"
-						+ " left join taxonomy  t on m.`taxonomy_id` = t.id" + " left join user u on c.user_id = u.id"
-						+ " left join metadata md on c.id = md.`object_id` and md.`object_type`='content'"
-						+ " where c.`metadatas` like ?" + " GROUP BY c.id" + " ORDER BY c.created DESC) c ",
-				"%:" + meta_key + ":" + meta_value);
+		StringBuilder sqlBuilder = new StringBuilder(" FROM ");
+		sqlBuilder.append(" ( ");
+		sqlBuilder.append(
+				" select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
+		sqlBuilder.append(" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ");
+		sqlBuilder.append(" FROM content c ");
+		sqlBuilder.append(" left join mapping m on c.id = m.`content_id` ");
+		sqlBuilder.append(" left join taxonomy  t on m.`taxonomy_id` = t.id ");
+		sqlBuilder.append(" left join user u on c.user_id = u.id ");
+		sqlBuilder.append(" left join metadata md on c.id = md.`object_id` and md.`object_type`='content' ");
+		sqlBuilder.append(" where c.`metadatas` like ? ");
+		sqlBuilder.append(" GROUP BY c.id ");
+		sqlBuilder.append(" ORDER BY c.created DESC ");
+		sqlBuilder.append(" ) ");
+		sqlBuilder.append(" c ");
+
+		return DAO.paginate(page, pagesize, true, sqlBuilder.toString(), "%:" + meta_key + ":" + meta_value);
 	}
 
 	public Page<Content> paginateByModule(int page, int pagesize, String module) {
@@ -64,7 +76,7 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateBySearch(int page, int pagesize, String module, String keyword, String status,
-			BigInteger[] tids,String month) {
+			BigInteger[] tids, String month) {
 		String[] modules = StringUtils.isNotBlank(module) ? new String[] { module } : null;
 		return paginate(page, pagesize, modules, keyword, status, tids, null, month, null);
 	}
@@ -74,7 +86,7 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module, String keyword,
-			BigInteger[] taxonomyIds,String month) {
+			BigInteger[] taxonomyIds, String month) {
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
@@ -97,8 +109,8 @@ public class ContentQuery extends JBaseQuery {
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
 			fromBuilder.append(" AND t.id in " + toString(taxonomyIds));
 		}
-		
-		if (StringUtils.isNotBlank(month)){
+
+		if (StringUtils.isNotBlank(month)) {
 			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
 		}
@@ -118,11 +130,11 @@ public class ContentQuery extends JBaseQuery {
 
 		String[] modules = StringUtils.isNotBlank(module) ? new String[] { module } : null;
 
-		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId,null, orderBy);
+		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, null, orderBy);
 	}
 
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
-			BigInteger[] taxonomyIds, BigInteger userId,String month, String orderBy) {
+			BigInteger[] taxonomyIds, BigInteger userId, String month, String orderBy) {
 
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
@@ -148,8 +160,8 @@ public class ContentQuery extends JBaseQuery {
 			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
 			fromBuilder.append(" t.id in " + toString(taxonomyIds));
 		}
-		
-		if (StringUtils.isNotBlank(month)){
+
+		if (StringUtils.isNotBlank(month)) {
 			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
 			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
@@ -241,7 +253,7 @@ public class ContentQuery extends JBaseQuery {
 
 	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
 		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
-				null, null, null, null, null);
+				null, null, null, null, null, null);
 	}
 
 	/**
@@ -261,7 +273,7 @@ public class ContentQuery extends JBaseQuery {
 	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
 			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
-			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail) {
+			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail, String month) {
 
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
@@ -287,6 +299,12 @@ public class ContentQuery extends JBaseQuery {
 			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
 			sqlBuilder.append(" c.title like ?");
 			params.add("%" + keyword + "%");
+		}
+
+		if (StringUtils.isNotBlank(month)) {
+			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
+			sqlBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			params.add(month);
 		}
 
 		if (null != hasThumbnail) {
@@ -338,6 +356,14 @@ public class ContentQuery extends JBaseQuery {
 		buildOrderBy(orderby, sqlBuilder);
 		return DAO.find(sqlBuilder.toString(), module);
 	}
+	
+	
+	public List<Content> findArchiveByModule(String module) {
+		StringBuilder sqlBuilder = getBaseSelectSql("DATE_FORMAT( c.created, \"%Y-%m\" ) as archiveDate");
+		sqlBuilder.append(" where module = ? ");
+		sqlBuilder.append(" order by c.created DESC");
+		return DAO.find(sqlBuilder.toString(), module);
+	}
 
 	public List<Content> findByModule(String module, BigInteger parentId, String orderby) {
 		StringBuilder sqlBuilder = new StringBuilder("select * from content c");
@@ -375,12 +401,20 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	private StringBuilder getBaseSelectSql() {
-		StringBuilder sqlBuilder = new StringBuilder(
-				"select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar");
+		return getBaseSelectSql(null);
+	}
+
+	private StringBuilder getBaseSelectSql(String columns) {
+		StringBuilder sqlBuilder = new StringBuilder(" select ");
+		sqlBuilder.append(" c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
+		sqlBuilder.append(" ,u.username,u.nickname,u.avatar ");
+		if (StringUtils.isNotBlank(columns)) {
+			sqlBuilder.append(",").append(columns);
+		}
 		sqlBuilder.append(" from content c");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		sqlBuilder.append(" left join user u on c.user_id = u.id");
+		sqlBuilder.append(" left join user u on c.user_id = u.id ");
 		return sqlBuilder;
 	}
 
@@ -440,6 +474,23 @@ public class ContentQuery extends JBaseQuery {
 			return Jdb.update(sb.toString(), params.toArray());
 		}
 		return 0;
+	}
+
+	public List<Archive> findArchives(String module) {
+		String sql = "SELECT DATE_FORMAT( c.created, \"%Y-%m\" ) as d, COUNT( * ) count FROM content c"
+				+ " WHERE c.module = ? GROUP BY d";
+		List<Record> list = Jdb.find(sql, module);
+		if (list == null || list.isEmpty())
+			return null;
+
+		List<Archive> datas = new ArrayList<Archive>();
+		for (Record r : list) {
+			String date = r.getStr("d");
+			if (StringUtils.isNotBlank(date)) {
+				datas.add(new Archive(date, r.getLong("count")));
+			}
+		}
+		return datas;
 	}
 
 }

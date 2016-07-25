@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.jfinal.aop.Before;
 
+import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -40,7 +41,7 @@ public class _ApiController extends JBaseController {
 		if (null != id) {
 			setAttr("content", ContentQuery.me().findById(id));
 		}
-		List<Content> contents = ContentQuery.me().findByModule("apiApplication");
+		List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_API_APPLICATION);
 		setAttr("contents", contents);
 		render("/WEB-INF/admin/option/api.html");
 	}
@@ -51,12 +52,15 @@ public class _ApiController extends JBaseController {
 		OptionQuery.me().saveOrUpdate("api_enable", apiEnable.toString());
 
 		Content c = getModel(Content.class);
+		c.setModule(Consts.MODULE_API_APPLICATION);
 		
 		if(StringUtils.areNotBlank(c.getTitle(),c.getText(),c.getFlag())){
 			c.saveOrUpdate();
+			renderAjaxResultForSuccess();
+		}else{
+			renderAjaxResultForError("请把数据填写完整！");
 		}
 		
-		renderAjaxResultForSuccess();
 	}
 
 	@Before(UCodeInterceptor.class)

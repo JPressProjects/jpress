@@ -1614,12 +1614,12 @@ a.x-a-active:hover{
 
 .aritcle h1{
 	font-size:2rem;
-	font-weight: bold;
+	font-weight: 500;
 	padding:1rem 0;
 }
 .aritcle h2{
 	font-size:1.8rem;
-	font-weight: bold;
+	font-weight: 500;
 	padding:1rem 0;
 }
 .aritcle h3{

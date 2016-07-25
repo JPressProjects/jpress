@@ -151,6 +151,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			public boolean run() throws SQLException {
 				if (TaxonomyQuery.me().deleteById(id)) {
 					MappingQuery.me().deleteByTaxonomyId(id);
+					
+					Content content = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, id);
+					if (content != null) {
+						content.delete();
+					}
+					
 					return true;
 				}
 				return false;

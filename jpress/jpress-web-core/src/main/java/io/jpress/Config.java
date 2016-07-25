@@ -26,6 +26,7 @@ import io.jpress.plugin.search.SearcherFactory;
 import io.jpress.ui.freemarker.function.OptionChecked;
 import io.jpress.ui.freemarker.function.OptionValue;
 import io.jpress.ui.freemarker.function.TaxonomyBox;
+import io.jpress.ui.freemarker.tag.ArchivesTag;
 import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModulesTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
@@ -52,6 +53,7 @@ public class Config extends JpressConfig {
 		Jpress.addTag("jp_modules", new ModulesTag());
 		Jpress.addTag("jp_tags", new TagsTag());
 		Jpress.addTag("jp_taxonomys", new TaxonomysTag());
+		Jpress.addTag("jp_archives", new ArchivesTag());
 
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());

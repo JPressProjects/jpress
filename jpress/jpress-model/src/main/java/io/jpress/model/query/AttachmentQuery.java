@@ -16,27 +16,82 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 
+import io.jpress.core.db.Jdb;
 import io.jpress.model.Attachment;
+import io.jpress.model.vo.Archive;
+import io.jpress.utils.StringUtils;
 
 public class AttachmentQuery extends JBaseQuery {
 
 	private static final Attachment DAO = new Attachment();
 	private static final AttachmentQuery QUERY = new AttachmentQuery();
-	
-	public static AttachmentQuery me(){
+
+	public static AttachmentQuery me() {
 		return QUERY;
 	}
 
-	public Page<Attachment> paginate(int pageNumber, int pageSize) {
-		String sqlExceptSelect = " FROM attachment a ORDER BY a.created DESC";
-		return DAO.paginate(pageNumber, pageSize, "SELECT * ", sqlExceptSelect);
+	public Page<Attachment> paginate(int pageNumber, int pageSize, String keyword, String month, String mime) {
+
+		StringBuilder fromBuilder = new StringBuilder(" FROM attachment a ");
+		LinkedList<Object> params = new LinkedList<Object>();
+
+		boolean needWhere = true;
+
+		if (StringUtils.isNotBlank(keyword)) {
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
+			fromBuilder.append(" a.title like ? ");
+			params.add("%"+keyword + "%");
+		}
+		
+		if (StringUtils.isNotBlank(month)) {
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
+			fromBuilder.append(" DATE_FORMAT( a.created, \"%Y-%m\" ) = ? ");
+			params.add(month);
+		}
+
+		if (StringUtils.isNotBlank(mime)) {
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
+			fromBuilder.append(" a.mime_type like ? ");
+			params.add(mime + "%");
+		}
+		
+		
+		fromBuilder.append(" ORDER BY a.created DESC ");
+
+		if (params.isEmpty()) {
+			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString());
+		} else {
+			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString(), params.toArray());
+		}
+
 	}
-	
-	public Attachment findById(BigInteger id){
+
+	public Attachment findById(BigInteger id) {
 		return DAO.findById(id);
+	}
+
+	public List<Archive> findArchives() {
+		String sql = "SELECT DATE_FORMAT( created, \"%Y-%m\" ) as d, COUNT( * ) c FROM content GROUP BY DATE_FORMAT( created, \"%Y-%m\" )";
+		List<Record> list = Jdb.find(sql);
+		if (list == null || list.isEmpty())
+			return null;
+
+		List<Archive> datas = new ArrayList<Archive>();
+		for (Record r : list) {
+			String date = r.getStr("d");
+			if (StringUtils.isNotBlank(date)) {
+				datas.add(new Archive(date, r.getLong("c")));
+			}
+		}
+
+		return datas;
 	}
 
 }

@@ -64,8 +64,9 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateBySearch(int page, int pagesize, String module, String keyword, String status,
-			BigInteger[] tids) {
-		return paginate(page, pagesize, module, keyword, status, tids, null, null);
+			BigInteger[] tids,String month) {
+		String[] modules = StringUtils.isNotBlank(module) ? new String[] { module } : null;
+		return paginate(page, pagesize, modules, keyword, status, tids, null, month, null);
 	}
 
 	public Page<Content> paginateByModuleInNormal(int page, int pagesize, String module) {
@@ -73,7 +74,7 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module, String keyword,
-			BigInteger[] taxonomyIds) {
+			BigInteger[] taxonomyIds,String month) {
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
@@ -96,6 +97,11 @@ public class ContentQuery extends JBaseQuery {
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
 			fromBuilder.append(" AND t.id in " + toString(taxonomyIds));
 		}
+		
+		if (StringUtils.isNotBlank(month)){
+			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			params.add(month);
+		}
 
 		fromBuilder.append(" group by c.id");
 		fromBuilder.append(" ORDER BY c.created DESC");
@@ -112,11 +118,11 @@ public class ContentQuery extends JBaseQuery {
 
 		String[] modules = StringUtils.isNotBlank(module) ? new String[] { module } : null;
 
-		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, orderBy);
+		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId,null, orderBy);
 	}
 
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
-			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
+			BigInteger[] taxonomyIds, BigInteger userId,String month, String orderBy) {
 
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
 
@@ -133,26 +139,20 @@ public class ContentQuery extends JBaseQuery {
 		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
 
 		if (StringUtils.isNotBlank(keyword)) {
-			if (needWhere) {
-				fromBuilder.append(" WHERE ");
-				needWhere = false;
-			} else {
-				fromBuilder.append(" AND ");
-			}
-
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
 			fromBuilder.append(" c.title like ? ");
 			params.add("%" + keyword + "%");
 		}
 
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
-			if (needWhere) {
-				fromBuilder.append(" WHERE ");
-				needWhere = false;
-			} else {
-				fromBuilder.append(" AND ");
-			}
-
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
 			fromBuilder.append(" t.id in " + toString(taxonomyIds));
+		}
+		
+		if (StringUtils.isNotBlank(month)){
+			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
+			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			params.add(month);
 		}
 
 		fromBuilder.append(" group by c.id");

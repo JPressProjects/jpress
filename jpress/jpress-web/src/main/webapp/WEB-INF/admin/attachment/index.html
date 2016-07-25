@@ -31,30 +31,56 @@ function openlayer(id){
 <section class="content">
 
 	<div class="row content-row">
+	
+			<form action="${CPATH}/admin/attachment?&p=${p!}&c=${c!}&k=${k!}" method="POST">
 			<div class="jp-left ">
-				<select style="width: 150px" class="form-control input-sm"  >
-					<option value="all">所有多媒体项目</option>
+				<select style="width: 150px" class="form-control input-sm" name="mime" >
+					<option value="">所有附件类型</option>
+					<#if mime??&&mime=='image'>
+					<option value="image" selected="selected">图像</option>
+					<#else>
 					<option value="image">图像</option>
-					<option value="audio">音频</option>
-					<option value="video">视频</option>
-					<option value="unattached">尚未附加</option>
-
+					</#if>
+					
+					<#if mime??&&mime=='audio'>
+					<option value="audio" selected="selected" >音频</option>
+					<#else>
+					<option value="audio"  >音频</option>
+					</#if>
+					
+					<#if mime??&&mime=='video'>
+					<option value="video" selected="selected">视频</option>
+					<#else>
+					<option value="video" >视频</option>
+					</#if> 
+					
 				</select>
 			</div>
 
 			<div class="jp-left ">
-				<select style="width: 150px" class="form-control input-sm"  >
-					<option value="all">全部日期</option>
-					<option value="0">2016年一月</option>
-
+				<select style="width: 150px" class="form-control input-sm" name="dm" >
+					<option value="">全部日期</option>
+					<#if archives ??>
+					<#list archives as archive>
+						<#if dm??&&dm==archive.date!>
+						<option value="${archive.date!}" selected="selected" >${archive.date!}</option>
+						<#else>
+						<option value="${archive.date!}"  >${archive.date!}</option>
+						</#if> 
+					</#list>
+					</#if>
 				</select>
 			</div>
 			<div class="jp-left ">
-				<button class="btn  btn-sm btn-default" type="button">筛选</button>
+				<button class="btn  btn-sm btn-default" type="submit">筛选</button>
 			</div>
+			</form>
+			
+			<form action="${CPATH}/admin/attachment?&p=${p!}&c=${c!}&dm=${dm!}&mime=${mime!}" method="POST">
 			<div class="jp-right ">
-					<label class="sr-only"></label> <input class="form-control jp-inp-width280" type="text" placeholder="搜索">
+				<input class="form-control jp-inp-width280" name="k" value="${k!}" type="text" placeholder="搜索">
 			</div>
+			</form>
 	</div>
 	<div class="col-xs-12  ">
 		<div class="row">
@@ -86,7 +112,12 @@ function openlayer(id){
 		</div>
 	</div>
 	<div class="cf">
-		<div class="pull-right "><#include "../_inc/_paginate_wrapper.html" /></div>
+		<div class="pull-right ">
+			<#if page??> 
+			<#include "../_inc/_paginate.html" /> 
+			<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="?p="+(p!)+"&c="+(c!)+"&dm="+(dm!)+"&mime="+(mime!)+"&k="+(k!)+"&page="/> 
+			</#if>
+		</div>
 	</div>
 	<!-- /.row -->
 </section>

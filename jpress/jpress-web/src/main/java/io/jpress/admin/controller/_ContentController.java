@@ -97,10 +97,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		Page<Content> page = null;
 		if (StringUtils.isNotBlank(getStatus())) {
 			page = ContentQuery.me().paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword, getStatus(),
-					tids);
+					tids,null);
 		} else {
 			page = ContentQuery.me().paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(), keyword,
-					tids);
+					tids,null);
 		}
 
 		filterUI(tids);

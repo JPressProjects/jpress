@@ -35,6 +35,7 @@ import io.jpress.model.Attachment;
 import io.jpress.model.User;
 import io.jpress.model.query.AttachmentQuery;
 import io.jpress.model.query.OptionQuery;
+import io.jpress.model.vo.Archive;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.TemplateUtils;
@@ -48,10 +49,18 @@ import io.jpress.utils.ImageUtils;
 @RouterNotAllowConvert
 public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	private static final Log log = Log.getLog(_AttachmentController.class);
-	
+
 	@Override
-	public Page<Attachment> onIndexDataLoad(int pageNumber, int pageSize) {
-		return AttachmentQuery.me().paginate(pageNumber, pageSize);
+	public void index() {
+		keepPara();
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), getPara("k", "").trim(),
+				getPara("dm"), getPara("mime"));
+		setAttr("page", page);
+
+		List<Archive> archives = AttachmentQuery.me().findArchives();
+		setAttr("archives", archives);
+
+		render("index.html");
 	}
 
 	public void detail_layer() {

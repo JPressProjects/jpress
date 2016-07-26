@@ -29,9 +29,6 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
 import io.jpress.model.query.OptionQuery;
-import io.jpress.plugin.message.MessageKit;
-import io.jpress.plugin.message.MessageListener;
-import io.jpress.utils.ClassScaner;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -143,18 +140,6 @@ public class AddonManager {
 					if (start != null && start == true) {
 						if (addon.start()) {// 启动成功
 							startedAddonList.add(addon);
-
-							List<Class<MessageListener>> list = null;
-							try {
-								list = ClassScaner.scanSubClass(MessageListener.class, new JarFile(file), true);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-							if (list != null && list.size() > 0) {
-								for (Class<MessageListener> clazz : list) {
-									MessageKit.register(clazz);
-								}
-							}
 						}
 					}
 				}
@@ -162,10 +147,16 @@ public class AddonManager {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	private static Addon loadAddon(File file) {
 		Addon addon = null;
+		JarFile jarFile = null;
+		AddonClassLoader acl = null;
 		try {
-			JarFile jarFile = new JarFile(file);
+			jarFile = new JarFile(file);
+			acl = new AddonClassLoader(file.getAbsolutePath());
+			acl.init();
+
 			Manifest mf = jarFile.getManifest();
 			Attributes attr = mf.getMainAttributes();
 			if (attr != null) {
@@ -195,17 +186,25 @@ public class AddonManager {
 				addon.setVersionCode(Integer.parseInt(versionCode.trim()));
 				addon.setJarPath(FileUtils.removeRootPath(file.getAbsolutePath()));
 
-				AddonClassLoader acl = new AddonClassLoader(file.getAbsolutePath());
-				acl.init();
-				@SuppressWarnings("unchecked")
 				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
 				addon.setAddonImpl(clazz.newInstance());
-
 				return addon;
 			}
 		} catch (Throwable e) {
 			addon.setHasError(true);
 			log.error("AddonManager loadAddon error", e);
+		} finally {
+			if (jarFile != null)
+				try {
+					jarFile.close();
+				} catch (IOException e) {
+				}
+			if (acl != null) {
+				try {
+					acl.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 		return addon;
 	}

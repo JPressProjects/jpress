@@ -78,11 +78,7 @@ public class ClassScaner {
 
 			if (jarFiles != null && jarFiles.length > 0) {
 				for (File f : jarFiles) {
-					try {
-						classList.addAll(scanSubClass(pclazz, new JarFile(f), mustbeCanNewInstance));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					classList.addAll(scanSubClass(pclazz, f, mustbeCanNewInstance));
 				}
 			}
 		}
@@ -90,42 +86,51 @@ public class ClassScaner {
 		return classList;
 	}
 
-	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz, JarFile jarFile, boolean mustbeCanNewInstance) {
+	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz, File f, boolean mustbeCanNewInstance) {
 		if (pclazz == null) {
 			log.error("scanClass: parent clazz is null");
 			return null;
 		}
 
-		List<Class<T>> classList = new ArrayList<Class<T>>();
-		Enumeration<JarEntry> entries = jarFile.entries();
-
-		while (entries.hasMoreElements()) {
-			JarEntry jarEntry = entries.nextElement();
-			String entryName = jarEntry.getName();
-			if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
-//				String className = entryName.replace(File.separator, ".").substring(0, entryName.length() - 6);
-				String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
-				Class<T> clazz = classForName(className);
-				if (clazz != null && pclazz.isAssignableFrom(clazz)) {
-					if (mustbeCanNewInstance) {
-						if (clazz.isInterface())
-							continue;
-
-						if (Modifier.isAbstract(clazz.getModifiers()))
-							continue;
-					}
-					classList.add(clazz);
-				}
-			}
-		}
+		JarFile jarFile = null;
 
 		try {
-			jarFile.close();
-		} catch (IOException e) {
-			log.error("jarFile.close is error",e);
+			jarFile = new JarFile(f);
+			List<Class<T>> classList = new ArrayList<Class<T>>();
+			Enumeration<JarEntry> entries = jarFile.entries();
+
+			while (entries.hasMoreElements()) {
+				JarEntry jarEntry = entries.nextElement();
+				String entryName = jarEntry.getName();
+				if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
+					String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
+					Class<T> clazz = classForName(className);
+					if (clazz != null && pclazz.isAssignableFrom(clazz)) {
+						if (mustbeCanNewInstance) {
+							if (clazz.isInterface())
+								continue;
+
+							if (Modifier.isAbstract(clazz.getModifiers()))
+								continue;
+						}
+						classList.add(clazz);
+					}
+				}
+			}
+
+			return classList;
+
+		} catch (IOException e1) {
+		} finally {
+			if (jarFile != null)
+				try {
+					jarFile.close();
+				} catch (IOException e) {
+				}
 		}
 
-		return classList;
+		return null;
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -135,7 +140,7 @@ public class ClassScaner {
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
 			clazz = (Class<T>) Class.forName(className, false, cl);
 		} catch (Throwable e) {
-			log.error("classForName is error，className:"+className);
+			log.error("classForName is error，className:" + className);
 		}
 		return clazz;
 	}

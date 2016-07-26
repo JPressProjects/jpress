@@ -86,6 +86,14 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 
 
 ## 模板开发
+
+###开发一个模板的helloworld
+
+开发一个全新的模板，主要有以下几个步骤：
+> 1. 建立模板配置文件 tpl_config.xml，用来说明模板的作者和模型。
+> 2. 建立一个tpl_screenshot.png图片，用来在JPress后台显示模板截图。
+> 3. 建立index.html 用来显示网站首页。
+
 ###模板结构
 JPress的模板主要分为如下几类：
 > * 首页模板  (index.html)

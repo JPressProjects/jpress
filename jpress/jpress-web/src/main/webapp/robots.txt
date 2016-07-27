@@ -1,0 +1,10 @@
+### BEGIN ###
+
+Sitemap: /sitemap
+
+User-agent: *
+Crawl-delay: 100
+
+Disallow: /admin/
+
+### END ###

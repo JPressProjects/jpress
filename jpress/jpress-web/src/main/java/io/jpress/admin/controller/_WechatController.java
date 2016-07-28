@@ -53,7 +53,8 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	@Override
 	public Page<Content> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (getStatus() != null && !"".equals(getStatus().trim())) {
-			return ContentQuery.me().paginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY, getStatus());
+			return ContentQuery.me().paginateByModuleAndStatus(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY,
+					getStatus());
 		}
 		return ContentQuery.me().paginateByModuleInNormal(pageNumber, pageSize, Consts.MODULE_WECHAT_REPLY);
 	}
@@ -61,9 +62,9 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void reply_default() {
 
 	}
-	
+
 	public void reply_advanced() {
-		
+
 	}
 
 	public void option() {
@@ -73,16 +74,16 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void menu() {
 		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
 		ModelSorter.sort(list);
-		
+
 		List<Content> wechat_menulist = new ArrayList<Content>();
 		wechat_menulist.addAll(list);
-		
+
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
 			Content c = ContentQuery.me().findById(id);
 			setAttr("wechat_menu", c);
-			
-			setAttr(c.getFlag()+"_selected", "selected=\"selected\"");
+
+			setAttr(c.getFlag() + "_selected", "selected=\"selected\"");
 
 			if (id != null && list != null) {
 				ModelSorter.removeTreeBranch(list, id);
@@ -90,7 +91,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 		}
 
 		setAttr("wechat_menus", list);
-		setAttr("wechat_menulist",  wechat_menulist);
+		setAttr("wechat_menulist", wechat_menulist);
 	}
 
 	@Before(UCodeInterceptor.class)
@@ -106,16 +107,16 @@ public class _WechatController extends JBaseCRUDController<Content> {
 			renderAjaxResultForError("关键字不能为空！");
 			return;
 		}
-		
-		if(c.getParentId() == null){
-			long count = ContentQuery.me().findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
-			if(count > 3){
+
+		if (c.getParentId() == null) {
+			long count = ContentQuery.me().findCountInNormalByParentId(null, Consts.MODULE_WECHAT_MENU);
+			if (count > 3) {
 				renderAjaxResultForError("顶级菜单不能超过3个！");
 				return;
 			}
-		}else{
-			long count = ContentQuery.me().findCountInNormalByParentId(null,Consts.MODULE_WECHAT_MENU);
-			if(count > 5){
+		} else {
+			long count = ContentQuery.me().findCountInNormalByParentId(null, Consts.MODULE_WECHAT_MENU);
+			if (count > 5) {
 				renderAjaxResultForError("子级菜单不能超过5个！");
 				return;
 			}
@@ -159,7 +160,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 						JSONObject sub_button = new JSONObject();
 						sub_button.put("type", c.getFlag());
 						sub_button.put("name", c.getTitle());
-						sub_button.put("key", c.getText());
+
+						if ("view".equals(c.getFlag())) {
+							sub_button.put("url", c.getText());
+						} else {
+							sub_button.put("key", c.getText());
+						}
+
 						sub_buttons.add(sub_button);
 					}
 					jsonObject.put("sub_button", sub_buttons);
@@ -168,7 +175,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("type", content.getFlag());
 					jsonObject.put("name", content.getTitle());
-					jsonObject.put("key", content.getText());
+					
+					if ("view".equals(content.getFlag())) {
+						jsonObject.put("url", content.getText());
+					} else {
+						jsonObject.put("key", content.getText());
+					}
+					
 					button.add(jsonObject);
 				}
 			}

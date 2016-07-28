@@ -3,7 +3,7 @@
 Sitemap: /sitemap
 
 User-agent: *
-Crawl-delay: 100
+Crawl-delay: 10
 
 Disallow: /admin/
 

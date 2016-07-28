@@ -95,6 +95,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return get("username");
 	}
 
+	public String getNickame() {
+		return get("nickname");
+	}
+
+	public String getNicknameOrUsername() {
+		return StringUtils.isNotBlank(getNickame()) ? getNickame() : getUsername();
+	}
+
 	public List<Metadata> getMetadatas() {
 		if (metadatas == null) {
 			String metadataString = get("metadatas");

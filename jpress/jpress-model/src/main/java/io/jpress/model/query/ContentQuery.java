@@ -47,7 +47,7 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" ( ");
 		sqlBuilder.append(
 				" select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
-		sqlBuilder.append(" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ");
+		sqlBuilder.append(" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ,u.nickname,u.avatar");
 		sqlBuilder.append(" FROM content c ");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id` ");
 		sqlBuilder.append(" left join taxonomy  t on m.`taxonomy_id` = t.id ");
@@ -87,7 +87,7 @@ public class ContentQuery extends JBaseQuery {
 
 	public Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module, String keyword,
 			BigInteger[] taxonomyIds, String month) {
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
+		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
@@ -136,7 +136,7 @@ public class ContentQuery extends JBaseQuery {
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String month, String orderBy) {
 
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username";
+		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");

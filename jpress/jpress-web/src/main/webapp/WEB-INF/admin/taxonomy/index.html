@@ -90,7 +90,11 @@ function doSubmit(){
 					<textarea class="form-control"  name="taxonomy.text" rows="3">${(taxonomy.text)!}</textarea>
 					<p>描述是否显示决定于模板。</p>
 				</div>
-				
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_slug" class="input-title">图标</label> 
+					<input id="taxonomy_slug" class="form-control" type="text"  name="taxonomy.icon" value="${(taxonomy.icon)!}">
+					<p>图标只用于前台显示，是否显示决定于模板。支持<a href="http://fontawesome.io/icons/" target="_blank">font-awesome</a>的所有图标，填写其样式名称即可。亦或者填写模板需要的图片路径或内容。</p>
+				</div>
 				<div class="form-group jp-input-item">
 					<label for="tag-slug" class="input-title">是否添加到导航菜单</label> 
 					<div class="checkbox">
@@ -144,7 +148,14 @@ function doSubmit(){
 								<td><label class="jp-common-pad">
 								<input class="jp-common-pad" name="dataItem" type="checkbox"></label>
 								</td>
-								<td><strong><a href="#"><span class="article-title">${bean.layerString}${bean.title!}</span></a></strong>
+								<td><strong><a href="#">
+								<span class="article-title">
+								${bean.layerString}
+								<#if bean.icon ??>
+								<i class="${bean.icon!}"></i>
+								</#if>
+								${bean.title!}
+								</span></a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
 											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">设置</a></span>

@@ -17,18 +17,25 @@ package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
 
+import com.jfinal.core.JFinal;
+import com.jfinal.plugin.activerecord.Page;
+
+import io.jpress.core.render.freemarker.BasePaginateTag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.utils.StringUtils;
 
 public class UserContentPageTag extends JTag {
 
 	BigInteger userId;
 	int pageNumber;
+	String action;
 
-	public UserContentPageTag(BigInteger id, int pageNumber) {
+	public UserContentPageTag(String action, BigInteger id, int pageNumber) {
 		this.userId = id;
 		this.pageNumber = pageNumber;
+		this.action = action;
 	}
 
 	@Override
@@ -41,10 +48,40 @@ public class UserContentPageTag extends JTag {
 		String orderby = getParam("orderby");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		setVariable("page", ContentQuery.me().paginate(pageNumber, pageSize, module, null, status,
-				new BigInteger[] { taxonomyId }, null, orderby));
+		BigInteger[] tids = taxonomyId == null ? null : new BigInteger[] { taxonomyId };
+
+		Page<Content> page = ContentQuery.me().paginate(pageNumber, pageSize, module, null, status, tids, null,
+				orderby);
+
+		setVariable("page", page);
+
+		MyPaginateTag tpt = new MyPaginateTag(page, action);
+		setVariable("pagination", tpt);
 
 		renderBody();
+	}
+
+	public static class MyPaginateTag extends BasePaginateTag {
+
+		final String action;
+
+		public MyPaginateTag(Page<Content> page, String action) {
+			super(page);
+			this.action = action;
+		}
+
+		@Override
+		protected String getUrl(int pageNumber) {
+			String url = JFinal.me().getContextPath() + "/user/center/";
+			url += action;
+			url += "-" + pageNumber;
+
+			if (StringUtils.isNotBlank(getAnchor())) {
+				url += "#" + getAnchor();
+			}
+			return url;
+		}
+
 	}
 
 }

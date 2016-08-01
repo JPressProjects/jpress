@@ -40,9 +40,9 @@
 				      	<@jp_menu>
 				        	<#list menus as menu>
 				        		<#if menu.flag ??>
-				        			<li class="active"><a href="${CPATH}${menu.text!}">${menu.title}</a></li>
+				        			<li class="active"><a href="${menu.text!}">${menu.title}</a></li>
 				        		<#else>
-				        			<li><a href="${CPATH}${menu.text!}">${menu.title}</a></li>
+				        			<li><a href="${menu.text!}">${menu.title}</a></li>
 				        		</#if>
 				        	</#list>
 				        </@jp_menu>

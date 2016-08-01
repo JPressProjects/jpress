@@ -16,7 +16,7 @@
                     <span class="jp-right forum-send">发表新主题</span>
                 </p>
             </header>
-            
+            <@contentPage pagesize="20" >
             <#list page.getList() as content>
             <article class="forum-content clearfix">
                 <div class="border-top"></div>
@@ -41,6 +41,7 @@
                 </div>
             </article>
 			 </#list>
+			 </@contentPage >
 
         </section>
         <aside class="col-md-3 display-none-992 main-side jp-common">

@@ -119,7 +119,7 @@ public class ContentQuery extends JBaseQuery {
 		fromBuilder.append(" ORDER BY c.created DESC");
 
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
 		}
 
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
@@ -172,7 +172,7 @@ public class ContentQuery extends JBaseQuery {
 		buildOrderBy(orderBy, fromBuilder);
 
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true,select, fromBuilder.toString());
 		}
 
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());

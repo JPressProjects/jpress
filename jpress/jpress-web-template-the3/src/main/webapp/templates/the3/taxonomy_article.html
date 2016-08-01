@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <section class="col-xs-12 col-md-9 ">
-        
+        	<@contentPage pagesize="10" >
         	<#list page.getList() as content>
             <article class="content">
                 <div class="row">
@@ -28,7 +28,7 @@
             <section class="jp-right">
                 <#include "_inc/_paginate.html" />
             </section>
-
+			</@contentPage>
 
         </section>
         <aside class="col-md-3 display-none-992 main-side jp-common">

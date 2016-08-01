@@ -194,7 +194,7 @@ public class ContentQuery extends JBaseQuery {
 
 	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
-		if (!StringUtils.isNotBlank(orderBy)) {
+		if (StringUtils.isBlank(orderBy)) {
 			fromBuilder.append(" ORDER BY c.created DESC");
 			return;
 		}

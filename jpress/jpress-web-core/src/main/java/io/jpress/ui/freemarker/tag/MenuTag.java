@@ -86,7 +86,7 @@ public class MenuTag extends JTag {
 	private void processContextPath(List<Content> list) {
 		for (Content c : list) {
 			String url = c.getText();
-			if (!StringUtils.isNotBlank(url)) {
+			if (StringUtils.isBlank(url)) {
 				continue;
 			}
 

@@ -98,12 +98,12 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	public void menuSave() {
 		Content c = getModel(Content.class);
 
-		if (!StringUtils.isNotBlank(c.getTitle())) {
+		if (StringUtils.isBlank(c.getTitle())) {
 			renderAjaxResultForError("名称不能为空！");
 			return;
 		}
 
-		if (!StringUtils.isNotBlank(c.getText())) {
+		if (StringUtils.isBlank(c.getText())) {
 			renderAjaxResultForError("关键字不能为空！");
 			return;
 		}

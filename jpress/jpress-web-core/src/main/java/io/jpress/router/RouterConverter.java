@@ -71,7 +71,7 @@ public abstract class RouterConverter {
 
 	protected static String getFakeStaticSuffix() {
 		String fakeStaticSuffix = OptionQuery.me().findValue("router_fakestatic_suffix");
-		if (!StringUtils.isNotBlank(fakeStaticSuffix)) {
+		if (StringUtils.isBlank(fakeStaticSuffix)) {
 			fakeStaticSuffix = ".html";
 		}
 		return fakeStaticSuffix.trim();

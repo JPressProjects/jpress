@@ -44,7 +44,7 @@ public class SitemapController extends Controller {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildSitemapHeader(xmlBuilder);
 		String domain = OptionQuery.me().findValue("web_domain");
-		if (!StringUtils.isNotBlank(domain))
+		if (StringUtils.isBlank(domain))
 			domain = "";
 
 		buildSitemap(xmlBuilder, domain + "/sitemap/site", format.format(new Date()));
@@ -70,7 +70,7 @@ public class SitemapController extends Controller {
 	@ActionCache
 	public void taxonomy() {
 		String idString = getPara();
-		if (!StringUtils.isNotBlank(idString)) {
+		if (StringUtils.isBlank(idString)) {
 			renderText("", contentType);
 		}
 

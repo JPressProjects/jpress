@@ -162,7 +162,7 @@ public class AddonManager {
 			if (attr != null) {
 
 				String id = attr.getValue("Addon-Id");
-				if (!StringUtils.isNotBlank(id)) {
+				if (StringUtils.isBlank(id)) {
 					log.warn("addon " + file.getParentFile() + " must has id");
 					return null;
 				}

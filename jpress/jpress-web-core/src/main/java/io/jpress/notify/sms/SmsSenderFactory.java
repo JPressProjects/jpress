@@ -25,7 +25,7 @@ public class SmsSenderFactory {
 		
 		String provider = OptionQuery.me().findValue("sms_app_provider");
 		
-		if(!StringUtils.isNotBlank(provider)){
+		if(StringUtils.isBlank(provider)){
 			return new AlidayuSmsSender();
 		}
 		

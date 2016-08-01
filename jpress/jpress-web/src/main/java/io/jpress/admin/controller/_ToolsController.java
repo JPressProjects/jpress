@@ -98,7 +98,7 @@ public class _ToolsController extends JBaseController {
 		}
 
 		String moduelName = getPara("_module");
-		if (!StringUtils.isNotBlank(moduelName)) {
+		if (StringUtils.isBlank(moduelName)) {
 			renderAjaxResultForError("请选择导入目标");
 			return;
 		}

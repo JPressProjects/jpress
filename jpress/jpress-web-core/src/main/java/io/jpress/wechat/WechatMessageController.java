@@ -357,7 +357,7 @@ public class WechatMessageController extends MsgController {
 
 		String replyContent = OptionQuery.me().findValue(optionKey);
 
-		if (!StringUtils.isNotBlank(replyContent)) {
+		if (StringUtils.isBlank(replyContent)) {
 			renderNull();
 			return;
 		}

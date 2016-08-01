@@ -42,7 +42,7 @@ public class IndexController extends BaseFrontController {
 
 		String para = getPara();
 
-		if (!StringUtils.isNotBlank(para)) {
+		if (StringUtils.isBlank(para)) {
 			setAttr("indexPage", new IndexPageTag(null, 1));
 			render("index.html");
 			return;

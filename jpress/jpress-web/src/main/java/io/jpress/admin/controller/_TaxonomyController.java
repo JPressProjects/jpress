@@ -95,12 +95,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 	public void save() {
 		Taxonomy m = getModel(Taxonomy.class);
 
-		if (!StringUtils.isNotBlank(m.getTitle())) {
+		if (StringUtils.isBlank(m.getTitle())) {
 			renderAjaxResultForError("名称不能为空！");
 			return;
 		}
 
-		if (!StringUtils.isNotBlank(m.getSlug())) {
+		if (StringUtils.isBlank(m.getSlug())) {
 			renderAjaxResultForError("别名不能为空！");
 			return;
 		}

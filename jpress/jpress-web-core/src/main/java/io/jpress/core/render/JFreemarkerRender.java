@@ -105,7 +105,7 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		}
 
 		String cdn_domain = OptionQuery.me().findValue("cdn_domain");
-		if (!StringUtils.isNotBlank(cdn_domain)) {
+		if (StringUtils.isBlank(cdn_domain)) {
 			return content;
 		}
 
@@ -153,7 +153,7 @@ public class JFreemarkerRender extends FreeMarkerRender {
 	}
 
 	private static boolean isExcludeFiles(String link) {
-		if (!StringUtils.isNotBlank(link))
+		if (StringUtils.isBlank(link))
 			return false;
 
 		String cdn_exclude_files = OptionQuery.me().findValue("cdn_exclude_files");

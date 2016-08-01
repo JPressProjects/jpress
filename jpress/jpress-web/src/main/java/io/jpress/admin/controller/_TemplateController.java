@@ -56,7 +56,7 @@ public class _TemplateController extends JBaseController {
 	public void enable() {
 		String id = getPara("id");
 
-		if (!StringUtils.isNotBlank(id) ) {
+		if (StringUtils.isBlank(id) ) {
 			renderAjaxResultForError();
 			return;
 		}
@@ -201,7 +201,7 @@ public class _TemplateController extends JBaseController {
 	@Before(UCodeInterceptor.class)
 	public void menusave() {
 		Content c = getModel(Content.class);
-		if(!StringUtils.isNotBlank(c.getTitle())){
+		if(StringUtils.isBlank(c.getTitle())){
 			renderAjaxResultForError("菜单名称不能为空！");
 			return;
 		}

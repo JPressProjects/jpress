@@ -113,7 +113,7 @@ public class ContentRouter extends RouterConverter {
 
 	public static String getRouterType() {
 		String type = OptionQuery.me().findValue("router_content_type");
-		if (!StringUtils.isNotBlank(type))
+		if (StringUtils.isBlank(type))
 			return DEFAULT_TYPE;
 
 		return type;
@@ -121,7 +121,7 @@ public class ContentRouter extends RouterConverter {
 
 	public static String getRouterPrefix() {
 		String prefix = OptionQuery.me().findValue("router_content_prefix");
-		if (!StringUtils.isNotBlank(prefix))
+		if (StringUtils.isBlank(prefix))
 			prefix = Consts.ROUTER_CONTENT.substring(1);
 		return prefix;
 	}

@@ -15,7 +15,7 @@ public class ArchivesTag extends JTag {
 	public void onRender() {
 
 		String module = getParam("module", Consts.MODULE_ARTICLE);
-		if (!StringUtils.isNotBlank(module)) {
+		if (StringUtils.isBlank(module)) {
 			renderText("");
 			return;
 		}

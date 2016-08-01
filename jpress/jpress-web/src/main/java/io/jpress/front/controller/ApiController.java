@@ -44,7 +44,7 @@ public class ApiController extends JBaseController {
 		}
 
 		String appkey = getPara("appkey");
-		if (!StringUtils.isNotBlank(appkey)) {
+		if (StringUtils.isBlank(appkey)) {
 			renderAjaxResultForError("appkey must not empty!");
 			return;
 		}

@@ -87,6 +87,10 @@ public class StringUtils {
 		return string != null && !string.trim().equals("");
 	}
 
+	public static boolean isBlank(String string) {
+		return string == null || string.trim().equals("");
+	}
+
 	public static long toLong(String value, Long defaultValue) {
 		try {
 			if (value == null || "".equals(value.trim()))

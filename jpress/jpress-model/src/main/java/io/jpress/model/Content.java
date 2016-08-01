@@ -302,7 +302,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	private String imageByName(String name, String imageSrc) {
-		if (!StringUtils.isNotBlank(imageSrc)) {
+		if (StringUtils.isBlank(imageSrc)) {
 			return null;
 		}
 

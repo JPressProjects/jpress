@@ -1,0 +1,18 @@
+
+2016-08-01 17:58:54
+[WARN]-[Thread: http-bio-8080-exec-2]-[com.jfinal.core.ActionHandler.handle()]: 404 Not Found: /c/15555
+
+2016-08-01 17:59:16
+[WARN]-[Thread: http-bio-8080-exec-6]-[com.jfinal.core.ActionHandler.handle()]: 404 Not Found: /c/188888
+
+2016-08-01 17:59:39
+[WARN]-[Thread: http-bio-8080-exec-5]-[com.jfinal.core.ActionHandler.handle()]: 404 Not Found: /c/188888
+
+2016-08-01 18:08:25
+[WARN]-[Thread: http-bio-8080-exec-1]-[com.jfinal.core.ActionHandler.handle()]: 404 Not Found: /c/188888
+
+2016-08-01 18:09:32
+[WARN]-[Thread: localhost-startStop-1]-[net.sf.ehcache.store.disk.DiskStorageFactory.<init>()]: The index for data file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.data is out of date, probably due to an unclean shutdown. Deleting index file /var/folders/lx/10kbjj5x5b73fn5k84nx6zlh0000gp/T/option.index
+
+2016-08-01 18:09:42
+[WARN]-[Thread: http-bio-8080-exec-12]-[com.jfinal.core.ActionHandler.handle()]: 404 Not Found: /c/188888

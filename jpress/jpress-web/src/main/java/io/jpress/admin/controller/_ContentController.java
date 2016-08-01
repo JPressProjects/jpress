@@ -96,11 +96,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		Page<Content> page = null;
 		if (StringUtils.isNotBlank(getStatus())) {
-			page = ContentQuery.me().paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword, getStatus(),
-					tids,null);
+			page = ContentQuery.me().paginateBySearch(getPageNumbere(), getPageSize(), getModuleName(), keyword,
+					getStatus(), tids, null);
 		} else {
-			page = ContentQuery.me().paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(), keyword,
-					tids,null);
+			page = ContentQuery.me().paginateByModuleNotInDelete(getPageNumbere(), getPageSize(), getModuleName(),
+					keyword, tids, null);
 		}
 
 		filterUI(tids);
@@ -253,16 +253,15 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
-		if(!Consts.MODULE_PAGE.equals(moduleName)){
+		if (!Consts.MODULE_PAGE.equals(moduleName)) {
 			String routerType = ContentRouter.getRouterType();
-			if (!StringUtils.isNotBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
+			if (StringUtils.isBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
 					|| ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType)
 					|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType)
 					|| ContentRouter.TYPE_STATIC_PREFIX_ID.equals(routerType)) {
 				setAttr("slugDisplay", " style=\"display: none\"");
 			}
 		}
-		
 
 		super.edit();
 	}
@@ -345,7 +344,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		final Content content = getContent();
 
-		if (!StringUtils.isNotBlank(content.getTitle())) {
+		if (StringUtils.isBlank(content.getTitle())) {
 			renderAjaxResultForError("内容标题不能为空！");
 			return;
 		}
@@ -353,14 +352,18 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		boolean isAddAction = content.getId() == null;
 
 		String slug = content.getSlug();
-		if (!StringUtils.isNotBlank(slug)) {
+
+		if (StringUtils.isBlank(slug)) {
 			slug = content.getTitle();
 		}
 
 		if (slug != null) {
-			slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
-			slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
-
+			if (StringUtils.isNumeric(slug)) {
+				slug += "slug_" + slug; // slug不能为全是数字
+			} else {
+				slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
+				slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
+			}
 			content.setSlug(slug);
 		}
 
@@ -412,8 +415,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 				for (Map.Entry<String, String> entry : metas.entrySet()) {
 
-					Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(Content.METADATA_TYPE, content.getId(), entry.getKey());
-					
+					Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(Content.METADATA_TYPE, content.getId(),
+							entry.getKey());
+
 					if (metadata == null) {
 						metadata = new Metadata();
 					}

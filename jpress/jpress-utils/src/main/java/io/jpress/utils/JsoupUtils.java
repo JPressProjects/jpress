@@ -23,7 +23,7 @@ public class JsoupUtils {
 	}
 
 	public static List<String> getImageSrcs(String html) {
-		if (!StringUtils.isNotBlank(html)) {
+		if (StringUtils.isBlank(html)) {
 			return null;
 		}
 

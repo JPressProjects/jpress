@@ -87,7 +87,7 @@ public class OauthController extends Oauth2Controller {
 		MessageKit.sendMessage(Actions.USER_LOGINED, user);
 
 		String redirect = getPara("goto");
-		if (!StringUtils.isNotBlank(redirect)) {
+		if (StringUtils.isBlank(redirect)) {
 			redirect = getSessionAttr("_goto_url");
 		}
 

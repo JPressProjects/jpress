@@ -123,7 +123,7 @@ public class TaxonomyQuery extends JBaseQuery {
 	
 	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
-		if (!StringUtils.isNotBlank(orderBy)) {
+		if (StringUtils.isBlank(orderBy)) {
 			fromBuilder.append(" ORDER BY t.created DESC");
 			return;
 		}

@@ -83,7 +83,7 @@ public class AtProcessListener extends BaseMessageListener {
 			email.subject("有人@你了....");
 
 			String content = OptionQuery.me().findValue("notify_author_content_by_email_when_at");
-			if (!StringUtils.isNotBlank(content)) {
+			if (StringUtils.isBlank(content)) {
 				content = "有人@你了....";
 			}
 			email.content(content);

@@ -56,7 +56,7 @@ public class AdminNotificationListener extends BaseMessageListener {
 		if (notify != null && notify == true) {
 			
 			String toemail = OptionQuery.me().findValue("web_administrator_email");
-			if(!StringUtils.isNotBlank(toemail)){
+			if(StringUtils.isBlank(toemail)){
 				return;
 			}
 

@@ -81,7 +81,7 @@ public class _AddonController extends JBaseController {
 		keepPara();
 
 		String id = getPara("id");
-		if (!StringUtils.isNotBlank(id)) {
+		if (StringUtils.isBlank(id)) {
 			renderAjaxResultForError();
 			return;
 		}
@@ -104,7 +104,7 @@ public class _AddonController extends JBaseController {
 		keepPara();
 
 		String id = getPara("id");
-		if (!StringUtils.isNotBlank(id)) {
+		if (StringUtils.isBlank(id)) {
 			renderAjaxResultForError();
 			return;
 		}
@@ -127,7 +127,7 @@ public class _AddonController extends JBaseController {
 		keepPara();
 
 		String id = getPara("id");
-		if (!StringUtils.isNotBlank(id)) {
+		if (StringUtils.isBlank(id)) {
 			renderAjaxResultForError();
 			return;
 		}

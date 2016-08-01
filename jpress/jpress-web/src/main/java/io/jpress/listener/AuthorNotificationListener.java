@@ -75,7 +75,7 @@ public class AuthorNotificationListener extends BaseMessageListener {
 			}
 
 			String content = OptionQuery.me().findValue("notify_author_content_by_sms_when_has_comment");
-			if (!StringUtils.isNotBlank(content)) {
+			if (StringUtils.isBlank(content)) {
 				return;
 			}
 
@@ -104,7 +104,7 @@ public class AuthorNotificationListener extends BaseMessageListener {
 			email.subject("有人评论了您的文章！");
 
 			String content = OptionQuery.me().findValue("notify_author_content_by_email_when_has_comment");
-			if (!StringUtils.isNotBlank(content)) {
+			if (StringUtils.isBlank(content)) {
 				content = "有人评论了您的文章！";
 			}
 			email.content(content);

@@ -245,22 +245,22 @@ public class JBaseController extends Controller {
 	@Before(NotAction.class)
 	public String getIPAddress() {
 		String ip = getRequest().getHeader("X-getRequest()ed-For");
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("X-Forwarded-For");
 		}
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("Proxy-Client-IP");
 		}
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("WL-Proxy-Client-IP");
 		}
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("HTTP_CLIENT_IP");
 		}
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getHeader("HTTP_X_FORWARDED_FOR");
 		}
-		if (!StringUtils.isNotBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
 			ip = getRequest().getRemoteAddr();
 		}
 		return ip;

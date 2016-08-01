@@ -7,14 +7,6 @@
          
     <diskStore path="java.io.tmpdir"/>
     
-    <defaultCache
-           maxEntriesLocalHeap="10000"
-           eternal="false"
-           overflowToDisk="true"
-           timeToIdleSeconds="20"
-           timeToLiveSeconds="60">
-    </defaultCache>
-
 
     <cache name="jpress"
            maxEntriesLocalHeap="500"
@@ -66,6 +58,18 @@
             />
     
      <cache name="content"
+         maxEntriesLocalHeap="10000"
+         maxEntriesLocalDisk="100000"
+         eternal="false"
+         overflowToDisk="true"
+         diskSpoolBufferSizeMB="20"
+         timeToIdleSeconds="300"
+         timeToLiveSeconds="600"
+         memoryStoreEvictionPolicy="LFU"
+         transactionalMode="off"
+          />
+          
+     <cache name="content_temp"
          maxEntriesLocalHeap="10000"
          maxEntriesLocalDisk="100000"
          eternal="false"

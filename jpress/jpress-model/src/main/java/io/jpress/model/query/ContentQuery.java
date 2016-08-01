@@ -47,7 +47,8 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" ( ");
 		sqlBuilder.append(
 				" select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
-		sqlBuilder.append(" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ,u.nickname,u.avatar");
+		sqlBuilder.append(
+				" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ,u.nickname,u.avatar");
 		sqlBuilder.append(" FROM content c ");
 		sqlBuilder.append(" left join mapping m on c.id = m.`content_id` ");
 		sqlBuilder.append(" left join taxonomy  t on m.`taxonomy_id` = t.id ");
@@ -172,7 +173,7 @@ public class ContentQuery extends JBaseQuery {
 		buildOrderBy(orderBy, fromBuilder);
 
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, true,select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
 		}
 
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
@@ -356,8 +357,7 @@ public class ContentQuery extends JBaseQuery {
 		buildOrderBy(orderby, sqlBuilder);
 		return DAO.find(sqlBuilder.toString(), module);
 	}
-	
-	
+
 	public List<Content> findArchiveByModule(String module) {
 		StringBuilder sqlBuilder = getBaseSelectSql("DATE_FORMAT( c.created, \"%Y-%m\" ) as archiveDate");
 		sqlBuilder.append(" where module = ? ");
@@ -396,6 +396,45 @@ public class ContentQuery extends JBaseQuery {
 			@Override
 			public Object load() {
 				return DAO.findFirst(sql.toString(), id);
+			}
+		});
+	}
+
+	public Content findNext(final BigInteger id, final String module) {
+		final StringBuilder sqlBuilder = new StringBuilder(" select ");
+		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+		sqlBuilder.append(" from content c");
+		sqlBuilder.append(" left join user u on c.user_id = u.id ");
+		sqlBuilder.append(" WHERE c.id > ?");
+		sqlBuilder.append(" AND c.module = ?");
+		sqlBuilder.append(" AND c.status = 'normal'");
+		sqlBuilder.append(" ORDER BY c.created ASC");
+		sqlBuilder.append(" LIMIT 1");
+
+		return DAO.getTemp(String.format("next_%s_$s", module, id), new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.findFirst(sqlBuilder.toString(), id, module);
+			}
+		});
+	}
+	
+	
+	public Content findPrevious(final BigInteger id, final String module) {
+		final StringBuilder sqlBuilder = new StringBuilder(" select ");
+		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+		sqlBuilder.append(" from content c");
+		sqlBuilder.append(" left join user u on c.user_id = u.id ");
+		sqlBuilder.append(" WHERE c.id < ?");
+		sqlBuilder.append(" AND c.module = ?");
+		sqlBuilder.append(" AND c.status = 'normal'");
+		sqlBuilder.append(" ORDER BY c.created DESC");
+		sqlBuilder.append(" LIMIT 1");
+		
+		return DAO.getTemp(String.format("previous_%s_$s", module, id), new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.findFirst(sqlBuilder.toString(), id, module);
 			}
 		});
 	}

@@ -400,7 +400,7 @@ public class ContentQuery extends JBaseQuery {
 		});
 	}
 
-	public Content findNext(final BigInteger id, final String module) {
+	public Content findNext(final Content currentContent) {
 		final StringBuilder sqlBuilder = new StringBuilder(" select ");
 		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
 		sqlBuilder.append(" from content c");
@@ -411,16 +411,16 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" ORDER BY c.created ASC");
 		sqlBuilder.append(" LIMIT 1");
 
-		return DAO.getTemp(String.format("next_%s_$s", module, id), new IDataLoader() {
+		return DAO.getTemp(String.format("next_%s_$s", currentContent.getId(), currentContent.getModule()), new IDataLoader() {
 			@Override
 			public Object load() {
-				return DAO.findFirst(sqlBuilder.toString(), id, module);
+				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
 			}
 		});
 	}
 	
 	
-	public Content findPrevious(final BigInteger id, final String module) {
+	public Content findPrevious(final Content currentContent) {
 		final StringBuilder sqlBuilder = new StringBuilder(" select ");
 		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
 		sqlBuilder.append(" from content c");
@@ -431,10 +431,10 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" ORDER BY c.created DESC");
 		sqlBuilder.append(" LIMIT 1");
 		
-		return DAO.getTemp(String.format("previous_%s_$s", module, id), new IDataLoader() {
+		return DAO.getTemp(String.format("previous_%s_$s", currentContent.getId(), currentContent.getModule()), new IDataLoader() {
 			@Override
 			public Object load() {
-				return DAO.findFirst(sqlBuilder.toString(), id, module);
+				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
 			}
 		});
 	}

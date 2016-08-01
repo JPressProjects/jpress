@@ -69,8 +69,8 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("p", pageNumber);
 		setAttr("content", content);
-		setAttr("nextContent", ContentQuery.me().findNext(content.getId(), content.getModule()));
-		setAttr("previousContent", ContentQuery.me().findPrevious(content.getId(), content.getModule()));
+		setAttr("nextContent", ContentQuery.me().findNext(content));
+		setAttr("previousContent", ContentQuery.me().findPrevious(content));
 		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
 		setAttr("commentPageTag", new CommentPageTag(content, pageNumber));

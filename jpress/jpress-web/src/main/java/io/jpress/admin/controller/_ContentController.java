@@ -359,7 +359,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		if (slug != null) {
 			if (StringUtils.isNumeric(slug)) {
-				slug += "slug_" + slug; // slug不能为全是数字
+				slug = "c" + slug; // slug不能为全是数字,随便添加一个字母，c代表content好了
 			} else {
 				slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
 				slug = slug.replaceAll("(?!_)\\pP|\\pS", "");

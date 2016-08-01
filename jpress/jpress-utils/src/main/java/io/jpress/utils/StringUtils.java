@@ -137,6 +137,8 @@ public class StringUtils {
 	}
 
 	public static boolean isNumeric(String str) {
+		if (str == null)
+			return false;
 		for (int i = str.length(); --i >= 0;) {
 			int chr = str.charAt(i);
 			if (chr < 48 || chr > 57)

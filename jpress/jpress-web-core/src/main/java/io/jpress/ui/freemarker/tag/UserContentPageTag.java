@@ -50,8 +50,7 @@ public class UserContentPageTag extends JTag {
 
 		BigInteger[] tids = taxonomyId == null ? null : new BigInteger[] { taxonomyId };
 
-		Page<Content> page = ContentQuery.me().paginate(pageNumber, pageSize, module, null, status, tids, null,
-				orderby);
+		Page<Content> page = ContentQuery.me().paginate(pageNumber, pageSize, module, null, status, tids, userId,orderby);
 
 		setVariable("page", page);
 

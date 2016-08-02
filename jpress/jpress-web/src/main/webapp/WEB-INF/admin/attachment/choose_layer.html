@@ -79,9 +79,9 @@ $('#fine-uploader-gallery').fineUploader({
 								<#list page.getList() as bean>
 								<li>
 									<#if bean.isImage() >
-										<img src="${CPATH}${bean.path}" path="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" >
+										<img src="${CPATH}${bean.path}" title="${bean.title!}" path="${CPATH}${bean.path}" class="jp-grids-photos img-responsive" >
 									<#else>
-										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" path="${CPATH}${bean.path}" class="jp-grids-photos img-responsive">
+										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" title="${bean.title!}" path="${CPATH}${bean.path}" class="jp-grids-photos img-responsive">
 									</#if>
 									<div class="brower-active-icon" style="display: none">
 										<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>

@@ -20,7 +20,7 @@ function doSubmit(){
 </#macro>
 <@layout >
 <!-- Main content -->
-<section class="content">
+<section class="content" style="padding-top:0">
 	<div class="row">
 		<div class="col-md-12">
 			<form action="${CPATH}/admin/taxonomy/set_layer_save" method="POST" id="form">
@@ -40,8 +40,9 @@ function doSubmit(){
 				
 				<#list type.metadatas as metadata>
 				 <div class="form-group jp-input-item">
-	                 <label for="_meta_${metadata.name!}" class="input-title" >${metadata.text!}</label>
-	                 <input type="text" class="form-control" placeholder="${metadata.placeholder!}" id="meta_${metadata.name!}" name="meta_${metadata.name!}" value="${(content.metadata(metadata.name))!}">
+	                 <label for="_meta_${metadata.name!}" class="input-title" >${metadata.title!}</label>
+	                 <input type="text" class="form-control" placeholder="${metadata.placeholder!}" id="meta_${metadata.name!}" name="meta_${metadata.name!}" value="${(taxonomy.metadata(metadata.name))!}">
+	           		 <p>${metadata.description!}</p>
 	              </div>
 				</#list>
 				

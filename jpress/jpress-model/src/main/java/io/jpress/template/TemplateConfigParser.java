@@ -111,7 +111,8 @@ public class TemplateConfigParser extends DefaultHandler {
 			TplMetadata meta = new TplMetadata();
 
 			meta.setName(attrs.getValue("name"));
-			meta.setText(attrs.getValue("text"));
+			meta.setTitle(attrs.getValue("title"));
+			meta.setDescription(attrs.getValue("description"));
 			meta.setPlaceholder(attrs.getValue("placeholder"));
 			String dataType = attrs.getValue("placeholder");
 			if (StringUtils.isNotBlank(dataType)) {

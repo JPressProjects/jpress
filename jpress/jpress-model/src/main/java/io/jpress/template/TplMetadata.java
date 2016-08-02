@@ -3,7 +3,8 @@ package io.jpress.template;
 public class TplMetadata {
 
 	private String name;
-	private String text;
+	private String title;
+	private String description;
 	private String placeholder;
 	private String dataType = DATA_TYPE_INPUT;
 
@@ -19,12 +20,20 @@ public class TplMetadata {
 		this.name = name;
 	}
 
-	public String getText() {
-		return text;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getPlaceholder() {

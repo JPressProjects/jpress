@@ -14,12 +14,12 @@
 	<module title="文章" name="article" list="所有文章" add="撰写文章" comment="评论">
 		<taxonomy title="分类" name="category" formType="select" />
 		<taxonomy title="专题" name="feature" formType="select" >
-			<metadata dataType="input" name="author" text="专题作者"  placeholder="请填写作者用户名"/>
+			<metadata dataType="input" name="author" title="专题作者"  description="这个数据只是模板自定义模型的测试。" placeholder="请填写作者用户名"/>
 		</taxonomy>
 		<taxonomy title="标签" name="tag" formType="input" />
 		
-		<metadata dataType="input" name="_meta1" text="元数据1"  placeholder="元数据测试1"/>
-		<metadata dataType="input" name="_meta2" text="元数据2"  placeholder="元数据测试2"/>
+		<metadata dataType="input" name="_meta1" title="元数据1"  placeholder="元数据测试1"/>
+		<metadata dataType="input" name="_meta2" title="元数据2"  placeholder="元数据测试2"/>
 	</module>
 
 	<module title="页面" name="page" list="所有页面" add="新建页面" comment="评论">

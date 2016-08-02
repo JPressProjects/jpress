@@ -76,6 +76,7 @@ public class TaxonomyController extends BaseFrontController {
 	}
 
 	private void setGlobleAttrs(Taxonomy taxonomy) {
+		System.out.println(taxonomy.getMetaKeywords()+"----"+taxonomy.getMetaDescription());
 		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, taxonomy.getTitle());
 		setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, taxonomy.getMetaKeywords());
 		setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, taxonomy.getMetaDescription());

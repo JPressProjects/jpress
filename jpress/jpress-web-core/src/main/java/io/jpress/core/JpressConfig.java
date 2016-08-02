@@ -65,7 +65,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setMaxPostSize(1024 * 1024 * 200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
 
-		// constants.setTokenCache(new JTokenCache());
+//		 constants.setTokenCache(new JTokenCache());
 	}
 
 	@SuppressWarnings("unchecked")

@@ -1,0 +1,58 @@
+<#include "../_inc/_layer_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					parent.reload = true;
+					parent.layer.closeAll(); 
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout >
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-md-12">
+			<form action="${CPATH}/admin/taxonomy/set_layer_save" method="POST" id="form">
+				<input type="hidden" name="taxonomy.id"value="${(taxonomy.id)!}"> 
+				<input type="hidden" name="ucode" value="${ucode}">
+				
+				<div class="form-group jp-input-item">
+					<label class="input-title">SEO关键字</label>
+					<textarea class="form-control" name="taxonomy.meta_keywords" rows="2">${(taxonomy.meta_keywords)!}</textarea>
+					<p>用于设置该分类的列表的SEO关键字。</p>
+				</div>
+				<div class="form-group jp-input-item">
+					<label class="input-title">SEO描述</label>
+					<textarea class="form-control" name="taxonomy.meta_description" rows="3">${(taxonomy.meta_description)!}</textarea>
+					<p>用于设置该分类的列表的SEO描述内容。</p>
+				</div>
+				
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_lng" class="input-title">地理位置经度</label> 
+					<input id="taxonomy_lng" class="form-control" type="text" name="taxonomy.lng" value="${(taxonomy.lng)!}">
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_lat" class="input-title">地理位置纬度</label> 
+					<input id="taxonomy_lat" class="form-control" type="text" name="taxonomy.lat" value="${(taxonomy.lat)!}">
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保 存</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+<!-- /.content -->
+</@layout>

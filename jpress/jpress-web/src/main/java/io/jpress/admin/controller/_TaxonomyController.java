@@ -74,23 +74,21 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		if (id != null && taxonomys != null) {
 			ModelSorter.removeTreeBranch(taxonomys, id);
 		}
-		
-		if(TaxonomyType.TYPE_SELECT.equals(type.getFormType())){
+
+		if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
 			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(1, Integer.MAX_VALUE, getContentModule(), getType());
 			ModelSorter.sort(page.getList());
 			setAttr("page", page);
-		}else if(TaxonomyType.TYPE_INPUT.equals(type.getFormType())){
-			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(getPageNumbere(), getPageSize(), getContentModule(), getType());
+		} else if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
+			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(getPageNumbere(), getPageSize(), getContentModule(),
+					getType());
 			setAttr("page", page);
 		}
-		
 
 		setAttr("module", module);
 		setAttr("type", type);
 		setAttr("taxonomys", taxonomys);
 	}
-
-
 
 	public void save() {
 		Taxonomy m = getModel(Taxonomy.class);
@@ -151,12 +149,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			public boolean run() throws SQLException {
 				if (TaxonomyQuery.me().deleteById(id)) {
 					MappingQuery.me().deleteByTaxonomyId(id);
-					
+
 					Content content = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, id);
 					if (content != null) {
 						content.delete();
 					}
-					
+
 					return true;
 				}
 				return false;
@@ -168,6 +166,19 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		} else {
 			renderAjaxResultForError();
 		}
+	}
+
+	public void set_layer() {
+		final BigInteger id = getParaToBigInteger("id");
+		Taxonomy taxonomy = TaxonomyQuery.me().findById(id);
+		setAttr("taxonomy", taxonomy);
+	}
+	
+
+	public void set_layer_save() {
+		Taxonomy taxonomy = getModel(Taxonomy.class);
+		taxonomy.saveOrUpdate();
+		renderAjaxResultForSuccess();
 	}
 
 }

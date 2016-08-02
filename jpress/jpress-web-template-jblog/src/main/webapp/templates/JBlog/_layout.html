@@ -15,9 +15,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
-  <link rel="stylesheet" href="${TPATH}/assets/css/app.css"/>
-  <link rel="stylesheet" href="${TPATH}/assets/font-awesome/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="${TPATH}/assets/mediaelement/mediaelementplayer.css" />
+  <link rel="stylesheet" href="${CTPATH}/assets/css/app.css"/>
+  <link rel="stylesheet" href="${CTPATH}/assets/font-awesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="${CTPATH}/assets/mediaelement/mediaelementplayer.css" />
   <@css_import />
 </head>
 <body class="blog-body">
@@ -42,7 +42,7 @@
       <div class="jblog-link-logo-image"><a href="${CPATH}/">${WEB_NAME!}</a></div>
       <div class="jblog-link-logo-adv">
 	      <a href="${option('jpblog_banner_url')!'#'}">
-	      	<img src="${option('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
+	      	<img src="${CPATH}${option('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
 	      </a>
       </div>
     </div>
@@ -80,8 +80,8 @@
 ${option('jpblog_statistical_code')!}
 </div>
 <@script_import />
-  <script src="${TPATH}/assets/js/jquery-2.1.1.min.js"></script>
-  <script src="${TPATH}/assets/mediaelement/mediaelement-and-player.min.js"></script>
+  <script src="${CTPATH}/assets/js/jquery-2.1.1.min.js"></script>
+  <script src="${CTPATH}/assets/mediaelement/mediaelement-and-player.min.js"></script>
 <script type="text/javascript">
 <@script />
 </script>

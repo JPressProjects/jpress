@@ -35,18 +35,17 @@ public class JHandler extends Handler {
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
 		String CPATH = request.getContextPath();
-		
+
 		request.setAttribute("_request", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
-		
 
 		// 程序还没有安装
 		if (!Jpress.isInstalled()) {
 			if (target.indexOf('.') != -1) {
 				return;
 			}
-			
+
 			if (!target.startsWith("/install")) {
 				processNotInstall(request, response, isHandled);
 				return;
@@ -58,12 +57,11 @@ public class JHandler extends Handler {
 			if (target.indexOf('.') != -1) {
 				return;
 			}
-			
+
 			InstallUtils.renderInstallFinished(request, response, isHandled);
 			return;
 		}
 
-		
 		if (Jpress.isInstalled() && Jpress.isLoaded()) {
 			setGlobalAttrs(request);
 		}
@@ -71,16 +69,16 @@ public class JHandler extends Handler {
 		if (isDisableAccess(target)) {
 			HandlerKit.renderError404(request, response, isHandled);
 		}
-		
+
 		String originalTarget = target;
 		target = RouterManager.converte(target, request, response);
-		
-		if(!originalTarget.equals(target)){
+
+		if (!originalTarget.equals(target)) {
 			request.setAttribute("_original_target", originalTarget);
 		}
-		
+
 		next.handle(target, request, response, isHandled);
-		
+
 	}
 
 	private void processNotInstall(HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
@@ -102,15 +100,16 @@ public class JHandler extends Handler {
 	}
 
 	private void setGlobalAttrs(HttpServletRequest request) {
-		
+
 		request.setAttribute("jp_menu", new MenuTag(request));
-		
-		if(null != TemplateUtils.currentTemplate()){
-			request.setAttribute("TPATH", request.getContextPath() + TemplateUtils.currentTemplate().getPath());
-		}else{
+
+		if (null != TemplateUtils.currentTemplate()) {
+			request.setAttribute("TPATH", TemplateUtils.currentTemplate().getPath());
+			request.setAttribute("CTPATH", request.getContextPath() + TemplateUtils.currentTemplate().getPath());
+		} else {
 			request.setAttribute("TPATH", "");
+			request.setAttribute("CTPATH", request.getContextPath());
 		}
-		
 
 		Boolean cdnEnable = OptionQuery.me().findValueAsBool("cdn_enable");
 		if (cdnEnable != null && cdnEnable == true) {

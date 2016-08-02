@@ -36,7 +36,7 @@ import io.jpress.plugin.message.Actions;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.Module;
+import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
@@ -49,7 +49,7 @@ public class _AdminController extends JBaseController {
 	@Before(ActionCacheClearInterceptor.class)
 	public void index() {
 		setAttr("modules", TemplateUtils.currentTemplate().getModules());
-		List<Module> moduleList = TemplateUtils.currentTemplate().getModules();
+		List<TplModule> moduleList = TemplateUtils.currentTemplate().getModules();
 
 		if (moduleList != null && moduleList.size() > 0) {
 			String moduels[] = new String[moduleList.size()];

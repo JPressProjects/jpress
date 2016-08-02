@@ -25,30 +25,30 @@ import com.jfinal.kit.PathKit;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 
-public class Module {
+public class TplModule {
 
 	private String title;
 	private String name;
 	private String listTitle;
 	private String addTitle;
 	private String commentTitle;
-	private List<TaxonomyType> taxonomyTypes;
-	private List<Metadata> metadatas;
+	private List<TplTaxonomyType> taxonomyTypes;
+	private List<TplMetadata> metadatas;
 
-	public List<TaxonomyType> getTaxonomyTypes() {
+	public List<TplTaxonomyType> getTaxonomyTypes() {
 		return taxonomyTypes;
 	}
 
-	public void setTaxonomyTypes(List<TaxonomyType> taxonomys) {
+	public void setTaxonomyTypes(List<TplTaxonomyType> taxonomys) {
 		this.taxonomyTypes = taxonomys;
 	}
 	
 
-	public List<Metadata> getMetadatas() {
+	public List<TplMetadata> getMetadatas() {
 		return metadatas;
 	}
 
-	public void setMetadatas(List<Metadata> metadatas) {
+	public void setMetadatas(List<TplMetadata> metadatas) {
 		this.metadatas = metadatas;
 	}
 
@@ -111,10 +111,10 @@ public class Module {
 		this.name = name;
 	}
 
-	public TaxonomyType getTaxonomyTypeByType(String name) {
-		List<TaxonomyType> tts = taxonomyTypes;
+	public TplTaxonomyType getTaxonomyTypeByType(String name) {
+		List<TplTaxonomyType> tts = taxonomyTypes;
 		if (null != tts && tts.size() > 0) {
-			for (TaxonomyType type : tts) {
+			for (TplTaxonomyType type : tts) {
 				if (type.getName().equals(name))
 					return type;
 			}
@@ -148,87 +148,5 @@ public class Module {
 				+ ", commentTitle=" + commentTitle + ", taxonomyTypes=" + taxonomyTypes + "]";
 	}
 
-	public static class TaxonomyType {
-		public static final String TYPE_INPUT = "input";
-		public static final String TYPE_SELECT = "select";
-
-		private String title;
-		private String name;
-		private String formType = TYPE_SELECT;
-		private Module module;
-
-		public TaxonomyType(Module module) {
-			this.module = module;
-		}
-
-		public String getTitle() {
-			return title;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public Module getModule() {
-			return module;
-		}
-
-		public String getFormType() {
-			return formType;
-		}
-
-		public void setFormType(String formType) {
-			this.formType = formType;
-		}
-
-		@Override
-		public String toString() {
-			return "TaxonomyType [title=" + title + ", name=" + name + ", formType=" + formType + "]";
-		}
-	}
-
-	public static class Metadata {
-		private String name;
-		private String text;
-		private String placeholder;
-		private String dataType = DATA_TYPE_INPUT;
-
-		public static String DATA_TYPE_INPUT = "input";
-		public static String DATA_TYPE_SELECT = "select";
-		public static String DATA_TYPE_CHECKBOX = "checkbox";
-		
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getText() {
-			return text;
-		}
-		public void setText(String text) {
-			this.text = text;
-		}
-		public String getPlaceholder() {
-			return placeholder;
-		}
-		public void setPlaceholder(String placeholder) {
-			this.placeholder = placeholder;
-		}
-		public String getDataType() {
-			return dataType;
-		}
-		public void setDataType(String dataType) {
-			this.dataType = dataType;
-		}
-	}
 
 }

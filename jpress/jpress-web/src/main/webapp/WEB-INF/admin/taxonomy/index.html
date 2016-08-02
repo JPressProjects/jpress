@@ -45,7 +45,7 @@ function openSetLayer(id,title){
 			    shadeClose: true,
 			    shade: 0.8,
 			    area: ['50%', '70%'],
-			    content: '${CPATH}/admin/taxonomy/set_layer?id='+id,
+			    content: '${CPATH}/admin/taxonomy/set_layer?m=${m!}&t=${t!}&id='+id,
 			    end:function(){
 			    	if(reload){
 			    		location.reload();
@@ -177,8 +177,8 @@ function openSetLayer(id,title){
 								</span></a></strong>
 									<div class="jp-flash-comment">
 										<p class="row-actions jp-common-pad">
-											<span class="approve"><a class="vim-a" href="javascript:;" onclick="openSetLayer('${bean.id!}','${bean.title!}')">设置</a></span>
-											<span class="approve">| <a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
+											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span>
+											<span class="approve">| <a class="vim-a" href="javascript:;" onclick="openSetLayer('${bean.id!}','${bean.title!}')">设置</a></span>
 											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:;" onclick="del('${bean.id}')">删除</a> </span> 
 											<span class="trash">| <a class="delete vim-d vim-destructive" href="${CPATH}${bean.url!}" target="_blank">查看</a></span>
 										</p>

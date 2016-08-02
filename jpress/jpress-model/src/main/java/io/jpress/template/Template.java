@@ -32,7 +32,7 @@ public class Template {
 	private String screenshot;
 	
 
-	private List<Module> modules;
+	private List<TplModule> modules;
 	private List<Thumbnail> thumbnails;
 	
 	public String getId() {
@@ -91,11 +91,11 @@ public class Template {
 		this.versionCode = versionCode;
 	}
 
-	public List<Module> getModules() {
+	public List<TplModule> getModules() {
 		return modules;
 	}
 
-	public void setModules(List<Module> modules) {
+	public void setModules(List<TplModule> modules) {
 		this.modules = modules;
 	}
 
@@ -141,9 +141,9 @@ public class Template {
 	}
 
 
-	public Module getModuleByName(String name) {
+	public TplModule getModuleByName(String name) {
 		if (modules != null && name != null) {
-			for (Module m : modules) {
+			for (TplModule m : modules) {
 				if (name.equals(m.getName())) {
 					return m;
 				}

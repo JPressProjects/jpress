@@ -18,7 +18,7 @@ package io.jpress.ui.freemarker.tag;
 import java.util.List;
 
 import io.jpress.core.render.freemarker.JTag;
-import io.jpress.template.Module;
+import io.jpress.template.TplModule;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 
@@ -30,7 +30,7 @@ public class ModulesTag extends JTag {
 		Template t = TemplateUtils.currentTemplate();
 
 		if (t != null) {
-			List<Module> modules = t.getModules();
+			List<TplModule> modules = t.getModules();
 			setVariable("modules", modules);
 			renderBody();
 		} else {

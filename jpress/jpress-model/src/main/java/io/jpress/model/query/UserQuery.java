@@ -24,7 +24,7 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
-import io.jpress.template.Module;
+import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
 
 public class UserQuery extends JBaseQuery {
@@ -118,9 +118,9 @@ public class UserQuery extends JBaseQuery {
 
 	public boolean updateContentCount(User user) {
 		long count = 0;
-		List<Module> modules = TemplateUtils.currentTemplate().getModules();
+		List<TplModule> modules = TemplateUtils.currentTemplate().getModules();
 		if (modules != null && !modules.isEmpty()) {
-			for (Module m : modules) {
+			for (TplModule m : modules) {
 				long moduleCount = ContentQuery.me().findCountInNormalByModuleAndUserId(m.getName(), user.getId());
 				count += moduleCount;
 			}

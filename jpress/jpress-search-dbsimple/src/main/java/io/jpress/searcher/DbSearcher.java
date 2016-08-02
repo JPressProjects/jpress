@@ -24,7 +24,7 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.search.ISearcher;
 import io.jpress.plugin.search.SearcherBean;
-import io.jpress.template.Module;
+import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
@@ -62,7 +62,7 @@ public class DbSearcher implements ISearcher {
 		if (StringUtils.isNotBlank(module)) {
 			moduleStrings = new String[] { module };
 		} else {
-			List<Module> modules = TemplateUtils.currentTemplate().getModules();
+			List<TplModule> modules = TemplateUtils.currentTemplate().getModules();
 			if (modules == null || modules.size() == 0) {
 				return null;
 			}

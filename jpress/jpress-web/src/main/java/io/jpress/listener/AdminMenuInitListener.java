@@ -23,10 +23,10 @@ import io.jpress.menu.MenuManager;
 import io.jpress.plugin.message.BaseMessageListener;
 import io.jpress.plugin.message.Message;
 import io.jpress.plugin.message.MessageAction;
-import io.jpress.template.Module;
-import io.jpress.template.Module.TaxonomyType;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
+import io.jpress.template.TplTaxonomyType;
 
 public class AdminMenuInitListener extends BaseMessageListener {
 
@@ -63,15 +63,15 @@ public class AdminMenuInitListener extends BaseMessageListener {
 			return;
 		}
 
-		List<Module> modules = t.getModules();
-		for (Module module : modules) {
+		List<TplModule> modules = t.getModules();
+		for (TplModule module : modules) {
 			MenuGroup group = new MenuGroup(module.getName(), "fa fa-file-text-o", module.getTitle());
 
 			group.addMenuItem(new MenuItem("list", "/admin/content?m=" + module.getName(), module.getListTitle()));
 			group.addMenuItem(new MenuItem("edit", "/admin/content/edit?m=" + module.getName(), module.getAddTitle()));
-			List<TaxonomyType> types = module.getTaxonomyTypes();
+			List<TplTaxonomyType> types = module.getTaxonomyTypes();
 			if (types != null && !types.isEmpty()) {
-				for (TaxonomyType type : types) {
+				for (TplTaxonomyType type : types) {
 					group.addMenuItem(new MenuItem(type.getName(),
 							"/admin/taxonomy?m=" + module.getName() + "&t=" + type.getName(), type.getTitle()));
 				}

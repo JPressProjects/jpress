@@ -21,11 +21,11 @@ import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
-import io.jpress.template.Module.TaxonomyType;
+import io.jpress.template.TplTaxonomyType;
 
 public class TaxonomyBox extends JFunction {
 
-	private TaxonomyType taxonomyType;
+	private TplTaxonomyType taxonomyType;
 	private Content content;
 	private List<Taxonomy> contentTaxonomyList;
 
@@ -37,7 +37,7 @@ public class TaxonomyBox extends JFunction {
 
 	private void init() {
 
-		this.taxonomyType = (TaxonomyType) get(0);
+		this.taxonomyType = (TplTaxonomyType) get(0);
 		this.content = (Content) get(1);
 
 		if (content != null) {

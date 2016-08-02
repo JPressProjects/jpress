@@ -28,8 +28,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.jfinal.log.Log;
 
-import io.jpress.template.Module.Metadata;
-import io.jpress.template.Module.TaxonomyType;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -37,16 +35,21 @@ public class TemplateConfigParser extends DefaultHandler {
 	private static final Log log = Log.getLog(TemplateConfigParser.class);
 	final Template template;
 
-	private Module cModule;
-	private List<Module> modules;
-	private List<TaxonomyType> cTaxonomys;
-	private List<Metadata> cMetadatas;
+	private TplModule cModule;
+	private TplTaxonomyType cTaxonomy;
+	private List<TplModule> modules;
+	private List<TplTaxonomyType> cTaxonomys;
+	private List<TplMetadata> cModuleMetadatas;
+	private List<TplMetadata> cTaxonomyMetadatas;
 	private List<Thumbnail> thumbnails;
 
+	private boolean taxonomyStarted = false;
+
 	private String value = null;
+
 	public TemplateConfigParser() {
 		template = new Template();
-		modules = new ArrayList<Module>();
+		modules = new ArrayList<TplModule>();
 		thumbnails = new ArrayList<Thumbnail>();
 	}
 
@@ -59,19 +62,18 @@ public class TemplateConfigParser extends DefaultHandler {
 		} catch (Exception e) {
 			log.warn("ConfigParser parser exception", e);
 		}
-		
+
 		File screenshotFile = new File(templateFolder, "tpl_screenshot.png");
-		if(screenshotFile.exists()){
+		if (screenshotFile.exists()) {
 			template.setScreenshot(FileUtils.removeRootPath(screenshotFile.getAbsolutePath()));
 		}
-		
+
 		String path = FileUtils.removeRootPath(templateFolder.getAbsolutePath());
 		template.setPath(path.replace("\\", "/"));
-		
+
 		return template;
 	}
 
-	
 	@Override
 	public void endDocument() throws SAXException {
 		template.setModules(modules);
@@ -82,40 +84,46 @@ public class TemplateConfigParser extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXException {
 
 		if ("module".equalsIgnoreCase(qName)) {
-			cModule = new Module();
+			cModule = new TplModule();
 			cModule.setAddTitle(attrs.getValue("add"));
 			cModule.setName(attrs.getValue("name"));
 			cModule.setListTitle(attrs.getValue("list"));
 			cModule.setTitle(attrs.getValue("title"));
 			cModule.setCommentTitle(attrs.getValue("comment"));
 
-			cTaxonomys = new ArrayList<Module.TaxonomyType>();
-			cMetadatas = new ArrayList<Module.Metadata>();
-			
+			cTaxonomys = new ArrayList<TplTaxonomyType>();
+			cModuleMetadatas = new ArrayList<TplMetadata>();
+
 		}
 
 		if ("taxonomy".equalsIgnoreCase(qName)) {
-			TaxonomyType tt = new TaxonomyType(cModule);
+			cTaxonomy = new TplTaxonomyType(cModule);
 
-			tt.setName(attrs.getValue("name"));
-			tt.setTitle(attrs.getValue("title"));
-			tt.setFormType(attrs.getValue("formType"));
+			cTaxonomy.setName(attrs.getValue("name"));
+			cTaxonomy.setTitle(attrs.getValue("title"));
+			cTaxonomy.setFormType(attrs.getValue("formType"));
 
-			cTaxonomys.add(tt);
+			cTaxonomyMetadatas = new ArrayList<TplMetadata>();
+			taxonomyStarted = true;
 		}
-		
+
 		if ("metadata".equalsIgnoreCase(qName)) {
-			Metadata meta = new Metadata();
-			
+			TplMetadata meta = new TplMetadata();
+
 			meta.setName(attrs.getValue("name"));
 			meta.setText(attrs.getValue("text"));
 			meta.setPlaceholder(attrs.getValue("placeholder"));
 			String dataType = attrs.getValue("placeholder");
-			if(StringUtils.isNotBlank(dataType)){
+			if (StringUtils.isNotBlank(dataType)) {
 				meta.setDataType(dataType);
 			}
-			
-			cMetadatas.add(meta);
+
+			if (taxonomyStarted) {
+				cTaxonomyMetadatas.add(meta);
+			} else {
+				cModuleMetadatas.add(meta);
+			}
+
 		}
 
 		if ("thumbnail".equalsIgnoreCase(qName)) {
@@ -131,31 +139,54 @@ public class TemplateConfigParser extends DefaultHandler {
 
 		if ("module".equalsIgnoreCase(qName)) {
 			cModule.setTaxonomyTypes(cTaxonomys);
-			cModule.setMetadatas(cMetadatas);
+			cModule.setMetadatas(cModuleMetadatas);
 			modules.add(cModule);
 		}
-		
+
+		else if ("taxonomy".equalsIgnoreCase(qName)) {
+			cTaxonomy.setMetadatas(cTaxonomyMetadatas);
+			cTaxonomys.add(cTaxonomy);
+			taxonomyStarted = false;
+		}
+
 		else if ("title".equalsIgnoreCase(qName)) {
 			template.setTitle(value);
-		} else if ("id".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("id".equalsIgnoreCase(qName)) {
 			template.setId(value);
-		}else if ("id".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("description".equalsIgnoreCase(qName)) {
 			template.setDescription(value);
-		} else if ("author".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("author".equalsIgnoreCase(qName)) {
 			template.setAuthor(value);
-		} else if ("authorWebsite".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("authorWebsite".equalsIgnoreCase(qName)) {
 			template.setAuthorWebsite(value);
-		} else if ("version".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("version".equalsIgnoreCase(qName)) {
 			template.setVersion(value);
-		} else if ("renderType".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("renderType".equalsIgnoreCase(qName)) {
 			template.setRenderType(value);
-		}else if ("versionCode".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("versionCode".equalsIgnoreCase(qName)) {
 			int versionCode = 0;
 			try {
 				versionCode = Integer.parseInt(value.trim());
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 			template.setVersionCode(versionCode);
-		} else if ("updateUrl".equalsIgnoreCase(qName)) {
+		}
+
+		else if ("updateUrl".equalsIgnoreCase(qName)) {
 			template.setUpdateUrl(value);
 		}
 

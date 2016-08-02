@@ -51,9 +51,9 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.router.converter.ContentRouter;
-import io.jpress.template.Module;
-import io.jpress.template.Module.TaxonomyType;
 import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
+import io.jpress.template.TplTaxonomyType;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
@@ -72,7 +72,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 
-		Module module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
+		TplModule module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
 		setAttr("module", module);
 		setAttr("delete_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
 		setAttr("draft_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
@@ -110,16 +110,16 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	}
 
 	private void filterUI(BigInteger[] tids) {
-		Module module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
+		TplModule module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
 
 		if (module != null) {
-			List<TaxonomyType> types = module.getTaxonomyTypes();
+			List<TplTaxonomyType> types = module.getTaxonomyTypes();
 			if (types != null && !types.isEmpty()) {
 				HashMap<String, List<Taxonomy>> _taxonomyMap = new HashMap<String, List<Taxonomy>>();
 
-				for (TaxonomyType type : types) {
+				for (TplTaxonomyType type : types) {
 					// 排除标签类的分类删选
-					if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
+					if (TplTaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
 						List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByModuleAndTypeAsSort(getModuleName(),
 								type.getName());
 						processSelected(tids, taxonomys);
@@ -244,7 +244,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			moduleName = content.getModule();
 		}
 
-		Module module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
 		setAttr("module", module);
 
 		String _editor = getCookie("_editor", "tinymce");
@@ -295,11 +295,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	}
 
 	public List<BigInteger> getOrCreateTaxonomyIds(String moduleName) {
-		Module module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
-		List<TaxonomyType> types = module.getTaxonomyTypes();
+		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		List<TplTaxonomyType> types = module.getTaxonomyTypes();
 		List<BigInteger> tIds = new ArrayList<BigInteger>();
-		for (TaxonomyType type : types) {
-			if (TaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
+		for (TplTaxonomyType type : types) {
+			if (TplTaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
 				String data = getPara("_" + type.getName());
 				if (!StringUtils.isNotEmpty(data)) {
 					continue;
@@ -321,7 +321,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 						tIds.add(id);
 					}
 				}
-			} else if (TaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
+			} else if (TplTaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
 				BigInteger[] ids = getParaValuesToBigInteger("_" + type.getName());
 				if (ids != null && ids.length > 0)
 					tIds.addAll(Arrays.asList(ids));

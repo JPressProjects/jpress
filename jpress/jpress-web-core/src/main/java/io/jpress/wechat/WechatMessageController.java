@@ -54,7 +54,7 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.Module;
+import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.FileUtils;
@@ -246,9 +246,9 @@ public class WechatMessageController extends MsgController {
 	 * @return
 	 */
 	private boolean searchProcess(InMsg message, String userInput) {
-		List<Module> modules = TemplateUtils.currentTemplate().getModules();
+		List<TplModule> modules = TemplateUtils.currentTemplate().getModules();
 		if (modules != null && modules.size() > 0) {
-			for (Module module : modules) {
+			for (TplModule module : modules) {
 
 				// 是否启用搜索
 				Boolean bool = OptionQuery.me().findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));

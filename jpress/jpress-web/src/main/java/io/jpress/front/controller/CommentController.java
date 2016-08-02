@@ -80,13 +80,18 @@ public class CommentController extends BaseFrontController {
 		if (contentId != null) {
 			content = ContentQuery.me().findById(contentId);
 		} else {
-			renderForCommentError("comment fail,content id is null!", 1);
+			renderForCommentError("comment fail,content id is null.", 1);
+			return;
+		}
+		
+		if(!content.commentIsEnable()){
+			renderForCommentError("the comment function of the content has been closed.", 1);
 			return;
 		}
 
 		String text = getPara("text");
 		if (!StringUtils.isNotBlank(text)) {
-			renderForCommentError("comment fail,text is blank!", 2);
+			renderForCommentError("comment fail,text is blank.", 2);
 			return;
 		}
 

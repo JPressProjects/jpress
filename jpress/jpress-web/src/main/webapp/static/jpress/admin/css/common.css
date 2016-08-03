@@ -461,8 +461,6 @@ label {
 }
 
 /*主题*/
-
-
 .title-count {
 	display: inline;
 	margin-left: 5px;
@@ -501,14 +499,13 @@ label {
 	white-space: nowrap;
 }
 
-.template-item-footer{
+.template-item-footer {
 	padding: 5px;
 }
 
-.add-new-template{
+.add-new-template {
 	margin: 0;
 }
-
 
 .jp-content-theme {
 	height: 90px
@@ -818,7 +815,7 @@ li.jp-borwer-active-li {
 	position: absolute;
 	right: 5px;
 	top: 5px;
-	text-align:center;
+	text-align: center;
 	z-index: 999;
 	color: #1e8cbe;
 }

@@ -45,7 +45,11 @@ public class ImageUtils {
 	}
 
 	public static String ratioAsString(String src) throws IOException {
-		BufferedImage bufferedImage = ImageIO.read(new File(src));
+		File file = new File(src);
+		if (!file.exists()) {
+			return null;
+		}
+		BufferedImage bufferedImage = ImageIO.read(file);
 		int width = bufferedImage.getWidth();
 		int height = bufferedImage.getHeight();
 		return String.format("%s x %s", width, height);
@@ -68,7 +72,7 @@ public class ImageUtils {
 	 * @throws IOException
 	 */
 	public static void scale(String src, String dest, int w, int h) throws IOException {
-		String srcSuffix = src.substring(src.lastIndexOf(".")+1);
+		String srcSuffix = src.substring(src.lastIndexOf(".") + 1);
 		Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName(srcSuffix);
 		ImageReader reader = (ImageReader) iterator.next();
 

@@ -23,6 +23,7 @@ import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.out.News;
 import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
+import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
@@ -38,48 +39,61 @@ public class ContentsProcesser implements IMessageProcesser {
 
 	@Override
 	public void onInit(String configInfo) {
-		if (StringUtils.isNotBlank(configInfo)) {
-			String[] ids = configInfo.split(",");
-			if (ids != null && ids.length > 0) {
-				contentIds = new ArrayList<BigInteger>();
-				for(String id : ids){
-					try {
-						contentIds.add(new BigInteger(id.trim()));
-					} catch (Exception e) {}
-				}
-			}
+		if (StringUtils.isBlank(configInfo)) {
+			return;
+		}
+
+		String[] ids = configInfo.split(",");
+		if (ids == null || ids.length == 0) {
+			return;
+		}
+
+		contentIds = new ArrayList<BigInteger>();
+		for (String id : ids) {
+			try {
+				contentIds.add(new BigInteger(id.trim()));
+			} catch (Exception e) {}
 		}
 	}
 
 	@Override
 	public OutMsg process(InMsg message) {
-		List<Content> contents = new ArrayList<Content>();
+
+		String domain = OptionQuery.me().findValue("web_domain");
+		if (StringUtils.isBlank(domain)) {
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent("您还没有配置您的域名，请先在后台的【设置】>【常规】里配置您的网站域名！");
+			return otm;
+		}
 		
-		if(contentIds!=null && contentIds.size() > 0){
-			for(BigInteger id : contentIds){
+		if(contentIds == null || contentIds.isEmpty()){
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent("配置错误，请添加正确的内容ID。");
+			return otm;
+		}
+
+		List<Content> contents = new ArrayList<Content>();
+		if (contentIds != null && contentIds.size() > 0) {
+			for (BigInteger id : contentIds) {
 				contents.add(ContentQuery.me().findById(id));
 			}
 		}
-		
+
+		if (contents.isEmpty()) {
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent("配置错误，暂未找到相应内容！请联系管理员");
+			return otm;
+		}
+
 		OutNewsMsg out = new OutNewsMsg(message);
-		if(!contents.isEmpty()){
-			for (Content content : contents) {
-				News news = new News();
-				news.setTitle(content.getTitle());
-				news.setDescription(content.getSummary());
-				news.setPicUrl(content.getFirstImage());
-				news.setUrl(content.getUrl());
-				out.addNews(news);
-			}
-		}else{
+		for (Content content : contents) {
 			News news = new News();
-			news.setTitle("配置错误，暂未找到相应内容！");
-			news.setDescription("配置错误，请管理员查看JPress帮助文档....");
-			news.setUrl("http://jpress.io");
-			news.setPicUrl(OptionQuery.me().findValue("web_domain")+"/static/jpress/admin/image/nothunmbnail.jpg");
+			news.setTitle(content.getTitle());
+			news.setDescription(content.getSummary());
+			news.setPicUrl(domain + content.getFirstImage());
+			news.setUrl(domain + content.getUrl());
 			out.addNews(news);
 		}
-		
 		return out;
 	}
 

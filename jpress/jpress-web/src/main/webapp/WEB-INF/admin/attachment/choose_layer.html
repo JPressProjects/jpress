@@ -1,11 +1,16 @@
 <#include "../_inc/_layer_layout.html"/> 
 <#macro script> 
+
+var pUrl = null;
+var pAlt = null;
 function doChoose(url,alt){
-	parent.data.url=url;
-	parent.data.alt=alt; 
+	pUrl=url;
+	pAlt=alt; 
 }
 
-function doClose(){
+function doConfirm(){
+	parent.data.url=pUrl;
+	parent.data.alt=pAlt; 
 	parent.layer.closeAll(); 
 }
 
@@ -46,6 +51,12 @@ $('#fine-uploader-gallery').fineUploader({
 <#macro css_import>
 <link href="${CPATH}/static/plugins/fine-uploader/fine-uploader-new.css" rel="stylesheet">
 </#macro>
+<#macro css>
+.list-inline>li {
+    display: inline-block;
+    padding: 3px;
+}
+</#macro>
 <@layout >
 <div class="row">
 	<div class="col-md-12">
@@ -73,7 +84,6 @@ $('#fine-uploader-gallery').fineUploader({
 
 				<div class="tab-pane active" id="tab_2">
 					<div class="jp-borwer">
-						<div class="brower-image-list">
 							<ul class="list-inline list-unstyled">
 								<#if page??> 
 								<#list page.getList() as bean>
@@ -90,59 +100,6 @@ $('#fine-uploader-gallery').fineUploader({
 								</#list>
 								</#if>
 							</ul>
-						</div>
-						<div class="brower-image-prop" id="brower-image-info">
-							<div class="brower-image-details">
-								<div>
-									<strong>文件名：</strong> <span class="filename"></span>
-								</div>
-								<div>
-									<strong>文件类型：</strong> <span class="filetype"></span>
-								</div>
-								<div class="uploaded">
-									<strong>上传于：</strong> ${(attachment.created)!}
-								</div>
-								<div class="brower-image-size">
-									<strong>文件大小：</strong>
-								</div>
-								<div class="brower-image-dimensions">
-									<strong>分辨率：</strong> 580 × 435
-								</div>
-							</div>
-
-
-							<dl class="brower-horizontal">
-								<dt class="">URL</dt>
-								<dd>
-									<div class="form-group">
-										<label class="sr-only">URL</label> <input class="form-control" type="text" disabled="disabled">
-									</div>
-								</dd>
-							</dl>
-							<dl class="brower-horizontal">
-								<dt class="">链接到</dt>
-								<dd>
-									<div class="form-group">
-										<label class="sr-only">链接到</label> <select class="form-control jp-form-select">
-											<option>无</option>
-											<option>附件页面</option>
-											<option>自定义URL</option>
-										</select> <input class="form-control" type="text">
-									</div>
-								</dd>
-								<dt class="">尺寸</dt>
-								<dd>
-									<div class="form-group">
-										<label class="sr-only">说明</label> <select class="form-control jp-form-select" placeholder="">
-											<option>缩略图-150X150</option>
-											<option>中等-300X122</option>
-											<option>大-1024X417</option>
-											<option>完整尺寸-2168X882</option>
-										</select>
-									</div>
-								</dd>
-							</dl>
-						</div>
 					</div>
 					<#include "../_inc/_paginate_wrapper.html" />
 				</div>
@@ -150,7 +107,7 @@ $('#fine-uploader-gallery').fineUploader({
 		</div>
 	</div>
 </div>
-<button class="btn btn-block btn-primary jp-submiti-button" onclick="doClose()">选择图片</button>
+<button class="btn btn-block btn-primary jp-submiti-button" onclick="doConfirm()">选择图片</button>
 <script type="text/template" id="qq-template-gallery">
         <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="或拖动文件到此上传">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">

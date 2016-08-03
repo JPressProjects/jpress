@@ -4,6 +4,8 @@
 </#macro> 
 <#macro css_import> 
 </#macro> 
+<#macro css> 
+</#macro> 
 <#macro layout >
 <!DOCTYPE html>
 <html>
@@ -26,6 +28,10 @@
 <link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
 <link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css">
 <@css_import />
+
+<style type="text/css">
+<@css />
+</style>
 
 </head>
 <body class="hold-transition skin-blue">

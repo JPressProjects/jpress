@@ -84,7 +84,8 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		setAttr("attachmentSize", fileLen + fileLenUnit);
 		try {
 			if (AttachmentUtils.isImage(attachment.getPath())) {
-				setAttr("attachmentRatio", ImageUtils.ratioAsString(attachmentFile.getAbsolutePath()));
+				String ratio = ImageUtils.ratioAsString(attachmentFile.getAbsolutePath());
+				setAttr("attachmentRatio", ratio == null ? "unknow" : ratio);
 			}
 		} catch (Throwable e) {
 			log.error("detail_layer ratioAsString error", e);
@@ -92,7 +93,10 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	}
 
 	public void choose_layer() {
-		index();
+		keepPara();
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), getPara("k", "").trim(),
+				getPara("dm"), getPara("mime"));
+		setAttr("page", page);
 		render("choose_layer.html");
 	}
 

@@ -30,7 +30,9 @@ tinymce.init({
 			    area: ['92%', '90%'],
 			    content: '${CPATH}/admin/attachment/choose_layer',
 			    end:function(){
-			    	callback(data.url, {alt: data.alt});
+			    	if(''!=data.url && null != data.url){
+			    		callback(data.url, {alt: data.alt});
+			    	}
 			    }
 			}); 
 		 },

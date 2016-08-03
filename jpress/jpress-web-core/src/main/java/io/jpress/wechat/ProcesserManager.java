@@ -26,35 +26,43 @@ import com.jfinal.weixin.sdk.msg.out.OutMsg;
 import io.jpress.utils.ClassScaner;
 import io.jpress.utils.StringUtils;
 
-public class ProcesserInvoker {
-	private static final Log log = Log.getLog(ProcesserInvoker.class);
+public class ProcesserManager {
+	private static final Log log = Log.getLog(ProcesserManager.class);
 	private static Map<String, Class<? extends IMessageProcesser>> map = new HashMap<String, Class<? extends IMessageProcesser>>();
-	private static boolean isInited = false;
 
-	public static OutMsg invoke(String replyContent, InMsg message) {
-		doInit();
+	private static ProcesserManager me;
+	public static ProcesserManager me() {
+		if (me == null){
+			synchronized (ProcesserManager.class) {
+				me = new ProcesserManager();
+			}
+		}
+		return me;
+	}
+	
+	private ProcesserManager() {
+		List<Class<IMessageProcesser>> clist = ClassScaner.scanSubClass(IMessageProcesser.class, true);
+		if (clist != null && clist.size() > 0) {
+			for (Class<? extends IMessageProcesser> clazz : clist) {
+				registerProcesser(clazz);
+			}
+		}
+	}
+
+	public OutMsg invoke(String replyContent, InMsg message) {
 		IMessageProcesser processer = getProcesser(replyContent);
 		return processer == null ? null : processer.process(message);
 	}
 
-	private static void doInit() {
-		if (isInited)
-			return;
-
-		List<Class<IMessageProcesser>> clist = ClassScaner.scanSubClass(IMessageProcesser.class, true);
-		if (clist != null && clist.size() > 0) {
-			for (Class<? extends IMessageProcesser> clazz : clist) {
-				MessageProcesser reply = clazz.getAnnotation(MessageProcesser.class);
-				if (null != reply && StringUtils.isNotBlank(reply.key())) {
-					map.put("[" + reply.key() + "]", clazz);
-				}
-			}
+	public void registerProcesser(Class<? extends IMessageProcesser> clazz) {
+		MessageProcesser reply = clazz.getAnnotation(MessageProcesser.class);
+		if (null != reply && StringUtils.isNotBlank(reply.key())) {
+			map.put("[" + reply.key() + "]", clazz);
 		}
-
-		isInited = true;
 	}
 
-	private static IMessageProcesser getProcesser(String replyContent) {
+
+	private IMessageProcesser getProcesser(String replyContent) {
 
 		String key = replyContent.substring(0, replyContent.indexOf("]") + 1);
 		String config = replyContent.substring(replyContent.indexOf("]") + 1);

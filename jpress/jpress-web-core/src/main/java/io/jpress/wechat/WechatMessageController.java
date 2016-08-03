@@ -379,7 +379,7 @@ public class WechatMessageController extends MsgController {
 
 	private void textOrSeniorRender(InMsg message, String replyContent) {
 		if (isSeniorReplay(replyContent)) {
-			OutMsg outMsg = ProcesserInvoker.invoke(replyContent, message);
+			OutMsg outMsg = ProcesserManager.me().invoke(replyContent, message);
 			if (outMsg != null) {
 				render(outMsg);
 			} else {

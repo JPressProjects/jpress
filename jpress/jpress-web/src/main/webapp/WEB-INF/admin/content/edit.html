@@ -119,6 +119,11 @@ function doSelectThumbnail(){
 			}); 
  }
  
+ function doRemoveThumbnail(){
+ 	$("#thumbnail").attr("src","${CPATH}/static/jpress/admin/image/nothumbnail.jpg");
+ 	$("#content_thumbnail").val("");
+ }
+ 
  function change_editer(){
  	if("tinymce" == _editor){
  		doAjax('${CPATH}/admin/content/changeEditor/markdown');

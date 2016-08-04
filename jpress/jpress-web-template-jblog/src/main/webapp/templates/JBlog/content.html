@@ -113,7 +113,7 @@ function reply(id){
   <!-- -->
   <div class="x-pull-right x-layout-25 blog-sm-right">
     <div class="x-white-box x-font-center">
-        <p><img class="x-image-radus x-item-space-6" src="${CPATH}${(user.avatar)!'/assets/images/avatar.jpg'}"/></p>
+        <p><img class="x-image-radus x-item-space-6" src="${CPATH}${(user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/></p>
         <p>${(user.nickname)!(user.username)!}</p>
         <p class="x-font-grey x-margin-bottom-10 x-margin-top-10">${(user.signature)!'这家伙很赖，连签名都懒得填写...'}</p>
     </div>

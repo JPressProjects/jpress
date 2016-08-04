@@ -189,7 +189,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (retBuilder.length() > 0) {
 			retBuilder.deleteCharAt(retBuilder.length() - 1);
 		}
-
 		return retBuilder.toString();
 	}
 

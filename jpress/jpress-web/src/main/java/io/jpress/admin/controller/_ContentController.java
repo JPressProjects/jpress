@@ -263,7 +263,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			}
 		}
 
-		super.edit();
 	}
 
 	public void changeEditor() {

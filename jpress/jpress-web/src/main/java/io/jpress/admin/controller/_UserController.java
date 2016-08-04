@@ -70,6 +70,7 @@ public class _UserController extends JBaseCRUDController<User> {
 		UploadFile uf = getFile();
 		if (uf != null) {
 			String newPath = AttachmentUtils.moveFile(uf);
+			newPath = newPath.replace("\\", "/");
 			m.setAvatar(newPath);
 		} else {
 			String url = getPara("user_avatar");

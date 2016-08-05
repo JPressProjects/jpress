@@ -47,6 +47,11 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
@@ -127,8 +132,8 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-search-dbsimple</artifactId>
@@ -169,7 +174,7 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-template-the3</artifactId>

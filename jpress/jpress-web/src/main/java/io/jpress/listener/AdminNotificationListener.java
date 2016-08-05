@@ -65,8 +65,6 @@ public class AdminNotificationListener extends BaseMessageListener {
 
 			String content = OptionQuery.me().findValue("notify_admin_by_content_email_when_user_registed");
 			
-			System.err.println("======content:"+content);
-			
 			if (!StringUtils.isNotBlank(content)) {
 				content = "您的网站有人注册了！";
 			}

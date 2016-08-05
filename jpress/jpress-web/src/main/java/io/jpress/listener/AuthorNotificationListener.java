@@ -25,8 +25,6 @@ import io.jpress.model.query.OptionQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
-import io.jpress.notify.sms.SmsMessage;
-import io.jpress.notify.sms.SmsSenderFactory;
 import io.jpress.plugin.message.Actions;
 import io.jpress.plugin.message.BaseMessageListener;
 import io.jpress.plugin.message.Message;
@@ -53,7 +51,7 @@ public class AuthorNotificationListener extends BaseMessageListener {
 		
 		Comment comment = (Comment) temp;
 		if (Comment.STATUS_NORMAL.equals(comment.getStatus()) && comment.getContentId() != null) {
-			Content content = ContentQuery.me().me().findById(comment.getContentId());
+			Content content = ContentQuery.me().findById(comment.getContentId());
 			if (content != null) {
 				BigInteger authorId = content.getUserId();
 				notifyAuthor(authorId);
@@ -66,31 +64,31 @@ public class AuthorNotificationListener extends BaseMessageListener {
 //		notifyBySms(id);
 	}
 
-	private void notifyBySms(BigInteger id) {
-		Boolean notify = OptionQuery.me().findValueAsBool("notify_author_by_sms_when_has_comment");
-		if (notify != null && notify == true) {
-			User user = UserQuery.me().findById(id);
-			if (user == null || user.getPhone() == null) {
-				return;
-			}
-
-			String content = OptionQuery.me().findValue("notify_author_content_by_sms_when_has_comment");
-			if (StringUtils.isBlank(content)) {
-				return;
-			}
-
-			SmsMessage sms = new SmsMessage();
-
-			sms.setContent(content);
-			sms.setRec_num(user.getPhone());
-			sms.setTemplate(content);
-//			sms.setParam("{\"code\":\"8888\",\"product\":\"JPress\",\"customer\":\"杨福海\"}");
-//			sms.setSign_name("登录验证");
-
-			SmsSenderFactory.createSender().send(sms);
-
-		}
-	}
+//	private void notifyBySms(BigInteger id) {
+//		Boolean notify = OptionQuery.me().findValueAsBool("notify_author_by_sms_when_has_comment");
+//		if (notify != null && notify == true) {
+//			User user = UserQuery.me().findById(id);
+//			if (user == null || user.getPhone() == null) {
+//				return;
+//			}
+//
+//			String content = OptionQuery.me().findValue("notify_author_content_by_sms_when_has_comment");
+//			if (StringUtils.isBlank(content)) {
+//				return;
+//			}
+//
+//			SmsMessage sms = new SmsMessage();
+//
+//			sms.setContent(content);
+//			sms.setRec_num(user.getPhone());
+//			sms.setTemplate(content);
+////			sms.setParam("{\"code\":\"8888\",\"product\":\"JPress\",\"customer\":\"杨福海\"}");
+////			sms.setSign_name("登录验证");
+//
+//			SmsSenderFactory.createSender().send(sms);
+//
+//		}
+//	}
 
 	private void notifyByEmail(BigInteger id) {
 		Boolean notify = OptionQuery.me().findValueAsBool("notify_author_by_email_when_has_comment");

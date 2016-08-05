@@ -42,11 +42,12 @@ public class ContentPageTag extends JTag {
 	public void onRender() {
 
 		int pagesize = getParamToInt("pagesize", 10);
+		String orderBy = getParam("orderby");
 
 		BigInteger[] tids = taxonomy == null ? null : new BigInteger[] { taxonomy.getId() };
 
 		Page<Content> page = ContentQuery.me().paginate(pageNumber, pagesize, moduleName, null, Content.STATUS_NORMAL, tids,
-				null, null);
+				null, orderBy);
 		setVariable("page", page);
 
 		ContentPaginateTag tpt = new ContentPaginateTag(page, moduleName, taxonomy);

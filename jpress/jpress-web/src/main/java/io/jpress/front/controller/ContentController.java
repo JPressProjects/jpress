@@ -38,7 +38,7 @@ public class ContentController extends BaseFrontController {
 
 	private String slug;
 	private BigInteger id;
-	private int pageNumber;
+	private int page;
 
 	@ActionCache
 	public void index() {
@@ -67,13 +67,13 @@ public class ContentController extends BaseFrontController {
 		updateContentViewCount(content);
 		setGlobleAttrs(content);
 
-		setAttr("p", pageNumber);
+		setAttr("p", page);
 		setAttr("content", content);
 		setAttr("nextContent", ContentQuery.me().findNext(content));
 		setAttr("previousContent", ContentQuery.me().findPrevious(content));
 		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
-		setAttr("commentPageTag", new CommentPageTag(content, pageNumber));
+		setAttr("commentPageTag", new CommentPageTag(content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
@@ -125,24 +125,23 @@ public class ContentController extends BaseFrontController {
 	}
 
 	private void initRequest() {
-		String idOrSlug = getPara(0);
-		if (StringUtils.isNotBlank(idOrSlug)) {
-			if (StringUtils.isNumeric(idOrSlug)) {
-				id = new BigInteger(idOrSlug);
-			} else {
-				slug = idOrSlug;
-			}
-			pageNumber = getParaToInt(1, 1);
-		} else {
+		String para = getPara(0);
+		if (StringUtils.isBlank(para)) {
 			id = getParaToBigInteger("id");
 			slug = getPara("slug");
-
+			page = getParaToInt("p", 1);
 			if (id == null && slug == null) {
 				renderError(404);
-				return;
 			}
-			pageNumber = getParaToInt("p", 1);
+			return;
 		}
+
+		if (StringUtils.isNumeric(para)) {
+			id = new BigInteger(para);
+		} else {
+			slug = para;
+		}
+		page = getParaToInt(1, 1);
 
 	}
 

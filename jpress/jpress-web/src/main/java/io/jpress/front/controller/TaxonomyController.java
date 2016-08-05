@@ -32,9 +32,9 @@ import io.jpress.utils.StringUtils;
 @RouterMapping(url = Consts.ROUTER_TAXONOMY)
 public class TaxonomyController extends BaseFrontController {
 
-	private String moduleName;
+	private String module;
 	private String slug;
-	private Integer pageNumber;
+	private Integer page;
 
 	@ActionCache
 	public void index() {
@@ -54,52 +54,51 @@ public class TaxonomyController extends BaseFrontController {
 			renderError(404);
 		}
 
-		setAttr(Consts.ATTR_PAGE_NUMBER, pageNumber);
+		setAttr(Consts.ATTR_PAGE_NUMBER, page);
 		setAttr("taxonomy", taxonomy);
-		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(moduleName));
+		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(module));
 
 		if (taxonomy != null) {
 			setGlobleAttrs(taxonomy);
-			setAttr("jp_menu", new MenuTag(getRequest(),taxonomy));
-			
-			Content c =  ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
+			setAttr("jp_menu", new MenuTag(getRequest(), taxonomy));
+
+			Content c = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			setAttr("jp_current_menu", c);
 		}
-		
-		setAttr("contentPage", new ContentPageTag(pageNumber, moduleName, taxonomy));
+
+		setAttr("contentPage", new ContentPageTag(page, module, taxonomy));
 
 		if (null == taxonomy) {
-			render(String.format("taxonomy_%s.html", moduleName));
+			render(String.format("taxonomy_%s.html", module));
 		} else {
-			render(String.format("taxonomy_%s_%s.html", moduleName, taxonomy.getSlug()));
+			render(String.format("taxonomy_%s_%s_%s.html", module, taxonomy.getType(), taxonomy.getSlug()));
 		}
 	}
 
 	private void setGlobleAttrs(Taxonomy taxonomy) {
-		System.out.println(taxonomy.getMetaKeywords()+"----"+taxonomy.getMetaDescription());
 		setAttr(Consts.ATTR_GLOBAL_WEB_TITLE, taxonomy.getTitle());
 		setAttr(Consts.ATTR_GLOBAL_META_KEYWORDS, taxonomy.getMetaKeywords());
 		setAttr(Consts.ATTR_GLOBAL_META_DESCRIPTION, taxonomy.getMetaDescription());
 	}
 
 	private Taxonomy tryGetTaxonomy() {
-		return slug == null ? null : TaxonomyQuery.me().findBySlugAndModule(slug, moduleName);
+		return slug == null ? null : TaxonomyQuery.me().findBySlugAndModule(slug, module);
 	}
 
 	private void initRequest() {
-		moduleName = getPara(0);
-		if (moduleName == null) {
+		module = getPara(0);
+		if (module == null) {
 			renderError(404);
 		}
 
-		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) == null) {
+		if (TemplateUtils.currentTemplate().getModuleByName(module) == null) {
 			renderError(404);
 		}
 
 		if (getParaCount() == 2) {
 			String pageNumberOrSlug = getPara(1);
 			if (StringUtils.isNumeric(pageNumberOrSlug)) {
-				pageNumber = StringUtils.toInt(pageNumberOrSlug, 0);
+				page = StringUtils.toInt(pageNumberOrSlug, 0);
 			} else {
 				slug = pageNumberOrSlug;
 			}
@@ -107,15 +106,15 @@ public class TaxonomyController extends BaseFrontController {
 		// 3 para
 		else if (getParaCount() >= 3) {
 			slug = getPara(1);
-			pageNumber = getParaToInt(2);
+			page = getParaToInt(2);
 		}
 
 		if (slug != null) {
 			slug = StringUtils.urlDecode(slug);
 		}
 
-		if (pageNumber == null || pageNumber <= 0) {
-			pageNumber = 1;
+		if (page == null || page <= 0) {
+			page = 1;
 		}
 	}
 

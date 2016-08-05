@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.RenderException;
 
@@ -60,41 +62,44 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			data.put(attrName, request.getAttribute(attrName));
 		}
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		OutputStreamWriter osw = null;
 		PrintWriter responseWriter = null;
 		try {
-			osw = new OutputStreamWriter(baos);
+			String htmlContent = getHtmlContent(data);
+			htmlContent = processCDN(htmlContent); // CDN处理
+
 			responseWriter = response.getWriter();
-
-			Template template = getConfiguration().getTemplate(view);
-			template.process(data, osw);
-			osw.flush();
-
-			String renderContent = new String(baos.toByteArray());
-
-			// CDN处理
-			renderContent = processCDN(renderContent);
-
-			responseWriter.write(renderContent);
-			ActionCacheManager.putCache(request, renderContent);
-
+			responseWriter.write(htmlContent);
+			ActionCacheManager.putCache(request, htmlContent);
 		} catch (Exception e) {
 			throw new RenderException(e);
 		} finally {
-			close(osw, responseWriter);
+			close(responseWriter);
 		}
 	}
 
-	private void close(OutputStreamWriter osw, PrintWriter responseWriter) {
-		if (osw != null) {
+	@SuppressWarnings("rawtypes")
+	private String getHtmlContent(Map data) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		OutputStreamWriter osWriter = null;
+		try {
+			osWriter = new OutputStreamWriter(baos);
+			Template template = getConfiguration().getTemplate(view);
+			template.process(data, osWriter);
+			osWriter.flush();
+			return baos.toString(JFinal.me().getConstants().getEncoding());
+		} catch (Exception e) {
+			throw new RenderException(e);
+		} finally {
+			close(osWriter);
+		}
+	}
+
+	private void close(Writer writer) {
+		if (writer != null) {
 			try {
-				osw.close();
+				writer.close();
 			} catch (IOException e) {
 			}
-		}
-		if (responseWriter != null) {
-			responseWriter.close();
 		}
 	}
 
@@ -157,20 +162,19 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			return false;
 
 		String cdn_exclude_files = OptionQuery.me().findValue("cdn_exclude_files");
-		if (StringUtils.isNotBlank(cdn_exclude_files) ) {
-			if(cdn_exclude_files.contains(link)  
-					|| link.contains("/counter")){
+		if (StringUtils.isNotBlank(cdn_exclude_files)) {
+			if (cdn_exclude_files.contains(link) || link.contains("/counter")) {
 				return true;
 			}
-			
+
 			String[] lines = cdn_exclude_files.split("\\n");
-			for(String regex : lines){
-				if(StringUtils.match(link, regex)){
+			for (String regex : lines) {
+				if (StringUtils.match(link, regex)) {
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
 

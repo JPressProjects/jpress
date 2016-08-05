@@ -16,6 +16,7 @@
 package io.jpress.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +50,24 @@ public class _OptionController extends JBaseController {
 		if (isMultipartRequest()) {
 			fileList = getFiles();
 		}
+		
+		HashMap<String, String> filesMap = new HashMap<String, String>();
+		if(fileList != null){
+			for(UploadFile ufile : fileList){
+				String filePath = AttachmentUtils.moveFile(ufile).replace("\\", "/");
+				filesMap.put(ufile.getParameterName(), filePath);
+			}
+		}
 
 		List<String> keyList = new ArrayList<String>();
 		Map<String, String[]> paraMap = getParaMap();
 		if (paraMap != null && !paraMap.isEmpty()) {
 			for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
 				if (entry.getValue() != null && entry.getValue().length > 0) {
-					keyList.add(entry.getKey());
-					autoSave(entry.getKey(), entry.getValue()[0], fileList);
+					if(StringUtils.isNotBlank(entry.getKey()) && !"autosave".equals(entry.getKey())){
+						keyList.add(entry.getKey());
+						doSave(entry.getKey(), entry.getValue()[0], filesMap);
+					}
 				}
 			}
 		}
@@ -69,7 +80,7 @@ public class _OptionController extends JBaseController {
 					if (StringUtils.isNotBlank(key)) {
 						key = key.trim();
 						keyList.add(key);
-						autoSave(key, getRequest().getParameter(key), fileList);
+						doSave(key, getRequest().getParameter(key), filesMap);
 					}
 				}
 			}
@@ -79,17 +90,10 @@ public class _OptionController extends JBaseController {
 		renderAjaxResultForSuccess();
 	}
 
-	private void autoSave(String key, String value, List<UploadFile> fileList) {
-		if (fileList != null && fileList.size() > 0) {
-			for (UploadFile ufile : fileList) {
-				if (key.equals(ufile.getParameterName())) {
-					if(!ufile.getFile().exists()){
-						return;
-					}
-					value = AttachmentUtils.moveFile(ufile);
-					value = value.replace("\\", "/");
-				}
-			}
+	private void doSave(String key, String value,HashMap<String, String> filesMap) {
+		
+		if(filesMap.containsKey(key)){
+			value = filesMap.get(key); //有相同的key的情况下，以上传的文件为准。
 		}
 
 		if ("".equals(value)) {

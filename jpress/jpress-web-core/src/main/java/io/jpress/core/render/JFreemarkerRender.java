@@ -17,6 +17,7 @@ package io.jpress.core.render;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -30,11 +31,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.jfinal.core.JFinal;
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.RenderException;
 
 import freemarker.template.Template;
+import io.jpress.Consts;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
@@ -82,14 +83,15 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		OutputStreamWriter osWriter = null;
 		try {
-			osWriter = new OutputStreamWriter(baos);
+			osWriter = new OutputStreamWriter(baos, Consts.CHARTSET_UTF8);
 			Template template = getConfiguration().getTemplate(view);
 			template.process(data, osWriter);
 			osWriter.flush();
-			return baos.toString(JFinal.me().getConstants().getEncoding());
+			return baos.toString(Consts.CHARTSET_UTF8);
 		} catch (Exception e) {
 			throw new RenderException(e);
 		} finally {
+			close(baos);
 			close(osWriter);
 		}
 	}
@@ -98,6 +100,15 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		if (writer != null) {
 			try {
 				writer.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+
+	private void close(OutputStream stream) {
+		if (stream != null) {
+			try {
+				stream.close();
 			} catch (IOException e) {
 			}
 		}
@@ -143,7 +154,6 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		}
 	}
 
-	
 	private static boolean isExcludeUrl(String url) {
 		if (StringUtils.isBlank(url))
 			return false;

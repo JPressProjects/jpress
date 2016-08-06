@@ -76,21 +76,24 @@ public class CommentController extends BaseFrontController {
 		}
 
 		BigInteger contentId = getParaToBigInteger("cid");
-		Content content = null;
-		if (contentId != null) {
-			content = ContentQuery.me().findById(contentId);
-		} else {
+		if (contentId == null) {
 			renderForCommentError("comment fail,content id is null.", 1);
 			return;
 		}
-		
-		if(!content.commentIsEnable()){
+
+		Content content = ContentQuery.me().findById(contentId);
+		if (content == null) {
+			renderForCommentError("find not find the content, maybe it has bean deleted.", 1);
+			return;
+		}
+
+		if (!content.commentIsEnable()) {
 			renderForCommentError("the comment function of the content has been closed.", 1);
 			return;
 		}
 
 		String text = getPara("text");
-		if (!StringUtils.isNotBlank(text)) {
+		if (StringUtils.isBlank(text)) {
 			renderForCommentError("comment fail,text is blank.", 2);
 			return;
 		}
@@ -104,21 +107,19 @@ public class CommentController extends BaseFrontController {
 
 		if (userId != null) {
 			User user = UserQuery.me().findById(userId);
-			if (user != null && StringUtils.isNotBlank(user.getNickname())) {
-				author = user.getNickname();
-			} else {
-				author = user.getUsername();
+			if (user != null) {
+				author = StringUtils.isNotBlank(user.getNickname()) ? user.getNickname() : user.getUsername();
 			}
 		}
 
-		if (!StringUtils.isNotBlank(author)) {
+		if (StringUtils.isBlank(author)) {
 			String defautAuthor = OptionQuery.me().findValue("comment_default_nickname");
 			author = StringUtils.isNotBlank(defautAuthor) ? defautAuthor : "网友";
 		}
-		
+
 		BigInteger parentId = getParaToBigInteger("parent_id");
 
-		final Comment comment = new Comment();
+		Comment comment = new Comment();
 		comment.setContentModule(content.getModule());
 		comment.setType(Comment.TYPE_COMMENT);
 		comment.setContentId(content.getId());
@@ -135,19 +136,21 @@ public class CommentController extends BaseFrontController {
 
 		if (comment.save()) {
 			MessageKit.sendMessage(Actions.COMMENT_ADD, comment);
+			ActionCacheManager.clearCache();
 		}
 
 		if (isAjaxRequest()) {
 			renderAjaxResultForSuccess();
-		} else {
-			if (gotoUrl != null) {
-				redirect(gotoUrl);
-			} else {
-				renderText("comment ok");
-			}
+			return;
 		}
 
-		ActionCacheManager.clearCache();
+		if (gotoUrl != null) {
+			redirect(gotoUrl);
+			return;
+		}
+
+		renderText("comment ok");
+
 	}
 
 	private void renderForCommentError(String message, int errorCode) {
@@ -158,6 +161,5 @@ public class CommentController extends BaseFrontController {
 			redirect(referer + "#" + getPara("anchor"));
 		}
 	}
-
 
 }

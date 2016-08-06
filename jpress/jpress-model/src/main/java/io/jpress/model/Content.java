@@ -209,7 +209,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				// by method doPaginateByModuleAndStatus
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
-						String url = TaxonomyRouter.getRouter(getModule(), propertes[1]);
+						String url = JFinal.me().getContextPath() + TaxonomyRouter.getRouter(getModule(), propertes[1]);
 						String string = String.format("<a href=\"" + url + "\" >%s</a>", propertes[2]);
 						retBuilder.append(string).append(",");
 					}

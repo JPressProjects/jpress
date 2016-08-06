@@ -104,72 +104,59 @@ public class JFreemarkerRender extends FreeMarkerRender {
 	}
 
 	private String processCDN(String content) {
-		Boolean cdn_enable = OptionQuery.me().findValueAsBool("cdn_enable");
-		if (cdn_enable == null || !cdn_enable) {
+		Boolean cdnEnable = OptionQuery.me().findValueAsBool("cdn_enable");
+		if (cdnEnable == null || !cdnEnable) {
 			return content;
 		}
 
-		String cdn_domain = OptionQuery.me().findValue("cdn_domain");
-		if (StringUtils.isBlank(cdn_domain)) {
+		String cdnDomain = OptionQuery.me().findValue("cdn_domain");
+		if (StringUtils.isBlank(cdnDomain)) {
 			return content;
 		}
 
 		Document doc = Jsoup.parse(content);
 
 		Elements jsElements = doc.select("script[src]");
-		srcReplace(jsElements, cdn_domain);
+		replace(jsElements, "src", cdnDomain);
 
 		Elements imgElements = doc.select("img[src]");
-		srcReplace(imgElements, cdn_domain);
+		replace(imgElements, "src", cdnDomain);
 
 		Elements linkElements = doc.select("link[href]");
-		hrefReplace(linkElements, cdn_domain);
+		replace(linkElements, "href", cdnDomain);
 
 		return doc.toString();
 
 	}
 
-	public static void srcReplace(Elements elements, String cdn_domain) {
+	public static void replace(Elements elements, String attrName, String cdnDomain) {
 		Iterator<Element> iterator = elements.iterator();
 		while (iterator.hasNext()) {
 			Element element = iterator.next();
-			String src = element.attr("src");
-			if (isExcludeFiles(src))
+			String url = element.attr(attrName);
+			if (isExcludeUrl(url))
 				continue;
-			if (src != null && src.startsWith("/")) {
-				src = cdn_domain + src;
+			if (url != null && url.startsWith("/")) {
+				url = cdnDomain + url;
 			}
-			element.attr("src", src);
+			element.attr(attrName, url);
 		}
 	}
 
-	public static void hrefReplace(Elements elements, String cdn_domain) {
-		Iterator<Element> iterator = elements.iterator();
-		while (iterator.hasNext()) {
-			Element element = iterator.next();
-			String href = element.attr("href");
-			if (isExcludeFiles(href))
-				continue;
-			if (href != null && href.startsWith("/")) {
-				href = cdn_domain + href;
-			}
-			element.attr("href", href);
-		}
-	}
-
-	private static boolean isExcludeFiles(String link) {
-		if (StringUtils.isBlank(link))
+	
+	private static boolean isExcludeUrl(String url) {
+		if (StringUtils.isBlank(url))
 			return false;
 
 		String cdn_exclude_files = OptionQuery.me().findValue("cdn_exclude_files");
 		if (StringUtils.isNotBlank(cdn_exclude_files)) {
-			if (cdn_exclude_files.contains(link) || link.contains("/counter")) {
+			if (cdn_exclude_files.contains(url) || url.contains("/counter")) {
 				return true;
 			}
 
 			String[] lines = cdn_exclude_files.split("\\n");
 			for (String regex : lines) {
-				if (StringUtils.match(link, regex)) {
+				if (StringUtils.match(url, regex)) {
 					return true;
 				}
 			}

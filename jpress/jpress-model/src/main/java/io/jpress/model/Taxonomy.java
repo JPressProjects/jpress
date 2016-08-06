@@ -18,6 +18,8 @@ package io.jpress.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jfinal.core.JFinal;
+
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
 import io.jpress.model.core.Table;
@@ -81,34 +83,33 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		this.parent = parent;
 	}
 
-	
-	public void updateContentCount(){
-		long count  = MappingQuery.me().findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
-		if(count > 0){
+	public void updateContentCount() {
+		long count = MappingQuery.me().findCountByTaxonomyId(getId(), Content.STATUS_NORMAL);
+		if (count > 0) {
 			setContentCount(count);
 			this.update();
 		}
 	}
-	
+
 	public long findContentCount() {
 		Long count = MappingQuery.me().findCountByTaxonomyId(getId());
 		return count == null ? 0 : count;
 	}
 
 	public String getUrl() {
-		return TaxonomyRouter.getRouter(this);
+		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(this);
 	}
-	
+
 	@Override
 	public boolean saveOrUpdate() {
 		if (getId() != null) {
 			removeCache(getId());
 			putCache(getId(), this);
 		}
-		
+
 		return super.saveOrUpdate();
 	}
-	
+
 	public boolean update() {
 		if (getId() != null) {
 			removeCache(getId());
@@ -116,8 +117,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		}
 		return super.update();
 	}
-	
-	
+
 	public String metadata(String key) {
 		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
 		if (m != null) {
@@ -125,6 +125,5 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		}
 		return null;
 	}
-	
 
 }

@@ -1,0 +1,47 @@
+<#include "_layout.html"/> <@layout>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
+	<!-- -->
+	<div class="x-pull-left x-layout-73 blog-sm-left">
+	
+	<@searchResultPage pagesize="10" > 
+		为您找到关键字 “${keyword!}” 的相关文章如下：
+		<#list page.getList() as bean>
+		<div class="x-white-box">
+			<h3 class="x-box-title">
+				<a class="x-a-active" href="${bean.url!}">${bean.title!}</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<p class="x-box-summary">${bean.description!}</p>
+		</div>
+		</#list>
+
+		<ul class="x-page">
+			<@pagination> 
+			<#list pageItems as pi>
+			<li class="${pi.style!}">
+				<a href="${pi.url!}">${pi.text!}</a>
+			</li>
+			</#list> 
+			</@pagination>
+		</ul>
+		</@searchResultPage>
+	</div>
+	<!-- -->
+	<div class="x-pull-right x-layout-25 blog-sm-right">
+		<form action="${CPATH}/s">
+		<div class="x-white-box ">
+			<h3 class="x-box-title">
+				搜索文章 <span class="x-title-border"></span>
+			</h3>
+			<div class="jblog-rss-content">
+				<input class="x-box-border" name="k" value="${keyword!}" placeholder="请输入关键字" />
+				<button type="submit"  class="x-rss-btn x-background-whiteblue">搜索</button>
+			</div>
+		</div>
+		</form>
+		<#include "_content_box1.html"/> 
+		<#include "_content_box2.html"/> 
+		<#include "_tags_box.html"/>
+	</div>
+</div>
+</@layout>

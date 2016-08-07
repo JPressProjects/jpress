@@ -15,6 +15,8 @@
  */
 package io.jpress.front.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCache;
@@ -27,15 +29,13 @@ import io.jpress.utils.StringUtils;
 public class SearchController extends BaseFrontController {
 
 	@ActionCache
-	public void index() {
+	public void index() throws UnsupportedEncodingException {
 		keepPara();
 
 		String keyword = getPara("k");
-		if (!StringUtils.isNotBlank(keyword)) {
+		if (StringUtils.isBlank(keyword)) {
 			renderError(404);
 		}
-
-		keyword = StringUtils.urlDecode(keyword);
 
 		String moduleName = getPara("m", Consts.MODULE_ARTICLE);
 		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) == null) {
@@ -43,6 +43,9 @@ public class SearchController extends BaseFrontController {
 		}
 
 		int pageNumber = getParaToInt("p", 1);
+		pageNumber = pageNumber < 1 ? 1 : pageNumber;
+		
+		setAttr("keyword", keyword);
 		setAttr("searchResultPage", new SearchResultPageTag(keyword, moduleName, pageNumber));
 		render("search.html");
 	}

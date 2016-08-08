@@ -71,7 +71,7 @@ public class TaxonomyController extends BaseFrontController {
 		if (null == taxonomy) {
 			render(String.format("taxonomy_%s.html", module));
 		} else {
-			render(String.format("taxonomy_%s_%s_%s.html", module, taxonomy.getType(), taxonomy.getSlug()));
+			render(String.format("taxonomy_%s_%s.html", module, taxonomy.getSlug()));
 		}
 	}
 

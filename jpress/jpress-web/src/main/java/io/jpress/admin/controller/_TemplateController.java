@@ -19,12 +19,15 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.Consts;
@@ -56,13 +59,13 @@ public class _TemplateController extends JBaseController {
 	public void enable() {
 		String id = getPara("id");
 
-		if (StringUtils.isBlank(id) ) {
+		if (StringUtils.isBlank(id)) {
 			renderAjaxResultForError();
 			return;
 		}
-		
+
 		boolean isSuccess = TemplateUtils.templateChange(id);
-		if(isSuccess){
+		if (isSuccess) {
 			MenuManager.me().reset();
 			renderAjaxResultForSuccess();
 		} else {
@@ -179,10 +182,10 @@ public class _TemplateController extends JBaseController {
 	public void menu() {
 		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, "order_number ASC");
 		ModelSorter.sort(list);
-		
+
 		List<Content> menulist = new ArrayList<Content>();
 		menulist.addAll(list);
-		
+
 		BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
 			Content c = ContentQuery.me().findById(id);
@@ -194,18 +197,18 @@ public class _TemplateController extends JBaseController {
 		}
 
 		setAttr("menus", list);
-		setAttr("menulist",  menulist);
-		
+		setAttr("menulist", menulist);
+
 	}
 
 	@Before(UCodeInterceptor.class)
 	public void menusave() {
 		Content c = getModel(Content.class);
-		if(StringUtils.isBlank(c.getTitle())){
+		if (StringUtils.isBlank(c.getTitle())) {
 			renderAjaxResultForError("菜单名称不能为空！");
 			return;
 		}
-		
+
 		c.setModule(Consts.MODULE_MENU);
 		c.setModified(new Date());
 		if (c.getCreated() == null) {
@@ -217,20 +220,39 @@ public class _TemplateController extends JBaseController {
 
 	@Before(UCodeInterceptor.class)
 	public void menudel() {
-		BigInteger id = getParaToBigInteger("id");
+		final BigInteger id = getParaToBigInteger("id");
 		if (id != null) {
-			if (ContentQuery.me().deleteById(id)) {
+			boolean deleted = Db.tx(new IAtom() {
+				@Override
+				public boolean run() throws SQLException {
+					Content menu = ContentQuery.me().findById(id);
+					if (menu == null || !menu.delete()) {
+						return false;
+					}
+
+					List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_MENU, id, null);
+					if (contents != null && !contents.isEmpty()) {
+						for (Content c : contents) {
+							c.setParentId(menu.getParentId());
+							c.update();
+						}
+					}
+
+					return true;
+				}
+			});
+
+			if (deleted) {
 				renderAjaxResultForSuccess();
-				return;
+			} else {
+				renderAjaxResultForError();
 			}
 		}
 		renderAjaxResultForError();
 	}
 
 	public void setting() {
-
 		keepPara();
-
 		if (TemplateUtils.existsFile("tpl_setting.html")) {
 			String include = TemplateUtils.getTemplatePath() + "/tpl_setting.html";
 			setAttr("include", "../../.." + include);

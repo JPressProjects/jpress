@@ -34,5 +34,9 @@ public class MessageKit {
 	public static void sendMessage(String action, Object data) {
 		messagePublisher.pulish(new Message(action, data));
 	}
+	
+	public static void sendMessage(String action) {
+		messagePublisher.pulish(new Message(action, null));
+	}
 
 }

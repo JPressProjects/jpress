@@ -62,7 +62,7 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("checked", new OptionChecked());
 
 		doSearcherConfig();
-		MessageKit.sendMessage(Actions.JPRESS_STARTED, null);
+		MessageKit.sendMessage(Actions.JPRESS_STARTED);
 	}
 
 	private void doSearcherConfig() {

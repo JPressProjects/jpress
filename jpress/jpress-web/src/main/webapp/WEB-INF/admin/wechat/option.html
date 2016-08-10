@@ -6,7 +6,7 @@ function doSubmit(){
 			dataType : "json", 
 			success : function(data) { 
 				if(data.errorCode == 0){
-					$(".message").show();
+					toastr.success(data.message,'操作成功');
 				}else{
 					alert(data.message);
 				}
@@ -16,13 +16,17 @@ function doSubmit(){
 			}
 	});
  }
- function closeMessage(){
- 	$(".message").hide();
- }
 </#macro>
+<#assign enables>
+<#if modules ??> 
+<#list modules as module>
+wechat_search_${module.name}_enable,
+</#list>
+</#if>
+</#assign>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
-	<h1>微信设置</h1>
+	<h1>微信设置1</h1>
 </section>
 
 <!-- Main content -->
@@ -30,7 +34,8 @@ function doSubmit(){
 	<p class="content-msg"> 通过JPress的微信设置，让JPress网站和微信公众号互动互通。</p>
 
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
-		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave" value="wechat_appid,wechat_appsecret,wechat_token">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="wechat_appid,wechat_appsecret,wechat_token,wechat_dkf_enter_key,wechat_dkf_quit_key,${enables}">
 		<div class="row">
 			<div class="col-xs-12">
 				<h4 class="jp-set-title">常规选项</h4>
@@ -120,7 +125,9 @@ function doSubmit(){
 						<div class="col-sm-3  jp-set-info">${module.title!}搜索功能开启</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input type="checkbox" value="ture" name="wechat_search_${module.name}_enable">开启
+								<label>
+								<input type="checkbox" value="true" name="wechat_search_${module.name}_enable"  ${checked('wechat_search_'+module.name+'_enable')}>开启
+								</label>
 							</div>
 						</div>
 						<div class="clr"></div>

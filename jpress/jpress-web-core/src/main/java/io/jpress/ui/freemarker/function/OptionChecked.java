@@ -26,7 +26,7 @@ public class OptionChecked extends JFunction {
 		String key = getToString(0);
 		if (key == null)
 			return "";
-
+		
 		String value = getToString(1);
 		if (StringUtils.isNotBlank(value)) {
 			String setting = OptionQuery.me().findValue(key);
@@ -38,12 +38,12 @@ public class OptionChecked extends JFunction {
 		}
 
 		if (key.startsWith("!")) {
-			Boolean bool = tryToGetBool(key.substring(1));
+			Boolean bool = OptionQuery.me().findValueAsBool(key.substring(1));
 			if (bool != null && !bool) {
 				return "checked=\"checked\"";
 			}
 		} else {
-			Boolean bool = tryToGetBool(key);
+			Boolean bool = OptionQuery.me().findValueAsBool(key);
 			if (bool != null && bool) {
 				return "checked=\"checked\"";
 			}
@@ -52,15 +52,5 @@ public class OptionChecked extends JFunction {
 		return "";
 	}
 
-	private Boolean tryToGetBool(String key) {
-		String value = OptionQuery.me().findValue(key);
-		Boolean ret = null;
-		try {
-			ret = Boolean.parseBoolean(value);
-		} catch (Exception e) {
-		}
-
-		return ret;
-	}
 
 }

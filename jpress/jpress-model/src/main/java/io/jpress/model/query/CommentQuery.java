@@ -92,6 +92,14 @@ public class CommentQuery extends JBaseQuery {
 	public long findCountByContentId(BigInteger contentId, String status) {
 		return DAO.doFindCount(" content_id = ? and status=? ", contentId, status);
 	}
+	
+	public long findCountByParentIdInNormal(BigInteger pId) {
+		return findCountByContentId(pId, Comment.STATUS_NORMAL);
+	}
+	
+	public long findCountByParentId(BigInteger pId, String status) {
+		return DAO.doFindCount(" parent_id = ? and status=? ", pId, status);
+	}
 
 	public long findCountByUserIdInNormal(BigInteger userId) {
 		return findCountByUserId(userId, Comment.STATUS_NORMAL);

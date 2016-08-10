@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jfinal.core.JFinal;
-
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
@@ -69,10 +67,6 @@ public class MenuTag extends JTag {
 			return;
 		}
 
-		if (getParamToBool("withContextPath", true)) {
-			processContextPath(list);
-		}
-
 		setActiveMenu(list);
 		
 		if(parentId == null){
@@ -83,20 +77,6 @@ public class MenuTag extends JTag {
 		renderBody();
 	}
 
-	private void processContextPath(List<Content> list) {
-		for (Content c : list) {
-			String url = c.getText();
-			if (StringUtils.isBlank(url)) {
-				continue;
-			}
-
-			if (!url.toLowerCase().startsWith("http:") && !url.toLowerCase().startsWith("https:")) {
-				url = JFinal.me().getContextPath() + url;
-			}
-
-			c.setText(url);
-		}
-	}
 
 	private void setActiveMenu(List<Content> list) {
 		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {

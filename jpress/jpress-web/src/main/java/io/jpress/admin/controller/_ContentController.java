@@ -405,6 +405,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					return false;
 				}
 
+				content.updateCommentCount();
+
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
 				if (ids != null && ids.size() > 0) {
 					if (!MappingQuery.me().doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {

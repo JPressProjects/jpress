@@ -19,6 +19,7 @@ import java.math.BigInteger;
 
 import io.jpress.model.base.BaseComment;
 import io.jpress.model.core.Table;
+import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
 
 @Table(tableName = "comment", primaryKey = "id")
@@ -49,5 +50,14 @@ public class Comment extends BaseComment<Comment> {
 
 		Content c = ContentQuery.me().findById(contentId);
 		return c == null ? null : c.getUrl();
+	}
+	
+	public boolean updateCommentCount() {
+		long count = CommentQuery.me().findCountByParentIdInNormal(getId());
+		if (count > 0) {
+			setCommentCount(count);
+			return this.update();
+		}
+		return false;
 	}
 }

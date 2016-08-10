@@ -17,6 +17,7 @@ package io.jpress.listener;
 
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
+import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.plugin.message.Actions;
 import io.jpress.plugin.message.BaseMessageListener;
@@ -28,30 +29,51 @@ public class CommentListener extends BaseMessageListener {
 	@Override
 	public void onMessage(Message message) {
 
-		// 评论添加到数据库
+		// 有新评论
 		if (Actions.COMMENT_ADD.equals(message.getAction())) {
-			Comment comment = message.getData();
-			if (comment != null && comment.getContentId() != null) {
-				Content content = ContentQuery.me().findById(comment.getContentId());
-				if (content != null) {
-					content.updateCommentCount();
-				}
+			updateContentCommentCount(message);
+			updateCommentCount(message);
+		}
+
+		// 评论被更新（可能状态呗更新）
+		else if (Actions.COMMENT_UPDATE.equals(message.getAction())) {
+			updateContentCommentCount(message);
+			updateCommentCount(message);
+		}
+
+		// 评论被删除
+		else if (Actions.COMMENT_DELETE.equals(message.getAction())) {
+			updateContentCommentCount(message);
+			updateCommentCount(message);
+		}
+	}
+
+	/**
+	 * 更新文章评论数量
+	 * 
+	 * @param message
+	 */
+	private void updateContentCommentCount(Message message) {
+		Comment comment = message.getData();
+		if (comment != null && comment.getContentId() != null) {
+			Content content = ContentQuery.me().findById(comment.getContentId());
+			if (content != null) {
+				content.updateCommentCount();
 			}
 		}
+	}
 
-		// 文章被更新
-		else if (Actions.COMMENT_UPDATE.equals(message.getAction())) {
-
-		}
-
-		// 文章被删除
-		else if (Actions.COMMENT_DELETE.equals(message.getAction())) {
-			Comment comment = message.getData();
-			if (comment != null && comment.getContentId() != null) {
-				Content content = ContentQuery.me().findById(comment.getContentId());
-				if (content != null) {
-					content.updateCommentCount();
-				}
+	/**
+	 * 更新评论的回复数量
+	 * 
+	 * @param message
+	 */
+	private void updateCommentCount(Message message) {
+		Comment comment = message.getData();
+		if (comment != null && comment.getParentId() != null) {
+			Comment parentComment = CommentQuery.me().findById(comment.getParentId());
+			if (parentComment != null) {
+				parentComment.updateCommentCount();
 			}
 		}
 	}
@@ -60,6 +82,7 @@ public class CommentListener extends BaseMessageListener {
 	public void onRegisterAction(MessageAction messageAction) {
 		messageAction.register(Actions.COMMENT_ADD);
 		messageAction.register(Actions.COMMENT_DELETE);
+		messageAction.register(Actions.COMMENT_UPDATE);
 	}
 
 }

@@ -295,7 +295,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public String getUrl() {
 		String baseUrl = null;
 		if (Consts.MODULE_PAGE.equals(this.getModule())) {
-			baseUrl = PageRouter.getRouter(this);
+			return PageRouter.getRouter(this);
 		} else {
 			baseUrl = ContentRouter.getRouter(this);
 		}

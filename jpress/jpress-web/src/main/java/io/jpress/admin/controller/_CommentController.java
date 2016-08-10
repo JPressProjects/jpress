@@ -83,8 +83,12 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment c = CommentQuery.me().findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Comment.STATUS_DELETE);
-			c.saveOrUpdate();
-			renderAjaxResultForSuccess("success");
+			if(c.saveOrUpdate()){
+				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
+				renderAjaxResultForSuccess("success");
+			}else{
+				renderAjaxResultForError("restore error!");
+			}
 		} else {
 			renderAjaxResultForError("trash error!");
 		}
@@ -96,8 +100,12 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment c = CommentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
-			c.saveOrUpdate();
-			renderAjaxResultForSuccess("success");
+			if(c.saveOrUpdate()){
+				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
+				renderAjaxResultForSuccess("success");
+			}else{
+				renderAjaxResultForError("restore error!");
+			}
 		} else {
 			renderAjaxResultForError("restore error!");
 		}

@@ -54,10 +54,9 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
 import io.jpress.utils.CookieUtils;
-import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/wechat")
@@ -224,18 +223,20 @@ public class WechatMessageController extends MsgController {
 			return;
 		}
 
+		// 自动回复
+		Content content = ContentQuery.me().findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
+		if (content != null && StringUtils.isNotBlank(content.getText())) {
+			textOrSeniorRender(message, content.getText());
+			return;
+		}
+
 		// 搜索相关
 		if (searchProcess(message, userInput)) {
 			return;
 		}
 
-		Content content = ContentQuery.me().findFirstByModuleAndTitle(Consts.MODULE_WECHAT_REPLY, userInput);
-		if (content != null && content.getText() != null) {
-			// 是否是高级回复
-			textOrSeniorRender(message, content.getText());
-		} else {
-			processDefaultReplay("wechat_search_no_matching", message);
-		}
+		// 没有匹配
+		processDefaultReplay("wechat_search_no_matching", message);
 	}
 
 	/**
@@ -247,71 +248,74 @@ public class WechatMessageController extends MsgController {
 	 */
 	private boolean searchProcess(InMsg message, String userInput) {
 		List<TplModule> modules = TemplateUtils.currentTemplate().getModules();
-		if (modules != null && modules.size() > 0) {
-			for (TplModule module : modules) {
+		if (StringUtils.isBlank(userInput) || modules == null || modules.size() == 0) {
+			return false;
+		}
 
-				// 是否启用搜索
-				Boolean bool = OptionQuery.me()
-						.findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
-				if (bool != null && bool) {
+		TplModule searchModule = null;
+		TplModule nonePrefixModule = null;
+		for (TplModule module : modules) {
+			// 是否启用搜索
+			Boolean bool = OptionQuery.me().findValueAsBool(String.format("wechat_search_%s_enable", module.getName()));
+			if (bool == null || bool == false) {
+				continue;
+			}
 
-					// 搜索关键字 前缀
-					String prefix = OptionQuery.me()
-							.findValue(String.format("wechat_search_%s_prefix", module.getName()));
+			// 搜索关键字 前缀
+			String prefix = OptionQuery.me().findValue(String.format("wechat_search_%s_prefix", module.getName()));
+			if (StringUtils.isBlank(prefix) && nonePrefixModule == null) {
+				nonePrefixModule = module;
+				continue;
+			}
 
-					String searcheKey = null;
-					if (StringUtils.isNotBlank(prefix)) {
-						if (userInput.startsWith(prefix)) {
-							searcheKey = FileUtils.removePrefix(userInput, prefix);
-						}
-					} else {
-						searcheKey = userInput;
-					}
-
-					// 开始搜索
-					if (searcheKey != null) {
-
-						// 搜索结果数量
-						Integer count = OptionQuery.me()
-								.findValueAsInteger(String.format("wechat_search_%s_count", module.getName()));
-						if (count == null || count <= 0 || count > 10) {
-							count = 10;
-						}
-
-						String domain = OptionQuery.me().findValue("web_domain");
-						if (StringUtils.isBlank(domain)) {
-							OutTextMsg otm = new OutTextMsg(message);
-							otm.setContent("您还没有配置您的域名，请先在后台的【设置】>【常规】里配置您的网站域名！");
-							render(otm);
-							return true;
-						}
-
-						List<Content> contents = ContentQuery.me().searchByModuleAndTitle(module.getName(), searcheKey,
-								count);
-
-						if (contents == null || contents.isEmpty()) {
-							// 搜索不到内容时
-							processDefaultReplay("wechat_search_none_content", message);
-							return true;
-						}
-
-						OutNewsMsg out = new OutNewsMsg(message);
-						for (Content content : contents) {
-							News news = new News();
-							news.setTitle(content.getTitle());
-							news.setDescription(content.getSummary());
-							news.setPicUrl(domain + content.getImage());
-							news.setUrl(domain + content.getUrl());
-							out.addNews(news);
-						}
-						render(out);
-
-						return true;
-					}
-				}
+			if (StringUtils.isNotBlank(prefix) && userInput.startsWith(prefix)) {
+				searchModule = module;
+				userInput = userInput.substring(prefix.length());
+				break;
 			}
 		}
-		return false;
+
+		if (searchModule == null) {
+			searchModule = nonePrefixModule;
+		}
+
+		if (searchModule == null || StringUtils.isBlank(userInput)) {
+			return false;
+		}
+
+		// 搜索结果数量
+		Integer count = OptionQuery.me().findValueAsInteger(String.format("wechat_search_%s_count", searchModule.getName()));
+		if (count == null || count <= 0 || count > 10) {
+			count = 10;
+		}
+
+		List<Content> contents = ContentQuery.me().searchByModuleAndTitle(searchModule.getName(), userInput, count);
+		if (contents == null || contents.isEmpty()) {
+			// 搜索不到内容时
+			processDefaultReplay("wechat_search_none_content", message);
+			return true;
+		}
+
+		String domain = OptionQuery.me().findValue("web_domain");
+		if (StringUtils.isBlank(domain)) {
+			OutTextMsg otm = new OutTextMsg(message);
+			otm.setContent("您还没有配置您的域名，请先在后台的【设置】>【常规】里配置您的网站域名！");
+			render(otm);
+			return true;
+		}
+
+		OutNewsMsg out = new OutNewsMsg(message);
+		for (Content content : contents) {
+			News news = new News();
+			news.setTitle(content.getTitle());
+			news.setDescription(content.getSummary());
+			news.setPicUrl(domain + content.getImage());
+			news.setUrl(domain + content.getUrl());
+			out.addNews(news);
+		}
+		render(out);
+		return true;
+
 	}
 
 	/**

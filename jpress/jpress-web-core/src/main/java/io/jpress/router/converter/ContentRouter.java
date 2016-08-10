@@ -42,7 +42,7 @@ public class ContentRouter extends RouterConverter {
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
-
+		
 		String[] targetDirs = parseTarget(target);
 
 		if (targetDirs == null || targetDirs.length == 0) {

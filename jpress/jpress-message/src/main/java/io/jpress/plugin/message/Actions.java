@@ -31,5 +31,6 @@ public class Actions {
 	public static String COMMENT_UPDATE = "comment:update";
 
 	public static String CONTENT_COUNT_UPDATE = "content:count_update";
+	public static String JPRESS_STARTED = "jpress:started";
 
 }

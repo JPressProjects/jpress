@@ -22,6 +22,8 @@ import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
 import io.jpress.core.db.DbDialectFactory;
 import io.jpress.interceptor.AdminInterceptor;
+import io.jpress.plugin.message.Actions;
+import io.jpress.plugin.message.MessageKit;
 import io.jpress.plugin.search.SearcherFactory;
 import io.jpress.ui.freemarker.function.OptionChecked;
 import io.jpress.ui.freemarker.function.OptionValue;
@@ -59,11 +61,11 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("option", new OptionValue());
 		Jpress.addFunction("checked", new OptionChecked());
 
-		searcherConfig();
+		doSearcherConfig();
+		MessageKit.sendMessage(Actions.JPRESS_STARTED, null);
 	}
 
-
-	private void searcherConfig() {
+	private void doSearcherConfig() {
 		if (!Jpress.isInstalled()) {
 			return;
 		}
@@ -79,6 +81,5 @@ public class Config extends JpressConfig {
 			DbDialectFactory.use(dialect);
 		}
 	}
-	
 
 }

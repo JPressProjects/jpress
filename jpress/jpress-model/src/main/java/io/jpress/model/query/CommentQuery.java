@@ -94,7 +94,7 @@ public class CommentQuery extends JBaseQuery {
 	}
 	
 	public long findCountByParentIdInNormal(BigInteger pId) {
-		return findCountByContentId(pId, Comment.STATUS_NORMAL);
+		return findCountByParentId(pId, Comment.STATUS_NORMAL);
 	}
 	
 	public long findCountByParentId(BigInteger pId, String status) {

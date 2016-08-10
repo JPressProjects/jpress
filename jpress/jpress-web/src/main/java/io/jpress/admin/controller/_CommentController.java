@@ -57,20 +57,23 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	public void index() {
 		super.index();
 		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getContentModule()));
-		setAttr("delete_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
+		setAttr("delete_count",
+				CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
 		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
-		setAttr("normal_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
+		setAttr("normal_count",
+				CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
 		setAttr("count", CommentQuery.me().findCountInNormalByModule(getContentModule()));
 	}
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null, getPara("s"));
+			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null,
+					getPara("s"));
 		}
 		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
 	}
-	
+
 	@Override
 	public void edit() {
 		BigInteger id = getParaToBigInteger("id");
@@ -83,10 +86,10 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment c = CommentQuery.me().findById(getParaToBigInteger("id"));
 		if (c != null) {
 			c.setStatus(Comment.STATUS_DELETE);
-			if(c.saveOrUpdate()){
+			if (c.saveOrUpdate()) {
 				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
-			}else{
+			} else {
 				renderAjaxResultForError("restore error!");
 			}
 		} else {
@@ -100,10 +103,10 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		Comment c = CommentQuery.me().findById(id);
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
-			if(c.saveOrUpdate()){
+			if (c.saveOrUpdate()) {
 				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
-			}else{
+			} else {
 				renderAjaxResultForError("restore error!");
 			}
 		} else {
@@ -172,21 +175,21 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			comment.setUserId(user.getId());
 		}
 		if (comment.saveOrUpdate()) {
+			comment.updateCommentCount();
 			renderAjaxResultForSuccess();
 		} else {
 			renderAjaxResultForError();
 		}
 	}
-	
-	public void reply_layer(){
+
+	public void reply_layer() {
 		BigInteger id = getParaToBigInteger("id");
 		setAttr("comment", CommentQuery.me().findById(id));
 	}
-	
-	
-	public void reply(){
+
+	public void reply() {
 		Comment comment = getModel(Comment.class);
-		
+
 		comment.setType(Comment.TYPE_COMMENT);
 		comment.setIp(getIPAddress());
 		comment.setAgent(getUserAgent());
@@ -198,7 +201,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		comment.setUserId(user.getId());
 		comment.setCreated(new Date());
 
-		
 		String text = comment.getText();
 		if (null != text && !"".equals(text)) {
 			Document document = Jsoup.parse(text);
@@ -206,7 +208,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 				comment.setText(document.body().html().toString());
 			}
 		}
-		
+
 		comment.save();
 		renderAjaxResultForSuccess();
 	}

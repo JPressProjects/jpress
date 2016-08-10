@@ -136,6 +136,8 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 				}
 			}
 
+			m.updateContentCount();
+
 		}
 		renderAjaxResultForSuccess("ok");
 	}

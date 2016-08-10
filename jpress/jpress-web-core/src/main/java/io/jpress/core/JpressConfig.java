@@ -15,6 +15,9 @@
  */
 package io.jpress.core;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.util.Enumeration;
 import java.util.List;
 
 import com.jfinal.config.Constants;
@@ -28,6 +31,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -51,9 +55,13 @@ import io.jpress.utils.StringUtils;
 
 public abstract class JpressConfig extends JFinalConfig {
 
-	public void configConstant(Constants constants) {
-		PropKit.use("jpress.properties");
+	static Log log = Log.getLog(JpressConfig.class);
 
+	public void configConstant(Constants constants) {
+
+		log.info("JPress is starting ...");
+
+		PropKit.use("jpress.properties");
 		onJfinalStartBefore();
 
 		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
@@ -65,7 +73,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		constants.setMaxPostSize(1024 * 1024 * 200);
 		constants.setMainRenderFactory(new JpressRenderFactory());
 
-//		 constants.setTokenCache(new JTokenCache());
+		// constants.setTokenCache(new JTokenCache());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -160,10 +168,26 @@ public abstract class JpressConfig extends JFinalConfig {
 
 		Jpress.renderImmediately();
 		onJfinalStartAfter();
+
+		log.info("JPress is started!");
+	}
+
+	@Override
+	public void beforeJFinalStop() {
+		Enumeration<Driver> drivers = DriverManager.getDrivers();
+		if (drivers != null) {
+			while (drivers.hasMoreElements()) {
+				try {
+					Driver driver = drivers.nextElement();
+					DriverManager.deregisterDriver(driver);
+				} catch (Exception e) {
+					log.error("deregisterDriver error in beforeJFinalStop() method.", e);
+				}
+			}
+		}
 	}
 
 	public abstract void onJfinalStartAfter();
-
 	public abstract void onJfinalStartBefore();
 
 }

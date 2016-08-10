@@ -293,7 +293,7 @@ public class ContentQuery extends JBaseQuery {
 
 		if (null != tags && tags.length > 0) {
 			needWhere = appendIfNotEmpty(sqlBuilder, "t.title", tags, params, needWhere);
-			sqlBuilder.append(" AND t.taxonomy_module='tag' ");
+			sqlBuilder.append(" AND t.`type`='tag' ");
 		}
 
 		if (StringUtils.isNotBlank(keyword)) {

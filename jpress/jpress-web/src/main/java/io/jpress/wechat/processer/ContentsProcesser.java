@@ -52,7 +52,8 @@ public class ContentsProcesser implements IMessageProcesser {
 		for (String id : ids) {
 			try {
 				contentIds.add(new BigInteger(id.trim()));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -65,8 +66,8 @@ public class ContentsProcesser implements IMessageProcesser {
 			otm.setContent("您还没有配置您的域名，请先在后台的【设置】>【常规】里配置您的网站域名！");
 			return otm;
 		}
-		
-		if(contentIds == null || contentIds.isEmpty()){
+
+		if (contentIds == null || contentIds.isEmpty()) {
 			OutTextMsg otm = new OutTextMsg(message);
 			otm.setContent("配置错误，请添加正确的内容ID。");
 			return otm;
@@ -90,7 +91,7 @@ public class ContentsProcesser implements IMessageProcesser {
 			News news = new News();
 			news.setTitle(content.getTitle());
 			news.setDescription(content.getSummary());
-			news.setPicUrl(domain + content.getFirstImage());
+			news.setPicUrl(domain + content.getImage());
 			news.setUrl(domain + content.getUrl());
 			out.addNews(news);
 		}

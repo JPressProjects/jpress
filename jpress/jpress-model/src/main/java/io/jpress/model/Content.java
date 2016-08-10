@@ -315,6 +315,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return imageByName(name, imageSrc);
 	}
 
+	public String getImage() {
+		String image = getThumbnail();
+		if (StringUtils.isBlank(image)) {
+			image = getFirstImage();
+		}
+		return image;
+	}
+
 	private String imageByName(String name, String imageSrc) {
 		if (StringUtils.isBlank(imageSrc)) {
 			return null;

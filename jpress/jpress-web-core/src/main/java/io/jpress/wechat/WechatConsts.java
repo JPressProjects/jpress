@@ -55,6 +55,7 @@ public class WechatConsts {
 		errors.put(40027, "二级菜单URL长度超出限制");
 		errors.put(40119, "请确保你的公众号非个人号且已获得认证");
 		errors.put(40120, "请确保你的公众号非个人号且已获得认证");
+		errors.put(48001, "您的公众号还未获得该API授权。");
 	}
 
 	public static String getErrorMessage(int errorCode) {

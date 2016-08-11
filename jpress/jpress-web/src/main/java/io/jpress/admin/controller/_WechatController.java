@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.ReturnCode;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
@@ -175,13 +176,13 @@ public class _WechatController extends JBaseCRUDController<Content> {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("type", content.getFlag());
 					jsonObject.put("name", content.getTitle());
-					
+
 					if ("view".equals(content.getFlag())) {
 						jsonObject.put("url", content.getText());
 					} else {
 						jsonObject.put("key", content.getText());
 					}
-					
+
 					button.add(jsonObject);
 				}
 			}
@@ -195,6 +196,12 @@ public class _WechatController extends JBaseCRUDController<Content> {
 				renderAjaxResultForSuccess();
 			} else {
 				String message = WechatConsts.getErrorMessage(result.getErrorCode());
+				if (StringUtils.isBlank(message)) {
+					message = ReturnCode.get(result.getErrorCode());
+				}
+				if (StringUtils.isBlank(message)) {
+					message = "未知错误";
+				}
 				renderAjaxResult(message, result.getErrorCode());
 			}
 		} else {

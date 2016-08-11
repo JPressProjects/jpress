@@ -50,17 +50,18 @@ public class _ApiController extends JBaseController {
 
 		Boolean apiEnable = getParaToBoolean("api_enable", Boolean.FALSE);
 		OptionQuery.me().saveOrUpdate("api_enable", apiEnable.toString());
+		
+		Boolean apiCorsEnable = getParaToBoolean("api_cors_enable", Boolean.FALSE);
+		OptionQuery.me().saveOrUpdate("api_cors_enable", apiCorsEnable.toString());
 
 		Content c = getModel(Content.class);
 		c.setModule(Consts.MODULE_API_APPLICATION);
 		
 		if(StringUtils.areNotBlank(c.getTitle(),c.getText(),c.getFlag())){
 			c.saveOrUpdate();
-			renderAjaxResultForSuccess();
-		}else{
-			renderAjaxResultForError("请把数据填写完整！");
 		}
-		
+			
+		renderAjaxResultForSuccess();
 	}
 
 	@Before(UCodeInterceptor.class)

@@ -120,6 +120,10 @@ public class JBaseController extends Controller {
 	public void renderAjaxResultForSuccess(String message) {
 		renderAjaxResult(message, 0, null);
 	}
+	
+	public void renderAjaxResultForSuccess(String message,Object data) {
+		renderAjaxResult(message, 0, data);
+	}
 
 	@Before(NotAction.class)
 	public void renderAjaxResultForError() {

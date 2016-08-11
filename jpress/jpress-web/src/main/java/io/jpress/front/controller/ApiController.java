@@ -15,18 +15,23 @@
  */
 package io.jpress.front.controller;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.model.Content;
-import io.jpress.model.Option;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
+import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
@@ -34,12 +39,35 @@ import io.jpress.utils.StringUtils;
 @RouterMapping(url = "/api")
 public class ApiController extends JBaseController {
 
-	public void index() {
-		corsSetting();
+	/**
+	 * http://www.xxx.com/api?method=queryTest
+	 * 
+	 * if method is not query method,you need add api application in website
+	 * backstage.
+	 */
 
-		Boolean isOpen = OptionQuery.me().findValueAsBool("api_enable");
-		if (isOpen == null || isOpen == false) {
+	public void index() {
+
+		Boolean apiCorsEnable = OptionQuery.me().findValueAsBool("api_cors_enable");
+		if (apiCorsEnable != null && apiCorsEnable == true) {
+			getResponse().setHeader("Access-Control-Allow-Origin", "*");
+			getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST");
+		}
+
+		Boolean apiEnable = OptionQuery.me().findValueAsBool("api_enable");
+		if (apiEnable == null || apiEnable == false) {
 			renderAjaxResult("api is not open", 1);
+			return;
+		}
+
+		String method = getPara("method");
+		if (StringUtils.isBlank(method)) {
+			renderAjaxResultForError("method must not empty!");
+			return;
+		}
+
+		if (method.startsWith("query")) {
+			doInvoke(method);
 			return;
 		}
 
@@ -69,12 +97,6 @@ public class ApiController extends JBaseController {
 			return;
 		}
 
-		String method = getPara("method");
-		if (!StringUtils.isNotBlank(method)) {
-			renderAjaxResultForError("method must not empty!");
-			return;
-		}
-
 		Map<String, String> params = new HashMap<String, String>();
 		Map<String, String[]> oParams = getParaMap();
 		if (oParams != null) {
@@ -91,6 +113,10 @@ public class ApiController extends JBaseController {
 			return;
 		}
 
+		doInvoke(method);
+	}
+
+	private void doInvoke(String method) {
 		try {
 			invoke(method);
 		} catch (NoSuchMethodException e) {
@@ -100,11 +126,6 @@ public class ApiController extends JBaseController {
 			renderAjaxResultForError("system error!");
 			return;
 		}
-	}
-
-	private void corsSetting() {
-		getResponse().setHeader("Access-Control-Allow-Origin", "*");
-		getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST");
 	}
 
 	private void invoke(String methodName) throws NoSuchMethodException, Throwable {
@@ -117,8 +138,97 @@ public class ApiController extends JBaseController {
 	}
 
 	/////////////////////// api methods////////////////////////////
-	private void test() {
-		renderText("test ok!");
+
+	/**
+	 * test api
+	 */
+	private void queryTest() {
+		renderAjaxResultForSuccess("test ok!");
+	}
+
+	/**
+	 * query content api
+	 */
+	private void queryContent() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id == null) {
+			renderAjaxResultForError("id is null");
+			return;
+		}
+
+		Content c = ContentQuery.me().findById(id);
+		if (c == null) {
+			renderAjaxResultForError("can't find by id:" + id);
+			return;
+		}
+		renderAjaxResult("success", 0, c);
+	}
+
+	private void queryContentPage() {
+		int page = getParaToInt("page", 1);
+		if (page < 1) {
+			page = 1;
+		}
+
+		int pagesize = getParaToInt("pagesize", 10);
+		if (pagesize < 1 || pagesize > 100) {
+			pagesize = 10;
+		}
+
+		String[] modules = null;
+		String modulesString = getPara("module");
+		if (modulesString != null) {
+			modules = modulesString.split(",");
+			if (modules != null && modules.length > 0) {
+				List<String> moduleList = new ArrayList<String>();
+				for (int i = 0; i < modules.length; i++) {
+					String module = modules[i];
+					if (TemplateUtils.currentTemplate().getModuleByName(modules[i]) != null) {
+						moduleList.add(module);
+					}
+				}
+				if (!moduleList.isEmpty()) {
+					modules = moduleList.toArray(new String[] {});
+				}
+			}
+		}
+
+		if (modules == null) {
+			List<TplModule> list = TemplateUtils.currentTemplate().getModules();
+			if (list == null || list.size() == 0) {
+				renderAjaxResultForError("template not defined module");
+				return;
+			}
+			modules = new String[list.size()];
+			for (int i = 0; i < modules.length; i++) {
+				modules[i] = list.get(i).getName();
+			}
+		}
+
+		String keyword = getPara("keyword");
+		String status = getPara("status");
+
+		BigInteger[] taxonomyIds = null;
+		String taxonomyIdString = getPara("taxonomyid");
+		if (taxonomyIdString != null) {
+			String[] taxonomyIdStrings = taxonomyIdString.split(",");
+			if (taxonomyIdStrings != null && taxonomyIdStrings.length > 0) {
+				List<BigInteger> ids = new ArrayList<BigInteger>();
+				for (String idString : taxonomyIdStrings) {
+					ids.add(new BigInteger(idString));
+				}
+				taxonomyIds = ids.toArray(new BigInteger[] {});
+			}
+		}
+
+		BigInteger userId = getParaToBigInteger("userid");
+		String month = getPara("month");
+		String orderBy = getPara("orderBy");
+
+		Page<Content> contentPage = ContentQuery.me().paginate(page, pagesize, modules, keyword, status, taxonomyIds,
+				userId, month, orderBy);
+
+		renderAjaxResultForSuccess("success", contentPage);
 	}
 
 }

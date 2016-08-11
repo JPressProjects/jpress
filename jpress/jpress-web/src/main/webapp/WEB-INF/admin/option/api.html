@@ -34,7 +34,7 @@ function doSubmit(){
 </section>
 <!-- Main content -->
 <section class="content">
-	<p class="content-msg">JPress让。。。</p>
+	<p class="content-msg">通过API的设置，灵活的开启是否允许某些应用访问网站的API。</p>
 
 	<form action="${CPATH}/admin/api/save" method="POST" id="form">
 		<input type="hidden" name="ucode" value="${ucode}"> 
@@ -52,6 +52,18 @@ function doSubmit(){
 						<div class="col-sm-9 ">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<label><input class=" " type="checkbox" name="api_enable" value="true" ${checked('api_enable')}> <span class="jp-set-info">开启API</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="jp-set-info ">是否允许Ajax跨站请求</div>
+						</div>
+						<div class="col-sm-9 ">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="api_cors_enable" value="true" ${checked('api_cors_enable')}> <span class="jp-set-info">允许Ajax跨站请求<br />（如果是html5的app客户端，请勾选此选项）</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>

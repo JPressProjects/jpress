@@ -56,6 +56,7 @@ public class OptionQuery extends JBaseQuery {
 
 		option.saveOrUpdate();
 	}
+	
 
 	public Option findByKey(String key) {
 		return DAO.doFindFirst("option_key =  ?", key);

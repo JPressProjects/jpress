@@ -25,18 +25,22 @@ public class Option extends BaseOption<Option> {
 
 	private static final long serialVersionUID = 1L;
 
-
 	public static final String KEY_WEB_NAME = "web_name";
 	public static final String KEY_TEMPLATE_ID = "web_template_id";
 
-	
 	
 	@Override
 	public boolean update() {
 		CacheKit.remove(CACHE_NAME, getOptionKey());
 		return super.update();
 	}
-
 	
+	
+	@Override
+	public boolean save() {
+		CacheKit.remove(CACHE_NAME, getOptionKey());
+		return super.save();
+	}
+
 
 }

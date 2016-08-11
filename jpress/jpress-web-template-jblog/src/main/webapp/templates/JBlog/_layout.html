@@ -60,8 +60,9 @@
       	<@jp_menu>
         	<#list menus as menu>
         		<li >
-        		<a  href="${menu.text!}">${menu.title!}
-        		<#if menu.flag ??>
+        		<a  href="${menu.url!}">
+        		${menu.title!}
+        		<#if menu.isActive() >
         			<span class="x-a-border"></span>
         		</#if>
         		</a>

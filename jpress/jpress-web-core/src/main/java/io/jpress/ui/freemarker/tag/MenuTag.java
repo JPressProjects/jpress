@@ -21,12 +21,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.core.JFinal;
+
 import io.jpress.Consts;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.vo.NavigationMenu;
 import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
@@ -55,7 +58,7 @@ public class MenuTag extends JTag {
 
 		BigInteger parentId = getParamToBigInteger("parentId");
 		List<Content> list = null;
-		
+
 		if (parentId != null) {
 			list = ContentQuery.me().findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
 		} else {
@@ -68,23 +71,28 @@ public class MenuTag extends JTag {
 		}
 
 		setActiveMenu(list);
-		
-		if(parentId == null){
+
+		if (parentId == null) {
 			ModelSorter.tree(list);
 		}
-		
-		setVariable("menus", list);
+
+		List<NavigationMenu> menulist = new ArrayList<NavigationMenu>();
+		for (Content c : list) {
+			menulist.add(new NavigationMenu(c));
+		}
+
+		setVariable("menus", menulist);
 		renderBody();
 	}
-
 
 	private void setActiveMenu(List<Content> list) {
 		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {
 			for (Taxonomy taxonomy : currentTaxonomys) {
 				String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
+				routerWithoutPageNumber = JFinal.me().getContextPath() + routerWithoutPageNumber;
 				if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
 					for (Content content : list) {
-						if (content.getText() != null && content.getText().startsWith(routerWithoutPageNumber)) {
+						if (content.getText() != null && content.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
 							content.setFlag("active");
 						}
 					}
@@ -93,7 +101,7 @@ public class MenuTag extends JTag {
 		}
 
 		for (Content c : list) {
-			if (c.getText() != null && c.getText().equals(request.getRequestURI())) {
+			if (c.getText() != null && c.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
 				c.setFlag("active");
 			}
 		}

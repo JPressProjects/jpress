@@ -89,6 +89,8 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 
 ###开发一个模板的helloworld
 
+如果您是新手，可以先看下视频教程 ： [http://www.yangfuhai.com/post/22.html](http://www.yangfuhai.com/post/22.html)
+
 开发一个全新的模板，主要有以下几个步骤：
 > 1. 建立模板配置文件 tpl_config.xml，用来说明模板的作者和模型。
 > 2. 建立一个tpl_screenshot.png图片，用来在JPress后台显示模板截图。
@@ -206,7 +208,136 @@ ImageTag
 * **TaxonomysTag** 分类列表，可以用于任何页面
 * **TagsTag** 标签列表，可以用于任何页面
 
+###标签的使用
 
+####IndexPageTag
+
+IndexPageTag标签 只能用在首页即index.html和单页即page_*.html。
+
+代码如下：
+
+```
+<@indexPage module="article"> 
+	<#list page.getList() as content>
+		<a href="${content.url}">${content.title}</a> <br />
+	</#list>
+	
+	<@pagination>
+		<#list pageItems as pItem>
+			<a href="${pItem.url}">${pItem.text}</a>
+		</#list>
+	</@pagination>
+</@indexPage>
+```
+
+
+代码解释：
+> * <@indexPage> </@indexPage> 是 **IndexPageTag** 标签的开头和结尾。
+> * <#list> </#list> 是循环标签，会循环输出 **指定列表** 的所有内容，此标签属于freemarker模板引擎的自带标签。
+> * <@pagination> </@pagination> 是 **IndexPageTag** 标签的 **子标签**，用于显示 **页码** 列表。
+
+indexPage标签属性：
+> * module ： 指定读取模型的内容。在如上代码中`module="article"`表示读取article模型的内容。
+> * pagesize ： 指定每页显示的条数，默认为10。
+> * orderby ： 指定当前页面数据的排序方式，根据什么来排序。
+
+备注：
+> JPress的标签体系基于freemarker模板引擎的标签，
+
+
+#### ContentPageTag 
+
+ContentPageTag标签 和 IndexPageTag标签 的用法完全一样，唯一的区别是：
+ContentPageTag标签 只能在分类页使用，即只能在taxonomy.html 或 taxonomy_*.html上使用。
+
+ContentPageTag标签支持的属性如下：
+> * pagesize ： 每页显示的条数
+> * orderby ：排序的字段或方法
+
+#### UserContentPageTag 
+UserContentPageTag标签 和 IndexPageTag标签 的用法完全一样，唯一的区别是：
+UserContentPageTag标签 只能在用户中心使用，用于显示**登陆用户**的文章。
+
+UserContentPageTag标签支持的属性如下：
+> * pagesize ： 每页显示的条数
+> * orderby ：内容列表排序的字段或方法
+> * module ：指定 **登陆用户** 发布的内容列表模型
+> * taxonomyid ：指定 **登陆用户** 发布的内容列表的类型ID 或 tagId
+> * status ： 指定 **登陆用户** 发布的内容列表的状态
+
+#### CommnetPageTag
+CommnetPageTag标签用于显示内容的回复列表（或叫评论列表），只能在内容详情页面使用，即只能在content.html 或 content_*.html 上使用。
+
+CommnetPageTag标签支持的属性如下：
+> * pagesize ： 每页显示的条数。
+
+
+
+#### ContentsTag
+文章列表标签，可以在任意页面使用此标签。此标签不带分页功能。
+
+代码如下：
+
+```
+<@jp_contents module="article" count="3" orderby="comment_count" hasThumbnail="true"> 
+	<#list contents as content>
+		<a href="${content.url}">${content.title}</a> <br />
+	</#list> 
+</@jp_contents>
+```
+
+代码解释：
+> * `module="article"` 表示内容列表为`article`模型的内容。
+> * `count="3"` 表示内容列表的数量为3条内容。
+> * `orderby="comment_count"` 表示内容列表根据`comment_count`字段排序。
+> * `hasThumbnail="true"`表示内容列表必须有缩略图。
+
+ContentsTag标签支持的属性如下：
+> * module ：指定内容列表的模型
+> * style ： 指定内容列表的样式。
+> * flag ： 指定内容列表的flag标示。
+> * userid ： 指定内容列表的用户，即哪个用户发布的内容。
+> * parentid ： 
+> * hasThumbnail ：指定内容列表是否必须包含或不包含缩略图。
+> * tag ： 指定哪个tag的内容列表。
+> * typeslug ：指定哪个分类下的内容列表。通过分类的slug来指定。
+> * typeid ： 指定哪个分类下的内容列表。通过分类的id来指定。
+> * keyword ： 指定哪个关键字的内容列表。
+> * orderby ： 指定内容列表的排序方式。
+> * count ： 指定内容列表的总数量。
+
+
+#### TaxonomysTag
+#### TagsTag
+#### UsersTag
+
+#### MenuTag
+网站菜单的标签。可以在任意页面使用，用于显示网站菜单导航。
+
+代码如下：
+
+```
+<@jp_menu>
+	<#list menus as menu>
+		<li >
+	        <a  href="${menu.url!}">
+	        	${menu.title!}
+        		<#if menu.isActive() ??>
+        			<span class="x-a-border"></span>
+        		</#if>
+        	</a>
+       </li>
+	</#list>
+</@jp_menu>
+```
+代码解释：
+
+```
+<#if menu.isActive() ??>
+	<span class="x-a-border"></span>
+</#if>
+```
+这段代码表示当前页面是否属于该菜单下的内容，如果属于该菜单，则输出`<span class="x-a-border"></span>`，不属于则不输出。常用来显示导航高亮。
 
 ###模板设置
 

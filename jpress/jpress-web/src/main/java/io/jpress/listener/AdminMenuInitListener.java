@@ -119,8 +119,8 @@ public class AdminMenuInitListener extends BaseMessageListener {
 	private MenuGroup createTemplateMenuGroup() {
 		MenuGroup group = new MenuGroup("template", "fa fa-magic", "模板");
 		{
-			group.addMenuItem(new MenuItem("list", "/admin/template", "所有主题"));
-			group.addMenuItem(new MenuItem("install", "/admin/template/install", "主题安装"));
+			group.addMenuItem(new MenuItem("list", "/admin/template", "所有模板"));
+			group.addMenuItem(new MenuItem("install", "/admin/template/install", "模板安装"));
 			group.addMenuItem(new MenuItem("menu", "/admin/template/menu", "菜单"));
 			group.addMenuItem(new MenuItem("setting", "/admin/template/setting", "设置"));
 			group.addMenuItem(new MenuItem("edit", "/admin/template/edit", "编辑"));

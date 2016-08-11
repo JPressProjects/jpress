@@ -100,7 +100,7 @@ public class TemplateUtils {
 		String basePath = PathKit.getWebRootPath() + "/templates";
 
 		List<File> templateFolderList = new ArrayList<File>();
-		scanThemeFloders(new File(basePath), templateFolderList);
+		scanTemplateFloders(new File(basePath), templateFolderList);
 
 		List<Template> templatelist = null;
 		if (templateFolderList.size() > 0) {
@@ -113,7 +113,7 @@ public class TemplateUtils {
 		return templatelist;
 	}
 
-	private static void scanThemeFloders(File file, List<File> fillToList) {
+	private static void scanTemplateFloders(File file, List<File> fillToList) {
 		if (file.isDirectory()) {
 
 			File configFile = new File(file, "tpl_config.xml");
@@ -125,7 +125,7 @@ public class TemplateUtils {
 				if (null != files && files.length > 0) {
 					for (File f : files) {
 						if (f.isDirectory())
-							scanThemeFloders(f, fillToList);
+							scanTemplateFloders(f, fillToList);
 					}
 				}
 			}

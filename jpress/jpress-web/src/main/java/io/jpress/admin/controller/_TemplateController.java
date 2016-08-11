@@ -78,12 +78,19 @@ public class _TemplateController extends JBaseController {
 
 		if (isMultipartRequest()) {
 			UploadFile ufile = getFile();
-			String webRoot = PathKit.getWebRootPath();
+			if (ufile == null) {
+				renderAjaxResultForError("您还没选择文件，请选择zip格式的模板文件！");
+				return;
+			}
 
-			StringBuilder newFileName = new StringBuilder(webRoot).append("/templates/").append(ufile.getFileName());
+			String webRoot = PathKit.getWebRootPath();
+			StringBuilder newFileName = new StringBuilder(webRoot);
+			newFileName.append(File.separator);
+			newFileName.append("templates");
+			newFileName.append(File.separator);
+			newFileName.append(ufile.getFileName());
 
 			File newfile = new File(newFileName.toString());
-
 			if (newfile.exists()) {
 				renderAjaxResultForError("该模板已经安装！");
 				return;
@@ -97,7 +104,7 @@ public class _TemplateController extends JBaseController {
 			String zipPath = newfile.getAbsolutePath();
 
 			try {
-				FileUtils.unzip(zipPath);
+				FileUtils.unzip(zipPath, newfile.getParentFile().getAbsolutePath());
 			} catch (IOException e) {
 				renderAjaxResultForError("模板文件解压缩失败！");
 				return;

@@ -5,7 +5,11 @@ function doSubmit(){
 			type : "post", 
 			dataType : "json", 
 			success : function(data) { 
-				alert(data.message);
+				if(data.errorCode == 0){
+					toastr.success(data.message,'安装成功');
+				}else{
+					toastr.error(data.message);
+				}
 			},
 			error : function() {
 				alert("信息提交错误");

@@ -31,7 +31,6 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
-import io.jpress.template.TplModule;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
@@ -194,15 +193,7 @@ public class ApiController extends JBaseController {
 		}
 
 		if (modules == null) {
-			List<TplModule> list = TemplateUtils.currentTemplate().getModules();
-			if (list == null || list.size() == 0) {
-				renderAjaxResultForError("template not defined module");
-				return;
-			}
-			modules = new String[list.size()];
-			for (int i = 0; i < modules.length; i++) {
-				modules[i] = list.get(i).getName();
-			}
+			modules = TemplateUtils.getCurrentTemplateModulesAsArray();
 		}
 
 		String keyword = getPara("keyword");

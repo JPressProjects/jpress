@@ -27,6 +27,7 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 import io.jpress.core.db.Jdb;
 import io.jpress.model.Content;
 import io.jpress.model.vo.Archive;
+import io.jpress.template.TemplateUtils;
 import io.jpress.utils.StringUtils;
 
 public class ContentQuery extends JBaseQuery {
@@ -252,8 +253,13 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.doFindCount("module = ? and status=?", module, status);
 	}
 
-	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId, String orderBy) {
-		return findListInNormal(page, pagesize, orderBy, null, new BigInteger[] { taxonomyId }, null, null, null, null,
+	public List<Content> findListInNormal(int page, int pagesize) {
+		return findListInNormal(page, pagesize, null, null, null, null, null, null, null, null, null, null, null, null,
+				null);
+	}
+
+	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId) {
+		return findListInNormal(page, pagesize, null, null, new BigInteger[] { taxonomyId }, null, null, null, null,
 				null, null, null, null, null, null);
 	}
 
@@ -276,43 +282,42 @@ public class ContentQuery extends JBaseQuery {
 			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
 			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail, String month) {
 
+		if (modules == null) {
+			modules = TemplateUtils.getCurrentTemplateModulesAsArray();
+		}
+
 		StringBuilder sqlBuilder = getBaseSelectSql();
 		sqlBuilder.append(" where c.status = 'normal' ");
-
 		LinkedList<Object> params = new LinkedList<Object>();
-
-		boolean needWhere = false;
-		needWhere = appendIfNotEmpty(sqlBuilder, "m.taxonomy_id", typeIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.module", modules, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.style", styles, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.slug", slugs, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "c.parent_id", parentIds, params, needWhere);
-		needWhere = appendIfNotEmpty(sqlBuilder, "t.slug", typeSlugs, params, needWhere);
-		needWhere = appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, needWhere);
+		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id", typeIds, params, false);
+		appendIfNotEmpty(sqlBuilder, "c.module", modules, params, false);
+		appendIfNotEmpty(sqlBuilder, "c.style", styles, params, false);
+		appendIfNotEmpty(sqlBuilder, "c.slug", slugs, params, false);
+		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params, false);
+		appendIfNotEmpty(sqlBuilder, "c.parent_id", parentIds, params, false);
+		appendIfNotEmpty(sqlBuilder, "t.slug", typeSlugs, params, false);
+		appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, false);
 
 		if (null != tags && tags.length > 0) {
-			needWhere = appendIfNotEmpty(sqlBuilder, "t.title", tags, params, needWhere);
+			appendIfNotEmpty(sqlBuilder, "t.title", tags, params, false);
 			sqlBuilder.append(" AND t.`type`='tag' ");
 		}
 
 		if (StringUtils.isNotBlank(keyword)) {
-			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
-			sqlBuilder.append(" c.title like ?");
+			sqlBuilder.append(" AND c.title like ?");
 			params.add("%" + keyword + "%");
 		}
 
 		if (StringUtils.isNotBlank(month)) {
-			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
-			sqlBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			sqlBuilder.append(" AND DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
 		}
 
 		if (null != hasThumbnail) {
 			if (hasThumbnail) {
-				sqlBuilder.append(" and c.thumbnail is not null ");
+				sqlBuilder.append(" AND c.thumbnail is not null ");
 			} else {
-				sqlBuilder.append(" and c.thumbnail is null ");
+				sqlBuilder.append(" AND c.thumbnail is null ");
 			}
 		}
 
@@ -411,15 +416,15 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" ORDER BY c.created ASC");
 		sqlBuilder.append(" LIMIT 1");
 
-		return DAO.getTemp(String.format("next_%s_$s", currentContent.getId(), currentContent.getModule()), new IDataLoader() {
-			@Override
-			public Object load() {
-				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-			}
-		});
+		return DAO.getTemp(String.format("next_%s_$s", currentContent.getId(), currentContent.getModule()),
+				new IDataLoader() {
+					@Override
+					public Object load() {
+						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+					}
+				});
 	}
-	
-	
+
 	public Content findPrevious(final Content currentContent) {
 		final StringBuilder sqlBuilder = new StringBuilder(" select ");
 		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
@@ -430,13 +435,14 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" AND c.status = 'normal'");
 		sqlBuilder.append(" ORDER BY c.created DESC");
 		sqlBuilder.append(" LIMIT 1");
-		
-		return DAO.getTemp(String.format("previous_%s_$s", currentContent.getId(), currentContent.getModule()), new IDataLoader() {
-			@Override
-			public Object load() {
-				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-			}
-		});
+
+		return DAO.getTemp(String.format("previous_%s_$s", currentContent.getId(), currentContent.getModule()),
+				new IDataLoader() {
+					@Override
+					public Object load() {
+						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+					}
+				});
 	}
 
 	private StringBuilder getBaseSelectSql() {

@@ -60,10 +60,10 @@ public class TemplateUtils {
 
 	public static Template currentTemplate() {
 		if (cTemplate == null) {
-			
+
 			String templateId = getcurrentTemplateId();
 			List<Template> templateList = TemplateUtils.scanTemplates();
-			
+
 			for (Template tpl : templateList) {
 				if (templateId.equals(tpl.getId())) {
 					cTemplate = tpl;
@@ -134,6 +134,15 @@ public class TemplateUtils {
 
 	public static String getTemplatePath() {
 		return currentTemplate().getPath();
+	}
+
+	public static String[] getCurrentTemplateModulesAsArray() {
+		List<TplModule> list = currentTemplate().getModules();
+		String[] modules = new String[list.size()];
+		for (int i = 0; i < modules.length; i++) {
+			modules[i] = list.get(i).getName();
+		}
+		return modules;
 	}
 
 }

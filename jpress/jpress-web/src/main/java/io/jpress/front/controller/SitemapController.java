@@ -78,7 +78,7 @@ public class SitemapController extends Controller {
 		StringBuilder xmlBuilder = new StringBuilder();
 		buildUrlsetHeader(xmlBuilder);
 		String domain = OptionQuery.me().findValue("web_domain");
-		List<Content> contents = ContentQuery.me().findListInNormal(1, 500, id, null);
+		List<Content> contents = ContentQuery.me().findListInNormal(1, 500, id);
 		if (contents != null && !contents.isEmpty()) {
 			for (Content c : contents) {
 				if (c.getModified() == null)

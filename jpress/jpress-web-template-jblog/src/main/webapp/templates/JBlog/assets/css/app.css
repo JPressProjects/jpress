@@ -1689,6 +1689,8 @@ a.x-a-active:hover{
 	background-color:#ffe;
 	padding:0.5rem;
 	margin-bottom: 0.5rem;
+	font-size: 14px;
+    color: #757575;
 }
 .jblog-comment-replay h4{
     padding: 2px 0px 3px 0px;

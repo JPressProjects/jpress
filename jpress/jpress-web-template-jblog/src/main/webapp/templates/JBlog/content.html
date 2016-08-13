@@ -18,6 +18,18 @@ function reply(id){
 <#macro css_import>
 <link rel="stylesheet" href="${CTPATH}/assets/highlight/styles/zenburn.css">
 </#macro> 
+<#macro css>
+.login-box-title {
+    text-align: right;
+    vertical-align: middle;
+    padding: 0.5rem;
+}
+.login-box input {
+    border: 1px solid #d2d6de;
+    padding: 0.7rem 0.5rem;
+    width: 80%;
+}
+</#macro>
 <@layout>
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
   <!-- -->
@@ -66,6 +78,13 @@ function reply(id){
       <div class="x-layout-100 clearfix">
         <textarea name="text" class="x-layout-100 x-border-grey x-box-border x-padding-5 x-item-space-8 body-bacground" placeholder="说点什么吧..."></textarea>
       </div>
+      <#if option('comment_need_captcha') ?? && option('comment_need_captcha')=='true'>
+      <div class="x-layout-100 clearfix login-box ">
+		<p class="x-pull-left x-layout-10 login-box-title">验证码：</p>
+		<p class="x-pull-left x-layout-20"><input type="text" name="comment_captcha"></p>
+		<p class="x-pull-left x-layout-60"><img src="${CPATH}/captcha" onclick="this.src='${CPATH}/captcha?d='+Math.random();" ></p>
+	 </div>
+	 </#if>
       <div class="x-layout-100 clearfix">
         <button type="submit" class="x-button-primary x-border-none pull-right x-margin-top-5">发表评论</button>
       </div>

@@ -4,6 +4,8 @@
 </#macro> 
 <#macro css_import>
 </#macro> 
+<#macro css>
+</#macro> 
 <#macro layout>
 <!DOCTYPE html>
 <html>
@@ -19,6 +21,11 @@
   <link rel="stylesheet" href="${CTPATH}/assets/font-awesome/css/font-awesome.min.css"/>
   <link rel="stylesheet" href="${CTPATH}/assets/mediaelement/mediaelementplayer.css" />
   <@css_import />
+  <#if css ??>
+  	<style type="text/css">
+  	<@css />
+  	</style>
+  </#if>
 </head>
 <body class="blog-body">
 <header class="x-layout-100">

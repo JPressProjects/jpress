@@ -12,7 +12,7 @@
 	</p>
 	<form action="${CPATH}/admin/option/save" method="POST" id="form">
 	<input type="hidden" name="ucode" value="${ucode}"> 
-	<input type="hidden" name="autosave" value="comment_allow_not_login,comment_must_audited,comment_default_nickname,comment_default_avatar">
+	<input type="hidden" name="autosave" value="comment_allow_not_login,comment_must_audited,comment_need_captcha,comment_default_nickname,comment_default_avatar">
 	<div class="row">
 		<div class="col-xs-12">
 		<h4 class="jp-set-title">常规选项</h4>
@@ -28,6 +28,9 @@
 						</div>
 						<div class="checkbox">
 							<label><input type="checkbox" value="true" name="comment_must_audited" ${checked('comment_must_audited')}> 评论必须经过管理员审核。 </label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="true" name="comment_need_captcha" ${checked('comment_need_captcha')}> 开启评论验证码功能。 </label>
 						</div>
 					</div>
 				</div>

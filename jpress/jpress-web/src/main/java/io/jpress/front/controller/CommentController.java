@@ -52,6 +52,15 @@ public class CommentController extends BaseFrontController {
 			gotoUrl += "#" + anchor;
 		}
 
+		// 是否开启验证码功能
+		Boolean comment_need_captcha = OptionQuery.me().findValueAsBool("comment_need_captcha");
+		if (comment_need_captcha != null && comment_need_captcha == true) {
+			if (!validateCaptcha("comment_captcha")) { // 验证码验证失败
+				renderForCommentError("validate captcha fail", 1);
+				return;
+			}
+		}
+
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
 		// 允许未登陆用户评论

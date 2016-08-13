@@ -93,7 +93,7 @@ function reply(id){
     <!-- -->
     <@commentPageTag pagesize="10">
      <#if page ??> 
-    <div class="x-white-box">
+     <div class="x-white-box" id="clist">
       <h3 class="x-box-title">
         全部评论：<span>${page.totalRow!}条</span>
       </h3>
@@ -125,6 +125,19 @@ function reply(id){
       </div>
 	  </#list>
     </div>
+    
+    	<#if (page.totalRow > 10 )>
+    	<ul class="x-page">
+			<@pagination anchor="clist">
+				<#list pageItems as pi>
+				<li class="${pi.style!}">
+					<a href="${pi.url!}">${pi.text!}</a>
+				</li>
+				</#list>
+			</@pagination>
+		</ul>
+		</#if>
+    
     </#if>
      </@commentPageTag>
     <!-- -->

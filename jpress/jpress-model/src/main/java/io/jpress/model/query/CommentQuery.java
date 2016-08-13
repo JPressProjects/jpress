@@ -35,9 +35,9 @@ public class CommentQuery extends JBaseQuery {
 	public Page<Comment> paginateWithContent(int pageNumber, int pageSize, String module, String type,
 			BigInteger contentId, String status) {
 
-		String select = " select c.*,content.title content_title,u.username,u.nickname,"
+		String select = " select c.*,content.title content_title,u.username,u.nickname,u.avatar, "
 				+ "quote_comment.text qc_content,quote_comment.author qc_author,"
-				+ "quote_user.username qc_username,quote_user.nickname qc_nickname";
+				+ "quote_user.username qc_username,quote_user.nickname qc_nickname,quote_user.avatar qc_avatar ";
 		
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
@@ -62,7 +62,7 @@ public class CommentQuery extends JBaseQuery {
 
 	public Page<Comment> paginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
 
-		String select = " select c.*,content.title content_title,u.username,u.nickname";
+		String select = " select c.*,content.title content_title,u.username,u.nickname,u.avatar ";
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
@@ -110,7 +110,7 @@ public class CommentQuery extends JBaseQuery {
 	}
 
 	public Comment findById(Object idValue) {
-		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname");
+		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname,u.avatar ");
 		sqlBuilder.append(" from comment c");
 		sqlBuilder.append(" left join content on c.content_id = content.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id ");

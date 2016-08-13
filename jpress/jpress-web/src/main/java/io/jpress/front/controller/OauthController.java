@@ -17,6 +17,8 @@ package io.jpress.front.controller;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.jpress.Consts;
 import io.jpress.model.Metadata;
@@ -24,7 +26,16 @@ import io.jpress.model.User;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.oauth2.Oauth2Controller;
+import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
+import io.jpress.oauth2.connector.FacebookConnector;
+import io.jpress.oauth2.connector.GithubConnector;
+import io.jpress.oauth2.connector.LinkedinConnector;
+import io.jpress.oauth2.connector.OSChinaConnector;
+import io.jpress.oauth2.connector.QQConnector;
+import io.jpress.oauth2.connector.TwitterConnector;
+import io.jpress.oauth2.connector.WechatConnector;
+import io.jpress.oauth2.connector.WeiboConnector;
 import io.jpress.plugin.message.Actions;
 import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
@@ -45,7 +56,7 @@ public class OauthController extends Oauth2Controller {
 	}
 
 	@Override
-	public void onCallBack(OauthUser ouser) {
+	public void onAuthorizeSuccess(OauthUser ouser) {
 		User user = UserQuery.me().findFirstFromMetadata(ouser.getSource() + "_open_id", ouser.getOpenId());
 		if (null == user) { // first login
 			user = new User();
@@ -72,11 +83,7 @@ public class OauthController extends Oauth2Controller {
 	}
 
 	@Override
-	public void onError(String errorMessage) {
-		doAuthorizeFailure();
-	}
-
-	private void doAuthorizeFailure() {
+	public void onAuthorizeError(String errorMessage) {
 		String redirect = getPara("goto");
 		redirect = StringUtils.isNotBlank(redirect) ? redirect : Consts.ROUTER_USER_LOGIN;
 		redirect(redirect);
@@ -100,46 +107,44 @@ public class OauthController extends Oauth2Controller {
 		redirect(redirect);
 	}
 
-	public String onGetAppkey(String name) {
-		if ("qq".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_qq_appkey");
-		} else if ("wechat".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_wechat_appkey");
-		} else if ("weibo".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_weibo_appkey");
-		} else if ("oschina".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_oschina_appkey");
-		} else if ("github".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_github_appkey");
-		} else if ("facebook".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_facebook_appkey");
-		} else if ("twitter".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_twitter_appkey");
-		} else if ("linkedin".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_linkedin_appkey");
-		}
-		return null;
+	@Override
+	public OauthConnector onConnectorGet(String processerName) {
+		String appkey = OptionQuery.me().findValue("oauth2_" + processerName + "_appkey");
+		String appsecret = OptionQuery.me().findValue("oauth2_" + processerName + "_appsecret");
+
+		return getConnector(processerName, appkey, appsecret);
 	}
 
-	public String onGetSecret(String name) {
-		if ("qq".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_qq_appsecret");
-		} else if ("wechat".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_wechat_appsecret");
-		} else if ("weibo".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_weibo_appsecret");
-		} else if ("oschina".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_oschina_appsecret");
-		} else if ("github".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_github_appsecret");
-		} else if ("facebook".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_facebook_appsecret");
-		} else if ("twitter".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_twitter_appsecret");
-		} else if ("linkedin".equals(name)) {
-			return OptionQuery.me().findValue("oauth2_linkedin_appsecret");
+	private static final Map<String, OauthConnector> connectorMap = new HashMap<String, OauthConnector>();
+
+	private static OauthConnector getConnector(String name, String appkey, String appSecret) {
+		OauthConnector connector = connectorMap.get(name);
+		if (connector == null) {
+
+			if ("qq".equals(name)) {
+				connector = new QQConnector(name, appkey, appSecret);
+			} else if ("wechat".equals(name)) {
+				connector = new WechatConnector(name, appkey, appSecret);
+			} else if ("weibo".equals(name)) {
+				connector = new WeiboConnector(name, appkey, appSecret);
+			} else if ("oschina".equals(name)) {
+				connector = new OSChinaConnector(name, appkey, appSecret);
+			} else if ("github".equals(name)) {
+				connector = new GithubConnector(name, appkey, appSecret);
+			} else if ("facebook".equals(name)) {
+				connector = new FacebookConnector(name, appkey, appSecret);
+			} else if ("twitter".equals(name)) {
+				connector = new TwitterConnector(name, appkey, appSecret);
+			} else if ("linkedin".equals(name)) {
+				connector = new LinkedinConnector(name, appkey, appSecret);
+			}
+
+			if (connector != null) {
+				connectorMap.put(name, connector);
+			}
 		}
-		return null;
+
+		return connector;
 	}
 
 }

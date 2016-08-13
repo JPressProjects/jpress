@@ -24,8 +24,8 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
-import io.jpress.template.TplModule;
 import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
 
 public class UserQuery extends JBaseQuery {
 	private static final User DAO = new User();
@@ -68,8 +68,11 @@ public class UserQuery extends JBaseQuery {
 		return null;
 	}
 
-	public Page<User> paginate(int pageNumber, int pageSize) {
-		return DAO.doPaginate(pageNumber, pageSize);
+	public Page<User> paginate(int pageNumber, int pageSize , String orderby) {
+		String select = "select * ";
+		StringBuilder fromBuilder = new StringBuilder(" from user u ");
+		buildOrderBy(orderby, fromBuilder);
+		return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString());
 	}
 
 	public long findCount() {

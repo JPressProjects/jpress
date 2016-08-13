@@ -16,6 +16,7 @@
 package io.jpress.admin.controller;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
@@ -42,44 +43,46 @@ public class _UserController extends JBaseCRUDController<User> {
 		setAttr("userCount", UserQuery.me().findCount());
 		setAttr("adminCount", UserQuery.me().findAdminCount());
 
-		return UserQuery.me().paginate(pageNumber, pageSize);
+		return UserQuery.me().paginate(pageNumber, pageSize, null);
 	}
 
 	@Override
-	public boolean onModelSaveBefore(User m) {
+	public boolean onModelSaveBefore(User user) {
 
 		String password = getPara("password");
 
 		// 修改了密码
-		if (m.getId() != null && StringUtils.isNotEmpty(password)) {
-			User dbUser = UserQuery.me().findById(m.getId());
-			m.setSalt(dbUser.getSalt());
+		if (user.getId() != null && StringUtils.isNotEmpty(password)) {
+			User dbUser = UserQuery.me().findById(user.getId());
+			user.setSalt(dbUser.getSalt());
 			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
-			m.setPassword(password);
+			user.setPassword(password);
 		}
 
 		// 新建用户
-		if (m.getId() == null && StringUtils.isNotEmpty(password)) {
+		if (user.getId() == null && StringUtils.isNotEmpty(password)) {
 			String salt = EncryptUtils.salt();
-			m.setSalt(salt);
+			user.setSalt(salt);
 
 			password = EncryptUtils.encryptPassword(password, salt);
-			m.setPassword(password);
+			user.setPassword(password);
+			
+			user.setCreated(new Date());
 		}
 
 		UploadFile uf = getFile();
 		if (uf != null) {
 			String newPath = AttachmentUtils.moveFile(uf);
 			newPath = newPath.replace("\\", "/");
-			m.setAvatar(newPath);
+			user.setAvatar(newPath);
 		} else {
 			String url = getPara("user_avatar");
 			if (StringUtils.isNotBlank(url)) {
-				m.setAvatar(url.trim());
+				user.setAvatar(url.trim());
 			}
 		}
 
-		return super.onModelSaveBefore(m);
+		return super.onModelSaveBefore(user);
 	}
 
 	@Override
@@ -123,22 +126,21 @@ public class _UserController extends JBaseCRUDController<User> {
 			renderAjaxResultForError();
 		}
 	}
-	
-	
+
 	@Override
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
-		if(id == null ){
+		if (id == null) {
 			renderAjaxResultForError();
 			return;
 		}
-		
+
 		User user = getAttr(Consts.ATTR_USER);
-		if(user.getId().compareTo(id) == 0){
+		if (user.getId().compareTo(id) == 0) {
 			renderAjaxResultForError("不能删除自己...");
 			return;
 		}
-		
+
 		super.delete();
 	}
 

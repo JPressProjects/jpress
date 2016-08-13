@@ -22,19 +22,18 @@ import io.jpress.oauth2.OauthUser;
 
 public class WechatConnector extends OauthConnector {
 
-	public WechatConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("wechat");
+	public WechatConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	// DOC
 	// https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
 
-//	public WechatConnector() {
-//		setClientId(OptionQuery.findValue("oauth2_wechat_appkey"));
-//		setClientSecret(OptionQuery.findValue("oauth2_wechat_appsecret"));
-//		setName("wechat");
-//	}
+	// public WechatConnector() {
+	// setClientId(OptionQuery.findValue("oauth2_wechat_appkey"));
+	// setClientSecret(OptionQuery.findValue("oauth2_wechat_appsecret"));
+	// setName("wechat");
+	// }
 
 	public String createAuthorizeUrl(String state) {
 

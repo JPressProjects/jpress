@@ -25,17 +25,15 @@ import io.jpress.oauth2.OauthUser;
 
 public class WeiboConnector extends OauthConnector {
 
-public WeiboConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("weibo");
+	public WeiboConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
-
-//	public WeiboConnector() {
-//		setClientId(OptionQuery.findValue("oauth2_weibo_appkey"));
-//		setClientSecret(OptionQuery.findValue("oauth2_weibo_appsecret"));
-//		setName("weibo");
-//	}
+	// public WeiboConnector() {
+	// setClientId(OptionQuery.findValue("oauth2_weibo_appkey"));
+	// setClientSecret(OptionQuery.findValue("oauth2_weibo_appsecret"));
+	// setName("weibo");
+	// }
 
 	public String createAuthorizeUrl(String state) {
 
@@ -48,9 +46,8 @@ public WeiboConnector(String appkey, String appSecret) {
 		return urlBuilder.toString();
 	}
 
-	
 	protected OauthUser getOauthUser(String code) {
-		
+
 		StringBuilder urlBuilder = new StringBuilder("https://api.weibo.com/oauth2/access_token?");
 		urlBuilder.append("grant_type=authorization_code");
 		urlBuilder.append("&client_id=" + getClientId());
@@ -61,10 +58,9 @@ public WeiboConnector(String appkey, String appSecret) {
 		String url = urlBuilder.toString();
 		String httpString = httpGet(url);
 		JSONObject json = JSONObject.parseObject(httpString);
-		
+
 		String accessToken = json.getString("access_token");
 		String uid = json.getString("uid");
-		
 
 		url = "https://api.weibo.com/2/users/show.json?" + "access_token=" + accessToken + "&uid=" + uid;
 
@@ -79,9 +75,10 @@ public WeiboConnector(String appkey, String appSecret) {
 		user.setSource(getName());
 		return user;
 	}
-	
+
 	static Map<String, String> genders = new HashMap<String, String>();
-	static{
+
+	static {
 		genders.put("m", "male");
 		genders.put("f", "female");
 		genders.put("n", "unkown");

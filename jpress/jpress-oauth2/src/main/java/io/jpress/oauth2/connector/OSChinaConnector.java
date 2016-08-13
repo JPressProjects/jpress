@@ -22,18 +22,17 @@ import io.jpress.oauth2.OauthUser;
 
 public class OSChinaConnector extends OauthConnector {
 
-	public OSChinaConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("oschina");
+	public OSChinaConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	// DOC : http://www.oschina.net/openapi/
 
-//	public OSChinaConnector() {
-//		setClientId(OptionQuery.findValue("oauth2_oschina_appkey"));
-//		setClientSecret(OptionQuery.findValue("oauth2_oschina_appsecret"));
-//		setName("oschina");
-//	}
+	// public OSChinaConnector() {
+	// setClientId(OptionQuery.findValue("oauth2_oschina_appkey"));
+	// setClientSecret(OptionQuery.findValue("oauth2_oschina_appsecret"));
+	// setName("oschina");
+	// }
 
 	/**
 	 * doc: http://www.oschina.net/openapi/docs/oauth2_authorize

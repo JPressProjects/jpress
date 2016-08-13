@@ -20,9 +20,8 @@ import io.jpress.oauth2.OauthUser;
 
 public class FacebookConnector extends OauthConnector {
 
-	public FacebookConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("facebook");
+	public FacebookConnector(String name,String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	@Override

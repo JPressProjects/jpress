@@ -21,10 +21,9 @@ import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 public class GithubConnector extends OauthConnector {
-	
-	public GithubConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("github");
+
+	public GithubConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	@Override

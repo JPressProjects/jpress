@@ -23,9 +23,9 @@ import io.jpress.oauth2.OauthUser;
 
 public class QQConnector extends OauthConnector {
 
-	public QQConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("qq");
+
+	public QQConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	/**

@@ -31,10 +31,11 @@ public abstract class OauthConnector {
 	private String clientSecret;
 	private String name;
 	private String redirectUri;
-	
-	public OauthConnector(String appkey,String appSecret) {
+
+	public OauthConnector(String name, String appkey, String appSecret) {
 		this.clientId = appkey;
 		this.clientSecret = appSecret;
+		this.name = name;
 	}
 
 	public String getClientId() {

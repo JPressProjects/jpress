@@ -19,10 +19,9 @@ import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 public class TwitterConnector extends OauthConnector {
-	
-	public TwitterConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("twitter");
+
+	public TwitterConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	@Override

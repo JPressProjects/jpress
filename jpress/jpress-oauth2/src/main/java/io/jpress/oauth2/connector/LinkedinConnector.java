@@ -19,10 +19,9 @@ import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
 
 public class LinkedinConnector extends OauthConnector {
-	
-	public LinkedinConnector(String appkey, String appSecret) {
-		super(appkey, appSecret);
-		setName("linkedin");
+
+	public LinkedinConnector(String name, String appkey, String appSecret) {
+		super(name, appkey, appSecret);
 	}
 
 	@Override

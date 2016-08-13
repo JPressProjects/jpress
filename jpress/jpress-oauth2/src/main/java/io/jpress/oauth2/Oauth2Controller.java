@@ -24,7 +24,7 @@ public abstract class Oauth2Controller extends Controller {
 
 	public void index() {
 		String processerName = getPara();
-		OauthConnector op = ProcesserFactory.createProcesser(processerName,onGetAppkey(processerName),onGetSecret(processerName));
+		OauthConnector op = onConnectorGet(processerName);
 		String state = UUID.randomUUID().toString().replace("-", "");
 
 		String requestUrl = getRequest().getRequestURL().toString();
@@ -43,25 +43,24 @@ public abstract class Oauth2Controller extends Controller {
 		String state = getPara("state");
 
 		if (!sessionState.equals(state)) {
-			onError("state not validate");
+			onAuthorizeError("state not validate");
 			return;
 		}
 
 		String code = getPara("code");
 		if (null == code || "".equals(code.trim())) {
-			onError("can't get code");
+			onAuthorizeError("can't get code");
 			return;
 		}
 
 		String processerName = getPara();
-		OauthConnector op = ProcesserFactory.createProcesser(processerName,onGetAppkey(processerName),onGetSecret(processerName));
+		OauthConnector op = onConnectorGet(processerName);
 		OauthUser ouser = op.getUser(code);
-		onCallBack(ouser);
+		onAuthorizeSuccess(ouser);
 	}
 
-	public abstract void onCallBack(OauthUser oauthUser);
-	public abstract void onError(String errorMessage);
-	public abstract String onGetAppkey(String name);
-	public abstract String onGetSecret(String name);
+	public abstract void onAuthorizeSuccess(OauthUser oauthUser);
+	public abstract void onAuthorizeError(String errorMessage);
+	public abstract OauthConnector onConnectorGet(String processerName);
 
 }

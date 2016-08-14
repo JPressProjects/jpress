@@ -44,7 +44,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
 	private boolean useSSL = true;
 
-	public SimplerEmailSender() {
+	private void init() {
 		this.host = OptionQuery.me().findValue("email_host");// "smtp.qq.com";
 		this.name = OptionQuery.me().findValue("email_username");// "198819880@qq.com";
 		this.password = OptionQuery.me().findValue("email_password");
@@ -52,6 +52,8 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 	}
 
 	private Message createMessage() {
+
+		init();
 
 		Properties props = new Properties();
 
@@ -113,7 +115,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
 			Transport.send(message);
 		} catch (MessagingException e) {
-			logger.error("InstallUtils executeSQL erro", e);
+			logger.error("SimplerEmailSender send error", e);
 		}
 
 	}

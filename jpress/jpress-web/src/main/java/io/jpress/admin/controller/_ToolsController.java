@@ -50,7 +50,7 @@ import io.jpress.utils.StringUtils;
 public class _ToolsController extends JBaseController {
 
 	public void index() {
-		
+
 	}
 
 	public void druid() {
@@ -104,20 +104,11 @@ public class _ToolsController extends JBaseController {
 		}
 
 		for (Content c : contents) {
-			if (c.getCreated() == null)
+			if (c.getCreated() == null) {
 				c.setCreated(new Date());
-
-			String slug = c.getSlug();
-			if (!StringUtils.isNotBlank(slug)) {
-				slug = c.getTitle();
 			}
 
-			if (slug != null) {
-				slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
-				slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
-
-				c.setSlug(slug);
-			}
+			c.fillSlugByTitleIfNull();
 
 			if (c.getUserId() == null) {
 				User user = getAttr(Consts.ATTR_USER);
@@ -133,7 +124,7 @@ public class _ToolsController extends JBaseController {
 
 		renderAjaxResultForSuccess();
 	}
-	
+
 	public static class WordPressUtils extends DefaultHandler {
 		private static final Log log = Log.getLog(WordPressUtils.class);
 		private List<Content> contents;

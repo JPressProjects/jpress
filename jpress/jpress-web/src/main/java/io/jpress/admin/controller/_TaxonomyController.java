@@ -163,6 +163,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 					return true;
 				}
+				
 				return false;
 			}
 		});

@@ -169,7 +169,7 @@ public class ContentRouter extends RouterConverter {
 		}
 
 		else if (TYPE_STATIC_DATE_SLUG.equals(routerType)) {
-			String router_content_prefix = DateUtils.DateString();
+			String router_content_prefix = DateUtils.dateString();
 			urlPreffix = SLASH + router_content_prefix + SLASH;
 		}
 

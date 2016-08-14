@@ -18,9 +18,6 @@ package io.jpress.admin.controller;
 import java.math.BigInteger;
 import java.util.Date;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -38,6 +35,7 @@ import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.TemplateUtils;
+import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/comment", viewPath = "/WEB-INF/admin/comment")
@@ -45,7 +43,7 @@ import io.jpress.utils.StringUtils;
 @RouterNotAllowConvert
 public class _CommentController extends JBaseCRUDController<Comment> {
 
-	private String getContentModule() {
+	private String getModule() {
 		return getPara("m");
 	}
 
@@ -56,22 +54,20 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 	@Override
 	public void index() {
 		super.index();
-		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getContentModule()));
-		setAttr("delete_count",
-				CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DELETE));
-		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_DRAFT));
-		setAttr("normal_count",
-				CommentQuery.me().findCountByModuleAndStatus(getContentModule(), Comment.STATUS_NORMAL));
-		setAttr("count", CommentQuery.me().findCountInNormalByModule(getContentModule()));
+		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getModule()));
+		setAttr("delete_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DELETE));
+		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DRAFT));
+		setAttr("normal_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_NORMAL));
+		setAttr("count", CommentQuery.me().findCountInNormalByModule(getModule()));
 	}
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getContentModule(), getType(), null,
+			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getModule(), getType(), null,
 					getPara("s"));
 		}
-		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getContentModule());
+		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getModule());
 	}
 
 	@Override
@@ -88,7 +84,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 			c.setStatus(Comment.STATUS_DELETE);
 			if (c.saveOrUpdate()) {
 				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
-				renderAjaxResultForSuccess("success");
+				renderAjaxResultForSuccess();
 			} else {
 				renderAjaxResultForError("restore error!");
 			}
@@ -201,13 +197,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		comment.setUserId(user.getId());
 		comment.setCreated(new Date());
 
-		String text = comment.getText();
-		if (null != text && !"".equals(text)) {
-			Document document = Jsoup.parse(text);
-			if (null != document && document.body() != null) {
-				comment.setText(document.body().html().toString());
-			}
-		}
+		comment.setText(JsoupUtils.getBodyHtml(comment.getText()));
 
 		comment.save();
 		renderAjaxResultForSuccess();

@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
@@ -54,6 +51,7 @@ import io.jpress.router.converter.ContentRouter;
 import io.jpress.template.TemplateUtils;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
+import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/content", viewPath = "/WEB-INF/admin/content")
@@ -82,7 +80,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("tids", getPara("tids"));
 		BigInteger[] tids = null;
 		String[] tidStrings = getPara("tids", "").split(",");
-		
+
 		List<BigInteger> tidList = new ArrayList<BigInteger>();
 		for (String stringid : tidStrings) {
 			if (StringUtils.isNotBlank(stringid)) {
@@ -111,23 +109,25 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	private void filterUI(BigInteger[] tids) {
 		TplModule module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
 
-		if (module != null) {
-			List<TplTaxonomyType> types = module.getTaxonomyTypes();
-			if (types != null && !types.isEmpty()) {
-				HashMap<String, List<Taxonomy>> _taxonomyMap = new HashMap<String, List<Taxonomy>>();
+		if (module == null) {
+			return;
+		}
 
-				for (TplTaxonomyType type : types) {
-					// 排除标签类的分类删选
-					if (TplTaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
-						List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByModuleAndTypeAsSort(getModuleName(),
-								type.getName());
-						processSelected(tids, taxonomys);
-						_taxonomyMap.put(type.getTitle(), taxonomys);
-					}
+		List<TplTaxonomyType> types = module.getTaxonomyTypes();
+		if (types != null && !types.isEmpty()) {
+			HashMap<String, List<Taxonomy>> _taxonomyMap = new HashMap<String, List<Taxonomy>>();
+
+			for (TplTaxonomyType type : types) {
+				// 排除标签类的分类删选
+				if (TplTaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
+					List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByModuleAndTypeAsSort(getModuleName(),
+							type.getName());
+					processSelected(tids, taxonomys);
+					_taxonomyMap.put(type.getTitle(), taxonomys);
 				}
-
-				setAttr("_taxonomyMap", _taxonomyMap);
 			}
+
+			setAttr("_taxonomyMap", _taxonomyMap);
 		}
 	}
 
@@ -211,22 +211,24 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	public void delete() {
 		BigInteger id = getParaToBigInteger("id");
 		final Content c = ContentQuery.me().findById(id);
-		if (c != null && c.isDelete()) {
-			boolean isSuccess = Db.tx(new IAtom() {
-				@Override
-				public boolean run() throws SQLException {
-					if (c.delete()) {
-						MappingQuery.me().deleteByContentId(c.getId());
-						return true;
-					}
-					return false;
+		if (c == null) {
+			renderAjaxResultForError();
+			return;
+		}
+		boolean isSuccess = Db.tx(new IAtom() {
+			@Override
+			public boolean run() throws SQLException {
+				if (c.delete()) {
+					MappingQuery.me().deleteByContentId(c.getId());
+					return true;
 				}
-			});
-
-			if (isSuccess) {
-				renderAjaxResultForSuccess();
-				return;
+				return false;
 			}
+		});
+
+		if (isSuccess) {
+			renderAjaxResultForSuccess();
+			return;
 		}
 		renderAjaxResultForError();
 	}
@@ -273,13 +275,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	private Content getContent() {
 		Content content = getModel(Content.class);
 
-		String text = content.getText();
-		if (null != text && !"".equals(text)) {
-			Document document = Jsoup.parse(text);
-			if (null != document && document.body() != null) {
-				content.setText(document.body().html().toString());
-			}
-		}
+		content.setText(JsoupUtils.getBodyHtml(content.getText()));
 
 		if (content.getCreated() == null) {
 			content.setCreated(new Date());
@@ -349,22 +345,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 
 		boolean isAddAction = content.getId() == null;
-
-		String slug = content.getSlug();
-
-		if (StringUtils.isBlank(slug)) {
-			slug = content.getTitle();
-		}
-
-		if (slug != null) {
-			if (StringUtils.isNumeric(slug)) {
-				slug = "c" + slug; // slug不能为全是数字,随便添加一个字母，c代表content好了
-			} else {
-				slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
-				slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
-			}
-			content.setSlug(slug);
-		}
+		
+		content.fillSlugByTitleIfNull();
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {

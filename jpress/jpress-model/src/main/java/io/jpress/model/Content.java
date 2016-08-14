@@ -388,4 +388,26 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}
 
+	public void fillSlugByTitleIfNull() {
+		String slug = getSlug();
+		if (StringUtils.isBlank(slug)) {
+			slug = getTitle();
+		}
+		setSlug(slug);
+	}
+
+	@Override
+	public void setSlug(String slug) {
+		if (StringUtils.isNotBlank(slug)) {
+			slug = slug.trim();
+			if (StringUtils.isNumeric(slug)) {
+				slug = "c" + slug; // slug不能为全是数字,随便添加一个字母，c代表content好了
+			} else {
+				slug = slug.replaceAll("(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "_");
+				slug = slug.replaceAll("(?!_)\\pP|\\pS", "");
+			}
+		}
+		super.setSlug(slug);
+	}
+
 }

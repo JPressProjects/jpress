@@ -228,34 +228,35 @@ public class _TemplateController extends JBaseController {
 	@Before(UCodeInterceptor.class)
 	public void menudel() {
 		final BigInteger id = getParaToBigInteger("id");
-		if (id != null) {
-			boolean deleted = Db.tx(new IAtom() {
-				@Override
-				public boolean run() throws SQLException {
-					Content menu = ContentQuery.me().findById(id);
-					if (menu == null || !menu.delete()) {
-						return false;
-					}
-
-					List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_MENU, id, null);
-					if (contents != null && !contents.isEmpty()) {
-						for (Content c : contents) {
-							c.setParentId(menu.getParentId());
-							c.update();
-						}
-					}
-
-					return true;
-				}
-			});
-
-			if (deleted) {
-				renderAjaxResultForSuccess();
-			} else {
-				renderAjaxResultForError();
-			}
+		if (id == null) {
+			renderAjaxResultForError();
 		}
-		renderAjaxResultForError();
+		
+		boolean deleted = Db.tx(new IAtom() {
+			@Override
+			public boolean run() throws SQLException {
+				Content menu = ContentQuery.me().findById(id);
+				if (menu == null || !menu.delete()) {
+					return false;
+				}
+
+				List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_MENU, id, null);
+				if (contents != null && !contents.isEmpty()) {
+					for (Content c : contents) {
+						c.setParentId(menu.getParentId());
+						c.update();
+					}
+				}
+
+				return true;
+			}
+		});
+
+		if (deleted) {
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
 	}
 
 	public void setting() {

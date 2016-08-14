@@ -59,7 +59,8 @@ public class _TinymceImageController extends JBaseController {
 			setHeader("Content-Type", conn.getContentType());
 
 			render(new StreamRender(is));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 	}
 
 	/**
@@ -69,8 +70,8 @@ public class _TinymceImageController extends JBaseController {
 		UploadFile uploadFile = getFile();
 		String newPath = AttachmentUtils.moveFile(uploadFile);
 		User user = getAttr(Consts.ATTR_USER);
-		
-		if(newPath !=null){
+
+		if (newPath != null) {
 			newPath = newPath.replace("\\", "/");
 		}
 
@@ -87,11 +88,6 @@ public class _TinymceImageController extends JBaseController {
 		renderJson("location", newPath);
 	}
 
-	/**
-	 * 流复制 宣传器
-	 * 
-	 * @author michael
-	 */
 	public class StreamRender extends Render {
 		final InputStream stream;
 
@@ -118,19 +114,23 @@ public class _TinymceImageController extends JBaseController {
 			} catch (Exception e) {
 				throw new RenderException(e);
 			} finally {
-				if (inputStream != null)
-					try {
-						inputStream.close();
-					} catch (IOException e) {
-						LogKit.error(e.getMessage(), e);
-					}
-				if (outputStream != null)
-					try {
-						outputStream.close();
-					} catch (IOException e) {
-						LogKit.error(e.getMessage(), e);
-					}
+				close(inputStream, outputStream);
 			}
+		}
+
+		private void close(InputStream inputStream, OutputStream outputStream) {
+			if (inputStream != null)
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					LogKit.error(e.getMessage(), e);
+				}
+			if (outputStream != null)
+				try {
+					outputStream.close();
+				} catch (IOException e) {
+					LogKit.error(e.getMessage(), e);
+				}
 		}
 
 	}

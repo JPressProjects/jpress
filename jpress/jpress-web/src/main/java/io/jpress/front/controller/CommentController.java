@@ -37,7 +37,7 @@ import io.jpress.utils.StringUtils;
 public class CommentController extends BaseFrontController {
 
 	public void index() {
-
+		renderError(404);
 	}
 
 	public void submit() {

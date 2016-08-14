@@ -29,7 +29,7 @@ public class DateUtils {
 		return sdf.format(new Date());
 	}
 
-	public static String DateString() {
+	public static String dateString() {
 		return dateSdf.format(new Date());
 	}
 

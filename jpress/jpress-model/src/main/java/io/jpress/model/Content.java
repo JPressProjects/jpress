@@ -20,8 +20,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -369,7 +367,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public String summaryWithLen(int len) {
 		if (getText() == null)
 			return null;
-		String text = Jsoup.parse(getText()).text();
+		String text = JsoupUtils.getText(getText());
 		if (text != null && text.length() > len) {
 			return text.substring(0, len);
 		}

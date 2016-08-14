@@ -258,6 +258,12 @@ public class ContentQuery extends JBaseQuery {
 				null);
 	}
 
+	public List<Content> findListInNormal(int page, int pagesize, String module) {
+		String[] modules = new String[] { module };
+		return findListInNormal(page, pagesize, null, null, null, null, modules, null, null, null, null, null, null,
+				null, null);
+	}
+
 	public List<Content> findListInNormal(int page, int pagesize, BigInteger taxonomyId) {
 		return findListInNormal(page, pagesize, null, null, new BigInteger[] { taxonomyId }, null, null, null, null,
 				null, null, null, null, null, null);

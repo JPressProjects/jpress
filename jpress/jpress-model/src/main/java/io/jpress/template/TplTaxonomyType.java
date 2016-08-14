@@ -13,6 +13,7 @@ public class TplTaxonomyType {
 	private TplModule module;
 
 	private List<TplMetadata> metadatas;
+
 	public List<TplMetadata> getMetadatas() {
 		return metadatas;
 	}
@@ -56,6 +57,14 @@ public class TplTaxonomyType {
 	@Override
 	public String toString() {
 		return "TaxonomyType [title=" + title + ", name=" + name + ", formType=" + formType + "]";
+	}
+
+	public boolean isInputType() {
+		return TplTaxonomyType.TYPE_INPUT.equals(getFormType());
+	}
+
+	public boolean isSelectType() {
+		return TplTaxonomyType.TYPE_SELECT.equals(getFormType());
 	}
 
 }

@@ -82,15 +82,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("tids", getPara("tids"));
 		BigInteger[] tids = null;
 		String[] tidStrings = getPara("tids", "").split(",");
-		if (tidStrings != null && tidStrings.length > 0) {
-			List<BigInteger> tidList = new ArrayList<BigInteger>();
-			for (String stringid : tidStrings) {
-				if (StringUtils.isNotBlank(stringid)) {
-					tidList.add(new BigInteger(stringid));
-				}
+		
+		List<BigInteger> tidList = new ArrayList<BigInteger>();
+		for (String stringid : tidStrings) {
+			if (StringUtils.isNotBlank(stringid)) {
+				tidList.add(new BigInteger(stringid));
 			}
-			tids = tidList.toArray(new BigInteger[] {});
 		}
+		tids = tidList.toArray(new BigInteger[] {});
 
 		String keyword = getPara("k", "").trim();
 
@@ -298,29 +297,30 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		List<TplTaxonomyType> types = module.getTaxonomyTypes();
 		List<BigInteger> tIds = new ArrayList<BigInteger>();
 		for (TplTaxonomyType type : types) {
-			if (TplTaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
-				String data = getPara("_" + type.getName());
-				if (!StringUtils.isNotEmpty(data)) {
+			if (type.isInputType()) {
+				String slugsData = getPara("_" + type.getName());
+				if (StringUtils.isBlank(slugsData)) {
 					continue;
 				}
-				String[] titles = data.split(",");
-				if (titles != null && titles.length > 0) {
-					List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(moduleName, type.getName());
-					for (String title : titles) {
-						BigInteger id = getIdFromList(title, list);
-						if (id == null) {
-							Taxonomy taxonomy = new Taxonomy();
-							taxonomy.setTitle(title);
-							taxonomy.setSlug(title);
-							taxonomy.setContentModule(moduleName);
-							taxonomy.setType(type.getName());
-							taxonomy.save();
+
+				List<Taxonomy> taxonomyList = TaxonomyQuery.me().findListByModuleAndType(moduleName, type.getName());
+
+				String[] slugs = slugsData.split(",");
+				for (String slug : slugs) {
+					BigInteger id = getTaxonomyIdFromListBySlug(slug, taxonomyList);
+					if (id == null) {
+						Taxonomy taxonomy = new Taxonomy();
+						taxonomy.setTitle(slug);
+						taxonomy.setSlug(slug);
+						taxonomy.setContentModule(moduleName);
+						taxonomy.setType(type.getName());
+						if (taxonomy.save()) {
 							id = taxonomy.getId();
 						}
-						tIds.add(id);
 					}
+					tIds.add(id);
 				}
-			} else if (TplTaxonomyType.TYPE_SELECT.equals(type.getFormType())) {
+			} else if (type.isSelectType()) {
 				BigInteger[] ids = getParaValuesToBigInteger("_" + type.getName());
 				if (ids != null && ids.length > 0)
 					tIds.addAll(Arrays.asList(ids));
@@ -329,9 +329,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		return tIds;
 	}
 
-	private BigInteger getIdFromList(String string, List<Taxonomy> list) {
+	private BigInteger getTaxonomyIdFromListBySlug(String slug, List<Taxonomy> list) {
 		for (Taxonomy taxonomy : list) {
-			if (string.equals(taxonomy.getSlug()))
+			if (slug.equals(taxonomy.getSlug()))
 				return taxonomy.getId();
 		}
 		return null;

@@ -50,10 +50,10 @@ public class _OptionController extends JBaseController {
 		if (isMultipartRequest()) {
 			fileList = getFiles();
 		}
-		
+
 		HashMap<String, String> filesMap = new HashMap<String, String>();
-		if(fileList != null){
-			for(UploadFile ufile : fileList){
+		if (fileList != null) {
+			for (UploadFile ufile : fileList) {
 				String filePath = AttachmentUtils.moveFile(ufile).replace("\\", "/");
 				filesMap.put(ufile.getParameterName(), filePath);
 			}
@@ -64,7 +64,7 @@ public class _OptionController extends JBaseController {
 		if (paraMap != null && !paraMap.isEmpty()) {
 			for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
 				if (entry.getValue() != null && entry.getValue().length > 0) {
-					if(StringUtils.isNotBlank(entry.getKey()) && !"autosave".equals(entry.getKey())){
+					if (StringUtils.isNotBlank(entry.getKey()) && !"autosave".equals(entry.getKey())) {
 						keyList.add(entry.getKey());
 						doSave(entry.getKey(), entry.getValue()[0], filesMap);
 					}
@@ -75,13 +75,11 @@ public class _OptionController extends JBaseController {
 		String autosaveString = getPara("autosave");
 		if (StringUtils.isNotBlank(autosaveString)) {
 			String[] keys = autosaveString.split(",");
-			if (keys != null && keys.length > 0) {
-				for (String key : keys) {
-					if (StringUtils.isNotBlank(key)) {
-						key = key.trim();
-						keyList.add(key);
-						doSave(key, getRequest().getParameter(key), filesMap);
-					}
+			for (String key : keys) {
+				if (StringUtils.isNotBlank(key)) {
+					key = key.trim();
+					keyList.add(key);
+					doSave(key, getRequest().getParameter(key), filesMap);
 				}
 			}
 		}
@@ -90,10 +88,10 @@ public class _OptionController extends JBaseController {
 		renderAjaxResultForSuccess();
 	}
 
-	private void doSave(String key, String value,HashMap<String, String> filesMap) {
-		
-		if(filesMap.containsKey(key)){
-			value = filesMap.get(key); //有相同的key的情况下，以上传的文件为准。
+	private void doSave(String key, String value, HashMap<String, String> filesMap) {
+
+		if (filesMap.containsKey(key)) {
+			value = filesMap.get(key); // 有相同的key的情况下，以上传的文件为准。
 		}
 
 		if ("".equals(value)) {

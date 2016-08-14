@@ -178,17 +178,15 @@ public class ApiController extends JBaseController {
 		String modulesString = getPara("module");
 		if (modulesString != null) {
 			modules = modulesString.split(",");
-			if (modules != null && modules.length > 0) {
-				List<String> moduleList = new ArrayList<String>();
-				for (int i = 0; i < modules.length; i++) {
-					String module = modules[i];
-					if (TemplateUtils.currentTemplate().getModuleByName(modules[i]) != null) {
-						moduleList.add(module);
-					}
+			List<String> moduleList = new ArrayList<String>();
+			for (int i = 0; i < modules.length; i++) {
+				String module = modules[i];
+				if (TemplateUtils.currentTemplate().getModuleByName(modules[i]) != null) {
+					moduleList.add(module);
 				}
-				if (!moduleList.isEmpty()) {
-					modules = moduleList.toArray(new String[] {});
-				}
+			}
+			if (!moduleList.isEmpty()) {
+				modules = moduleList.toArray(new String[] {});
 			}
 		}
 
@@ -203,13 +201,11 @@ public class ApiController extends JBaseController {
 		String taxonomyIdString = getPara("taxonomyid");
 		if (taxonomyIdString != null) {
 			String[] taxonomyIdStrings = taxonomyIdString.split(",");
-			if (taxonomyIdStrings != null && taxonomyIdStrings.length > 0) {
-				List<BigInteger> ids = new ArrayList<BigInteger>();
-				for (String idString : taxonomyIdStrings) {
-					ids.add(new BigInteger(idString));
-				}
-				taxonomyIds = ids.toArray(new BigInteger[] {});
+			List<BigInteger> ids = new ArrayList<BigInteger>();
+			for (String idString : taxonomyIdStrings) {
+				ids.add(new BigInteger(idString));
 			}
+			taxonomyIds = ids.toArray(new BigInteger[] {});
 		}
 
 		BigInteger userId = getParaToBigInteger("userid");

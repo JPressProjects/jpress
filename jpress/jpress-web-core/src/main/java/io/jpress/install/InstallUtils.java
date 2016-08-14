@@ -162,11 +162,9 @@ public class InstallUtils {
 
 		if (batchSql.contains(";")) {
 			String sqls[] = batchSql.split(";");
-			if (null != sqls && sqls.length > 0) {
-				for (String sql : sqls) {
-					if (null != sql && !"".equals(sql.trim()))
-						pst.addBatch(sql);
-				}
+			for (String sql : sqls) {
+				if (null != sql && !"".equals(sql.trim()))
+					pst.addBatch(sql);
 			}
 		} else {
 			pst.addBatch(batchSql);

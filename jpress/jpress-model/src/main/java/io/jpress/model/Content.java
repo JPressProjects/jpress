@@ -122,20 +122,18 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			if (StringUtils.isNotBlank(metadataString)) {
 				metadatas = new ArrayList<Metadata>();
 				String medadataStrings[] = metadataString.split(",");
-				if (medadataStrings != null && medadataStrings.length > 0) {
-					for (String metadataStr : medadataStrings) {
-						String[] propertes = metadataStr.split(":");
-						// by method paginateByMetadata
-						// propertes[0] == id
-						// propertes[1] == meta_key
-						// propertes[2] == meta_value
-						Metadata md = new Metadata();
-						md.setId(new BigInteger(propertes[0]));
-						md.setObjectType(METADATA_TYPE);
-						md.setMetaKey(propertes[1]);
-						md.setMetaValue(propertes[2]);
-						metadatas.add(md);
-					}
+				for (String metadataStr : medadataStrings) {
+					String[] propertes = metadataStr.split(":");
+					// by method paginateByMetadata
+					// propertes[0] == id
+					// propertes[1] == meta_key
+					// propertes[2] == meta_value
+					Metadata md = new Metadata();
+					md.setId(new BigInteger(propertes[0]));
+					md.setObjectType(METADATA_TYPE);
+					md.setMetaKey(propertes[1]);
+					md.setMetaValue(propertes[2]);
+					metadatas.add(md);
 				}
 			}
 		}

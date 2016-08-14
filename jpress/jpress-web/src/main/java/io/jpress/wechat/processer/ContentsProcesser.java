@@ -43,12 +43,9 @@ public class ContentsProcesser implements IMessageProcesser {
 			return;
 		}
 
-		String[] ids = configInfo.split(",");
-		if (ids == null || ids.length == 0) {
-			return;
-		}
-
 		contentIds = new ArrayList<BigInteger>();
+
+		String[] ids = configInfo.split(",");
 		for (String id : ids) {
 			try {
 				contentIds.add(new BigInteger(id.trim()));

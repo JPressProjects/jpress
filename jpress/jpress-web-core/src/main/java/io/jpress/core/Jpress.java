@@ -26,6 +26,7 @@ import io.jpress.core.render.freemarker.JTag;
 
 public class Jpress {
 
+	public static final String VERSION = "0.2.6";
 
 	public static void addTag(String key, JTag tag) {
 		FreeMarkerRender.getConfiguration().setSharedVariable(key, tag);
@@ -48,7 +49,6 @@ public class Jpress {
 		}
 		return isInstalled;
 	}
-
 
 	public static boolean isDevMode() {
 		return JFinal.me().getConstants().getDevMode();

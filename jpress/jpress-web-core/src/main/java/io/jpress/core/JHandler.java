@@ -39,6 +39,7 @@ public class JHandler extends Handler {
 		request.setAttribute("_request", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
+		request.setAttribute("JPRESS_VERSION", Jpress.VERSION);
 
 		// 程序还没有安装
 		if (!Jpress.isInstalled()) {

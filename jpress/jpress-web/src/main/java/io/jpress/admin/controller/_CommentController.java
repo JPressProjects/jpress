@@ -53,21 +53,30 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 
 	@Override
 	public void index() {
-		super.index();
+
+		keepPara();
+
 		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getModule()));
 		setAttr("delete_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DELETE));
 		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DRAFT));
 		setAttr("normal_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_NORMAL));
 		setAttr("count", CommentQuery.me().findCountInNormalByModule(getModule()));
+
+		super.index();
 	}
 
 	@Override
 	public Page<Comment> onIndexDataLoad(int pageNumber, int pageSize) {
+
+		BigInteger contentId = getParaToBigInteger("cid");
+		BigInteger parentCommentId = getParaToBigInteger("pid");
+
 		if (StringUtils.isNotBlank(getPara("s"))) {
-			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getModule(), getType(), null,
-					getPara("s"));
+			return CommentQuery.me().paginateWithContent(pageNumber, pageSize, getModule(), getType(), contentId,
+					parentCommentId, getPara("s"));
 		}
-		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getModule());
+		return CommentQuery.me().paginateWithContentNotInDelete(pageNumber, pageSize, getModule(), getType(), contentId,
+				parentCommentId);
 	}
 
 	@Override

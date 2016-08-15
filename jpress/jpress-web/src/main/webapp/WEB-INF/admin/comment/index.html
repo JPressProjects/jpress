@@ -197,7 +197,12 @@ function reply(id){
 	</div>
 	<!-- /.box -->
 	<div class="cf">
-		<div class="pull-right "><#include "../_inc/_paginate_wrapper.html" /></div>
+		<div class="pull-right ">
+		<#if page??> 
+		<#include "../_inc/_paginate.html" /> 
+		<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="?p="+(p!)+"&c="+(c!)+"&m="+(m!)+"&t="+(t!)+"&s="+(s!)+"&k="+(k!)+"&pid="+(pid!)+"&cid="+(cid!)+"&page="/> 
+		</#if>
+		</div>
 	</div>
 </section>
 <!-- /.content -->

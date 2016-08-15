@@ -57,12 +57,12 @@ public class _AdminController extends JBaseController {
 				moduels[i] = moduleList.get(i).getName();
 			}
 
-			List<Content> contents = ContentQuery.me().findListInNormal(1, 20, null, null, null, null, moduels, null, null,
-					null, null, null, null, null,null);
+			List<Content> contents = ContentQuery.me().findListInNormal(1, 20, null, null, null, null, moduels, null,
+					null, null, null, null, null, null, null);
 			setAttr("contents", contents);
 		}
 
-		Page<Comment> commentPage = CommentQuery.me().paginateWithContentNotInDelete(1, 10, null);
+		Page<Comment> commentPage = CommentQuery.me().paginateWithContentNotInDelete(1, 10, null, null, null, null);
 		if (commentPage != null) {
 			setAttr("comments", commentPage.getList());
 		}
@@ -87,7 +87,7 @@ public class _AdminController extends JBaseController {
 			return;
 		}
 
-		if (EncryptUtils.verlifyUser(user.getPassword(),user.getSalt(), password) && user.isAdministrator()) {
+		if (EncryptUtils.verlifyUser(user.getPassword(), user.getSalt(), password) && user.isAdministrator()) {
 
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 

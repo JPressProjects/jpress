@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import com.jfinal.plugin.activerecord.Page;
 
 import io.jpress.model.Comment;
-import io.jpress.utils.StringUtils;
 
 public class CommentQuery extends JBaseQuery {
 
@@ -33,12 +32,12 @@ public class CommentQuery extends JBaseQuery {
 	}
 
 	public Page<Comment> paginateWithContent(int pageNumber, int pageSize, String module, String type,
-			BigInteger contentId, String status) {
+			BigInteger contentId, BigInteger parentCommentId, String status) {
 
 		String select = " select c.*,content.title content_title,u.username,u.nickname,u.avatar, "
 				+ "quote_comment.text qc_content,quote_comment.author qc_author,"
 				+ "quote_user.username qc_username,quote_user.nickname qc_nickname,quote_user.avatar qc_avatar ";
-		
+
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
@@ -47,9 +46,10 @@ public class CommentQuery extends JBaseQuery {
 
 		LinkedList<Object> params = new LinkedList<Object>();
 		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.`type`", type, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, " c.`type`", type, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, " c.content_module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, " c.`status`", status, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, " c.parent_id", parentCommentId, params, needWhere);
 		needWhere = appendIfNotEmpty(fromBuilder, " content.id", contentId, params, needWhere);
 
 		fromBuilder.append("order by c.created desc");
@@ -60,29 +60,37 @@ public class CommentQuery extends JBaseQuery {
 		return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
 
-	public Page<Comment> paginateWithContentNotInDelete(int pageNumber, int pageSize, String module) {
+	public Page<Comment> paginateWithContentNotInDelete(int pageNumber, int pageSize, String module, String type,
+			BigInteger contentId, BigInteger parentCommentId) {
 
-		String select = " select c.*,content.title content_title,u.username,u.nickname,u.avatar ";
+		String select = " select c.*,content.title content_title,u.username,u.nickname,u.avatar, "
+				+ "quote_comment.text qc_content,quote_comment.author qc_author,"
+				+ "quote_user.username qc_username,quote_user.nickname qc_nickname,quote_user.avatar qc_avatar ";
+
 		StringBuilder fromBuilder = new StringBuilder("  from comment c");
 		fromBuilder.append(" left join content on c.content_id = content.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id ");
-		fromBuilder.append(" where c.status <> ?");
+		fromBuilder.append(" left join comment quote_comment on c.parent_id = quote_comment.id");
+		fromBuilder.append(" left join user quote_user on quote_comment.user_id = quote_user.id ");
 
-		if (StringUtils.isNotBlank(module)) {
-			fromBuilder.append(" and c.content_module = ? ");
+		fromBuilder.append(" WHERE c.status <> '" + Comment.STATUS_DELETE + "' ");
+
+		LinkedList<Object> params = new LinkedList<Object>();
+		appendIfNotEmpty(fromBuilder, " c.`type`", type, params, false);
+		appendIfNotEmpty(fromBuilder, " c.content_module", module, params, false);
+		appendIfNotEmpty(fromBuilder, " c.parent_id", parentCommentId, params, false);
+		appendIfNotEmpty(fromBuilder, " content.id", contentId, params, false);
+
+		fromBuilder.append("order by c.created desc");
+
+		if (params.isEmpty()) {
+			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString());
 		}
-		fromBuilder.append(" order by c.created desc");
-
-		if (StringUtils.isNotBlank(module)) {
-			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE, module);
-		} else {
-			return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), Comment.STATUS_DELETE);
-		}
-
+		return DAO.paginate(pageNumber, pageSize, select, fromBuilder.toString(), params.toArray());
 	}
 
 	public Page<Comment> paginateByContentId(int pageNumber, int pageSize, BigInteger contentId) {
-		return paginateWithContent(pageNumber, pageSize, null, null, contentId, Comment.STATUS_NORMAL);
+		return paginateWithContent(pageNumber, pageSize, null, null, contentId, null, Comment.STATUS_NORMAL);
 	}
 
 	public long findCountByContentIdInNormal(BigInteger contentId) {
@@ -92,11 +100,11 @@ public class CommentQuery extends JBaseQuery {
 	public long findCountByContentId(BigInteger contentId, String status) {
 		return DAO.doFindCount(" content_id = ? and status=? ", contentId, status);
 	}
-	
+
 	public long findCountByParentIdInNormal(BigInteger pId) {
 		return findCountByParentId(pId, Comment.STATUS_NORMAL);
 	}
-	
+
 	public long findCountByParentId(BigInteger pId, String status) {
 		return DAO.doFindCount(" parent_id = ? and status=? ", pId, status);
 	}
@@ -110,7 +118,8 @@ public class CommentQuery extends JBaseQuery {
 	}
 
 	public Comment findById(Object idValue) {
-		StringBuilder sqlBuilder = new StringBuilder("select c.*,content.title content_title,u.username,u.nickname,u.avatar ");
+		StringBuilder sqlBuilder = new StringBuilder(
+				"select c.*,content.title content_title,u.username,u.nickname,u.avatar ");
 		sqlBuilder.append(" from comment c");
 		sqlBuilder.append(" left join content on c.content_id = content.id");
 		sqlBuilder.append(" left join user u on c.user_id = u.id ");

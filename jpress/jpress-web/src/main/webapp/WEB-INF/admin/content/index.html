@@ -210,7 +210,11 @@ $(document).ready(function(){
 								<td>${(bean.getTaxonomyAsString(taxonomyType.name))!}</td> 
 								</#list> 
 							</#if>
-							<td>${bean.commentCount!}</td>
+							<td>
+							<a href="${CPATH}/admin/comment?t=comment&c=comment&m=${m!}&p=${p!}&cid=${bean.id!}">
+							${bean.commentCount!}
+							</a>
+							</td>
 							<td>${bean.created!}</td>
 						</tr>
 						</#list> </#if>

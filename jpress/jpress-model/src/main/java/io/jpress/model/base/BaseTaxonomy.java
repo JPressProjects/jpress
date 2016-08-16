@@ -175,6 +175,14 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 	public java.util.Date getCreated() {
 		return get("created");
 	}
+	
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+
+	public java.lang.String getFlag() {
+		return get("flag");
+	}
 
 	public void setLat(java.math.BigDecimal lat) {
 		set("lat", lat);

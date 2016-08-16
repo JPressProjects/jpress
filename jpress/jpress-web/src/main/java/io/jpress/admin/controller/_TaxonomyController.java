@@ -107,6 +107,18 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			return;
 		}
 
+		if (StringUtils.isNumeric(m.getSlug())) {
+			renderAjaxResultForError("别名不能全为数字！");
+			return;
+		}
+		
+		//getModel是jfinal通过model.put()设置属性的，不用调用setXXX设置。
+		if (m.getSlug() != null) {
+			//setSlug内部做了些格式化判断
+			m.setSlug(m.getSlug());
+		}
+
+
 		Taxonomy dbTaxonomy = TaxonomyQuery.me().findBySlugAndModule(m.getSlug(), m.getContentModule());
 		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
 			renderAjaxResultForError("别名已经存在！");
@@ -163,7 +175,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 					return true;
 				}
-				
+
 				return false;
 			}
 		});

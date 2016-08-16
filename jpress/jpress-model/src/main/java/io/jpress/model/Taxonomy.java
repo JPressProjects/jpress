@@ -26,6 +26,7 @@ import io.jpress.model.core.Table;
 import io.jpress.model.query.MappingQuery;
 import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.utils.TaxonomyRouter;
+import io.jpress.utils.StringUtils;
 
 @Table(tableName = "taxonomy", primaryKey = "id")
 public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxonomy> {
@@ -124,6 +125,19 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 			return m.getMetaValue();
 		}
 		return null;
+	}
+	
+	@Override
+	public void setSlug(String slug) {
+		if (StringUtils.isNotBlank(slug)) {
+			slug = slug.trim();
+			if (StringUtils.isNumeric(slug)) {
+				slug = "c" + slug; // slug不能为全是数字,随便添加一个字母，c代表content好了
+			} else {
+				slug = slug.replaceAll("(?!_)\\pP|\\pS|(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "");
+			}
+		}
+		super.setSlug(slug);
 	}
 
 }

@@ -44,7 +44,7 @@ CREATE TABLE `{table_prefix}comment` (
   `order_number` int(11) unsigned DEFAULT '0',
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `ip` varchar(64) DEFAULT NULL,
-  `author` varchar(11) DEFAULT NULL,
+  `author` varchar(128) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL,
   `text` longtext,
   `agent` text,

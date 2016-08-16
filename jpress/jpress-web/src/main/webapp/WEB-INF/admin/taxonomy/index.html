@@ -17,7 +17,7 @@ function doSubmit(){
 				if(data.errorCode == 0){
 					window.location.href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}";
 				}else{
-					alert(data.message);
+					toastr.error(data.message,'操作失败');
 				}
 			},
 			error : function() {

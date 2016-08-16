@@ -132,9 +132,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		if (StringUtils.isNotBlank(slug)) {
 			slug = slug.trim();
 			if (StringUtils.isNumeric(slug)) {
-				slug = "c" + slug; // slug不能为全是数字,随便添加一个字母，c代表content好了
+				slug = "t" + slug; // slug不能为全是数字,随便添加一个字母，t代表taxonomy好了
 			} else {
-				slug = slug.replaceAll("(?!_)\\pP|\\pS|(\\s+)|(\\.+)|(。+)|(…+)|[\\$,，？\\-?、；;:!]", "");
+				slug = slug.replaceAll("\\pP|\\pS|(\\s+)|[\\$,。\\.…，_？\\-?、；;:!]", "");
 			}
 		}
 		super.setSlug(slug);

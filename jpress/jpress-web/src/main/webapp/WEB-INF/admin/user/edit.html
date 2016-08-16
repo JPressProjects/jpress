@@ -8,7 +8,7 @@ function doSubmit(){
 				if(data.errorCode == 0){
 					location.reload();
 				}else{
-					toastr.error(data.message);
+					toastr.error(data.message,'操作失败');
 				}
 			},
 			error : function() {

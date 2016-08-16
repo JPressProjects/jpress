@@ -29,7 +29,7 @@ function doSubmit(){
  function doSync(){
  	$.get("${CPATH}/admin/wechat/menuSync?ucode=${ucode}", function(result){
 		if(result.errorCode > 0){
-			toastr.error(result.message+"<br />(错误号："+result.errorCode+")");
+			toastr.error(result.message+"<br />(错误号："+result.errorCode+")",'操作失败');
 		}else{
 			toastr.success("同步成功！");
 		}

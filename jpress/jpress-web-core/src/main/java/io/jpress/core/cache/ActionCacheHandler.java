@@ -32,7 +32,6 @@ public class ActionCacheHandler extends Handler {
 
 	static String[] urlPara = { null };
 	static Log log = Log.getLog(ActionCacheHandler.class);
-	static String DEFAULT_CACHE_NAME = "actionCache";
 
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {

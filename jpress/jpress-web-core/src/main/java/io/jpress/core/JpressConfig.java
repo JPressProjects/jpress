@@ -15,6 +15,7 @@
  */
 package io.jpress.core;
 
+import java.io.File;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
@@ -28,6 +29,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
@@ -52,6 +54,9 @@ import io.jpress.plugin.message.MessagePlugin;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.ClassScaner;
 import io.jpress.utils.StringUtils;
+import net.sf.ehcache.config.Configuration;
+import net.sf.ehcache.config.ConfigurationFactory;
+import net.sf.ehcache.config.DiskStoreConfiguration;
 
 public abstract class JpressConfig extends JFinalConfig {
 
@@ -95,7 +100,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void configPlugin(Plugins plugins) {
 		plugins.add(new MessagePlugin());
-		plugins.add(new EhCachePlugin());
+		plugins.add(createEhCachePlugin());
 
 		if (Jpress.isInstalled()) {
 			DruidPlugin druidPlugin = createDruidPlugin();
@@ -104,6 +109,15 @@ public abstract class JpressConfig extends JFinalConfig {
 			ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(druidPlugin);
 			plugins.add(activeRecordPlugin);
 		}
+	}
+
+	public EhCachePlugin createEhCachePlugin() {
+		String ehcacheDiskStorePath = PathKit.getRootClassPath();
+		File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
+		
+		Configuration cfg = ConfigurationFactory.parseConfiguration();
+		cfg.addDiskStore(new DiskStoreConfiguration().path(pathFile.getAbsolutePath()));
+		return new EhCachePlugin(cfg);
 	}
 
 	public DruidPlugin createDruidPlugin() {
@@ -188,6 +202,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public abstract void onJfinalStartAfter();
+
 	public abstract void onJfinalStartBefore();
 
 }

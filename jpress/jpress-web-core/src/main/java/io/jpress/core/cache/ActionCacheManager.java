@@ -25,7 +25,7 @@ public class ActionCacheManager {
 	private static String USE_JCACHE_KEY = "_use_jcache_key__";
 	private static String USE_JCACHE_CONTENT_TYPE = "_use_jcache_content_type__";
 
-	public static String CACHE_NAME = "actionCache";
+	public static String CACHE_NAME = "action";
 
 	public static void clearCache() {
 		CacheKit.removeAll(CACHE_NAME);

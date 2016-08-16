@@ -5,8 +5,9 @@
          monitoring="autodetect"
          dynamicConfig="true">
          
+         <!-- 
     <diskStore path="java.io.tmpdir"/>
-    
+     	-->
 
     <cache name="jpress"
            maxEntriesLocalHeap="500"
@@ -29,7 +30,7 @@
 		  diskPersistent="true"
   		 />
   		 
-    <cache name="actionCache"
+    <cache name="action"
 		  maxElementsInMemory="10000"
 		  maxElementsOnDisk="100000000"
 		  eternal="false"

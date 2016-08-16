@@ -45,6 +45,7 @@ public class OptionQuery extends JBaseQuery {
 		return "".equals(value) ? null : value;
 	}
 
+
 	public void saveOrUpdate(String key, String value) {
 		Option option = DAO.doFindFirst("option_key =  ?", key);
 		if (null == option) {
@@ -56,7 +57,6 @@ public class OptionQuery extends JBaseQuery {
 
 		option.saveOrUpdate();
 	}
-	
 
 	public Option findByKey(String key) {
 		return DAO.doFindFirst("option_key =  ?", key);

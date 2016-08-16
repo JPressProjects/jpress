@@ -65,6 +65,7 @@ public class Config extends JpressConfig {
 
 		doSearcherConfig();
 		MessageKit.sendMessage(Actions.JPRESS_STARTED);
+		
 	}
 
 	private void doSearcherConfig() {

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -29,6 +31,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
 import io.jpress.model.query.OptionQuery;
+import io.jpress.plugin.message.MessageKit;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -39,21 +42,24 @@ import io.jpress.utils.StringUtils;
  */
 public class AddonManager {
 
+	public static final String MESSAGE_ON_ADDON_LOAD_START = "addonManager:on_addon_load_start";
+	public static final String MESSAGE_ON_ADDON_LOAD_FINISHED = "addonManager:on_addon_load_finished";
+
 	private static final Log log = Log.getLog(AddonManager.class);
 
-	private List<Addon> addonList = new ArrayList<Addon>();
-	private List<Addon> startedAddonList = new ArrayList<Addon>();
+	private final Map<String, AddonInfo> addonMap = new ConcurrentHashMap<String, AddonInfo>();
+	private final Map<String, AddonInfo> startedAddonMap = new ConcurrentHashMap<String, AddonInfo>();
 	private static AddonManager manager = new AddonManager();
 
 	private AddonManager() {
-		addonList.clear();
-		startedAddonList.clear();
+		addonMap.clear();
+		startedAddonMap.clear();
 		loadAllAddons();
 	}
 
 	public void reload() {
-		addonList.clear();
-		startedAddonList.clear();
+		addonMap.clear();
+		startedAddonMap.clear();
 		loadAllAddons();
 	}
 
@@ -61,62 +67,82 @@ public class AddonManager {
 		return manager;
 	}
 
-	public Addon findById(String id) {
+	public AddonInfo findById(String id) {
 		if (id == null) {
 			return null;
 		}
 
-		for (Addon addon : addonList) {
-			if (id.equals(addon.getId())) {
-				return addon;
-			}
-		}
-
-		return null;
+		return addonMap.get(id);
 	}
 
-	public boolean start(Addon addon) {
-		OptionQuery.me().saveOrUpdate("addon_start_" + addon.getId(), Boolean.TRUE.toString());
+	public boolean start(AddonInfo addon) {
+		OptionQuery.me().saveOrUpdate(buildOptionKey(addon), Boolean.TRUE.toString());
 		boolean isSuccess = addon.start();
 		if (!isSuccess) {
 			log.warn("addon:" + addon.getId() + " start fail!!!");
 		} else {
-			startedAddonList.add(addon);
+			startedAddonMap.put(addon.getId(), addon);
 		}
 		return isSuccess;
 	}
 
-	public boolean stop(Addon addon) {
-		OptionQuery.me().saveOrUpdate("addon_start_" + addon.getId(), Boolean.FALSE.toString());
+	private String buildOptionKey(AddonInfo addon) {
+		return "addon_start_" + addon.getId();
+	}
+
+	public boolean stop(AddonInfo addon) {
+		OptionQuery.me().saveOrUpdate(buildOptionKey(addon), Boolean.FALSE.toString());
 		boolean isSuccess = addon.stop();
 		if (!isSuccess) {
 			log.warn("addon:" + addon.getId() + " stop fail!!!");
 		} else {
-			startedAddonList.remove(addon);
+			startedAddonMap.remove(addon);
 		}
 		return isSuccess;
 	}
 
-	public boolean uninstall(Addon addon) {
-		AddonManager.get().stop(addon);
+	public boolean uninstall(AddonInfo addon) {
+
+		boolean isStoped = stop(addon);
+		if (!isStoped) {
+			return false;
+		}
 
 		File addonJarFile = new File(PathKit.getWebRootPath(), addon.getJarPath());
 		if (addonJarFile.exists()) {
-			addonList.remove(addon);
+			unRegisterAddon(addon);
 			return addonJarFile.delete();
 		}
 		return false;
 	}
 
-	public List<Addon> getAddons() {
-		return addonList;
+	public List<AddonInfo> getAddons() {
+		List<AddonInfo> addonList1 = new ArrayList<AddonInfo>();
+		for (Map.Entry<String, AddonInfo> entry : addonMap.entrySet()) {
+			addonList1.add(entry.getValue());
+		}
+		return addonList1;
 	}
 
-	public List<Addon> getStartedAddons() {
-		return startedAddonList;
+	public List<AddonInfo> getStartedAddons() {
+		List<AddonInfo> startedAddonList1 = new ArrayList<AddonInfo>();
+		for (Map.Entry<String, AddonInfo> entry : startedAddonMap.entrySet()) {
+			startedAddonList1.add(entry.getValue());
+		}
+		return startedAddonList1;
+	}
+
+	public void registerAddon(AddonInfo addon) {
+		addonMap.put(addon.getId(), addon);
+	}
+
+	public void unRegisterAddon(AddonInfo addon) {
+		addonMap.remove(addon.getId());
 	}
 
 	private void loadAllAddons() {
+		MessageKit.sendMessage(MESSAGE_ON_ADDON_LOAD_START, this);
+
 		File addonsFile = new File(PathKit.getWebRootPath(), "/WEB-INF/addons");
 		if (addonsFile.exists()) {
 			File[] files = addonsFile.listFiles(new FilenameFilter() {
@@ -129,27 +155,27 @@ public class AddonManager {
 			if (files != null && files.length > 0) {
 				for (File file : files) {
 
-					Addon addon = loadAddon(file);
+					AddonInfo addon = loadAddonByJarFile(file);
 					if (addon == null) {
 						continue;
 					}
 
-					addonList.add(addon);
+					registerAddon(addon);
 
-					Boolean start = OptionQuery.me().findValueAsBool("addon_start_" + addon.getId());
+					Boolean start = OptionQuery.me().findValueAsBool(buildOptionKey(addon));
 					if (start != null && start == true) {
-						if (addon.start()) {// 启动成功
-							startedAddonList.add(addon);
-						}
+						start(addon);
 					}
 				}
 			}
 		}
+
+		MessageKit.sendMessage(MESSAGE_ON_ADDON_LOAD_FINISHED, this);
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	private static Addon loadAddon(File file) {
-		Addon addon = null;
+	private static AddonInfo loadAddonByJarFile(File file) {
+		AddonInfo addon = null;
 		JarFile jarFile = null;
 		AddonClassLoader acl = null;
 		try {
@@ -175,7 +201,7 @@ public class AddonManager {
 				String version = attr.getValue("Addon-Version");
 				String versionCode = attr.getValue("Addon-Version-Code");
 
-				addon = new Addon();
+				addon = new AddonInfo();
 				addon.setId(id);
 				addon.setTitle(title);
 				addon.setAddonClass(className);
@@ -187,7 +213,7 @@ public class AddonManager {
 				addon.setJarPath(FileUtils.removeRootPath(file.getAbsolutePath()));
 
 				Class<? extends IAddon> clazz = (Class<? extends IAddon>) acl.loadClass(className);
-				addon.setAddonImpl(clazz.newInstance());
+				addon.setAddon(clazz.newInstance());
 				return addon;
 			}
 		} catch (Throwable e) {
@@ -210,8 +236,8 @@ public class AddonManager {
 	}
 
 	public Object invokeHook(String hookName, Object... objects) {
-		List<Addon> addons = getStartedAddons();
-		for (Addon addon : addons) {
+		List<AddonInfo> addons = getStartedAddons();
+		for (AddonInfo addon : addons) {
 			if (addon.getHasError()) {
 				continue;
 			}
@@ -225,8 +251,7 @@ public class AddonManager {
 						return ret;
 					}
 				} catch (Throwable e) {
-					addon.setHasError(true);
-					log.error("HookInvoker invoke error", e);
+					log.error("invokeHook  error , hook name:+" + hookName + " \r\n + error addon:\r\n" + addon, e);
 				} finally {
 					if (hook != null) {
 						hook.hookInvokeFinished();

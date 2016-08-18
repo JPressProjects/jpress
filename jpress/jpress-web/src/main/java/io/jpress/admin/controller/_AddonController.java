@@ -22,7 +22,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
-import io.jpress.core.addon.Addon;
+import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.router.RouterMapping;
@@ -86,7 +86,7 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		Addon addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.get().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;
@@ -109,7 +109,7 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		Addon addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.get().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;
@@ -132,7 +132,7 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		Addon addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.get().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;

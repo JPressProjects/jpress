@@ -134,6 +134,12 @@ public class ContentQuery extends JBaseQuery {
 
 		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, null, orderBy);
 	}
+	
+	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
+			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
+		
+		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, null, orderBy);
+	}
 
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String month, String orderBy) {

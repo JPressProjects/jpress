@@ -15,7 +15,7 @@
  */
 package io.jpress.core.addon;
 
-public class Addon {
+public class AddonInfo {
 
 	private String id;
 	private String jarPath;
@@ -30,7 +30,7 @@ public class Addon {
 	private boolean hasError = false;
 	private boolean start = false;
 
-	private IAddon addonImpl;
+	private IAddon addon;
 	private final Hooks hooks = new Hooks();
 
 	public String getId() {
@@ -113,12 +113,12 @@ public class Addon {
 		this.updateUrl = updateUrl;
 	}
 
-	public IAddon getAddonImpl() {
-		return addonImpl;
+	public IAddon getAddon() {
+		return addon;
 	}
 
-	public void setAddonImpl(IAddon addonImpl) {
-		this.addonImpl = addonImpl;
+	public void setAddon(IAddon addon) {
+		this.addon = addon;
 	}
 
 	public Hooks getHooks() {
@@ -133,24 +133,66 @@ public class Addon {
 		this.hasError = hasError;
 	}
 
-	public boolean getStart() {
+	public boolean isStart() {
 		return start;
 	}
 
 	public boolean start() {
-		if (addonImpl != null) {
-			start = addonImpl.onStart(hooks);
-			return start;
+		if (addon != null) {
+			return false;
 		}
-		return false;
+
+		try {
+			start = addon.onStart(hooks);
+		} catch (Throwable e) {
+			// has exception
+			start = false;
+		}
+
+		return start;
 	}
 
 	public boolean stop() {
-		if (addonImpl != null) {
-			start = addonImpl.onStop();
-			return start;
+		if (addon != null) {
+			return false;
 		}
+
+		try {
+			boolean isStoped = addon.onStop();
+			if (isStoped == true) {
+				start = false;
+			}
+			return isStoped;
+		} catch (Throwable e) {
+		}
+
 		return false;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof AddonInfo)) {
+			return false;
+		}
+
+		AddonInfo addon = (AddonInfo) obj;
+		if (addon.getId() == null) {
+			return false;
+		}
+
+		return addon.getId().equals(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "AddonInfo [id=" + id + ", jarPath=" + jarPath + ", addonClass=" + addonClass + ", title=" + title
+				+ ", description=" + description + ", author=" + author + ", authorWebsite=" + authorWebsite
+				+ ", version=" + version + ", versionCode=" + versionCode + ", updateUrl=" + updateUrl + ", hasError="
+				+ hasError + ", start=" + start + ", addon=" + addon + ", hooks=" + hooks + "]";
+	}
+	
+	
 }

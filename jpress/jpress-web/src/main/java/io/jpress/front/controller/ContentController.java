@@ -78,7 +78,7 @@ public class ContentController extends BaseFrontController {
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
-		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys));
+		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys, content));
 
 		String style = content.getStyle();
 		if (StringUtils.isNotBlank(style)) {

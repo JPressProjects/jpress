@@ -59,6 +59,8 @@ public class MenuTag extends JTag {
 	public void onRender() {
 
 		BigInteger parentId = getParamToBigInteger("parentId");
+		String activeClass = getParam("activeClass");
+
 		List<Content> list = null;
 
 		if (parentId != null) {
@@ -80,7 +82,7 @@ public class MenuTag extends JTag {
 
 		List<NavigationMenu> menulist = new ArrayList<NavigationMenu>();
 		for (Content c : list) {
-			menulist.add(new NavigationMenu(c));
+			menulist.add(new NavigationMenu(c, activeClass));
 		}
 
 		setVariable("menus", menulist);

@@ -10,18 +10,23 @@ public class NavigationMenu {
 	private String url;
 	private String title;
 	private boolean active;
+	private String activeClass;
 
 	private List<NavigationMenu> childList;
 
-	public NavigationMenu(Content content) {
+	public NavigationMenu(Content content, String activeClass) {
 		this.url = content.getText();
 		this.title = content.getTitle();
 		this.active = "active".equals(content.getFlag());
 
+		if (active) {
+			this.activeClass = activeClass;
+		}
+
 		if (content.hasChild()) {
 			List<Content> tempList = content.getChildList();
 			for (Content c : tempList) {
-				addChild(new NavigationMenu(c));
+				addChild(new NavigationMenu(c, activeClass));
 			}
 		}
 	}
@@ -55,6 +60,14 @@ public class NavigationMenu {
 			this.childList = new ArrayList<NavigationMenu>();
 		}
 		childList.add(child);
+	}
+
+	public String getActiveClass() {
+		return activeClass;
+	}
+
+	public void setActiveClass(String activeClass) {
+		this.activeClass = activeClass;
 	}
 
 	public List<NavigationMenu> getChildList() {

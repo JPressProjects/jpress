@@ -36,15 +36,17 @@ import io.jpress.utils.StringUtils;
 public class MenuTag extends JTag {
 
 	private List<Taxonomy> currentTaxonomys;
+	private Content currentContent;
 	private HttpServletRequest request;
 
 	public MenuTag(HttpServletRequest request) {
 		this.request = request;
 	}
 
-	public MenuTag(HttpServletRequest request, List<Taxonomy> taxonomys) {
+	public MenuTag(HttpServletRequest request, List<Taxonomy> taxonomys, Content content) {
 		this.request = request;
-		currentTaxonomys = taxonomys;
+		this.currentTaxonomys = taxonomys;
+		this.currentContent = content;
 	}
 
 	public MenuTag(HttpServletRequest request, Taxonomy taxonomy) {
@@ -85,24 +87,41 @@ public class MenuTag extends JTag {
 		renderBody();
 	}
 
-	private void setActiveMenu(List<Content> list) {
+	private void setActiveMenu(List<Content> menuContentList) {
 		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {
 			for (Taxonomy taxonomy : currentTaxonomys) {
 				String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
 				routerWithoutPageNumber = JFinal.me().getContextPath() + routerWithoutPageNumber;
 				if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
-					for (Content content : list) {
-						if (content.getText() != null && content.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
-							content.setFlag("active");
+					for (Content menuContent : menuContentList) {
+						if (menuContent.getText() != null
+								&& menuContent.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
+							menuContent.setFlag("active");
 						}
 					}
 				}
 			}
 		}
 
-		for (Content c : list) {
-			if (c.getText() != null && c.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
-				c.setFlag("active");
+		if (currentContent != null) {
+			String contentUrl = currentContent.getUrl();
+			for (Content menuContent : menuContentList) {
+				if (contentUrl != null && contentUrl.equals(menuContent.getText())) {
+					menuContent.setFlag("active");
+				}
+
+				String onlyModuleUrl = JFinal.me().getContextPath() + "/" + currentContent.getModule();
+				if (onlyModuleUrl.equals(menuContent.getText())) {
+					menuContent.setFlag("active");
+				}
+			}
+
+		}
+
+		for (Content menuContent : menuContentList) {
+			if (menuContent.getText() != null
+					&& menuContent.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
+				menuContent.setFlag("active");
 			}
 		}
 	}

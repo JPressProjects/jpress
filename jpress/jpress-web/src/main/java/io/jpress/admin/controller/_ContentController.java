@@ -272,22 +272,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		renderAjaxResultForSuccess();
 	}
 
-	private Content getContent() {
-		Content content = getModel(Content.class);
-
-		content.setText(JsoupUtils.getBodyHtml(content.getText()));
-
-		if (content.getCreated() == null) {
-			content.setCreated(new Date());
-		}
-		content.setModified(new Date());
-
-		User user = getAttr(Consts.ATTR_USER);
-		content.setUserId(user.getId());
-
-		return content;
-	}
-
 	public List<BigInteger> getOrCreateTaxonomyIds(String moduleName) {
 		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
 		List<TplTaxonomyType> types = module.getTaxonomyTypes();
@@ -345,8 +329,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 
 		boolean isAddAction = content.getId() == null;
-		
-		String slug = StringUtils.isBlank(content.getSlug()) ? content.getTitle(): content.getSlug();
+
+		String slug = StringUtils.isBlank(content.getSlug()) ? content.getTitle() : content.getSlug();
 		content.setSlug(slug);
 
 		String username = getPara("username");
@@ -391,7 +375,9 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				content.updateCommentCount();
 
 				List<BigInteger> ids = getOrCreateTaxonomyIds(content.getModule());
-				if (ids != null && ids.size() > 0) {
+				if (ids == null || ids.size() == 0) {
+					MappingQuery.me().deleteByContentId(content.getId());
+				} else {
 					if (!MappingQuery.me().doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]))) {
 						return false;
 					}
@@ -444,6 +430,22 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		ar.setErrorCode(0);
 		ar.setData(content.getId());
 		renderAjaxResult("save ok", 0, content.getId());
+	}
+
+	private Content getContent() {
+		Content content = getModel(Content.class);
+
+		content.setText(JsoupUtils.getBodyHtml(content.getText()));
+
+		if (content.getCreated() == null) {
+			content.setCreated(new Date());
+		}
+		content.setModified(new Date());
+
+		User user = getAttr(Consts.ATTR_USER);
+		content.setUserId(user.getId());
+
+		return content;
 	}
 
 }

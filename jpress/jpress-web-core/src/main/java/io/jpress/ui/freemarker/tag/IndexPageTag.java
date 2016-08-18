@@ -45,10 +45,10 @@ public class IndexPageTag extends JTag {
 		int pagesize = getParamToInt("pagesize", 10);
 
 		BigInteger[] typeIds = getParamToBigIntegerArray("typeid");
-		String module = getParam("module");
+		String[] modules = getParamToStringArray("module");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		Page<Content> cpage = ContentQuery.me().paginate(pageNumber, pagesize, module, keyword, status, typeIds, null,
+		Page<Content> cpage = ContentQuery.me().paginate(pageNumber, pagesize, modules, keyword, status, typeIds, null,
 				orderBy);
 		setVariable("page", cpage);
 

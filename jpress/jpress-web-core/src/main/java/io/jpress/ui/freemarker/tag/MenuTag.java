@@ -59,7 +59,7 @@ public class MenuTag extends JTag {
 	public void onRender() {
 
 		BigInteger parentId = getParamToBigInteger("parentId");
-		String activeClass = getParam("activeClass");
+		String activeClass = getParam("activeClass","active");
 
 		List<Content> list = null;
 
@@ -117,7 +117,6 @@ public class MenuTag extends JTag {
 					menuContent.setFlag("active");
 				}
 			}
-
 		}
 
 		for (Content menuContent : menuContentList) {

@@ -346,7 +346,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		boolean isAddAction = content.getId() == null;
 		
-		content.fillSlugByTitleIfNull();
+		String slug = StringUtils.isBlank(content.getSlug()) ? content.getTitle(): content.getSlug();
+		content.setSlug(slug);
 
 		String username = getPara("username");
 		if (StringUtils.isNotBlank(username)) {

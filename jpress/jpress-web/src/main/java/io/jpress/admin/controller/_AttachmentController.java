@@ -138,6 +138,11 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	private void processImage(String newPath) {
 		if (!AttachmentUtils.isImage(newPath))
 			return;
+		
+		if(".gif".equalsIgnoreCase(FileUtils.getSuffix(newPath))){
+			// 过滤 .gif 图片
+			return;
+		}
 
 		try {
 			// 由于内存不够等原因可能会出未知问题

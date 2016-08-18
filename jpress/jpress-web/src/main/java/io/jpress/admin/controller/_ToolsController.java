@@ -108,7 +108,8 @@ public class _ToolsController extends JBaseController {
 				c.setCreated(new Date());
 			}
 
-			c.fillSlugByTitleIfNull();
+			String slug = StringUtils.isBlank(c.getSlug()) ? c.getTitle(): c.getSlug();
+			c.setSlug(slug);
 
 			if (c.getUserId() == null) {
 				User user = getAttr(Consts.ATTR_USER);

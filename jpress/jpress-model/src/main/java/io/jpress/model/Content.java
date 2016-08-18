@@ -388,13 +388,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}
 
-	public void fillSlugByTitleIfNull() {
-		String slug = getSlug();
-		if (StringUtils.isBlank(slug)) {
-			slug = getTitle();
-		}
-		setSlug(slug);
-	}
 
 	@Override
 	public void setSlug(String slug) {

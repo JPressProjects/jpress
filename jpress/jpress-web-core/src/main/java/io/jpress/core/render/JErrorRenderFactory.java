@@ -22,6 +22,7 @@ import com.jfinal.render.TextRender;
 import io.jpress.core.Jpress;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
+import io.jpress.utils.StringUtils;
 
 public class JErrorRenderFactory implements IErrorRenderFactory {
 
@@ -41,7 +42,7 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 		String renderType = TemplateUtils.currentTemplate().getRenderType();
 		
 		//the default render type is freemarker
-		if (renderType == null || "".equals(renderType.trim())) {
+		if (StringUtils.isBlank(renderType)) {
 			return new JFreemarkerRender(errorHtml);
 		}
 

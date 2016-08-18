@@ -27,6 +27,7 @@ import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
+import io.jpress.utils.StringUtils;
 
 public class AdminMenuInitListener extends BaseMessageListener {
 
@@ -69,6 +70,7 @@ public class AdminMenuInitListener extends BaseMessageListener {
 
 			group.addMenuItem(new MenuItem("list", "/admin/content?m=" + module.getName(), module.getListTitle()));
 			group.addMenuItem(new MenuItem("edit", "/admin/content/edit?m=" + module.getName(), module.getAddTitle()));
+			
 			List<TplTaxonomyType> types = module.getTaxonomyTypes();
 			if (types != null && !types.isEmpty()) {
 				for (TplTaxonomyType type : types) {
@@ -76,9 +78,11 @@ public class AdminMenuInitListener extends BaseMessageListener {
 							"/admin/taxonomy?m=" + module.getName() + "&t=" + type.getName(), type.getTitle()));
 				}
 			}
-
-			group.addMenuItem(new MenuItem("comment", "/admin/comment?t=comment&m=" + module.getName(),
-					module.getCommentTitle()));
+			
+			if(StringUtils.isNotBlank(module.getCommentTitle())){
+				group.addMenuItem(new MenuItem("comment", "/admin/comment?t=comment&m=" + module.getName(),module.getCommentTitle()));
+			}
+			
 			menuMnager.addMenuGroup(group);
 		}
 	}

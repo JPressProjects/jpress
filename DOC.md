@@ -232,9 +232,9 @@ IndexPageTag标签 只能用在首页即index.html和单页即page_*.html。
 
 
 代码解释：
-> * <@indexPage> </@indexPage> 是 **IndexPageTag** 标签的开头和结尾。
+> * \<@indexPage> </@indexPage> 是 **IndexPageTag** 标签的开头和结尾。
 > * <#list> </#list> 是循环标签，会循环输出 **指定列表** 的所有内容，此标签属于freemarker模板引擎的自带标签。
-> * <@pagination> </@pagination> 是 **IndexPageTag** 标签的 **子标签**，用于显示 **页码** 列表。
+> * \<@pagination> </@pagination> 是 **IndexPageTag** 标签的 **子标签**，用于显示 **页码** 列表。
 
 indexPage标签属性：
 > * module ： 指定读取模型的内容。在如上代码中`module="article"`表示读取article模型的内容。
@@ -322,7 +322,7 @@ ContentsTag标签支持的属性如下：
 		<li >
 	        <a  href="${menu.url!}">
 	        	${menu.title!}
-        		<#if menu.isActive() ??>
+        		<#if menu.isActive() >
         			<span class="x-a-border"></span>
         		</#if>
         	</a>
@@ -333,7 +333,7 @@ ContentsTag标签支持的属性如下：
 代码解释：
 
 ```
-<#if menu.isActive() ??>
+<#if menu.isActive() >
 	<span class="x-a-border"></span>
 </#if>
 ```

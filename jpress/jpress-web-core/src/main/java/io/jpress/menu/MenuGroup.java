@@ -18,6 +18,8 @@ package io.jpress.menu;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.jpress.utils.StringUtils;
+
 public class MenuGroup {
 
 	public static final String TYPE_NORMAL = "_normal";
@@ -96,6 +98,27 @@ public class MenuGroup {
 			menuItems = new LinkedList<MenuItem>();
 		}
 		menuItems.add(item);
+	}
+
+	public void removeMenuItemById(String id) {
+		if (StringUtils.isBlank(id)) {
+			return;
+		}
+
+		if (menuItems == null || menuItems.isEmpty()) {
+			return;
+		}
+
+		MenuItem deleteItem = null;
+		for (MenuItem item : menuItems) {
+			if (id.equals(item.getId())) {
+				deleteItem = item;
+				break;
+			}
+		}
+		if (deleteItem != null) {
+			menuItems.remove(deleteItem);
+		}
 	}
 
 	public String generateHtml() {

@@ -19,6 +19,7 @@ import java.util.LinkedList;
 
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.plugin.message.MessageKit;
+import io.jpress.utils.StringUtils;
 
 public class MenuManager {
 
@@ -61,9 +62,13 @@ public class MenuManager {
 	}
 
 	public void removeMenuGroupById(String id) {
+		if (StringUtils.isBlank(id)) {
+			return;
+		}
+
 		MenuGroup deleteGroup = null;
 		for (MenuGroup menuGroup : menuGroups) {
-			if (menuGroup.getId().equals(id)) {
+			if (id.equals(menuGroup.getId())) {
 				deleteGroup = menuGroup;
 				break;
 			}
@@ -74,8 +79,11 @@ public class MenuManager {
 	}
 
 	public MenuGroup getMenuGroupById(String id) {
+		if (StringUtils.isBlank(id)) {
+			return null;
+		}
 		for (MenuGroup menuGroup : menuGroups) {
-			if (menuGroup.getId().equals(id)) {
+			if (id.equals(menuGroup.getId())) {
 				return menuGroup;
 			}
 		}

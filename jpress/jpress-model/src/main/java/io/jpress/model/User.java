@@ -19,6 +19,7 @@ import java.util.Date;
 
 import io.jpress.model.base.BaseUser;
 import io.jpress.model.core.Table;
+import io.jpress.model.query.MetaDataQuery;
 
 @Table(tableName = "user", primaryKey = "id")
 public class User extends BaseUser<User> {
@@ -48,6 +49,14 @@ public class User extends BaseUser<User> {
 	public boolean update() {
 		removeCache(getId());
 		return super.update();
+	}
+	
+	public String metadata(String key) {
+		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		if (m != null) {
+			return m.getMetaValue();
+		}
+		return null;
 	}
 
 	public String getUrl() {

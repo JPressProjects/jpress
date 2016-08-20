@@ -33,6 +33,9 @@ public class IndexPageTag extends JTag {
 
 	public IndexPageTag(String pagePara, int pageNumber) {
 		this.pagePara = pagePara;
+		if(pageNumber < 1){
+			pageNumber = 1;
+		}
 		this.pageNumber = pageNumber;
 	}
 

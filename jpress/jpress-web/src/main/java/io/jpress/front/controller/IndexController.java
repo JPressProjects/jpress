@@ -50,20 +50,23 @@ public class IndexController extends BaseFrontController {
 
 		String[] paras = para.split("-");
 		if (paras.length == 1) {
-			if (!StringUtils.isNumeric(para.trim())) {
+			if (StringUtils.isNumeric(para.trim())) {
+				setAttr("indexPage", new IndexPageTag(null, StringUtils.toInt(para.trim(), 1)));
+				render("index.html");
+			} else {
 				setAttr("indexPage", new IndexPageTag(para.trim(), 1));
 				render("page_" + para + ".html");
-			} else {
-				setAttr("indexPage", new IndexPageTag(null, StringUtils.toInt(para.trim(), 0)));
-				render("index.html");
 			}
 		} else if (paras.length == 2) {
-			if(!StringUtils.isNumeric(paras[1])){
+			String pageName = paras[0];
+			String pageNumber = paras[1];
+			
+			if(!StringUtils.isNumeric(pageNumber)){
 				renderError(404);
 			}
 			
-			setAttr("indexPage", new IndexPageTag(paras[0], StringUtils.toInt(paras[1], 1)));
-			render("page_" + paras[0] + ".html");
+			setAttr("indexPage", new IndexPageTag(pageName, StringUtils.toInt(pageNumber, 1)));
+			render("page_" + pageName + ".html");
 		} else {
 			renderError(404);
 		}

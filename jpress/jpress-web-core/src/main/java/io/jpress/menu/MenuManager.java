@@ -37,12 +37,12 @@ public class MenuManager {
 		}
 
 		HookInvoker.menuInitBefore(this);
-		
+
 		StringBuilder htmlBuilder = new StringBuilder();
 		for (MenuGroup group : menuGroups) {
 			htmlBuilder.append(group.generateHtml());
 		}
-		
+
 		HookInvoker.menuInitAfter(this);
 
 		return htmlBuilder.toString();
@@ -58,6 +58,24 @@ public class MenuManager {
 
 	public void addMenuGroup(int index, MenuGroup gourp) {
 		menuGroups.add(index, gourp);
+	}
+
+	public void removeMenuGroupById(String id) {
+		for (MenuGroup menuGroup : menuGroups) {
+			if (menuGroup.getId().equals(id)) {
+				menuGroups.remove(menuGroup);
+				break;
+			}
+		}
+	}
+
+	public MenuGroup getMenuGroupById(String id) {
+		for (MenuGroup menuGroup : menuGroups) {
+			if (menuGroup.getId().equals(id)) {
+				return menuGroup;
+			}
+		}
+		return null;
 	}
 
 	public LinkedList<MenuGroup> getMenuGroups() {

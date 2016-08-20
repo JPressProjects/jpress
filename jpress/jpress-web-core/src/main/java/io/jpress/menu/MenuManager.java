@@ -61,11 +61,15 @@ public class MenuManager {
 	}
 
 	public void removeMenuGroupById(String id) {
+		MenuGroup deleteGroup = null;
 		for (MenuGroup menuGroup : menuGroups) {
 			if (menuGroup.getId().equals(id)) {
-				menuGroups.remove(menuGroup);
+				deleteGroup = menuGroup;
 				break;
 			}
+		}
+		if (deleteGroup != null) {
+			menuGroups.remove(deleteGroup);
 		}
 	}
 

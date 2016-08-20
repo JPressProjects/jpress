@@ -44,10 +44,10 @@ public class SearchController extends BaseFrontController {
 
 		int pageNumber = getParaToInt("p", 1);
 		pageNumber = pageNumber < 1 ? 1 : pageNumber;
-		
+
 		setAttr("keyword", keyword);
 		setAttr("searchResultPage", new SearchResultPageTag(keyword, moduleName, pageNumber));
-		render("search.html");
+		render(String.format("search_%s.html", moduleName));
 	}
 
 }

@@ -249,7 +249,7 @@ CREATE TABLE `{table_prefix}user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `cell_number` (`mobile`),
+  UNIQUE KEY `mobile` (`mobile`),
   KEY `status` (`status`),
   KEY `created` (`created`),
   KEY `content_count` (`content_count`),

@@ -373,7 +373,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getSummary() {
-		return summaryWithLen(100);
+		String summary = super.getSummary();
+		if (StringUtils.isBlank(summary)) {
+			summary = summaryWithLen(100);
+		}
+		return summary;
 	}
 
 	public String metadata(String key) {
@@ -387,7 +391,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public boolean commentIsEnable() {
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}
-
 
 	@Override
 	public void setSlug(String slug) {

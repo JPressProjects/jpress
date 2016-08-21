@@ -148,7 +148,7 @@ public class UserController extends BaseFrontController {
 
 		String username = getPara("username");
 		String email = getPara("email");
-		String phone = getPara("phone");
+		String mobile = getPara("mobile");
 		String password = getPara("password");
 		String confirm_password = getPara("confirm_password");
 
@@ -186,7 +186,7 @@ public class UserController extends BaseFrontController {
 			return;
 		}
 
-		if (null != phone && UserQuery.me().findUserByPhone(phone) != null) {
+		if (null != mobile && UserQuery.me().findUserByPhone(mobile) != null) {
 			renderForRegister("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}
@@ -195,7 +195,7 @@ public class UserController extends BaseFrontController {
 		user.setUsername(username);
 		user.setNickname(username);
 		user.setEmail(email);
-		user.setPhone(phone);
+		user.setMobile(mobile);
 
 		String salt = EncryptUtils.salt();
 		password = EncryptUtils.encryptPassword(password, salt);

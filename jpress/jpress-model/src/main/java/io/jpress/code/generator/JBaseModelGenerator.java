@@ -101,10 +101,8 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 		
 
 		
-		this.importTemplate = "import io.jpress.core.JModel;%n"
-				+ "import io.jpress.model.Metadata;%n"
-				+ "import io.jpress.model.query.MetaDataQuery;%n%n"
-				+ "import java.util.List;%n"
+		this.importTemplate = "import io.jpress.model.Metadata;%n"
+				+ "import io.jpress.model.core.JModel;%n"
 				+ "import java.math.BigInteger;%n%n"
 				+ "import com.jfinal.plugin.activerecord.IBean;%n"
 				+ "import com.jfinal.plugin.ehcache.CacheKit;%n"

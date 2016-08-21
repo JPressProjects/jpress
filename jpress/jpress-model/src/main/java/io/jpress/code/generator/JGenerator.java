@@ -52,9 +52,12 @@ public class JGenerator {
 		String baseModelPackage = basePackage+".model.base";
 //		String adminControllerPackage = basePackage+".controller.admin";
 		
-		String modelDir = PathKit.getWebRootPath() + "/../src/"+modelPackage.replace(".", "/");
-		String baseModelDir = PathKit.getWebRootPath() + "/../src/"+baseModelPackage.replace(".", "/");
-//		String adminControllerDir = PathKit.getWebRootPath() + "/../src/"+adminControllerPackage.replace(".", "/");
+		String modelDir = PathKit.getWebRootPath() + "/src/main/java/"+modelPackage.replace(".", "/");
+		String baseModelDir = PathKit.getWebRootPath() + "/src/main/java/"+baseModelPackage.replace(".", "/");
+//		String adminControllerDir = PathKit.getWebRootPath() + "/src/main/java/"+adminControllerPackage.replace(".", "/");
+		
+		System.out.println("start generate...");
+		System.out.println("Generate dir:"+modelDir);
 		
 		
 		List<TableMeta> tableMetaList = new MetaBuilder(getDataSource()).build();
@@ -62,6 +65,8 @@ public class JGenerator {
 		new JBaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
 		new JModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
 //		new JControllerGenerator(adminControllerPackage, baseModelPackage, adminControllerDir).generate(tableMetaList);
+		
+		System.out.println("Generate finished !!!");
 		
 	}
 	

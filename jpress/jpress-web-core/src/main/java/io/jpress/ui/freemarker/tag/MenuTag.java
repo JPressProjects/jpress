@@ -100,6 +100,11 @@ public class MenuTag extends JTag {
 								&& menuContent.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
 							menuContent.setFlag("active");
 						}
+						
+						String onlyModuleUrl = JFinal.me().getContextPath() + "/" + taxonomy.getContentModule();
+						if (onlyModuleUrl.equals(menuContent.getText())) {
+							menuContent.setFlag("active");
+						}
 					}
 				}
 			}

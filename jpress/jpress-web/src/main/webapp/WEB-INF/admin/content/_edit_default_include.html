@@ -1,0 +1,49 @@
+<section class="content-header">
+	<h1>${(module.addTitle)!}</h1>
+</section>
+<!-- Main content -->
+<section class="content" style="z-index: 9999">
+	<form action="${CPATH}/admin/content/save" id="form" method="post">
+		<input type="hidden" name="content.module" value="${(content.module)!m!}"> 
+		<input type="hidden" id="content_id" name="content.id" value="${(content.id)!}"> 
+		<input type="hidden" name="content.status" value="normal" id="content_status"> 
+		<input type="hidden" name="content.created" value="${(content.created)!}" > 
+		<input type="hidden" id="content_slug" name="content.slug" value="${(content.slug)!}" > 
+		<input type="hidden" name="ucode" value="${ucode}">
+		<div class="row">
+			<!-- /.col -->
+			<div class="col-md-9">
+				<div class="form-group">
+					<input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入标题">
+				</div>
+				<div class="pull-right"><a href="javascript:void(0);" onclick="doChangeEditor()">切换编辑器 </a> </div>
+				<label>
+				<#if slugDisplay ??>
+					网址：<span id="url_preffix"></span><span id="slug_text">${(content.slug)!}</span>${(urlSuffix)!}
+				</#if>
+				</label>
+				<div class="box box-solid">
+					<div  class="box-body no-padding">
+					<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
+				</div>
+				</div>
+				<#include "_props_box.html" /> 
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3">
+			<#include "_action_box.html" /> 
+			<#if module ??> 
+				<#list module.taxonomyTypes! as taxonomyType > 
+					<#if taxonomyType.formType == "select"> 
+						<#include "_select_box.html" />
+					<#else> 
+						<#include "_input_box.html" /> 
+					</#if> 
+				</#list>
+			</#if> 
+			<#include "_thumbnail_box.html" />
+			</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>

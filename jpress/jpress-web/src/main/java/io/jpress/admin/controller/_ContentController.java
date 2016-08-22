@@ -103,7 +103,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		filterUI(tids);
 
 		setAttr("page", page);
-		render("index.html");
+		
+		String include = "_index_default_include.html";
+		String templateEditHtml = String.format("admin_content_index_%s.html", module.getName());
+		if (TemplateUtils.existsFile(templateEditHtml)) {
+			include = "../../.." + TemplateUtils.getTemplatePath() + "/" + templateEditHtml;
+		}
+		setAttr("include", include);
+		
 	}
 
 	private void filterUI(BigInteger[] tids) {
@@ -254,16 +261,33 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
 		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
 
-		if (!Consts.MODULE_PAGE.equals(moduleName)) {
-			String routerType = ContentRouter.getRouterType();
-			if (StringUtils.isBlank(routerType) || ContentRouter.TYPE_DYNAMIC_ID.equals(routerType)
-					|| ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType)
-					|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType)
-					|| ContentRouter.TYPE_STATIC_PREFIX_ID.equals(routerType)) {
-				setAttr("slugDisplay", " style=\"display: none\"");
-			}
+		setSlugInputDisplay(moduleName);
+
+		String include = "_edit_default_include.html";
+		String templateEditHtml = String.format("admin_content_edit_%s.html", moduleName);
+		if (TemplateUtils.existsFile(templateEditHtml)) {
+			include = "../../.." + TemplateUtils.getTemplatePath() + "/" + templateEditHtml;
+		}
+		setAttr("include", include);
+	}
+
+	private void setSlugInputDisplay(String moduleName) {
+		if (Consts.MODULE_PAGE.equals(moduleName)) {
+			setAttr("slugDisplay", "true");
+			return;
 		}
 
+		String routerType = ContentRouter.getRouterType();
+		if (StringUtils.isBlank(routerType)) { // 没设置过，默认id
+			return;
+		}
+
+		if (ContentRouter.TYPE_DYNAMIC_ID.equals(routerType) || ContentRouter.TYPE_STATIC_MODULE_ID.equals(routerType)
+				|| ContentRouter.TYPE_STATIC_DATE_ID.equals(routerType)
+				|| ContentRouter.TYPE_STATIC_PREFIX_ID.equals(routerType)) {
+			return;
+		}
+		setAttr("slugDisplay", "true");
 	}
 
 	public void changeEditor() {

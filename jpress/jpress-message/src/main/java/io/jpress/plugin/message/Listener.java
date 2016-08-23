@@ -11,7 +11,9 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Listener {
 
-	int weight() default 10;
+	public static final int DEFAULT_WEIGHT = 10;
+
+	int weight() default DEFAULT_WEIGHT;
 
 	boolean async() default true;
 

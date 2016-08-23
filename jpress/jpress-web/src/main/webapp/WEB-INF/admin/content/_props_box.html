@@ -80,17 +80,30 @@
 					<div class="form-group">
 	                  <div class="radio">
 	                    <label>
-	                      <input type="radio" name="content.style"  value=""  checked="checked">
+	                      <#if (content.style) ??>
+	                      <input type="radio" name="content.style"  value="" >
+	                      <#else>
+	                      <input type="radio" name="content.style"  value="" checked="checked">
+	                      </#if>
 	                      样式:默认
 	                    </label>
 	                  </div>
 	                  <#list module.styles! as style >
-	                  <div class="radio">
-	                    <label>
-	                      <input type="radio" name="content.style"  value="${style}">
-	                      样式：${style}
-	                    </label>
-	                  </div>
+	                  <#if (content.style)?? && content.style == style>
+		                  <div class="radio">
+		                    <label>
+		                      <input type="radio" name="content.style"  value="${style}" checked="checked">
+		                      样式：${style}
+		                    </label>
+		                  </div>
+	                  <#else>
+	                  	 <div class="radio">
+		                    <label>
+		                      <input type="radio" name="content.style"  value="${style}">
+		                      样式：${style}
+		                    </label>
+		                  </div>
+	                  </#if>
 	                  </#list>
 					</div>
 				</div>

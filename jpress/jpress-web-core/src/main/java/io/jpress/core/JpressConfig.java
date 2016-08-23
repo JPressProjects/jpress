@@ -49,6 +49,7 @@ import io.jpress.core.interceptor.HookInterceptor;
 import io.jpress.core.interceptor.JI18nInterceptor;
 import io.jpress.core.render.JErrorRenderFactory;
 import io.jpress.core.render.JpressRenderFactory;
+import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.message.plugin.MessagePlugin;
 import io.jpress.model.core.Table;
 import io.jpress.router.RouterMapping;
@@ -164,6 +165,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new JI18nInterceptor());
+		interceptors.add(new AdminInterceptor());
 		interceptors.add(new HookInterceptor());
 	}
 

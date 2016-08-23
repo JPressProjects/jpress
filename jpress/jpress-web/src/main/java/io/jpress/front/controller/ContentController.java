@@ -18,6 +18,8 @@ package io.jpress.front.controller;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.jfinal.render.Render;
+
 import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.addon.HookInvoker;
@@ -43,11 +45,16 @@ public class ContentController extends BaseFrontController {
 	@ActionCache
 	public void index() {
 		try {
-			onRenderBefore();
-			doRender();
+			Render render = onRenderBefore();
+			if (render != null) {
+				render(render);
+			} else {
+				doRender();
+			}
 		} finally {
 			onRenderAfter();
 		}
+		
 	}
 
 	private void doRender() {
@@ -145,8 +152,8 @@ public class ContentController extends BaseFrontController {
 
 	}
 
-	private void onRenderBefore() {
-		HookInvoker.contentRenderBefore(this);
+	private Render onRenderBefore() {
+		return HookInvoker.contentRenderBefore(this);
 	}
 
 	private void onRenderAfter() {

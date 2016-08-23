@@ -15,13 +15,11 @@
  */
 package io.jpress;
 
-import com.jfinal.config.Interceptors;
 import com.jfinal.kit.PropKit;
 
 import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
 import io.jpress.core.db.DbDialectFactory;
-import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.message.Actions;
 import io.jpress.message.MessageKit;
 import io.jpress.plugin.search.SearcherFactory;
@@ -38,11 +36,6 @@ import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
 
-	@Override
-	public void configInterceptor(Interceptors interceptors) {
-		super.configInterceptor(interceptors);
-		interceptors.add(new AdminInterceptor());
-	}
 
 	@Override
 	public void onJfinalStartBefore() {

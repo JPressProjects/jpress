@@ -15,6 +15,8 @@
  */
 package io.jpress.front.controller;
 
+import com.jfinal.render.Render;
+
 import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.addon.HookInvoker;
@@ -30,8 +32,12 @@ public class IndexController extends BaseFrontController {
 	@ActionCache
 	public void index() {
 		try {
-			onRenderBefore();
-			doRender();
+			Render render = onRenderBefore();
+			if (render != null) {
+				render(render);
+			} else {
+				doRender();
+			}
 		} finally {
 			onRenderAfter();
 		}
@@ -60,11 +66,11 @@ public class IndexController extends BaseFrontController {
 		} else if (paras.length == 2) {
 			String pageName = paras[0];
 			String pageNumber = paras[1];
-			
-			if(!StringUtils.isNumeric(pageNumber)){
+
+			if (!StringUtils.isNumeric(pageNumber)) {
 				renderError(404);
 			}
-			
+
 			setAttr("indexPage", new IndexPageTag(pageName, StringUtils.toInt(pageNumber, 1)));
 			render("page_" + pageName + ".html");
 		} else {
@@ -91,8 +97,8 @@ public class IndexController extends BaseFrontController {
 		}
 	}
 
-	private void onRenderBefore() {
-		HookInvoker.indexRenderBefore(this);
+	private Render onRenderBefore() {
+		return HookInvoker.indexRenderBefore(this);
 	}
 
 	private void onRenderAfter() {

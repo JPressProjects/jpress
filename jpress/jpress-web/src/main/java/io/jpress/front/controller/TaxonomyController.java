@@ -15,6 +15,8 @@
  */
 package io.jpress.front.controller;
 
+import com.jfinal.render.Render;
+
 import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.addon.HookInvoker;
@@ -25,8 +27,8 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
-import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.ContentPageTag;
+import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = Consts.ROUTER_TAXONOMY)
@@ -39,8 +41,12 @@ public class TaxonomyController extends BaseFrontController {
 	@ActionCache
 	public void index() {
 		try {
-			onRenderBefore();
-			doRender();
+			Render render = onRenderBefore();
+			if (render != null) {
+				render(render);
+			} else {
+				doRender();
+			}
 		} finally {
 			onRenderAfter();
 		}
@@ -118,8 +124,8 @@ public class TaxonomyController extends BaseFrontController {
 		}
 	}
 
-	private void onRenderBefore() {
-		HookInvoker.taxonomyRenderBefore(this);
+	private Render onRenderBefore() {
+		return HookInvoker.taxonomyRenderBefore(this);
 	}
 
 	private void onRenderAfter() {

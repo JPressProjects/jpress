@@ -38,24 +38,24 @@ public class HookInvoker {
 		return (Boolean) AddonManager.me().invokeHook(Hooks.INTERCEPT, inv);
 	}
 
-	public static void indexRenderBefore(Controller controller) {
-		AddonManager.me().invokeHook(Hooks.INDEX_RENDER_BEFORE, controller);
+	public static Render indexRenderBefore(Controller controller) {
+		return (Render) AddonManager.me().invokeHook(Hooks.INDEX_RENDER_BEFORE, controller);
 	}
 
 	public static void indexRenderAfter(Controller controller) {
 		AddonManager.me().invokeHook(Hooks.INDEX_RENDER_AFTER, controller);
 	}
 
-	public static void taxonomyRenderBefore(Controller controller) {
-		AddonManager.me().invokeHook(Hooks.TAXONOMY_RENDER_BEFORE, controller);
+	public static Render taxonomyRenderBefore(Controller controller) {
+		return (Render) AddonManager.me().invokeHook(Hooks.TAXONOMY_RENDER_BEFORE, controller);
 	}
 
 	public static void taxonomyRenderAfter(Controller controller) {
 		AddonManager.me().invokeHook(Hooks.TAXONOMY_RENDER_AFTER, controller);
 	}
 
-	public static void contentRenderBefore(Controller controller) {
-		AddonManager.me().invokeHook(Hooks.CONTENT_RENDER_BEFORE, controller);
+	public static Render contentRenderBefore(Controller controller) {
+		return (Render) AddonManager.me().invokeHook(Hooks.CONTENT_RENDER_BEFORE, controller);
 	}
 
 	public static void contentRenderAfter(Controller controller) {

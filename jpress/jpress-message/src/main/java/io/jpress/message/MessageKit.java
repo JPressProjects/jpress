@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.message;
 
 public class MessageKit {
 
 	public static void register(Class<? extends MessageListener> listenerClass) {
 		MessageManager.me().registerListener(listenerClass);
+	}
+	
+	public static void unRegister(Class<? extends MessageListener> listenerClass) {
+		MessageManager.me().unRegisterListener(listenerClass);
 	}
 
 	public static void sendMessage(Message message) {

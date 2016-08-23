@@ -27,47 +27,47 @@ import io.jpress.menu.MenuManager;
 public class HookInvoker {
 
 	public static String routerConverte(String target, HttpServletRequest request, HttpServletResponse response) {
-		return (String) AddonManager.get().invokeHook("routerConverte", request, response);
+		return (String) AddonManager.me().invokeHook(Hooks.ROUTER_CONVERTE, request, response);
 	}
 
 	public static Render processController(Controller controller) {
-		return (Render) AddonManager.get().invokeHook("processController", controller);
+		return (Render) AddonManager.me().invokeHook(Hooks.PROCESS_CONTROLLER, controller);
 	}
 
 	public static Boolean intercept(Invocation inv) {
-		return (Boolean) AddonManager.get().invokeHook("intercept", inv);
+		return (Boolean) AddonManager.me().invokeHook(Hooks.INTERCEPT, inv);
 	}
 
 	public static void indexRenderBefore(Controller controller) {
-		AddonManager.get().invokeHook("indexRenderBefore", controller);
+		AddonManager.me().invokeHook(Hooks.INDEX_RENDER_BEFORE, controller);
 	}
 
 	public static void indexRenderAfter(Controller controller) {
-		AddonManager.get().invokeHook("indexRenderAfter", controller);
+		AddonManager.me().invokeHook(Hooks.INDEX_RENDER_AFTER, controller);
 	}
-	
+
 	public static void taxonomyRenderBefore(Controller controller) {
-		AddonManager.get().invokeHook("taxonomyRenderBefore", controller);
+		AddonManager.me().invokeHook(Hooks.TAXONOMY_RENDER_BEFORE, controller);
 	}
 
 	public static void taxonomyRenderAfter(Controller controller) {
-		AddonManager.get().invokeHook("taxonomyRenderAfter", controller);
+		AddonManager.me().invokeHook(Hooks.TAXONOMY_RENDER_AFTER, controller);
 	}
-	
+
 	public static void contentRenderBefore(Controller controller) {
-		AddonManager.get().invokeHook("contentRenderBefore", controller);
+		AddonManager.me().invokeHook(Hooks.CONTENT_RENDER_BEFORE, controller);
 	}
-	
+
 	public static void contentRenderAfter(Controller controller) {
-		AddonManager.get().invokeHook("contentRenderAfter", controller);
+		AddonManager.me().invokeHook(Hooks.CONTENT_RENDER_AFTER, controller);
 	}
-	
-	public static void menuInitBefore(MenuManager menuManager){
-		AddonManager.get().invokeHook("menuInitBefore", menuManager);
+
+	public static void menuInitBefore(MenuManager menuManager) {
+		AddonManager.me().invokeHook(Hooks.MENU_INIT_BEFORE, menuManager);
 	}
-	
-	public static void menuInitAfter(MenuManager menuManager){
-		AddonManager.get().invokeHook("menuInitAfter", menuManager);
+
+	public static void menuInitAfter(MenuManager menuManager) {
+		AddonManager.me().invokeHook(Hooks.MENU_INIT_AFTER, menuManager);
 	}
 
 }

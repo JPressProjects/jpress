@@ -15,27 +15,38 @@
  */
 package io.jpress.addon.helloworld;
 
-import io.jpress.core.addon.Hooks;
-import io.jpress.core.addon.IAddon;
+import com.jfinal.core.Controller;
+import com.jfinal.render.Render;
+import com.jfinal.render.TextRender;
 
-public class HelloAddon implements IAddon {
+import io.jpress.core.addon.Addon;
+import io.jpress.core.addon.Hook;
+import io.jpress.core.addon.Hooks;
+import io.jpress.message.MessageKit;
+
+public class HelloAddon extends Addon {
+
+	/**
+	 * AddonController 请求的钩子
+	 * @param controller
+	 */
+	@Hook(Hooks.PROCESS_CONTROLLER)
+	public Render hello(Controller controller) {
+		// 访问 http://127.0.0.1:8080/addon 看到效果
+		return new TextRender("hello addon");
+	}
 
 	@Override
-	public boolean onStart(Hooks hooks) {
-
-		hooks.register(HelloHook.HOOK_PROCESS_CONTROLLER, HelloHook.class);
-		
-		System.out.println("=============HelloAddon started=============");
-		
+	public boolean onStart() {
+		MessageKit.register(HelloMessage.class);
 		return true;
-
 	}
 
 	@Override
 	public boolean onStop() {
-		
+		MessageKit.unRegister(HelloMessage.class);
 		return true;
-
 	}
+
 
 }

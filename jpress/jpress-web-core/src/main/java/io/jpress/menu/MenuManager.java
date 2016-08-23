@@ -18,7 +18,7 @@ package io.jpress.menu;
 import java.util.LinkedList;
 
 import io.jpress.core.addon.HookInvoker;
-import io.jpress.plugin.message.MessageKit;
+import io.jpress.message.MessageKit;
 import io.jpress.utils.StringUtils;
 
 public class MenuManager {
@@ -49,7 +49,7 @@ public class MenuManager {
 		return htmlBuilder.toString();
 	}
 
-	public void reset() {
+	public void refresh() {
 		menuGroups.clear();
 	}
 

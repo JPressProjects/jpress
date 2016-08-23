@@ -13,35 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.message;
 
-import java.util.List;
+import java.io.Serializable;
 
-import com.jfinal.plugin.IPlugin;
+public class Message implements Serializable {
 
-import io.jpress.utils.ClassScaner;
+	private static final long serialVersionUID = 1L;
 
-public class MessagePlugin implements IPlugin {
+	private final long timestamp;
+	private String action;
+	private Object data;
 
-
-	@Override
-	public boolean start() {
-		autoRegister();
-		return true;
+	public Message(String action, Object data) {
+		this.action = action;
+		this.data = data;
+		this.timestamp = System.currentTimeMillis();
 	}
 
-	private void autoRegister() {
-		List<Class<MessageListener>> list = ClassScaner.scanSubClass(MessageListener.class, true);
-		if (list != null && list.size() > 0) {
-			for (Class<MessageListener> clazz : list) {
-				MessageManager.me().registerListener(clazz);
-			}
-		}
+	@SuppressWarnings("unchecked")
+	public <M> M getData() {
+		return (M) data;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+
+	public long getTimestamp() {
+		return this.timestamp;
 	}
 
 	@Override
-	public boolean stop() {
-		return true;
+	public String toString() {
+		return "Message [timestamp=" + timestamp + ", action=" + action + ", data=" + data + "]";
 	}
 
 }

@@ -49,8 +49,8 @@ import io.jpress.core.interceptor.HookInterceptor;
 import io.jpress.core.interceptor.JI18nInterceptor;
 import io.jpress.core.render.JErrorRenderFactory;
 import io.jpress.core.render.JpressRenderFactory;
+import io.jpress.message.plugin.MessagePlugin;
 import io.jpress.model.core.Table;
-import io.jpress.plugin.message.MessagePlugin;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.ClassScaner;
 import io.jpress.utils.StringUtils;
@@ -99,7 +99,6 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public void configPlugin(Plugins plugins) {
-		plugins.add(new MessagePlugin());
 		plugins.add(createEhCachePlugin());
 
 		if (Jpress.isInstalled()) {
@@ -108,13 +107,15 @@ public abstract class JpressConfig extends JFinalConfig {
 
 			ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(druidPlugin);
 			plugins.add(activeRecordPlugin);
+
+			plugins.add(new MessagePlugin());
 		}
 	}
 
 	public EhCachePlugin createEhCachePlugin() {
 		String ehcacheDiskStorePath = PathKit.getRootClassPath();
 		File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
-		
+
 		Configuration cfg = ConfigurationFactory.parseConfiguration();
 		cfg.addDiskStore(new DiskStoreConfiguration().path(pathFile.getAbsolutePath()));
 		return new EhCachePlugin(cfg);

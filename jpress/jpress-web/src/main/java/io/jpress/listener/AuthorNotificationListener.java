@@ -17,6 +17,10 @@ package io.jpress.listener;
 
 import java.math.BigInteger;
 
+import io.jpress.message.Actions;
+import io.jpress.message.Message;
+import io.jpress.message.MessageListener;
+import io.jpress.message.annotation.Listener;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
@@ -26,10 +30,6 @@ import io.jpress.model.query.OptionQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
-import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.Listener;
-import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageListener;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 

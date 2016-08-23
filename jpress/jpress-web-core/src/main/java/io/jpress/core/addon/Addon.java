@@ -13,20 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.addon.helloworld;
+package io.jpress.core.addon;
 
+public abstract class Addon {
 
-import com.jfinal.core.Controller;
-import com.jfinal.render.Render;
-import com.jfinal.render.TextRender;
+	private ThreadLocal<Boolean> tl = new ThreadLocal<Boolean>();
 
-import io.jpress.core.addon.Hook;
+	private final Hooks hooks;
 
-public class HelloHook extends Hook {
-
-	@Override
-	public Render processController(Controller controller) {
-		return new TextRender("hello addon");
+	public Addon() {
+		hooks = new Hooks(this);
 	}
+
+	public Hooks getHooks() {
+		return hooks;
+	}
+
+	protected void nextInvoke() {
+		tl.set(true);
+	}
+
+	/**
+	 * 子类不要调用此方法
+	 */
+	public void hookInvokeFinished() {
+		tl.remove();
+	}
+
+	/**
+	 * 子类不要调用此方法
+	 */
+	public boolean letNextHookInvoke() {
+		return tl.get() != null && tl.get() == true;
+	}
+
+	public abstract boolean onStart();
+
+	public abstract boolean onStop();
 
 }

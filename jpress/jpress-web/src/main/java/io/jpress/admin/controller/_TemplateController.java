@@ -66,7 +66,7 @@ public class _TemplateController extends JBaseController {
 
 		boolean isSuccess = TemplateUtils.templateChange(id);
 		if (isSuccess) {
-			MenuManager.me().reset();
+			MenuManager.me().refresh();
 			renderAjaxResultForSuccess();
 		} else {
 			renderAjaxResultForError();

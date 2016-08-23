@@ -25,6 +25,7 @@ import io.jpress.core.JBaseController;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
+import io.jpress.menu.MenuManager;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.utils.StringUtils;
@@ -36,17 +37,15 @@ public class _AddonController extends JBaseController {
 
 	public void index() {
 		keepPara();
-		
-		AddonManager.get().reload();
-		
-		setAttr("addons", AddonManager.get().getAddons());
-		setAttr("addonCount", AddonManager.get().getAddons().size());
-		setAttr("startedAddonCount", AddonManager.get().getStartedAddons().size());
+
+		setAttr("addons", AddonManager.me().getAddons());
+		setAttr("addonCount", AddonManager.me().getAddons().size());
+		setAttr("startedAddonCount", AddonManager.me().getStartedAddons().size());
 	}
 
 	public void install() {
 		keepPara();
-		
+
 		if (!isMultipartRequest()) {
 			return;
 		}
@@ -74,7 +73,13 @@ public class _AddonController extends JBaseController {
 
 		ufile.getFile().renameTo(newfile);
 
-		renderAjaxResultForSuccess();
+		if (AddonManager.me().install(newfile)){
+			MenuManager.me().refresh();
+			renderAjaxResultForSuccess();
+		}else{
+			renderAjaxResultForError("安装失败，可能已经有相同ID的插件了。");
+		}
+			
 	}
 
 	public void uninstall() {
@@ -86,18 +91,19 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		AddonInfo addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.me().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;
 		}
 
-		if(AddonManager.get().uninstall(addon)){
+		if (AddonManager.me().uninstall(addon)) {
+			MenuManager.me().refresh();
 			renderAjaxResultForSuccess();
-		}else{
+		} else {
 			renderAjaxResultForError();
 		}
-		
+
 	}
 
 	public void start() {
@@ -109,13 +115,14 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		AddonInfo addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.me().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;
 		}
 
-		if (AddonManager.get().start(addon)) {
+		if (AddonManager.me().start(addon)) {
+			MenuManager.me().refresh();
 			renderAjaxResultForSuccess();
 		} else {
 			renderAjaxResultForError();
@@ -132,13 +139,14 @@ public class _AddonController extends JBaseController {
 			return;
 		}
 
-		AddonInfo addon = AddonManager.get().findById(id);
+		AddonInfo addon = AddonManager.me().findById(id);
 		if (addon == null) {
 			renderAjaxResultForError();
 			return;
 		}
 
-		if (AddonManager.get().stop(addon)) {
+		if (AddonManager.me().stop(addon)) {
+			MenuManager.me().refresh();
 			renderAjaxResultForSuccess();
 		} else {
 			renderAjaxResultForError();

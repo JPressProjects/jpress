@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.jpress.Consts;
+import io.jpress.message.Actions;
+import io.jpress.message.MessageKit;
 import io.jpress.model.Metadata;
 import io.jpress.model.User;
 import io.jpress.model.query.OptionQuery;
@@ -36,8 +38,6 @@ import io.jpress.oauth2.connector.QQConnector;
 import io.jpress.oauth2.connector.TwitterConnector;
 import io.jpress.oauth2.connector.WechatConnector;
 import io.jpress.oauth2.connector.WeiboConnector;
-import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.MessageKit;
 import io.jpress.router.RouterMapping;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;

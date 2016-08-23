@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.plugin.message;
+package io.jpress.message;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
+
+import io.jpress.message.annotation.Listener;
 
 public class MessageManager {
 
@@ -43,6 +46,31 @@ public class MessageManager {
 
 	public static MessageManager me() {
 		return manager;
+	}
+
+	public void unRegisterListener(Class<? extends MessageListener> listenerClass) {
+
+		deleteListner(listenerMap, listenerClass);
+		deleteListner(asyncListenerMap, listenerClass);
+		
+		if (JFinal.me().getConstants().getDevMode()) {
+			System.out.println(String.format("listener[%s]-->>unRegisterListener.", listenerClass));
+		}
+
+	}
+
+	private void deleteListner(Map<String, List<MessageListener>> map, Class<? extends MessageListener> listenerClass) {
+		for (Map.Entry<String, List<MessageListener>> entry : map.entrySet()) {
+			MessageListener deleteListener = null;
+			for (MessageListener listener : entry.getValue()) {
+				if (listener.getClass() == listenerClass) {
+					deleteListener = listener;
+				}
+			}
+			if (deleteListener != null) {
+				entry.getValue().remove(deleteListener);
+			}
+		}
 	}
 
 	public void registerListener(Class<? extends MessageListener> listenerClass) {
@@ -99,6 +127,10 @@ public class MessageManager {
 			} else {
 				listenerMap.put(action, list);
 			}
+		}
+		
+		if (JFinal.me().getConstants().getDevMode()) {
+			System.out.println(String.format("listener[%s]-->>registered.", listener));
 		}
 
 	}
@@ -160,6 +192,9 @@ public class MessageManager {
 	private void invokeListeners(final Message message, List<MessageListener> syncListeners) {
 		for (final MessageListener listener : syncListeners) {
 			try {
+				if (JFinal.me().getConstants().getDevMode()) {
+					System.out.println(String.format("listener[%s]-->>onMessage(%s)", listener, message));
+				}
 				listener.onMessage(message);
 			} catch (Throwable e) {
 				log.error(String.format("listener[%s] onMessage is erro! ", listener.getClass()), e);
@@ -173,6 +208,9 @@ public class MessageManager {
 				@Override
 				public void run() {
 					try {
+						if (JFinal.me().getConstants().getDevMode()) {
+							System.out.println(String.format("listener[%s]-->>onMessage(%s) in async", listener, message));
+						}
 						listener.onMessage(message);
 					} catch (Throwable e) {
 						log.error(String.format("listener[%s] onMessage is erro! ", listener.getClass()), e);

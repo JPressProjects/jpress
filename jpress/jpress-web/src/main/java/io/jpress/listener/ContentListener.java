@@ -15,10 +15,10 @@
  */
 package io.jpress.listener;
 
-import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.Listener;
-import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageListener;
+import io.jpress.message.Actions;
+import io.jpress.message.Message;
+import io.jpress.message.MessageListener;
+import io.jpress.message.annotation.Listener;
 
 @Listener(action = { Actions.CONTENT_ADD, Actions.CONTENT_UPDATE, Actions.CONTENT_DELETE })
 public class ContentListener implements MessageListener {

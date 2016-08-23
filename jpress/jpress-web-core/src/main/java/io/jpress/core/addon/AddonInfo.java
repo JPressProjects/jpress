@@ -15,8 +15,10 @@
  */
 package io.jpress.core.addon;
 
-public class AddonInfo {
+import com.jfinal.log.Log;
 
+public class AddonInfo {
+	private static final Log log = Log.getLog(AddonInfo.class);
 	private String id;
 	private String jarPath;
 	private String addonClass;
@@ -30,8 +32,7 @@ public class AddonInfo {
 	private boolean hasError = false;
 	private boolean start = false;
 
-	private IAddon addon;
-	private final Hooks hooks = new Hooks();
+	private Addon addon;
 
 	public String getId() {
 		return id;
@@ -113,16 +114,12 @@ public class AddonInfo {
 		this.updateUrl = updateUrl;
 	}
 
-	public IAddon getAddon() {
+	public Addon getAddon() {
 		return addon;
 	}
 
-	public void setAddon(IAddon addon) {
+	public void setAddon(Addon addon) {
 		this.addon = addon;
-	}
-
-	public Hooks getHooks() {
-		return hooks;
 	}
 
 	public boolean getHasError() {
@@ -138,14 +135,15 @@ public class AddonInfo {
 	}
 
 	public boolean start() {
-		if (addon != null) {
+		if (addon == null) {
 			return false;
 		}
 
 		try {
-			start = addon.onStart(hooks);
+			start = addon.onStart();
 		} catch (Throwable e) {
 			// has exception
+			log.error("addon start error!",e);
 			start = false;
 		}
 
@@ -153,20 +151,21 @@ public class AddonInfo {
 	}
 
 	public boolean stop() {
-		if (addon != null) {
+		if (addon == null) {
 			return false;
 		}
 
+		boolean isStoped = false;
 		try {
-			boolean isStoped = addon.onStop();
+			isStoped = addon.onStop();
 			if (isStoped == true) {
 				start = false;
 			}
-			return isStoped;
 		} catch (Throwable e) {
+			log.error("addon stop error!",e);
 		}
 
-		return false;
+		return isStoped;
 	}
 
 	@Override
@@ -186,13 +185,4 @@ public class AddonInfo {
 		return addon.getId().equals(getId());
 	}
 
-	@Override
-	public String toString() {
-		return "AddonInfo [id=" + id + ", jarPath=" + jarPath + ", addonClass=" + addonClass + ", title=" + title
-				+ ", description=" + description + ", author=" + author + ", authorWebsite=" + authorWebsite
-				+ ", version=" + version + ", versionCode=" + versionCode + ", updateUrl=" + updateUrl + ", hasError="
-				+ hasError + ", start=" + start + ", addon=" + addon + ", hooks=" + hooks + "]";
-	}
-	
-	
 }

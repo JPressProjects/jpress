@@ -20,11 +20,12 @@ import java.math.BigInteger;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 
-public class ContentCountUpdateListener extends BaseMessageListener {
+@Listener(action = Actions.CONTENT_COUNT_UPDATE)
+public class ContentCountUpdateListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
 		BigInteger[] ids = message.getData();
@@ -37,9 +38,5 @@ public class ContentCountUpdateListener extends BaseMessageListener {
 		}
 	}
 
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.CONTENT_COUNT_UPDATE);
-	}
 
 }

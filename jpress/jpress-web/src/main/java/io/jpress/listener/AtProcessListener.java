@@ -31,12 +31,13 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 import io.jpress.utils.StringUtils;
 
-public class AtProcessListener extends BaseMessageListener {
+@Listener(action = {Actions.CONTENT_ADD,Actions.COMMENT_ADD})
+public class AtProcessListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
@@ -93,11 +94,6 @@ public class AtProcessListener extends BaseMessageListener {
 		}
 	}
 
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.CONTENT_ADD);
-		messageAction.register(Actions.COMMENT_ADD);
-	}
 
 	static Pattern userPattern = Pattern.compile("@([^@^\\s^:]{1,})([\\s\\:\\,\\;]{0,1})");
 	public static String generateUserLinks(String msg, List<BigInteger> userIds) {

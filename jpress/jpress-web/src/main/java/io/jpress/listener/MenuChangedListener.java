@@ -24,11 +24,12 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 
-public class MenuChangedListener extends BaseMessageListener {
+@Listener(action = Actions.SETTING_CHANGED)
+public class MenuChangedListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
@@ -58,11 +59,6 @@ public class MenuChangedListener extends BaseMessageListener {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.SETTING_CHANGED);
 	}
 
 }

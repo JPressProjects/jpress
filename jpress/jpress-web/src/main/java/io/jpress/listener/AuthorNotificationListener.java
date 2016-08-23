@@ -27,13 +27,14 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
-public class AuthorNotificationListener extends BaseMessageListener {
+@Listener(action = Actions.COMMENT_ADD)
+public class AuthorNotificationListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
@@ -190,9 +191,5 @@ public class AuthorNotificationListener extends BaseMessageListener {
 		}
 	}
 
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.COMMENT_ADD);
-	}
 
 }

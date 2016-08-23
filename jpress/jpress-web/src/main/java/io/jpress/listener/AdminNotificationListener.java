@@ -20,12 +20,13 @@ import io.jpress.model.query.OptionQuery;
 import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 import io.jpress.utils.StringUtils;
 
-public class AdminNotificationListener extends BaseMessageListener {
+@Listener(action = Actions.USER_CREATED)
+public class AdminNotificationListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
@@ -54,9 +55,9 @@ public class AdminNotificationListener extends BaseMessageListener {
 	private void notifyByEmail(User registedUser) {
 		Boolean notify = OptionQuery.me().findValueAsBool("notify_admin_by_email_when_user_registed");
 		if (notify != null && notify == true) {
-			
+
 			String toemail = OptionQuery.me().findValue("web_administrator_email");
-			if(StringUtils.isBlank(toemail)){
+			if (StringUtils.isBlank(toemail)) {
 				return;
 			}
 
@@ -64,7 +65,7 @@ public class AdminNotificationListener extends BaseMessageListener {
 			email.subject("您的网站有人注册了！");
 
 			String content = OptionQuery.me().findValue("notify_admin_by_content_email_when_user_registed");
-			
+
 			if (!StringUtils.isNotBlank(content)) {
 				content = "您的网站有人注册了！";
 			}
@@ -73,11 +74,6 @@ public class AdminNotificationListener extends BaseMessageListener {
 
 			EmailSenderFactory.createSender().send(email);
 		}
-	}
-
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.USER_CREATED);
 	}
 
 }

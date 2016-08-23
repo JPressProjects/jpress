@@ -20,16 +20,17 @@ import java.util.List;
 import io.jpress.menu.MenuGroup;
 import io.jpress.menu.MenuItem;
 import io.jpress.menu.MenuManager;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 import io.jpress.template.Template;
 import io.jpress.template.TemplateUtils;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
 import io.jpress.utils.StringUtils;
 
-public class AdminMenuInitListener extends BaseMessageListener {
+@Listener(action = MenuManager.ACTION_INIT_MENU, async = false)
+public class AdminMenuInitListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
@@ -53,11 +54,6 @@ public class AdminMenuInitListener extends BaseMessageListener {
 		menuMnager.addMenuGroup(createToolsMenuGroup());
 	}
 
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(MenuManager.ACTION_INIT_MENU, true); // 同步注册，不能使用异步
-	}
-
 	public void initModuleMenuGroup(MenuManager menuMnager) {
 		Template t = TemplateUtils.currentTemplate();
 		if (t == null || t.getModules() == null) {
@@ -70,7 +66,7 @@ public class AdminMenuInitListener extends BaseMessageListener {
 
 			group.addMenuItem(new MenuItem("list", "/admin/content?m=" + module.getName(), module.getListTitle()));
 			group.addMenuItem(new MenuItem("edit", "/admin/content/edit?m=" + module.getName(), module.getAddTitle()));
-			
+
 			List<TplTaxonomyType> types = module.getTaxonomyTypes();
 			if (types != null && !types.isEmpty()) {
 				for (TplTaxonomyType type : types) {
@@ -78,11 +74,12 @@ public class AdminMenuInitListener extends BaseMessageListener {
 							"/admin/taxonomy?m=" + module.getName() + "&t=" + type.getName(), type.getTitle()));
 				}
 			}
-			
-			if(StringUtils.isNotBlank(module.getCommentTitle())){
-				group.addMenuItem(new MenuItem("comment", "/admin/comment?t=comment&m=" + module.getName(),module.getCommentTitle()));
+
+			if (StringUtils.isNotBlank(module.getCommentTitle())) {
+				group.addMenuItem(new MenuItem("comment", "/admin/comment?t=comment&m=" + module.getName(),
+						module.getCommentTitle()));
 			}
-			
+
 			menuMnager.addMenuGroup(group);
 		}
 	}

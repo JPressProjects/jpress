@@ -16,11 +16,12 @@
 package io.jpress.listener;
 
 import io.jpress.plugin.message.Actions;
-import io.jpress.plugin.message.BaseMessageListener;
+import io.jpress.plugin.message.Listener;
 import io.jpress.plugin.message.Message;
-import io.jpress.plugin.message.MessageAction;
+import io.jpress.plugin.message.MessageListener;
 
-public class ContentListener extends BaseMessageListener {
+@Listener(action = { Actions.CONTENT_ADD, Actions.CONTENT_UPDATE, Actions.CONTENT_DELETE })
+public class ContentListener implements MessageListener {
 
 
 	@Override
@@ -43,11 +44,5 @@ public class ContentListener extends BaseMessageListener {
 	}
 
 
-	@Override
-	public void onRegisterAction(MessageAction messageAction) {
-		messageAction.register(Actions.CONTENT_ADD);
-		messageAction.register(Actions.CONTENT_UPDATE);
-		messageAction.register(Actions.CONTENT_DELETE);
-	}
 
 }

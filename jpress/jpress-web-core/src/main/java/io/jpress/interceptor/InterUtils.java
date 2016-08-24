@@ -23,13 +23,14 @@ import io.jpress.Consts;
 import io.jpress.model.User;
 import io.jpress.model.query.UserQuery;
 import io.jpress.utils.CookieUtils;
+import io.jpress.utils.StringUtils;
 
 public class InterUtils {
 
 	public static User tryToGetUser(Invocation inv) {
 
 		String userId = CookieUtils.get(inv.getController(), Consts.COOKIE_LOGINED_USER);
-		if (userId != null && !"".equals(userId)) {
+		if (StringUtils.isNotBlank(userId)) {
 			return UserQuery.me().findById(new BigInteger(userId));
 		}
 

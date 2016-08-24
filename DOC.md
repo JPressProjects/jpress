@@ -83,6 +83,23 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 #### 菜单设置
 #### 微信配置
 
+微信配置需要JPress端配置和微信公众号端两者同时配置。
+##### JPress端配置
+1. 进入微信公众号管理后台 `http://mp.weixin.qq.com`，依次进入`开发` > `公众号设置`，查看AppID(应用ID)和AppSecret(应用秘钥)。
+3. 进入JPress后台，找到`微信配置`页面，填写正确的AppID和AppSecret，同时token随意填写，比如填写`jpress`。
+
+##### 微信公众号后台配置
+1. 进入微信公众号管理后台 `http://mp.weixin.qq.com`，在`公众号设置`里找到`服务器配置`。
+2. 服务器配置内容如下：
+
+> **URL(服务器地址)**：`http://www.你的域名.com/wechat`，比如我的博客网址是：`http://www.yangfuhai.com`，那么就填写 `http://www.yangfuhai.com/wechat`
+
+> **Token(令牌)**：填写`jpress`，此处要保证和你JPress后台的token里填写的一模一样。
+
+> **EncodingAESKey(消息加解密密钥)**：随机生成。比如：trJAaCyaexHuLB1FsQ0QKjVFI3zFtQNRiJ5qkp9Hx1z
+
+>**消息加解密方式**：明文模式
+
 
 
 ## 模板开发

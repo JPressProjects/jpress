@@ -15,6 +15,7 @@
  */
 package io.jpress.ui.freemarker.tag;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import io.jpress.core.render.freemarker.JTag;
@@ -33,7 +34,9 @@ public class TaxonomysTag extends JTag {
 		String type = getParam("type");
 		String orderby = getParam("orderby");
 
-		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, count);
+		BigInteger parentId = getParamToBigInteger("parentid");
+
+		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, parentId, count);
 		setVariable("taxonomys", list);
 		renderBody();
 	}

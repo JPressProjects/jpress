@@ -35,6 +35,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.IDataSourceProvider;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
@@ -138,8 +139,8 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ActiveRecordPlugin createRecordPlugin(DruidPlugin druidPlugin) {
-		ActiveRecordPlugin arPlugin = new ActiveRecordPlugin(druidPlugin);
+	public ActiveRecordPlugin createRecordPlugin(IDataSourceProvider dsp) {
+		ActiveRecordPlugin arPlugin = new ActiveRecordPlugin(dsp);
 		List<Class<Model>> modelClassList = ClassScaner.scanSubClass(Model.class);
 		if (modelClassList != null) {
 			String tablePrefix = PropKit.use("db.properties").get("db_tablePrefix");

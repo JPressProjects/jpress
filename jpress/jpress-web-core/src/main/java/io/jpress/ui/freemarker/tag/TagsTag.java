@@ -29,11 +29,11 @@ public class TagsTag extends JTag {
 
 		int count = getParamToInt("count", 0);
 		count = count <= 0 ? 10 : count;
-		
+
 		String orderby = getParam("orderby");
 
 		String module = getParam("module", Consts.MODULE_ARTICLE);
-		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, "tag", orderby,count);
+		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, "tag", orderby, null, count);
 		setVariable("tags", list);
 
 		renderBody();

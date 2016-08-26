@@ -96,7 +96,7 @@ public class CommentController extends BaseFrontController {
 			return;
 		}
 
-		if (!content.commentIsEnable()) {
+		if (!content.isCommentEnable()) {
 			renderForCommentError("the comment function of the content has been closed.", 1);
 			return;
 		}

@@ -59,14 +59,17 @@ function reply(id){
         
         ${content.text!}
         
+        <#if option('jpblog_wechat_pay_enable')?? && option('jpblog_wechat_pay_enable')=='true'>
         <div class="reward-content">
           <p><img src="${CPATH}${option('jpblog_wechat_pay_image')!}"/> </p>
           <p>${option('jpblog_wechat_pay_tips')!'打赏一个呗~~'}</p>
         </div>
+        </#if>
 
       </div>
     </div>
     <!-- -->
+    <#if content.isCommentEnable() >
     <form action="${CPATH}/comment/submit" method="post"  id="comment">
     <input type="hidden" name="cid" value="${(content.id)!}" >
     <input type="hidden" name="anchor" value="comment" >
@@ -90,6 +93,7 @@ function reply(id){
       </div>
     </div>
     </form>
+    </#if>
     <!-- -->
     <@commentPageTag pagesize="10">
      <#if page ??> 

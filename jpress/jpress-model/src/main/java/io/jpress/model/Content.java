@@ -388,8 +388,12 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return null;
 	}
 
-	public boolean commentIsEnable() {
+	public boolean isCommentEnable() {
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());
+	}
+	
+	public boolean isCommentClose() {
+		return COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}
 
 	@Override

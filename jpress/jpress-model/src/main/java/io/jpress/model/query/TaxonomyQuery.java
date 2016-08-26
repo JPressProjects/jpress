@@ -58,7 +58,8 @@ public class TaxonomyQuery extends JBaseQuery {
 		return findListByModuleAndType(module, type, null, null, null);
 	}
 
-	public List<Taxonomy> findListByModuleAndType(String module, String type, String orderby,BigInteger parentId,Integer limit) {
+	public List<Taxonomy> findListByModuleAndType(String module, String type, String orderby, BigInteger parentId,
+			Integer limit) {
 
 		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy t");
 
@@ -67,7 +68,7 @@ public class TaxonomyQuery extends JBaseQuery {
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.content_module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.`type`", type, params, needWhere);
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.`parent_id`", parentId, params, needWhere);
-		
+
 		buildOrderBy(orderby, sqlBuilder);
 
 		if (limit != null) {
@@ -118,10 +119,23 @@ public class TaxonomyQuery extends JBaseQuery {
 		return DAO.doFindFirst("slug = ? and content_module=?", slug, module);
 	}
 
+	public List<Taxonomy> findBySlugAndModule(String[] slugs, String module) {
+
+		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy t");
+
+		boolean needWhere = true;
+		List<Object> params = new LinkedList<Object>();
+		needWhere = appendIfNotEmpty(sqlBuilder, "t.content_module", module, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "t.`slug`", slugs, params, needWhere);
+
+		return DAO.find(sqlBuilder.toString(), params.toArray());
+
+	}
+
 	public boolean deleteById(BigInteger id) {
 		return DAO.deleteById(id);
 	}
-	
+
 	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
 		if (StringUtils.isBlank(orderBy)) {

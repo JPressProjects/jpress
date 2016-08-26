@@ -39,7 +39,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 
 	private int layer = 0;
 	private List<Taxonomy> childList;
+	private List<Taxonomy> filterList;
 	private Taxonomy parent;
+	private String activeClass;
 
 	public int getLayer() {
 		return layer;
@@ -74,6 +76,17 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		childList.add(child);
 	}
 
+	public List<Taxonomy> getFilterList() {
+		return filterList;
+	}
+
+	public void initFilterList(List<Taxonomy> list, String activeClass) {
+		this.filterList = new ArrayList<Taxonomy>();
+		this.filterList.addAll(list);
+
+		this.activeClass = activeClass;
+	}
+
 	@Override
 	public Taxonomy getParent() {
 		return parent;
@@ -101,6 +114,55 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(this);
 	}
 
+	public String getFilterUrl() {
+		if (filterList == null || filterList.isEmpty()) {
+			return getUrl();
+		}
+
+		List<Taxonomy> list = new ArrayList<Taxonomy>();
+		for (Taxonomy taxonomy : filterList) {
+			if (!taxonomy.getType().equals(getType())) {
+				list.add(taxonomy);
+			}
+		}
+		list.add(this);
+		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(list);
+	}
+
+	public boolean isActive() {
+		return filterList != null && filterList.contains(this);
+	}
+
+	public String getActiveClass() {
+		if (!isActive())
+			return null;
+		return activeClass;
+	}
+
+	public void setActiveClass(String activeClass) {
+		this.activeClass = activeClass;
+	}
+
+	public String getSelectUrl() {
+		if (filterList == null || filterList.isEmpty()) {
+			return getUrl();
+		}
+
+		List<Taxonomy> list = new ArrayList<Taxonomy>();
+		list.addAll(filterList);
+		if (!list.contains(this)) {
+			list.add(this);
+		} else {
+			list.remove(this);
+		}
+
+		if (list.isEmpty()) {
+			return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(getContentModule());
+		}
+
+		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(list);
+	}
+
 	@Override
 	public boolean saveOrUpdate() {
 		if (getId() != null) {
@@ -126,7 +188,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void setSlug(String slug) {
 		if (StringUtils.isNotBlank(slug)) {

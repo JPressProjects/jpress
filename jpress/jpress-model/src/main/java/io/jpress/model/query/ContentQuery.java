@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -127,6 +128,37 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
+	public Page<Content> paginateInNormal(int page, int pagesize, String module,
+			Map<String, List<BigInteger>> taxonomyIds, String orderBy) {
+
+		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
+
+		StringBuilder fromBuilder = new StringBuilder(" from content c");
+		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
+		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
+		fromBuilder.append(" left join user u on c.user_id = u.id");
+		fromBuilder.append(" WHERE c.status = 'normal' ");
+
+		LinkedList<Object> params = new LinkedList<Object>();
+		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
+
+		if (taxonomyIds != null && taxonomyIds.size() > 0) {
+			for (Map.Entry<String, List<BigInteger>> entry : taxonomyIds.entrySet()) {
+				fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in "+toString(entry.getValue().toArray(new BigInteger[] {}))+" and m.`content_id`=c.id) " );
+			}
+		}
+
+		fromBuilder.append(" group by c.id");
+
+		buildOrderBy(orderBy, fromBuilder);
+
+		if (params.isEmpty()) {
+			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
+		}
+
+		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+	}
+
 	public Page<Content> paginate(int page, int pagesize, String module, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
 
@@ -134,10 +166,10 @@ public class ContentQuery extends JBaseQuery {
 
 		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, null, orderBy);
 	}
-	
+
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String orderBy) {
-		
+
 		return paginate(page, pagesize, modules, keyword, status, taxonomyIds, userId, null, orderBy);
 	}
 

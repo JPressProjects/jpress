@@ -15,10 +15,11 @@
  */
 package io.jpress.model.utils;
 
+import java.util.List;
+
 import io.jpress.model.Taxonomy;
 
 public class TaxonomyRouter extends RouterConverter {
-
 
 	private static String getRouterWithoutSuffix(Taxonomy taxonomy) {
 		String url = SLASH + taxonomy.getContentModule() + URL_PARA_SEPARATOR
@@ -27,11 +28,28 @@ public class TaxonomyRouter extends RouterConverter {
 		return url;
 	}
 
+	private static String getRouterWithoutSuffix(List<Taxonomy> taxonomys) {
+		Taxonomy taxonomy = taxonomys.get(0);
+
+		String url = SLASH + taxonomy.getContentModule() + URL_PARA_SEPARATOR;
+
+		StringBuffer buffer = new StringBuffer();
+		for (Taxonomy t : taxonomys) {
+			buffer.append(t.getSlug() + ",");
+		}
+		buffer.deleteCharAt(buffer.length() - 1);
+
+		return url + buffer.toString() + URL_PARA_SEPARATOR + 1;
+	}
+
 	private static String getRouterWithoutSuffix(String module, String slug) {
-		String url = SLASH + module + URL_PARA_SEPARATOR + slug + URL_PARA_SEPARATOR + 1;
-		return url;
+		return SLASH + module + URL_PARA_SEPARATOR + slug + URL_PARA_SEPARATOR + 1;
 	}
 	
+	private static String getRouterWithoutSuffix(String module) {
+		return SLASH + module ;
+	}
+
 	public static String getRouterWithoutPageNumber(Taxonomy taxonomy) {
 		return SLASH + taxonomy.getContentModule() + URL_PARA_SEPARATOR
 				+ (taxonomy.getSlug() == null ? taxonomy.getId() : taxonomy.getSlug());
@@ -45,8 +63,24 @@ public class TaxonomyRouter extends RouterConverter {
 		return url;
 	}
 
+	public static String getRouter(List<Taxonomy> taxonomys) {
+		String url = getRouterWithoutSuffix(taxonomys);
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
+	}
+
 	public static String getRouter(String module, String slug) {
 		String url = getRouterWithoutSuffix(module, slug);
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
+	}
+	
+	public static String getRouter(String module) {
+		String url = getRouterWithoutSuffix(module);
 		if (enalbleFakeStatic()) {
 			url += getFakeStaticSuffix();
 		}

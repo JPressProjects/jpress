@@ -24,6 +24,15 @@ import io.jpress.model.query.TaxonomyQuery;
 
 public class TaxonomysTag extends JTag {
 
+	private List<Taxonomy> filterList;
+
+	public TaxonomysTag() {
+	}
+
+	public TaxonomysTag(List<Taxonomy> taxonomys) {
+		filterList = taxonomys;
+	}
+
 	@Override
 	public void onRender() {
 
@@ -31,12 +40,18 @@ public class TaxonomysTag extends JTag {
 		count = count <= 0 ? 10 : count;
 
 		String module = getParam("module");
+		String activeClass = getParam("activeClass", "active");
 		String type = getParam("type");
 		String orderby = getParam("orderby");
 
 		BigInteger parentId = getParamToBigInteger("parentid");
 
 		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, parentId, count);
+		if (filterList != null && list != null && list.size() > 0) {
+			for (Taxonomy taxonomy : list) {
+				taxonomy.initFilterList(filterList, activeClass);
+			}
+		}
 		setVariable("taxonomys", list);
 		renderBody();
 	}

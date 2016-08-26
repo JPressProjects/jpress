@@ -16,6 +16,10 @@
 package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
@@ -30,12 +34,12 @@ import io.jpress.utils.StringUtils;
 public class ContentPageTag extends JTag {
 	int pageNumber;
 	String moduleName;
-	Taxonomy taxonomy;
+	List<Taxonomy> taxonomys;
 
-	public ContentPageTag(int pageNumber, String moduleName, Taxonomy taxonomy) {
+	public ContentPageTag(int pageNumber, String moduleName, List<Taxonomy> taxonomys) {
 		this.pageNumber = pageNumber;
 		this.moduleName = moduleName;
-		this.taxonomy = taxonomy;
+		this.taxonomys = taxonomys;
 	}
 
 	@Override
@@ -44,38 +48,51 @@ public class ContentPageTag extends JTag {
 		int pagesize = getParamToInt("pagesize", 10);
 		String orderBy = getParam("orderby");
 
-		BigInteger[] tids = taxonomy == null ? null : new BigInteger[] { taxonomy.getId() };
+		Map<String, List<BigInteger>> map = null;
 
-		Page<Content> page = ContentQuery.me().paginate(pageNumber, pagesize, moduleName, null, Content.STATUS_NORMAL, tids,
-				null, orderBy);
+		if (taxonomys != null && taxonomys.size() > 0) {
+			map = new HashMap<String, List<BigInteger>>();
+			for (Taxonomy taxonomy : taxonomys) {
+				List<BigInteger> list = map.get(taxonomy.getType());
+				if (list == null) {
+					list = new ArrayList<BigInteger>();
+				}
+
+				list.add(taxonomy.getId());
+				map.put(taxonomy.getType(), list);
+			}
+		}
+
+		Page<Content> page = ContentQuery.me().paginateInNormal(pageNumber, pagesize, moduleName, map, orderBy);
 		setVariable("page", page);
 
-		ContentPaginateTag tpt = new ContentPaginateTag(page, moduleName, taxonomy);
+		ContentPaginateTag tpt = new ContentPaginateTag(page, moduleName, taxonomys);
 		setVariable("pagination", tpt);
 
 		renderBody();
 	}
-	
-	
 
 	public static class ContentPaginateTag extends BasePaginateTag {
 
 		final String moduleName;
-		final Taxonomy taxonomy;
+		final List<Taxonomy> taxonomys;
 
-		public ContentPaginateTag(Page<Content> page, String moduleName, Taxonomy taxonomy) {
+		public ContentPaginateTag(Page<Content> page, String moduleName, List<Taxonomy> taxonomys) {
 			super(page);
 			this.moduleName = moduleName;
-			this.taxonomy = taxonomy;
+			this.taxonomys = taxonomys;
+
 		}
-		
-		
 
 		@Override
 		protected String getUrl(int pageNumber) {
-			String url = JFinal.me().getContextPath() + "/" + moduleName;
-			if (taxonomy != null) {
-				url += "-" + taxonomy.getSlug();
+			String url = JFinal.me().getContextPath() + "/" + moduleName + "-";
+			if (taxonomys != null && taxonomys.size() > 0) {
+				for (Taxonomy taxonomy : taxonomys) {
+					url += taxonomy.getSlug() + ",";
+				}
+
+				url = url.substring(0, url.length() - 1);
 			}
 
 			url += "-" + pageNumber;
@@ -91,6 +108,5 @@ public class ContentPageTag extends JTag {
 		}
 
 	}
-	
 
 }

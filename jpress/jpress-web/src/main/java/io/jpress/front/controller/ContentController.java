@@ -32,7 +32,6 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
 import io.jpress.template.TplModule;
-import io.jpress.template.TplTaxonomyType;
 import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.utils.StringUtils;
@@ -68,7 +67,9 @@ public class ContentController extends BaseFrontController {
 			return;
 		}
 
-		if (TemplateUtils.currentTemplate().getModuleByName(content.getModule()) == null) {
+		TplModule module = TemplateUtils.currentTemplate().getModuleByName(content.getModule());
+
+		if (module == null) {
 			renderError(404);
 			return;
 		}
@@ -86,34 +87,25 @@ public class ContentController extends BaseFrontController {
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
-
-		// 模板给分类定义的默认样式
-		String taxonomyDefaultStyle = null;
-
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(content.getModule());
-		if (module != null && taxonomys != null && !taxonomys.isEmpty()) {
-			for (Taxonomy taxonomy : taxonomys) {
-				TplTaxonomyType ttt = module.getTaxonomyTypeByType(taxonomy.getType());
-				if (ttt != null && StringUtils.isNotBlank(ttt.getContentStyle())) {
-					taxonomyDefaultStyle = ttt.getContentStyle();
-					break;
-				}
-			}
-		}
-
 		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys, content));
 
 		String style = content.getStyle();
 		if (StringUtils.isNotBlank(style)) {
-			render(String.format("content_%s_%s.html", content.getModule(), style.trim()));
-		} else {
-			if (taxonomyDefaultStyle != null) {
-				render(String.format("content_%s_%s.html", content.getModule(), taxonomyDefaultStyle));
-			} else {
-				render(String.format("content_%s.html", content.getModule()));
-			}
-
+			render(String.format("content_%s_%s.html", module.getName(), style.trim()));
+			return;
 		}
+
+		if (taxonomys != null && !taxonomys.isEmpty()) {
+			for (Taxonomy taxonomy : taxonomys) {
+				String tFile = String.format("content_%s_for:%s.html", module.getName(), taxonomy.getSlug());
+				if (TemplateUtils.existsFile(tFile)) {
+					render(tFile);
+					return;
+				}
+			}
+		}
+
+		render(String.format("content_%s.html", module.getName()));
 
 	}
 

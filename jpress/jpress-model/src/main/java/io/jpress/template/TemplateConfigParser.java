@@ -103,7 +103,6 @@ public class TemplateConfigParser extends DefaultHandler {
 			cTaxonomy.setName(attrs.getValue("name"));
 			cTaxonomy.setTitle(attrs.getValue("title"));
 			cTaxonomy.setFormType(attrs.getValue("formType"));
-			cTaxonomy.setContentStyle(attrs.getValue("contentStyle"));
 
 			cTaxonomyMetadatas = new ArrayList<TplMetadata>();
 			taxonomyStarted = true;

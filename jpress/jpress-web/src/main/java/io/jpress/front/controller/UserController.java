@@ -186,7 +186,7 @@ public class UserController extends BaseFrontController {
 			return;
 		}
 
-		if (null != mobile && UserQuery.me().findUserByPhone(mobile) != null) {
+		if (null != mobile && UserQuery.me().findUserByMobile(mobile) != null) {
 			renderForRegister("phone has exist!", Consts.ERROR_CODE_PHONE_EXIST);
 			return;
 		}

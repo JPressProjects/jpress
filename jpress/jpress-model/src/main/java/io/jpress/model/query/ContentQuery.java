@@ -44,27 +44,6 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.deleteById(id);
 	}
 
-	public Page<Content> paginateByMetadata(int page, int pagesize, String meta_key, String meta_value) {
-		StringBuilder sqlBuilder = new StringBuilder(" FROM ");
-		sqlBuilder.append(" ( ");
-		sqlBuilder.append(
-				" select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
-		sqlBuilder.append(
-				" GROUP_CONCAT(m.id ,':',m.meta_key,':',m.meta_value SEPARATOR ',') metadatas , u.username ,u.nickname,u.avatar");
-		sqlBuilder.append(" FROM content c ");
-		sqlBuilder.append(" left join mapping m on c.id = m.`content_id` ");
-		sqlBuilder.append(" left join taxonomy  t on m.`taxonomy_id` = t.id ");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		sqlBuilder.append(" left join metadata md on c.id = md.`object_id` and md.`object_type`='content' ");
-		sqlBuilder.append(" where c.`metadatas` like ? ");
-		sqlBuilder.append(" GROUP BY c.id ");
-		sqlBuilder.append(" ORDER BY c.created DESC ");
-		sqlBuilder.append(" ) ");
-		sqlBuilder.append(" c ");
-
-		return DAO.paginate(page, pagesize, true, sqlBuilder.toString(), "%:" + meta_key + ":" + meta_value);
-	}
-
 	public Page<Content> paginateByModule(int page, int pagesize, String module) {
 		return paginate(page, pagesize, module, null, null, null, null, null);
 	}
@@ -131,26 +110,39 @@ public class ContentQuery extends JBaseQuery {
 	public Page<Content> paginateInNormal(int page, int pagesize, String module,
 			Map<String, List<BigInteger>> taxonomyIds, String orderBy) {
 
+		LinkedList<Object> params = new LinkedList<Object>();
+
 		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
 		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 		fromBuilder.append(" left join user u on c.user_id = u.id");
+
+		if (orderBy != null && orderBy.startsWith("meta:")) {
+			fromBuilder.append(
+					" left join metadata meta on meta.`object_type`='content' and meta.`object_id`=c.id and meta.`meta_key`=? ");
+			params.add(orderBy.substring("meta:".length()));
+		}
+
 		fromBuilder.append(" WHERE c.status = 'normal' ");
 
-		LinkedList<Object> params = new LinkedList<Object>();
 		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
 
 		if (taxonomyIds != null && taxonomyIds.size() > 0) {
 			for (Map.Entry<String, List<BigInteger>> entry : taxonomyIds.entrySet()) {
-				fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in "+toString(entry.getValue().toArray(new BigInteger[] {}))+" and m.`content_id`=c.id) " );
+				fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in "
+						+ toString(entry.getValue().toArray(new BigInteger[] {})) + " and m.`content_id`=c.id) ");
 			}
 		}
 
 		fromBuilder.append(" group by c.id");
 
-		buildOrderBy(orderBy, fromBuilder);
+		if (orderBy != null && orderBy.startsWith("meta:")) {
+			fromBuilder.append(" order by meta.`meta_value` + 0 desc ");
+		} else {
+			buildOrderBy(orderBy, fromBuilder);
+		}
 
 		if (params.isEmpty()) {
 			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
@@ -450,43 +442,40 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Content findNext(final Content currentContent) {
-		final StringBuilder sqlBuilder = new StringBuilder(" select ");
-		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
-		sqlBuilder.append(" from content c");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		sqlBuilder.append(" WHERE c.id > ?");
-		sqlBuilder.append(" AND c.module = ?");
-		sqlBuilder.append(" AND c.status = 'normal'");
-		sqlBuilder.append(" ORDER BY c.created ASC");
-		sqlBuilder.append(" LIMIT 1");
-
-		return DAO.getTemp(String.format("next_%s_$s", currentContent.getId(), currentContent.getModule()),
-				new IDataLoader() {
-					@Override
-					public Object load() {
-						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-					}
-				});
+		return DAO.getTemp(String.format("%s_next", currentContent.getId()), new IDataLoader() {
+			@Override
+			public Object load() {
+				StringBuilder sqlBuilder = new StringBuilder(" select ");
+				sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+				sqlBuilder.append(" from content c");
+				sqlBuilder.append(" left join user u on c.user_id = u.id ");
+				sqlBuilder.append(" WHERE c.id > ?");
+				sqlBuilder.append(" AND c.module = ?");
+				sqlBuilder.append(" AND c.status = 'normal'");
+				sqlBuilder.append(" ORDER BY c.created ASC");
+				sqlBuilder.append(" LIMIT 1");
+				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+			}
+		});
 	}
 
 	public Content findPrevious(final Content currentContent) {
-		final StringBuilder sqlBuilder = new StringBuilder(" select ");
-		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
-		sqlBuilder.append(" from content c");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		sqlBuilder.append(" WHERE c.id < ?");
-		sqlBuilder.append(" AND c.module = ?");
-		sqlBuilder.append(" AND c.status = 'normal'");
-		sqlBuilder.append(" ORDER BY c.created DESC");
-		sqlBuilder.append(" LIMIT 1");
+		return DAO.getTemp(String.format("%s_previous", currentContent.getId()), new IDataLoader() {
+			@Override
+			public Object load() {
+				StringBuilder sqlBuilder = new StringBuilder(" select ");
+				sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+				sqlBuilder.append(" from content c");
+				sqlBuilder.append(" left join user u on c.user_id = u.id ");
+				sqlBuilder.append(" WHERE c.id < ?");
+				sqlBuilder.append(" AND c.module = ?");
+				sqlBuilder.append(" AND c.status = 'normal'");
+				sqlBuilder.append(" ORDER BY c.created DESC");
+				sqlBuilder.append(" LIMIT 1");
 
-		return DAO.getTemp(String.format("previous_%s_$s", currentContent.getId(), currentContent.getModule()),
-				new IDataLoader() {
-					@Override
-					public Object load() {
-						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-					}
-				});
+				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+			}
+		});
 	}
 
 	private StringBuilder getBaseSelectSql() {

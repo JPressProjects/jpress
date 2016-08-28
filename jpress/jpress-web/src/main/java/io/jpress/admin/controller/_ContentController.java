@@ -37,12 +37,10 @@ import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.message.Actions;
 import io.jpress.message.MessageKit;
 import io.jpress.model.Content;
-import io.jpress.model.Metadata;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.User;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.MappingQuery;
-import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
@@ -103,14 +101,14 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		filterUI(tids);
 
 		setAttr("page", page);
-		
+
 		String include = "_index_default_include.html";
 		String templateEditHtml = String.format("admin_content_index_%s.html", module.getName());
 		if (TemplateUtils.existsFile(templateEditHtml)) {
 			include = "../../.." + TemplateUtils.getTemplatePath() + "/" + templateEditHtml;
 		}
 		setAttr("include", include);
-		
+
 	}
 
 	private void filterUI(BigInteger[] tids) {
@@ -408,20 +406,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 				}
 
 				for (Map.Entry<String, String> entry : metas.entrySet()) {
-
-					Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(Content.METADATA_TYPE, content.getId(),
-							entry.getKey());
-
-					if (metadata == null) {
-						metadata = new Metadata();
-					}
-					metadata.setMetaKey(entry.getKey());
-					metadata.setMetaValue(entry.getValue());
-					metadata.setObjectId(content.getId());
-					metadata.setObjectType(Content.METADATA_TYPE);
-					if (!metadata.saveOrUpdate()) {
-						return false;
-					}
+					content.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
 				}
 
 				MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));

@@ -52,6 +52,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\tpublic static final String METADATA_TYPE = \"%s\";%n%n"
 				
 				+ "\tpublic void removeCache(Object key){%n"
+				+ "\t\tif(key == null) return;%n"
 				+ "\t\tCacheKit.remove(CACHE_NAME, key);%n"
 				+ "\t}%n%n"
 				
@@ -87,6 +88,17 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\t\tmd.setMetaValue(value);%n"
 				+ "\t\treturn md;%n"
 				+ "\t}%n%n"
+	
+				
+				+ "\tpublic boolean saveOrUpdateMetadta(String key,String value){%n"
+				+ "\t\tMetadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);%n"
+				+ "\t\tif (metadata == null) {%n"
+				+ "\t\t\tmetadata = createMetadata(key, value);%n"
+				+ "\t\t\treturn metadata.save();%n"
+				+ "\t\t}%n"
+				+ "\t\tmetadata.setMetaValue(value);%n"
+				+ "\t\treturn metadata.update();%n"
+				+ "\t}%n%n"
 		
 		
 				+ "\t@Override%n"
@@ -103,6 +115,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 		
 		this.importTemplate = "import io.jpress.model.Metadata;%n"
 				+ "import io.jpress.model.core.JModel;%n"
+				+ "import io.jpress.model.query.MetaDataQuery;%n"
 				+ "import java.math.BigInteger;%n%n"
 				+ "import com.jfinal.plugin.activerecord.IBean;%n"
 				+ "import com.jfinal.plugin.ehcache.CacheKit;%n"

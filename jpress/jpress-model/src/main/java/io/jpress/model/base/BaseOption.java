@@ -17,6 +17,7 @@ package io.jpress.model.base;
 
 import io.jpress.model.Metadata;
 import io.jpress.model.core.JModel;
+import io.jpress.model.query.MetaDataQuery;
 import java.math.BigInteger;
 
 import com.jfinal.plugin.activerecord.IBean;
@@ -33,6 +34,7 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JModel<M> impl
 	public static final String METADATA_TYPE = "option";
 
 	public void removeCache(Object key){
+		if(key == null) return;
 		CacheKit.remove(CACHE_NAME, key);
 	}
 
@@ -62,6 +64,16 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JModel<M> impl
 		md.setMetaKey(key);
 		md.setMetaValue(value);
 		return md;
+	}
+
+	public boolean saveOrUpdateMetadta(String key,String value){
+		Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		if (metadata == null) {
+			metadata = createMetadata(key, value);
+			return metadata.save();
+		}
+		metadata.setMetaValue(value);
+		return metadata.update();
 	}
 
 	@Override

@@ -17,6 +17,8 @@ package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -30,19 +32,23 @@ public class IndexPageTag extends JTag {
 
 	int pageNumber;
 	String pagePara;
+	String orderBy;
+	HttpServletRequest request;
 
-	public IndexPageTag(String pagePara, int pageNumber) {
+	public IndexPageTag(HttpServletRequest request, String pagePara, int pageNumber, String orderBy) {
 		this.pagePara = pagePara;
-		if(pageNumber < 1){
+		if (pageNumber < 1) {
 			pageNumber = 1;
 		}
 		this.pageNumber = pageNumber;
+		this.request = request;
+		this.orderBy = orderBy;
 	}
 
 	@Override
 	public void onRender() {
 
-		String orderBy = getParam("orderby");
+		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderby") : orderBy;
 		String keyword = getParam("keyword");
 
 		int pagesize = getParamToInt("pagesize", 10);
@@ -55,7 +61,7 @@ public class IndexPageTag extends JTag {
 				orderBy);
 		setVariable("page", cpage);
 
-		IndexPaginateTag indexPagination = new IndexPaginateTag(cpage, pagePara);
+		IndexPaginateTag indexPagination = new IndexPaginateTag(request, cpage, pagePara);
 		setVariable("pagination", indexPagination);
 
 		renderBody();
@@ -64,9 +70,11 @@ public class IndexPageTag extends JTag {
 	public static class IndexPaginateTag extends BasePaginateTag {
 
 		String pagePara;
+		HttpServletRequest request;
 
-		public IndexPaginateTag(Page<Content> page, String pagePara) {
+		public IndexPaginateTag(HttpServletRequest request, Page<Content> page, String pagePara) {
 			super(page);
+			this.request = request;
 			this.pagePara = pagePara;
 		}
 
@@ -84,10 +92,15 @@ public class IndexPageTag extends JTag {
 				url += getFakeStaticSuffix();
 			}
 
+			String queryString = request.getQueryString();
+			if (StringUtils.isNotBlank(queryString)) {
+				url += "?" + queryString;
+			}
+
 			if (StringUtils.isNotBlank(getAnchor())) {
 				url += "#" + getAnchor();
 			}
-			
+
 			return url;
 		}
 

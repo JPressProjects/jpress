@@ -82,14 +82,14 @@ public class ContentController extends BaseFrontController {
 		setAttr("previousContent", ContentQuery.me().findPrevious(content));
 		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
-		setAttr("commentPageTag", new CommentPageTag(content, page));
+		setAttr("commentPageTag", new CommentPageTag(getRequest(), content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
 
-		//模板给分类定义的默认样式
+		// 模板给分类定义的默认样式
 		String taxonomyDefaultStyle = null;
-		
+
 		TplModule module = TemplateUtils.currentTemplate().getModuleByName(content.getModule());
 		if (module != null && taxonomys != null && !taxonomys.isEmpty()) {
 			for (Taxonomy taxonomy : taxonomys) {

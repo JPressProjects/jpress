@@ -29,6 +29,7 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateUtils;
+import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.ContentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
@@ -37,9 +38,9 @@ import io.jpress.utils.StringUtils;
 @RouterMapping(url = Consts.ROUTER_TAXONOMY)
 public class TaxonomyController extends BaseFrontController {
 
-	private String module;
-	private String[] slugs;
-	private Integer page;
+	protected TplModule module;
+	protected String[] slugs;
+	protected Integer page;
 
 	@ActionCache
 	public void index() {
@@ -72,7 +73,7 @@ public class TaxonomyController extends BaseFrontController {
 		setAttr(Consts.ATTR_PAGE_NUMBER, page);
 		setAttr("taxonomys", taxonomys);
 		setAttr("taxonomy", taxonomy);
-		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(module));
+		setAttr("module", module);
 
 		setGlobleAttrs(taxonomys);
 		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys, null));
@@ -82,9 +83,15 @@ public class TaxonomyController extends BaseFrontController {
 			Content c = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
 			setAttr("jp_current_menu", c);
 		}
+		
+		String order = getPara("order"); 
+		if(module.isSupportOrder(order)){
+			setAttr("contentPage", new ContentPageTag(getRequest(), page, module.getName(), taxonomys, order));
+		}else{
+			setAttr("contentPage", new ContentPageTag(getRequest(), page, module.getName(), taxonomys, null));
+		}
 
-		setAttr("contentPage", new ContentPageTag(page, module, taxonomys));
-
+		
 		if (taxonomys == null || taxonomys.size() != 1) {
 			render(String.format("taxonomy_%s.html", module));
 		} else {
@@ -117,7 +124,7 @@ public class TaxonomyController extends BaseFrontController {
 	}
 
 	private List<Taxonomy> tryGetTaxonomy() {
-		return slugs == null || slugs.length == 0 ? null : TaxonomyQuery.me().findBySlugAndModule(slugs, module);
+		return slugs == null || slugs.length == 0 ? null : TaxonomyQuery.me().findBySlugAndModule(slugs, module.getName());
 	}
 
 	/**
@@ -127,12 +134,14 @@ public class TaxonomyController extends BaseFrontController {
 	 * 该module下的、slug1、slug2、slug3、slug4的所有内容
 	 */
 	private void initRequest() {
-		module = getPara(0);
-		if (module == null) {
+		String moduleName = getPara(0);
+		if (StringUtils.isBlank(moduleName)) {
 			renderError(404);
 		}
 
-		if (TemplateUtils.currentTemplate().getModuleByName(module) == null) {
+		module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+
+		if (module == null) {
 			renderError(404);
 		}
 
@@ -155,7 +164,6 @@ public class TaxonomyController extends BaseFrontController {
 				}
 			}
 		}
-		
 
 		if (StringUtils.isNotBlank(slugStrings)) {
 			slugs = slugStrings.split(",");

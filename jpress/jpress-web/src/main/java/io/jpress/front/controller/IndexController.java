@@ -49,7 +49,7 @@ public class IndexController extends BaseFrontController {
 		String para = getPara();
 
 		if (StringUtils.isBlank(para)) {
-			setAttr("indexPage", new IndexPageTag(null, 1));
+			setAttr("indexPage", new IndexPageTag(getRequest(), null, 1, null));
 			render("index.html");
 			return;
 		}
@@ -57,10 +57,10 @@ public class IndexController extends BaseFrontController {
 		String[] paras = para.split("-");
 		if (paras.length == 1) {
 			if (StringUtils.isNumeric(para.trim())) {
-				setAttr("indexPage", new IndexPageTag(null, StringUtils.toInt(para.trim(), 1)));
+				setAttr("indexPage", new IndexPageTag(getRequest(), null, StringUtils.toInt(para.trim(), 1), null));
 				render("index.html");
 			} else {
-				setAttr("indexPage", new IndexPageTag(para.trim(), 1));
+				setAttr("indexPage", new IndexPageTag(getRequest(), para.trim(), 1, null));
 				render("page_" + para + ".html");
 			}
 		} else if (paras.length == 2) {
@@ -71,7 +71,7 @@ public class IndexController extends BaseFrontController {
 				renderError(404);
 			}
 
-			setAttr("indexPage", new IndexPageTag(pageName, StringUtils.toInt(pageNumber, 1)));
+			setAttr("indexPage", new IndexPageTag(getRequest(), pageName, StringUtils.toInt(pageNumber, 1), null));
 			render("page_" + pageName + ".html");
 		} else {
 			renderError(404);

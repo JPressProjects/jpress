@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -34,19 +36,24 @@ import io.jpress.utils.StringUtils;
 public class ContentPageTag extends JTag {
 	int pageNumber;
 	String moduleName;
+	String orderBy;
 	List<Taxonomy> taxonomys;
+	HttpServletRequest request;
 
-	public ContentPageTag(int pageNumber, String moduleName, List<Taxonomy> taxonomys) {
+	public ContentPageTag(HttpServletRequest request, int pageNumber, String moduleName, List<Taxonomy> taxonomys,
+			String orderBy) {
+		this.request = request;
 		this.pageNumber = pageNumber;
 		this.moduleName = moduleName;
 		this.taxonomys = taxonomys;
+		this.orderBy = orderBy;
 	}
 
 	@Override
 	public void onRender() {
 
 		int pagesize = getParamToInt("pagesize", 10);
-		String orderBy = getParam("orderby");
+		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderby") : orderBy;
 
 		Map<String, List<BigInteger>> map = null;
 
@@ -66,7 +73,7 @@ public class ContentPageTag extends JTag {
 		Page<Content> page = ContentQuery.me().paginateInNormal(pageNumber, pagesize, moduleName, map, orderBy);
 		setVariable("page", page);
 
-		ContentPaginateTag tpt = new ContentPaginateTag(page, moduleName, taxonomys);
+		ContentPaginateTag tpt = new ContentPaginateTag(request, page, moduleName, taxonomys);
 		setVariable("pagination", tpt);
 
 		renderBody();
@@ -76,9 +83,12 @@ public class ContentPageTag extends JTag {
 
 		final String moduleName;
 		final List<Taxonomy> taxonomys;
+		final HttpServletRequest request;
 
-		public ContentPaginateTag(Page<Content> page, String moduleName, List<Taxonomy> taxonomys) {
+		public ContentPaginateTag(HttpServletRequest request, Page<Content> page, String moduleName,
+				List<Taxonomy> taxonomys) {
 			super(page);
+			this.request = request;
 			this.moduleName = moduleName;
 			this.taxonomys = taxonomys;
 
@@ -99,6 +109,11 @@ public class ContentPageTag extends JTag {
 
 			if (enalbleFakeStatic()) {
 				url += getFakeStaticSuffix();
+			}
+
+			String queryString = request.getQueryString();
+			if (StringUtils.isNotBlank(queryString)) {
+				url += "?" + queryString;
 			}
 
 			if (StringUtils.isNotBlank(getAnchor())) {

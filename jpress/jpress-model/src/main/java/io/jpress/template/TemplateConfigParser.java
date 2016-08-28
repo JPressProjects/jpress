@@ -90,6 +90,7 @@ public class TemplateConfigParser extends DefaultHandler {
 			cModule.setListTitle(attrs.getValue("list"));
 			cModule.setTitle(attrs.getValue("title"));
 			cModule.setCommentTitle(attrs.getValue("comment"));
+			cModule.setOrders(attrs.getValue("orders"));
 
 			cTaxonomys = new ArrayList<TplTaxonomyType>();
 			cModuleMetadatas = new ArrayList<TplMetadata>();

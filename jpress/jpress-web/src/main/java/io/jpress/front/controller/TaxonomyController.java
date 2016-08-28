@@ -93,9 +93,9 @@ public class TaxonomyController extends BaseFrontController {
 
 		
 		if (taxonomys == null || taxonomys.size() != 1) {
-			render(String.format("taxonomy_%s.html", module));
+			render(String.format("taxonomy_%s.html", module.getName()));
 		} else {
-			render(String.format("taxonomy_%s_%s.html", module, taxonomys.get(0).getSlug()));
+			render(String.format("taxonomy_%s_%s.html", module.getName(), taxonomys.get(0).getSlug()));
 		}
 	}
 

@@ -101,11 +101,11 @@ public class ContentPageTag extends JTag {
 				for (Taxonomy taxonomy : taxonomys) {
 					url += taxonomy.getSlug() + ",";
 				}
-
 				url = url.substring(0, url.length() - 1);
+				url += "-" + pageNumber;
+			} else {
+				url += pageNumber;
 			}
-
-			url += "-" + pageNumber;
 
 			if (enalbleFakeStatic()) {
 				url += getFakeStaticSuffix();

@@ -28,7 +28,7 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.ContentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
@@ -139,7 +139,7 @@ public class TaxonomyController extends BaseFrontController {
 			renderError(404);
 		}
 
-		module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		module = TemplateManager.me().currentTemplateModule(moduleName);
 
 		if (module == null) {
 			renderError(404);

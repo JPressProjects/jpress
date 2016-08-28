@@ -54,7 +54,7 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
@@ -247,7 +247,7 @@ public class WechatMessageController extends MsgController {
 	 * @return
 	 */
 	private boolean searchProcess(InMsg message, String userInput) {
-		List<TplModule> modules = TemplateUtils.currentTemplate().getModules();
+		List<TplModule> modules = TemplateManager.me().currentTemplateModules();
 		if (StringUtils.isBlank(userInput) || modules == null || modules.size() == 0) {
 			return false;
 		}

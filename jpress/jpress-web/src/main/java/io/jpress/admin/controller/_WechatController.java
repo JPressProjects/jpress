@@ -36,7 +36,7 @@ import io.jpress.model.ModelSorter;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.StringUtils;
 import io.jpress.wechat.WechatApi;
 import io.jpress.wechat.WechatApiConfigInterceptor;
@@ -69,7 +69,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void option() {
-		setAttr("modules", TemplateUtils.currentTemplate().getModules());
+		setAttr("modules", TemplateManager.me().currentTemplateModules());
 	}
 
 	public void menu() {

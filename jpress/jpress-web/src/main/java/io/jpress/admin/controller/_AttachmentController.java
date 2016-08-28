@@ -38,7 +38,7 @@ import io.jpress.model.query.OptionQuery;
 import io.jpress.model.vo.Archive;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.FileUtils;
@@ -159,7 +159,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	}
 
 	private void processThumbnail(String newPath) {
-		List<Thumbnail> tbs = TemplateUtils.currentTemplate().getThumbnails();
+		List<Thumbnail> tbs = TemplateManager.me().currentTemplate().getThumbnails();
 		if (tbs != null && tbs.size() > 0) {
 			for (Thumbnail tb : tbs) {
 				try {

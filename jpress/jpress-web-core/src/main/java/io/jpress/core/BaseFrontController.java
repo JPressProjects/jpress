@@ -17,7 +17,7 @@ package io.jpress.core;
 
 import com.jfinal.core.Controller;
 
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.StringUtils;
 
 public class BaseFrontController extends JBaseController {
@@ -49,7 +49,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private void renderTemplate(String name) {
-		super.render(TemplateUtils.currentTemplate().getPath() + "/" + name);
+		super.render(TemplateManager.me().currentTemplate().getPath() + "/" + name);
 	}
 
 	public String clearProp(String fname) {
@@ -57,7 +57,7 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private boolean templateExists(String htmlFileName) {
-		return TemplateUtils.existsFile(htmlFileName);
+		return TemplateManager.me().existsFile(htmlFileName);
 	}
 	
 	@Override

@@ -40,7 +40,7 @@ import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
 import io.jpress.utils.StringUtils;
@@ -60,7 +60,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	public void index() {
 		String moduleName = getContentModule();
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		TplModule module = TemplateManager.me().currentTemplateModule(moduleName);
 		TplTaxonomyType type = module.getTaxonomyTypeByType(getType());
 		BigInteger id = getParaToBigInteger("id");
 
@@ -189,7 +189,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 
 	public void set_layer() {
 		String moduleName = getContentModule();
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		TplModule module = TemplateManager.me().currentTemplateModule(moduleName);
 		TplTaxonomyType type = module.getTaxonomyTypeByType(getType());
 
 		final BigInteger id = getParaToBigInteger("id");

@@ -21,7 +21,7 @@ import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCache;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.ui.freemarker.tag.SearchResultPageTag;
 import io.jpress.utils.StringUtils;
 
@@ -38,7 +38,7 @@ public class SearchController extends BaseFrontController {
 		}
 
 		String moduleName = getPara("m", Consts.MODULE_ARTICLE);
-		if (TemplateUtils.currentTemplate().getModuleByName(moduleName) == null) {
+		if (TemplateManager.me().currentTemplateModule(moduleName) == null) {
 			renderError(404);
 		}
 

@@ -24,7 +24,7 @@ import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
 import io.jpress.template.Template;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
 import io.jpress.utils.StringUtils;
@@ -55,7 +55,7 @@ public class AdminMenuInitListener implements MessageListener {
 	}
 
 	public void initModuleMenuGroup(MenuManager menuMnager) {
-		Template t = TemplateUtils.currentTemplate();
+		Template t = TemplateManager.me().currentTemplate();
 		if (t == null || t.getModules() == null) {
 			return;
 		}

@@ -55,7 +55,7 @@ public class TplModule {
 
 	public List<String> getStyles() {
 		List<String> moduleStyles = null;
-		File f = new File(PathKit.getWebRootPath(), TemplateUtils.getTemplatePath());
+		File f = new File(PathKit.getWebRootPath(), TemplateManager.me().currentTemplatePath());
 		String[] fileNames = f.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String fileName) {

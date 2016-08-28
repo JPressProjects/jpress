@@ -39,7 +39,7 @@ import io.jpress.model.Content;
 import io.jpress.model.User;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
@@ -73,7 +73,7 @@ public class _ToolsController extends JBaseController {
 		keepPara();
 
 		if (!isMultipartRequest()) {
-			setAttr("modules", TemplateUtils.currentTemplate().getModules());
+			setAttr("modules", TemplateManager.me().currentTemplateModules());
 			return;
 		}
 
@@ -108,7 +108,7 @@ public class _ToolsController extends JBaseController {
 				c.setCreated(new Date());
 			}
 
-			String slug = StringUtils.isBlank(c.getSlug()) ? c.getTitle(): c.getSlug();
+			String slug = StringUtils.isBlank(c.getSlug()) ? c.getTitle() : c.getSlug();
 			c.setSlug(slug);
 
 			if (c.getUserId() == null) {

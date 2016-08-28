@@ -46,7 +46,7 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.router.converter.ContentRouter;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
 import io.jpress.utils.JsoupUtils;
@@ -68,7 +68,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void index() {
 
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
+		TplModule module = TemplateManager.me().currentTemplateModule(getModuleName());
 		setAttr("module", module);
 		setAttr("delete_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DELETE));
 		setAttr("draft_count", ContentQuery.me().findCountByModuleAndStatus(getModuleName(), Content.STATUS_DRAFT));
@@ -104,15 +104,15 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String include = "_index_default_include.html";
 		String templateEditHtml = String.format("admin_content_index_%s.html", module.getName());
-		if (TemplateUtils.existsFile(templateEditHtml)) {
-			include = "../../.." + TemplateUtils.getTemplatePath() + "/" + templateEditHtml;
+		if (TemplateManager.me().existsFile(templateEditHtml)) {
+			include = "../../.." + TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
 		}
 		setAttr("include", include);
 
 	}
 
 	private void filterUI(BigInteger[] tids) {
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(getModuleName());
+		TplModule module = TemplateManager.me().currentTemplateModule(getModuleName());
 
 		if (module == null) {
 			return;
@@ -250,7 +250,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			moduleName = content.getModule();
 		}
 
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		TplModule module = TemplateManager.me().currentTemplateModule(moduleName);
 		setAttr("module", module);
 
 		String _editor = getCookie("_editor", "tinymce");
@@ -263,8 +263,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		String include = "_edit_default_include.html";
 		String templateEditHtml = String.format("admin_content_edit_%s.html", moduleName);
-		if (TemplateUtils.existsFile(templateEditHtml)) {
-			include = "../../.." + TemplateUtils.getTemplatePath() + "/" + templateEditHtml;
+		if (TemplateManager.me().existsFile(templateEditHtml)) {
+			include = "../../.." + TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
 		}
 		setAttr("include", include);
 	}
@@ -295,7 +295,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	}
 
 	public List<BigInteger> getOrCreateTaxonomyIds(String moduleName) {
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(moduleName);
+		TplModule module = TemplateManager.me().currentTemplateModule(moduleName);
 		List<TplTaxonomyType> types = module.getTaxonomyTypes();
 		List<BigInteger> tIds = new ArrayList<BigInteger>();
 		for (TplTaxonomyType type : types) {

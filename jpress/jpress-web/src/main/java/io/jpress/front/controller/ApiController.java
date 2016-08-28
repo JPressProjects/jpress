@@ -30,7 +30,7 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
@@ -181,7 +181,7 @@ public class ApiController extends JBaseController {
 			List<String> moduleList = new ArrayList<String>();
 			for (int i = 0; i < modules.length; i++) {
 				String module = modules[i];
-				if (TemplateUtils.currentTemplate().getModuleByName(modules[i]) != null) {
+				if (TemplateManager.me().currentTemplateModule(modules[i]) != null) {
 					moduleList.add(module);
 				}
 			}
@@ -191,7 +191,7 @@ public class ApiController extends JBaseController {
 		}
 
 		if (modules == null) {
-			modules = TemplateUtils.getCurrentTemplateModulesAsArray();
+			modules = TemplateManager.me().currentTemplateModulesAsArray();
 		}
 
 		String keyword = getPara("keyword");

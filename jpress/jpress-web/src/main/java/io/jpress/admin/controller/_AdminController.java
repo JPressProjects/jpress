@@ -37,7 +37,7 @@ import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.TplModule;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.CookieUtils;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
@@ -48,8 +48,9 @@ public class _AdminController extends JBaseController {
 
 	@Before(ActionCacheClearInterceptor.class)
 	public void index() {
-		setAttr("modules", TemplateUtils.currentTemplate().getModules());
-		List<TplModule> moduleList = TemplateUtils.currentTemplate().getModules();
+		
+		List<TplModule> moduleList = TemplateManager.me().currentTemplateModules();
+		setAttr("modules", moduleList);
 
 		if (moduleList != null && moduleList.size() > 0) {
 			String moduels[] = new String[moduleList.size()];

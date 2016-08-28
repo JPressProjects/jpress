@@ -30,7 +30,7 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
@@ -67,7 +67,7 @@ public class ContentController extends BaseFrontController {
 			return;
 		}
 
-		TplModule module = TemplateUtils.currentTemplate().getModuleByName(content.getModule());
+		TplModule module = TemplateManager.me().currentTemplateModule(content.getModule());
 
 		if (module == null) {
 			renderError(404);
@@ -96,12 +96,21 @@ public class ContentController extends BaseFrontController {
 		}
 
 		if (taxonomys != null && !taxonomys.isEmpty()) {
+			String forSlug = null;
 			for (Taxonomy taxonomy : taxonomys) {
 				String tFile = String.format("content_%s_for:%s.html", module.getName(), taxonomy.getSlug());
-				if (TemplateUtils.existsFile(tFile)) {
-					render(tFile);
-					return;
+				if (TemplateManager.me().existsFile(tFile)) {
+					if (forSlug == null) {
+						forSlug = "for:" + taxonomy.getSlug();
+					} else {
+						forSlug = null;
+						break;
+					}
 				}
+			}
+
+			if (forSlug != null) {
+				render(String.format("content_%s_%s.html", module.getName(), forSlug));
 			}
 		}
 

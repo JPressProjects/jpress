@@ -34,7 +34,7 @@ import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
 import io.jpress.model.utils.TaxonomyRouter;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
@@ -324,7 +324,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			return null;
 		}
 
-		Thumbnail thumbnail = TemplateUtils.currentTemplate().getThumbnailByName(name);
+		Thumbnail thumbnail = TemplateManager.me().currentTemplateThumbnail(name);
 		if (thumbnail == null) {
 			return imageSrc;
 		}

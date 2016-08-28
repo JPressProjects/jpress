@@ -34,7 +34,7 @@ import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
@@ -56,7 +56,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 
 		keepPara();
 
-		setAttr("module", TemplateUtils.currentTemplate().getModuleByName(getModule()));
+		setAttr("module", TemplateManager.me().currentTemplateModule(getModule()));
 		setAttr("delete_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DELETE));
 		setAttr("draft_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_DRAFT));
 		setAttr("normal_count", CommentQuery.me().findCountByModuleAndStatus(getModule(), Comment.STATUS_NORMAL));

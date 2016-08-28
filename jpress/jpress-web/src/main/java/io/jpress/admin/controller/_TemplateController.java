@@ -41,7 +41,7 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.template.Template;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.FileUtils;
 import io.jpress.utils.StringUtils;
 
@@ -51,9 +51,9 @@ import io.jpress.utils.StringUtils;
 public class _TemplateController extends JBaseController {
 
 	public void index() {
-		List<Template> templateList = TemplateUtils.scanTemplates();
+		List<Template> templateList = TemplateManager.me().getTemplates();
 		setAttr("templateList", templateList);
-		setAttr("currentTemplate", TemplateUtils.currentTemplate());
+		setAttr("currentTemplate", TemplateManager.me().currentTemplate());
 	}
 
 	public void enable() {
@@ -64,7 +64,7 @@ public class _TemplateController extends JBaseController {
 			return;
 		}
 
-		boolean isSuccess = TemplateUtils.templateChange(id);
+		boolean isSuccess = TemplateManager.me().doChangeTemplate(id);
 		if (isSuccess) {
 			MenuManager.me().refresh();
 			renderAjaxResultForSuccess();
@@ -116,7 +116,7 @@ public class _TemplateController extends JBaseController {
 
 	public void edit() {
 		keepPara();
-		String path = TemplateUtils.currentTemplate().getPath();
+		String path = TemplateManager.me().currentTemplatePath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
 
 		File[] dirs = pathFile.listFiles(new FileFilter() {
@@ -164,7 +164,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void editsave() {
-		String path = TemplateUtils.currentTemplate().getPath();
+		String path = TemplateManager.me().currentTemplatePath();
 		File pathFile = new File(PathKit.getWebRootPath(), path);
 
 		String dirName = getPara("d");
@@ -261,8 +261,8 @@ public class _TemplateController extends JBaseController {
 
 	public void setting() {
 		keepPara();
-		if (TemplateUtils.existsFile("tpl_setting.html")) {
-			String include = TemplateUtils.getTemplatePath() + "/tpl_setting.html";
+		if (TemplateManager.me().existsFile("tpl_setting.html")) {
+			String include = TemplateManager.me().currentTemplatePath() + "/tpl_setting.html";
 			setAttr("include", "../../.." + include);
 		}
 	}

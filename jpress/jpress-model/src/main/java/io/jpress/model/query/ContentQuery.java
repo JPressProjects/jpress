@@ -28,7 +28,7 @@ import com.jfinal.plugin.ehcache.IDataLoader;
 import io.jpress.core.db.Jdb;
 import io.jpress.model.Content;
 import io.jpress.model.vo.Archive;
-import io.jpress.template.TemplateUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.StringUtils;
 
 public class ContentQuery extends JBaseQuery {
@@ -319,7 +319,7 @@ public class ContentQuery extends JBaseQuery {
 			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail, String month) {
 
 		if (modules == null) {
-			modules = TemplateUtils.getCurrentTemplateModulesAsArray();
+			modules = TemplateManager.me().currentTemplateModulesAsArray();
 		}
 
 		StringBuilder sqlBuilder = getBaseSelectSql();

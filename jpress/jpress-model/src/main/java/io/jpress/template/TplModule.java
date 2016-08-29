@@ -33,6 +33,7 @@ public class TplModule {
 	private String listTitle;
 	private String addTitle;
 	private String commentTitle;
+	private String iconClass;
 	private String orders;
 	private List<TplTaxonomyType> taxonomyTypes;
 	private List<TplMetadata> metadatas;
@@ -110,6 +111,14 @@ public class TplModule {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getIconClass() {
+		return iconClass;
+	}
+
+	public void setIconClass(String iconClass) {
+		this.iconClass = iconClass;
 	}
 
 	public String getOrders() {

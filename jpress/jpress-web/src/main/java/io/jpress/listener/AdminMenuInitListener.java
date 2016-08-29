@@ -62,7 +62,11 @@ public class AdminMenuInitListener implements MessageListener {
 
 		List<TplModule> modules = t.getModules();
 		for (TplModule module : modules) {
-			MenuGroup group = new MenuGroup(module.getName(), "fa fa-file-text-o", module.getTitle());
+			String iconClass = module.getIconClass();
+			if (StringUtils.isBlank(iconClass)) {
+				iconClass = "fa fa-file-text-o";
+			}
+			MenuGroup group = new MenuGroup(module.getName(), iconClass, module.getTitle());
 
 			group.addMenuItem(new MenuItem("list", "/admin/content?m=" + module.getName(), module.getListTitle()));
 			group.addMenuItem(new MenuItem("edit", "/admin/content/edit?m=" + module.getName(), module.getAddTitle()));

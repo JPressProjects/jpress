@@ -8,7 +8,7 @@ var data={
 function initTinymce(){
 	tinymce.init({
         selector: '#textarea',
-        height: 500,
+        height: 365,
         language: 'zh_CN',
         menubar: false,
         automatic_uploads: true,
@@ -183,6 +183,12 @@ $(document).ready(function(){
     display: inline-block;
     width: 100%;
     vertical-align: middle;
+}
+.nav-tabs-custom {
+    margin-bottom: 0px; 
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    border-radius: 3px;
 }
 </#macro>
 <@layout active_id=p child_active_id=c>

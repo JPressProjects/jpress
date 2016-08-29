@@ -73,12 +73,24 @@ public class TemplateManager {
 	public Template currentTemplate() {
 		if (cTemplate == null) {
 
+			List<Template> templateList = getTemplates();
+
 			String templateId = OptionQuery.me().findValue(Option.KEY_TEMPLATE_ID);
 			if (StringUtils.isNotBlank(templateId)) {
+				for (Template tpl : templateList) {
+					if (templateId.equals(tpl.getId())) {
+						cTemplate = tpl;
+					}
+				}
+			}
+
+			if (cTemplate == null) {//数据库没有配置过，或者配置不正确，比如曾经配置的模板被手动删除了
 				templateId = PropKit.get("default_template");
 			}
 
-			List<Template> templateList = getTemplates();
+			if (StringUtils.isBlank(templateId)) {
+				throw new RuntimeException("default_template config error in jpress.properties.");
+			}
 
 			for (Template tpl : templateList) {
 				if (templateId.equals(tpl.getId())) {

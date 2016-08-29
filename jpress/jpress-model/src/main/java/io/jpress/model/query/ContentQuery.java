@@ -266,6 +266,22 @@ public class ContentQuery extends JBaseQuery {
 		else if ("object_id".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.object_id ");
 		}
+		
+		else if ("price".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.price ");
+		}
+		
+		else if ("comment_time".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.comment_time ");
+		}
+		
+		else if ("rate".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.rate ");
+		}
+		
+		else if ("rate_count".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY c.rate_count ");
+		}
 
 		else {
 			fromBuilder.append(" ORDER BY c.created ");

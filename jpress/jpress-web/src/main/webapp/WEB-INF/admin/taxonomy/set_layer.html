@@ -51,8 +51,8 @@ function doSubmit(){
 				
 				<#list type.metadatas as metadata>
 				 <div class="form-group jp-input-item">
-	                 <label for="meta_${metadata.name!}" class="input-title" >${metadata.title!}</label>
-	                 <input id="meta_${metadata.name!}" type="text" class="form-control" placeholder="${metadata.placeholder!}"  name="meta_${metadata.name!}" value="${(taxonomy.metadata(metadata.name))!}">
+	                 <label for="meta:${metadata.name!}" class="input-title" >${metadata.title!}</label>
+	                 <input id="meta:${metadata.name!}" type="text" class="form-control" placeholder="${metadata.placeholder!}"  name="meta:${metadata.name!}" value="${(taxonomy.metadata(metadata.name))!}">
 	           		 <p>${metadata.description!}</p>
 	              </div>
 				</#list>

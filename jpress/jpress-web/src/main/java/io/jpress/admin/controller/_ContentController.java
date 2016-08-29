@@ -371,15 +371,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-		final HashMap<String, String> metas = new HashMap<String, String>();
-		Map<String, String[]> requestMap = getParaMap();
-		if (requestMap != null) {
-			for (Map.Entry<String, String[]> entry : requestMap.entrySet()) {
-				if (entry.getKey().startsWith("meta_")) {
-					metas.put(entry.getKey().substring(5), entry.getValue()[0]);
-				}
-			}
-		}
 
 		boolean saved = Db.tx(new IAtom() {
 			@Override
@@ -405,8 +396,11 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					}
 				}
 
-				for (Map.Entry<String, String> entry : metas.entrySet()) {
-					content.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
+				Map<String, String> metas = getMetas();
+				if (metas != null) {
+					for (Map.Entry<String, String> entry : metas.entrySet()) {
+						content.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
+					}
 				}
 
 				MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));

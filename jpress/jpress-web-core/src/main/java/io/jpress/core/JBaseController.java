@@ -16,6 +16,8 @@
 package io.jpress.core;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -120,8 +122,8 @@ public class JBaseController extends Controller {
 	public void renderAjaxResultForSuccess(String message) {
 		renderAjaxResult(message, 0, null);
 	}
-	
-	public void renderAjaxResultForSuccess(String message,Object data) {
+
+	public void renderAjaxResultForSuccess(String message, Object data) {
 		renderAjaxResult(message, 0, data);
 	}
 
@@ -245,7 +247,7 @@ public class JBaseController extends Controller {
 			throw new ActionException(404, "Can not parse the parameter \"" + value + "\" to BigInteger value.");
 		}
 	}
-	
+
 	@Before(NotAction.class)
 	public String getIPAddress() {
 		String ip = getRequest().getHeader("X-getRequest()ed-For");
@@ -273,6 +275,28 @@ public class JBaseController extends Controller {
 	@Before(NotAction.class)
 	public String getUserAgent() {
 		return getRequest().getHeader("User-Agent");
+	}
+
+	public Map<String, String> getMetas() {
+		HashMap<String, String> metas = null;
+		Map<String, String[]> requestMap = getParaMap();
+		if (requestMap != null && !requestMap.isEmpty()) {
+			for (Map.Entry<String, String[]> entry : requestMap.entrySet()) {
+				String key = entry.getKey();
+				if (key.startsWith("meta:")) {
+					if (metas == null) {
+						metas = new HashMap<String, String>();
+					}
+
+					String value = entry.getValue()[0];
+					if ("".equals(value)) {
+						value = null;
+					}
+					metas.put(key.substring(5), value);
+				}
+			}
+		}
+		return metas;
 	}
 
 }

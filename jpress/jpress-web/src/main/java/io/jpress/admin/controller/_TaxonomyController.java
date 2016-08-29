@@ -17,7 +17,6 @@ package io.jpress.admin.controller;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,12 +30,10 @@ import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
 import io.jpress.model.Content;
-import io.jpress.model.Metadata;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.MappingQuery;
-import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
@@ -111,13 +108,12 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			renderAjaxResultForError("别名不能全为数字！");
 			return;
 		}
-		
-		//getModel是jfinal通过model.put()设置属性的，不用调用setXXX设置。
+
+		// getModel是jfinal通过model.put()设置属性的，不用调用setXXX设置。
 		if (m.getSlug() != null) {
-			//setSlug内部做了些格式化判断
+			// setSlug内部做了些格式化判断
 			m.setSlug(m.getSlug());
 		}
-
 
 		Taxonomy dbTaxonomy = TaxonomyQuery.me().findBySlugAndModule(m.getSlug(), m.getContentModule());
 		if (m.getId() != null && dbTaxonomy != null && m.getId().compareTo(dbTaxonomy.getId()) != 0) {
@@ -201,16 +197,6 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 	public void set_layer_save() {
 		final Taxonomy taxonomy = getModel(Taxonomy.class);
 
-		final HashMap<String, String> metas = new HashMap<String, String>();
-		Map<String, String[]> requestMap = getParaMap();
-		if (requestMap != null) {
-			for (Map.Entry<String, String[]> entry : requestMap.entrySet()) {
-				if (entry.getKey().startsWith("meta_")) {
-					metas.put(entry.getKey().substring(5), entry.getValue()[0]);
-				}
-			}
-		}
-
 		boolean saved = Db.tx(new IAtom() {
 
 			@Override
@@ -219,20 +205,10 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 					return false;
 				}
 
-				for (Map.Entry<String, String> entry : metas.entrySet()) {
-
-					Metadata metadata = MetaDataQuery.me().findByTypeAndIdAndKey(Taxonomy.METADATA_TYPE,
-							taxonomy.getId(), entry.getKey());
-
-					if (metadata == null) {
-						metadata = new Metadata();
-					}
-					metadata.setMetaKey(entry.getKey());
-					metadata.setMetaValue(entry.getValue());
-					metadata.setObjectId(taxonomy.getId());
-					metadata.setObjectType(Taxonomy.METADATA_TYPE);
-					if (!metadata.saveOrUpdate()) {
-						return false;
+				Map<String, String> metas = getMetas();
+				if (metas != null) {
+					for (Map.Entry<String, String> entry : metas.entrySet()) {
+						taxonomy.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
 					}
 				}
 
@@ -240,9 +216,13 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			}
 		});
 
-		if (saved) {
+		if (saved)
+
+		{
 			renderAjaxResultForSuccess();
-		} else {
+		} else
+
+		{
 			renderAjaxResultForError();
 		}
 

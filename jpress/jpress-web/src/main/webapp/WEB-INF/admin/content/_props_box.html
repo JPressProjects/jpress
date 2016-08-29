@@ -137,9 +137,9 @@
 				
 				<#list module.metadatas as metadata>
 					 <div class="form-group">
-		                 <label for="_meta_${metadata.name!}" class="col-sm-1 control-label" style="width: 10%">${metadata.title!}</label>
+		                 <label for="meta:${metadata.name!}" class="col-sm-1 control-label" style="width: 10%">${metadata.title!}</label>
 		                 <div class="col-sm-11" style="width: 90%">
-		                   <input type="text" class="form-control" placeholder="${metadata.placeholder!}" id="meta_${metadata.name!}" name="meta_${metadata.name!}" value="${(content.metadata(metadata.name))!}">
+		                   <input type="text" class="form-control" placeholder="${metadata.placeholder!}" id="meta:${metadata.name!}" name="meta:${metadata.name!}" value="${(content.metadata(metadata.name))!}">
 		                 </div>
 		              </div>
 		        <#else>

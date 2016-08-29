@@ -115,7 +115,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public EhCachePlugin createEhCachePlugin() {
-		String ehcacheDiskStorePath = PathKit.getRootClassPath();
+		String ehcacheDiskStorePath = PathKit.getWebRootPath();
 		File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
 
 		Configuration cfg = ConfigurationFactory.parseConfiguration();

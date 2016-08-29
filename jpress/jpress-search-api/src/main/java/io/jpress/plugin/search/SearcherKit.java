@@ -15,34 +15,29 @@
  */
 package io.jpress.plugin.search;
 
-import java.io.IOException;
-
-import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 
 public class SearcherKit {
 
-	private static final Log logger = Log.getLog(SearcherKit.class);
 	private static ISearcher mSearcher;
 
 	static void init(ISearcher mSearcher) {
 		SearcherKit.mSearcher = mSearcher;
 	}
 
-	static void add(SearcherBean bean) throws IOException {
+	public static void add(SearcherBean bean) {
 		checkSearcher();
 		mSearcher.addBean(bean);
 	}
 
-	public static void delete(String beanId) throws IOException {
+	public static void delete(String beanId) {
 		checkSearcher();
 		mSearcher.deleteBean(beanId);
 	}
 
-	public static void update(SearcherBean bean) throws IOException {
+	public static void update(SearcherBean bean) {
 		checkSearcher();
-		mSearcher.deleteBean(bean.getSid());
-		mSearcher.addBean(bean);
+		mSearcher.updateBean(bean);
 	}
 
 	/**
@@ -53,32 +48,22 @@ public class SearcherKit {
 	 */
 	public static Page<SearcherBean> search(String keyword) {
 		checkSearcher();
-		try {
-			return mSearcher.search(keyword,null);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
-		return null;
+		return mSearcher.search(keyword, null);
 	}
-	
-	public static Page<SearcherBean> search(String keyword,String module) {
+
+	public static Page<SearcherBean> search(String keyword, String module) {
 		checkSearcher();
-		try {
-			return mSearcher.search(keyword,module);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
-		return null;
+		return mSearcher.search(keyword, module);
 	}
 
 	public static Page<SearcherBean> search(String queryString, int pageNum, int pageSize) {
 		checkSearcher();
-		return mSearcher.search(queryString, null,pageNum, pageSize);
+		return mSearcher.search(queryString, null, pageNum, pageSize);
 	}
-	
-	public static Page<SearcherBean> search(String queryString,String module, int pageNum, int pageSize) {
+
+	public static Page<SearcherBean> search(String queryString, String module, int pageNum, int pageSize) {
 		checkSearcher();
-		return mSearcher.search(queryString, module,pageNum, pageSize);
+		return mSearcher.search(queryString, module, pageNum, pageSize);
 	}
 
 	public static void checkSearcher() {

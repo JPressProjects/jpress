@@ -26,21 +26,21 @@ public class SearcherBean {
 	private String url;
 	private Date created;
 
-	private String otherInfo; // 保存其他信息，不是用来检索的
+	private Object data; // 保存其他信息，不是用来检索的
 
 	public SearcherBean() {
 	}
 
-	public SearcherBean(String sid, String title, String description, String content, String otherInfo, String type,String url,Date created) {
+	public SearcherBean(String sid, String title, String description, String content, String url, Date created,
+			Object data) {
 		this.sid = sid;
 		this.title = title;
 		this.description = description;
 		this.content = content;
-		this.otherInfo = otherInfo;
-		this.url=url;
-		this.created=created;
+		this.url = url;
+		this.created = created;
+		this.data = data;
 	}
-
 
 	public String getSid() {
 		return sid;
@@ -74,14 +74,6 @@ public class SearcherBean {
 		this.content = content;
 	}
 
-	public String getOtherInfo() {
-		return otherInfo;
-	}
-
-	public void setOtherInfo(String otherInfo) {
-		this.otherInfo = otherInfo;
-	}
-
 	public String getUrl() {
 		return url;
 	}
@@ -97,4 +89,13 @@ public class SearcherBean {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+	
 }

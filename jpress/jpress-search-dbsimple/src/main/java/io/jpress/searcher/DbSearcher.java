@@ -74,17 +74,15 @@ public class DbSearcher implements ISearcher {
 		}
 
 		Page<Content> cpage = ContentQuery.me().paginate(pageNum, pageSize, moduleStrings, keyword,
-				Content.STATUS_NORMAL, null, null, null,null);
+				Content.STATUS_NORMAL, null, null, null, null);
 
 		if (cpage != null) {
 			List<SearcherBean> datas = new ArrayList<SearcherBean>();
 			for (Content c : cpage.getList()) {
-				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getSummary(), c.getText(), null, null,
-						c.getUrl(), c.getCreated()));
+				datas.add(new SearcherBean(c.getId().toString(), c.getTitle(), c.getSummary(), c.getText(), c.getUrl(),c.getCreated(), c));
 			}
 
-			return new Page<>(datas, cpage.getPageNumber(), cpage.getPageSize(), cpage.getTotalPage(),
-					cpage.getTotalRow());
+			return new Page<>(datas, cpage.getPageNumber(), cpage.getPageSize(), cpage.getTotalPage(),cpage.getTotalRow());
 		}
 
 		return null;

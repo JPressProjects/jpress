@@ -15,21 +15,19 @@
  */
 package io.jpress.plugin.search;
 
-import java.io.IOException;
-
 import com.jfinal.plugin.activerecord.Page;
 
 public interface ISearcher {
 
 	public void init();
 
-	public void addBean(SearcherBean bean) throws IOException;
+	public void addBean(SearcherBean bean);
 
-	public void deleteBean(String beanId) throws IOException;
+	public void deleteBean(String beanId);
 
-	public void updateBean(SearcherBean bean) throws IOException;
+	public void updateBean(SearcherBean bean);
 
-	public Page<SearcherBean> search(String keyword,String module) throws IOException;
+	public Page<SearcherBean> search(String keyword, String module);
 
-	public Page<SearcherBean> search(String queryString,String module, int pageNum, int pageSize);
+	public Page<SearcherBean> search(String queryString, String module, int pageNum, int pageSize);
 }

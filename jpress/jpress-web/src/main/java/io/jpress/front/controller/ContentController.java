@@ -99,7 +99,7 @@ public class ContentController extends BaseFrontController {
 			String forSlug = null;
 			for (Taxonomy taxonomy : taxonomys) {
 				String tFile = String.format("content_%s_for:%s.html", module.getName(), taxonomy.getSlug());
-				if (TemplateManager.me().existsFile(tFile)) {
+				if (templateExists(tFile)) {
 					if (forSlug == null) {
 						forSlug = "for:" + taxonomy.getSlug();
 					} else {

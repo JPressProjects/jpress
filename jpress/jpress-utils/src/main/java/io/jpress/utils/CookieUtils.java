@@ -69,6 +69,10 @@ public class CookieUtils {
 		String encrypt_key = PropKit.get("encrypt_key");
 		String cookieValue = ctr.getCookie(key);
 
+		return getFromCookieInfo(encrypt_key, cookieValue);
+	}
+
+	public static String getFromCookieInfo(String encrypt_key, String cookieValue) {
 		if (StringUtils.isNotBlank(cookieValue)) {
 			String cookieStrings[] = cookieValue.split(COOKIE_SEPARATOR);
 			if (null != cookieStrings && 4 == cookieStrings.length) {

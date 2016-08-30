@@ -38,7 +38,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.IDataSourceProvider;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
@@ -174,7 +173,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		handlers.add(new ActionCacheHandler());
 		handlers.add(new JHandler());
 		handlers.add(new ActionCacheHandler());
-		DruidStatViewHandler druidViewHandler = new DruidStatViewHandler("/admin/druid");
+		MyDruidStatViewHandler druidViewHandler = new MyDruidStatViewHandler();
 		handlers.add(druidViewHandler);
 	}
 

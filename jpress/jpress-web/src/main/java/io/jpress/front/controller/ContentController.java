@@ -111,6 +111,7 @@ public class ContentController extends BaseFrontController {
 
 			if (forSlug != null) {
 				render(String.format("content_%s_%s.html", module.getName(), forSlug));
+				return;
 			}
 		}
 

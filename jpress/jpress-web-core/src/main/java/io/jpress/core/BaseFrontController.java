@@ -49,9 +49,9 @@ public class BaseFrontController extends JBaseController {
 	}
 
 	private void renderTemplate(String name) {
-		if(Jpress.isDevMode()){
-			System.out.println("render:template is "+TemplateManager.me().currentTemplate().getTitle());
-			System.out.println("render:template file is "+name);
+		if (Jpress.isDevMode()) {
+			System.out.println(String.format("render : template is \"%s\",template html is \"%s\"",
+					TemplateManager.me().currentTemplate().getTitle(), name));
 		}
 		super.render(TemplateManager.me().currentTemplate().getPath() + "/" + name);
 	}
@@ -63,7 +63,7 @@ public class BaseFrontController extends JBaseController {
 	public boolean templateExists(String htmlFileName) {
 		return TemplateManager.me().existsFile(htmlFileName);
 	}
-	
+
 	@Override
 	public Controller keepPara() {
 		super.keepPara();
@@ -72,9 +72,8 @@ public class BaseFrontController extends JBaseController {
 		if (StringUtils.isNotBlank(gotoUrl)) {
 			setAttr("goto", StringUtils.urlEncode(gotoUrl));
 		}
-		
+
 		return this;
 	}
-	
 
 }

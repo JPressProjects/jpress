@@ -403,6 +403,10 @@ public class ContentQuery extends JBaseQuery {
 	public Content findFirstByModuleAndObjectId(String module, BigInteger objectId) {
 		return DAO.doFindFirst("module = ? and object_id = ? order by id desc", module, objectId);
 	}
+	
+	public List<Content> findListByModuleAndObjectId(String module, BigInteger objectId) {
+		return DAO.doFind("module = ? and object_id = ? order by id desc", module, objectId);
+	}
 
 	public List<Content> searchByModuleAndTitle(String module, String title, int limit) {
 		return DAO.doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);

@@ -89,7 +89,7 @@ function openSetLayer(id,title){
 						<select class="form-control input-sm" name="taxonomy.parent_id">
 							<option value="0">无</option>
 							<#list taxonomys as t>
-								<#if taxonomy ??>
+								<#if taxonomy ?? && taxonomy.parentId ??>
 									<#if  t.id == taxonomy.parentId	>
 									<option value="${t.id}" selected="selected">${t.layerString}${t.title!}</option>
 									<#else>

@@ -252,7 +252,109 @@ tpl_setting.html
 * thumbnail 是缩略图，name是缩略图的名称，size是缩略图的大写。模板配置好缩略图后，当用户或管理员上传图片，图片会被剪切成模板定义的缩略图。
 
 ###模板标签
-目前JPress提供的有如下标签，今后会一直更新，所以标签有可能一直在增加或修改：
+
+JPress的标签分为全局标签和普通标签。
+
+JPress标签的规则如下：
+
+1. 全局标签全部使用大写；
+2. 普通标签的属性名都是驼峰命名法；
+
+
+
+### 全局标签：
+目前JPress提供的全局标签有如下，今后会一直更新，所以标签有可能一直在增加或修改：
+
+```
+REQUEST;
+CPATH;
+TPATH;
+CTPATH;
+SPATH;
+JPRESS_VERSION;
+WEB_NAME;
+WEB_TITLE;
+WEB_SUBTITLE;
+META_KEYWORDS;
+META_DESCRIPTION;
+```
+
+
+
+
+###全局标签的使用
+
+#### REQUEST
+http的request对象，可以通过request获取请求的相关数据。
+
+使用代码：
+
+```
+${REQUEST!} 
+```
+或者
+
+```
+${REQUEST.requestURI!} 
+```
+
+#### CPATH
+ContextPath的简写，当jpress放在子目录访问的时候，可以通过CPATH获取耳机目录的路径；
+
+使用代码：
+
+```
+${CPATH!} 
+```
+
+#### TPATH
+模板路径，当目录文件指定到某CSS/JS时，可以通过添加TPATH,正确指定到相应文件。
+
+使用代码：
+
+```
+${TPATH!} 
+```
+例如，在目录文件里的代如下：
+
+```
+ <link rel="stylesheet" href="${CPATH}/assets/css/app.css"/>
+```
+可以指定到当前目录目录的`/assets/css/app.css`下。
+
+#### CTPATH
+CTPATH = CPATH + TPATH ；
+
+使用代码：
+
+```
+${CTPATH!} 
+```
+
+#### SPATH
+静态文件目录；
+
+#### JPRESS_VERSION
+JPress版本
+
+#### WEB_NAME
+网站名称
+
+#### WEB_TITLE
+网页标题
+
+#### WEB_SUBTITLE
+网页子标题
+
+#### META_KEYWORDS
+网页关键字
+
+#### META_DESCRIPTION
+网页描述
+
+
+### 普通标签：
+目前JPress提供的普通标签有如下，今后会一直更新，所以标签有可能一直在增加或修改：
 
 ```
 IndexPageTag
@@ -283,7 +385,9 @@ PreviousContentTag
 * **NextContentTag** 下一篇内容，只能用于内容详情页
 * **PreviousContentTag** 上一篇内容，只能用于内容详情页
 
-###标签的使用
+
+###普通标签的使用
+
 
 ####IndexPageTag
 

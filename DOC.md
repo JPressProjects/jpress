@@ -104,14 +104,68 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 
 ## 模板开发
 
-###开发一个模板的helloworld
-
-如果您是新手，可以先看下视频教程 ： [http://www.yangfuhai.com/post/22.html](http://www.yangfuhai.com/post/22.html)
-
 开发一个全新的模板，主要有以下几个步骤：
-> 1. 建立模板配置文件 tpl_config.xml，用来说明模板的作者和模型。
-> 2. 建立一个tpl_screenshot.png图片，用来在JPress后台显示模板截图。
-> 3. 建立index.html 用来显示网站首页。
+
+
+ 1、 建立一个空的文件夹，用来存放模板文件，一般文件夹的名字用英文。
+ 
+ 2、 在这个文件建立一个`tpl_config.xml`文件，用来配置模板的信息和模型。
+  `tpl_config.xml`的内容如下：
+  
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<infos>
+		<id>模板ID</id>
+		<title>模板名称</title>
+		<description>模板描述</description>
+	</infos>
+	
+	<module title="文章" name="article" list="所有文章" add="撰写文章" comment="评论">
+		<taxonomy title="专题" name="category" />
+	</module>
+	
+</config>
+```
+说明：
+> 1. 通过infos类配置模板的信息，其中模板的id在整个jpress中必须唯一。
+> 2. 通过module来定义此模板支持的内容模型，
+> 3. 通过taxonomy定义了内容支持的分类类别。可能有些会支持比如：标签、分类、小组等多种分类。
+  
+ 3、 在这个文件建立一个`tpl_screenshot.png`图片，用来在JPress后台显示模板截图。
+ 
+ 4、 在这个文件建立`index.html`用来显示网站首页。`index.html`内容如下：
+ 
+ ```
+<!DOCTYPE html>
+<html>
+<head>
+  <title>${WEB_NAME!}</title>
+</head>
+<body>
+<!-- 此处的 module="article" 中的 article 要和模型中定义的name一致，表示读取该模型的内容-->
+<@indexPage module="article"> 
+	<#list page.getList() as content>
+		<a href="${content.url}">${content.title!}</a>
+	</#list>
+</@indexPage >
+</body>
+</html>
+ ```
+ 说明：
+> 1. ${WEB_NAME!} 用来读取后台设置的网站名称。
+> 2. \<@indexPage> </@indexPage> 用来读取内容的列表。 
+> 3. <#list> </#list> 用来循环显示其包含的内容。
+ 
+ 5、把这个文件夹压缩成为`.zip`的压缩包，进入JPress后台，通过模板管理的 安装 功能安装完毕该模板后，就可以使用该模板了。
+ 
+ 
+ 
+ 到此，一个完整的模板制作流程制作完毕。如果不太明白，也可以先看下视频教程 ： [http://www.yangfuhai.com/post/22.html](http://www.yangfuhai.com/post/22.html)
+ 
+
+
+
 
 ###模板结构
 JPress的模板主要分为如下几类：
@@ -210,8 +264,10 @@ TagsTag
 UsersTag
 UserContentPageTag
 ModulesTag
-MenuTag
+MenusTag
 ImageTag
+NextContentTag
+PreviousContentTag
 ```
 其中：
 
@@ -224,6 +280,8 @@ ImageTag
 * **MenuTag** 网站菜单，可以用于任何页面
 * **TaxonomysTag** 分类列表，可以用于任何页面
 * **TagsTag** 标签列表，可以用于任何页面
+* **NextContentTag** 下一篇内容，只能用于内容详情页
+* **PreviousContentTag** 上一篇内容，只能用于内容详情页
 
 ###标签的使用
 
@@ -267,6 +325,22 @@ indexPage标签属性：
 ContentPageTag标签 和 IndexPageTag标签 的用法完全一样，唯一的区别是：
 ContentPageTag标签 只能在分类页使用，即只能在taxonomy.html 或 taxonomy_*.html上使用。
 
+代码如下：
+
+```
+<@contentPage > 
+	<#list page.getList() as content>
+		<a href="${content.url}">${content.title}</a> <br />
+	</#list>
+	
+	<@pagination>
+		<#list pageItems as pItem>
+			<a href="${pItem.url}">${pItem.text}</a>
+		</#list>
+	</@pagination>
+</@contentPage>
+```
+
 ContentPageTag标签支持的属性如下：
 > * pagesize ： 每页显示的条数
 > * orderby ：排序的字段或方法
@@ -274,6 +348,22 @@ ContentPageTag标签支持的属性如下：
 #### UserContentPageTag 
 UserContentPageTag标签 和 IndexPageTag标签 的用法完全一样，唯一的区别是：
 UserContentPageTag标签 只能在用户中心使用，用于显示**登陆用户**的文章。
+
+代码如下：
+
+```
+<@userContentPage > 
+	<#list page.getList() as content>
+		<a href="${content.url}">${content.title}</a> <br />
+	</#list>
+	
+	<@pagination>
+		<#list pageItems as pItem>
+			<a href="${pItem.url}">${pItem.text}</a>
+		</#list>
+	</@pagination>
+</@userContentPage>
+```
 
 UserContentPageTag标签支持的属性如下：
 > * pagesize ： 每页显示的条数
@@ -285,10 +375,35 @@ UserContentPageTag标签支持的属性如下：
 #### CommnetPageTag
 CommnetPageTag标签用于显示内容的回复列表（或叫评论列表），只能在内容详情页面使用，即只能在content.html 或 content_*.html 上使用。
 
+代码如下：
+
+```
+<@commentPage > 
+	<#list page.getList() as content>
+		<a href="${content.url}">${content.title}</a> <br />
+	</#list>
+	
+	<@pagination>
+		<#list pageItems as pItem>
+			<a href="${pItem.url}">${pItem.text}</a>
+		</#list>
+	</@pagination>
+</@commentPage>
+```
+
 CommnetPageTag标签支持的属性如下：
 > * pagesize ： 每页显示的条数。
 
+#### ContentTag
+在任意地方显示谋篇文章内容。
 
+代码如下：
+
+```
+<@content id="123"> 
+	下一篇：<a href="${data.url}">${data.title}</a>
+</@content>
+```
 
 #### ContentsTag
 文章列表标签，可以在任意页面使用此标签。此标签不带分页功能。
@@ -296,11 +411,11 @@ CommnetPageTag标签支持的属性如下：
 代码如下：
 
 ```
-<@jp_contents module="article" count="3" orderby="comment_count" hasThumbnail="true"> 
-	<#list contents as content>
+<@contents module="article" count="3" orderBy="comment_count" hasThumbnail="true"> 
+	<#list datas as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list> 
-</@jp_contents>
+</@contents>
 ```
 
 代码解释：
@@ -325,17 +440,39 @@ ContentsTag标签支持的属性如下：
 
 
 #### TaxonomysTag
+用于显示分类内容。
+
+代码如下：
+
+```
+<@taxonomys>
+	<#list datas as taxonomy>
+		<a href="${taxonomy.url!}">${taxonomy.title!}</a>
+	</#list>
+</@taxonomys>
+```
 #### TagsTag
+用于显示TAG内容。
+
+代码如下：
+
+```
+<@tags>
+	<#list datas as tag>
+		<a href="${tag.url!}">${tag.title!}</a>
+	</#list>
+</@tags>
+```
 #### UsersTag
 
-#### MenuTag
+#### MenusTag
 网站菜单的标签。可以在任意页面使用，用于显示网站菜单导航。
 
 代码如下：
 
 ```
-<@jp_menu>
-	<#list menus as menu>
+<@menus>
+	<#list datas as menu>
 		<li >
 	        <a  href="${menu.url!}">
 	        	${menu.title!}
@@ -345,7 +482,7 @@ ContentsTag标签支持的属性如下：
         	</a>
        </li>
 	</#list>
-</@jp_menu>
+</@menus>
 ```
 代码解释：
 
@@ -355,6 +492,29 @@ ContentsTag标签支持的属性如下：
 </#if>
 ```
 这段代码表示当前页面是否属于该菜单下的内容，如果属于该菜单，则输出`<span class="x-a-border"></span>`，不属于则不输出。常用来显示导航高亮。
+
+
+#### NextContentTag
+该标签只能在内容详情页面使用，用来显示下一篇内容。
+
+代码如下：
+
+```
+<@next> 
+	下一篇：<a href="${data.url}">${data.title}</a>
+</@next>
+```
+
+#### PreviousContentTag
+该标签只能在内容详情页面使用，用来显示上一篇内容。
+
+代码如下：
+
+```
+<@previous> 
+	上一篇：<a href="${data.url}">${data.title}</a>
+</@previous>
+```
 
 ###模板设置
 

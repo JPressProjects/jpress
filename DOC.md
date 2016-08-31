@@ -532,16 +532,26 @@ ContentsTag标签支持的属性如下：
 > * module ：指定内容列表的模型
 > * style ： 指定内容列表的样式。
 > * flag ： 指定内容列表的flag标示。
-> * userid ： 指定内容列表的用户，即哪个用户发布的内容。
-> * parentid ： 
+> * userId ： 指定内容列表的用户，即哪个用户发布的内容。
+> * parentId ： 
 > * hasThumbnail ：指定内容列表是否必须包含或不包含缩略图。
 > * tag ： 指定哪个tag的内容列表。
-> * typeslug ：指定哪个分类下的内容列表。通过分类的slug来指定。
-> * typeid ： 指定哪个分类下的内容列表。通过分类的id来指定。
+> * typeSlug ：指定哪个分类下的内容列表。通过分类的slug来指定。
+> * typeId ： 指定哪个分类下的内容列表。通过分类的id来指定。
 > * keyword ： 指定哪个关键字的内容列表。
 > * orderby ： 指定内容列表的排序方式。
 > * count ： 指定内容列表的总数量。
 
+#### TaxonomyTag
+用于读取某个分类信息。
+
+代码如下：
+
+```
+<@taxonomy id="1" > 
+	<a href="${data.url}">${data.title}</a>
+</@taxonomy>
+```
 
 #### TaxonomysTag
 用于显示分类内容。

@@ -31,6 +31,7 @@ import io.jpress.ui.freemarker.tag.ContentTag;
 import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModulesTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
+import io.jpress.ui.freemarker.tag.TaxonomyTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
 import io.jpress.ui.freemarker.tag.UsersTag;
 import io.jpress.utils.StringUtils;
@@ -49,6 +50,7 @@ public class Config extends JpressConfig {
 		Jpress.addTag(ContentTag.TAG_NAME, new ContentTag());
 		Jpress.addTag(ModulesTag.TAG_NAME, new ModulesTag());
 		Jpress.addTag(TagsTag.TAG_NAME, new TagsTag());
+		Jpress.addTag(TaxonomyTag.TAG_NAME, new TaxonomyTag());
 		Jpress.addTag(TaxonomysTag.TAG_NAME, new TaxonomysTag());
 		Jpress.addTag(ArchivesTag.TAG_NAME, new ArchivesTag());
 		Jpress.addTag(UsersTag.TAG_NAME, new UsersTag());

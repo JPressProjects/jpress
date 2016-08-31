@@ -34,6 +34,8 @@ import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.CommentPageTag;
 import io.jpress.ui.freemarker.tag.MenuTag;
+import io.jpress.ui.freemarker.tag.NextContentTag;
+import io.jpress.ui.freemarker.tag.PreviousContentTag;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = Consts.ROUTER_CONTENT)
@@ -79,11 +81,13 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("p", page);
 		setAttr("content", content);
-		setAttr("nextContent", ContentQuery.me().findNext(content));
-		setAttr("previousContent", ContentQuery.me().findPrevious(content));
+		
+		setAttr("next", new NextContentTag(content));
+		setAttr("previous", new PreviousContentTag(content));
+		
 		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
-		setAttr("commentPageTag", new CommentPageTag(getRequest(), content, page));
+		setAttr("commentPage", new CommentPageTag(getRequest(), content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);

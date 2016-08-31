@@ -33,7 +33,7 @@ import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.CommentPageTag;
-import io.jpress.ui.freemarker.tag.MenuTag;
+import io.jpress.ui.freemarker.tag.MenusTag;
 import io.jpress.ui.freemarker.tag.NextContentTag;
 import io.jpress.ui.freemarker.tag.PreviousContentTag;
 import io.jpress.utils.StringUtils;
@@ -91,7 +91,7 @@ public class ContentController extends BaseFrontController {
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);
-		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys, content));
+		setAttr(MenusTag.TAG_NAME, new MenusTag(getRequest(), taxonomys, content));
 
 		String style = content.getStyle();
 		if (StringUtils.isNotBlank(style)) {

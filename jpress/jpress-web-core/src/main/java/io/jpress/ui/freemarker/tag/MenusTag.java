@@ -33,23 +33,25 @@ import io.jpress.model.vo.NavigationMenu;
 import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
-public class MenuTag extends JTag {
+public class MenusTag extends JTag {
+	
+	public static final String TAG_NAME = "menus";
 
 	private List<Taxonomy> currentTaxonomys;
 	private Content currentContent;
 	private HttpServletRequest request;
 
-	public MenuTag(HttpServletRequest request) {
+	public MenusTag(HttpServletRequest request) {
 		this.request = request;
 	}
 
-	public MenuTag(HttpServletRequest request, List<Taxonomy> taxonomys, Content content) {
+	public MenusTag(HttpServletRequest request, List<Taxonomy> taxonomys, Content content) {
 		this.request = request;
 		this.currentTaxonomys = taxonomys;
 		this.currentContent = content;
 	}
 
-	public MenuTag(HttpServletRequest request, Taxonomy taxonomy) {
+	public MenusTag(HttpServletRequest request, Taxonomy taxonomy) {
 		this.request = request;
 		currentTaxonomys = new ArrayList<Taxonomy>();
 		currentTaxonomys.add(taxonomy);
@@ -85,7 +87,7 @@ public class MenuTag extends JTag {
 			menulist.add(new NavigationMenu(c, activeClass));
 		}
 
-		setVariable("menus", menulist);
+		setVariable("datas", menulist);
 		renderBody();
 	}
 

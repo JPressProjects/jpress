@@ -42,10 +42,10 @@ public class UserContentPageTag extends JTag {
 	public void onRender() {
 
 		String module = getParam("module");
-		BigInteger taxonomyId = getParamToBigInteger("taxonomyid");
+		BigInteger taxonomyId = getParamToBigInteger("taxonomyId");
 
-		int pageSize = getParamToInt("pagesize", 10);
-		String orderby = getParam("orderby");
+		int pageSize = getParamToInt("pageSize", 10);
+		String orderby = getParam("orderBy");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
 		BigInteger[] tids = taxonomyId == null ? null : new BigInteger[] { taxonomyId };

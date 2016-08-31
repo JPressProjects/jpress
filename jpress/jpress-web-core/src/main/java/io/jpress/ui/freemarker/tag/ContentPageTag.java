@@ -52,8 +52,8 @@ public class ContentPageTag extends JTag {
 	@Override
 	public void onRender() {
 
-		int pagesize = getParamToInt("pagesize", 10);
-		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderby") : orderBy;
+		int pagesize = getParamToInt("pageSize", 10);
+		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderBy") : orderBy;
 
 		Map<String, List<BigInteger>> map = null;
 

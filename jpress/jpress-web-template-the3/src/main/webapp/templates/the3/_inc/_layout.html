@@ -35,12 +35,12 @@
             <nav  class="navbar-collapse collapse jp-collapse" aria-expanded="true">
 
                     <ul class="nav navbar-nav jp-navbar-nav jp-navbar">
-				      	<#if "/" == _request.requestURI!>
+				      	<#if "/" == REQUEST.requestURI!>
 				      	 <li class="active"><a href="${CPATH}/"">首页</a></li>
 				      	 <#else>
 				      	 <li><a href="${CPATH}/"">首页</a></li>
 				      	</#if>
-				      	<@jp_menu>
+				      	<@menus>
 				        	<#list menus as menu>
 				        		<#if menu.flag ??>
 				        			<li class="active"><a href="${menu.text!}">${menu.title}</a></li>
@@ -48,7 +48,7 @@
 				        			<li><a href="${menu.text!}">${menu.title}</a></li>
 				        		</#if>
 				        	</#list>
-				        </@jp_menu>
+				        </@menus>
         
                     </ul>
                     <ul class="nav navbar-nav jp-navbar-nav display-none-1200 pull-right">

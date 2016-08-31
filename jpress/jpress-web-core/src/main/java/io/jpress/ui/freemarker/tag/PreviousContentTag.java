@@ -37,7 +37,7 @@ public class PreviousContentTag extends JTag {
 			return;
 		}
 
-		setVariable("content", content);
+		setVariable("data", content);
 		renderBody();
 	}
 

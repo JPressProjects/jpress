@@ -32,10 +32,10 @@ import io.jpress.ui.freemarker.tag.ContentsTag;
 import io.jpress.ui.freemarker.tag.ModulesTag;
 import io.jpress.ui.freemarker.tag.TagsTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
+import io.jpress.ui.freemarker.tag.UsersTag;
 import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
-
 
 	@Override
 	public void onJfinalStartBefore() {
@@ -45,12 +45,13 @@ public class Config extends JpressConfig {
 	@Override
 	public void onJfinalStartAfter() {
 
-		Jpress.addTag("jp_contents", new ContentsTag());
-		Jpress.addTag("jp_content", new ContentTag());
-		Jpress.addTag("jp_modules", new ModulesTag());
-		Jpress.addTag("jp_tags", new TagsTag());
-		Jpress.addTag("jp_taxonomys", new TaxonomysTag());
-		Jpress.addTag("jp_archives", new ArchivesTag());
+		Jpress.addTag(ContentsTag.TAG_NAME, new ContentsTag());
+		Jpress.addTag(ContentTag.TAG_NAME, new ContentTag());
+		Jpress.addTag(ModulesTag.TAG_NAME, new ModulesTag());
+		Jpress.addTag(TagsTag.TAG_NAME, new TagsTag());
+		Jpress.addTag(TaxonomysTag.TAG_NAME, new TaxonomysTag());
+		Jpress.addTag(ArchivesTag.TAG_NAME, new ArchivesTag());
+		Jpress.addTag(UsersTag.TAG_NAME, new UsersTag());
 
 		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
 		Jpress.addFunction("option", new OptionValue());
@@ -58,7 +59,7 @@ public class Config extends JpressConfig {
 
 		doSearcherConfig();
 		MessageKit.sendMessage(Actions.JPRESS_STARTED);
-		
+
 	}
 
 	private void doSearcherConfig() {

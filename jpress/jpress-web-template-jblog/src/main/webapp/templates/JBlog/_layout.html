@@ -59,13 +59,13 @@
     <div class="jblog-nav-content">
       <ul>
       	<li><a href="${CPATH}/">首页
-      	<#if "/" == _request.requestURI!>
+      	<#if "/" == REQUEST.requestURI!>
       	<span class="x-a-border"></span>
       	</#if>
       	</a>
       	</li>
-      	<@jp_menu>
-        	<#list menus as menu>
+      	<@menus>
+        	<#list datas as menu>
         		<li >
         		<a  href="${menu.url!}">
         		${menu.title!}
@@ -75,7 +75,7 @@
         		</a>
         		</li>
         	</#list>
-        </@jp_menu>
+        </@menus>
       </ul>
     </div>
   </div>

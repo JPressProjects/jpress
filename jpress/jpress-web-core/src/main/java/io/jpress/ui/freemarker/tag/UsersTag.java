@@ -22,17 +22,18 @@ import io.jpress.model.User;
 import io.jpress.model.query.UserQuery;
 
 public class UsersTag extends JTag {
+	public static final String TAG_NAME = "users";
 
 	@Override
 	public void onRender() {
 
 		int page = getParamToInt("page", 1);
-		int pagesize = getParamToInt("pagesize", 10);
+		int pagesize = getParamToInt("pageSize", 10);
 		String gender = getParam("gender");
 		String role = getParam("role");
 		String status = getParam("status", "normal");
 
-		String orderBy = getParam("orderby");
+		String orderBy = getParam("orderBy");
 
 		List<User> list = UserQuery.me().findList(page, pagesize, gender, role, status, orderBy);
 		if (list == null || list.size() == 0) {
@@ -40,7 +41,7 @@ public class UsersTag extends JTag {
 			return;
 		}
 
-		setVariable("users", list);
+		setVariable("datas", list);
 		renderBody();
 	}
 

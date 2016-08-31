@@ -6,9 +6,9 @@
 		<@indexPage module="article"> 
 		
 		<#if page.isFirstPage() > 
-		<@jp_contents flag="hot" module="article" count="3" >
+		<@contents flag="hot" module="article" count="3" >
 			<div class="x-layout-100 clearfix" style="height:260px;">
-	           	<#list contents as content>
+	           	<#list datas as content>
 	           	<#if content?is_first >
 				<div class="x-pull-left x-layout-70 image-box">
 			        <div class="yfh-banner-image">
@@ -35,7 +35,7 @@
 				</#if>
 				</#list>
 			</div>
-		</@jp_contents>
+		</@contents>
 		</#if>
 		
 		<#list page.getList() as content>

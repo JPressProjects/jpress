@@ -23,6 +23,8 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
 
 public class TaxonomysTag extends JTag {
+	
+	public static final String TAG_NAME = "taxonomys";
 
 	private List<Taxonomy> filterList;
 
@@ -42,9 +44,9 @@ public class TaxonomysTag extends JTag {
 		String module = getParam("module");
 		String activeClass = getParam("activeClass", "active");
 		String type = getParam("type");
-		String orderby = getParam("orderby");
+		String orderby = getParam("orderBy");
 
-		BigInteger parentId = getParamToBigInteger("parentid");
+		BigInteger parentId = getParamToBigInteger("parentId");
 
 		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, parentId, count);
 		if (filterList != null && list != null && list.size() > 0) {
@@ -52,7 +54,7 @@ public class TaxonomysTag extends JTag {
 				taxonomy.initFilterList(filterList, activeClass);
 			}
 		}
-		setVariable("taxonomys", list);
+		setVariable("datas", list);
 		renderBody();
 	}
 

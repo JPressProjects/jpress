@@ -38,7 +38,7 @@ public class SearchResultPageTag extends JTag {
 	@Override
 	public void onRender() {
 
-		int pagesize = getParamToInt("pagesize", 10);
+		int pagesize = getParamToInt("pageSize", 10);
 
 		Page<SearcherBean> page = SearcherKit.search(keyword, moduleName, pageNumber, pagesize);
 		setVariable("page", page);

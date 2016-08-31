@@ -48,12 +48,12 @@ public class IndexPageTag extends JTag {
 	@Override
 	public void onRender() {
 
-		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderby") : orderBy;
+		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderBy") : orderBy;
 		String keyword = getParam("keyword");
 
-		int pagesize = getParamToInt("pagesize", 10);
+		int pagesize = getParamToInt("pageSize", 10);
 
-		BigInteger[] typeIds = getParamToBigIntegerArray("typeid");
+		BigInteger[] typeIds = getParamToBigIntegerArray("typeId");
 		String[] modules = getParamToStringArray("module");
 		String status = getParam("status", Content.STATUS_NORMAL);
 

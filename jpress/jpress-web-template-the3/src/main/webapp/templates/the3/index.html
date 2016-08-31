@@ -17,12 +17,12 @@ var swiper = new Swiper('.swiper-container', {
               <section class="side-tag">
                   <h5 class="side-left-head">feature tag</h5>
                   <dl class="dl-horizontal">
-                  	   <@jp_tags > 
+                  	   <@tags > 
                   	   <#list tags as tag>
 						<dt><i class="fa fa-mobile fa-2x"></i></dt>
                         <dd><a href="${CPATH!}${tag.url!}">${tag.title!}</a>(${tag.content_count!})</dd>
 						</#list> 
-						</@jp_tags >
+						</@tags >
                   </dl>
               </section>
             <section class="side-tag">
@@ -37,7 +37,7 @@ var swiper = new Swiper('.swiper-container', {
                         <div class="jp-art-main">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                	 <@jp_contents  module="article" flag="hot">
+                                	 <@contents  module="article" flag="hot">
            							 <#list contents as content>
                                     <div class="swiper-slide">
                                         <img class="jp-width100 jp-img-maxh" src="${content.thumbnail!}"/>
@@ -51,7 +51,7 @@ var swiper = new Swiper('.swiper-container', {
                                         </div>
                                      </div>
                                      </#list>
-            						</@jp_contents>
+            						</@contents>
                                 </div>
                                 <!-- Add Pagination -->
                                 <div class="swiper-pagination"></div>
@@ -64,7 +64,7 @@ var swiper = new Swiper('.swiper-container', {
                 </div>
             </article>
 
-            <@jp_contents  module="article">
+            <@contents  module="article">
             <#list contents as content>
             <article class="content">
                 <div class="row">
@@ -92,7 +92,7 @@ var swiper = new Swiper('.swiper-container', {
                 </div>
             </article>
             </#list>
-            </@jp_contents>
+            </@contents>
             
         </section>
         <aside class="col-md-3 display-none-992 jp-common main-side">

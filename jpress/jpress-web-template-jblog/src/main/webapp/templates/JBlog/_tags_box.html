@@ -3,9 +3,11 @@
 		热门标签 <span class="x-title-border"></span>
 	</h3>
 	<ul class="x-tag">
-		<@jp_tags > <#list tags as tag>
-		<li>
-			<a href="${tag.url!}">${tag.title!}</a>
-		</li>
-		</#list> </@jp_tags >
+		<@tags > 
+			<#list datas as tag>
+			<li>
+				<a href="${tag.url!}">${tag.title!}</a>
+			</li>
+			</#list> 
+		</@tags >
 </div>

@@ -31,7 +31,7 @@ import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.ui.freemarker.tag.ContentPageTag;
-import io.jpress.ui.freemarker.tag.MenuTag;
+import io.jpress.ui.freemarker.tag.MenusTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
 import io.jpress.utils.StringUtils;
 
@@ -76,12 +76,12 @@ public class TaxonomyController extends BaseFrontController {
 		setAttr("module", module);
 
 		setGlobleAttrs(taxonomys);
-		setAttr("jp_menu", new MenuTag(getRequest(), taxonomys, null));
-		setAttr("jp_taxonomys", new TaxonomysTag(taxonomys));
+		setAttr(MenusTag.TAG_NAME, new MenusTag(getRequest(), taxonomys, null));
+		setAttr(TaxonomysTag.TAG_NAME, new TaxonomysTag(taxonomys));
 
 		if (taxonomy != null) {
 			Content c = ContentQuery.me().findFirstByModuleAndObjectId(Consts.MODULE_MENU, taxonomy.getId());
-			setAttr("jp_current_menu", c);
+			setAttr("currentMenu", c);
 		}
 		
 		String order = getPara("order"); 

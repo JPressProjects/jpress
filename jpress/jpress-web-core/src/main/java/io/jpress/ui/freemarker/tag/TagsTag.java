@@ -23,6 +23,7 @@ import io.jpress.model.Taxonomy;
 import io.jpress.model.query.TaxonomyQuery;
 
 public class TagsTag extends JTag {
+	public static final String TAG_NAME = "tags";
 
 	@Override
 	public void onRender() {
@@ -30,11 +31,11 @@ public class TagsTag extends JTag {
 		int count = getParamToInt("count", 0);
 		count = count <= 0 ? 10 : count;
 
-		String orderby = getParam("orderby");
+		String orderby = getParam("orderBy");
 
 		String module = getParam("module", Consts.MODULE_ARTICLE);
 		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, "tag", orderby, null, count);
-		setVariable("tags", list);
+		setVariable("datas", list);
 
 		renderBody();
 	}

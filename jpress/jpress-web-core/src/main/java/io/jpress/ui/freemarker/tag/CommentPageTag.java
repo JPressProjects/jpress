@@ -42,7 +42,7 @@ public class CommentPageTag extends JTag {
 	@Override
 	public void onRender() {
 
-		int pageSize = getParamToInt("pagesize", 10);
+		int pageSize = getParamToInt("pageSize", 10);
 
 		Page<Comment> page = CommentQuery.me().paginateByContentId(pageNumber, pageSize, content.getId());
 		setVariable("page", page);

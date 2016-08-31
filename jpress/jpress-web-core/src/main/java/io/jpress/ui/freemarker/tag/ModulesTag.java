@@ -23,6 +23,8 @@ import io.jpress.template.Template;
 import io.jpress.template.TemplateManager;
 
 public class ModulesTag extends JTag {
+	
+	public static final String TAG_NAME = "modules";
 
 	@Override
 	public void onRender() {
@@ -31,7 +33,7 @@ public class ModulesTag extends JTag {
 
 		if (t != null) {
 			List<TplModule> modules = t.getModules();
-			setVariable("modules", modules);
+			setVariable("datas", modules);
 			renderBody();
 		} else {
 			renderText("");

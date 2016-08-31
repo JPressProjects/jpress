@@ -26,7 +26,7 @@ import io.jpress.install.InstallUtils;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterManager;
 import io.jpress.template.TemplateManager;
-import io.jpress.ui.freemarker.tag.MenuTag;
+import io.jpress.ui.freemarker.tag.MenusTag;
 import io.jpress.utils.FileUtils;
 
 public class JHandler extends Handler {
@@ -36,7 +36,7 @@ public class JHandler extends Handler {
 
 		String CPATH = request.getContextPath();
 
-		request.setAttribute("_request", request);
+		request.setAttribute("REQUEST", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");
 		request.setAttribute("JPRESS_VERSION", Jpress.VERSION);
@@ -102,7 +102,7 @@ public class JHandler extends Handler {
 
 	private void setGlobalAttrs(HttpServletRequest request) {
 
-		request.setAttribute("jp_menu", new MenuTag(request));
+		request.setAttribute(MenusTag.TAG_NAME, new MenusTag(request));
 
 		if (null != TemplateManager.me().currentTemplate()) {
 			request.setAttribute("TPATH", TemplateManager.me().currentTemplate().getPath());

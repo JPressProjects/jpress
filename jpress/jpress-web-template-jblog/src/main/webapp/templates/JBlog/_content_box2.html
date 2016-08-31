@@ -2,8 +2,8 @@
 	<h3 class="x-box-title">
 		推荐文章 <span class="x-title-border"></span>
 	</h3>
-	<@jp_contents  module="article" count="10" orderby="view_count" hasThumbnail="true"> 
-	<#list contents as content> 
+	<@contents  module="article" count="10" orderBy="view_count" hasThumbnail="true"> 
+	<#list datas as content> 
 	<#if content?is_first >
 	<div class="x-layout-100 person-relative image-box">
 
@@ -27,7 +27,7 @@
 			</p>
 		</div>
 		<div class="x-layout-68 x-pull-right">
-			<p class="right-box-title">${(content.title)!}</p>
+			<p class="right-box-title"><a href="${(content.url)!}">${(content.title)!}</a></p>
 			<div class="x-layout-100 x-font-small x-font-grey">
 				<i class="fa fa-clock-o" aria-hidden="true"></i>
 				${(content.created)!}
@@ -36,5 +36,5 @@
 	</div>
 	</#if> 
 	</#list> 
-	</@jp_contents>
+	</@contents>
 </div>

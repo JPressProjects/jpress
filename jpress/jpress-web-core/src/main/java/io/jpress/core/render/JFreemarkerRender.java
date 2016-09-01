@@ -36,6 +36,7 @@ import com.jfinal.render.RenderException;
 
 import freemarker.template.Template;
 import io.jpress.Consts;
+import io.jpress.core.Jpress;
 import io.jpress.core.cache.ActionCacheManager;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
@@ -46,23 +47,48 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		super(view);
 	}
 
+	@SuppressWarnings("rawtypes")
+	public void renderWithoutCache(Map data) {
+		PrintWriter writer = null;
+		try {
+			Template template = getConfiguration().getTemplate(view);
+			writer = response.getWriter();
+			template.process(data, writer); // Merge the data-model and the
+											// template
+		} catch (Exception e) {
+			throw new RenderException(e);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void render() {
 
-		if (!ActionCacheManager.isEnableCache(request)) {
-			super.render();
-			return;
-		}
-
-		response.setContentType(ActionCacheManager.getCacheContentType(request));
+		Map<String, Object> jpressTags = new HashMap<String, Object>();
+		jpressTags.putAll(Jpress.jpressTags);
 
 		Map data = new HashMap();
 		for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements();) {
 			String attrName = attrs.nextElement();
-			data.put(attrName, request.getAttribute(attrName));
+			if (attrName.startsWith("jp.")) {
+				jpressTags.put(attrName.substring(3), request.getAttribute(attrName));
+			} else {
+				data.put(attrName, request.getAttribute(attrName));
+			}
 		}
 
+		data.put("jp", jpressTags);
+
+		if (!ActionCacheManager.isEnableCache(request)) {
+			response.setContentType(getContentType());
+			renderWithoutCache(data);
+			return;
+		}
+
+		response.setContentType(ActionCacheManager.getCacheContentType(request));
 		PrintWriter responseWriter = null;
 		try {
 			String htmlContent = getHtmlContent(data);

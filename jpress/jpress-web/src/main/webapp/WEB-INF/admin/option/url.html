@@ -32,7 +32,7 @@
 						</div>
 						<div class="col-sm-9  ">
 							<div class="col-sm-6  ">
-								<input class="form-control input-md" type="text" name="router_content_prefix" value="${option('router_content_prefix')!}"> 默认为“c”（content的首字母）
+								<input class="form-control input-md" type="text" name="router_content_prefix" value="${OPTION('router_content_prefix')!}"> 默认为“c”（content的首字母）
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -41,7 +41,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_dynamic_id" name="router_content_type" ${checked('router_content_type','_dynamic_id')}> 动态ID类型
+								<label class="jp-set-info"> <input type="radio" value="_dynamic_id" name="router_content_type" ${OPTION_CHECKED('router_content_type','_dynamic_id')}> 动态ID类型
 								</label>
 							</div>
 						</div>
@@ -56,7 +56,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_dynamic_slug" name="router_content_type" ${checked('router_content_type','_dynamic_slug')}> 动态SLUG类型
+								<label class="jp-set-info"> <input type="radio" value="_dynamic_slug" name="router_content_type" ${OPTION_CHECKED('router_content_type','_dynamic_slug')}> 动态SLUG类型
 								</label>
 							</div>
 						</div>
@@ -70,7 +70,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_prefix_id" name="router_content_type" ${checked('router_content_type','_static_prefix_id')}> 静态前缀ID类型
+								<label class="jp-set-info"> <input type="radio" value="_static_prefix_id" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_prefix_id')}> 静态前缀ID类型
 								</label>
 							</div>
 						</div>
@@ -85,7 +85,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_prefix_slug" name="router_content_type" ${checked('router_content_type','_static_prefix_slug')}> 静态前缀SLUG类型
+								<label class="jp-set-info"> <input type="radio" value="_static_prefix_slug" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_prefix_slug')}> 静态前缀SLUG类型
 								</label>
 							</div>
 						</div>
@@ -100,7 +100,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input  type="radio" value="_static_date_id" name="router_content_type" ${checked('router_content_type','_static_date_id')}> 静态日期ID类型
+								<label class="jp-set-info"> <input  type="radio" value="_static_date_id" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_date_id')}> 静态日期ID类型
 								</label>
 							</div>
 						</div>
@@ -115,7 +115,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input  type="radio" value="_static_date_slug" name="router_content_type" ${checked('router_content_type','_static_date_slug')}> 静态日期SLUG类型
+								<label class="jp-set-info"> <input  type="radio" value="_static_date_slug" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_date_slug')}> 静态日期SLUG类型
 								</label>
 							</div>
 						</div>
@@ -130,7 +130,7 @@
 					<li class="jp-set-pad">
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_module_id" name="router_content_type" ${checked('router_content_type','_static_module_id')}> 静态模型ID类型
+								<label class="jp-set-info"> <input type="radio" value="_static_module_id" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_module_id')}> 静态模型ID类型
 								</label>
 							</div>
 						</div>
@@ -145,7 +145,7 @@
 					<li class="jp-set-pad" >
 						<div class="col-sm-3 ">
 							<div class="radio ">
-								<label class="jp-set-info"> <input type="radio" value="_static_module_slug" name="router_content_type" ${checked('router_content_type','_static_module_slug')}> 静态模型SLUG类型
+								<label class="jp-set-info"> <input type="radio" value="_static_module_slug" name="router_content_type" ${OPTION_CHECKED('router_content_type','_static_module_slug')}> 静态模型SLUG类型
 								</label>
 							</div>
 						</div>
@@ -170,7 +170,7 @@
 						<div class="col-sm-3  jp-line-height40 jp-set-info">启用伪静态</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6  ">
-								<label> <input type="checkbox"  value="true" name="router_fakestatic_enable" ${checked('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
+								<label> <input type="checkbox"  value="true" name="router_fakestatic_enable" ${OPTION_CHECKED('router_fakestatic_enable','true')}/> <span class="jp-set-info"> 开启</span>
 								</label>
 							</div>
 						</div>
@@ -181,7 +181,7 @@
 						<div class="col-sm-3 jp-line-height40 jp-set-info"> <span class="jp-set-info"> 后缀</span></div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6  ">
-								<input class="form-control input-md" placeholder=".html" type="text" name="router_fakestatic_suffix" value="${option('router_fakestatic_suffix')!}">
+								<input class="form-control input-md" placeholder=".html" type="text" name="router_fakestatic_suffix" value="${OPTION('router_fakestatic_suffix')!}">
 								不填写默认是 .html
 							</div>
 						</div>

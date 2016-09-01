@@ -24,7 +24,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox" name="register_email_valid_enable" value="true"${checked('register_email_valid_enable')}  > <span class="jp-set-info"> 启用</span></label>
+								<label><input class=" " type="checkbox" name="register_email_valid_enable" value="true"${OPTION_CHECKED('register_email_valid_enable')}  > <span class="jp-set-info"> 启用</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -34,7 +34,7 @@
 						<div class="col-sm-3  jp-set-info">邮件模板</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<textarea name="register_email_valid_content" rows="3" class="form-control input-md">${option('register_email_valid_content')!}</textarea>
+								<textarea name="register_email_valid_content" rows="3" class="form-control input-md">${OPTION('register_email_valid_content')!}</textarea>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -46,7 +46,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<label><input class=" " type="checkbox" name="register_sms_valid_enable" value="true"${checked('register_sms_valid_enable')}  ><span class="jp-set-info"> 启用</span></label>
+								<label><input class=" " type="checkbox" name="register_sms_valid_enable" value="true"${OPTION_CHECKED('register_sms_valid_enable')}  ><span class="jp-set-info"> 启用</span></label>
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -56,7 +56,7 @@
 						<div class="col-sm-3  jp-set-info">短信模板</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<textarea name="register_sms_valid_content" rows="3" class="form-control input-md">${option('register_sms_valid_content')!}</textarea>
+								<textarea name="register_sms_valid_content" rows="3" class="form-control input-md">${OPTION('register_sms_valid_content')!}</textarea>
 								请先在 <a href="${CPATH}/admin/option/notification?p=option&c=n">[通知]</a> 开启短信验证后才能使用。
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_qq_appkey" value="${option('oauth2_qq_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_qq_appkey" value="${OPTION('oauth2_qq_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -88,7 +88,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_qq_appsecret" value="${option('oauth2_qq_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_qq_appsecret" value="${OPTION('oauth2_qq_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -100,7 +100,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_wechat_appkey" value="${option('oauth2_wechat_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_wechat_appkey" value="${OPTION('oauth2_wechat_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -111,7 +111,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_wechat_appsecret" value="${option('oauth2_wechat_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_wechat_appsecret" value="${OPTION('oauth2_wechat_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -123,7 +123,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_weibo_appkey" value="${option('oauth2_weibo_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_weibo_appkey" value="${OPTION('oauth2_weibo_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -134,7 +134,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_weibo_appsecret" value="${option('oauth2_weibo_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_weibo_appsecret" value="${OPTION('oauth2_weibo_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -146,7 +146,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_oschina_appkey" value="${option('oauth2_oschina_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_oschina_appkey" value="${OPTION('oauth2_oschina_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -157,7 +157,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_oschina_appsecret" value="${option('oauth2_oschina_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_oschina_appsecret" value="${OPTION('oauth2_oschina_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -169,7 +169,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_github_appkey" value="${option('oauth2_github_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_github_appkey" value="${OPTION('oauth2_github_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -180,7 +180,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_github_appsecret" value="${option('oauth2_github_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_github_appsecret" value="${OPTION('oauth2_github_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -192,7 +192,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_facebook_appkey" value="${option('oauth2_facebook_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_facebook_appkey" value="${OPTION('oauth2_facebook_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -203,7 +203,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_facebook_appsecret" value="${option('oauth2_facebook_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_facebook_appsecret" value="${OPTION('oauth2_facebook_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -215,7 +215,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_twitter_appkey" value="${option('oauth2_twitter_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_twitter_appkey" value="${OPTION('oauth2_twitter_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -226,7 +226,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_twitter_appsecret" value="${option('oauth2_twitter_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_twitter_appsecret" value="${OPTION('oauth2_twitter_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -238,7 +238,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_linkedin_appkey" value="${option('oauth2_linkedin_appkey')!}">
+								<input class="form-control input-md" type="text" name="oauth2_linkedin_appkey" value="${OPTION('oauth2_linkedin_appkey')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -249,7 +249,7 @@
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="oauth2_linkedin_appsecret" value="${option('oauth2_linkedin_appsecret')!}">
+								<input class="form-control input-md" type="text" name="oauth2_linkedin_appsecret" value="${OPTION('oauth2_linkedin_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>

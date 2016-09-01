@@ -24,7 +24,7 @@ import io.jpress.model.query.TaxonomyQuery;
 
 public class TaxonomysTag extends JTag {
 	
-	public static final String TAG_NAME = "taxonomys";
+	public static final String TAG_NAME = "jp.taxonomys";
 
 	private List<Taxonomy> filterList;
 
@@ -54,7 +54,7 @@ public class TaxonomysTag extends JTag {
 				taxonomy.initFilterList(filterList, activeClass);
 			}
 		}
-		setVariable("datas", list);
+		setVariable("taxonomys", list);
 		renderBody();
 	}
 

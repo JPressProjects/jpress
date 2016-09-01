@@ -24,7 +24,7 @@ import io.jpress.utils.StringUtils;
 
 public class TaxonomyTag extends JTag {
 
-	public static final String TAG_NAME = "taxonomy";
+	public static final String TAG_NAME = "jp.taxonomy";
 
 	@Override
 	public void onRender() {
@@ -48,7 +48,7 @@ public class TaxonomyTag extends JTag {
 			return;
 		}
 
-		setVariable("data", taxonomy);
+		setVariable("taxonomy", taxonomy);
 		renderBody();
 	}
 

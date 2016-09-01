@@ -35,7 +35,7 @@ import io.jpress.utils.StringUtils;
 
 public class MenusTag extends JTag {
 	
-	public static final String TAG_NAME = "menus";
+	public static final String TAG_NAME = "jp.menus";
 
 	private List<Taxonomy> currentTaxonomys;
 	private Content currentContent;
@@ -87,7 +87,7 @@ public class MenusTag extends JTag {
 			menulist.add(new NavigationMenu(c, activeClass));
 		}
 
-		setVariable("datas", menulist);
+		setVariable("menus", menulist);
 		renderBody();
 	}
 

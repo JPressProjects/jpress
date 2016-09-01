@@ -56,13 +56,12 @@ function reply(id){
 				</p>
 	  </div>
       <div class="x-details-content x-padding-top-10 x-padding-bottom-10 aritcle">
-      
         ${content.text!}
         
-        <#if option('jpblog_wechat_pay_enable')?? && option('jpblog_wechat_pay_enable')=='true'>
+        <#if OPTION('jpblog_wechat_pay_enable')?? && OPTION('jpblog_wechat_pay_enable')=='true'>
         <div class="reward-content">
-          <p><img src="${CPATH}${option('jpblog_wechat_pay_image')!}"/> </p>
-          <p>${option('jpblog_wechat_pay_tips')!'打赏一个呗~~'}</p>
+          <p><img src="${CPATH}${OPTION('jpblog_wechat_pay_image')!}"/> </p>
+          <p>${OPTION('jpblog_wechat_pay_tips')!'打赏一个呗~~'}</p>
         </div>
         </#if>
 
@@ -81,7 +80,7 @@ function reply(id){
       <div class="x-layout-100 clearfix">
         <textarea name="text" class="x-layout-100 x-border-grey x-box-border x-padding-5 x-item-space-8 body-bacground" placeholder="说点什么吧..."></textarea>
       </div>
-      <#if option('comment_need_captcha') ?? && option('comment_need_captcha')=='true'>
+      <#if OPTION('comment_need_captcha') ?? && OPTION('comment_need_captcha')=='true'>
       <div class="x-layout-100 clearfix login-box ">
 		<p class="x-pull-left x-layout-10 login-box-title">验证码：</p>
 		<p class="x-pull-left x-layout-20"><input type="text" name="comment_captcha"></p>
@@ -95,7 +94,7 @@ function reply(id){
     </form>
     </#if>
     <!-- -->
-    <@commentPage pageSize="10">
+    <@jp.commentPage pageSize="10">
      <#if page ??> 
      <div class="x-white-box" id="clist">
       <h3 class="x-box-title">
@@ -111,7 +110,7 @@ function reply(id){
         </div>
         <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border comment">
           <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.author!comment.nickname!comment.username!} 
-          <span class="x-font-grey">${comment.created?string('yyyy-MM-dd')!}</span>
+          <span class="x-font-grey">${(comment.created?string("yyyy-MM-dd"))!}</span>
           </p>
           
           <#if comment.qc_content ??>
@@ -133,7 +132,7 @@ function reply(id){
     	<#if (page.totalRow > 10 )>
     	<ul class="x-page">
 			<@pagination anchor="clist">
-				<#list pageItems as pi>
+				<#list pages as pi>
 				<li class="${pi.style!}">
 					<a href="${pi.url!}">${pi.text!}</a>
 				</li>
@@ -143,7 +142,7 @@ function reply(id){
 		</#if>
     
     </#if>
-     </@commentPage>
+     </@jp.commentPage>
     <!-- -->
   </div>
   <!-- -->

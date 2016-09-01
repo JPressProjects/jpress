@@ -1,14 +1,15 @@
-<#include "_layout.html"/> <@layout>
+<#include "_layout.html"/> 
+<@layout>
 <div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
 
-		<@indexPage module="article"> 
+		<@jp.indexPage module="article"> 
 		
 		<#if page.isFirstPage() > 
-		<@contents flag="hot" module="article" count="3" >
+		<@jp.contents flag="hot" module="article" count="3" >
 			<div class="x-layout-100 clearfix" style="height:260px;">
-	           	<#list datas as content>
+	           	<#list contents as content>
 	           	<#if content?is_first >
 				<div class="x-pull-left x-layout-70 image-box">
 			        <div class="yfh-banner-image">
@@ -35,7 +36,7 @@
 				</#if>
 				</#list>
 			</div>
-		</@contents>
+		</@jp.contents>
 		</#if>
 		
 		<#list page.getList() as content>
@@ -200,30 +201,20 @@
 		
 		<ul class="x-page">
 			<@pagination>
-				<#list pageItems as pi>
-				<li class="${pi.style!}">
-					<a href="${pi.url!}">${pi.text!}</a>
+				<#list pages as page>
+				<li class="${page.style!}">
+					<a href="${page.url!}">${page.text!}</a>
 				</li>
 				</#list>
 			</@pagination>
 		</ul>
 		
-		</@indexPage>
+		</@jp.indexPage>
 		
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">
-		<form action="${CPATH}/s">
-		<div class="x-white-box ">
-			<h3 class="x-box-title">
-				搜索文章 <span class="x-title-border"></span>
-			</h3>
-			<div class="jblog-rss-content">
-				<input class="x-box-border" name="k" placeholder="请输入关键字" />
-				<button type="submit"  class="x-rss-btn x-background-whiteblue">搜索</button>
-			</div>
-		</div>
-		</form>
+		<#include "_searcher_box.html"/> 
 		<#include "_content_box1.html"/> 
 		<#include "_content_box2.html"/> 
 		<#include "_tags_box.html"/>

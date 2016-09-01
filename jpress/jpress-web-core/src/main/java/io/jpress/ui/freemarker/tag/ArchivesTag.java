@@ -11,7 +11,7 @@ import io.jpress.utils.StringUtils;
 
 public class ArchivesTag extends JTag {
 	
-	public static final String TAG_NAME = "archives";
+	public static final String TAG_NAME = "jp.archives";
 
 	@Override
 	public void onRender() {
@@ -45,7 +45,7 @@ public class ArchivesTag extends JTag {
 			}
 		}
 
-		setVariable("datas", list);
+		setVariable("archives", list);
 		renderBody();
 	}
 

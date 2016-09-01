@@ -242,7 +242,7 @@ public class UserController extends BaseFrontController {
 		int pageNumber = getParaToInt(1, 1);
 		BigInteger userId = ((User) getAttr("user")).getId();
 
-		setAttr("userContentPage", new UserContentPageTag(action, userId, pageNumber));
+		setAttr(UserContentPageTag.TAG_NAME, new UserContentPageTag(action, userId, pageNumber));
 		setAttr("action", action);
 		setAttr(action, "active");
 	}

@@ -3,7 +3,7 @@
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
 	
-	<@searchResultPage pageSize="10" > 
+	<@jp.searchResultPage pageSize="10" > 
 		为您找到关键字 “${keyword!}” 的相关文章如下：
 		<#list page.getList() as bean>
 		<div class="x-white-box">
@@ -16,15 +16,15 @@
 		</#list>
 
 		<ul class="x-page">
-			<@pagination> 
+			<@jp.pagination> 
 			<#list pageItems as pi>
 			<li class="${pi.style!}">
 				<a href="${pi.url!}">${pi.text!}</a>
 			</li>
 			</#list> 
-			</@pagination>
+			</@jp.pagination>
 		</ul>
-		</@searchResultPage>
+		</@jp.searchResultPage>
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">

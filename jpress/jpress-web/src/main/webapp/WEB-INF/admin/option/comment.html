@@ -24,13 +24,13 @@
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
 						<div class="checkbox">
-							<label><input type="checkbox" value="true" name="comment_allow_not_login" ${checked('comment_allow_not_login')}> 允许未登录用户发表评论。</label>
+							<label><input type="checkbox" value="true" name="comment_allow_not_login" ${OPTION_CHECKED('comment_allow_not_login')}> 允许未登录用户发表评论。</label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" value="true" name="comment_must_audited" ${checked('comment_must_audited')}> 评论必须经过管理员审核。 </label>
+							<label><input type="checkbox" value="true" name="comment_must_audited" ${OPTION_CHECKED('comment_must_audited')}> 评论必须经过管理员审核。 </label>
 						</div>
 						<div class="checkbox">
-							<label><input type="checkbox" value="true" name="comment_need_captcha" ${checked('comment_need_captcha')}> 开启评论验证码功能。 </label>
+							<label><input type="checkbox" value="true" name="comment_need_captcha" ${OPTION_CHECKED('comment_need_captcha')}> 开启评论验证码功能。 </label>
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 				<div class="col-sm-3  jp-set-info">未登录用户昵称</div>
 				<div class="col-sm-9  jp-set-title-line">
 					<div class="col-sm-6 jp-table-distance-top ">
-						<input type="text" class="form-control input-md" placeholder="不填写默认为 网友" name="comment_default_nickname" value="${option('comment_default_nickname')!}" />
+						<input type="text" class="form-control input-md" placeholder="不填写默认为 网友" name="comment_default_nickname" value="${OPTION('comment_default_nickname')!}" />
 					</div>
 				</div>
 				<div class="clr"></div>
@@ -61,11 +61,11 @@
 					</div>
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<#if option('comment_default_avatar') ??>
-								<img alt="" src="${option('comment_default_avatar')!}">
+							<#if OPTION('comment_default_avatar') ??>
+								<img alt="" src="${OPTION('comment_default_avatar')!}">
 							</#if>
 							<input class="form-control input-md" type="text"
-								name="comment_default_avatar" value="${option('comment_default_avatar')!}">
+								name="comment_default_avatar" value="${OPTION('comment_default_avatar')!}">
 								<input name="comment_default_avatar" type="file" >
 							
 						</div>

@@ -27,13 +27,15 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.utils.StringUtils;
 
 public class UserContentPageTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.userContentPage";
 
 	BigInteger userId;
 	int pageNumber;
 	String action;
 
-	public UserContentPageTag(String action, BigInteger id, int pageNumber) {
-		this.userId = id;
+	public UserContentPageTag(String action, BigInteger userId, int pageNumber) {
+		this.userId = userId;
 		this.pageNumber = pageNumber;
 		this.action = action;
 	}
@@ -51,12 +53,12 @@ public class UserContentPageTag extends JTag {
 		BigInteger[] tids = taxonomyId == null ? null : new BigInteger[] { taxonomyId };
 
 		Page<Content> page = ContentQuery.me().paginate(pageNumber, pageSize, module, null, status, tids, userId,orderby);
-
 		setVariable("page", page);
-
-		MyPaginateTag tpt = new MyPaginateTag(page, action);
-		setVariable("pagination", tpt);
-
+		setVariable("contents", page.getList());
+		
+		MyPaginateTag pagination = new MyPaginateTag(page, action);
+		setVariable("pagination", pagination);
+		
 		renderBody();
 	}
 

@@ -27,7 +27,7 @@
 						<div class="col-sm-6 jp-table-distance-top ">
 						<label>
 							<input class=" " type="checkbox"
-								name="watermark_enable" value="true" ${checked('watermark_enable')}>  <span class="jp-set-info"> 是否开启水印功能</span></label>
+								name="watermark_enable" value="true" ${OPTION_CHECKED('watermark_enable')}>  <span class="jp-set-info"> 是否开启水印功能</span></label>
 						</div>
 					</div>
 					<div class="clr"></div>
@@ -39,11 +39,11 @@
 					</div>
 					<div class="col-sm-9  jp-set-title-line">
 						<div class="col-sm-6 jp-table-distance-top ">
-							<#if option('watermark_image') ??>
-								<img alt="" src="${option('watermark_image')!}">
+							<#if OPTION('watermark_image') ??>
+								<img alt="" src="${OPTION('watermark_image')!}">
 							</#if>
 							<input class="form-control input-md" type="text"
-								name="watermark_image" value="${option('watermark_image')!}">
+								name="watermark_image" value="${OPTION('watermark_image')!}">
 								<input name="watermark_image" type="file">
 							
 						</div>
@@ -59,7 +59,7 @@
 						<div class="col-sm-6 jp-table-distance-top ">
 							<input class="form-control input-md" type="text"
 								name="watermark_transparency"
-								value="${option('watermark_transparency')!}">
+								value="${OPTION('watermark_transparency')!}">
 								透明度（0~1），PNG图片建议设置为1
 						</div>
 					</div>

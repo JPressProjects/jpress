@@ -86,9 +86,9 @@ public class TaxonomyController extends BaseFrontController {
 		
 		String order = getPara("order"); 
 		if(module.isSupportOrder(order)){
-			setAttr("contentPage", new ContentPageTag(getRequest(), page, module.getName(), taxonomys, order));
+			setAttr(ContentPageTag.TAG_NAME, new ContentPageTag(getRequest(), page, module.getName(), taxonomys, order));
 		}else{
-			setAttr("contentPage", new ContentPageTag(getRequest(), page, module.getName(), taxonomys, null));
+			setAttr(ContentPageTag.TAG_NAME, new ContentPageTag(getRequest(), page, module.getName(), taxonomys, null));
 		}
 
 		

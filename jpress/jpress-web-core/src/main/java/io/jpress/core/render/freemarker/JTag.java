@@ -65,7 +65,7 @@ public abstract class JTag implements TemplateDirectiveModel {
 			log.error("setVariable(String key,Object value) is error!", e);
 		}
 	}
-
+	
 	protected void renderText(String text) {
 		try {
 			mEnv.getOut().write(text == null ? "null" : text);

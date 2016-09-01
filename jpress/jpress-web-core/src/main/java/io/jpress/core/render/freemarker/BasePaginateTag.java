@@ -106,7 +106,7 @@ public abstract class BasePaginateTag extends JTag {
 			pages.add(new PaginateItem(next, getUrl(currentPage + 1), nextText));
 		}
 
-		setVariable("pageItems", pages);
+		setVariable("pages", pages);
 		renderBody();
 	}
 	

@@ -46,7 +46,7 @@ wechat_search_${module.name}_enable,
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="wechat_appid" value="${option('wechat_appid')!}">
+								<input class="form-control input-md" type="text" name="wechat_appid" value="${OPTION('wechat_appid')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -58,7 +58,7 @@ wechat_search_${module.name}_enable,
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="wechat_appsecret" value="${option('wechat_appsecret')!}">
+								<input class="form-control input-md" type="text" name="wechat_appsecret" value="${OPTION('wechat_appsecret')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -70,7 +70,7 @@ wechat_search_${module.name}_enable,
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="wechat_token" value="${option('wechat_token')!}">
+								<input class="form-control input-md" type="text" name="wechat_token" value="${OPTION('wechat_token')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -91,7 +91,7 @@ wechat_search_${module.name}_enable,
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="wechat_dkf_enter_key" value="${option('wechat_dkf_enter_key')!}">
+								<input class="form-control input-md" type="text" name="wechat_dkf_enter_key" value="${OPTION('wechat_dkf_enter_key')!}">
 							</div>
 						</div>
 						<div class="clr"></div>
@@ -104,7 +104,7 @@ wechat_search_${module.name}_enable,
 						</div>
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
-								<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${option('wechat_dkf_quit_key')!}">
+								<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${OPTION('wechat_dkf_quit_key')!}">
 								默认，如果用户5分钟未咨询，也会自动退出多客服。
 							</div>
 						</div>
@@ -126,7 +126,7 @@ wechat_search_${module.name}_enable,
 						<div class="col-sm-9  jp-set-title-line">
 							<div class="col-sm-6 jp-table-distance-top ">
 								<label>
-								<input type="checkbox" value="true" name="wechat_search_${module.name}_enable"  ${checked('wechat_search_'+module.name+'_enable')}>开启
+								<input type="checkbox" value="true" name="wechat_search_${module.name}_enable"  ${OPTION_CHECKED('wechat_search_'+module.name+'_enable')}>开启
 								</label>
 							</div>
 						</div>

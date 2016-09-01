@@ -22,7 +22,7 @@ import io.jpress.model.User;
 import io.jpress.model.query.UserQuery;
 
 public class UsersTag extends JTag {
-	public static final String TAG_NAME = "users";
+	public static final String TAG_NAME = "jp.users";
 
 	@Override
 	public void onRender() {
@@ -41,7 +41,7 @@ public class UsersTag extends JTag {
 			return;
 		}
 
-		setVariable("datas", list);
+		setVariable("users", list);
 		renderBody();
 	}
 

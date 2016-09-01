@@ -15,22 +15,17 @@
  */
 package io.jpress.interceptor;
 
-import io.jpress.Consts;
-import io.jpress.menu.MenuManager;
-import io.jpress.model.Content;
-import io.jpress.model.Taxonomy;
-import io.jpress.model.User;
-import io.jpress.utils.EncryptUtils;
-
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
+import io.jpress.Consts;
+import io.jpress.menu.MenuManager;
+import io.jpress.model.User;
+import io.jpress.utils.EncryptUtils;
+
 public class AdminInterceptor implements Interceptor {
 	
-	static Content null_content = new Content();
-	static Taxonomy null_taxonomy = new Taxonomy();
-
 	@Override
 	public void intercept(Invocation inv) {
 
@@ -55,10 +50,6 @@ public class AdminInterceptor implements Interceptor {
 		User user = InterUtils.tryToGetUser(inv);
 		
 		if (user != null && user.isAdministrator()) {
-			
-			//content和taxonomy用于清空全局freemarker的全局标签设置，否则会相互冲突
-			controller.setAttr("content", null_content);
-			controller.setAttr("taxonomy", null_taxonomy);
 			
 			controller.setAttr(Consts.ATTR_USER, user);
 			controller.setAttr("ucode", EncryptUtils.generateUcode(user.getId(),user.getSalt()));

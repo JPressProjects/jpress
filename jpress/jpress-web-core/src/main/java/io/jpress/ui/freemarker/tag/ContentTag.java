@@ -24,7 +24,7 @@ import io.jpress.utils.StringUtils;
 
 public class ContentTag extends JTag {
 	
-	public static final String TAG_NAME = "content";
+	public static final String TAG_NAME = "jp.content";
 
 	@Override
 	public void onRender() {
@@ -51,7 +51,7 @@ public class ContentTag extends JTag {
 			return;
 		}
 
-		setVariable("data", content);
+		setVariable("content", content);
 		renderBody();
 	}
 

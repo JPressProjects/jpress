@@ -43,7 +43,7 @@ import io.jpress.model.query.ContentQuery;
  */
 public class ContentsTag extends JTag {
 	
-	public static final String TAG_NAME = "contents";
+	public static final String TAG_NAME = "jp.contents";
 
 	@Override
 	public void onRender() {
@@ -78,7 +78,7 @@ public class ContentsTag extends JTag {
 			return;
 		}
 		
-		setVariable("datas", data);
+		setVariable("contents", data);
 		renderBody();
 	}
 

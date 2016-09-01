@@ -55,9 +55,9 @@ public class Config extends JpressConfig {
 		Jpress.addTag(ArchivesTag.TAG_NAME, new ArchivesTag());
 		Jpress.addTag(UsersTag.TAG_NAME, new UsersTag());
 
-		Jpress.addFunction("taxonomyBox", new TaxonomyBox());
-		Jpress.addFunction("option", new OptionValue());
-		Jpress.addFunction("checked", new OptionChecked());
+		Jpress.addFunction("TAXONOMY_BOX", new TaxonomyBox());
+		Jpress.addFunction("OPTION", new OptionValue());
+		Jpress.addFunction("OPTION_CHECKED", new OptionChecked());
 
 		doSearcherConfig();
 		MessageKit.sendMessage(Actions.JPRESS_STARTED);

@@ -34,6 +34,9 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.utils.StringUtils;
 
 public class ContentPageTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.contentPage";
+	
 	int pageNumber;
 	String moduleName;
 	String orderBy;
@@ -72,9 +75,10 @@ public class ContentPageTag extends JTag {
 
 		Page<Content> page = ContentQuery.me().paginateInNormal(pageNumber, pagesize, moduleName, map, orderBy);
 		setVariable("page", page);
-
-		ContentPaginateTag tpt = new ContentPaginateTag(request, page, moduleName, taxonomys);
-		setVariable("pagination", tpt);
+		setVariable("contents", page.getList());
+		
+		ContentPaginateTag pagination = new ContentPaginateTag(request, page, moduleName, taxonomys);
+		setVariable("pagination", pagination);
 
 		renderBody();
 	}

@@ -29,6 +29,8 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.utils.StringUtils;
 
 public class IndexPageTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.indexPage";
 
 	int pageNumber;
 	String pagePara;
@@ -57,12 +59,12 @@ public class IndexPageTag extends JTag {
 		String[] modules = getParamToStringArray("module");
 		String status = getParam("status", Content.STATUS_NORMAL);
 
-		Page<Content> cpage = ContentQuery.me().paginate(pageNumber, pagesize, modules, keyword, status, typeIds, null,
-				orderBy);
-		setVariable("page", cpage);
-
-		IndexPaginateTag indexPagination = new IndexPaginateTag(request, cpage, pagePara);
-		setVariable("pagination", indexPagination);
+		Page<Content> page = ContentQuery.me().paginate(pageNumber, pagesize, modules, keyword, status, typeIds, null,orderBy);
+		setVariable("page", page);
+		setVariable("contents", page.getList());
+		
+		IndexPaginateTag pagination = new IndexPaginateTag(request, page, pagePara);
+		setVariable("pagination", pagination);
 
 		renderBody();
 	}

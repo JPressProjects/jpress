@@ -16,6 +16,8 @@
 package io.jpress.core;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
@@ -26,10 +28,15 @@ import io.jpress.core.render.freemarker.JTag;
 
 public class Jpress {
 
-	public static final String VERSION = "0.2.7";
+	public static final String VERSION = "0.3.0";
+
+	public static final Map<String, Object> jpressTags = new HashMap<String, Object>();
 
 	public static void addTag(String key, JTag tag) {
-		FreeMarkerRender.getConfiguration().setSharedVariable(key, tag);
+		if (key.startsWith("jp.")) {
+			key = key.substring(3);
+		}
+		jpressTags.put(key, tag);
 	}
 
 	public static void addFunction(String key, JFunction function) {

@@ -82,12 +82,12 @@ public class ContentController extends BaseFrontController {
 		setAttr("p", page);
 		setAttr("content", content);
 		
-		setAttr("next", new NextContentTag(content));
-		setAttr("previous", new PreviousContentTag(content));
+		setAttr(NextContentTag.TAG_NAME, new NextContentTag(content));
+		setAttr(PreviousContentTag.TAG_NAME, new PreviousContentTag(content));
 		
 		setAttr("user", UserQuery.me().findById(content.getUserId()));
 
-		setAttr("commentPage", new CommentPageTag(getRequest(), content, page));
+		setAttr(CommentPageTag.TAG_NAME, new CommentPageTag(getRequest(), content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
 		setAttr("taxonomys", taxonomys);

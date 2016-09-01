@@ -2,8 +2,8 @@
 	<h3 class="x-box-title">
 		推荐文章 <span class="x-title-border"></span>
 	</h3>
-	<@contents  module="article" count="10" orderBy="view_count" hasThumbnail="true"> 
-	<#list datas as content> 
+	<@jp.contents  module="article" count="10" orderBy="view_count" hasThumbnail="true"> 
+	<#list contents as content> 
 	<#if content?is_first >
 	<div class="x-layout-100 person-relative image-box">
 
@@ -36,5 +36,5 @@
 	</div>
 	</#if> 
 	</#list> 
-	</@contents>
+	</@jp.contents>
 </div>

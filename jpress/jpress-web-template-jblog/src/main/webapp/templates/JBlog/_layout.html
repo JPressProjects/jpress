@@ -48,8 +48,8 @@
     <div class="jblog-link-logo-content">
       <div class="jblog-link-logo-image"><a href="${CPATH}/">${WEB_NAME!}</a></div>
       <div class="jblog-link-logo-adv">
-	      <a href="${option('jpblog_banner_url')!'#'}">
-	      	<img src="${CPATH}${option('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
+	      <a href="${OPTION('jpblog_banner_url')!'#'}">
+	      	<img src="${CPATH}${OPTION('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
 	      </a>
       </div>
     </div>
@@ -64,8 +64,8 @@
       	</#if>
       	</a>
       	</li>
-      	<@menus>
-        	<#list datas as menu>
+      	<@jp.menus>
+        	<#list menus as menu>
         		<li >
         		<a  href="${menu.url!}">
         		${menu.title!}
@@ -75,17 +75,17 @@
         		</a>
         		</li>
         	</#list>
-        </@menus>
+        </@jp.menus>
       </ul>
     </div>
   </div>
 </header>
 <#nested> 
 <footer class="footer x-sm-footer">
-  <p>${option('web_copyright')!'暂未填写版权信息'}</p>
+  <p>${OPTION('web_copyright')!'暂未填写版权信息'}</p>
 </footer>
 <div style="display: none;">
-${option('jpblog_statistical_code')!}
+${OPTION('jpblog_statistical_code')!}
 </div>
 <@script_import />
   <script src="${CTPATH}/assets/js/jquery-2.1.1.min.js"></script>

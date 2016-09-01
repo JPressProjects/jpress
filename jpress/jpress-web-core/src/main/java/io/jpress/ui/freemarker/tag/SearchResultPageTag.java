@@ -25,6 +25,9 @@ import io.jpress.plugin.search.SearcherKit;
 import io.jpress.utils.StringUtils;
 
 public class SearchResultPageTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.searchResultPage";
+	
 	int pageNumber;
 	String moduleName;
 	String keyword;
@@ -42,9 +45,10 @@ public class SearchResultPageTag extends JTag {
 
 		Page<SearcherBean> page = SearcherKit.search(keyword, moduleName, pageNumber, pagesize);
 		setVariable("page", page);
+		setVariable("searcherBeans", page.getList());
 
-		MyPaginateTag tpt = new MyPaginateTag(page, keyword, moduleName);
-		setVariable("pagination", tpt);
+		MyPaginateTag pagination = new MyPaginateTag(page, keyword, moduleName);
+		setVariable("pagination", pagination);
 
 		renderBody();
 	}

@@ -4,7 +4,7 @@
 	<!-- -->
 	<div class="x-pull-left x-layout-73 blog-sm-left">
 	
-		<@contentPage pageSize="10" >
+		<@jp.contentPage pageSize="10" >
 		<#list page.getList() as content>
 			<#if content.thumbnail ??>
 			<div class="x-white-box">
@@ -167,25 +167,20 @@
 		
 		<ul class="x-page">
 			<@pagination>
-				<#list pageItems as pi>
+				<#list pages as pi>
 				<li class="${pi.style!}">
 					<a href="${pi.url!}">${pi.text!}</a>
 				</li>
 				</#list>
 			</@pagination>
 		</ul>
-		</@contentPage>
+		</@jp.contentPage>
 	</div>
 	<!-- -->
 	<div class="x-pull-right x-layout-25 blog-sm-right">
-		<div class="x-white-box">
-			<input class="x-layout-90 x-item-space-3 x-padding-left-5 x-padding-right-5 x-box-border x-border-none" placeholder="要不找一找" />
-			<a href="#" class="x-search-icon">
-				<i class="fa fa-search" aria-hidden="true"></i>
-			</a>
-		</div>
-		<!-- -->
 		
+		
+		<#include "_searcher_box.html"/> 
 		<#include "_content_box1.html"/> 
 		<#include "_content_box2.html"/> 
 		<#include "_tags_box.html"/> 

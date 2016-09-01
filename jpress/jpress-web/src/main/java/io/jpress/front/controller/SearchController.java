@@ -46,7 +46,7 @@ public class SearchController extends BaseFrontController {
 		pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
 		setAttr("keyword", keyword);
-		setAttr("searchResultPage", new SearchResultPageTag(keyword, moduleName, pageNumber));
+		setAttr(SearchResultPageTag.TAG_NAME, new SearchResultPageTag(keyword, moduleName, pageNumber));
 		render(String.format("search_%s.html", moduleName));
 	}
 

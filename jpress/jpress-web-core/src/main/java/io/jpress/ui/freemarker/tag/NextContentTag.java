@@ -20,6 +20,8 @@ import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 
 public class NextContentTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.next";
 
 	private Content currentContent;
 
@@ -37,7 +39,7 @@ public class NextContentTag extends JTag {
 			return;
 		}
 
-		setVariable("data", content);
+		setVariable("content", content);
 		renderBody();
 	}
 

@@ -28,6 +28,8 @@ import io.jpress.model.query.CommentQuery;
 import io.jpress.utils.StringUtils;
 
 public class CommentPageTag extends JTag {
+	
+	public static final String TAG_NAME = "jp.commentPage";
 
 	Content content;
 	int pageNumber;
@@ -46,9 +48,10 @@ public class CommentPageTag extends JTag {
 
 		Page<Comment> page = CommentQuery.me().paginateByContentId(pageNumber, pageSize, content.getId());
 		setVariable("page", page);
-
-		CommentPaginateTag cpt = new CommentPaginateTag(request, page, content);
-		setVariable("pagination", cpt);
+		setVariable("comments", page.getList());
+		
+		CommentPaginateTag pagination = new CommentPaginateTag(request, page, content);
+		setVariable("pagination", pagination);
 
 		renderBody();
 	}

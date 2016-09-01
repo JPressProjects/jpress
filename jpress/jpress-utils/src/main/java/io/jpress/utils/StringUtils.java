@@ -147,4 +147,12 @@ public class StringUtils {
 		return true;
 	}
 
+	public static String escapeHtml(String text) {
+		if (isBlank(text))
+			return text;
+		
+		return text.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#x27;").replace("/", "&#x2F;");
+	}
+	
+
 }

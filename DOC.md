@@ -263,7 +263,12 @@ JPress标签的规则如下：
 
 
 ### 全局标签：
-目前JPress提供的全局标签有如下，今后会一直更新，所以标签有可能一直在增加或修改：
+全局标签又分为 数据标签和函数标签；
+
+* 数据标签代表某个数值；
+* 函数标签代表某个功能；
+
+目前JPress提供的全局数据标签有如下：
 
 ```
 REQUEST;
@@ -279,6 +284,12 @@ META_KEYWORDS;
 META_DESCRIPTION;
 ```
 
+目前JPress提供的全局函数标签有如下：
+
+```
+OPTION('key');
+OPTION_CHECKED('key','value');
+```
 
 
 
@@ -352,6 +363,30 @@ JPress版本
 #### META_DESCRIPTION
 网页描述
 
+#### OPTION
+通过这个函数标签，可以读取后台的所以配置信息；也就是可以读取option数据库表的值。
+
+使用代码：
+
+```
+${OPTION('web_name')!} <!--读取key为web_name的option配置-->
+```
+
+
+#### OPTION_CHECKED
+通过这个函数标签，可以读取后台的所以配置信息，判断后台的值是否等于输入的值。
+
+* 如果等于前台输入的值，这个标签这输出 checked="checked"
+* 如果不等于，则输出 空；
+
+使用代码：
+
+```
+${OPTION_CHECKED('web_name','杨福海的博客')!} 
+```
+如果后台配置option的`web_name`为`杨福海的博客`,那么`${OPTION_CHECKED('web_name','杨福海的博客')!} `这个代码就输出 `checked="checked"` ,否则输出空内容。
+
+
 
 ### 普通标签：
 目前JPress提供的普通标签有如下，今后会一直更新，所以标签有可能一直在增加或修改：
@@ -396,22 +431,22 @@ IndexPageTag标签 只能用在首页即index.html和单页即page_*.html。
 代码如下：
 
 ```
-<@indexPage module="article"> 
+<@jp.indexPage module="article"> 
 	<#list page.getList() as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list>
 	
 	<@pagination>
-		<#list pageItems as pItem>
-			<a href="${pItem.url}">${pItem.text}</a>
+		<#list pages as page>
+			<a href="${page.url}">${page.text}</a>
 		</#list>
 	</@pagination>
-</@indexPage>
+</@jp.indexPage>
 ```
 
 
 代码解释：
-> * \<@indexPage> </@indexPage> 是 **IndexPageTag** 标签的开头和结尾。
+> * \<@jp.indexPage> </@jp.indexPage> 是 **IndexPageTag** 标签的开头和结尾。
 > * <#list> </#list> 是循环标签，会循环输出 **指定列表** 的所有内容，此标签属于freemarker模板引擎的自带标签。
 > * \<@pagination> </@pagination> 是 **IndexPageTag** 标签的 **子标签**，用于显示 **页码** 列表。
 
@@ -432,17 +467,17 @@ ContentPageTag标签 只能在分类页使用，即只能在taxonomy.html 或 ta
 代码如下：
 
 ```
-<@contentPage > 
+<@jp.contentPage > 
 	<#list page.getList() as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list>
 	
 	<@pagination>
-		<#list pageItems as pItem>
-			<a href="${pItem.url}">${pItem.text}</a>
+		<#list pages as page>
+			<a href="${page.url}">${page.text}</a>
 		</#list>
 	</@pagination>
-</@contentPage>
+</@jp.contentPage>
 ```
 
 ContentPageTag标签支持的属性如下：
@@ -456,17 +491,17 @@ UserContentPageTag标签 只能在用户中心使用，用于显示**登陆用�
 代码如下：
 
 ```
-<@userContentPage > 
+<@jp.userContentPage > 
 	<#list page.getList() as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list>
 	
 	<@pagination>
-		<#list pageItems as pItem>
-			<a href="${pItem.url}">${pItem.text}</a>
+		<#list pages as page>
+			<a href="${page.url}">${page.text}</a>
 		</#list>
 	</@pagination>
-</@userContentPage>
+</@jp.userContentPage>
 ```
 
 UserContentPageTag标签支持的属性如下：
@@ -482,17 +517,17 @@ CommnetPageTag标签用于显示内容的回复列表（或叫评论列表），
 代码如下：
 
 ```
-<@commentPage > 
+<@jp.commentPage > 
 	<#list page.getList() as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list>
 	
 	<@pagination>
-		<#list pageItems as pItem>
-			<a href="${pItem.url}">${pItem.text}</a>
+		<#list pages as page>
+			<a href="${page.url}">${page.text}</a>
 		</#list>
 	</@pagination>
-</@commentPage>
+</@jp.commentPage>
 ```
 
 CommnetPageTag标签支持的属性如下：
@@ -504,9 +539,9 @@ CommnetPageTag标签支持的属性如下：
 代码如下：
 
 ```
-<@content id="123"> 
-	下一篇：<a href="${data.url}">${data.title}</a>
-</@content>
+<@jp.content id="123"> 
+	下一篇：<a href="${content.url}">${content.title}</a>
+</@jp.content>
 ```
 
 #### ContentsTag
@@ -515,11 +550,11 @@ CommnetPageTag标签支持的属性如下：
 代码如下：
 
 ```
-<@contents module="article" count="3" orderBy="comment_count" hasThumbnail="true"> 
-	<#list datas as content>
+<@jp.contents module="article" count="3" orderBy="comment_count" hasThumbnail="true"> 
+	<#list contents as content>
 		<a href="${content.url}">${content.title}</a> <br />
 	</#list> 
-</@contents>
+</@jp.contents>
 ```
 
 代码解释：
@@ -548,9 +583,9 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@taxonomy id="1" > 
-	<a href="${data.url}">${data.title}</a>
-</@taxonomy>
+<@jp.taxonomy id="1" > 
+	<a href="${taxonomy.url}">${taxonomy.title}</a>
+</@jp.taxonomy>
 ```
 
 #### TaxonomysTag
@@ -559,11 +594,11 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@taxonomys>
-	<#list datas as taxonomy>
+<@jp.taxonomys>
+	<#list taxonomys as taxonomy>
 		<a href="${taxonomy.url!}">${taxonomy.title!}</a>
 	</#list>
-</@taxonomys>
+</@jp.taxonomys>
 ```
 #### TagsTag
 用于显示TAG内容。
@@ -571,11 +606,11 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@tags>
-	<#list datas as tag>
+<@jp.tags>
+	<#list tags as tag>
 		<a href="${tag.url!}">${tag.title!}</a>
 	</#list>
-</@tags>
+</@jp.tags>
 ```
 #### UsersTag
 
@@ -585,8 +620,8 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@menus>
-	<#list datas as menu>
+<@jp.menus>
+	<#list menus as menu>
 		<li >
 	        <a  href="${menu.url!}">
 	        	${menu.title!}
@@ -596,7 +631,7 @@ ContentsTag标签支持的属性如下：
         	</a>
        </li>
 	</#list>
-</@menus>
+</@jp.menus>
 ```
 代码解释：
 
@@ -614,9 +649,9 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@next> 
-	下一篇：<a href="${data.url}">${data.title}</a>
-</@next>
+<@jp.next> 
+	下一篇：<a href="${content.url}">${content.title}</a>
+</@jp.next>
 ```
 
 #### PreviousContentTag
@@ -625,9 +660,9 @@ ContentsTag标签支持的属性如下：
 代码如下：
 
 ```
-<@previous> 
-	上一篇：<a href="${data.url}">${data.title}</a>
-</@previous>
+<@jp.previous> 
+	上一篇：<a href="${content.url}">${content.title}</a>
+</@jp.previous>
 ```
 
 ###模板设置

@@ -144,17 +144,17 @@ JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似w
 </head>
 <body>
 <!-- 此处的 module="article" 中的 article 要和模型中定义的name一致，表示读取该模型的内容-->
-<@indexPage module="article"> 
+<@jp.indexPage module="article"> 
 	<#list page.getList() as content>
 		<a href="${content.url}">${content.title!}</a>
 	</#list>
-</@indexPage >
+</@jp.indexPage >
 </body>
 </html>
  ```
  说明：
 > 1. ${WEB_NAME!} 用来读取后台设置的网站名称。
-> 2. \<@indexPage> </@indexPage> 用来读取内容的列表。 
+> 2. \<@jp.indexPage> </@jp.indexPage> 用来读取内容的列表。 
 > 3. <#list> </#list> 用来循环显示其包含的内容。
  
  5、把这个文件夹压缩成为`.zip`的压缩包，进入JPress后台，通过模板管理的 安装 功能安装完毕该模板后，就可以使用该模板了。

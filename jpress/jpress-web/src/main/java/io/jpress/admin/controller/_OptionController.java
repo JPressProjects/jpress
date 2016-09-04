@@ -43,14 +43,21 @@ public class _OptionController extends JBaseController {
 	public void save() {
 
 		HashMap<String, String> filesMap = getUploadFilesMap();
-		
+
 		HashMap<String, String> datasMap = new HashMap<String, String>();
-		
+
 		Map<String, String[]> paraMap = getParaMap();
 		if (paraMap != null && !paraMap.isEmpty()) {
 			for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
 				if (entry.getValue() != null && entry.getValue().length > 0) {
-					datasMap.put(entry.getKey(), entry.getValue()[0]);
+					String value = null;
+					for (String v : entry.getValue()) {
+						if (StringUtils.isNotEmpty(v)) {
+							value = v;
+							break;
+						}
+					}
+					datasMap.put(entry.getKey(), value);
 				}
 			}
 		}
@@ -64,8 +71,8 @@ public class _OptionController extends JBaseController {
 				}
 			}
 		}
-		
-		for(Map.Entry<String, String> entry : datasMap.entrySet()){
+
+		for (Map.Entry<String, String> entry : datasMap.entrySet()) {
 			doSave(entry.getKey(), entry.getValue(), filesMap);
 		}
 

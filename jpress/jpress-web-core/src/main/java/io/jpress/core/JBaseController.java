@@ -296,9 +296,12 @@ public class JBaseController extends Controller {
 					if (metas == null) {
 						metas = new HashMap<String, String>();
 					}
-					String value = entry.getValue()[0];
-					if ("".equals(value)) {
-						value = null;
+					String value = null;
+					for(String v : entry.getValue()){
+						if(StringUtils.isNotEmpty(v)){
+							value = v;
+							break;
+						}
 					}
 					metas.put(key.substring(5), value);
 				}

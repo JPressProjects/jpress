@@ -15,6 +15,7 @@
  */
 package io.jpress.interceptor;
 
+import io.jpress.Consts;
 import io.jpress.model.User;
 import io.jpress.utils.EncryptUtils;
 
@@ -27,8 +28,8 @@ public class UserInterceptor implements Interceptor {
 	public void intercept(Invocation inv) {
 		User user = InterUtils.tryToGetUser(inv);
 		if (user != null) {
-			inv.getController().setAttr("user", user);
-			inv.getController().setAttr("ucode", EncryptUtils.generateUcode(user.getId(),user.getSalt()));
+			inv.getController().setAttr(Consts.ATTR_USER, user);
+			inv.getController().setAttr("ucode", EncryptUtils.generateUcode(user.getId(), user.getSalt()));
 			inv.invoke();
 		} else {
 			inv.getController().redirect("/user/login");

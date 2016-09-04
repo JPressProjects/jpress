@@ -32,7 +32,6 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 
-import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Content;
@@ -112,7 +111,7 @@ public class _ToolsController extends JBaseController {
 			c.setSlug(slug);
 
 			if (c.getUserId() == null) {
-				User user = getAttr(Consts.ATTR_USER);
+				User user = getLoginedUser();
 				c.setUserId(user.getId());
 			}
 

@@ -37,7 +37,7 @@ public class Consts {
 	public static final int ERROR_CODE_PASSWORD_EMPTY = 8;
 
 	public static final String ATTR_PAGE_NUMBER = "_page_number";
-	public static final String ATTR_USER = "_user";
+	public static final String ATTR_USER = "USER";
 	public static final String ATTR_GLOBAL_WEB_NAME = "WEB_NAME";
 	public static final String ATTR_GLOBAL_WEB_TITLE = "WEB_TITLE";
 	public static final String ATTR_GLOBAL_WEB_SUBTITLE = "WEB_SUBTITLE";

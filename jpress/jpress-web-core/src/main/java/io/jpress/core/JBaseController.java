@@ -31,8 +31,10 @@ import com.jfinal.i18n.Res;
 import com.jfinal.render.JsonRender;
 import com.jfinal.upload.UploadFile;
 
+import io.jpress.Consts;
 import io.jpress.core.render.AjaxResult;
 import io.jpress.core.render.JCaptchaRender;
+import io.jpress.model.User;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
@@ -273,6 +275,10 @@ public class JBaseController extends Controller {
 			ip = getRequest().getRemoteAddr();
 		}
 		return ip;
+	}
+
+	public User getLoginedUser() {
+		return getAttr(Consts.ATTR_USER);
 	}
 
 	@Before(NotAction.class)

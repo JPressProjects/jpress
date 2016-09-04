@@ -28,7 +28,6 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 
-import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.model.Attachment;
@@ -113,7 +112,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 		UploadFile uploadFile = getFile();
 		if (null != uploadFile) {
 			String newPath = AttachmentUtils.moveFile(uploadFile);
-			User user = getAttr(Consts.ATTR_USER);
+			User user = getLoginedUser();
 
 			Attachment attachment = new Attachment();
 			attachment.setUserId(user.getId());

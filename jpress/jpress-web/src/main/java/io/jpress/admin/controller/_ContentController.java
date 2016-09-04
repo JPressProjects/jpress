@@ -445,7 +445,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		}
 		content.setModified(new Date());
 
-		User user = getAttr(Consts.ATTR_USER);
+		User user = getLoginedUser();
 		content.setUserId(user.getId());
 
 		return content;

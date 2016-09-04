@@ -21,7 +21,6 @@ import java.util.Date;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
-import io.jpress.Consts;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
@@ -198,7 +197,7 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		comment.setType(Comment.TYPE_COMMENT);
 		comment.setIp(getIPAddress());
 		comment.setAgent(getUserAgent());
-		User user = getAttr(Consts.ATTR_USER);
+		User user = getLoginedUser();
 		String author = StringUtils.isNotBlank(user.getNickname()) ? user.getNickname() : user.getUsername();
 		comment.setAuthor(author);
 		comment.setEmail(user.getEmail());

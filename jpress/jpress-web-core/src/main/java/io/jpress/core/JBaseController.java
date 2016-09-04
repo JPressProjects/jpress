@@ -280,7 +280,7 @@ public class JBaseController extends Controller {
 		return getRequest().getHeader("User-Agent");
 	}
 
-	public Map<String, String> getMetas(Map<String, String> fileMap) {
+	public Map<String, String> getMetas(Map<String, String> filesMap) {
 		HashMap<String, String> metas = null;
 		Map<String, String[]> requestMap = getParaMap();
 		if (requestMap != null && !requestMap.isEmpty()) {
@@ -290,13 +290,7 @@ public class JBaseController extends Controller {
 					if (metas == null) {
 						metas = new HashMap<String, String>();
 					}
-					String value = null;
-					if (fileMap != null && fileMap.containsKey(key)) {
-						value = fileMap.get(key);
-					} else {
-						value = entry.getValue()[0];
-					}
-
+					String value = entry.getValue()[0];
 					if ("".equals(value)) {
 						value = null;
 					}
@@ -304,6 +298,19 @@ public class JBaseController extends Controller {
 				}
 			}
 		}
+
+		if (filesMap != null) {
+			for (Map.Entry<String, String> entry : filesMap.entrySet()) {
+				String key = entry.getKey();
+				if (key.startsWith("meta:")) {
+					if (metas == null) {
+						metas = new HashMap<String, String>();
+					}
+					metas.put(key.substring(5), entry.getValue());
+				}
+			}
+		}
+
 		return metas;
 	}
 

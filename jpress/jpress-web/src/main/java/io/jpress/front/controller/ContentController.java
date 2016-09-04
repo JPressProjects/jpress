@@ -28,7 +28,6 @@ import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
-import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
@@ -85,8 +84,6 @@ public class ContentController extends BaseFrontController {
 		setAttr(NextContentTag.TAG_NAME, new NextContentTag(content));
 		setAttr(PreviousContentTag.TAG_NAME, new PreviousContentTag(content));
 		
-		setAttr("user", UserQuery.me().findById(content.getUserId()));
-
 		setAttr(CommentPageTag.TAG_NAME, new CommentPageTag(getRequest(), content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());

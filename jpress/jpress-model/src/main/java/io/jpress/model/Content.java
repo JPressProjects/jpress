@@ -31,6 +31,7 @@ import io.jpress.model.base.BaseContent;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.MetaDataQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
 import io.jpress.model.utils.TaxonomyRouter;
@@ -57,6 +58,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private List<Content> childList;
 	private Content parent;
 	private List<Metadata> metadatas;
+	private User user;
 
 	public <T> T getTemp(Object key, IDataLoader dataloader) {
 		return CacheKit.get("content_temp", key, dataloader);
@@ -110,6 +112,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public String getNickame() {
 		return get("nickname");
+	}
+
+	public User getUser() {
+		if (user != null)
+			return user;
+		
+		if(getUserId() == null)
+			return null;
+		
+		user = UserQuery.me().findById(getUserId());
+		return user;
 	}
 
 	public String getNicknameOrUsername() {
@@ -391,7 +404,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public boolean isCommentEnable() {
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}
-	
+
 	public boolean isCommentClose() {
 		return COMMENT_STATUS_CLOSE.equals(getCommentStatus());
 	}

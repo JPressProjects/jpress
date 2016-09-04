@@ -17,6 +17,7 @@ package io.jpress.core;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -28,9 +29,11 @@ import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.i18n.Res;
 import com.jfinal.render.JsonRender;
+import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.render.AjaxResult;
 import io.jpress.core.render.JCaptchaRender;
+import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.JsoupUtils;
 import io.jpress.utils.StringUtils;
 
@@ -277,7 +280,7 @@ public class JBaseController extends Controller {
 		return getRequest().getHeader("User-Agent");
 	}
 
-	public Map<String, String> getMetas() {
+	public Map<String, String> getMetas(Map<String, String> fileMap) {
 		HashMap<String, String> metas = null;
 		Map<String, String[]> requestMap = getParaMap();
 		if (requestMap != null && !requestMap.isEmpty()) {
@@ -287,8 +290,13 @@ public class JBaseController extends Controller {
 					if (metas == null) {
 						metas = new HashMap<String, String>();
 					}
+					String value = null;
+					if (fileMap != null && fileMap.containsKey(key)) {
+						value = fileMap.get(key);
+					} else {
+						value = entry.getValue()[0];
+					}
 
-					String value = entry.getValue()[0];
 					if ("".equals(value)) {
 						value = null;
 					}
@@ -297,6 +305,27 @@ public class JBaseController extends Controller {
 			}
 		}
 		return metas;
+	}
+
+	public Map<String, String> getMetas() {
+		return getMetas(getUploadFilesMap());
+	}
+
+	public HashMap<String, String> getUploadFilesMap() {
+		List<UploadFile> fileList = null;
+		if (isMultipartRequest()) {
+			fileList = getFiles();
+		}
+
+		HashMap<String, String> filesMap = null;
+		if (fileList != null) {
+			filesMap = new HashMap<String, String>();
+			for (UploadFile ufile : fileList) {
+				String filePath = AttachmentUtils.moveFile(ufile).replace("\\", "/");
+				filesMap.put(ufile.getParameterName(), filePath);
+			}
+		}
+		return filesMap;
 	}
 
 }

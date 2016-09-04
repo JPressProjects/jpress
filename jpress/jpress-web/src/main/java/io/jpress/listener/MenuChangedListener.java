@@ -17,6 +17,7 @@ package io.jpress.listener;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 import io.jpress.Consts;
 import io.jpress.message.Actions;
@@ -34,12 +35,12 @@ public class MenuChangedListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
 		Object temp = message.getData();
-		if (temp != null && (temp instanceof List<?>)) {
+		if (temp != null && (temp instanceof Map )) {
 
 			@SuppressWarnings("unchecked")
-			List<String> keys = (List<String>) temp;
+			Map<String,String> datas = (Map<String,String>) temp;
 			// 路由状态发生变化
-			if (keys.contains("router_content_type") || keys.contains("router_fakestatic_enable")) {
+			if (datas.containsKey("router_content_type") || datas.containsKey("router_fakestatic_enable")) {
 				updateMenus();
 			}
 		}

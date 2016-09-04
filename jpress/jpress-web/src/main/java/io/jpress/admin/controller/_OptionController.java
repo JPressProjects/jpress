@@ -15,13 +15,10 @@
  */
 package io.jpress.admin.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.jfinal.aop.Before;
-import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
@@ -31,7 +28,6 @@ import io.jpress.message.MessageKit;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/admin/option", viewPath = "/WEB-INF/admin/option")
@@ -46,28 +42,15 @@ public class _OptionController extends JBaseController {
 	@Before(UCodeInterceptor.class)
 	public void save() {
 
-		List<UploadFile> fileList = null;
-		if (isMultipartRequest()) {
-			fileList = getFiles();
-		}
-
-		HashMap<String, String> filesMap = new HashMap<String, String>();
-		if (fileList != null) {
-			for (UploadFile ufile : fileList) {
-				String filePath = AttachmentUtils.moveFile(ufile).replace("\\", "/");
-				filesMap.put(ufile.getParameterName(), filePath);
-			}
-		}
-
-		List<String> keyList = new ArrayList<String>();
+		HashMap<String, String> filesMap = getUploadFilesMap();
+		
+		HashMap<String, String> datasMap = new HashMap<String, String>();
+		
 		Map<String, String[]> paraMap = getParaMap();
 		if (paraMap != null && !paraMap.isEmpty()) {
 			for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
 				if (entry.getValue() != null && entry.getValue().length > 0) {
-					if (StringUtils.isNotBlank(entry.getKey()) && !"autosave".equals(entry.getKey())) {
-						keyList.add(entry.getKey());
-						doSave(entry.getKey(), entry.getValue()[0], filesMap);
-					}
+					datasMap.put(entry.getKey(), entry.getValue()[0]);
 				}
 			}
 		}
@@ -77,21 +60,24 @@ public class _OptionController extends JBaseController {
 			String[] keys = autosaveString.split(",");
 			for (String key : keys) {
 				if (StringUtils.isNotBlank(key)) {
-					key = key.trim();
-					keyList.add(key);
-					doSave(key, getRequest().getParameter(key), filesMap);
+					datasMap.put(key.trim(), getRequest().getParameter(key.trim()));
 				}
 			}
 		}
+		
+		for(Map.Entry<String, String> entry : datasMap.entrySet()){
+			doSave(entry.getKey(), entry.getValue(), filesMap);
+		}
 
-		MessageKit.sendMessage(Actions.SETTING_CHANGED, keyList);
+		MessageKit.sendMessage(Actions.SETTING_CHANGED, datasMap);
 		renderAjaxResultForSuccess();
 	}
 
 	private void doSave(String key, String value, HashMap<String, String> filesMap) {
 
-		if (filesMap.containsKey(key)) {
-			value = filesMap.get(key); // 有相同的key的情况下，以上传的文件为准。
+		if (filesMap != null && filesMap.containsKey(key)) {
+			// 有相同的key的情况下，以上传的文件为准。
+			value = filesMap.get(key);
 		}
 
 		if ("".equals(value)) {

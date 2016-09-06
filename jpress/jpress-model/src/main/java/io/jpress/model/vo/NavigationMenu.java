@@ -19,7 +19,7 @@ public class NavigationMenu {
 		this.url = content.getText();
 		this.title = content.getTitle();
 		this.icon = content.getFlag();
-		this.active = "active".equals(content.getFlag());
+		this.active = "active".equals(content.getStr("active"));
 		
 
 		if (active) {

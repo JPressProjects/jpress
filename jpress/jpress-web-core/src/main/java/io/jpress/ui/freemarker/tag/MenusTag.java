@@ -100,12 +100,12 @@ public class MenusTag extends JTag {
 					for (Content menuContent : menuContentList) {
 						if (menuContent.getText() != null
 								&& menuContent.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
-							menuContent.setFlag("active");
+							menuContent.put("active", "active");
 						}
 						
 						String onlyModuleUrl = JFinal.me().getContextPath() + "/" + taxonomy.getContentModule();
 						if (onlyModuleUrl.equals(menuContent.getText())) {
-							menuContent.setFlag("active");
+							menuContent.put("active", "active");
 						}
 					}
 				}
@@ -116,12 +116,12 @@ public class MenusTag extends JTag {
 			String contentUrl = currentContent.getUrl();
 			for (Content menuContent : menuContentList) {
 				if (contentUrl != null && contentUrl.equals(menuContent.getText())) {
-					menuContent.setFlag("active");
+					menuContent.put("active", "active");
 				}
 
 				String onlyModuleUrl = JFinal.me().getContextPath() + "/" + currentContent.getModule();
 				if (onlyModuleUrl.equals(menuContent.getText())) {
-					menuContent.setFlag("active");
+					menuContent.put("active", "active");
 				}
 			}
 		}
@@ -129,7 +129,7 @@ public class MenusTag extends JTag {
 		for (Content menuContent : menuContentList) {
 			if (menuContent.getText() != null
 					&& menuContent.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
-				menuContent.setFlag("active");
+				menuContent.put("active", "active");
 			}
 		}
 	}

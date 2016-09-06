@@ -81,7 +81,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			ModelSorter.sort(page.getList());
 			setAttr("page", page);
 		} else if (TplTaxonomyType.TYPE_INPUT.equals(type.getFormType())) {
-			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(getPageNumbere(), getPageSize(), getContentModule(),
+			Page<Taxonomy> page = TaxonomyQuery.me().doPaginate(getPageNumber(), getPageSize(), getContentModule(),
 					getType());
 			setAttr("page", page);
 		}

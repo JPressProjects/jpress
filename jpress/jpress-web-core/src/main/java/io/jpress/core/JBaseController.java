@@ -90,7 +90,7 @@ public class JBaseController extends Controller {
 		return contentType != null && contentType.toLowerCase().indexOf("multipart") != -1;
 	}
 
-	protected int getPageNumbere() {
+	protected int getPageNumber() {
 		int page = getParaToInt("page", 1);
 		if (page < 1) {
 			page = 1;

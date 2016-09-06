@@ -53,9 +53,9 @@ public class JBaseCRUDController<M extends JModel<? extends JModel<?>>> extends 
 
 	@SuppressWarnings("unchecked")
 	public void index() {
-		Page<M> page = onIndexDataLoad(getPageNumbere(), getPageSize());
+		Page<M> page = onIndexDataLoad(getPageNumber(), getPageSize());
 		if (null == page) {
-			page = (Page<M>) getDao().doPaginate(getPageNumbere(), getPageSize());
+			page = (Page<M>) getDao().doPaginate(getPageNumber(), getPageSize());
 		}
 		setAttr("page", page);
 		render("index.html");

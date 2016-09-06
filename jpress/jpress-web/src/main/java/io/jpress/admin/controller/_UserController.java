@@ -16,11 +16,15 @@
 package io.jpress.admin.controller;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.upload.UploadFile;
 
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
@@ -28,7 +32,7 @@ import io.jpress.model.User;
 import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.utils.AttachmentUtils;
+import io.jpress.template.TemplateManager;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.StringUtils;
 
@@ -37,51 +41,140 @@ import io.jpress.utils.StringUtils;
 @RouterNotAllowConvert
 public class _UserController extends JBaseCRUDController<User> {
 
-	@Override
-	public Page<User> onIndexDataLoad(int pageNumber, int pageSize) {
+	public void index() {
 		setAttr("userCount", UserQuery.me().findCount());
 		setAttr("adminCount", UserQuery.me().findAdminCount());
 
-		return UserQuery.me().paginate(pageNumber, pageSize, null);
+		Page<User> page = UserQuery.me().paginate(getPageNumber(), getPageSize(), null);
+		setAttr("page", page);
+
+		String templateHtml = "admin_user_index.html";
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+			return;
+		}
+		setAttr("include", "_index_include.html");
 	}
 
-	@Override
-	public boolean onModelSaveBefore(User user) {
-
-		String password = getPara("password");
-
-		// 修改了密码
-		if (StringUtils.isNotEmpty(password)) {
-			User dbUser = UserQuery.me().findById(user.getId());
-			user.setSalt(dbUser.getSalt());
-			password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
-			user.setPassword(password);
+	public void edit() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id != null) {
+			setAttr("user", UserQuery.me().findById(id));
 		}
 
-		// 新建用户
-		if (user.getId() == null && StringUtils.isNotEmpty(password)) {
+		String templateHtml = "admin_user_edit.html";
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+			return;
+		}
+		setAttr("include", "_edit_include.html");
+
+	}
+
+	public void save() {
+
+		HashMap<String, String> files = getUploadFilesMap();
+		final Map<String, String> metas = getMetas(files);
+
+		final User user = getModel(User.class);
+		String password = user.getPassword();
+
+		if (StringUtils.isBlank(user.getUsername())) {
+			renderAjaxResultForError("用户名不能为空。");
+			return;
+		}
+
+		if (user.getId() == null) {
+
+			User dbUser = UserQuery.me().findUserByUsername(user.getUsername());
+			if (dbUser != null) {
+				renderAjaxResultForError("该用户名已经存在，不能添加。");
+				return;
+			}
+
+			if (StringUtils.isNotBlank(user.getEmail())) {
+				dbUser = UserQuery.me().findUserByEmail(user.getEmail());
+				if (dbUser != null) {
+					renderAjaxResultForError("邮件地址已经存在，不能添加该邮箱。");
+					return;
+				}
+			}
+			if (StringUtils.isNotBlank(user.getMobile())) {
+				dbUser = UserQuery.me().findUserByMobile(user.getMobile());
+				if (dbUser != null) {
+					renderAjaxResultForError("手机号码地址已经存在，不能添加该手机号码。");
+					return;
+				}
+			}
+
+			// 新增用户
 			String salt = EncryptUtils.salt();
 			user.setSalt(salt);
-
-			password = EncryptUtils.encryptPassword(password, salt);
-			user.setPassword(password);
-			
 			user.setCreated(new Date());
-		}
-
-		UploadFile uf = getFile();
-		if (uf != null) {
-			String newPath = AttachmentUtils.moveFile(uf);
-			newPath = newPath.replace("\\", "/");
-			user.setAvatar(newPath);
+			if (StringUtils.isNotEmpty(password)) {
+				password = EncryptUtils.encryptPassword(password, salt);
+				user.setPassword(password);
+			}
 		} else {
-			String url = getPara("user_avatar");
-			if (StringUtils.isNotBlank(url)) {
-				user.setAvatar(url.trim());
+
+			if (StringUtils.isNotBlank(user.getEmail())) {
+				User dbUser = UserQuery.me().findUserByEmail(user.getEmail());
+				if (dbUser != null && user.getId().compareTo(dbUser.getId()) != 0) {
+					renderAjaxResultForError("邮件地址已经存在，不能修改为该邮箱。");
+					return;
+				}
+			}
+			if (StringUtils.isNotBlank(user.getMobile())) {
+				User dbUser = UserQuery.me().findUserByMobile(user.getMobile());
+				if (dbUser != null && user.getId().compareTo(dbUser.getId()) != 0) {
+					renderAjaxResultForError("手机号码地址已经存在，不能修修改为该手机号码。");
+					return;
+				}
+			}
+
+			// 用户修改了密码
+			if (StringUtils.isNotEmpty(password)) {
+				User dbUser = UserQuery.me().findById(user.getId());
+				user.setSalt(dbUser.getSalt());
+				password = EncryptUtils.encryptPassword(password, dbUser.getSalt());
+				user.setPassword(password);
+			} else {
+				// 清除password，防止密码被置空
+				user.remove("password");
 			}
 		}
 
-		return super.onModelSaveBefore(user);
+		if (files != null && files.containsKey("user.avatar")) {
+			user.setAvatar(files.get("user.avatar"));
+		}
+
+		boolean saved = Db.tx(new IAtom() {
+			@Override
+			public boolean run() throws SQLException {
+
+				if (!user.saveOrUpdate()) {
+					return false;
+				}
+
+				if (metas != null) {
+					for (Map.Entry<String, String> entry : metas.entrySet()) {
+						user.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
+					}
+				}
+
+				return true;
+			}
+		});
+
+		if (saved) {
+			renderAjaxResultForSuccess();
+		} else {
+			renderAjaxResultForError();
+		}
+
+		user.saveOrUpdate();
+
+		renderAjaxResultForSuccess("ok");
 	}
 
 	public void info() {
@@ -90,7 +183,24 @@ public class _UserController extends JBaseCRUDController<User> {
 			user = UserQuery.me().findById(user.getId());
 		}
 		setAttr("user", user);
+
+		String templateHtml = "admin_user_info.html";
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+			render("edit.html");
+			return;
+		}
+
+		templateHtml = "admin_user_edit.html";
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+			render("edit.html");
+			return;
+		}
+
+		setAttr("include", "_edit_include.html");
 		render("edit.html");
+
 	}
 
 	public void frozen() {

@@ -37,8 +37,8 @@ public class AttachmentQuery extends JBaseQuery {
 		return QUERY;
 	}
 
-	public Page<Attachment> paginate(int pageNumber, int pageSize, BigInteger userId, String type, String flag,
-			String keyword, String month, String mime,String orderBy) {
+	public Page<Attachment> paginate(int pageNumber, int pageSize, BigInteger userId, BigInteger contentId, String type,
+			String flag, String keyword, String month, String mime, String orderBy) {
 
 		StringBuilder fromBuilder = new StringBuilder(" FROM attachment a ");
 		LinkedList<Object> params = new LinkedList<Object>();
@@ -63,6 +63,36 @@ public class AttachmentQuery extends JBaseQuery {
 			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString());
 		} else {
 			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString(), params.toArray());
+		}
+
+	}
+
+	public List<Attachment> findList(BigInteger userId, BigInteger contentId, String type, String flag, String keyword,
+			String month, String mime, String orderBy) {
+
+		StringBuilder sqlBuilder = new StringBuilder("SELECT *  FROM attachment a ");
+		LinkedList<Object> params = new LinkedList<Object>();
+
+		boolean needWhere = true;
+
+		needWhere = appendIfNotEmpty(sqlBuilder, "a.user_id", userId, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "a.`type`", type, params, needWhere);
+		needWhere = appendIfNotEmpty(sqlBuilder, "a.`flag`", flag, params, needWhere);
+		needWhere = appendIfNotEmptyWithLike(sqlBuilder, " a.title", keyword, params, needWhere);
+		needWhere = appendIfNotEmptyWithLike(sqlBuilder, " a.mime_type", mime + "%", params, needWhere);
+
+		if (StringUtils.isNotBlank(month)) {
+			needWhere = appendWhereOrAnd(sqlBuilder, needWhere);
+			sqlBuilder.append(" DATE_FORMAT( a.created, \"%Y-%m\" ) = ? ");
+			params.add(month);
+		}
+
+		buildOrderBy(orderBy, sqlBuilder);
+
+		if (params.isEmpty()) {
+			return DAO.find(sqlBuilder.toString());
+		} else {
+			return DAO.find(sqlBuilder.toString(), params.toArray());
 		}
 
 	}

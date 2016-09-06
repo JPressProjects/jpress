@@ -52,7 +52,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	@Override
 	public void index() {
 		keepPara();
-		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumber(), getPageSize(), null, null, null,
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumber(), getPageSize(), null, null, null, null,
 				getPara("k", "").trim(), getPara("dm"), getPara("mime"), null);
 
 		setAttr("page", page);
@@ -94,7 +94,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 
 	public void choose_layer() {
 		keepPara();
-		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumber(), getPageSize(), null, null, null,
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumber(), getPageSize(), null, null, null, null,
 				getPara("k", "").trim(), getPara("dm"), getPara("mime"), null);
 		setAttr("page", page);
 		render("choose_layer.html");

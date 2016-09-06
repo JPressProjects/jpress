@@ -102,10 +102,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setAttr("page", page);
 
-		String include = "_index_default_include.html";
+		String include = "_index_include.html";
 		String templateEditHtml = String.format("admin_content_index_%s.html", module.getName());
 		if (TemplateManager.me().existsFile(templateEditHtml)) {
-			include = "../../.." + TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
+			include = TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
 		}
 		setAttr("include", include);
 
@@ -261,10 +261,10 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setSlugInputDisplay(moduleName);
 
-		String include = "_edit_default_include.html";
+		String include = "_edit_include.html";
 		String templateEditHtml = String.format("admin_content_edit_%s.html", moduleName);
 		if (TemplateManager.me().existsFile(templateEditHtml)) {
-			include = "../../.." + TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
+			include = TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
 		}
 		setAttr("include", include);
 	}
@@ -343,6 +343,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 	@Override
 	public void save() {
 
+		final Map<String, String> metas = getMetas();
 		final Content content = getContent();
 
 		if (StringUtils.isBlank(content.getTitle())) {
@@ -371,7 +372,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-
 		boolean saved = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
@@ -396,7 +396,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 					}
 				}
 
-				Map<String, String> metas = getMetas();
 				if (metas != null) {
 					for (Map.Entry<String, String> entry : metas.entrySet()) {
 						content.saveOrUpdateMetadta(entry.getKey(), entry.getValue());

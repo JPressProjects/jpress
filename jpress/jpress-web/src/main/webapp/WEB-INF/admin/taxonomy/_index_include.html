@@ -1,0 +1,123 @@
+<section class="content-header">
+	<h1>${type.title}</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-md-4">
+			<form action="${CPATH}/admin/taxonomy/save" method="POST" id="form">
+				<input type="hidden" name="taxonomy.content_module" value="${module.name}"> <input type="hidden" name="taxonomy.type" value="${type.name}"> <input type="hidden" name="taxonomy.id"
+					value="${(taxonomy.id)!}"> <input type="hidden" name="ucode" value="${ucode}">
+				<h4 class="jp-common-pad">新${type.title}</h4>
+				<div class="form-group jp-input-item">
+					<label for="tag-name" class="input-title">名称</label> <input id="tag-name" class="form-control" type="text" name="taxonomy.title" value="${(taxonomy.title)!}">
+					<p>这将是它在站点上显示的名字。</p>
+				</div>
+
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_slug" class="input-title">别名</label> <input id="taxonomy_slug" class="form-control" type="text" name="taxonomy.slug" value="${(taxonomy.slug)!}">
+					<p>别名是在URL中使用的别称，它可以令URL更美观，更加有利于SEO。通常使用小写，只能包含字母，数字和连字符“-”（中划线），不能全是数字。</p>
+				</div>
+				<#if type.formType == "select">
+				<div class="form-group jp-input-item">
+					<div class="col-xs-5 jp-common-pad">
+						<label class="input-title">父节点</label> <select class="form-control input-sm" name="taxonomy.parent_id">
+							<option value="0">无</option> <#list taxonomys as t> <#if taxonomy ?? && taxonomy.parentId ??> <#if t.id == taxonomy.parentId >
+							<option value="${t.id}" selected="selected">${t.layerString}${t.title!}</option> <#else>
+							<option value="${t.id}">${t.layerString}${t.title!}</option> </#if> <#else>
+							<option value="${t.id}">${t.layerString}${t.title!}</option> </#if> </#list>
+						</select>
+					</div>
+					<div class="clr"></div>
+				</div>
+				</#if>
+				<div class="form-group jp-input-item">
+					<label class="input-title">描述</label>
+					<textarea class="form-control" name="taxonomy.text" rows="3">${(taxonomy.text)!}</textarea>
+					<p>${type.title}的描述内容，是否显示决定于模板。</p>
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">是否添加到导航菜单</label>
+					<div class="checkbox">
+						<label><input id="tag-slug" type="checkbox" ${addToMenuSelete!''}   name="addToMenu" value="true"> 添加到导航菜单 </label>
+					</div>
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保 存</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-8 ">
+			<div class="col-xs-12 jp-common-pad ">
+				<div class="jp-left ">
+					<select style="width: 120px" class="form-control input-sm">
+						<option value="10">批量操作</option>
+						<option value="25">删除</option>
+					</select>
+				</div>
+				<div class="jp-left  ">
+					<button class="btn  btn-sm btn-default" type="button">应用</button>
+				</div>
+			</div>
+			<div class="clr"></div>
+			<div class="box ">
+
+				<!-- /.box-header -->
+				<div class="box-body jp-common-pad">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 20px"><label class="jp-common-pad "><input class="jp-common-pad " id="allid" onclick="checkAll(this)" title="全选" type="checkbox"></label></th>
+
+								<th style="width: 30%">名称</th>
+								<th>描述</th>
+								<th style="width: 20%">别名</th>
+								<th style="width: 10%">总数</i></th>
+
+							</tr>
+						</thead>
+						<tbody>
+
+							<#if page??> <#list page.getList() as bean>
+							<tr class="jp-onmouse">
+								<td><label class="jp-common-pad"> <input class="jp-common-pad" name="dataItem" type="checkbox"></label></td>
+								<td><strong><a href="#">
+											<span class="article-title"> ${bean.layerString} <#if bean.icon ??> <i class="${bean.icon!}"></i> </#if> ${bean.title!}
+											</span>
+										</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-common-pad">
+											<span class="approve"><a class="vim-a" href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}&id=${bean.id!}">编辑</a></span> <span class="approve">| <a class="vim-a"
+													href="javascript:;" onclick="openSetLayer('${bean.id!}','${bean.title!}')">设置</a></span> <span class="spam">| <a class="vim-s vim-destructive" href="javascript:;"
+													onclick="del('${bean.id}')">删除</a>
+											</span> <span class="trash">| <a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a></span>
+										</p>
+									</div></td>
+								<td>${bean.text!}</td>
+								<td>${bean.slug!}</td>
+								<td>${bean.content_count!}</td>
+							</tr>
+							</#list> </#if>
+						</tbody>
+
+					</table>
+				</div>
+				<!-- /.box-body -->
+
+				<!-- /.box-footer -->
+			</div>
+			<!-- /. box -->
+			<#if type.formType == "input">
+			<div class="cf">
+				<div class="pull-right "><#include "../_inc/_paginate_wrapper.html" /></div>
+			</div>
+			</#if>
+		</div>
+		<!-- /.col -->
+	</div>
+
+	<!-- /.row -->
+</section>
+<!-- /.content -->

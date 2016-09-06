@@ -89,6 +89,13 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		setAttr("module", module);
 		setAttr("type", type);
 		setAttr("taxonomys", taxonomys);
+
+		String include = "_index_include.html";
+		String templateHtml = String.format("admin_taxonomy_index_%s.html", moduleName);
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			include = TemplateManager.me().currentTemplatePath() + "/" + templateHtml;
+		}
+		setAttr("include", include);
 	}
 
 	public void save() {
@@ -183,7 +190,7 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		}
 	}
 
-	public void set_layer() {
+	public void setting() {
 		String moduleName = getContentModule();
 		TplModule module = TemplateManager.me().currentTemplateModule(moduleName);
 		TplTaxonomyType type = module.getTaxonomyTypeByType(getType());
@@ -192,20 +199,28 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		Taxonomy taxonomy = TaxonomyQuery.me().findById(id);
 		setAttr("taxonomy", taxonomy);
 		setAttr("type", type);
+
+		String renderHtml = "setting_layer.html";
+		String templateHtml = String.format("admin_taxonomy_setting_%s.html", moduleName);
+		if (TemplateManager.me().existsFile(templateHtml)) {
+			renderHtml = TemplateManager.me().currentTemplatePath() + "/" + templateHtml;
+		}
+		render(renderHtml);
 	}
 
-	public void set_layer_save() {
+	@Before(UCodeInterceptor.class)
+	public void doSaveSettings() {
+
+		final Map<String, String> metas = getMetas();
 		final Taxonomy taxonomy = getModel(Taxonomy.class);
 
 		boolean saved = Db.tx(new IAtom() {
-
 			@Override
 			public boolean run() throws SQLException {
 				if (!taxonomy.saveOrUpdate()) {
 					return false;
 				}
 
-				Map<String, String> metas = getMetas();
 				if (metas != null) {
 					for (Map.Entry<String, String> entry : metas.entrySet()) {
 						taxonomy.saveOrUpdateMetadta(entry.getKey(), entry.getValue());
@@ -216,13 +231,9 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 			}
 		});
 
-		if (saved)
-
-		{
+		if (saved) {
 			renderAjaxResultForSuccess();
-		} else
-
-		{
+		} else {
 			renderAjaxResultForError();
 		}
 

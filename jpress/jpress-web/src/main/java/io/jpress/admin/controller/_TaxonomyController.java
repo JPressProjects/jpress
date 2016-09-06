@@ -90,12 +90,16 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		setAttr("type", type);
 		setAttr("taxonomys", taxonomys);
 
-		String include = "_index_include.html";
-		String templateHtml = String.format("admin_taxonomy_index_%s.html", moduleName);
-		if (TemplateManager.me().existsFile(templateHtml)) {
-			include = TemplateManager.me().currentTemplatePath() + "/" + templateHtml;
+		String templateHtml = String.format("admin_taxonomy_index_%s_%s.html", moduleName, getType());
+		for (int i = 0; i < 3; i++) {
+			if (TemplateManager.me().existsFile(templateHtml)) {
+				setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+				return;
+			}
+			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
-		setAttr("include", include);
+
+		setAttr("include", "_index_include.html");
 	}
 
 	public void save() {
@@ -200,12 +204,15 @@ public class _TaxonomyController extends JBaseCRUDController<Taxonomy> {
 		setAttr("taxonomy", taxonomy);
 		setAttr("type", type);
 
-		String renderHtml = "setting_layer.html";
-		String templateHtml = String.format("admin_taxonomy_setting_%s.html", moduleName);
-		if (TemplateManager.me().existsFile(templateHtml)) {
-			renderHtml = TemplateManager.me().currentTemplatePath() + "/" + templateHtml;
+		String templateHtml = String.format("admin_taxonomy_setting_%s_%s.html", moduleName, getType());
+		for (int i = 0; i < 3; i++) {
+			if (TemplateManager.me().existsFile(templateHtml)) {
+				setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+				return;
+			}
+			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
-		render(renderHtml);
+		setAttr("include", "_setting_include.html");
 	}
 
 	@Before(UCodeInterceptor.class)

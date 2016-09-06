@@ -101,13 +101,16 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		filterUI(tids);
 
 		setAttr("page", page);
-
-		String include = "_index_include.html";
-		String templateEditHtml = String.format("admin_content_index_%s.html", module.getName());
-		if (TemplateManager.me().existsFile(templateEditHtml)) {
-			include = TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
+		
+		String templateHtml = String.format("admin_content_index_%s.html", module.getName());
+		for (int i = 0; i < 2; i++) {
+			if (TemplateManager.me().existsFile(templateHtml)) {
+				setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+				return;
+			}
+			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
-		setAttr("include", include);
+		setAttr("include", "_index_include.html");
 
 	}
 
@@ -261,12 +264,16 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setSlugInputDisplay(moduleName);
 
-		String include = "_edit_include.html";
-		String templateEditHtml = String.format("admin_content_edit_%s.html", moduleName);
-		if (TemplateManager.me().existsFile(templateEditHtml)) {
-			include = TemplateManager.me().currentTemplatePath() + "/" + templateEditHtml;
+		
+		String templateHtml = String.format("admin_content_edit_%s.html", moduleName);
+		for (int i = 0; i < 2; i++) {
+			if (TemplateManager.me().existsFile(templateHtml)) {
+				setAttr("include", TemplateManager.me().currentTemplatePath() + "/" + templateHtml);
+				return;
+			}
+			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
-		setAttr("include", include);
+		setAttr("include", "_edit_include.html");
 	}
 
 	private void setSlugInputDisplay(String moduleName) {

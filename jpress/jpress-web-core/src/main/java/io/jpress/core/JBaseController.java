@@ -232,6 +232,18 @@ public class JBaseController extends Controller {
 		return result;
 	}
 
+	public BigInteger getParaToBigInteger() {
+		return toBigInteger(getPara(), null);
+	}
+
+	public BigInteger getParaToBigInteger(int index) {
+		return toBigInteger(getPara(index), null);
+	}
+
+	public BigInteger getParaToBigInteger(int index, BigInteger defaultValue) {
+		return toBigInteger(getPara(index), defaultValue);
+	}
+
 	public BigInteger getParaToBigInteger(String name) {
 		return toBigInteger(getRequest().getParameter(name), null);
 	}
@@ -297,8 +309,8 @@ public class JBaseController extends Controller {
 						metas = new HashMap<String, String>();
 					}
 					String value = null;
-					for(String v : entry.getValue()){
-						if(StringUtils.isNotEmpty(v)){
+					for (String v : entry.getValue()) {
+						if (StringUtils.isNotEmpty(v)) {
 							value = v;
 							break;
 						}

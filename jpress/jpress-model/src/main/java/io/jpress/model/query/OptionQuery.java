@@ -23,7 +23,7 @@ import io.jpress.utils.StringUtils;
 
 public class OptionQuery extends JBaseQuery {
 
-	private static final Option DAO = new Option();
+	protected static final Option DAO = new Option();
 	private static final OptionQuery QUERY = new OptionQuery();
 
 	public static OptionQuery me() {

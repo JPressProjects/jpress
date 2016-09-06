@@ -27,7 +27,7 @@ import io.jpress.utils.StringUtils;
 
 public class TaxonomyQuery extends JBaseQuery {
 
-	private static final Taxonomy DAO = new Taxonomy();
+	protected static final Taxonomy DAO = new Taxonomy();
 	private static final TaxonomyQuery QUERY = new TaxonomyQuery();
 
 	public static TaxonomyQuery me() {
@@ -136,7 +136,7 @@ public class TaxonomyQuery extends JBaseQuery {
 		return DAO.deleteById(id);
 	}
 
-	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+	protected void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
 		if (StringUtils.isBlank(orderBy)) {
 			fromBuilder.append(" ORDER BY t.created DESC");

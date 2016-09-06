@@ -30,7 +30,7 @@ import io.jpress.utils.StringUtils;
 
 public class AttachmentQuery extends JBaseQuery {
 
-	private static final Attachment DAO = new Attachment();
+	protected static final Attachment DAO = new Attachment();
 	private static final AttachmentQuery QUERY = new AttachmentQuery();
 
 	public static AttachmentQuery me() {
@@ -127,7 +127,7 @@ public class AttachmentQuery extends JBaseQuery {
 		
 	}
 
-	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+	protected void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
 		if (StringUtils.isBlank(orderBy)) {
 			fromBuilder.append(" ORDER BY a.created DESC");

@@ -24,7 +24,7 @@ import io.jpress.model.Comment;
 
 public class CommentQuery extends JBaseQuery {
 
-	private static final Comment DAO = new Comment();
+	protected static final Comment DAO = new Comment();
 	private static final CommentQuery QUERY = new CommentQuery();
 
 	public static CommentQuery me() {

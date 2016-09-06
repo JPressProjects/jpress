@@ -26,7 +26,7 @@ import io.jpress.model.Mapping;
 
 public class MappingQuery extends JBaseQuery {
 
-	private static final Mapping DAO = new Mapping();
+	protected static final Mapping DAO = new Mapping();
 	private static final MappingQuery QUERY = new MappingQuery();
 
 	public static MappingQuery me() {

@@ -28,7 +28,7 @@ import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 
 public class UserQuery extends JBaseQuery {
-	private static final User DAO = new User();
+	protected static final User DAO = new User();
 	private static final UserQuery QUERY = new UserQuery();
 
 	public static UserQuery me() {
@@ -139,7 +139,7 @@ public class UserQuery extends JBaseQuery {
 		return user.update();
 	}
 
-	private static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+	protected static void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 		if ("content_count".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY u.content_count DESC");
 		}

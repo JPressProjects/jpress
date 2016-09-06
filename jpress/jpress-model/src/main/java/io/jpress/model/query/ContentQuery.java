@@ -33,7 +33,7 @@ import io.jpress.utils.StringUtils;
 
 public class ContentQuery extends JBaseQuery {
 
-	private static final Content DAO = new Content();
+	protected static final Content DAO = new Content();
 	private static final ContentQuery QUERY = new ContentQuery();
 
 	public static ContentQuery me() {
@@ -210,10 +210,8 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
-	private String toString(Object[] a) {
-
+	protected String toString(Object[] a) {
 		int iMax = a.length - 1;
-
 		StringBuilder b = new StringBuilder();
 		b.append('(');
 		for (int i = 0;; i++) {
@@ -224,7 +222,7 @@ public class ContentQuery extends JBaseQuery {
 		}
 	}
 
-	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+	protected void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
 
 		if (StringUtils.isBlank(orderBy)) {
 			fromBuilder.append(" ORDER BY c.created DESC");
@@ -498,11 +496,11 @@ public class ContentQuery extends JBaseQuery {
 		});
 	}
 
-	private StringBuilder getBaseSelectSql() {
+	protected StringBuilder getBaseSelectSql() {
 		return getBaseSelectSql(null);
 	}
 
-	private StringBuilder getBaseSelectSql(String columns) {
+	protected StringBuilder getBaseSelectSql(String columns) {
 		StringBuilder sqlBuilder = new StringBuilder(" select ");
 		sqlBuilder.append(" c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
 		sqlBuilder.append(" ,u.username,u.nickname,u.avatar ");

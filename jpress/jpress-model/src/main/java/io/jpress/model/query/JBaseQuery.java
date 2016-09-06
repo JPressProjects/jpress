@@ -84,7 +84,7 @@ public class JBaseQuery {
 		return needWhere;
 	}
 
-	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array,
+	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, String[] array,
 			List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
@@ -95,7 +95,12 @@ public class JBaseQuery {
 				} else {
 					builder.append(" OR ").append(colName).append(" like ? ");
 				}
-				params.add("%" + array[i] + "%");
+				String value = array[i];
+				if (value.contains("%")) {
+					params.add(value);
+				} else {
+					params.add("%" + value + "%");
+				}
 			}
 			builder.append(" ) ");
 		}

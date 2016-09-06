@@ -22,7 +22,7 @@ import io.jpress.model.Metadata;
 
 public class MetaDataQuery extends JBaseQuery {
 
-	private static final Metadata DAO = new Metadata();
+	protected static final Metadata DAO = new Metadata();
 	private static final MetaDataQuery QUERY = new MetaDataQuery();
 	public static MetaDataQuery me() {
 		return QUERY;

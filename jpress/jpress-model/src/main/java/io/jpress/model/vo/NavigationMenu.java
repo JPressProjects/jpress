@@ -11,13 +11,16 @@ public class NavigationMenu {
 	private String title;
 	private boolean active;
 	private String activeClass;
+	private String icon;
 
 	private List<NavigationMenu> childList;
 
 	public NavigationMenu(Content content, String activeClass) {
 		this.url = content.getText();
 		this.title = content.getTitle();
+		this.icon = content.getFlag();
 		this.active = "active".equals(content.getFlag());
+		
 
 		if (active) {
 			this.activeClass = activeClass;
@@ -78,4 +81,12 @@ public class NavigationMenu {
 		return childList != null && !childList.isEmpty();
 	}
 
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
 }

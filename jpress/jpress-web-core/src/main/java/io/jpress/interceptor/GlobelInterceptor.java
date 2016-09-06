@@ -18,19 +18,27 @@ package io.jpress.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 
+import io.jpress.Consts;
+import io.jpress.core.Jpress;
 import io.jpress.model.User;
+import io.jpress.utils.EncryptUtils;
 
-public class UserInterceptor implements Interceptor {
+public class GlobelInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {
+		if (Jpress.isInstalled() && Jpress.isInstalled()) {
+			doGlobleSetting(inv);
+		}
+		inv.invoke();
+	}
+
+	private void doGlobleSetting(Invocation inv) {
 		User user = InterUtils.tryToGetUser(inv);
 		if (user != null) {
-			inv.invoke();
-		} else {
-			inv.getController().redirect("/user/login");
+			inv.getController().setAttr(Consts.ATTR_USER, user);
+			inv.getController().setAttr("ucode", EncryptUtils.generateUcode(user.getId(), user.getSalt()));
 		}
-
 	}
 
 }

@@ -264,19 +264,19 @@ public class ContentQuery extends JBaseQuery {
 		else if ("object_id".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.object_id ");
 		}
-		
+
 		else if ("price".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.price ");
 		}
-		
+
 		else if ("comment_time".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.comment_time ");
 		}
-		
+
 		else if ("rate".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.rate ");
 		}
-		
+
 		else if ("rate_count".equals(orderBy)) {
 			fromBuilder.append(" ORDER BY c.rate_count ");
 		}
@@ -401,9 +401,18 @@ public class ContentQuery extends JBaseQuery {
 	public Content findFirstByModuleAndObjectId(String module, BigInteger objectId) {
 		return DAO.doFindFirst("module = ? and object_id = ? order by id desc", module, objectId);
 	}
-	
+
+	public Content findFirstByModuleAndObjectId(String module, BigInteger objectId, BigInteger userId) {
+		return DAO.doFindFirst("module = ? and object_id = ? and user_id = ? order by id desc", module, objectId,
+				userId);
+	}
+
 	public List<Content> findListByModuleAndObjectId(String module, BigInteger objectId) {
 		return DAO.doFind("module = ? and object_id = ? order by id desc", module, objectId);
+	}
+	
+	public List<Content> findListByModuleAndUserId(String module, BigInteger userId) {
+		return DAO.doFind("module = ? and user_id = ? order by id desc", module, userId);
 	}
 
 	public List<Content> searchByModuleAndTitle(String module, String title, int limit) {

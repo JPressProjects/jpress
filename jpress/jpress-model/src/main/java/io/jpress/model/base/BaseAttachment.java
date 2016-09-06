@@ -147,6 +147,46 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JModel
 		return get("suffix");
 	}
 
+	public void setType(java.lang.String type) {
+		set("type", type);
+	}
+
+	public java.lang.String getType() {
+		return get("type");
+	}
+
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+
+	public java.lang.String getFlag() {
+		return get("flag");
+	}
+
+	public void setLat(java.math.BigDecimal lat) {
+		set("lat", lat);
+	}
+
+	public java.math.BigDecimal getLat() {
+		return get("lat");
+	}
+
+	public void setLng(java.math.BigDecimal lng) {
+		set("lng", lng);
+	}
+
+	public java.math.BigDecimal getLng() {
+		return get("lng");
+	}
+
+	public void setOrderNumber(java.lang.Integer orderNumber) {
+		set("order_number", orderNumber);
+	}
+
+	public java.lang.Integer getOrderNumber() {
+		return get("order_number");
+	}
+
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

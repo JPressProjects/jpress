@@ -21,7 +21,6 @@ import java.util.List;
 import io.jpress.utils.StringUtils;
 
 public class JBaseQuery {
-	
 
 	protected static boolean appendWhereOrAnd(StringBuilder builder, boolean needWhere) {
 		if (needWhere) {
@@ -31,26 +30,29 @@ public class JBaseQuery {
 		}
 		return false;
 	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params, boolean needWhere) {
-		if(StringUtils.isNotBlank(value)){
+
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params,
+			boolean needWhere) {
+		if (StringUtils.isNotBlank(value)) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
 		}
 		return needWhere;
 	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, BigInteger value, List<Object> params, boolean needWhere) {
-		if(value!=null && value.compareTo(BigInteger.ZERO) > 0){
+
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, BigInteger value,
+			List<Object> params, boolean needWhere) {
+		if (value != null && value.compareTo(BigInteger.ZERO) > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
 		}
 		return needWhere;
 	}
-	
-	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
+
+	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, Object[] array,
+			List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" (");
@@ -66,8 +68,24 @@ public class JBaseQuery {
 		}
 		return needWhere;
 	}
-	
-	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array, List<Object> params, boolean needWhere) {
+
+	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, String value,
+			List<Object> params, boolean needWhere) {
+		if (StringUtils.isNotBlank(value)) {
+			needWhere = appendWhereOrAnd(builder, needWhere);
+			builder.append(" ").append(colName).append(" like ? ");
+			if (value.contains("%")) {
+				params.add(value);
+			} else {
+				params.add("%" + value + "%");
+			}
+
+		}
+		return needWhere;
+	}
+
+	protected static boolean appendIfNotEmptyWithLike(StringBuilder builder, String colName, Object[] array,
+			List<Object> params, boolean needWhere) {
 		if (null != array && array.length > 0) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" (");
@@ -77,7 +95,7 @@ public class JBaseQuery {
 				} else {
 					builder.append(" OR ").append(colName).append(" like ? ");
 				}
-				params.add("%"+array[i]+"%");
+				params.add("%" + array[i] + "%");
 			}
 			builder.append(" ) ");
 		}

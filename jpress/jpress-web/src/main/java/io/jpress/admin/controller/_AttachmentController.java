@@ -52,8 +52,9 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	@Override
 	public void index() {
 		keepPara();
-		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), getPara("k", "").trim(),
-				getPara("dm"), getPara("mime"));
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), null, null, null,
+				getPara("k", "").trim(), getPara("dm"), getPara("mime"), null);
+
 		setAttr("page", page);
 
 		List<Archive> archives = AttachmentQuery.me().findArchives();
@@ -93,8 +94,8 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 
 	public void choose_layer() {
 		keepPara();
-		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), getPara("k", "").trim(),
-				getPara("dm"), getPara("mime"));
+		Page<Attachment> page = AttachmentQuery.me().paginate(getPageNumbere(), getPageSize(), null, null, null,
+				getPara("k", "").trim(), getPara("dm"), getPara("mime"), null);
 		setAttr("page", page);
 		render("choose_layer.html");
 	}
@@ -137,8 +138,8 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 	private void processImage(String newPath) {
 		if (!AttachmentUtils.isImage(newPath))
 			return;
-		
-		if(".gif".equalsIgnoreCase(FileUtils.getSuffix(newPath))){
+
+		if (".gif".equalsIgnoreCase(FileUtils.getSuffix(newPath))) {
 			// 过滤 .gif 图片
 			return;
 		}

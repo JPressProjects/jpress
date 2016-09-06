@@ -37,38 +37,71 @@ public class AttachmentQuery extends JBaseQuery {
 		return QUERY;
 	}
 
-	public Page<Attachment> paginate(int pageNumber, int pageSize, String keyword, String month, String mime) {
+	public Page<Attachment> paginate(int pageNumber, int pageSize, BigInteger userId, String type, String flag,
+			String keyword, String month, String mime,String orderBy) {
 
 		StringBuilder fromBuilder = new StringBuilder(" FROM attachment a ");
 		LinkedList<Object> params = new LinkedList<Object>();
 
 		boolean needWhere = true;
 
-		if (StringUtils.isNotBlank(keyword)) {
-			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
-			fromBuilder.append(" a.title like ? ");
-			params.add("%"+keyword + "%");
-		}
-		
+		needWhere = appendIfNotEmpty(fromBuilder, "a.user_id", userId, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "a.`type`", type, params, needWhere);
+		needWhere = appendIfNotEmpty(fromBuilder, "a.`flag`", flag, params, needWhere);
+		needWhere = appendIfNotEmptyWithLike(fromBuilder, " a.title", keyword, params, needWhere);
+		needWhere = appendIfNotEmptyWithLike(fromBuilder, " a.mime_type", mime + "%", params, needWhere);
+
 		if (StringUtils.isNotBlank(month)) {
 			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
 			fromBuilder.append(" DATE_FORMAT( a.created, \"%Y-%m\" ) = ? ");
 			params.add(month);
 		}
 
-		if (StringUtils.isNotBlank(mime)) {
-			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
-			fromBuilder.append(" a.mime_type like ? ");
-			params.add(mime + "%");
-		}
-		
-		
-		fromBuilder.append(" ORDER BY a.created DESC ");
+		buildOrderBy(orderBy, fromBuilder);
 
 		if (params.isEmpty()) {
 			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString());
 		} else {
 			return DAO.paginate(pageNumber, pageSize, "SELECT * ", fromBuilder.toString(), params.toArray());
+		}
+
+	}
+
+	private void buildOrderBy(String orderBy, StringBuilder fromBuilder) {
+
+		if (StringUtils.isBlank(orderBy)) {
+			fromBuilder.append(" ORDER BY a.created DESC");
+			return;
+		}
+
+		// maybe orderby == "view_count desc";
+		String orderbyInfo[] = orderBy.trim().split("\\s+");
+		orderBy = orderbyInfo[0];
+
+		if ("id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY a.id ");
+		}
+
+		else if ("user_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY a.user_id ");
+		}
+
+		else if ("content_id".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY a.content_id ");
+		}
+
+		else if ("order_number".equals(orderBy)) {
+			fromBuilder.append(" ORDER BY a.order_number ");
+		}
+
+		else {
+			fromBuilder.append(" ORDER BY a.created ");
+		}
+
+		if (orderbyInfo.length == 1) {
+			fromBuilder.append(" DESC ");
+		} else {
+			fromBuilder.append(orderbyInfo[1]);
 		}
 
 	}

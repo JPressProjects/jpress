@@ -135,7 +135,8 @@ public class _TemplateController extends JBaseController {
 		File[] files = pathFile.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File file) {
-				return !file.isDirectory() && (file.getName().endsWith(".html") || file.getName().endsWith(".xml"));
+				return !file.isDirectory() && (file.getName().endsWith(".html") || file.getName().endsWith(".xml")
+						|| file.getName().endsWith(".css") || file.getName().endsWith(".js"));
 			}
 		});
 		setAttr("files", files);

@@ -298,5 +298,10 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 			System.out.println("\r\n---------------Paras: " + Arrays.toString(objects) + "----------------");
 		}
 	}
+	
+	public String metadata(String key) {
+		//让子类去实现的
+		return null;
+	}
 
 }

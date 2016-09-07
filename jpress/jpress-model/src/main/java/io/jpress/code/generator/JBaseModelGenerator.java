@@ -99,6 +99,17 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\t\tmetadata.setMetaValue(value);%n"
 				+ "\t\treturn metadata.update();%n"
 				+ "\t}%n%n"
+				
+				
+				
+				+ "\tpublic String metadata(String key) {%n"
+				+ "\t\tMetadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);%n"
+				+ "\t\tif (m != null) {%n"
+				+ "\t\t\treturn m.getMetaValue();%n"
+				+ "\t\t}%n"
+				+ "\t\treturn null;%n"
+				+ "\t}%n%n"
+				
 		
 		
 				+ "\t@Override%n"

@@ -76,6 +76,14 @@ public abstract class BaseTaxonomy<M extends BaseTaxonomy<M>> extends JModel<M> 
 		return metadata.update();
 	}
 
+	public String metadata(String key) {
+		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		if (m != null) {
+			return m.getMetaValue();
+		}
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(o == null){ return false; }

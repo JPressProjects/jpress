@@ -76,6 +76,14 @@ public abstract class BaseMapping<M extends BaseMapping<M>> extends JModel<M> im
 		return metadata.update();
 	}
 
+	public String metadata(String key) {
+		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
+		if (m != null) {
+			return m.getMetaValue();
+		}
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(o == null){ return false; }

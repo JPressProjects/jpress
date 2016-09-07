@@ -30,7 +30,6 @@ import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseContent;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
-import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
@@ -403,13 +402,6 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return summary;
 	}
 
-	public String metadata(String key) {
-		Metadata m = MetaDataQuery.me().findByTypeAndIdAndKey(METADATA_TYPE, getId(), key);
-		if (m != null) {
-			return m.getMetaValue();
-		}
-		return null;
-	}
 
 	public boolean isCommentEnable() {
 		return !COMMENT_STATUS_CLOSE.equals(getCommentStatus());

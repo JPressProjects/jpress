@@ -151,6 +151,7 @@ public class _TemplateController extends JBaseController {
 			}
 			if (editFile == null) {
 				editFile = files[0];
+				fileName = editFile.getName();
 			}
 		}
 

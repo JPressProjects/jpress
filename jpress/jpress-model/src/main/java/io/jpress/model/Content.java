@@ -117,10 +117,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	public User getUser() {
 		if (user != null)
 			return user;
-		
-		if(getUserId() == null)
+
+		if (getUserId() == null)
 			return null;
-		
+
 		user = UserQuery.me().findById(getUserId());
 		return user;
 	}
@@ -165,6 +165,10 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return getTaxonomyAsUrl(Taxonomy.TYPE_TAG);
 	}
 
+	public String getTagsAsUrl(String attrs) {
+		return getTaxonomyAsUrl(Taxonomy.TYPE_TAG, attrs);
+	}
+
 	public String getCategorysAsString() {
 		return getTaxonomyAsString(Taxonomy.TYPE_CATEGORY);
 	}
@@ -202,10 +206,16 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getTaxonomyAsUrl(String type) {
+		return getTaxonomyAsUrl(type, null);
+	}
+
+	public String getTaxonomyAsUrl(String type, String attrs) {
 		StringBuilder retBuilder = null;
 		String taxonomyString = get("taxonomys");
 		if (taxonomyString != null) {
 			String[] taxonomyStrings = taxonomyString.split(",");
+			if (StringUtils.isBlank(attrs))
+				attrs = "";
 			for (String taxonomyStr : taxonomyStrings) {
 				if (retBuilder == null) {
 					retBuilder = new StringBuilder();
@@ -219,7 +229,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 				if (propertes != null && propertes.length == 4) {
 					if (type.equals(propertes[3])) {
 						String url = JFinal.me().getContextPath() + TaxonomyRouter.getRouter(getModule(), propertes[1]);
-						String string = String.format("<a href=\"" + url + "\" >%s</a>", propertes[2]);
+						String string = String.format("<a href=\"%s\" %s >%s</a>", url, attrs, propertes[2]);
 						retBuilder.append(string).append(",");
 					}
 				}

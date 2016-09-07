@@ -61,4 +61,6 @@ public class Consts {
 	public static final String MODULE_USER_COLLECTION = "user_collection"; // 用户搜藏
 	public static final String MODULE_USER_RELATIONSHIP = "user_relationship"; // 用户关系（比如：好友，关注等）
 	public static final String MODULE_API_APPLICATION = "api_application"; // API应用，可以对应用进行管理
+	
+	public static final String TAXONOMY_TEMPLATE_PREFIX = "for$";
 }

@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.jfinal.kit.PathKit;
 
+import io.jpress.Consts;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.utils.StringUtils;
@@ -60,7 +61,8 @@ public class TplModule {
 		String[] fileNames = f.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String fileName) {
-				return fileName.startsWith("content_" + name + "_");
+				return fileName.startsWith("content_" + name + "_")
+						&& !fileName.contains(Consts.TAXONOMY_TEMPLATE_PREFIX);
 			}
 		});
 		if (fileNames != null && fileNames.length > 0) {

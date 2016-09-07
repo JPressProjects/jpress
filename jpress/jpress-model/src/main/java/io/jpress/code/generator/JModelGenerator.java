@@ -24,7 +24,7 @@ public class JModelGenerator extends ModelGenerator {
 			String baseModelPackageName, String modelOutputDir) {
 		super(modelPackageName, baseModelPackageName, modelOutputDir);
 		
-		this.importTemplate = "import io.jpress.core.annotation.Table;%n"
+		this.importTemplate = "io.jpress.model.core.Table;%n"
 				+ "import %s.%s;%n%n";
 		
 		this.classDefineTemplate =
@@ -35,9 +35,7 @@ public class JModelGenerator extends ModelGenerator {
 				"public class %s extends %s<%s> {%n";
 		
 		
-		this.daoTemplate = "\tprivate static final long serialVersionUID = 1L;%n%n"
-				+ "\tpublic static final %s DAO = new %s();%n";
-		
+		this.daoTemplate = "\tprivate static final long serialVersionUID = 1L;%n%n";
 		
 	}
 	

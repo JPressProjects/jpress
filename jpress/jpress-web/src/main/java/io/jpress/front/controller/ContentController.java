@@ -80,10 +80,10 @@ public class ContentController extends BaseFrontController {
 
 		setAttr("p", page);
 		setAttr("content", content);
-		
+
 		setAttr(NextContentTag.TAG_NAME, new NextContentTag(content));
 		setAttr(PreviousContentTag.TAG_NAME, new PreviousContentTag(content));
-		
+
 		setAttr(CommentPageTag.TAG_NAME, new CommentPageTag(getRequest(), content, page));
 
 		List<Taxonomy> taxonomys = TaxonomyQuery.me().findListByContentId(content.getId());
@@ -96,28 +96,33 @@ public class ContentController extends BaseFrontController {
 			return;
 		}
 
-		if (taxonomys != null && !taxonomys.isEmpty()) {
-			String forSlug = null;
-			for (Taxonomy taxonomy : taxonomys) {
-				String tFile = String.format("content_%s_for:%s.html", module.getName(), taxonomy.getSlug());
-				if (templateExists(tFile)) {
-					if (forSlug == null) {
-						forSlug = "for:" + taxonomy.getSlug();
-					} else {
-						forSlug = null;
-						break;
-					}
-				}
-			}
-
-			if (forSlug != null) {
-				render(String.format("content_%s_%s.html", module.getName(), forSlug));
-				return;
-			}
+		style = tryGetTaxonomyTemplate(module, taxonomys);
+		if (style != null) {
+			render(String.format("content_%s_%s.html", module.getName(), style));
+			return;
 		}
 
 		render(String.format("content_%s.html", module.getName()));
 
+	}
+
+	private String tryGetTaxonomyTemplate(TplModule module, List<Taxonomy> taxonomys) {
+		if (taxonomys == null || taxonomys.isEmpty())
+			return null;
+		String forSlug = null;
+		for (Taxonomy taxonomy : taxonomys) {
+			String tFile = String.format("content_%s_%s%s.html", module.getName(), Consts.TAXONOMY_TEMPLATE_PREFIX,
+					taxonomy.getSlug());
+			if (templateExists(tFile)) {
+				if (forSlug == null) {
+					forSlug = Consts.TAXONOMY_TEMPLATE_PREFIX + taxonomy.getSlug();
+				} else {
+					forSlug = null;
+					break;
+				}
+			}
+		}
+		return forSlug;
 	}
 
 	private void updateContentViewCount(Content content) {

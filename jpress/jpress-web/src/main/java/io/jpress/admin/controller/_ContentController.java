@@ -273,6 +273,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			}
 			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
+		
 		setAttr("include", "_edit_include.html");
 	}
 

@@ -66,7 +66,7 @@ public class _OptionController extends JBaseController {
 		if (StringUtils.isNotBlank(autosaveString)) {
 			String[] keys = autosaveString.split(",");
 			for (String key : keys) {
-				if (StringUtils.isNotBlank(key)) {
+				if (StringUtils.isNotBlank(key) && !datasMap.containsKey(key)) {
 					datasMap.put(key.trim(), getRequest().getParameter(key.trim()));
 				}
 			}

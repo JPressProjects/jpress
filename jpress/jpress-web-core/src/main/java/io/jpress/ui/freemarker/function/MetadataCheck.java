@@ -33,10 +33,14 @@ public class MetadataCheck extends JFunction {
 			return "";
 		}
 
+		String value = getToString(2);
+		if (value == null)
+			value = "true";
+
 		if (obj instanceof JModel<?>) {
 			JModel<?> model = (JModel<?>) obj;
 			String data = model.metadata(key);
-			if (data != null && "true".equals(data.toLowerCase())) {
+			if (data != null && value.equals(data.toLowerCase())) {
 				return "checked=\"checked\"";
 			}
 		}

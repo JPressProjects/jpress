@@ -135,7 +135,7 @@ public class _TemplateController extends JBaseController {
 		File[] files = pathFile.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File file) {
-				return !file.isDirectory();
+				return !file.isDirectory() && (file.getName().endsWith(".html") || file.getName().endsWith(".xml"));
 			}
 		});
 		setAttr("files", files);
@@ -148,6 +148,9 @@ public class _TemplateController extends JBaseController {
 					editFile = f;
 					break;
 				}
+			}
+			if (editFile == null) {
+				editFile = files[0];
 			}
 		}
 
@@ -231,7 +234,7 @@ public class _TemplateController extends JBaseController {
 		if (id == null) {
 			renderAjaxResultForError();
 		}
-		
+
 		boolean deleted = Db.tx(new IAtom() {
 			@Override
 			public boolean run() throws SQLException {
@@ -262,8 +265,7 @@ public class _TemplateController extends JBaseController {
 	public void setting() {
 		keepPara();
 		if (TemplateManager.me().existsFile("tpl_setting.html")) {
-			String include = TemplateManager.me().currentTemplatePath() + "/tpl_setting.html";
-			setAttr("include", "../../.." + include);
+			setAttr("include", TemplateManager.me().currentTemplatePath() + "/tpl_setting.html");
 		}
 	}
 

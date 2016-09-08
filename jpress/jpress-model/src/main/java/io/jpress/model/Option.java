@@ -15,8 +15,6 @@
  */
 package io.jpress.model;
 
-import com.jfinal.plugin.ehcache.CacheKit;
-
 import io.jpress.model.base.BaseOption;
 import io.jpress.model.core.Table;
 
@@ -31,16 +29,21 @@ public class Option extends BaseOption<Option> {
 	
 	@Override
 	public boolean update() {
-		CacheKit.remove(CACHE_NAME, getOptionKey());
+		removeCache(getOptionKey());
 		return super.update();
 	}
 	
 	
 	@Override
 	public boolean save() {
-		CacheKit.remove(CACHE_NAME, getOptionKey());
+		removeCache(getOptionKey());
 		return super.save();
 	}
 
+	@Override
+	public boolean delete() {
+		removeCache(getOptionKey());
+		return super.delete();
+	}
 
 }

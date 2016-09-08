@@ -410,7 +410,7 @@ public class ContentQuery extends JBaseQuery {
 	public List<Content> findListByModuleAndObjectId(String module, BigInteger objectId) {
 		return DAO.doFind("module = ? and object_id = ? order by id desc", module, objectId);
 	}
-	
+
 	public List<Content> findListByModuleAndUserId(String module, BigInteger userId) {
 		return DAO.doFind("module = ? and user_id = ? order by id desc", module, userId);
 	}
@@ -419,11 +419,30 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);
 	}
 
-	public List<Content> findByModule(String module, String orderby) {
-		StringBuilder sqlBuilder = new StringBuilder("select * from content c");
+	public List<Content> findByModule(final String module, String orderby) {
+		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
 		sqlBuilder.append(" where module = ? ");
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.find(sqlBuilder.toString(), module);
+		return DAO.getTemp("findByModule:" + module + orderby, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.find(sqlBuilder.toString(), module);
+			}
+		});
+	}
+
+	public List<Content> findByModule(final String module, final BigInteger parentId, String orderby) {
+		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
+		sqlBuilder.append(" where module = ? ");
+		sqlBuilder.append(" AND parent_id = ? ");
+		buildOrderBy(orderby, sqlBuilder);
+		return DAO.getTemp("findByModule:" + module + parentId + orderby, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.find(sqlBuilder.toString(), module, parentId);
+			}
+		});
+
 	}
 
 	public List<Content> findArchiveByModule(String module) {
@@ -431,14 +450,6 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" where module = ? ");
 		sqlBuilder.append(" order by c.created DESC");
 		return DAO.find(sqlBuilder.toString(), module);
-	}
-
-	public List<Content> findByModule(String module, BigInteger parentId, String orderby) {
-		StringBuilder sqlBuilder = new StringBuilder("select * from content c");
-		sqlBuilder.append(" where module = ? ");
-		sqlBuilder.append(" AND  parent_id = ? ");
-		buildOrderBy(orderby, sqlBuilder);
-		return DAO.find(sqlBuilder.toString(), module, parentId);
 	}
 
 	public Content findBySlug(final String slug) {

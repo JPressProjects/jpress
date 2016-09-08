@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
@@ -34,8 +35,13 @@ public class TaxonomyQuery extends JBaseQuery {
 		return QUERY;
 	}
 
-	public Taxonomy findById(BigInteger id) {
-		return DAO.findById(id);
+	public Taxonomy findById(final BigInteger id) {
+		return DAO.getCache(id, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.findById(id);
+			}
+		});
 	}
 
 	public List<Taxonomy> findAll() {
@@ -116,7 +122,7 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	public Taxonomy findBySlugAndModule(String slug, String module) {
-		return DAO.doFindFirst("slug = ? and content_module=?", slug, module);
+		return DAO.doFindFirstByCache(Taxonomy.CACHE_NAME, module+":"+slug, "slug = ? and content_module=?", slug, module);
 	}
 
 	public List<Taxonomy> findBySlugAndModule(String[] slugs, String module) {

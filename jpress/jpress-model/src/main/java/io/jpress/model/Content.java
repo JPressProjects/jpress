@@ -31,6 +31,7 @@ import io.jpress.model.base.BaseContent;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
@@ -59,7 +60,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Content parent;
 	private List<Metadata> metadatas;
 	private User user;
-	private Content object;
+	private Object object;
 
 	public <T> T getTemp(Object key, IDataLoader dataloader) {
 		return CacheKit.get("content_temp", key, dataloader);
@@ -81,6 +82,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		clearTemp();
 
 		return super.update();
+	}
+
+	@Override
+	public boolean delete() {
+		if (getId() != null) {
+			removeCache(getId());
+		}
+		if (getSlug() != null) {
+			removeCache(getSlug());
+		}
+		return super.delete();
 	}
 
 	@Override
@@ -126,7 +138,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		return user;
 	}
 
-	public Content getObject() {
+	public Object getObject() {
 		if (object != null) {
 			return object;
 		}
@@ -136,6 +148,32 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		}
 
 		object = ContentQuery.me().findById(getObjectId());
+		return object;
+	}
+
+	public Object getUserObject() {
+		if (object != null) {
+			return object;
+		}
+
+		if (getObjectId() == null) {
+			return null;
+		}
+
+		object = UserQuery.me().findById(getObjectId());
+		return object;
+	}
+
+	public Object getTaxonomyObject() {
+		if (object != null) {
+			return object;
+		}
+
+		if (getObjectId() == null) {
+			return null;
+		}
+
+		object = TaxonomyQuery.me().findById(getObjectId());
 		return object;
 	}
 

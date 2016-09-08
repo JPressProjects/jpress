@@ -175,11 +175,17 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public boolean update() {
 		if (getId() != null) {
 			removeCache(getId());
-			putCache(getId(), this);
+			removeCache(this.getContentModule() + ":" + this.getSlug());
 		}
 		return super.update();
 	}
 
+	@Override
+	public boolean delete() {
+		removeCache(getId());
+		removeCache(this.getContentModule() + ":" + this.getSlug());
+		return super.delete();
+	}
 
 	@Override
 	public void setSlug(String slug) {

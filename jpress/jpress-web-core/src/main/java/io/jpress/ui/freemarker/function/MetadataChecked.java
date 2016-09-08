@@ -19,7 +19,7 @@ import io.jpress.core.render.freemarker.JFunction;
 import io.jpress.model.core.JModel;
 import io.jpress.utils.StringUtils;
 
-public class MetadataCheck extends JFunction {
+public class MetadataChecked extends JFunction {
 
 	@Override
 	public Object onExec() {

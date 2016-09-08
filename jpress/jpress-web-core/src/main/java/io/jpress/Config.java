@@ -23,8 +23,10 @@ import io.jpress.core.db.DbDialectFactory;
 import io.jpress.message.Actions;
 import io.jpress.message.MessageKit;
 import io.jpress.plugin.search.SearcherFactory;
-import io.jpress.ui.freemarker.function.MetadataCheck;
+import io.jpress.ui.freemarker.function.MetadataChecked;
+import io.jpress.ui.freemarker.function.MetadataSelected;
 import io.jpress.ui.freemarker.function.OptionChecked;
+import io.jpress.ui.freemarker.function.OptionSelected;
 import io.jpress.ui.freemarker.function.OptionValue;
 import io.jpress.ui.freemarker.function.TaxonomyBox;
 import io.jpress.ui.freemarker.tag.ArchivesTag;
@@ -59,7 +61,9 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("TAXONOMY_BOX", new TaxonomyBox());
 		Jpress.addFunction("OPTION", new OptionValue());
 		Jpress.addFunction("OPTION_CHECKED", new OptionChecked());
-		Jpress.addFunction("METADATA_CHECKED", new MetadataCheck());
+		Jpress.addFunction("OPTION_SELECTED", new OptionSelected());
+		Jpress.addFunction("METADATA_CHECKED", new MetadataChecked());
+		Jpress.addFunction("METADATA_SELECTED", new MetadataSelected());
 
 		doSearcherConfig();
 		MessageKit.sendMessage(Actions.JPRESS_STARTED);

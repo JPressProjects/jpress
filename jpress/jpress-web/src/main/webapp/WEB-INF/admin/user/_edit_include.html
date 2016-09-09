@@ -100,7 +100,7 @@
 					</div>
 					<div class="col-sm-9 jp-common-pad ">
 						<div class="col-sm-7 ">
-							<#if user.avatar ??>
+							<#if user?? && user.avatar ??>
 							<img alt="" src="${CPATH}${(user.avatar)!}" class="jp-grids-photos img-responsive">
 							<br />
 							</#if>

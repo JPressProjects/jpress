@@ -31,7 +31,7 @@ public class ModelSorter {
 		tlist.addAll(newList);
 	}
 
-	private static <M extends ISortModel> void sort(List<M> tlist, List<M> newlist, BigInteger parentId, int layer) {
+	public static <M extends ISortModel> void sort(List<M> tlist, List<M> newlist, BigInteger parentId, int layer) {
 		for (M model : tlist) {
 			if (parentId == null) {
 				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0) {
@@ -70,7 +70,7 @@ public class ModelSorter {
 		}
 	}
 
-	private static <M extends ISortModel> void findModelsInBranch(List<M> treelist, List<ISortModel> removeModels,
+	public static <M extends ISortModel> void findModelsInBranch(List<M> treelist, List<ISortModel> removeModels,
 			BigInteger branchId) {
 		for (int i = 0; i < treelist.size(); i++) {
 			ISortModel model = treelist.get(i);
@@ -85,7 +85,7 @@ public class ModelSorter {
 		}
 	}
 
-	private static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
+	public static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
 		for (M model : tlist) {
 			if (parent == null) {
 				if (model.getParentId() == null 

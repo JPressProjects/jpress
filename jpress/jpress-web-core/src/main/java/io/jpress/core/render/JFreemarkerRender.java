@@ -115,6 +115,9 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			osWriter.flush();
 			return baos.toString(Consts.CHARTSET_UTF8);
 		} catch (Exception e) {
+			if (Jpress.isDevMode()) {
+				e.printStackTrace();
+			}
 			throw new RenderException(e);
 		} finally {
 			close(baos);

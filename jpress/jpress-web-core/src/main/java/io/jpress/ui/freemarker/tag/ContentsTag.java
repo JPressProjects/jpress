@@ -16,19 +16,24 @@
 package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
+import io.jpress.model.ModelSorter;
+import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
+import io.jpress.utils.StringUtils;
 
 /**
  * @title Contents 标签
  * 
  *        使用方法：<br />
- *        <@contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx"
- *        pagesize="" typeid="1,2" module="article,bbs" style=
- *        "article,video,audio" userid="123" parentid="1" userid="" ><br>
+ *        <@contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx" pagesize
+ *        ="" typeid="1,2" module="article,bbs" style= "article,video,audio"
+ *        userid="123" parentid="1" userid="" ><br>
  *        <br>
  *        <#list contents as content><br>
  *        ${content.id} : ${content.title!} <br>
@@ -42,7 +47,7 @@ import io.jpress.model.query.ContentQuery;
  * 
  */
 public class ContentsTag extends JTag {
-	
+
 	public static final String TAG_NAME = "jp.contents";
 
 	@Override
@@ -69,15 +74,35 @@ public class ContentsTag extends JTag {
 		BigInteger[] userIds = getParamToBigIntegerArray("userId");
 		BigInteger[] parentIds = getParamToBigIntegerArray("parentId");
 		Boolean hasThumbnail = getParamToBool("hasThumbnail");
-		
-		List<Content> data = ContentQuery.me().findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds, typeSlugs,
-				modules, styles, flags, slugs, userIds, parentIds, tags,hasThumbnail,null);
 
-		if(data==null || data.isEmpty()){
+		String upperSlug = getParam("upperSlug");
+		if (StringUtils.isNotBlank(upperSlug) && modules != null && modules.length == 1) {
+			Taxonomy taxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
+			if (taxonomy != null) {
+				List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(modules[0], null);
+
+				// 找到taxonomy id的所有孩子或孙子
+				List<Taxonomy> newlist = new ArrayList<Taxonomy>();
+				ModelSorter.sort(list, newlist, taxonomy.getId(), 0);
+				if (newlist != null && newlist.size() > 0) {
+					slugs = null; // 设置 slugs无效
+					typeIds = new BigInteger[newlist.size() + 1];
+					typeIds[0] = taxonomy.getId();
+					for (int i = 1; i < typeIds.length; i++) {
+						typeIds[i] = newlist.get(i - 1).getId();
+					}
+				}
+			}
+		}
+
+		List<Content> data = ContentQuery.me().findListInNormal(pageNumber, pageSize, orderBy, keyword, typeIds,
+				typeSlugs, modules, styles, flags, slugs, userIds, parentIds, tags, hasThumbnail, null);
+
+		if (data == null || data.isEmpty()) {
 			renderText("");
 			return;
 		}
-		
+
 		setVariable("contents", data);
 		renderBody();
 	}

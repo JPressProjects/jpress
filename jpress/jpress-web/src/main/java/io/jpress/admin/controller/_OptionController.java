@@ -71,27 +71,18 @@ public class _OptionController extends JBaseController {
 				}
 			}
 		}
+		
+		if(filesMap!=null && !filesMap.isEmpty()){
+			datasMap.putAll(filesMap);
+		}
 
 		for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-			doSave(entry.getKey(), entry.getValue(), filesMap);
+			OptionQuery.me().saveOrUpdate(entry.getKey(), entry.getValue());
 		}
 
 		MessageKit.sendMessage(Actions.SETTING_CHANGED, datasMap);
 		renderAjaxResultForSuccess();
 	}
 
-	private void doSave(String key, String value, HashMap<String, String> filesMap) {
-
-		if (filesMap != null && filesMap.containsKey(key)) {
-			// 有相同的key的情况下，以上传的文件为准。
-			value = filesMap.get(key);
-		}
-
-		if ("".equals(value)) {
-			value = null;
-		}
-
-		OptionQuery.me().saveOrUpdate(key, value);
-	}
 
 }

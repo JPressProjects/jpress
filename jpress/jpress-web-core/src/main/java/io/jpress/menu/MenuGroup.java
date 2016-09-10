@@ -100,6 +100,13 @@ public class MenuGroup {
 		menuItems.add(item);
 	}
 
+	public void addMenuItem(int index, MenuItem item) {
+		if (this.menuItems == null) {
+			menuItems = new LinkedList<MenuItem>();
+		}
+		menuItems.add(index, item);
+	}
+
 	public void removeMenuItemById(String id) {
 		if (StringUtils.isBlank(id)) {
 			return;

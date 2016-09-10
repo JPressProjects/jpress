@@ -34,7 +34,7 @@ import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
 public class MenusTag extends JTag {
-	
+
 	public static final String TAG_NAME = "jp.menus";
 
 	private List<Taxonomy> currentTaxonomys;
@@ -61,7 +61,7 @@ public class MenusTag extends JTag {
 	public void onRender() {
 
 		BigInteger parentId = getParamToBigInteger("parentId");
-		String activeClass = getParam("activeClass","active");
+		String activeClass = getParam("activeClass", "active");
 
 		List<Content> list = null;
 
@@ -92,23 +92,11 @@ public class MenusTag extends JTag {
 	}
 
 	private void setActiveMenu(List<Content> menuContentList) {
-		if (currentTaxonomys != null && currentTaxonomys.size() > 0) {
-			for (Taxonomy taxonomy : currentTaxonomys) {
-				String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
-				routerWithoutPageNumber = JFinal.me().getContextPath() + routerWithoutPageNumber;
-				if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
-					for (Content menuContent : menuContentList) {
-						if (menuContent.getText() != null
-								&& menuContent.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
-							menuContent.put("active", "active");
-						}
-						
-						String onlyModuleUrl = JFinal.me().getContextPath() + "/" + taxonomy.getContentModule();
-						if (onlyModuleUrl.equals(menuContent.getText())) {
-							menuContent.put("active", "active");
-						}
-					}
-				}
+		for (Content menuContent : menuContentList) {
+			menuContent.remove("active"); 
+			if (menuContent.getText() != null
+					&& menuContent.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
+				menuContent.put("active", "active");
 			}
 		}
 
@@ -126,12 +114,28 @@ public class MenusTag extends JTag {
 			}
 		}
 
-		for (Content menuContent : menuContentList) {
-			if (menuContent.getText() != null
-					&& menuContent.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
-				menuContent.put("active", "active");
+		if (currentTaxonomys == null || currentTaxonomys.isEmpty()) {
+			return;
+		}
+
+		for (Taxonomy taxonomy : currentTaxonomys) {
+			String routerWithoutPageNumber = TaxonomyRouter.getRouterWithoutPageNumber(taxonomy);
+			routerWithoutPageNumber = JFinal.me().getContextPath() + routerWithoutPageNumber;
+			if (StringUtils.isNotBlank(routerWithoutPageNumber)) {
+				for (Content menuContent : menuContentList) {
+					if (menuContent.getText() != null
+							&& menuContent.getText().startsWith(StringUtils.urlDecode(routerWithoutPageNumber))) {
+						menuContent.put("active", "active");
+					}
+
+					String onlyModuleUrl = JFinal.me().getContextPath() + "/" + taxonomy.getContentModule();
+					if (onlyModuleUrl.equals(menuContent.getText())) {
+						menuContent.put("active", "active");
+					}
+				}
 			}
 		}
+
 	}
 
 }

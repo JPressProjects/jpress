@@ -27,6 +27,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.core.render.freemarker.BasePaginateTag;
 import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
+import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
@@ -68,15 +69,13 @@ public class ContentPageTag extends JTag {
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
 			boolean containChild = getParamToBool("containChild", false);
 			if (containChild == true) {
-				BigInteger[] tempIds = Arrays.copyOf(taxonomyIds, taxonomyIds.length);
-				for (BigInteger taxonomyId : tempIds) {
-					List<Taxonomy> childs = TaxonomyQuery.me().findListByModuleAndType(moduleName,
-							taxonomys.get(0).getType(), taxonomyId, null, null);
-
+				for (Taxonomy taxonomy : taxonomys) {
+					List<Taxonomy> childs = TaxonomyQuery.me().findListByModuleAndType(moduleName, taxonomy.getType());
 					if (childs != null && childs.size() > 0) {
+						ModelSorter.sort(childs, taxonomy.getId());
 						BigInteger[] newIds = Arrays.copyOf(taxonomyIds, taxonomyIds.length + childs.size());
-						for (int i = taxonomyIds.length - 1; i < newIds.length; i++) {
-							newIds[i] = childs.get(i - taxonomyIds.length - 1).getId();
+						for (int i = taxonomyIds.length; i < newIds.length; i++) {
+							newIds[i] = childs.get(i - taxonomyIds.length).getId();
 						}
 						taxonomyIds = newIds;
 					}

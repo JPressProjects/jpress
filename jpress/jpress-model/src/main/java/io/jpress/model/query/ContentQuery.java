@@ -106,8 +106,8 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
 	}
 
-	public Page<Content> paginateInNormal(int page, int pagesize, String module,
-			BigInteger[] taxonomyIds, String orderBy) {
+	public Page<Content> paginateInNormal(int page, int pagesize, String module, BigInteger[] taxonomyIds,
+			String orderBy) {
 
 		LinkedList<Object> params = new LinkedList<Object>();
 
@@ -420,7 +420,7 @@ public class ContentQuery extends JBaseQuery {
 		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
 		sqlBuilder.append(" where module = ? ");
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getTemp("findByModule:" + module + orderby, new IDataLoader() {
+		return DAO.getTemp(buildKey("findByModule", module, null, orderby), new IDataLoader() {
 			@Override
 			public Object load() {
 				return DAO.find(sqlBuilder.toString(), module);
@@ -433,13 +433,17 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" where module = ? ");
 		sqlBuilder.append(" AND parent_id = ? ");
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getTemp("findByModule:" + module + parentId + orderby, new IDataLoader() {
+		return DAO.getTemp(buildKey("findByModule", module, parentId, orderby), new IDataLoader() {
 			@Override
 			public Object load() {
 				return DAO.find(sqlBuilder.toString(), module, parentId);
 			}
 		});
+	}
 
+	private String buildKey(String method, String module, BigInteger parentId, String orderby) {
+		String key = method + ":" + module + parentId + orderby;
+		return key.replace(" ", "");
 	}
 
 	public List<Content> findArchiveByModule(String module) {

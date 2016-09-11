@@ -23,10 +23,14 @@ import java.util.List;
 public class ModelSorter {
 
 	public static <M extends ISortModel> void sort(List<M> tlist) {
+		sort(tlist, null);
+	}
+
+	public static <M extends ISortModel> void sort(List<M> tlist, BigInteger parentId) {
 		if (tlist == null)
 			return;
 		List<M> newList = new ArrayList<M>();
-		sort(tlist, newList, null, 0);
+		sort(tlist, newList, parentId, 0);
 		tlist.clear();
 		tlist.addAll(newList);
 	}
@@ -58,7 +62,6 @@ public class ModelSorter {
 		tlist.clear();
 		tlist.addAll(newList);
 	}
-	
 
 	public static <M extends ISortModel> void removeTreeBranch(List<M> treelist, BigInteger branchId) {
 		List<ISortModel> removeModels = new ArrayList<ISortModel>();
@@ -88,16 +91,13 @@ public class ModelSorter {
 	public static <M extends ISortModel> void tree(List<M> tlist, List<M> newlist, M parent) {
 		for (M model : tlist) {
 			if (parent == null) {
-				if (model.getParentId() == null 
-						|| model.getParentId().compareTo(BigInteger.ZERO) <= 0
+				if (model.getParentId() == null || model.getParentId().compareTo(BigInteger.ZERO) <= 0
 						|| model.getParent() == null) {
 					newlist.add(model);
 					tree(tlist, newlist, model);
 				}
-			} 
-			else {
-				if (parent.getId() != null 
-						&& model.getParentId() != null
+			} else {
+				if (parent.getId() != null && model.getParentId() != null
 						&& parent.getId().compareTo(model.getParentId()) == 0) {
 					model.setParent(parent);
 					parent.addChild(model);
@@ -119,7 +119,7 @@ public class ModelSorter {
 		public M getParent();
 
 		public void addChild(M child);
-		
+
 		public List<M> getChildList();
 	}
 

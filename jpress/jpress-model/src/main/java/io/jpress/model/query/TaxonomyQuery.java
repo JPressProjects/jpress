@@ -97,8 +97,10 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	private String buildKey(String module, String type, BigInteger parentId, Integer limit, String orderby) {
-		return "module:" + module + "-type:" + type + "-parentId:" + parentId + "-limit:" + limit + "-orderby:"
+		String key = "module:" + module + "-type:" + type + "-parentId:" + parentId + "-limit:" + limit + "-orderby:"
 				+ orderby;
+
+		return key.replace(" ", "");
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {

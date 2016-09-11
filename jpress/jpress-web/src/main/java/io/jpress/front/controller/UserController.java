@@ -240,7 +240,7 @@ public class UserController extends BaseFrontController {
 		render(String.format("user_center_%s.html", action));
 
 		int pageNumber = getParaToInt(1, 1);
-		BigInteger userId = ((User) getAttr("user")).getId();
+		BigInteger userId = getLoginedUser().getId();
 
 		setAttr(UserContentPageTag.TAG_NAME, new UserContentPageTag(action, userId, pageNumber));
 		setAttr("action", action);

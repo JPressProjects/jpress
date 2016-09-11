@@ -192,7 +192,7 @@ public class _TemplateController extends JBaseController {
 	}
 
 	public void menu() {
-		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, null, "order_number ASC");
 		ModelSorter.sort(list);
 
 		List<Content> menulist = new ArrayList<Content>();
@@ -226,6 +226,7 @@ public class _TemplateController extends JBaseController {
 		if (c.getCreated() == null) {
 			c.setCreated(new Date());
 		}
+		c.setStatus(Content.STATUS_NORMAL);
 		c.saveOrUpdate();
 		renderAjaxResultForSuccess();
 	}

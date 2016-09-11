@@ -16,6 +16,7 @@
 package io.jpress.model.query;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class TaxonomyQuery extends JBaseQuery {
 		}
 
 		String key = buildKey(module, type, parentId, limit, orderby);
-		return DAO.getFromListCache(key, new IDataLoader() {
+		List<Taxonomy> data = DAO.getFromListCache(key, new IDataLoader() {
 			@Override
 			public Object load() {
 				if (params.isEmpty()) {
@@ -92,7 +93,9 @@ public class TaxonomyQuery extends JBaseQuery {
 				return DAO.find(sqlBuilder.toString(), params.toArray());
 			}
 		});
-
+		if (data == null)
+			return null;
+		return new ArrayList<Taxonomy>(data);
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {

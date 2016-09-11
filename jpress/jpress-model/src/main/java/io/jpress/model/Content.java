@@ -63,12 +63,21 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Object object;
 
 	public <T> T getFromListCache(Object key, IDataLoader dataloader) {
+		List<String> inCacheKeys = CacheKit.get(CACHE_NAME, "cachekeys");
+
+		List<String> cacheKeyList = new ArrayList<String>();
+		if (inCacheKeys != null) {
+			cacheKeyList.addAll(inCacheKeys);
+		}
+
+		cacheKeyList.add(key.toString());
+		CacheKit.put(CACHE_NAME, "cachekeys", cacheKeyList);
+
 		return CacheKit.get("content_list", key, dataloader);
 	}
 
 	public void clearList() {
-		@SuppressWarnings("unchecked")
-		List<Object> list = CacheKit.getKeys("taxonomy_list");
+		List<Object> list = CacheKit.get(CACHE_NAME, "cachekeys");
 		if (list != null && list.size() > 0) {
 			for (Object keyObj : list) {
 				String keyStr = (String) keyObj;

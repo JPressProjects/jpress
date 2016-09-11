@@ -416,29 +416,25 @@ public class ContentQuery extends JBaseQuery {
 		return DAO.doFind("module = ? and title like ? order by id desc limit ?", module, "%" + title + "%", limit);
 	}
 
-	public List<Content> findByModule(final String module, String orderby) {
-		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
-		sqlBuilder.append(" where module = ? ");
-		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getFromListCache(buildKey(module, null, orderby), new IDataLoader() {
-			@Override
-			public Object load() {
-				return DAO.find(sqlBuilder.toString(), module);
-			}
-		});
-	}
-
 	public List<Content> findByModule(final String module, final BigInteger parentId, String orderby) {
 		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
 		sqlBuilder.append(" where module = ? ");
-		sqlBuilder.append(" AND parent_id = ? ");
+
+		final List<Object> params = new ArrayList<Object>();
+		params.add(module);
+		appendIfNotEmpty(sqlBuilder, "parent_id", parentId, params, false);
+
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getFromListCache(buildKey(module, parentId, orderby), new IDataLoader() {
+		List<Content> data = DAO.getFromListCache(buildKey(module, parentId, orderby), new IDataLoader() {
 			@Override
 			public Object load() {
-				return DAO.find(sqlBuilder.toString(), module, parentId);
+				return DAO.find(sqlBuilder.toString(), params.toArray());
 			}
 		});
+		if (data == null)
+			return null;
+		
+		return new ArrayList<Content>(data);
 	}
 
 	private String buildKey(String module, Object... params) {

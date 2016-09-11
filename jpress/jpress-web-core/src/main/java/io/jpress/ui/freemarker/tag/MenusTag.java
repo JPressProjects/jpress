@@ -63,13 +63,7 @@ public class MenusTag extends JTag {
 		BigInteger parentId = getParamToBigInteger("parentId");
 		String activeClass = getParam("activeClass", "active");
 
-		List<Content> list = null;
-
-		if (parentId != null) {
-			list = ContentQuery.me().findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
-		} else {
-			list = ContentQuery.me().findByModule(Consts.MODULE_MENU, "order_number ASC");
-		}
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, parentId, "order_number ASC");
 
 		if (list == null || list.isEmpty()) {
 			renderText("");
@@ -93,7 +87,7 @@ public class MenusTag extends JTag {
 
 	private void setActiveMenu(List<Content> menuContentList) {
 		for (Content menuContent : menuContentList) {
-			menuContent.remove("active"); 
+			menuContent.remove("active");
 			if (menuContent.getText() != null
 					&& menuContent.getText().equals(StringUtils.urlDecode(request.getRequestURI()))) {
 				menuContent.put("active", "active");

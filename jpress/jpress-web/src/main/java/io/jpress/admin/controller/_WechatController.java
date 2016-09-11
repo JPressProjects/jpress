@@ -73,7 +73,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 	}
 
 	public void menu() {
-		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, null, "order_number ASC");
 		ModelSorter.sort(list);
 
 		List<Content> wechat_menulist = new ArrayList<Content>();
@@ -146,7 +146,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 	@Before(WechatApiConfigInterceptor.class)
 	public void menuSync() {
-		List<Content> wechatMenus = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, "order_number ASC");
+		List<Content> wechatMenus = ContentQuery.me().findByModule(Consts.MODULE_WECHAT_MENU, null, "order_number ASC");
 		ModelSorter.tree(wechatMenus);
 
 		if (wechatMenus != null) {

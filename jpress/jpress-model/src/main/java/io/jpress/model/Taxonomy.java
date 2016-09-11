@@ -45,12 +45,21 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	private String activeClass;
 
 	public <T> T getFromListCache(Object key, IDataLoader dataloader) {
+		List<String> inCacheKeys = CacheKit.get(CACHE_NAME, "cachekeys");
+
+		List<String> cacheKeyList = new ArrayList<String>();
+		if (inCacheKeys != null) {
+			cacheKeyList.addAll(inCacheKeys);
+		}
+
+		cacheKeyList.add(key.toString());
+		CacheKit.put(CACHE_NAME, "cachekeys", cacheKeyList);
+
 		return CacheKit.get("taxonomy_list", key, dataloader);
 	}
 
 	public void clearList() {
-		@SuppressWarnings("unchecked")
-		List<Object> list = CacheKit.getKeys("taxonomy_list");
+		List<Object> list = CacheKit.get(CACHE_NAME, "cachekeys");
 		if (list != null && list.size() > 0) {
 			for (Object keyObj : list) {
 				String keyStr = (String) keyObj;

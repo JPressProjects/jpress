@@ -35,10 +35,10 @@ public class MenuChangedListener implements MessageListener {
 	@Override
 	public void onMessage(Message message) {
 		Object temp = message.getData();
-		if (temp != null && (temp instanceof Map )) {
+		if (temp != null && (temp instanceof Map)) {
 
 			@SuppressWarnings("unchecked")
-			Map<String,String> datas = (Map<String,String>) temp;
+			Map<String, String> datas = (Map<String, String>) temp;
 			// 路由状态发生变化
 			if (datas.containsKey("router_content_type") || datas.containsKey("router_fakestatic_enable")) {
 				updateMenus();
@@ -47,7 +47,7 @@ public class MenuChangedListener implements MessageListener {
 	}
 
 	private void updateMenus() {
-		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, "order_number ASC");
+		List<Content> list = ContentQuery.me().findByModule(Consts.MODULE_MENU, null, "order_number ASC");
 		if (list != null && list.size() > 0) {
 			for (Content content : list) {
 				BigInteger taxonomyId = content.getObjectId();

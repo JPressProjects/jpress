@@ -62,12 +62,28 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private User user;
 	private Object object;
 
-	public <T> T getTemp(Object key, IDataLoader dataloader) {
-		return CacheKit.get("content_temp", key, dataloader);
+	public <T> T getFromListCache(Object key, IDataLoader dataloader) {
+		return CacheKit.get("content_list", key, dataloader);
 	}
 
-	public void clearTemp() {
-		CacheKit.removeAll("content_temp");
+	public void clearList() {
+		@SuppressWarnings("unchecked")
+		List<Object> list = CacheKit.getKeys("taxonomy_list");
+		if (list != null && list.size() > 0) {
+			for (Object keyObj : list) {
+				String keyStr = (String) keyObj;
+
+				if (!keyStr.startsWith("module:")) {
+					CacheKit.remove("taxonomy_list", keyStr);
+					continue;
+				}
+
+				// 不清除其他模型的内容
+				if (keyStr.startsWith("module:" + getModule())) {
+					CacheKit.remove("taxonomy_list", keyStr);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -79,7 +95,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			removeCache(getSlug());
 		}
 
-		clearTemp();
+		clearList();
 
 		return super.update();
 	}
@@ -92,9 +108,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getSlug() != null) {
 			removeCache(getSlug());
 		}
-		
-		clearTemp();
-		
+
+		clearList();
+
 		return super.delete();
 	}
 
@@ -108,7 +124,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 			removeCache(getSlug());
 		}
 
-		clearTemp();
+		clearList();
 
 		return super.save();
 	}

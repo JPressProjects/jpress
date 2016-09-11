@@ -44,6 +44,30 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	private Taxonomy parent;
 	private String activeClass;
 
+	public <T> T getFromListCache(Object key, IDataLoader dataloader) {
+		return CacheKit.get("taxonomy_list", key, dataloader);
+	}
+
+	public void clearList() {
+		@SuppressWarnings("unchecked")
+		List<Object> list = CacheKit.getKeys("taxonomy_list");
+		if (list != null && list.size() > 0) {
+			for (Object keyObj : list) {
+				String keyStr = (String) keyObj;
+
+				if (!keyStr.startsWith("module:")) {
+					CacheKit.remove("taxonomy_list", keyStr);
+					continue;
+				}
+
+				// 不清除其他模型的内容
+				if (keyStr.startsWith("module:" + getContentModule())) {
+					CacheKit.remove("taxonomy_list", keyStr);
+				}
+			}
+		}
+	}
+
 	public int getLayer() {
 		return layer;
 	}
@@ -164,14 +188,6 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(list);
 	}
 
-	public <T> T getTemp(Object key, IDataLoader dataloader) {
-		return CacheKit.get("taxonomy_temp", key, dataloader);
-	}
-
-	public void clearTemp() {
-		CacheKit.removeAll("taxonomy_temp");
-	}
-
 	@Override
 	public boolean save() {
 		if (getId() != null) {
@@ -179,7 +195,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 			putCache(getId(), this);
 		}
 
-		clearTemp();
+		clearList();
 
 		return super.save();
 	}
@@ -190,7 +206,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 			removeCache(this.getContentModule() + ":" + this.getSlug());
 		}
 
-		clearTemp();
+		clearList();
 
 		return super.update();
 	}
@@ -200,7 +216,7 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		removeCache(getId());
 		removeCache(this.getContentModule() + ":" + this.getSlug());
 
-		clearTemp();
+		clearList();
 
 		return super.delete();
 	}

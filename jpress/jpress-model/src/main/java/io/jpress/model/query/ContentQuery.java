@@ -420,7 +420,7 @@ public class ContentQuery extends JBaseQuery {
 		final StringBuilder sqlBuilder = new StringBuilder("select * from content c");
 		sqlBuilder.append(" where module = ? ");
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getTemp(buildKey("findByModule", module, null, orderby), new IDataLoader() {
+		return DAO.getFromListCache(buildKey(module, null, orderby), new IDataLoader() {
 			@Override
 			public Object load() {
 				return DAO.find(sqlBuilder.toString(), module);
@@ -433,7 +433,7 @@ public class ContentQuery extends JBaseQuery {
 		sqlBuilder.append(" where module = ? ");
 		sqlBuilder.append(" AND parent_id = ? ");
 		buildOrderBy(orderby, sqlBuilder);
-		return DAO.getTemp(buildKey("findByModule", module, parentId, orderby), new IDataLoader() {
+		return DAO.getFromListCache(buildKey(module, parentId, orderby), new IDataLoader() {
 			@Override
 			public Object load() {
 				return DAO.find(sqlBuilder.toString(), module, parentId);
@@ -441,9 +441,14 @@ public class ContentQuery extends JBaseQuery {
 		});
 	}
 
-	private String buildKey(String method, String module, BigInteger parentId, String orderby) {
-		String key = method + ":" + module + parentId + orderby;
-		return key.replace(" ", "");
+	private String buildKey(String module, Object... params) {
+		StringBuffer keyBuffer = new StringBuffer(module == null ? "" : "module:" + module);
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++) {
+				keyBuffer.append("-p").append(i).append(":").append(params[i]);
+			}
+		}
+		return keyBuffer.toString().replace(" ", "");
 	}
 
 	public List<Content> findArchiveByModule(String module) {
@@ -481,40 +486,42 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Content findNext(final Content currentContent) {
-		return DAO.getTemp(String.format("%s_next", currentContent.getId()), new IDataLoader() {
-			@Override
-			public Object load() {
-				StringBuilder sqlBuilder = new StringBuilder(" select ");
-				sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
-				sqlBuilder.append(" from content c");
-				sqlBuilder.append(" left join user u on c.user_id = u.id ");
-				sqlBuilder.append(" WHERE c.id > ?");
-				sqlBuilder.append(" AND c.module = ?");
-				sqlBuilder.append(" AND c.status = 'normal'");
-				sqlBuilder.append(" ORDER BY c.created ASC");
-				sqlBuilder.append(" LIMIT 1");
-				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-			}
-		});
+		return DAO.getFromListCache(buildKey(currentContent.getModule(), "next:" + currentContent.getId()),
+				new IDataLoader() {
+					@Override
+					public Object load() {
+						StringBuilder sqlBuilder = new StringBuilder(" select ");
+						sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+						sqlBuilder.append(" from content c");
+						sqlBuilder.append(" left join user u on c.user_id = u.id ");
+						sqlBuilder.append(" WHERE c.id > ?");
+						sqlBuilder.append(" AND c.module = ?");
+						sqlBuilder.append(" AND c.status = 'normal'");
+						sqlBuilder.append(" ORDER BY c.created ASC");
+						sqlBuilder.append(" LIMIT 1");
+						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+					}
+				});
 	}
 
 	public Content findPrevious(final Content currentContent) {
-		return DAO.getTemp(String.format("%s_previous", currentContent.getId()), new IDataLoader() {
-			@Override
-			public Object load() {
-				StringBuilder sqlBuilder = new StringBuilder(" select ");
-				sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
-				sqlBuilder.append(" from content c");
-				sqlBuilder.append(" left join user u on c.user_id = u.id ");
-				sqlBuilder.append(" WHERE c.id < ?");
-				sqlBuilder.append(" AND c.module = ?");
-				sqlBuilder.append(" AND c.status = 'normal'");
-				sqlBuilder.append(" ORDER BY c.created DESC");
-				sqlBuilder.append(" LIMIT 1");
+		return DAO.getFromListCache(buildKey(currentContent.getModule(), "previous:" + currentContent.getId()),
+				new IDataLoader() {
+					@Override
+					public Object load() {
+						StringBuilder sqlBuilder = new StringBuilder(" select ");
+						sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
+						sqlBuilder.append(" from content c");
+						sqlBuilder.append(" left join user u on c.user_id = u.id ");
+						sqlBuilder.append(" WHERE c.id < ?");
+						sqlBuilder.append(" AND c.module = ?");
+						sqlBuilder.append(" AND c.status = 'normal'");
+						sqlBuilder.append(" ORDER BY c.created DESC");
+						sqlBuilder.append(" LIMIT 1");
 
-				return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
-			}
-		});
+						return DAO.findFirst(sqlBuilder.toString(), currentContent.getId(), currentContent.getModule());
+					}
+				});
 	}
 
 	protected StringBuilder getBaseSelectSql() {

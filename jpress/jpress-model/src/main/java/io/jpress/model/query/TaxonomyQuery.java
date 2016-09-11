@@ -83,8 +83,7 @@ public class TaxonomyQuery extends JBaseQuery {
 		}
 
 		String key = buildKey(module, type, parentId, limit, orderby);
-
-		return DAO.getTemp(key, new IDataLoader() {
+		return DAO.getFromListCache(key, new IDataLoader() {
 			@Override
 			public Object load() {
 				if (params.isEmpty()) {
@@ -94,13 +93,6 @@ public class TaxonomyQuery extends JBaseQuery {
 			}
 		});
 
-	}
-
-	private String buildKey(String module, String type, BigInteger parentId, Integer limit, String orderby) {
-		String key = "module:" + module + "-type:" + type + "-parentId:" + parentId + "-limit:" + limit + "-orderby:"
-				+ orderby;
-
-		return key.replace(" ", "");
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
@@ -209,7 +201,16 @@ public class TaxonomyQuery extends JBaseQuery {
 		} else {
 			fromBuilder.append(orderbyInfo[1]);
 		}
+	}
 
+	private String buildKey(String module, Object... params) {
+		StringBuffer keyBuffer = new StringBuffer(module == null ? "" : "module:" + module);
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++) {
+				keyBuffer.append("-p").append(i).append(":").append(params[i]);
+			}
+		}
+		return keyBuffer.toString().replace(" ", "");
 	}
 
 }

@@ -70,7 +70,7 @@
          transactionalMode="off"
           />
           
-     <cache name="content_temp"
+     <cache name="content_list"
          maxEntriesLocalHeap="10000"
          maxEntriesLocalDisk="100000"
          eternal="false"
@@ -119,7 +119,7 @@
           />
           
           
-    <cache name="taxonomy_temp"
+    <cache name="taxonomy_list"
          maxEntriesLocalHeap="10000"
          maxEntriesLocalDisk="100000"
          eternal="false"

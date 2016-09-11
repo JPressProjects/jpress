@@ -33,7 +33,7 @@ public class JBaseQuery {
 
 	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, String value, List<Object> params,
 			boolean needWhere) {
-		if (StringUtils.isNotBlank(value)) {
+		if (value != null) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);
@@ -43,7 +43,7 @@ public class JBaseQuery {
 
 	protected static boolean appendIfNotEmpty(StringBuilder builder, String colName, BigInteger value,
 			List<Object> params, boolean needWhere) {
-		if (value != null && value.compareTo(BigInteger.ZERO) > 0) {
+		if (value != null) {
 			needWhere = appendWhereOrAnd(builder, needWhere);
 			builder.append(" ").append(colName).append(" = ? ");
 			params.add(value);

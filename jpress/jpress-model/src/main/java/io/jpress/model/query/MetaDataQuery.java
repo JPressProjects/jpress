@@ -24,6 +24,7 @@ public class MetaDataQuery extends JBaseQuery {
 
 	protected static final Metadata DAO = new Metadata();
 	private static final MetaDataQuery QUERY = new MetaDataQuery();
+
 	public static MetaDataQuery me() {
 		return QUERY;
 	}
@@ -45,8 +46,9 @@ public class MetaDataQuery extends JBaseQuery {
 	}
 
 	public Metadata findByTypeAndIdAndKey(String type, BigInteger id, String key) {
-		String cachekey = type + key + id;
-		return DAO.doFindFirstByCache(Metadata.CACHE_NAME, cachekey,"object_type = ? and object_id = ? and meta_key = ? ", type, id, key);
+		String cachekey = type + id + key;
+		return DAO.doFindFirstByCache(Metadata.CACHE_NAME, cachekey,
+				"object_type = ? and object_id = ? and meta_key = ? ", type, id, key);
 
 	}
 }

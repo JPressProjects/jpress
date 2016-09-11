@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -108,7 +107,7 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Page<Content> paginateInNormal(int page, int pagesize, String module,
-			Map<String, List<BigInteger>> taxonomyIds, String orderBy) {
+			BigInteger[] taxonomyIds, String orderBy) {
 
 		LinkedList<Object> params = new LinkedList<Object>();
 
@@ -129,11 +128,9 @@ public class ContentQuery extends JBaseQuery {
 
 		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
 
-		if (taxonomyIds != null && taxonomyIds.size() > 0) {
-			for (Map.Entry<String, List<BigInteger>> entry : taxonomyIds.entrySet()) {
-				fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in "
-						+ toString(entry.getValue().toArray(new BigInteger[] {})) + " and m.`content_id`=c.id) ");
-			}
+		if (taxonomyIds != null && taxonomyIds.length > 0) {
+			fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in " + toString(taxonomyIds)
+					+ " and m.`content_id`=c.id) ");
 		}
 
 		fromBuilder.append(" group by c.id");

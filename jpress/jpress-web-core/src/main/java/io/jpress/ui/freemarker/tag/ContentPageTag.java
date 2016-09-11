@@ -16,10 +16,8 @@
 package io.jpress.ui.freemarker.tag;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,12 +29,13 @@ import io.jpress.core.render.freemarker.JTag;
 import io.jpress.model.Content;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.utils.StringUtils;
 
 public class ContentPageTag extends JTag {
-	
+
 	public static final String TAG_NAME = "jp.contentPage";
-	
+
 	int pageNumber;
 	String moduleName;
 	String orderBy;
@@ -58,25 +57,37 @@ public class ContentPageTag extends JTag {
 		int pagesize = getParamToInt("pageSize", 10);
 		orderBy = StringUtils.isBlank(orderBy) ? getParam("orderBy") : orderBy;
 
-		Map<String, List<BigInteger>> map = null;
-
+		BigInteger[] taxonomyIds = null;
 		if (taxonomys != null && taxonomys.size() > 0) {
-			map = new HashMap<String, List<BigInteger>>();
-			for (Taxonomy taxonomy : taxonomys) {
-				List<BigInteger> list = map.get(taxonomy.getType());
-				if (list == null) {
-					list = new ArrayList<BigInteger>();
-				}
-
-				list.add(taxonomy.getId());
-				map.put(taxonomy.getType(), list);
+			taxonomyIds = new BigInteger[taxonomys.size()];
+			for (int i = 0; i < taxonomyIds.length; i++) {
+				taxonomyIds[i] = taxonomys.get(i).getId();
 			}
 		}
 
-		Page<Content> page = ContentQuery.me().paginateInNormal(pageNumber, pagesize, moduleName, map, orderBy);
+		if (taxonomyIds != null && taxonomyIds.length > 0) {
+			boolean containChild = getParamToBool("containChild", false);
+			if (containChild == true) {
+				BigInteger[] tempIds = Arrays.copyOf(taxonomyIds, taxonomyIds.length);
+				for (BigInteger taxonomyId : tempIds) {
+					List<Taxonomy> childs = TaxonomyQuery.me().findListByModuleAndType(moduleName,
+							taxonomys.get(0).getType(), taxonomyId, null, null);
+
+					if (childs != null && childs.size() > 0) {
+						BigInteger[] newIds = Arrays.copyOf(taxonomyIds, taxonomyIds.length + childs.size());
+						for (int i = taxonomyIds.length - 1; i < newIds.length; i++) {
+							newIds[i] = childs.get(i - taxonomyIds.length - 1).getId();
+						}
+						taxonomyIds = newIds;
+					}
+				}
+			}
+		}
+
+		Page<Content> page = ContentQuery.me().paginateInNormal(pageNumber, pagesize, moduleName, taxonomyIds, orderBy);
 		setVariable("page", page);
 		setVariable("contents", page.getList());
-		
+
 		ContentPaginateTag pagination = new ContentPaginateTag(request, page, moduleName, taxonomys);
 		setVariable("pagination", pagination);
 

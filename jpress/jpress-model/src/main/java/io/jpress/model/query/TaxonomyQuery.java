@@ -64,13 +64,13 @@ public class TaxonomyQuery extends JBaseQuery {
 		return findListByModuleAndType(module, type, null, null, null);
 	}
 
-	public List<Taxonomy> findListByModuleAndType(String module, String type, String orderby, BigInteger parentId,
-			Integer limit) {
+	public List<Taxonomy> findListByModuleAndType(String module, String type, BigInteger parentId, Integer limit,
+			String orderby) {
 
-		StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy t");
+		final StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM taxonomy t");
 
 		boolean needWhere = true;
-		List<Object> params = new LinkedList<Object>();
+		final List<Object> params = new LinkedList<Object>();
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.content_module", module, params, needWhere);
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.`type`", type, params, needWhere);
 		needWhere = appendIfNotEmpty(sqlBuilder, "t.`parent_id`", parentId, params, needWhere);
@@ -82,7 +82,23 @@ public class TaxonomyQuery extends JBaseQuery {
 			params.add(limit);
 		}
 
-		return DAO.find(sqlBuilder.toString(), params.toArray());
+		String key = buildKey(module, type, parentId, limit, orderby);
+
+		return DAO.getTemp(key, new IDataLoader() {
+			@Override
+			public Object load() {
+				if (params.isEmpty()) {
+					return DAO.find(sqlBuilder.toString());
+				}
+				return DAO.find(sqlBuilder.toString(), params.toArray());
+			}
+		});
+
+	}
+
+	private String buildKey(String module, String type, BigInteger parentId, Integer limit, String orderby) {
+		return "module:" + module + "-type:" + type + "-parentId:" + parentId + "-limit:" + limit + "-orderby:"
+				+ orderby;
 	}
 
 	public List<Taxonomy> findListByModuleAndTypeAsTree(String module, String type) {
@@ -122,7 +138,8 @@ public class TaxonomyQuery extends JBaseQuery {
 	}
 
 	public Taxonomy findBySlugAndModule(String slug, String module) {
-		return DAO.doFindFirstByCache(Taxonomy.CACHE_NAME, module+":"+slug, "slug = ? and content_module=?", slug, module);
+		return DAO.doFindFirstByCache(Taxonomy.CACHE_NAME, module + ":" + slug, "slug = ? and content_module=?", slug,
+				module);
 	}
 
 	public List<Taxonomy> findBySlugAndModule(String[] slugs, String module) {

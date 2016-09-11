@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
@@ -162,14 +164,24 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		return JFinal.me().getContextPath() + TaxonomyRouter.getRouter(list);
 	}
 
+	public <T> T getTemp(Object key, IDataLoader dataloader) {
+		return CacheKit.get("taxonomy_temp", key, dataloader);
+	}
+
+	public void clearTemp() {
+		CacheKit.removeAll("taxonomy_temp");
+	}
+
 	@Override
-	public boolean saveOrUpdate() {
+	public boolean save() {
 		if (getId() != null) {
 			removeCache(getId());
 			putCache(getId(), this);
 		}
 
-		return super.saveOrUpdate();
+		clearTemp();
+
+		return super.save();
 	}
 
 	public boolean update() {
@@ -177,6 +189,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 			removeCache(getId());
 			removeCache(this.getContentModule() + ":" + this.getSlug());
 		}
+
+		clearTemp();
+
 		return super.update();
 	}
 
@@ -184,6 +199,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 	public boolean delete() {
 		removeCache(getId());
 		removeCache(this.getContentModule() + ":" + this.getSlug());
+
+		clearTemp();
+
 		return super.delete();
 	}
 

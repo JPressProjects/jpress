@@ -47,7 +47,7 @@ public class TaxonomysTag extends JTag {
 		BigInteger parentId = getParamToBigInteger("parentId");
 		Boolean asTree = getParamToBool("asTree");
 
-		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, orderby, parentId, count);
+		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(module, type, parentId, count, orderby);
 		if (filterList != null && list != null && list.size() > 0) {
 			for (Taxonomy taxonomy : list) {
 				taxonomy.initFilterList(filterList, activeClass);

@@ -92,6 +92,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (getSlug() != null) {
 			removeCache(getSlug());
 		}
+		
+		clearTemp();
+		
 		return super.delete();
 	}
 

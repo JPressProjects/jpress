@@ -37,6 +37,7 @@ import io.jpress.core.render.JCaptchaRender;
 import io.jpress.model.User;
 import io.jpress.utils.AttachmentUtils;
 import io.jpress.utils.JsoupUtils;
+import io.jpress.utils.RequestUtils;
 import io.jpress.utils.StringUtils;
 
 public class JBaseController extends Controller {
@@ -80,84 +81,39 @@ public class JBaseController extends Controller {
 		return mParaCount;
 	}
 
-	public boolean isAjaxRequest() {
-		String header = getRequest().getHeader("X-Requested-With");
-		return "XMLHttpRequest".equalsIgnoreCase(header);
-	}
-
-	static String[] mobileAgents = { "iphone", "android", "phone", "mobile", "wap", "netfront", "java", "opera mobi",
-			"opera mini", "ucweb", "windows ce", "symbian", "series", "webos", "sony", "blackberry", "dopod", "nokia",
-			"samsung", "palmsource", "xda", "pieplus", "meizu", "midp", "cldc", "motorola", "foma", "docomo",
-			"up.browser", "up.link", "blazer", "helio", "hosin", "huawei", "novarra", "coolpad", "webos", "techfaith",
-			"palmsource", "alcatel", "amoi", "ktouch", "nexian", "ericsson", "philips", "sagem", "wellcom", "bunjalloo",
-			"maui", "smartphone", "iemobile", "spice", "bird", "zte-", "longcos", "pantech", "gionee", "portalmmm",
-			"jig browser", "hiptop", "benq", "haier", "^lct", "320x320", "240x320", "176x220", "w3c ", "acs-", "alav",
-			"alca", "amoi", "audi", "avan", "benq", "bird", "blac", "blaz", "brew", "cell", "cldc", "cmd-", "dang",
-			"doco", "eric", "hipt", "inno", "ipaq", "java", "jigs", "kddi", "keji", "leno", "lg-c", "lg-d", "lg-g",
-			"lge-", "maui", "maxo", "midp", "mits", "mmef", "mobi", "mot-", "moto", "mwbp", "nec-", "newt", "noki",
-			"oper", "palm", "pana", "pant", "phil", "play", "port", "prox", "qwap", "sage", "sams", "sany", "sch-",
-			"sec-", "send", "seri", "sgh-", "shar", "sie-", "siem", "smal", "smar", "sony", "sph-", "symb", "t-mo",
-			"teli", "tim-", "tsm-", "upg1", "upsi", "vk-v", "voda", "wap-", "wapa", "wapi", "wapp", "wapr", "webc",
-			"winw", "winw", "xda", "xda-", "googlebot-mobile" };
-
 	/**
 	 * 是否是手机浏览器
+	 * 
 	 * @return
 	 */
 	public boolean isMoblieBrowser() {
-		String ua = getRequest().getHeader("User-Agent");
-		if (ua == null) {
-			return false;
-		}
-		ua = ua.toLowerCase();
-		for (String mobileAgent : mobileAgents) {
-			if (ua.indexOf(mobileAgent) >= 0) {
-				return true;
-			}
-		}
-		return false;
+		return RequestUtils.isMoblieBrowser(getRequest());
 	}
 
 	/**
 	 * 是否是微信浏览器
+	 * 
 	 * @return
 	 */
 	public boolean isWechatBrowser() {
-		String ua = getRequest().getHeader("User-Agent");
-		if (ua == null) {
-			return false;
-		}
-		ua = ua.toLowerCase();
-		if (ua.indexOf("micromessenger") > 0) {
-			return true;
-		}
-		return false;
+		return RequestUtils.isWechatBrowser(getRequest());
 	}
 
 	/**
 	 * 是否是IE浏览器
+	 * 
 	 * @return
 	 */
 	public boolean isIEBrowser() {
-		String ua = getRequest().getHeader("User-Agent");
-		if (ua == null) {
-			return false;
-		}
+		return RequestUtils.isIEBrowser(getRequest());
+	}
 
-		ua = ua.toLowerCase();
-		if (ua.indexOf("msie") > 0) {
-			return true;
-		}
-
-		if (ua.indexOf("gecko") > 0 && ua.indexOf("rv:11") > 0) {
-			return true;
-		}
-		return false;
+	public boolean isAjaxRequest() {
+		return RequestUtils.isAjaxRequest(getRequest());
 	}
 
 	public boolean isMultipartRequest() {
-		String contentType = getRequest().getContentType();
-		return contentType != null && contentType.toLowerCase().indexOf("multipart") != -1;
+		return RequestUtils.isMultipartRequest(getRequest());
 	}
 
 	protected int getPageNumber() {
@@ -226,7 +182,6 @@ public class JBaseController extends Controller {
 		} else {
 			renderJson(ar);
 		}
-
 	}
 
 	@Override
@@ -324,26 +279,7 @@ public class JBaseController extends Controller {
 
 	@Before(NotAction.class)
 	public String getIPAddress() {
-		String ip = getRequest().getHeader("X-getRequest()ed-For");
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getHeader("X-Forwarded-For");
-		}
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getHeader("Proxy-Client-IP");
-		}
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getHeader("WL-Proxy-Client-IP");
-		}
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getHeader("HTTP_CLIENT_IP");
-		}
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-			ip = getRequest().getRemoteAddr();
-		}
-		return ip;
+		return RequestUtils.getIpAddress(getRequest());
 	}
 
 	public User getLoginedUser() {
@@ -352,7 +288,7 @@ public class JBaseController extends Controller {
 
 	@Before(NotAction.class)
 	public String getUserAgent() {
-		return getRequest().getHeader("User-Agent");
+		return RequestUtils.getUserAgent(getRequest());
 	}
 
 	public Map<String, String> getMetas(Map<String, String> filesMap) {

@@ -111,8 +111,7 @@ public class ContentController extends BaseFrontController {
 			return null;
 		String forSlug = null;
 		for (Taxonomy taxonomy : taxonomys) {
-			String tFile = String.format("content_%s_%s%s.html", module.getName(), Consts.TAXONOMY_TEMPLATE_PREFIX,
-					taxonomy.getSlug());
+			String tFile = String.format("content_%s_%s%s.html", module.getName(), Consts.TAXONOMY_TEMPLATE_PREFIX,taxonomy.getSlug());
 			if (templateExists(tFile)) {
 				if (forSlug == null) {
 					forSlug = Consts.TAXONOMY_TEMPLATE_PREFIX + taxonomy.getSlug();

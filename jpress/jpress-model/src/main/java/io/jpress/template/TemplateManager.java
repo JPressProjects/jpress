@@ -31,6 +31,8 @@ public class TemplateManager {
 
 	private Template cTemplate;
 	private List<String> cTemplateHtmls = new ArrayList<String>();
+	private List<String> cWechatTemplateHtmls = new ArrayList<String>();
+	private List<String> cMobileTemplateHtmls = new ArrayList<String>();
 
 	private TemplateManager() {
 	}
@@ -43,6 +45,22 @@ public class TemplateManager {
 
 	public boolean existsFile(String fileName) {
 		return cTemplateHtmls.contains(fileName);
+	}
+
+	public boolean existsFileInWechat(String fileName) {
+		return cWechatTemplateHtmls.contains(fileName);
+	}
+
+	public boolean existsFileInMobile(String fileName) {
+		return cMobileTemplateHtmls.contains(fileName);
+	}
+
+	public boolean isSupportWechat() {
+		return cWechatTemplateHtmls.size() > 0;
+	}
+
+	public boolean isSupportMobile() {
+		return cMobileTemplateHtmls.size() > 0;
 	}
 
 	public String currentTemplatePath() {
@@ -84,7 +102,7 @@ public class TemplateManager {
 				}
 			}
 
-			if (cTemplate == null) {//数据库没有配置过，或者配置不正确，比如曾经配置的模板被手动删除了
+			if (cTemplate == null) {// 数据库没有配置过，或者配置不正确，比如曾经配置的模板被手动删除了
 				templateId = PropKit.get("default_template");
 			}
 
@@ -104,21 +122,33 @@ public class TemplateManager {
 			}
 
 			File tDir = new File(PathKit.getWebRootPath(), cTemplate.getPath());
-			File[] files = tDir.listFiles(new FileFilter() {
+
+			cTemplateHtmls.clear();
+			cMobileTemplateHtmls.clear();
+			cWechatTemplateHtmls.clear();
+
+			scanFillTemplate(tDir, cTemplateHtmls);
+			scanFillTemplate(new File(tDir, "tpl_mobile"), cMobileTemplateHtmls);
+			scanFillTemplate(new File(tDir, "tpl_wechat"), cWechatTemplateHtmls);
+
+		}
+
+		return cTemplate;
+	}
+
+	private void scanFillTemplate(File tDir, List<String> templates) {
+		if (tDir.exists() && tDir.isDirectory()) {
+			File[] templateFiles = tDir.listFiles(new FileFilter() {
 				public boolean accept(File pathname) {
 					return pathname.getName().endsWith(".html");
 				}
 			});
-
-			cTemplateHtmls.clear();
-			if (files != null && files.length > 0) {
-				for (int i = 0; i < files.length; i++) {
-					cTemplateHtmls.add(files[i].getName());
+			if (templateFiles != null && templateFiles.length > 0) {
+				for (int i = 0; i < templateFiles.length; i++) {
+					templates.add(templateFiles[i].getName());
 				}
 			}
 		}
-
-		return cTemplate;
 	}
 
 	public boolean doChangeTemplate(String templateId) {

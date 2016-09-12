@@ -18,7 +18,9 @@ package io.jpress.model;
 import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
@@ -63,9 +65,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	private Object object;
 
 	public <T> T getFromListCache(Object key, IDataLoader dataloader) {
-		List<String> inCacheKeys = CacheKit.get(CACHE_NAME, "cachekeys");
+		Set<String> inCacheKeys = CacheKit.get(CACHE_NAME, "cachekeys");
 
-		List<String> cacheKeyList = new ArrayList<String>();
+		Set<String> cacheKeyList = new HashSet<String>();
 		if (inCacheKeys != null) {
 			cacheKeyList.addAll(inCacheKeys);
 		}
@@ -77,19 +79,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public void clearList() {
-		List<Object> list = CacheKit.get(CACHE_NAME, "cachekeys");
+		Set<String> list = CacheKit.get(CACHE_NAME, "cachekeys");
 		if (list != null && list.size() > 0) {
-			for (Object keyObj : list) {
-				String keyStr = (String) keyObj;
-
-				if (!keyStr.startsWith("module:")) {
-					CacheKit.remove("taxonomy_list", keyStr);
+			for (String key : list) {
+				if (!key.startsWith("module:")) {
+					CacheKit.remove("content_list", key);
 					continue;
 				}
 
 				// 不清除其他模型的内容
-				if (keyStr.startsWith("module:" + getModule())) {
-					CacheKit.remove("taxonomy_list", keyStr);
+				if (key.startsWith("module:" + getModule())) {
+					CacheKit.remove("content_list", key);
 				}
 			}
 		}

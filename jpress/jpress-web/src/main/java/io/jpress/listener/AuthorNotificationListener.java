@@ -121,15 +121,11 @@ public class AuthorNotificationListener implements MessageListener {
 			String content = OptionQuery.me().findValue("notify_author_content_by_email_when_has_comment");
 			if (StringUtils.isBlank(content)) {
 				String url = webdomain + comment.getContentUrl();
-				content = "有人在 [" + webname + "] 评论了您的文章。<br />评论内容是：" + comment.getText() + "<br />详情：<a href=\"" + url + "\">" + url + "</a>";
+				content = "有人在 [" + webname + "] 评论了您的文章。<br />评论内容是：" + comment.getText() + "<br />详情：<a href=\"" + url
+						+ "\">" + url + "</a>";
 			} else {
-				content = content.replace("${comment.text}", comment.getText());
-				content = content.replace("${comment.author}", comment.getAuthor());
-				content = content.replace("${comment.email}", comment.getEmail());
-				content = content.replace("${comment.contentUrl}", webdomain + comment.getContentUrl());
-				content = content.replace("${comment.contentTitle}", comment.getcontentTitle());
-				content = content.replace("${comment.username}", comment.getUsername());
-				content = content.replace("${comment.created}", DateUtils.format(comment.getCreated()));
+				content = replaceContent(comment, webdomain, content);
+
 			}
 
 			email.content(content);
@@ -173,15 +169,10 @@ public class AuthorNotificationListener implements MessageListener {
 			String content = OptionQuery.me().findValue("notify_parent_author_content_by_email_when_has_comment");
 			if (StringUtils.isBlank(content)) {
 				String url = webdomain + comment.getContentUrl();
-				content = "有人在 [" + webname + "] 回复了您的评论。<br />回复内容是：" + comment.getText() + "<br />详情：<a href=\"" + url + "\">" + url + "</a>";
+				content = "有人在 [" + webname + "] 回复了您的评论。<br />回复内容是：" + comment.getText() + "<br />详情：<a href=\"" + url
+						+ "\">" + url + "</a>";
 			} else {
-				content = content.replace("${comment.text}", comment.getText());
-				content = content.replace("${comment.author}", comment.getAuthor());
-				content = content.replace("${comment.email}", comment.getEmail());
-				content = content.replace("${comment.contentUrl}", webdomain + comment.getContentUrl());
-				content = content.replace("${comment.contentTitle}", comment.getcontentTitle());
-				content = content.replace("${comment.username}", comment.getUsername());
-				content = content.replace("${comment.created}", DateUtils.format(comment.getCreated()));
+				content = replaceContent(comment, webdomain, content);
 			}
 
 			email.content(content);
@@ -191,5 +182,29 @@ public class AuthorNotificationListener implements MessageListener {
 		}
 	}
 
+	private String replaceContent(Comment comment, String webdomain, String content) {
+		if (StringUtils.isNotBlank(comment.getText())) {
+			content = content.replace("${comment.text}", comment.getText());
+		}
+		if (StringUtils.isNotBlank(comment.getAuthor())) {
+			content = content.replace("${comment.author}", comment.getAuthor());
+		}
+		if (StringUtils.isNotBlank(comment.getEmail())) {
+			content = content.replace("${comment.email}", comment.getEmail());
+		}
+		if (StringUtils.isNotBlank(comment.getContentUrl())) {
+			content = content.replace("${comment.contentUrl}", webdomain + comment.getContentUrl());
+		}
+		if (StringUtils.isNotBlank(comment.getcontentTitle())) {
+			content = content.replace("${comment.contentTitle}", comment.getcontentTitle());
+		}
+		if (StringUtils.isNotBlank(comment.getUsername())) {
+			content = content.replace("${comment.username}", comment.getUsername());
+		}
+		if (comment.getCreated() != null) {
+			content = content.replace("${comment.created}", DateUtils.format(comment.getCreated()));
+		}
+		return content;
+	}
 
 }

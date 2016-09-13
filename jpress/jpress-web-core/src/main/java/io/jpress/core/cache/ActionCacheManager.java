@@ -17,6 +17,7 @@ package io.jpress.core.cache;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 import io.jpress.utils.RequestUtils;
@@ -32,9 +33,20 @@ public class ActionCacheManager {
 	public static String CACHE_NAME_MOBILE = "action_mobile";
 
 	public static void clearCache() {
+		if (isCloseActionCache())
+			return;
 		CacheKit.removeAll(CACHE_NAME);
 		CacheKit.removeAll(CACHE_NAME_WECHAT);
 		CacheKit.removeAll(CACHE_NAME_MOBILE);
+	}
+
+	private static Boolean isClose;
+
+	public static boolean isCloseActionCache() {
+		if (isClose == null) {
+			isClose = PropKit.getBoolean("close_action_cache", false);
+		}
+		return isClose;
 	}
 
 	public static String getCache(HttpServletRequest request, String key) {

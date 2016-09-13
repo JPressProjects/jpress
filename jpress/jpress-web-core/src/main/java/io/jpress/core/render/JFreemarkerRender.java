@@ -47,57 +47,53 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		super(view);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public void renderWithoutCache(Map data) {
-		PrintWriter writer = null;
-		try {
-			Template template = getConfiguration().getTemplate(view);
-			writer = response.getWriter();
-			template.process(data, writer); // Merge the data-model and the
-											// template
-		} catch (Exception e) {
-			throw new RenderException(e);
-		} finally {
-			if (writer != null)
-				writer.close();
-		}
-	}
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void render() {
 
-		Map<String, Object> jpressTags = new HashMap<String, Object>();
-		jpressTags.putAll(Jpress.jpressTags);
+		Map<String, Object> jpTags = new HashMap<String, Object>();
+		jpTags.putAll(Jpress.jpressTags);
 
 		Map data = new HashMap();
 		for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements();) {
 			String attrName = attrs.nextElement();
 			if (attrName.startsWith("jp.")) {
-				jpressTags.put(attrName.substring(3), request.getAttribute(attrName));
+				jpTags.put(attrName.substring(3), request.getAttribute(attrName));
 			} else {
 				data.put(attrName, request.getAttribute(attrName));
 			}
 		}
+		data.put("jp", jpTags);
 
-		data.put("jp", jpressTags);
+		String htmlContent = getHtmlContent(data);
+		htmlContent = processCDN(htmlContent); // CDN处理
 
-		if (!ActionCacheManager.isEnableCache(request)) {
-			response.setContentType(getContentType());
-			renderWithoutCache(data);
+		if (ActionCacheManager.isCloseActionCache()) {
+			WriterHtml(htmlContent, getContentType(), false);
 			return;
 		}
 
-		response.setContentType(ActionCacheManager.getCacheContentType(request));
+		if (!ActionCacheManager.isEnableCache(request)) {
+			WriterHtml(htmlContent, getContentType(), false);
+			return;
+		}
+
+		WriterHtml(htmlContent, ActionCacheManager.getCacheContentType(request), true);
+	}
+
+	private void WriterHtml(String htmlContent, String contentType, boolean putCache) {
+		response.setContentType(contentType);
 		PrintWriter responseWriter = null;
 		try {
-			String htmlContent = getHtmlContent(data);
-			htmlContent = processCDN(htmlContent); // CDN处理
-
 			responseWriter = response.getWriter();
 			responseWriter.write(htmlContent);
-			ActionCacheManager.putCache(request, htmlContent);
+			if (putCache) {
+				ActionCacheManager.putCache(request, htmlContent);
+			}
 		} catch (Exception e) {
+			if (Jpress.isDevMode()) {
+				e.printStackTrace();
+			}
 			throw new RenderException(e);
 		} finally {
 			close(responseWriter);

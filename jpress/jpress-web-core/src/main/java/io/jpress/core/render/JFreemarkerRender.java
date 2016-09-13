@@ -43,8 +43,11 @@ import io.jpress.utils.StringUtils;
 
 public class JFreemarkerRender extends FreeMarkerRender {
 
-	public JFreemarkerRender(String view) {
+	private boolean enableCdnProcess;
+
+	public JFreemarkerRender(String view, boolean enableCdnProcess) {
 		super(view);
+		this.enableCdnProcess = enableCdnProcess;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -66,7 +69,11 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		data.put("jp", jpTags);
 
 		String htmlContent = getHtmlContent(data);
-		htmlContent = processCDN(htmlContent); // CDN处理
+
+		// 排除 后台的CDN 处理，防止外一CDN出问题导致后台无法登陆
+		if (enableCdnProcess) {
+			htmlContent = processCDN(htmlContent); // CDN处理
+		}
 
 		if (ActionCacheManager.isCloseActionCache()) {
 			WriterHtml(htmlContent, getContentType(), false);

@@ -33,12 +33,12 @@ public class JpressRenderFactory implements IMainRenderFactory {
 			if ("thymeleaf".equalsIgnoreCase(renderType)) {
 				return new ThymeleafRender(view);
 			} else if ("freemarker".equalsIgnoreCase(renderType)) {
-				return new JFreemarkerRender(view);
+				return new JFreemarkerRender(view, true);
 			}
 		}
 
-		//admin url
-		return new JFreemarkerRender(view);
+		// admin url
+		return new JFreemarkerRender(view, false);
 	}
 
 	@Override

@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>jpress-web-admin</artifactId>
 	<name>jpress-web-admin</name>
+	<url>http://jpress.io</url>
 	<packaging>war</packaging>
 
 	<properties>
@@ -144,7 +145,7 @@
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
-			<classifier>core</classifier>
+			<classifier>classes</classifier>
 			<scope>provided</scope>
 		</dependency>
 
@@ -221,7 +222,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<classesClassifier>admin</classesClassifier>
 					<encoding>utf-8</encoding>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 					<overlays>

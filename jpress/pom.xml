@@ -6,7 +6,8 @@
 	<artifactId>jpress</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
-
+	
+	<url>http://jpress.io</url>
 
 	<modules>
 		<module>jpress-web</module>

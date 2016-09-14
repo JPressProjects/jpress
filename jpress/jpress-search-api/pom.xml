@@ -11,6 +11,7 @@
 	
 	<artifactId>jpress-search-api</artifactId>
 	<name>jpress-search-api</name>
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>

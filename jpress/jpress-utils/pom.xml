@@ -11,6 +11,7 @@
 
 	<artifactId>jpress-utils</artifactId>
 	<name>jpress-utils</name>
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>

@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>jpress-search-dbsimple</artifactId>
 	<name>jpress-search-dbsimple</name>
-	<url>http://maven.apache.org</url>
+	<url>http://jpress.io</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

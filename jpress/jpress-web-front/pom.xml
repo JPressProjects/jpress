@@ -12,7 +12,7 @@
 	<artifactId>jpress-web-front</artifactId>
 	<name>jpress-web-front</name>
 	<packaging>war</packaging>
-	<url>http://maven.apache.org</url>
+	<url>http://jpress.io</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -165,7 +165,7 @@
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
-			<classifier>core</classifier>
+			<classifier>classes</classifier>
 			<scope>provided</scope>
 		</dependency>
 		
@@ -242,7 +242,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<classesClassifier>front</classesClassifier>
 					<encoding>utf-8</encoding>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 					<overlays>

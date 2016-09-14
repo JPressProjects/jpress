@@ -11,7 +11,7 @@
 
 	<artifactId>jpress-oauth2</artifactId>
 	<name>jpress-oauth2</name>
-
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -43,7 +43,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-model</artifactId>

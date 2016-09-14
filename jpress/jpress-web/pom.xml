@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>jpress-web</artifactId>
 	<name>jpress-web</name>
+	<url>http://jpress.io</url>
 	<packaging>war</packaging>
 
 	<properties>

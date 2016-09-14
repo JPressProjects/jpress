@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>jpress-web-core</artifactId>
 	<name>jpress-web-core</name>
+	<url>http://jpress.io</url>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -111,7 +112,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<classesClassifier>core</classesClassifier>
 				</configuration>
 				<executions>
 				</executions>

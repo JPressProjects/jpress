@@ -63,23 +63,7 @@
 
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/config</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/language</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
-
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

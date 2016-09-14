@@ -8,12 +8,12 @@
 		<artifactId>jpress</artifactId>
 		<version>1.0</version>
 	</parent>
-	
+
 	<artifactId>jpress-web-front</artifactId>
 	<name>jpress-web-front</name>
 	<packaging>war</packaging>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -126,7 +126,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-db-api</artifactId>
@@ -134,7 +134,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-db-mysql</artifactId>
@@ -165,8 +165,10 @@
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
+			<classifier>core</classifier>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-core</artifactId>
@@ -174,6 +176,7 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-template-the3</artifactId>
@@ -181,6 +184,7 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-template-jblog</artifactId>
@@ -188,9 +192,10 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
+		
 	</dependencies>
-	
-	
+
+
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 
@@ -201,7 +206,6 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-
 
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -237,6 +241,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
+					<attachClasses>true</attachClasses>
+					<classesClassifier>front</classesClassifier>
 					<encoding>utf-8</encoding>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 					<overlays>
@@ -257,6 +263,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	
+
+
 </project>

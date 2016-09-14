@@ -99,7 +99,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-message</artifactId>
@@ -115,7 +114,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
 
 		<dependency>
 			<groupId>io.jpress</groupId>
@@ -133,7 +131,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-model</artifactId>
@@ -147,6 +144,7 @@
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
+			<classifier>core</classifier>
 			<scope>provided</scope>
 		</dependency>
 
@@ -157,7 +155,7 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-template-the3</artifactId>
@@ -165,7 +163,7 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-web-template-jblog</artifactId>
@@ -222,6 +220,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
+					<attachClasses>true</attachClasses>
+					<classesClassifier>admin</classesClassifier>
 					<encoding>utf-8</encoding>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 					<overlays>

@@ -53,7 +53,6 @@ public class TaxonomyBox extends JFunction {
 		String txType = taxonomyType.getName();
 		List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndTypeAsTree(moduleName, txType);
 		StringBuilder htmlBuilder = new StringBuilder();
-
 		if (list != null && list.size() > 0) {
 			doBuilder(list, htmlBuilder);
 		}

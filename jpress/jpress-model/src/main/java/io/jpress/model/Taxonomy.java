@@ -107,7 +107,11 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> implements ISortModel<Taxon
 		if (null == childList) {
 			childList = new ArrayList<Taxonomy>();
 		}
-		childList.add(child);
+		
+		//如果是从ehcache内存取到的数据，可能该model已经添加过了
+		if(!childList.contains(child)){
+			childList.add(child);
+		}
 	}
 
 	public List<Taxonomy> getFilterList() {

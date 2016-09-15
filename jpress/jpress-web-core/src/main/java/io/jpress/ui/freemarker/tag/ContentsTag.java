@@ -27,25 +27,6 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.utils.StringUtils;
 
-/**
- * @title Contents 标签
- * 
- *        使用方法：<br />
- *        <@contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx" pagesize
- *        ="" typeid="1,2" module="article,bbs" style= "article,video,audio"
- *        userid="123" parentid="1" userid="" ><br>
- *        <br>
- *        <#list contents as content><br>
- *        ${content.id} : ${content.title!} <br>
- *        <//#list><br>
- *        <br>
- *        </@contents>
- * 
- * 
- *        orderBy 的值有：views,lastpost,created,vote_up,vote_down
- * 
- * 
- */
 public class ContentsTag extends JTag {
 
 	public static final String TAG_NAME = "jp.contents";
@@ -77,14 +58,18 @@ public class ContentsTag extends JTag {
 
 		Taxonomy upperTaxonomy = null;
 		if (modules != null && modules.length == 1) {
+			
 			BigInteger upperId = getParamToBigInteger("upperId");
+			
 			if (upperId != null) {
 				upperTaxonomy = TaxonomyQuery.me().findById(upperId);
-				return;
 			}
-			String upperSlug = getParam("upperSlug");
-			if (StringUtils.isNotBlank(upperSlug)) {
-				upperTaxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
+
+			if (upperTaxonomy == null) {
+				String upperSlug = getParam("upperSlug");
+				if (StringUtils.isNotBlank(upperSlug)) {
+					upperTaxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
+				}
 			}
 		}
 

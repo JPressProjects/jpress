@@ -75,22 +75,30 @@ public class ContentsTag extends JTag {
 		BigInteger[] parentIds = getParamToBigIntegerArray("parentId");
 		Boolean hasThumbnail = getParamToBool("hasThumbnail");
 
-		String upperSlug = getParam("upperSlug");
-		if (StringUtils.isNotBlank(upperSlug) && modules != null && modules.length == 1) {
-			Taxonomy taxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
-			if (taxonomy != null) {
-				List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(modules[0], null);
+		Taxonomy upperTaxonomy = null;
+		if (modules != null && modules.length == 1) {
+			BigInteger upperId = getParamToBigInteger("upperId");
+			if (upperId != null) {
+				upperTaxonomy = TaxonomyQuery.me().findById(upperId);
+				return;
+			}
+			String upperSlug = getParam("upperSlug");
+			if (StringUtils.isNotBlank(upperSlug)) {
+				upperTaxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
+			}
+		}
 
-				// 找到taxonomy id的所有孩子或孙子
-				List<Taxonomy> newlist = new ArrayList<Taxonomy>();
-				ModelSorter.sort(list, newlist, taxonomy.getId(), 0);
-				if (newlist != null && newlist.size() > 0) {
-					slugs = null; // 设置 slugs无效
-					typeIds = new BigInteger[newlist.size() + 1];
-					typeIds[0] = taxonomy.getId();
-					for (int i = 1; i < typeIds.length; i++) {
-						typeIds[i] = newlist.get(i - 1).getId();
-					}
+		if (upperTaxonomy != null) {
+			List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(modules[0], null);
+			// 找到taxonomy id的所有孩子或孙子
+			List<Taxonomy> newlist = new ArrayList<Taxonomy>();
+			ModelSorter.sort(list, newlist, upperTaxonomy.getId(), 0);
+			if (newlist != null && newlist.size() > 0) {
+				slugs = null; // 设置 slugs无效
+				typeIds = new BigInteger[newlist.size() + 1];
+				typeIds[0] = upperTaxonomy.getId();
+				for (int i = 1; i < typeIds.length; i++) {
+					typeIds[i] = newlist.get(i - 1).getId();
 				}
 			}
 		}

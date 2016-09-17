@@ -11,6 +11,7 @@
 
 	<artifactId>jpress-addon-helloworld</artifactId>
 	<name>jpress-addon-helloworld</name>
+	<url>http://jpress.io</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

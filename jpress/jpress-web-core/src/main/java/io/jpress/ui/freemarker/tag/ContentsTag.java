@@ -27,25 +27,6 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.utils.StringUtils;
 
-/**
- * @title Contents 标签
- * 
- *        使用方法：<br />
- *        <@contents orderBy="" keyword="Jpress" page="" tag="tag1,xxx" pagesize
- *        ="" typeid="1,2" module="article,bbs" style= "article,video,audio"
- *        userid="123" parentid="1" userid="" ><br>
- *        <br>
- *        <#list contents as content><br>
- *        ${content.id} : ${content.title!} <br>
- *        <//#list><br>
- *        <br>
- *        </@contents>
- * 
- * 
- *        orderBy 的值有：views,lastpost,created,vote_up,vote_down
- * 
- * 
- */
 public class ContentsTag extends JTag {
 
 	public static final String TAG_NAME = "jp.contents";
@@ -75,22 +56,34 @@ public class ContentsTag extends JTag {
 		BigInteger[] parentIds = getParamToBigIntegerArray("parentId");
 		Boolean hasThumbnail = getParamToBool("hasThumbnail");
 
-		String upperSlug = getParam("upperSlug");
-		if (StringUtils.isNotBlank(upperSlug) && modules != null && modules.length == 1) {
-			Taxonomy taxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
-			if (taxonomy != null) {
-				List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(modules[0], null);
+		Taxonomy upperTaxonomy = null;
+		if (modules != null && modules.length == 1) {
+			
+			BigInteger upperId = getParamToBigInteger("upperId");
+			
+			if (upperId != null) {
+				upperTaxonomy = TaxonomyQuery.me().findById(upperId);
+			}
 
-				// 找到taxonomy id的所有孩子或孙子
-				List<Taxonomy> newlist = new ArrayList<Taxonomy>();
-				ModelSorter.sort(list, newlist, taxonomy.getId(), 0);
-				if (newlist != null && newlist.size() > 0) {
-					slugs = null; // 设置 slugs无效
-					typeIds = new BigInteger[newlist.size() + 1];
-					typeIds[0] = taxonomy.getId();
-					for (int i = 1; i < typeIds.length; i++) {
-						typeIds[i] = newlist.get(i - 1).getId();
-					}
+			if (upperTaxonomy == null) {
+				String upperSlug = getParam("upperSlug");
+				if (StringUtils.isNotBlank(upperSlug)) {
+					upperTaxonomy = TaxonomyQuery.me().findBySlugAndModule(upperSlug, modules[0]);
+				}
+			}
+		}
+
+		if (upperTaxonomy != null) {
+			List<Taxonomy> list = TaxonomyQuery.me().findListByModuleAndType(modules[0], null);
+			// 找到taxonomy id的所有孩子或孙子
+			List<Taxonomy> newlist = new ArrayList<Taxonomy>();
+			ModelSorter.sort(list, newlist, upperTaxonomy.getId(), 0);
+			if (newlist != null && newlist.size() > 0) {
+				slugs = null; // 设置 slugs无效
+				typeIds = new BigInteger[newlist.size() + 1];
+				typeIds[0] = upperTaxonomy.getId();
+				for (int i = 1; i < typeIds.length; i++) {
+					typeIds[i] = newlist.get(i - 1).getId();
 				}
 			}
 		}

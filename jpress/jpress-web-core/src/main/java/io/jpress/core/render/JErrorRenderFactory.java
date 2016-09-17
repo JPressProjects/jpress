@@ -40,14 +40,14 @@ public class JErrorRenderFactory implements IErrorRenderFactory {
 		String errorHtml = TemplateManager.me().currentTemplatePath() + "/" + errorCode + ".html";
 
 		String renderType = TemplateManager.me().currentTemplate().getRenderType();
-		
-		//the default render type is freemarker
+
+		// the default render type is freemarker
 		if (StringUtils.isBlank(renderType)) {
-			return new JFreemarkerRender(errorHtml);
+			return new JFreemarkerRender(errorHtml, true);
 		}
 
 		if ("freemarker".equalsIgnoreCase(renderType)) {
-			return new JFreemarkerRender(errorHtml);
+			return new JFreemarkerRender(errorHtml, true);
 		} else if ("thymeleaf".equalsIgnoreCase(renderType)) {
 			return new ThymeleafRender(errorHtml);
 		}

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import com.jfinal.log.Log;
 
+import io.jpress.core.Jpress;
 import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.EncryptUtils;
 import io.jpress.utils.HttpUtils;
@@ -39,10 +40,14 @@ public class AlidayuSmsSender implements ISmsSender {
 	public boolean send(SmsMessage sms) {
 		String app_key =  OptionQuery.me().findValue("sms_app_key");//"your app key";
 		String app_secret =  OptionQuery.me().findValue("sms_app_secret");//"your app secret"
-		
+
 		String sendResult = doSend(sms, app_key, app_secret);
-		
-		if(StringUtils.isNotBlank(sendResult)){
+
+		if (Jpress.isDevMode()) {
+			System.err.println("sms send result:" + sendResult);
+		}
+
+		if (StringUtils.isNotBlank(sendResult)) {
 			if (sendResult != null && sendResult.contains("alibaba_aliqin_fc_sms_num_send_response")
 					&& sendResult.contains("success") && sendResult.contains("true")) {
 				return true;
@@ -51,8 +56,6 @@ public class AlidayuSmsSender implements ISmsSender {
 		return false;
 	}
 
-	
-	
 	private static String doSend(SmsMessage sms, String app_key, String app_secret) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("format", "json");
@@ -81,9 +84,6 @@ public class AlidayuSmsSender implements ISmsSender {
 		}
 		return null;
 	}
-
-	
-	
 
 	public static void main(String[] args) {
 		SmsMessage sms = new SmsMessage();

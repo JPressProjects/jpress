@@ -93,6 +93,7 @@ public class TaxonomyQuery extends JBaseQuery {
 				return DAO.find(sqlBuilder.toString(), params.toArray());
 			}
 		});
+		
 		if (data == null)
 			return null;
 		return new ArrayList<Taxonomy>(data);

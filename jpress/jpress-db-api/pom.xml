@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>jpress-db-api</artifactId>
 	<name>jpress-db-api</name>
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>

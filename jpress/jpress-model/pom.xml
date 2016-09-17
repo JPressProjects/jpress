@@ -10,8 +10,7 @@
 	</parent>
 	<artifactId>jpress-model</artifactId>
 	<name>jpress-model</name>
-
-
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>

@@ -36,6 +36,11 @@ public class ActionCacheHandler extends Handler {
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
+		if (ActionCacheManager.isCloseActionCache()) {
+			next.handle(target, request, response, isHandled);
+			return;
+		}
+
 		Action action = JFinal.me().getAction(target, urlPara);
 		if (action == null) {
 			next.handle(target, request, response, isHandled);

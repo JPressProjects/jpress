@@ -12,6 +12,7 @@
 
 	<artifactId>jpress-consts</artifactId>
 	<name>jpress-consts</name>
+	<url>http://jpress.io</url>
 	<packaging>jar</packaging>
 
 	<properties>

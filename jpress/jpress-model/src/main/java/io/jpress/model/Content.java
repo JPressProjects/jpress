@@ -380,7 +380,11 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (this.childList == null) {
 			this.childList = new ArrayList<Content>();
 		}
-		childList.add(child);
+		
+		//如果是从ehcache内存取到的数据，可能该model已经添加过了
+		if(!childList.contains(child)){
+			childList.add(child);
+		}
 	}
 
 	public List<Content> getChildList() {

@@ -28,7 +28,7 @@ import io.jpress.core.render.freemarker.JTag;
 
 public class Jpress {
 
-	public static final String VERSION = "0.3.0";
+	public static final String VERSION = "0.4.0";
 
 	public static final Map<String, Object> jpressTags = new HashMap<String, Object>();
 

@@ -669,12 +669,332 @@ ContentsTag标签支持的属性如下：
 
 ## 插件开发
 ### helloworld
+
+
+```
+public class HelloAddon extends Addon {
+
+	/**
+	 * AddonController 请求的钩子
+	 * @param controller
+	 */
+	@Hook(Hooks.PROCESS_CONTROLLER)
+	public Render hello(Controller controller) {
+		// 访问 http://127.0.0.1:8080/addon 看到效果
+		return new TextRender("hello addon");
+	}
+
+	@Override
+	public boolean onStart() {
+		MessageKit.register(HelloMessage.class);
+		return true;
+	}
+
+	@Override
+	public boolean onStop() {
+		MessageKit.unRegister(HelloMessage.class);
+		return true;
+	}
+
+}
+```
+以上是一个插件最简单的例子。
+当该插件被安装，并启动的时候，该插件的`onStart()`方法会被触发，当该插件被停止的时候，`onStop()`会被触发，我们可以在`onStart()`做插件的一些初始化操作，在`onStop()`做些资源释放的操作。
+
+可以通过@Hook(Hooks.PROCESS_CONTROLLER)注解，让我们的方法去注册到某个`钩子`,当某逻辑执行的时候，会自动执行到该方法。
+
 ### 规范
 ### 钩子
 
 ## 高级
 ### 二次开发
+##### 规范
+在二次开发中，不要修改JPress的任何代码，而是建立自己的一个maven module模块，通过pom依赖的方式把jpress相关代码导入到自己的module中。
+
+maven模块的pom文件如下：
+
+```
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.jpress</groupId>
+		<artifactId>jpress</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<packaging>war</packaging>
+	<artifactId>jpress-your-modulen-ame</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jfinal</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-utils</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-oauth2</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-message</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-search-api</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-search-dbsimple</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-consts</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-model</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-core</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-core</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-front</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-front</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-admin</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-web-admin</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/config</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/language</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>8080</port>
+					<path>/jpress</path>
+					<uriEncoding>UTF-8</uriEncoding>
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>8080</port>
+					<path>/jpress</path>
+					<uriEncoding>UTF-8</uriEncoding>
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<encoding>utf-8</encoding>
+					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+					<overlays>
+						<overlay>
+							<groupId>io.jpress</groupId>
+							<artifactId>jpress-web-core</artifactId>
+						</overlay>
+						<overlay>
+							<groupId>io.jpress</groupId>
+							<artifactId>jpress-web-front</artifactId>
+						</overlay>
+						<overlay>
+							<groupId>io.jpress</groupId>
+							<artifactId>jpress-web-admin</artifactId>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+```
+这样，你的module就有了一个具体的web功能，你可以在里面添加自己的controller，model以及其他任何代码。此时，我们在运行我们的程序的时候，是运行我们自己新建的这个module，不再是jpress-web了，放到服务器运行的war包也是我们这个module，不再是jpress-web。
+
+#### JPress的消息机制
+#####后台菜单的定义
+JPress在初始化后台菜单的时候，会发送一个初始化菜单的消息，所以我们在操作（添加、修改、删除）后台菜单的时候，只需要编写一个监听器，监听后台菜单的初始化，并对其操作即可。
+
+如下代码：
+
+```
+@Listener(action = MenuManager.ACTION_INIT_MENU, async = false, weight = Listener.DEFAULT_WEIGHT + 1)
+public class MenuInitListener implements MessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+
+		MenuManager manager = message.getData();
+
+		manager.removeMenuGroupById("wechat"); //移除后台微信菜单
+		manager.removeMenuGroupById("tools"); //移除后台的工具菜单
+		manager.removeMenuGroupById("addon"); //移除后台的插件菜单
+
+		MenuGroup templateMenu = manager.getMenuGroupById("template"); //获得后台的模板菜单
+		templateMenu.removeMenuItemById("list"); //移除后台的 模板列表菜单
+		templateMenu.removeMenuItemById("install"); //移除后台的 安装模板菜单
+		
+		//添加模板的首页设置菜单
+		templateMenu.addMenuItem(0,new MenuItem("index", "/admin/index/setting", "首页设置")); 
+
+	}
+
+}
+```
+
+#####系统启动初始化
+通过消息机制，JPress在启动的时候，会发送启动的消息，若在二次开发的过程中，需要在系统启动的时候做些自己业务逻辑相关的初始化工作，只需要如下代码即可：
+
+```
+@Listener(action = Actions.JPRESS_STARTED)
+public class StartedListener implements MessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+
+		System.out.println(">>>>>>>>>>>>系统启动了");
+		
+		//添加自己的自定义标签
+		Jpress.addTag("slider", new SliderTag());
+		
+	}
+}
+
+```
+
 ### 数据库操作
+关于jpress原始的数据库，jpress已经提供了 xxxQuery的类来操作了，如果不能满足你的需求，给我提交反馈即可。
+若在jpress二次开发中新增了自己的表，可以通过jpress-model里的`io.jpress.code.generator`来生成自己的代码。
 
 ## 关于
 ### 开发者

@@ -28,9 +28,9 @@ import java.util.jar.JarFile;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 
-public class ClassScaner {
+public class ClassUtils {
 
-	private static final Log log = Log.getLog(ClassScaner.class);
+	private static final Log log = Log.getLog(ClassUtils.class);
 
 	public static <T> List<Class<T>> scanSubClass(Class<T> pclazz) {
 		return scanSubClass(pclazz, false);

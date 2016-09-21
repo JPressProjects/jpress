@@ -21,7 +21,7 @@ import com.jfinal.plugin.IPlugin;
 
 import io.jpress.message.MessageListener;
 import io.jpress.message.MessageManager;
-import io.jpress.utils.ClassScaner;
+import io.jpress.utils.ClassUtils;
 
 public class MessagePlugin implements IPlugin {
 
@@ -33,7 +33,7 @@ public class MessagePlugin implements IPlugin {
 	}
 
 	private void autoRegister() {
-		List<Class<MessageListener>> list = ClassScaner.scanSubClass(MessageListener.class, true);
+		List<Class<MessageListener>> list = ClassUtils.scanSubClass(MessageListener.class, true);
 		if (list != null && list.size() > 0) {
 			for (Class<MessageListener> clazz : list) {
 				MessageManager.me().registerListener(clazz);

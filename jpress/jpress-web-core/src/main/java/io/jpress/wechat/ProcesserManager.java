@@ -23,7 +23,7 @@ import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.out.OutMsg;
 
-import io.jpress.utils.ClassScaner;
+import io.jpress.utils.ClassUtils;
 import io.jpress.utils.StringUtils;
 
 public class ProcesserManager {
@@ -41,7 +41,7 @@ public class ProcesserManager {
 	}
 	
 	private ProcesserManager() {
-		List<Class<IMessageProcesser>> clist = ClassScaner.scanSubClass(IMessageProcesser.class, true);
+		List<Class<IMessageProcesser>> clist = ClassUtils.scanSubClass(IMessageProcesser.class, true);
 		if (clist != null && clist.size() > 0) {
 			for (Class<? extends IMessageProcesser> clazz : clist) {
 				registerProcesser(clazz);

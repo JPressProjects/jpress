@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
+import io.jpress.utils.StringUtils;
 
 public class QQConnector extends OauthConnector {
 
@@ -54,6 +55,10 @@ public class QQConnector extends OauthConnector {
 		String httpString = httpGet(sb.toString());
 		// access_token=2D6FE76*****24AB&expires_in=7776000&refresh_token=7CD56****218
 
+		if (StringUtils.isBlank(httpString)) {
+			return null;
+		}
+
 		return httpString.substring(httpString.indexOf("=") + 1, httpString.indexOf("&"));
 	}
 
@@ -67,13 +72,22 @@ public class QQConnector extends OauthConnector {
 		// {"client_id":"10***65","openid":"F8D32108D*****D"}
 		// );
 
+		if (StringUtils.isBlank(httpString)) {
+			return null;
+		}
 		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\"") - 1);
 	}
 
 	@Override
 	protected OauthUser getOauthUser(String code) {
 		String accessToken = getAccessToken(code);
+		if (StringUtils.isBlank(accessToken)) {
+			return null;
+		}
 		String openId = getOpenId(accessToken, code);
+		if (StringUtils.isBlank(openId)) {
+			return null;
+		}
 
 		StringBuilder sb = new StringBuilder("https://graph.qq.com/user/get_user_info?");
 		sb.append("access_token=" + accessToken);
@@ -82,6 +96,10 @@ public class QQConnector extends OauthConnector {
 		sb.append("&format=format");
 
 		String httpString = httpGet(sb.toString());
+		
+		if (StringUtils.isBlank(httpString)) {
+			return null;
+		}
 
 		JSONObject json = JSON.parseObject(httpString);
 		OauthUser user = new OauthUser();

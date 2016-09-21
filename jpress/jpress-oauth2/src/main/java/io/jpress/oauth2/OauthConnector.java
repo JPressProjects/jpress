@@ -15,6 +15,8 @@
  */
 package io.jpress.oauth2;
 
+import java.util.Map;
+
 import com.jfinal.log.Log;
 
 import io.jpress.utils.HttpUtils;
@@ -74,6 +76,14 @@ public abstract class OauthConnector {
 	protected String httpGet(String url) {
 		try {
 			return HttpUtils.get(url);
+		} catch (Exception e) {
+			LOGGER.error("httpGet error", e);
+		}
+		return null;
+	}
+	protected String httpPost(String url,Map<String, ? extends Object> params) {
+		try {
+			return HttpUtils.post(url,params);
 		} catch (Exception e) {
 			LOGGER.error("httpGet error", e);
 		}

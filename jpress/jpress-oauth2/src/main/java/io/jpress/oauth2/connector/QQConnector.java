@@ -23,7 +23,6 @@ import io.jpress.oauth2.OauthUser;
 
 public class QQConnector extends OauthConnector {
 
-
 	public QQConnector(String name, String appkey, String appSecret) {
 		super(name, appkey, appSecret);
 	}
@@ -31,13 +30,6 @@ public class QQConnector extends OauthConnector {
 	/**
 	 * http://wiki.connect.qq.com/%E4%BD%BF%E7%94%A8authorization_code
 	 */
-//	public QQConnector() {
-//
-//		setClientId(OptionQuery.findValue("oauth2_qq_appkey"));
-//		setClientSecret(OptionQuery.findValue("oauth2_qq_appsecret"));
-//		setName("qq");
-//	}
-
 	@Override
 	public String createAuthorizeUrl(String state) {
 
@@ -75,7 +67,7 @@ public class QQConnector extends OauthConnector {
 		// {"client_id":"10***65","openid":"F8D32108D*****D"}
 		// );
 
-		return httpString.substring(httpString.indexOf(":") + 2, httpString.indexOf(",") - 1);
+		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\"") - 1);
 	}
 
 	@Override

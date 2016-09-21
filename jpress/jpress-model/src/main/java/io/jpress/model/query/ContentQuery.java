@@ -404,6 +404,10 @@ public class ContentQuery extends JBaseQuery {
 				userId);
 	}
 
+	public Content findFirstByModuleAndUserId(String module, BigInteger userId) {
+		return DAO.doFindFirst("module = ? and user_id = ? order by id desc", module, userId);
+	}
+
 	public List<Content> findListByModuleAndObjectId(String module, BigInteger objectId) {
 		return DAO.doFind("module = ? and object_id = ? order by id desc", module, objectId);
 	}
@@ -433,7 +437,7 @@ public class ContentQuery extends JBaseQuery {
 		});
 		if (data == null)
 			return null;
-		
+
 		return new ArrayList<Content>(data);
 	}
 

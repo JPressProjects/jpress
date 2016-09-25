@@ -17,6 +17,7 @@ package io.jpress.model.query;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
@@ -53,6 +54,10 @@ public class MappingQuery extends JBaseQuery {
 				return true;
 			}
 		});
+	}
+
+	public List<Mapping> findListByContentId(BigInteger contentId) {
+		return DAO.doFindByCache(Mapping.CACHE_NAME, Mapping.buildKeyByContentId(contentId), " content_id = ?",contentId);
 	}
 
 	public void deleteByContentId(BigInteger id) {

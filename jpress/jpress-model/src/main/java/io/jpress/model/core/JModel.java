@@ -145,6 +145,8 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 		}
 		return this.update();
 	}
+	
+	
 
 	@Override
 	public boolean equals(Object o) {

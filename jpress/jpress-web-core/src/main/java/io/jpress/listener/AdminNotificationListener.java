@@ -15,7 +15,6 @@
  */
 package io.jpress.listener;
 
-import io.jpress.message.Actions;
 import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
@@ -25,13 +24,13 @@ import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.utils.StringUtils;
 
-@Listener(action = Actions.USER_CREATED)
+@Listener(action = User.ACTION_ADD)
 public class AdminNotificationListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
 		// 用用户注册了
-		if (Actions.USER_CREATED.equals(message.getAction())) {
+		if (User.ACTION_ADD.equals(message.getAction())) {
 			notify(message);
 		}
 

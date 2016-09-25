@@ -51,6 +51,10 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\tpublic static final String CACHE_NAME = \"%s\";%n"
 				+ "\tpublic static final String METADATA_TYPE = \"%s\";%n%n"
 				
+				+ "\tpublic static final String ACTION_ADD = \"%s:add\";%n"
+				+ "\tpublic static final String ACTION_DELETE = \"%s:delete\";%n"
+				+ "\tpublic static final String ACTION_UPDATE = \"%s:update\";%n%n"
+				
 				+ "\tpublic void removeCache(Object key){%n"
 				+ "\t\tif(key == null) return;%n"
 				+ "\t\tCacheKit.remove(CACHE_NAME, key);%n"
@@ -119,12 +123,49 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 				+ "\t\t%s<?> m = (%s<?>) o;%n"
 				+ "\t\tif(m.getId() == null){return false;}%n%n"
 				+ "\t\treturn m.getId().compareTo(this.getId()) == 0;%n"
-				+ "\t}%n%n";
-
+				+ "\t}%n%n"
+		
+				
+				+ "\t@Override%n"
+				+ "\tpublic boolean save() {%n"
+				+ "\t\tboolean saved = super.save();%n"
+				+ "\t\tif (saved) { MessageKit.sendMessage(ACTION_ADD, this); }%n"
+				+ "\t\treturn saved;%n"
+				+ "\t}%n%n"
+				
+				
+				+ "\t@Override%n"
+				+ "\tpublic boolean delete() {%n"
+				+ "\t\tboolean deleted = super.delete();%n"
+				+ "\t\tif (deleted) { MessageKit.sendMessage(ACTION_DELETE, this); }%n"
+				+ "\t\treturn deleted;%n"
+				+ "\t}%n%n"
+				
+				
+				+ "\t@Override%n"
+				+ "\tpublic boolean deleteById(Object idValue) {%n"
+				+ "\t\tboolean deleted = super.deleteById(idValue);%n"
+				+ "\t\tif (deleted) { MessageKit.sendMessage(ACTION_DELETE, this); }%n"
+				+ "\t\treturn deleted;%n"
+				+ "\t}%n%n"
+				
+				
+				+ "\t@Override%n"
+				+ "\tpublic boolean update() {%n"
+				+ "\t\tboolean update = super.update();%n"
+				+ "\t\tif (update) { MessageKit.sendMessage(ACTION_UPDATE, this); }%n"
+				+ "\t\treturn update;%n"
+				+ "\t}%n%n"
+		
+				;
+		
 		
 
 		
-		this.importTemplate = "import io.jpress.model.Metadata;%n"
+
+		
+		this.importTemplate = "import io.jpress.message.MessageKit;%n"
+				+"import io.jpress.model.Metadata;%n"
 				+ "import io.jpress.model.core.JModel;%n"
 				+ "import io.jpress.model.query.MetaDataQuery;%n"
 				+ "import java.math.BigInteger;%n%n"
@@ -138,7 +179,7 @@ public class JBaseModelGenerator extends BaseModelGenerator {
 	@Override
 	protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
 		ret.append(String.format(classDefineTemplate, tableMeta.baseModelName,
-				tableMeta.baseModelName, tableMeta.name, tableMeta.name,tableMeta.baseModelName,
+				tableMeta.baseModelName, tableMeta.name,tableMeta.name,tableMeta.name,tableMeta.name, tableMeta.name,tableMeta.baseModelName,
 				tableMeta.baseModelName,tableMeta.baseModelName));
 	}
 	

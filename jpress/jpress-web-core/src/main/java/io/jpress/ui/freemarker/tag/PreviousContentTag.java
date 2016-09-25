@@ -39,7 +39,7 @@ public class PreviousContentTag extends JTag {
 			return;
 		}
 
-		setVariable("content", content);
+		setVariable("previous", content);
 		renderBody();
 	}
 

@@ -17,7 +17,6 @@ package io.jpress.listener;
 
 import java.math.BigInteger;
 
-import io.jpress.message.Actions;
 import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
@@ -33,14 +32,14 @@ import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
-@Listener(action = Actions.COMMENT_ADD)
+@Listener(action = Comment.ACTION_ADD)
 public class AuthorNotificationListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
 
 		// 评论添加到数据库
-		if (Actions.COMMENT_ADD.equals(message.getAction())) {
+		if (Comment.ACTION_ADD.equals(message.getAction())) {
 			notify(message);
 		}
 

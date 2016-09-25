@@ -15,7 +15,6 @@
  */
 package io.jpress.listener;
 
-import io.jpress.message.Actions;
 import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
@@ -24,26 +23,26 @@ import io.jpress.model.Content;
 import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
 
-@Listener(action = { Actions.COMMENT_ADD, Actions.COMMENT_UPDATE, Actions.COMMENT_DELETE })
+@Listener(action = { Comment.ACTION_ADD, Comment.ACTION_UPDATE, Comment.ACTION_DELETE })
 public class CommentListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
 
 		// 有新评论
-		if (Actions.COMMENT_ADD.equals(message.getAction())) {
+		if (Comment.ACTION_ADD.equals(message.getAction())) {
 			updateContentCommentCount(message);
 			updateCommentCount(message);
 		}
 
 		// 评论被更新（可能状态呗更新）
-		else if (Actions.COMMENT_UPDATE.equals(message.getAction())) {
+		else if (Comment.ACTION_UPDATE.equals(message.getAction())) {
 			updateContentCommentCount(message);
 			updateCommentCount(message);
 		}
 
 		// 评论被删除
-		else if (Actions.COMMENT_DELETE.equals(message.getAction())) {
+		else if (Comment.ACTION_DELETE.equals(message.getAction())) {
 			updateContentCommentCount(message);
 			updateCommentCount(message);
 		}

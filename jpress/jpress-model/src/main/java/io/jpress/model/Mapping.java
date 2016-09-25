@@ -15,15 +15,31 @@
  */
 package io.jpress.model;
 
+import java.math.BigInteger;
+
+import io.jpress.message.Message;
+import io.jpress.message.MessageListener;
+import io.jpress.message.annotation.Listener;
 import io.jpress.model.base.BaseMapping;
 import io.jpress.model.core.Table;
 
 @Table(tableName = "mapping", primaryKey = "id")
-public class Mapping extends BaseMapping<Mapping> {
+@Listener(action = { Content.ACTION_ADD, Content.ACTION_DELETE, Content.ACTION_UPDATE }, async = false)
+public class Mapping extends BaseMapping<Mapping> implements MessageListener {
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public void onMessage(Message message) {
+		if (message.getAction().equals(Content.ACTION_DELETE) || (message.getAction().equals(Content.ACTION_UPDATE))) {
+			Content c = message.getData();
+			removeCache(buildKeyByContentId(c.getId()));
+		}
 
-	
+	}
+
+	public static String buildKeyByContentId(BigInteger contentId) {
+		return "content:" + contentId;
+	}
 
 }

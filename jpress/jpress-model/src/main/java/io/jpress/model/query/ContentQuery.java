@@ -68,7 +68,7 @@ public class ContentQuery extends JBaseQuery {
 
 	public Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module, String keyword,
 			BigInteger[] taxonomyIds, String month) {
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
+		String select = "select c.*,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
@@ -79,8 +79,7 @@ public class ContentQuery extends JBaseQuery {
 		LinkedList<Object> params = new LinkedList<Object>();
 		params.add(Content.STATUS_DELETE);
 
-		boolean needWhere = false;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.module", module, params, needWhere);
+		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
 
 		if (StringUtils.isNotBlank(keyword)) {
 			fromBuilder.append(" AND c.title like ? ");
@@ -111,7 +110,7 @@ public class ContentQuery extends JBaseQuery {
 
 		LinkedList<Object> params = new LinkedList<Object>();
 
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
+		String select = "select c.*,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
@@ -165,7 +164,7 @@ public class ContentQuery extends JBaseQuery {
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String month, String orderBy) {
 
-		String select = "select c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys,u.username,u.nickname,u.avatar";
+		String select = "select c.*,u.username,u.nickname,u.avatar";
 
 		StringBuilder fromBuilder = new StringBuilder(" from content c");
 		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
@@ -530,8 +529,7 @@ public class ContentQuery extends JBaseQuery {
 
 	protected StringBuilder getBaseSelectSql(String columns) {
 		StringBuilder sqlBuilder = new StringBuilder(" select ");
-		sqlBuilder.append(" c.*,GROUP_CONCAT(t.id ,':',t.slug,':',t.title,':',t.type SEPARATOR ',') as taxonomys ");
-		sqlBuilder.append(" ,u.username,u.nickname,u.avatar ");
+		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
 		if (StringUtils.isNotBlank(columns)) {
 			sqlBuilder.append(",").append(columns);
 		}

@@ -16,7 +16,6 @@
 package io.jpress.model;
 
 import java.io.File;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,11 +32,12 @@ import io.jpress.model.base.BaseContent;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.MappingQuery;
+import io.jpress.model.query.MetaDataQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
 import io.jpress.model.utils.ContentRouter;
 import io.jpress.model.utils.PageRouter;
-import io.jpress.model.utils.TaxonomyRouter;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.Thumbnail;
 import io.jpress.utils.JsoupUtils;
@@ -211,24 +211,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	public List<Metadata> getMetadatas() {
 		if (metadatas == null) {
-			String metadataString = get("metadatas");
-			if (StringUtils.isNotBlank(metadataString)) {
-				metadatas = new ArrayList<Metadata>();
-				String medadataStrings[] = metadataString.split(",");
-				for (String metadataStr : medadataStrings) {
-					String[] propertes = metadataStr.split(":");
-					// by method paginateByMetadata
-					// propertes[0] == id
-					// propertes[1] == meta_key
-					// propertes[2] == meta_value
-					Metadata md = new Metadata();
-					md.setId(new BigInteger(propertes[0]));
-					md.setObjectType(METADATA_TYPE);
-					md.setMetaKey(propertes[1]);
-					md.setMetaValue(propertes[2]);
-					metadatas.add(md);
-				}
-			}
+			metadatas = MetaDataQuery.me().findListByTypeAndId(METADATA_TYPE, getId());
 		}
 		return metadatas;
 	}
@@ -258,24 +241,17 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getTaxonomyAsString(String type) {
+		List<Taxonomy> taxonomies = getTaxonomys();
+		if (taxonomies == null || taxonomies.isEmpty()) {
+			return "";
+		}
+
 		StringBuilder retBuilder = new StringBuilder();
-		String taxonomyString = get("taxonomys");
-		if (taxonomyString != null) {
-			String[] taxonomyStrings = taxonomyString.split(",");
-			for (String taxonomyStr : taxonomyStrings) {
-				String[] propertes = taxonomyStr.split(":");
-				// propertes[0] == id
-				// propertes[1] == slug
-				// propertes[2] == title
-				// propertes[3] == type
-				// by method doPaginateByModuleAndStatus
-				if (propertes != null && propertes.length == 4) {
-					if (type == null) {
-						retBuilder.append(propertes[2]).append(",");
-					} else if (type.equals(propertes[3])) {
-						retBuilder.append(propertes[2]).append(",");
-					}
-				}
+		for (Taxonomy taxonomy : taxonomies) {
+			if (type == null) {
+				retBuilder.append(taxonomy.getTitle()).append(",");
+			} else if (type.equals(taxonomy.getType())) {
+				retBuilder.append(taxonomy.getTitle()).append(",");
 			}
 		}
 
@@ -290,58 +266,39 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 	}
 
 	public String getTaxonomyAsUrl(String type, String attrs) {
-		StringBuilder retBuilder = null;
-		String taxonomyString = get("taxonomys");
-		if (taxonomyString != null) {
-			String[] taxonomyStrings = taxonomyString.split(",");
-			if (StringUtils.isBlank(attrs))
-				attrs = "";
-			for (String taxonomyStr : taxonomyStrings) {
-				if (retBuilder == null) {
-					retBuilder = new StringBuilder();
-				}
-				String[] propertes = taxonomyStr.split(":");
-				// propertes[0] == id
-				// propertes[1] == slug
-				// propertes[2] == title
-				// propertes[3] == type
-				// by method doPaginateByModuleAndStatus
-				if (propertes != null && propertes.length == 4) {
-					if (type.equals(propertes[3])) {
-						String url = JFinal.me().getContextPath() + TaxonomyRouter.getRouter(getModule(), propertes[1]);
-						String string = String.format("<a href=\"%s\" %s >%s</a>", url, attrs, propertes[2]);
-						retBuilder.append(string).append(",");
-					}
-				}
+		List<Taxonomy> taxonomies = getTaxonomys();
+		if (taxonomies == null || taxonomies.isEmpty()) {
+			return "";
+		}
+
+		StringBuilder retBuilder = new StringBuilder();
+		for (Taxonomy taxonomy : taxonomies) {
+			if (type.equals(taxonomy.getType())) {
+				String string = String.format("<a href=\"%s\" %s >%s</a>", taxonomy.getUrl(), attrs,
+						taxonomy.getTitle());
+				retBuilder.append(string).append(",");
 			}
 		}
 
-		if (retBuilder != null) {
-			if (retBuilder.length() > 0) {
-				retBuilder.deleteCharAt(retBuilder.length() - 1);
-			}
-			return retBuilder.toString();
-		} else {
-			return null;
+		if (retBuilder.length() > 0) {
+			retBuilder.deleteCharAt(retBuilder.length() - 1);
 		}
+		return retBuilder.toString();
 	}
 
 	public List<Taxonomy> getTaxonomys() {
-		if (taxonomys == null) {
-			taxonomys = new ArrayList<Taxonomy>();
+		if (taxonomys != null) {
+			return taxonomys;
 		}
 
-		String taxonomyString = get("taxonomys");
-		if (taxonomys != null && taxonomyString != null) {
-			String[] taxonomyStrings = taxonomyString.split(",");
-
-			for (String taxonomyStr : taxonomyStrings) {
-				String[] propertes = taxonomyStr.split(":");
-				// by method doPaginateByModuleAndStatus
-				Taxonomy taxonomy = new Taxonomy();
-				taxonomy.setId(new BigInteger(propertes[0]));
-				taxonomy.setTitle(propertes[1]);
-				taxonomy.setType(propertes[2]);
+		List<Mapping> mappingList = MappingQuery.me().findListByContentId(getId());
+		if (mappingList == null || mappingList.isEmpty()) {
+			return null;
+		}
+		taxonomys = new ArrayList<Taxonomy>();
+		for (Mapping mapping : mappingList) {
+			Taxonomy taxonomy = TaxonomyQuery.me().findById(mapping.getTaxonomyId());
+			if (taxonomy != null) {
 				taxonomys.add(taxonomy);
 			}
 		}
@@ -380,9 +337,9 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 		if (this.childList == null) {
 			this.childList = new ArrayList<Content>();
 		}
-		
-		//如果是从ehcache内存取到的数据，可能该model已经添加过了
-		if(!childList.contains(child)){
+
+		// 如果是从ehcache内存取到的数据，可能该model已经添加过了
+		if (!childList.contains(child)) {
 			childList.add(child);
 		}
 	}

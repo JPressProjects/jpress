@@ -206,7 +206,6 @@ public class UserController extends BaseFrontController {
 
 		if (user.save()) {
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
-			MessageKit.sendMessage(Actions.USER_CREATED, user);
 
 			if (isAjaxRequest()) {
 				renderAjaxResultForSuccess();

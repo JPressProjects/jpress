@@ -15,6 +15,7 @@
  */
 package io.jpress.model.base;
 
+import io.jpress.message.MessageKit;
 import io.jpress.model.Metadata;
 import io.jpress.model.core.JModel;
 import io.jpress.model.query.MetaDataQuery;
@@ -32,6 +33,10 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 
 	public static final String CACHE_NAME = "content";
 	public static final String METADATA_TYPE = "content";
+
+	public static final String ACTION_ADD = "content:add";
+	public static final String ACTION_DELETE = "content:delete";
+	public static final String ACTION_UPDATE = "content:update";
 
 	public void removeCache(Object key){
 		if(key == null) return;
@@ -93,6 +98,34 @@ public abstract class BaseContent<M extends BaseContent<M>> extends JModel<M> im
 		if(m.getId() == null){return false;}
 
 		return m.getId().compareTo(this.getId()) == 0;
+	}
+
+	@Override
+	public boolean save() {
+		boolean saved = super.save();
+		if (saved) { MessageKit.sendMessage(ACTION_ADD, this); }
+		return saved;
+	}
+
+	@Override
+	public boolean delete() {
+		boolean deleted = super.delete();
+		if (deleted) { MessageKit.sendMessage(ACTION_DELETE, this); }
+		return deleted;
+	}
+
+	@Override
+	public boolean deleteById(Object idValue) {
+		boolean deleted = super.deleteById(idValue);
+		if (deleted) { MessageKit.sendMessage(ACTION_DELETE, this); }
+		return deleted;
+	}
+
+	@Override
+	public boolean update() {
+		boolean update = super.update();
+		if (update) { MessageKit.sendMessage(ACTION_UPDATE, this); }
+		return update;
 	}
 
 	public void setId(java.math.BigInteger id) {

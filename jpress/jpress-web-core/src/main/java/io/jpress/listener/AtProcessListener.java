@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 import com.jfinal.core.JFinal;
 
-import io.jpress.message.Actions;
 import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
@@ -36,7 +35,7 @@ import io.jpress.notify.email.Email;
 import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.utils.StringUtils;
 
-@Listener(action = {Actions.CONTENT_ADD,Actions.COMMENT_ADD})
+@Listener(action = { Content.ACTION_ADD, Comment.ACTION_ADD })
 public class AtProcessListener implements MessageListener {
 
 	@Override
@@ -45,7 +44,7 @@ public class AtProcessListener implements MessageListener {
 		List<BigInteger> userIds = new ArrayList<BigInteger>();
 
 		// 新增文章
-		if (Actions.CONTENT_ADD.equals(message.getAction())) {
+		if (Content.ACTION_ADD.equals(message.getAction())) {
 			Content content = message.getData();
 			String text = generateUserLinks(content.getText(), userIds);
 			content.setText(text);
@@ -53,7 +52,7 @@ public class AtProcessListener implements MessageListener {
 		}
 
 		// 新增评论
-		else if (Actions.COMMENT_ADD.equals(message.getAction())) {
+		else if (Comment.ACTION_ADD.equals(message.getAction())) {
 			Comment comment = message.getData();
 			String text = generateUserLinks(comment.getText(), userIds);
 			comment.setText(text);
@@ -94,8 +93,8 @@ public class AtProcessListener implements MessageListener {
 		}
 	}
 
-
 	static Pattern userPattern = Pattern.compile("@([^@^\\s^:]{1,})([\\s\\:\\,\\;]{0,1})");
+
 	public static String generateUserLinks(String msg, List<BigInteger> userIds) {
 		StringBuilder html = new StringBuilder();
 		int lastIdx = 0;

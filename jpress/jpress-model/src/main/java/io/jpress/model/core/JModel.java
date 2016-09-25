@@ -190,7 +190,6 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	private Class<? extends JModel> getUsefulClass() {
 		Class c = getClass();
 		return c.getName().indexOf("EnhancerByCGLIB") == -1 ? c : c.getSuperclass();
-		// com.demo.blog.Blog$$EnhancerByCGLIB$$69a17158
 	}
 
 	private static String tc(String sql) {
@@ -200,90 +199,71 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	// -----------------------------Override----------------------------
 	@Override
 	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.paginate(pageNumber, pageSize, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
 	public Page<M> paginate(int pageNumber, int pageSize, boolean isGroupBySql, String select, String sqlExceptSelect,
 			Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.paginate(pageNumber, pageSize, isGroupBySql, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
 	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect) {
-		// TODO Auto-generated method stub
 		return super.paginate(pageNumber, pageSize, tc(select), tc(sqlExceptSelect));
 	}
 
 	@Override
 	public List<M> find(String sql, Object... paras) {
-		// TODO Auto-generated method stub
 		debugPrintParas(paras);
 		return super.find(tc(sql), paras);
 	}
 
 	@Override
 	public List<M> find(String sql) {
-		// TODO Auto-generated method stub
 		return super.find(tc(sql));
 	}
 
 	@Override
 	public M findFirst(String sql, Object... paras) {
-		// TODO Auto-generated method stub
 		debugPrintParas(paras);
 		return super.findFirst(tc(sql), paras);
 	}
 
 	@Override
 	public M findFirst(String sql) {
-		// TODO Auto-generated method stub
 		return super.findFirst(tc(sql));
 	}
 
 	@Override
 	public List<M> findByCache(String cacheName, Object key, String sql, Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.findByCache(cacheName, key, tc(sql), paras);
 	}
 
 	@Override
 	public List<M> findByCache(String cacheName, Object key, String sql) {
-		// TODO Auto-generated method stub
 		return super.findByCache(cacheName, key, tc(sql));
 	}
 
 	@Override
 	public M findFirstByCache(String cacheName, Object key, String sql, Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.findFirstByCache(cacheName, key, tc(sql), paras);
 	}
 
 	@Override
 	public M findFirstByCache(String cacheName, Object key, String sql) {
-		// TODO Auto-generated method stub
 		return super.findFirstByCache(cacheName, key, tc(sql));
 	}
 
 	@Override
 	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String select,
 			String sqlExceptSelect, Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.paginateByCache(cacheName, key, pageNumber, pageSize, tc(select), tc(sqlExceptSelect), paras);
 	}
 
 	@Override
 	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, boolean isGroupBySql,
 			String select, String sqlExceptSelect, Object... paras) {
-		// TODO Auto-generated method stub
-		debugPrintParas(paras);
 		return super.paginateByCache(cacheName, key, pageNumber, pageSize, isGroupBySql, tc(select),
 				tc(sqlExceptSelect), paras);
 	}
@@ -291,7 +271,6 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	@Override
 	public Page<M> paginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String select,
 			String sqlExceptSelect) {
-		// TODO Auto-generated method stub
 		return super.paginateByCache(cacheName, key, pageNumber, pageSize, tc(select), tc(sqlExceptSelect));
 	}
 

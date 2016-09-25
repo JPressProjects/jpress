@@ -16,6 +16,7 @@
 package io.jpress.model;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -97,12 +98,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	@Override
 	public boolean update() {
-		if (getId() != null) {
-			removeCache(getId());
-		}
-		if (getSlug() != null) {
-			removeCache(getSlug());
-		}
+		removeCache(getId());
+		removeCache(getSlug());
 
 		clearList();
 
@@ -111,12 +108,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	@Override
 	public boolean delete() {
-		if (getId() != null) {
-			removeCache(getId());
-		}
-		if (getSlug() != null) {
-			removeCache(getSlug());
-		}
+		removeCache(getId());
+		removeCache(getSlug());
 
 		clearList();
 
@@ -125,13 +118,8 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	@Override
 	public boolean save() {
-		if (getId() != null) {
-			removeCache(getId());
-		}
-
-		if (getSlug() != null) {
-			removeCache(getSlug());
-		}
+		removeCache(getId());
+		removeCache(getSlug());
 
 		clearList();
 
@@ -329,6 +317,14 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	@Override
 	public Content getParent() {
+		if (parent != null)
+			return parent;
+
+		if (getParentId() == null || getParentId().compareTo(BigInteger.ZERO) == 0) {
+			return null;
+		} else {
+			parent = ContentQuery.me().findById(getParentId());
+		}
 		return parent;
 	}
 

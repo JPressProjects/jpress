@@ -250,7 +250,7 @@ public class _WechatController extends JBaseCRUDController<Content> {
 
 		String id = getPara("id");
 		if (id != null) {
-			setAttr("content", ContentQuery.me().findById(id));
+			setAttr("content", ContentQuery.me().findById(new BigInteger(id)));
 		} else {
 			Content c = new Content();
 			c.setCreated(new Date());

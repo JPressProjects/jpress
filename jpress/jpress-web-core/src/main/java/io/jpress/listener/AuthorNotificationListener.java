@@ -201,11 +201,11 @@ public class AuthorNotificationListener implements MessageListener {
 		if (StringUtils.isNotBlank(comment.getContentUrl())) {
 			content = content.replace("${comment.contentUrl}", contentUrl);
 		}
-		if (StringUtils.isNotBlank(comment.getcontentTitle())) {
-			content = content.replace("${comment.contentTitle}", comment.getcontentTitle());
+		if (StringUtils.isNotBlank(comment.getContent().getTitle())) {
+			content = content.replace("${comment.contentTitle}", comment.getContent().getTitle());
 		}
-		if (StringUtils.isNotBlank(comment.getUsername())) {
-			content = content.replace("${comment.username}", comment.getUsername());
+		if (StringUtils.isNotBlank(comment.getUser().getUsername())) {
+			content = content.replace("${comment.username}", comment.getUser().getUsername());
 		}
 		if (comment.getCreated() != null) {
 			content = content.replace("${comment.created}", DateUtils.format(comment.getCreated()));

@@ -21,22 +21,68 @@ import io.jpress.model.base.BaseComment;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.CommentQuery;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.query.UserQuery;
 
 @Table(tableName = "comment", primaryKey = "id")
 public class Comment extends BaseComment<Comment> {
 	private static final long serialVersionUID = 1L;
 
 	public static final String TYPE_COMMENT = "comment";
+
 	public static String STATUS_DELETE = "delete";
 	public static String STATUS_DRAFT = "draft";
 	public static String STATUS_NORMAL = "normal";
 
-	public String getUsername() {
-		return get("username");
+	private Content content;
+	private User user;
+	private Comment parent;
+
+	public Content getContent() {
+		if (content != null) {
+			return content;
+		}
+
+		if (getContentId() != null) {
+			content = ContentQuery.me().findById(getContentId());
+		}
+
+		return content;
 	}
 
-	public String getcontentTitle() {
-		return get("content_title");
+	public void setContent(Content content) {
+		this.content = content;
+	}
+
+	public User getUser() {
+		if (user != null) {
+			return user;
+		}
+
+		if (getContentId() != null) {
+			user = UserQuery.me().findById(getUserId());
+		}
+
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Comment getParent() {
+		if (parent != null) {
+			return parent;
+		}
+
+		if (getContentId() != null) {
+			parent = CommentQuery.me().findById(getParentId());
+		}
+
+		return parent;
+	}
+
+	public void setParent(Comment parent) {
+		this.parent = parent;
 	}
 
 	public boolean isDelete() {
@@ -51,7 +97,7 @@ public class Comment extends BaseComment<Comment> {
 		Content c = ContentQuery.me().findById(contentId);
 		return c == null ? null : c.getUrl();
 	}
-	
+
 	public boolean updateCommentCount() {
 		long count = CommentQuery.me().findCountByParentIdInNormal(getId());
 		if (count > 0) {
@@ -59,5 +105,29 @@ public class Comment extends BaseComment<Comment> {
 			return this.update();
 		}
 		return false;
+	}
+
+	@Override
+	public boolean update() {
+		removeCache(getId());
+		removeCache(getSlug());
+
+		return super.update();
+	}
+
+	@Override
+	public boolean delete() {
+		removeCache(getId());
+		removeCache(getSlug());
+
+		return super.delete();
+	}
+
+	@Override
+	public boolean save() {
+		removeCache(getId());
+		removeCache(getSlug());
+
+		return super.save();
 	}
 }

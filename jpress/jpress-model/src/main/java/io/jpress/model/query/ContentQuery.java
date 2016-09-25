@@ -540,10 +540,6 @@ public class ContentQuery extends JBaseQuery {
 		return sqlBuilder;
 	}
 
-	public Content findById(Object idValue) {
-		return DAO.findFirst(getBaseSelectSql() + " WHERE c.id=? ", idValue);
-	}
-
 	public long findCountByModule(String module) {
 		return DAO.doFindCount("module = ?", module);
 	}

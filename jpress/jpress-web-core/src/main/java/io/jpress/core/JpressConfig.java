@@ -53,8 +53,9 @@ import io.jpress.interceptor.AdminInterceptor;
 import io.jpress.interceptor.GlobelInterceptor;
 import io.jpress.message.plugin.MessagePlugin;
 import io.jpress.model.core.Table;
+import io.jpress.plugin.search.SearcherPlugin;
 import io.jpress.router.RouterMapping;
-import io.jpress.utils.ClassScaner;
+import io.jpress.utils.ClassUtils;
 import io.jpress.utils.StringUtils;
 import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.ConfigurationFactory;
@@ -69,7 +70,8 @@ public abstract class JpressConfig extends JFinalConfig {
 		log.info("JPress is starting ...");
 
 		PropKit.use("jpress.properties");
-		onJfinalStartBefore();
+
+		DbDialectFactory.init();
 
 		constants.setDevMode(PropKit.getBoolean("dev_mode", false));
 		constants.setViewType(ViewType.FREE_MARKER);
@@ -85,7 +87,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	@SuppressWarnings("unchecked")
 	public void configRoute(Routes routes) {
-		List<Class<Controller>> controllerClassList = ClassScaner.scanSubClass(Controller.class);
+		List<Class<Controller>> controllerClassList = ClassUtils.scanSubClass(Controller.class);
 		if (controllerClassList != null) {
 			for (Class<?> clazz : controllerClassList) {
 				RouterMapping urlMapping = clazz.getAnnotation(RouterMapping.class);
@@ -104,11 +106,14 @@ public abstract class JpressConfig extends JFinalConfig {
 		plugins.add(createEhCachePlugin());
 
 		if (Jpress.isInstalled()) {
+
 			DruidPlugin druidPlugin = createDruidPlugin();
 			plugins.add(druidPlugin);
 
 			ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(druidPlugin);
 			plugins.add(activeRecordPlugin);
+
+			plugins.add(new SearcherPlugin());
 
 			plugins.add(new MessagePlugin());
 		}
@@ -141,7 +146,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ActiveRecordPlugin createRecordPlugin(IDataSourceProvider dsp) {
 		ActiveRecordPlugin arPlugin = new ActiveRecordPlugin(dsp);
-		List<Class<Model>> modelClassList = ClassScaner.scanSubClass(Model.class);
+		List<Class<Model>> modelClassList = ClassUtils.scanSubClass(Model.class);
 		if (modelClassList != null) {
 			String tablePrefix = PropKit.use("db.properties").get("db_tablePrefix");
 			tablePrefix = (StrKit.isBlank(tablePrefix)) ? "" : (tablePrefix.trim());
@@ -186,7 +191,7 @@ public abstract class JpressConfig extends JFinalConfig {
 		}
 
 		Jpress.renderImmediately();
-		onJfinalStartAfter();
+		onJPressStarted();
 
 		log.info("JPress is started!");
 	}
@@ -206,8 +211,8 @@ public abstract class JpressConfig extends JFinalConfig {
 		}
 	}
 
-	public abstract void onJfinalStartAfter();
+	public void onJPressStarted() {
+	};
 
-	public abstract void onJfinalStartBefore();
 
 }

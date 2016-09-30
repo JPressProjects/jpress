@@ -24,8 +24,6 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.core.JBaseCRUDController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
-import io.jpress.message.Actions;
-import io.jpress.message.MessageKit;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
@@ -91,7 +89,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		if (c != null) {
 			c.setStatus(Comment.STATUS_DELETE);
 			if (c.saveOrUpdate()) {
-				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess();
 			} else {
 				renderAjaxResultForError("restore error!");
@@ -108,7 +105,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		if (c != null && c.isDelete()) {
 			c.setStatus(Content.STATUS_DRAFT);
 			if (c.saveOrUpdate()) {
-				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
 			} else {
 				renderAjaxResultForError("restore error!");
@@ -125,7 +121,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		if (c != null) {
 			c.setStatus(Content.STATUS_NORMAL);
 			if (c.saveOrUpdate()) {
-				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
 			} else {
 				renderAjaxResultForError("pub fail!");
@@ -142,7 +137,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		if (c != null) {
 			c.setStatus(Content.STATUS_DRAFT);
 			if (c.saveOrUpdate()) {
-				MessageKit.sendMessage(Actions.COMMENT_UPDATE, c);
 				renderAjaxResultForSuccess("success");
 			} else {
 				renderAjaxResultForError("draft fail!");
@@ -158,7 +152,6 @@ public class _CommentController extends JBaseCRUDController<Comment> {
 		final Comment c = CommentQuery.me().findById(id);
 		if (c != null) {
 			if (c.delete()) {
-				MessageKit.sendMessage(Actions.COMMENT_DELETE, c);
 				renderAjaxResultForSuccess();
 				return;
 			}

@@ -23,7 +23,7 @@ import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
 import io.jpress.model.User;
 
-@Listener(action = { Actions.USER_LOGINED, Actions.USER_CREATED })
+@Listener(action = { Actions.USER_LOGINED, User.ACTION_ADD })
 public class UserActionListener implements MessageListener {
 
 	@Override
@@ -34,7 +34,7 @@ public class UserActionListener implements MessageListener {
 			user.update();
 		}
 
-		else if (message.getAction().equals(Actions.USER_CREATED)) {
+		else if (message.getAction().equals(User.ACTION_ADD)) {
 			User user = message.getData();
 			user.setLogged(new Date());
 			user.update();

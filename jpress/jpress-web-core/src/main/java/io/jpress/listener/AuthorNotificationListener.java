@@ -17,7 +17,6 @@ package io.jpress.listener;
 
 import java.math.BigInteger;
 
-import io.jpress.message.Actions;
 import io.jpress.message.Message;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
@@ -33,14 +32,14 @@ import io.jpress.notify.email.EmailSenderFactory;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
-@Listener(action = Actions.COMMENT_ADD)
+@Listener(action = Comment.ACTION_ADD)
 public class AuthorNotificationListener implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
 
 		// 评论添加到数据库
-		if (Actions.COMMENT_ADD.equals(message.getAction())) {
+		if (Comment.ACTION_ADD.equals(message.getAction())) {
 			notify(message);
 		}
 
@@ -114,19 +113,17 @@ public class AuthorNotificationListener implements MessageListener {
 			webname = StringUtils.isBlank(webname) ? "" : webname;
 
 			String webdomain = OptionQuery.me().findValue("web_domain");
+			String url = webdomain + comment.getContentUrl();
 
 			Email email = new Email();
 			email.subject("有人在 [" + webname + "] 评论了您的文章！");
 
 			String content = OptionQuery.me().findValue("notify_author_content_by_email_when_has_comment");
 			if (StringUtils.isBlank(content)) {
-				String url = webdomain + comment.getContentUrl();
-				content = "有人在 [" + webname + "] 评论了您的文章。<br />评论内容是：" + comment.getText() + "<br />详情：<a href=\"" + url
-						+ "\">" + url + "</a>";
-			} else {
-				content = replaceContent(comment, webdomain, content);
-
+				content = "有人在 [${webname}] 回复了您的文章。<br />回复内容是：${comment.text}<br />详情：<a href=\"${contentUrl}\">${contentUrl}</a>";
 			}
+
+			content = replaceContent(content, comment, webname, webdomain, url);
 
 			email.content(content);
 			email.to(user.getEmail());
@@ -162,18 +159,17 @@ public class AuthorNotificationListener implements MessageListener {
 			webname = StringUtils.isBlank(webname) ? "" : webname;
 
 			String webdomain = OptionQuery.me().findValue("web_domain");
+			String url = webdomain + comment.getContentUrl();
 
 			Email email = new Email();
 			email.subject("有人在 [" + webname + "] 回复了您的评论！");
 
 			String content = OptionQuery.me().findValue("notify_parent_author_content_by_email_when_has_comment");
 			if (StringUtils.isBlank(content)) {
-				String url = webdomain + comment.getContentUrl();
-				content = "有人在 [" + webname + "] 回复了您的评论。<br />回复内容是：" + comment.getText() + "<br />详情：<a href=\"" + url
-						+ "\">" + url + "</a>";
-			} else {
-				content = replaceContent(comment, webdomain, content);
+				content = "有人在 [${webname}] 回复了您的评论。<br />回复内容是：${comment.text}<br />详情：<a href=\"${contentUrl}\">${contentUrl}</a>";
 			}
+
+			content = replaceContent(content, comment, webname, webdomain, url);
 
 			email.content(content);
 			email.to(user.getEmail());
@@ -182,7 +178,17 @@ public class AuthorNotificationListener implements MessageListener {
 		}
 	}
 
-	private String replaceContent(Comment comment, String webdomain, String content) {
+	private String replaceContent(String content, Comment comment, String webname, String webdomain,
+			String contentUrl) {
+		if (StringUtils.isNotBlank(webname)) {
+			content = content.replace("${webname}", webname);
+		}
+		if (StringUtils.isNotBlank(webdomain)) {
+			content = content.replace("${webdomain}", webdomain);
+		}
+		if (StringUtils.isNotBlank(contentUrl)) {
+			content = content.replace("${contentUrl}", contentUrl);
+		}
 		if (StringUtils.isNotBlank(comment.getText())) {
 			content = content.replace("${comment.text}", comment.getText());
 		}
@@ -193,13 +199,13 @@ public class AuthorNotificationListener implements MessageListener {
 			content = content.replace("${comment.email}", comment.getEmail());
 		}
 		if (StringUtils.isNotBlank(comment.getContentUrl())) {
-			content = content.replace("${comment.contentUrl}", webdomain + comment.getContentUrl());
+			content = content.replace("${comment.contentUrl}", contentUrl);
 		}
-		if (StringUtils.isNotBlank(comment.getcontentTitle())) {
-			content = content.replace("${comment.contentTitle}", comment.getcontentTitle());
+		if (StringUtils.isNotBlank(comment.getContent().getTitle())) {
+			content = content.replace("${comment.contentTitle}", comment.getContent().getTitle());
 		}
-		if (StringUtils.isNotBlank(comment.getUsername())) {
-			content = content.replace("${comment.username}", comment.getUsername());
+		if (StringUtils.isNotBlank(comment.getUser().getUsername())) {
+			content = content.replace("${comment.username}", comment.getUser().getUsername());
 		}
 		if (comment.getCreated() != null) {
 			content = content.replace("${comment.created}", DateUtils.format(comment.getCreated()));

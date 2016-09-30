@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
+import io.jpress.utils.StringUtils;
 
 public class OSChinaConnector extends OauthConnector {
 
@@ -66,6 +67,10 @@ public class OSChinaConnector extends OauthConnector {
 		// "uid":111634,
 		// "token_type":"bearer",
 		// "expires_in":604799}
+
+		if (StringUtils.isBlank(httpString)) {
+			return null;
+		}
 
 		JSONObject json = JSONObject.parseObject(httpString);
 		return json.getString("access_token");

@@ -21,8 +21,6 @@ import java.util.Date;
 import io.jpress.Consts;
 import io.jpress.core.BaseFrontController;
 import io.jpress.core.cache.ActionCacheManager;
-import io.jpress.message.Actions;
-import io.jpress.message.MessageKit;
 import io.jpress.model.Comment;
 import io.jpress.model.Content;
 import io.jpress.model.User;
@@ -144,7 +142,6 @@ public class CommentController extends BaseFrontController {
 		comment.setParentId(parentId);
 
 		if (comment.save()) {
-			MessageKit.sendMessage(Actions.COMMENT_ADD, comment);
 			ActionCacheManager.clearCache();
 		}
 

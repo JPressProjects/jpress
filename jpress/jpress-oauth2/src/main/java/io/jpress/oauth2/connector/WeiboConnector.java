@@ -22,18 +22,13 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
+import io.jpress.utils.StringUtils;
 
 public class WeiboConnector extends OauthConnector {
 
 	public WeiboConnector(String name, String appkey, String appSecret) {
 		super(name, appkey, appSecret);
 	}
-
-	// public WeiboConnector() {
-	// setClientId(OptionQuery.findValue("oauth2_weibo_appkey"));
-	// setClientSecret(OptionQuery.findValue("oauth2_weibo_appsecret"));
-	// setName("weibo");
-	// }
 
 	public String createAuthorizeUrl(String state) {
 
@@ -48,17 +43,21 @@ public class WeiboConnector extends OauthConnector {
 
 	protected OauthUser getOauthUser(String code) {
 
-		StringBuilder urlBuilder = new StringBuilder("https://api.weibo.com/oauth2/access_token?");
-		urlBuilder.append("grant_type=authorization_code");
-		urlBuilder.append("&client_id=" + getClientId());
-		urlBuilder.append("&client_secret=" + getClientSecret());
-		urlBuilder.append("&redirect_uri=" + getRedirectUri());
-		urlBuilder.append("&code=" + code);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("grant_type", "authorization_code");
+		params.put("client_id", getClientId());
+		params.put("client_secret", getClientSecret());
+		params.put("redirect_uri", getRedirectUri());
+		params.put("code", code);
 
-		String url = urlBuilder.toString();
-		String httpString = httpGet(url);
+		String url = "https://api.weibo.com/oauth2/access_token";
+		String httpString = httpPost(url, params);
+
+		if (StringUtils.isBlank(httpString)) {
+			return null;
+		}
+
 		JSONObject json = JSONObject.parseObject(httpString);
-
 		String accessToken = json.getString("access_token");
 		String uid = json.getString("uid");
 
@@ -73,6 +72,7 @@ public class WeiboConnector extends OauthConnector {
 		user.setOpenId(json.getString("id"));
 		user.setGender(genders.get(json.getString("gender")));
 		user.setSource(getName());
+
 		return user;
 	}
 

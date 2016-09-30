@@ -19,7 +19,6 @@ import java.util.UUID;
 
 import com.jfinal.core.Controller;
 
-
 public abstract class Oauth2Controller extends Controller {
 
 	public void index() {
@@ -30,7 +29,7 @@ public abstract class Oauth2Controller extends Controller {
 		String requestUrl = getRequest().getRequestURL().toString();
 		String callBackUrl = requestUrl.replace("/" + processerName, "/callback/" + processerName);
 		String url = op.getAuthorizeUrl(state, callBackUrl);
-		
+
 		setSessionAttr("oauth_state", state);
 		redirect(url);
 	}
@@ -55,12 +54,28 @@ public abstract class Oauth2Controller extends Controller {
 
 		String processerName = getPara();
 		OauthConnector op = onConnectorGet(processerName);
-		OauthUser ouser = op.getUser(code);
+
+		OauthUser ouser = null;
+		try {
+			ouser = op.getUser(code);
+		} catch (Throwable e) {
+			onAuthorizeError("get oauth user exception:" + e.getMessage());
+			return;
+		}
+
+		if (ouser == null) {
+			onAuthorizeError("can't get user info!");
+			return;
+		}
+
 		onAuthorizeSuccess(ouser);
+
 	}
 
 	public abstract void onAuthorizeSuccess(OauthUser oauthUser);
+
 	public abstract void onAuthorizeError(String errorMessage);
+
 	public abstract OauthConnector onConnectorGet(String processerName);
 
 }

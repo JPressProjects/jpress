@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.LinkedList;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.ehcache.IDataLoader;
 
 import io.jpress.model.Comment;
 
@@ -117,15 +118,13 @@ public class CommentQuery extends JBaseQuery {
 		return DAO.doFindCount(" user_id = ? and status=? ", userId, status);
 	}
 
-	public Comment findById(Object idValue) {
-		StringBuilder sqlBuilder = new StringBuilder(
-				"select c.*,content.title content_title,u.username,u.nickname,u.avatar ");
-		sqlBuilder.append(" from comment c");
-		sqlBuilder.append(" left join content on c.content_id = content.id");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		sqlBuilder.append(" where c.id = ?");
-
-		return DAO.findFirst(sqlBuilder.toString(), idValue);
+	public Comment findById(final Object idValue) {
+		return DAO.getCache(idValue, new IDataLoader() {
+			@Override
+			public Object load() {
+				return DAO.findById(idValue);
+			}
+		});
 	}
 
 	public long findCountByModule(String module) {

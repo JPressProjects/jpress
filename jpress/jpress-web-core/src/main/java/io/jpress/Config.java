@@ -15,14 +15,10 @@
  */
 package io.jpress;
 
-import com.jfinal.kit.PropKit;
-
 import io.jpress.core.Jpress;
 import io.jpress.core.JpressConfig;
-import io.jpress.core.db.DbDialectFactory;
 import io.jpress.message.Actions;
 import io.jpress.message.MessageKit;
-import io.jpress.plugin.search.SearcherFactory;
 import io.jpress.ui.freemarker.function.MetadataChecked;
 import io.jpress.ui.freemarker.function.MetadataSelected;
 import io.jpress.ui.freemarker.function.OptionChecked;
@@ -37,17 +33,12 @@ import io.jpress.ui.freemarker.tag.TagsTag;
 import io.jpress.ui.freemarker.tag.TaxonomyTag;
 import io.jpress.ui.freemarker.tag.TaxonomysTag;
 import io.jpress.ui.freemarker.tag.UsersTag;
-import io.jpress.utils.StringUtils;
 
 public class Config extends JpressConfig {
 
-	@Override
-	public void onJfinalStartBefore() {
-		dbDialectConfig();
-	}
 
 	@Override
-	public void onJfinalStartAfter() {
+	public void onJPressStarted() {
 
 		Jpress.addTag(ContentsTag.TAG_NAME, new ContentsTag());
 		Jpress.addTag(ContentTag.TAG_NAME, new ContentTag());
@@ -65,26 +56,9 @@ public class Config extends JpressConfig {
 		Jpress.addFunction("METADATA_CHECKED", new MetadataChecked());
 		Jpress.addFunction("METADATA_SELECTED", new MetadataSelected());
 
-		doSearcherConfig();
 		MessageKit.sendMessage(Actions.JPRESS_STARTED);
 
 	}
 
-	private void doSearcherConfig() {
-		if (!Jpress.isInstalled()) {
-			return;
-		}
-		String searcher = PropKit.get("jpress_searcher");
-		if (StringUtils.isNotBlank(searcher)) {
-			SearcherFactory.use(searcher);
-		}
-	}
-
-	private void dbDialectConfig() {
-		String dialect = PropKit.get("jpress_db_dialect");
-		if (StringUtils.isNotBlank(dialect)) {
-			DbDialectFactory.use(dialect);
-		}
-	}
 
 }

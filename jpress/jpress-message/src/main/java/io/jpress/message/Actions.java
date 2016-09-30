@@ -18,17 +18,10 @@ package io.jpress.message;
 public class Actions {
 
 	public static final String USER_LOGINED = "user:logined";
-	public static final String USER_CREATED = "user:created";
+//	public static final String USER_CREATED = "user:created";
 
 	public static final String SETTING_CHANGED = "system:setting_changed";
 
-	public static final String CONTENT_ADD = "content:add";
-	public static final String CONTENT_UPDATE = "content:update";
-	public static final String CONTENT_DELETE = "content:delete";
-
-	public static final String COMMENT_ADD = "comment:add";
-	public static final String COMMENT_DELETE = "comment:delete";
-	public static final String COMMENT_UPDATE = "comment:update";
 
 	public static final String CONTENT_COUNT_UPDATE = "content:count_update";
 	public static final String JPRESS_STARTED = "jpress:started";

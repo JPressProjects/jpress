@@ -49,6 +49,7 @@
 			<artifactId>jpress-web-core</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
+			<classifier>classes</classifier>
 			<scope>compile</scope>
 		</dependency>
 

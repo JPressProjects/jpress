@@ -359,7 +359,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-		boolean isAddAction = content.getId() == null;
 
 		String slug = StringUtils.isBlank(content.getSlug()) ? content.getTitle() : content.getSlug();
 		content.setSlug(slug);
@@ -430,11 +429,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-		if (isAddAction) {
-			MessageKit.sendMessage(Actions.CONTENT_ADD, content);
-		} else {
-			MessageKit.sendMessage(Actions.CONTENT_UPDATE, content);
-		}
 
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);

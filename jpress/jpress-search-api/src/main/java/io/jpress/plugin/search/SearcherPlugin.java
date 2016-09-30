@@ -15,19 +15,50 @@
  */
 package io.jpress.plugin.search;
 
-public class SearcherFactory {
+import java.util.List;
+
+import com.jfinal.log.Log;
+import com.jfinal.plugin.IPlugin;
+
+import io.jpress.utils.ClassUtils;
+
+public class SearcherPlugin implements IPlugin {
+
+	static final Log log = Log.getLog(SearcherPlugin.class);
 
 	private static ISearcher mSearcher;
 
-	public static void use(String className) {
+	public static void initSearcher(Class<? extends ISearcher> clazz) {
 		try {
-			Class<?> clazz = Class.forName(className);
 			mSearcher = (ISearcher) clazz.newInstance();
 			mSearcher.init();
 			SearcherKit.init(mSearcher);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean start() {
+		List<Class<ISearcher>> list = ClassUtils.scanSubClass(ISearcher.class, true);
+
+		if (list == null || list.isEmpty()) {
+			log.error("cant scan ISearcher implement class in class path.");
+			return true;
+		}
+
+		if (list.size() > 1) {
+			log.warn("there are too many searcher");
+		}
+
+		initSearcher(list.get(0));
+
+		return true;
+	}
+
+	@Override
+	public boolean stop() {
+		return true;
 	}
 
 }

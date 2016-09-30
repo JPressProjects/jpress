@@ -15,23 +15,42 @@
  */
 package io.jpress.core.db;
 
+import java.util.List;
+
+import com.jfinal.log.Log;
+
+import io.jpress.utils.ClassUtils;
+
 public class DbDialectFactory {
+
+	static final Log log = Log.getLog(DbDialectFactory.class);
 
 	static DbDialect dialect;
 
 	public static DbDialect getDbDialect() {
-
 		return dialect;
 	}
 
-	public static void use(String className) {
+	private static void initDialect(Class<? extends DbDialect> clazz) {
 		try {
-			Class<?> clazz = Class.forName(className);
 			dialect = (DbDialect) clazz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	public static void init() {
+		List<Class<DbDialect>> list = ClassUtils.scanSubClass(DbDialect.class, true);
+
+		if (list == null || list.isEmpty()) {
+			throw new RuntimeException("can't scan DbDialect implement class in class path.");
+		}
+
+		if (list.size() > 1) {
+			log.warn("there are too many DbDialect");
+		}
+
+		initDialect(list.get(0));
+	}
 
 }

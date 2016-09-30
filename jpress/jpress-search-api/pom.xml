@@ -29,6 +29,14 @@
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-utils</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 </project>

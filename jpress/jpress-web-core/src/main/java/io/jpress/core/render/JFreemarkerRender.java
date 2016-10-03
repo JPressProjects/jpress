@@ -70,7 +70,7 @@ public class JFreemarkerRender extends FreeMarkerRender {
 
 		String htmlContent = getHtmlContent(data);
 
-		// 排除 后台的CDN 处理，防止外一CDN出问题导致后台无法登陆
+		// 排除 后台的CDN 处理，防止外一CDN出问题导致后台无法登录
 		if (enableCdnProcess) {
 			htmlContent = processCDN(htmlContent); // CDN处理
 		}

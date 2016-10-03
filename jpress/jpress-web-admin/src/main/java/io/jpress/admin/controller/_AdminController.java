@@ -94,7 +94,7 @@ public class _AdminController extends JBaseController {
 
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId().toString());
 
-			renderAjaxResultForSuccess("登陆成功");
+			renderAjaxResultForSuccess("登录成功");
 		} else {
 			renderAjaxResultForError("密码错误");
 		}

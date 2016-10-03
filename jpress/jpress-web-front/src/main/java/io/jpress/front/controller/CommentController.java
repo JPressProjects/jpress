@@ -61,10 +61,10 @@ public class CommentController extends BaseFrontController {
 
 		BigInteger userId = StringUtils.toBigInteger(CookieUtils.get(this, Consts.COOKIE_LOGINED_USER), null);
 
-		// 允许未登陆用户评论
+		// 允许未登录用户评论
 		Boolean comment_allow_not_login = OptionQuery.me().findValueAsBool("comment_allow_not_login");
 
-		// 允许未登陆用户评论
+		// 允许未登录用户评论
 		if (comment_allow_not_login == null || comment_allow_not_login == false) {
 			if (userId == null) {
 				String redirect = Consts.ROUTER_USER_LOGIN;

@@ -68,7 +68,7 @@ public class UserController extends BaseFrontController {
 	}
 
 	@Clear(UserInterceptor.class)
-	@ActionKey(Consts.ROUTER_USER_LOGIN) // 固定登陆的url
+	@ActionKey(Consts.ROUTER_USER_LOGIN) // 固定登录的url
 	public void login() {
 		keepPara();
 
@@ -108,7 +108,7 @@ public class UserController extends BaseFrontController {
 			MessageKit.sendMessage(Actions.USER_LOGINED, user);
 			CookieUtils.put(this, Consts.COOKIE_LOGINED_USER, user.getId());
 			if (this.isAjaxRequest()) {
-				renderAjaxResultForSuccess("登陆成功");
+				renderAjaxResultForSuccess("登录成功");
 			} else {
 				String gotoUrl = getPara("goto");
 				if (StringUtils.isNotEmpty(gotoUrl)) {

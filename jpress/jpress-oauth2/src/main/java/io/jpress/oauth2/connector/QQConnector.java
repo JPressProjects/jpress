@@ -75,7 +75,7 @@ public class QQConnector extends OauthConnector {
 		if (StringUtils.isBlank(httpString)) {
 			return null;
 		}
-		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\"") - 1);
+		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\""));
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class QQConnector extends OauthConnector {
 
 		user.setAvatar(json.getString("figureurl_2"));
 		user.setNickname(json.getString("nickname"));
-		user.setOpenId(json.getString("openid"));
+		user.setOpenId(openId);
 		user.setSource(getName());
 
 		return user;

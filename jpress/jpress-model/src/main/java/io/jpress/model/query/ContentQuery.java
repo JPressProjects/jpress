@@ -40,7 +40,10 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public boolean deleteById(BigInteger id) {
-		return DAO.deleteById(id);
+		Content c = findById(id);
+		if (c != null)
+			return c.delete();
+		return false;
 	}
 
 	public Page<Content> paginateByModule(int page, int pagesize, String module) {
@@ -68,41 +71,40 @@ public class ContentQuery extends JBaseQuery {
 
 	public Page<Content> paginateByModuleNotInDelete(int page, int pagesize, String module, String keyword,
 			BigInteger[] taxonomyIds, String month) {
-		String select = "select c.*,u.username,u.nickname,u.avatar";
 
-		StringBuilder fromBuilder = new StringBuilder(" from content c");
-		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id");
-		fromBuilder.append(" where c.status <> ?");
+		StringBuilder sql = new StringBuilder(" from content c");
+		sql.append(" left join mapping m on c.id = m.`content_id`");
+		sql.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
+		sql.append(" where c.status <> ?");
 
 		LinkedList<Object> params = new LinkedList<Object>();
 		params.add(Content.STATUS_DELETE);
 
-		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
+		appendIfNotEmpty(sql, "c.module", module, params, false);
 
 		if (StringUtils.isNotBlank(keyword)) {
-			fromBuilder.append(" AND c.title like ? ");
+			sql.append(" AND c.title like ? ");
 			params.add("%" + keyword + "%");
 		}
 
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
-			fromBuilder.append(" AND t.id in " + toString(taxonomyIds));
+			sql.append(" AND t.id in " + toString(taxonomyIds));
 		}
 
 		if (StringUtils.isNotBlank(month)) {
-			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			sql.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
 		}
 
-		fromBuilder.append(" group by c.id");
-		fromBuilder.append(" ORDER BY c.created DESC");
+		sql.append(" group by c.id");
+		sql.append(" ORDER BY c.created DESC");
 
+		String select = "select c.*";
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true, select, sql.toString());
 		}
 
-		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+		return DAO.paginate(page, pagesize, true, select, sql.toString(), params.toArray());
 	}
 
 	public Page<Content> paginateInNormal(int page, int pagesize, String module, BigInteger[] taxonomyIds,
@@ -110,41 +112,45 @@ public class ContentQuery extends JBaseQuery {
 
 		LinkedList<Object> params = new LinkedList<Object>();
 
-		String select = "select c.*,u.username,u.nickname,u.avatar";
+		String select = "select c.*";
 
-		StringBuilder fromBuilder = new StringBuilder(" from content c");
-		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id");
+		StringBuilder sql = new StringBuilder(" from content c");
+		sql.append(" left join mapping m on c.id = m.`content_id`");
+		sql.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 
 		if (orderBy != null && orderBy.startsWith("meta:")) {
-			fromBuilder.append(
+			sql.append(
 					" left join metadata meta on meta.`object_type`='content' and meta.`object_id`=c.id and meta.`meta_key`=? ");
 			params.add(orderBy.substring("meta:".length()));
 		}
 
-		fromBuilder.append(" WHERE c.status = 'normal' ");
+		sql.append(" WHERE c.status = 'normal' ");
 
-		appendIfNotEmpty(fromBuilder, "c.module", module, params, false);
+		appendIfNotEmpty(sql, "c.module", module, params, false);
 
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
-			fromBuilder.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in " + toString(taxonomyIds)
-					+ " and m.`content_id`=c.id) ");
+			if (taxonomyIds.length == 1) {
+				sql.append(" AND m.taxonomy_id = ?");
+				params.add(taxonomyIds[0]);
+			} else {
+				sql.append(" AND exists(select 1 from mapping m where m.`taxonomy_id` in " + toString(taxonomyIds)
+						+ " and m.`content_id`=c.id) ");
+			}
 		}
 
-		fromBuilder.append(" group by c.id");
+		sql.append(" group by c.id");
 
 		if (orderBy != null && orderBy.startsWith("meta:")) {
-			fromBuilder.append(" order by meta.`meta_value` + 0 desc ");
+			sql.append(" order by meta.`meta_value` + 0 desc ");
 		} else {
-			buildOrderBy(orderBy, fromBuilder);
+			buildOrderBy(orderBy, sql);
 		}
 
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true, select, sql.toString());
 		}
 
-		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+		return DAO.paginate(page, pagesize, true, select, sql.toString(), params.toArray());
 	}
 
 	public Page<Content> paginate(int page, int pagesize, String module, String keyword, String status,
@@ -164,46 +170,45 @@ public class ContentQuery extends JBaseQuery {
 	public Page<Content> paginate(int page, int pagesize, String[] modules, String keyword, String status,
 			BigInteger[] taxonomyIds, BigInteger userId, String month, String orderBy) {
 
-		String select = "select c.*,u.username,u.nickname,u.avatar";
+		String select = "select c.*";
 
-		StringBuilder fromBuilder = new StringBuilder(" from content c");
-		fromBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		fromBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		fromBuilder.append(" left join user u on c.user_id = u.id");
+		StringBuilder sql = new StringBuilder(" from content c");
+		sql.append(" left join mapping m on c.id = m.`content_id`");
+		sql.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
 
 		LinkedList<Object> params = new LinkedList<Object>();
 
 		boolean needWhere = true;
-		needWhere = appendIfNotEmpty(fromBuilder, "c.module", modules, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "c.status", status, params, needWhere);
-		needWhere = appendIfNotEmpty(fromBuilder, "u.id", userId, params, needWhere);
+		needWhere = appendIfNotEmpty(sql, "c.module", modules, params, needWhere);
+		needWhere = appendIfNotEmpty(sql, "c.status", status, params, needWhere);
+		needWhere = appendIfNotEmpty(sql, "c.user_id", userId, params, needWhere);
 
 		if (StringUtils.isNotBlank(keyword)) {
-			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
-			fromBuilder.append(" c.title like ? ");
+			needWhere = appendWhereOrAnd(sql, needWhere);
+			sql.append(" c.title like ? ");
 			params.add("%" + keyword + "%");
 		}
 
 		if (taxonomyIds != null && taxonomyIds.length > 0) {
-			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
-			fromBuilder.append(" t.id in " + toString(taxonomyIds));
+			needWhere = appendWhereOrAnd(sql, needWhere);
+			sql.append(" t.id in " + toString(taxonomyIds));
 		}
 
 		if (StringUtils.isNotBlank(month)) {
-			needWhere = appendWhereOrAnd(fromBuilder, needWhere);
-			fromBuilder.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			needWhere = appendWhereOrAnd(sql, needWhere);
+			sql.append(" DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
 		}
 
-		fromBuilder.append(" group by c.id");
+		sql.append(" group by c.id");
 
-		buildOrderBy(orderBy, fromBuilder);
+		buildOrderBy(orderBy, sql);
 
 		if (params.isEmpty()) {
-			return DAO.paginate(page, pagesize, true, select, fromBuilder.toString());
+			return DAO.paginate(page, pagesize, true, select, sql.toString());
 		}
 
-		return DAO.paginate(page, pagesize, true, select, fromBuilder.toString(), params.toArray());
+		return DAO.paginate(page, pagesize, true, select, sql.toString(), params.toArray());
 	}
 
 	protected String toString(Object[] a) {
@@ -309,21 +314,6 @@ public class ContentQuery extends JBaseQuery {
 				null, null, null, null, null, null);
 	}
 
-	/**
-	 * @param page
-	 * @param pagesize
-	 * @param orderBy
-	 * @param keyword
-	 * @param typeIds
-	 * @param typeSlugs
-	 * @param modules
-	 * @param styles
-	 * @param slugs
-	 * @param userIds
-	 * @param parentIds
-	 * @param tags
-	 * @return
-	 */
 	public List<Content> findListInNormal(int page, int pagesize, String orderBy, String keyword, BigInteger[] typeIds,
 			String[] typeSlugs, String[] modules, String[] styles, String[] flags, String[] slugs, BigInteger[] userIds,
 			BigInteger[] parentIds, String[] tags, Boolean hasThumbnail, String month) {
@@ -332,50 +322,53 @@ public class ContentQuery extends JBaseQuery {
 			modules = TemplateManager.me().currentTemplateModulesAsArray();
 		}
 
-		StringBuilder sqlBuilder = getBaseSelectSql();
-		sqlBuilder.append(" where c.status = 'normal' ");
+		StringBuilder sql = new StringBuilder(" select  c.* from content c ");
+		sql.append(" left join mapping m on c.id = m.`content_id`");
+		sql.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
+
+		sql.append(" where c.status = 'normal' ");
 		LinkedList<Object> params = new LinkedList<Object>();
-		appendIfNotEmpty(sqlBuilder, "m.taxonomy_id", typeIds, params, false);
-		appendIfNotEmpty(sqlBuilder, "c.module", modules, params, false);
-		appendIfNotEmpty(sqlBuilder, "c.style", styles, params, false);
-		appendIfNotEmpty(sqlBuilder, "c.slug", slugs, params, false);
-		appendIfNotEmpty(sqlBuilder, "c.user_id", userIds, params, false);
-		appendIfNotEmpty(sqlBuilder, "c.parent_id", parentIds, params, false);
-		appendIfNotEmpty(sqlBuilder, "t.slug", typeSlugs, params, false);
-		appendIfNotEmptyWithLike(sqlBuilder, "c.flag", flags, params, false);
+		appendIfNotEmpty(sql, "m.taxonomy_id", typeIds, params, false);
+		appendIfNotEmpty(sql, "c.module", modules, params, false);
+		appendIfNotEmpty(sql, "c.style", styles, params, false);
+		appendIfNotEmpty(sql, "c.slug", slugs, params, false);
+		appendIfNotEmpty(sql, "c.user_id", userIds, params, false);
+		appendIfNotEmpty(sql, "c.parent_id", parentIds, params, false);
+		appendIfNotEmpty(sql, "t.slug", typeSlugs, params, false);
+		appendIfNotEmptyWithLike(sql, "c.flag", flags, params, false);
 
 		if (null != tags && tags.length > 0) {
-			appendIfNotEmpty(sqlBuilder, "t.title", tags, params, false);
-			sqlBuilder.append(" AND t.`type`='tag' ");
+			appendIfNotEmpty(sql, "t.title", tags, params, false);
+			sql.append(" AND t.`type`='tag' ");
 		}
 
 		if (StringUtils.isNotBlank(keyword)) {
-			sqlBuilder.append(" AND c.title like ?");
+			sql.append(" AND c.title like ?");
 			params.add("%" + keyword + "%");
 		}
 
 		if (StringUtils.isNotBlank(month)) {
-			sqlBuilder.append(" AND DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
+			sql.append(" AND DATE_FORMAT( c.created, \"%Y-%m\" ) = ?");
 			params.add(month);
 		}
 
 		if (null != hasThumbnail) {
 			if (hasThumbnail) {
-				sqlBuilder.append(" AND c.thumbnail is not null ");
+				sql.append(" AND c.thumbnail is not null ");
 			} else {
-				sqlBuilder.append(" AND c.thumbnail is null ");
+				sql.append(" AND c.thumbnail is null ");
 			}
 		}
 
-		sqlBuilder.append("GROUP BY c.id");
+		sql.append("GROUP BY c.id");
 
-		buildOrderBy(orderBy, sqlBuilder);
+		buildOrderBy(orderBy, sql);
 
-		sqlBuilder.append(" LIMIT ?, ?");
+		sql.append(" LIMIT ?, ?");
 		params.add(page - 1);
 		params.add(pagesize);
 
-		return DAO.find(sqlBuilder.toString(), params.toArray());
+		return DAO.find(sql.toString(), params.toArray());
 	}
 
 	public List<Content> findByModule(String module) {
@@ -451,18 +444,16 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public List<Content> findArchiveByModule(String module) {
-		StringBuilder sqlBuilder = getBaseSelectSql("DATE_FORMAT( c.created, \"%Y-%m\" ) as archiveDate");
+		StringBuilder sqlBuilder = new StringBuilder(
+				" select  c.*,DATE_FORMAT( c.created, \"%Y-%m\" ) as archiveDate from content c ");
 		sqlBuilder.append(" where module = ? ");
 		sqlBuilder.append(" order by c.created DESC");
 		return DAO.find(sqlBuilder.toString(), module);
 	}
 
 	public Content findBySlug(final String slug) {
-		final StringBuilder sql = getBaseSelectSql();
-
+		final StringBuilder sql = new StringBuilder(" select  c.* from content c ");
 		sql.append(" WHERE c.slug = ?");
-		sql.append(" GROUP BY c.id");
-
 		return DAO.getCache(slug, new IDataLoader() {
 			@Override
 			public Object load() {
@@ -472,16 +463,13 @@ public class ContentQuery extends JBaseQuery {
 	}
 
 	public Content findById(final BigInteger id) {
-		final StringBuilder sql = getBaseSelectSql();
-		sql.append(" WHERE c.id = ?");
-		sql.append(" GROUP BY c.id");
-
 		return DAO.getCache(id, new IDataLoader() {
 			@Override
 			public Object load() {
-				return DAO.findFirst(sql.toString(), id);
+				return DAO.findById(id);
 			}
 		});
+
 	}
 
 	public Content findNext(final Content currentContent) {
@@ -523,23 +511,6 @@ public class ContentQuery extends JBaseQuery {
 				});
 	}
 
-	protected StringBuilder getBaseSelectSql() {
-		return getBaseSelectSql(null);
-	}
-
-	protected StringBuilder getBaseSelectSql(String columns) {
-		StringBuilder sqlBuilder = new StringBuilder(" select ");
-		sqlBuilder.append(" c.*,u.username,u.nickname,u.avatar ");
-		if (StringUtils.isNotBlank(columns)) {
-			sqlBuilder.append(",").append(columns);
-		}
-		sqlBuilder.append(" from content c");
-		sqlBuilder.append(" left join mapping m on c.id = m.`content_id`");
-		sqlBuilder.append(" left join taxonomy  t on  m.`taxonomy_id` = t.id");
-		sqlBuilder.append(" left join user u on c.user_id = u.id ");
-		return sqlBuilder;
-	}
-
 	public long findCountByModule(String module) {
 		return DAO.doFindCount("module = ?", module);
 	}
@@ -561,35 +532,31 @@ public class ContentQuery extends JBaseQuery {
 
 	public int batchTrash(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
-			List<Object> params = new LinkedList<Object>();
-			StringBuilder sb = new StringBuilder("UPDATE content SET status=? ");
-			params.add(Content.STATUS_DELETE);
+			int trashCount = 0;
 			for (int i = 0; i < ids.length; i++) {
-				if (i == 0) {
-					sb.append(" WHERE id = ? ");
-				} else {
-					sb.append(" OR id = ? ");
+				Content content = findById(ids[i]);
+				if (content != null) {
+					content.setStatus(Content.STATUS_DELETE);
+					if (content.update()) {
+						++trashCount;
+					}
+
 				}
-				params.add(ids[i]);
 			}
-			return Jdb.update(sb.toString(), params.toArray());
+			return trashCount;
 		}
 		return 0;
 	}
 
 	public int batchDelete(BigInteger... ids) {
 		if (ids != null && ids.length > 0) {
-			List<Object> params = new LinkedList<Object>();
-			StringBuilder sb = new StringBuilder("DELETE FROM content ");
+			int deleteCount = 0;
 			for (int i = 0; i < ids.length; i++) {
-				if (i == 0) {
-					sb.append(" WHERE id = ? ");
-				} else {
-					sb.append(" OR id = ? ");
+				if (deleteById(ids[i])) {
+					++deleteCount;
 				}
-				params.add(ids[i]);
 			}
-			return Jdb.update(sb.toString(), params.toArray());
+			return deleteCount;
 		}
 		return 0;
 	}

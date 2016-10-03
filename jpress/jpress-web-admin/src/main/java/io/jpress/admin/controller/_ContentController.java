@@ -101,7 +101,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		filterUI(tids);
 
 		setAttr("page", page);
-		
+
 		String templateHtml = String.format("admin_content_index_%s.html", module.getName());
 		for (int i = 0; i < 2; i++) {
 			if (TemplateManager.me().existsFile(templateHtml)) {
@@ -264,7 +264,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 
 		setSlugInputDisplay(moduleName);
 
-		
 		String templateHtml = String.format("admin_content_edit_%s.html", moduleName);
 		for (int i = 0; i < 2; i++) {
 			if (TemplateManager.me().existsFile(templateHtml)) {
@@ -273,7 +272,7 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			}
 			templateHtml = templateHtml.substring(0, templateHtml.lastIndexOf("_")) + ".html";
 		}
-		
+
 		setAttr("include", "_edit_include.html");
 	}
 
@@ -359,7 +358,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			return;
 		}
 
-
 		String slug = StringUtils.isBlank(content.getSlug()) ? content.getTitle() : content.getSlug();
 		content.setSlug(slug);
 
@@ -428,7 +426,6 @@ public class _ContentController extends JBaseCRUDController<Content> {
 			renderAjaxResultForError();
 			return;
 		}
-
 
 		AjaxResult ar = new AjaxResult();
 		ar.setErrorCode(0);

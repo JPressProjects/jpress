@@ -18,6 +18,7 @@ package io.jpress.wechat;
 import java.util.List;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -49,6 +50,7 @@ import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
 import io.jpress.Consts;
+import io.jpress.core.JSession;
 import io.jpress.model.Content;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
@@ -81,6 +83,12 @@ public class WechatMessageController extends MsgController {
 		}
 
 		redirect(gotoUrl);
+	}
+	
+	@Override
+	public Controller setSessionAttr(String key, Object value) {
+		new JSession(this).setAttribute(key, value);
+		return this;
 	}
 
 	// 处理接收到的文本消息

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import com.jfinal.weixin.sdk.api.ApiResult;
 
 import io.jpress.Consts;
 import io.jpress.model.query.OptionQuery;
@@ -37,9 +36,9 @@ public class WechatUserInterceptor implements Interceptor {
 
 		Controller controller = inv.getController();
 
-		ApiResult apiResult = inv.getController().getSessionAttr(Consts.SESSION_WECHAT_USER);
+		String userJson = inv.getController().getSessionAttr(Consts.SESSION_WECHAT_USER);
 
-		if (apiResult != null) {
+		if (StringUtils.isBlank(userJson)) {
 			inv.invoke();
 			return;
 		}

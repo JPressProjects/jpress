@@ -78,7 +78,7 @@ public class WechatMessageController extends MsgController {
 		if (StringUtils.areNotBlank(appId, appSecret)) {
 			ApiResult result = WechatApi.getOpenId(appId, appSecret, code);
 			if (result != null) {
-				this.setSessionAttr(Consts.SESSION_WECHAT_USER, result);
+				this.setSessionAttr(Consts.SESSION_WECHAT_USER, result.getJson());
 			}
 		}
 

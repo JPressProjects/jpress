@@ -27,11 +27,12 @@ public abstract class BasePaginateTag extends JTag {
 
 	final Page<?> page;
 
-	private String previous;
-	private String next;
-	private String active;
-	private String disabled;
+	private String previousClass;
+	private String nextClass;
+	private String activeClass;
+	private String disabledClass;
 	private String anchor;
+	private boolean onlyShowPreviousAndNext = false;
 
 	public BasePaginateTag(Page<?> page) {
 		this.page = page;
@@ -40,12 +41,14 @@ public abstract class BasePaginateTag extends JTag {
 	@Override
 	public void onRender() {
 
-		previous = getParam("previous", "previous");
-		next = getParam("next", "next");
-		active = getParam("active", "active");
-		disabled = getParam("disabled", "disabled");
+		previousClass = getParam("previousClass", "previous");
+		nextClass = getParam("nextClass", "next");
+		activeClass = getParam("activeClass", "active");
+		disabledClass = getParam("disabledClass", "disabled");
 		anchor = getParam("anchor");
-		
+
+		onlyShowPreviousAndNext = getParamToBool("onlyShowPreviousAndNext", false);
+
 		String previousText = getParam("previousText", "上一页");
 		String nextText = getParam("nextText", "下一页");
 
@@ -75,41 +78,43 @@ public abstract class BasePaginateTag extends JTag {
 
 		List<PaginateItem> pages = new ArrayList<BasePaginateTag.PaginateItem>();
 		if (currentPage == 1) {
-			pages.add(new PaginateItem(previous + " " + disabled, "javascript:;", previousText));
+			pages.add(new PaginateItem(previousClass + " " + disabledClass, "javascript:;", previousText));
 		} else {
-			pages.add(new PaginateItem(previous, getUrl(currentPage - 1), previousText));
+			pages.add(new PaginateItem(previousClass, getUrl(currentPage - 1), previousText));
 		}
 
-		if (currentPage > 8) {
+		if (currentPage > 8 && !onlyShowPreviousAndNext) {
 			pages.add(new PaginateItem("", getUrl(1), "1"));
 			pages.add(new PaginateItem("", getUrl(2), "2"));
-			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
+			pages.add(new PaginateItem(disabledClass, "javascript:;", "..."));
 		}
 
-		for (int i = startPage; i <= endPage; i++) {
-			if (currentPage == i) {
-				pages.add(new PaginateItem(active, "javascript:;", i));
-			} else {
-				pages.add(new PaginateItem("", getUrl(i), i));
+		if (!onlyShowPreviousAndNext) {
+			for (int i = startPage; i <= endPage; i++) {
+				if (currentPage == i) {
+					pages.add(new PaginateItem(activeClass, "javascript:;", i));
+				} else {
+					pages.add(new PaginateItem("", getUrl(i), i));
+				}
 			}
 		}
 
-		if ((totalPage - currentPage) >= 8) {
-			pages.add(new PaginateItem(disabled, "javascript:;", "..."));
+		if ((totalPage - currentPage) >= 8 && !onlyShowPreviousAndNext) {
+			pages.add(new PaginateItem(disabledClass, "javascript:;", "..."));
 			pages.add(new PaginateItem("", getUrl(totalPage - 1), totalPage - 1));
 			pages.add(new PaginateItem("", getUrl(totalPage), totalPage));
 		}
 
 		if (currentPage == totalPage) {
-			pages.add(new PaginateItem(next + " " + disabled, "javascript:;", nextText));
+			pages.add(new PaginateItem(nextClass + " " + disabledClass, "javascript:;", nextText));
 		} else {
-			pages.add(new PaginateItem(next, getUrl(currentPage + 1), nextText));
+			pages.add(new PaginateItem(nextClass, getUrl(currentPage + 1), nextText));
 		}
 
 		setVariable("pages", pages);
 		renderBody();
 	}
-	
+
 	protected static boolean enalbleFakeStatic() {
 		Boolean fakeStaticEnable = OptionQuery.me().findValueAsBool("router_fakestatic_enable");
 		return fakeStaticEnable != null && fakeStaticEnable == true;
@@ -123,21 +128,20 @@ public abstract class BasePaginateTag extends JTag {
 		return ".html";
 	}
 
-	
 	public Page<?> getPage() {
 		return page;
 	}
 
 	public String getPrevious() {
-		return previous;
+		return previousClass;
 	}
 
 	public String getNext() {
-		return next;
+		return nextClass;
 	}
 
 	public String getDisabled() {
-		return disabled;
+		return disabledClass;
 	}
 
 	public String getAnchor() {
@@ -145,11 +149,6 @@ public abstract class BasePaginateTag extends JTag {
 	}
 
 	protected abstract String getUrl(int pageNumber);
-	
-	
-	
-	
-	
 
 	public static class PaginateItem {
 		private String style;

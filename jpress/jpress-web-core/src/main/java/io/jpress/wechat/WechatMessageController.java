@@ -18,7 +18,6 @@ package io.jpress.wechat;
 import java.util.List;
 
 import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -56,7 +55,6 @@ import io.jpress.model.query.OptionQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
-import io.jpress.utils.CookieUtils;
 import io.jpress.utils.StringUtils;
 
 @RouterMapping(url = "/wechat")
@@ -72,27 +70,14 @@ public class WechatMessageController extends MsgController {
 		String gotoUrl = getPara("goto");
 		String code = getPara("code");
 
-		String appId = PropKit.get("wechat_app_id").trim();
-		String appSecret = PropKit.get("wechat_app_secret").trim();
+		String appId = OptionQuery.me().findValue("wechat_appid");
+		String appSecret = OptionQuery.me().findValue("wechat_appsecret");
 
-		ApiResult result = WechatApi.getOpenId(appId, appSecret, code);
-
-		if (result != null) {
-			String openId = result.getStr("openid");
-			CookieUtils.put(this, Consts.COOKIE_WECHAT_OPENID, openId);
-
-			ApiResult ai = WechatApi.getUserInfo(openId);
-
-			String nickname = ai.getStr("nickname");
-			if (nickname != null) {
-				nickname = StringUtils.urlEncode(nickname);
+		if (StringUtils.areNotBlank(appId, appSecret)) {
+			ApiResult result = WechatApi.getOpenId(appId, appSecret, code);
+			if (result != null) {
+				this.setSessionAttr(Consts.SESSION_WECHAT_USER, result);
 			}
-
-			CookieUtils.put(this, Consts.COOKIE_WECHAT_NICKNAME, nickname);
-
-			String avator = ai.getStr("headimgurl");
-			CookieUtils.put(this, Consts.COOKIE_WECHAT_AVATAR, avator);
-
 		}
 
 		redirect(gotoUrl);
@@ -284,7 +269,8 @@ public class WechatMessageController extends MsgController {
 		}
 
 		// 搜索结果数量
-		Integer count = OptionQuery.me().findValueAsInteger(String.format("wechat_search_%s_count", searchModule.getName()));
+		Integer count = OptionQuery.me()
+				.findValueAsInteger(String.format("wechat_search_%s_count", searchModule.getName()));
 		if (count == null || count <= 0 || count > 10) {
 			count = 10;
 		}

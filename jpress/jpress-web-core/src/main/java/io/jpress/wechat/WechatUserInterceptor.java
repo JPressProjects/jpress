@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import com.jfinal.kit.PropKit;
+import com.jfinal.weixin.sdk.api.ApiResult;
 
 import io.jpress.Consts;
-import io.jpress.utils.CookieUtils;
+import io.jpress.model.query.OptionQuery;
 import io.jpress.utils.StringUtils;
 
 public class WechatUserInterceptor implements Interceptor {
@@ -37,9 +37,15 @@ public class WechatUserInterceptor implements Interceptor {
 
 		Controller controller = inv.getController();
 
-		String openId = CookieUtils.get(controller, Consts.COOKIE_WECHAT_OPENID);
-		String nickname = CookieUtils.get(controller, Consts.COOKIE_WECHAT_NICKNAME);
-		if (StringUtils.areNotBlank(openId, nickname)) {
+		ApiResult apiResult = inv.getController().getSessionAttr(Consts.SESSION_WECHAT_USER);
+
+		if (apiResult != null) {
+			inv.invoke();
+			return;
+		}
+
+		String appid = OptionQuery.me().findValue("wechat_appid");
+		if (StringUtils.isBlank(appid)) {
 			inv.invoke();
 			return;
 		}
@@ -58,8 +64,7 @@ public class WechatUserInterceptor implements Interceptor {
 		String redirectUrl = request.getScheme() + "://" + request.getServerName() + "/wechat/callback?goto=" + toUrl;
 		redirectUrl = StringUtils.urlEncode(redirectUrl);
 
-		String appid = PropKit.get("wechat_app_id").trim();
-		String url = AUTHORIZE_URL.replace("{redirecturi}", redirectUrl).replace("{appid}", appid);
+		String url = AUTHORIZE_URL.replace("{redirecturi}", redirectUrl).replace("{appid}", appid.trim());
 		controller.redirect(url);
 
 	}

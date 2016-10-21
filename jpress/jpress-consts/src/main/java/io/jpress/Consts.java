@@ -44,9 +44,7 @@ public class Consts {
 	public static final String ATTR_GLOBAL_META_KEYWORDS = "META_KEYWORDS";
 	public static final String ATTR_GLOBAL_META_DESCRIPTION = "META_DESCRIPTION";
 
-	public static final String COOKIE_WECHAT_OPENID = "_wechat_openid";
-	public static final String COOKIE_WECHAT_NICKNAME = "_wechat_nickname";
-	public static final String COOKIE_WECHAT_AVATAR = "_wechat_avatar";
+	public static final String SESSION_WECHAT_USER = "_wechat_user";
 
 	public static final String MODULE_ARTICLE = "article"; // 文章模型
 	public static final String MODULE_PAGE = "page"; // 页面模型

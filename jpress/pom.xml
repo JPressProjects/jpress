@@ -26,7 +26,8 @@
 		<module>jpress-web-core</module>
 	    <module>jpress-web-admin</module>
 	    <module>jpress-web-front</module>
-  </modules>
+		<module>jpress-spider</module>
+	</modules>
 
 
 	<properties>

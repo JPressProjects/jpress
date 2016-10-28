@@ -11,27 +11,38 @@ import java.util.List;
 public class SpiderHandler {
 
     private static SpiderHandler mSpiderHandler;
-    private static List<Class<?>> mSpiders = new ArrayList<>();
+    private static List<Class<?>> mSpiders_class = new ArrayList<>();
+    private static List<SpriderInterface> mSpiders = new ArrayList<>();
 
     public static SpiderHandler getSpiderHandler() {
         if (mSpiderHandler == null) {
             mSpiderHandler = new SpiderHandler();
-            mSpiders.add(SMZDMPageProcessor.class);
+            mSpiders_class.add(SMZDMPageProcessor.class);
         }
         return mSpiderHandler;
     }
 
     public void startSpiders() {
-        for (Class c : mSpiders) {
+        for (Class c : mSpiders_class) {
             try {
                 SpriderInterface spriderInterface = (SpriderInterface) c.newInstance();
                 spriderInterface.spriderStart();
+                mSpiders.add(spriderInterface);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean isRunning() {
+        for (SpriderInterface spriderInterface : mSpiders) {
+            if (spriderInterface.isRunning()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

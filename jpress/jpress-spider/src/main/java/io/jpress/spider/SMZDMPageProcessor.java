@@ -24,6 +24,7 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
     private Site site = Site.me().setRetryTimes(3).setSleepTime(0);
     private int count;
     private int page_size = 20;
+    private Spider mSpider;
 
     @Override
     public void process(Page page) {
@@ -89,6 +90,12 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
 
     @Override
     public void spriderStart() {
-        Spider.create(this).addUrl(SMZDM_URL + System.currentTimeMillis() / 1000).thread(1).run();
+        mSpider = Spider.create(this).addUrl(SMZDM_URL + System.currentTimeMillis() / 1000).thread(1);
+        mSpider.run();
+    }
+
+    @Override
+    public boolean isRunning() {
+        return mSpider.getStatus() == Spider.Status.Running;
     }
 }

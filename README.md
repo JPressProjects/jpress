@@ -1,4 +1,4 @@
-# JPress
+# JPress-project
 ![](http://7xv9xp.com1.z0.glb.clouddn.com/1.png)
 
 演示站点：[http://www.yangfuhai.com](http://www.yangfuhai.com)

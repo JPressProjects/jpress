@@ -22,6 +22,8 @@ public class Actions {
 
 	public static final String SETTING_CHANGED = "system:setting_changed";
 
+	public static final String SPIDER_GET = "spider:get";
+
 
 	public static final String CONTENT_COUNT_UPDATE = "content:count_update";
 	public static final String JPRESS_STARTED = "jpress:started";

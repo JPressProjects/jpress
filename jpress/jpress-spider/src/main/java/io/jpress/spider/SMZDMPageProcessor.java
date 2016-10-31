@@ -2,6 +2,9 @@ package io.jpress.spider;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jfinal.log.Log;
+import io.jpress.message.Actions;
+import io.jpress.message.MessageKit;
+import io.jpress.spider.bean.ContentSpider;
 import io.jpress.spider.inter.SpriderInterface;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -10,6 +13,7 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,10 +70,39 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
                 html.xpath("//div[@class='details-title']/a/@href").get();
                 html.xpath("//article/p/text()").get();
 
-                List<String> detail = html.xpath("//div[@class='owl-carousel']/div/img/@src" +
-                        "|//div[@class='details-title']/div[@class='title']/text()" +
+                List<String> detail = html.xpath("//div[@class='details-title']/div[@class='title']/text()" +
+                        "|//div[@class='details-title']/div[@class='title']/span/text()" +
                         "|//div[@class='details-title']/a/@href" +
+                        "|//div[@class='owl-carousel']/div/img/@src" +
                         "|//article/p").all();
+                List imgs = new ArrayList<String>();
+                ContentSpider contentSpider = new ContentSpider();
+                contentSpider.setImg(imgs);
+                for (int i = 0, size = detail.size(); i < size; i++) {
+                    String str = detail.get(i);
+                    switch (i) {
+                        case 0://标题
+                            contentSpider.setTitle(str);
+                            break;
+                        case 1://子标题
+                            contentSpider.setSubTitle(str);
+                            break;
+                        case 2://链接
+                            contentSpider.setLink(str);
+                            break;
+                        default://图片&文本
+                            if (str.startsWith("http")) {
+                                imgs.add(str);
+                            } else {
+                                contentSpider.setText(contentSpider.getText() + str);
+                            }
+                            break;
+
+                    }
+                    if (i == size - 1) {
+                        MessageKit.sendMessage(Actions.SPIDER_GET, contentSpider);
+                    }
+                }
                 for (String info : detail) {
                     logger.info(info);
                 }

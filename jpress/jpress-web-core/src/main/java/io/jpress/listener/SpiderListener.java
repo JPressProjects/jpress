@@ -45,13 +45,27 @@ public class SpiderListener implements MessageListener {
             Content content = new Content();
             content.setTitle(contentSpider.getTitle());
             content.setSummary(contentSpider.getSubTitle());
-            content.setText(contentSpider.getText());
-            content.setThumbnail(contentSpider.getImg().get(0));
+//            content.setThumbnail(contentSpider.getImg().get(0));
             content.setCreated(new Date());
             content.setSlug(contentSpider.getTitle());
             content.setStatus(Content.STATUS_NORMAL);
             content.setModule(Consts.MODULE_ARTICLE);
             content.setUserId(BigInteger.valueOf(1));
+
+            String text = "";
+            String img = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
+            List<String> imgs = contentSpider.getImg();
+            for (int i = 0; i < imgs.size(); i++) {
+                switch (i) {
+                    case 0:
+                        text += String.format(img, imgs.get(i)) + contentSpider.getText();
+                        break;
+                    default:
+                        text += String.format(img, imgs.get(i));
+                        break;
+                }
+            }
+            content.setText(text);
 
             if (!content.saveOrUpdate()) {
                 return;

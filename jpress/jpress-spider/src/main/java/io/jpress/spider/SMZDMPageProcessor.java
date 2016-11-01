@@ -22,10 +22,11 @@ import java.util.List;
  */
 public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
 
+    public static final int RECYCLE_NUM = 1;
     private Log logger = Log.getLog(getClass());
     public static final String SMZDM_URL = "http://m.smzdm.com/ajax_home_list_show?time_sort=";
     public static final String SMZDM_P_URL = "http://m.smzdm.com/p/";
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(0);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000 * 10);
     private int count;
     private int page_size = 20;
     private Spider mSpider;
@@ -52,10 +53,13 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
                             logger.info("url" + a.get(i) + "标题" + a.get(i + page_size) + "价格" + a.get(i + page_size * 2));
                             page.addTargetRequest(a.get(i));
                         }
-                    if (count < 3) {
-                        page.addTargetRequest(SMZDM_URL + time_s);
-                    }
                     count++;
+                    if (count < RECYCLE_NUM) {
+                        page.addTargetRequest(SMZDM_URL + time_s);
+                    } else {
+                        page.addTargetRequest(SMZDM_URL + System.currentTimeMillis() / 1000);
+                        count = 0;
+                    }
                 }
             } else if (url != null && url.startsWith(SMZDM_P_URL)) {
                 Html html = page.getHtml();

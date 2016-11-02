@@ -19,12 +19,9 @@ import com.jfinal.aop.Before;
 import io.jpress.core.JBaseController;
 import io.jpress.core.interceptor.ActionCacheClearInterceptor;
 import io.jpress.interceptor.UCodeInterceptor;
-import io.jpress.model.query.ContentQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
 import io.jpress.spider.SpiderHandler;
-
-import java.math.BigInteger;
 
 @RouterMapping(url = "/admin/spider")
 @Before(ActionCacheClearInterceptor.class)
@@ -37,7 +34,7 @@ public class _SpiderController extends JBaseController {
 //            setAttr("content", ContentQuery.me().findById(id));
 //        }
 //        List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_API_APPLICATION);
-            setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning()?"开启":"关闭");
+        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
         render("/WEB-INF/admin/option/spider.html");
     }
 
@@ -48,6 +45,8 @@ public class _SpiderController extends JBaseController {
 //            ContentQuery.me().deleteById(id);
         renderAjaxResultForSuccess("开启成功");
         SpiderHandler.getSpiderHandler().startSpiders();
+        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
+        render("/WEB-INF/admin/option/spider.html");
 //        } else {
 //            renderAjaxResultForError();
 //        }
@@ -55,12 +54,9 @@ public class _SpiderController extends JBaseController {
 
     @Before(UCodeInterceptor.class)
     public void close() {
-        BigInteger id = getParaToBigInteger("id");
-        if (id != null) {
-            ContentQuery.me().deleteById(id);
-            renderAjaxResultForSuccess("关闭成功");
-        } else {
-            renderAjaxResultForError();
-        }
+        renderAjaxResultForSuccess("关闭成功");
+        SpiderHandler.getSpiderHandler().stopSpiders();
+        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
+        render("/WEB-INF/admin/option/spider.html");
     }
 }

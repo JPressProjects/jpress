@@ -23,17 +23,31 @@ public class SpiderHandler {
     }
 
     public void startSpiders() {
+        if (isRunning()) {
+            return;
+        }
         for (Class c : mSpiders_class) {
             try {
                 SpriderInterface spriderInterface = (SpriderInterface) c.newInstance();
-                spriderInterface.spriderStart();
                 mSpiders.add(spriderInterface);
+                spriderInterface.spriderStart();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void stopSpiders() {
+        if (!isRunning()) {
+            mSpiders.clear();
+            return;
+        }
+        for (SpriderInterface mSpider : mSpiders) {
+            mSpider.spriderStop();
+        }
+        mSpiders.clear();
     }
 
     public boolean isRunning() {

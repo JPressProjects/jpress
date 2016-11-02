@@ -5,5 +5,8 @@ package io.jpress.spider.inter;
  */
 public interface SpriderInterface {
     void spriderStart();
+
+    void spriderStop();
+
     boolean isRunning();
 }

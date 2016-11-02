@@ -13,7 +13,10 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Json;
 
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -21,14 +24,16 @@ import java.util.List;
  * @since 0.5.1
  */
 public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
-
-    public static final int RECYCLE_NUM = 1;
+    //http://m.smzdm.com/search/ajax_search_list?article_date=2016-11-01+10%3A17%3A54&type=tag&search_key=%E7%A5%9E%E4%BB%B7%E6%A0%BC&channel=youhui
+    //http://m.smzdm.com/search/ajax_search_list?type=fenlei&search_key=gehuhuazhuang&channel=youhui&article_date=2016-11-02+15%3A25%3A36
     private Log logger = Log.getLog(getClass());
-    public static final String SMZDM_URL = "http://m.smzdm.com/ajax_home_list_show?time_sort=";
+    public static final String SMZDM_URL = "http://m.smzdm.com/search/ajax_search_list?type=fenlei&search_key=gehuhuazhuang&channel=youhui&article_date=";
+    //    public static final String SMZDM_URL = "http://m.smzdm.com/ajax_home_list_show?time_sort=";
     public static final String SMZDM_P_URL = "http://m.smzdm.com/p/";
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000 * 10);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000 * 60 * 2);
     private int count;
     private int page_size = 20;
+    public static final int RECYCLE_NUM = 1;
     private Spider mSpider;
 
     @Override
@@ -37,9 +42,9 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
             String url = page.getUrl().toString();
             if (url != null && url.startsWith(SMZDM_URL)) {
                 Json json = page.getJson();
-                String time_s = JsonPath.read(json.get(), "$.time_sort");
-                int message = JsonPath.read(json.get(), "$.message");
-                if (message == 1) {
+                String time_s = JsonPath.read(json.get(), "$.article_date");
+                String message = JsonPath.read(json.get(), "$.message");
+                if (message.equals("0")) {
                     logger.info(time_s);
                     logger.info("============");
                     String data = JsonPath.read(json.get(), "$.data").toString();
@@ -55,9 +60,9 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
                         }
                     count++;
                     if (count < RECYCLE_NUM) {
-                        page.addTargetRequest(SMZDM_URL + time_s);
+                        page.addTargetRequest(SMZDM_URL + URLEncoder.encode(time_s));
                     } else {
-                        page.addTargetRequest(SMZDM_URL + System.currentTimeMillis() / 1000);
+                        page.addTargetRequest(getUrl());
                         count = 0;
                     }
                 }
@@ -127,8 +132,25 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
 
     @Override
     public void spriderStart() {
-        mSpider = Spider.create(this).addUrl(SMZDM_URL + System.currentTimeMillis() / 1000).thread(1);
+        mSpider = Spider.create(this).addUrl(getUrl()).thread(1);
+//        mSpider = Spider.create(this).addUrl(SMZDM_URL + System.currentTimeMillis() / 1000).thread(1);
         mSpider.run();
+    }
+
+    @Override
+    public void spriderStop() {
+        mSpider.stop();
+    }
+
+    /**
+     * 2016-11-01 15:26:16
+     *
+     * @return
+     */
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private String getUrl() {
+        return SMZDM_URL + URLEncoder.encode(format.format(Calendar.getInstance().getTime()));
     }
 
     @Override

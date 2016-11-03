@@ -36,7 +36,7 @@ public class _SpiderController extends JBaseController {
     @Before(UCodeInterceptor.class)
     public void open() {
         SpiderHandler.getSpiderHandler().startSpiders();
-        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
+//        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
         renderAjaxResultForSuccess();
 //        render("/WEB-INF/admin/option/spider.html");
     }
@@ -44,7 +44,7 @@ public class _SpiderController extends JBaseController {
     @Before(UCodeInterceptor.class)
     public void close() {
         SpiderHandler.getSpiderHandler().stopSpiders();
-        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
+//        setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
         renderAjaxResultForSuccess();
     }
 }

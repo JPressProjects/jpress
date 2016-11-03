@@ -166,6 +166,6 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
 
     @Override
     public boolean isRunning() {
-        return mSpider.getStatus() == Spider.Status.Running;
+        return mSpider != null && mSpider.getStatus() == Spider.Status.Running;
     }
 }

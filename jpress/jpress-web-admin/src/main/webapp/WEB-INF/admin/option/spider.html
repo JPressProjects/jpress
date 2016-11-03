@@ -1,26 +1,25 @@
 <#include "../_inc/_layout.html"/>
 <#macro script>
     function doSubmit(){
-    $.get("${CPATH}/admin/spider/open?ucode=${ucode}", function(result){
-    alert(result);
-    location.reload();
-    if(result.errorCode > 0){
-    alert(result.message);
-    }else{
-    location.reload();
-    }
-    });
+        if("${isRunning}"=="关闭"){
+            $.get("${CPATH}/admin/spider/open?ucode=${ucode}", function(result){
+                if(result.errorCode > 0){
+                alert(result.message);
+                }else{
+                location.reload();
+                }
+            });
+        }else{
+            $.get("${CPATH}/admin/spider/close?ucode=${ucode}", function(result){
+                if(result.errorCode > 0){
+                alert(result.message);
+                }else{
+                location.reload();
+                }
+            });
+        }
     }
 
-    function doDelete(id){
-    $.get("${CPATH}/admin/spider/close?ucode=${ucode}", function(result){
-    if(result.errorCode > 0){
-    alert(result.message);
-    }else{
-    location.reload();
-    }
-    });
-    }
 </#macro>
 <@layout active_id=p child_active_id=c>
 <section class="content-header">
@@ -33,7 +32,7 @@
     <input name="isRunning" value="${isRunning}">
     <div class="row">
         <div class="col-xs-12">
-            <button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
+            <button type="button" onclick="doSubmit()" class="btn btn-primary">切换</button>
         </div>
     </div>
 </section>

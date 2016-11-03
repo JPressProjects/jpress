@@ -1,6 +1,7 @@
 package io.jpress.spider;
 
 import io.jpress.spider.inter.SpriderInterface;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,35 +20,46 @@ public class SpiderHandler {
             mSpiderHandler = new SpiderHandler();
             mSpiders_class.add(SMZDMPageProcessor.class);
         }
+        initSpiderInstand();
         return mSpiderHandler;
     }
 
-    public void startSpiders() {
-        if (isRunning()) {
-            return;
-        }
-        for (Class c : mSpiders_class) {
-            try {
-                SpriderInterface spriderInterface = (SpriderInterface) c.newInstance();
-                mSpiders.add(spriderInterface);
-                spriderInterface.spriderStart();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+    private static void initSpiderInstand() {
+        if (CollectionUtils.isEmpty(mSpiders)) {
+            for (Class c : mSpiders_class) {
+                try {
+                    SpriderInterface spriderInterface = (SpriderInterface) c.newInstance();
+                    mSpiders.add(spriderInterface);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
+    public void startSpiders() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isRunning()) {
+                    return;
+                }
+                for (SpriderInterface spriderInterface : mSpiders) {
+                    spriderInterface.spriderStart();
+                }
+            }
+        }).start();
+    }
+
     public void stopSpiders() {
         if (!isRunning()) {
-            mSpiders.clear();
             return;
         }
         for (SpriderInterface mSpider : mSpiders) {
             mSpider.spriderStop();
         }
-        mSpiders.clear();
     }
 
     public boolean isRunning() {

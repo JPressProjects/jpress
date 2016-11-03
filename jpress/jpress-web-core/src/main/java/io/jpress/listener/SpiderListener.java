@@ -56,12 +56,12 @@ public class SpiderListener implements MessageListener {
             String img = "<script>" +
                     "function showImg( url ) {" +
                     "var frameid = 'frameimg' + Math.random();" +
-                    "window.img = '<img id=\"img\" src=\\''+url+'?'+Math.random()+'\\'  style=\"display: block; margin-left: auto; margin-right: auto;\" />';" +
+                    "window.img = '<img id=\"img\" src=\\''+url+'?'+Math.random()+'\\'  style=\"display: block; margin-left: auto; margin-right: auto;\" height=\"100%\"/>';" +
                     "document.write('<iframe id=\"'+frameid+'\" src=\"javascript:parent.img;\" frameBorder=\"0\" scrolling=\"no\" ></iframe>');}" +
                     "showImg('%s');</script>";
-            String imgChildren = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
+            String imgChildren = "<script>showImg('%s');</script>";
 //            String img = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
-            String goAddress = "<script>showImg('%s');</script>";
+            String goAddress = "<p><strong><a href=\"%s\" target=\"_blank\">火速直达</a></strong></p>";
             List<String> imgs = contentSpider.getImg();
             for (int i = 0; i < imgs.size(); i++) {
                 switch (i) {

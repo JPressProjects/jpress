@@ -29,34 +29,22 @@ import io.jpress.spider.SpiderHandler;
 public class _SpiderController extends JBaseController {
 
     public void index() {
-//        BigInteger id = getParaToBigInteger("id");
-//        if (null != id) {
-//            setAttr("content", ContentQuery.me().findById(id));
-//        }
-//        List<Content> contents = ContentQuery.me().findByModule(Consts.MODULE_API_APPLICATION);
         setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
         render("/WEB-INF/admin/option/spider.html");
     }
 
     @Before(UCodeInterceptor.class)
     public void open() {
-//        BigInteger id = getParaToBigInteger("id");
-//        if (id != null) {
-//            ContentQuery.me().deleteById(id);
-        renderAjaxResultForSuccess("开启成功");
         SpiderHandler.getSpiderHandler().startSpiders();
         setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
-        render("/WEB-INF/admin/option/spider.html");
-//        } else {
-//            renderAjaxResultForError();
-//        }
+        renderAjaxResultForSuccess();
+//        render("/WEB-INF/admin/option/spider.html");
     }
 
     @Before(UCodeInterceptor.class)
     public void close() {
-        renderAjaxResultForSuccess("关闭成功");
         SpiderHandler.getSpiderHandler().stopSpiders();
         setAttr("isRunning", SpiderHandler.getSpiderHandler().isRunning() ? "开启" : "关闭");
-        render("/WEB-INF/admin/option/spider.html");
+        renderAjaxResultForSuccess();
     }
 }

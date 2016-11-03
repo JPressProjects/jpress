@@ -53,15 +53,23 @@ public class SpiderListener implements MessageListener {
             content.setUserId(BigInteger.valueOf(1));
 
             String text = "";
-            String img = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
+            String img = "<script>" +
+                    "function showImg( url ) {" +
+                    "var frameid = 'frameimg' + Math.random();" +
+                    "window.img = '<img id=\"img\" src=\\''+url+'?'+Math.random()+'\\'  style=\"display: block; margin-left: auto; margin-right: auto;\" />';" +
+                    "document.write('<iframe id=\"'+frameid+'\" src=\"javascript:parent.img;\" frameBorder=\"0\" scrolling=\"no\" ></iframe>');}" +
+                    "showImg('%s');</script>";
+            String imgChildren = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
+//            String img = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
+            String goAddress = "<script>showImg('%s');</script>";
             List<String> imgs = contentSpider.getImg();
             for (int i = 0; i < imgs.size(); i++) {
                 switch (i) {
                     case 0:
-                        text += String.format(img, imgs.get(i)) + contentSpider.getText();
+                        text += String.format(img, imgs.get(i)) + String.format(goAddress, contentSpider.getLink()) + contentSpider.getText();
                         break;
                     default:
-                        text += String.format(img, imgs.get(i));
+                        text += String.format(imgChildren, imgs.get(i));
                         break;
                 }
             }
@@ -73,8 +81,8 @@ public class SpiderListener implements MessageListener {
             content.updateCommentCount();
 
             List<BigInteger> ids = new ArrayList<>();
-            ids.add(BigInteger.valueOf(8));//tag
-            ids.add(BigInteger.valueOf(11));//categroy
+            ids.add(BigInteger.valueOf(1));//tag
+            ids.add(BigInteger.valueOf(2));//categroy
             MappingQuery.me().doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
 
             if (size >= PAGESIZE) {

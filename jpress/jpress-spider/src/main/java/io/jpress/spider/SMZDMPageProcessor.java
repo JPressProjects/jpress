@@ -6,9 +6,7 @@ import io.jpress.message.Actions;
 import io.jpress.message.MessageKit;
 import io.jpress.spider.bean.ContentSpider;
 import io.jpress.spider.inter.SpriderInterface;
-import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.*;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Json;
@@ -30,7 +28,7 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
     public static final String SMZDM_URL = "http://m.smzdm.com/search/ajax_search_list?type=fenlei&search_key=gehuhuazhuang&channel=youhui&article_date=";
     //    public static final String SMZDM_URL = "http://m.smzdm.com/ajax_home_list_show?time_sort=";
     public static final String SMZDM_P_URL = "http://m.smzdm.com/p/";
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000 * 60 * 2);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000 * 60 * 2).setRetrySleepTime(1000 * 60);
     private int count;
     private int page_size = 20;
     public static final int RECYCLE_NUM = 1;
@@ -132,7 +130,20 @@ public class SMZDMPageProcessor implements PageProcessor, SpriderInterface {
 
     @Override
     public void spriderStart() {
-        mSpider = Spider.create(this).addUrl(getUrl()).thread(1);
+        List spiderListener = new ArrayList<SpiderListener>();
+        spiderListener.add(new SpiderListener() {
+            @Override
+            public void onSuccess(Request request) {
+
+            }
+
+            @Override
+            public void onError(Request request) {
+                logger.info("onError=>" + request.getUrl());
+                mSpider.addRequest(new Request(getUrl()));
+            }
+        });
+        mSpider = Spider.create(this).addUrl(getUrl()).setSpiderListeners(spiderListener).thread(1);
 //        mSpider = Spider.create(this).addUrl(SMZDM_URL + System.currentTimeMillis() / 1000).thread(1);
         mSpider.run();
     }

@@ -2,13 +2,14 @@
 <#macro script>
     function doSubmit(){
     $.get("${CPATH}/admin/spider/open?ucode=${ucode}", function(result){
+    alert(result);
+    location.reload();
     if(result.errorCode > 0){
     alert(result.message);
     }else{
     location.reload();
     }
     });
-
     }
 
     function doDelete(id){

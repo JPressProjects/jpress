@@ -4,6 +4,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.Consts;
 import io.jpress.message.Actions;
 import io.jpress.message.Message;
+import io.jpress.message.MessageKit;
 import io.jpress.message.MessageListener;
 import io.jpress.message.annotation.Listener;
 import io.jpress.model.Content;
@@ -53,12 +54,14 @@ public class SpiderListener implements MessageListener {
             content.setUserId(BigInteger.valueOf(1));
 
             String text = "";
-            String img = "<script>" +
-                    "function showImg( url ) {" +
-                    "var frameid = 'frameimg' + Math.random();" +
-                    "window.img = '<img id=\"img\" src=\\''+url+'?'+Math.random()+'\\'  style=\"display: block; margin-left: auto; margin-right: auto;\" height=\"100%\"/>';" +
-                    "document.write('<iframe id=\"'+frameid+'\" src=\"javascript:parent.img;\" frameBorder=\"0\" scrolling=\"no\" ></iframe>');}" +
-                    "showImg('%s');</script>";
+            String img = "<script>\n" +
+                    "function showImg( url ) \n" +
+                    "{\n" +
+                    "var frameid = 'frameimg' + Math.random();\n" +
+                    "window.img = '<img id=\"img\" src=\\''+url+'?'+Math.random()+'\\'  style=\"display: block; margin-left: auto; margin-right: auto;\"  height=\"100%\" />';\n" +
+                    "document.write('<iframe id=\"'+frameid+'\" style=\"display: block; margin-left: auto; margin-right: auto;\"  src=\"javascript:parent.img;\" frameBorder=\"0\" scrolling=\"no\" ></iframe>');\n" +
+                    "}\n" +
+                    "</script>";
             String imgChildren = "<script>showImg('%s');</script>";
 //            String img = "<p><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"%s\" alt=\"\"></p>";
             String goAddress = "<p><strong><a href=\"%s\" target=\"_blank\">火速直达</a></strong></p>";
@@ -66,7 +69,7 @@ public class SpiderListener implements MessageListener {
             for (int i = 0; i < imgs.size(); i++) {
                 switch (i) {
                     case 0:
-                        text += String.format(img, imgs.get(i)) + String.format(goAddress, contentSpider.getLink()) + contentSpider.getText();
+                        text += img + String.format(imgChildren, imgs.get(i)) + String.format(goAddress, contentSpider.getLink()) + contentSpider.getText();
                         break;
                     default:
                         text += String.format(imgChildren, imgs.get(i));
@@ -85,6 +88,8 @@ public class SpiderListener implements MessageListener {
             ids.add(BigInteger.valueOf(2));//categroy
             MappingQuery.me().doBatchUpdate(content.getId(), ids.toArray(new BigInteger[0]));
 
+            MessageKit.sendMessage(Actions.CONTENT_COUNT_UPDATE, ids.toArray(new BigInteger[] {}));
+
             if (size >= PAGESIZE) {
                 mContent.remove(PAGESIZE - 1);
             }
@@ -98,3 +103,16 @@ public class SpiderListener implements MessageListener {
         }
     }
 }
+//    <script>
+//    function showImg( url )
+//    {
+//        var frameid = 'frameimg' + Math.random();
+//        window.img = '<img id="img" src=\''+url+'?'+Math.random()+'\'  style="display: block; margin-left: auto; margin-right: auto;"  height="100%" />';
+//        document.write('<iframe id="'+frameid+'" style="display: block; margin-left: auto; margin-right: auto;"  src="javascript:parent.img;" frameBorder="0" scrolling="no" ></iframe>');
+//    }
+//    showImg('http://y.zdmimg.com/201611/03/581ac324d9598750.png_d480.jpg');
+//</script>
+//<script>
+//showImg('http://y.zdmimg.com/201611/03/581ac324d9598750.png_d480.jpg');
+//</script>
+//<p></p><p>每个月总有那么几天心情不畅，必需品都囤够了吗？现在京东有<a href="http://go.smzdm.com/1a10d0d84b314bab/cb_aa_yh_113_6578151_750_0_0" target="_blank" onclick="gtm();">女性护理用品部分满199减100活动</a>，花王、高洁丝、护舒宝、ABC都有参加活动，虽然不是全场，但是凑单满减后也要比超市便宜一半了，刚需不要非得等到历史低价再入，到时候要用现买可就麻烦了，男同胞们展现细心程度的时候到了昂。 </p><p> </p><p> <br></p><p> <br></p><p> <br></p><p> <br></p><p> <br></p><p> <br></p><p> </p><p> <br></p><p><br></p><p><br></p><p><span class="img_desc"><img itemprop="image" alt="京东 女性护理专场" src="http://y.zdmimg.com/201611/03/581ac401d6cc33314.png_e600.jpg" src1="http://y.zdmimg.com/201611/03/581ac401d6cc33314.png_e600.jpg" src2="http://y.zdmimg.com/201611/03/581ac401d6cc33314.png_e600.jpg" _size="416061" title="" data-title=""></span></p>

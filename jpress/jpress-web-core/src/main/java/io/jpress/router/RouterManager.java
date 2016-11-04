@@ -28,9 +28,10 @@ import com.jfinal.log.Log;
 import io.jpress.core.Jpress;
 import io.jpress.core.addon.HookInvoker;
 import io.jpress.model.query.OptionQuery;
-import io.jpress.router.converter.ContentRouter;
-import io.jpress.router.converter.PageRouter;
-import io.jpress.router.converter.TaxonomyRouter;
+import io.jpress.model.router.ContentRouter;
+import io.jpress.model.router.PageRouter;
+import io.jpress.model.router.RouterConverter;
+import io.jpress.model.router.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
 public class RouterManager {

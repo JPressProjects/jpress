@@ -28,7 +28,7 @@ import io.jpress.model.ModelSorter.ISortModel;
 import io.jpress.model.base.BaseTaxonomy;
 import io.jpress.model.core.Table;
 import io.jpress.model.query.MappingQuery;
-import io.jpress.model.utils.TaxonomyRouter;
+import io.jpress.model.router.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
 @Table(tableName = "taxonomy", primaryKey = "id")

@@ -8,12 +8,9 @@
 		<artifactId>jpress</artifactId>
 		<version>1.0</version>
 	</parent>
-
-	<artifactId>jpress-utils</artifactId>
-	<name>jpress-utils</name>
-	<url>http://jpress.io</url>
-	<packaging>jar</packaging>
-
+	<artifactId>jpress-cache</artifactId>
+	<name>jpress-cache</name>
+	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -23,22 +20,9 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
 	</dependencies>
 </project>

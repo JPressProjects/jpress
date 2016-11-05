@@ -35,7 +35,7 @@
 
 		<dependency>
 			<groupId>io.jpress</groupId>
-			<artifactId>jpress-utils</artifactId>
+			<artifactId>jpress-commons</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 		</dependency>

@@ -43,9 +43,9 @@ import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.MappingQuery;
 import io.jpress.model.query.TaxonomyQuery;
 import io.jpress.model.query.UserQuery;
+import io.jpress.model.router.ContentRouter;
 import io.jpress.router.RouterMapping;
 import io.jpress.router.RouterNotAllowConvert;
-import io.jpress.router.converter.ContentRouter;
 import io.jpress.template.TemplateManager;
 import io.jpress.template.TplModule;
 import io.jpress.template.TplTaxonomyType;
@@ -259,8 +259,8 @@ public class _ContentController extends JBaseCRUDController<Content> {
 		String _editor = getCookie("_editor", "tinymce");
 		setAttr("_editor", _editor);
 
-		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module));
-		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module));
+		setAttr("urlPreffix", ContentRouter.getContentRouterPreffix(module.getName()));
+		setAttr("urlSuffix", ContentRouter.getContentRouterSuffix(module.getName()));
 
 		setSlugInputDisplay(moduleName);
 

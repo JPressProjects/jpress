@@ -42,6 +42,7 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
 import io.jpress.Consts;
+import io.jpress.cache.JCachePlugin;
 import io.jpress.core.cache.ActionCacheHandler;
 import io.jpress.core.db.DbDialect;
 import io.jpress.core.db.DbDialectFactory;
@@ -107,10 +108,16 @@ public abstract class JpressConfig extends JFinalConfig {
 
 		if (Jpress.isInstalled()) {
 
+			JCachePlugin leCachePlugin = new JCachePlugin();
+			plugins.add(leCachePlugin);
+
 			DruidPlugin druidPlugin = createDruidPlugin();
 			plugins.add(druidPlugin);
 
 			ActiveRecordPlugin activeRecordPlugin = createRecordPlugin(druidPlugin);
+			activeRecordPlugin.setCache(leCachePlugin.getCache());
+			activeRecordPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
+
 			plugins.add(activeRecordPlugin);
 
 			plugins.add(new SearcherPlugin());
@@ -120,7 +127,7 @@ public abstract class JpressConfig extends JFinalConfig {
 	}
 
 	public EhCachePlugin createEhCachePlugin() {
-		String ehcacheDiskStorePath = PathKit.getWebRootPath();
+		String ehcacheDiskStorePath = PathKit.getRootClassPath();
 		File pathFile = new File(ehcacheDiskStorePath, ".ehcache");
 
 		Configuration cfg = ConfigurationFactory.parseConfiguration();
@@ -164,8 +171,6 @@ public abstract class JpressConfig extends JFinalConfig {
 				DbDialect.mapping(clazz.getSimpleName().toLowerCase(), tname);
 			}
 		}
-
-		arPlugin.setShowSql(JFinal.me().getConstants().getDevMode());
 		return arPlugin;
 	}
 
@@ -213,6 +218,5 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void onJPressStarted() {
 	};
-
 
 }

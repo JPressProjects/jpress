@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.router;
+package io.jpress.model.router;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -71,10 +71,10 @@ public abstract class RouterConverter {
 
 	protected static String getFakeStaticSuffix() {
 		String fakeStaticSuffix = OptionQuery.me().findValue("router_fakestatic_suffix");
-		if (StringUtils.isBlank(fakeStaticSuffix)) {
-			fakeStaticSuffix = ".html";
+		if (StringUtils.isNotBlank(fakeStaticSuffix)) {
+			return fakeStaticSuffix.trim();
 		}
-		return fakeStaticSuffix.trim();
+		return ".html";
 	}
 
 }

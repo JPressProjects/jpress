@@ -78,7 +78,7 @@
 
 		<dependency>
 			<groupId>io.jpress</groupId>
-			<artifactId>jpress-utils</artifactId>
+			<artifactId>jpress-commons</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -119,14 +119,6 @@
 		<dependency>
 			<groupId>io.jpress</groupId>
 			<artifactId>jpress-search-dbsimple</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.jpress</groupId>
-			<artifactId>jpress-consts</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>

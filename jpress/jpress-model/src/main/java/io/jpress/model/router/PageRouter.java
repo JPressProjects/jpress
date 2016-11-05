@@ -13,43 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.router.converter;
+package io.jpress.model.router;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
-import io.jpress.model.Taxonomy;
-import io.jpress.router.RouterConverter;
-import io.jpress.template.TemplateManager;
+import io.jpress.model.Content;
+import io.jpress.model.query.ContentQuery;
+import io.jpress.utils.StringUtils;
 
-public class TaxonomyRouter extends RouterConverter {
+public class PageRouter extends RouterConverter {
+
+	public static String getRouter(Content content) {
+		String url = SLASH + content.getSlug();
+
+		if (enalbleFakeStatic()) {
+			url += getFakeStaticSuffix();
+		}
+		return url;
+	}
 
 	@Override
 	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
 
 		String[] targetDirs = parseTarget(target);
-
 		if (targetDirs == null || targetDirs.length != 1) {
 			return null;
 		}
 
-		String[] params = parseParam(targetDirs[0]);
-		if (params == null || params.length == 0) {
-			return null;
-		}
-
-		String moduleName = params[0];
-		if (TemplateManager.me().currentTemplateModule(moduleName) != null) {
-			return Consts.ROUTER_TAXONOMY + target;
+		String slug = targetDirs[0];
+		Content content = ContentQuery.me().findBySlug(StringUtils.urlDecode(slug));
+		if (null != content && Consts.MODULE_PAGE.equals(content.getModule())) {
+			return Consts.ROUTER_CONTENT + SLASH + slug;
 		}
 
 		return null;
-	}
-
-	public static String getRouterWithoutPageNumber(Taxonomy taxonomy) {
-		return SLASH + taxonomy.getContentModule() + URL_PARA_SEPARATOR
-				+ (taxonomy.getSlug() == null ? taxonomy.getId() : taxonomy.getSlug());
 	}
 
 }

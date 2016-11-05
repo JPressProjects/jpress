@@ -27,8 +27,12 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.Consts;
 import io.jpress.core.JBaseController;
 import io.jpress.model.Content;
+import io.jpress.model.Taxonomy;
+import io.jpress.model.User;
 import io.jpress.model.query.ContentQuery;
 import io.jpress.model.query.OptionQuery;
+import io.jpress.model.query.TaxonomyQuery;
+import io.jpress.model.query.UserQuery;
 import io.jpress.router.RouterMapping;
 import io.jpress.template.TemplateManager;
 import io.jpress.utils.EncryptUtils;
@@ -41,8 +45,7 @@ public class ApiController extends JBaseController {
 	/**
 	 * http://www.xxx.com/api?method=queryTest
 	 * 
-	 * if method is not query method,you need add api application in website
-	 * backstage.
+	 * 如果查询的方法不是query开头的方法，需要在后台添加appkey和appsecret
 	 */
 
 	public void index() {
@@ -146,7 +149,7 @@ public class ApiController extends JBaseController {
 	}
 
 	/**
-	 * query content api
+	 * 查询content的api
 	 */
 	private void queryContent() {
 		BigInteger id = getParaToBigInteger("id");
@@ -163,6 +166,9 @@ public class ApiController extends JBaseController {
 		renderAjaxResult("success", 0, c);
 	}
 
+	/**
+	 * 分页查询content信息
+	 */
 	private void queryContentPage() {
 		int page = getParaToInt("page", 1);
 		if (page < 1) {
@@ -216,6 +222,62 @@ public class ApiController extends JBaseController {
 				userId, month, orderBy);
 
 		renderAjaxResultForSuccess("success", contentPage);
+	}
+
+	/**
+	 * 查询分类
+	 */
+	public void queryTaxonomy() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id == null) {
+			renderAjaxResultForError();
+			return;
+		}
+		Taxonomy t = TaxonomyQuery.me().findById(id);
+		if (t == null) {
+			renderAjaxResultForError();
+			return;
+		}
+		renderAjaxResultForSuccess("success", t);
+	}
+
+	/**
+	 * 查询分类列表
+	 */
+	public void queryTaxonomys() {
+		BigInteger id = getParaToBigInteger("id");
+		String type = getPara("type");
+		if (id == null) {
+			renderAjaxResultForError();
+			return;
+		}
+		List<Taxonomy> taxonomys = null;
+		if (StringUtils.isBlank(type)) {
+			taxonomys = TaxonomyQuery.me().findListByContentId(id);
+		} else {
+			taxonomys = TaxonomyQuery.me().findListByTypeAndContentId(type, id);
+		}
+		
+		renderAjaxResultForSuccess("success", taxonomys);
+	}
+
+	/**
+	 * 查询用户信息
+	 */
+	public void queryUser() {
+		BigInteger id = getParaToBigInteger("id");
+		if (id == null) {
+			renderAjaxResultForError();
+			return;
+		}
+
+		User user = UserQuery.me().findById(id);
+		if (user == null) {
+			renderAjaxResultForError();
+		}
+
+		user.remove("password", "salt", "username", "email", "email_status", "mobile", "mobile_status", "role");
+		renderAjaxResultForSuccess("success", user);
 	}
 
 }

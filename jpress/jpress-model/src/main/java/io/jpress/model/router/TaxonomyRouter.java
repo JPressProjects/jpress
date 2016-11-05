@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.model.utils;
+package io.jpress.model.router;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import io.jpress.Consts;
 import io.jpress.model.Taxonomy;
+import io.jpress.template.TemplateManager;
 
 public class TaxonomyRouter extends RouterConverter {
 
@@ -94,5 +99,28 @@ public class TaxonomyRouter extends RouterConverter {
 		}
 		return url + URL_PARA_SEPARATOR + pageNumber;
 	}
+
+	@Override
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
+
+		String[] targetDirs = parseTarget(target);
+
+		if (targetDirs == null || targetDirs.length != 1) {
+			return null;
+		}
+
+		String[] params = parseParam(targetDirs[0]);
+		if (params == null || params.length == 0) {
+			return null;
+		}
+
+		String moduleName = params[0];
+		if (TemplateManager.me().currentTemplateModule(moduleName) != null) {
+			return Consts.ROUTER_TAXONOMY + target;
+		}
+
+		return null;
+	}
+
 
 }

@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.model.utils;
+package io.jpress.model.router;
 
 import java.text.SimpleDateFormat;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import io.jpress.Consts;
 import io.jpress.model.Content;
 import io.jpress.model.query.OptionQuery;
+import io.jpress.template.TemplateManager;
+import io.jpress.template.TplModule;
 import io.jpress.utils.DateUtils;
 import io.jpress.utils.StringUtils;
 
@@ -182,5 +187,56 @@ public class ContentRouter extends RouterConverter {
 		}
 		return urlPreffix;
 	}
+
+	@Override
+	public String converter(String target, HttpServletRequest request, HttpServletResponse response) {
+		
+		String[] targetDirs = parseTarget(target);
+
+		if (targetDirs == null || targetDirs.length == 0) {
+			return null;
+		}
+
+		else if (targetDirs != null && targetDirs.length == 1) {
+			String settingType = getRouterType();
+			// 动态前缀
+			if (TYPE_DYNAMIC_ID.equals(settingType) || TYPE_DYNAMIC_SLUG.equals(settingType)) {
+				String prefix = getRouterPrefix();
+				return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT : null;
+			}
+
+			return null;
+		}
+
+		String[] params = parseParam(targetDirs[1]);
+		if (params == null || params.length == 0) {
+			return null;
+		}
+
+		String settingType = getRouterType();
+		// 静态模型
+		if (TYPE_STATIC_MODULE_SLUG.equals(settingType) || TYPE_STATIC_MODULE_ID.equals(settingType)) {
+			TplModule m = TemplateManager.me().currentTemplateModule(targetDirs[0]);
+			return m == null ? null : Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
+		}
+		// 静态日期
+		else if (TYPE_STATIC_DATE_SLUG.equals(settingType) || TYPE_STATIC_DATE_ID.equals(settingType)) {
+			try {
+				Integer.valueOf(targetDirs[0]);
+				return Consts.ROUTER_CONTENT + SLASH + targetDirs[1];
+			} catch (Exception e) {
+			}
+			return null;
+		}
+		// 静态前缀
+		else if (TYPE_STATIC_PREFIX_SLUG.equals(settingType) || TYPE_STATIC_PREFIX_ID.equals(settingType)) {
+			String prefix = getRouterPrefix();
+			return prefix.equals(targetDirs[0]) ? Consts.ROUTER_CONTENT + SLASH + targetDirs[1] : null;
+		}
+
+		return null;
+	}
+	
+	
 
 }

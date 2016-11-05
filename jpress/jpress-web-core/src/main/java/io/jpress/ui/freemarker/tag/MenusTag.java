@@ -29,8 +29,8 @@ import io.jpress.model.Content;
 import io.jpress.model.ModelSorter;
 import io.jpress.model.Taxonomy;
 import io.jpress.model.query.ContentQuery;
+import io.jpress.model.router.TaxonomyRouter;
 import io.jpress.model.vo.NavigationMenu;
-import io.jpress.router.converter.TaxonomyRouter;
 import io.jpress.utils.StringUtils;
 
 public class MenusTag extends JTag {

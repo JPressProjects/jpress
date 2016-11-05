@@ -24,15 +24,10 @@
 		<module>jpress-search-dbsimple</module>
 		<module>jpress-addon-helloworld</module>
 		<module>jpress-web-core</module>
-<<<<<<< HEAD
-	    <module>jpress-web-admin</module>
-	    <module>jpress-web-front</module>
 		<module>jpress-spider</module>
-=======
 		<module>jpress-web-admin</module>
 		<module>jpress-web-front</module>
 		<module>jpress-cache</module>
->>>>>>> jp/master
 	</modules>
 
 

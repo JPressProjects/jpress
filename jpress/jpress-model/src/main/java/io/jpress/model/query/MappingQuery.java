@@ -22,7 +22,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 
-import io.jpress.core.db.Jdb;
+import io.jpress.model.core.Jdb;
 import io.jpress.model.Mapping;
 
 public class MappingQuery extends JBaseQuery {
@@ -57,7 +57,8 @@ public class MappingQuery extends JBaseQuery {
 	}
 
 	public List<Mapping> findListByContentId(BigInteger contentId) {
-		return DAO.doFindByCache(Mapping.CACHE_NAME, Mapping.buildKeyByContentId(contentId), " content_id = ?",contentId);
+		return DAO.doFindByCache(Mapping.CACHE_NAME, Mapping.buildKeyByContentId(contentId), " content_id = ?",
+				contentId);
 	}
 
 	public void deleteByContentId(BigInteger id) {

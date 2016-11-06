@@ -92,7 +92,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
+		
 	</dependencies>
 
 	<build>

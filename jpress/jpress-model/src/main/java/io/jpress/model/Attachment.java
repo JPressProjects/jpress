@@ -26,20 +26,20 @@ import io.jpress.utils.AttachmentUtils;
 @Table(tableName = "attachment", primaryKey = "id")
 public class Attachment extends BaseAttachment<Attachment> {
 	private static final long serialVersionUID = 1L;
-	
+
 	private User user;
 
 	public boolean isImage() {
 		return AttachmentUtils.isImage(getPath());
 	}
-	
+
 	public User getUser() {
 		if (user != null)
 			return user;
-		
-		if(getUserId() == null)
+
+		if (getUserId() == null)
 			return null;
-		
+
 		user = UserQuery.me().findById(getUserId());
 		return user;
 	}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.db;
+package io.jpress.model.core;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.jfinal.plugin.activerecord.Record;
 public class Jdb {
 	
 	static String tx(String sql){
-		return DbDialectFactory.getDbDialect().doTableConvert(sql);
+		return JModelMapping.me().tx(sql);
 	}
 	
 	private static void debugPrintParas(Object ...objects){

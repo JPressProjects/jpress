@@ -1,3 +1,15 @@
 
 2016-10-26 21:24:01
 [WARN]-[Thread: http-bio-8080-exec-3]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /attachment/20161026/46aa7cefbfa94b1492f361c31ebf89a8null
+
+2016-11-06 12:04:10
+[ERROR]-[Thread: pool-1-thread-4]-[io.jpress.message.MessageManager$2.run()]: listener[class io.jpress.listener.AuthorNotificationListener] onMessage is erro! 
+java.lang.NullPointerException
+	at io.jpress.listener.AuthorNotificationListener.replaceContent(AuthorNotificationListener.java:207)
+	at io.jpress.listener.AuthorNotificationListener.notifyAuthorByEmail(AuthorNotificationListener.java:126)
+	at io.jpress.listener.AuthorNotificationListener.notify(AuthorNotificationListener.java:59)
+	at io.jpress.listener.AuthorNotificationListener.onMessage(AuthorNotificationListener.java:43)
+	at io.jpress.message.MessageManager$2.run(MessageManager.java:214)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)

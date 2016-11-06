@@ -27,19 +27,43 @@ import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
-import io.jpress.core.db.DbDialectFactory;
+//import io.jpress.core.db.DbDialectFactory;
 
 @SuppressWarnings("serial")
 public class JModel<M extends JModel<M>> extends Model<M> {
+	
+	private String forPaginateFrom(String tableName, String where) {
+		StringBuilder from = new StringBuilder(" FROM ");
+		from.append("`" + tableName + "`");
+
+		if (where != null && !"".equals(where.trim())) {
+			from.append(" WHERE " + where);
+		}
+		return from.toString();
+	}
+	
+	private String forSelect(String tableName) {
+		return String.format("SELECT * FROM `%s`", tableName);
+	}
+	
+	private String forDelete(String tableName) {
+		return String.format("DELETE FROM `%s`", tableName);
+	}
+
+	private String forSelectCount(String tableName) {
+		return String.format("SELECT COUNT(*) FROM `%s`", tableName);
+	}
+
 
 	public Page<M> doPaginate(int pageNumber, int pageSize) {
 		return doPaginate(pageNumber, pageSize, null);
 	}
 
 	public Page<M> doPaginate(int pageNumber, int pageSize, String whereSql, Object... params) {
-		String from = DbDialectFactory.getDbDialect().forPaginateFrom(getTableName(), whereSql);
+		String from = forPaginateFrom(getTableName(), whereSql);
 		return paginate(pageNumber, pageSize, "SELECT *", from, params);
 	}
+	
 
 	public Page<M> doPaginateByCache(String cacheName, Object key, int pageNumber, int pageSize) {
 		return doPaginateByCache(cacheName, key, pageNumber, pageSize, null);
@@ -47,16 +71,16 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 
 	public Page<M> doPaginateByCache(String cacheName, Object key, int pageNumber, int pageSize, String whereSql,
 			Object... params) {
-		String from = DbDialectFactory.getDbDialect().forPaginateFrom(getTableName(), whereSql);
+		String from = forPaginateFrom(getTableName(), whereSql);
 		return paginateByCache(cacheName, key, pageNumber, pageSize, "SELECT *", from, params);
 	}
 
 	private String createSelectSql() {
-		return DbDialectFactory.getDbDialect().forSelect(getTableName());
+		return forSelect(getTableName());
 	}
 
 	private String createDeleteSql() {
-		return DbDialectFactory.getDbDialect().forDelete(getTableName());
+		return forDelete(getTableName());
 	}
 
 	private String createSelectWhereSql() {
@@ -108,7 +132,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	public Long doFindCount(String whereSQL, Object... params) {
-		String sql = DbDialectFactory.getDbDialect().forSelectCount(getTableName());
+		String sql = forSelectCount(getTableName());
 		final StringBuilder sqlBuilder = new StringBuilder(sql);
 		if (null != whereSQL && !"".equals(whereSQL.trim())) {
 			sqlBuilder.append(" WHERE ").append(whereSQL);
@@ -121,7 +145,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	public long doFindCountByCache(String cacheName, Object key, String whereSQL, final Object... params) {
-		String sql = DbDialectFactory.getDbDialect().forSelectCount(getTableName());
+		String sql = forSelectCount(getTableName());
 		final StringBuilder sqlBuilder = new StringBuilder(sql);
 		if (null != whereSQL && !"".equals(whereSQL.trim())) {
 			sqlBuilder.append(" WHERE ").append(whereSQL);
@@ -193,7 +217,7 @@ public class JModel<M extends JModel<M>> extends Model<M> {
 	}
 
 	private static String tc(String sql) {
-		return DbDialectFactory.getDbDialect().doTableConvert(sql);
+		return JModelMapping.me().tx(sql);
 	}
 
 	// -----------------------------Override----------------------------

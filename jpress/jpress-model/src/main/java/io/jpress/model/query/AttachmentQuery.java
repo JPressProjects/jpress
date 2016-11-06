@@ -23,8 +23,8 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
-import io.jpress.core.db.Jdb;
 import io.jpress.model.Attachment;
+import io.jpress.model.core.Jdb;
 import io.jpress.model.vo.Archive;
 import io.jpress.utils.StringUtils;
 

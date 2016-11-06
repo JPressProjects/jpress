@@ -176,6 +176,9 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		Iterator<Element> iterator = elements.iterator();
 		while (iterator.hasNext()) {
 			Element element = iterator.next();
+			if (element.hasAttr("cdn-exclude")) {
+				continue;
+			}
 			String url = element.attr(attrName);
 			if (isExcludeUrl(url))
 				continue;

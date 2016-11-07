@@ -128,7 +128,7 @@ public class _AttachmentController extends JBaseCRUDController<Attachment> {
 
 			JSONObject json = new JSONObject();
 			json.put("success", true);
-			json.put("src", getRequest().getContextPath() + newPath);
+			json.put("src", getRequest().getContextPath() + attachment.getPath());
 			renderJson(json.toString());
 		} else {
 			renderJson("success", false);

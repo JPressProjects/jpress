@@ -171,7 +171,7 @@ function reply(id){
 						</div>
 						<div class="comment-item-content">
 							<p>
-								<a href="${CPATH}/admin/user/edit?id=${comment.user_id!}&c=list&p=user"> ${comment.user.username!} </a>
+								<a href="${CPATH}/admin/user/edit?id=${comment.user_id!}&c=list&p=user"> ${(comment.user.username)!comment.author!} </a>
 								评论了 <span>《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》
 								评论状态：
 							<#if "normal" == comment.status!><a class="comment-item-green" href="javascript:;"> √ 通过审核</a></#if>

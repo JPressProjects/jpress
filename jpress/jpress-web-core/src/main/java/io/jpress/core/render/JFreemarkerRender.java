@@ -75,26 +75,21 @@ public class JFreemarkerRender extends FreeMarkerRender {
 			htmlContent = processCDN(htmlContent); // CDN处理
 		}
 
-		if (ActionCacheManager.isCloseActionCache()) {
-			WriterHtml(htmlContent, getContentType(), false);
-			return;
+		if (!ActionCacheManager.isCloseActionCache() && ActionCacheManager.isEnableCache(request)) {
+			WriterHtml(htmlContent, ActionCacheManager.getCacheContentType(request), true);
 		}
 
-		if (!ActionCacheManager.isEnableCache(request)) {
-			WriterHtml(htmlContent, getContentType(), false);
-			return;
-		}
+		WriterHtml(htmlContent, getContentType(), false);
 
-		WriterHtml(htmlContent, ActionCacheManager.getCacheContentType(request), true);
 	}
 
-	private void WriterHtml(String htmlContent, String contentType, boolean putCache) {
+	private void WriterHtml(String htmlContent, String contentType, boolean isPutToCache) {
 		response.setContentType(contentType);
 		PrintWriter responseWriter = null;
 		try {
 			responseWriter = response.getWriter();
 			responseWriter.write(htmlContent);
-			if (putCache) {
+			if (isPutToCache) {
 				ActionCacheManager.putCache(request, htmlContent);
 			}
 		} catch (Exception e) {
@@ -176,6 +171,9 @@ public class JFreemarkerRender extends FreeMarkerRender {
 		Iterator<Element> iterator = elements.iterator();
 		while (iterator.hasNext()) {
 			Element element = iterator.next();
+			if (element.hasAttr("cdn-exclude")) {
+				continue;
+			}
 			String url = element.attr(attrName);
 			if (isExcludeUrl(url))
 				continue;

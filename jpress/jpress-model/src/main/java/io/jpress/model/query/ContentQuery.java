@@ -24,8 +24,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.IDataLoader;
 
-import io.jpress.core.db.Jdb;
 import io.jpress.model.Content;
+import io.jpress.model.core.Jdb;
 import io.jpress.model.vo.Archive;
 import io.jpress.template.TemplateManager;
 import io.jpress.utils.StringUtils;

@@ -33,9 +33,11 @@ public class JHandler extends Handler {
 
 	@Override
 	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-
+		if (target.startsWith("/websocket")) {
+			return;
+		}
+		
 		String CPATH = request.getContextPath();
-
 		request.setAttribute("REQUEST", request);
 		request.setAttribute("CPATH", CPATH);
 		request.setAttribute("SPATH", CPATH + "/static");

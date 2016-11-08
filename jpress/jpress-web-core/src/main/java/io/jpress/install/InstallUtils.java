@@ -31,15 +31,16 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.druid.filter.stat.StatFilter;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
-import io.jpress.core.db.DbDialect;
-import io.jpress.core.db.DbDialectFactory;
+//import io.jpress.core.db.MysqlDialect;
 import io.jpress.utils.DateUtils;
+import io.jpress.utils.FileUtils;
 
 public class InstallUtils {
 	private static final Log log = Log.getLog(InstallUtils.class);
@@ -50,7 +51,6 @@ public class InstallUtils {
 	private static String dbPassword;
 	public static String dbTablePrefix;
 
-	public static DbDialect mDialect;
 
 	public static void init(String db_host, String db_host_port, String db_name, String db_user, String db_password,
 			String db_tablePrefix) {
@@ -60,7 +60,6 @@ public class InstallUtils {
 		dbUser = db_user;
 		dbPassword = db_password;
 		dbTablePrefix = db_tablePrefix;
-		mDialect = DbDialectFactory.getDbDialect();
 	}
 
 	public static boolean createDbProperties() {
@@ -104,14 +103,14 @@ public class InstallUtils {
 	public static List<String> getTableList() throws SQLException {
 		DruidPlugin dp = createDruidPlugin();
 		Connection conn = dp.getDataSource().getConnection();
-		List<String> tableList = query(conn, mDialect.forShowTable());
+		List<String> tableList = query(conn, forShowTable());
 		conn.close();
 		dp.stop();
 		return tableList;
 	}
 
 	public static void createJpressDatabase() throws SQLException {
-		String installSql = mDialect.forInstall(dbTablePrefix);
+		String installSql = forInstall(dbTablePrefix);
 		DruidPlugin dp = createDruidPlugin();
 		Connection conn = dp.getDataSource().getConnection();
 		executeBatchSql(conn, installSql);
@@ -122,12 +121,12 @@ public class InstallUtils {
 
 	public static void setWebName(String webName) throws SQLException {
 
-		executeSQL(mDialect.forInsertWebName(dbTablePrefix), webName);
+		executeSQL(forInsertWebName(dbTablePrefix), webName);
 	}
 
 	public static void setWebFirstUser(String username, String password, String salt) throws SQLException {
 
-		executeSQL(mDialect.forInsertFirstUser(dbTablePrefix), username, password, salt, "administrator", "activited",
+		executeSQL(forInsertFirstUser(dbTablePrefix), username, password, salt, "administrator", "activited",
 				DateUtils.now());
 	}
 
@@ -218,7 +217,7 @@ public class InstallUtils {
 	}
 
 	private static DruidPlugin createDruidPlugin() {
-		DruidPlugin plugin = mDialect.createDuidPlugin(dbHost, dbHostPort, dbName, dbUser, dbPassword);
+		DruidPlugin plugin = createDuidPlugin(dbHost, dbHostPort, dbName, dbUser, dbPassword);
 
 		plugin.start();
 
@@ -230,6 +229,41 @@ public class InstallUtils {
 		isHandled[0] = true;
 		// 这里不能用 JFreeMarkerRender，否则出现安装完成后缓存安装页面。
 		new FreeMarkerRender("/WEB-INF/install/finished.html").setContext(request, response).render();
+	}
+	
+	
+	private static String forShowTable() {
+		return "show tables;";
+	}
+	
+	private static String forInstall(String tablePrefix) {
+
+		String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
+		String sql_text = FileUtils.readString(new File(SqlFilePath)).replace("{table_prefix}", tablePrefix)
+				.replace("{charset}", "utf8mb4");
+
+		return sql_text;
+	}
+	
+	private static String forInsertWebName(String tablePrefix) {
+		return "INSERT INTO `" + tablePrefix + "option` (option_key, option_value) VALUES ('web_name', ? )";
+	}
+
+	private static String forInsertFirstUser(String tablePrefix) {
+		return "INSERT INTO `" + tablePrefix + "user` (username, password, salt, role, status, created) "
+				+ "VALUES (?,?,?,?,?,?)";
+	}
+
+	private static DruidPlugin createDuidPlugin(String dbHost, String dbHostPort, String dbName, String dbUser,
+			String dbPassword) {
+
+		String jdbc_url = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?" + "useUnicode=true&"
+				+ "characterEncoding=utf8&" + "zeroDateTimeBehavior=convertToNull";
+
+		DruidPlugin druidPlugin = new DruidPlugin(jdbc_url, dbUser, dbPassword);
+		druidPlugin.addFilter(new StatFilter());
+
+		return druidPlugin;
 	}
 
 }

@@ -108,7 +108,7 @@ public class Content extends BaseContent<Content> implements ISortModel<Content>
 
 	@Override
 	public boolean delete() {
-		
+
 		removeCache(getId());
 		removeCache(getSlug());
 

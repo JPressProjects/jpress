@@ -145,7 +145,7 @@ function reply(id){
 					<#list page.getList() as bean>
 					<tr class="jp-onmouse">
 						<td><input name="dataItem" type="checkbox"></td>
-						<td><a href="${CPATH}/admin/user/edit?id=${bean.user_id!}&c=list&p=user"> ${(bean.user.username)!} </a></td>
+						<td><a href="${CPATH}/admin/user/edit?id=${bean.user_id!}&c=list&p=user"> ${(bean.user.username)!comment.author!} </a></td>
 						<td><strong><a href="#">
 									<span class="article-title">${bean.text!}</span>
 								</a><#if "draft" == bean.status!>(待审核)</#if>

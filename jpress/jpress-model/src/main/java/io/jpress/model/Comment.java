@@ -58,7 +58,7 @@ public class Comment extends BaseComment<Comment> {
 			return user;
 		}
 
-		if (getContentId() != null) {
+		if (getUserId() != null) {
 			user = UserQuery.me().findById(getUserId());
 		}
 

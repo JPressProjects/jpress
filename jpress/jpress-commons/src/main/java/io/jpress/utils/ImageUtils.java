@@ -100,7 +100,7 @@ public class ImageUtils {
 
 		Rectangle rect = null;
 
-		if (w / h > srcWidth / srcHeight) {
+		if ((float) w / h > (float) srcWidth / srcHeight) {
 			h = h * srcWidth / w;
 			w = srcWidth;
 			rect = new Rectangle(0, (srcHeight - h) / 2, w, h);

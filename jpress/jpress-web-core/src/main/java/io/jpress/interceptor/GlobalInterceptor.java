@@ -23,7 +23,7 @@ import io.jpress.core.Jpress;
 import io.jpress.model.User;
 import io.jpress.utils.EncryptUtils;
 
-public class GlobelInterceptor implements Interceptor {
+public class GlobalInterceptor implements Interceptor {
 
 	@Override
 	public void intercept(Invocation inv) {

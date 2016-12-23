@@ -50,7 +50,7 @@ import io.jpress.core.interceptor.JI18nInterceptor;
 import io.jpress.core.render.JErrorRenderFactory;
 import io.jpress.core.render.JpressRenderFactory;
 import io.jpress.interceptor.AdminInterceptor;
-import io.jpress.interceptor.GlobelInterceptor;
+import io.jpress.interceptor.GlobalInterceptor;
 import io.jpress.message.plugin.MessagePlugin;
 import io.jpress.model.core.JModelMapping;
 import io.jpress.model.core.Table;
@@ -181,7 +181,7 @@ public abstract class JpressConfig extends JFinalConfig {
 
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new JI18nInterceptor());
-		interceptors.add(new GlobelInterceptor());
+		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new AdminInterceptor());
 		interceptors.add(new HookInterceptor());
 	}

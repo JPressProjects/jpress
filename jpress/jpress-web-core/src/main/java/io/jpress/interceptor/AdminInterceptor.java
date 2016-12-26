@@ -28,7 +28,7 @@ public class AdminInterceptor implements Interceptor {
 	public void intercept(Invocation inv) {
 
 		Controller controller = inv.getController();
-		
+
 		String target = controller.getRequest().getRequestURI();
 		String cpath = controller.getRequest().getContextPath();
 

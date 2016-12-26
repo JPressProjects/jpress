@@ -149,6 +149,14 @@
 			<type>war</type>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jpress</groupId>
+			<artifactId>jpress-spider</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

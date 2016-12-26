@@ -1,0 +1,41 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+    function doSubmit(){
+        if("${isRunning}"=="关闭"){
+            $.get("${CPATH}/admin/spider/open?ucode=${ucode}", function(result){
+                if(result.errorCode > 0){
+                alert(result.message);
+                }else{
+                location.reload();
+                }
+            });
+        }else{
+            $.get("${CPATH}/admin/spider/close?ucode=${ucode}", function(result){
+                if(result.errorCode > 0){
+                alert(result.message);
+                }else{
+                location.reload();
+                }
+            });
+        }
+    }
+
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+    <h1>爬虫设置</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <p class="content-msg">爬虫状态。</p>
+    <input type="hidden" name="ucode" value="${ucode}">
+    <input name="isRunning" value="${isRunning}">
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="button" onclick="doSubmit()" class="btn btn-primary">切换</button>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
+
+</@layout>

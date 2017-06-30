@@ -150,7 +150,7 @@ public class TaxonomyController extends BaseFrontController {
 			page = 1;
 		}
 
-		String slugStrings = null;
+		String slugStrings = "";
 		if (paraCount >= 2) {
 			for (int i = 1; i < paraCount; i++) {
 				String para = getPara(i);
@@ -160,7 +160,7 @@ public class TaxonomyController extends BaseFrontController {
 						renderError(404);
 					}
 				} else {
-					slugStrings = StringUtils.urlDecode(para);
+					slugStrings += StringUtils.urlDecode(para)+","
 				}
 			}
 		}

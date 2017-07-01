@@ -160,7 +160,7 @@ public class TaxonomyController extends BaseFrontController {
 						renderError(404);
 					}
 				} else {
-					slugStrings += StringUtils.urlDecode(para)+","
+					slugStrings += StringUtils.urlDecode(para)+",";
 				}
 			}
 		}

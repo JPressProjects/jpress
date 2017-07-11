@@ -24,7 +24,41 @@
 				</label>
 				<div class="box box-solid">
 					<div  class="box-body no-padding">
-					<textarea id="textarea"  name="content.text" >${(content.text)!}</textarea>
+					<textarea id="textarea"  name="content.text" ><div class="x-details-content x-padding-top-10 x-padding-bottom-10 aritcle">
+ <#if (content.text)! == "">
+                                 <div class="x-details-content x-padding-top-10 x-padding-bottom-10 aritcle">
+                                    <div style="margin: 5px; padding: 10px; background-color: #e7f2f0; border: 1px #c2e4f4 solid; width: 100%;">
+                                        <p>技术：redis + java8</p>
+                                        <p>运行环境：IDEA 15.2 + jdk8 + windows 7</p>
+                                        <p>demo功能：提供一个redis基础操作封装</p>
+                                    </div>
+                                 </div>
+                                <div style="border-bottom: none; border-left: 6px #e3cf80 solid; padding-bottom: 0; padding-left: 10px; margin-top: 20px;">
+                                <h1>步骤1</h1>
+                                <p>xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                </div>
+                                <div style="border-bottom: none; border-left: 6px #e3cf80 solid; padding-bottom: 0; padding-left: 10px; margin-top: 20px;">
+                                <h1>步骤2</h1>
+                                <p>xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                </div>
+                                <div style="border-bottom: none; border-left: 6px #e3cf80 solid; padding-bottom: 0; padding-left: 10px; margin-top: 20px;">
+                                <h1>步骤3</h1>
+                                <p>xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                </div>
+                                <div style="border-bottom: none; border-left: 6px #e3cf80 solid; padding-bottom: 0; padding-left: 10px; margin-top: 20px;">
+                                <h1>步骤4</h1>
+                                <p>xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                </div>
+                                <div style="border-bottom: none; border-left: 6px #e3cf80 solid; padding-bottom: 0; padding-left: 10px; margin-top: 20px;">
+                                <h1>步骤5</h1>
+                                <p>xxxxxxxxxxxxxxxxxxxxxxx</p>
+                                </div>
+                            <#else>
+                                    ${(content.text)!}
+                            </#if>
+
+</textarea>
+
 				</div>
 				</div>
 				<#include "_props_box.html" /> 

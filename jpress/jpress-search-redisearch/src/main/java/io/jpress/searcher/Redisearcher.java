@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class Redisearcher implements ISearcher {
     public static final int port = 6380;
-    public static final String ip = "45.77.33.95";
+    public static final String ip = "XXXXX";
     private static final int poolSize = 20;
     private static final int timeOut = 1000;
     private static final String indexName = "demoworld";

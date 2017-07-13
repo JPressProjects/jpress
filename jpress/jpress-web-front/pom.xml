@@ -121,7 +121,7 @@
 
 		<dependency>
 			<groupId>io.jpress</groupId>
-			<artifactId>jpress-search-dbsimple</artifactId>
+			<artifactId>jpress-search-redisearch</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -206,7 +206,6 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<encoding>utf-8</encoding>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 					<overlays>
 						<overlay>

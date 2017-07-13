@@ -26,6 +26,7 @@
 		<module>jpress-web-front</module>
 		<module>jpress-cache</module>
 		<module>jpress-search-solr</module>
+		<module>jpress-search-redisearch</module>
 	</modules>
 
 

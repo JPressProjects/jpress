@@ -33,6 +33,22 @@ public class _AdminController extends JbootController {
     @Inject
     UserService userService;
 
+    /**
+     * 后台首页
+     */
+    public void index() {
+
+
+        render("index.html");
+    }
+
+
+    /**
+     * 登录action
+     *
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
         if (StringUtils.isBlank(username) && StringUtils.isBlank(password)) {
             render("login.html");
@@ -49,9 +65,13 @@ public class _AdminController extends JbootController {
         renderText(ret.toJson());
     }
 
+    /**
+     * 退出登录
+     */
     public void logout() {
         EncryptCookieUtils.remove(this, Constants.Cookies.USER_ID);
         redirect("/admin/login");
     }
+
 
 }

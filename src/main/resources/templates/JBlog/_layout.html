@@ -1,0 +1,98 @@
+<#macro script_import>
+</#macro> 
+<#macro script>
+</#macro> 
+<#macro css_import>
+</#macro> 
+<#macro css>
+</#macro> 
+<#macro layout>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>${WEB_TITLE!WEB_NAME!} - ${WEB_SUBTITLE!'欢迎使用JPress'}</title>
+  <meta name="keywords" content="${META_KEYWORDS!}">
+  <meta name="description" content="${META_DESCRIPTION!}">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <link rel="stylesheet" href="${CTPATH}/assets/css/app.css"/>
+  <link rel="stylesheet" href="${CTPATH}/assets/font-awesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="${CTPATH}/assets/mediaelement/mediaelementplayer.css" />
+  <@css_import />
+  <#if css ??>
+  	<style type="text/css">
+  	<@css />
+  	</style>
+  </#if>
+</head>
+<body class="blog-body">
+<header class="x-layout-100">
+  <!-- -->
+  <div class="x-layout-100 jblog-link">
+    <div class="jblog-link-content">
+      <ul class="jblog-link-content-left">
+        <li class="x-part-border-left"><a class="x-padding-left-rem1 x-padding-right-rem1" href="${CPATH!}/">首页</a></li>
+        <li class="x-padding-left-rem1 x-padding-right-rem1"><a href="${CPATH!}/about">联系我们</a></li>
+      </ul>
+      <ul class="jblog-link-content-right">
+        <li><a href="#"><i class="fa fa-weibo" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-qq" aria-hidden="true"></i></a></li>
+        <li class="x-part-border-left"><a href="#"><i class="fa fa-weixin" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- -->
+  <div class="x-layout-100 jblog-link-logo">
+    <div class="jblog-link-logo-content">
+      <div class="jblog-link-logo-image"><a href="${CPATH}/">${WEB_NAME!}</a></div>
+      <div class="jblog-link-logo-adv">
+	      <a href="${OPTION('jpblog_banner_url')!'#'}">
+	      	<img src="${CPATH}${OPTION('jpblog_banner_image')!TPATH+'/assets/images/banner.jpg'}"/>
+	      </a>
+      </div>
+    </div>
+  </div>
+  <!-- -->
+  <div class="jblog-nav">
+    <div class="jblog-nav-content">
+      <ul>
+      	<li><a href="${CPATH}/">首页
+      	<#if "/" == REQUEST.requestURI!>
+      	<span class="x-a-border"></span>
+      	</#if>
+      	</a>
+      	</li>
+      	<@jp.menus>
+        	<#list menus as menu>
+        		<li >
+        		<a  href="${menu.url!}">
+        		${menu.title!}
+        		<#if menu.isActive() >
+        			<span class="x-a-border"></span>
+        		</#if>
+        		</a>
+        		</li>
+        	</#list>
+        </@jp.menus>
+      </ul>
+    </div>
+  </div>
+</header>
+<#nested> 
+<footer class="footer x-sm-footer">
+  <p>${OPTION('web_copyright')!'暂未填写版权信息'}</p>
+</footer>
+<div style="display: none;">
+${OPTION('jpblog_statistical_code')!}
+</div>
+<@script_import />
+  <script src="${CTPATH}/assets/js/jquery-2.1.1.min.js"></script>
+  <script src="${CTPATH}/assets/mediaelement/mediaelement-and-player.min.js"></script>
+<script type="text/javascript">
+<@script />
+</script>
+</body>
+</html>
+</#macro>

@@ -1,0 +1,19 @@
+<div class="x-white-box">
+	<h3 class="x-box-title">
+		热评文章 <span class="x-title-border"></span>
+	</h3>
+	<@jp.contents module="article" count="3" orderBy="comment_count" hasThumbnail="true"> 
+	<#list contents as content>
+	<div class="x-layout-100 person-relative x-margin-bottom-10 image-box">
+		<div class="yfh-banner-image">
+			<img src="${(content.thumbnail)!}" />
+		</div>
+		<div class="x-box-border yfh-banner-transfer">
+			<a href="${(content.url)!}">
+				<p>${(content.title)!}</p>
+			</a>
+		</div>
+	</div>
+	</#list> 
+	</@jp.contents>
+</div>

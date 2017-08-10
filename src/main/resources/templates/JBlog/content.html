@@ -1,0 +1,160 @@
+<#include "_layout.html"/> 
+<#macro script_import>
+ <script src="${CPATH}/counter?cid=${content.id!}"></script>
+ <script src="${CTPATH}/assets/highlight/highlight.js"></script>
+ <script src="${CTPATH}/assets/js/jquery-2.1.1.min.js"></script>
+</#macro> 
+<#macro script>
+$(document).ready(function() {
+  $('code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+  $('video,audio').mediaelementplayer();
+});
+function reply(id){
+	$("#parent_id").val(id);
+}
+</#macro> 
+<#macro css_import>
+<link rel="stylesheet" href="${CTPATH}/assets/highlight/styles/zenburn.css">
+</#macro> 
+<#macro css>
+.login-box-title {
+    text-align: right;
+    vertical-align: middle;
+    padding: 0.5rem;
+}
+.login-box input {
+    border: 1px solid #d2d6de;
+    padding: 0.7rem 0.5rem;
+    width: 80%;
+}
+</#macro>
+<@layout>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
+  <!-- -->
+  <div class="x-pull-left x-layout-73 blog-sm-left">
+    <div class="x-white-box">
+      <h3 class="x-box-title">${content.title!}
+      </h3>
+      <div class="x-box-tags">
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-bars" aria-hidden="true"></i>
+					${content.getTaxonomyAsUrl('category')!'未分类'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					${content.created?string('yyyy-MM-dd')!}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey x-sm-eye">
+					<i class="fa fa-eye" aria-hidden="true"></i>
+					${content.viewCount!'0'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-commenting-o" aria-hidden="true"></i>
+					${content.commentCount!'0'}
+				</p>
+	  </div>
+      <div class="x-details-content x-padding-top-10 x-padding-bottom-10 aritcle">
+        ${content.text!}
+        
+        <#if OPTION('jpblog_wechat_pay_enable')?? && OPTION('jpblog_wechat_pay_enable')=='true'>
+        <div class="reward-content">
+          <p><img src="${CPATH}${OPTION('jpblog_wechat_pay_image')!}"/> </p>
+          <p>${OPTION('jpblog_wechat_pay_tips')!'打赏一个呗~~'}</p>
+        </div>
+        </#if>
+
+      </div>
+    </div>
+    <!-- -->
+    <#if content.isCommentEnable() >
+    <form action="${CPATH}/comment/submit" method="post"  id="comment">
+    <input type="hidden" name="cid" value="${(content.id)!}" >
+    <input type="hidden" name="anchor" value="comment" >
+    <input type="hidden" id="parent_id" name="parent_id" >
+    <div class="x-white-box">
+      <h3 class="x-box-title">
+        发表评论
+      </h3>
+      <div class="x-layout-100 clearfix">
+        <textarea name="text" class="x-layout-100 x-border-grey x-box-border x-padding-5 x-item-space-8 body-bacground" placeholder="说点什么吧..."></textarea>
+      </div>
+      <#if OPTION('comment_need_captcha') ?? && OPTION('comment_need_captcha')=='true'>
+      <div class="x-layout-100 clearfix login-box ">
+		<p class="x-pull-left x-layout-10 login-box-title">验证码：</p>
+		<p class="x-pull-left x-layout-20"><input type="text" name="comment_captcha"></p>
+		<p class="x-pull-left x-layout-60"><img cdn-exclude src="${CPATH}/captcha" onclick="this.src='${CPATH}/captcha?d='+Math.random();" ></p>
+	 </div>
+	 </#if>
+      <div class="x-layout-100 clearfix">
+        <button type="submit" class="x-button-primary x-border-none pull-right x-margin-top-5">发表评论</button>
+      </div>
+    </div>
+    </form>
+    </#if>
+    <!-- -->
+    <@jp.commentPage pageSize="10">
+     <#if page ??> 
+     <div class="x-white-box" id="clist">
+      <h3 class="x-box-title">
+        全部评论：<span>${page.totalRow!}条</span>
+      </h3>
+      
+	  <#list page.getList() as comment>
+      <div class="x-layout-100 clearfix x-part-border-bottom x-padding-bottom-10 x-padding-top-10">
+        <div class="x-pull-left x-layout-10 x-box-border">
+        <a href="#">
+        	<img class="x-image-radus x-item-space-4 x-sm-image" src="${CPATH}${comment.avatar!TPATH+'/assets/images/avatar.jpg'}"/> 
+        </a>
+        </div>
+        <div class="x-pull-left x-padding-left-2 x-layout-90 x-box-border comment">
+          <p class="x-margin-bottom-5 x-padding-top-2 x-box-border">${comment.author!} 
+          <span class="x-font-grey">${(comment.created?string("yyyy-MM-dd"))!}</span>
+          </p>
+          
+          <#if comment.qc_content ??>
+          <div class="jblog-comment-replay">
+          	<h4>引用来之于${comment.qc_author!}的内容</h4>
+          	${comment.qc_content!}
+          </div>
+          </#if>
+          
+          <p>${comment.text!}</p>
+        </div>
+        <div class="x-layout-100 clearfix">
+          <p class="x-pull-right"><a href="#comment" onclick="reply('${comment.id!}')">回复</a></p>
+        </div>
+      </div>
+	  </#list>
+    </div>
+    
+    	<#if (page.totalRow > 10 )>
+    	<ul class="x-page">
+			<@pagination anchor="clist">
+				<#list pages as pi>
+				<li class="${pi.style!}">
+					<a href="${pi.url!}">${pi.text!}</a>
+				</li>
+				</#list>
+			</@pagination>
+		</ul>
+		</#if>
+    
+    </#if>
+     </@jp.commentPage>
+    <!-- -->
+  </div>
+  <!-- -->
+  <div class="x-pull-right x-layout-25 blog-sm-right">
+    <div class="x-white-box x-font-center">
+        <p><img class="x-image-radus x-item-space-6" src="${CPATH}${(content.user.avatar)!TPATH+'/assets/images/avatar.jpg'}"/></p>
+        <p>${(content.user.nickname)!(content.user.username)!}</p>
+        <p class="x-font-grey x-margin-bottom-10 x-margin-top-10">${(content.user.signature)!'这家伙很赖，连签名都懒得填写...'}</p>
+    </div>
+ 	<#include "_content_box1.html"/> 
+	<#include "_content_box2.html"/> 
+	<#include "_tags_box.html"/> 
+  </div>
+</div>
+</@layout>

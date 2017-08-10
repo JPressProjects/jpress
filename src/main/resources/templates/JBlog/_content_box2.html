@@ -1,0 +1,40 @@
+<div class="x-white-box">
+	<h3 class="x-box-title">
+		推荐文章 <span class="x-title-border"></span>
+	</h3>
+	<@jp.contents  module="article" count="10" orderBy="view_count" hasThumbnail="true"> 
+	<#list contents as content> 
+	<#if content?is_first >
+	<div class="x-layout-100 person-relative image-box">
+
+		<div class="yfh-banner-image">
+        	<img src="${(content.thumbnail)!}" />
+        </div>
+        <div class="x-box-border yfh-banner-transfer">
+       	 <a href="${(content.url)!}">
+          <p>${(content.title)!}</p>
+          </a>
+        </div>
+        
+	</div>
+	<#else>
+	<div class="x-margin-bottom-10 x-margin-top-10 clearfix">
+		<div class="x-layout-30 x-pull-left">
+			<p>
+				<a href="${(content.url)!}">
+					<img class="x-item-space-5" src="${CPATH}${content.thumbnailByName('t4')!}" />
+				</a>
+			</p>
+		</div>
+		<div class="x-layout-68 x-pull-right">
+			<p class="right-box-title"><a href="${(content.url)!}">${(content.title)!}</a></p>
+			<div class="x-layout-100 x-font-small x-font-grey">
+				<i class="fa fa-clock-o" aria-hidden="true"></i>
+				${(content.created)!}
+			</div>
+		</div>
+	</div>
+	</#if> 
+	</#list> 
+	</@jp.contents>
+</div>

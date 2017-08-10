@@ -1,0 +1,223 @@
+<#include "_layout.html"/> 
+<@layout>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
+	<!-- -->
+	<div class="x-pull-left x-layout-73 blog-sm-left">
+
+		<@jp.indexPage module="article"> 
+		
+		<#if page.isFirstPage() > 
+		<@jp.contents flag="hot" module="article" count="3" >
+			<div class="x-layout-100 clearfix" style="height:260px;">
+	           	<#list contents as content>
+	           	<#if content?is_first >
+				<div class="x-pull-left x-layout-70 image-box">
+			        <div class="yfh-banner-image">
+			        	<img src="${(content.thumbnail)!}"  />
+			        </div>
+			        <div class="x-box-border yfh-banner-transfer">
+			       	 <a href="${(content.url)!}">
+			          <p style="font-size:1.2rem;">${(content.title)!}</p>
+			          </a>
+			        </div>
+		        </div>
+				
+				<#else>
+				<div class="x-pull-right x-layout-28 sub-image-box ">
+					 <div class="yfh-banner-image">
+			        	<img src="${(content.thumbnail)!}" />
+			        </div>
+			        <div class="x-box-border yfh-banner-transfer">
+			       	 <a href="${(content.url)!}">
+			          <p>${(content.title)!}</p>
+			          </a>
+			        </div>
+				</div>
+				</#if>
+				</#list>
+			</div>
+		</@jp.contents>
+		</#if>
+		
+		<#list page.getList() as content>
+			<#if content.thumbnail ??>
+			<div class="x-white-box">
+			<div class="x-layout-100">
+				<p>
+					<a href="${content.url}">
+						<img src="${content.thumbnailByName('t1')!}" />
+					</a>
+				</p>
+			</div>
+			<h3 class="x-box-title x-padding-top-10">
+				<a class="x-a-active" href="${content.url}">${content.title}</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p class="x-pull-left x-font-small x-font-grey">
+					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${CPATH}${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+					${content.nickname!}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-bars" aria-hidden="true"></i>
+					${content.getTaxonomyAsUrl('category')!'未分类'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					${content.created?string("yyyy-MM-dd")}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey x-sm-eye">
+					<i class="fa fa-eye" aria-hidden="true"></i>
+					${content.view_count!'0'}
+				</p>
+				<p class=" x-pull-left x-font-small x-font-grey">
+					<i class="fa fa-commenting-o" aria-hidden="true"></i>
+					${content.comment_count!'0'}
+				</p>
+			</div>
+			</div>
+			
+			<#elseif ((content.imageCount > 0) && (content.imageCount<3)) >
+			<div class="x-white-box clearfix">
+			<div class="x-layout-30 x-pull-left">
+				<p>
+					<a href="${content.url}">
+						<img class="x-image-size-11" src="${(content.firstImage)!}" />
+					</a>
+				</p>
+			</div>
+			<div class="x-layout-68 x-pull-right">
+				<h3 class="x-box-title ">
+					<a class="x-a-active" href="${content.url}">${content.title}</a>
+				</h3>
+				<p class="x-box-summary x-item-space-25 clearfix">
+				${content.summary}
+				</p>
+				<div class="x-box-tags">
+					<p >
+						<img class="x-small-avatar x-image-radus x-vertical-middle" src="${CPATH}${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+						${content.nickname!}
+					</p>
+					<p >
+						<i class="fa fa-bars" aria-hidden="true"></i>
+						${content.getTaxonomyAsUrl('category')!'未分类'}
+					</p>
+					<p >
+						<i class="fa fa-clock-o" aria-hidden="true"></i>
+						${content.created?string("yyyy-MM-dd")}
+					</p>
+					<p >
+						<i class="fa fa-eye" aria-hidden="true"></i>
+						${content.view_count!'0'}
+					</p>
+					<p >
+						<i class="fa fa-commenting-o" aria-hidden="true"></i>
+						${content.comment_count!'0'}
+					</p>
+				</div>
+			</div>
+			</div>
+			
+			<#elseif (content.imageCount>3) >
+			<div class="x-white-box">
+				<h3 class="x-box-title">
+				<a class="x-a-active" href="${content.url}">${content.title}</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<div class="x-layout-100">
+				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
+					<a href="${content.url}">
+						<img src="${(content.imageByIndex(0,'t2'))}" />
+					</a>
+				</p>
+				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
+					<a href="${content.url}">
+						<img src="${(content.imageByIndex(1,'t2'))}" />
+					</a>
+				</p>
+				<p class="x-pull-left x-layout-33-sudoku x-box-border x-padding-5">
+					<a href="${content.url}">
+						<img src="${(content.imageByIndex(2,'t2'))}" />
+					</a>
+				</p>
+			</div>
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p >
+					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${CPATH}${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+					${content.nickname!}
+				</p>
+				<p >
+					<i class="fa fa-bars" aria-hidden="true"></i>
+					${content.getTaxonomyAsUrl('category')!'未分类'}
+				</p>
+				<p >
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					${content.created?string("yyyy-MM-dd")}
+				</p>
+				<p >
+					<i class="fa fa-eye" aria-hidden="true"></i>
+					${content.view_count!'0'}
+				</p>
+				<p >
+					<i class="fa fa-commenting-o" aria-hidden="true"></i>
+					${content.comment_count!'0'}
+				</p>
+			</div>
+			</div>
+			<#else>
+			<div class="x-white-box">
+			<h3 class="x-box-title">
+				<a class="x-a-active" href="${content.url}">${content.title}</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<p class="x-box-summary">${content.summary}</p>
+			<div class="x-box-tags">
+				<p >
+					<img class="x-small-avatar x-image-radus x-vertical-middle" src="${CPATH}${content.avatar!TPATH+'/assets/images/avatar.jpg'}" />
+					${content.nickname!}
+				</p>
+				<p >
+					<i class="fa fa-bars" aria-hidden="true"></i>
+					${content.getTaxonomyAsUrl('category')!'未分类'}
+				</p>
+				<p >
+					<i class="fa fa-clock-o" aria-hidden="true"></i>
+					${content.created?string("yyyy-MM-dd")}
+				</p>
+				<p >
+					<i class="fa fa-eye" aria-hidden="true"></i>
+					${content.view_count!'0'}
+				</p>
+				<p >
+					<i class="fa fa-commenting-o" aria-hidden="true"></i>
+					${content.comment_count!'0'}
+				</p>
+			</div>
+			</div>
+			</#if>
+		</#list> 
+		
+		<ul class="x-page">
+			<@pagination>
+				<#list pages as page>
+				<li class="${page.style!}">
+					<a href="${page.url!}">${page.text!}</a>
+				</li>
+				</#list>
+			</@pagination>
+		</ul>
+		
+		</@jp.indexPage>
+		
+	</div>
+	<!-- -->
+	<div class="x-pull-right x-layout-25 blog-sm-right">
+		<#include "_searcher_box.html"/> 
+		<#include "_content_box1.html"/> 
+		<#include "_content_box2.html"/> 
+		<#include "_tags_box.html"/>
+	</div>
+</div>
+</@layout>

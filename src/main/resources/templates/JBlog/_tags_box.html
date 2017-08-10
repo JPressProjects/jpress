@@ -1,0 +1,13 @@
+<div class="x-white-box">
+	<h3 class="x-box-title">
+		热门标签 <span class="x-title-border"></span>
+	</h3>
+	<ul class="x-tag">
+		<@jp.tags > 
+			<#list tags as tag>
+			<li>
+				<a href="${tag.url!}">${tag.title!}</a>
+			</li>
+			</#list> 
+		</@jp.tags >
+</div>

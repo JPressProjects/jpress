@@ -1,0 +1,125 @@
+<section class="content-header">
+	<h1>JBlog设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+		 JBlog模板暂时只提供奖赏二维码设置功能...
+	</p>
+
+	<form action="${CPATH}/admin/option/save" method="POST" id="form" enctype="multipart/form-data">
+		<input type="hidden" name="ucode" value="${ucode}"> <input
+			type="hidden" name="autosave" value="jpblog_wechat_pay_enable,jpblog_wechat_pay_image,jpblog_banner_image,jpblog_banner_url,jpblog_wechat_pay_tips">
+		<div class="row">
+		<div class="col-xs-12">
+			<h4 class="jp-set-title">奖赏设置</h4>
+			<ul class="list-unstyled">
+			
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">开启二维码奖赏</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+						<label>
+							<input class=" " type="checkbox"
+								name="jpblog_wechat_pay_enable" value="true" ${OPTION_CHECKED('jpblog_wechat_pay_enable')}>  <span class="jp-set-info"> 开启 </span></label>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">二维码图片</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<img alt="" src="${CPATH}${OPTION('jpblog_wechat_pay_image')!}">
+							<br />
+							<input name="jpblog_wechat_pay_image" type="file">
+							<input class="form-control input-md" type="text" name="jpblog_wechat_pay_image" value="${OPTION('jpblog_wechat_pay_image')!}">
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3  jp-set-info">打赏勾搭 ~~</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" placeholder="默认：打赏一个呗~~" name="jpblog_wechat_pay_tips" value="${OPTION('jpblog_wechat_pay_tips')!}">
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+
+			</ul>
+			</div>
+			
+			<div class="col-xs-12">
+			<h4 class="jp-set-title">广告设置</h4>
+			<ul class="list-unstyled">
+			
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">banner广告图片</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<img alt="" src="${CPATH}${OPTION('jpblog_banner_image')!}">
+							<br />
+							<input name="jpblog_banner_image" type="file">
+							<input class="form-control input-md" type="text" name="jpblog_banner_image" value="${OPTION('jpblog_banner_image')!}">
+							
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">banner图片连接地址</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text" name="jpblog_banner_url" value="${OPTION('jjpblog_banner_url')!}">
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+
+			</ul>
+			</div>
+			
+			<div class="col-xs-12">
+			<h4 class="jp-set-title">统计代码</h4>
+			<ul class="list-unstyled">
+			
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">第三方统计代码</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<div class="form-group">
+								<textarea class="form-control" rows="4" name="jpblog_statistical_code">${OPTION('jpblog_statistical_code')!}</textarea>
+								<p>请输入百度、CNZZ等第三方统计代码。</p>
+							</div>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+			</ul>
+			</div>
+			
+			<!-- /.box -->
+		</div>
+		<div class="row">
+		<div class="col-xs-12">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+		</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>

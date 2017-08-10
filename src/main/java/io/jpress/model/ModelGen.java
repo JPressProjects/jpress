@@ -1,4 +1,4 @@
-package io.jpress.generator;
+package io.jpress.model;
 
 import io.jboot.codegen.model.JbootModelGenerator;
 

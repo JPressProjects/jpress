@@ -1,0 +1,37 @@
+<#include "_layout.html"/> <@layout>
+<div class="x-pc-width clearfix x-margin-top-20 x-margin-bottom-20">
+	<!-- -->
+	<div class="x-pull-left x-layout-73 blog-sm-left">
+	
+	<@jp.searchResultPage pageSize="10" > 
+		为您找到关键字 “${keyword!}” 的相关文章如下：
+		<#list page.getList() as bean>
+		<div class="x-white-box">
+			<h3 class="x-box-title">
+				<a class="x-a-active" href="${bean.url!}">${bean.title!}</a>
+				<span class="x-title-border"></span>
+			</h3>
+			<p class="x-box-summary">${bean.description!}</p>
+		</div>
+		</#list>
+
+		<ul class="x-page">
+			<@pagination> 
+			<#list pages as pi>
+			<li class="${pi.style!}">
+				<a href="${pi.url!}">${pi.text!}</a>
+			</li>
+			</#list> 
+			</@pagination>
+		</ul>
+		</@jp.searchResultPage>
+	</div>
+	<!-- -->
+	<div class="x-pull-right x-layout-25 blog-sm-right">
+		<#include "_searcher_box.html"/> 
+		<#include "_content_box1.html"/> 
+		<#include "_content_box2.html"/> 
+		<#include "_tags_box.html"/>
+	</div>
+</div>
+</@layout>

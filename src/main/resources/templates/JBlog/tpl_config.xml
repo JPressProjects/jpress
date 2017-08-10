@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<infos>
+		<title>JBlog</title>
+		<id>JBlog</id>
+		<description>JBlog是JPress内置的博客模板，后续会持续升级。</description>
+		<author>jpress</author>
+		<authorWebsite>http://www.jpress.io</authorWebsite>
+		<version>v1.0</version>
+		<versionCode>1</versionCode>
+		<updateUrl>http://www.jpress.io</updateUrl>
+	</infos>
+
+	<module title="文章" name="article" list="所有文章" add="撰写文章" comment="评论">
+		<taxonomy title="分类" name="category" formType="select" />
+		<taxonomy title="专题" name="feature" formType="select" >
+			<metadata dataType="input" name="author" title="专题作者"  description="这个数据只是模板自定义模型的测试。" placeholder="请填写作者用户名"/>
+		</taxonomy>
+		<taxonomy title="标签" name="tag" formType="input" />
+		
+		<metadata dataType="input" name="_meta1" title="元数据1"  placeholder="元数据测试1"/>
+		<metadata dataType="input" name="_meta2" title="元数据2"  placeholder="元数据测试2"/>
+	</module>
+
+	<module title="页面" name="page" list="所有页面" add="新建页面" comment="评论">
+	</module>
+
+	<thumbnail name="t1" size="780 x 240" />
+	<thumbnail name="t2" size="240 x 140" />
+	<thumbnail name="t3" size="600 x 300" />
+	<thumbnail name="t4" size="300 x 300" />
+
+</config>

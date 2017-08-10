@@ -10,17 +10,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
   
 <!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="#(CPATH)/static/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="#(CPATH)/static/font-awesome/css/font-awesome.css">
 
 <!-- Theme style -->
-<link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.min.css">
-<link rel="stylesheet" href="${CPATH}/static/plugins/pace/pace.min.css">
+<link rel="stylesheet" href="#(CPATH)/static/lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="#(CPATH)/static/plugins/pace/pace.min.css">
 
 <!--[if lt IE 9]>
- <script src="${CPATH}/static/plugins/html5/html5shiv.min.js"></script>
- <script src="${CPATH}/static/plugins/html5/respond.min.js"></script>
+ <script src="#(CPATH)/static/plugins/html5/html5shiv.min.js"></script>
+ <script src="#(CPATH)/static/plugins/html5/respond.min.js"></script>
 <![endif]-->
 </head>
 <body class="hold-transition login-page">
@@ -32,7 +32,7 @@
 		<div class="login-box-body">
 			<p class="login-box-msg">管理员登录</p>
 
-			<form action="${CPATH}/admin/login" method="post" id="loginform">
+			<form action="#(CPATH)/admin/login" method="post" id="loginform">
 				<div class="form-group has-feedback">
 					<label>用户名：</label> <input class="form-control" name="username">
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -66,11 +66,11 @@
 	<!-- /.login-box -->
 
 	<!-- jQuery 2.1.4 -->
-	<script src="${CPATH}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
-	<script src="${CPATH}/static/plugins/jquery/jquery.form.min.js"></script>
+	<script src="#(CPATH)/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+	<script src="#(CPATH)/static/plugins/jquery/jquery.form.min.js"></script>
 	<!-- Bootstrap 3.3.5 -->
-	<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
+	<script src="#(CPATH)/static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="#(CPATH)static/plugins/pace/pace.min.js"></script>
 	<script>
 		$(function() {
 			$(document).ajaxStart(function() {
@@ -83,7 +83,7 @@
 					dataType : "json", 
 					success : function(data) { 
 						if(data.errorCode == 0){
-							window.location.href="${CPATH}/admin/index";
+							window.location.href="#(CPATH)/admin/index";
 						}else{
 							alert(data.message);
 						}

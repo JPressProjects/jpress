@@ -1,0 +1,4 @@
+<#if page??> 
+<#include "../_inc/_paginate.html" /> 
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="?p="+(p!)+"&c="+(c!)+"&m="+(m!)+"&t="+(t!)+"&s="+(s!)+"&k="+(k!)+"&page="/> 
+</#if>

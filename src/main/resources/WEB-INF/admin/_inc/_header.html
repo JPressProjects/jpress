@@ -1,0 +1,40 @@
+<header class="main-header">
+	<!-- Logo -->
+	<a href="${CPATH}/" class="logo" target="_blank">
+		<span class="logo-mini"><b>JP</b></span> 
+		<span class="logo-lg"><b>JPress</b></span>
+	</a>
+
+	<nav class="navbar navbar-static-top" role="navigation">
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">开关</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+		</a>
+
+		<div class="navbar-custom-menu" style="padding-right: 2rem">
+			<ul class="nav navbar-nav">
+
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="hidden-xs">${USER.nickname!USER.username}， 您好</span>
+						<img src="${CPATH}${(USER.avatar)!'/static/jpress/admin/image/avatar.jpg'}" class="user-image" >
+					</a>
+					<ul class="dropdown-menu">
+						<!-- User image -->
+						<li class="user-header">
+							<img src="${CPATH}${(USER.avatar)!'/static/jpress/admin/image/avatar.jpg'}" style="border-radius: 50%;" >
+							<p>${USER.nickname!USER.username} - 超级管理员</p>
+							</li>
+						<li class="user-footer">
+							<div class="pull-left">
+								<a href="${CPATH}/admin/user/info?p=user&c=info" class="btn btn-default btn-flat">资料</a>
+							</div>
+							<div class="pull-right">
+								<a href="${CPATH}/admin/logout?ucode=${ucode!}" class="btn btn-default btn-flat">退出</a>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</header>

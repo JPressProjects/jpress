@@ -1,0 +1,174 @@
+<section class="content-header">
+	<h1>
+		所有内容
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row content-row">
+		<ul class="list-inline" style="float: left">
+			<li class="all">
+				<a class="current" href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}">
+					全部 <span class="count">(${count!"0"})</span>
+				</a>
+				|
+			</li>
+			<li class="publish">
+				<a href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=normal">
+					已发布 <span class="count">(${normal_count!"0"})</span>
+				</a>
+				|
+			</li>
+			<li class="publish">
+				<a href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=draft">
+					草稿 <span class="count">(${draft_count!"0"})</span>
+				</a>
+				|
+			</li>
+			<li class="trash">
+				<a href="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=delete">
+					垃圾箱 <span class="count">(${delete_count!"0"})</span>
+				</a>
+			</li>
+		</ul>
+
+
+		<form class="form-horizontal" method="POST" style="float: right" action="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=${s!}&tids=${tids!}">
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search" value="${k!}" name="k" placeholder="请输入关键词">&nbsp;&nbsp;
+				<input id="search-submit" class="btn btn-default btn-sm" type="submit" value="搜索">
+			</div>
+		</form>
+	</div>
+
+	<div class="row content-row">
+		<div class="jp-left">
+			<select class="form-control input-sm jp-width120" name="action">
+				<option value="">==批量操作==</option>
+				<option value="delete">删除</option>
+			</select>
+		</div>
+		<div class="jp-left  ">
+			<button class="btn btn-block btn-sm btn-default" type="button" onclick="batchAction()">应用</button>
+		</div>
+		
+		<#if _taxonomyMap ??>
+		<#list  _taxonomyMap.keySet() as _title>
+			<div class="jp-left">
+				<select class="form-control input-sm jp-width120 jp-selected"  >
+					<option value="">全部${_title!}</option>
+					<#if _taxonomyMap.get(_title) ??>
+						<#list _taxonomyMap.get(_title) as taxonomy >
+						<option value="${taxonomy.id!}" ${taxonomy._selected!}>${taxonomy.layerString!}${taxonomy.title!}</option>
+						</#list> 
+					</#if>
+				</select>
+			</div>
+		</#list> 
+		</#if>
+		
+		<#if _taxonomyMap ??>
+		<div class="jp-left  ">
+			<form action="${CPATH}/admin/content?m=${m!}&p=${p!}&c=${c!}&s=${s!}&k=${k!}" method="POST">
+			<input type="hidden"  class="tids" name="tids" >
+			<input type="submit" class="btn btn-block btn-sm btn-default" value="筛选" />
+			</form>
+		</div>
+		</#if>	
+	</div>
+
+	<div class="box">
+		<!-- /.box-header -->
+		<div class="box-body">
+			<form action="" method="POST" id="form">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<table class="table table-striped" style="word-break:break-all">
+					<thead>
+						<tr>
+							<th style="width:20px;"><input name="dataItem" onclick="checkAll(this)" type="checkbox" value="0"></th>
+							<th >标题</th>
+							<th style="width:10%">作者</th> 
+							<#if (module.taxonomyTypes) ??> 
+								<#list module.taxonomyTypes as taxonomyType>
+								<th style="width:15%">${(taxonomyType.title)!}</th> 
+								</#list> 
+							</#if>
+							<th style="width:5%"><i class="fa fa-commenting"></i></th>
+							<th style="width:90px;">发布日期</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#if page??> <#list page.getList() as bean>
+						<tr class="jp-onmouse">
+							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
+							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">
+							<span class="article-title">${bean.title!}</span></a> <#if "draft" == bean.status!>(草稿)</#if></strong>
+								<div class="jp-flash-comment">
+									<p class="row-actions jp-cancel-pad">
+										<#if "delete" != s!> 
+										<span class="approve"> <a class="vim-a" href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}&m=${m!}">编辑</a></span> 
+											<#if "draft" != bean.status!> 
+											<span class="approve">|<a class="vim-a" href="javascript:draft('${bean.id}')">草稿</a></span> 
+											</#if>
+										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:trash('${bean.id}')">垃圾箱</a></span> 
+										<span class="trash">|<a class="delete vim-d vim-destructive" href="${bean.url!}" target="_blank">查看</a>
+										</span> 
+										<#else> 
+										<span class="approve"> <a class="vim-a" href="javascript:restore('${bean.id}')">还原</a></span> 
+										<span class="spam">|<a class="vim-s vim-destructive" href="javascript:del('${bean.id}')">永久删除</a></span> 
+										</#if>
+									</p>
+								</div>
+							</td>
+							<td>${(bean.username)!}</td> 
+							<#if (module.taxonomyTypes) ??>  
+								<#list module.taxonomyTypes as taxonomyType>
+								<td>${(bean.getTaxonomyAsUrl(taxonomyType.name,"target=\"_blank\""))!}</td> 
+								</#list> 
+							</#if>
+							<td>
+							<a href="${CPATH}/admin/comment?t=comment&c=comment&m=${m!}&p=${p!}&cid=${bean.id!}">
+							${bean.commentCount!}
+							</a>
+							</td>
+							<td>${bean.created!}</td>
+						</tr>
+						</#list> 
+						</#if>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th style="width:20px;"><input name="dataItem" onclick="checkAll(this)" type="checkbox" value="0"></th>
+							<th >标题</th>
+							<th style="width:10%">作者</th> 
+							<#if (module.taxonomyTypes) ??> 
+								<#list module.taxonomyTypes as taxonomyType>
+								<th style="width:15%">${(taxonomyType.title)!}</th> 
+								</#list> 
+							</#if>
+							<th style="width:5%"><i class="fa fa-commenting"></i></th>
+							<th style="width:90px;">发布日期</th>
+						</tr>
+					</tfoot>
+				</table>
+				</form>
+		</div>
+		<!-- /.box-body -->
+	</div>
+	
+	<div class="cf">
+		<div class="pull-right " >
+			
+			<#if page??> 
+			<#include "../_inc/_paginate.html" /> 
+			<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="?p="+(p!)+"&c="+(c!)+"&m="+(m!)+"&t="+(t!)+"&s="+(s!)+"&k="+(k!)+"&tids="+(tids!)+"&page="/> 
+			</#if>
+
+		</div>
+	</div>
+		
+	<!-- /.row -->
+</section>
+<!-- /.content -->

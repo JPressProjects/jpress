@@ -1,0 +1,70 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				if(data.errorCode == 0){
+					toastr.success('保存成功！','操作成功');
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
+			},
+			error : function() {
+				toastr.error("信息提交失败，可能是网络错误或者服务器没有响应",'操作失败');
+			}
+	});
+ }
+</#macro>
+<#macro css>
+.upload-box .box {
+    height: auto;
+    line-height: 60px;
+    overflow:hidden;
+}
+</#macro>
+
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1></h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<form action="${CPATH}/admin/tools/wordpressImport" enctype="multipart/form-data" id="form">
+	<div class="col-xs-12  upload-box ">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6  col-xs-12">
+				<div class="box  " >
+					<div class="col-xs-6">
+						<input type="file" class="upload-input" name="file">
+					</div>
+					
+					
+					<div class="col-xs-12  " style="line-height:25px;margin-top: 20px;">
+						导入到：<br />
+							<#if modules ??>
+							<#list modules as module>
+							<label><input type="radio" value="${module.name}" name="_module" > ${module.title}</label><br />
+							</#list>
+							</#if>
+					</div>
+					
+					<div class="col-xs-6">
+						<input type="button" class="btn btn-default" value="开始导入" onclick="doSubmit()">
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+		<p class="upload-text">注意：wordpress文章导入功能只能导入已经发布或保存到草稿的文章，回收站的文章不导入。<br />
+								若文章有图片，导入文章后请收到编辑或上传图片，本功能不支持附件导入。
+		
+		</p>
+
+	</div>
+	</form>
+</section>
+</@layout>

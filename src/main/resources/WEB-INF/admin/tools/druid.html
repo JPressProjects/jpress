@@ -1,0 +1,29 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function setIframeHeight(iframe) {
+	if (iframe) {
+		var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+		if (iframeWin.document.body) {
+			iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+		}
+	}
+};
+
+window.onload = function () {
+	setIframeHeight(document.getElementById('myiframe'));
+};
+</#macro>
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">SQL监控</section>
+
+<section class="content" id="iframepage">
+	<iframe src="${CPATH}/admin/druid/index.html" id="myiframe" name="myiframe" frameborder="0"  onload="setIframeHeight(this)"  style="width: 100%; border: none;height: 630px"></iframe>
+</section>
+
+
+
+</@layout>
+
+
+

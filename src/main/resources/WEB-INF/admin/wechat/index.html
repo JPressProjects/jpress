@@ -1,0 +1,134 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function trash(id){
+	$.get("${CPATH}/admin/content/trash?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+function batchTrash(){
+	$("#form").attr("action","${CPATH}/admin/content/batchTrash");
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(result) { 
+				if(result.errorCode > 0){
+					alert(result.message);
+				}else{
+					location.reload();
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+
+function restore(id){
+	$.get("${CPATH}/admin/content/restore?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/content/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>
+		所有内容
+		<a href="${CPATH}/admin/wechat/edit?p=wechat&c=reply" class="btn btn-default btn-sm" > 添加 </a>
+	</h1>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row content-row">
+		<form class="form-horizontal" style="float: right">
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search" value="" name="" placeholder="请输入关键词"> 
+				<input id="search-submit" class="btn btn-default btn-sm" type="submit" value="搜索">
+			</div>
+
+		</form>
+	</div>
+
+	<div class="box ">
+		<!-- /.box-header -->
+		<div class="box-body">
+			<form action="" method="POST" id="form">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width: 20px"><input name="dataItem" onclick="checkAll(this)" type="checkbox"></th>
+							<th style="width: 30%">关键字</th>
+							<th>回复内容</th>
+							<th style="width: 10%">发布日期</th>
+							<th style="width: 10%">状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#if page??> <#list page.getList() as bean>
+						<tr class="jp-onmouse">
+							<td><input name="dataItem" type="checkbox" value="${bean.id}"></td>
+							<td><strong><a href="${CPATH}/admin/content/edit?id=${bean.id}&c=edit&p=${p!}">${bean.title}</a></strong>
+								<div class="jp-flash-comment">
+									<p class="row-actions jp-cancel-pad">
+										<span class="approve"> 
+											<a class="vim-a" href="${CPATH}/admin/wechat/edit?id=${bean.id}&p=${p!}&c=${c!}">编辑</a>
+										</span> 
+										<span class="spam"> 
+										| <a class="vim-s vim-destructive" href="javascript:trash(${bean.id})">垃圾箱</a>
+										</span> 
+									</p>
+
+								</div></td>
+							<td>${(bean.text)!}</td>
+							<td>${(bean.created)!}</td>
+							<td>${bean.status!}</td>
+						</tr>
+						</#list> </#if>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th style="width: 20px"><input name="dataItem" onclick="checkAll(this)" type="checkbox"></th>
+							<th style="width: 30%">关键字</th>
+							<th>回复内容</th>
+							<th style="width: 10%">发布日期</th>
+							<th style="width: 10%">状态</th>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+	<!-- /.col -->
+	<!-- /.row -->
+	<div class="cf">
+		<div class="pull-right "><#include "../_inc/_paginate_wrapper.html" /></div>
+	</div>
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

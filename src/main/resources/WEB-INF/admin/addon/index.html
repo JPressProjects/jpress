@@ -1,0 +1,137 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function stop(id){
+	$.get("${CPATH}/admin/addon/stop?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function start(id){
+	$.get("${CPATH}/admin/addon/start?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function uninstall(id){
+	$.get("${CPATH}/admin/addon/uninstall?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		插件列表
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row content-row  ">
+		<div class="">
+			<ul class="jp-common-pad list-inline jp-left">
+				<li class="all">
+					<a class="current" href="#">
+						全部 <span class="count">(${addonCount!'0'})</span>
+					</a>
+					|
+				</li>
+				<li class="publish">
+					<a href="#">
+						启用 <span class="count">(${startedAddonCount!'0'})</span>
+					</a>
+				</li>
+			</ul>
+
+
+			<form class="form-horizontal" style="float: right">
+				<div class="input-group input-group-sm">
+					<input id="post-search-input" class="form-control" type="search" value="" name="" placeholder="搜索">&nbsp; <input id="search-submit" class="btn btn-default btn-sm" type="submit"
+						value="搜索">
+				</div>
+
+			</form>
+		</div>
+		<div class="clr"></div>
+		<div class="col-md-6 jp-common-pad">
+
+			<div class="jp-left ">
+				<select style="width: 120px" class="form-control input-sm"  >
+					<option value="10">批量操作</option>
+					<option value="25">删除</option>
+				</select>
+			</div>
+			<div class="jp-left  ">
+				<button class="btn  btn-sm btn-default" type="button">应用</button>
+			</div>
+
+		</div>
+	</div>
+
+		<div class="box ">
+
+			<!-- /.box-header -->
+			<div class="box-body ">
+				<table  class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width: 20px"><label class="jp-common-pad "><input class="jp-common-pad " id="allid" onclick="doallcheck()" title="全选" type="checkbox"></label></th>
+							<th style="width: 20%">插件</th>
+							<th>描述</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<#if addons ??> 
+						<#list addons as addon>
+						<tr class="jp-onmouse">
+							<td><label class="jp-common-pad"><input class="jp-common-pad" name="chkItem" type="checkbox"></label></td>
+							<td><strong>${addon.title!}</strong> <#if addon.isStart() >（已启用）<#else >（尚未启用）</#if>
+								<div class="jp-flash-comment">
+									<p class="jp-common-pad">
+										<span class="approve"><a class="vim-a" href="#">编辑</a></span> 
+										<#if addon.isStart() >
+										<span class="edit">| <a title="停用" href="javascript:;" onclick="stop('${addon.id!}')">停用</a></span>
+										<#else >
+										<span class="edit">| <a title="启用" href="javascript:;"  onclick="start('${addon.id!}')">启用</a></span>
+										</#if>
+										<span class="edit">| <a title="卸载" href="javascript:;"  onclick="uninstall('${addon.id!}')">卸载</a></span>
+									</p>
+								</div></td>
+							<td>${addon.description!}
+								<div class="jp-flash-comment">
+									<p class="jp-common-pad">
+										<span class="approve">版本：${addon.version!}</span> 
+										<span class="edit">| <a href="#">由${addon.author!}创建</a></span> 
+										<span class="spam">| <a class="" href="#">查看详情</a></span>
+									</p>
+								</div>
+							</td>
+						</tr>
+						</#list> 
+						</#if>
+					</tbody>
+
+				</table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+</section>
+<!-- /.content -->
+</@layout>

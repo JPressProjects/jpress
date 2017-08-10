@@ -1,0 +1,63 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function doSubmit(){
+	if($("#tag-name").val() == ""){
+		alert("名称不能为空！");
+		return;
+	}
+	if($("#taxonomy_slug").val() == ""){
+		alert("别名不能为空！");
+		return;
+	}
+	
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					window.location.href="${CPATH}/admin/taxonomy?m=${m!}&t=${t!}&p=${p!}&c=${c!}";
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ 
+ function del(id){
+	$.get("${CPATH}/admin/taxonomy/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+} 
+
+var reload = false;
+function openSetLayer(id,title){
+	reload = false;
+ 	layer.open({
+			    type: 2,
+			    title: '【'+title + '】设置',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['50%', '80%'],
+			    content: '${CPATH}/admin/taxonomy/setting?m=${m!}&t=${t!}&id='+id,
+			    end:function(){
+			    	if(reload){
+			    		location.reload();
+			    	}
+			    }
+			}); 
+ 
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<#include include/>
+</@layout>
+
+
+

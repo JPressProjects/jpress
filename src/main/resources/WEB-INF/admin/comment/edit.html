@@ -1,0 +1,168 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+
+
+var data={
+    url:'',
+    alt:''
+};
+
+function initTinymce(){
+tinymce.init({
+        selector: '#textarea',
+        height: 300,
+        language: 'zh_CN',
+        menubar: false,
+        automatic_uploads: true,
+        paste_data_images: true,
+        convert_urls: false,
+        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        imagetools_proxy: '${CPATH}/admin/tinymce/image/proxy',
+        images_upload_url: '${CPATH}/admin/tinymce/image/upload',
+        wordcount_countregex: /[\u4e00-\u9fa5_a-zA-Z0-9]/g,
+		file_picker_callback: function(callback, value, meta) {
+		 	layer.open({
+			    type: 2,
+			    title: '选择图片',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['92%', '90%'],
+			    content: '${CPATH}/admin/attachment/choose_layer',
+			    end:function(){
+			    	callback(data.url, {alt: data.alt});
+			    }
+			}); 
+		 },
+        plugins: [
+		    "advlist autolink autosave link image imagetools lists charmap print preview hr anchor pagebreak spellchecker",
+		    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+		    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+		  ],
+        toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr table image | link  anchor unlink | alignleft aligncenter alignright alignjustify | bullist numlist  | fullscreen code   ',
+        toolbar2: '  formatselect | outdent indent | forecolor backcolor  | undo redo  ',
+    });
+}
+
+
+initTinymce();
+    
+function save(){
+	
+	$('#comment_slug').attr('value',$("#slug_text").text());
+	
+	tinymce.activeEditor.uploadImages(function(success) {
+			tinymce.triggerSave();
+	 		doSubmit();
+		});
+	return false;
+ }
+ 
+ function saveAsDraft(){
+ 	$("#comment_status").attr("value","draft");
+ 	save();
+ }
+ 
+ function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				toastr.success(data.message,'操作成功');
+				$("#comment_id").attr("value",data.data);
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ 
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
+</#macro>
+<#macro css>
+.editable-input {
+	width: 100%;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.mybox label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+</#macro>
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>评论编辑</h1>
+</section>
+<!-- Main content -->
+<section class="content" style="z-index: 9999">
+	<form action="${CPATH}/admin/comment/save" id="form" method="post">
+		<input type="hidden" id="comment_id" name="comment.id" value="${(comment.id)!}"> 
+		<input type="hidden" name="comment.status" value="normal" id="comment_status"> 
+		<input type="hidden" name="comment.created" value="${(comment.created)!}" > 
+		<input type="hidden" name="ucode" value="${ucode}">
+		<div class="row">
+			<!-- /.col -->
+			<div class="col-md-9">
+				<div class="form-group">
+					<label class="sr-only"></label> 
+					评论文章：《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》
+				</div>
+				<div class="box box-solid">
+					<div  class="box-body no-padding">
+					<textarea id="textarea"  name="comment.text" >${(comment.text)!}</textarea>
+				</div>
+				</div>
+				<#include "_props_box.html" /> 
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3">
+			<#include "_action_box.html" /> 
+			
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h3 class="box-title">用户</h3>
+					<div class="box-tools">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body  mybox">
+		                <div class="form-group">
+		                  <label for="_user" >评论作者昵称</label>
+		                   <input type="text" class="form-control"  id="_author" name="comment.author" value="${(comment.author)!}">
+		                </div>
+		                <div class="form-group">
+		                  <label for="_email" >评论作者邮箱</label>
+		                   <input type="text" class="form-control"  id="_email"  name="comment.email" value="${(comment.email)!}">
+		                </div>
+		                <div class="form-group">
+		                  <label for="_user" >评论用户</label>
+		                   <input type="text" class="form-control"  id="_user"  name="username" value="${(comment.user.username)!}">
+		                </div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			
+			
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+
+</@layout>
+
+
+

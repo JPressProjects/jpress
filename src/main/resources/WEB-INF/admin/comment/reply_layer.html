@@ -1,0 +1,116 @@
+<#include "../_inc/_layer_layout.html"/> 
+<#macro script>
+
+var data={
+    url:'',
+    alt:''
+};
+
+function initTinymce(){
+	tinymce.init({
+	        selector: '#textarea',
+	        height: 200,
+	        language: 'zh_CN',
+	        menubar: false,
+	        automatic_uploads: true,
+	        paste_data_images: true,
+	        convert_urls: false,
+	        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+	        imagetools_proxy: '${CPATH}/admin/tinymce/image/proxy',
+	        images_upload_url: '${CPATH}/admin/tinymce/image/upload',
+	        wordcount_countregex: /[\u4e00-\u9fa5_a-zA-Z0-9]/g,
+			file_picker_callback: function(callback, value, meta) {
+			 	layer.open({
+				    type: 2,
+				    title: '选择图片',
+				    shadeClose: true,
+				    shade: 0.8,
+				    area: ['92%', '90%'],
+				    content: '${CPATH}/admin/attachment/choose_layer',
+				    end:function(){
+				    	callback(data.url, {alt: data.alt});
+				    }
+				}); 
+			 },
+	        plugins: [
+			    "advlist autolink autosave link image imagetools lists charmap print preview hr anchor pagebreak spellchecker",
+			    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+			    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+			  ],
+	        toolbar1: '  bold italic underline strikethrough removeformat | blockquote hr table image | link  anchor unlink | alignleft aligncenter alignright alignjustify | bullist numlist  | fullscreen code   ',
+	        toolbar2: '  formatselect | outdent indent | forecolor backcolor  | undo redo  ',
+    });
+}
+
+
+initTinymce();
+    
+function save(){
+	
+	tinymce.activeEditor.uploadImages(function(success) {
+			tinymce.triggerSave();
+	 		doSubmit();
+		});
+	return false;
+ }
+ 
+ function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				parent.layer.closeAll(); 
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ 
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/tinymce/tinymce.min.js"></script>
+</#macro>
+<#macro css>
+.editable-input {
+	width: 100%;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+</#macro>
+<@layout>
+<!-- Main content -->
+<section class="content" style="z-index: 9999">
+	<form action="${CPATH}/admin/comment/reply" id="form" method="post">
+		<input type="hidden" id="comment.parent_id" name="comment.parent_id" value="${(comment.id)!}"> 
+		<input type="hidden"  name="comment.content_id" value="${(comment.content_id)!}"> 
+		<input type="hidden"  name="comment.content_module" value="${(comment.content_module)!}"> 
+		<input type="hidden" name="ucode" value="${ucode}">
+		<div class="row">
+			<!-- /.col -->
+			<div class="col-md-12">
+				<div class="form-group">
+					您准备回复 ${comment.author!}在文章《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》评论的如下内容：<br />
+					${(comment.text)!}
+				</div>
+				<div class="box box-solid">
+					<div  class="box-body no-padding">
+					<textarea id="textarea"  name="comment.text" ></textarea>
+					</div>
+				</div>
+				
+				<div class="box box-solid">
+					<div  class="box-body no-padding">
+					<button type="button" class="btn btn-primary pull-right" onclick="save()">回复</button>
+					</div>
+				</div>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+</@layout>

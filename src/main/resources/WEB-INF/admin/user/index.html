@@ -1,0 +1,38 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function frozen(id){
+	$.get("${CPATH}/admin/user/frozen?ucode=${ucode}&id="+id, function(data){
+		if(data.errorCode > 0){
+			toastr.error(data.message,'操作失败');
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function restore(id){
+	$.get("${CPATH}/admin/user/restore?ucode=${ucode}&id="+id, function(data){
+		if(data.errorCode > 0){
+			toastr.error(data.message,'操作失败');
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/user/delete?ucode=${ucode}&id="+id, function(data){
+		if(data.errorCode > 0){
+			toastr.error(data.message,'操作失败');
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<#include include/>
+</@layout>
+
+
+

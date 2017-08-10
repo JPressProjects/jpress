@@ -1,0 +1,100 @@
+<#include "../_inc/_layout.html"/> 
+<#include "_option_script.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>水印设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+		通过水印的设置，保证上传图片的正确版权。
+	</p>
+
+	<form action="${CPATH}/admin/option/save" method="POST" id="form" enctype="multipart/form-data">
+		<input type="hidden" name="ucode" value="${ucode}"> <input
+			type="hidden" name="autosave" value="watermark_enable,watermark_image,watermark_transparency,watermark_position">
+		<div class="row">
+		<div class="col-xs-12">
+			<h4 class="jp-set-title">常规选项</h4>
+			<ul class="list-unstyled">
+			
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info "> 开启水印功能</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+						<label>
+							<input class=" " type="checkbox"
+								name="watermark_enable" value="true" ${OPTION_CHECKED('watermark_enable')}>  <span class="jp-set-info"> 是否开启水印功能</span></label>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">水印图片</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<#if OPTION('watermark_image') ??>
+								<img alt="" src="${OPTION('watermark_image')!}">
+							</#if>
+							<input class="form-control input-md" type="text"
+								name="watermark_image" value="${OPTION('watermark_image')!}">
+								<input name="watermark_image" type="file">
+							
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">透明度</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<input class="form-control input-md" type="text"
+								name="watermark_transparency"
+								value="${OPTION('watermark_transparency')!}">
+								透明度（0~1），PNG图片建议设置为1
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">水印位置</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+
+							<select name="watermark_position" >
+								<option value="1">左上角</option>
+								<option value="2">右上角</option>
+								<option value="3">正中间</option>
+								<option value="4">左下角</option>
+								<option value="5" selected='selected'>右下角</option>
+							</select>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+			</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+		<div class="col-xs-12">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+		</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+<!-- /.content -->
+
+</@layout>

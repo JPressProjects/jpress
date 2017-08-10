@@ -1,0 +1,62 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function doAjax(id){
+	 var url = "${CPATH}/admin/template/enable?ucode=${(ucode)!}&id="+id;
+	  $.get(url, function(result){
+			if(result.errorCode > 0){
+				toastr.error(result.message,'操作失败');
+			}else{
+				location.reload();
+			}
+	  }); 
+  }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>
+		<span class="jp-left "> 模板 
+		<span class="title-count theme-count">
+			<#if templateList ??>
+				${templateList.size()}
+			<#else>
+			 0	
+			</#if>
+		</span> 
+			<a href="${CPATH}/admin/template/install?p=template&c=install" class="btn btn-default btn-sm" type="button">安装新模板</a>
+		</span> <span class="jp-left input-group input-group-sm"> <input
+			class="form-control" size=40 type="search" placeholder="搜索" name=""
+			value="">
+		</span>
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="col-xs-12 jp-common-pad  ">
+		<div class="row">
+			<#if templateList ??>
+			<#list templateList as template>
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<div class="box box-solid">
+					<div class="template-item" >
+						<div class="template-item-image">
+							<img alt="" src="${CPATH}${template.screenshot!'/static/jpress/admin/image/nothumbnail.jpg'}">
+						</div>
+						<div class="template-item-footer cf">
+							<span id="" class="template-item-name">${template.title}</span>
+							<#if currentTemplate ?? && (currentTemplate.id! == template.id!) >
+							<button class="btn btn-default btn-sm pull-right" onclick="doAjax('${template.id!}')" disabled="disabled">已启用</button>  
+							<#else>
+							<button class="btn btn-default btn-sm pull-right" onclick="doAjax('${template.id!}')">启用</button>
+							</#if>
+						</div>
+					</div>
+				</div>
+			</div>
+			</#list>
+			</#if>
+		</div>
+	</div>
+</section>
+</@layout>

@@ -1,0 +1,154 @@
+<#macro script>
+</#macro> 
+<#macro script_import>
+</#macro> 
+<#macro css>
+</#macro> 
+<#macro css_import>
+</#macro> 
+<#macro layout active_id="" child_active_id="" >
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JPress</title>
+  <meta name=”renderer” content=”webkit”>
+  <meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+  	
+   	<!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.css">
+    <link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
+    
+  <!--[if lt IE 9]>
+  <script src="${CPATH}/static/plugins/html5/html5shiv.min.js"></script>
+  <script src="${CPATH}/static/plugins/html5/respond.min.js"></script>
+  <![endif]-->
+  <@css_import />
+   <link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css"> 
+   <style type="text/css">
+   <@css />
+   </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+	<#include "_header.html" />
+	<#include "_menu.html" />
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+	<#nested>  
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>JPress</b> ${JPRESS_VERSION!}
+    </div>
+    <strong>Copyright &copy; 2015-2016 <a href="http://jpress.io" target="_blank">JPress.io</a>.</strong> All rights
+    reserved.
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.1.4 -->
+<script src="${CPATH}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="${CPATH}/static/plugins/jquery/jquery.form.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="${CPATH}/static/plugins/fastclick/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="${CPATH}/static/lte/js/app.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="${CPATH}/static/jpress/admin/js/common.js"></script>
+<!-- layer -->
+<script src="${CPATH}/static/layer/layer.js"></script>
+<!-- pace -->
+<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
+<script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
+<@script_import />
+<script>
+<@script />   
+$(document).ready(function(){
+	initTree();
+	fix();
+	initUrls();
+	initToast();
+});
+
+function initTree(){
+<#if active_id!="" && active_id??>
+	var pActive = $("#${active_id}[class='treeview']");
+	pActive.attr("class","treeview active");
+<#if child_active_id!="" && child_active_id??>
+  	pActive.find("#${child_active_id}").attr("class","active");
+</#if>
+</#if>
+}
+
+function fix() {
+    var neg = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+    var window_height = $(window).height();
+    var sidebar_height = $(".sidebar").height();
+    
+    if (window_height >= sidebar_height + neg) {
+      $(".content-wrapper, .right-side").css('min-height', window_height - neg);
+    } else {
+      $(".content-wrapper, .right-side").css('min-height', sidebar_height );
+    }
+}
+  
+function initUrls(){
+	 $(".treeview-menu").each(function(){
+		var pid = $(this).parent().attr("id");
+		if(typeof(pid) == 'undefined' || null == pid){
+			return;
+		}
+		$(this).find('a').each(function(){
+			var cid = $(this).parent().attr("id");
+			var href  = $(this).attr("href");
+			if(href.indexOf("?") == -1){
+				href = href+ "?p="+pid;
+			}else{
+				href = href+ "&p="+pid;
+			}
+			if("undefined" != typeof(cid) && "" != cid){
+				href +=  "&c="+cid;
+			}
+			$(this).attr("href",href);
+		});
+	});
+}
+
+function initToast(){
+	toastr.options = {
+			  "closeButton": true,
+			  "debug": false,
+			  "newestOnTop": false,
+			  "progressBar": true,
+			  "positionClass": "toast-top-center",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "1000",
+			  "timeOut": "2000",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
+	
+}
+</script>
+</body>
+</html>
+</#macro>

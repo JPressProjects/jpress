@@ -1,0 +1,156 @@
+
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">属性设置</h3>
+
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body no-padding">
+		<!-- Custom Tabs -->
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#tab_1" data-toggle="tab">常用</a>
+				</li>
+				<li>
+					<a href="#tab_seo" data-toggle="tab">SEO</a>
+				</li>
+				<#if module.styles ??>
+				<li>
+					<a href="#tab_style" data-toggle="tab">样式</a>
+				</li>
+				</#if>
+				<li>
+					<a href="#tab_position" data-toggle="tab">位置</a>
+				</li>
+				<li>
+					<a href="#tab_remarks" data-toggle="tab">备注</a>
+				</li>
+				<li>
+					<a href="#tab_metadata" data-toggle="tab">元数据</a>
+				</li>
+
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active form-horizontal" id="tab_1">
+                <div class="form-group">
+                  <label for="_flag" class="col-sm-1 control-label">标识</label>
+                  <div class="col-sm-11">
+                    <input type="text" class="form-control" name="content.flag" id="_flag"  value="${(content.flag)!}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="_uname" class="col-sm-1 control-label">作者</label>
+                  <div class="col-sm-11">
+                    <input type="text" class="form-control" id="_uname" name="username" value="${(content.username)!}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="_uname" class="col-sm-1 control-label">评论</label>
+                  <div class="col-sm-11">
+	                  <select class="form-control" name="content.comment_status">
+	                    <option value="">默认</option> 
+	                    <#if (content.comment_status)?? && "open" == content.comment_status >
+						<option value="open" selected="selected">开启</option> <#else>
+						<option value="open">开启</option> </#if> <#if (content.comment_status)?? && "close" == content.comment_status >
+						<option value="close" selected="selected">关闭</option> <#else>
+						<option value="close">关闭</option> </#if>
+	                  </select>
+                  </div>
+                </div>
+              
+				</div>
+				<!-- /.tab-pane -->
+				<div class="tab-pane " id="tab_seo">
+					<div class="form-group ">
+						<textarea class="form-control " rows="2" name="content.meta_keywords" placeholder="请输入关键字">${(content.meta_keywords)!}</textarea>
+					</div>
+					<div class="form-group ">
+						<textarea class="form-control" rows="2" name="content.meta_description" placeholder="请输入描述内容">${(content.meta_description)!}</textarea>
+					</div>
+				</div>
+				
+				<#if module.styles ??>
+				<div class="tab-pane" id="tab_style">
+					<div class="form-group">
+	                  <div class="radio">
+	                    <label>
+	                      <#if (content.style) ??>
+	                      <input type="radio" name="content.style"  value="" >
+	                      <#else>
+	                      <input type="radio" name="content.style"  value="" checked="checked">
+	                      </#if>
+	                      样式:默认
+	                    </label>
+	                  </div>
+	                  <#list module.styles! as style >
+	                  <#if (content.style)?? && content.style == style>
+		                  <div class="radio">
+		                    <label>
+		                      <input type="radio" name="content.style"  value="${style}" checked="checked">
+		                      样式：${style}
+		                    </label>
+		                  </div>
+	                  <#else>
+	                  	 <div class="radio">
+		                    <label>
+		                      <input type="radio" name="content.style"  value="${style}">
+		                      样式：${style}
+		                    </label>
+		                  </div>
+	                  </#if>
+	                  </#list>
+					</div>
+				</div>
+				</#if>
+				
+				<div class="tab-pane form-horizontal" id="tab_position">
+					
+	               <div class="form-group">
+	                 <label for="_lng" class="col-sm-1 control-label">经度</label>
+	
+	                 <div class="col-sm-11">
+	                   <input type="text" class="form-control" id="_lng" name="content.lng" value="${(content.lng)!}">
+	                 </div>
+	               </div>
+	               <div class="form-group">
+	                 <label for="_lat" class="col-sm-1 control-label">纬度</label>
+	                 <div class="col-sm-11">
+	                   <input type="text" class="form-control" id="_lat" name="content.lat" value="${(content.lat)!}">
+	                 </div>
+	               </div>
+				</div>
+				
+				<div class="tab-pane " id="tab_remarks">
+					<div class="form-group">
+						<textarea class="form-control" rows="3" name="content.remarks" placeholder="请输入备注信息">${(content.remarks)!}</textarea>
+					</div>
+				</div>
+				
+				
+				<div class="tab-pane form-horizontal" id="tab_metadata">
+				
+				<#list module.metadatas as metadata>
+					 <div class="form-group">
+		                 <label for="meta:${metadata.name!}" class="col-sm-1 control-label" style="width: 10%">${metadata.title!}</label>
+		                 <div class="col-sm-11" style="width: 90%">
+		                   <input type="text" class="form-control" placeholder="${metadata.placeholder!}" id="meta:${metadata.name!}" name="meta:${metadata.name!}" value="${(content.metadata(metadata.name))!}">
+		                 </div>
+		              </div>
+		        <#else>
+		         	模板没有元数据定义
+				</#list>
+				
+				</div>
+				<!-- /.tab-pane -->
+			</div>
+			<!-- /.tab-content -->
+		</div>
+		<!-- nav-tabs-custom -->
+	</div>
+</div>

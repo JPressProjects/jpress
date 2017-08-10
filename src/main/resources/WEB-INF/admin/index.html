@@ -1,0 +1,207 @@
+<#include "_inc/_layout.html"/>
+<#macro script>
+function trash(id){
+	$.get("${CPATH}/admin/comment/trash?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function restore(id){
+	$.get("${CPATH}/admin/comment/restore?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function pub(id){
+	$.get("${CPATH}/admin/comment/pub?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function draft(id){
+	$.get("${CPATH}/admin/comment/draft?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function del(id){
+	$.get("${CPATH}/admin/comment/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+
+function reply(id){
+ 	layer.open({
+			    type: 2,
+			    title: '回复评论',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['70%', '70%'],
+			    content: '${CPATH}/admin/comment/reply_layer?id='+id,
+			    end:function(){
+			    	location.reload();
+			    }
+			}); 
+ 
+ }
+
+</#macro> 
+<@layout active_id="dashboard" >
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>JPress面板</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row">
+		<div class="col-md-6">
+			<!-- Line chart -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">概览</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+
+					<#list modules! as module>
+					<div class="row chart-row">
+						<div class="col-xs-4">
+							<a class="chart-item" href="${CPATH}/admin/content?m=${module.name!}&p=${module.name!}&c=list">
+								<p class="chart-item-title">${module.title!}总计</p>
+								<h3 class="chart-item-amount">${module.findNotDeleteContentCount()!}</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+						<div class="col-xs-4">
+							<a class="chart-item" href="${CPATH}/admin/content?m=${module.name!}&p=${module.name!}&c=list">
+								<p class="chart-item-title">${module.title!}草稿</p>
+								<h3 class="chart-item-amount">${module.findDraftContentCount()!}</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+						<div class="col-xs-4">
+							<a class="chart-item" href="#">
+								<p class="chart-item-title">${module.title!}垃圾箱</p>
+								<h3 class="chart-item-amount">${module.findDeleteContentCount()!}</h3>
+								<span class="chart-item-bottom chart-bottom-c3"></span>
+							</a>
+						</div>
+					</div>
+					</#list>
+				</div>
+				<!-- /.box-body-->
+			</div>
+			<!-- /.box -->
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">最近发布</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<div id="subsubsub" class="rss-widget">
+						<ul class="list-unstyled ">
+							<#list contents! as content>
+							<li>
+								<span>${content.created!}</span>
+								<a href="${content.url!}" target="_blank">${content.title!}</a>
+							</li>
+							</#list>
+						</ul>
+					</div>
+				</div>
+				<!-- /.box-body-->
+			</div>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+
+		<div class="col-md-6">
+
+			<!-- Donut chart -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">最新评论</h3>
+
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+
+					</div>
+				</div>
+				<div class="box-body">
+				
+					<#list comments! as comment>
+					<div class="comment-item cf">
+						<div class="comment-item-avatar">
+							<a href="">
+								<img src="${CPATH}/static/jpress/admin/image/avatar.jpg" />
+							</a>
+						</div>
+						<div class="comment-item-content">
+							<p>
+								<a href="${CPATH}/admin/user/edit?id=${comment.user_id!}&c=list&p=user"> ${(comment.user.username)!comment.author!} </a>
+								评论了 <span>《<a href="${comment.contentUrl!}" target="_blank">${comment.content_title!}</a>》
+								评论状态：
+							<#if "normal" == comment.status!><a class="comment-item-green" href="javascript:;"> √ 通过审核</a></#if>
+							<#if "draft" == comment.status!><a class="comment-item-red" href="javascript:;">待审核...</a></#if>
+								</span>
+							</p>
+							<p>${comment.text!} </p>
+							<p class="comment-item-actions">
+								<span ><a class="comment-item-blue" href="javascript:reply(${comment.id})">回复</a></span>
+								<#if "draft" != comment.status!>
+								<span >|<a class="comment-item-blue" href="javascript:draft(${comment.id})">移至待审核</a></span>
+								<#else>
+								<span >|<a class="comment-item-green" href="javascript:pub(${comment.id})">批准发布</a></span>
+								</#if>
+								<span >|<a class="comment-item-red" href="javascript:trash(${comment.id})">移至垃圾箱</a></span> 
+								<span >|<a class="comment-item-red" href="javascript:del(${comment.id})">永久删除</a></span> 
+									
+							</p>
+						</div>
+						<div class="comment-item-time">${comment.created!}</div>
+					</div>
+					</#list>
+				</div>
+
+			</div>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>

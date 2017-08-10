@@ -1,0 +1,32 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post",
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					toastr.success(data.message,'操作成功');
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+	
+	<#if include ??>
+ 		<#include include/>
+ 	<#else>
+ 		该模板没有提供设置功能。模板设置功能请查看帮助文档：http://wiki.jpress.io/template_setting
+ 	</#if>
+ 	
+ 	
+</@layout>
+
+
+

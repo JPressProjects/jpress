@@ -1,0 +1,125 @@
+<#include "../_inc/_layout.html"/>
+<#macro script>
+
+var reload = false;
+function openlayer(id){
+	reload = false;
+ 	layer.open({
+			    type: 2,
+			    title: '附件详情',
+			    shadeClose: true,
+			    shade: 0.8,
+			    area: ['70%', '90%'],
+			    content: '${CPATH}/admin/attachment/detail_layer?id='+id,
+			    end:function(){
+			    	if(reload){
+			    		location.reload();
+			    	}
+			    }
+			}); 
+ 
+ }
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>
+		附件信息
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row content-row">
+	
+			<form action="${CPATH}/admin/attachment?&p=${p!}&c=${c!}&k=${k!}" method="POST">
+			<div class="jp-left ">
+				<select style="width: 150px" class="form-control input-sm" name="mime" >
+					<option value="">所有附件类型</option>
+					<#if mime??&&mime=='image'>
+					<option value="image" selected="selected">图像</option>
+					<#else>
+					<option value="image">图像</option>
+					</#if>
+					
+					<#if mime??&&mime=='audio'>
+					<option value="audio" selected="selected" >音频</option>
+					<#else>
+					<option value="audio"  >音频</option>
+					</#if>
+					
+					<#if mime??&&mime=='video'>
+					<option value="video" selected="selected">视频</option>
+					<#else>
+					<option value="video" >视频</option>
+					</#if> 
+					
+				</select>
+			</div>
+
+			<div class="jp-left ">
+				<select style="width: 150px" class="form-control input-sm" name="dm" >
+					<option value="">全部日期</option>
+					<#if archives ??>
+					<#list archives as archive>
+						<#if dm??&&dm==archive.date!>
+						<option value="${archive.date!}" selected="selected" >${archive.date!}</option>
+						<#else>
+						<option value="${archive.date!}"  >${archive.date!}</option>
+						</#if> 
+					</#list>
+					</#if>
+				</select>
+			</div>
+			<div class="jp-left ">
+				<button class="btn  btn-sm btn-default" type="submit">筛选</button>
+			</div>
+			</form>
+			
+			<form action="${CPATH}/admin/attachment?&p=${p!}&c=${c!}&dm=${dm!}&mime=${mime!}" method="POST">
+			<div class="jp-right ">
+				<input class="form-control jp-inp-width280" name="k" value="${k!}" type="text" placeholder="搜索">
+			</div>
+			</form>
+	</div>
+	<div class="col-xs-12  ">
+		<div class="row">
+			<div class="box ">
+				<div class="box-body ">
+
+
+					<div class="col-xs-12 ">
+						<div class="row">
+							<ul class="list-inline list-unstyled">
+								<#if page??> 
+								<#list page.getList() as bean>
+									<li>
+									<#if bean.isImage() >
+										<img src="${CPATH}${bean.path!}" title="${bean.title!}" alt="${bean.title!}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+									<#else>
+										<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg"  title="${bean.title!}" alt="${bean.title!}" class="jp-grids-photos img-responsive" onclick="openlayer('${bean.id}')">
+									</#if>
+									</li>
+								</#list> 
+								</#if>
+							</ul>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cf">
+		<div class="pull-right ">
+			<#if page??> 
+			<#include "../_inc/_paginate.html" /> 
+			<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="?p="+(p!)+"&c="+(c!)+"&dm="+(dm!)+"&mime="+(mime!)+"&k="+(k!)+"&page="/> 
+			</#if>
+		</div>
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>

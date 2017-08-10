@@ -1,0 +1,32 @@
+<@style content=content! module=module! /> 
+<#macro style content module>
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">样式</h3>
+
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body no-padding">
+		<ul class="nav">
+		
+			<#list module.styles! as style >
+			<li class="jp-release-set">
+				<div class="radio jp-cancel-pad">
+					<label> 
+					<input type="radio" name="content.style" value="${style}">
+					<i class="fa fa-envelope-o"></i>${style}
+					</label>
+				</div>
+			</li>
+			</#list>
+		</ul>
+	</div>
+	<!-- /.box-body -->
+</div>
+<!-- /.box -->
+</#macro>

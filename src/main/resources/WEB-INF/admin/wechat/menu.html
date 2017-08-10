@@ -1,0 +1,159 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					window.location.href="${CPATH}/admin/wechat/menu?p=wechat&c=menu";
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ function doMenuDel(id){
+ 	$.get("${CPATH}/admin/wechat/menuDel?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+ }
+ 
+ function doSync(){
+ 	$.get("${CPATH}/admin/wechat/menuSync?ucode=${ucode}", function(result){
+		if(result.errorCode > 0){
+			toastr.error(result.message+"<br />(错误号："+result.errorCode+")",'操作失败');
+		}else{
+			toastr.success("同步成功！");
+		}
+	});
+ 
+ }
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>菜单设置</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-md-4">
+			<form id="form" action="${CPATH}/admin/wechat/menuSave" method="POST">
+				<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="content.id" value="${(wechat_menu.id)!}">
+				<h4 class="jp-common-pad">添加新菜单</h4>
+				<div class="form-group jp-input-item">
+					<label for="tag-name" class="input-title">名称</label> <input id="tag-name" class="form-control" type="text" name="content.title" value="${(wechat_menu.title)!}">
+					<p>这将显示在微信的菜单底部。</p>
+				</div>
+
+				<div class="form-group ">
+					<div class="col-xs-5 jp-common-pad">
+						<label class="input-title">菜单类型</label> 
+						<select class="form-control input-sm" name="content.flag">
+							<option value="click"  ${click_selected!}>点击推事件</option>
+							<option value="view" ${view_selected!} >跳转URL</option>
+							<option value="scancode_push" ${scancode_push_selected!}>扫码推事件</option>
+							<option value="scancode_waitmsg" ${scancode_waitmsg_selected!}>扫码推事件且弹出“消息接收中”提示框</option>
+							<option value="pic_sysphoto" ${pic_sysphoto_selected!}>弹出系统拍照发图</option>
+							<option value="pic_photo_or_album" ${pic_photo_or_album_selected!}>弹出拍照或者相册发图</option>
+							<option value="pic_weixin" ${pic_weixin_selected!}>弹出微信相册发图器</option>
+							<option value="location_select" ${location_select_selected!}>弹出地理位置选择器</option>
+						</select>
+					</div>
+					<div class="clr"></div>
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">关键字</label> <input id="tag-slug" class="form-control" type="text" name="content.text" value="${(wechat_menu.text)!}">
+					<p>填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。</p>
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">排序</label> <input id="tag-slug" class="form-control" type="text" name="content.order_number" value="${(wechat_menu.order_number)!}">
+					<p>排序数字。</p>
+				</div>
+				<div class="form-group jp-input-item">
+					<div class="col-xs-5 jp-common-pad">
+						<label class="input-title">父节点</label> <select class="form-control input-sm" name="content.parent_id">
+							<option value="">无</option> 
+							<#list wechat_menus! as menu>
+							<#if wechat_menu ??>
+								<#if  menu.id?? && wechat_menu.parent_id?? && menu.id == wechat_menu.parent_id	>
+								<option value="${menu.id}" selected="selected">${menu.layerString!}${menu.title!}</option> 
+								<#else>
+								<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> 
+								</#if>
+							<#else>
+							<option value="${menu.id}">${menu.layerString!}${menu.title!}</option> 
+							</#if>
+							</#list>
+						</select>
+					</div>
+					<div class="clr"></div>
+					<p>父级菜单。</p>
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-8 ">
+			<div class="col-xs-12 jp-common-pad ">
+				<div class="jp-left  ">
+					<button class="btn  btn-sm btn-default" type="button" onclick="doSync()">同步到微信菜单</button>
+				</div>
+			</div>
+			<div class="clr"></div>
+			<div class="box " >
+
+				<!-- /.box-header -->
+				<div class="box-body jp-common-pad">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 30%">名称</th>
+								<th>菜单类型</th>
+								<th>关键字</th>
+								<th>排序</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<#list wechat_menulist! as bean>
+							<tr class="jp-onmouse">
+								<td><strong><a href="#">${bean.layerString}${bean.title}</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-common-pad">
+											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span> <span class="spam">| <a class="vim-s vim-destructive"
+													href="javascript:doMenuDel('${bean.id}')">删除</a>
+											</span>
+										</p>
+									</div></td>
+								<td>${bean.flag!}</td>
+								<td>${bean.text!}</td>
+								<td>${bean.order_number!}</td>
+							</tr>
+							</#list>
+						</tbody>
+
+					</table>
+				</div>
+				<!-- /.box-body -->
+				<!-- /.box-footer -->
+			</div>
+
+			<!-- /. box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>

@@ -1,0 +1,158 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/eclipse");
+var editFileName = "${(editFile.name)!}";
+var model = ace.require("ace/mode/jsp").Mode;
+if(editFileName.indexOf(".css")!=-1){
+	model = ace.require("ace/mode/css").Mode;
+}else if(editFileName.indexOf(".js")!=-1){
+	model = ace.require("ace/mode/javascript").Mode;
+}else if(editFileName.indexOf(".xml")!=-1){
+	model = ace.require("ace/mode/xml").Mode;
+}
+editor.session.setMode(new model());
+
+function doSubmit(){
+	$("#fileContent").attr("value",editor.getSession().getValue());
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					toastr.success('保存成功！','操作成功');
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+	return false;
+ }
+ 
+var commandkeydown = false;
+$(document).keydown(function(e){
+	if(e.keyCode == 91 || e.keyCode == 224){
+		commandkeydown = true;
+	}
+	if(commandkeydown && e.keyCode == 83){
+		commandkeydown = false;
+		return doSubmit();
+	}
+	if( e.ctrlKey  == true && e.keyCode == 83 ){
+		console.log('ctrl+s');
+		return doSubmit(); // 截取返回false就不会保存网页了
+	}
+});
+$(document).keyup(function(e){
+	if(e.keyCode == 91 || e.keyCode == 224){
+		commandkeydown = false;
+	}
+});
+
+</#macro>
+<#macro css_import>
+<style>
+#editor {
+        height: 500px;
+    }
+</style>
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/ace/ace.js"></script>
+<script src="${CPATH}/static/ace/theme-eclipse.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-jsp.js" type="text/javascript" charset="utf-8"></script>
+<script src="${CPATH}/static/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+</#macro> 
+<@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>编辑模板</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<!-- /.col -->
+		<div class="col-xs-12 ">
+			<div class="">
+				<span class="jp-left"> 正在编辑模板文件：${(editFile.name)!}（活跃） </span>
+				<form class="form-horizontal jp-right" action="" >
+					<input type="hidden" name="c" value="${c}">
+					<input type="hidden" name="p" value="${p}">
+					<div class="jp-right ">
+						<button class="btn  btn-sm btn-default" type="submit">选择</button>
+					</div>
+
+					<div class="jp-right">
+						<select style="width: 160px" class="form-control input-sm" name="d" >
+							<option value="/">/</option>
+							<#if dirs ??>
+							<#list dirs as dir>
+								<#if dir.name == d!>
+								<option value="${dir.name!}" selected="selected">${dir.name!}</option>
+								<#else>
+								<option value="${dir.name!}" >${dir.name!}</option>
+								</#if>
+							</#list>
+							</#if>
+						</select>
+					</div>
+					<div class="jp-right jp-line-height30">选择目录：</div>
+					<div class=clr></div>
+				</form>
+			</div>
+			<div class="clr"></div>
+		</div>
+		<div class="col-md-9">
+			<form action="${CPATH}/admin/template/editsave" method="post" id="form">
+				<input type="hidden" name="d" value="${d!}">
+				<input type="hidden" name="f" value="${f!}">
+				<input type="hidden" name="fileContent"  value="" id="fileContent">
+				<div class="box ">
+					<div class=" box-info">
+						<div id="editor" >${fileContent!}</div>
+						<div class="clr"></div>
+					</div>
+				</div>
+				<div class="jp-set-pad">
+					<p>提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）</p>
+				</div>
+				<div class="jp-set-pad">
+					<button class="btn btn-primary" type="submit" onclick="return doSubmit();">更新文件</button>
+				</div>
+				<!-- /. box -->
+			</form>
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3">
+			<h2>模板文件</h2>
+			<ul class="list-unstyled">
+				<#if files ??>
+				<#list files as file>
+					<#if file.name == f!>
+					<li class=" ">
+						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}"><b>${file.name!} （编辑中...）</b></a>
+					</li>
+					<#else>
+					<li class=" ">
+						<a href="${CPATH}/admin/template/edit?p=${p}&c=${c}&f=${file.name!}&d=${d!}">${file.name!} </a>
+					</li>
+					</#if>
+				</#list>
+				</#if>
+			</ul>
+		</div>
+
+	</div>
+	<!-- /.row -->
+
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

@@ -1,0 +1,52 @@
+<section class="content" style="padding-top: 0">
+	<div class="row">
+		<div class="col-md-12">
+			<form action="${CPATH}/admin/taxonomy/doSaveSettings" method="POST" id="form">
+				<input type="hidden" name="taxonomy.id" value="${(taxonomy.id)!}"> <input type="hidden" name="ucode" value="${ucode}">
+
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_flag" class="input-title">Flag标识</label> <input id="taxonomy_flag" class="form-control" type="text" name="taxonomy.flag" value="${(taxonomy.flag)!}">
+				</div>
+
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_slug" class="input-title">图标</label> <input id="taxonomy_slug" class="form-control" type="text" name="taxonomy.icon" value="${(taxonomy.icon)!}">
+					<p>
+						图标只用于前台显示，是否显示决定于模板。支持
+						<a href="http://fontawesome.io/icons/" target="_blank">font-awesome</a>
+						的所有图标，填写其样式名称即可。亦或者填写模板需要的图片路径或内容。
+					</p>
+				</div>
+
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_keywords" class="input-title">SEO关键字</label>
+					<textarea id="taxonomy_keywords" class="form-control" name="taxonomy.meta_keywords" rows="2">${(taxonomy.meta_keywords)!}</textarea>
+					<p>用于设置该分类的列表的SEO关键字。</p>
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_desc" class="input-title">SEO描述</label>
+					<textarea id="taxonomy_desc" class="form-control" name="taxonomy.meta_description" rows="2">${(taxonomy.meta_description)!}</textarea>
+					<p>用于设置该分类的列表的SEO描述内容。</p>
+				</div>
+
+				<#list type.metadatas as metadata>
+				<div class="form-group jp-input-item">
+					<label for="meta:${metadata.name!}" class="input-title">${metadata.title!}</label> <input id="meta:${metadata.name!}" type="text" class="form-control" placeholder="${metadata.placeholder!}"
+						name="meta:${metadata.name!}" value="${(taxonomy.metadata(metadata.name))!}">
+					<p>${metadata.description!}</p>
+				</div>
+				</#list>
+
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_lng" class="input-title">地理位置经度</label> <input id="taxonomy_lng" class="form-control" type="text" name="taxonomy.lng" value="${(taxonomy.lng)!}">
+				</div>
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_lat" class="input-title">地理位置纬度</label> <input id="taxonomy_lat" class="form-control" type="text" name="taxonomy.lat" value="${(taxonomy.lat)!}">
+				</div>
+
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保 存</button>
+
+			</form>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>

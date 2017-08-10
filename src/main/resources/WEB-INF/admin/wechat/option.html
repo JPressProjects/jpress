@@ -1,0 +1,168 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					toastr.success(data.message,'操作成功');
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<#assign enables>
+<#if modules ??> 
+<#list modules as module>
+wechat_search_${module.name}_enable,
+</#list>
+</#if>
+</#assign>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>微信设置1</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg"> 通过JPress的微信设置，让JPress网站和微信公众号互动互通。</p>
+
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="wechat_appid,wechat_appsecret,wechat_token,wechat_dkf_enter_key,wechat_dkf_quit_key,${enables}">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">常规选项</h4>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信AppID</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_appid" value="${OPTION('wechat_appid')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信APPSecret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_appsecret" value="${OPTION('wechat_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信 Token</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_token" value="${OPTION('wechat_token')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-title">多客服</h4>
+				<ul class="list-unstyled">
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">进入多客服关键字</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_dkf_enter_key" value="${OPTION('wechat_dkf_enter_key')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">退出多客服关键字</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_dkf_quit_key" value="${OPTION('wechat_dkf_quit_key')!}">
+								默认，如果用户5分钟未咨询，也会自动退出多客服。
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-title">搜索</h4>
+				<#if modules ??> <#list modules as module>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">${module.title!}搜索功能开启</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label>
+								<input type="checkbox" value="true" name="wechat_search_${module.name}_enable"  ${OPTION_CHECKED('wechat_search_'+module.name+'_enable')}>开启
+								</label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">${module.title!} 搜素前缀</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_search_${module.name}_prefix">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">${module.title!} 搜索结果条数</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="wechat_search_${module.name}_count">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+				</ul>
+				</#list> </#if>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+<!-- /.content -->
+
+</@layout>

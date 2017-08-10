@@ -1,0 +1,87 @@
+<#include "../_inc/_layout.html"/>
+<#include "_option_script.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>评论设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+		通过评论的设置功能，方便控制评论细节，防止评论垃圾。
+	</p>
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+	<input type="hidden" name="ucode" value="${ucode}"> 
+	<input type="hidden" name="autosave" value="comment_allow_not_login,comment_must_audited,comment_need_captcha,comment_default_nickname,comment_default_avatar">
+	<div class="row">
+		<div class="col-xs-12">
+		<h4 class="jp-set-title">常规选项</h4>
+		<ul class="list-unstyled">
+			<li class="jp-set-pad">
+				<div class="col-sm-3 ">
+					<div class="  jp-set-info ">基本设置</div>
+				</div>
+				<div class="col-sm-9  jp-set-title-line">
+					<div class="col-sm-6 jp-table-distance-top ">
+						<div class="checkbox">
+							<label><input type="checkbox" value="true" name="comment_allow_not_login" ${OPTION_CHECKED('comment_allow_not_login')}> 允许未登录用户发表评论。</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="true" name="comment_must_audited" ${OPTION_CHECKED('comment_must_audited')}> 评论必须经过管理员审核。 </label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="true" name="comment_need_captcha" ${OPTION_CHECKED('comment_need_captcha')}> 开启评论验证码功能。 </label>
+						</div>
+					</div>
+				</div>
+				<div class="clr"></div>
+			</li>
+
+
+		</ul>
+		</div>
+		<!-- /.box -->
+	</div>
+	<div class="row">
+	<div class="col-xs-12">
+		<h4 class="jp-set-pad jp-set-title">未登录评论设置</h4>
+		<ul class="list-unstyled">
+			<li class="jp-set-pad">
+				<div class="col-sm-3  jp-set-info">未登录用户昵称</div>
+				<div class="col-sm-9  jp-set-title-line">
+					<div class="col-sm-6 jp-table-distance-top ">
+						<input type="text" class="form-control input-md" placeholder="不填写默认为 网友" name="comment_default_nickname" value="${OPTION('comment_default_nickname')!}" />
+					</div>
+				</div>
+				<div class="clr"></div>
+			</li>
+			<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="jp-set-info ">未登录用户头像</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<#if OPTION('comment_default_avatar') ??>
+								<img alt="" src="${OPTION('comment_default_avatar')!}">
+							</#if>
+							<input class="form-control input-md" type="text"
+								name="comment_default_avatar" value="${OPTION('comment_default_avatar')!}">
+								<input name="comment_default_avatar" type="file" >
+							
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+		</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<button type="button" class="btn btn-primary" onclick="doSubmit()">保存更改</button>
+		</div>
+	</div>
+	</form>
+</section>
+<!-- /.content -->
+
+</@layout>

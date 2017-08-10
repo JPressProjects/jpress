@@ -1,0 +1,23 @@
+<#include "../_inc/_layer_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					parent.reload = true;
+					parent.layer.closeAll(); 
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout >
+<#include include/>
+</@layout>

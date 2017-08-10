@@ -1,0 +1,271 @@
+<#include "../_inc/_layout.html"/> 
+<#include "_option_script.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>登录注册设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+	通过此功能，更加方便的控制登录和注册的相关功能，以及第三方登录的设置。
+	</p>
+
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> <input type="hidden" name="autosave"
+			value="register_email_valid_enable,register_email_valid_content,register_sms_valid_enable,register_sms_valid_content,oauth2_qq_appkey,oauth2_qq_appsecret,oauth2_wechat_appkey,oauth2_wechat_appsecret,oauth2_weibo_appkey,oauth2_weibo_appsecret,oauth2_oschina_appkey,oauth2_oschina_appsecret,oauth2_github_appkey,oauth2_github_appsecret,oauth2_facebook_appkey,oauth2_facebook_appsecret,oauth2_twitter_appkey,oauth2_twitter_appsecret,oauth2_linkedin_appkey,oauth2_linkedin_appsecret">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">常规选项</h4>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">是否邮件验证</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="register_email_valid_enable" value="true"${OPTION_CHECKED('register_email_valid_enable')}  > <span class="jp-set-info"> 启用</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">邮件模板</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<textarea name="register_email_valid_content" rows="3" class="form-control input-md">${OPTION('register_email_valid_content')!}</textarea>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">是否短信验证</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="register_sms_valid_enable" value="true"${OPTION_CHECKED('register_sms_valid_enable')}  ><span class="jp-set-info"> 启用</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">短信模板</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<textarea name="register_sms_valid_content" rows="3" class="form-control input-md">${OPTION('register_sms_valid_content')!}</textarea>
+								请先在 <a href="${CPATH}/admin/option/notification?p=option&c=n">[通知]</a> 开启短信验证后才能使用。
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-title">第三方登录</h4>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">QQ App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_qq_appkey" value="${OPTION('oauth2_qq_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">QQ App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_qq_appsecret" value="${OPTION('oauth2_qq_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信 App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_wechat_appkey" value="${OPTION('oauth2_wechat_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">微信 App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_wechat_appsecret" value="${OPTION('oauth2_wechat_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">新浪微博 App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_weibo_appkey" value="${OPTION('oauth2_weibo_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">新浪微博 App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_weibo_appsecret" value="${OPTION('oauth2_weibo_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">开源中国 App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_oschina_appkey" value="${OPTION('oauth2_oschina_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">开源中国 App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_oschina_appsecret" value="${OPTION('oauth2_oschina_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Github App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_github_appkey" value="${OPTION('oauth2_github_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Github App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_github_appsecret" value="${OPTION('oauth2_github_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Facebook App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_facebook_appkey" value="${OPTION('oauth2_facebook_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Facebook App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_facebook_appsecret" value="${OPTION('oauth2_facebook_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Twitter App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_twitter_appkey" value="${OPTION('oauth2_twitter_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">Twitter App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_twitter_appsecret" value="${OPTION('oauth2_twitter_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">LinkedIn App Key</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_linkedin_appkey" value="${OPTION('oauth2_linkedin_appkey')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">LinkedIn App Secret</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="oauth2_linkedin_appsecret" value="${OPTION('oauth2_linkedin_appsecret')!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+<!-- /.content -->
+
+</@layout>

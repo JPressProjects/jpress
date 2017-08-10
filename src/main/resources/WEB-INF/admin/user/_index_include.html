@@ -1,0 +1,119 @@
+<section class="content-header">
+	<h1>
+		用户列表
+	</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row content-row">
+		<ul class="jp-common-pad list-inline" style="float: left">
+			<li class="all">
+				<a class="current" href="#">
+					全部 <span class="count">（${userCount!'0'}）</span>
+				</a>
+				|
+			</li>
+			<li class="publish">
+				<a href="#">
+					管理员 <span class="count">（${adminCount!'0'}）</span>
+				</a>
+			</li>
+
+		</ul>
+
+
+		<form class="form-horizontal" style="float: right">
+
+			<div class="input-group input-group-sm">
+				<input id="post-search-input" class="form-control" type="search" value="" name="" placeholder="搜索">&nbsp; <input id="search-submit" class="btn btn-default btn-sm" type="submit"
+					value="搜索用户">
+			</div>
+
+		</form>
+	</div>
+	<div class="row content-row">
+
+		<div class="jp-left ">
+			<select style="width: 120px" class="form-control input-sm"  >
+				<option value="10">批量操作</option>
+				<option value="25">删除</option>
+			</select>
+		</div>
+		<div class="jp-left  ">
+			<button class="btn  btn-sm btn-default" type="button">应用</button>
+		</div>
+
+		<div class="jp-left ">
+			<select style="width: 120px" class="form-control input-sm"  >
+				<option value="10">将角色更为</option>
+				<option value="25">订阅者</option>
+				<option value="50">投稿者</option>
+				<option value="25">作者</option>
+				<option value="50">编辑</option>
+				<option value="25">管理员</option>
+
+			</select>
+		</div>
+		<div class="jp-left  ">
+			<button class="btn  btn-sm btn-default" type="button">筛选</button>
+		</div>
+	</div>
+
+
+	<div class="box ">
+
+		<!-- /.box-header -->
+		<div class="box-body jp-common-pad">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="width: 20px"><label class="jp-common-pad "> <input class="jp-common-pad " id="dataItem" onclick="checkAll(this)" title="全选" type="checkbox">
+						</label></th>
+						<th style="width: 20%">用户名</th>
+						<th>昵称</th>
+						<th>简介</th>
+						<th>电子邮件</th>
+						<th>角色</th>
+						<th>文章数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if page??> <#list page.getList() as bean>
+					<tr class="jp-onmouse">
+						<td><label class="jp-common-pad"> <input class="jp-common-pad" name="dataItem" type="checkbox">
+						</label></td>
+						<td>
+						<strong><a href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">${bean.username!}</a> <#if "frozen" == bean.status!> (冻结)</#if></strong>
+							<div class="jp-flash-comment">
+								<p class="row-actions jp-cancel-pad">
+									<span class="approve"> <a class="vim-a" href="${CPATH}/admin/user/edit?id=${bean.id}&c=${c!}&p=${p!}">编辑</a></span>
+									<#if "frozen" != bean.status!> 
+									<span class="spam"> | <a class="vim-s vim-destructive" href="javascript:;" onclick="frozen('${bean.id}')">冻结</a></span> 
+									<#else> 
+									<span class="approve"> | <a class="vim-a" href="javascript:;" onclick="restore('${bean.id}')">解冻</a></span> 
+									</#if>
+									<span class="spam"> | <a class="vim-s vim-destructive" href="javascript:;" onclick="del('${bean.id}')">永久删除</a></span> 
+								</p>
+							</div>
+						</td>
+						<td>${bean.nickname!}</td>
+						<td>${bean.signature!}</td>
+						<td>${bean.email!}</td>
+						<td>${bean.role!}</td>
+						<td>${bean.content_count!'0'}</td>
+					</tr>
+					</#list> </#if>
+				</tbody>
+
+			</table>
+		</div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+
+	<div class="cf">
+		<div class="pull-right"><#include "../_inc/_paginate_wrapper.html" /></div>
+	</div>
+	<!-- /.row -->
+</section>

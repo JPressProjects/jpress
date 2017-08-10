@@ -1,0 +1,72 @@
+<#include "../_inc/_layout.html"/> 
+<#include "_option_script.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>CDN网站加速设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">通过CDN网站加速设置，让网站图片、css、js等资源存储到CDN服务器，加速网站访问速度。</p>
+
+	<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="autosave" value="cdn_enable,cdn_domain,cdn_exclude_files">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">常规选项</h4>
+				<ul class="list-unstyled">
+				
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">
+								 开启CDN
+							</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input type="checkbox"  name="cdn_enable" value="true" ${OPTION_CHECKED('cdn_enable')}  > <span class="jp-set-info"> 开启CDN</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">CDN域名</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="cdn_domain" value="${OPTION('cdn_domain')!}">
+								此项请填写 阿里云，七牛云存储等CDN加速的绑定域名，暂时只支持镜像模式的CDN加速。
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">排除文件</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<textarea name="cdn_exclude_files" rows="3" class="form-control input-md" placeholder="多个文件多行填写">${OPTION('cdn_exclude_files')!}</textarea>
+								此处请填写要排除的文件，填写本地的相对路径。<br />
+								一行一条数据。
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+			</div>
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+<!-- /.content -->
+
+</@layout>

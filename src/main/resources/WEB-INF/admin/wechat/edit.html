@@ -1,0 +1,99 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+
+function save(){
+	doSubmit();
+	return false;
+ }
+ 
+ function saveAsDraft(){
+ 	$("#content_status").attr("value","draft");
+ 	save();
+ }
+ 
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				toastr.success(data.message,'操作成功');
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+ 
+function doAjax(url){
+	  $.get(url, function(result){
+			if(result.errorCode > 0){
+				alert(result.message);
+			}else{
+				location.reload();
+			}
+	  }); 
+  }
+</#macro> 
+<#macro script_import>
+<script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
+</#macro> <#macro css_import>
+<link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
+</#macro> <@layout active_id=p child_active_id=c>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>添加自动回复</h1>
+</section>
+<!-- Main content -->
+<section class="content" style="z-index: 9999">
+	<form action="${CPATH}/admin/wechat/save" id="form" method="post">
+		<input type="hidden" name="content.module" value="wechat_reply"> 
+		<input type="hidden" name="content.id" value="${(content.id)!}"> 
+		<input type="hidden" name="content.status" value="normal" id="content_status"> 
+		<input type="hidden" name="ucode" value="${ucode}">
+		<div class="row">
+			<!-- /.col -->
+			<div class="col-md-9">
+				<div class="form-group">
+					<label class="sr-only"></label> 
+					<input name="content.title" class="form-control input-lg" id="title" value="${(content.title)!}" type="text" placeholder="在此输入关键字">
+				</div>
+				<div class="form-group">
+                  <label>回复内容</label><a class="pull-right" href="${CPATH}/admin/wechat/reply_advanced?c=${c!}&p=${(p)!}">高级回复</a>
+                  <textarea class="form-control" rows="6" placeholder="请输入内容 ..." name="content.text">${(content.text)!}</textarea>
+                </div>
+                 <div class="form-group">
+                  <label>发布时间</label>
+                  <input type="text" class="form-control" name="content.created" value="${(content.created)?string["yyyy-MM-dd HH:mm:ss"]}">
+                </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox">
+                      是否启用
+                    </label>
+                  </div>
+			</div>
+			<!-- /.col -->
+			<div class="col-md-3">
+				<div class="box box-solid jp-release-set jp-borde-top">
+					<div class="timestamp-wrap timestamp-wrap-box">
+						<button type="button" class="btn btn-default btn-sm jp-inline-right2" onclick="saveAsDraft()">草稿</button>
+						<button type="button" class="btn btn-primary btn-sm jp-inline-right1" onclick="save()">发布</button>
+						<a href="#">移至垃圾箱</a>
+					</div>
+				</div>
+
+
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</form>
+</section>
+
+</@layout>
+
+
+
+
+
+

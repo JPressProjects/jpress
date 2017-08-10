@@ -1,0 +1,70 @@
+<#include "../_inc/_layout.html"/> 
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>
+		高级回复
+	</h1>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+	
+	<p class="content-msg">
+		一般人我不会告诉他还有这个功能... <br />
+		您可以在回复内容里填写 [hello] 试试看？（包含[ ]符号）
+	</p>
+
+	<div class="box ">
+		<!-- /.box-header -->
+		<div class="box-body">
+			<form action="" method="POST" id="form">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th style="width: 15%">名称</th>
+							<th style="width: 10%">设置关键字</th>
+							<th>回复内容</th>
+							<th>描述</th>
+							<th style="width: 20%">配置例子</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr >
+							<td><strong>hello word 测试</strong></td>
+							<td>[hello]</td>
+							<td>回复：hello...</td>
+							<td>没什么描述的，这只是一个测试...</td>
+							<td>[hello]</td>
+						</tr>
+						
+						<tr >
+							<td><strong>回复指定文章</strong></td>
+							<td>[contents]</td>
+							<td>回复单篇文章 或 多篇文章列表</td>
+							<td>通过 [contents] 指定文章内容，例如配置例子中可以回复id编号为1，2，3的三篇文章。</td>
+							<td>[contents] 1，2，3</td>
+						</tr>
+						
+					</tbody>
+					<tfoot>
+						<tr>
+							<th style="width: 15%">名称</th>
+							<th style="width: 10%">设置关键字</th>
+							<th>回复内容</th>
+							<th>描述</th>
+							<th style="width: 20%">配置例子</th>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<!-- /.box-body -->
+	</div>
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

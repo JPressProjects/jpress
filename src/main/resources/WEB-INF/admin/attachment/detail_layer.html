@@ -1,0 +1,85 @@
+<#include "../_inc/_layer_layout.html"/> 
+<#macro script>
+$(document).ready(function(){
+	var height = $(document).height();
+	$("#brower-image-info").css("height",height+"px");
+	$("#brower-image-info").css("min-height",height+"px");
+});
+
+function del(id){
+	$.get("${CPATH}/admin/attachment/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			parent.reload = true;
+			parent.layer.closeAll();
+		}
+	});
+
+}
+</#macro>
+<@layout >
+<!-- Main content -->
+<div class="jp-borwer" >
+	<div class="brower-image">
+		<#if attachment.isImage() >
+			<img src="${CPATH}${attachment.path!}" >
+		<#else>
+			<img src="${CPATH}/static/jpress/admin/image/nothumbnail.jpg" >
+		</#if>
+	</div>
+	<div class="brower-image-info" id="brower-image-info">
+		<div class="brower-image-details">
+			<div>
+				<strong>文件名：</strong> <span class="filename">${(attachmentName)!}</span>
+			</div>
+			<div>
+				<strong>文件类型：</strong> <span class="filetype">${attachment.mime_type!}（${attachment.suffix!}）</span>
+			</div>
+			<div class="uploaded">
+				<strong>上传于：</strong> ${attachment.created!}
+			</div>
+			<div class="brower-image-size">
+				<strong>文件大小：</strong>${(attachmentSize)!}
+	
+			</div>
+			<div class="brower-image-dimensions">
+				<strong>分辨率：</strong> ${(attachmentRatio)!}
+			</div>
+		</div>
+	
+	
+		<div class="brower-settings">
+			<dl class="brower-horizontal">
+				<dt class="">URL</dt>
+				<dd>
+					<div class="form-group">
+						<label class="sr-only">URL</label> 
+						<textarea class="form-control" disabled="disabled" rows="2">${CPATH}${attachment.path!}</textarea>
+					</div>
+				</dd>
+				<dt class="">标题</dt>
+				<dd>
+					<div class="form-group">
+						<label class="sr-only">标题</label> <input class="form-control" type="text" value="${attachment.title!}">
+					</div>
+				</dd>
+				<dt class="">说明</dt>
+				<dd>
+					<div class="form-group">
+						<label class="sr-only">说明</label>
+						<textarea class="form-control" placeholder="Enter ..." rows="3"></textarea>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<p class="comment-item-actions">
+			<a class="comment-item-green" href="">保存</a>
+			<span>|</span>
+			<a href="javascript:;" class="comment-item-red" onclick="del('${attachment.id!}')">彻底删除</a>
+		</p>
+	
+	</div>
+</div>
+<!-- /.content -->
+</@layout>

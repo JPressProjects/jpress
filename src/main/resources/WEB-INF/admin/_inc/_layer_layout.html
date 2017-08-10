@@ -1,0 +1,64 @@
+<#macro script> 
+</#macro> 
+<#macro script_import> 
+</#macro> 
+<#macro css_import> 
+</#macro> 
+<#macro css> 
+</#macro> 
+<#macro layout >
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JPress</title>
+<meta name=”renderer” content=”webkit”>
+<meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+
+<!-- Bootstrap 3.3.5 -->
+<link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.css">
+<link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
+<link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css">
+<@css_import />
+
+<style type="text/css">
+<@css />
+</style>
+
+</head>
+<body class="hold-transition skin-blue">
+		<#nested>
+	
+<!-- jQuery 2.1.4 -->
+<script src="${CPATH}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="${CPATH}/static/plugins/jquery/jquery.form.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="${CPATH}/static/plugins/fastclick/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="${CPATH}/static/lte/js/app.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="${CPATH}/static/lte/js/demo.js"></script>
+<script src="${CPATH}/static/jpress/admin/js/common.js"></script>
+<!-- layer -->
+<script src="${CPATH}/static/layer/layer.js"></script>
+<!-- pace -->
+<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
+
+	<@script_import />
+
+	<!-- Page script -->
+	<script>
+		<@script />
+	</script>
+</body>
+</html>
+
+</#macro>

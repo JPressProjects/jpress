@@ -1,0 +1,222 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					toastr.success(data.message,'操作成功');
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>微信设置</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">
+		设置微信默认回复内容。
+		<a class="pull-right" href="${CPATH}/admin/wechat/reply_advanced?c=${c!}&p=${(p)!}">高级回复</a>
+	</p>
+		<form action="${CPATH}/admin/option/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<div class="row">
+		<div class="col-xs-12">
+			<h4 class="jp-set-title">默认回复设置</h4>
+			<ul class="list-unstyled">
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							用户关注时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInFollowEvent" placeholder="请输入...">${OPTION('wechat_processInFollowEvent')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 搜索没有数据时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_search_none_content" placeholder="请输入...">${OPTION('wechat_search_none_content')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 没有匹配的关键字设置时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_search_no_matching" placeholder="请输入...">${OPTION('wechat_search_no_matching')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 用户进入多客服时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" cols="" class="form-control " name="wechat_dkf_enter_message" placeholder="请输入...">${OPTION('wechat_dkf_enter_message')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 用户退出多客服时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" cols="" class="form-control " name="wechat_dkf_quit_message" placeholder="请输入...">${OPTION('wechat_dkf_quit_message')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 发送图片时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInImageMsg" placeholder="请输入...">${OPTION('wechat_processInImageMsg')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 发送语音时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInVoiceMsg" placeholder="请输入...">${OPTION('wechat_processInVoiceMsg')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 发送视频时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInVideoMsg" placeholder="请输入...">${OPTION('wechat_processInVideoMsg')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 发送位置时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInLocationEvent" placeholder="请输入...">${OPTION('wechat_processInLocationEvent')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 发送连接时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInLinkMsg" placeholder="请输入...">${OPTION('wechat_processInLinkMsg')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 用户扫描了带参数的二维码时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInQrCodeEvent" placeholder="请输入...">${OPTION('wechat_processInQrCodeEvent')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				
+				<li class="jp-set-pad">
+					<div class="col-sm-3 ">
+						<div class="  jp-set-info ">
+							 用户摇一摇时
+						</div>
+					</div>
+					<div class="col-sm-9  jp-set-title-line">
+						<div class="col-sm-6 jp-table-distance-top ">
+							<textarea rows="3" class="form-control input-md" name="wechat_processInShakearoundUserShakeEvent" placeholder="请输入...">${OPTION('wechat_processInShakearoundUserShakeEvent')!}</textarea>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</li>
+				
+				
+			</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+		<div class="col-xs-12">
+			<button type="button" onclick="doSubmit()" class="btn btn-primary">保存更改</button>
+		</div>
+		</div>
+		</form>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+
+</@layout>

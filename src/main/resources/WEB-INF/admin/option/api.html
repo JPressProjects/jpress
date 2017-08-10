@@ -1,0 +1,171 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post",
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					location.href="${CPATH}/admin/api?p=option&c=api";
+				}else{
+					alert(data.message);
+				}
+			},
+			error : function() {
+				alert("信息提交错误");
+			}
+	});
+	
+ }
+ 
+ function doDelete(id){
+	$.get("${CPATH}/admin/api/delete?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			alert(result.message);
+		}else{
+			location.reload();
+		}
+	});
+}
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+	<h1>API应用设置</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+	<p class="content-msg">通过API的设置，灵活的开启是否允许某些应用访问网站的API。</p>
+
+	<form action="${CPATH}/admin/api/save" method="POST" id="form">
+		<input type="hidden" name="ucode" value="${ucode}"> 
+		<input type="hidden" name="content.module" value="apiApplication">
+		<input type="hidden" name="content.id" value="${(content.id)!}">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">常规选项</h4>
+				<ul class="list-unstyled">
+
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="jp-set-info ">开启API</div>
+						</div>
+						<div class="col-sm-9 ">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="api_enable" value="true" ${OPTION_CHECKED('api_enable')}> <span class="jp-set-info">开启API</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="jp-set-info ">是否允许Ajax跨站请求</div>
+						</div>
+						<div class="col-sm-9 ">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="api_cors_enable" value="true" ${OPTION_CHECKED('api_cors_enable')}> <span class="jp-set-info">允许Ajax跨站请求<br />（如果是html5的app客户端，请勾选此选项）</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-pad jp-set-title">应用列表</h4>
+				<div class="box ">
+				<!-- /.box-header -->
+				<div class="box-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>应用名称</th>
+							<th style="width: 10%">app key</th>
+							<th style="width: 10%">app secret</i></th>
+							<th style="width: 10%">启用</i></th>
+							<th style="width: 10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#if contents ??>
+						<#list contents as content>
+						<tr class="jp-onmouse">
+							<td><strong>${content.title!}</strong></td>
+							<td>${content.text!}</td>
+							<td>${content.flag!}</td>
+							<td>${content.status!}</td>
+							<td>
+							<a href="${CPATH}/admin/api?p=option&c=api&id=${content.id!}">修改</a> 
+							<a href="#" onclick="doDelete('${content.id!}')">删除</a> 
+							</td>
+						</tr>
+						</#list> 
+						</#if>
+					</tbody>
+				</table>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4 class="jp-set-title">添加应用</h4>
+				<ul class="list-unstyled">
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">应用名称</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="content.title" value="${(content.title)!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">应用 APP KEY</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="content.text" value="${(content.text)!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3  jp-set-info">应用 APP SECRET</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<input class="form-control input-md" type="text" name="content.flag" value="${(content.flag)!}">
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+					<li class="jp-set-pad">
+						<div class="col-sm-3 ">
+							<div class="  jp-set-info ">是否上线</div>
+						</div>
+						<div class="col-sm-9  jp-set-title-line">
+							<div class="col-sm-6 jp-table-distance-top ">
+								<label><input class=" " type="checkbox" name="content.status" value="enable"  > <span class="jp-set-info"> 上线</span></label>
+							</div>
+						</div>
+						<div class="clr"></div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<button type="button" onclick="doSubmit()" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+		</form>
+		<!-- /.row -->
+	
+</section>
+<!-- /.content -->
+
+</@layout>

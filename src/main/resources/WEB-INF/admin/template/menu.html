@@ -1,0 +1,168 @@
+<#include "../_inc/_layout.html"/> 
+<#macro script>
+function doSubmit(){
+ 	$("#form").ajaxSubmit({
+			type : "post", 
+			dataType : "json", 
+			success : function(data) { 
+				if(data.errorCode == 0){
+					location.reload();
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
+			},
+			error : function() {
+				toastr.error("信息提交失败，可能是网络错误或者服务器没有响应。",'操作失败');
+			}
+	});
+ }
+ function doMenuDel(id){
+ 	$.get("${CPATH}/admin/template/menudel?ucode=${ucode}&id="+id, function(result){
+		if(result.errorCode > 0){
+			if(data.errorCode == 0){
+					location.reload();
+				}else{
+					toastr.error(data.message,'操作失败');
+				}
+		}else{
+			location.reload();
+		}
+	});
+ }
+</#macro>
+<@layout active_id=p child_active_id=c>
+<section class="content-header">
+      <h1>
+        菜单设置
+      </h1>
+    </section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<div class="col-md-4">
+			<form id="form" action="${CPATH}/admin/template/menusave" method="POST">
+				<input type="hidden" name="ucode" value="${ucode}">
+				<input type="hidden" name="content.id" value="${(menu.id)!}">
+				<h4 class="jp-common-pad">添加新菜单</h4>
+				<div class="form-group jp-input-item">
+					<label for="tag-name" class="input-title">名称</label> 
+					<input id="tag-name" class="form-control" type="text"  name="content.title" value="${(menu.title)!}">
+					<p>这将是它在站点上显示的名字。</p>
+				</div>
+
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">URL地址</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.text" value="${(menu.text)!}">
+					<p>菜单连接过去的网络地址。</p>
+				</div>
+				
+				<div class="form-group jp-input-item">
+					<label for="tag-slug" class="input-title">排序</label> 
+					<input id="tag-slug" class="form-control" type="text"  name="content.order_number" value="${(menu.order_number)!}">
+					<p>菜单的显示顺序是按排序数字从大到小排序的。</p>
+				</div>
+				
+				<div class="form-group jp-input-item">
+					<label for="taxonomy_slug" class="input-title">图标</label> 
+					<input id="taxonomy_slug" class="form-control" type="text"  name="content.flag" value="${(menu.flag)!}">
+					<p>图标只用于前台显示，是否显示决定于模板。支持<a href="http://fontawesome.io/icons/" target="_blank">font-awesome</a>的所有图标，填写其样式名称即可。亦或者填写模板需要的图片路径或内容。</p>
+				</div>
+				
+				<div class="form-group jp-input-item cf">
+					<div class="col-xs-5 jp-common-pad">
+						<label class="input-title">父节点</label> 
+						<select class="form-control input-sm" name="content.parent_id">
+							<option value="">无</option>
+							<#list menus! as m>
+							<#if menu ??>
+								<#if  m.id?? && menu.parent_id?? && m.id == menu.parent_id	>
+								<option value="${m.id}" selected="selected">${m.layerString!}${m.title!}</option>
+								<#else>
+								<option value="${m.id}">${m.layerString!}${m.title!}</option>
+								</#if>
+							<#else>
+								<option value="${m.id}">${m.layerString!}${m.title!}</option>
+							</#if>
+							</#list>
+						</select>
+					</div>
+				</div>
+				
+				
+				<div class="form-group jp-input-item">
+					<button type="button" onclick="doSubmit()" class="btn btn-primary"> 保 存 </button>
+				</div>
+
+			</form>
+			<!-- /.box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-8 ">
+			<div class="col-xs-12 jp-common-pad ">
+				<div class="jp-left ">
+					<select style="width: 120px" class="form-control input-sm"
+						 >
+						<option value="10">批量操作</option>
+						<option value="25">删除</option>
+					</select>
+				</div>
+				<div class="jp-left  ">
+					<button class="btn  btn-sm btn-default" type="button">应用</button>
+				</div>
+			</div>
+			<div class="clr"></div>
+			<div class="box ">
+
+				<!-- /.box-header -->
+				<div class="box-body jp-common-pad">
+					<table  class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 20px">
+								<label class="jp-common-pad ">
+									<input class="jp-common-pad " id="allid" onclick="checkAll(this)" title="全选" type="checkbox">
+								</label></th>
+								<th style="width: 30%">名称</th>
+								<th>URL地址</th>
+								<th>排序</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<#list menulist!  as bean>
+							<tr class="jp-onmouse">
+								<td><label class="jp-common-pad"><input
+										class="jp-common-pad" name="chkItem" type="checkbox"></label>
+								</td>
+								<td><strong><a href="#">${bean.layerString}${bean.title!}</a></strong>
+									<div class="jp-flash-comment">
+										<p class="row-actions jp-common-pad">
+											<span class="approve"><a class="vim-a" href="?p=${p!}&c=${c!}&id=${bean.id}">编辑</a></span>
+											<span class="spam">| <a class="vim-s vim-destructive" href="javascript:doMenuDel('${bean.id}')">删除</a> </span> 
+											<span class="trash">| <a class="delete vim-d vim-destructive" href="${bean.text!}" target="_blank">查看</a></span>
+										</p>
+									</div></td>
+								<td>${bean.text!}</td>
+								<td>${bean.order_number!}</td>
+							</tr>
+							</#list> 
+						</tbody>
+
+					</table>
+				</div>
+				<!-- /.box-body -->
+
+				<!-- /.box-footer -->
+			</div>
+			<!-- /. box -->
+		</div>
+		<!-- /.col -->
+	</div>
+	
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</@layout>
+
+
+

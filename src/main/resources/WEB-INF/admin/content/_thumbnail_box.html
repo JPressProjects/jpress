@@ -1,0 +1,29 @@
+
+<div class="box box-solid">
+	<div class="box-header with-border">
+		<h3 class="box-title">缩略图</h3>
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<div class="box-body no-padding">
+		<ul class="nav ">
+			<li class="">
+				<div class="jp-content-thumbnail-box">
+					<img  src="${(content.thumbnail)!CPATH+'/static/jpress/admin/image/nothumbnail.jpg'}" id="thumbnail" class="jp-content-thumbnail"/>
+					<input type="hidden" name="content.thumbnail" value="${(content.thumbnail)!}" id="content_thumbnail">
+				</div>
+				<div class="clr"></div>
+			</li>
+			<li class="jp-release-set jp-borde-top" >				
+				<button type="button" class="btn btn-default btn-sm" onclick="doSelectThumbnail()">选择图片</button>
+				<a href="javascript:;" style="display: inline;" onclick="doRemoveThumbnail()">移除缩略图</a>
+				<div class="clr"></div>
+			</li>
+		</ul>
+	</div>
+	<!-- /.box-body -->
+</div>
+<!-- /. box -->

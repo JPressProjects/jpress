@@ -16,9 +16,9 @@
 package io.jpress.oauth2.connector;
 
 import com.alibaba.fastjson.JSONObject;
+import io.jboot.utils.StringUtils;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
-import io.jpress.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class WeiboConnector extends OauthConnector {
 
 	protected OauthUser getOauthUser(String code) {
 
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("grant_type", "authorization_code");
 		params.put("client_id", getClientId());
 		params.put("client_secret", getClientSecret());

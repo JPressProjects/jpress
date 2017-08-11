@@ -17,9 +17,9 @@ package io.jpress.oauth2.connector;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import io.jboot.utils.StringUtils;
 import io.jpress.oauth2.OauthConnector;
 import io.jpress.oauth2.OauthUser;
-import io.jpress.utils.StringUtils;
 
 public class QQConnector extends OauthConnector {
 

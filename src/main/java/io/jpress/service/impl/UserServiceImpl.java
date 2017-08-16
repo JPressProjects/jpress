@@ -1,16 +1,15 @@
+
 package io.jpress.service.impl;
 
 import com.jfinal.kit.Ret;
-import io.jboot.aop.annotation.Bean;
 import io.jpress.service.UserService;
+import io.jpress.model.User;
+import io.jboot.db.service.JbootServiceBase;
 
-/**
- * Created by michael on 2017/8/10.
- */
-@Bean
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends JbootServiceBase<User> implements UserService {
+
     @Override
-    public Ret login(String username, String password) {
-        return Ret.fail();
+    public Ret doLogin(String loginName, String password) {
+        return null;
     }
 }

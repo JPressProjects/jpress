@@ -15,6 +15,7 @@
  */
 package io.jpress.controller.admin;
 
+import com.google.inject.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.Jboot;
 import io.jboot.utils.EncryptCookieUtils;
@@ -24,8 +25,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.Constants;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
-
-import javax.inject.Inject;
 
 @RequestMapping(value = "/admin", viewPath = "/WEB-INF/admin")
 public class _AdminController extends JbootController {
@@ -37,8 +36,6 @@ public class _AdminController extends JbootController {
      * 后台首页
      */
     public void index() {
-
-
         render("index.html");
     }
 
@@ -55,7 +52,7 @@ public class _AdminController extends JbootController {
             return;
         }
 
-        Ret ret = userService.login(username, password);
+        Ret ret = userService.doLogin(username, password);
         if (ret.isOk()) {
             User user = ret.getAs("user");
             Jboot.me().sendEvent(Constants.Actions.USER_LOGINED, user);

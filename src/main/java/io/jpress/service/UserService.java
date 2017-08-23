@@ -66,4 +66,13 @@ public interface UserService {
      * @return
      */
     public Ret doLogin(String loginName, String password);
+
+
+    /**
+     * 根据用户登录名，查询用户信息
+     *
+     * @param loginName
+     * @return
+     */
+    public User findByLoginName(String loginName);
 }

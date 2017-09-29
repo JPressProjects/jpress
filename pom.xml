@@ -12,7 +12,7 @@
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
-            <version>1.0-beta6</version>
+            <version>1.0-beta9</version>
         </dependency>
 
         <dependency>
@@ -65,6 +65,7 @@
                     <tempDirectory>tmp</tempDirectory>
 
                     <programs>
+                        <!--程序打包 mvn package appassembler:assemble -->
                         <program>
                             <mainClass>io.jboot.Jboot</mainClass>
                             <id>jboot</id>

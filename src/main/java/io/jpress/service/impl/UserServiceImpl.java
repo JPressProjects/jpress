@@ -2,6 +2,7 @@
 package io.jpress.service.impl;
 
 import com.jfinal.kit.Ret;
+import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jpress.service.UserService;
@@ -9,6 +10,7 @@ import io.jpress.model.User;
 import io.jboot.db.service.JbootServiceBase;
 import io.jpress.utils.EncryptUtils;
 
+@Bean
 public class UserServiceImpl extends JbootServiceBase<User> implements UserService {
 
 
@@ -21,7 +23,7 @@ public class UserServiceImpl extends JbootServiceBase<User> implements UserServi
      */
     @Override
     public Ret doLogin(String loginName, String password) {
-        User user = findByLoginName(loginName);
+        User user = findByUserName(loginName);
 
         if (user == null) {
             return Ret.fail("msg", "没有该用户").set("code", 1);
@@ -42,13 +44,13 @@ public class UserServiceImpl extends JbootServiceBase<User> implements UserServi
     /**
      * 根据loginName 查询用户信息，会自动缓存，缓存的key为：loginName的值
      *
-     * @param loginName
+     * @param username
      * @return
      */
-    @Cacheable(name = "user", key = "#(loginName)")
+    @Cacheable(name = "user", key = "#(username)")
     @Override
-    public User findByLoginName(String loginName) {
-        return DAO.findFirstByColumn("login_name", loginName);
+    public User findByUserName(String username) {
+        return DAO.findFirstByColumn("username", username);
     }
 
     /**

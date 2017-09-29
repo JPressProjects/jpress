@@ -71,8 +71,8 @@ public interface UserService {
     /**
      * 根据用户登录名，查询用户信息
      *
-     * @param loginName
+     * @param username
      * @return
      */
-    public User findByLoginName(String loginName);
+    public User findByUserName(String username);
 }

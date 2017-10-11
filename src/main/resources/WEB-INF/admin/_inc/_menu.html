@@ -1,22 +1,32 @@
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
-	<!-- sidebar: style can be found in sidebar.less -->
-	<section class="sidebar">
-		<!-- sidebar menu: : style can be found in sidebar.less -->
-		<ul class="sidebar-menu">
-			<li class="jpress_block"></li>
-			<li class="treeview" id="dashboard">
-				<a href="#(CPATH)/admin">
-					<i class="fa fa-dashboard"></i> 
-					<span>JPress面板</span> 
-				</a>
-			</li>
-			<li class="jpress_block"></li>
-			
-			${_menu_html!}
-		
-			<li class="jpress_block"></li>
-		</ul>
-	</section>
-	<!-- /.sidebar -->
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="jpress_block"></li>
+            <li class="treeview" id="dashboard">
+                <a href="#(CPATH)/admin">
+                    <i class="fa fa-dashboard"></i>
+                    <span>JPress面板</span>
+                </a>
+            </li>
+            <li class="jpress_block"></li>
+
+            <li class="treeview" id="article"><a href="#"><i class="fa fa-file-text-o"></i><span>文章</span><i
+                    class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li id="list"><a href="/admin/content?m=article">所有文章</a></li>
+                    <li id="edit"><a href="/admin/content/edit?m=article">撰写文章</a></li>
+                    <li id="category"><a href="/admin/taxonomy?m=article&t=category">分类</a></li>
+                    <li id="feature"><a href="/admin/taxonomy?m=article&t=feature">专题</a></li>
+                    <li id="tag"><a href="/admin/taxonomy?m=article&t=tag">标签</a></li>
+                    <li id="comment"><a href="/admin/comment?t=comment&m=article">评论</a></li>
+                </ul>
+            </li>
+
+            <li class="jpress_block"></li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
 </aside>

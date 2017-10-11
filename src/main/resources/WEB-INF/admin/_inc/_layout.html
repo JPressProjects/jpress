@@ -1,12 +1,4 @@
-<#macro script>
-</#macro> 
-<#macro script_import>
-</#macro> 
-<#macro css>
-</#macro> 
-<#macro css_import>
-</#macro> 
-<#macro layout active_id="" child_active_id="" >
+#define layout(active_id,child_active_id)
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,20 +9,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
   	
    	<!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="${CPATH}/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${CPATH}/static/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="#(CPATH)/static/font-awesome/css/font-awesome.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="${CPATH}/static/lte/css/AdminLTE.css">
-    <link rel="stylesheet" href="${CPATH}/static/lte/css/skins/_all-skins.css">
-    <link rel="stylesheet" href="${CPATH}/static/plugins/toastr/toastr.css">
+    <link rel="stylesheet" href="#(CPATH)/static/lte/css/AdminLTE.css">
+    <link rel="stylesheet" href="#(CPATH)/static/lte/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="#(CPATH)/static/plugins/toastr/toastr.css">
     
   <!--[if lt IE 9]>
-  <script src="${CPATH}/static/plugins/html5/html5shiv.min.js"></script>
-  <script src="${CPATH}/static/plugins/html5/respond.min.js"></script>
+  <script src="#(CPATH)/static/plugins/html5/html5shiv.min.js"></script>
+  <script src="#(CPATH)/static/plugins/html5/respond.min.js"></script>
   <![endif]-->
   <@css_import />
-   <link rel="stylesheet" href="${CPATH}/static/jpress/admin/css/common.css"> 
+   <link rel="stylesheet" href="#(CPATH)/static/jpress/admin/css/common.css"> 
    <style type="text/css">
    <@css />
    </style>
@@ -38,12 +30,12 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
-	<#include "_header.html" />
-	<#include "_menu.html" />
+	#include("_header.html")
+	#include("_menu.html")
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-	<#nested>  
+	#@content()
   </div>
   <!-- /.content-wrapper -->
 
@@ -59,21 +51,21 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="${CPATH}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
-<script src="${CPATH}/static/plugins/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="#(CPATH)/static/plugins/jquery/jquery.form.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="${CPATH}/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
-<script src="${CPATH}/static/plugins/fastclick/fastclick.min.js"></script>
+<script src="#(CPATH)/static/plugins/fastclick/fastclick.min.js"></script>
 <!-- AdminLTE App -->
-<script src="${CPATH}/static/lte/js/app.js"></script>
+<script src="#(CPATH)/static/lte/js/app.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="${CPATH}/static/jpress/admin/js/common.js"></script>
+<script src="#(CPATH)/static/jpress/admin/js/common.js"></script>
 <!-- layer -->
-<script src="${CPATH}/static/layer/layer.js"></script>
+<script src="#(CPATH)/static/layer/layer.js"></script>
 <!-- pace -->
-<script src="${CPATH}/static/plugins/pace/pace.min.js"></script>
-<script src="${CPATH}/static/plugins/toastr/toastr.js"></script>
+<script src="#(CPATH)/static/plugins/pace/pace.min.js"></script>
+<script src="#(CPATH)/static/plugins/toastr/toastr.js"></script>
 <@script_import />
 <script>
 <@script />   
@@ -85,13 +77,7 @@ $(document).ready(function(){
 });
 
 function initTree(){
-<#if active_id!="" && active_id??>
-	var pActive = $("#${active_id}[class='treeview']");
-	pActive.attr("class","treeview active");
-<#if child_active_id!="" && child_active_id??>
-  	pActive.find("#${child_active_id}").attr("class","active");
-</#if>
-</#if>
+
 }
 
 function fix() {
@@ -151,4 +137,4 @@ function initToast(){
 </script>
 </body>
 </html>
-</#macro>
+#end

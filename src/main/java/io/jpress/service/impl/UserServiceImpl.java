@@ -7,7 +7,7 @@ import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jpress.service.UserService;
 import io.jpress.model.User;
-import io.jboot.db.service.JbootServiceBase;
+import io.jboot.service.JbootServiceBase;
 import io.jpress.utils.EncryptUtils;
 
 @Bean

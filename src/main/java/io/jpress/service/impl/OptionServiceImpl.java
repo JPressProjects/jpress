@@ -3,7 +3,7 @@ package io.jpress.service.impl;
 
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
-import io.jboot.db.service.JbootServiceBase;
+import io.jboot.service.JbootServiceBase;
 import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
 import io.jboot.event.annotation.EventConfig;

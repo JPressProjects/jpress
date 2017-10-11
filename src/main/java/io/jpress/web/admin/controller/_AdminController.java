@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.controller.admin;
+package io.jpress.web.admin.controller;
 
 import com.google.inject.Inject;
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.kit.Ret;
 import io.jboot.Jboot;
 import io.jboot.utils.EncryptCookieUtils;
@@ -25,8 +27,10 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.Constants;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
+import io.jpress.web.admin.interceptor._AdminInterceptor;
 
 @RequestMapping(value = "/admin", viewPath = "/WEB-INF/admin")
+@Before(_AdminInterceptor.class)
 public class _AdminController extends JbootController {
 
     @Inject
@@ -46,6 +50,7 @@ public class _AdminController extends JbootController {
      * @param username
      * @param password
      */
+    @Clear(_AdminInterceptor.class)
     public void login(String username, String password) {
         if (StringUtils.isBlank(username) && StringUtils.isBlank(password)) {
             render("login.html");
@@ -59,8 +64,13 @@ public class _AdminController extends JbootController {
             EncryptCookieUtils.put(this, Constants.Cookies.USER_ID, user.getId());
         }
 
-        renderText(ret.toJson());
+        if (isAjaxRequest()) {
+            renderJson(ret);
+        } else {
+            redirect(ret.isOk() ? "/admin" : "/admin/login");
+        }
     }
+
 
     /**
      * 退出登录

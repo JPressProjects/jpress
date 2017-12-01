@@ -23,7 +23,7 @@ public class OptionServiceImpl extends JbootServiceBase<Option> implements Optio
     @Override
     public String findValueByKey(String key) {
         Option option = DAO.findFirstByColumn("option_key", key);
-        return option == null ? null : option.getOptionValue();
+        return option == null ? null : option.getValue();
     }
 
 
@@ -35,8 +35,8 @@ public class OptionServiceImpl extends JbootServiceBase<Option> implements Optio
             option = new Option();
         }
 
-        option.setOptionKey(key);
-        option.setOptionValue(value);
+        option.setKey(key);
+        option.setValue(value);
 
         return option.saveOrUpdate();
     }

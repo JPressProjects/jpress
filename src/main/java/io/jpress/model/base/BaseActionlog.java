@@ -9,9 +9,9 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings("serial")
 public abstract class BaseActionlog<M extends BaseActionlog<M>> extends JbootModel<M> implements IBean {
 
-    public static final String ACTION_ADD = "BaseActionlog:add";
-    public static final String ACTION_DELETE = "BaseActionlog:delete";
-    public static final String ACTION_UPDATE = "BaseActionlog:update";
+    public static final String ACTION_ADD = "Actionlog:add";
+    public static final String ACTION_DELETE = "Actionlog:delete";
+    public static final String ACTION_UPDATE = "Actionlog:update";
 
 
     @Override

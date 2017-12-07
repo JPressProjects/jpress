@@ -9,9 +9,9 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings("serial")
 public abstract class BaseMetadata<M extends BaseMetadata<M>> extends JbootModel<M> implements IBean {
 
-    public static final String ACTION_ADD = "BaseMetadata:add";
-    public static final String ACTION_DELETE = "BaseMetadata:delete";
-    public static final String ACTION_UPDATE = "BaseMetadata:update";
+    public static final String ACTION_ADD = "Metadata:add";
+    public static final String ACTION_DELETE = "Metadata:delete";
+    public static final String ACTION_UPDATE = "Metadata:update";
 
 
     @Override

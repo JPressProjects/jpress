@@ -9,9 +9,9 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings("serial")
 public abstract class BaseMapping<M extends BaseMapping<M>> extends JbootModel<M> implements IBean {
 
-    public static final String ACTION_ADD = "BaseMapping:add";
-    public static final String ACTION_DELETE = "BaseMapping:delete";
-    public static final String ACTION_UPDATE = "BaseMapping:update";
+    public static final String ACTION_ADD = "Mapping:add";
+    public static final String ACTION_DELETE = "Mapping:delete";
+    public static final String ACTION_UPDATE = "Mapping:update";
 
 
     @Override

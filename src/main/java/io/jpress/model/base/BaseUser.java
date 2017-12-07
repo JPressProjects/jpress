@@ -9,9 +9,9 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings("serial")
 public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> implements IBean {
 
-    public static final String ACTION_ADD = "BaseUser:add";
-    public static final String ACTION_DELETE = "BaseUser:delete";
-    public static final String ACTION_UPDATE = "BaseUser:update";
+    public static final String ACTION_ADD = "User:add";
+    public static final String ACTION_DELETE = "User:delete";
+    public static final String ACTION_UPDATE = "User:update";
 
 
     @Override

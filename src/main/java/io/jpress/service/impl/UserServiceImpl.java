@@ -8,8 +8,10 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StringUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
+import io.jpress.utils.EncryptUtils;
 
 @Bean
 @Before(Tx.class)
@@ -25,26 +27,29 @@ public class UserServiceImpl extends JbootServiceBase<User> implements UserServi
      */
     @Override
     public Ret doLogin(String loginName, String password) {
-//        User user = findByUserName(loginName);
-//
-//        if (user == null) {
-//            return Ret.fail("msg", "没有该用户").set("code", 1);
-//        }
-//
-//        if (!user.isAdministrator()) {
-//            return Ret.fail("msg", "您没有登陆权限").set("code", 2);
-//        }
-//
-//        String uPwd = EncryptUtils.encryptPassword(password, user.getSalt());
-//        if (!uPwd.equals(user.getPassword())) {
-//            return Ret.fail("msg", "密码错误").set("code", 3);
-//        }
+        if (StringUtils.isBlank(loginName)) {
+            return Ret.fail("msg", "账号不能为空").set("code", 1);
+        }
 
-        User user = new User();
-        user.setUsername(loginName);
-        user.save();
+        if (StringUtils.isBlank(password)) {
+            return Ret.fail("msg", "密码不能为空").set("code", 2);
+        }
 
-        int a = 10/0;
+        User user = findByUserName(loginName);
+
+        if (user == null) {
+            return Ret.fail("msg", "没有该用户").set("code", 3);
+        }
+
+        if (!user.isAdministrator()) {
+            return Ret.fail("msg", "您没有登陆权限").set("code", 4);
+        }
+
+        String uPwd = EncryptUtils.encryptPassword(password, user.getSalt());
+        if (!uPwd.equals(user.getPassword())) {
+            return Ret.fail("msg", "密码错误").set("code", 5);
+        }
+
 
         return Ret.ok("user", user);
     }

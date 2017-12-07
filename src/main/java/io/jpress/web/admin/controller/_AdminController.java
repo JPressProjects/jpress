@@ -21,7 +21,6 @@ import com.jfinal.aop.Clear;
 import com.jfinal.kit.Ret;
 import io.jboot.Jboot;
 import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.Constants;
@@ -43,6 +42,10 @@ public class _AdminController extends JbootController {
         render("index.html");
     }
 
+    @Clear(_AdminInterceptor.class)
+    public void login() {
+        render("login.html");
+    }
 
     /**
      * 登录action
@@ -51,24 +54,23 @@ public class _AdminController extends JbootController {
      * @param password
      */
     @Clear(_AdminInterceptor.class)
-    public void login(String username, String password) {
-        if (StringUtils.isBlank(username) && StringUtils.isBlank(password)) {
-            render("login.html");
-            return;
-        }
+    public void doLogin(String username, String password) {
 
         Ret ret = userService.doLogin(username, password);
+        setFlashMap(ret);
+
+
         if (ret.isOk()) {
             User user = ret.getAs("user");
-            Jboot.me().sendEvent(Constants.Actions.USER_LOGINED, user);
+
+            //发送用户登录 事件
+            Jboot.sendEvent(Constants.Actions.USER_LOGINED, user);
+
+            //保存登录的cookie信息
             EncryptCookieUtils.put(this, Constants.Cookies.USER_ID, user.getId());
         }
 
-        if (isAjaxRequest()) {
-            renderJson(ret);
-        } else {
-            redirect(ret.isOk() ? "/admin" : "/admin/login");
-        }
+        redirect(ret.isOk() ? "/admin" : "/admin/login");
     }
 
 

@@ -3,10 +3,11 @@ package io.jpress.service.impl;
 
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
 import io.jboot.event.annotation.EventConfig;
+import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StringUtils;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 
@@ -21,9 +22,20 @@ public class OptionServiceImpl extends JbootServiceBase<Option> implements Optio
 
     @Cacheable(name = "option", key = "#(key)", unless = "key == null")
     @Override
-    public String findValueByKey(String key) {
+    public String findValue(String key) {
         Option option = DAO.findFirstByColumn("option_key", key);
         return option == null ? null : option.getValue();
+    }
+
+    public Boolean findValueAsBool(String key) {
+        String value = findValue(key);
+        if (StringUtils.isNotBlank(value)) {
+            try {
+                return Boolean.parseBoolean(value);
+            } catch (Exception e) {
+            }
+        }
+        return null;
     }
 
 

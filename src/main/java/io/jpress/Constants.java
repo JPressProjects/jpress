@@ -12,7 +12,7 @@ public class Constants {
         public static final String USER_LOGINED = "user:logined";
     }
 
-    
+
     /**
      * cookie信息
      */
@@ -26,5 +26,14 @@ public class Constants {
      */
     public static class ErrorCode {
         public static final int USER_NOT_EXIST = 1;
+    }
+
+
+    /**
+     * 配置 信息
+     */
+    public static class OPTION {
+        public static final String FAKE_STATIC_ENABLE = "fake_static_enable";
+        public static final String FAKE_STATIC_POSTFIX = "fake_static_postfix";
     }
 }

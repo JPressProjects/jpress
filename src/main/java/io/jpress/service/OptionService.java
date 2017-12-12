@@ -63,7 +63,15 @@ public interface OptionService {
      * @param key
      * @return
      */
-    public String findValueByKey(String key);
+    public String findValue(String key);
+
+    /**
+     * 根据 key 查找value的值，返回boolean类型
+     *
+     * @param key
+     * @return
+     */
+    public Boolean findValueAsBool(String key);
 
     /**
      * 根据 key 和 value 进行保存 或 更新为option

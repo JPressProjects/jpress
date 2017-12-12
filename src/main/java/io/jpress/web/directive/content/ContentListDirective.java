@@ -1,4 +1,4 @@
-package io.jpress.directive.comment;
+package io.jpress.web.directive.content;
 
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -12,8 +12,8 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
  * @Title: 内容列表相关的指令
  * @Package io.jpress.directive
  */
-@JFinalDirective("comments")
-public class CommentListDirective extends JbootDirectiveBase {
+@JFinalDirective("contents")
+public class ContentListDirective extends JbootDirectiveBase {
 
     @Override
     public void exec(Env env, Scope scope, Writer writer) {

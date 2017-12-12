@@ -1,4 +1,4 @@
-package io.jpress.directive.common;
+package io.jpress.web.directive.content;
 
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -9,11 +9,11 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 内容列表相关的指令
+ * @Title: 内容相关的指令
  * @Package io.jpress.directive
  */
-@JFinalDirective("menus")
-public class MenuListDirective extends JbootDirectiveBase {
+@JFinalDirective("previous")
+public class ContentPreviousDirective extends JbootDirectiveBase {
 
     @Override
     public void exec(Env env, Scope scope, Writer writer) {

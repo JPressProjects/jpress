@@ -1,4 +1,4 @@
-package io.jpress.directive.content;
+package io.jpress.web.directive.content;
 
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -12,8 +12,8 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
  * @Title: 内容相关的指令
  * @Package io.jpress.directive
  */
-@JFinalDirective("content")
-public class UrlDirective extends JbootDirectiveBase {
+@JFinalDirective("next")
+public class ContentNextDirective extends JbootDirectiveBase {
 
     @Override
     public void exec(Env env, Scope scope, Writer writer) {

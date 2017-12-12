@@ -15,17 +15,17 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
 
 
     @Override
-    protected String addAction() {
+    public String addAction() {
         return ACTION_ADD;
     }
 
     @Override
-    protected String deleteAction() {
+    public String deleteAction() {
         return ACTION_DELETE;
     }
 
     @Override
-    protected String updateAction() {
+    public String updateAction() {
         return ACTION_UPDATE;
     }
 

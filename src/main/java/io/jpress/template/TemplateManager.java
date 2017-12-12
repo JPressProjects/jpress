@@ -17,7 +17,7 @@ package io.jpress.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
-import io.jboot.utils.ClassNewer;
+import io.jboot.utils.ClassKits;
 import io.jboot.utils.StringUtils;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -44,7 +44,7 @@ public class TemplateManager {
 	private TemplateManager() {
 	}
 
-	private static final TemplateManager me = ClassNewer.singleton(TemplateManager.class);
+	private static final TemplateManager me = ClassKits.singleton(TemplateManager.class);
 
 	public static TemplateManager me() {
 		return me;

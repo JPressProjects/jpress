@@ -16,7 +16,7 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 public class ContentNextDirective extends JbootDirectiveBase {
 
     @Override
-    public void exec(Env env, Scope scope, Writer writer) {
+    public void onRender(Env env, Scope scope, Writer writer) {
 
     }
 

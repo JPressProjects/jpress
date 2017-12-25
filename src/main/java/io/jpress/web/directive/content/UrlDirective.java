@@ -12,11 +12,11 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
  * @Title: 内容相关的指令
  * @Package io.jpress.directive
  */
-@JFinalDirective("content")
+@JFinalDirective("url")
 public class UrlDirective extends JbootDirectiveBase {
 
     @Override
-    public void exec(Env env, Scope scope, Writer writer) {
+    public void onRender(Env env, Scope scope, Writer writer) {
 
     }
 

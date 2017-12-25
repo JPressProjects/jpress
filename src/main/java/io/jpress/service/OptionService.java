@@ -73,6 +73,15 @@ public interface OptionService {
      */
     public Boolean findValueAsBool(String key);
 
+
+    /**
+     * 根据 key 判断某个字段 内容是否为true
+     *
+     * @param key
+     * @return
+     */
+    public boolean isTrue(String key);
+
     /**
      * 根据 key 和 value 进行保存 或 更新为option
      *

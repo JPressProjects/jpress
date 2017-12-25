@@ -24,7 +24,8 @@ public class FakeStaticHandler extends Handler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-        if (optionService.findValueAsBool(Constants.OPTION.FAKE_STATIC_ENABLE)) {
+        // 启用伪静态
+        if (optionService.isTrue(Constants.OPTION.FAKE_STATIC_ENABLE)) {
             String setPostfix = optionService.findValue(Constants.OPTION.FAKE_STATIC_POSTFIX);
             setPostfix = StringUtils.isBlank(setPostfix) ? ".html" : setPostfix;
             int index = target.lastIndexOf(setPostfix);

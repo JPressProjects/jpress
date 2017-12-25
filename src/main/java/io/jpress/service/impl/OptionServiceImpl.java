@@ -1,6 +1,7 @@
 
 package io.jpress.service.impl;
 
+import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.event.JbootEvent;
@@ -16,6 +17,7 @@ import io.jpress.service.OptionService;
  * <p>
  * 通过 去实现JbootEventListener 监听器，并通过 @EventConfig 让监听器监听感兴趣的事件
  */
+@Bean
 @EventConfig(action = {Option.ACTION_ADD, Option.ACTION_DELETE, Option.ACTION_UPDATE})
 public class OptionServiceImpl extends JbootServiceBase<Option> implements OptionService, JbootEventListener {
 
@@ -36,6 +38,12 @@ public class OptionServiceImpl extends JbootServiceBase<Option> implements Optio
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean isTrue(String key) {
+        Boolean value = findValueAsBool(key);
+        return value != null && value == true;
     }
 
 

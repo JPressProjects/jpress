@@ -9,4 +9,5 @@ import io.jboot.service.JbootServiceBase;
 @Bean
 public class ContentServiceImpl extends JbootServiceBase<Content> implements ContentService {
 
+
 }

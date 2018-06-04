@@ -2,6 +2,7 @@ target
 .idea
 *.iml
 *.log
+.logs
 logs
 *.iws
 *.classpath

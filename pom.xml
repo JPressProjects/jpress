@@ -7,7 +7,7 @@
     <groupId>jpress</groupId>
     <artifactId>io.jpress</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${jpress.version}</version>
     <modules>
         <module>core-web</module>
         <module>core-service-api</module>
@@ -26,79 +26,35 @@
         <module>module-page-model</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.jboot</groupId>
-            <artifactId>jboot</artifactId>
-            <version>1.5.5</version>
-        </dependency>
+    <properties>
+        <jpress.version>1.0</jpress.version>
+        <jdk.version>1.8</jdk.version>
+        <jboot.version>1.5.5</jboot.version>
+        <logback.version>1.1.11</logback.version>
+    </properties>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.1.11</version>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jboot</groupId>
+                <artifactId>jboot</artifactId>
+                <version>${jboot.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.11</version>
-        </dependency>
-    </dependencies>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
 
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
-                    <compilerArgument>-parameters</compilerArgument>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.10</version>
-                <configuration>
-
-
-                    <assembleDirectory>${project.build.directory}/app</assembleDirectory>
-                    <repositoryName>lib</repositoryName>
-                    <binFolder>bin</binFolder>
-                    <configurationDirectory>webRoot</configurationDirectory>
-                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
-                    <repositoryLayout>flat</repositoryLayout>
-                    <encoding>UTF-8</encoding>
-                    <logsDirectory>logs</logsDirectory>
-                    <tempDirectory>tmp</tempDirectory>
-
-                    <programs>
-                        <!--程序打包 mvn package appassembler:assemble -->
-                        <program>
-                            <mainClass>io.jboot.Jboot</mainClass>
-                            <id>jboot</id>
-                            <platforms>
-                                <platform>windows</platform>
-                                <platform>unix</platform>
-                            </platforms>
-                        </program>
-                    </programs>
-                </configuration>
-            </plugin>
-
-        </plugins>
-
-    </build>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>

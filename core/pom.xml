@@ -5,7 +5,7 @@
     <parent>
         <artifactId>io.jpress</artifactId>
         <groupId>jpress</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${jpress.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

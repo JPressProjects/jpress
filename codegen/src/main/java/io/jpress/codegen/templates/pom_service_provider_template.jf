@@ -10,13 +10,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-page-model</artifactId>
+    <artifactId>module-#(moduleName)-service-provider</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-#(moduleName)-model</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-#(moduleName)-service-api</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
     </dependencies>
 
 

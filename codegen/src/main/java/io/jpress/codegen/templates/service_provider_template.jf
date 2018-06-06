@@ -1,0 +1,14 @@
+package #(serviceImplPackageName);
+
+import io.jboot.aop.annotation.Bean;
+import #(basePackage).#(tableMeta.modelName)Service;
+import #(modelPackage).#(tableMeta.modelName);
+import io.jboot.service.JbootServiceBase;
+
+import javax.inject.Singleton;
+
+@Bean
+@Singleton
+public class #(tableMeta.modelName)ServiceProvider extends JbootServiceBase<#(tableMeta.modelName)> implements #(tableMeta.modelName)Service {
+
+}

@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jpress</groupId>
-    <artifactId>io.jpress</artifactId>
+    <groupId>io.jpress</groupId>
+    <artifactId>parent</artifactId>
     <packaging>pom</packaging>
     <version>${jpress.version}</version>
     <modules>
@@ -24,6 +24,8 @@
         <module>module-page-service-api</module>
         <module>module-page-service-provider</module>
         <module>module-page-model</module>
+
+        <module>codegen</module>
     </modules>
 
     <properties>

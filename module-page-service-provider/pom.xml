@@ -3,14 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>io.jpress</artifactId>
-        <groupId>jpress</groupId>
+        <groupId>io.jpress</groupId>
+        <artifactId>parent</artifactId>
         <version>${jpress.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jpress</groupId>
-    <artifactId>io.jpress.module.page.service.provider</artifactId>
+    <groupId>io.jpress</groupId>
+    <artifactId>module-page-service-provider</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-page-model</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-page-service-api</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+    </dependencies>
 
 
 </project>

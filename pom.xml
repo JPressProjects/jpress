@@ -8,6 +8,7 @@
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
     <version>${jpress.version}</version>
+
     <modules>
         <module>core-web</module>
         <module>core-service-api</module>
@@ -15,17 +16,9 @@
         <module>core-model</module>
         <module>core</module>
 
-        <module>module-article-web</module>
-        <module>module-article-service-api</module>
-        <module>module-article-service-provider</module>
-        <module>module-article-model</module>
-
-        <module>module-page-web</module>
-        <module>module-page-service-api</module>
-        <module>module-page-service-provider</module>
-        <module>module-page-model</module>
-
         <module>codegen</module>
+        <module>module-article</module>
+        <module>module-page</module>
     </modules>
 
     <properties>

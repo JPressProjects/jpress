@@ -16,7 +16,6 @@
 package io.jpress.codegen.generator;
 
 import com.jfinal.kit.Kv;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
@@ -33,8 +32,9 @@ public class ServiceProviderGenerator extends BaseModelGenerator {
     String basePackage;
     String modelPackage;
 
-    public ServiceProviderGenerator(String basePackage, String modelPackage, String moduleName) {
-        super(basePackage + ".provider", PathKit.getWebRootPath() + "/../" + moduleName + "/src/main/java/" + (basePackage + ".provider").replace(".", "/"));
+    public ServiceProviderGenerator(String basePackage, String modelPackage, String baseModelOutputDir) {
+        super(basePackage + ".provider", baseModelOutputDir);
+//        super(basePackage + ".provider", );
 
         this.basePackage = basePackage;
         this.modelPackage = modelPackage;

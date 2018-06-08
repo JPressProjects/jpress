@@ -16,7 +16,6 @@
 package io.jpress.codegen.generator;
 
 import com.jfinal.kit.Kv;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
@@ -49,8 +48,8 @@ public class ServiceApiGenerator extends BaseModelGenerator {
         new ServiceApiGenerator(basePackage, modelPackage,"core-service").generate(tableMetaList);
     }
 
-    public ServiceApiGenerator(String basePackage, String modelPacket, String moduleName) {
-        super(basePackage, PathKit.getWebRootPath() + "/../" + moduleName + "/src/main/java/" + basePackage.replace(".", "/"));
+    public ServiceApiGenerator(String basePackage, String modelPacket, String baseModelOutputDir) {
+        super(basePackage, baseModelOutputDir);
 
 
         this.modelPacket = modelPacket;

@@ -13,10 +13,12 @@
     <artifactId>module-page-model</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
         </dependency>
+
     </dependencies>
 
 

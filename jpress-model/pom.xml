@@ -10,7 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>core-model</artifactId>
+    <artifactId>jpress-model</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

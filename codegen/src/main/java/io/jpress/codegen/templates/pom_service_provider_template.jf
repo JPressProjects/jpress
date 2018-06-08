@@ -21,6 +21,11 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
+            <artifactId>jpress-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
             <artifactId>module-#(moduleName)-model</artifactId>
             <version>${jpress.version}</version>
         </dependency>

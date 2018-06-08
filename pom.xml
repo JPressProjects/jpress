@@ -10,26 +10,32 @@
     <version>${jpress.version}</version>
 
     <modules>
-        <module>core-web</module>
-        <module>core-service-api</module>
-        <module>core-service-provider</module>
-        <module>core-model</module>
-        <module>core</module>
-
         <module>codegen</module>
+
+        <module>jpress-core</module>
+        <module>jpress-web</module>
+        <module>jpress-service-api</module>
+        <module>jpress-service-provider</module>
+        <module>jpress-model</module>
+
         <module>module-article</module>
         <module>module-page</module>
+
+        <module>starter-all</module>
+        <module>starter-web</module>
+        <module>starter-provider</module>
     </modules>
 
     <properties>
         <jpress.version>1.0</jpress.version>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>1.5.5</jboot.version>
+        <jboot.version>1.5.6</jboot.version>
         <logback.version>1.1.11</logback.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>io.jboot</groupId>
                 <artifactId>jboot</artifactId>
@@ -48,8 +54,54 @@
                 <version>${logback.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-core</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-model</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-web</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-service-api</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-service-provider</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

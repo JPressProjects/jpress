@@ -3,42 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>parent</artifactId>
         <groupId>io.jpress</groupId>
-        <artifactId>module-#(moduleName)</artifactId>
-        <version>${jpress.version}</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-#(moduleName)-web</artifactId>
+    <artifactId>starter-web</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>io.jboot</groupId>
-            <artifactId>jboot</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>jpress-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-#(moduleName)-model</artifactId>
+            <artifactId>jpress-web</artifactId>
             <version>${jpress.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-#(moduleName)-service-api</artifactId>
+            <artifactId>module-page-web</artifactId>
             <version>${jpress.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-#(moduleName)-service-provider</artifactId>
+            <artifactId>module-article-web</artifactId>
             <version>${jpress.version}</version>
         </dependency>
 

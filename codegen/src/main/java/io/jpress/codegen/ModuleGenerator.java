@@ -131,8 +131,7 @@ public class ModuleGenerator {
         String modelDir = basePath + modelModuleName + "/src/main/java/" + modelPackage.replace(".", "/");
         String baseModelDir = basePath + modelModuleName + "/src/main/java/" + baseModelPackage.replace(".", "/");
 
-        System.out.println("start generate...");
-        System.out.println("generate dir:" + modelDir);
+        System.out.println("start generate... dir:" + modelDir);
 
         List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
         if (StringUtils.isNotBlank(dbTables)) {

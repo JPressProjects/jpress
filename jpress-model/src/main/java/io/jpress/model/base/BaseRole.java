@@ -33,12 +33,12 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 		return getStr("description");
 	}
 
-	public void setRemark(java.lang.String remark) {
-		set("remark", remark);
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
 	}
 	
-	public java.lang.String getRemark() {
-		return getStr("remark");
+	public java.lang.String getFlag() {
+		return getStr("flag");
 	}
 
 	public void setCreated(java.util.Date created) {

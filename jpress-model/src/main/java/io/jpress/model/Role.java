@@ -9,15 +9,15 @@ import io.jpress.model.base.BaseRole;
 @Table(tableName = "role", primaryKey = "id")
 public class Role extends BaseRole<Role> {
 
+    public static final String ADMIN_FLAG = "sa";
+
     /**
      * 是否是超级管理员的权限
      *
      * @return true : 是超级管理员，否则不是
      */
     public boolean isSuperAdmin() {
-        // 数据库创建的时候，就创建了一个角色，这个角色是第一个角色
-        // 在JPress系统中，规定第一个角色为超级管理员，超级管理员的用户拥有所有权限
-        return getId() == 1;
+        return ADMIN_FLAG.equals(getFlag());
     }
 
 }

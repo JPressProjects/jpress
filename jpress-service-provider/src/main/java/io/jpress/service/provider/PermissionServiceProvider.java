@@ -3,14 +3,8 @@ package io.jpress.service.provider;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.model.Permission;
-import io.jpress.model.RolePermission;
-import io.jpress.model.UserPermission;
-import io.jpress.model.UserRole;
-import io.jpress.service.PermissionService;
-import io.jpress.service.RolePermissionService;
-import io.jpress.service.UserPermissionService;
-import io.jpress.service.UserRoleService;
+import io.jpress.model.*;
+import io.jpress.service.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,6 +17,8 @@ import java.util.Set;
 @Singleton
 public class PermissionServiceProvider extends JbootServiceBase<Permission> implements PermissionService {
 
+    @Inject
+    private RoleService roleService;
     @Inject
     private UserRoleService userRoleService;
     @Inject
@@ -79,11 +75,13 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         }
 
         for (UserRole userRole : userRoles) {
-            if (userRole.isSuperRole()) return true;
+            Role role = roleService.findById(userRole.getRoleId());
+            if (role != null && role.isSuperAdmin()) return true;
         }
 
         return false;
     }
+
 
     private Set<Permission> findPermissionListByUserId(long userId) {
 

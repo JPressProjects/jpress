@@ -12,18 +12,20 @@
     <modules>
         <module>codegen</module>
 
+        <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
         <module>jpress-service-api</module>
         <module>jpress-service-provider</module>
         <module>jpress-model</module>
 
-        <module>module-article</module>
-        <module>module-page</module>
-
         <module>starter-all</module>
         <module>starter-web</module>
         <module>starter-provider</module>
+
+        <module>module-article</module>
+        <module>module-page</module>
+
     </modules>
 
     <properties>
@@ -32,6 +34,8 @@
         <jboot.version>1.5.6</jboot.version>
         <logback.version>1.1.11</logback.version>
     </properties>
+
+
 
     <dependencyManagement>
         <dependencies>
@@ -53,6 +57,13 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-commons</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.jpress</groupId>

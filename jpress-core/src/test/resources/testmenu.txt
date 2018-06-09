@@ -1,0 +1,8 @@
+aaa
+bbb:sdb
+-ddd:/ccc
+eee
+
+fff
+aa
+cc

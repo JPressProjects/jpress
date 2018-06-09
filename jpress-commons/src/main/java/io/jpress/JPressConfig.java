@@ -10,5 +10,14 @@ import io.jboot.config.annotation.PropertyConfig;
 @PropertyConfig(prefix = "io.jpress")
 public class JPressConfig {
 
+    private boolean useRPC = false;
 
+
+    public boolean isUseRPC() {
+        return useRPC;
+    }
+
+    public void setUseRPC(boolean useRPC) {
+        this.useRPC = useRPC;
+    }
 }

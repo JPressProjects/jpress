@@ -5,6 +5,5 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface AdminPermisssion {
-    String value();
+public @interface AdminPermisssionExclude {
 }

@@ -37,6 +37,10 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>jpress-commons</artifactId>
+        </dependency>
 
     </dependencies>
 

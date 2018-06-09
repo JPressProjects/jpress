@@ -22,6 +22,11 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
+            <artifactId>jpress-service-provider</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
             <version>${jpress.version}</version>
         </dependency>
@@ -43,6 +48,9 @@
             <artifactId>module-page-service-provider</artifactId>
             <version>${jpress.version}</version>
         </dependency>
+
+
+
         
     </dependencies>
 

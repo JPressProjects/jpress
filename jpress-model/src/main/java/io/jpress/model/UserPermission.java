@@ -8,5 +8,8 @@ import io.jpress.model.base.BaseUserPermission;
  */
 @Table(tableName = "user_permission", primaryKey = "permission_id,user_id")
 public class UserPermission extends BaseUserPermission<UserPermission> {
-	
+
+    public boolean isOwn() {
+        return getOwn() != null && getOwn() == true;
+    }
 }

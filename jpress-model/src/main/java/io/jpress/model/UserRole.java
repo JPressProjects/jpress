@@ -8,5 +8,8 @@ import io.jpress.model.base.BaseUserRole;
  */
 @Table(tableName = "user_role", primaryKey = "role_id,user_id")
 public class UserRole extends BaseUserRole<UserRole> {
-	
+
+    public boolean isSuperRole() {
+        return getRoleId() == 1;
+    }
 }

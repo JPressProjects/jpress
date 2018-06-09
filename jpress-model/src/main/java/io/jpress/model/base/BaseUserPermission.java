@@ -25,12 +25,12 @@ public abstract class BaseUserPermission<M extends BaseUserPermission<M>> extend
 		return getLong("permission_id");
 	}
 
-	public void setOwn(java.lang.Long own) {
+	public void setOwn(java.lang.Boolean own) {
 		set("own", own);
 	}
 	
-	public java.lang.Long getOwn() {
-		return getLong("own");
+	public java.lang.Boolean getOwn() {
+		return get("own");
 	}
 
 }

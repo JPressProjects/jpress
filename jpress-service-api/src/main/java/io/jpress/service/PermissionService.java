@@ -6,7 +6,7 @@ import io.jpress.model.Permission;
 
 import java.util.List;
 
-public interface PermissionService  {
+public interface PermissionService {
 
     /**
      * find model by primary key
@@ -71,21 +71,37 @@ public interface PermissionService  {
 
 
     public void join(Page<? extends Model> page, String joinOnField);
+
     public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
+
     public void join(Page<? extends Model> page, String joinOnField, String joinName);
+
     public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
+
     public void join(List<? extends Model> models, String joinOnField);
+
     public void join(List<? extends Model> models, String joinOnField, String[] attrs);
+
     public void join(List<? extends Model> models, String joinOnField, String joinName);
+
     public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
+
     public void join(Model model, String joinOnField);
+
     public void join(Model model, String joinOnField, String[] attrs);
+
     public void join(Model model, String joinOnField, String joinName);
+
     public void join(Model model, String joinOnField, String joinName, String[] attrs);
 
     public void keep(Model model, String... attrs);
+
     public void keep(List<? extends Model> models, String... attrs);
 
 
     public int sync(List<Permission> permissions);
+
+    public boolean hasPermission(long userId, String actionKey);
+
+    public boolean isSupperAdmin(long userId);
 }

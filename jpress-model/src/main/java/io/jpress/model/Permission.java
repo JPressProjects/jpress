@@ -8,5 +8,16 @@ import io.jpress.model.base.BasePermission;
  */
 @Table(tableName = "permission", primaryKey = "id")
 public class Permission extends BasePermission<Permission> {
-	
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Permission)) {
+            return false;
+        }
+
+        Permission p = (Permission) o;
+
+        return getActionKey().equals(p.getActionKey());
+    }
 }

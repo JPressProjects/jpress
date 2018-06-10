@@ -1,4 +1,4 @@
-package io.jpress.permission.annotation;
+package io.jpress.admin.permission.annotation;
 
 import java.lang.annotation.*;
 
@@ -6,5 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface AdminPermission {
+
     String value();
+
 }

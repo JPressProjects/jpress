@@ -65,6 +65,30 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends JbootModel<M> impl
 		return getStr("flag");
 	}
 
+	public void setType(java.lang.String type) {
+		set("type", type);
+	}
+	
+	public java.lang.String getType() {
+		return getStr("type");
+	}
+
+	public void setDescNo(java.lang.Integer descNo) {
+		set("desc_no", descNo);
+	}
+	
+	public java.lang.Integer getDescNo() {
+		return getInt("desc_no");
+	}
+
+	public void setStatus(java.lang.Integer status) {
+		set("status", status);
+	}
+	
+	public java.lang.Integer getStatus() {
+		return getInt("status");
+	}
+
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

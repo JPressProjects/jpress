@@ -1,5 +1,7 @@
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -19,12 +21,6 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 
     @Inject
     private RoleService roleService;
-    @Inject
-    private UserRoleService userRoleService;
-    @Inject
-    private UserPermissionService userPermissionService;
-    @Inject
-    private RolePermissionService rolePermissionService;
 
     @Override
     public int sync(List<Permission> permissions) {
@@ -36,7 +32,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         int syncCounter = 0;
         for (Permission permission : permissions) {
 
-            Columns columns = Columns.create("controller", permission.getController());
+            Columns columns = Columns.create("node", permission.getNode());
             columns.eq("actionKey", permission.getActionKey());
 
             Permission dbPermission = DAO.findFirstByColumns(columns);
@@ -69,13 +65,14 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 
     @Override
     public boolean isSupperAdmin(long userId) {
-        List<UserRole> userRoles = userRoleService.findListByUserId(userId);
-        if (userRoles == null || userRoles.isEmpty()) {
+        String sql = "select * from user_role where user_id = ?";
+        List<Record> records = Db.find(sql, userId);
+        if (records == null || records.isEmpty()) {
             return false;
         }
 
-        for (UserRole userRole : userRoles) {
-            Role role = roleService.findById(userRole.getRoleId());
+        for (Record record : records) {
+            Role role = roleService.findById(record.getLong("role_id"));
             if (role != null && role.isSuperAdmin()) return true;
         }
 
@@ -86,23 +83,25 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     private Set<Permission> findPermissionListByUserId(long userId) {
 
         Set<Permission> permissions = new HashSet<>();
-        List<UserRole> userRoles = userRoleService.findListByUserId(userId);
-        if (userRoles != null) {
-            for (UserRole userRole : userRoles) {
-                List<Permission> rolePermissions = findPermissionListByRoleId(userRole.getRoleId());
+        String sql = "select * from user_role where user_id = ? ";
+        List<Record> userRoleRecords = Db.find(sql, userId);
+        if (userRoleRecords != null) {
+            for (Record userRoleRecord : userRoleRecords) {
+                List<Permission> rolePermissions = findPermissionListByRoleId(userRoleRecord.getLong("role_id"));
                 if (rolePermissions != null) {
                     permissions.addAll(rolePermissions);
                 }
             }
         }
 
-        List<UserPermission> userPermissionList = userPermissionService.findListByUserId(userId);
+        sql = "select * from user_permission where user_id = ?";
+        List<Record> userPermissionList = Db.find(sql, userId);
         if (userPermissionList != null) {
-            for (UserPermission userPermission : userPermissionList) {
-                if (userPermission.isOwn()) {
-                    permissions.add(findById(userPermission.getPermissionId()));
+            for (Record userPermission : userPermissionList) {
+                if (userPermission.getInt("own") > 0) {
+                    permissions.add(findById(userPermission.getLong("permission_id")));
                 } else {
-                    permissions.remove(findById(userPermission.getPermissionId()));
+                    permissions.remove(findById(userPermission.getLong("permission_id")));
                 }
             }
         }
@@ -112,14 +111,15 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 
 
     private List<Permission> findPermissionListByRoleId(long roleId) {
-        List<RolePermission> rolePermissionList = rolePermissionService.findListByRoleId(roleId);
-        if (rolePermissionList == null || rolePermissionList.isEmpty()) {
+        String sql = "select * from role_permission where role_id = ? ";
+        List<Record> rolePermissionRecords = Db.find(sql, roleId);
+        if (rolePermissionRecords == null || rolePermissionRecords.isEmpty()) {
             return null;
         }
 
         List<Permission> permissionList = new ArrayList<>();
-        for (RolePermission rolePermission : rolePermissionList) {
-            Permission permission = findById(rolePermission.getPermissionId());
+        for (Record rolePermissionRecord : rolePermissionRecords) {
+            Permission permission = findById(rolePermissionRecord.getLong("permission_id"));
             if (permission != null) permissionList.add(permission);
         }
 

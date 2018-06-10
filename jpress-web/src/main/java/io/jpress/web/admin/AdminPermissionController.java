@@ -5,7 +5,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.Permission;
-import io.jpress.permission.annotation.AdminPermisssion;
+import io.jpress.permission.annotation.AdminPermission;
 import io.jpress.service.PermissionService;
 import io.jpress.service.Services;
 import io.jpress.web.JPressAdminControllerBase;
@@ -68,14 +68,15 @@ public class AdminPermissionController extends JPressAdminControllerBase {
                     continue;
                 }
 
-                AdminPermisssion permissionAnnotation = action.getMethod().getAnnotation(AdminPermisssion.class);
+                AdminPermission permissionAnnotation = action.getMethod().getAnnotation(AdminPermission.class);
                 String text = permissionAnnotation == null ? null : permissionAnnotation.value();
                 String controller = action.getControllerClass().getName();
 
                 Permission permission = new Permission();
                 permission.setActionKey(actionKey);
-                permission.setController(controller);
+                permission.setNode(controller);
                 permission.setText(text);
+                permission.setType(Permission.TYPE_ACTION);
 
                 permissions.add(permission);
             }

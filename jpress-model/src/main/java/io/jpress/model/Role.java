@@ -9,7 +9,7 @@ import io.jpress.model.base.BaseRole;
 @Table(tableName = "role", primaryKey = "id")
 public class Role extends BaseRole<Role> {
 
-    public static final String ADMIN_FLAG = "sa";
+    public static final String ADMIN_FLAG = "jpsa";
 
     /**
      * 是否是超级管理员的权限

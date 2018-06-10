@@ -9,6 +9,10 @@ import io.jpress.model.base.BasePermission;
 @Table(tableName = "permission", primaryKey = "id")
 public class Permission extends BasePermission<Permission> {
 
+    public static final int TYPE_ACTION = 1;
+    public static final int TYPE_MENU = 2;
+    public static final int TYPE_DIV = 3;
+
 
     @Override
     public boolean equals(Object o) {
@@ -19,5 +23,19 @@ public class Permission extends BasePermission<Permission> {
         Permission p = (Permission) o;
 
         return getActionKey().equals(p.getActionKey());
+    }
+
+    public boolean isActionPermission() {
+        return getType() != null && TYPE_ACTION == getType();
+    }
+
+
+    public boolean isDivPermission() {
+        return getType() != null && TYPE_DIV == getType();
+    }
+
+
+    public boolean isMenuPermission() {
+        return getType() != null && TYPE_MENU == getType();
     }
 }

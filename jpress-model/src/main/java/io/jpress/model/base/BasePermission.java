@@ -25,12 +25,20 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 		return getStr("actionKey");
 	}
 
-	public void setController(java.lang.String controller) {
-		set("controller", controller);
+	public void setNode(java.lang.String node) {
+		set("node", node);
 	}
 	
-	public java.lang.String getController() {
-		return getStr("controller");
+	public java.lang.String getNode() {
+		return getStr("node");
+	}
+
+	public void setType(java.lang.Integer type) {
+		set("type", type);
+	}
+	
+	public java.lang.Integer getType() {
+		return getInt("type");
 	}
 
 	public void setText(java.lang.String text) {

@@ -13,6 +13,6 @@ public class Services {
     private static JPressConfig config = Jboot.config(JPressConfig.class);
 
     public static <T> T get(Class<T> clazz) {
-        return config.isUseRPC() ? Jboot.service(clazz) : Jboot.bean(clazz);
+        return config.isRpcEnable() ? Jboot.service(clazz) : Jboot.bean(clazz);
     }
 }

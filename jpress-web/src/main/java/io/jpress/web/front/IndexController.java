@@ -1,6 +1,8 @@
 package io.jpress.web.front;
 
+import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConfig;
 import io.jpress.web.JPressFrontControllerBase;
 
 /**
@@ -11,7 +13,9 @@ import io.jpress.web.JPressFrontControllerBase;
 @RequestMapping("/")
 public class IndexController extends JPressFrontControllerBase {
 
+    private static JPressConfig config = Jboot.config(JPressConfig.class);
+
     public void index() {
-        renderText("index...");
+        forwardAction(config.getIndexAction());
     }
 }

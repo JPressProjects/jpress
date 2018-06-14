@@ -12,6 +12,7 @@ public class Permission extends BasePermission<Permission> {
     public static final int TYPE_ACTION = 1;
     public static final int TYPE_MENU = 2;
     public static final int TYPE_DIV = 3;
+    public static final int TYPE_CUSTOM = 4;
 
 
     @Override
@@ -37,5 +38,10 @@ public class Permission extends BasePermission<Permission> {
 
     public boolean isMenuPermission() {
         return getType() != null && TYPE_MENU == getType();
+    }
+
+    
+    public boolean isCustomPermission() {
+        return getType() != null && TYPE_CUSTOM == getType();
     }
 }

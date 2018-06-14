@@ -3,6 +3,7 @@ package io.jpress.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.*;
@@ -64,6 +65,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 
 
     @Override
+    @Cacheable(name = "permission", key = "is_admin:#(userId)", nullCacheEnable = true)
     public boolean isSupperAdmin(long userId) {
         String sql = "select * from user_role where user_id = ?";
         List<Record> records = Db.find(sql, userId);
@@ -80,6 +82,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
+    @Cacheable(name = "permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
     private Set<Permission> findPermissionListByUserId(long userId) {
 
         Set<Permission> permissions = new HashSet<>();

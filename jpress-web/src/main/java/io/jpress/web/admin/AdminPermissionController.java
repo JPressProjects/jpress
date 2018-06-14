@@ -4,6 +4,9 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.admin.menu.AdminMenuGroup;
+import io.jpress.admin.menu.AdminMenuItem;
+import io.jpress.admin.menu.AdminMenuManager;
 import io.jpress.model.Permission;
 import io.jpress.admin.permission.annotation.AdminPermission;
 import io.jpress.service.PermissionService;
@@ -30,15 +33,61 @@ public class AdminPermissionController extends JPressAdminControllerBase {
     /**
      * 同步所有可以进行控制的 Action 到数据库
      */
-    public void sync() {
-        List<Permission> permissions = buildSystemPermission();
-        int syncCount = permissionService.sync(permissions);
+    public void syncActionPermissions() {
+        List<Permission> adminPermissions = buildActionPermissions();
+        int syncCount = permissionService.sync(adminPermissions);
 
         if (syncCount == 0) {
             renderJson(Ret.ok("msg", "权限已经是最新状态，无需更新"));
         } else {
             renderJson(Ret.ok("msg", "权限更新成功，共更新权限数 : " + syncCount));
         }
+    }
+
+    /**
+     * 同步所有可以进行控制的 菜单 到数据库
+     */
+    public void syncMenuPermissions() {
+        List<Permission> adminPermissions = buildMenuPermissions();
+        int syncCount = permissionService.sync(adminPermissions);
+
+        if (syncCount == 0) {
+            renderJson(Ret.ok("msg", "权限已经是最新状态，无需更新"));
+        } else {
+            renderJson(Ret.ok("msg", "权限更新成功，共更新权限数 : " + syncCount));
+        }
+    }
+
+    private List<Permission> buildMenuPermissions() {
+
+        List<AdminMenuGroup> adminMenuGroups = new ArrayList<>();
+        adminMenuGroups.addAll(AdminMenuManager.me().getSystemMenus());
+        adminMenuGroups.addAll(AdminMenuManager.me().getModuleMenus());
+
+        List<Permission> permissions = new ArrayList<>();
+        for (AdminMenuGroup menuGroup : adminMenuGroups) {
+            Permission groupPermission = new Permission();
+            groupPermission.setType(Permission.TYPE_MENU);
+            groupPermission.setText(menuGroup.getText());
+            groupPermission.setNode(menuGroup.getId());
+            groupPermission.setActionKey(menuGroup.getId());
+            permissions.add(groupPermission);
+
+            if (menuGroup.getItems() == null) {
+                continue;
+            }
+
+            for (AdminMenuItem item : menuGroup.getItems()) {
+                Permission itemPermission = new Permission();
+                itemPermission.setType(Permission.TYPE_MENU);
+                itemPermission.setText(item.getText());
+                itemPermission.setNode(item.getGroupId());
+                itemPermission.setActionKey(item.getGroupId() + ":" + item.getUrl());
+                permissions.add(itemPermission);
+            }
+        }
+
+        return permissions;
     }
 
 
@@ -54,7 +103,7 @@ public class AdminPermissionController extends JPressAdminControllerBase {
         return excludedMethodName;
     }
 
-    private static List<Permission> buildSystemPermission() {
+    private static List<Permission> buildActionPermissions() {
         List<Permission> permissions = new ArrayList<>();
         List<String> allActionKeys = JFinal.me().getAllActionKeys();
 

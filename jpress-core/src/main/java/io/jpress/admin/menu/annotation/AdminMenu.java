@@ -13,7 +13,7 @@ public @interface AdminMenu {
 
     String target() default "";
 
-    String flag() default "";
+    String groupId();
 
-    int desc_no() default 0;
+    int order() default 0;
 }

@@ -1,0 +1,40 @@
+#define layout()
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JPress 后台管理</title>
+    <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/components/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/adminlte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/static/admin/css/jpressadmin.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/components/html5shiv/html5shiv.min.js"></script>
+    <script src="/static/components/respond/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    #include("./_header.html")
+    #include("./_left_menu.html")
+    #@content()
+    #include("./_footer.html")
+
+</div>
+<!-- ./wrapper -->
+
+<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/components/fastclick/fastclick.js"></script>
+<script src="/static/adminlte/js/adminlte.min.js"></script>
+<script src="/static/admin/js/jpressadmin.js"></script>
+
+</body>
+</html>
+#end

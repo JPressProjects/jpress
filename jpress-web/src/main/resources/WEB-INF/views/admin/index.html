@@ -1,198 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>JPRESS后台管理</title>
-    <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/components/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="/static/adminlte/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/static/adminlte/css/skins/skin-blue.min.css">
-    <link rel="stylesheet" href="/static/admin/css/jpressadmin.css">
+#@layout()
+#define content()
+<div class="content-wrapper">
 
-    <!--[if lt IE 9]>
-    <script src="/static/components/html5shiv/html5shiv.min.js"></script>
-    <script src="/static/components/respond/respond.min.js"></script>
-    <![endif]-->
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
 
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
-    <header class="main-header">
-        <!-- Logo -->
-        <a href="#" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">JPr</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">JPress</span>
-        </a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top">
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                <span class="sr-only">切换</span>
-            </a>
-
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <!-- Notifications: style can be found in dropdown.less -->
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">10</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> Very long description here that
-                                            may not fit into the
-                                            page and may cause design problems
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-red"></i> 5 new members joined
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-user text-red"></i> You changed your username
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">View all</a></li>
-                        </ul>
-                    </li>
-                    <!-- User Account: style can be found in dropdown.less -->
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/static/admin/images/avatar.png" class="user-image">
-                            <span class="hidden-xs">Jeans</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                <img src="/static/admin/images/avatar.png" class="img-circle">
-
-                                <p>
-                                    Jeans - Web Developer
-                                    <small>Member since Nov. 2012</small>
-                                </p>
-                            </li>
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">资料</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">退出</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu" data-widget="tree">
-                <!--<li class="header">内容</li>-->
-                <li class="block"></li>
-                <li class="active treeview menu-open"><a href="/admin"><i class="fa fa-book"></i> <span>面板</span></a>
-                </li>
-                <li class="block"></li>
-                #for(group : moduleMenuGroups)
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>#(group.text)</span>
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
-                #end
-                <li class="header">系统</li>
-                #for(group : systemMenuGroups)
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>#(group.text)</span>
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
-                #end
-
-            </ul>
-        </section>
-        <!-- /.sidebar -->
-    </aside>
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Dashboard
-                <small>Control panel</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            内容区域
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            version 1.0.0
-        </div>
-        Copyright &copy; 2015-2018 <a href="http://jpress.io" target="_blank">JPress Studio</a>. All rights
-        reserved.
-    </footer>
+    <section class="content">
+        内容区域
+    </section>
 
 </div>
-<!-- ./wrapper -->
-
-<script src="/static/components/jquery/jquery.min.js"></script>
-<script src="/static/components/bootstrap/js/bootstrap.min.js"></script>
-<script src="/static/components/fastclick/fastclick.js"></script>
-<script src="/static/adminlte/js/adminlte.min.js"></script>
-
-</body>
-</html>
+#end

@@ -2,6 +2,10 @@ package io.jpress.web;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import io.jpress.admin.menu.AdminMenuGroup;
+import io.jpress.admin.menu.AdminMenuManager;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -10,7 +14,15 @@ import com.jfinal.aop.Invocation;
  * @Package io.jpress.web
  */
 public class JPressAdminInterceptor implements Interceptor {
+
     public void intercept(Invocation inv) {
+
+        List<AdminMenuGroup> systemMenuGroups = AdminMenuManager.me().getSystemMenus();
+        List<AdminMenuGroup> moduleMenuGroups = AdminMenuManager.me().getModuleMenus();
+
+        inv.getController().setAttr("systemMenuGroups", systemMenuGroups);
+        inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);
+
         inv.invoke();
     }
 }

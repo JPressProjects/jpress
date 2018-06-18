@@ -24,7 +24,7 @@ public class AdminMenuController extends JPressAdminControllerBase {
     /**
      * 同步所有可以进行控制的 Action 到数据库
      */
-    @AdminMenu(text = "菜单管理", groupId = JPressConstants.SYSTEM_MENU_SETTING)
+    @AdminMenu(text = "菜单管理", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE)
     public void index() {
 
         renderText(Arrays.toString(AdminMenuManager.me().getSystemMenus().toArray()));

@@ -12,7 +12,7 @@ public class AdminMenuItem {
     private String icon;
     private String groupId;
     private String url;
-    private int order;
+    private int order = 100;
 
     public String getText() {
         return text;

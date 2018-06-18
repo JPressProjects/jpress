@@ -15,5 +15,5 @@ public @interface AdminMenu {
 
     String groupId();
 
-    int order() default 0;
+    int order() default 100; //越小在越前面
 }

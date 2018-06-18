@@ -9,10 +9,7 @@ import io.jpress.module.Modules;
 import io.jpress.web.JPressAdminControllerBase;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -174,10 +171,12 @@ public class AdminMenuManager {
 
 
     public List<AdminMenuGroup> getSystemMenus() {
+        systemMenus.sort(Comparator.comparingInt(AdminMenuGroup::getOrder));
         return systemMenus;
     }
 
     public List<AdminMenuGroup> getModuleMenus() {
+        moduleMenus.sort(Comparator.comparingInt(AdminMenuGroup::getOrder));
         return moduleMenus;
     }
 }

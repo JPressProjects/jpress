@@ -1,0 +1,48 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar" >
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
+            <!--<li class="header">内容</li>-->
+            <li class="block"></li>
+            <li class="link">
+                <a href="/admin/index"><i class="fa fa-book"></i> <span>面板</span></a>
+            </li>
+
+            <li class="block"></li>
+            #for(group : moduleMenuGroups)
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>#(group.text)</span>
+                    <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                </a>
+                <ul class="treeview-menu">
+                    #for(item : group.items)
+                    <li><a href="#(item.url ??)">#(item.text ??)</a></li>
+                    #end
+                </ul>
+            </li>
+            #end
+            <li class="header">系统</li>
+            #for(group : systemMenuGroups)
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>#(group.text)</span>
+                    <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                </a>
+                <ul class="treeview-menu">
+                    #for(item : group.items)
+                    <li><a href="#(item.url ??)">#(item.text ??)</a></li>
+                    #end
+                </ul>
+            </li>
+            #end
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

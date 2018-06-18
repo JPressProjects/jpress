@@ -1,6 +1,7 @@
 package io.jpress.admin.menu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class AdminMenuGroup {
 
-    private int order = 0;
+    private int order = 100;
     private String text;
     private String icon;
     private String id;
@@ -64,6 +65,7 @@ public class AdminMenuGroup {
             items = new ArrayList<>();
         }
         items.add(item);
+        items.sort(Comparator.comparingInt(AdminMenuItem::getOrder));
     }
 
     public boolean isEmpty() {

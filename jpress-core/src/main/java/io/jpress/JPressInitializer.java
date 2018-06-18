@@ -1,5 +1,6 @@
 package io.jpress;
 
+import com.jfinal.template.Engine;
 import io.jboot.server.listener.JbootAppListenerBase;
 
 /**
@@ -15,4 +16,10 @@ public class JPressInitializer extends JbootAppListenerBase {
         JPressAppConfig.me().init();
     }
 
+
+    @Override
+    public void onJfinalEngineConfig(Engine engine) {
+
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
+    }
 }

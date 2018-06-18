@@ -9,3 +9,33 @@
 .sidebar-menu li.block {
     padding: 5px 25px 5px 15px;
 }
+
+.box-submit {
+    margin-left: -10px;
+}
+
+.form-group img {
+    height: 150px;
+    width: 150px;
+    border: 1px solid #eee;
+}
+
+.checkAction {
+    display: none;
+}
+
+.actionPanel {
+    padding-top: 20px;
+}
+
+.pagination {
+    margin: 10px 0;
+}
+
+.text-tap {
+    padding-left: -5px;
+}
+
+.text-tap a {
+    padding: 0px 5px;
+}

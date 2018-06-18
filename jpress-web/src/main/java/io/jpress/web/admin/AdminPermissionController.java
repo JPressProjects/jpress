@@ -4,9 +4,11 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConstants;
 import io.jpress.admin.menu.AdminMenuGroup;
 import io.jpress.admin.menu.AdminMenuItem;
 import io.jpress.admin.menu.AdminMenuManager;
+import io.jpress.admin.menu.annotation.AdminMenu;
 import io.jpress.model.Permission;
 import io.jpress.admin.permission.annotation.AdminPermission;
 import io.jpress.service.PermissionService;
@@ -29,6 +31,11 @@ import java.util.Set;
 public class AdminPermissionController extends JPressAdminControllerBase {
 
     private PermissionService permissionService = Services.get(PermissionService.class);
+
+    @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER,order = 10)
+    public void index() {
+        render("/WEB-INF/views/admin/permission.html");
+    }
 
     /**
      * 同步所有可以进行控制的 Action 到数据库

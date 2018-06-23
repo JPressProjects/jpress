@@ -4,9 +4,9 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import io.jpress.JPressConstants;
 import io.jpress.admin.menu.annotation.AdminMenu;
+import io.jpress.admin.web.base.AdminControllerBase;
 import io.jpress.module.Module;
 import io.jpress.module.Modules;
-import io.jpress.web.JPressAdminControllerBase;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -42,6 +42,13 @@ public class AdminMenuManager {
      */
     private void initAdminSystemMenuGroup() {
 
+
+        AdminMenuGroup statisticsMenuGroup = new AdminMenuGroup();
+        statisticsMenuGroup.setId(JPressConstants.SYSTEM_MENU_STATISTICS);
+        statisticsMenuGroup.setText("运营");
+        systemMenus.add(statisticsMenuGroup);
+
+
         AdminMenuGroup orderMenuGroup = new AdminMenuGroup();
         orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_ORDER);
         orderMenuGroup.setText("订单");
@@ -54,15 +61,9 @@ public class AdminMenuManager {
         systemMenus.add(userMenuGroup);
 
 
-        AdminMenuGroup statisticsMenuGroup = new AdminMenuGroup();
-        statisticsMenuGroup.setId(JPressConstants.SYSTEM_MENU_STATISTICS);
-        statisticsMenuGroup.setText("运营");
-        systemMenus.add(statisticsMenuGroup);
-
-
         AdminMenuGroup templateMenuGroup = new AdminMenuGroup();
-        templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_TEMPLATE);
-        templateMenuGroup.setText("模板");
+        templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_APPEARANCE);
+        templateMenuGroup.setText("外观");
         systemMenus.add(templateMenuGroup);
 
 
@@ -129,7 +130,7 @@ public class AdminMenuManager {
 
     private static Set<String> buildExcludedMethodName() {
         Set<String> excludedMethodName = new HashSet<String>();
-        Method[] methods = JPressAdminControllerBase.class.getMethods();
+        Method[] methods = AdminControllerBase.class.getMethods();
         for (Method m : methods) {
             excludedMethodName.add(m.getName());
         }

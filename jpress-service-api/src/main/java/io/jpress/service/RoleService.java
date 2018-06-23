@@ -6,7 +6,7 @@ import io.jpress.model.Role;
 
 import java.util.List;
 
-public interface RoleService  {
+public interface RoleService {
 
     /**
      * find model by primary key
@@ -71,18 +71,36 @@ public interface RoleService  {
 
 
     public void join(Page<? extends Model> page, String joinOnField);
+
     public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
+
     public void join(Page<? extends Model> page, String joinOnField, String joinName);
+
     public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
+
     public void join(List<? extends Model> models, String joinOnField);
+
     public void join(List<? extends Model> models, String joinOnField, String[] attrs);
+
     public void join(List<? extends Model> models, String joinOnField, String joinName);
+
     public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
+
     public void join(Model model, String joinOnField);
+
     public void join(Model model, String joinOnField, String[] attrs);
+
     public void join(Model model, String joinOnField, String joinName);
+
     public void join(Model model, String joinOnField, String joinName, String[] attrs);
 
     public void keep(Model model, String... attrs);
+
     public void keep(List<? extends Model> models, String... attrs);
+
+    public boolean isSupperAdmin(long userId);
+
+    public boolean hasRole(long userId, String... roles);
+
+    public boolean hasAnyRole(long userId, String... roles);
 }

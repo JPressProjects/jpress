@@ -17,12 +17,12 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
 		return getLong("id");
 	}
 
-	public void setUserId(java.math.BigInteger userId) {
+	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
 	
-	public java.math.BigInteger getUserId() {
-		return get("user_id");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
 	public void setTitle(java.lang.String title) {

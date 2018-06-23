@@ -9,12 +9,12 @@ import io.jpress.admin.menu.AdminMenuGroup;
 import io.jpress.admin.menu.AdminMenuItem;
 import io.jpress.admin.menu.AdminMenuManager;
 import io.jpress.admin.menu.annotation.AdminMenu;
-import io.jpress.model.Permission;
 import io.jpress.admin.permission.annotation.AdminPermission;
+import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
-import io.jpress.service.Services;
-import io.jpress.web.JPressAdminControllerBase;
+import io.jpress.admin.web.base.AdminControllerBase;
 
+import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,13 +28,14 @@ import java.util.Set;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/permission")
-public class AdminPermissionController extends JPressAdminControllerBase {
+public class AdminPermissionController extends AdminControllerBase {
 
-    private PermissionService permissionService = Services.get(PermissionService.class);
+    @Inject
+    private PermissionService permissionService;
 
-    @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER,order = 10)
+    @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER, order = 10)
     public void index() {
-        render("/WEB-INF/views/admin/permission.html");
+        render("permission.html");
     }
 
     /**
@@ -103,7 +104,7 @@ public class AdminPermissionController extends JPressAdminControllerBase {
 
     private static Set<String> buildExcludedMethodName() {
         Set<String> excludedMethodName = new HashSet<String>();
-        Method[] methods = JPressAdminControllerBase.class.getMethods();
+        Method[] methods = AdminControllerBase.class.getMethods();
         for (Method m : methods) {
             excludedMethodName.add(m.getName());
         }

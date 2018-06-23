@@ -39,3 +39,18 @@
 .text-tap a {
     padding: 0px 5px;
 }
+
+.box-template{
+
+}
+
+.box-template .box-body img{
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.box-template .box-footer label{
+    padding: 10px;
+}

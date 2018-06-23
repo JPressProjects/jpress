@@ -2,7 +2,7 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Clear;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.JPressAdminControllerBase;
+import io.jpress.admin.web.base.AdminControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -11,12 +11,12 @@ import io.jpress.web.JPressAdminControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin")
-public class AdminIndexController extends JPressAdminControllerBase {
+public class AdminIndexController extends AdminControllerBase {
 
 
     @Clear
     public void login() {
-        render("/WEB-INF/views/admin/login.html");
+        render("login.html");
     }
 
 
@@ -28,6 +28,6 @@ public class AdminIndexController extends JPressAdminControllerBase {
 
     public void index() {
 
-        render("/WEB-INF/views/admin/index.html");
+        render("index.html");
     }
 }

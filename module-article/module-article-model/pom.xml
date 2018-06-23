@@ -12,5 +12,12 @@
     <groupId>io.jpress</groupId>
     <artifactId>module-article-model</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

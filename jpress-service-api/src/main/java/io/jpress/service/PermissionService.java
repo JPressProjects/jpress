@@ -103,5 +103,4 @@ public interface PermissionService {
 
     public boolean hasPermission(long userId, String actionKey);
 
-    public boolean isSupperAdmin(long userId);
 }

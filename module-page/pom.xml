@@ -15,12 +15,9 @@
     <artifactId>module-page</artifactId>
 
     <properties>
-
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
     </properties>
-
 
     <modules>
         <module>module-page-model</module>

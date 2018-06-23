@@ -9,9 +9,23 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>io.jpress</groupId>
     <artifactId>module-article-service-api</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-model</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+
+    </dependencies>
 
 
 </project>

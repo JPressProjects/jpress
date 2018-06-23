@@ -1,7 +1,7 @@
 package io.jpress.module.page.controller;
 
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.JPressFrontControllerBase;
+import io.jpress.admin.web.base.FrontControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -11,7 +11,7 @@ import io.jpress.web.JPressFrontControllerBase;
  * @Package io.jpress.module.page.controller
  */
 @RequestMapping("/page")
-public class IndexController extends JPressFrontControllerBase {
+public class IndexController extends FrontControllerBase {
 
     public void index() {
         System.out.println(getRequest().getRequestURI());

@@ -11,16 +11,8 @@ import io.jboot.config.annotation.PropertyConfig;
 @PropertyConfig(prefix = "io.jpress")
 public class JPressConfig {
 
-    private boolean rpcEnable = false;
     private String indexAction = "/page";
 
-    public boolean isRpcEnable() {
-        return rpcEnable;
-    }
-
-    public void setRpcEnable(boolean rpcEnable) {
-        this.rpcEnable = rpcEnable;
-    }
 
     public String getIndexAction() {
         return indexAction;

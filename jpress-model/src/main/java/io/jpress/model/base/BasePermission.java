@@ -18,11 +18,11 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	}
 
 	public void setActionKey(java.lang.String actionKey) {
-		set("actionKey", actionKey);
+		set("action_key", actionKey);
 	}
 	
 	public java.lang.String getActionKey() {
-		return getStr("actionKey");
+		return getStr("action_key");
 	}
 
 	public void setNode(java.lang.String node) {

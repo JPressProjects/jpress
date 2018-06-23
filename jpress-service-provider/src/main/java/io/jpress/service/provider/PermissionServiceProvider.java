@@ -64,23 +64,6 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
-    @Override
-    @Cacheable(name = "permission", key = "is_admin:#(userId)", nullCacheEnable = true)
-    public boolean isSupperAdmin(long userId) {
-        String sql = "select * from user_role where user_id = ?";
-        List<Record> records = Db.find(sql, userId);
-        if (records == null || records.isEmpty()) {
-            return false;
-        }
-
-        for (Record record : records) {
-            Role role = roleService.findById(record.getLong("role_id"));
-            if (role != null && role.isSuperAdmin()) return true;
-        }
-
-        return false;
-    }
-
 
     @Cacheable(name = "permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
     private Set<Permission> findPermissionListByUserId(long userId) {

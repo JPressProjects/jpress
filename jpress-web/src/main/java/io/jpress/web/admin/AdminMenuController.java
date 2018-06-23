@@ -5,9 +5,9 @@ import io.jpress.JPressConstants;
 import io.jpress.admin.menu.AdminMenuManager;
 import io.jpress.admin.menu.annotation.AdminMenu;
 import io.jpress.service.MenuService;
-import io.jpress.service.Services;
-import io.jpress.web.JPressAdminControllerBase;
+import io.jpress.admin.web.base.AdminControllerBase;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 
 /**
@@ -17,14 +17,15 @@ import java.util.Arrays;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/menu")
-public class AdminMenuController extends JPressAdminControllerBase {
+public class AdminMenuController extends AdminControllerBase {
 
-    private MenuService menuService = Services.get(MenuService.class);
+    @Inject
+    private MenuService menuService;
 
     /**
      * 同步所有可以进行控制的 Action 到数据库
      */
-    @AdminMenu(text = "菜单管理", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE)
+    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_APPEARANCE)
     public void index() {
 
         renderText(Arrays.toString(AdminMenuManager.me().getSystemMenus().toArray()));

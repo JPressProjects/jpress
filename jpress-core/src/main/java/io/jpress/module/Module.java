@@ -1,6 +1,6 @@
 package io.jpress.module;
 
-import io.jpress.admin.menu.AdminMenuGroup;
+import io.jpress.core.menu.AdminMenuGroup;
 
 import java.util.ArrayList;
 import java.util.List;

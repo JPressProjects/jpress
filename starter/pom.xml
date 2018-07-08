@@ -48,6 +48,11 @@
             <artifactId>module-page-service-provider</artifactId>
             <version>${jpress.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>codegen</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 
     </dependencies>

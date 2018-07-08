@@ -17,6 +17,22 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getLong("id");
 	}
 
+	public void setPid(java.lang.Long pid) {
+		set("pid", pid);
+	}
+	
+	public java.lang.Long getPid() {
+		return getLong("pid");
+	}
+
+	public void setUserId(java.lang.Integer userId) {
+		set("user_id", userId);
+	}
+	
+	public java.lang.Integer getUserId() {
+		return getInt("user_id");
+	}
+
 	public void setSlug(java.lang.String slug) {
 		set("slug", slug);
 	}
@@ -65,12 +81,12 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getStr("icon");
 	}
 
-	public void setModule(java.lang.String module) {
-		set("module", module);
+	public void setPrice(java.math.BigDecimal price) {
+		set("price", price);
 	}
 	
-	public java.lang.String getModule() {
-		return getStr("module");
+	public java.math.BigDecimal getPrice() {
+		return get("price");
 	}
 
 	public void setCount(java.lang.Long count) {
@@ -87,14 +103,6 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 	
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
-	}
-
-	public void setParentId(java.math.BigInteger parentId) {
-		set("parent_id", parentId);
-	}
-	
-	public java.math.BigInteger getParentId() {
-		return get("parent_id");
 	}
 
 	public void setFlag(java.lang.String flag) {

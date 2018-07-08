@@ -2,7 +2,7 @@ package io.jpress;
 
 import io.jboot.utils.ClassKits;
 import io.jboot.utils.ClassScanner;
-import io.jpress.admin.menu.AdminMenuManager;
+import io.jpress.core.menu.AdminMenuManager;
 import io.jpress.module.Modules;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ class JPressAppConfig {
 
     public void init() {
 
-        initListeners();
-        invokeListeners();
+        initJPressAppListeners();
+        invokeJPressAppListeners();
 
         initAdminMenus();
     }
@@ -37,7 +37,7 @@ class JPressAppConfig {
      * 初始化 监听器
      * 其他 module 会在监听器里完成所有需要的配置
      */
-    private void initListeners() {
+    private void initJPressAppListeners() {
 
         List<Class<JPressAppListener>> classes = ClassScanner.scanSubClass(JPressAppListener.class, true);
         if (classes == null) {
@@ -49,7 +49,7 @@ class JPressAppConfig {
         }
     }
 
-    private void invokeListeners() {
+    private void invokeJPressAppListeners() {
         for (JPressAppListener listener : APP_LISTENERS) {
             listener.onConfigModule(MODULES);
         }

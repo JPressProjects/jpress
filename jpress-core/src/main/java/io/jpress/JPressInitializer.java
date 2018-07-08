@@ -21,5 +21,6 @@ public class JPressInitializer extends JbootAppListenerBase {
     public void onJfinalEngineConfig(Engine engine) {
 
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
     }
 }

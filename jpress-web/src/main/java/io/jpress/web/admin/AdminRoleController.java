@@ -2,9 +2,9 @@ package io.jpress.web.admin;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
-import io.jpress.admin.menu.annotation.AdminMenu;
+import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.service.RoleService;
-import io.jpress.admin.web.base.AdminControllerBase;
+import io.jpress.core.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 

@@ -17,6 +17,14 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getLong("id");
 	}
 
+	public void setPid(java.lang.Integer pid) {
+		set("pid", pid);
+	}
+	
+	public java.lang.Integer getPid() {
+		return getInt("pid");
+	}
+
 	public void setSlug(java.lang.String slug) {
 		set("slug", slug);
 	}
@@ -81,52 +89,12 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getStr("style");
 	}
 
-	public void setUserId(java.math.BigInteger userId) {
+	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
 	
-	public java.math.BigInteger getUserId() {
-		return get("user_id");
-	}
-
-	public void setAuthor(java.lang.String author) {
-		set("author", author);
-	}
-	
-	public java.lang.String getAuthor() {
-		return getStr("author");
-	}
-
-	public void setUserEmail(java.lang.String userEmail) {
-		set("user_email", userEmail);
-	}
-	
-	public java.lang.String getUserEmail() {
-		return getStr("user_email");
-	}
-
-	public void setUserIp(java.lang.String userIp) {
-		set("user_ip", userIp);
-	}
-	
-	public java.lang.String getUserIp() {
-		return getStr("user_ip");
-	}
-
-	public void setUserAgent(java.lang.String userAgent) {
-		set("user_agent", userAgent);
-	}
-	
-	public java.lang.String getUserAgent() {
-		return getStr("user_agent");
-	}
-
-	public void setParentId(java.math.BigInteger parentId) {
-		set("parent_id", parentId);
-	}
-	
-	public java.math.BigInteger getParentId() {
-		return get("parent_id");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
 	public void setOrderNumber(java.lang.Long orderNumber) {

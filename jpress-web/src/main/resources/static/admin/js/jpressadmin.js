@@ -108,10 +108,11 @@ function initTinymce() {
             layer.open({
                 type: 2,
                 title: '选择图片',
+                anim: 2,
                 shadeClose: true,
-                shade: 0.8,
-                area: ['92%', '90%'],
-                content: '${CPATH}/admin/attachment/choose_layer',
+                shade: 0.5,
+                area: ['80%', '70%'],
+                content: '/admin/menu/menu',
                 end: function () {
                     if ('' != data.url && null != data.url) {
                         callback(data.url, {alt: data.alt});

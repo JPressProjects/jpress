@@ -1,7 +1,7 @@
 package io.jpress.module.page.controller;
 
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.admin.web.base.FrontControllerBase;
+import io.jpress.core.web.base.FrontControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

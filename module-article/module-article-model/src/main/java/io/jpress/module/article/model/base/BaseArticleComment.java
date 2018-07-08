@@ -25,20 +25,20 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("user_id");
 	}
 
-	public void setContentId(java.lang.Long contentId) {
-		set("content_id", contentId);
+	public void setArticleId(java.lang.Long articleId) {
+		set("article_id", articleId);
 	}
 	
-	public java.lang.Long getContentId() {
-		return getLong("content_id");
+	public java.lang.Long getArticleId() {
+		return getLong("article_id");
 	}
 
-	public void setContentUserId(java.lang.Long contentUserId) {
-		set("content_user_id", contentUserId);
+	public void setArticleUserId(java.lang.Long articleUserId) {
+		set("article_user_id", articleUserId);
 	}
 	
-	public java.lang.Long getContentUserId() {
-		return getLong("content_user_id");
+	public java.lang.Long getArticleUserId() {
+		return getLong("article_user_id");
 	}
 
 	public void setParentId(java.lang.Long parentId) {
@@ -89,12 +89,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getStr("type");
 	}
 
-	public void setText(java.lang.String text) {
-		set("text", text);
+	public void setContent(java.lang.String content) {
+		set("content", content);
 	}
 	
-	public java.lang.String getText() {
-		return getStr("text");
+	public java.lang.String getContent() {
+		return getStr("content");
 	}
 
 	public void setAgent(java.lang.String agent) {

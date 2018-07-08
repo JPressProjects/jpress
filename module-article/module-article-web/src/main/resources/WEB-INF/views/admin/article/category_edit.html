@@ -1,0 +1,130 @@
+#@layout()
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        #if(category)
+        <h1>
+            编辑分类
+            <small>Category Edit</small>
+        </h1>
+        #else
+        <h1>
+            新增分类
+            <small>Category Add</small>
+        </h1>
+        #end
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li>文章</li>
+            <li>分类</li>
+            #if(category)
+            <li class="active">编辑</li>
+            #else
+            <li class="active">新增</li>
+            #end
+
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..." value="#(category.title ??)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">父级</label>
+
+                                <div class="col-sm-6">
+                                    <select class="form-control">
+                                        <option>请选择...</option>
+                                        <option>option 2</option>
+                                        <option>option 3</option>
+                                        <option>option 4</option>
+                                        <option>option 5</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">slug</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="slug会显示在网址上..." value="#(category.slug ??)">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="此分类排序的序号">
+                                    <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">摘要</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">SEO</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">描述</label>
+
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="此内容会显示在搜索引擎的列表描述上..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">关键字</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="多个关键字用逗号隔开">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

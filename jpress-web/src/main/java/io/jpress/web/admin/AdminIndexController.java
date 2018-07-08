@@ -2,7 +2,7 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Clear;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.admin.web.base.AdminControllerBase;
+import io.jpress.core.web.base.AdminControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

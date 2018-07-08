@@ -3,7 +3,7 @@ package io.jpress.web.front;
 import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConfig;
-import io.jpress.admin.web.base.FrontControllerBase;
+import io.jpress.core.web.base.FrontControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

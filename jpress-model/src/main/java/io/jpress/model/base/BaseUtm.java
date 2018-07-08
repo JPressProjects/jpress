@@ -25,6 +25,14 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
 		return getInt("user_id");
 	}
 
+	public void setAnonymous(java.lang.String anonymous) {
+		set("anonymous", anonymous);
+	}
+	
+	public java.lang.String getAnonymous() {
+		return getStr("anonymous");
+	}
+
 	public void setActionKey(java.lang.String actionKey) {
 		set("action_key", actionKey);
 	}
@@ -39,6 +47,14 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
 	
 	public java.lang.String getActionQuery() {
 		return getStr("action_query");
+	}
+
+	public void setActionName(java.lang.String actionName) {
+		set("action_name", actionName);
+	}
+	
+	public java.lang.String getActionName() {
+		return getStr("action_name");
 	}
 
 	public void setSource(java.lang.String source) {
@@ -95,6 +111,14 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
 	
 	public java.lang.String getAgent() {
 		return getStr("agent");
+	}
+
+	public void setReferer(java.lang.String referer) {
+		set("referer", referer);
+	}
+	
+	public java.lang.String getReferer() {
+		return getStr("referer");
 	}
 
 	public void setDeviceId(java.lang.String deviceId) {

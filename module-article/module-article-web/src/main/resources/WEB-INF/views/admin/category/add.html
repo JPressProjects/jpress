@@ -1,0 +1,216 @@
+#@layout()
+#define script()
+<script src="/static/components/tinymce/tinymce.min.js"></script>
+<script>
+    initTinymce();
+</script>
+#end
+#define css()
+<style>
+    body .mce-branding {
+        display: none;
+    }
+
+    body .child {
+        padding-left: 20px;
+    }
+
+    body .checkbox {
+        position: relative;
+        display: block;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    body .checkbox + .checkbox {
+        margin-top: 0px;
+    }
+
+    div .mce-edit-area {
+        border-bottom: 1px solid #eee;
+    }
+
+    body .mce-panel {
+        background-color: #fff;
+        border: none;
+    }
+</style>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            写文章
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li class="active">写文章</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-9">
+
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="input" class="form-control input-lg" placeholder="请输入标题">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="z-index: 9999">
+                            <textarea id="textarea" name="content.text"
+                                      style="height: 467px;width: 100%;">${(content.text)!}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">属性设置</h3>
+
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body ">
+                                    <!-- Custom Tabs -->
+
+                                    <form class="form-horizontal" autocomplete="off">
+                                        <div class="box-body ">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO关键字</label>
+
+                                                <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control"
+                                                              placeholder="请输入"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO描述</label>
+
+                                                <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control"
+                                                              placeholder="请输入"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="col-xs-3">
+                <div class="box box-solid">
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="box-body ">
+                        <button type="button" class="btn btn-primary btn-sm ">发布</button>
+                        <button type="button" class="btn btn-default btn-sm ">草稿</button>
+
+                        <a href="#" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
+                    </div>
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border ">
+                        <h3 class="box-title">分类</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="box-body ">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Checkbox 1
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Checkbox 2
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Checkbox disabled
+                                </label>
+
+                                <div class="checkbox child">
+                                    <label>
+                                        <input type="checkbox">
+                                        Checkbox disabled
+                                    </label>
+                                </div>
+                                <div class="checkbox child">
+                                    <label>
+                                        <input type="checkbox">
+                                        Checkbox disabled
+                                    </label>
+
+                                    <div class="checkbox child">
+                                        <label>
+                                            <input type="checkbox">
+                                            Checkbox disabled
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox child">
+                                        <label>
+                                            <input type="checkbox">
+                                            Checkbox disabled
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="box box-solid">
+                    <div class="box-header with-border ">
+                        <h3 class="box-title">缩略图</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="box-body no-padding">
+                        <img src="/static/admin/images/nohumbnail.jpg" style="width: 100%">
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-default btn-sm">选择图片</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

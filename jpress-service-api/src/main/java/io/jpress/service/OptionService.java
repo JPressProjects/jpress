@@ -85,4 +85,6 @@ public interface OptionService  {
 
     public void keep(Model model, String... attrs);
     public void keep(List<? extends Model> models, String... attrs);
+
+    public String findByKey(String key);
 }

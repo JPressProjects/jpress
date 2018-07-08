@@ -17,12 +17,28 @@ public abstract class BaseArticlePayRecord<M extends BaseArticlePayRecord<M>> ex
 		return getLong("id");
 	}
 
-	public void setArticleId(java.lang.Long articleId) {
-		set("article_id", articleId);
+	public void setContentId(java.lang.Long contentId) {
+		set("content_id", contentId);
 	}
 	
-	public java.lang.Long getArticleId() {
-		return getLong("article_id");
+	public java.lang.Long getContentId() {
+		return getLong("content_id");
+	}
+
+	public void setContentTitle(java.lang.String contentTitle) {
+		set("content_title", contentTitle);
+	}
+	
+	public java.lang.String getContentTitle() {
+		return getStr("content_title");
+	}
+
+	public void setContentType(java.lang.Integer contentType) {
+		set("content_type", contentType);
+	}
+	
+	public java.lang.Integer getContentType() {
+		return getInt("content_type");
 	}
 
 	public void setUserId(java.lang.Long userId) {

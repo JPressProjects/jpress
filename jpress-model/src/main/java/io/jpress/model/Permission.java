@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StringUtils;
 import io.jpress.model.base.BasePermission;
 
 /**
@@ -26,6 +27,34 @@ public class Permission extends BasePermission<Permission> {
         return getActionKey().equals(p.getActionKey());
     }
 
+    public String getShortNode() {
+        String node = getNode();
+        if (StringUtils.isBlank(node)) {
+            return node;
+        }
+
+        if (!node.contains(".")) {
+            return node;
+        }
+
+        String[] strings = node.split("\\.");
+        return "..." + strings[strings.length - 1];
+    }
+
+    public String getTypeText() {
+        switch (getType()) {
+            case TYPE_ACTION:
+                return "功能";
+            case TYPE_CUSTOM:
+                return "自定义";
+            case TYPE_MENU:
+                return "菜单";
+            case TYPE_DIV:
+                return "页面块";
+        }
+        return "未知类型";
+    }
+
     public boolean isActionPermission() {
         return getType() != null && TYPE_ACTION == getType();
     }
@@ -40,7 +69,7 @@ public class Permission extends BasePermission<Permission> {
         return getType() != null && TYPE_MENU == getType();
     }
 
-    
+
     public boolean isCustomPermission() {
         return getType() != null && TYPE_CUSTOM == getType();
     }

@@ -14,19 +14,19 @@ import javax.inject.Inject;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/order")
-public class AdminOrderController extends AdminControllerBase {
+@RequestMapping("/admin/finance")
+public class AdminFinanceController extends AdminControllerBase {
 
     @Inject
     private RoleService roleService;
 
-    @AdminMenu(text = "订单管理", groupId = JPressConstants.SYSTEM_MENU_ORDER, order = 0)
+    @AdminMenu(text = "订单管理", groupId = JPressConstants.SYSTEM_MENU_FINANCE, order = 0)
     public void index() {
         render("order/list.html");
 
     }
 
-    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_ORDER)
+    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_FINANCE)
     public void my() {
         render("my.html");
     }

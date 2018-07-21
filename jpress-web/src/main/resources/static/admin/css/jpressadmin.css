@@ -76,3 +76,19 @@
     font-size: 18px;
 }
 
+.box-dashboard {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border: 1px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0);
+}
+
+.box-dashboard .box-header .box-title {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1;
+}

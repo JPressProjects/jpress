@@ -1,0 +1,13 @@
+#define paginate()
+<ul class="pagination pull-right">
+    #adminPaginate()
+    #for(page : pages)
+    <li class="paginate_button #(page.style ??)">
+        <a href="#(page.url??)">#(page.text??)</a>
+    </li>
+    #end
+    #end
+</ul>
+#end
+
+

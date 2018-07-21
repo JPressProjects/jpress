@@ -50,8 +50,8 @@ public class AdminMenuManager {
 
 
         AdminMenuGroup orderMenuGroup = new AdminMenuGroup();
-        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_ORDER);
-        orderMenuGroup.setText("订单");
+        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_FINANCE);
+        orderMenuGroup.setText("财务");
         systemMenus.add(orderMenuGroup);
 
 

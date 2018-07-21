@@ -3,6 +3,7 @@ package io.jpress.web.admin;
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.AdminMenuGroup;
@@ -35,14 +36,18 @@ public class AdminPermissionController extends AdminControllerBase {
 
     @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER, order = 10)
     public void index() {
-        render("permission.html");
+        Page<Permission> permissionPage = permissionService.page(getParaToInt("page", 1), 10);
+        setAttr("page", permissionPage);
+        render("user/permission.html");
     }
 
     /**
      * 同步所有可以进行控制的 Action 到数据库
      */
-    public void syncActionPermissions() {
+    public void syncPermissions() {
         List<Permission> adminPermissions = buildActionPermissions();
+        adminPermissions.addAll(buildMenuPermissions());
+
         int syncCount = permissionService.sync(adminPermissions);
 
         if (syncCount == 0) {
@@ -52,19 +57,7 @@ public class AdminPermissionController extends AdminControllerBase {
         }
     }
 
-    /**
-     * 同步所有可以进行控制的 菜单 到数据库
-     */
-    public void syncMenuPermissions() {
-        List<Permission> adminPermissions = buildMenuPermissions();
-        int syncCount = permissionService.sync(adminPermissions);
 
-        if (syncCount == 0) {
-            renderJson(Ret.ok("msg", "权限已经是最新状态，无需更新"));
-        } else {
-            renderJson(Ret.ok("msg", "权限更新成功，共更新权限数 : " + syncCount));
-        }
-    }
 
     private List<Permission> buildMenuPermissions() {
 

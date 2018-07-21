@@ -17,7 +17,7 @@ public class JPressConstants {
     public static final String SYSTEM_MENU_SYSTEM = "system";
 //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";
-    public static final String SYSTEM_MENU_ORDER = "order";
+    public static final String SYSTEM_MENU_FINANCE = "finance";
     public static final String SYSTEM_MENU_WECHAT = "wechat";
 
 

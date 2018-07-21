@@ -1,9 +1,11 @@
 package io.jpress.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.*;
@@ -34,7 +36,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         for (Permission permission : permissions) {
 
             Columns columns = Columns.create("node", permission.getNode());
-            columns.eq("actionKey", permission.getActionKey());
+            columns.eq("action_key", permission.getActionKey());
 
             Permission dbPermission = DAO.findFirstByColumns(columns);
 
@@ -63,6 +65,15 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         return false;
     }
 
+    @Override
+    public Page<Permission> page(int size, int count) {
+        return DAO.paginate(size, count);
+    }
+
+    @Override
+    public Page<Permission> page(int size, int count, int type) {
+        return DAO.paginateByColumn(size, count, Column.create("type", type), "id desc");
+    }
 
 
     @Cacheable(name = "permission", key = "user_permissions:#(userId)", nullCacheEnable = true)

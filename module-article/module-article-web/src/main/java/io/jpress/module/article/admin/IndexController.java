@@ -81,7 +81,7 @@ public class IndexController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "收入", groupId = "article", order = 6)
+    @AdminMenu(text = "订单", groupId = "article", order = 6)
     public void paylist() {
         render("article/paylist.html");
     }

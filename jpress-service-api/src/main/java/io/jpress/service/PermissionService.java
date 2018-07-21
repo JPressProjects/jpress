@@ -103,4 +103,8 @@ public interface PermissionService {
 
     public boolean hasPermission(long userId, String actionKey);
 
+    public Page<Permission> page(int size, int count);
+
+    public Page<Permission> page(int size, int count, int type);
+
 }

@@ -44,7 +44,7 @@ public class Permission extends BasePermission<Permission> {
     public String getTypeText() {
         switch (getType()) {
             case TYPE_ACTION:
-                return "功能";
+                return "URL";
             case TYPE_CUSTOM:
                 return "自定义";
             case TYPE_MENU:

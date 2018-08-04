@@ -3,7 +3,6 @@ package io.jpress.web.admin;
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.AdminMenuGroup;
@@ -11,16 +10,13 @@ import io.jpress.core.menu.AdminMenuItem;
 import io.jpress.core.menu.AdminMenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.permission.annotation.AdminPermission;
+import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
-import io.jpress.core.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,9 +32,30 @@ public class AdminPermissionController extends AdminControllerBase {
 
     @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER, order = 10)
     public void index() {
-        Page<Permission> permissionPage = permissionService.page(getParaToInt("page", 1), 10);
-        setAttr("page", permissionPage);
+//        Page<Permission> permissionPage = permissionService.page(getParaToInt("page", 1), 10);
+//        setAttr("page", permissionPage);
+
+        List<Permission> permissions = permissionService.findAll();
+
+        setAttr("permissionGroup", groupPermission(permissions));
+
         render("user/permission.html");
+    }
+
+    private Map<String, List<Permission>> groupPermission(List<Permission> permissions) {
+
+        Map<String, List<Permission>> map = new HashMap<>();
+
+        for (Permission permission : permissions) {
+            List<Permission> permissionList = map.get(permission.getShortNode());
+            if (permissionList == null) {
+                permissionList = new ArrayList<>();
+                map.put(permission.getShortNode(), permissionList);
+            }
+            permissionList.add(permission);
+        }
+
+        return map;
     }
 
     /**
@@ -56,7 +73,6 @@ public class AdminPermissionController extends AdminControllerBase {
             renderJson(Ret.ok("msg", "权限更新成功，共更新权限数 : " + syncCount));
         }
     }
-
 
 
     private List<Permission> buildMenuPermissions() {

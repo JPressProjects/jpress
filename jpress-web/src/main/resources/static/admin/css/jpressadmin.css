@@ -83,7 +83,7 @@
     border: 1px solid #d2d6de;
     margin-bottom: 20px;
     width: 100%;
-    box-shadow: 0 1px 1px rgba(0,0,0,0);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
 }
 
 .box-dashboard .box-header .box-title {
@@ -91,4 +91,23 @@
     font-size: 14px;
     margin: 0;
     line-height: 1;
+}
+
+.waterfall-container {
+    -moz-column-count: 2; /* Firefox */
+    -webkit-column-count: 2; /* Safari 和 Chrome */
+    column-count: 2;
+    -moz-column-gap: 1em;
+    -webkit-column-gap: 1em;
+    column-gap: 1em;
+}
+
+.waterfall-item {
+    -moz-page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
 }

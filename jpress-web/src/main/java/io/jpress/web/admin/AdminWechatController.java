@@ -15,34 +15,33 @@ import io.jpress.core.web.base.AdminControllerBase;
 public class AdminWechatController extends AdminControllerBase {
 
 
+    @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 1)
+    public void base() {
+        render("wechat/setting_base.html");
+    }
 
 
-    @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 0)
-    public void replay() {
+    @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 2)
+    public void menu() {
         render("user.html");
     }
 
 
-    @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 1)
+
+    @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 10)
+    public void replay() {
+        render("wechat/replay_base.html");
+    }
+
+
+    @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 11)
     public void keyword() {
         render("user.html");
     }
 
 
-    @AdminMenu(text = "素材管理", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 3)
+    @AdminMenu(text = "素材管理", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 13)
     public void material() {
-        render("user.html");
-    }
-
-
-    @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 11)
-    public void base() {
-        render("my.html");
-    }
-
-
-    @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 12)
-    public void menu() {
         render("user.html");
     }
 

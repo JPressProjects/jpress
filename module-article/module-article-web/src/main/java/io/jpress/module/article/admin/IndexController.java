@@ -36,6 +36,9 @@ public class IndexController extends AdminControllerBase {
 
     @AdminMenu(text = "写文章", groupId = "article", order = 1)
     public void write() {
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        CategoryKits.toLayerCategories(categories);
+        setAttr("categories", categories);
         render("article/write.html");
     }
 
@@ -63,11 +66,24 @@ public class IndexController extends AdminControllerBase {
     }
 
     public void categoryedit() {
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        CategoryKits.toLayerCategories(categories);
+        setAttr("categories", categories);
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            setAttr("category", articleCategoryService.findById(id));
+            for (ArticleCategory category : categories){
+                if (category.getId() == id){
+                    setAttr("category",category);
+                }
+            }
         }
         render("article/category_edit.html");
+    }
+
+    public void categorySave() {
+        ArticleCategory category = getModel(ArticleCategory.class, "");
+        articleCategoryService.saveOrUpdate(category);
+        redirect("/admin/article/category");
     }
 
 

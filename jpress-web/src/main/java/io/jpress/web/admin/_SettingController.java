@@ -2,13 +2,11 @@ package io.jpress.web.admin;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
-import io.jpress.core.menu.AdminMenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.service.RoleService;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -29,13 +27,13 @@ public class _SettingController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_SYSTEM,order = 1)
+    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 1)
     public void menu() {
-        renderText(Arrays.toString(AdminMenuManager.me().getSystemMenus().toArray()));
+        render("menu/list.html");
     }
 
-    public void menu111(){
-        render("/WEB-INF/views/admin/menu.html");
+    public void menuedit() {
+        render("menu/edit.html");
     }
 
     @AdminMenu(text = "SEO", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 11)

@@ -83,8 +83,34 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNO; i++) {
-            sb.append("—");
+            if (i == 0)
+                sb.append("|—");
+            else
+                sb.append("—");
         }
         return sb.toString();
+    }
+
+    public boolean isMyChild(long id) {
+        if (childs == null || childs.isEmpty()) {
+            return false;
+        }
+
+        return isMyChild(childs, id);
+    }
+
+    private boolean isMyChild(List<ArticleCategory> categories, long id) {
+        for (ArticleCategory category : categories) {
+            if (category.getId() == id) {
+                return true;
+            }
+
+            if (category.getChilds() != null) {
+                boolean isChild = isMyChild(category.getChilds(), id);
+                if (isChild) return true;
+            }
+        }
+
+        return false;
     }
 }

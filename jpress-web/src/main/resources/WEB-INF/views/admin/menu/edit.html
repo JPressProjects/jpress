@@ -5,13 +5,13 @@
     <section class="content-header">
         #if(category)
         <h1>
-            编辑分类
-            <small>Category Edit</small>
+            编辑菜单
+            <small>Menu Edit</small>
         </h1>
         #else
         <h1>
-            新增分类
-            <small>Category Add</small>
+            新增菜单
+            <small>Menu Add</small>
         </h1>
         #end
         <ol class="breadcrumb">
@@ -44,9 +44,15 @@
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名称</label>
-
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..."
+                                    <input type="input" class="form-control" placeholder="取个适合的名称..."
+                                           value="#(category.title ??)" name="title">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">链接地址</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="请填写链接的url地址"
                                            value="#(category.title ??)" name="title">
                                 </div>
                             </div>

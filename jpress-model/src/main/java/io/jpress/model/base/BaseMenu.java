@@ -81,20 +81,20 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends JbootModel<M> impl
 		return getInt("desc_no");
 	}
 
-	public void setRelativeObject(java.lang.String relativeObject) {
-		set("relative_object", relativeObject);
+	public void setRelativeTable(java.lang.String relativeTable) {
+		set("relative_table", relativeTable);
 	}
 	
-	public java.lang.String getRelativeObject() {
-		return getStr("relative_object");
+	public java.lang.String getRelativeTable() {
+		return getStr("relative_table");
 	}
 
-	public void setRelativeObjectId(java.lang.Integer relativeObjectId) {
-		set("relative_object_id", relativeObjectId);
+	public void setRelativeTableId(java.lang.Integer relativeTableId) {
+		set("relative_table_id", relativeTableId);
 	}
 	
-	public java.lang.Integer getRelativeObjectId() {
-		return getInt("relative_object_id");
+	public java.lang.Integer getRelativeTableId() {
+		return getInt("relative_table_id");
 	}
 
 	public void setCreated(java.util.Date created) {

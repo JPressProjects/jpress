@@ -137,56 +137,16 @@
                     <!-- form start -->
                     <div class="box-body ">
                         <div class="form-group">
+                            #for(category : categories)
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox">
-                                    Checkbox 1
+                                    #for(i = 0; i < category.layerNO; i++)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    #end
+                                    <input type="checkbox" name="category" value="#(category.id)"/>#(category.title ??)
                                 </label>
                             </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">
-                                    Checkbox 2
-                                </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">
-                                    Checkbox disabled
-                                </label>
-
-                                <div class="checkbox child">
-                                    <label>
-                                        <input type="checkbox">
-                                        Checkbox disabled
-                                    </label>
-                                </div>
-                                <div class="checkbox child">
-                                    <label>
-                                        <input type="checkbox">
-                                        Checkbox disabled
-                                    </label>
-
-                                    <div class="checkbox child">
-                                        <label>
-                                            <input type="checkbox">
-                                            Checkbox disabled
-                                        </label>
-                                    </div>
-
-                                    <div class="checkbox child">
-                                        <label>
-                                            <input type="checkbox">
-                                            Checkbox disabled
-                                        </label>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
+                            #end
                         </div>
 
                     </div>

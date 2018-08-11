@@ -12,7 +12,7 @@ import io.jpress.core.web.base.AdminControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/wechat")
-public class AdminWechatController extends AdminControllerBase {
+public class _WechatController extends AdminControllerBase {
 
 
     @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 1)

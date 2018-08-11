@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/finance")
-public class AdminFinanceController extends AdminControllerBase {
+public class _FinanceController extends AdminControllerBase {
 
     @Inject
     private RoleService roleService;

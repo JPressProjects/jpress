@@ -3,6 +3,9 @@ package io.jpress.module.article.model;
 import io.jboot.db.annotation.Table;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 此类用来定义 文章的类型，包含了：分类、标签和专题
  * 分类和标签只是对文章的逻辑归类
@@ -36,4 +39,52 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
      */
     public static final String TYPE_USER_SUBJECT = "user_subject";
 
+
+    /**
+     * 是否是顶级菜单
+     *
+     * @return
+     */
+    public boolean isTopCategory() {
+        return getPid() != null && getPid() == 0;
+    }
+
+    private List<ArticleCategory> childs;
+
+    public List<ArticleCategory> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(List<ArticleCategory> childs) {
+        this.childs = childs;
+    }
+
+    public void addChild(ArticleCategory child) {
+        if (childs == null) {
+            childs = new ArrayList<>();
+        }
+        childs.add(child);
+    }
+
+    private int layerNO = 0;
+
+    public int getLayerNO() {
+        return layerNO;
+    }
+
+    public void setLayerNO(int layerNO) {
+        this.layerNO = layerNO;
+    }
+
+    public String getLayerString() {
+        if (layerNO == 0) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < layerNO; i++) {
+            sb.append("—");
+        }
+        return sb.toString();
+    }
 }

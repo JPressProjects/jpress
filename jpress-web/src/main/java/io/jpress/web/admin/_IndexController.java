@@ -11,7 +11,7 @@ import io.jpress.core.web.base.AdminControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin")
-public class AdminIndexController extends AdminControllerBase {
+public class _IndexController extends AdminControllerBase {
 
 
     @Clear

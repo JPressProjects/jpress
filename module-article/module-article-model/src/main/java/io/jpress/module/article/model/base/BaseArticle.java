@@ -145,14 +145,6 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getLong("rate_count");
 	}
 
-	public void setPrice(java.math.BigDecimal price) {
-		set("price", price);
-	}
-	
-	public java.math.BigDecimal getPrice() {
-		return get("price");
-	}
-
 	public void setCommentStatus(java.lang.String commentStatus) {
 		set("comment_status", commentStatus);
 	}

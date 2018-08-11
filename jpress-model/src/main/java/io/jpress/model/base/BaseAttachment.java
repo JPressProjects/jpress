@@ -89,6 +89,14 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
 		return getInt("order_number");
 	}
 
+	public void setAccessible(java.lang.Boolean accessible) {
+		set("accessible", accessible);
+	}
+	
+	public java.lang.Boolean getAccessible() {
+		return get("accessible");
+	}
+
 	public void setIp(java.lang.String ip) {
 		set("ip", ip);
 	}

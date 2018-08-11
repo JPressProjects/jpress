@@ -25,7 +25,7 @@ import java.util.*;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/permission")
-public class AdminPermissionController extends AdminControllerBase {
+public class _PermissionController extends AdminControllerBase {
 
     @Inject
     private PermissionService permissionService;

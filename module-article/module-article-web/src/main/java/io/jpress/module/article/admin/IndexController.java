@@ -6,6 +6,7 @@ import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -49,6 +50,7 @@ public class IndexController extends AdminControllerBase {
     @AdminMenu(text = "分类", groupId = "article", order = 2)
     public void category() {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
         render("article/category.html");
     }

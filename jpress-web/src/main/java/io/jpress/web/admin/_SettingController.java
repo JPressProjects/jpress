@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/setting")
-public class AdminSettingController extends AdminControllerBase {
+public class _SettingController extends AdminControllerBase {
 
     @Inject
     private RoleService roleService;

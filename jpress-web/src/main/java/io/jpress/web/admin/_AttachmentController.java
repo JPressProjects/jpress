@@ -12,7 +12,7 @@ import io.jpress.core.web.base.AdminControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/attachment")
-public class AdminAttachmentController extends AdminControllerBase {
+public class _AttachmentController extends AdminControllerBase {
 
 
     @AdminMenu(text = "所有附件", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 0)

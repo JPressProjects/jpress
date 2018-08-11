@@ -57,6 +57,14 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
 		return getStr("salt");
 	}
 
+	public void setAnonym(java.lang.String anonym) {
+		set("anonym", anonym);
+	}
+	
+	public java.lang.String getAnonym() {
+		return getStr("anonym");
+	}
+
 	public void setWxOpenid(java.lang.String wxOpenid) {
 		set("wx_openid", wxOpenid);
 	}

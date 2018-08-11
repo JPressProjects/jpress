@@ -1,14 +1,32 @@
 #@layout()
 
 #define css()
-<link href="/static/components/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet">
+<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+<style type="text/css">
+    .switchery-small {
+        margin-top: 7px;
+    }
+</style>
 #end
 
 #define script()
-<script src="/static/components/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="/static/components/switchery/switchery.min.js"></script>
 <script>
-    $.fn.bootstrapSwitch.defaults.size = 'small';
-    $("[name='my-checkbox']").bootstrapSwitch();
+    var config = {
+        color: '#64bd63'
+        , secondaryColor: '#dfdfdf'
+        , jackColor: '#fff'
+        , jackSecondaryColor: null
+        , className: 'switchery'
+        , disabled: false
+        , disabledOpacity: 0.5
+        , speed: '0.4s'
+        , size: 'small'
+    };
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, config);
+    });
 </script>
 #end
 
@@ -52,14 +70,15 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">超级管理员</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked name="my-checkbox">
+                                    <input type="checkbox" checked class="switchery">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" name="role.description" class="form-control" placeholder="该角色的一些描述 或 备注">#(role.description ??)</textarea>
+                                    <textarea rows="5" name="role.description" class="form-control"
+                                              placeholder="该角色的一些描述 或 备注">#(role.description ??)</textarea>
                                 </div>
                             </div>
 

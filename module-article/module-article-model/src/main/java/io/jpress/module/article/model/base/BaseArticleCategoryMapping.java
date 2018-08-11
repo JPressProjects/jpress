@@ -17,12 +17,12 @@ public abstract class BaseArticleCategoryMapping<M extends BaseArticleCategoryMa
 		return getLong("article_id");
 	}
 
-	public void setCategoryId(java.lang.Integer categoryId) {
+	public void setCategoryId(java.lang.Long categoryId) {
 		set("category_id", categoryId);
 	}
 	
-	public java.lang.Integer getCategoryId() {
-		return getInt("category_id");
+	public java.lang.Long getCategoryId() {
+		return getLong("category_id");
 	}
 
 }

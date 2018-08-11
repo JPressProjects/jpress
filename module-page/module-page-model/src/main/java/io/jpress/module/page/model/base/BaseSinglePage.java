@@ -49,6 +49,14 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 		return getStr("edit_mode");
 	}
 
+	public void setLinkTo(java.lang.String linkTo) {
+		set("link_to", linkTo);
+	}
+	
+	public java.lang.String getLinkTo() {
+		return getStr("link_to");
+	}
+
 	public void setSummary(java.lang.String summary) {
 		set("summary", summary);
 	}
@@ -79,30 +87,6 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 	
 	public java.lang.String getStatus() {
 		return getStr("status");
-	}
-
-	public void setCommentStatus(java.lang.String commentStatus) {
-		set("comment_status", commentStatus);
-	}
-	
-	public java.lang.String getCommentStatus() {
-		return getStr("comment_status");
-	}
-
-	public void setCommentCount(java.lang.Long commentCount) {
-		set("comment_count", commentCount);
-	}
-	
-	public java.lang.Long getCommentCount() {
-		return getLong("comment_count");
-	}
-
-	public void setCommentTime(java.util.Date commentTime) {
-		set("comment_time", commentTime);
-	}
-	
-	public java.util.Date getCommentTime() {
-		return get("comment_time");
 	}
 
 	public void setViewCount(java.lang.Long viewCount) {

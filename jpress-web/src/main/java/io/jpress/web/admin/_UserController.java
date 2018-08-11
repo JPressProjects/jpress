@@ -1,11 +1,14 @@
 package io.jpress.web.admin;
 
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Role;
+import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.service.UserService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,15 +20,25 @@ import java.util.List;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/user")
-public class AdminUserController extends AdminControllerBase {
+public class _UserController extends AdminControllerBase {
 
     @Inject
     private RoleService roleService;
 
+    @Inject
+    private UserService userService;
+
     @AdminMenu(text = "用户", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
     public void index() {
-        render("user.html");
 
+        Page<User> page = userService.paginate(getParaToInt("page", 1), 10);
+        setAttr("page", page);
+
+        render("user/list.html");
+    }
+
+    public void edit(){
+        render("user/edit.html");
     }
 
     @AdminMenu(text = "角色", groupId = JPressConstants.SYSTEM_MENU_USER, order = 5)

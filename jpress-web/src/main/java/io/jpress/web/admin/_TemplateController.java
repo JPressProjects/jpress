@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/admin/template")
-public class AdminTemplateController extends AdminControllerBase {
+public class _TemplateController extends AdminControllerBase {
 
     @Inject
     private MenuService menuService;

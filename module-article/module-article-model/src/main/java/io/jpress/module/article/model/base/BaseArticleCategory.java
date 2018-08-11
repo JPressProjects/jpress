@@ -81,14 +81,6 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getStr("icon");
 	}
 
-	public void setPrice(java.math.BigDecimal price) {
-		set("price", price);
-	}
-	
-	public java.math.BigDecimal getPrice() {
-		return get("price");
-	}
-
 	public void setCount(java.lang.Long count) {
 		set("count", count);
 	}

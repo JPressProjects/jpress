@@ -67,6 +67,12 @@ public class AdminMenuManager {
         systemMenus.add(wechatMenuGroup);
 
 
+        AdminMenuGroup templateMenuGroup = new AdminMenuGroup();
+        templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_TEMPLATE);
+        templateMenuGroup.setText("模板");
+        systemMenus.add(templateMenuGroup);
+
+
         AdminMenuGroup settingMenuGroup = new AdminMenuGroup();
         settingMenuGroup.setId(JPressConstants.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");

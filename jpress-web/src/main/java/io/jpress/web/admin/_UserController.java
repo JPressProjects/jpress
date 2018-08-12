@@ -4,11 +4,14 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.model.Permission;
 import io.jpress.model.Role;
 import io.jpress.model.User;
+import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
-import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.service.UserService;
+import io.jpress.web.admin.kits.PermissionKits;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -28,6 +31,9 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private UserService userService;
 
+    @Inject
+    private PermissionService permissionService;
+
     @AdminMenu(text = "用户", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
@@ -37,7 +43,14 @@ public class _UserController extends AdminControllerBase {
         render("user/list.html");
     }
 
-    public void edit(){
+
+    public void permissions() {
+        List<Permission> permissions = permissionService.findAll();
+        setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
+        render("user/user_permissions.html");
+    }
+
+    public void edit() {
         render("user/edit.html");
     }
 
@@ -47,6 +60,13 @@ public class _UserController extends AdminControllerBase {
         setAttr("roles", roles);
         render("user/role.html");
     }
+
+    public void rolePermissions() {
+        List<Permission> permissions = permissionService.findAll();
+        setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
+        render("user/role_permissions.html");
+    }
+
 
     public void roleEdit() {
         long id = getParaToLong("id", 0l);
@@ -65,7 +85,7 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "我的资料", groupId = JPressConstants.SYSTEM_MENU_USER)
     public void me() {
-        render("user/me.html");
+        render("user/detail.html");
     }
 
 }

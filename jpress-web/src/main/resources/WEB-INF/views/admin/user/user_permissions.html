@@ -1,35 +1,26 @@
 #@layout()
 
+#define css()
+<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+#end
+
+
 #define script()
-<script src="/static/components/tinymce/tinymce.min.js"></script>
+<script src="/static/components/switchery/switchery.min.js"></script>
 <script>
 
-    $("#sync").on("click",function () {
-        $.ajax({ url: "/admin/permission/syncPermissions",  success: function(result){
-           alert(result.msg);
-        }});
-    })
+    var elems = document.querySelectorAll('.switchery');
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = new Switchery(elems[i],{size:'small'});
+    }
 
-
-
-    $("#chooseimage").on("click",function () {
-        layer.open({
-            type: 2,
-            title: '选择图片',
-            anim: 2,
-            shadeClose: true,
-            shade: 0.5,
-            area: ['80%', '70%'],
-            content: '/admin/menu/menu',
-            end: function () {
-                if ('' != data.url && null != data.url) {
-                    callback(data.url, {alt: data.alt});
-                }
+    $("#sync").on("click", function () {
+        $.ajax({
+            url: "/admin/permission/syncPermissions", success: function (result) {
+                alert(result.msg);
             }
         });
     })
-
-
 </script>
 #end
 
@@ -56,20 +47,18 @@
                 <div class="box box-primary">
 
                     <div class="box-header  ">
-                        <div class="actionPanel">
+                        <div class="row">
                             <div class="col-xs-12">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default active">全部</button>
-                                    <button type="button" class="btn btn-default">菜单</button>
-                                    <button type="button" class="btn btn-default">URL</button>
-                                    <button type="button" class="btn btn-default">页面块</button>
-                                </div>
+                                <h2 class="page-header">
+                                    <i class="fa fa-globe"></i>
+                                    Jean 的权限列表
+                                </h2>
                             </div>
+                            <!-- /.col -->
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body waterfall-container">
-
                         #for(x : permissionGroup)
                         <div class="waterfall-item">
                             <div class="box box-dashboard">
@@ -81,12 +70,14 @@
                                     <table class="table table-striped">
                                         <tbody>
                                         <tr>
+                                            <th style="width: 10px">#</th>
                                             <th>ActionKey</th>
                                             <th>描述</th>
                                             <th style="width: 80px">类型</th>
                                         </tr>
                                         #for(permission : x.value)
                                         <tr>
+                                            <td><input type="checkbox" checked readonly class="switchery"></td>
                                             <td>#(permission.action_key ??)</td>
                                             <td>#(permission.text ??)</td>
                                             <td>#(permission.typeText ??)</td>

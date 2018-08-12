@@ -13,6 +13,7 @@ import io.jpress.core.permission.annotation.AdminPermission;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
+import io.jpress.web.admin.kits.PermissionKits;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
@@ -37,26 +38,11 @@ public class _PermissionController extends AdminControllerBase {
 
         List<Permission> permissions = permissionService.findAll();
 
-        setAttr("permissionGroup", groupPermission(permissions));
+        setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
 
         render("user/permission.html");
     }
-
-    private Map<String, List<Permission>> groupPermission(List<Permission> permissions) {
-
-        Map<String, List<Permission>> map = new HashMap<>();
-
-        for (Permission permission : permissions) {
-            List<Permission> permissionList = map.get(permission.getShortNode());
-            if (permissionList == null) {
-                permissionList = new ArrayList<>();
-                map.put(permission.getShortNode(), permissionList);
-            }
-            permissionList.add(permission);
-        }
-
-        return map;
-    }
+    
 
     /**
      * 同步所有可以进行控制的 Action 到数据库

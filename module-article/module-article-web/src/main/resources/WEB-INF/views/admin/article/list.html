@@ -81,10 +81,12 @@
                                 <th>描述</th>
                                 <th style="width: 40px">Label</th>
                             </tr>
+
+                            #for(article : page.list)
                             <tr>
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)" /></td>
                                 <td>1.</td>
-                                <td>Update software</td>
+                                <td>#(article.title ??)</td>
                                 <td>
                                     <div class="progress progress-xs">
                                         <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
@@ -92,39 +94,8 @@
                                 </td>
                                 <td><span class="badge bg-red">55%</span></td>
                             </tr>
-                            <tr>
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)" /></td>
-                                <td>2.</td>
-                                <td>Clean database</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge bg-yellow">70%</span></td>
-                            </tr>
-                            <tr>
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"  /></td>
-                                <td>3.</td>
-                                <td>Cron job running</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge bg-light-blue">30%</span></td>
-                            </tr>
-                            <tr>
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)" /></td>
-                                <td>4.</td>
-                                <td>Fix and squish bugs</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge bg-green">90%</span></td>
-                            </tr>
+                            #end
+
                             </tbody>
                         </table>
                     </div>
@@ -132,30 +103,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
-                                <ul class="pagination pull-right">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1"
-                                                                          tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2"
-                                                                    tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3"
-                                                                    tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4"
-                                                                    tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5"
-                                                                    tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6"
-                                                                    tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7" tabindex="0">Next</a>
-                                    </li>
-                                </ul>
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

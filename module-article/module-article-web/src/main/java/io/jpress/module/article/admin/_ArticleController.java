@@ -1,6 +1,7 @@
 package io.jpress.module.article.admin;
 
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Package io.jpress.module.article.admin
  */
 @RequestMapping("/admin/article")
-public class IndexController extends AdminControllerBase {
+public class _ArticleController extends AdminControllerBase {
 
     @Inject
     private ArticleService articleService;
@@ -30,6 +31,8 @@ public class IndexController extends AdminControllerBase {
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
+        Page<Article> page = articleService.paginate(getParaToInt("page", 1), 10);
+        setAttr("page", page);
         render("article/list.html");
     }
 
@@ -44,6 +47,13 @@ public class IndexController extends AdminControllerBase {
         setAttr("subjects", subjects);
 
         render("article/write.html");
+    }
+
+
+    public void doWriteSave() {
+        Article article = getModel(Article.class, "");
+        articleService.saveOrUpdate(article);
+        renderJson(Ret.ok());
     }
 
 

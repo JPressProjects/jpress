@@ -11,7 +11,7 @@ import io.jpress.core.web.base.FrontControllerBase;
  * @Package io.jpress.module.page.controller
  */
 @RequestMapping("/page")
-public class IndexController extends FrontControllerBase {
+public class PageController extends FrontControllerBase {
 
     public void index() {
         System.out.println(getRequest().getRequestURI());

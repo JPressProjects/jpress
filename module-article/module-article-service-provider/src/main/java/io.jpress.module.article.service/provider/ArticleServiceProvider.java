@@ -1,5 +1,6 @@
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.model.Article;
@@ -11,4 +12,8 @@ import javax.inject.Singleton;
 @Singleton
 public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
 
+    @Override
+    public Page<Article> paginate(int page, int pagesize) {
+        return DAO.paginate(page, pagesize);
+    }
 }

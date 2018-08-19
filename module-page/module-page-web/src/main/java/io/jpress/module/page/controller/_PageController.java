@@ -10,7 +10,7 @@ import io.jpress.core.web.base.AdminControllerBase;
  * @Package io.jpress.module.page.controller.admin
  */
 @RequestMapping("/admin/page")
-public class PageAdminController extends AdminControllerBase {
+public class _PageController extends AdminControllerBase {
 
     @AdminMenu(text = "页面管理", groupId = "page")
     public void index() {

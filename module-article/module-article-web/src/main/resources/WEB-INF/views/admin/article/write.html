@@ -1,5 +1,7 @@
 #@layout()
 #define script()
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="/static/components/toastr/toastr.min.js"></script>
 <script src="/static/components/tinymce/tinymce.min.js"></script>
 <script src="/static/components/select2/js/select2.min.js"></script>
 <script src="/static/components/switchery/switchery.min.js"></script>
@@ -9,7 +11,7 @@
     $(".article-tags").select2({
         tags: true,
         placeholder: "请输入...",
-        tokenSeparators: [',', ' ','，']
+        tokenSeparators: [',', ' ', '，']
     })
 
     var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
@@ -17,12 +19,66 @@
         var switchery = new Switchery(html, {size: 'small'});
     });
 
+    function doSubmit() {
+        $("#form").ajaxSubmit({
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.errorCode == 0) {
+                    $("#content_id").attr("value", data.data);
+                    toastr.success('保存成功！', '操作成功');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+    }
+
+
+    $("#submit").on("click", function () {
+        $("#articleStatus").val("normal");
+        alert("提交按钮");
+        doSubmit();
+    })
+
+    $("#draft").on("click", function () {
+        $("#articleStatus").val("draft");
+        alert("草稿按钮");
+    })
+
+    $("#dustbin").on("click", function () {
+        $("#articleStatus").val("dustbin");
+        alert("垃圾箱按钮");
+    })
+
+    $("#chooseimage").on("click", function () {
+        layer.open({
+            type: 2,
+            title: '选择图片',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['80%', '70%'],
+            content: '/admin/menu/menu',
+            end: function () {
+                if ('' != data.url && null != data.url) {
+                    callback(data.url, {alt: data.alt});
+                }
+            }
+        });
+    })
+
+
 </script>
 #end
 #define css()
 
 <link href="/static/components/select2/css/select2.min.css" type="text/css" rel="stylesheet">
 <link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+<link href="/static/components/toastr/toastr.min.css" rel="stylesheet">
 
 <style type="text/css">
     .switchery-small {
@@ -93,155 +149,158 @@
     </section>
 
     <section class="content">
-
-        <div class="row">
-            <div class="col-xs-9">
-
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <input type="input" class="form-control input-lg" placeholder="请输入标题">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12" style="z-index: 9999">
-                            <textarea id="textarea" name="content.text"style="height: 467px;width: 100%;">
-                            </textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <div class="box box-solid">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">属性设置</h3>
-
-                                    <div class="box-tools">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body ">
-                                    <!-- Custom Tabs -->
-
-                                    <form class="form-horizontal" autocomplete="off">
-                                        <div class="box-body ">
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">SEO关键字</label>
-
-                                                <div class="col-sm-6">
-                                                    <textarea rows="3" class="form-control"
-                                                              placeholder="请输入"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">SEO描述</label>
-
-                                                <div class="col-sm-6">
-                                                    <textarea rows="3" class="form-control"
-                                                              placeholder="请输入"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">允许评论</label>
-                                                <div class="col-sm-6">
-                                                    <input type="checkbox" checked class="switchery">
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </form>
-                                    <!-- nav-tabs-custom -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-
-            <div class="col-xs-3">
-                <div class="box box-solid">
+        <form action="/admin/article/doWriteSave" method="post" id="form">
+            <input type="hidden" id="articleStatus" name="status" value="nomarl">
+            <div class="row">
+                <div class="col-xs-9">
 
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <div class="box-body ">
-                        <button type="button" class="btn btn-primary btn-sm ">发布</button>
-                        <button type="button" class="btn btn-default btn-sm ">草稿</button>
-
-                        <a href="#" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
-                    </div>
-                </div>
-                <div class="box box-solid">
-                    <div class="box-header with-border ">
-                        <h3 class="box-title">分类</h3>
-                    </div>
-                    <div class="box-body ">
+                    <div class="form-horizontal">
                         <div class="form-group">
-                            #for(category : categories)
-                            <div class="checkbox">
-                                <label>
-                                    #for(i = 0; i < category.layerNO; i++)
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    #end
-                                    <input type="checkbox" name="category" value="#(category.id)"/>#(category.title ??)
-                                </label>
+                            <div class="col-sm-12">
+                                <input type="input" class="form-control input-lg" name="title" placeholder="请输入标题">
                             </div>
-                            #end
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12" style="z-index: 9999">
+                            <textarea id="textarea" name="text" style="height: 467px;width: 100%;">
+                            </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">属性设置</h3>
+
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body ">
+                                        <!-- Custom Tabs -->
+
+                                        <form class="form-horizontal" autocomplete="off">
+                                            <div class="box-body ">
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">SEO关键字</label>
+
+                                                    <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control"
+                                                              placeholder="请输入"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">SEO描述</label>
+
+                                                    <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control"
+                                                              placeholder="请输入"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">允许评论</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="checkbox" checked class="switchery">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                        <!-- nav-tabs-custom -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-                #if(subjects)
-                <div class="box box-solid">
-                    <div class="box-header with-border ">
-                        <h3 class="box-title">专题</h3>
-                    </div>
-                    <div class="box-body ">
-                        <div class="form-group">
-                            #for(category : subjects)
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="category" value="#(category.id)"/>#(category.title ??)
-                                </label>
-                            </div>
-                            #end
+                <div class="col-xs-3">
+                    <div class="box box-solid">
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body ">
+                            <button type="button" id="submit" class="btn btn-primary btn-sm ">发布</button>
+                            <button type="button" id="draft" class="btn btn-default btn-sm ">草稿</button>
+
+                            <a href="#" id="dustbin" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
                         </div>
                     </div>
-                </div>
-                #end
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">分类</h3>
+                        </div>
+                        <div class="box-body ">
+                            <div class="form-group">
+                                #for(category : categories)
+                                <div class="checkbox">
+                                    <label>
+                                        #for(i = 0; i < category.layerNO; i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        #end
+                                        <input type="checkbox" name="category" value="#(category.id)"/>#(category.title
+                                        ??)
+                                    </label>
+                                </div>
+                                #end
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="box box-solid">
-                    <div class="box-header with-border ">
-                        <h3 class="box-title">标签</h3>
+                    #if(subjects)
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">专题</h3>
+                        </div>
+                        <div class="box-body ">
+                            <div class="form-group">
+                                #for(category : subjects)
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="category" value="#(category.id)"/>#(category.title
+                                        ??)
+                                    </label>
+                                </div>
+                                #end
+                            </div>
+                        </div>
                     </div>
-                    <div class="box-body">
-                        <select class="form-control article-tags" multiple="multiple">
-                        </select>
-                        <p class="help-block">多个标签请用"回车键"或逗号隔开。</p>
+                    #end
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">标签</h3>
+                        </div>
+                        <div class="box-body">
+                            <select class="form-control article-tags" multiple="multiple">
+                            </select>
+                            <p class="help-block">多个标签请用"回车键"或逗号隔开。</p>
+                        </div>
                     </div>
-                </div>
-                <div class="box box-solid">
-                    <div class="box-header with-border ">
-                        <h3 class="box-title">缩略图</h3>
-                    </div>
-                    <div class="box-body no-padding">
-                        <img src="/static/admin/images/nohumbnail.jpg" style="width: 100%">
-                    </div>
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-default btn-sm">选择图片</button>
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">缩略图</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <img src="/static/admin/images/nohumbnail.jpg" style="width: 100%">
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-default btn-sm">选择图片</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+        </form>
     </section>
 
 </div>

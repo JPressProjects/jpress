@@ -1,12 +1,34 @@
 #@layout()
 #define script()
 <script src="/static/components/tinymce/tinymce.min.js"></script>
+<script src="/static/components/select2/js/select2.min.js"></script>
+<script src="/static/components/switchery/switchery.min.js"></script>
 <script>
     initTinymce();
+
+    $(".article-tags").select2({
+        tags: true,
+        placeholder: "请输入...",
+        tokenSeparators: [',', ' ','，']
+    })
+
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, {size: 'small'});
+    });
+
 </script>
 #end
 #define css()
-<style>
+
+<link href="/static/components/select2/css/select2.min.css" type="text/css" rel="stylesheet">
+<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+
+<style type="text/css">
+    .switchery-small {
+        margin-top: 7px;
+    }
+
     body .mce-branding {
         display: none;
     }
@@ -34,6 +56,27 @@
         background-color: #fff;
         border: none;
     }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+        color: #333;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+        background-color: white;
+        border: 1px solid #d2d6de;
+        border-radius: 0px;
+        cursor: text;
+    }
+
+
 </style>
 #end
 #define content()
@@ -64,8 +107,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12" style="z-index: 9999">
-                            <textarea id="textarea" name="content.text"
-                                      style="height: 467px;width: 100%;">${(content.text)!}</textarea>
+                            <textarea id="textarea" name="content.text"style="height: 467px;width: 100%;">
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -105,6 +148,13 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">允许评论</label>
+                                                <div class="col-sm-6">
+                                                    <input type="checkbox" checked class="switchery">
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </form>
@@ -133,8 +183,6 @@
                     <div class="box-header with-border ">
                         <h3 class="box-title">分类</h3>
                     </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
                     <div class="box-body ">
                         <div class="form-group">
                             #for(category : categories)
@@ -148,24 +196,48 @@
                             </div>
                             #end
                         </div>
-
                     </div>
+                </div>
 
+                #if(subjects)
+                <div class="box box-solid">
+                    <div class="box-header with-border ">
+                        <h3 class="box-title">专题</h3>
+                    </div>
+                    <div class="box-body ">
+                        <div class="form-group">
+                            #for(category : subjects)
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="category" value="#(category.id)"/>#(category.title ??)
+                                </label>
+                            </div>
+                            #end
+                        </div>
+                    </div>
+                </div>
+                #end
+
+                <div class="box box-solid">
+                    <div class="box-header with-border ">
+                        <h3 class="box-title">标签</h3>
+                    </div>
+                    <div class="box-body">
+                        <select class="form-control article-tags" multiple="multiple">
+                        </select>
+                        <p class="help-block">多个标签请用"回车键"或逗号隔开。</p>
+                    </div>
                 </div>
                 <div class="box box-solid">
                     <div class="box-header with-border ">
                         <h3 class="box-title">缩略图</h3>
                     </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
                     <div class="box-body no-padding">
                         <img src="/static/admin/images/nohumbnail.jpg" style="width: 100%">
                     </div>
-                    <!-- /.box-body -->
                     <div class="box-footer">
                         <button type="submit" class="btn btn-default btn-sm">选择图片</button>
                     </div>
-                    <!-- /.box-footer -->
                 </div>
             </div>
         </div>

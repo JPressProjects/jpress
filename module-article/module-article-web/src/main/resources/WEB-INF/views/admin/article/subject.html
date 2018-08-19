@@ -23,7 +23,7 @@
                     <div class="box-header with-border">
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="/admin/article/categoryedit" class="btn btn-primary "> <i
+                                <a href="/admin/article/subjectedit" class="btn btn-primary "> <i
                                         class="fa fa-fw fa-plus"></i> 新建</a>
                                 <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
                                 <div class="btn-group checkAction">
@@ -57,7 +57,6 @@
                                 <th>标题</th>
                                 <th>Slug</th>
                                 <th>描述</th>
-                                <th>排序</th>
                                 <th style="width: 100px">操作</th>
                             </tr>
                             #for(category : categories)
@@ -65,11 +64,10 @@
                                 <td>
                                     <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>#(category.layerString)#(category.title)</td>
+                                <td>#(category.title)</td>
                                 <td>#(category.slug ??)</td>
                                 <td>#(category.content ??)</td>
-                                <td>#(category.order_number ??)</td>
-                                <td><a href="/admin/article/categoryedit/#(category.id)">编辑</a></td>
+                                <td><a href="/admin/article/subjectedit/#(category.id)">编辑</a></td>
                             </tr>
                             #end
                             </tbody>

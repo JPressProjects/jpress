@@ -39,6 +39,10 @@ public class IndexController extends AdminControllerBase {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
+
+        List<ArticleCategory> subjects = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        setAttr("subjects", subjects);
+
         render("article/write.html");
     }
 
@@ -58,12 +62,6 @@ public class IndexController extends AdminControllerBase {
         render("article/category.html");
     }
 
-    @AdminMenu(text = "专题", groupId = "article", order = 3)
-    public void subject() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        setAttr("categories", categories);
-        render("article/category.html");
-    }
 
     public void categoryedit() {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
@@ -71,9 +69,9 @@ public class IndexController extends AdminControllerBase {
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            for (ArticleCategory category : categories){
-                if (category.getId() == id){
-                    setAttr("category",category);
+            for (ArticleCategory category : categories) {
+                if (category.getId() == id) {
+                    setAttr("category", category);
                 }
             }
         }
@@ -87,8 +85,40 @@ public class IndexController extends AdminControllerBase {
     }
 
 
+    @AdminMenu(text = "专题", groupId = "article", order = 3)
+    public void subject() {
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        setAttr("categories", categories);
+        render("article/subject.html");
+    }
+
+    public void subjectedit() {
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        CategoryKits.toLayerCategories(categories);
+        setAttr("categories", categories);
+        int id = getParaToInt(0, 0);
+        if (id > 0) {
+            for (ArticleCategory category : categories) {
+                if (category.getId() == id) {
+                    setAttr("category", category);
+                }
+            }
+        }
+        render("article/subject_edit.html");
+    }
+
+
+    public void subjectSave() {
+        ArticleCategory category = getModel(ArticleCategory.class, "");
+        articleCategoryService.saveOrUpdate(category);
+        redirect("/admin/article/subject");
+    }
+
+
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_TAG);
+        setAttr("categories", categories);
         render("article/tag.html");
     }
 

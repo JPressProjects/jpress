@@ -29,8 +29,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
     public static final String TYPE_TAG = "tag";
 
     /**
-     * 专题，专题是可以设置付费的
-     * 专题只有一个层级
+     * 专题，专题只有一个层级
      */
     public static final String TYPE_SUBJECT = "subject";
 

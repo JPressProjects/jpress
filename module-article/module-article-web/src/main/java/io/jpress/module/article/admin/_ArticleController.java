@@ -39,6 +39,18 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "写文章", groupId = "article", order = 1)
     public void write() {
+
+        int articleId = getParaToInt(0, 0);
+        if (articleId > 0) {
+            Article article = articleService.findById(articleId);
+            if (article == null){
+                renderError(404);
+                return;
+            }
+            setAttr("article", article);
+
+        }
+
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
@@ -52,8 +64,8 @@ public class _ArticleController extends AdminControllerBase {
 
     public void doWriteSave() {
         Article article = getModel(Article.class, "");
-        articleService.saveOrUpdate(article);
-        renderJson(Ret.ok());
+        long id = articleService.doGetIdBySaveOrUpdateAction(article);
+        renderJson(id > 0 ? Ret.ok().put("id", id) : Ret.fail());
     }
 
 

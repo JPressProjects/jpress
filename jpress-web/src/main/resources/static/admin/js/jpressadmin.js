@@ -103,6 +103,10 @@ function initTinymce() {
                     evt.stopPropagation();
                 }
             });
+
+            ed.on('change', function () {
+                ed.save();
+            });
         },
         file_picker_callback: function (callback, value, meta) {
             layer.open({

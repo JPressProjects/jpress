@@ -79,7 +79,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>名称</th>
                                 <th>描述</th>
-                                <th style="width: 40px">Label</th>
+                                <th style="width: 60px">Label</th>
                             </tr>
 
                             #for(article : page.list)
@@ -92,7 +92,7 @@
                                         <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
                                     </div>
                                 </td>
-                                <td><span class="badge bg-red">55%</span></td>
+                                <td><a href="/admin/article/write/#(article.id)">编辑</a></td>
                             </tr>
                             #end
 

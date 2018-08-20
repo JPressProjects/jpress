@@ -101,5 +101,7 @@ public interface ArticleService {
 
     public Page<Article> paginate(int page, int pagesize);
 
+    public long doGetIdBySaveOrUpdateAction(Article article);
+
 
 }

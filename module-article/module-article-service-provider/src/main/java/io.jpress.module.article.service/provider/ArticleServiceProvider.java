@@ -16,4 +16,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> paginate(int page, int pagesize) {
         return DAO.paginate(page, pagesize);
     }
+
+    @Override
+    public long doGetIdBySaveOrUpdateAction(Article article) {
+        boolean saveOrUpdateSucess = saveOrUpdate(article);
+        return saveOrUpdateSucess ? article.getId() : 0;
+    }
 }

@@ -43,7 +43,7 @@ public class _ArticleController extends AdminControllerBase {
         int articleId = getParaToInt(0, 0);
         if (articleId > 0) {
             Article article = articleService.findById(articleId);
-            if (article == null){
+            if (article == null) {
                 renderError(404);
                 return;
             }
@@ -65,7 +65,8 @@ public class _ArticleController extends AdminControllerBase {
     public void doWriteSave() {
         Article article = getModel(Article.class, "");
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
-        renderJson(id > 0 ? Ret.ok().put("id", id) : Ret.fail());
+        Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
+        renderJson(ret.toJson());
     }
 
 

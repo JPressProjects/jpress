@@ -1,0 +1,88 @@
+#@layout()
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            附件管理
+            <small>Attachment Manager</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i> 附件</a></li>
+            <li class="active">列表</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel">
+                            <div class="row">
+                                <div class="form-group col-xs-4">
+                                    <label class="col-sm-3 control-label">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-4">
+                                    <button type="submit" class="btn btn-primary ">查询</button>
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                    <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <button type="submit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 上传
+                                </button>
+                                <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <div class="col-xs-12 ">
+                            <div class="row">
+                                <ul class="list-inline list-unstyled">
+                                    <li>
+                                        <img src="/attachment/20170830/16d0ffe4abab4891bb14d72e7c39e84a.png" title="只有夜深，才.png" alt="只有夜深，才.png" class="jp-grids-photos img-responsive" onclick="openlayer('13')">
+                                    </li>
+                                    <li>
+                                        <img src="/attachment/20160924/9e14bb0265ae43a58062352ea317c49d.png" title="imagetools2.png" alt="imagetools2.png" class="jp-grids-photos img-responsive" onclick="openlayer('12')">
+                                    </li>
+                                    <li>
+                                        <img src="/attachment/20160924/0cc6d4c16b014519ac3f8c7e1fa9ecba.png" title="imagetools1.png" alt="imagetools1.png" class="jp-grids-photos img-responsive" onclick="openlayer('11')">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

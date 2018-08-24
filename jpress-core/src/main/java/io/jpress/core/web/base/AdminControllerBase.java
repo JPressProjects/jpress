@@ -1,8 +1,10 @@
 package io.jpress.core.web.base;
 
 import com.jfinal.aop.Before;
+import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.JbootController;
+import io.jpress.model.User;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -23,5 +25,10 @@ public abstract class AdminControllerBase extends JbootController {
 
     public void render(Ret ret) {
         renderJson(ret);
+    }
+
+    @Before(NotAction.class)
+    public User getUser() {
+        return null;
     }
 }

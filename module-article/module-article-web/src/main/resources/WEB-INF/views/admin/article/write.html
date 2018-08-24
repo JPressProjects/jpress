@@ -2,23 +2,22 @@
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/toastr/toastr.min.js"></script>
-<script src="/static/components/tinymce/tinymce.min.js"></script>
 <script src="/static/components/switchery/switchery.min.js"></script>
 <script src="/static/components/selectize/selectize.min.js"></script>
+<script src="/static/components/ckeditor/ckeditor.js"></script>
+
 <script>
-    initTinymce();
+
+
+    initEditor('editor');
 
 
     $('.article-tags').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
-        create: function (input) {
-            return {
-                value: input,
-                text: input
-            }
-        }
+        addPrecedence: true,
+        create: true
     });
 
     var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
@@ -27,13 +26,13 @@
     });
 
     function doSubmit() {
-//        tinymce.triggerSave();
+        editorUpdate();
         $("#form").ajaxSubmit({
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
                     $("#articleId").attr("value", data.id);
-                    toastr.success('保存成功！', '操作成功');
+                    toastr.success('文章保存成功。');
                 } else {
                     toastr.error(data.message, '操作失败');
                 }
@@ -79,11 +78,10 @@
 </script>
 #end
 #define css()
-
 <link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
 <link href="/static/components/toastr/toastr.min.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="/static/components/selectize/css/selectize.bootstrap3.css" rel="stylesheet">
+<link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 
 <style type="text/css">
     .switchery-small {
@@ -170,10 +168,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-12" style="z-index: 9999">
-                            <textarea id="textarea" name="text" style="height: 467px;width: 100%;">
+                            <div class="col-sm-12" style="z-index: 9999;">
+                                <textarea id="editor"  name="text"
+                                          style="height: 467px;width: 100%;background-color: white">
                                 #(article.text ??)
-                            </textarea>
+                                </textarea>
                             </div>
                         </div>
                         <div class="form-group">

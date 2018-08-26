@@ -96,7 +96,7 @@ function initEditor(editor) {
             ['Format', 'FontSize'],
             ['TextColor', 'BGColor'],
             ['Undo', 'Redo'],
-            ['Source']
+            ['Maximize','Source']
         ];
 
 
@@ -108,7 +108,10 @@ function initEditor(editor) {
         filebrowserBrowseUrl: '/admin/attachment/browse',
         language: 'zh-cn'
     });
+
+
 }
+
 
 
 

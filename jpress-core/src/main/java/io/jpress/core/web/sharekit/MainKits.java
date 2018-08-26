@@ -1,5 +1,7 @@
 package io.jpress.core.web.sharekit;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -18,5 +20,12 @@ public class MainKits {
             sb.append("&nbsp;");
         }
         return sb.toString();
+    }
+
+    public static String escape(String html) {
+        if (html == null || html.trim().length() == 0) {
+            return "";
+        }
+        return StringEscapeUtils.escapeHtml(html);
     }
 }

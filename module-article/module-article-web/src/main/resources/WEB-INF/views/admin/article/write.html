@@ -1,16 +1,15 @@
 #@layout()
 #define script()
+<script src="/static/components/ckeditor/ckeditor.js"></script>
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/toastr/toastr.min.js"></script>
 <script src="/static/components/switchery/switchery.min.js"></script>
 <script src="/static/components/selectize/selectize.min.js"></script>
-<script src="/static/components/ckeditor/ckeditor.js"></script>
+
 
 <script>
 
-
-    initEditor('editor');
-
+    initEditor('editor1');
 
     $('.article-tags').selectize({
         plugins: ['remove_button'],
@@ -57,7 +56,7 @@
         $("#articleStatus").val("dustbin");
     })
 
-    $("#chooseHumbnail").on("click", function () {
+    $("#chooseThumbnail").on("click", function () {
         layer.open({
             type: 2,
             title: '选择图片',
@@ -68,10 +67,15 @@
             content: '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
-                    $("#humbnail").attr("src", layer.data.src);
+                    $("#thumbnail").attr("src", layer.data.src);
                 }
             }
         });
+    })
+
+
+    $("#removeThumbnail").on("click", function () {
+        $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
     })
 
 
@@ -87,57 +91,9 @@
     .switchery-small {
         margin-top: 7px;
     }
-
-    body .mce-branding {
-        display: none;
-    }
-
-    body .child {
-        padding-left: 20px;
-    }
-
-    body .checkbox {
-        position: relative;
-        display: block;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    body .checkbox + .checkbox {
-        margin-top: 0px;
-    }
-
-    div .mce-edit-area {
-        border-bottom: 1px solid #eee;
-    }
-
-    body .mce-panel {
-        background-color: #fff;
-        border: none;
-    }
-
-    .select2-container--default .select2-selection--multiple .select2-selection__choice {
-        background-color: #e4e4e4;
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        cursor: default;
-        float: left;
-        margin-right: 5px;
-        margin-top: 5px;
-        padding: 0 5px;
-        color: #333;
-    }
-
-    .select2-container--default .select2-selection--multiple {
-        background-color: white;
-        border: 1px solid #d2d6de;
-        border-radius: 0px;
-        cursor: text;
-    }
-
-
 </style>
 #end
+
 #define content()
 <div class="content-wrapper">
 
@@ -169,9 +125,9 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12" style="z-index: 9999;">
-                                <textarea id="editor" name="text"
+                                <textarea id="editor1" name="text"
                                           style="height: 467px;width: 100%;background-color: white">
-                                #(article.text ??)
+                                #escape(article.text ??)
                                 </textarea>
                             </div>
                         </div>
@@ -299,10 +255,12 @@
                             <h3 class="box-title">缩略图</h3>
                         </div>
                         <div class="box-body no-padding">
-                            <img src="/static/admin/images/nohumbnail.jpg" style="width: 100%;height: 200px" id="humbnail">
+                            <img src="/static/admin/images/nothumbnail.jpg" style="width: 100%;height: 200px"
+                                 id="thumbnail">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default btn-sm " id="chooseHumbnail">选择图片</button>
+                            <button type="button" class="btn btn-default btn-sm " id="chooseThumbnail">选择图片</button>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>
                     </div>
                 </div>

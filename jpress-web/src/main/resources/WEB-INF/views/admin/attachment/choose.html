@@ -1,0 +1,58 @@
+#@layer()
+
+#define css()
+<style>
+    .attachment_item {
+        height: 200px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+    }
+
+    .attachment_item:hover {
+        border: 3px solid #3c8dbc;
+    }
+
+    .attachment_item img {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+#end
+
+#define script()
+<script>
+    $(".attachment_item").click(function () {
+//        alert($(this).attr("data-aid"));
+        alert($(this).children().attr("src"));
+
+        parent.layer.data.src = $(this).children().attr("src");
+    })
+</script>
+#end
+
+#define content()
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            #for(attachment : page.list)
+            <div class="attachment_item" data-aid="#(attachment.id ??)">
+                <img src="#(attachment.path ??)"
+                     title="#(attachment.title ??)"
+                     alt="#(attachment.title ??)">
+            </div>
+            #end
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                #@_paginate()
+            </div>
+        </div>
+    </div>
+</div>
+
+#end

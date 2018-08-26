@@ -60,7 +60,12 @@ function dataItemChange(checkbox) {
 }
 
 
+
+
+
+
 function initlayer() {
+    layer.data = {}
     layer.config({
         extend: 'jpress/style.css', //使用JPress皮肤
         skin: 'layer-ext-jpress'
@@ -100,6 +105,7 @@ function initEditor(editor) {
         codeSnippet_theme: 'monokai_sublime',
         height: 467,
         filebrowserImageUploadUrl: '/ckeditor/upload',
+        filebrowserBrowseUrl: '/admin/attachment/browse',
         language: 'zh-cn'
     });
 }

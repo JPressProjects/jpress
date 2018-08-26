@@ -39,6 +39,13 @@ public class _AttachmentController extends AdminControllerBase {
         render("attachment/upload.html");
     }
 
+
+    public void browse(){
+        Page<Attachment> page = as.paginate(getParaToInt("page", 1), 10);
+        setAttr("page", page);
+        render("attachment/choose.html");
+    }
+
     public void doUpload() {
         if (!isMultipartRequest()) {
             renderError(404);

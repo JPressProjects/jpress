@@ -8,6 +8,8 @@ import io.jpress.model.Attachment;
 import io.jpress.utils.AttachmentUtils;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by michael on 16/11/30.
@@ -22,12 +24,6 @@ public class _CKEditorController extends AdminControllerBase {
 
     public void upload() {
         if (!isMultipartRequest()) {
-            renderError(404);
-            return;
-        }
-
-        Integer CKEditorFuncNum = getParaToInt("CKEditorFuncNum");
-        if (CKEditorFuncNum == null) {
             renderError(404);
             return;
         }
@@ -49,7 +45,7 @@ public class _CKEditorController extends AdminControllerBase {
         String path = AttachmentUtils.moveFile(uploadFile);
 
         Attachment attachment = new Attachment();
-        attachment.setUserId(getUser().getId());
+//        attachment.setUserId(getUser().getId());
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
         attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
@@ -60,15 +56,13 @@ public class _CKEditorController extends AdminControllerBase {
         if (attachment.save()) {
 
             /**
-             * <script type="text/javascript">
-             window.parent.CKEDITOR.tools.callFunction("0", "", "");
-             </script>
+             * {"fileName":"1.jpg","uploaded":1,"url":"\/userfiles\/images\/1.jpg"}
              */
-            int funcNum = getParaToInt("CKEditorFuncNum");
-            StringBuilder textBuilder = new StringBuilder("<script type=\"text/javascript\">");
-            textBuilder.append("window.parent.CKEDITOR.tools.callFunction(\"" + funcNum + "\", \"" + attachment.getPath() + "\", \"\");");
-            textBuilder.append("</script>");
-            renderHtml(textBuilder.toString());
+            Map map = new HashMap();
+            map.put("fileName",attachment.getTitle());
+            map.put("uploaded",1);
+            map.put("url",attachment.getPath());
+            renderJson(map);
         } else {
             renderText("系统错误");
         }

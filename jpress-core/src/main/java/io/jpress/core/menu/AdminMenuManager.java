@@ -85,10 +85,7 @@ public class AdminMenuManager {
 //        systemMenus.add(toolMenuGroup);
 
 
-        AdminMenuGroup attachmentMenuGroup = new AdminMenuGroup();
-        attachmentMenuGroup.setId(JPressConstants.SYSTEM_MENU_ATTACHMENT);
-        attachmentMenuGroup.setText("附件");
-        systemMenus.add(attachmentMenuGroup);
+
 
     }
 
@@ -100,6 +97,11 @@ public class AdminMenuManager {
         for (Module module : modules.getModules()) {
             moduleMenus.addAll(module.getMenuGroups());
         }
+
+        AdminMenuGroup attachmentMenuGroup = new AdminMenuGroup();
+        attachmentMenuGroup.setId(JPressConstants.SYSTEM_MENU_ATTACHMENT);
+        attachmentMenuGroup.setText("附件");
+        moduleMenus.add(attachmentMenuGroup);
     }
 
     /**

@@ -1,4 +1,23 @@
 #@layout()
+
+#define css()
+<style>
+    .attachment_item {
+        height: 200px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+    }
+
+    .attachment_item img {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -52,17 +71,12 @@
 
                         <div class="col-xs-12 ">
                             <div class="row">
-                                <ul class="list-inline list-unstyled">
-                                    <li>
-                                        <img src="/attachment/20170830/16d0ffe4abab4891bb14d72e7c39e84a.png" title="只有夜深，才.png" alt="只有夜深，才.png" class="jp-grids-photos img-responsive" onclick="openlayer('13')">
-                                    </li>
-                                    <li>
-                                        <img src="/attachment/20160924/9e14bb0265ae43a58062352ea317c49d.png" title="imagetools2.png" alt="imagetools2.png" class="jp-grids-photos img-responsive" onclick="openlayer('12')">
-                                    </li>
-                                    <li>
-                                        <img src="/attachment/20160924/0cc6d4c16b014519ac3f8c7e1fa9ecba.png" title="imagetools1.png" alt="imagetools1.png" class="jp-grids-photos img-responsive" onclick="openlayer('11')">
-                                    </li>
-                                </ul>
+                                #for(attachment : page.list)
+                                <div class="attachment_item">
+                                    <img src="#(attachment.path ??)" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)">
+                                </div>
+                                #end
                             </div>
                         </div>
 

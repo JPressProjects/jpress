@@ -9,7 +9,17 @@ $(document).ready(function () {
     // 设置弹出 toastr 提示内容
     initToastr();
 
+    initJpActions();
+
 });
+
+function initJpActions() {
+    $(".jp-actiontr").mouseover(function () {
+        $(this).find(".jp-actionitem").show();
+    }).mouseout(function () {
+        $(".jp-actionitem").hide()
+    })
+}
 
 
 /**
@@ -60,10 +70,6 @@ function dataItemChange(checkbox) {
 }
 
 
-
-
-
-
 function initlayer() {
     layer.data = {}
     layer.config({
@@ -96,7 +102,7 @@ function initEditor(editor) {
             ['Format', 'FontSize'],
             ['TextColor', 'BGColor'],
             ['Undo', 'Redo'],
-            ['Maximize','Source']
+            ['Maximize', 'Source']
         ];
 
 

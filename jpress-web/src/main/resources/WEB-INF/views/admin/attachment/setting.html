@@ -1,0 +1,125 @@
+#@layout()
+
+
+#define script()
+<script src="/static/components/switchery/switchery.min.js"></script>
+<script>
+    var config = {
+        color: '#64bd63'
+        , secondaryColor: '#dfdfdf'
+        , jackColor: '#fff'
+        , jackSecondaryColor: null
+        , className: 'switchery'
+        , disabled: false
+        , disabledOpacity: 0.5
+        , speed: '0.4s'
+        , size: 'small'
+    };
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, config);
+    });
+</script>
+#end
+
+#define css()
+<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+<style type="text/css">
+    .switchery-small {
+        margin-top: 7px;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            附件设置
+            <small>Attachment etting</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li>设置</li>
+            <li class="active">基本设S置</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">允许附件类型</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：png,jpg,pdf....">
+                                    <p class="help-block"> 多个附件用英文逗号（,）隔开 </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">附件大小限制</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="单位：MB">
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">水印</h4>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否启用水印</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" checked class="switchery">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">水印位置</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control">
+                                        <option value="1">左上角</option>
+                                        <option value="2">右上角</option>
+                                        <option value="3">正中间</option>
+                                        <option value="4">左下角</option>
+                                        <option value="5" selected="selected">右下角</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">水印图片</label>
+
+                                <div class="col-sm-6">
+                                    <img src="/static/admin/images/avatar.png">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

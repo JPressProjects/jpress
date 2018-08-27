@@ -179,7 +179,10 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">允许评论</label>
                                                     <div class="col-sm-6">
-                                                        #if(article.comment_status ??)
+                                                        #if(article == null)
+                                                        <input type="checkbox" checked class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #elseif(article.comment_status ??)
                                                         <input type="checkbox" checked class="switchery"
                                                                name="article.comment_status" value="true">
                                                         #else

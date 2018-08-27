@@ -111,3 +111,12 @@
     padding-right: 15px;
     padding-left: 15px;
 }
+
+.jp-actionblock {
+    min-height: 25px;
+    line-height: 25px;
+}
+
+.jp-actionitem {
+    display: none;
+}

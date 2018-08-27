@@ -43,7 +43,7 @@ public class _AttachmentController extends AdminControllerBase {
     public void browse(){
         Page<Attachment> page = as.paginate(getParaToInt("page", 1), 10);
         setAttr("page", page);
-        render("attachment/choose.html");
+        render("attachment/browse.html");
     }
 
     public void doUpload() {
@@ -77,7 +77,7 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 2)
     public void setting() {
-        render("my.html");
+        render("attachment/setting.html");
     }
 
 }

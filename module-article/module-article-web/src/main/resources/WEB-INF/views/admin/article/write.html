@@ -68,6 +68,7 @@
             end: function () {
                 if (layer.data.src != null) {
                     $("#thumbnail").attr("src", layer.data.src);
+                    $("#articleThumbnail").val(layer.data.src);
                 }
             }
         });
@@ -76,6 +77,7 @@
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
+        $("#articleThumbnail").val("");
     })
 
 
@@ -109,8 +111,8 @@
 
     <section class="content">
         <form action="/admin/article/doWriteSave" method="post" id="form">
-            <input type="hidden" id="articleStatus" name="status" value='#(article.id ?? "nomarl")'>
-            <input type="hidden" id="articleId" name="id" value="#(article.id ??)">
+            <input type="hidden" id="articleStatus" name="article.status" value='#(article.id ?? "nomarl")'>
+            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
             <div class="row">
                 <div class="col-xs-9">
 
@@ -119,13 +121,14 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <input type="input" class="form-control input-lg" name="title" placeholder="请输入标题"
+                                <input type="input" class="form-control input-lg" name="article.title"
+                                       placeholder="请输入标题"
                                        value="#(article.title ??)">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12" style="z-index: 9999;">
-                                <textarea id="editor1" name="text"
+                                <textarea id="editor1" name="article.text"
                                           style="height: 467px;width: 100%;background-color: white">
                                 #escape(article.text ??)
                                 </textarea>
@@ -154,8 +157,10 @@
                                                     <label class="col-sm-2 control-label">SEO关键字</label>
 
                                                     <div class="col-sm-6">
-                                                    <textarea rows="3" class="form-control"
-                                                              placeholder="请输入"></textarea>
+                                                    <textarea rows="3" class="form-control" name="article.meta_keywords"
+                                                              placeholder="请输入">
+                                                        #(article.meta_keywords ??)
+                                                    </textarea>
                                                     </div>
                                                 </div>
 
@@ -164,14 +169,23 @@
 
                                                     <div class="col-sm-6">
                                                     <textarea rows="3" class="form-control"
-                                                              placeholder="请输入"></textarea>
+                                                              name="article.meta_description"
+                                                              placeholder="请输入">
+                                                        #(article.meta_description ??)
+                                                    </textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">允许评论</label>
                                                     <div class="col-sm-6">
-                                                        <input type="checkbox" checked class="switchery">
+                                                        #if(article.comment_status ??)
+                                                        <input type="checkbox" checked class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #else
+                                                        <input type="checkbox" class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #end
                                                     </div>
                                                 </div>
 
@@ -211,8 +225,15 @@
                                         #for(i = 0; i < category.layerNO; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         #end
-                                        <input type="checkbox" name="category" value="#(category.id)"/>#(category.title
-                                        ??)
+
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+
+
+                                        #(category.title ??)
                                     </label>
                                 </div>
                                 #end
@@ -230,8 +251,12 @@
                                 #for(category : subjects)
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="category" value="#(category.id)"/>#(category.title
-                                        ??)
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+                                        #(category.title ??)
                                     </label>
                                 </div>
                                 #end
@@ -245,7 +270,10 @@
                             <h3 class="box-title">标签</h3>
                         </div>
                         <div class="box-body">
-                            <select class="form-control article-tags" multiple="multiple">
+                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                                #for(tag : tags)
+                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                #end
                             </select>
                             <p class="help-block">多个标签请用"回车键"或逗号隔开。</p>
                         </div>
@@ -255,8 +283,11 @@
                             <h3 class="box-title">缩略图</h3>
                         </div>
                         <div class="box-body no-padding">
-                            <img src="/static/admin/images/nothumbnail.jpg" style="width: 100%;height: 200px"
+                            <img src="#(article.thumbnail ??'/static/admin/images/nothumbnail.jpg')"
+                                 style="width: 100%;height: 200px"
                                  id="thumbnail">
+                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                                   id="articleThumbnail">
                         </div>
                         <div class="box-footer">
                             <button type="button" class="btn btn-default btn-sm " id="chooseThumbnail">选择图片</button>

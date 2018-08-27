@@ -12,6 +12,7 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -40,7 +41,15 @@ public class _ArticleController extends AdminControllerBase {
     @AdminMenu(text = "写文章", groupId = "article", order = 1)
     public void write() {
 
+        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        CategoryKits.toLayerCategories(categories);
+        setAttr("categories", categories);
+
+        List<ArticleCategory> subjects = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        setAttr("subjects", subjects);
+
         int articleId = getParaToInt(0, 0);
+
         if (articleId > 0) {
             Article article = articleService.findById(articleId);
             if (article == null) {
@@ -49,24 +58,67 @@ public class _ArticleController extends AdminControllerBase {
             }
             setAttr("article", article);
 
+            List<ArticleCategory> tags = articleCategoryService.findTagListByArticleId(articleId);
+            setAttr("tags", tags);
+
+            Long[] categoryIds = articleCategoryService.findCategoryIdsByArticleId(articleId);
+            flagCheck(categories, categoryIds);
+            flagCheck(subjects, categoryIds);
         }
-
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        CategoryKits.toLayerCategories(categories);
-        setAttr("categories", categories);
-
-        List<ArticleCategory> subjects = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
-        setAttr("subjects", subjects);
 
         render("article/write.html");
     }
 
+    private void flagCheck(List<ArticleCategory> categories, Long[] checkIds) {
+        if (checkIds == null || checkIds.length == 0
+                || categories == null || categories.size() == 0) {
+            return;
+        }
 
+        for (ArticleCategory category : categories) {
+            for (Long id : checkIds) {
+                if (id.equals(category.getId())) {
+                    category.put("isCheck", true);
+                }
+            }
+        }
+    }
+
+
+    @EmptyValidate({
+            @Form(name = "article.title", message = "标题不能为空"),
+            @Form(name = "article.text", message = "内容不能为空")
+    })
     public void doWriteSave() {
-        Article article = getModel(Article.class, "");
+        Article article = getModel(Article.class, "article");
+
+        if (article.getCommentStatus() == null) {
+            article.setCommentStatus(false);
+        }
+
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
+
+        Long[] categoryIds = getParaValuesToLong("category");
+        Long[] subjectIds = getParaValuesToLong("subject");
+        Long[] tagIds = getTagIds(getParaValues("tag"));
+
+        Long[] allIds = ArrayUtils.addAll(categoryIds, subjectIds);
+        allIds = ArrayUtils.addAll(allIds, tagIds);
+
+        articleService.doUpdateCategorys(id, allIds);
+
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret.toJson());
+    }
+
+    private Long[] getTagIds(String[] tags) {
+        if (tags == null || tags.length == 0) {
+            return null;
+        }
+
+        List<ArticleCategory> categories = articleCategoryService.doNewOrFindByTagString(tags);
+        long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
+        return ArrayUtils.toObject(ids);
     }
 
 

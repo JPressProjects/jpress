@@ -29,7 +29,7 @@
     <properties>
         <jpress.version>1.0</jpress.version>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>1.6.3</jboot.version>
+        <jboot.version>1.6.4</jboot.version>
         <logback.version>1.1.11</logback.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>

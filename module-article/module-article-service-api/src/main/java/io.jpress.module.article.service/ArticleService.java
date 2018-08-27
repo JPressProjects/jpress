@@ -104,4 +104,8 @@ public interface ArticleService {
     public long doGetIdBySaveOrUpdateAction(Article article);
 
 
+    public void doUpdateCategorys(long articleId, Long[] categoryIds);
+
+
+
 }

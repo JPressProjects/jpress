@@ -145,12 +145,12 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getLong("rate_count");
 	}
 
-	public void setCommentStatus(java.lang.String commentStatus) {
+	public void setCommentStatus(java.lang.Boolean commentStatus) {
 		set("comment_status", commentStatus);
 	}
 	
-	public java.lang.String getCommentStatus() {
-		return getStr("comment_status");
+	public java.lang.Boolean getCommentStatus() {
+		return get("comment_status");
 	}
 
 	public void setCommentCount(java.lang.Long commentCount) {

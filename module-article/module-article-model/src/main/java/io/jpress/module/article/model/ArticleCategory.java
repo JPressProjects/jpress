@@ -39,6 +39,10 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
     public static final String TYPE_USER_SUBJECT = "user_subject";
 
 
+    public boolean isTag() {
+        return TYPE_TAG.equals(getType());
+    }
+
     /**
      * 是否是顶级菜单
      *

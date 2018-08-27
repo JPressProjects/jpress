@@ -10,7 +10,7 @@ import java.util.List;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 工具类
- * @Description: 用于处理文字美化等工作
+ * @Description: 用于分类的层级关系
  * @Package io.jpress.module.article.kits
  */
 public class CategoryKits {
@@ -110,16 +110,13 @@ public class CategoryKits {
 //        for (ArticleCategory category : categories1) {
 //            System.out.println(category.getTitle());
 //        }
-//
-//
-//        System.out.println("--------------------------------------");
 
 
         List<ArticleCategory> categories2 = Lists.newArrayList(c1, c2, c3, c4, c5, c6, c7);
         toLayerCategories(categories2);
 
         for (ArticleCategory category : categories2) {
-            System.out.println(category.getTitle()+"-------layer:"+category.getLayerNO());
+            System.out.println(category.getTitle() + "-------layer:" + category.getLayerNO());
         }
     }
 }

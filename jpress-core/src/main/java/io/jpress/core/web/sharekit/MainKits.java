@@ -9,12 +9,10 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class MainKits {
 
-    public static final String nbsp() {
-        return "&nbsp;";
-    }
-
-
-    public static final String nbsp(int count) {
+    public static String blankCount(Integer count) {
+        if (count == null || count == 0) {
+            return "";
+        }
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < count; i++) {
             sb.append("&nbsp;");
@@ -27,5 +25,17 @@ public class MainKits {
             return "";
         }
         return StringEscapeUtils.escapeHtml(html);
+    }
+
+    public static String isCheck(Object obj) {
+        if (obj == null) {
+            return "";
+        }
+        if ("true".equalsIgnoreCase(obj.toString())
+                || "1".equals(obj.toString())) {
+            return "checked";
+        } else {
+            return "";
+        }
     }
 }

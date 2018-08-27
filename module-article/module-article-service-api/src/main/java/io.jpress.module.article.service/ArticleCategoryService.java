@@ -99,4 +99,10 @@ public interface ArticleCategoryService {
     public void keep(List<? extends Model> models, String... attrs);
 
     public List<ArticleCategory> findListByType(String type);
+
+    public List<ArticleCategory> findTagListByArticleId(long articleId);
+
+    public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
+
+    public Long[] findCategoryIdsByArticleId(long articleId);
 }

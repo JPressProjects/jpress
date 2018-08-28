@@ -204,8 +204,8 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "订单", groupId = "article", order = 6)
-    public void paylist() {
+    @AdminMenu(text = "设置", groupId = "article", order = 6)
+    public void setting() {
         render("article/paylist.html");
     }
 

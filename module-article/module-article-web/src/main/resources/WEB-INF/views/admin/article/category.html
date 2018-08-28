@@ -54,22 +54,26 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
-                                <th>标题</th>
+                                <th style="width: 350px">标题</th>
                                 <th>Slug</th>
                                 <th>描述</th>
                                 <th>排序</th>
-                                <th style="width: 100px">操作</th>
                             </tr>
                             #for(category : categories)
-                            <tr>
+                            <tr class="jp-actiontr">
                                 <td>
                                     <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>#(category.layerString)#(category.title)</td>
+                                <td><a href="/admin/article/categoryedit/#(category.id)"><strong>#(category.layerString)#(category.title)</strong></a>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#" style="color: #006505">编辑</a> | <a href="#" style="color: #006505">草稿</a> | <a href="#" style="color: #a00">垃圾箱</a> | <a href="#" style="color: #a00">查看</a>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>#(category.slug ??)</td>
                                 <td>#(category.content ??)</td>
                                 <td>#(category.order_number ??)</td>
-                                <td><a href="/admin/article/categoryedit/#(category.id)">编辑</a></td>
                             </tr>
                             #end
                             </tbody>

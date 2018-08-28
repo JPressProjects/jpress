@@ -67,4 +67,12 @@ public class _TemplateController extends AdminControllerBase {
         render("user/me.html");
     }
 
+
+
+    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 6)
+    public void menu() {
+        render("menu/list.html");
+    }
+
+
 }

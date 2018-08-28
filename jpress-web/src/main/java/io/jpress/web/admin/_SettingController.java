@@ -26,32 +26,38 @@ public class _SettingController extends AdminControllerBase {
 
     }
 
-
-    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 1)
-    public void menu() {
-        render("menu/list.html");
+    @AdminMenu(text = "通信", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 9)
+    public void watermark() {
+        render("setting/cdn.html");
     }
 
-    public void menuedit() {
-        render("menu/edit.html");
+
+    @AdminMenu(text = "接口", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 10)
+    public void api() {
+        render("setting/cdn.html");
     }
 
-    @AdminMenu(text = "SEO", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 11)
+    @AdminMenu(text = "登录注册", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 32)
+    public void reg() {
+        render("setting/cdn.html");
+    }
+
+
+    @AdminMenu(text = "网站加速", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 33)
+    public void cdn() {
+        render("setting/cdn.html");
+    }
+
+
+    @AdminMenu(text = "搜索优化", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 111)
     public void seo() {
         render("setting/seo.html");
     }
 
 
-    @AdminMenu(text = "水印", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 21)
-    public void watermark() {
-        render("setting/watermark.html");
-    }
 
 
-    @AdminMenu(text = "CDN加速", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 31)
-    public void cdn() {
-        render("setting/cdn.html");
-    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package io.jpress.module.page.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.module.page.model.SinglePage;
@@ -11,4 +12,15 @@ import javax.inject.Singleton;
 @Singleton
 public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> implements SinglePageService {
 
+    @Override
+    public boolean doChangeStatus(long id, int status) {
+        SinglePage page = findById(id);
+        page.setStatus(status);
+        return page.update();
+    }
+
+    @Override
+    public int findCountByStatus(int status) {
+        return Db.queryInt("select count(*) from single_page where status = ?", status);
+    }
 }

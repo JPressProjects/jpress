@@ -81,12 +81,12 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 		return getStr("style");
 	}
 
-	public void setStatus(java.lang.String status) {
+	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 	
-	public java.lang.String getStatus() {
-		return getStr("status");
+	public java.lang.Integer getStatus() {
+		return getInt("status");
 	}
 
 	public void setViewCount(java.lang.Long viewCount) {

@@ -44,16 +44,16 @@
 
 
     $("#submit").on("click", function () {
-        $("#pageStatus").val("normal");
+        $("#pageStatus").val("0");
         doSubmit();
     })
 
     $("#draft").on("click", function () {
-        $("#pageStatus").val("draft");
+        $("#pageStatus").val("1");
     })
 
     $("#dustbin").on("click", function () {
-        $("#pageStatus").val("dustbin");
+        $("#pageStatus").val("9");
     })
 
     $("#chooseThumbnail").on("click", function () {
@@ -111,7 +111,7 @@
 
     <section class="content">
         <form action="/admin/page/doWriteSave" method="post" id="form">
-            <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "nomarl")'>
+            <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "0")'>
             <input type="hidden" id="pageId" name="page.id" value="#(page.id ??)">
             <div class="row">
                 <div class="col-xs-9">

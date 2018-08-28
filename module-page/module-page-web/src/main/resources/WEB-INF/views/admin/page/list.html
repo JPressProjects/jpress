@@ -1,4 +1,53 @@
 #@layout()
+
+#define script()
+<script>
+
+    function trash(id) {
+        $.get("/admin/page/trash/" + id, function (result) {
+            if ("ok" != result.state ) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+
+    function draft(id) {
+        $.get("/admin/page/draft/" + id, function (result) {
+            if ("ok" != result.state ) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function normal(id) {
+        $.get("/admin/page/normal/" + id, function (result) {
+            if ("ok" != result.state ) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function del(id) {
+        $.get("/admin/page/del/" + id, function (result) {
+            if ("ok" != result.state ) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+#end
+
+
 #define content()
 <div class="content-wrapper">
 
@@ -14,7 +63,7 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (24)</a> | <a href="">已发布 (22)</a> | <a href="">草稿 (2)</a> | <a href="">垃圾箱 (0)</a>
+        <a href="">全部 (#(page.totalRow ??))</a> | <a href="">已发布 (#(normalCount ??))</a> | <a href="">草稿 (#(draftCount ?? 0))</a> | <a href="" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -76,11 +125,14 @@
                                 </td>
                                 <td>
                                     <a href="/admin/page/write/#(sp.id)">#(sp.title ??)</a>
+                                    #if(sp.status == 1)
+                                    （草稿）
+                                    #end
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#" style="color: #006505">编辑</a> |
-                                            <a href="#" style="color: #006505">草稿</a> |
-                                            <a href="#" style="color: #a00">垃圾箱</a> |
+                                            <a href="/admin/page/write/#(sp.id)"  style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a> |
+                                            <a href="javascript:;" onclick="trash('#(sp.id??)')" style="color: #a00">垃圾箱</a> |
                                             <a href="#" style="color: #a00">查看</a>
                                         </div>
                                     </div>

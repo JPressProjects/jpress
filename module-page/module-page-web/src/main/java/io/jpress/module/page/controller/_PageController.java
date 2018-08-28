@@ -28,6 +28,13 @@ public class _PageController extends AdminControllerBase {
         Page<SinglePage> page = sps.paginate(getParaToInt("page", 1), 10);
         setAttr("page", page);
 
+        int draftCount = sps.findCountByStatus(SinglePage.STATUS_DRAFT);
+        int trashCount = sps.findCountByStatus(SinglePage.STATUS_TRASH);
+
+        setAttr("draftCount", draftCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", page.getTotalRow() - draftCount - trashCount);
+
         render("page/list.html");
     }
 
@@ -55,5 +62,27 @@ public class _PageController extends AdminControllerBase {
         SinglePage page = getModel(SinglePage.class, "page");
         sps.saveOrUpdate(page);
         renderJson(Ret.ok().set("id", page.getId()));
+    }
+
+
+    public void del() {
+        Long id = getParaToLong();
+        render(sps.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+
+    public void trash() {
+        Long id = getParaToLong();
+        render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+    }
+
+    public void draft() {
+        Long id = getParaToLong();
+        render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+    }
+
+    public void normal() {
+        Long id = getParaToLong();
+        render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
     }
 }

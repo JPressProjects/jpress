@@ -100,4 +100,8 @@ public interface SinglePageService {
 
     public Page<SinglePage> paginate(int page, int pagesize);
 
+    public boolean doChangeStatus(long id, int status);
+
+    public int findCountByStatus(int status);
+
 }

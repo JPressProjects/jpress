@@ -8,5 +8,9 @@ import io.jpress.module.page.model.base.BaseSinglePage;
  */
 @Table(tableName = "single_page", primaryKey = "id")
 public class SinglePage extends BaseSinglePage<SinglePage> {
-	
+
+    public static final int STATUS_NORMAL = 0;
+    public static final int STATUS_DRAFT = 1;
+    public static final int STATUS_TRASH = 9;
+
 }

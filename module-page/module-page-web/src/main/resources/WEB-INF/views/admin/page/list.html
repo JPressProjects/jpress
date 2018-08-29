@@ -63,7 +63,7 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (#(page.totalRow ??))</a> |
+        <a href="/admin/page">全部 (#(totalCount ??))</a> |
         <a href="?s=normal">已发布 (#(normalCount ??))</a> |
         <a href="?s=draft">草稿 (#(draftCount ?? 0))</a> |
         <a href="?s=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
@@ -127,8 +127,9 @@
                                         #if(sp.isNormal())
                                         <div class="jp-actionitem">
                                             <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="#" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a> |
+                                            <a href="/#(sp.slug ??)" target="_blank" style="color: #006505">查看</a> |
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a>
+                                            |
                                             <a href="javascript:;" onclick="trash('#(sp.id??)')"
                                                style="color: #a00">垃圾箱</a>
                                         </div>
@@ -140,7 +141,8 @@
                                         </div>
                                         #else
                                         <div class="jp-actionitem">
-                                            <a href="/admin/page/write/#(sp.id)" style="color: #006505">还原</a> |
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">还原</a>
+                                            |
                                             <a href="javascript:;" onclick="del('#(sp.id??)')"
                                                style="color: #a00">永久删除</a>
                                         </div>

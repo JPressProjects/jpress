@@ -25,15 +25,23 @@ public class _PageController extends AdminControllerBase {
     @AdminMenu(text = "页面管理", groupId = "page")
     public void index() {
 
-        Page<SinglePage> page = sps.paginate(getParaToInt("page", 1), 10);
+        String status = getPara("s");
+
+        Page<SinglePage> page =
+                status == null
+                        ? sps.paginateWithoutTrash(getParaToInt("page", 1), 10)
+                        : sps.paginateByStatus(getParaToInt("page", 1), 10, status);
+
         setAttr("page", page);
 
         int draftCount = sps.findCountByStatus(SinglePage.STATUS_DRAFT);
         int trashCount = sps.findCountByStatus(SinglePage.STATUS_TRASH);
+        int normalCount = sps.findCountByStatus(SinglePage.STATUS_NORMAL);
 
         setAttr("draftCount", draftCount);
         setAttr("trashCount", trashCount);
-        setAttr("normalCount", page.getTotalRow() - draftCount - trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", draftCount + trashCount + normalCount);
 
         render("page/list.html");
     }

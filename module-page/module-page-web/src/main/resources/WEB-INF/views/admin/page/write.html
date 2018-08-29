@@ -50,10 +50,12 @@
 
     $("#draft").on("click", function () {
         $("#pageStatus").val("draft");
+        doSubmit();
     })
 
     $("#trash").on("click", function () {
         $("#pageStatus").val("trash");
+        doSubmit();
     })
 
     $("#chooseThumbnail").on("click", function () {

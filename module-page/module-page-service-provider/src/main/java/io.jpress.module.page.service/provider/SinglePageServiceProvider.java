@@ -13,14 +13,14 @@ import javax.inject.Singleton;
 public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> implements SinglePageService {
 
     @Override
-    public boolean doChangeStatus(long id, int status) {
+    public boolean doChangeStatus(long id, String status) {
         SinglePage page = findById(id);
         page.setStatus(status);
         return page.update();
     }
 
     @Override
-    public int findCountByStatus(int status) {
+    public int findCountByStatus(String status) {
         return Db.queryInt("select count(*) from single_page where status = ?", status);
     }
 }

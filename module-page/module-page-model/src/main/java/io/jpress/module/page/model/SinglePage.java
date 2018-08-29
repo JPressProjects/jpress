@@ -9,8 +9,21 @@ import io.jpress.module.page.model.base.BaseSinglePage;
 @Table(tableName = "single_page", primaryKey = "id")
 public class SinglePage extends BaseSinglePage<SinglePage> {
 
-    public static final int STATUS_NORMAL = 0;
-    public static final int STATUS_DRAFT = 1;
-    public static final int STATUS_TRASH = 9;
+    public static final String STATUS_NORMAL = "normal";
+    public static final String STATUS_DRAFT = "draft";
+    public static final String STATUS_TRASH = "trash";
+
+
+    public boolean isNormal() {
+        return STATUS_NORMAL.equals(getStatus());
+    }
+
+    public boolean isDraft() {
+        return STATUS_DRAFT.equals(getStatus());
+    }
+
+    public boolean isTrash() {
+        return STATUS_TRASH.equals(getStatus());
+    }
 
 }

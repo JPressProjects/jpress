@@ -44,16 +44,16 @@
 
 
     $("#submit").on("click", function () {
-        $("#pageStatus").val("0");
+        $("#pageStatus").val("normal");
         doSubmit();
     })
 
     $("#draft").on("click", function () {
-        $("#pageStatus").val("1");
+        $("#pageStatus").val("draft");
     })
 
-    $("#dustbin").on("click", function () {
-        $("#pageStatus").val("9");
+    $("#trash").on("click", function () {
+        $("#pageStatus").val("trash");
     })
 
     $("#chooseThumbnail").on("click", function () {
@@ -111,7 +111,7 @@
 
     <section class="content">
         <form action="/admin/page/doWriteSave" method="post" id="form">
-            <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "0")'>
+            <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "normal")'>
             <input type="hidden" id="pageId" name="page.id" value="#(page.id ??)">
             <div class="row">
                 <div class="col-xs-9">
@@ -214,7 +214,7 @@
                             <button type="button" id="submit" class="btn btn-primary btn-sm ">发布</button>
                             <button type="button" id="draft" class="btn btn-default btn-sm ">草稿</button>
 
-                            <a href="#" id="dustbin" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
+                            <a href="javascript:;" id="trash" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
                         </div>
                     </div>
 

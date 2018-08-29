@@ -225,12 +225,12 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
 		return getStr("idcard");
 	}
 
-	public void setStatus(java.lang.Integer status) {
+	public void setStatus(java.lang.String status) {
 		set("status", status);
 	}
 	
-	public java.lang.Integer getStatus() {
-		return getInt("status");
+	public java.lang.String getStatus() {
+		return getStr("status");
 	}
 
 	public void setCreated(java.util.Date created) {

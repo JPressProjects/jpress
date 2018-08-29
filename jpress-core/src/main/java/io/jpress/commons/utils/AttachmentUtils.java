@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.utils;
+package io.jpress.commons.utils;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;

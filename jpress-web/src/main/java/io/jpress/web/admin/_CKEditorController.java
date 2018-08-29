@@ -5,7 +5,7 @@ import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
-import io.jpress.utils.AttachmentUtils;
+import io.jpress.commons.utils.AttachmentUtils;
 
 import java.io.File;
 import java.util.HashMap;

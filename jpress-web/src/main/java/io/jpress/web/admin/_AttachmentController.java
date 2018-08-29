@@ -10,7 +10,7 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
-import io.jpress.utils.AttachmentUtils;
+import io.jpress.commons.utils.AttachmentUtils;
 
 import javax.inject.Inject;
 

@@ -18,6 +18,22 @@
 </style>
 #end
 
+#define script()
+<script>
+    function show(id) {
+        layer.open({
+            type: 2,
+            title: '详情',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['80%', '70%'],
+            content: '/admin/attachment/detail/' + id
+        });
+    }
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -50,7 +66,6 @@
                                 <div class="form-group col-xs-4">
                                     <button type="submit" class="btn btn-primary ">查询</button>
                                     <button type="reset" class="btn btn-default">重置</button>
-                                    <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -58,9 +73,9 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <button type="submit" class="btn btn-primary ">
+                                <a href="/admin/attachment/upload" class="btn btn-primary ">
                                     <i class="fa fa-fw fa-plus"></i> 上传
-                                </button>
+                                </a>
                                 <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
@@ -74,7 +89,7 @@
                                 #for(attachment : page.list)
                                 <div class="attachment_item">
                                     <img src="#(attachment.path ??)" title="#(attachment.title ??)"
-                                         alt="#(attachment.title ??)">
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
                                 </div>
                                 #end
                             </div>

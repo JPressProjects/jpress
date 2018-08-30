@@ -1,0 +1,109 @@
+#@layer()
+
+#define css()
+<style>
+    .attachment_item {
+        height: 200px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+    }
+
+    .attachment_item:hover {
+        border: 3px solid #3c8dbc;
+    }
+
+    .attachment_item img {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+#end
+
+#define script()
+<script>
+    $(".attachment_item").click(function () {
+//        alert($(this).attr("data-aid"));
+        alert($(this).children().attr("src"));
+
+        parent.layer.data.src = $(this).children().attr("src");
+    })
+
+    $(document).ready(function(){
+        var height = $(document).height();
+        $("#image-box").css("height",height+"px");
+        $("#image-box").css("min-height",height+"px");
+        $("#image-info").css("height",height+"px");
+        $("#image-info").css("min-height",height+"px");
+    });
+</script>
+#end
+
+#define content()
+
+<div class="row">
+    <div class="col-xs-7" style="background: #ffffff" id="image-box">
+        <div class="row">
+            <img src="#(attachment.path ??)" style="width: 100%">
+        </div>
+    </div>
+
+    <div class="col-xs-5" style="background: #ccc" id="image-info">
+        <div class="row">
+
+            <div class="brower-image-details">
+                <div>
+                    <strong>文件名：</strong> <span class="filename">16d0ffe4abab4891bb14d72e7c39e84a.png</span>
+                </div>
+                <div>
+                    <strong>文件类型：</strong> <span class="filetype">image/png（.png）</span>
+                </div>
+                <div class="uploaded">
+                    <strong>上传于：</strong> 2017-08-30 21:14:59
+                </div>
+                <div class="brower-image-size">
+                    <strong>文件大小：</strong>478KB
+
+                </div>
+                <div class="brower-image-dimensions">
+                    <strong>分辨率：</strong> 900 x 500
+                </div>
+            </div>
+
+            <div class="brower-settings">
+                <dl class="brower-horizontal">
+                    <dt class="">URL</dt>
+                    <dd>
+                        <div class="form-group">
+                            <label class="sr-only">URL</label>
+                            <textarea class="form-control" disabled="disabled" rows="2">/attachment/20170830/16d0ffe4abab4891bb14d72e7c39e84a.png</textarea>
+                        </div>
+                    </dd>
+                    <dt class="">标题</dt>
+                    <dd>
+                        <div class="form-group">
+                            <label class="sr-only">标题</label> <input class="form-control" type="text" value="只有夜深，才.png">
+                        </div>
+                    </dd>
+                    <dt class="">说明</dt>
+                    <dd>
+                        <div class="form-group">
+                            <label class="sr-only">说明</label>
+                            <textarea class="form-control" placeholder="Enter ..." rows="3"></textarea>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <p class="comment-item-actions">
+                <a class="comment-item-green" href="">保存</a>
+                <span>|</span>
+                <a href="javascript:;" class="comment-item-red" onclick="del('13')">彻底删除</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+#end

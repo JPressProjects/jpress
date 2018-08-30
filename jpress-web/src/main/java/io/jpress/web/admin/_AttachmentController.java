@@ -28,7 +28,7 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "所有附件", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void index() {
-        Page<Attachment> page = as.paginate(getParaToInt("page", 1), 10);
+        Page<Attachment> page = as.paginate(getParaToInt("page", 1), 15);
         setAttr("page", page);
         render("attachment/list.html");
 
@@ -40,10 +40,31 @@ public class _AttachmentController extends AdminControllerBase {
     }
 
 
-    public void browse(){
+    public void browse() {
         Page<Attachment> page = as.paginate(getParaToInt("page", 1), 10);
         setAttr("page", page);
         render("attachment/browse.html");
+    }
+
+    public void detail() {
+        Long id = getParaToLong();
+        if (id == null) {
+            renderError(404);
+            return;
+        }
+
+        setAttr("attachment", as.findById(id));
+        render("attachment/detail.html");
+    }
+
+    public void del() {
+        Long id = getParaToLong();
+        if (id == null) {
+            renderError(404);
+            return;
+        }
+        as.deleteById(id);
+        renderJson(Ret.ok());
     }
 
     public void doUpload() {

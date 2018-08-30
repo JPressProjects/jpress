@@ -67,6 +67,13 @@ public class _AttachmentController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
+
+    public void update() {
+        Attachment attachment = getBean(Attachment.class);
+        as.saveOrUpdate(attachment);
+        renderJson(Ret.ok());
+    }
+
     public void doUpload() {
         if (!isMultipartRequest()) {
             renderError(404);

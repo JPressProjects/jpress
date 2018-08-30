@@ -24,20 +24,36 @@
 
 #define script()
 <script>
-    $(".attachment_item").click(function () {
-//        alert($(this).attr("data-aid"));
-        alert($(this).children().attr("src"));
 
-        parent.layer.data.src = $(this).children().attr("src");
-    })
-
-    $(document).ready(function(){
+    $(document).ready(function () {
         var height = $(document).height();
-        $("#image-box").css("height",height+"px");
-        $("#image-box").css("min-height",height+"px");
-        $("#image-info").css("height",height+"px");
-        $("#image-info").css("min-height",height+"px");
+        $("#image-box").css("height", height + "px");
+        $("#image-box").css("min-height", height + "px");
+        $("#image-info").css("height", height + "px");
+        $("#image-info").css("min-height", height + "px");
     });
+
+    function del(id) {
+        $.get("/admin/attachment/del/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                parent.reload = true;
+                parent.layer.closeAll();
+            }
+        });
+    }
+
+    function update(id) {
+        $.get("/admin/attachment/update/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                parent.reload = true;
+                parent.layer.closeAll();
+            }
+        });
+    }
 </script>
 #end
 
@@ -50,58 +66,73 @@
         </div>
     </div>
 
-    <div class="col-xs-5" style="background: #ccc" id="image-info">
+    <div class="col-xs-5" style="background: #efefef" id="image-info">
         <div class="row">
 
-            <div class="brower-image-details">
-                <div>
-                    <strong>文件名：</strong> <span class="filename">16d0ffe4abab4891bb14d72e7c39e84a.png</span>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">文件名</label>
+                    <div class="col-sm-10">
+                        xxx.pg
+                    </div>
                 </div>
-                <div>
-                    <strong>文件类型：</strong> <span class="filetype">image/png（.png）</span>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">文件类型</label>
+                    <div class="col-sm-10">
+                        image/png（.png）
+                    </div>
                 </div>
-                <div class="uploaded">
-                    <strong>上传于：</strong> 2017-08-30 21:14:59
-                </div>
-                <div class="brower-image-size">
-                    <strong>文件大小：</strong>478KB
 
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">上传于</label>
+                    <div class="col-sm-10">
+                        image/png（.png）
+                    </div>
                 </div>
-                <div class="brower-image-dimensions">
-                    <strong>分辨率：</strong> 900 x 500
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">文件大小</label>
+                    <div class="col-sm-10">
+                        image/png（.png）
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">分辨率</label>
+                    <div class="col-sm-10">
+                        image/png（.png）
+                    </div>
+                </div>
+
             </div>
 
-            <div class="brower-settings">
-                <dl class="brower-horizontal">
-                    <dt class="">URL</dt>
-                    <dd>
-                        <div class="form-group">
-                            <label class="sr-only">URL</label>
-                            <textarea class="form-control" disabled="disabled" rows="2">/attachment/20170830/16d0ffe4abab4891bb14d72e7c39e84a.png</textarea>
-                        </div>
-                    </dd>
-                    <dt class="">标题</dt>
-                    <dd>
-                        <div class="form-group">
-                            <label class="sr-only">标题</label> <input class="form-control" type="text" value="只有夜深，才.png">
-                        </div>
-                    </dd>
-                    <dt class="">说明</dt>
-                    <dd>
-                        <div class="form-group">
-                            <label class="sr-only">说明</label>
-                            <textarea class="form-control" placeholder="Enter ..." rows="3"></textarea>
-                        </div>
-                    </dd>
-                </dl>
+            <div role="form" style="margin: 20px">
+
+                <!-- textarea -->
+                <div class="form-group">
+                    <label>URL</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                </div>
+
+                <!-- text input -->
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control" placeholder="Enter ...">
+                </div>
+
+                <!-- textarea -->
+                <div class="form-group">
+                    <label>说明</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                </div>
+
             </div>
-            <p class="comment-item-actions">
-                <a class="comment-item-green" href="">保存</a>
+
+            <div>
+                <a href="javascript:;" onclick="update('#(attachment.id ??)')">保存</a>
                 <span>|</span>
-                <a href="javascript:;" class="comment-item-red" onclick="del('13')">彻底删除</a>
-            </p>
-
+                <a href="javascript:;" onclick="del('#(attachment.id ??)')">彻底删除</a>
+            </div>
         </div>
     </div>
 </div>

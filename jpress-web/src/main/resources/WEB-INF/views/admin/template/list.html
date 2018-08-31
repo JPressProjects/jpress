@@ -1,11 +1,27 @@
 #@layout()
+
+#define css()
+<style>
+    .box-body img {
+        width: 100%;
+        height: 200px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+    }
+
+    .box-footer .title{
+        padding-top: 7px;
+    }
+</style>
+#end
+
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
             模板管理
-            <small>Control panel</small>
+            <small>Templates Management</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -14,7 +30,7 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (24)</a>  |  <a href="">PC模板 (22)</a>  |  <a href="">H5模板 (2)</a>  |  <a href="">小程序 (0)</a>
+        <a href="">全部 (24)</a> | <a href="">PC模板 (22)</a> | <a href="">H5模板 (2)</a> | <a href="">小程序 (0)</a>
     </section>
 
     <section class="content">
@@ -28,14 +44,14 @@
                                 <div class="form-group col-xs-4">
                                     <label class="col-sm-3 control-label">名称</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" >
+                                        <input type="text" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group col-xs-4">
                                     <button type="submit" class="btn btn-primary ">查询</button>
                                     <button type="reset" class="btn btn-default">重置</button>
-                                    <a class="btn"> 安装新模板 </a>
+                                    <a href="/admin/template/install" class="btn"> 安装新模板 </a>
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -49,48 +65,50 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                       <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称11111111111111</label>
-                                        <button type="button" class="btn btn-default disabled pull-right" disabled>已开启</button>
+                                        <label class="title">模板名称11111111111111</label>
+                                        <button type="button" class="btn btn-default disabled pull-right" disabled>
+                                            <i class="fa fa-fw fa-check"></i>已启用
+                                        </button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
                             </div>
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称22222222222</label>
-                                        <button type="button" class="btn btn-default pull-right" >开启</button>
+                                        <label class="title">模板名称22222222222</label>
+                                        <button type="button" class="btn btn-primary pull-right">启用</button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
                             </div>
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称333333333333</label>
-                                        <button type="button" class="btn btn-default pull-right" >开启</button>
+                                        <label class="title">模板名称333333333333</label>
+                                        <button type="button" class="btn btn-primary pull-right">启用</button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
@@ -101,48 +119,49 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称11111111111111</label>
-                                        <button type="button" class="btn btn-default disabled pull-right" disabled>已开启</button>
+                                        <label class="title">模板名称11111111111111</label>
+                                        <button type="button" class="btn btn-primary pull-right" >已启用
+                                        </button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
                             </div>
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称22222222222</label>
-                                        <button type="button" class="btn btn-default pull-right" >开启</button>
+                                        <label class="title">模板名称22222222222</label>
+                                        <button type="button" class="btn btn-primary pull-right">启用</button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
                             </div>
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
-                                <div class="box box-solid box-template">
+                                <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png" />
+                                        <img src="/static/admin/images/avatar.png"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label>模板名称333333333333</label>
-                                        <button type="button" class="btn btn-default pull-right" >开启</button>
+                                        <label class="title">模板名称333333333333</label>
+                                        <button type="button" class="btn btn-primary pull-right">启用</button>
                                     </div>
                                 </div>
                                 <!-- /.box -->
@@ -150,37 +169,6 @@
                             <!-- /.col -->
                         </div>
 
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <ul class="pagination pull-right">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1"
-                                                                          tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2"
-                                                                    tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3"
-                                                                    tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4"
-                                                                    tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5"
-                                                                    tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6"
-                                                                    tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7" tabindex="0">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- /.box -->

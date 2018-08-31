@@ -43,10 +43,8 @@ public class _TemplateController extends AdminControllerBase {
     }
 
     @AdminMenu(text = "安装", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 5)
-    public void role() {
-        List<Role> roles = roleService.findAll();
-        setAttr("roles", roles);
-        render("user/role.html");
+    public void install() {
+        render("template/install.html");
     }
 
     public void roleEdit() {

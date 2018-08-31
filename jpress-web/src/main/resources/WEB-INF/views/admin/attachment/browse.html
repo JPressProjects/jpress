@@ -19,16 +19,21 @@
         height: 100%;
         width: 100%;
     }
+
+    .my-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>
 #end
 
 #define script()
 <script>
     $(".attachment_item").click(function () {
-//        alert($(this).attr("data-aid"));
-        alert($(this).children().attr("src"));
-
-        parent.layer.data.src = $(this).children().attr("src");
+        var src = $(this).children().attr("src");
+        parent.layer.data.src = src;
+        parent.layer.closeAll();
     })
 </script>
 #end
@@ -37,7 +42,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="row">
+        <div class="my-row">
             #for(attachment : page.list)
             <div class="attachment_item" data-aid="#(attachment.id ??)">
                 <img src="#(attachment.path ??)"
@@ -47,7 +52,7 @@
             #end
         </div>
 
-        <div class="row">
+        <div class="row" style="padding-right: 20px">
             <div class="col-sm-12">
                 #@_paginate()
             </div>

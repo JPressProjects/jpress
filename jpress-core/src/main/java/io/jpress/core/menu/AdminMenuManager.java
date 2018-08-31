@@ -49,10 +49,10 @@ public class AdminMenuManager {
 //        systemMenus.add(statisticsMenuGroup);
 
 
-        AdminMenuGroup orderMenuGroup = new AdminMenuGroup();
-        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_FINANCE);
-        orderMenuGroup.setText("财务");
-        systemMenus.add(orderMenuGroup);
+//        AdminMenuGroup orderMenuGroup = new AdminMenuGroup();
+//        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_FINANCE);
+//        orderMenuGroup.setText("财务");
+//        systemMenus.add(orderMenuGroup);
 
 
         AdminMenuGroup userMenuGroup = new AdminMenuGroup();

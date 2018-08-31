@@ -24,7 +24,7 @@ public class SystemGenerator {
 
     public static void main(String[] args) {
 
-        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm";
+        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,api_application";
 
         Jboot.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/newjpress");
         Jboot.setBootArg("jboot.datasource.user", "root");
@@ -40,7 +40,7 @@ public class SystemGenerator {
 
         List<TableMeta> tableMetaList = new ArrayList<TableMeta>();
         Set<String> excludeTableSet = StringUtils.splitToSet(dbTables, ",");
-        for (TableMeta tableMeta :  CodeGenHelpler.createMetaBuilder().build()) {
+        for (TableMeta tableMeta : CodeGenHelpler.createMetaBuilder().build()) {
             if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
                 tableMetaList.add(tableMeta);
             }

@@ -1,0 +1,166 @@
+#@layout()
+#define css()
+<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
+<style type="text/css">
+    .switchery-small {
+        margin-top: 7px;
+    }
+
+    .page-first-header {
+        padding-bottom: 9px;
+        padding-left: 20px;
+        margin: 0 0 30px;
+        border-bottom: 1px solid #eee;
+        font-size: 18px;
+    }
+</style>
+#end
+#define script()
+<script src="/static/components/switchery/switchery.min.js"></script>
+<script>
+    var config = {
+        color: '#64bd63'
+        , secondaryColor: '#dfdfdf'
+        , jackColor: '#fff'
+        , jackSecondaryColor: null
+        , className: 'switchery'
+        , disabled: false
+        , disabledOpacity: 0.5
+        , speed: '0.4s'
+        , size: 'small'
+    };
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, config);
+    });
+</script>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            通信设置
+            <small>Connection Setting</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li>设置</li>
+            <li class="active">通信设置</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off">
+                        <div class="box-body ">
+
+                            <h4 class="page-first-header">邮件</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" checked class="switchery">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">SMTP地址</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="给您的网站起个名字">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="设置网站的主标题">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="副标题...">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">使用SSL</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" checked class="switchery">
+                                    <p class="help-block"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">手机短信</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" checked class="switchery">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信服务商</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="menu.pid">
+                                        <option value="0" selected>阿里大于</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Key</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="副标题...">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Secret</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="副标题...">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信模板</label>
+                                
+                                <div class="col-sm-6">
+                                    <textarea rows="2" class="form-control" placeholder="版权信息一般显示在网站的底部..."></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

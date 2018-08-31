@@ -4,9 +4,11 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
-import io.jpress.service.RoleService;
+import io.jpress.model.ApiApplication;
+import io.jpress.service.ApiApplicationService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -18,7 +20,7 @@ import javax.inject.Inject;
 public class _SettingController extends AdminControllerBase {
 
     @Inject
-    private RoleService roleService;
+    private ApiApplicationService aas;
 
     @AdminMenu(text = "常规", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 0)
     public void index() {
@@ -27,19 +29,38 @@ public class _SettingController extends AdminControllerBase {
     }
 
     @AdminMenu(text = "通信", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 9)
-    public void watermark() {
-        render("setting/cdn.html");
+    public void connection() {
+        render("setting/connection.html");
     }
 
 
     @AdminMenu(text = "接口", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 10)
     public void api() {
-        render("setting/cdn.html");
+        List<ApiApplication> apiApplications = aas.findAll();
+        setAttr("apiApplications", apiApplications);
+
+        int id = getParaToInt(0, 0);
+        if (id > 0) {
+            setAttr("api",aas.findById(id));
+        }
+
+        render("setting/api.html");
+
+    }
+
+    public void doApiDel() {
+
+    }
+
+    public void doApiSave() {
+        ApiApplication apiApplication = getBean(ApiApplication.class, "api");
+        aas.saveOrUpdate(apiApplication);
+        redirect("/admin/setting/api");
     }
 
     @AdminMenu(text = "登录注册", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 32)
     public void reg() {
-        render("setting/cdn.html");
+        render("setting/reg.html");
     }
 
 
@@ -53,11 +74,6 @@ public class _SettingController extends AdminControllerBase {
     public void seo() {
         render("setting/seo.html");
     }
-
-
-
-
-
 
 
 }

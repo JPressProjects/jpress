@@ -5,6 +5,14 @@
     .switchery-small {
         margin-top: 7px;
     }
+
+    .page-first-header {
+        padding-bottom: 9px;
+        padding-left: 20px;
+        margin: 0 0 30px;
+        border-bottom: 1px solid #eee;
+        font-size: 18px;
+    }
 </style>
 #end
 #define script()
@@ -32,13 +40,13 @@
 
     <section class="content-header">
         <h1>
-            网站加速
-            <small>CDN Setting</small>
+            登录注册
+            <small>Connection Setting</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li>设置</li>
-            <li class="active">网站加速</li>
+            <li class="active">登录注册</li>
         </ol>
     </section>
 
@@ -54,28 +62,39 @@
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off">
                         <div class="box-body ">
+
+
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">开启CDN网站加速</label>
+                                <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" checked class="switchery">
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">CDN域名</label>
+                                <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请填写CDN域名...">
-                                    <p class="help-block"> 此项请填写 阿里云、腾讯云、七牛等CDN加速的绑定域名，暂时只支持回源模式的CDN加速。http（或https）开头。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                    <a class="help-block"> 请先在 <a href="/admin/settiong/connection">[通信]</a> 开启邮件功能后才能使用。 </p>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">排除文件</label>
+                                <label class="col-sm-2 control-label">启用短信</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" placeholder="排除的文件将不采用CDN进行加速..."></textarea>
-                                    <p class="help-block"> 此处请填写要排除的文件，填写本地的相对路径。一行一条数据。 </p>
+                                    <input type="checkbox" checked class="switchery">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信模板</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                    <p class="help-block"> 请先在 <a href="/admin/settiong/connection">[通信]</a> 开启短信功能后才能使用。 </p>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">

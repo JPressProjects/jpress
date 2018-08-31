@@ -38,7 +38,11 @@ function initMenu() {
         var li = $(this);
         li.find('a').each(function () {
             var href = $(this).attr("href");
-            if (pathName.indexOf(href) == 0) {
+            if (pathName == href) {
+                activeTreeview = li;
+                activeLi = $(this).parent();
+                return false;
+            } else if (pathName.indexOf(href) == 0) {
                 // li.addClass("active");
                 // $(this).parent().addClass("active");
                 // return false;

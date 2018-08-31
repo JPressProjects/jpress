@@ -1,6 +1,7 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
@@ -23,12 +24,17 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
         for (Menu menu : menus) {
 
             Menu dbMenu = DAO.findFirstByColumn("url", menu.getUrl());
-            
+
             if (dbMenu == null) {
                 menu.save();
                 syncCounter++;
             }
         }
         return syncCounter;
+    }
+
+    @Override
+    public List<Menu> findListByType(String type) {
+        return DAO.findListByColumn(Column.create("type", type));
     }
 }

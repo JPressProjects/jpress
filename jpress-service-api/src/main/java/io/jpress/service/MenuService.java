@@ -99,4 +99,6 @@ public interface MenuService {
     public void keep(List<? extends Model> models, String... attrs);
 
     public int sync(List<Menu> menus);
+
+    public List<Menu> findListByType(String type);
 }

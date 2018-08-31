@@ -1,17 +1,29 @@
 #@layout()
+#define css()
+<style type="text/css">
+    .switchery-item {
+        padding-bottom: 10px;
+    }
+
+    .switchery-item .switchery-small {
+        margin-top: -2px;
+        margin-right: 10px;
+    }
+</style>
+#end
 
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-            通信设置
-            <small>Connection Setting</small>
+            文章设置
+            <small>Article Setting</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li>设置</li>
-            <li class="active">通信设置</li>
+            <li>文章</li>
+            <li class="active">设置</li>
         </ol>
     </section>
 
@@ -28,77 +40,65 @@
                     <form class="form-horizontal form-setting" autocomplete="off">
                         <div class="box-body ">
 
-                            <h4 class="page-first-header">邮件</h4>
 
+                            <h4 class="page-first-header">评论功能</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-6">
+                                    <div class="switchery-item">
+                                        <input type="checkbox" checked class="switchery"> 开启评论功能
+                                    </div>
+                                    <div class="switchery-item">
+                                        <input type="checkbox" checked class="switchery"> 允许未登录用户发表评论
+                                    </div>
+                                    <div class="switchery-item">
+                                        <input type="checkbox" checked class="switchery"> 评论必须经过管理员审核
+                                    </div>
+                                    <div class="switchery-item">
+                                        <input type="checkbox" checked class="switchery"> 启用评论验证码功能
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">评论邮件通知</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" checked class="switchery">
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">SMTP地址</label>
-
+                                <label class="col-sm-2 control-label">通知邮箱</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：smtp.qq.com">
+                                    <input type="input" class="form-control" placeholder="例如：email@jpress.io">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">用户名</label>
-
+                                <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="邮箱账号...">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">密码</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="及密码">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">使用SSL</label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
-                                    <p class="help-block"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">手机短信</h4>
-
+                            <h4 class="page-header">评论短信通知</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" checked class="switchery">
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">短信服务商</label>
+                                <label class="col-sm-2 control-label">通知手机号</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="menu.pid">
-                                        <option value="0" selected>阿里大于</option>
-                                    </select>
+                                    <input type="input" class="form-control" placeholder="例如：18612345678">
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">App Key</label>
+                                <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="从服务商获取的appKey ...">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">App Secret</label>
-
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="及appSecret">
+                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
                                 </div>
                             </div>
 

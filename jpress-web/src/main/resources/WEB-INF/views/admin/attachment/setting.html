@@ -1,36 +1,4 @@
 #@layout()
-
-
-#define script()
-<script src="/static/components/switchery/switchery.min.js"></script>
-<script>
-    var config = {
-        color: '#64bd63'
-        , secondaryColor: '#dfdfdf'
-        , jackColor: '#fff'
-        , jackSecondaryColor: null
-        , className: 'switchery'
-        , disabled: false
-        , disabledOpacity: 0.5
-        , speed: '0.4s'
-        , size: 'small'
-    };
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-    elems.forEach(function (html) {
-        var switchery = new Switchery(html, config);
-    });
-</script>
-#end
-
-#define css()
-<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
-<style type="text/css">
-    .switchery-small {
-        margin-top: 7px;
-    }
-</style>
-#end
-
 #define content()
 <div class="content-wrapper">
 

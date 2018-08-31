@@ -3,7 +3,6 @@
 <script src="/static/components/ckeditor/ckeditor.js"></script>
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/toastr/toastr.min.js"></script>
-<script src="/static/components/switchery/switchery.min.js"></script>
 <script src="/static/components/selectize/selectize.min.js"></script>
 
 
@@ -19,10 +18,6 @@
         create: true
     });
 
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-    elems.forEach(function (html) {
-        var switchery = new Switchery(html, {size: 'small'});
-    });
 
     function doSubmit() {
         editorUpdate();
@@ -86,16 +81,9 @@
 </script>
 #end
 #define css()
-<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
 <link href="/static/components/toastr/toastr.min.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
-
-<style type="text/css">
-    .switchery-small {
-        margin-top: 7px;
-    }
-</style>
 #end
 
 #define content()

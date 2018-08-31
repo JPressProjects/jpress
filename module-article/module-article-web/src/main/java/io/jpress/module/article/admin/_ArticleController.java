@@ -206,7 +206,7 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)
     public void setting() {
-        render("article/paylist.html");
+        render("article/setting.html");
     }
 
 }

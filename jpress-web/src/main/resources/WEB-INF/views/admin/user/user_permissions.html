@@ -1,18 +1,7 @@
 #@layout()
 
-#define css()
-<link href="/static/components/switchery/switchery.min.css" rel="stylesheet">
-#end
-
-
 #define script()
-<script src="/static/components/switchery/switchery.min.js"></script>
 <script>
-
-    var elems = document.querySelectorAll('.switchery');
-    for (var i = 0; i < elems.length; i++) {
-        var switchery = new Switchery(elems[i],{size:'small'});
-    }
 
     $("#sync").on("click", function () {
         $.ajax({

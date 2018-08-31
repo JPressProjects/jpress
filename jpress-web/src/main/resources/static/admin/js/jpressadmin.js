@@ -11,6 +11,8 @@ $(document).ready(function () {
 
     initJpActions();
 
+    initSwitchery();
+
 });
 
 function initJpActions() {
@@ -79,6 +81,28 @@ function initlayer() {
     layer.config({
         extend: 'jpress/style.css', //使用JPress皮肤
         skin: 'layer-ext-jpress'
+    });
+}
+
+function initSwitchery(config) {
+    if (typeof Switchery == "undefined") {
+        return;
+    }
+
+    config = config || {
+            color: '#64bd63'
+            , secondaryColor: '#dfdfdf'
+            , jackColor: '#fff'
+            , jackSecondaryColor: null
+            , className: 'switchery'
+            , disabled: false
+            , disabledOpacity: 0.5
+            , speed: '0.4s'
+            , size: 'small'
+        };
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, config);
     });
 }
 

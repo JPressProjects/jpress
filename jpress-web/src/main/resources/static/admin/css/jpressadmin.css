@@ -76,6 +76,14 @@
     font-size: 18px;
 }
 
+.page-first-header {
+    padding-bottom: 9px;
+    padding-left: 20px;
+    margin: 0 0 30px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+}
+
 .box-dashboard {
     position: relative;
     border-radius: 3px;
@@ -119,4 +127,8 @@
 
 .jp-actionitem {
     display: none;
+}
+
+.switchery-small {
+    margin-top: 7px;
 }

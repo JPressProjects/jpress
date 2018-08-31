@@ -1,18 +1,22 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
+import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
-import io.jpress.commons.utils.AttachmentUtils;
 
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -22,6 +26,8 @@ import javax.inject.Inject;
  */
 @RequestMapping("/admin/attachment")
 public class _AttachmentController extends AdminControllerBase {
+
+    private static final Log LOG = Log.getLog(_AttachmentController.class);
 
     @Inject
     private AttachmentService as;
@@ -53,7 +59,33 @@ public class _AttachmentController extends AdminControllerBase {
             return;
         }
 
-        setAttr("attachment", as.findById(id));
+        Attachment attachment = as.findById(id);
+
+        setAttr("attachment", attachment);
+
+        File attachmentFile = new File(PathKit.getWebRootPath(), attachment.getPath());
+        setAttr("attachmentName", attachmentFile.getName());
+
+        long fileLen = attachmentFile.length();
+        String fileLenUnit = "Byte";
+        if (fileLen > 1024) {
+            fileLen = fileLen / 1024;
+            fileLenUnit = "KB";
+        }
+        if (fileLen > 1024) {
+            fileLen = fileLen / 1024;
+            fileLenUnit = "MB";
+        }
+        setAttr("attachmentSize", fileLen + fileLenUnit);
+        try {
+            if (AttachmentUtils.isImage(attachment.getPath())) {
+                String ratio = ImageUtils.ratioAsString(attachmentFile.getAbsolutePath());
+                setAttr("attachmentRatio", ratio == null ? "unknow" : ratio);
+            }
+        } catch (Throwable e) {
+            LOG.error("detail() ratioAsString error", e);
+        }
+
         render("attachment/detail.html");
     }
 
@@ -73,6 +105,7 @@ public class _AttachmentController extends AdminControllerBase {
         as.saveOrUpdate(attachment);
         renderJson(Ret.ok());
     }
+
 
     public void doUpload() {
         if (!isMultipartRequest()) {
@@ -97,7 +130,7 @@ public class _AttachmentController extends AdminControllerBase {
         attachment.setIp(getIPAddress());
         attachment.setAgent(getUserAgent());
 
-        attachment.save();
+        as.save(attachment);
 
         renderJson(Ret.ok().set("success", true));
     }

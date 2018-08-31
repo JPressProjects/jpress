@@ -2,27 +2,19 @@
 
 #define css()
 <style>
-    .attachment_item {
-        height: 200px;
-        width: 200px;
-        padding: 0px;
-        border: 1px solid #ddd;
-        margin: 10px;
-        float: left;
+    .jp-group .control-label {
+        text-align: right;
     }
 
-    .attachment_item:hover {
-        border: 3px solid #3c8dbc;
-    }
-
-    .attachment_item img {
-        height: 100%;
-        width: 100%;
+    .jp-block {
+        padding-top: 10px;
     }
 </style>
 #end
 
 #define script()
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="/static/components/toastr/toastr.min.js"></script>
 <script>
 
     $(document).ready(function () {
@@ -38,19 +30,24 @@
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
-                parent.reload = true;
+                parent.layer.data.needReload = true;
                 parent.layer.closeAll();
             }
         });
     }
 
-    function update(id) {
-        $.get("/admin/attachment/update/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                parent.reload = true;
-                parent.layer.closeAll();
+    function update() {
+        $("#form").ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    location.reload();
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
             }
         });
     }
@@ -69,69 +66,57 @@
     <div class="col-xs-5" style="background: #efefef" id="image-info">
         <div class="row">
 
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">文件名</label>
-                    <div class="col-sm-10">
-                        xxx.pg
-                    </div>
+            <div class="jp-block">
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件名</label>
+                    #(attachment.title ??)
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">文件类型</label>
-                    <div class="col-sm-10">
-                        image/png（.png）
-                    </div>
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件类型</label>
+                    #(attachment.mime_type ??)（#(attachment.suffix ??)）
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">上传于</label>
-                    <div class="col-sm-10">
-                        image/png（.png）
-                    </div>
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">上传于</label>
+                    #(attachment.created ??)
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">文件大小</label>
-                    <div class="col-sm-10">
-                        image/png（.png）
-                    </div>
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件大小</label>
+                    #(attachmentSize ??)
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">分辨率</label>
-                    <div class="col-sm-10">
-                        image/png（.png）
-                    </div>
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">分辨率</label>
+                    #(attachmentRatio ??)
                 </div>
 
             </div>
 
-            <div role="form" style="margin: 20px">
+            <div  style="margin: 20px">
+                <form action="/admin/attachment/update" id="form">
+                    <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
+                    <div class="form-group">
+                        <label>URL</label>
+                        <textarea class="form-control" rows="2" readonly >#(attachment.path ??)</textarea>
+                    </div>
 
-                <!-- textarea -->
-                <div class="form-group">
-                    <label>URL</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
+                    <div class="form-group">
+                        <label>文件名</label>
+                        <input type="text" class="form-control" name="attachment.title" value=" #(attachment.title ??)">
+                    </div>
 
-                <!-- text input -->
-                <div class="form-group">
-                    <label>标题</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-
-                <!-- textarea -->
-                <div class="form-group">
-                    <label>说明</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
-
+                    <div class="form-group">
+                        <label>描述</label>
+                        <textarea class="form-control" rows="3" name="attachment.description" >#(attachment.description ??)</textarea>
+                    </div>
+                </form>
             </div>
 
-            <div>
-                <a href="javascript:;" onclick="update('#(attachment.id ??)')">保存</a>
+            <div style="padding: 20px">
+                <a href="javascript:;" onclick="update()">保存</a>
                 <span>|</span>
-                <a href="javascript:;" onclick="del('#(attachment.id ??)')">彻底删除</a>
+                <a href="javascript:;" onclick="del('#(attachment.id ??)')" style="color: #a00">彻底删除</a>
             </div>
         </div>
     </div>

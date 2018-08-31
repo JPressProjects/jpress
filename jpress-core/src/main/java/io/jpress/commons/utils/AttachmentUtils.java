@@ -81,6 +81,7 @@ public class AttachmentUtils {
         imageSuffix.add(".png");
         imageSuffix.add(".bmp");
         imageSuffix.add(".gif");
+        imageSuffix.add(".webp");
     }
 
     public static boolean isImage(String path) {

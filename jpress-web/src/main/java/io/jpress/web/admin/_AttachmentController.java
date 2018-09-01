@@ -34,7 +34,7 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "所有附件", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void index() {
-        Page<Attachment> page = as.paginate(getParaToInt("page", 1), 15);
+        Page<Attachment> page = as.paginate(getPagePara(), 15);
         setAttr("page", page);
         render("attachment/list.html");
 
@@ -47,7 +47,7 @@ public class _AttachmentController extends AdminControllerBase {
 
 
     public void browse() {
-        Page<Attachment> page = as.paginate(getParaToInt("page", 1), 10);
+        Page<Attachment> page = as.paginate(getPagePara(), 10);
         setAttr("page", page);
         render("attachment/browse.html");
     }

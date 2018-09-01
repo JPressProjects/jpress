@@ -59,12 +59,12 @@ public class _TemplateController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE)
+    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 88)
     public void me() {
         render("user/me.html");
     }
 
-    @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE)
+    @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)
     public void edit() {
         render("template/edit.html");
     }

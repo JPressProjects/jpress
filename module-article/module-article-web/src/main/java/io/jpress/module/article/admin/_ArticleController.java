@@ -32,7 +32,7 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
-        Page<Article> page = articleService.paginate(getParaToInt("page", 1), 10);
+        Page<Article> page = articleService.paginate(getPagePara(), 10);
         setAttr("page", page);
         render("article/list.html");
     }

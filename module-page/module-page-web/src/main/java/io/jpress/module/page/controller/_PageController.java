@@ -29,8 +29,8 @@ public class _PageController extends AdminControllerBase {
 
         Page<SinglePage> page =
                 status == null
-                        ? sps.paginateWithoutTrash(getParaToInt("page", 1), 10)
-                        : sps.paginateByStatus(getParaToInt("page", 1), 10, status);
+                        ? sps.paginateWithoutTrash(getPagePara(), 10)
+                        : sps.paginateByStatus(getPagePara(),10, status);
 
         setAttr("page", page);
 

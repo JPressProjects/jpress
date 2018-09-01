@@ -1,10 +1,4 @@
-define("ace/snippets/julia",["require","exports","module"], function(require, exports, module) {
-"use strict";
-
-exports.snippetText = "";
-exports.scope = "julia";
-
-});
+define("ace/snippets/julia",["require","exports","module"],function(e,t,n){"use strict";t.snippetText="",t.scope="julia"});
                 (function() {
                     window.require(["ace/snippets/julia"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {

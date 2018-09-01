@@ -1,10 +1,4 @@
-define("ace/snippets/puppet",["require","exports","module"], function(require, exports, module) {
-"use strict";
-
-exports.snippetText = "";
-exports.scope = "puppet";
-
-});
+define("ace/snippets/puppet",["require","exports","module"],function(e,t,n){"use strict";t.snippetText="",t.scope="puppet"});
                 (function() {
                     window.require(["ace/snippets/puppet"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {

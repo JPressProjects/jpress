@@ -1,10 +1,4 @@
-define("ace/snippets/vhdl",["require","exports","module"], function(require, exports, module) {
-"use strict";
-
-exports.snippetText = "";
-exports.scope = "vhdl";
-
-});
+define("ace/snippets/vhdl",["require","exports","module"],function(e,t,n){"use strict";t.snippetText="",t.scope="vhdl"});
                 (function() {
                     window.require(["ace/snippets/vhdl"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {

@@ -1,4 +1,3 @@
-
 ;
                 (function() {
                     window.require(["ace/mode/text"], function(m) {

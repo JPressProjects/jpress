@@ -1,0 +1,4 @@
+io/jpress/module/article/ArticleModule.class
+io/jpress/module/article/kits/CategoryKits.class
+io/jpress/module/article/AppLisenter.class
+io/jpress/module/article/admin/_ArticleController.class

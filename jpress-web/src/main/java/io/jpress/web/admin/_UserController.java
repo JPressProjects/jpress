@@ -34,10 +34,10 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private PermissionService permissionService;
 
-    @AdminMenu(text = "用户", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
+    @AdminMenu(text = "用户管理", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
-        Page<User> page = userService.paginate(getParaToInt("page", 1), 10);
+        Page<User> page = userService.paginate(getPagePara(), 10);
         setAttr("page", page);
 
         render("user/list.html");
@@ -85,6 +85,11 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "我的资料", groupId = JPressConstants.SYSTEM_MENU_USER)
     public void me() {
+        render("user/detail.html");
+    }
+
+
+    public void detail() {
         render("user/detail.html");
     }
 

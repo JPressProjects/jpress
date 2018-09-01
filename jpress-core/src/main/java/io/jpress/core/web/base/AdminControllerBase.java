@@ -31,4 +31,13 @@ public abstract class AdminControllerBase extends JbootController {
     public User getUser() {
         return null;
     }
+
+    /**
+     * 获得当前页面的页码
+     *
+     * @return
+     */
+    public int getPagePara() {
+        return getParaToInt("page", 1);
+    }
 }

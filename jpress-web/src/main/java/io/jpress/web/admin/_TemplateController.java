@@ -38,9 +38,6 @@ public class _TemplateController extends AdminControllerBase {
         render("template/list.html");
     }
 
-    public void edit() {
-        render("user/edit.html");
-    }
 
     @AdminMenu(text = "安装", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 5)
     public void install() {
@@ -68,8 +65,8 @@ public class _TemplateController extends AdminControllerBase {
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE)
-    public void me1() {
-        render("user/me.html");
+    public void edit() {
+        render("template/edit.html");
     }
 
 

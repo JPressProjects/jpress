@@ -1,71 +1,149 @@
 #@layout()
+
+#define css()
+<style>
+    #editor {
+        height: 500px;
+    }
+</style>
+#end
+
+#define script()
+<script src="/static/components/ace/ace.js"></script>
+<script>
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/eclipse");
+
+    var editFileName = "index.js";
+    var model = "ace/mode/javascript";
+
+    if (editFileName.indexOf(".css") != -1) {
+        model = "ace/mode/css";
+    } else if (editFileName.indexOf(".js") != -1) {
+        model = "ace/mode/javascript";
+    } else if (editFileName.indexOf(".xml") != -1) {
+        model = "ace/mode/xml";
+    }
+    editor.session.setMode(model);
+
+    function doSubmit() {
+        $("#fileContent").attr("value", editor.getSession().getValue());
+        $("#form").ajaxSubmit({
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.errorCode == 0) {
+                    toastr.success('保存成功！', '操作成功');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    }
+
+    var commandkeydown = false;
+    $(document).keydown(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = true;
+        }
+        if (commandkeydown && e.keyCode == 83) {
+            commandkeydown = false;
+            return doSubmit();
+        }
+        if (e.ctrlKey == true && e.keyCode == 83) {
+            console.log('ctrl+s');
+            return doSubmit(); // 截取返回false就不会保存网页了
+        }
+    });
+    $(document).keyup(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = false;
+        }
+    });
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-            我的资料
-            <small>Control panel</small>
+            模板编辑
+            <small>Template Edit</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#"> 模板</a></li>
+            <li class="active">编辑</li>
         </ol>
     </section>
 
     <section class="content">
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-9">
                 <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
                     <form class="form-horizontal" autocomplete="off">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label">头像</label>
-
-                                <div class="col-sm-6">
-                                    <img src="/static/admin/images/avatar.png" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-
-                                <div class="col-sm-6">
-                                    <input type="password" class="form-control" id="inputPassword3"
-                                           placeholder="Password">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Remember me
-                                        </label>
-                                    </div>
-                                </div>
+                        <div class="box-body no-padding">
+                            <div id="editor">
+function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+}
                             </div>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
+                                    <button type="submit" class="btn btn-primary">更新文件</button>
+                                    提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）
                                 </div>
                             </div>
                         </div>
                         <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title">当前目录：/</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" autocomplete="off">
+                        <div class="box-body no-padding">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <th>tpl_setting.html</th>
+                                        </tr>
+                                        <tr>
+                                            <th>content.html</th>
+                                        </tr>
+                                        <tr>
+                                            <th>_layout.html</th>
+                                        </tr>
+                                        <tr>
+                                            <th>index.html （编辑中...）</th>
+                                        </tr>
+                                        <tr>
+                                            <th>search.html</th>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

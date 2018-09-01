@@ -4,30 +4,14 @@
 <script src="/static/components/tinymce/tinymce.min.js"></script>
 <script>
 
-    $("#sync").on("click",function () {
-        $.ajax({ url: "/admin/permission/syncPermissions",  success: function(result){
-           alert(result.msg);
-        }});
-    })
-
-
-
-    $("#chooseimage").on("click",function () {
-        layer.open({
-            type: 2,
-            title: '选择图片',
-            anim: 2,
-            shadeClose: true,
-            shade: 0.5,
-            area: ['80%', '70%'],
-            content: '/admin/menu/menu',
-            end: function () {
-                if ('' != data.url && null != data.url) {
-                    callback(data.url, {alt: data.alt});
-                }
+    $("#sync").on("click", function () {
+        $.ajax({
+            url: "/admin/permission/syncPermissions", success: function (result) {
+                alert(result.msg);
             }
         });
-    })
+    });
+
 
 
 </script>
@@ -64,6 +48,10 @@
                                     <button type="button" class="btn btn-default">URL</button>
                                     <button type="button" class="btn btn-default">页面块</button>
                                 </div>
+
+                                <button type="button" class="btn btn-primary pull-right" id="sync">
+                                    <i class="fa fa-fw fa-refresh"></i>同步所有权限
+                                </button>
                             </div>
                         </div>
                     </div>

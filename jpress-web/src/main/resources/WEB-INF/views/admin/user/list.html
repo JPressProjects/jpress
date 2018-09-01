@@ -5,7 +5,7 @@
     <section class="content-header">
         <h1>
             用户管理
-            <small>Control panel</small>
+            <small>User Management</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -15,7 +15,10 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (24)</a> | <a href="">正常 (22)</a> | <a href="">未激活 (2)</a>
+        <a href="">全部 (26)</a> |
+        <a href="">正常 (22)</a> |
+        <a href="" style="color: #a00">未激活 (2)</a> |
+        <a href="" style="color: #a00">冻结 (2)</a>
     </section>
 
     <section class="content">
@@ -51,6 +54,19 @@
                             <div class="col-xs-12">
                                 <a href="/admin/user/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
                                 <button type="button" class="btn btn-default checkAction"> 批量删除</button>
+                                <div class="btn-group checkAction">
+                                    <button type="button" class="btn btn-default">将角色修改为</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">读者</a></li>
+                                        <li><a href="#">超级管理员</a></li>
+                                        <li><a href="#">运营小编</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -64,23 +80,34 @@
                                 <th style="width: 10px"><input name="dataItem" onchange="checkAll(this)" type="checkbox"
                                                                value="0"/></th>
                                 <th style="width: 10px">#</th>
-                                <th>名称</th>
-                                <th>描述</th>
-                                <th style="width: 140px">操作</th>
+                                <th style="width: 20%">登录名</th>
+                                <th>昵称</th>
+                                <th>邮箱</th>
+                                <th>手机</th>
+                                <th>角色</th>
                             </tr>
 
                             #for(user : page.list )
-                            <tr>
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>#(user.id ??)</td>
-                                <td>#(user.username ??)</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                <td>#(user.username ??)
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/user/edit/#(user.id)" style="color: #006505">编辑</a> |
+                                            <a href="/admin/user/detail/#(user.id)" target="_blank" style="color: #006505">查看</a> |
+                                            <a href="/admin/user/permissions/#(user.id)" onclick="draft('#(user.id??)')" style="color: #006505">权限</a> |
+                                            <a href="javascript:;" onclick="trash('#(user.id??)')" style="color: #a00">冻结</a>|
+                                            <a href="javascript:;" onclick="trash('#(user.id??)')" style="color: #a00">删除</a>
+                                        </div>
                                     </div>
                                 </td>
-                                <td><a href="/admin/user/permissions">权限</a> </td>
+                                <td>#(user.nickname ??)</td>
+                                <td>#(user.email ??)</td>
+                                <td>#(user.mobile ??)</td>
+                                <td>#(user.role ??)</td>
                             </tr>
                             #end
 

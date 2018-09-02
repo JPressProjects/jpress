@@ -86,12 +86,20 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "我的资料", groupId = JPressConstants.SYSTEM_MENU_USER)
     public void me() {
-        render("user/detail.html");
+        render(getRenderHtml());
     }
 
 
     public void detail() {
-        render("user/detail.html");
+        render(getRenderHtml());
+    }
+
+
+    private String getRenderHtml() {
+        String action = getPara("action", "base");
+        if ("base".equals(action)) return "user/detail.html";
+
+        return "user/detail_" + action + ".html";
     }
 
 

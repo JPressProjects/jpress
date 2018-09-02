@@ -1,5 +1,6 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
@@ -91,6 +92,13 @@ public class _UserController extends AdminControllerBase {
 
     public void detail() {
         render("user/detail.html");
+    }
+
+
+    public void doSaveUser() {
+        User user = getBean(User.class);
+        userService.saveOrUpdate(user);
+        renderJson(Ret.ok());
     }
 
 }

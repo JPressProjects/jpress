@@ -18,6 +18,45 @@
 </style>
 #end
 
+#define script()
+<script>
+
+    var action = getQueryVariable("action");
+    if (action == "") action = "base";
+
+    var uid = getQueryVariable("uid");
+
+    $("#nav").children().each(function () {
+        var li = $(this);
+
+        var href = "?action=" + li.attr("id");
+        if (uid != "") {
+            href += "&uid=" + uid;
+        }
+
+        li.children().attr("href", href);
+
+        if (action == li.attr("id")) {
+            li.attr("class", "active");
+        } else {
+            li.attr("class", "");
+        }
+    });
+
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return "";
+    }
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -50,18 +89,14 @@
                     </div>
 
                     <div class="box-body no-padding">
-                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;">
-                            <li class="active">
-                                <a href="#"><i class="fa fa-inbox"></i> 基本资料</a>
-                            </li>
-                            <li class="">
-                                <a href="#"><i class="fa fa-inbox"></i> 通信资料</a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-file-text-o"></i> 账号密码</a></li>
-                            <li><a href="#"><i class="fa fa-file-text-o"></i> 个人签名</a></li>
-                            <li><a href="#"><i class="fa fa-file-text-o"></i> 其他属性</a></li>
-                            <li><a href="#"><i class="fa fa-filter"></i> 修改头像 </a></li>
-                            <li><a href="#"><i class="fa fa-trash-o"></i> 行为记录 </a></li>
+                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;" id="nav">
+                            <li id="base"><a><i class="fa fa-inbox"></i> 基本资料</a></li>
+                            <li id="communication"><a><i class="fa fa-inbox"></i> 通信资料</a></li>
+                            <li id="pwd"><a><i class="fa fa-file-text-o"></i> 账号密码</a></li>
+                            <li id="signature"><a><i class="fa fa-file-text-o"></i> 个人签名</a></li>
+                            <li id="other"><a><i class="fa fa-file-text-o"></i> 其他属性</a></li>
+                            <li id="avatar"><a><i class="fa fa-filter"></i> 修改头像 </a></li>
+                            <li id="utml"><a><i class="fa fa-trash-o"></i> 行为记录 </a></li>
                         </ul>
                     </div>
                     <!-- /.box-body -->

@@ -1,0 +1,86 @@
+#define user_detail_layer()
+#@layout()
+#define css()
+<style>
+    .nav-stacked > li.active > a {
+        color: #fff;
+        border-top: 0;
+        border-left: 0;
+        background: #3c8dbc;
+    }
+
+    .nav-stacked > li.active > a:hover {
+        background: #3c8dbcc4;
+        color: #fff;
+        border-top: 0;
+        border-left: 0;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            用户资料
+            <small>User Profile</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#"> 用户</a></li>
+            <li class="active">用户资料</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="/static/admin/images/avatar.png"
+                             alt="User profile picture">
+
+                        <h3 class="profile-username text-center">Jean</h3>
+
+                        <p class="text-muted text-center">Software Engineer</p>
+                    </div>
+
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;">
+                            <li class="active">
+                                <a href="#"><i class="fa fa-inbox"></i> 基本资料</a>
+                            </li>
+                            <li class="">
+                                <a href="#"><i class="fa fa-inbox"></i> 通信资料</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-file-text-o"></i> 账号密码</a></li>
+                            <li><a href="#"><i class="fa fa-file-text-o"></i> 个人签名</a></li>
+                            <li><a href="#"><i class="fa fa-file-text-o"></i> 其他属性</a></li>
+                            <li><a href="#"><i class="fa fa-filter"></i> 修改头像 </a></li>
+                            <li><a href="#"><i class="fa fa-trash-o"></i> 行为记录 </a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    #@detail?()
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    </section>
+
+</div>
+#end
+#end

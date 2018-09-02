@@ -225,6 +225,14 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
 		return getStr("idcard");
 	}
 
+	public void setRemark(java.lang.String remark) {
+		set("remark", remark);
+	}
+	
+	public java.lang.String getRemark() {
+		return getStr("remark");
+	}
+
 	public void setStatus(java.lang.String status) {
 		set("status", status);
 	}

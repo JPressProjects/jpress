@@ -17,6 +17,8 @@ public class AdminInterceptor implements Interceptor {
 
     public void intercept(Invocation inv) {
 
+
+
         List<AdminMenuGroup> systemMenuGroups = AdminMenuManager.me().getSystemMenus();
         List<AdminMenuGroup> moduleMenuGroups = AdminMenuManager.me().getModuleMenus();
 

@@ -42,24 +42,24 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/setting/doApiSave"
+                          action="/admin/setting/doAppSave"
                           method="post" id="form">
-                        <input type="hidden" name="api.id" value="#(api.id ??)">
+                        <input type="hidden" name="app.id" value="#(app.id ??)">
                         <div class="box-body ">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名称</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="给API应用取个名称..."
-                                           value="#(api.name ??)" name="api.name">
+                                           value="#(app.name ??)" name="app.name">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-9">
-                                    <textarea rows="3" name="api.description" class="form-control"
-                                              placeholder="同时添加点描述...">#(api.description ??)</textarea>
+                                    <textarea rows="3" name="app.description" class="form-control"
+                                              placeholder="同时添加点描述...">#(app.description ??)</textarea>
                                 </div>
                             </div>
 
@@ -67,7 +67,7 @@
                                 <label class="col-sm-2 control-label" style="margin-top: -12px">App Key</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="建议长度为32位..."
-                                           value="#(api.appkey ??)" name="api.appkey">
+                                           value="#(app.appkey ??)" name="app.appkey">
                                 </div>
                             </div>
 
@@ -76,15 +76,15 @@
                                 <label class="col-sm-2 control-label" style="margin-top: -12px">App Secret</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="建议长度为32位..."
-                                           name="api.secret"
-                                           value="#(api.secret ??)">
+                                           name="app.secret"
+                                           value="#(app.secret ??)">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-9">
-                                    <input type="checkbox" checked class="switchery" name="api.enable" value="true">
+                                    <input type="checkbox" checked class="switchery" name="app.enable" value="true">
                                 </div>
                             </div>
 
@@ -117,21 +117,21 @@
                                 <th>App Key</th>
                                 <th>描述</th>
                             </tr>
-                            #for(api : apiApplications)
+                            #for(ai : apps)
                             <tr class="jp-actiontr">
                                 <td>
-                                    #(api.name ??)
+                                    #(ai.name ??)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/setting/api/#(api.id)" style="color: #006505">编辑</a> |
-                                            <a href="#(api.url ??)" target="_blank" style="color: #006505">详情</a> |
-                                            <a href="javascript:;" onclick="disable('#(api.id??)')" style="color: #a00">禁用</a> |
-                                            <a href="javascript:;" onclick="del('#(api.id??)')" style="color: #a00">删除</a>
+                                            <a href="/admin/setting/api/#(ai.id)" style="color: #006505">编辑</a> |
+                                            <a href="#(ai.url ??)" target="_blank" style="color: #006505">详情</a> |
+                                            <a href="javascript:;" onclick="disable('#(ai.id??)')" style="color: #a00">禁用</a> |
+                                            <a href="javascript:;" onclick="del('#(ai.id??)')" style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(api.appkey ??)</td>
-                                <td>#(api.description ??)</td>
+                                <td>#(ai.appkey ??)</td>
+                                <td>#(ai.description ??)</td>
                             </tr>
                             #end
                             </tbody>

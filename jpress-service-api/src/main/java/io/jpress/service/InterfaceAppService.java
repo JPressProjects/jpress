@@ -2,11 +2,11 @@ package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.model.ApiApplication;
+import io.jpress.model.InterfaceApp;
 
 import java.util.List;
 
-public interface ApiApplicationService  {
+public interface InterfaceAppService  {
 
     /**
      * find model by primary key
@@ -14,15 +14,15 @@ public interface ApiApplicationService  {
      * @param id
      * @return
      */
-    public ApiApplication findById(Object id);
+    public InterfaceApp findById(Object id);
 
 
     /**
      * find all model
      *
-     * @return all <ApiApplication
+     * @return all <InterfaceApp
      */
-    public List<ApiApplication> findAll();
+    public List<InterfaceApp> findAll();
 
 
     /**
@@ -40,7 +40,7 @@ public interface ApiApplicationService  {
      * @param model
      * @return
      */
-    public boolean delete(ApiApplication model);
+    public boolean delete(InterfaceApp model);
 
 
     /**
@@ -49,7 +49,7 @@ public interface ApiApplicationService  {
      * @param model
      * @return
      */
-    public boolean save(ApiApplication model);
+    public boolean save(InterfaceApp model);
 
 
     /**
@@ -58,7 +58,7 @@ public interface ApiApplicationService  {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(ApiApplication model);
+    public boolean saveOrUpdate(InterfaceApp model);
 
 
     /**
@@ -67,7 +67,7 @@ public interface ApiApplicationService  {
      * @param model
      * @return
      */
-    public boolean update(ApiApplication model);
+    public boolean update(InterfaceApp model);
 
 
     public void join(Page<? extends Model> page, String joinOnField);

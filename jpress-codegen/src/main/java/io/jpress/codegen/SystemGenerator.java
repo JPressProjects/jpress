@@ -24,7 +24,7 @@ public class SystemGenerator {
 
     public static void main(String[] args) {
 
-        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,api_application";
+        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,interface_app";
 
         Jboot.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/newjpress");
         Jboot.setBootArg("jboot.datasource.user", "root");

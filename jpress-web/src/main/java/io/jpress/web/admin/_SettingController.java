@@ -4,8 +4,8 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
-import io.jpress.model.ApiApplication;
-import io.jpress.service.ApiApplicationService;
+import io.jpress.model.InterfaceApp;
+import io.jpress.service.InterfaceAppService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class _SettingController extends AdminControllerBase {
 
     @Inject
-    private ApiApplicationService aas;
+    private InterfaceAppService ias;
 
     @AdminMenu(text = "常规", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 0)
     public void index() {
@@ -35,27 +35,27 @@ public class _SettingController extends AdminControllerBase {
 
 
     @AdminMenu(text = "接口", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 10)
-    public void api() {
-        List<ApiApplication> apiApplications = aas.findAll();
-        setAttr("apiApplications", apiApplications);
+    public void app() {
+        List<InterfaceApp> apps = ias.findAll();
+        setAttr("apps", apps);
 
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            setAttr("api",aas.findById(id));
+            setAttr("app", ias.findById(id));
         }
 
-        render("setting/api.html");
+        render("setting/app.html");
 
     }
 
-    public void doApiDel() {
+    public void doAppDel() {
 
     }
 
-    public void doApiSave() {
-        ApiApplication apiApplication = getBean(ApiApplication.class, "api");
-        aas.saveOrUpdate(apiApplication);
-        redirect("/admin/setting/api");
+    public void doAppSave() {
+        InterfaceApp apiApplication = getBean(InterfaceApp.class, "app");
+        ias.saveOrUpdate(apiApplication);
+        redirect("/admin/setting/app");
     }
 
     @AdminMenu(text = "登录注册", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 32)

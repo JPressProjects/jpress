@@ -86,11 +86,16 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "我的资料", groupId = JPressConstants.SYSTEM_MENU_USER)
     public void me() {
+        User user = getLoginedUser().copy();
+        setAttr("user", user);
         render(getRenderHtml());
     }
 
 
     public void detail() {
+        Long uid = getParaToLong("uid");
+        User user = userService.findById(uid);
+        setAttr("user", user);
         render(getRenderHtml());
     }
 
@@ -102,11 +107,27 @@ public class _UserController extends AdminControllerBase {
         return "user/detail_" + action + ".html";
     }
 
+    private void exeUtmAction() {
+
+    }
+
 
     public void doSaveUser() {
         User user = getBean(User.class);
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
+    }
+
+    public void doUpdatePwd() {
+        String oldPwd = getPara("oldPwd");
+        String newPwd = getPara("newPwd");
+        String confirmPwd = getPara("confirmPwd");
+
+        renderJson(Ret.ok());
+    }
+
+    public void doUpdateAvatar() {
+
     }
 
 }

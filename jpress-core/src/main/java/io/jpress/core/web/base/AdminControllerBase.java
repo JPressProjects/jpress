@@ -28,7 +28,7 @@ public abstract class AdminControllerBase extends JbootController {
     }
 
     @Before(NotAction.class)
-    public User getUser() {
+    public User getLoginedUser() {
         return null;
     }
 

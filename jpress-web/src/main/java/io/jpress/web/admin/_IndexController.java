@@ -25,9 +25,12 @@ public class _IndexController extends AdminControllerBase {
 
     }
 
+    public void logout() {
+
+    }
+
 
     public void index() {
-
         render("index.html");
     }
 }

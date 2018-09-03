@@ -1,10 +1,12 @@
 package io.jpress.web.admin;
 
-import com.jfinal.upload.UploadFile;
+import com.jfinal.kit.Ret;
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.service.OptionService;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,67 +20,39 @@ import java.util.Map;
 public class _OptionController extends AdminControllerBase {
 
 
+    @Inject
+    private OptionService os;
+
     public void save() {
 
-        HashMap<String, UploadFile> filesMap = getUploadFilesMap();
+        Map<String, String[]> paraMap = getParaMap();
+        if (paraMap == null || paraMap.isEmpty()) {
+            renderJson(Ret.fail("msg", "para is empty"));
+            return;
+        }
+
 
         HashMap<String, String> datasMap = new HashMap<String, String>();
-
-        Map<String, String[]> paraMap = getParaMap();
-        if (paraMap != null && !paraMap.isEmpty()) {
-            for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
-                if (entry.getValue() != null && entry.getValue().length > 0) {
-                    String value = null;
-                    for (String v : entry.getValue()) {
-                        if (StringUtils.isNotEmpty(v)) {
-                            value = v;
-                            break;
-                        }
+        for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
+            if (entry.getValue() != null && entry.getValue().length > 0) {
+                String value = null;
+                for (String v : entry.getValue()) {
+                    if (StringUtils.isNotEmpty(v)) {
+                        value = v;
+                        break;
                     }
-                    datasMap.put(entry.getKey(), value);
                 }
+                datasMap.put(entry.getKey(), value);
             }
         }
 
-        String autosaveString = getPara("autosave");
-        if (StringUtils.isNotBlank(autosaveString)) {
-            String[] keys = autosaveString.split(",");
-            for (String key : keys) {
-                if (StringUtils.isNotBlank(key) && !datasMap.containsKey(key)) {
-                    datasMap.put(key.trim(), getRequest().getParameter(key.trim()));
-                }
-            }
+
+        for (Map.Entry<String, String> entry : datasMap.entrySet()) {
+            os.saveOrUpdate(entry.getKey(), entry.getValue());
         }
 
-//        if(filesMap!=null && !filesMap.isEmpty()){
-//            datasMap.putAll(filesMap);
-//        }
-//
-//        for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-//            OptionQuery.me().saveOrUpdate(entry.getKey(), entry.getValue());
-//        }
-//
-//        MessageKit.sendMessage(Actions.SETTING_CHANGED, datasMap);
-//        renderAjaxResultForSuccess();
+        renderJson(Ret.ok());
     }
-
-
-//    public HashMap<String, String> getUploadFilesMap() {
-//        List<UploadFile> fileList = null;
-//        if (isMultipartRequest()) {
-//            fileList = getFiles();
-//        }
-//
-//        HashMap<String, String> filesMap = null;
-//        if (fileList != null) {
-//            filesMap = new HashMap<String, String>();
-//            for (UploadFile ufile : fileList) {
-//                String filePath = AttachmentUtils.moveFile(ufile).replace("\\", "/");
-//                filesMap.put(ufile.getParameterName(), filePath);
-//            }
-//        }
-//        return filesMap;
-//    }
 
 
 }

@@ -21,6 +21,34 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
     }
 
     @Override
+    public Boolean findAsBoolByKey(String key) {
+        String value = findByKey(key);
+        return value == null ? null : Boolean.valueOf(value);
+    }
+
+    @Override
+    public Integer findAsIntegerByKey(String key) {
+        String value = findByKey(key);
+        return value == null ? null : Integer.valueOf(value);
+    }
+
+    @Override
+    public Float findAsFloatByKey(String key) {
+        String value = findByKey(key);
+        return value == null ? null : Float.valueOf(value);
+    }
+
+    @Override
+    public boolean saveOrUpdate(String key, String value) {
+        Option option = DAO.findFirstByColumn("key", key);
+        if (option == null) option = new Option();
+
+        option.setValue(value);
+
+        return saveOrUpdate(option);
+    }
+
+    @Override
     public boolean deleteById(Object id) {
         Option option = findById(id);
         if (option == null) return true;

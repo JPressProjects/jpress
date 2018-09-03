@@ -23,10 +23,8 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 2)
     public void menu() {
-        render("user.html");
+        render("wechat/menu.html");
     }
-
-
 
     @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 10)
     public void replay() {
@@ -36,7 +34,7 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 11)
     public void keyword() {
-        render("user.html");
+        render("wechat/menu.html");
     }
 
 
@@ -48,8 +46,8 @@ public class _WechatController extends AdminControllerBase {
 
 
     @AdminMenu(text = "小程序", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 20)
-    public void app() {
-        render("my.html");
+    public void miniprogram() {
+        render("wechat/menu.html");
     }
 
 

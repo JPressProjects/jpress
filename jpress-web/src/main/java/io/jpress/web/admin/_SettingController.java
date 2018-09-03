@@ -6,6 +6,7 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.model.InterfaceApp;
 import io.jpress.service.InterfaceAppService;
+import io.jpress.service.OptionService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -21,6 +22,9 @@ public class _SettingController extends AdminControllerBase {
 
     @Inject
     private InterfaceAppService ias;
+
+    @Inject
+    private OptionService os;
 
     @AdminMenu(text = "常规", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 0)
     public void index() {
@@ -74,6 +78,7 @@ public class _SettingController extends AdminControllerBase {
     public void seo() {
         render("setting/seo.html");
     }
+
 
 
 }

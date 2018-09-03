@@ -10,3 +10,5 @@ logs
 .DS_Store
 *.patch
 ~$*
+*/*.jar
+pom.properties

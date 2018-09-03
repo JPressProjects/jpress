@@ -38,7 +38,7 @@ public class _AdminController extends AdminControllerBase {
             @Form(name = "pwd", message = "密码不能为空")
     })
     public void doLogin(String user, String pwd) {
-        
+
         Ret ret = StringUtils.isEmail(user)
                 ? us.loginByEmail(user, pwd)
                 : us.loginByUsername(user, pwd);
@@ -52,7 +52,8 @@ public class _AdminController extends AdminControllerBase {
     }
 
     public void logout() {
-
+        EncryptCookieUtils.remove(this, JPressConstants.COOKIE_UID);
+        redirect("/admin/login");
     }
 
 

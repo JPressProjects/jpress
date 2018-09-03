@@ -1,8 +1,0 @@
-io/jpress/module/article/model/base/BaseArticle.class
-io/jpress/module/article/model/ArticleCategory.class
-io/jpress/module/article/model/ArticleComment.class
-io/jpress/module/article/model/ArticleCategoryMapping.class
-io/jpress/module/article/model/base/BaseArticleComment.class
-io/jpress/module/article/model/Article.class
-io/jpress/module/article/model/base/BaseArticleCategory.class
-io/jpress/module/article/model/base/BaseArticleCategoryMapping.class

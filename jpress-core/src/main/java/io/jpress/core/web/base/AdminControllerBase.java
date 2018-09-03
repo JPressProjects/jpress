@@ -4,6 +4,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.JbootController;
+import io.jpress.JPressConstants;
 import io.jpress.model.User;
 
 /**
@@ -29,7 +30,7 @@ public abstract class AdminControllerBase extends JbootController {
 
     @Before(NotAction.class)
     public User getLoginedUser() {
-        return new User();
+        return getAttr(JPressConstants.ATTR_LOGINED_USER);
     }
 
     /**

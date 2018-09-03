@@ -1,5 +1,6 @@
 package io.jpress.service;
 
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.User;
@@ -99,4 +100,8 @@ public interface UserService {
     public void keep(List<? extends Model> models, String... attrs);
 
     public Page<User> paginate(int page, int pagesize);
+
+    public Ret loginByUsername(String username, String pwd);
+
+    public Ret loginByEmail(String email, String pwd);
 }

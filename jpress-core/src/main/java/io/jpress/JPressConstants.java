@@ -15,11 +15,16 @@ public class JPressConstants {
     public static final String SYSTEM_MENU_ATTACHMENT = "attachment";
     public static final String SYSTEM_MENU_TEMPLATE = "template";
     public static final String SYSTEM_MENU_SYSTEM = "system";
-//    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
+    //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";
     public static final String SYSTEM_MENU_FINANCE = "finance";
     public static final String SYSTEM_MENU_WECHAT = "wechat";
 
 
     public static final String OPTION_WEB_NAME = "web_name";
+
+
+    public static final String COOKIE_UID = "_jpuid";
+
+    public static final String ATTR_LOGINED_USER = "USER";
 }

@@ -41,6 +41,14 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
 		return getStr("realname");
 	}
 
+	public void setIdentity(java.lang.String identity) {
+		set("identity", identity);
+	}
+	
+	public java.lang.String getIdentity() {
+		return getStr("identity");
+	}
+
 	public void setPassword(java.lang.String password) {
 		set("password", password);
 	}

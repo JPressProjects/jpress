@@ -62,7 +62,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/static/admin/images/avatar.png" class="user-image">
-                        <span class="hidden-xs">Jeans</span>
+                        <span class="hidden-xs">#(USER.nickname ??)</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -70,8 +70,8 @@
                             <img src="/static/admin/images/avatar.png" class="img-circle">
 
                             <p>
-                                Jeans - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                #(USER.nickname ??) - #(USER.identity ??)
+                                <small>#(USER.created ??)</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->

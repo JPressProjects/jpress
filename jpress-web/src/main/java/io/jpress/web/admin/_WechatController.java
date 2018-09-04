@@ -1,9 +1,14 @@
 package io.jpress.web.admin;
 
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.model.WechatReplay;
+import io.jpress.service.WechatReplayService;
+
+import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -13,6 +18,9 @@ import io.jpress.core.web.base.AdminControllerBase;
  */
 @RequestMapping("/admin/wechat")
 public class _WechatController extends AdminControllerBase {
+
+    @Inject
+    private WechatReplayService wrs;
 
 
     @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 1)
@@ -34,7 +42,19 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 11)
     public void keyword() {
-        render("wechat/menu.html");
+        Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
+        setAttr("page", page);
+        render("wechat/replay_list.html");
+    }
+
+    public void keywordWrite() {
+        int id = getParaToInt(0, 0);
+
+        if (id > 0) {
+            WechatReplay wechatReplay = wrs.findById(id);
+            setAttr("wechatReplay", wechatReplay);
+        }
+        render("wechat/replay_write.html");
     }
 
 
@@ -44,13 +64,10 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-
     @AdminMenu(text = "小程序", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 20)
     public void miniprogram() {
         render("wechat/menu.html");
     }
-
-
 
 
 }

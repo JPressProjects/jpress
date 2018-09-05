@@ -3,7 +3,7 @@ package io.jpress.web.admin;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.InterfaceApp;
 import io.jpress.service.InterfaceAppService;
 import io.jpress.service.OptionService;

@@ -1,4 +1,4 @@
-package io.jpress.core.web.sharekit;
+package io.jpress.web.sharekit;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

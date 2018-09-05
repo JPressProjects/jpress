@@ -4,7 +4,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.WechatReplay;
 import io.jpress.service.WechatReplayService;
 

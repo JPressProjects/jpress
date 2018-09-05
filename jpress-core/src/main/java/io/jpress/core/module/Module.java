@@ -1,4 +1,4 @@
-package io.jpress.module;
+package io.jpress.core.module;
 
 import io.jpress.core.menu.AdminMenuGroup;
 

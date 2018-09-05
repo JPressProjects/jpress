@@ -4,7 +4,7 @@ import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Menu;
 import io.jpress.model.Role;
 import io.jpress.service.MenuService;

@@ -1,4 +1,4 @@
-package io.jpress.module;
+package io.jpress.core.module;
 
 import java.util.LinkedList;
 

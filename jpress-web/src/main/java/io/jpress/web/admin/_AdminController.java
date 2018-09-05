@@ -8,7 +8,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 

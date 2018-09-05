@@ -1,4 +1,4 @@
-package io.jpress.core.web.base;
+package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.NotAction;

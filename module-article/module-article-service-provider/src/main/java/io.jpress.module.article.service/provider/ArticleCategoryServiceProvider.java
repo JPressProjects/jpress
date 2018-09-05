@@ -1,11 +1,11 @@
-package io.jpress.module.article.service.provider;
+package io.jpress.core.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.core.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jboot.service.JbootServiceBase;
 import org.apache.commons.lang3.ArrayUtils;

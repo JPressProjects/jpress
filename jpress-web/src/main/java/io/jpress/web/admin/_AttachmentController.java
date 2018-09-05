@@ -11,7 +11,7 @@ import io.jpress.JPressConstants;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 

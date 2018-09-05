@@ -4,9 +4,9 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
-import io.jpress.module.Module;
-import io.jpress.module.Modules;
+import io.jpress.core.module.Module;
+import io.jpress.core.module.Modules;
+import io.jpress.web.base.AdminControllerBase;
 
 import java.lang.reflect.Method;
 import java.util.*;

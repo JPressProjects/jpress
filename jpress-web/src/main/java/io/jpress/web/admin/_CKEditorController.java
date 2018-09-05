@@ -3,7 +3,7 @@ package io.jpress.web.admin;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
 import io.jpress.commons.utils.AttachmentUtils;
 

@@ -3,7 +3,7 @@ package io.jpress.web.admin;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.web.base.AdminControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 import io.jpress.service.OptionService;
 
 import javax.inject.Inject;

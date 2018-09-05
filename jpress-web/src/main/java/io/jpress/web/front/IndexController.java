@@ -2,8 +2,8 @@ package io.jpress.web.front;
 
 import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConfig;
-import io.jpress.core.web.base.FrontControllerBase;
+import io.jpress.JPressAppConfig;
+import io.jpress.web.base.FrontControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -13,7 +13,7 @@ import io.jpress.core.web.base.FrontControllerBase;
 @RequestMapping("/")
 public class IndexController extends FrontControllerBase {
 
-    private static JPressConfig config = Jboot.config(JPressConfig.class);
+    private static JPressAppConfig config = Jboot.config(JPressAppConfig.class);
 
     public void index() {
         forwardAction(config.getIndexAction());

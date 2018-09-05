@@ -1,8 +1,9 @@
-package io.jpress;
+package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.server.listener.JbootAppListenerBase;
-import io.jpress.core.web.sharekit.MainKits;
+import io.jpress.JPressApplication;
+import io.jpress.web.sharekit.MainKits;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -14,7 +15,7 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onJFinalStarted() {
-        JPressAppConfig.me().init();
+        JPressApplication.me().init();
     }
 
 

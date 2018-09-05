@@ -2,6 +2,7 @@
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/toastr/toastr.min.js"></script>
+<script src="/static/admin/js/adminoption.js"></script>
 <script>
     function del(id) {
         $.get("/admin/template/doMenuDel/" + id, function (result) {
@@ -125,8 +126,10 @@
                                         <div class="jp-actionitem">
                                             <a href="/admin/setting/api/#(ai.id)" style="color: #006505">编辑</a> |
                                             <a href="#(ai.url ??)" target="_blank" style="color: #006505">详情</a> |
-                                            <a href="javascript:;" onclick="disable('#(ai.id??)')" style="color: #a00">禁用</a> |
-                                            <a href="javascript:;" onclick="del('#(ai.id??)')" style="color: #a00">删除</a>
+                                            <a href="javascript:;" onclick="disable('#(ai.id??)')" style="color: #a00">禁用</a>
+                                            |
+                                            <a href="javascript:;" onclick="del('#(ai.id??)')"
+                                               style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>

@@ -1,4 +1,4 @@
-package io.jpress.module.article.service.provider;
+package io.jpress.core.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
@@ -7,8 +7,8 @@ import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleService;
+import io.jpress.core.module.article.service.ArticleCategoryService;
+import io.jpress.core.module.article.service.ArticleService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

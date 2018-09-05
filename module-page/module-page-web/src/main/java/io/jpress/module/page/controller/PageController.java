@@ -2,7 +2,7 @@ package io.jpress.module.page.controller;
 
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.web.base.FrontControllerBase;
+import io.jpress.web.base.FrontControllerBase;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 

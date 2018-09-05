@@ -1,4 +1,4 @@
-package io.jpress.core.web.sharekit;
+package io.jpress.web.sharekit;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -38,4 +38,5 @@ public class MainKits {
             return "";
         }
     }
+
 }

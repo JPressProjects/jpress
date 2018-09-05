@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.template;
+package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 

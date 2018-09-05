@@ -1,7 +1,7 @@
-package io.jpress.module.article.service.provider;
+package io.jpress.core.module.article.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jpress.module.article.service.ArticleCommentService;
+import io.jpress.core.module.article.service.ArticleCommentService;
 import io.jpress.module.article.model.ArticleComment;
 import io.jboot.service.JbootServiceBase;
 

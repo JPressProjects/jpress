@@ -89,21 +89,17 @@ function initSwitchery(config) {
         return;
     }
 
-    config = config || {
-            color: '#64bd63'
-            , secondaryColor: '#dfdfdf'
-            , jackColor: '#fff'
-            , jackSecondaryColor: null
-            , className: 'switchery'
-            , disabled: false
-            , disabledOpacity: 0.5
-            , speed: '0.4s'
-            , size: 'small'
-        };
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-    elems.forEach(function (html) {
-        var switchery = new Switchery(html, config);
-    });
+
+    var elems = document.querySelectorAll('.switchery');
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = config ? new Switchery(elems[i], config) : new Switchery(elems[i], {size: 'small'});
+        elems[i].onchange = function () {
+            var datafor = this.getAttribute("data-for");
+            if (datafor != null && datafor != null) {
+                $("#" + datafor).val(this.checked);
+            }
+        }
+    }
 }
 
 function initToastr() {

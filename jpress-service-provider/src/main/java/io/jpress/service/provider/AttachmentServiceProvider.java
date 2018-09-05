@@ -14,6 +14,6 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
 
     @Override
     public Page paginate(int page, int pagesieze) {
-        return DAO.paginate(page, pagesieze);
+        return DAO.paginate(page, pagesieze, "id desc");
     }
 }

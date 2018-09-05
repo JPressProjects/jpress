@@ -39,7 +39,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    location.reload();
+                    toastr.success('修改成功');
                 } else {
                     toastr.error(data.message, '操作失败');
                 }
@@ -101,7 +101,7 @@
 
                     <div class="form-group">
                         <label>文件名</label>
-                        <input type="text" class="form-control" name="attachment.title" value=" #(attachment.title ??)">
+                        <input type="text" class="form-control" name="attachment.title" value="#(attachment.title ??)">
                     </div>
 
                     <div class="form-group">

@@ -1,7 +1,5 @@
 #@layout()
 #define script()
-<script src="/static/components/jquery/jquery.form.min.js"></script>
-<script src="/static/components/toastr/toastr.min.js"></script>
 <script src="/static/admin/js/adminoption.js"></script>
 #end
 #define content()
@@ -29,20 +27,24 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off">
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/option/save"
+                          id="form">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">网站名称</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="给您的网站起个名字">
+                                    <input type="input" class="form-control" placeholder="给您的网站起个名字"
+                                           name="web_name" value="#option('web_name')">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">网站标题</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="设置网站的主标题">
+                                    <input type="input" class="form-control" placeholder="设置网站的主标题"
+                                           name="web_title" value="#option('web_title')">
                                 </div>
                             </div>
 
@@ -50,7 +52,8 @@
                                 <label class="col-sm-2 control-label">网站副标题</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="副标题...">
+                                    <input type="input" class="form-control" placeholder="副标题..."
+                                           name="web_sub_title" value="#option('web_sub_title')">
                                 </div>
                             </div>
 
@@ -58,7 +61,8 @@
                                 <label class="col-sm-2 control-label">网站域名</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="填写网站的域名">
+                                    <input type="input" class="form-control" placeholder="填写网站的域名"
+                                           name="web_domain" value="#option('web_domain')">
                                     <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://jpress.io </p>
                                 </div>
 
@@ -68,7 +72,8 @@
                                 <label class="col-sm-2 control-label">管理员邮箱</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="web_mater_email" value="#option('web_mater_email')">
                                 </div>
 
                             </div>
@@ -79,7 +84,8 @@
                                 <label class="col-sm-2 control-label">备案号</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="网站在中国区接入需要备案号">
+                                    <input type="input" class="form-control" placeholder="网站在中国区接入需要备案号"
+                                           name="web_ipc_no" value="#option('web_ipc_no')">
                                 </div>
                             </div>
 
@@ -87,7 +93,8 @@
                                 <label class="col-sm-2 control-label">版权信息</label>
 
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" placeholder="版权信息一般显示在网站的底部..."></textarea>
+                                    <textarea rows="5" class="form-control" name="web_copyright"
+                                              placeholder="版权信息一般显示在网站的底部...">#option("web_copyright")</textarea>
                                 </div>
                             </div>
                         </div>

@@ -25,22 +25,25 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off">
+                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
-
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
+                                    <input type="checkbox" class="switchery" data-for="reg_email_validate_enable"
+                                           #checkedIf(option("reg_email_validate_enable"))>
+                                    <input type="hidden" id="reg_email_validate_enable"
+                                           name="reg_email_validate_enable">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
-                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="reg_email_validate_template">#option("reg_email_validate_template")</textarea>
+                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    </p>
                                 </div>
                             </div>
 
@@ -48,15 +51,19 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用短信</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
+                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
+                                           #checkedIf(option("reg_sms_validate_enable"))>
+                                    <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
-                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="reg_sms_validate_template">#option("reg_sms_validate_template")</textarea>
+                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    </p>
                                 </div>
                             </div>
 

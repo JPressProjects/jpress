@@ -31,11 +31,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">开启CDN网站加速</label>
                                 <div class="col-sm-6">
-                                    #if(optionAsBool("cdn_enable"))
-                                    <input type="checkbox" checked class="switchery" data-for="cdn_enable">
-                                    #else
-                                    <input type="checkbox" class="switchery" data-for="cdn_enable">
-                                    #end
+                                    <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("cdn_enable"))>
                                     <input type="hidden" id="cdn_enable" name="cdn_enable">
                                 </div>
                             </div>

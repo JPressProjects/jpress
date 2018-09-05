@@ -20,11 +20,8 @@ public class SelectedIfDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-
-        Boolean param = getParam(0, scope);
-        if (param == null) return;
-
-        if (param == true) {
+        Object param = getParam(0, scope);
+        if ("true".equalsIgnoreCase(String.valueOf(param))) {
             try {
                 writer.write("selected");
             } catch (IOException e) {

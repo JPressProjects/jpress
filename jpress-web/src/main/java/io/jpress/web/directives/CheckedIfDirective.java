@@ -20,13 +20,8 @@ public class CheckedIfDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-
         Object param = getParam(0, scope);
-        if (param == null || param.toString().trim().length() == 0) return;
-
-        Boolean checked = param instanceof String ? "true".equalsIgnoreCase((String) param) : (Boolean) param;
-
-        if (checked == true) {
+        if ("true".equalsIgnoreCase(String.valueOf(param))) {
             try {
                 writer.write("checked");
             } catch (IOException e) {

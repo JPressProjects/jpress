@@ -110,6 +110,9 @@ function initSwitchery(config) {
 function initToastr() {
     if (typeof toastr != "undefined") {
         toastr.options.progressBar = true;
+        toastr.options.closeButton = true;
+        toastr.options.timeOut = 2000;
+        toastr.options.positionClass = "toast-top-center";
     }
 }
 

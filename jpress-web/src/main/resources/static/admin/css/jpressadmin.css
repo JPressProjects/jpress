@@ -132,3 +132,31 @@
 .switchery-small {
     margin-top: 7px;
 }
+
+#toast-container {
+    position: fixed;
+    z-index: 999999;
+    pointer-events: none;
+    padding-top: 12px;
+    opacity: 1;
+}
+
+#toast-container > div {
+    -moz-box-shadow: 0 0 12px #ffffff;
+    -webkit-box-shadow: 0 0 12px #ffffff;
+    box-shadow: 0 0 12px #ffffff;
+    color: #FFF;
+    opacity: 1;
+}
+
+#toast-container > div:hover {
+    -moz-box-shadow: 0 0 12px #ffffff;
+    -webkit-box-shadow: 0 0 12px #ffffff;
+    box-shadow: 0 0 12px #ffffff;
+    color: #FFF;
+    opacity: 1;
+}
+
+.toast-success {
+    background-color: #00a65a;
+}

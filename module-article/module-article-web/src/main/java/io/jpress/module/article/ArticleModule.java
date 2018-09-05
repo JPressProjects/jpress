@@ -1,6 +1,6 @@
 package io.jpress.module.article;
 
-import io.jpress.module.Module;
+import io.jpress.core.module.Module;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

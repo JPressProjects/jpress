@@ -1,5 +1,7 @@
 package io.jpress.web.sharekit;
 
+import io.jboot.Jboot;
+import io.jpress.service.OptionService;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -37,6 +39,18 @@ public class MainKits {
         } else {
             return "";
         }
+    }
+
+    public static String option(String key) {
+        OptionService service = Jboot.bean(OptionService.class);
+        return service.findByKey(key);
+    }
+
+
+    public static Boolean optionAsBool(String key) {
+        OptionService service = Jboot.bean(OptionService.class);
+        Boolean data =  service.findAsBoolByKey(key);
+        return data;
     }
 
 }

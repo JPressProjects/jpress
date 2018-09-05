@@ -1,7 +1,7 @@
 package io.jpress.module.article;
 
 import io.jpress.JPressAppListener;
-import io.jpress.module.Modules;
+import io.jpress.core.module.Modules;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

@@ -7,9 +7,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
+import io.jpress.web.base.AdminControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

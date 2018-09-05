@@ -3,9 +3,9 @@ package io.jpress.service.provider;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
-import io.jpress.service.OptionService;
-import io.jpress.model.Option;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.Option;
+import io.jpress.service.OptionService;
 
 import javax.inject.Singleton;
 
@@ -39,9 +39,14 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
     }
 
     @Override
+    @CacheEvict(name = "option", key = "#(key)")
     public boolean saveOrUpdate(String key, String value) {
         Option option = DAO.findFirstByColumn("key", key);
-        if (option == null) option = new Option();
+
+        if (option == null) {
+            option = new Option();
+            option.setKey(key);
+        }
 
         option.setValue(value);
 

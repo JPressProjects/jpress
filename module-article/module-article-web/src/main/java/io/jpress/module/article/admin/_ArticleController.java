@@ -6,12 +6,12 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.web.base.AdminControllerBase;
 import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleService;
+import io.jpress.core.module.article.service.ArticleCategoryService;
+import io.jpress.core.module.article.service.ArticleService;
+import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Inject;

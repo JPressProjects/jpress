@@ -28,18 +28,7 @@ public class MainKits {
         }
         return StringEscapeUtils.escapeHtml(html);
     }
-
-    public static String isCheck(Object obj) {
-        if (obj == null) {
-            return "";
-        }
-        if ("true".equalsIgnoreCase(obj.toString())
-                || "1".equals(obj.toString())) {
-            return "checked";
-        } else {
-            return "";
-        }
-    }
+    
 
     public static String option(String key) {
         OptionService service = Jboot.bean(OptionService.class);
@@ -49,8 +38,7 @@ public class MainKits {
 
     public static Boolean optionAsBool(String key) {
         OptionService service = Jboot.bean(OptionService.class);
-        Boolean data =  service.findAsBoolByKey(key);
-        return data;
+        return service.findAsBoolByKey(key);
     }
 
 }

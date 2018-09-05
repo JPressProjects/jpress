@@ -91,20 +91,18 @@ function initSwitchery(config) {
         return;
     }
 
-
-    var elems = document.querySelectorAll('.switchery');
-    for (var i = 0; i < elems.length; i++) {
-        var elem = elems[i];
-        var switchery = config ? new Switchery(elems[i], config) : new Switchery(elem, {size: 'small'});
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elems.forEach(function (elem) {
+        var switchery = config ? new Switchery(elem, config) : new Switchery(elem, {size: 'small'});
         var datafor = elem.getAttribute("data-for");
-
         if (datafor != null && datafor != null) {
             $("#" + datafor).val(elem.checked);
             elem.onchange = function () {
-                $("#" + datafor).val(this.checked);
+                $("#" + datafor).val(elem.checked);
             }
         }
-    }
+    });
+
 }
 
 function initToastr() {

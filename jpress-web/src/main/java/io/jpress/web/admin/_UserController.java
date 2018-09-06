@@ -93,7 +93,7 @@ public class _UserController extends AdminControllerBase {
 
 
     public void detail() {
-        Long uid = getParaToLong("uid");
+        Long uid = getParaToLong();
         User user = userService.findById(uid);
         setAttr("user", user);
         render(getRenderHtml());

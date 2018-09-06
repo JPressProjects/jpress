@@ -1,10 +1,17 @@
 #@user_detail_layer()
 #define detail()
 <form class="form-horizontal" autocomplete="off">
+    <input type="hidden" name="path" id="path">
+    <input type="hidden" name="x" id="x">
+    <input type="hidden" name="y" id="t">
+    <input type="hidden" name="w" id="w">
+    <input type="hidden" name="h" id="h">
     <div class="box-body ">
         <div id="uploader"></div>
         <div class="text-center" style="margin-bottom: 20px">
-            <img src="/static/admin/images/avatar.png" width="400px" height="400px" id="avatarimg">
+            <div style="width: 400px;height: 400px;margin: auto">
+                <img src="/static/admin/images/avatar.png" style="width: 100%;height: 100%" id="avatarimg">
+            </div>
         </div>
     </div>
 
@@ -18,6 +25,7 @@
 </form>
 
 <link href="/static/components/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
+<link href="/static/components/jcrop/css/jquery.jcrop.min.css" rel="stylesheet">
 <style>
     .qq-gallery.qq-uploader {
         border: none;
@@ -57,6 +65,7 @@
 </style>
 
 <script src="/static/components/fine-uploader/fine-uploader.min.js"></script>
+<script src="/static/components/jcrop/js/jquery.jcrop.min.js"></script>
 
 <script type="text/template" id="qq-template">
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="">
@@ -140,7 +149,8 @@
 </script>
 
 <script>
-    // Some options to pass to the uploader are discussed on the next page
+
+    var jcrop_api;
     var uploader = new qq.FineUploader({
         element: document.getElementById("uploader"),
         request: {
@@ -148,10 +158,32 @@
         },
         callbacks: {
             onComplete: function (id, name, responseJSON, xhr) {
+                if (jcrop_api) {
+                    jcrop_api.destroy()
+                }
+                $("#path").val(responseJSON.src);
                 $("#avatarimg").attr("src", responseJSON.src);
+                $('#avatarimg').Jcrop({
+                    setSelect: [30, 30, 250, 250],
+                    minSize: [30, 30],
+                    aspectRatio: 1,
+                    onSelect: updateSelect,
+                    onChange: updateSelect
+                }, function () {
+                    jcrop_api = this;
+                });
             }
         }
-    })
+    });
+
+    function updateSelect(c) {
+        $('#x').val(c.x);
+        $('#y').val(c.y);
+        $('#width').val(c.w);
+        $('#height').val(c.h);
+    }
+
+
 </script>
 
 #end

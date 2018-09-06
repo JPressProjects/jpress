@@ -132,7 +132,7 @@ public class _AttachmentController extends AdminControllerBase {
 
         as.save(attachment);
 
-        renderJson(Ret.ok().set("success", true));
+        renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
     }
 
 

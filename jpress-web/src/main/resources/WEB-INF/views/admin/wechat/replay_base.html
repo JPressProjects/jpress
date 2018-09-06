@@ -24,12 +24,13 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off">
+                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">新用户关注时</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号 xxx ..."></textarea>
+                                    <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号 xxx ..."
+                                              name="wechat_replay_user_subscribe">#option("wechat_replay_user_subscribe")</textarea>
                                 </div>
                             </div>
 
@@ -37,16 +38,17 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">扫码带参数二维码</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号 xxx ..."></textarea>
+                                    <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号 xxx ..."
+                                              name="wechat_replay_user_scan">#option("wechat_replay_user_scan")</textarea>
                                 </div>
                             </div>
-
 
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">无法解析内容时</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="对不起，暂时不知道说说的是什么意思..."></textarea>
+                                    <textarea rows="3" class="form-control" placeholder="对不起，暂时不知道说说的是什么意思..."
+                                              name="wechat_replay_unknow">#option("wechat_replay_unknow")</textarea>
                                 </div>
                             </div>
 

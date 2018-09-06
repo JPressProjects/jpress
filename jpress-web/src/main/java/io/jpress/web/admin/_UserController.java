@@ -5,6 +5,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.Utm;
+import io.jpress.service.UtmService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Permission;
 import io.jpress.model.Role;
@@ -34,6 +36,9 @@ public class _UserController extends AdminControllerBase {
 
     @Inject
     private PermissionService permissionService;
+
+    @Inject
+    private UtmService utmService;
 
     @AdminMenu(text = "用户管理", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
     public void index() {
@@ -88,6 +93,7 @@ public class _UserController extends AdminControllerBase {
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);
+        exeUtmAction();
         render(getRenderHtml());
     }
 
@@ -96,6 +102,7 @@ public class _UserController extends AdminControllerBase {
         Long uid = getParaToLong();
         User user = userService.findById(uid);
         setAttr("user", user);
+        exeUtmAction();
         render(getRenderHtml());
     }
 
@@ -108,7 +115,11 @@ public class _UserController extends AdminControllerBase {
     }
 
     private void exeUtmAction() {
-
+        String action = getPara("action", "base");
+        if ("utm".equals(action)) {
+            Page<Utm> page = utmService.paginate(getPagePara(), 10);
+            setAttr("page", page);
+        }
     }
 
 

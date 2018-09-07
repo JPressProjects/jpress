@@ -44,15 +44,7 @@ public class AttachmentUtils {
             return null;
         }
 
-        String webRoot = PathKit.getWebRootPath();
-
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-
-        StringBuilder newFileName = new StringBuilder(webRoot).append(File.separator).append("attachment")
-                .append(File.separator).append(dateFormat.format(new Date())).append(File.separator).append(uuid)
-                .append(FileUtils.getSuffix(file.getName()));
-
-        File newfile = new File(newFileName.toString());
+        File newfile = newAttachemnetFile(FileUtils.getSuffix(file.getName()));
 
         if (!newfile.getParentFile().exists()) {
             newfile.getParentFile().mkdirs();
@@ -60,16 +52,17 @@ public class AttachmentUtils {
 
         file.renameTo(newfile);
 
-        return FileUtils.removePrefix(newfile.getAbsolutePath(), webRoot);
+        return FileUtils.removePrefix(newfile.getAbsolutePath(), PathKit.getWebRootPath());
     }
 
-    public static File createFile(String suffix) {
+    public static File newAttachemnetFile(String suffix) {
         String webRoot = PathKit.getWebRootPath();
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
         StringBuilder newFileName = new StringBuilder(webRoot).append(File.separator).append("attachment")
                 .append(File.separator).append(dateFormat.format(new Date())).append(File.separator).append(uuid)
                 .append(suffix);
+
         return new File(newFileName.toString());
     }
 

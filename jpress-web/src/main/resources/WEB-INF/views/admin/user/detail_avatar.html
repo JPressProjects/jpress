@@ -1,15 +1,15 @@
 #@user_detail_layer()
 #define detail()
-<form class="form-horizontal" autocomplete="off">
+<form class="form-horizontal" autocomplete="off" action="/admin/user/doSaveAvatar" method="post" id="form">
     <input type="hidden" name="path" id="path">
     <input type="hidden" name="x" id="x">
-    <input type="hidden" name="y" id="t">
+    <input type="hidden" name="y" id="y">
     <input type="hidden" name="w" id="w">
     <input type="hidden" name="h" id="h">
     <div class="box-body ">
         <div id="uploader"></div>
         <div class="text-center" style="margin-bottom: 20px">
-            <div style="width: 400px;height: 400px;margin: auto">
+            <div style="max-width:500px;margin: auto">
                 <img src="/static/admin/images/avatar.png" style="width: 100%;height: 100%" id="avatarimg">
             </div>
         </div>
@@ -179,9 +179,25 @@
     function updateSelect(c) {
         $('#x').val(c.x);
         $('#y').val(c.y);
-        $('#width').val(c.w);
-        $('#height').val(c.h);
+        $('#w').val(c.w);
+        $('#h').val(c.h);
     }
+
+    $('#form').on('submit', function () {
+        $(this).ajaxSubmit({
+            success: function (data) {
+                if (data.state == "ok") {
+                    toastr.success('修改成功，刷新页面查看效果');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    });
 
 
 </script>

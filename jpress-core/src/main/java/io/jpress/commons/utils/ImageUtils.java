@@ -17,6 +17,7 @@ package io.jpress.commons.utils;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
@@ -24,7 +25,10 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 public class ImageUtils {
@@ -252,6 +256,28 @@ public class ImageUtils {
         }
     }
 
+    public static void zoom(int maxWidth, String srcImageFile, String destImageFile) {
+        try {
+            BufferedImage srcImage = ImageIO.read(new File(srcImageFile));
+            int srcWidth = srcImage.getWidth();
+            int srcHeight = srcImage.getHeight();
+
+            // 当宽度在 maxWidth 范围之内，直接copy
+            if (srcWidth <= maxWidth) {
+                FileUtils.copyFile(new File(srcImageFile), new File(destImageFile));
+            }
+            // 当宽度超出 maxWidth 范围，将宽度变为 maxWidth，高度按比例缩放
+            else {
+                float scalingRatio = (float) maxWidth / (float) srcWidth;            // 计算缩放比率
+                float maxHeight = ((float) srcHeight * scalingRatio);    // 计算缩放后的高度
+                BufferedImage ret = resize(srcImage, maxWidth, (int) maxHeight);
+                save(ret, destImageFile);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * 剪切
@@ -279,9 +305,10 @@ public class ImageUtils {
             left = Math.min(Math.max(0, left), bi.getWidth() - width);
             top = Math.min(Math.max(0, top), bi.getHeight() - height);
 
-            BufferedImage subImage = resize(bi.getSubimage(left, top, width, height), 200, 200);
+            BufferedImage subimage = bi.getSubimage(left, top, width, height);
+            BufferedImage resizeImage = resize(subimage, 200, 200);
 
-            save(subImage, destImageFile);
+            save(resizeImage, destImageFile);
 
         } catch (Exception e) {
             log.error(e.toString(), e);

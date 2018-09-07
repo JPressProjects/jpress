@@ -1,16 +1,17 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
+import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.Utm;
+import io.jpress.model.*;
 import io.jpress.service.UtmService;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.model.Permission;
-import io.jpress.model.Role;
-import io.jpress.model.User;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
@@ -137,8 +138,21 @@ public class _UserController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
-    public void doUpdateAvatar() {
+    public void doSaveAvatar(String path, int x, int y, int w, int h) {
+        String oldPath = PathKit.getWebRootPath() + path;
 
+        //先进行图片缩放，保证图片和html的图片显示大小一致
+        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        ImageUtils.zoom(500, oldPath, zoomPath); //500的值必须和 html图片的max-width值一样
+
+        //进行剪切
+        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
+
+        User loginedUser = getLoginedUser();
+        loginedUser.setAvatar(FileUtils.removeRootPath(newAvatarPath));
+        userService.saveOrUpdate(loginedUser);
+        renderJson(Ret.ok());
     }
 
 }

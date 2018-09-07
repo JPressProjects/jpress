@@ -39,4 +39,14 @@ public class User extends BaseUser<User> {
     public void keepSafe() {
         remove("password", "salt");
     }
+    
+
+    public boolean isEmailStatusOk() {
+        return STATUS_OK.equals(getEmailStatus());
+    }
+
+
+    public boolean isMobileStatusOk() {
+        return STATUS_OK.equals(getMobileStatus());
+    }
 }

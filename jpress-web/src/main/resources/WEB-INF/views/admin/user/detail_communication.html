@@ -15,7 +15,11 @@
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="填写网站的域名"
                        name="user.email" value="#(user.email ??)">
-                <p class="help-block"> 状态：未激活 </p>
+                #if(user.isEmailStatusOk())
+                <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
+                #else
+                <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
+                #end
             </div>
 
         </div>
@@ -26,7 +30,11 @@
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder=""
                        name="user.mobile" value="#(user.mobile ??)">
-                <p class="help-block"> 状态：未激活 </p>
+                #if(user.isMobileStatusOk())
+                <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
+                #else
+                <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
+                #end
             </div>
         </div>
 

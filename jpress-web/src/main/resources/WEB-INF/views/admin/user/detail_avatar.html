@@ -18,7 +18,7 @@
     <div class="box-footer">
         <div class="col-sm-10 submit-block">
             <div class="box-submit">
-                <button type="submit" class="btn btn-primary">确定提交</button>
+                <button type="submit" class="btn btn-primary"> 保存选择区域 </button>
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
                 $("#avatarimg").attr("src", responseJSON.src);
                 $('#avatarimg').Jcrop({
                     setSelect: [30, 30, 250, 250],
-                    minSize: [30, 30],
+                    minSize: [50, 50],
                     aspectRatio: 1,
                     onSelect: updateSelect,
                     onChange: updateSelect
@@ -187,7 +187,10 @@
         $(this).ajaxSubmit({
             success: function (data) {
                 if (data.state == "ok") {
-                    toastr.success('修改成功，刷新页面查看效果');
+                    toastr.options.onHidden = function() {
+                        location.reload();
+                    }
+                    toastr.success('头像修改成功，2s后自动刷新...');
                 } else {
                     toastr.error(data.message, '操作失败');
                 }

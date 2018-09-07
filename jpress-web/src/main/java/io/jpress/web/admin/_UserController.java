@@ -167,6 +167,9 @@ public class _UserController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
+    @EmptyValidate({
+            @Form(name = "path", message = "请先选择图片")
+    })
     public void doSaveAvatar(String path, int x, int y, int w, int h) {
         String oldPath = PathKit.getWebRootPath() + path;
 

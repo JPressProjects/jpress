@@ -32,7 +32,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
 
-    private Ret doValidateUserPwd(User user, String pwd) {
+    public Ret doValidateUserPwd(User user, String pwd) {
 
         if (user == null) {
             return Ret.fail("msg", "用户名或密码不正确");

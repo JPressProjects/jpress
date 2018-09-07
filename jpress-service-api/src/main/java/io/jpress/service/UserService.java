@@ -104,4 +104,6 @@ public interface UserService {
     public Ret loginByUsername(String username, String pwd);
 
     public Ret loginByEmail(String email, String pwd);
+
+    public Ret doValidateUserPwd(User user, String pwd);
 }

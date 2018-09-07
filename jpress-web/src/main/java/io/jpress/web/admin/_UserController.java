@@ -1,10 +1,13 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.controller.validate.EmptyValidate;
+import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
@@ -131,10 +134,35 @@ public class _UserController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
-    public void doUpdatePwd() {
-        String oldPwd = getPara("oldPwd");
-        String newPwd = getPara("newPwd");
-        String confirmPwd = getPara("confirmPwd");
+
+    @EmptyValidate({
+            @Form(name = "oldPwd", message = "旧不能为空"),
+            @Form(name = "newPwd", message = "新密码不能为空"),
+            @Form(name = "confirmPwd", message = "确认密码不能为空")
+    })
+    public void doUpdatePwd(long uid, String oldPwd, String newPwd, String confirmPwd) {
+
+        User user = userService.findById(uid);
+        if (user == null) {
+            renderJson(Ret.fail().set("message", "该用户不存在"));
+            return;
+        }
+
+        if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
+            renderJson(Ret.fail().set("message", "密码错误"));
+            return;
+        }
+
+        if (newPwd.equals(confirmPwd) == false) {
+            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+            return;
+        }
+
+        String salt = user.getSalt();
+        String hashedPass = HashKit.sha256(salt + newPwd);
+
+        user.setPassword(hashedPass);
+        userService.update(user);
 
         renderJson(Ret.ok());
     }

@@ -63,8 +63,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="/static/admin/images/avatar.png" class="img-circle">
-
+                            <img src="#(user.avatar ??)" class="img-circle">
                             <p>
                                 #(USER.nickname ??) - #(USER.identity ??)
                                 <small>#(USER.created ??)</small>

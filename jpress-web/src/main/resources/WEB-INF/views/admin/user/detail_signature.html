@@ -5,14 +5,16 @@
 </div>
 <!-- /.box-header -->
 <!-- form start -->
-<form class="form-horizontal" autocomplete="off">
+<form class="form-horizontal" autocomplete="off" id="userForm" action="/admin/user/doSaveUser">
+    <input name="user.id" type="hidden" value="#(user.id)">
     <div class="box-body ">
 
         <div class="form-group">
             <label class="col-sm-2 control-label">个人签名</label>
 
             <div class="col-sm-8">
-                <textarea rows="5" class="form-control" placeholder="写写现在的心情..."></textarea>
+                <textarea rows="5" class="form-control" placeholder="写写现在的心情..."
+                          name="user.signature">#(user.signature ??)</textarea>
             </div>
         </div>
 

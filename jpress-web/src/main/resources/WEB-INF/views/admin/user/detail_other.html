@@ -5,14 +5,16 @@
 </div>
 <!-- /.box-header -->
 <!-- form start -->
-<form class="form-horizontal" autocomplete="off">
+<form class="form-horizontal" autocomplete="off" id="userForm" action="/admin/user/doSaveUser">
+    <input name="user.id" type="hidden" value="#(user.id)">
     <div class="box-body ">
 
         <div class="form-group">
             <label class="col-sm-2 control-label">真实名字</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.realname" value="#(user.realname ??)">
             </div>
         </div>
 
@@ -20,7 +22,8 @@
             <label class="col-sm-2 control-label">生日</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.birthday" value="#(user.birthday ??)">
             </div>
         </div>
 
@@ -28,7 +31,8 @@
             <label class="col-sm-2 control-label">公司</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.company" value="#(user.company ??)">
             </div>
         </div>
 
@@ -36,7 +40,8 @@
             <label class="col-sm-2 control-label">职位</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.occupation" value="#(user.occupation ??)">
             </div>
         </div>
 
@@ -45,7 +50,8 @@
             <label class="col-sm-2 control-label">毕业学校</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.graduateschool" value="#(user.graduateschool ??)">
             </div>
         </div>
 
@@ -54,7 +60,8 @@
             <label class="col-sm-2 control-label">学历</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="...">
+                <input type="input" class="form-control" placeholder="..."
+                       name="user.education" value="#(user.education ??)">
             </div>
         </div>
 

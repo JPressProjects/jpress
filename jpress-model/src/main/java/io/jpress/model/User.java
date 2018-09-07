@@ -35,4 +35,8 @@ public class User extends BaseUser<User> {
         String avatar = super.getAvatar();
         return StringUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR;
     }
+
+    public void keepSafe() {
+        remove("password", "salt");
+    }
 }

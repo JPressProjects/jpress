@@ -126,6 +126,7 @@ public class _UserController extends AdminControllerBase {
 
     public void doSaveUser() {
         User user = getBean(User.class);
+        user.keepSafe();
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }

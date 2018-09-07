@@ -3,13 +3,12 @@ package io.jpress.web.admin;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.InterfaceApp;
 import io.jpress.service.InterfaceAppService;
 import io.jpress.service.OptionService;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -39,17 +38,8 @@ public class _SettingController extends AdminControllerBase {
 
 
     @AdminMenu(text = "接口", groupId = JPressConstants.SYSTEM_MENU_SYSTEM, order = 10)
-    public void app() {
-        List<InterfaceApp> apps = ias.findAll();
-        setAttr("apps", apps);
-
-        int id = getParaToInt(0, 0);
-        if (id > 0) {
-            setAttr("app", ias.findById(id));
-        }
-
-        render("setting/app.html");
-
+    public void api() {
+        render("setting/api.html");
     }
 
     public void doAppDel() {
@@ -78,7 +68,6 @@ public class _SettingController extends AdminControllerBase {
     public void seo() {
         render("setting/seo.html");
     }
-
 
 
 }

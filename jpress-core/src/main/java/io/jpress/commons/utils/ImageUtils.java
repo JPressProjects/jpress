@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 
 import javax.imageio.ImageIO;
@@ -23,14 +24,49 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Iterator;
 
 public class ImageUtils {
     private static final Log log = Log.getLog(ImageUtils.class);
+
+    private final static String[] imgExts = new String[]{"jpg", "jpeg", "png", "bmp"};
+
+    public static String getExtName(String fileName) {
+        int index = fileName.lastIndexOf('.');
+        if (index != -1 && (index + 1) < fileName.length()) {
+            return fileName.substring(index + 1);
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * 过文件扩展名，判断是否为支持的图像文件
+     *
+     * @param fileName
+     * @return 是图片则返回 true，否则返回 false
+     */
+    public static boolean isImageExtName(String fileName) {
+        if (StrKit.isBlank(fileName)) {
+            return false;
+        }
+        fileName = fileName.trim().toLowerCase();
+        String ext = getExtName(fileName);
+        if (ext != null) {
+            for (String s : imgExts) {
+                if (s.equals(ext)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static final boolean notImageExtName(String fileName) {
+        return !isImageExtName(fileName);
+    }
 
     public static int[] ratio(String src) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File(src));
@@ -50,6 +86,16 @@ public class ImageUtils {
         return String.format("%s x %s", width, height);
     }
 
+    /**
+     * 等比缩放，居中剪切，自动在在当前目录下生产新图
+     * 例如：aaa.jpg 宽高为100和200，自动在当前目录下生成新图 aaa_100x200.jpg 的图
+     *
+     * @param src
+     * @param w
+     * @param h
+     * @return 放回新图的路径
+     * @throws IOException
+     */
     public static String scale(String src, int w, int h) throws IOException {
         int inserTo = src.lastIndexOf(".");
         String dest = src.substring(0, inserTo) + String.format("_%sx%s", w, h) + src.substring(inserTo, src.length());
@@ -67,8 +113,12 @@ public class ImageUtils {
      * @throws IOException
      */
     public static void scale(String src, String dest, int w, int h) throws IOException {
-        String srcSuffix = src.substring(src.lastIndexOf(".") + 1);
-        Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName(srcSuffix);
+
+        if (notImageExtName(src)) {
+            throw new IllegalArgumentException("只支持如下几种图片格式：jpg、jpeg、png、bmp");
+        }
+
+        Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName(getExtName(src));
         ImageReader reader = (ImageReader) iterator.next();
 
         InputStream in = new FileInputStream(src);
@@ -83,8 +133,7 @@ public class ImageUtils {
 
         graphics.dispose();
         srcBuffered.flush();
-
-        ImageIO.write(targetBuffered, srcSuffix, new File(dest));
+        save(targetBuffered, dest);
         targetBuffered.flush();
     }
 
@@ -123,25 +172,22 @@ public class ImageUtils {
     }
 
     /**
-     * @param watermarkImg
-     *            水印图片位置
-     * @param srcImageFile
-     *            源图片位置
-     * @param destImageFile
-     *            生成的图片位置
-     * @param position
-     *            水印打印的位置： 1->左上角，2->右上角，1->居中，1->左下角，1->右下角
-     * @param xOffset
-     *            x轴偏移量，xOffset小于0，自动偏移
-     * @param yOffset
-     *            y轴偏移量，yOffset小于0，自动偏移
-     * @param radio
-     *            默认为原图的 1/4
-     * @param alpha
-     *            透明度（0~1），PNG图片建议设置为1
+     * @param watermarkImg  水印图片位置
+     * @param srcImageFile  源图片位置
+     * @param destImageFile 生成的图片位置
+     * @param position      水印打印的位置： 1->左上角，2->右上角，3->居中，4->左下角，5->右下角
+     * @param xOffset       x轴偏移量，xOffset小于0，自动偏移
+     * @param yOffset       y轴偏移量，yOffset小于0，自动偏移
+     * @param radio         默认为原图的 1/4
+     * @param alpha         透明度（0~1），PNG图片建议设置为1
      */
     public final static void pressImage(String watermarkImg, String srcImageFile, String destImageFile, int position,
                                         int xOffset, int yOffset, float radio, float alpha) {
+
+        if (notImageExtName(srcImageFile)) {
+            throw new IllegalArgumentException("只支持如下几种图片格式：jpg、jpeg、png、bmp");
+        }
+
         try {
             File img = new File(srcImageFile);
             Image src = ImageIO.read(img);
@@ -198,10 +244,79 @@ public class ImageUtils {
             graphics.drawImage(wmImage, xPostion, yPostion, newWidth, newHeight, null);
             // 水印文件结束
             graphics.dispose();
-            ImageIO.write((BufferedImage) image, "JPEG", new File(destImageFile));
+
+            save(image, destImageFile);
+
         } catch (Exception e) {
             log.warn("ImageUtils pressImage error", e);
         }
     }
+
+
+    /**
+     * 剪切
+     *
+     * @param srcImageFile  原图
+     * @param destImageFile 存放的目标位置
+     * @param left          起始点：左
+     * @param top           起始点：上
+     * @param width         宽
+     * @param height        高
+     */
+    public static void crop(String srcImageFile, String destImageFile, int left, int top, int width, int height) {
+
+        if (notImageExtName(srcImageFile)) {
+            throw new IllegalArgumentException("只支持如下几种图片格式：jpg、jpeg、png、bmp");
+        }
+
+        try {
+            BufferedImage bi = ImageIO.read(new File(srcImageFile));
+            width = Math.min(width, bi.getWidth());
+            height = Math.min(height, bi.getHeight());
+            if (width <= 0) width = bi.getWidth();
+            if (height <= 0) height = bi.getHeight();
+
+            left = Math.min(Math.max(0, left), bi.getWidth() - width);
+            top = Math.min(Math.max(0, top), bi.getHeight() - height);
+
+            BufferedImage subImage = resize(bi.getSubimage(left, top, width, height), 200, 200);
+
+            save(subImage, destImageFile);
+
+        } catch (Exception e) {
+            log.error(e.toString(), e);
+        }
+    }
+
+
+    /**
+     * 高保真缩放
+     */
+    private static BufferedImage resize(BufferedImage bi, int toWidth, int toHeight) {
+        Graphics g = null;
+        try {
+            Image scaledImage = bi.getScaledInstance(toWidth, toHeight, Image.SCALE_SMOOTH);
+            BufferedImage ret = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
+            g = ret.getGraphics();
+            g.drawImage(scaledImage, 0, 0, null);
+            return ret;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (g != null) {
+                g.dispose();
+            }
+        }
+    }
+
+
+    private static void save(BufferedImage bi, String outputImageFile) {
+        try {
+            ImageIO.write(bi, getExtName(outputImageFile), new File(outputImageFile));
+        } catch (Exception e) {
+            log.error(e.toString(), e);
+        }
+    }
+
 
 }

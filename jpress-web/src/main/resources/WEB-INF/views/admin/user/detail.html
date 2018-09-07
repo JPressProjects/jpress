@@ -5,7 +5,8 @@
 </div>
 <!-- /.box-header -->
 <!-- form start -->
-<form class="form-horizontal" autocomplete="off">
+<form class="form-horizontal" autocomplete="off" id="userForm" action="/admin/user/doSaveUser">
+    <input name="user.id" type="hidden" value="#(user.id)">
     <div class="box-body ">
         <div class="form-group">
             <label class="col-sm-2 control-label">用户名</label>
@@ -19,7 +20,7 @@
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="取个好听的昵称..."
-                       value="#(user.nickname ??)">
+                       value="#(user.nickname ??)" name="user.name">
             </div>
         </div>
 
@@ -28,7 +29,7 @@
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="设计师？程序员？..."
-                       value="#(user.identity ??)">
+                       value="#(user.identity ??)" name="user.identity">
             </div>
         </div>
 
@@ -37,7 +38,8 @@
             <label class="col-sm-2 control-label">备注</label>
 
             <div class="col-sm-8">
-                <textarea rows="3" class="form-control" placeholder="添加点备注...">#(user.remark ??)</textarea>
+                <textarea rows="3" class="form-control" placeholder="添加点备注..."
+                          name="user.remark">#(user.remark ??)</textarea>
             </div>
         </div>
 
@@ -48,10 +50,10 @@
             <label class="col-sm-2 control-label">状态</label>
 
             <div class="col-sm-8">
-                <select class="form-control">
-                    <option>正常</option>
-                    <option>注册未激活</option>
-                    <option>锁定账号</option>
+                <select class="form-control" name="user.status">
+                    <option value="ok">正常</option>
+                    <option value="registered">注册未激活</option>
+                    <option value="locked">锁定账号</option>
                 </select>
             </div>
         </div>

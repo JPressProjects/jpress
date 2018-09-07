@@ -1,6 +1,6 @@
 #@user_detail_layer()
 #define detail()
-<form class="form-horizontal" autocomplete="off" action="/admin/user/doSaveAvatar" method="post" id="form">
+<form class="form-horizontal" autocomplete="off" action="/admin/user/doSaveAvatar" method="post" id="avatarForm">
     <input type="hidden" name="path" id="path">
     <input type="hidden" name="x" id="x">
     <input type="hidden" name="y" id="y">
@@ -183,7 +183,7 @@
         $('#h').val(c.h);
     }
 
-    $('#form').on('submit', function () {
+    $('#avatarForm').on('submit', function () {
         $(this).ajaxSubmit({
             success: function (data) {
                 if (data.state == "ok") {

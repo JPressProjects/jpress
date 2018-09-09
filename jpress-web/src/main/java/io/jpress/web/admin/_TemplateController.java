@@ -6,6 +6,7 @@ import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Menu;
 import io.jpress.model.Role;
@@ -35,6 +36,9 @@ public class _TemplateController extends AdminControllerBase {
     @Inject
     private MenuService ms;
 
+    @Inject
+    private OptionService optionService;
+
     @AdminMenu(text = "所有模板", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 0)
     public void index() {
         List<Template> templates = TemplateManager.me().getInstalledTemplates();
@@ -49,12 +53,18 @@ public class _TemplateController extends AdminControllerBase {
         render("template/install.html");
     }
 
-    public void roleEdit() {
-        long id = getParaToLong("id", 0l);
-        if (id > 0) {
-            setAttr("role", roleService.findById(id));
+
+    public void enable() {
+        String tid = getPara("tid");
+        Template template = TemplateManager.me().getTemplateById(tid);
+
+        if (template == null) {
+            renderJson(Ret.fail().set("message", "没有干模板"));
+            return;
         }
-        render("user/role_edit.html");
+
+        optionService.saveOrUpdate("web_template", template.getId());
+        renderJson(Ret.ok());
     }
 
     public void roleSave() {

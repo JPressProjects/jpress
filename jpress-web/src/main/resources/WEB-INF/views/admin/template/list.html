@@ -1,5 +1,23 @@
 #@layout()
 
+#define script()
+<script>
+
+    $("#enableBtn").on("click", function () {
+        var templateId = $(this).attr("for-tid");
+        $.get("/admin/template/enable?tid=" + templateId, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    })
+
+
+</script>
+#end
+
 #define css()
 <style>
     .box-body img {
@@ -76,9 +94,15 @@
                                     <!-- /.box-body -->
                                     <div class="box-footer">
                                         <label class="title">#(template.title ??)</label>
+                                        #if(option('web_template') == template.id)
                                         <button type="button" class="btn btn-default disabled pull-right" disabled>
                                             <i class="fa fa-fw fa-check"></i>已启用
                                         </button>
+                                        #else
+                                        <button type="button" class="btn btn-primary pull-right"
+                                                id="enableBtn" for-tid="#(template.id)">启用
+                                        </button>
+                                        #end
                                     </div>
                                 </div>
                                 <!-- /.box -->

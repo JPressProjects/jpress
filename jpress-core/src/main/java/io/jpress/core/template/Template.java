@@ -30,7 +30,7 @@ public class Template {
     private String version;
     private int versionCode;
     private String updateUrl;
-    private String path;
+    private String folder;
     private String screenshot;
 
     public Template() {
@@ -38,8 +38,12 @@ public class Template {
     }
 
     public Template(String propertiesFile) {
+
+
         File pFile = new File(propertiesFile);
         Prop prop = PropKit.use(pFile);
+
+        this.folder = pFile.getParentFile().getName();
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -49,7 +53,7 @@ public class Template {
         this.version = prop.get("version");
         this.versionCode = prop.getInt("versionCode", 0);
         this.updateUrl = prop.get("updateUrl");
-        this.screenshot = "/templates/" + id + "/" + prop.get("screenshot");
+        this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot");
     }
 
 
@@ -117,12 +121,12 @@ public class Template {
         this.updateUrl = updateUrl;
     }
 
-    public String getPath() {
-        return path;
+    public String getFolder() {
+        return folder;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 
     public String getScreenshot() {

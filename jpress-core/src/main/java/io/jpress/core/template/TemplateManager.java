@@ -71,4 +71,13 @@ public class TemplateManager {
         }
     }
 
+
+    public Template getTemplateById(String id) {
+        List<Template> templates = getInstalledTemplates();
+        for (Template template : templates) {
+            if (id.equals(template.getId())) return template;
+        }
+        return null;
+    }
+
 }

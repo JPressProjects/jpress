@@ -107,4 +107,6 @@ public interface RoleService {
     public boolean addPermission(long roleId, long permissionId);
 
     public boolean delPermission(long roleId, long permissionId);
+
+    public boolean hasPermission(long roleId, long permissionId);
 }

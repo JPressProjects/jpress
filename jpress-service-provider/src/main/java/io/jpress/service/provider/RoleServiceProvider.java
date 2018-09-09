@@ -96,6 +96,11 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         return true;
     }
 
+    @Override
+    public boolean hasPermission(long roleId, long permissionId) {
+        return Db.queryFirst("select * from role_permission where role_id = ? and permission_id = ?", roleId, permissionId) != null;
+    }
+
     @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)
     private List<Role> findRoleListByUserId(long userId) {
         String sql = "select * from user_role where user_id = ?";

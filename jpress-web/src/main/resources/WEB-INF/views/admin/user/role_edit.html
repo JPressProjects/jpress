@@ -5,7 +5,7 @@
     <section class="content-header">
         <h1>
             权限设置
-            <small>Role etting</small>
+            <small>Role Setting</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -24,7 +24,10 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" action="roleSave" method="POST">
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/user/doRoleSave"
+                          method="POST"
+                    >
                         <input type="hidden" name="role.id" value="#(role.id ??)">
                         <div class="box-body ">
                             <div class="form-group">
@@ -39,7 +42,12 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">超级管理员</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
+                                    #if(role)
+                                    <input type="checkbox" class="switchery" name="issuper" value="true"
+                                           #checkedIf(role.isSuperAdmin())>
+                                    #else
+                                    <input type="checkbox" class="switchery" name="issuper" value="true">
+                                    #end
                                 </div>
                             </div>
 

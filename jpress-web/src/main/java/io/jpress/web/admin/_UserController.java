@@ -96,22 +96,28 @@ public class _UserController extends AdminControllerBase {
         render("user/role_edit.html");
     }
 
+    public void doRoleSave() {
+        Role role = getBean(Role.class);
+        if (getParaToBoolean("issuper", false)) {
+            role.setFlag(Role.ADMIN_FLAG);
+        } else {
+            role.setFlag(null);
+        }
 
-    public void roleDisable() {
-
-
-        renderJson(Ret.ok());
-    }
-
-    public void roleEnable() {
-
-        renderJson(Ret.ok());
-    }
-
-    public void roleSave() {
-        Role role = getModel(Role.class);
         roleService.saveOrUpdate(role);
         redirect("/admin/user/role");
+    }
+
+
+    public void delRolePermission(long roleId, long permissionId) {
+        roleService.delPermission(roleId, permissionId);
+        renderJson(Ret.ok());
+    }
+
+
+    public void addRolePermission(long roleId, long permissionId) {
+        roleService.addPermission(roleId, permissionId);
+        renderJson(Ret.ok());
     }
 
 

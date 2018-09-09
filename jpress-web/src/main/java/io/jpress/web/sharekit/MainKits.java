@@ -2,6 +2,7 @@ package io.jpress.web.sharekit;
 
 import io.jboot.Jboot;
 import io.jpress.service.OptionService;
+import io.jpress.service.RoleService;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -28,7 +29,7 @@ public class MainKits {
         }
         return StringEscapeUtils.escapeHtml(html);
     }
-    
+
 
     public static String option(String key) {
         OptionService service = Jboot.bean(OptionService.class);
@@ -39,6 +40,11 @@ public class MainKits {
     public static Boolean optionAsBool(String key) {
         OptionService service = Jboot.bean(OptionService.class);
         return service.findAsBoolByKey(key);
+    }
+
+    public static boolean hasPermission(long roleId, long permissionId) {
+        RoleService service = Jboot.bean(RoleService.class);
+        return service.hasPermission(roleId, permissionId);
     }
 
 }

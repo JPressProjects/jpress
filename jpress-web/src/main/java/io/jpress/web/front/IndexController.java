@@ -3,7 +3,7 @@ package io.jpress.web.front;
 import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressAppConfig;
-import io.jpress.web.base.FrontControllerBase;
+import io.jpress.web.base.TemplateControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -11,7 +11,7 @@ import io.jpress.web.base.FrontControllerBase;
  * @Package io.jpress.web
  */
 @RequestMapping("/")
-public class IndexController extends FrontControllerBase {
+public class IndexController extends TemplateControllerBase {
 
     private static JPressAppConfig config = Jboot.config(JPressAppConfig.class);
 

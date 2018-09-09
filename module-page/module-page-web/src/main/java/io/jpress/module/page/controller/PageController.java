@@ -2,7 +2,7 @@ package io.jpress.module.page.controller;
 
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.FrontControllerBase;
+import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
  * @Package io.jpress.module.page.controller
  */
 @RequestMapping("/page")
-public class PageController extends FrontControllerBase {
+public class PageController extends TemplateControllerBase {
 
     @Inject
     private SinglePageService sps;
@@ -22,6 +22,12 @@ public class PageController extends FrontControllerBase {
     public void index() {
 
         String slug = getSlug();
+
+        if (StringUtils.isBlank(slug)) {
+            render("page_index.html");
+            return;
+        }
+
         SinglePage page = sps.findFirstBySlug(slug);
 
         if (page == null || !page.isNormal()) {
@@ -29,7 +35,7 @@ public class PageController extends FrontControllerBase {
             return;
         }
 
-        renderText(page.toJson());
+        render("page_index.html");
     }
 
     private String getSlug() {

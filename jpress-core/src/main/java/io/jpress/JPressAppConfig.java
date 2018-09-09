@@ -1,5 +1,6 @@
 package io.jpress;
 
+import io.jboot.Jboot;
 import io.jboot.config.annotation.PropertyConfig;
 
 /**
@@ -30,4 +31,6 @@ public class JPressAppConfig {
     public void setDefaultTemplate(String defaultTemplate) {
         this.defaultTemplate = defaultTemplate;
     }
+
+    public static final JPressAppConfig me = Jboot.config(JPressAppConfig.class);
 }

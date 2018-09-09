@@ -8,5 +8,5 @@ import com.jfinal.aop.Before;
  * @Package io.jpress.web
  */
 @Before(UserInterceptor.class)
-public abstract class UserControllerBase extends FrontControllerBase {
+public abstract class UserControllerBase extends TemplateControllerBase {
 }

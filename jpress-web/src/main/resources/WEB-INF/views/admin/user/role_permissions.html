@@ -8,8 +8,33 @@
             }
         });
     })
+
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.myswitchery'));
+    elems.forEach(function (elem) {
+        var switchery = new Switchery(elem, {size: 'small'});
+        var roleId = elem.getAttribute("data-rid");
+        var permissionId = elem.getAttribute("data-pid");
+        elem.onchange = function () {
+            enable(roleId, permissionId);
+        }
+    });
+
+    function enable(roleId, permissionId) {
+        alert("roleId:" + roleId + " ---permissionId:" + permissionId);
+    }
+
+
 </script>
 #end
+
+#define css()
+<style>
+    .switchery-small {
+        margin-top: 0px;
+    }
+</style>
+#end
+
 
 #define content()
 <div class="content-wrapper">
@@ -64,7 +89,9 @@
                                         </tr>
                                         #for(permission : x.value)
                                         <tr>
-                                            <td><input type="checkbox" checked class="switchery"></td>
+                                            <td><input type="checkbox" checked class="myswitchery"
+                                                       data-pid="#(permission.id ??)"
+                                                       data-rid="#(role.id ??)"></td>
                                             <td>#(permission.action_key ??)</td>
                                             <td>#(permission.text ??)</td>
                                             <td>#(permission.typeText ??)</td>

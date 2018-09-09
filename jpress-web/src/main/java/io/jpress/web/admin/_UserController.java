@@ -72,8 +72,18 @@ public class _UserController extends AdminControllerBase {
     }
 
     public void rolePermissions() {
+        Long id = getParaToLong();
+        if (id == null) {
+            renderError(404);
+            return;
+        }
+        
+        Role role = roleService.findById(id);
+        setAttr("role", role);
+
         List<Permission> permissions = permissionService.findAll();
         setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
+
         render("user/role_permissions.html");
     }
 

@@ -1,6 +1,9 @@
 package io.jpress.web.admin;
 
 import com.jfinal.kit.Ret;
+import io.jboot.utils.ArrayUtils;
+import io.jboot.utils.FileUtils;
+import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -13,6 +16,7 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.kits.MenuKits;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -77,13 +81,65 @@ public class _TemplateController extends AdminControllerBase {
 
     @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)
     public void edit() {
+
+        String dirName = getPara("d");
+        String editFileName = getPara("f", "index.html");
+
         Template template = TemplateManager.me().getCurrentTemplate();
         setAttr("template", template);
 
-        File[] files = new File(template.getAbsolutePath()).listFiles();
+        File basePath = StringUtils.isNotBlank(dirName)
+                ? new File(template.getAbsolutePath(), dirName)
+                : new File(template.getAbsolutePath());
+
+
+        File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
+                || file.getName().endsWith(".css")
+                || file.getName().endsWith(".js"));
         setAttr("files", files);
 
+        if (ArrayUtils.isNullOrEmpty(files)) {
+            render("template/edit.html");
+            return;
+        }
+
+
+        File editFile = StringUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
+        setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
+
         render("template/edit.html");
+    }
+
+    private File getEditFile(String editFileName, File[] files) {
+        for (File f : files) {
+            if (editFileName.equals(f.getName())) {
+                return f;
+            }
+        }
+        return files[0];
+    }
+
+
+    public void doEditSave() {
+        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
+
+        String dirName = getPara("d");
+
+        if (dirName != null) {
+            pathFile = new File(pathFile, dirName);
+        }
+
+        String fileName = getPara("f");
+
+        // 没有用getPara原因是，getPara因为安全问题会过滤某些html元素。
+        String fileContent = getRequest().getParameter("fileContent");
+
+        fileContent = StringEscapeUtils.unescapeHtml(fileContent);
+
+        File file = new File(pathFile, fileName);
+        FileUtils.writeString(file, fileContent);
+
+        renderJson(Ret.ok());
     }
 
 

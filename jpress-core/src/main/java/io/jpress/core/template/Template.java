@@ -16,7 +16,6 @@
 package io.jpress.core.template;
 
 import com.jfinal.kit.Prop;
-import com.jfinal.kit.PropKit;
 
 import java.io.File;
 
@@ -41,7 +40,7 @@ public class Template {
 
 
         File pFile = new File(propertiesFile);
-        Prop prop = PropKit.use(pFile);
+        Prop prop = new Prop(pFile, "utf-8");
 
         this.folder = pFile.getParentFile().getName();
 

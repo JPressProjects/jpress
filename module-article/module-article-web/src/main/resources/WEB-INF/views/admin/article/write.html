@@ -49,25 +49,6 @@
         $("#articleStatus").val("dustbin");
     })
 
-    $("#chooseThumbnail").on("click", function () {
-        layer.open({
-            type: 2,
-            title: '选择图片',
-            anim: 2,
-            shadeClose: true,
-            shade: 0.5,
-            area: ['80%', '70%'],
-            content: '/admin/attachment/browse',
-            end: function () {
-                if (layer.data.src != null) {
-                    $("#thumbnail").attr("src", layer.data.src);
-                    $("#articleThumbnail").val(layer.data.src);
-                }
-            }
-        });
-    })
-
-
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
         $("#articleThumbnail").val("");
@@ -279,7 +260,10 @@
                                    id="articleThumbnail">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default btn-sm " id="chooseThumbnail">选择图片</button>
+                            <button type="button" class="btn btn-default btn-sm " id="jp-image-browser"
+                                    for-src="thumbnail"
+                                    for-input="articleThumbnail">选择图片
+                            </button>
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>
                     </div>

@@ -15,7 +15,34 @@ $(document).ready(function () {
 
     initOptionSubmit();
 
+
+    initImageBrowserButton();
+
 });
+
+
+function initImageBrowserButton() {
+    $("#jp-image-browser").on("click", function () {
+        var imgBrowserBtn = $(this);
+        layer.open({
+            type: 2,
+            title: '选择图片',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['80%', '70%'],
+            content: '/admin/attachment/browse',
+            end: function () {
+                if (layer.data.src != null) {
+                    var img = imgBrowserBtn.attr("for-src");
+                    var input = imgBrowserBtn.attr("for-input");
+                    $("#" + img).attr("src", layer.data.src);
+                    $("#" + input).val(layer.data.src);
+                }
+            }
+        });
+    })
+}
 
 function initJpActions() {
     $(".jp-actiontr").mouseover(function () {

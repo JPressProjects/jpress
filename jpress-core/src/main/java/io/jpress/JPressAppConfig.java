@@ -12,6 +12,7 @@ import io.jboot.config.annotation.PropertyConfig;
 public class JPressAppConfig {
 
     private String indexAction = "/page";
+    private String defaultTemplate = "jportal";
 
 
     public String getIndexAction() {
@@ -20,5 +21,13 @@ public class JPressAppConfig {
 
     public void setIndexAction(String indexAction) {
         this.indexAction = indexAction;
+    }
+
+    public String getDefaultTemplate() {
+        return defaultTemplate;
+    }
+
+    public void setDefaultTemplate(String defaultTemplate) {
+        this.defaultTemplate = defaultTemplate;
     }
 }

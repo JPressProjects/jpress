@@ -77,7 +77,7 @@ public class _UserController extends AdminControllerBase {
             renderError(404);
             return;
         }
-        
+
         Role role = roleService.findById(id);
         setAttr("role", role);
 
@@ -94,6 +94,18 @@ public class _UserController extends AdminControllerBase {
             setAttr("role", roleService.findById(id));
         }
         render("user/role_edit.html");
+    }
+
+
+    public void roleDisable() {
+
+
+        renderJson(Ret.ok());
+    }
+
+    public void roleEnable() {
+
+        renderJson(Ret.ok());
     }
 
     public void roleSave() {

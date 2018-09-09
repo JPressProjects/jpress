@@ -4,9 +4,9 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.Cacheable;
-import io.jpress.service.RoleService;
-import io.jpress.model.Role;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.Role;
+import io.jpress.service.RoleService;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -81,6 +81,19 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         }
 
         return false;
+    }
+
+    @Override
+    public boolean addPermission(long roleId, long permissionId) {
+        Record rolePermission = new Record().set("role_id", roleId).set("permission_id", permissionId);
+        Db.save("role_permission", rolePermission);
+        return true;
+    }
+
+    @Override
+    public boolean delPermission(long roleId, long permissionId) {
+        Db.delete("delete from role_permission where role_id=? and permission_id=?", roleId, permissionId);
+        return true;
     }
 
     @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)

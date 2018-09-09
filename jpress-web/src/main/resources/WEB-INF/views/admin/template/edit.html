@@ -106,10 +106,10 @@
                     <form class="form-horizontal" autocomplete="off">
                         <div class="box-body no-padding">
                             <div id="editor">
-function foo(items) {
-var x = "All this is syntax highlighted";
-return x;
-}
+                                function foo(items) {
+                                var x = "All this is syntax highlighted";
+                                return x;
+                                }
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -138,22 +138,11 @@ return x;
                                 <div class="col-sm-12">
                                     <table class="table table-striped">
                                         <tbody>
+                                        #for(file : files)
                                         <tr>
-                                            <th>tpl_setting.html</th>
+                                            <th>#(file.name ??)</th>
                                         </tr>
-                                        <tr>
-                                            <th>content.html</th>
-                                        </tr>
-                                        <tr>
-                                            <th>_layout.html</th>
-                                        </tr>
-                                        <tr>
-                                            <th>index.html （编辑中...）</th>
-                                        </tr>
-                                        <tr>
-                                            <th>search.html</th>
-                                        </tr>
-
+                                        #end
                                         </tbody>
                                     </table>
                                 </div>

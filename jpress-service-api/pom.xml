@@ -28,6 +28,8 @@
             <groupId>io.jpress</groupId>
             <artifactId>jpress-model</artifactId>
         </dependency>
+
+
     </dependencies>
 
 

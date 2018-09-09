@@ -15,6 +15,7 @@
  */
 package io.jpress.core.template;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 
 import java.io.File;
@@ -134,5 +135,10 @@ public class Template {
 
     public void setScreenshot(String screenshot) {
         this.screenshot = screenshot;
+    }
+
+
+    public String getAbsolutePath() {
+        return PathKit.getWebRootPath() + "/templates/" + folder;
     }
 }

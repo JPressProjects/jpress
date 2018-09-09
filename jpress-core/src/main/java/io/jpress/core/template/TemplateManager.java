@@ -15,7 +15,10 @@
  */
 package io.jpress.core.template;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import io.jboot.utils.StringUtils;
+import io.jpress.JPressAppConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,11 +26,14 @@ import java.util.List;
 
 public class TemplateManager {
 
+    private Template currentTemplate;
+
     private static final TemplateManager me = new TemplateManager();
 
     private TemplateManager() {
 
     }
+
 
     public static TemplateManager me() {
         return me;
@@ -35,7 +41,6 @@ public class TemplateManager {
 
 
     public List<Template> getInstalledTemplates() {
-
         String basePath = PathKit.getWebRootPath() + "/templates";
 
         List<File> templateFolderList = new ArrayList<File>();
@@ -54,9 +59,7 @@ public class TemplateManager {
 
     private void scanTemplateFloders(File file, List<File> list) {
         if (file.isDirectory()) {
-
             File configFile = new File(file, "template.properties");
-
             if (configFile.exists() && configFile.isFile()) {
                 list.add(file);
             } else {
@@ -80,4 +83,32 @@ public class TemplateManager {
         return null;
     }
 
+    public Template getCurrentTemplate() {
+        return currentTemplate;
+    }
+
+    public void setCurrentTemplate(String templateId) {
+        if (StringUtils.isBlank(templateId)) {
+            initDefaultTemplate();
+            return;
+        }
+
+        Template template = getTemplateById(templateId);
+        if (template == null) {
+            LogKit.warn("can not find tempalte " + templateId);
+            initDefaultTemplate();
+        } else {
+            setCurrentTemplate(template);
+        }
+    }
+
+
+    private void initDefaultTemplate() {
+        setCurrentTemplate(getTemplateById(JPressAppConfig.me.getDefaultTemplate()));
+    }
+    
+
+    public void setCurrentTemplate(Template currentTemplate) {
+        this.currentTemplate = currentTemplate;
+    }
 }

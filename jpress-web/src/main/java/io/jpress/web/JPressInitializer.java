@@ -15,7 +15,10 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onJFinalStarted() {
+
         JPressApplication.me().init();
+        OptionInitializer.me().init();
+
     }
 
 
@@ -28,5 +31,7 @@ public class JPressInitializer extends JbootAppListenerBase {
         engine.addSharedFunction("/WEB-INF/views/admin/user/_user_detail_layer.html");
 
         engine.addSharedStaticMethod(MainKits.class);
+
     }
+
 }

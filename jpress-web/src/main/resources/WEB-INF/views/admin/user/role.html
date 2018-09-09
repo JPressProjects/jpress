@@ -37,22 +37,26 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 10px"><input name="dataItem" onchange="checkAll(this)" type="checkbox"
-                                                               value="0"/></th>
-                                <th style="width: 10px">#</th>
-                                <th>名称</th>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th style="width: 30%">名称</th>
                                 <th>描述</th>
-                                <th>操作</th>
                             </tr>
                             #for(role : roles)
-                            <tr>
+                            <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>#(role.id ??)</td>
-                                <td>#(role.name ??)</td>
+                                <td>#(role.name ??)
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/user/roleEdit/#(role.id)" style="color: #006505">编辑</a> |
+                                            <a href="/admin/user/rolePermissions/#(role.id)"
+                                               style="color: #006505">权限</a>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>#(role.description ??)</td>
-                                <td><a href="/admin/user/rolePermissions/#(role.id)">权限</a> <a
-                                        href="roleEdit?id=#(role.id ??)">编辑</a></td>
                             </tr>
                             #end
                             </tbody>

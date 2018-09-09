@@ -89,8 +89,8 @@ public class _UserController extends AdminControllerBase {
 
 
     public void roleEdit() {
-        long id = getParaToLong("id", 0l);
-        if (id > 0) {
+        Long id = getParaToLong();
+        if (id != null) {
             setAttr("role", roleService.findById(id));
         }
         render("user/role_edit.html");

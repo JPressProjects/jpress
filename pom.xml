@@ -17,11 +17,13 @@
         <module>jpress-service-api</module>
         <module>jpress-service-provider</module>
         <module>jpress-model</module>
+        <module>jpress-template</module>
 
         <module>module-article</module>
         <module>module-page</module>
 
         <module>starter</module>
+
 
     </modules>
 

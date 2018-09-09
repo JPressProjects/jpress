@@ -22,6 +22,12 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
+            <artifactId>jpress-template</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
             <artifactId>jpress-service-provider</artifactId>
         </dependency>
 

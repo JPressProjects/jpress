@@ -49,8 +49,7 @@ public class Template {
         this.version = prop.get("version");
         this.versionCode = prop.getInt("versionCode", 0);
         this.updateUrl = prop.get("updateUrl");
-        this.path = prop.get("path");
-        this.screenshot = prop.get("screenshot");
+        this.screenshot = "/templates/" + id + "/" + prop.get("screenshot");
     }
 
 

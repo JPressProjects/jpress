@@ -4,6 +4,8 @@ import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Menu;
 import io.jpress.model.Role;
@@ -35,6 +37,9 @@ public class _TemplateController extends AdminControllerBase {
 
     @AdminMenu(text = "所有模板", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 0)
     public void index() {
+        List<Template> templates = TemplateManager.me().getInstalledTemplates();
+        setAttr("templates", templates);
+
         render("template/list.html");
     }
 

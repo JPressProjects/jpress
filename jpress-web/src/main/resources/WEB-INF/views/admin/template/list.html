@@ -9,7 +9,7 @@
         border-top-right-radius: 2px;
     }
 
-    .box-footer .title{
+    .box-footer .title {
         padding-top: 7px;
     }
 </style>
@@ -63,17 +63,19 @@
                     <div class="box-body ">
 
                         <div class="row">
+
+                            #for(template : templates)
                             <div class="col-xs-4">
                                 <!-- jQuery Knob -->
                                 <div class="box box-dashboard">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
+                                        <img src="#(template.screenshot ??)"/>
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <label class="title">模板名称11111111111111</label>
+                                        <label class="title">#(template.title ??)</label>
                                         <button type="button" class="btn btn-default disabled pull-right" disabled>
                                             <i class="fa fa-fw fa-check"></i>已启用
                                         </button>
@@ -81,93 +83,11 @@
                                 </div>
                                 <!-- /.box -->
                             </div>
-                            <div class="col-xs-4">
-                                <!-- jQuery Knob -->
-                                <div class="box box-dashboard">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <label class="title">模板名称22222222222</label>
-                                        <button type="button" class="btn btn-primary pull-right">启用</button>
-                                    </div>
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <div class="col-xs-4">
-                                <!-- jQuery Knob -->
-                                <div class="box box-dashboard">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <label class="title">模板名称333333333333</label>
-                                        <button type="button" class="btn btn-primary pull-right">启用</button>
-                                    </div>
-                                </div>
-                                <!-- /.box -->
-                            </div>
+                            #end
+
                             <!-- /.col -->
                         </div>
 
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <!-- jQuery Knob -->
-                                <div class="box box-dashboard">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <label class="title">模板名称11111111111111</label>
-                                        <button type="button" class="btn btn-primary pull-right" >已启用
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <div class="col-xs-4">
-                                <!-- jQuery Knob -->
-                                <div class="box box-dashboard">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <label class="title">模板名称22222222222</label>
-                                        <button type="button" class="btn btn-primary pull-right">启用</button>
-                                    </div>
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <div class="col-xs-4">
-                                <!-- jQuery Knob -->
-                                <div class="box box-dashboard">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <img src="/static/admin/images/avatar.png"/>
-                                        <!-- /.row -->
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <label class="title">模板名称333333333333</label>
-                                        <button type="button" class="btn btn-primary pull-right">启用</button>
-                                    </div>
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <!-- /.col -->
-                        </div>
 
                     </div>
                 </div>

@@ -58,10 +58,10 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "其他设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 13)
-    public void other() {
-        render("wechat/setting_other.html");
-    }
+//    @AdminMenu(text = "其他设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 13)
+//    public void other() {
+//        render("wechat/setting_other.html");
+//    }
 
 
 }

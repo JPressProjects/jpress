@@ -9,7 +9,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li>设置</li>
+            <li>微信</li>
             <li class="active">基本设置</li>
         </ol>
     </section>
@@ -46,6 +46,37 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="随意设置... 但是确保和微信后台设置一样。"
                                            name="wechat_token" value="#option('wechat_token')">
+                                    <p class="help-block"> 请确保和微信公众号后台设置一样，否则无法正常工作。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">网页授权</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用网页授权</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="wechat_web_authorize_enable"
+                                           #checkedIf(option("wechat_web_authorize_enable"))>
+                                    <input type="hidden" id="wechat_web_authorize_enable"
+                                           name="wechat_web_authorize_enable">
+                                    <p class="help-block"> 开启后，可以获取用户信息、分析用户行为。必须是微信服务号，才能使用。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">授权方式</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control">
+                                        <option value="1">寂寞授权</option>
+                                        <option value="2">正常授权</option>
+                                        <option value="3">寂寞优先</option>
+                                    </select>
+                                    <p class="help-block">
+                                        1、寂寞授权：只能得到用户ID，分析该用户行为<br/>
+                                        2、正常授权：可以获取用户昵称、头像等信息<br/>
+                                        3、寂寞优先：第一次访问正常授权，之后寂寞授权（无法获得用户更新的昵称和头像）
+                                    </p>
                                 </div>
                             </div>
 

@@ -9,7 +9,9 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
@@ -28,7 +30,9 @@ public class _ArticleController extends AdminControllerBase {
     @Inject
     private ArticleService articleService;
     @Inject
-    private ArticleCategoryService articleCategoryService;
+    private ArticleCategoryService categoryService;
+    @Inject
+    private ArticleCommentService commentService;
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
@@ -41,11 +45,11 @@ public class _ArticleController extends AdminControllerBase {
     @AdminMenu(text = "写文章", groupId = "article", order = 1)
     public void write() {
 
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
 
-        List<ArticleCategory> subjects = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        List<ArticleCategory> subjects = categoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
         setAttr("subjects", subjects);
 
         int articleId = getParaToInt(0, 0);
@@ -58,10 +62,10 @@ public class _ArticleController extends AdminControllerBase {
             }
             setAttr("article", article);
 
-            List<ArticleCategory> tags = articleCategoryService.findTagListByArticleId(articleId);
+            List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);
             setAttr("tags", tags);
 
-            Long[] categoryIds = articleCategoryService.findCategoryIdsByArticleId(articleId);
+            Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
             flagCheck(categories, categoryIds);
             flagCheck(subjects, categoryIds);
         }
@@ -116,7 +120,7 @@ public class _ArticleController extends AdminControllerBase {
             return null;
         }
 
-        List<ArticleCategory> categories = articleCategoryService.doNewOrFindByTagString(tags);
+        List<ArticleCategory> categories = categoryService.doNewOrFindByTagString(tags);
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }
@@ -131,7 +135,7 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "分类", groupId = "article", order = 2)
     public void category() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
@@ -148,7 +152,7 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "专题", groupId = "article", order = 3)
     public void subject() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
+        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
         setAttr("categories", categories);
 
         int id = getParaToInt(0, 0);
@@ -166,12 +170,12 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
-        Page<ArticleCategory> page = articleCategoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
+        Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
         setAttr("page", page);
 
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            setAttr("category", articleCategoryService.findById(id));
+            setAttr("category", categoryService.findById(id));
 
         }
 
@@ -181,18 +185,20 @@ public class _ArticleController extends AdminControllerBase {
 
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
-        articleCategoryService.saveOrUpdate(category);
+        categoryService.saveOrUpdate(category);
         renderJson(Ret.ok());
     }
 
     public void doCategoryDel() {
-        articleCategoryService.deleteById(getIdPara());
+        categoryService.deleteById(getIdPara());
         renderJson(Ret.ok());
     }
 
 
     @AdminMenu(text = "评论", groupId = "article", order = 5)
     public void comment() {
+        Page<ArticleComment> page = commentService.paginate(getPagePara(), 10);
+        setAttr("page", page);
         render("article/comment.html");
     }
 

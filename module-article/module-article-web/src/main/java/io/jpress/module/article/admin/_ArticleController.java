@@ -134,14 +134,6 @@ public class _ArticleController extends AdminControllerBase {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
-        render("article/category.html");
-    }
-
-
-    public void categoryedit() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        CategoryKits.toLayerCategories(categories);
-        setAttr("categories", categories);
         int id = getParaToInt(0, 0);
         if (id > 0) {
             for (ArticleCategory category : categories) {
@@ -150,8 +142,24 @@ public class _ArticleController extends AdminControllerBase {
                 }
             }
         }
-        render("article/category_edit.html");
+        render("article/category.html");
     }
+
+
+//    public void categoryedit() {
+//        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+//        CategoryKits.toLayerCategories(categories);
+//        setAttr("categories", categories);
+//        int id = getParaToInt(0, 0);
+//        if (id > 0) {
+//            for (ArticleCategory category : categories) {
+//                if (category.getId() == id) {
+//                    setAttr("category", category);
+//                }
+//            }
+//        }
+//        render("article/category_edit.html");
+//    }
 
     public void categorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "");

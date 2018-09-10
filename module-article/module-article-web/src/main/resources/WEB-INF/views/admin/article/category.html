@@ -6,10 +6,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    toastr.options.onHidden = function () {
-                        location.href = "/admin/article/category";
-                    }
-                    toastr.success('保存成功。');
+                    location.href = "/admin/article/category";
                 } else {
                     toastr.error(data.message, '操作失败');
                 }
@@ -20,6 +17,22 @@
         });
         return false;
     });
+
+    $('#del').on('click', function () {
+        var id = $(this).attr("data-id");
+        del(id);
+    });
+
+
+    function del(id) {
+        $.get("/admin/article/doCategoryDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
 </script>
 #end
 #define content()
@@ -181,7 +194,8 @@
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/category/#(category.id)"
                                                style="color: #006505">编辑</a> |
-                                            <a href="#" style="color: #a00">删除</a> |
+                                            <a href="javascript:;" id="del" data-id="#(category.id)"
+                                               style="color: #a00">删除</a> |
                                             <a href="#" style="color: #a00">查看</a>
                                         </div>
                                     </div>

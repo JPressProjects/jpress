@@ -146,7 +146,6 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-
     @AdminMenu(text = "专题", groupId = "article", order = 3)
     public void subject() {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
@@ -183,6 +182,11 @@ public class _ArticleController extends AdminControllerBase {
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
         articleCategoryService.saveOrUpdate(category);
+        renderJson(Ret.ok());
+    }
+
+    public void doCategoryDel() {
+        articleCategoryService.deleteById(getIdPara());
         renderJson(Ret.ok());
     }
 

@@ -35,6 +35,8 @@ public class PageController extends TemplateControllerBase {
             return;
         }
 
+        setAttr("page", page);
+
         render("page_index.html");
     }
 

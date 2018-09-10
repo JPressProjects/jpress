@@ -37,13 +37,12 @@ public class Template {
 
     }
 
-    public Template(String propertiesFile) {
+    public Template(String propertiesFilePath) {
 
+        File propertiesFile = new File(propertiesFilePath);
+        Prop prop = new Prop(propertiesFile, "utf-8");
 
-        File pFile = new File(propertiesFile);
-        Prop prop = new Prop(pFile, "utf-8");
-
-        this.folder = pFile.getParentFile().getName();
+        this.folder = propertiesFile.getParentFile().getName();
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -53,7 +52,7 @@ public class Template {
         this.version = prop.get("version");
         this.versionCode = prop.getInt("versionCode", 0);
         this.updateUrl = prop.get("updateUrl");
-        this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot");
+        this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot", "screenshot.png");
     }
 
 
@@ -140,5 +139,9 @@ public class Template {
 
     public String getAbsolutePath() {
         return PathKit.getWebRootPath() + "/templates/" + folder;
+    }
+
+    public String getWebAbsolutePath() {
+        return "/templates/" + folder;
     }
 }

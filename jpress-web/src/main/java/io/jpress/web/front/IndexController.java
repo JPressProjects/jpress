@@ -1,8 +1,6 @@
 package io.jpress.web.front;
 
-import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressAppConfig;
 import io.jpress.web.base.TemplateControllerBase;
 
 /**
@@ -13,9 +11,13 @@ import io.jpress.web.base.TemplateControllerBase;
 @RequestMapping("/")
 public class IndexController extends TemplateControllerBase {
 
-    private static JPressAppConfig config = Jboot.config(JPressAppConfig.class);
-
     public void index() {
-        forwardAction(config.getIndexAction());
+
+        if ("/".equals(getRequest().getRequestURI())) {
+            render("index.html");
+            return;
+        }
+
+        forwardAction("/page");
     }
 }

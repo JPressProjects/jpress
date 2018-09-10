@@ -172,13 +172,7 @@ public class _ArticleController extends AdminControllerBase {
     public void subject() {
         List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
         setAttr("categories", categories);
-        render("article/subject.html");
-    }
 
-    public void subjectedit() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
-        CategoryKits.toLayerCategories(categories);
-        setAttr("categories", categories);
         int id = getParaToInt(0, 0);
         if (id > 0) {
             for (ArticleCategory category : categories) {
@@ -187,22 +181,23 @@ public class _ArticleController extends AdminControllerBase {
                 }
             }
         }
-        render("article/subject_edit.html");
-    }
 
-
-    public void subjectSave() {
-        ArticleCategory category = getModel(ArticleCategory.class, "");
-        articleCategoryService.saveOrUpdate(category);
-        redirect("/admin/article/subject");
+        render("article/subject.html");
     }
 
 
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
-        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_TAG);
-        setAttr("categories", categories);
+        Page<ArticleCategory> page = articleCategoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
+        setAttr("page", page);
         render("article/tag.html");
+    }
+
+
+    public void doSubjectSave() {
+        ArticleCategory category = getBean(ArticleCategory.class, "category");
+        articleCategoryService.saveOrUpdate(category);
+        renderJson(Ret.ok());
     }
 
 

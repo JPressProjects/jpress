@@ -96,22 +96,21 @@
                             <tbody>
                             <tr>
                                 <th style="width: 30%">标题</th>
-                                <th>Slug</th>
                                 <th>描述</th>
                                 <th>排序</th>
                             </tr>
-                            #for(category : categories)
-                            <tr  class="jp-actiontr">
+                            #for(category : page.list)
+                            <tr class="jp-actiontr">
                                 <td>#(category.layerString)#(category.title)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/category/#(category.id)" style="color: #006505">编辑</a> |
+                                            <a href="/admin/article/category/#(category.id)"
+                                               style="color: #006505">编辑</a> |
                                             <a href="#" style="color: #a00">删除</a> |
                                             <a href="#" style="color: #a00">查看</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(category.slug ??)</td>
                                 <td>#(category.content ??)</td>
                                 <td>#(category.order_number ??)</td>
                             </tr>
@@ -123,6 +122,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

@@ -41,4 +41,15 @@ public abstract class AdminControllerBase extends JbootController {
     public int getPagePara() {
         return getParaToInt("page", 1);
     }
+
+    public Long getIdPara() {
+        Long id = getParaToLong();
+        if (id == null) {
+
+            //renderError 会直接抛出异常，阻止程序往下执行
+            renderError(404);
+        }
+
+        return id;
+    }
 }

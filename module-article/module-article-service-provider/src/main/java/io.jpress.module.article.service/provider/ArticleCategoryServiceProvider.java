@@ -1,6 +1,7 @@
 package io.jpress.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
@@ -23,6 +24,12 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     public List<ArticleCategory> findListByType(String type) {
         return DAO.findListByColumn("type", type);
     }
+
+    @Override
+    public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
+        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "id desc");
+    }
+
 
     @Override
     public List<ArticleCategory> findTagListByArticleId(long articleId) {

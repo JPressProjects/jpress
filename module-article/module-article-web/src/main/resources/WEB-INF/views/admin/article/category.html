@@ -1,4 +1,27 @@
 #@layout()
+#define script()
+<script>
+    $('#form').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    toastr.options.onHidden = function () {
+                        location.href = "/admin/article/category";
+                    }
+                    toastr.success('保存成功。');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    });
+</script>
+#end
 #define content()
 <div class="content-wrapper">
 
@@ -24,24 +47,26 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" action="/admin/article/categorySave"
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/article/doCategorySave"
+                          id="form"
                           method="post">
-                        <input type="hidden" name="id" value="#(category.id ??)">
-                        <input type="hidden" name="type" value="category">
+                        <input type="hidden" name="category.id" value="#(category.id ??)">
+                        <input type="hidden" name="category.type" value="category">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名称</label>
 
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="取个适合的分类名称..."
-                                           value="#(category.title ??)" name="title">
+                                           value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">父级</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="pid">
+                                    <select class="form-control" name="category.pid">
                                         #if(category && category.pid == 0)
                                         <option value="0" selected>顶级</option>
                                         #else
@@ -60,20 +85,21 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">slug</label>
 
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="slug会显示在网址上..."
-                                           value="#(category.slug ??)" name="slug">
+                                           value="#(category.slug ??)" name="category.slug">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">排序</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此分类排序的序号">
+                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
+                                           value="#(category.order_number ??)"
+                                           name="category.order_number">
                                     <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
                                 </div>
 
@@ -82,14 +108,18 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">内容</label>
                                 <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="category.content">#(category.content ??)</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">摘要</label>
                                 <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="category.summary">#(category.summary ??)</textarea>
                                 </div>
                             </div>
 
@@ -101,14 +131,17 @@
 
                                 <div class="col-sm-9">
                                     <textarea rows="3" class="form-control"
-                                              placeholder="此内容会显示在搜索引擎的列表描述上..."></textarea>
+                                              placeholder="此内容会显示在搜索引擎的列表描述上..."
+                                              name="category.meta_description">#(category.meta_description ??)</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">关键字</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="多个关键字用逗号隔开">
+                                    <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
+                                           name="category.meta_keywords"
+                                           value="#(category.meta_keywords ??)">
                                 </div>
                             </div>
                         </div>
@@ -142,11 +175,12 @@
                                 <th>排序</th>
                             </tr>
                             #for(category : categories)
-                            <tr  class="jp-actiontr">
+                            <tr class="jp-actiontr">
                                 <td>#(category.layerString)#(category.title)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/category/#(category.id)" style="color: #006505">编辑</a> |
+                                            <a href="/admin/article/category/#(category.id)"
+                                               style="color: #006505">编辑</a> |
                                             <a href="#" style="color: #a00">删除</a> |
                                             <a href="#" style="color: #a00">查看</a>
                                         </div>

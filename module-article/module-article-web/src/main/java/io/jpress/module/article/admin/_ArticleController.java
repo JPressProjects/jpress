@@ -146,27 +146,6 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-//    public void categoryedit() {
-//        List<ArticleCategory> categories = articleCategoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-//        CategoryKits.toLayerCategories(categories);
-//        setAttr("categories", categories);
-//        int id = getParaToInt(0, 0);
-//        if (id > 0) {
-//            for (ArticleCategory category : categories) {
-//                if (category.getId() == id) {
-//                    setAttr("category", category);
-//                }
-//            }
-//        }
-//        render("article/category_edit.html");
-//    }
-
-    public void categorySave() {
-        ArticleCategory category = getModel(ArticleCategory.class, "");
-        articleCategoryService.saveOrUpdate(category);
-        redirect("/admin/article/category");
-    }
-
 
     @AdminMenu(text = "专题", groupId = "article", order = 3)
     public void subject() {
@@ -190,12 +169,19 @@ public class _ArticleController extends AdminControllerBase {
     public void tag() {
         Page<ArticleCategory> page = articleCategoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
         setAttr("page", page);
+
+        int id = getParaToInt(0, 0);
+        if (id > 0) {
+            setAttr("category", articleCategoryService.findById(id));
+
+        }
+
         render("article/tag.html");
     }
 
 
-    public void doSubjectSave() {
-        ArticleCategory category = getBean(ArticleCategory.class, "category");
+    public void doCategorySave() {
+        ArticleCategory category = getModel(ArticleCategory.class, "category");
         articleCategoryService.saveOrUpdate(category);
         renderJson(Ret.ok());
     }

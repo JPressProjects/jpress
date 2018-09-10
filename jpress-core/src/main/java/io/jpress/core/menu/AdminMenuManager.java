@@ -62,7 +62,7 @@ public class AdminMenuManager {
 
 
         AdminMenuGroup wechatMenuGroup = new AdminMenuGroup();
-        wechatMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT);
+        wechatMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
         systemMenus.add(wechatMenuGroup);
 
@@ -79,12 +79,16 @@ public class AdminMenuManager {
         systemMenus.add(settingMenuGroup);
 
 
+//        AdminMenuGroup wechatMiniprogramMenuGroup = new AdminMenuGroup();
+//        wechatMiniprogramMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_MINI_PROGRAM);
+//        wechatMiniprogramMenuGroup.setText("小程序");
+//        systemMenus.add(wechatMiniprogramMenuGroup);
+
+
 //        AdminMenuGroup toolMenuGroup = new AdminMenuGroup();
 //        toolMenuGroup.setId(JPressConstants.SYSTEM_MENU_TOOL);
 //        toolMenuGroup.setText("工具");
 //        systemMenus.add(toolMenuGroup);
-
-
 
 
     }

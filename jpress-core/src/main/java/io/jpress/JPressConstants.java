@@ -18,7 +18,8 @@ public class JPressConstants {
     //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";
     public static final String SYSTEM_MENU_FINANCE = "finance";
-    public static final String SYSTEM_MENU_WECHAT = "wechat";
+    public static final String SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT = "wechat_pubulic_account";
+    public static final String SYSTEM_MENU_WECHAT_MINI_PROGRAM = "wechat_mini_program";
 
 
     public static final String OPTION_WEB_NAME = "web_name";

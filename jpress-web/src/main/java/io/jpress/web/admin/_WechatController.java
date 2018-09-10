@@ -23,24 +23,24 @@ public class _WechatController extends AdminControllerBase {
     private WechatReplayService wrs;
 
 
-    @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 1)
+    @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
     public void base() {
         render("wechat/setting_base.html");
     }
 
 
-    @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 2)
+    @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
     public void menu() {
         render("wechat/menu.html");
     }
 
-    @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 10)
+    @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
     public void replay() {
         render("wechat/replay_base.html");
     }
 
 
-    @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 11)
+    @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
         Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
         setAttr("page", page);
@@ -58,15 +58,9 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "素材管理", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 13)
-    public void material() {
-        render("user.html");
-    }
-
-
-    @AdminMenu(text = "小程序", groupId = JPressConstants.SYSTEM_MENU_WECHAT, order = 20)
-    public void miniprogram() {
-        render("wechat/menu.html");
+    @AdminMenu(text = "其他设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 13)
+    public void other() {
+        render("wechat/setting_other.html");
     }
 
 

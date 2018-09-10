@@ -1,4 +1,4 @@
-package io.jpress.core.module.article.service;
+package io.jpress.module.article.service;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -105,7 +105,6 @@ public interface ArticleService {
 
 
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
-
 
 
 }

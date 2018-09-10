@@ -1,9 +1,9 @@
-package io.jpress.core.module.article.service.provider;
+package io.jpress.module.article.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jpress.core.module.article.service.ArticleCategoryMappingService;
-import io.jpress.module.article.model.ArticleCategoryMapping;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.module.article.model.ArticleCategoryMapping;
+import io.jpress.module.article.service.ArticleCategoryMappingService;
 
 import javax.inject.Singleton;
 

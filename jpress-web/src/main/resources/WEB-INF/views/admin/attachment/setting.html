@@ -7,11 +7,6 @@
             附件设置
             <small>Attachment Setting</small>
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li>附件</li>
-            <li class="active">设置</li>
-        </ol>
     </section>
 
     <section class="content">
@@ -66,8 +61,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">水印图片</label>
+                                <label class="col-sm-2 control-label">透明度</label>
 
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="...">
+                                    <p class="help-block"> 请填写0~1的数字，默认为1不透明 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">水印图片</label>
                                 <div class="col-sm-6">
                                     <button type="button" id="jp-image-browser" for-src="waterimg"
                                             class="btn btn-primary">选择图片

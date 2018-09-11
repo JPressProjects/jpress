@@ -19,14 +19,9 @@
 
     <section class="content-header">
         <h1>
-            菜单管理
-            <small>Menu Management</small>
+            微信公众号菜单
+            <small>Wechat Menu Management</small>
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li><a href="#">模板</a></li>
-            <li class="active">菜单</li>
-        </ol>
     </section>
 
     <section class="content">
@@ -79,7 +74,7 @@
                                     <input type="input" class="form-control" placeholder="slug会显示在网址上..."
                                            value="#(menu.url ??)" name="menu.url">
                                     <p class="help-block">
-                                    填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。
+                                        填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。
                                     </p>
                                 </div>
                             </div>
@@ -136,7 +131,8 @@
                 <div class="box box-primary">
 
                     <div class="box-header with-border">
-                        <button type="button" class="btn btn-primary pull-right"> <i class="fa fa-fw fa-plus"></i> 同步到微信</button>
+                        <button type="button" class="btn btn-primary pull-right"><i class="fa fa-fw fa-plus"></i> 同步到微信
+                        </button>
                     </div>
 
                     <div class="box-body no-padding ">
@@ -157,7 +153,8 @@
                                         <div class="jp-actionitem">
                                             <a href="/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
                                             <a href="#(menu.url ??)" target="_blank" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="del('#(menu.id??)')" style="color: #a00">删除</a>
+                                            <a href="javascript:;" onclick="del('#(menu.id??)')"
+                                               style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>

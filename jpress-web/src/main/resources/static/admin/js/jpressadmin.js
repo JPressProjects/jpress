@@ -30,7 +30,7 @@ function initImageBrowserButton() {
             anim: 2,
             shadeClose: true,
             shade: 0.5,
-            area: ['80%', '70%'],
+            area: ['80%', '80%'],
             content: '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
@@ -146,6 +146,9 @@ function editorUpdate() {
         CKEDITOR.instances[instance].updateElement();
 }
 
+
+var dialogShowEvent;
+
 function initEditor(editor) {
     CKEDITOR.config.toolbar =
         [
@@ -163,16 +166,58 @@ function initEditor(editor) {
         ];
 
 
-    CKEDITOR.replace(editor, {
+    var ed = CKEDITOR.replace(editor, {
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: 467,
-        filebrowserImageUploadUrl: '/ckeditor/upload',
+        filebrowserImageUploadUrl: '/admin/ckeditor/upload',
         filebrowserBrowseUrl: '/admin/attachment/browse',
         language: 'zh-cn'
     });
 
+    ed.on("dialogShow", function (event) {
+        if (dialogShowEvent != null) {
+            return;
+        }
 
+        dialogShowEvent = event;
+
+        event.data.getContentElement("info", "browse").removeAllListeners();
+        event.data.getContentElement("Link", "browse").removeAllListeners();
+
+        $(".cke_dialog_ui_button").each(function () {
+            //"浏览服务器" == $(this).attr("title") ||
+            if ("浏览服务器" == $(this).text()) {
+                $(this).off("click");
+                $(this).on("click", function (e) {
+                    e.stopPropagation();
+                    openlayer(event);
+                    return false;
+                })
+            } else {
+                $(this).off("click");
+            }
+        })
+
+    });
+}
+
+function openlayer(ed) {
+    layer.open({
+        type: 2,
+        title: '选择图片',
+        anim: 2,
+        shadeClose: true,
+        shade: 0.5,
+        area: ['80%', '80%'],
+        content: '/admin/attachment/browse',
+        end: function () {
+            if (layer.data.src != null) {
+                ed.data.getContentElement('info', 'txtUrl').setValue(layer.data.src);
+                ed.data.getContentElement('Link', 'txtUrl').setValue(layer.data.src);
+            }
+        }
+    });
 }
 
 function initOptionSubmit() {

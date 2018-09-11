@@ -52,12 +52,9 @@ public class _AttachmentController extends AdminControllerBase {
         render("attachment/browse.html");
     }
 
+
     public void detail() {
-        Long id = getParaToLong();
-        if (id == null) {
-            renderError(404);
-            return;
-        }
+        Long id = getIdPara();
 
         Attachment attachment = as.findById(id);
 

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by michael on 16/11/30.
  */
-@RequestMapping("/ckeditor")
+@RequestMapping("/admin/ckeditor")
 public class _CKEditorController extends AdminControllerBase {
 
     public void index() {

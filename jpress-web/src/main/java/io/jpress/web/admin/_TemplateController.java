@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -82,9 +84,14 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)
     public void edit() {
 
-        render("template/edit.html");
-
         String dirName = getPara("d");
+        //防止浏览非模板目录之外的其他目录
+        if (dirName != null && dirName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        render("template/edit.html");
         String editFileName = getPara("f", "index.html");
 
 
@@ -112,16 +119,52 @@ public class _TemplateController extends AdminControllerBase {
 
         setAttr("d", dirName);
         setAttr("f", editFile.getName());
-
         setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
+
+        setParentDirAttr(dirName);
     }
 
-    private FileInfo[] doGetFileInfos(File[] files) {
-        FileInfo[] fileInfos = new FileInfo[files.length];
-        for (int i = 0; i < fileInfos.length; i++) {
-            fileInfos[i] = new FileInfo(files[i]);
+    private void setParentDirAttr(String dirName) {
+        if (StringUtils.isBlank(dirName)
+                || "/".equals(dirName)
+                || "./".equals(dirName)) {
+            return;
         }
-        return fileInfos;
+
+        if (!dirName.contains("/")) {
+            setAttr("parentDir", "");
+        } else {
+            if (dirName.endsWith("/")) {
+                dirName = dirName.substring(0, dirName.lastIndexOf("/"));
+            }
+            setAttr("parentDir", dirName.substring(0, dirName.lastIndexOf("/")));
+        }
+    }
+
+    private List<FileInfo> doGetFileInfos(File[] files) {
+        List<FileInfo> fileInfoList = new ArrayList<>();
+        for (File file : files) {
+            fileInfoList.add(new FileInfo(file));
+        }
+
+        fileInfoList.sort(new Comparator<FileInfo>() {
+            @Override
+            public int compare(FileInfo o1, FileInfo o2) {
+
+                if (o1.isDir() && !o2.isDir())
+                    return -1;
+                if (!o1.isDir() && o2.isDir())
+                    return 1;
+
+                if (o2.getName().equals("index.html")) {
+                    return 1;
+                }
+
+                return o2.getName().compareTo(o1.getName());
+            }
+        });
+
+        return fileInfoList;
     }
 
     private File getEditFile(String editFileName, File[] files) {

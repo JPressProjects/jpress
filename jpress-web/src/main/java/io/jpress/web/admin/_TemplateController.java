@@ -82,8 +82,11 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)
     public void edit() {
 
+        render("template/edit.html");
+
         String dirName = getPara("d");
         String editFileName = getPara("f", "index.html");
+
 
         Template template = TemplateManager.me().getCurrentTemplate();
         setAttr("template", template);
@@ -95,19 +98,30 @@ public class _TemplateController extends AdminControllerBase {
 
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
-                || file.getName().endsWith(".js"));
-        setAttr("files", files);
+                || file.getName().endsWith(".js")
+                || file.isDirectory());
+
+        setAttr("files", doGetFileInfos(files));
 
         if (ArrayUtils.isNullOrEmpty(files)) {
-            render("template/edit.html");
             return;
         }
 
 
         File editFile = StringUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
-        setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
 
-        render("template/edit.html");
+        setAttr("d", dirName);
+        setAttr("f", editFile.getName());
+
+        setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
+    }
+
+    private FileInfo[] doGetFileInfos(File[] files) {
+        FileInfo[] fileInfos = new FileInfo[files.length];
+        for (int i = 0; i < fileInfos.length; i++) {
+            fileInfos[i] = new FileInfo(files[i]);
+        }
+        return fileInfos;
     }
 
     private File getEditFile(String editFileName, File[] files) {
@@ -125,7 +139,7 @@ public class _TemplateController extends AdminControllerBase {
 
         String dirName = getPara("d");
 
-        if (dirName != null) {
+        if (StringUtils.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
         }
 
@@ -176,6 +190,22 @@ public class _TemplateController extends AdminControllerBase {
 
         ms.deleteById(id);
         renderJson(Ret.ok());
+    }
+
+    public static class FileInfo {
+        private File file;
+
+        public FileInfo(File file) {
+            this.file = file;
+        }
+
+        public String getName() {
+            return file.getName();
+        }
+
+        public boolean isDir() {
+            return file.isDirectory();
+        }
     }
 
 

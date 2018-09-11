@@ -30,8 +30,8 @@
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/eclipse");
 
-    var editFileName = "index.js";
-    var model = "ace/mode/javascript";
+    var editFileName = "index.html";
+    var model = "ace/mode/html";
 
     if (editFileName.indexOf(".css") != -1) {
         model = "ace/mode/css";
@@ -48,7 +48,7 @@
             type: "post",
             dataType: "json",
             success: function (data) {
-                if (data.errorCode == 0) {
+                if (data.state == "ok") {
                     toastr.success('保存成功！', '操作成功');
                 } else {
                     toastr.error(data.message, '操作失败');
@@ -94,6 +94,11 @@
     </section>
 
     <section class="content">
+        <form id="form" action="/admin/template/doEditSave" method="post">
+            <input type="hidden" name="fileContent" id="fileContent">
+            <input type="hidden" name="d" value="#(d ??)">
+            <input type="hidden" name="f" value="#(f ??)">
+        </form>
 
         <div class="row">
             <div class="col-xs-9">
@@ -101,6 +106,7 @@
                     <form class="form-horizontal" autocomplete="off">
                         <div class="box-body no-padding">
                             <div id="editor">#(editFileContent ??)</div>
+
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
@@ -130,7 +136,17 @@
                                         <tbody>
                                         #for(file : files)
                                         <tr>
-                                            <th>#(file ??)</th>
+                                            <th>
+                                                #if(!file.isDir())
+                                                <a href="/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
+                                                    #(file.name ??)
+                                                </a>
+                                                #else
+                                                <a href="/admin/template/edit?d=#(file.name ??)">
+                                                    #(file.name ??)
+                                                </a>
+                                                #end
+                                            </th>
                                         </tr>
                                         #end
                                         </tbody>

@@ -1,4 +1,4 @@
-package io.jpress.module.article.directives;
+package io.jpress.module.article.directive;
 
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;

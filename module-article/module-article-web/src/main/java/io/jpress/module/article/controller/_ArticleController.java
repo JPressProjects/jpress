@@ -1,4 +1,4 @@
-package io.jpress.module.article.admin;
+package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;

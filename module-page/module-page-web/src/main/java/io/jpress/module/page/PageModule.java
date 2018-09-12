@@ -12,6 +12,6 @@ public class PageModule {
     public static final Module pageModule = new Module();
 
     static {
-        pageModule.addMenuGroup("page", "页面", "", 99);
+        pageModule.addMenuGroup("page", "页面", "<i class=\"fa fa-fw fa-file\"></i>", 99);
     }
 }

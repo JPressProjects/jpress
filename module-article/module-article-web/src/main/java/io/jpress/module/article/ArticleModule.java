@@ -12,6 +12,6 @@ public class ArticleModule {
     public static final Module articleModule = new Module();
 
     static {
-        articleModule.addMenuGroup("article", "文章", "", 1);
+        articleModule.addMenuGroup("article", "文章", "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
     }
 }

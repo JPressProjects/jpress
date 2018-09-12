@@ -58,24 +58,28 @@ public class AdminMenuManager {
         AdminMenuGroup userMenuGroup = new AdminMenuGroup();
         userMenuGroup.setId(JPressConstants.SYSTEM_MENU_USER);
         userMenuGroup.setText("用户");
+        userMenuGroup.setIcon("<i class=\"fa fa-fw fa-user\"></i>");
         systemMenus.add(userMenuGroup);
 
 
         AdminMenuGroup wechatMenuGroup = new AdminMenuGroup();
         wechatMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
+        wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
         systemMenus.add(wechatMenuGroup);
 
 
         AdminMenuGroup templateMenuGroup = new AdminMenuGroup();
         templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_TEMPLATE);
         templateMenuGroup.setText("模板");
+        templateMenuGroup.setIcon("<i class=\"fa fa-magic\"></i>");
         systemMenus.add(templateMenuGroup);
 
 
         AdminMenuGroup settingMenuGroup = new AdminMenuGroup();
         settingMenuGroup.setId(JPressConstants.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");
+        settingMenuGroup.setIcon("<i class=\"fa fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
 
 
@@ -105,6 +109,7 @@ public class AdminMenuManager {
         AdminMenuGroup attachmentMenuGroup = new AdminMenuGroup();
         attachmentMenuGroup.setId(JPressConstants.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
+        attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
         moduleMenus.add(attachmentMenuGroup);
     }
 

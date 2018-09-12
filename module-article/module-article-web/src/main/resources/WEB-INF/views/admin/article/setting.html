@@ -30,9 +30,8 @@
                     <div class="box-header ">
                         <h3 class="box-title"></h3>
                     </div>
-                    <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off">
+                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
 
 
@@ -41,16 +40,28 @@
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-6">
                                     <div class="switchery-item">
-                                        <input type="checkbox" checked class="switchery"> 开启评论功能
+                                        <input type="checkbox" class="switchery" data-for="article_comment_enable"
+                                               #checkedIf(option("article_comment_enable"))>
+                                        <input type="hidden" id="article_comment_enable" name="article_comment_enable">
+                                        开启评论功能
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkbox" checked class="switchery"> 允许未登录用户发表评论
+                                        <input type="checkbox" class="switchery"
+                                               data-for="article_comment_unlogin_enable" #checkedIf(option("article_comment_unlogin_enable"))>
+                                        <input type="hidden" id="article_comment_unlogin_enable"
+                                               name="article_comment_unlogin_enable"> 允许未登录用户发表评论
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkbox" checked class="switchery"> 评论必须经过管理员审核
+                                        <input type="checkbox" class="switchery"
+                                               data-for="article_comment_review_enable" #checkedIf(option("article_comment_review_enable"))>
+                                        <input type="hidden" id="article_comment_review_enable"
+                                               name="article_comment_review_enable"> 评论必须经过管理员审核
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkbox" checked class="switchery"> 启用评论验证码功能
+                                        <input type="checkbox" class="switchery" data-for="article_comment_vcode_enable"
+                                               #checkedIf(option("article_comment_vcode_enable"))>
+                                        <input type="hidden" id="article_comment_vcode_enable"
+                                               name="article_comment_vcode_enable"> 启用评论验证码功能
                                     </div>
                                 </div>
                             </div>
@@ -60,20 +71,28 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
+                                    <input type="checkbox" class="switchery"
+                                           data-for="article_comment_email_notify_enable"
+                                           #checkedIf(option("article_comment_email_notify_enable"))>
+                                    <input type="hidden" id="article_comment_email_notify_enable"
+                                           name="article_comment_email_notify_enable">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">通知邮箱</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：email@jpress.io">
+                                    <input type="input" class="form-control" placeholder="例如：email@jpress.io"
+                                           name="article_comment_email_notify_address"
+                                           value="#option('article_comment_email_notify_address')">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
-                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="article_comment_email_notify_template">#option('article_comment_email_notify_template')</textarea>
+                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    </p>
                                 </div>
                             </div>
 
@@ -82,20 +101,28 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" checked class="switchery">
+                                    <input type="checkbox" class="switchery"
+                                           data-for="article_comment_sms_notify_enable"
+                                           #checkedIf(option("article_comment_sms_notify_enable"))>
+                                    <input type="hidden" id="article_comment_sms_notify_enable"
+                                           name="article_comment_sms_notify_enable">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">通知手机号</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：18612345678">
+                                    <input type="input" class="form-control" placeholder="例如：18612345678"
+                                           name="article_comment_sms_notify_address"
+                                           value="#option('article_comment_sms_notify_address')">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."></textarea>
-                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="article_comment_sms_notify_template">#option('article_comment_sms_notify_template')</textarea>
+                                    <p class="help-block"> 请先在 <a href="/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    </p>
                                 </div>
                             </div>
 

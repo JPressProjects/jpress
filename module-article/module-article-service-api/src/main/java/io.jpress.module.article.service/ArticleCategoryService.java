@@ -100,6 +100,8 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByType(String type);
 
+    public List<ArticleCategory> findListByType(long articleId, String type);
+
     public Page<ArticleCategory> paginateByType(int page, int pagesize, String type);
 
     public List<ArticleCategory> findTagListByArticleId(long articleId);

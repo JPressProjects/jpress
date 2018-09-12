@@ -154,9 +154,9 @@
 
                                 </td>
                                 <td>#(article.user.nickname ??)</td>
-                                <td>#(article.categorys ??)</td>
-                                <td>#(article.subjects ??)</td>
-                                <td>#(article.tags ??)</td>
+                                <td>#articleCategory(article.id,"category")</td>
+                                <td>#articleCategory(article.id,"subject")</td>
+                                <td>#articleCategory(article.id,"tag")</td>
                                 <td>#(article.comment_count ??)</td>
                                 <td>#(article.created ??)</td>
                             </tr>

@@ -26,6 +26,24 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
+    public List<ArticleCategory> findListByType(long articleId, String type) {
+        List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
+        if (mappings == null || mappings.isEmpty()) {
+            return null;
+        }
+
+        List<ArticleCategory> categoryList = new ArrayList<>();
+        for (Record mapping : mappings) {
+            ArticleCategory articleCategory = DAO.findById((long) mapping.get("category_id"));
+            if (articleCategory != null && type.equals(articleCategory.getType())) {
+                categoryList.add(articleCategory);
+            }
+        }
+
+        return categoryList;
+    }
+
+    @Override
     public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
         return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "id desc");
     }

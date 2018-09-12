@@ -65,14 +65,6 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("order_number");
 	}
 
-	public void setIp(java.lang.String ip) {
-		set("ip", ip);
-	}
-	
-	public java.lang.String getIp() {
-		return getStr("ip");
-	}
-
 	public void setAuthor(java.lang.String author) {
 		set("author", author);
 	}
@@ -81,28 +73,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getStr("author");
 	}
 
-	public void setType(java.lang.String type) {
-		set("type", type);
-	}
-	
-	public java.lang.String getType() {
-		return getStr("type");
-	}
-
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}
 	
 	public java.lang.String getContent() {
 		return getStr("content");
-	}
-
-	public void setAgent(java.lang.String agent) {
-		set("agent", agent);
-	}
-	
-	public java.lang.String getAgent() {
-		return getStr("agent");
 	}
 
 	public void setCreated(java.util.Date created) {

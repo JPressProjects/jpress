@@ -47,6 +47,26 @@
                                 </div>
                             </div>
 
+                            <h4 class="page-header">伪静态</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用伪静态</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_fakestatic_enable"
+                                           #checkedIf(option("seo_fakestatic_enable"))>
+                                    <input type="hidden" id="seo_fakestatic_enable" name="seo_fakestatic_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">伪静态后缀</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：.html"
+                                           name="seo_fakestatic_suffix" value="#option('seo_fakestatic_suffix')">
+                                    <p class="help-block"> 以英文的点（.）开头，例如：.html </p>
+                                </div>
+                            </div>
+
 
                         </div>
                         <!-- /.box-body -->

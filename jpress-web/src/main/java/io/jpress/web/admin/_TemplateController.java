@@ -91,8 +91,13 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        render("template/edit.html");
         String editFileName = getPara("f", "index.html");
+        if (editFileName.contains("/") || editFileName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        render("template/edit.html");
 
 
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -178,18 +183,34 @@ public class _TemplateController extends AdminControllerBase {
 
 
     public void doEditSave() {
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
 
         String dirName = getPara("d");
+        String fileName = getPara("f");
+
+        //防止浏览非模板目录之外的其他目录
+        if (dirName != null && dirName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        if (fileName.contains("/") || fileName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+
+        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
 
         if (StringUtils.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
         }
 
-        String fileName = getPara("f");
 
-        // 没有用getPara原因是，getPara因为安全问题会过滤某些html元素。
-        String fileContent = getRequest().getParameter("fileContent");
+        String fileContent = getPara("fileContent");
+        if (StringUtils.isBlank(fileContent)) {
+            renderJson(Ret.fail().set("message", "不能存储空内容"));
+            return;
+        }
 
         fileContent = StringEscapeUtils.unescapeHtml(fileContent);
 

@@ -49,7 +49,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.state == "ok") {
-                    toastr.success('保存成功！', '操作成功');
+                    toastr.success('保存成功！');
                 } else {
                     toastr.error(data.message, '操作失败');
                 }

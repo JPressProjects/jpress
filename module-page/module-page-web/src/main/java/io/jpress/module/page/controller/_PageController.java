@@ -30,7 +30,7 @@ public class _PageController extends AdminControllerBase {
         Page<SinglePage> page =
                 status == null
                         ? sps.paginateWithoutTrash(getPagePara(), 10)
-                        : sps.paginateByStatus(getPagePara(),10, status);
+                        : sps.paginateByStatus(getPagePara(), 10, status);
 
         setAttr("page", page);
 
@@ -73,24 +73,24 @@ public class _PageController extends AdminControllerBase {
     }
 
 
-    public void del() {
-        Long id = getParaToLong();
+    public void doDel() {
+        Long id = getIdPara();
         render(sps.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
 
-    public void trash() {
-        Long id = getParaToLong();
+    public void doTrash() {
+        Long id = getIdPara();
         render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? Ret.ok() : Ret.fail());
     }
 
-    public void draft() {
-        Long id = getParaToLong();
+    public void doDraft() {
+        Long id = getIdPara();
         render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
     }
 
-    public void normal() {
-        Long id = getParaToLong();
+    public void doNormal() {
+        Long id = getIdPara();
         render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
     }
 }

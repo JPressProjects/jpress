@@ -36,8 +36,24 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
-        Page<Article> page = articleService.paginate(getPagePara(), 10);
+        String status = getPara("s");
+
+        Page<Article> page =
+                status == null
+                        ? articleService.paginateWithoutTrash(getPagePara(), 10)
+                        : articleService.paginateByStatus(getPagePara(), 10, status);
+
         setAttr("page", page);
+
+        int draftCount = articleService.findCountByStatus(Article.STATUS_DRAFT);
+        int trashCount = articleService.findCountByStatus(Article.STATUS_TRASH);
+        int normalCount = articleService.findCountByStatus(Article.STATUS_NORMAL);
+
+        setAttr("draftCount", draftCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", draftCount + trashCount + normalCount);
+
         render("article/list.html");
     }
 
@@ -206,6 +222,28 @@ public class _ArticleController extends AdminControllerBase {
     @AdminMenu(text = "设置", groupId = "article", order = 6)
     public void setting() {
         render("article/setting.html");
+    }
+
+
+    public void doDel() {
+        Long id = getIdPara();
+        render(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+
+    public void doTrash() {
+        Long id = getIdPara();
+        render(articleService.doChangeStatus(id, Article.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doDraft() {
+        Long id = getIdPara();
+        render(articleService.doChangeStatus(id, Article.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doNormal() {
+        Long id = getIdPara();
+        render(articleService.doChangeStatus(id, Article.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
     }
 
 }

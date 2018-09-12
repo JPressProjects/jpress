@@ -1,4 +1,51 @@
 #@layout()
+#define script()
+<script>
+
+    function trash(id) {
+        $.get("/admin/article/doTrash/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+
+    function draft(id) {
+        $.get("/admin/article/doDraft/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function normal(id) {
+        $.get("/admin/article/doNormal/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function del(id) {
+        $.get("/admin/article/doDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -10,7 +57,10 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (24)</a> | <a href="">已发布 (22)</a> | <a href="">草稿 (2)</a> | <a href="">垃圾箱 (0)</a>
+        <a href="/admin/article">全部 (#(totalCount ??))</a> |
+        <a href="?s=normal">已发布 (#(normalCount ??))</a> |
+        <a href="?s=draft">草稿 (#(draftCount ?? 0))</a> |
+        <a href="?s=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -74,16 +124,36 @@
                                 </td>
                                 <td>
                                     <a href="/admin/article/write/#(article.id)">#(article.title ??)</a>
+                                    #if(article.isDraft())
+                                    （草稿）
+                                    #end
                                     <div class="jp-actionblock">
+                                        #if(article.isNormal())
                                         <div class="jp-actionitem">
-                                            <a href="#" style="color: #006505">编辑</a> | <a href="#"
-                                                                                           style="color: #006505">草稿</a>
-                                            | <a href="#" style="color: #a00">垃圾箱</a> | <a href="#" style="color: #a00">查看</a>
+                                            <a href="/admin/article/write/#(article.id)" style="color: #006505">编辑</a> |
+                                            <a href="#" target="_blank" style="color: #006505">查看</a> |
+                                            <a href="javascript:;" onclick="draft('#(article.id??)')" style="color: #006505">草稿</a>
+                                            |
+                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
+                                               style="color: #a00">垃圾箱</a>
                                         </div>
+                                        #elseif(article.isDraft())
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/article/write/#(article.id)" style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
+                                               style="color: #a00">垃圾箱</a>
+                                        </div>
+                                        #else
+                                        <div class="jp-actionitem">
+                                            <a href="javascript:;" onclick="draft('#(article.id??)')" style="color: #006505">还原</a>
+                                            |
+                                            <a href="javascript:;" onclick="del('#(article.id??)')" style="color: #a00">永久删除</a>
+                                        </div>
+                                        #end
                                     </div>
 
                                 </td>
-                                <td>#(article.author ??)</td>
+                                <td>#(article.user.nickname ??)</td>
                                 <td>#(article.categorys ??)</td>
                                 <td>#(article.subjects ??)</td>
                                 <td>#(article.tags ??)</td>

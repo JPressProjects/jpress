@@ -107,4 +107,17 @@ public interface ArticleService {
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
 
 
+    public Page<Article> paginateByStatus(int page, int pagesize, String status);
+
+
+    public Page<Article> paginateWithoutTrash(int page, int pagesize);
+
+    public boolean doChangeStatus(long id, String status);
+
+    public int findCountByStatus(String status);
+
+
+    public Article findFirstBySlug(String slug);
+
+
 }

@@ -5,10 +5,12 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.service.UserService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,9 +25,15 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Inject
     private ArticleCategoryService acs;
 
+    @Inject
+    private UserService userService;
+
     @Override
     public Page<Article> paginate(int page, int pagesize) {
-        return DAO.paginate(page, pagesize);
+        Page<Article> articlePage = DAO.paginate(page, pagesize, "id desc");
+        userService.join(articlePage, "user_id");
+
+        return articlePage;
     }
 
     @Override
@@ -56,6 +64,39 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 return true;
             }
         });
+    }
+
+    @Override
+    public Page<Article> paginateByStatus(int page, int pagesize, String status) {
+        return DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", status),
+                "id desc");
+    }
+
+    @Override
+    public Page<Article> paginateWithoutTrash(int page, int pagesize) {
+        return DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", Article.STATUS_TRASH, Column.LOGIC_NOT_EQUALS),
+                "id desc");
+    }
+
+    @Override
+    public boolean doChangeStatus(long id, String status) {
+        Article article = findById(id);
+        article.setStatus(status);
+        return article.update();
+    }
+
+    @Override
+    public int findCountByStatus(String status) {
+        return Db.queryInt("select count(*) from article where status = ?", status);
+    }
+
+    @Override
+    public Article findFirstBySlug(String slug) {
+        return DAO.findFirstByColumn(Column.create("slug", slug));
     }
 
 }

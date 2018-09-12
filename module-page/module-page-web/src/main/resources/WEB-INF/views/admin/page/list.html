@@ -4,7 +4,7 @@
 <script>
 
     function trash(id) {
-        $.get("/admin/page/trash/" + id, function (result) {
+        $.get("/admin/page/doTrash/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -15,7 +15,7 @@
 
 
     function draft(id) {
-        $.get("/admin/page/draft/" + id, function (result) {
+        $.get("/admin/page/doDraft/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -25,7 +25,7 @@
     }
 
     function normal(id) {
-        $.get("/admin/page/normal/" + id, function (result) {
+        $.get("/admin/page/doNormal/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -35,7 +35,7 @@
     }
 
     function del(id) {
-        $.get("/admin/page/del/" + id, function (result) {
+        $.get("/admin/page/doDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -144,7 +144,6 @@
                                         </div>
                                         #end
                                     </div>
-
                                 </td>
                                 <td>#(sp.slug ??)</td>
                                 <td>#(sp.style ?? "默认")</td>

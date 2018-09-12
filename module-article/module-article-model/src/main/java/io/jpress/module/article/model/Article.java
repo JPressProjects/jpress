@@ -8,5 +8,22 @@ import io.jpress.module.article.model.base.BaseArticle;
  */
 @Table(tableName = "article", primaryKey = "id")
 public class Article extends BaseArticle<Article> {
-	
+
+    public static final String STATUS_NORMAL = "normal";
+    public static final String STATUS_DRAFT = "draft";
+    public static final String STATUS_TRASH = "trash";
+
+
+    public boolean isNormal() {
+        return STATUS_NORMAL.equals(getStatus());
+    }
+
+    public boolean isDraft() {
+        return STATUS_DRAFT.equals(getStatus());
+    }
+
+    public boolean isTrash() {
+        return STATUS_TRASH.equals(getStatus());
+    }
+
 }

@@ -16,12 +16,18 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
 
     @Override
     public Page<SinglePage> paginateByStatus(int page, int pagesize, String status) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("status", status));
+        return DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", status),
+                "id desc");
     }
 
     @Override
     public Page<SinglePage> paginateWithoutTrash(int page, int pagesize) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("status", SinglePage.STATUS_TRASH, Column.LOGIC_NOT_EQUALS));
+        return DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", SinglePage.STATUS_TRASH, Column.LOGIC_NOT_EQUALS),
+                "id desc");
     }
 
     @Override

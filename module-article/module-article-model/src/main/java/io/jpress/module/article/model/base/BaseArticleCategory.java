@@ -65,6 +65,14 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getStr("summary");
 	}
 
+	public void setStyle(java.lang.String style) {
+		set("style", style);
+	}
+	
+	public java.lang.String getStyle() {
+		return getStr("style");
+	}
+
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}

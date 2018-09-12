@@ -113,38 +113,6 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getStr("status");
 	}
 
-	public void setVoteUp(java.lang.Long voteUp) {
-		set("vote_up", voteUp);
-	}
-	
-	public java.lang.Long getVoteUp() {
-		return getLong("vote_up");
-	}
-
-	public void setVoteDown(java.lang.Long voteDown) {
-		set("vote_down", voteDown);
-	}
-	
-	public java.lang.Long getVoteDown() {
-		return getLong("vote_down");
-	}
-
-	public void setRate(java.lang.Integer rate) {
-		set("rate", rate);
-	}
-	
-	public java.lang.Integer getRate() {
-		return getInt("rate");
-	}
-
-	public void setRateCount(java.lang.Long rateCount) {
-		set("rate_count", rateCount);
-	}
-	
-	public java.lang.Long getRateCount() {
-		return getLong("rate_count");
-	}
-
 	public void setCommentStatus(java.lang.Boolean commentStatus) {
 		set("comment_status", commentStatus);
 	}

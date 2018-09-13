@@ -33,16 +33,18 @@ public class _PermissionController extends AdminControllerBase {
 
     @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER, order = 10)
     public void index() {
-//        Page<Permission> permissionPage = permissionService.page(getParaToInt("page", 1), 10);
-//        setAttr("page", permissionPage);
+        String type = getPara("type");
 
-        List<Permission> permissions = permissionService.findAll();
+
+        List<Permission> permissions = type == null
+                ? permissionService.findAll()
+                : permissionService.findListByType(type);
 
         setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
 
         render("user/permission.html");
     }
-    
+
 
     /**
      * 同步所有可以进行控制的 Action 到数据库

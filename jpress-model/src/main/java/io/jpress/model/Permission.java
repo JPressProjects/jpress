@@ -10,10 +10,8 @@ import io.jpress.model.base.BasePermission;
 @Table(tableName = "permission", primaryKey = "id")
 public class Permission extends BasePermission<Permission> {
 
-    public static final int TYPE_ACTION = 1;
-    public static final int TYPE_MENU = 2;
-    public static final int TYPE_DIV = 3;
-    public static final int TYPE_CUSTOM = 4;
+    public static final String TYPE_ACTION = "action";
+    public static final String TYPE_MENU = "menu";
 
 
     @Override
@@ -45,32 +43,20 @@ public class Permission extends BasePermission<Permission> {
         switch (getType()) {
             case TYPE_ACTION:
                 return "URL";
-            case TYPE_CUSTOM:
-                return "自定义";
             case TYPE_MENU:
                 return "菜单";
-            case TYPE_DIV:
-                return "页面块";
         }
         return "未知类型";
     }
 
     public boolean isActionPermission() {
-        return getType() != null && TYPE_ACTION == getType();
-    }
-
-
-    public boolean isDivPermission() {
-        return getType() != null && TYPE_DIV == getType();
+        return TYPE_ACTION.equals(getType());
     }
 
 
     public boolean isMenuPermission() {
-        return getType() != null && TYPE_MENU == getType();
+        return TYPE_MENU.equals(getType());
     }
 
 
-    public boolean isCustomPermission() {
-        return getType() != null && TYPE_CUSTOM == getType();
-    }
 }

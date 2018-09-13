@@ -107,4 +107,6 @@ public interface PermissionService {
 
     public Page<Permission> page(int size, int count, int type);
 
+    public List<Permission> findListByType(String type);
+
 }

@@ -75,6 +75,11 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         return DAO.paginateByColumn(size, count, Column.create("type", type), "id desc");
     }
 
+    @Override
+    public List<Permission> findListByType(String type) {
+        return DAO.findListByColumn("type", type);
+    }
+
 
     @Cacheable(name = "permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
     private Set<Permission> findPermissionListByUserId(long userId) {

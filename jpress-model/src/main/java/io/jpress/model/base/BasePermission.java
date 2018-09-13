@@ -33,12 +33,12 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 		return getStr("node");
 	}
 
-	public void setType(java.lang.Integer type) {
+	public void setType(java.lang.String type) {
 		set("type", type);
 	}
 	
-	public java.lang.Integer getType() {
-		return getInt("type");
+	public java.lang.String getType() {
+		return getStr("type");
 	}
 
 	public void setText(java.lang.String text) {

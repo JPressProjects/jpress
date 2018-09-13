@@ -30,7 +30,7 @@ public class ArticleModuleGenerator {
     private static String dbPassword = "";
 
     private static String moduleName = "article";
-    private static String dbTables = "article,article_category,article_category_mapping,article_comment,article_pay_record";
+    private static String dbTables = "article,article_category,article_comment";
     private static String modelPackage = "io.jpress.module.article.model";
     private static String servicePackage = "io.jpress.module.article.service";
 

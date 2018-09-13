@@ -26,11 +26,6 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>jpress-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
             <artifactId>jpress-service-api</artifactId>
         </dependency>
 

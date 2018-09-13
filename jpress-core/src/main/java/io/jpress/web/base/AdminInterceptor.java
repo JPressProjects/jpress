@@ -21,8 +21,10 @@ import java.util.List;
  */
 public class AdminInterceptor implements Interceptor {
 
+
     @Inject
     private UserService us;
+
 
     public void intercept(Invocation inv) {
 
@@ -46,6 +48,8 @@ public class AdminInterceptor implements Interceptor {
         inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);
 
         inv.getController().setAttr(JPressConstants.ATTR_LOGINED_USER, user);
+
         inv.invoke();
     }
+
 }

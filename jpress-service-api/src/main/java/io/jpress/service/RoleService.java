@@ -113,4 +113,5 @@ public interface RoleService {
     public boolean hasPermission(long roleId, long permissionId);
 
     public boolean doResetUserRoles(long userId, Long... RoleIds);
+
 }

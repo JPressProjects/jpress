@@ -16,6 +16,7 @@ import java.util.List;
 @Singleton
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
 
+
     @Override
     public boolean isSupperAdmin(long userId) {
         List<Role> roles = findRoleListByUserId(userId);
@@ -152,6 +153,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             return true;
         });
     }
+
 
     @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)
     private List<Role> findRoleListByUserId(long userId) {

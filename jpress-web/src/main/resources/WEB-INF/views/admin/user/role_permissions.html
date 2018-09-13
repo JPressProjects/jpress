@@ -45,6 +45,15 @@
         });
     }
 
+    var type = getPara("type");
+    if ("menu" == type) {
+        $("#group-menu").addClass("active");
+    } else if ("action" == type) {
+        $("#group-action").addClass("active");
+    } else {
+        $("#group-all").addClass("active");
+    }
+
 
 </script>
 #end
@@ -53,6 +62,14 @@
 <style>
     .switchery-small {
         margin-top: 0px;
+    }
+
+    .page-header {
+        padding-bottom: 9px;
+        padding-left: 20px;
+        margin: 40px 0 20px;
+        border-bottom: 1px solid #eee;
+        font-size: 18px;
     }
 </style>
 #end
@@ -88,6 +105,17 @@
 
 
                                 </h2>
+                            </div>
+
+                            <div class="col-xs-12" style="margin-left: 15px">
+                                <div class="btn-group">
+                                    <a href="/admin/user/rolePermissions/#(role.id)" id="group-all"
+                                       class="btn btn-default">全部</a>
+                                    <a href="/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
+                                       class="btn btn-default">菜单</a>
+                                    <a href="/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
+                                       class="btn btn-default">URL</a>
+                                </div>
                             </div>
                             <!-- /.col -->
                         </div>

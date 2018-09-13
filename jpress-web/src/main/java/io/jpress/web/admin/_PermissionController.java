@@ -71,6 +71,7 @@ public class _PermissionController extends AdminControllerBase {
 
         List<Permission> permissions = new ArrayList<>();
         for (AdminMenuGroup menuGroup : adminMenuGroups) {
+
             Permission groupPermission = new Permission();
             groupPermission.setType(Permission.TYPE_MENU);
             groupPermission.setText(menuGroup.getText());

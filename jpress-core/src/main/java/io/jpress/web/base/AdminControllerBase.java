@@ -12,7 +12,7 @@ import io.jpress.model.User;
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before(AdminInterceptor.class)
+@Before({AdminInterceptor.class, UserInterceptor.class})
 public abstract class AdminControllerBase extends JbootController {
 
     @Override

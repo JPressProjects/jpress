@@ -10,35 +10,43 @@
 
             <li class="block"></li>
             #for(group : moduleMenuGroups)
-            <li class="treeview">
-                <a href="#">
-                    #(group.icon ??) <span>#(group.text)</span>
-                    <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                </a>
-                <ul class="treeview-menu">
-                    #for(item : group.items)
-                    <li><a href="#(item.url ??)">#(item.text ??)</a></li>
-                    #end
-                </ul>
-            </li>
+                #hasPermission(group.permission)
+                <li class="treeview">
+                    <a href="#">
+                        #(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        #for(item : group.items)
+                            #hasPermission(item.permission)
+                            <li><a href="#(item.url ??)">#(item.text ??)</a></li>
+                            #end
+                        #end
+                    </ul>
+                </li>
+                #end
             #end
             <li class="header">基础</li>
             #for(group : systemMenuGroups)
-            <li class="treeview">
-                <a href="#">
-                    #(group.icon ??) <span>#(group.text)</span>
-                    <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                </a>
-                <ul class="treeview-menu">
-                    #for(item : group.items)
-                    <li><a href="#(item.url ??)">#(item.text ??)</a></li>
-                    #end
-                </ul>
-            </li>
+                #hasPermission(group.permission)
+                <li class="treeview">
+                    <a href="#">
+                        #(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        #for(item : group.items)
+                            #hasPermission(item.permission)
+                            <li><a href="#(item.url ??)">#(item.text ??)</a></li>
+                            #end
+                        #end
+                    </ul>
+                </li>
+                #end
             #end
 
         </ul>

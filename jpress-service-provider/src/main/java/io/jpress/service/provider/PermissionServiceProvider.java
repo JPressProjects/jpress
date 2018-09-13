@@ -25,6 +25,10 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     @Inject
     private RoleService roleService;
 
+    @Inject
+    private UserService userService;
+
+
     @Override
     public int sync(List<Permission> permissions) {
 
@@ -51,6 +55,15 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 
     @Override
     public boolean hasPermission(long userId, String actionKey) {
+        User user = userService.findById(userId);
+        if (user == null || !user.isStatusOk()) {
+            return false;
+        }
+
+        if (roleService.isSupperAdmin(userId)) {
+            return true;
+        }
+
         Set<Permission> permissions = findPermissionListByUserId(userId);
         if (permissions == null || permissions.isEmpty()) {
             return false;

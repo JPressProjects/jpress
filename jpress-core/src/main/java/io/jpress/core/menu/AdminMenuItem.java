@@ -54,6 +54,10 @@ public class AdminMenuItem {
         this.order = order;
     }
 
+    public String getPermission() {
+        return groupId + ":" + url;
+    }
+
 
     @Override
     public String toString() {

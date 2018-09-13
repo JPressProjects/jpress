@@ -16,7 +16,7 @@ import javax.inject.Inject;
  * @version V1.0
  * @Package io.jpress.core.directives
  */
-@JFinalDirective("permission")
+@JFinalDirective("hasPermission")
 public class PermissionDirective extends JbootDirectiveBase {
 
     @Inject
@@ -39,6 +39,11 @@ public class PermissionDirective extends JbootDirectiveBase {
         if (permissionService.hasPermission(user.getId(), permission)) {
             renderBody(env, scope, writer);
         }
+    }
+
+    @Override
+    public boolean hasEnd() {
+        return true;
     }
 }
 

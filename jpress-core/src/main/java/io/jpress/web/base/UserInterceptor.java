@@ -4,6 +4,8 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
+import io.jboot.utils.StringUtils;
+import io.jpress.JPressConstants;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -21,6 +23,7 @@ public class UserInterceptor implements Interceptor {
     private UserService userService;
 
     private static final ThreadLocal<User> threadLocal = new ThreadLocal<User>();
+
     public static User getThreadLocalUser() {
         return threadLocal.get();
     }
@@ -28,21 +31,33 @@ public class UserInterceptor implements Interceptor {
 
     @Override
     public void intercept(Invocation inv) {
-        Controller controller = inv.getController();
-        String userid = EncryptCookieUtils.get(controller, "jp_user");
 
-        if (userid == null || userid.trim().length() == 0) {
+        Controller controller = inv.getController();
+
+        User user = controller.getAttr(JPressConstants.ATTR_LOGINED_USER);
+        if (user != null) {
+            doInvoke(inv, user);
+            return;
+        }
+
+        String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
+
+        if (StringUtils.isNotBlank(uid)) {
+            doInvoke(inv, userService.findById(uid));
+            return;
+        }
+
+        inv.invoke();
+    }
+
+    private void doInvoke(Invocation inv, User user) {
+
+        if (user == null) {
             inv.invoke();
             return;
         }
 
-        User user = userService.findById(userid);
-
-        try {
-            threadLocal.set(user);
-            inv.invoke();
-        } finally {
-            threadLocal.remove();
-        }
+        threadLocal.set(user);
+        inv.invoke();
     }
 }

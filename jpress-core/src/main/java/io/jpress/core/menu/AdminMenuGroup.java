@@ -16,6 +16,7 @@ public class AdminMenuGroup {
     private String text;
     private String icon;
     private String id;
+    private String permission;
 
     private List<AdminMenuItem> items;
 
@@ -70,6 +71,10 @@ public class AdminMenuGroup {
 
     public boolean isEmpty() {
         return items == null || items.isEmpty();
+    }
+
+    public String getPermission() {
+        return id;
     }
 
     @Override

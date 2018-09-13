@@ -2,7 +2,6 @@ package io.jpress.web.sharekit;
 
 import io.jboot.Jboot;
 import io.jpress.service.OptionService;
-import io.jpress.service.RoleService;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -42,9 +41,6 @@ public class MainKits {
         return service.findAsBoolByKey(key);
     }
 
-    public static boolean hasPermission(long roleId, long permissionId) {
-        RoleService service = Jboot.bean(RoleService.class);
-        return service.hasPermission(roleId, permissionId);
-    }
+
 
 }

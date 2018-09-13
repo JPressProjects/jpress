@@ -102,6 +102,8 @@ public interface RoleService {
 
     public boolean hasRole(long userId, String... roles);
 
+    public boolean hasRole(long userId, long... roles);
+
     public boolean hasAnyRole(long userId, String... roles);
 
     public boolean addPermission(long roleId, long permissionId);
@@ -109,4 +111,6 @@ public interface RoleService {
     public boolean delPermission(long roleId, long permissionId);
 
     public boolean hasPermission(long roleId, long permissionId);
+
+    public boolean doResetUserRoles(long userId, Long... RoleIds);
 }

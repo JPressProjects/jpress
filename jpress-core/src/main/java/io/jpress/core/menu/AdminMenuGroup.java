@@ -16,7 +16,6 @@ public class AdminMenuGroup {
     private String text;
     private String icon;
     private String id;
-    private String permission;
 
     private List<AdminMenuItem> items;
 

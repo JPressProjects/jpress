@@ -125,7 +125,7 @@ public class _UserController extends AdminControllerBase {
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);
-        exeUtmAction();
+        exeOtherAction();
         render(getRenderHtml());
     }
 
@@ -134,7 +134,7 @@ public class _UserController extends AdminControllerBase {
         Long uid = getParaToLong();
         User user = userService.findById(uid);
         setAttr("user", user);
-        exeUtmAction();
+        exeOtherAction();
         render(getRenderHtml());
     }
 
@@ -146,11 +146,16 @@ public class _UserController extends AdminControllerBase {
         return "user/detail_" + action + ".html";
     }
 
-    private void exeUtmAction() {
+    private void exeOtherAction() {
         String action = getPara("action", "base");
         if ("utm".equals(action)) {
             Page<Utm> page = utmService.paginate(getPagePara(), 10);
             setAttr("page", page);
+        }
+
+        if ("role".equals(action)) {
+            List<Role> roles = roleService.findAll();
+            setAttr("roles", roles);
         }
     }
 
@@ -159,6 +164,15 @@ public class _UserController extends AdminControllerBase {
         User user = getBean(User.class);
         user.keepSafe();
         userService.saveOrUpdate(user);
+        renderJson(Ret.ok());
+    }
+
+
+    public void doUpdateUserRoles() {
+        Long userId = getParaToLong("userId");
+        Long[] roleIds = getParaValuesToLong("roleId");
+
+        roleService.doResetUserRoles(userId, roleIds);
         renderJson(Ret.ok());
     }
 

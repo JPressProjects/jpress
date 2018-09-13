@@ -51,6 +51,7 @@ public class _AdminController extends AdminControllerBase {
         renderJson(ret);
     }
 
+    @Clear
     public void logout() {
         EncryptCookieUtils.remove(this, JPressConstants.COOKIE_UID);
         redirect("/admin/login");

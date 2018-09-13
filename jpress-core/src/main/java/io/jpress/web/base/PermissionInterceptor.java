@@ -2,6 +2,8 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.kit.Ret;
+import io.jboot.utils.RequestUtils;
 import io.jpress.model.User;
 import io.jpress.service.PermissionService;
 
@@ -25,16 +27,23 @@ public class PermissionInterceptor implements Interceptor {
 
         User user = UserInterceptor.getThreadLocalUser();
         if (user == null) {
-            inv.getController().render(NO_PERMISSION_VIEW);
+            render(inv);
             return;
         }
 
         if (!permissionService.hasPermission(user.getId(), inv.getActionKey())) {
-            inv.getController().render(NO_PERMISSION_VIEW);
+            render(inv);
             return;
         }
 
         inv.invoke();
     }
 
+    public void render(Invocation inv) {
+        if (RequestUtils.isAjaxRequest(inv.getController().getRequest())) {
+            inv.getController().renderJson(Ret.fail().set("message", "您没有权限操作此功能。"));
+        } else {
+            inv.getController().render(NO_PERMISSION_VIEW);
+        }
+    }
 }

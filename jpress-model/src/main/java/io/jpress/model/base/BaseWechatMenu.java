@@ -49,12 +49,12 @@ public abstract class BaseWechatMenu<M extends BaseWechatMenu<M>> extends JbootM
 		return getStr("type");
 	}
 
-	public void setDescNo(java.lang.Integer descNo) {
-		set("desc_no", descNo);
+	public void setOrderNumber(java.lang.Integer orderNumber) {
+		set("order_number", orderNumber);
 	}
 	
-	public java.lang.Integer getDescNo() {
-		return getInt("desc_no");
+	public java.lang.Integer getOrderNumber() {
+		return getInt("order_number");
 	}
 
 	public void setCreated(java.util.Date created) {

@@ -1,6 +1,7 @@
 package io.jpress.module.page.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StringUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
 
 /**
@@ -24,6 +25,11 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
     public boolean isTrash() {
         return STATUS_TRASH.equals(getStatus());
+    }
+
+
+    public String getHtmlView() {
+        return StringUtils.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 
 }

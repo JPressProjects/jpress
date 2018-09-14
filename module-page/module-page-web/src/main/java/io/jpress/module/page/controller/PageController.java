@@ -24,7 +24,7 @@ public class PageController extends TemplateControllerBase {
         String slug = getSlug();
 
         if (StringUtils.isBlank(slug)) {
-            render("page_index.html");
+            render("page.html");
             return;
         }
 
@@ -36,8 +36,7 @@ public class PageController extends TemplateControllerBase {
         }
 
         setAttr("page", page);
-
-        render("page_index.html");
+        render(page.getHtmlView());
     }
 
     private String getSlug() {

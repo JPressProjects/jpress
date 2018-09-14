@@ -80,10 +80,15 @@ public class Template {
             if (htmls.contains(template)) {
                 return template;
             }
-            template = template.substring(0, template.lastIndexOf(FILE_SEPARATOR)) + ".html";
+
+            if (template.contains(FILE_SEPARATOR)) {
+                template = template.substring(0, template.lastIndexOf(FILE_SEPARATOR)) + ".html";
+            } else {
+                return null;
+            }
         } while (template.contains(FILE_SEPARATOR));
 
-        return null;
+        return htmls.contains(template) ? template : null;
     }
 
 
@@ -192,7 +197,7 @@ public class Template {
         List<String> styles = new ArrayList<>();
         for (String html : htmls) {
             if (html.startsWith(prefix)) {
-                styles.add(html.substring(prefix.length(), html.length()-5));
+                styles.add(html.substring(prefix.length(), html.length() - 5));
             }
         }
 

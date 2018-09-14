@@ -1,6 +1,7 @@
 #@layout()
 #define script()
 <script src="/static/components/ckeditor/ckeditor.js"></script>
+<script src="/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="/static/components/selectize/selectize.min.js"></script>
 
 
@@ -16,9 +17,25 @@
         create: true
     });
 
+    $('#slug').editable({
+        emptytext: "标题"
+    });
+
+    $('#slug').on('save', function (e, params) {
+        $('#article-slug').attr('value', params.newValue);
+    });
+
+    $("#article-title").keyup(function () {
+        if ($('#article-slug').val() == "") {
+            $("#slug").text(this.value);
+            $('#slug').editable('setValue', this.value);
+        }
+    });
+
 
     function doSubmit() {
         editorUpdate();
+        $('#article-slug').val($("#slug").text());
         $("#form").ajaxSubmit({
             type: "post",
             success: function (data) {
@@ -58,9 +75,15 @@
 </script>
 #end
 #define css()
+<link href="/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
-
+<style>
+    .popover-content {
+        padding: 9px 14px;
+        margin: 0 10px;
+    }
+</style>
 #end
 
 #define content()
@@ -86,10 +109,15 @@
                             <div class="col-sm-12">
                                 <input type="input" class="form-control input-lg" name="article.title"
                                        placeholder="请输入标题"
+                                       id="article-title"
                                        value="#(article.title ??)">
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="col-sm-12" style="padding-bottom: 2px">
+                                网址：http://www.yangfuhai.com/article/<span id="slug">#(article.slug ??)</span>.html
+                                <input type="hidden" id="article-slug" name="article.slug">
+                            </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="article.text"
                                           style="height: 467px;width: 100%;background-color: white">

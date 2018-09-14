@@ -11,6 +11,7 @@ import io.jpress.core.template.TemplateManager;
  */
 public abstract class TemplateControllerBase extends JbootController {
 
+
     @Override
     public void render(String view) {
 
@@ -20,7 +21,14 @@ public abstract class TemplateControllerBase extends JbootController {
             return;
         }
 
+        view = template.matchTemplateFile(view);
+        if (view == null) {
+            renderText("can not match view to render");
+            return;
+        }
+
         view = "/templates/" + template.getFolder() + "/" + view;
         super.render(view);
     }
+
 }

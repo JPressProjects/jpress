@@ -19,6 +19,9 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Template {
 
@@ -32,6 +35,8 @@ public class Template {
     private String updateUrl;
     private String folder;
     private String screenshot;
+
+    private List<String> htmls = new ArrayList<>();
 
     public Template() {
 
@@ -53,6 +58,29 @@ public class Template {
         this.versionCode = prop.getInt("versionCode", 0);
         this.updateUrl = prop.get("updateUrl");
         this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot", "screenshot.png");
+
+        String[] files = propertiesFile.list((dir, name) -> name.endsWith(".html"));
+        htmls.addAll(Arrays.asList(files));
+    }
+
+
+    private static final String FILE_SEPARATOR = "_";
+
+    /**
+     * 找出可以用来渲染的 html 模板
+     *
+     * @param template
+     * @return
+     */
+    public String matchTemplateFile(String template) {
+        do {
+            if (htmls.contains(template)) {
+                return template;
+            }
+            template = template.substring(0, template.lastIndexOf(FILE_SEPARATOR)) + ".html";
+        } while (template.contains(FILE_SEPARATOR));
+
+        return null;
     }
 
 
@@ -143,5 +171,28 @@ public class Template {
 
     public String getWebAbsolutePath() {
         return "/templates/" + folder;
+    }
+
+    /**
+     * 获得某个模块下支持的样式
+     * 一般用于在后台设置
+     *
+     * @param prefix
+     * @return
+     */
+    public List<String> getSupportStyles(String prefix) {
+
+        if (prefix == null) {
+            throw new IllegalArgumentException("prefix must not be null");
+        }
+
+        List<String> styles = new ArrayList<>();
+        for (String html : htmls) {
+            if (html.startsWith(prefix)) {
+                styles.add(html.substring(prefix.length(), html.length()));
+            }
+        }
+
+        return styles;
     }
 }

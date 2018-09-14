@@ -1,6 +1,7 @@
 package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StringUtils;
 import io.jpress.module.article.model.base.BaseArticle;
 
 /**
@@ -26,4 +27,7 @@ public class Article extends BaseArticle<Article> {
         return STATUS_TRASH.equals(getStatus());
     }
 
+    public String getHtmlView() {
+        return StringUtils.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
+    }
 }

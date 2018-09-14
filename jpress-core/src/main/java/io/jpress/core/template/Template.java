@@ -59,7 +59,10 @@ public class Template {
         this.updateUrl = prop.get("updateUrl");
         this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot", "screenshot.png");
 
-        String[] files = propertiesFile.list((dir, name) -> name.endsWith(".html"));
+        String[] files = propertiesFile
+                .getParentFile()
+                .list((dir, name) -> name.endsWith(".html"));
+
         htmls.addAll(Arrays.asList(files));
     }
 

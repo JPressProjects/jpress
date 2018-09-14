@@ -43,6 +43,9 @@
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>#(role.name ??)
+                                    #if(role.isSuperAdmin())
+                                    （超级管理员）
+                                    #end
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/user/roleEdit/#(role.id)" style="color: #006505">编辑</a> |

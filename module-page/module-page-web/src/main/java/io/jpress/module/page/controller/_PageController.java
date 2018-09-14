@@ -3,13 +3,17 @@ package io.jpress.module.page.controller;
 import com.google.inject.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.ArrayUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.AdminControllerBase;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -57,6 +61,11 @@ public class _PageController extends AdminControllerBase {
                 return;
             }
             setAttr("page", page);
+        }
+
+        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles("page_");
+        if (ArrayUtils.isNotEmpty(styles)) {
+            setAttr("styles", styles);
         }
 
         render("page/write.html");

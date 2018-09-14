@@ -14,7 +14,7 @@
     });
 
     $('#slug').on('save', function (e, params) {
-        $('#page-slug').attr('value',params.newValue);
+        $('#page-slug').attr('value', params.newValue);
     });
 
     $("#page-title").keyup(function () {
@@ -139,14 +139,19 @@
                                         <form class="form-horizontal" autocomplete="off">
                                             <div class="box-body ">
 
+                                                #if(styles)
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">样式</label>
                                                     <div class="col-sm-6">
                                                         <select class="form-control" name="page.style">
-                                                            <option>请选择样式</option>
+                                                            <option value="">默认</option>
+                                                            #for(style : styles)
+                                                            <option value="#(style)">#(style)</option>
+                                                            #end
                                                         </select>
                                                     </div>
                                                 </div>
+                                                #end
 
                                                 <!--<h4 class="page-header">搜索优化</h4>-->
 

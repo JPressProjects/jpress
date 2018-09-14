@@ -192,7 +192,7 @@ public class Template {
         List<String> styles = new ArrayList<>();
         for (String html : htmls) {
             if (html.startsWith(prefix)) {
-                styles.add(html.substring(prefix.length(), html.length()));
+                styles.add(html.substring(prefix.length(), html.length()-5));
             }
         }
 

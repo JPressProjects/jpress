@@ -22,14 +22,26 @@ public class JPressConstants {
     public static final String SYSTEM_MENU_WECHAT_MINI_PROGRAM = "wechat_mini_program";
 
 
+    /**
+     * 以下是配置相关
+     */
     public static final String OPTION_WEB_NAME = "web_name"; //网站名称
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
 
 
+    /**
+     * 用到的cookie name 常量
+     */
     public static final String COOKIE_UID = "_jpuid";
 
+    /**
+     * 用到的request attribute常量
+     */
     public static final String ATTR_LOGINED_USER = "USER";
 
+    /**
+     * 用到的事件机制相关常量
+     */
     public static final String EVENT_OPTION_UPDATE = "event_option_update";
 }

@@ -8,5 +8,11 @@ import io.jpress.model.base.BaseOption;
  */
 @Table(tableName = "option", primaryKey = "id")
 public class Option extends BaseOption<Option> {
-	
+    public Option() {
+    }
+
+    public Option(String key, String value) {
+        this.setKey(key);
+        this.setValue(value);
+    }
 }

@@ -1,6 +1,4 @@
-package io.jpress;
-
-import io.jpress.core.module.Modules;
+package io.jpress.core.module;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -8,7 +6,7 @@ import io.jpress.core.module.Modules;
  * @Title: JPress 监听器
  * @Package io.jpress
  */
-public interface JPressAppListener {
+public interface JPressModuleListener {
 
     public void onConfigModule(Modules modules);
 

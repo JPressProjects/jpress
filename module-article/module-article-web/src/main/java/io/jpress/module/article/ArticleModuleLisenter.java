@@ -1,6 +1,6 @@
 package io.jpress.module.article;
 
-import io.jpress.JPressAppListener;
+import io.jpress.core.module.JPressModuleListener;
 import io.jpress.core.module.Modules;
 
 /**
@@ -10,7 +10,7 @@ import io.jpress.core.module.Modules;
  * @Description: (用一句话描述该文件做什么)
  * @Package io.jpress.module.page
  */
-public class AppLisenter implements JPressAppListener {
+public class ArticleModuleLisenter implements JPressModuleListener {
 
 
     @Override

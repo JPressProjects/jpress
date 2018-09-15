@@ -10,7 +10,7 @@ import io.jboot.config.annotation.PropertyConfig;
  * @Package io.jpress
  */
 @PropertyConfig(prefix = "io.jpress")
-public class JPressAppConfig {
+public class JPressConfig {
 
     private String indexAction = "/page";
     private String defaultTemplate = "jportal";
@@ -32,5 +32,5 @@ public class JPressAppConfig {
         this.defaultTemplate = defaultTemplate;
     }
 
-    public static final JPressAppConfig me = Jboot.config(JPressAppConfig.class);
+    public static final JPressConfig me = Jboot.config(JPressConfig.class);
 }

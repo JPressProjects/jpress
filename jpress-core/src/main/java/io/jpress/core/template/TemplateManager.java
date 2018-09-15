@@ -18,7 +18,7 @@ package io.jpress.core.template;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import io.jboot.utils.StringUtils;
-import io.jpress.JPressAppConfig;
+import io.jpress.JPressConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class TemplateManager {
 
 
     private void initDefaultTemplate() {
-        setCurrentTemplate(getTemplateById(JPressAppConfig.me.getDefaultTemplate()));
+        setCurrentTemplate(getTemplateById(JPressConfig.me.getDefaultTemplate()));
     }
     
 

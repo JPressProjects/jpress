@@ -1,6 +1,6 @@
 package io.jpress.module.page;
 
-import io.jpress.JPressAppListener;
+import io.jpress.core.module.JPressModuleListener;
 import io.jpress.core.module.Modules;
 
 /**
@@ -9,11 +9,12 @@ import io.jpress.core.module.Modules;
  * @Title: 应用启动监听器
  * @Package io.jpress.module.page
  */
-public class AppLisenter implements JPressAppListener {
+public class PageModuleLisenter implements JPressModuleListener {
 
 
     @Override
     public void onConfigModule(Modules modules) {
         modules.add(PageModule.me());
     }
+
 }

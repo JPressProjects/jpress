@@ -3,7 +3,8 @@ package io.jpress.web;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
-import io.jpress.JPressApplication;
+import io.jpress.core.menu.AdminMenuManager;
+import io.jpress.core.module.ModuleManager;
 import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.sharekit.MainKits;
 import io.jpress.web.sharekit.PermissionKits;
@@ -15,7 +16,6 @@ import io.jpress.web.sharekit.PermissionKits;
  * @Package io.jpress
  */
 public class JPressInitializer extends JbootAppListenerBase {
-
 
 
     @Override
@@ -39,9 +39,10 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onJFinalStarted() {
 
-        JPressApplication.me().init();
-        OptionInitializer.me().init();
+        ModuleManager.me().init();
+        AdminMenuManager.me().init();
 
+        OptionInitializer.me().init();
     }
 
 }

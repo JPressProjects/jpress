@@ -1,8 +1,10 @@
 package io.jpress.web;
 
 import com.jfinal.template.Engine;
+import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.JPressApplication;
+import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.sharekit.MainKits;
 import io.jpress.web.sharekit.PermissionKits;
 
@@ -14,14 +16,12 @@ import io.jpress.web.sharekit.PermissionKits;
  */
 public class JPressInitializer extends JbootAppListenerBase {
 
+
+
     @Override
-    public void onJFinalStarted() {
-
-        JPressApplication.me().init();
-        OptionInitializer.me().init();
-
+    public void onHandlerConfig(JfinalHandlers handlers) {
+        handlers.add(0, new FakeStaticHandler());
     }
-
 
     @Override
     public void onJfinalEngineConfig(Engine engine) {
@@ -33,6 +33,14 @@ public class JPressInitializer extends JbootAppListenerBase {
 
         engine.addSharedStaticMethod(MainKits.class);
         engine.addSharedStaticMethod(PermissionKits.class);
+
+    }
+
+    @Override
+    public void onJFinalStarted() {
+
+        JPressApplication.me().init();
+        OptionInitializer.me().init();
 
     }
 

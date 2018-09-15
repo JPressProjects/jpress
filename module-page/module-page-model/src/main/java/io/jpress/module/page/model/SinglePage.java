@@ -32,4 +32,8 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return StringUtils.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 
+    public String getUrl(String suffix) {
+        return "/" + getSlug() + suffix;
+    }
+
 }

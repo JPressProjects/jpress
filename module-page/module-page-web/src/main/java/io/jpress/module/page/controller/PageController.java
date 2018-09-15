@@ -41,6 +41,12 @@ public class PageController extends TemplateControllerBase {
 
     private String getSlug() {
         String uri = getRequest().getRequestURI();
+
+        //可能已经启用了伪静态
+        if (uri.contains(".")){
+            uri = uri.substring(0,uri.lastIndexOf("."));
+        }
+
         return StringUtils.urlDecode(uri.substring(1, uri.length()));
     }
 }

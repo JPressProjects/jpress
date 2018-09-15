@@ -1,4 +1,4 @@
-package io.jpress.module.page;
+package io.jpress.module.article;
 
 import com.jfinal.template.Engine;
 import io.jboot.server.listener.JbootAppListenerBase;
@@ -14,7 +14,7 @@ public class AppListener extends JbootAppListenerBase {
 
     @Override
     public void onJfinalEngineConfig(Engine engine) {
-        engine.addSharedStaticMethod(PageModuleKit.class);
+        engine.addSharedStaticMethod(ArticleModuleKit.class);
     }
 
 }

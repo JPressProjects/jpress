@@ -10,19 +10,19 @@ import java.util.LinkedList;
  */
 public class Modules {
 
-    public LinkedList<Module> modules = new LinkedList<>();
+    public LinkedList<Module> list = new LinkedList<>();
 
     public void add(Module module) {
-        modules.add(module);
+        list.add(module);
     }
 
     public void add(Module module, int toIndex) {
-        modules.add(toIndex, module);
+        list.add(toIndex, module);
     }
 
 
-    public LinkedList<Module> getModules() {
-        return modules;
+    public LinkedList<Module> getList() {
+        return list;
     }
 
 }

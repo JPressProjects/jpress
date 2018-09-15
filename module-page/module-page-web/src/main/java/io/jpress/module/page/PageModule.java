@@ -7,11 +7,18 @@ import io.jpress.core.module.Module;
  * @version V1.0
  * @Package io.jpress.module.page
  */
-public class PageModule {
+public class PageModule extends Module {
 
-    public static final Module pageModule = new Module();
+    private String id = "page";
+    private String text = "页面";
 
-    static {
-        pageModule.addMenuGroup("page", "页面", "<i class=\"fa fa-fw fa-file\"></i>", 99);
+    private PageModule() {
+        addMenu(id, text, "<i class=\"fa fa-fw fa-file\"></i>", 2);
+    }
+
+    private static final PageModule me = new PageModule();
+
+    public static PageModule me() {
+        return me;
     }
 }

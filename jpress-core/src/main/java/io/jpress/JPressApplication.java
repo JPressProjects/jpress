@@ -3,7 +3,7 @@ package io.jpress;
 import io.jboot.utils.ClassKits;
 import io.jboot.utils.ClassScanner;
 import io.jpress.core.menu.AdminMenuManager;
-import io.jpress.core.module.Modules;
+import io.jpress.core.module.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,6 @@ import java.util.List;
 public class JPressApplication {
 
     private static final JPressApplication CONFIG = new JPressApplication();
-    private static final Modules MODULES = new Modules();
-
     private static final List<JPressAppListener> APP_LISTENERS = new ArrayList<>();
 
     public static JPressApplication me() {
@@ -51,7 +49,7 @@ public class JPressApplication {
 
     private void invokeJPressAppListeners() {
         for (JPressAppListener listener : APP_LISTENERS) {
-            listener.onConfigModule(MODULES);
+            listener.onConfigModule(ModuleManager.me().getModules());
         }
     }
 
@@ -61,7 +59,7 @@ public class JPressApplication {
      */
     private void initAdminMenus() {
 
-        AdminMenuManager.me().init(MODULES);
+        AdminMenuManager.me().init();
 
     }
 

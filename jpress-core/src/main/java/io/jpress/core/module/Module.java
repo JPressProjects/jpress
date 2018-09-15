@@ -13,11 +13,24 @@ import java.util.List;
  */
 public class Module {
 
-    private List<AdminMenuGroup> menuGroups;
+    private String id;
+    private String name;
 
-    public void addMenuGroup(String id, String text, String icon, int order) {
-        if (menuGroups == null) {
-            menuGroups = new ArrayList<>();
+    private List<AdminMenuGroup> menus;
+
+    /**
+     * 用于给子类复写，返回的String是html内容，用于渲染用户登录的后台首页
+     *
+     * @return
+     */
+    public String onGetDashboardBoxHtml() {
+        return null;
+    }
+
+
+    public void addMenu(String id, String text, String icon, int order) {
+        if (menus == null) {
+            menus = new ArrayList<>();
         }
 
         AdminMenuGroup menuGroup = new AdminMenuGroup();
@@ -26,11 +39,11 @@ public class Module {
         menuGroup.setId(id);
         menuGroup.setOrder(order);
 
-        menuGroups.add(menuGroup);
+        menus.add(menuGroup);
     }
 
-    public List<AdminMenuGroup> getMenuGroups() {
-        return menuGroups;
+    public List<AdminMenuGroup> getMenus() {
+        return menus;
     }
 
 }

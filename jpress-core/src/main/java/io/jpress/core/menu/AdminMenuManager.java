@@ -5,6 +5,7 @@ import com.jfinal.core.JFinal;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.module.Module;
+import io.jpress.core.module.ModuleManager;
 import io.jpress.core.module.Modules;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -28,9 +29,9 @@ public class AdminMenuManager {
         return me;
     }
 
-    public void init(Modules modules) {
+    public void init() {
         initAdminSystemMenuGroup();
-        initAdminModuleMenuGroup(modules);
+        initAdminModuleMenuGroup(ModuleManager.me().getModules());
 
         initAdminMenuItems();
     }
@@ -102,8 +103,8 @@ public class AdminMenuManager {
      * 备注：子初始化菜单组，不初始化子菜单，子菜单由注解完成
      */
     private void initAdminModuleMenuGroup(Modules modules) {
-        for (Module module : modules.getModules()) {
-            moduleMenus.addAll(module.getMenuGroups());
+        for (Module module : modules.getList()) {
+            moduleMenus.addAll(module.getMenus());
         }
 
         AdminMenuGroup attachmentMenuGroup = new AdminMenuGroup();

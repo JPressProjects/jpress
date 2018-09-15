@@ -1,39 +1,21 @@
 #@layout()
 
 #define script()
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.2.4/dist/g2.min.js"></script>
 <script>
-    const data = [
-        {genre: 'Sports', sold: 275},
-        {genre: 'Strategy', sold: 115},
-        {genre: 'Action', sold: 120},
-        {genre: 'Shooter', sold: 350},
-        {genre: 'Other', sold: 150}
-    ]; // G2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。
-    // Step 1: 创建 Chart 对象
-    const chart = new G2.Chart({
-        container: 'c1', // 指定图表容器 ID
-        forceFit: true,
-        height: 200,
-        padding: [20, 20, 60, 40] // 上，右，下，左
-    });
-    // Step 2: 载入数据源
-    chart.source(data);
-    // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴
-    chart.interval().position('genre*sold').color('genre')
-    // Step 4: 渲染图表
-    chart.render();
-
-    const chart2 = new G2.Chart({
-        container: 'c2', // 指定图表容器 ID
-        forceFit: true,
-        height: 200,
-        padding: [20, 20, 40, 40] // 上，右，下，左
-    });
-    chart2.source(data);
-    chart2.interval().position('genre*sold').color('genre')
-    chart2.render();
-
+    var date = getPara("date");
+    if ("today" == date) {
+        $("#group-today").addClass("active");
+    } else if ("yesterday" == date) {
+        $("#group-yesterday").addClass("active");
+    } else if ("7d" == date) {
+        $("#group-7d").addClass("active");
+    } else if ("14d" == date) {
+        $("#group-14d").addClass("active");
+    } else if ("28d" == date) {
+        $("#group-28d").addClass("active");
+    } else {
+        $("#group-today").addClass("active");
+    }
 </script>
 #end
 #define content()
@@ -55,17 +37,13 @@
                     <div class="box-header  ">
                         <div class="actionPanel">
                             <div class="col-xs-12">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default active">文章</button>
-                                    <button type="button" class="btn btn-default">页面</button>
-                                    <button type="button" class="btn btn-default">用户</button>
-                                </div>
-                                <div class="btn-group " style="padding-left: 50px">
-                                    <button type="button" class="btn btn-default active">今天</button>
-                                    <button type="button" class="btn btn-default">昨天</button>
-                                    <button type="button" class="btn btn-default">7天</button>
-                                    <button type="button" class="btn btn-default">14天</button>
-                                    <button type="button" class="btn btn-default">28天</button>
+                                <div class="btn-group ">
+                                    <a id="group-today" href="/admin/index" class="btn btn-default">今天</a>
+                                    <a id="group-yesterday" href="/admin/index?date=yesterday"
+                                       class="btn btn-default">昨天</a>
+                                    <a id="group-7d" href="/admin/index?date=7d" class="btn btn-default">7天</a>
+                                    <a id="group-14d" href="/admin/index?date=14d" class="btn btn-default">14天</a>
+                                    <a id="group-28d" href="/admin/index?date=28d" class="btn btn-default">28天</a>
                                 </div>
                             </div>
                         </div>
@@ -73,34 +51,9 @@
                     <!-- /.box-header -->
                     <div class="box-body">
 
-
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="box box-dashboard">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Recently Added Products</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div id="c1"></div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="box box-dashboard">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Recently Added Products</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div id="c2"></div>
-                                </div>
-
-                            </div>
-                        </div>
-
+                        #for(moduleHtml : moduleIncludes)
+                        #render(moduleHtml)
+                        #end
 
                     </div>
                 </div>

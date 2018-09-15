@@ -15,6 +15,6 @@ public class AppLisenter implements JPressAppListener {
 
     @Override
     public void onConfigModule(Modules modules) {
-        modules.add(ArticleModule.articleModule);
+        modules.add(ArticleModule.me());
     }
 }

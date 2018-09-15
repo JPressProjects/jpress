@@ -7,11 +7,23 @@ import io.jpress.core.module.Module;
  * @version V1.0
  * @Package io.jpress.module.page
  */
-public class ArticleModule {
+public class ArticleModule extends Module {
 
-    public static final Module articleModule = new Module();
+    private String id = "article";
+    private String text = "文章";
 
-    static {
-        articleModule.addMenuGroup("article", "文章", "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
+    private ArticleModule() {
+        addMenu(id, text, "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
+    }
+
+    private static final ArticleModule me = new ArticleModule();
+
+    public static ArticleModule me() {
+        return me;
+    }
+
+    @Override
+    public String onGetDashboardBoxHtml() {
+        return "article/_article_dashboard_box.html";
     }
 }

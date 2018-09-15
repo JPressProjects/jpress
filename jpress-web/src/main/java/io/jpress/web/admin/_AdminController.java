@@ -8,11 +8,15 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
+import io.jpress.core.module.Module;
+import io.jpress.core.module.ModuleManager;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -59,6 +63,23 @@ public class _AdminController extends AdminControllerBase {
 
 
     public void index() {
+
+        List<String> moduleIncludes = new ArrayList<>();
+        List<Module> modules = ModuleManager.me().getModules().getList();
+        for (Module module : modules) {
+            String path = module.onGetDashboardBoxHtml();
+            if (path == null) {
+                continue;
+            }
+
+            if (path.startsWith("/")) {
+                moduleIncludes.add(path);
+            } else {
+                moduleIncludes.add("/WEB-INF/views/admin/" + path);
+            }
+        }
+
+        setAttr("moduleIncludes", moduleIncludes);
         render("index.html");
     }
 }

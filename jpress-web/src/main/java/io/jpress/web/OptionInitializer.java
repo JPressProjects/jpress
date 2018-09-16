@@ -54,7 +54,7 @@ public class OptionInitializer implements JbootEventListener {
         if (StringUtils.isBlank(cdnDomain)) {
             TemplateRender.initCdnDomain(null);
         } else {
-            FakeStaticHandler.initSuffix(cdnDomain);
+            TemplateRender.initCdnDomain(cdnDomain);
         }
     }
 

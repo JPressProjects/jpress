@@ -1,11 +1,7 @@
 package io.jpress.web;
 
 import com.jfinal.template.Engine;
-import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
-import io.jpress.core.menu.AdminMenuManager;
-import io.jpress.core.module.ModuleManager;
-import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.sharekit.MainKits;
 import io.jpress.web.sharekit.PermissionKits;
 
@@ -15,13 +11,8 @@ import io.jpress.web.sharekit.PermissionKits;
  * @Title: JPress 初始化工具
  * @Package io.jpress
  */
-public class JPressInitializer extends JbootAppListenerBase {
+public class WebInitializer extends JbootAppListenerBase {
 
-
-    @Override
-    public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add(0, new FakeStaticHandler());
-    }
 
     @Override
     public void onJfinalEngineConfig(Engine engine) {
@@ -38,9 +29,6 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onJFinalStarted() {
-
-        ModuleManager.me().init();
-        AdminMenuManager.me().init();
 
         OptionInitializer.me().init();
     }

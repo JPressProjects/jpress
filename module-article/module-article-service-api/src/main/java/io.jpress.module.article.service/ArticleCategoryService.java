@@ -109,4 +109,6 @@ public interface ArticleCategoryService {
     public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
     public Long[] findCategoryIdsByArticleId(long articleId);
+
+    public ArticleCategory findFirstByTypeAndSlug(String type, String slug);
 }

@@ -59,6 +59,5 @@ public class OptionInitializer {
         } else {
             FakeStaticHandler.initSuffix(suffix);
         }
-
     }
 }

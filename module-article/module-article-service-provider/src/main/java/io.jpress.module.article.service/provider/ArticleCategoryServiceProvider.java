@@ -100,4 +100,10 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }
+
+
+    @Override
+    public ArticleCategory findFirstByTypeAndSlug(String type, String slug) {
+        return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
+    }
 }

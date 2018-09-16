@@ -3,6 +3,7 @@ package io.jpress.web.base;
 import io.jboot.web.controller.JbootController;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.web.render.TemplateRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -28,7 +29,7 @@ public abstract class TemplateControllerBase extends JbootController {
         }
 
         view = "/templates/" + template.getFolder() + "/" + view;
-        super.render(view);
+        super.render(new TemplateRender(view));
     }
 
 }

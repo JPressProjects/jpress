@@ -30,8 +30,5 @@ public class JPressRenderFactory extends JbootRenderFactory {
         return new TemplateRender(view);
     }
 
-    @Override
-    public Render getErrorRender(int errorCode, String view) {
-        return super.getErrorRender(errorCode, view);
-    }
+
 }

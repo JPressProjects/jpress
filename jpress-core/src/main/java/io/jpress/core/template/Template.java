@@ -67,7 +67,7 @@ public class Template {
     }
 
 
-    private static final String FILE_SEPARATOR = "_";
+    private static final String TEMPLATE_SEPARATOR = "_";
 
     /**
      * 找出可以用来渲染的 html 模板
@@ -76,17 +76,23 @@ public class Template {
      * @return
      */
     public String matchTemplateFile(String template) {
-        do {
+
+        if (htmls.contains(template)) {
+            return template;
+        }
+
+        int lastIndex = template.lastIndexOf(TEMPLATE_SEPARATOR);
+        if (lastIndex <= 0) {
+            return null;
+        }
+
+        while (lastIndex > 0) {
+            template = template.substring(0, lastIndex) + ".html";
             if (htmls.contains(template)) {
                 return template;
             }
-
-            if (template.contains(FILE_SEPARATOR)) {
-                template = template.substring(0, template.lastIndexOf(FILE_SEPARATOR)) + ".html";
-            } else {
-                return null;
-            }
-        } while (template.contains(FILE_SEPARATOR));
+            lastIndex = template.lastIndexOf(TEMPLATE_SEPARATOR);
+        }
 
         return htmls.contains(template) ? template : null;
     }

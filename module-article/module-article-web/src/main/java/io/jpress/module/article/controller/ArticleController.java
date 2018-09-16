@@ -26,10 +26,7 @@ public class ArticleController extends TemplateControllerBase {
 
     public void index() {
         Article article = getArticle();
-        if (article == null) {
-            renderError(404);
-            return;
-        }
+        assertNotNull(article);
 
         Long page = getParaToLong(1);
 
@@ -37,6 +34,7 @@ public class ArticleController extends TemplateControllerBase {
         render(article.getHtmlView());
     }
 
+    
     private Article getArticle() {
         String idOrSlug = getPara(0);
         return StringUtils.isNumeric(idOrSlug)
@@ -47,6 +45,7 @@ public class ArticleController extends TemplateControllerBase {
 
     public void category() {
         ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_CATEGORY);
+        assertNotNull(category);
         setAttr("category", category);
         render(category.getHtmlView());
     }
@@ -54,28 +53,31 @@ public class ArticleController extends TemplateControllerBase {
 
     public void subject() {
         ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_SUBJECT);
+        assertNotNull(category);
         setAttr("category", category);
         render(category.getHtmlView());
     }
 
     public void tag() {
         ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_TAG);
+        assertNotNull(category);
         setAttr("category", category);
         render(category.getHtmlView());
     }
 
     private ArticleCategory getArticleCategory(String type) {
         String idOrSlug = getPara(0);
-        ArticleCategory category = StringUtils.isNumeric(idOrSlug)
+        return StringUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
                 : categoryService.findFirstByTypeAndSlug(type, idOrSlug);
 
-        if (category == null) {
-            renderError(404);
-            return null;
-        }
+    }
 
-        return category;
+
+    private void assertNotNull(Object object) {
+        if (object == null) {
+            renderError(404);
+        }
     }
 
 

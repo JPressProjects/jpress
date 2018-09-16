@@ -30,4 +30,9 @@ public class Article extends BaseArticle<Article> {
     public String getHtmlView() {
         return StringUtils.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
     }
+
+
+    public String getUrl(String suffix) {
+        return "/article/" + getSlug() + suffix;
+    }
 }

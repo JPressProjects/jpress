@@ -113,7 +113,18 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
                 if (isChild) return true;
             }
         }
-
         return false;
+    }
+
+    public String getUrl(String suffix) {
+        switch (getType()) {
+            case TYPE_CATEGORY:
+                return "/article/category/" + getSlug() + suffix;
+            case TYPE_SUBJECT:
+                return "/article/subject/" + getSlug() + suffix;
+            case TYPE_TAG:
+                return "/article/tag/" + getSlug() + suffix;
+        }
+        return null;
     }
 }

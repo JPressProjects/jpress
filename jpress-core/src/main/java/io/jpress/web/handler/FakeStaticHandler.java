@@ -40,7 +40,7 @@ public class FakeStaticHandler extends Handler implements JbootEventListener {
             return;
         }
         if (target.endsWith(suffix)) {
-            target = target.substring(0, suffix.length());
+            target = target.substring(0, target.length() - suffix.length());
         }
         next.handle(target, request, response, isHandled);
     }

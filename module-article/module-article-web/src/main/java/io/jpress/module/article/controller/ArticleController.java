@@ -43,15 +43,15 @@ public class ArticleController extends TemplateControllerBase {
 
 
     public void category() {
-
+        renderText("category");
     }
 
     public void subject() {
-
+        renderText("subject");
     }
 
     public void tag() {
-
+        renderText("tag");
     }
 
 }

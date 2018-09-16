@@ -115,19 +115,19 @@
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
+                                    <strong>
                                     <a href="/admin/page/write/#(sp.id)">#(sp.title ??)</a>
                                     #if(sp.isDraft())
                                     （草稿）
                                     #end
+                                    </strong>
                                     <div class="jp-actionblock">
                                         #if(sp.isNormal())
                                         <div class="jp-actionitem">
                                             <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="#pageUrl(sp)" target="_blank" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a>
-                                            |
-                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
-                                               style="color: #a00">垃圾箱</a>
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a> |
+                                            <a href="javascript:;" onclick="trash('#(sp.id??)')" style="color: #a00">垃圾箱</a> |
+                                            <a href="#pageUrl(sp)" target="_blank" style="color: #a00">查看</a>
                                         </div>
                                         #elseif(sp.isDraft())
                                         <div class="jp-actionitem">

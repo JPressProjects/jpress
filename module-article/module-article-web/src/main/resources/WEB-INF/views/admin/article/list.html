@@ -123,19 +123,21 @@
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
+                                    <strong>
                                     <a href="/admin/article/write/#(article.id)">#(article.title ??)</a>
                                     #if(article.isDraft())
                                     （草稿）
                                     #end
+                                    </strong>
                                     <div class="jp-actionblock">
                                         #if(article.isNormal())
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/write/#(article.id)" style="color: #006505">编辑</a> |
-                                            <a href="#" target="_blank" style="color: #006505">查看</a> |
                                             <a href="javascript:;" onclick="draft('#(article.id??)')" style="color: #006505">草稿</a>
                                             |
                                             <a href="javascript:;" onclick="trash('#(article.id??)')"
-                                               style="color: #a00">垃圾箱</a>
+                                               style="color: #a00">垃圾箱</a>|
+                                            <a href="#" target="_blank" style="color: #a00">查看</a>
                                         </div>
                                         #elseif(article.isDraft())
                                         <div class="jp-actionitem">

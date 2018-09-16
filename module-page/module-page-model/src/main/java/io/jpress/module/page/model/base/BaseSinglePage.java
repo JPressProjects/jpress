@@ -81,6 +81,14 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 		return getStr("style");
 	}
 
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+	
+	public java.lang.String getFlag() {
+		return getStr("flag");
+	}
+
 	public void setStatus(java.lang.String status) {
 		set("status", status);
 	}

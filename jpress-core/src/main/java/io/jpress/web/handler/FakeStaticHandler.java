@@ -2,15 +2,8 @@ package io.jpress.web.handler;
 
 
 import com.jfinal.handler.Handler;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.event.annotation.EventConfig;
 import io.jboot.utils.StringUtils;
-import io.jpress.JPressConstants;
-import io.jpress.model.Option;
-import io.jpress.service.OptionService;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Package io.jpress.web.handler
  */
 
-@EventConfig(action = JPressConstants.EVENT_OPTION_UPDATE)
-public class FakeStaticHandler extends Handler implements JbootEventListener {
+public class FakeStaticHandler extends Handler {
 
     private static String suffix = null;
 
@@ -30,8 +22,6 @@ public class FakeStaticHandler extends Handler implements JbootEventListener {
         FakeStaticHandler.suffix = suffix;
     }
 
-    @Inject
-    private OptionService optionService;
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
@@ -45,46 +35,5 @@ public class FakeStaticHandler extends Handler implements JbootEventListener {
         next.handle(target, request, response, isHandled);
     }
 
-    @Override
-    public void onEvent(JbootEvent event) {
-        Option option = event.getData();
 
-        /**
-         * 伪静态开关的设置
-         */
-        if (JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE.equals(option.getKey())) {
-
-            Boolean enable = optionService.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-            if (enable == null || enable == false) {
-                initSuffix(null);
-                return;
-            }
-
-            String suffix = optionService.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-            if (StringUtils.isBlank(suffix)) {
-                initSuffix(null);
-            } else {
-                initSuffix(suffix);
-            }
-
-        }
-
-        /**
-         * 伪静态后缀的设置
-         */
-        else if (JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(option.getKey())) {
-            Boolean enable = optionService.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-            if (enable == null || enable == false) {
-                return;
-            }
-
-            String suffix = optionService.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-            if (StringUtils.isBlank(suffix)) {
-                initSuffix(null);
-            } else {
-                initSuffix(suffix);
-            }
-        }
-
-    }
 }

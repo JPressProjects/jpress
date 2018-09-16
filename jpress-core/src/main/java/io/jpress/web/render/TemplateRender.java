@@ -25,7 +25,6 @@ import java.util.Map;
 public class TemplateRender extends Render {
 
     private static Engine engine;
-
     private static final String contentType = "text/html; charset=" + getEncoding();
 
     private Engine getEngine() {
@@ -33,6 +32,12 @@ public class TemplateRender extends Render {
             engine = RenderManager.me().getEngine();
         }
         return engine;
+    }
+
+    private static String cdnDomain;
+
+    public static void initCdnDomain(String cdnDomain) {
+        TemplateRender.cdnDomain = cdnDomain;
     }
 
 

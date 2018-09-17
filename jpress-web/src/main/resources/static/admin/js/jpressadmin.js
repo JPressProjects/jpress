@@ -35,7 +35,7 @@ function initDomainSpan() {
 
 function initSlugSpan() {
 
-    var reg = /([\s|\。|\，|\？|\、|\"|\“|\”|\‘|\'|\（|\）|\《|\》|\… |\～|\￥|\&|\*|\@|\#|\$||\%|\`|\.|\【|\】])+/ig;
+    var reg = /([\s|\。|\，|\？|\、|\"|\“|\”|\‘|\'|\（|\）|\《|\》|\… |\～|\￥|\&|\*|\@|\#|\$||\%|\`|\.|\【|\】|\-])+/ig;
 
     String.prototype.endWith = function (s) {
         if (s == null || s == "" || this.length == 0 || s.length > this.length)
@@ -66,7 +66,7 @@ function initSlugSpan() {
             if ($('#' + forInput).val() == "") {
 
                 var value = this.value.replace(reg, "_");
-                if (value.endWith("-")) {
+                if (value.endWith("_")) {
                     value = value.substring(0, value.length - 1);
                 }
 

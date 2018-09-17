@@ -3,6 +3,7 @@ package io.jpress.web.directives;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.StringUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
@@ -24,6 +25,9 @@ public class MenusDirective extends JbootDirectiveBase {
     @Inject
     private MenuService menuService;
 
+//    @Inject
+//    private OptionService optionService;
+
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String type = getParam(0, scope);
@@ -33,8 +37,37 @@ public class MenusDirective extends JbootDirectiveBase {
         }
 
         List<Menu> menus = menuService.findListByType(type);
-        MenuKits.toTreeCategories(menus);
+        if (ArrayUtils.isNullOrEmpty(menus)) {
+            return;
+        }
 
+//        Boolean enable = optionService.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
+//        if (enable == null || enable == false) {
+//            renderMenu(env, scope, writer, menus);
+//            return;
+//        }
+//
+//        String suffix = optionService.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
+//        if (StringUtils.isBlank(suffix)) {
+//            renderMenu(env, scope, writer, menus);
+//            return;
+//        }
+//
+//        for (Menu menu : menus) {
+//            if (StringUtils.isBlank(menu.getUrl())) {
+//                continue;
+//            }
+//
+//            if (menu.getUrl().startsWith("/") && !menu.getUrl().endsWith(suffix)) {
+//                menu.setUrl(menu.getUrl() + suffix);
+//            }
+//        }
+
+        renderMenu(env, scope, writer, menus);
+    }
+
+    private void renderMenu(Env env, Scope scope, Writer writer, List<Menu> menus) {
+        MenuKits.toTreeCategories(menus);
         scope.setLocal("menus", menus);
         renderBody(env, scope, writer);
     }

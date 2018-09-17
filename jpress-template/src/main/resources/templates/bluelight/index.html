@@ -4,16 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>天蓝简洁模板-JPress模板</title>
-
-    <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bl-css.css">
-
-    <!--[if lt IE 9]>
-    <script src="/static/components/html5shiv/html5shiv.min.js"></script>
-    <script src="/static/components/respond/respond.min.js"></script>
-    <![endif]-->
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bl-css.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
 </head>
 <body>
     <div class="bl-header container-fluid">
@@ -28,21 +26,19 @@
                         <li class="nav-item active">
                             <a href="bl-first-index.html">首页 <span class="sr-only">(current)</span></a>
                         </li>
+                        #menus("main")
+                        #for(menu : menus)
                         <li class="nav-item">
-                            <a href="bl-aritical-list.html">文章</a>
+                            <a href="#(menu.url ??)">#(menu.text ??)</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="bl-course-list.html">教程</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="bl-about.html">关于</a>
-                        </li>
+                        #end
+                        #end
                     </ul>
                 </div>
-                <form class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-light my-2 my-sm-0 bl-light-color" type="submit"><i class="fa fa-search"></i></button>
-                </form>
-                <button type="button" class="btn btn-outline-light bl-light-color">下载</button>
+                <!--<form class="form-inline my-2 my-lg-0 ">-->
+                    <!--<button class="btn my-2 my-sm-0 bl-light-color" type="submit"><i class="fa fa-search"></i></button>-->
+                <!--</form>-->
+                <button type="button" class="btn btn-outline-light ">下载</button>
             </nav>
         </div>
     </div>
@@ -101,7 +97,7 @@
         <h3 class="bl-card-title">产品介绍</h3>
         <div class="row product-box-body">
             <div class="col-md-6 col-sm-12 product-box-image">
-                <img class="card-img-left" src="img/product1.jpg" alt="Card image cap" />
+                <img class="card-img-left" src="img/product.jpg" alt="Card image cap" />
             </div>
             <div class="col-md-6 col-sm-12 product-box-content">
                 <h3 class="card-title">轻</h3>
@@ -250,7 +246,9 @@
             <div class="copyright">copyright @ 2018 JPress设计部出品</div>
         </div>
     </div>
-<script src="/static/components/jquery/jquery.min.js"></script>
-<script src="/static/components/bootstrap/js/bootstrap.min.js"></script>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="jquery/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

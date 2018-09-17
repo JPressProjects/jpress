@@ -89,6 +89,8 @@ public class _TemplateController extends AdminControllerBase {
         if (dirName != null && dirName.contains("..")) {
             renderError(404);
             return;
+        } else {
+            setParentDirAttr(dirName);
         }
 
         String editFileName = getPara("f", "index.html");
@@ -96,6 +98,7 @@ public class _TemplateController extends AdminControllerBase {
             renderError(404);
             return;
         }
+
 
         render("template/edit.html");
 
@@ -126,7 +129,7 @@ public class _TemplateController extends AdminControllerBase {
         setAttr("f", editFile.getName());
         setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
 
-        setParentDirAttr(dirName);
+
     }
 
     private void setParentDirAttr(String dirName) {

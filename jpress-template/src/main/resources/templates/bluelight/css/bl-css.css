@@ -1,4 +1,3 @@
-
 .bl-bgclor{
     background-color: #0050B3;
 }
@@ -47,12 +46,15 @@
     font-size:16px;
 }
 /*artical list*/
+.list-content{
+    padding:2rem 0;
+}
 .bl-list-card{
     padding:1.5rem 0;
     border-bottom:1px solid #dee2e6;
 }
 .bl-label{
-    margin-top:2rem;
+    margin:1rem 0 1rem 0;
 }
 .bl-tag{
     margin-top:0.5rem;
@@ -71,10 +73,14 @@
 .bl-list-card a:hover{
     text-decoration: none;
 }
+.bl-page{
+    margin:1rem 0 0 0;
+}
+
 /*comment panel*/
 .comment-panel{
-    padding-bottom:1.5rem;
-    margin-top:2.5rem;
+    padding-bottom:0.5rem;
+    margin-top:2rem;
     border-bottom:1px solid #dee2e6;
 }
 .comment-panel .comment-panel-portrait{
@@ -82,7 +88,7 @@
 }
 .comment-panel .comment-panel-content{
     float:left;
-    padding:0.5rem 0 0.5rem 1.5rem;
+    padding:0 0 0 1rem;
     width: 80%;
 }
 .comment-panel .comment-panel-content .comment-panel-content-item div{
@@ -90,12 +96,12 @@
     padding:0 1rem 0 0;
 }
 .comment-panel .comment-panel-content .comment-panel-content-main{
-    margin-top:1rem;
+    margin-top:0.5rem;
 }
 .comment-panel .comment-panel-secondary{
     border:1px solid #e5e5e5;
-    padding:1rem 1rem 0 1rem;
-    margin:1rem 0;
+    padding:0.5rem 0.5rem 0 0.5rem;
+    margin:0.5rem 0;
     background-color: #fffffb;
 }
 /*recommend aritical*/
@@ -110,17 +116,22 @@
     padding:1rem;
 }
 .card-right .card-right-body p{
-    margin:1rem 0 2.5rem 0;
+    margin:0.5rem 0 1rem 0;
+    color:#666;
+    line-height: 1.5rem;
 }
 /*index advantage*/
 .bl-card{
     padding:2.5rem 0 0 0;
+
 }
 .bl-title{
-    margin:4rem 0 1rem 0;
+    margin:2rem 0 1rem 0;
+    border-left:2px solid #0050B3;
+    padding:0 0 0 1rem;
 }
 .bl-card-title{
-    margin:4rem 0 1rem 0;
+    margin:2rem 0 1rem 0;
     text-align: center;
 }
 .bl-card-body{
@@ -172,12 +183,21 @@
 }
 .bl-footer-list .bl-footer-item{
     display: inline-block;
-    padding:1rem;
+    padding:0 1rem;
 }
 /*header*/
 .bl-header{
     background-color: #0050B3;
-    padding:2rem 0 0 0;
+    padding:1rem 0;
+}
+.icon-item a{
+    display: inline-block;
+    padding:1rem 2rem;
+    color:#cedced;
+}
+
+.icon-item a:hover{
+    color:#fff;
 }
 .bl-nav-color{
     color:#cedced;
@@ -203,17 +223,19 @@ a.nav-prand:hover{
  }
 /*about*/
 .bl-cloumn-nav{
-    padding:2.5rem 0;
+    padding:1.5rem 0;
     margin:0 2.5rem 0 0;
     border-right:1px solid #dfdfdf;
 }
 .bl-cloumn-nav .bl-cloumn-nav-item{
-    padding:1.5rem;
+    padding:1rem;
     color:#333;
 }
 .bl-cloumn-nav .bl-cloumn-nav-item.active{
     background-color:#0050B3 ;
     color:#fff;
+    border-top-left-radius: .25rem!important;
+    border-bottom-left-radius: .25rem!important;
 }
 .bl-about-banner{
     height: 180px;
@@ -221,17 +243,53 @@ a.nav-prand:hover{
 }
 .bl-title-center{
     text-align: center;
-    padding:2.5rem 0;
+    padding:2.5rem 0 0 0;
 }
 .bl-title-left{
-    padding:2.5rem 0;
+    padding:2.5rem 0 0 0;
 }
 /*artical*/
-.bl-artical{
-    padding:0 0 2.5rem 0;
+.bl-artical-title{
+    margin:3rem 0 0 0;
+}
+.bl-artical h1,.bl-artical h2,.bl-artical h3,.bl-artical h4,.bl-artical h5{
+    padding:1.5rem 0 0.5rem 0;
+}
+.bl-artical h1{
+    font-size:2rem;
+    color:#c7254e;
+}
+.bl-artical h2{
+    font-size:1.75rem;
 }
 .bl-artical h3{
-    color:#c7254e;
+    font-size:1.5rem;
+}
+.bl-artical h4{
+    font-size:1.25rem;
+}
+.bl-artical h5{
+    font-size:1rem;
+}
+.bl-artical{
+    padding:2.5rem 0 2.5rem 0;
+}
+.bl-artical blockquote{
+    padding:1rem 1rem 1rem 2rem;
+    border-left:4px solid #dfdfdf;
+    background-color: #f3f3f3;
+    /*font-style: italic;*/
+    font-weight: bold;
+}
+.bl-artical blockquote span{
+    font-size:36px;
+}
+.bl-artical pre{
+    padding:1rem;
+    background-color: #999;
+}
+.bl-artical code{
+    color:#fff;
 }
 .bl-artical p img{
     vertical-align: middle;
@@ -240,10 +298,8 @@ a.nav-prand:hover{
     height: auto;
 }
 .bl-artical p{
-    padding:0.5rem 0 1.5rem 0;
-    line-height: 2rem;
+    padding:0.5rem 0 0.5rem 0;
+    line-height: 1.8rem;
 }
-.bl-artical h3,.bl-artical h4,.bl-artical h5{
-    padding:1.5rem 0 0.5rem 0;
-}
+
 

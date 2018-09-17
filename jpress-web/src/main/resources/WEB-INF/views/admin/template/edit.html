@@ -155,18 +155,24 @@
                                         #for(file : files)
                                         <tr>
                                             <th>
-                                                #if(!file.isDir())
-                                                <a href="/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
-                                                    #(file.name ??)
-                                                </a>
-                                                #if(file.name == f)
-                                                （编辑中...）
-                                                #end
+                                                #if(file.isDir())
+                                                    #if(d != null)
+                                                    <a href="/admin/template/edit?d=#(d)/#(file.name ??)">
+                                                        #(file.name ??)
+                                                    </a>
+                                                    #else
+                                                        <a href="/admin/template/edit?d=#(file.name ??)">
+                                                            #(file.name ??)
+                                                        </a>
+                                                    #end
+                                                    [目录]
                                                 #else
-                                                <a href="/admin/template/edit?d=#(file.name ??)">
-                                                    #(file.name ??)
-                                                </a>
-                                                [目录]
+                                                    <a href="/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
+                                                        #(file.name ??)
+                                                    </a>
+                                                    #if(file.name == f)
+                                                    （编辑中...）
+                                                    #end
                                                 #end
                                             </th>
                                         </tr>

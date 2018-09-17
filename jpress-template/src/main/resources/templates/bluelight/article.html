@@ -6,23 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>天蓝简洁模板-JPress模板</title>
-
-    <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/bl-css.css">
-
-    <!--[if lt IE 9]>
-    <script src="/static/components/html5shiv/html5shiv.min.js"></script>
-    <script src="/static/components/respond/respond.min.js"></script>
-    <![endif]-->
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bl-css.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
 </head>
 <body>
 <div class="bl-header container-fluid">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
             <a class="nav-prand" href="bl-first-index.html">JPress</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -41,66 +37,67 @@
                     </li>
                 </ul>
             </div>
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-light my-2 my-sm-0 bl-light-color" type="submit"><i
-                        class="fa fa-search"></i></button>
-            </form>
+            <!--<form class="form-inline my-2 my-lg-0">-->
+            <!--<button class="btn btn-outline-light my-2 my-sm-0 bl-light-color" type="submit"><i class="fa fa-search"></i></button>-->
+            <!--</form>-->
             <button type="button" class="btn btn-outline-light bl-light-color">下载</button>
         </nav>
     </div>
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-9 card-body">
-            <div class="bl-artical">
-                <h2>JPress的ehcache缓存方案、以及踩过ehcache的坑</h2>
-                <div class="bl-label">
-                    <div class="bl-label-item">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                        <span class="text-success">海哥</span>
-                    </div>
-                    <div class="bl-label-item">2017-10-01 18:00</div>
+        <div class="col-9">
+            <h3 class="bl-artical-title">JPress的ehcache缓存方案、以及踩过ehcache的坑</h3>
+            <div class="bl-label">
+                <div class="bl-label-item">
+                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
+                    <span class="text-success">海哥</span>
                 </div>
+                <div class="bl-label-item">2017-10-01 18:00</div>
+            </div>
+            <div class="bl-artical">
                 <p>里面主要是用到了自定义白名单的功能，允许的base64的图片提交，增加视频等更多HTML5的属性支持，同时极易扩展更多的标签和属性。</p>
-                <h3>一、概述(H3)</h3>
+                <h1>我是标题H1</h1>
+                <h2>我是标题H2</h2>
+                <h3>我是标题H3</h3>
+                <h4>我是标题H4</h4>
+                <h5>我是标题H5</h5>
                 <p><img src="img/product-example.jpg" alt=""></p>
                 <p>最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <h4>1、JFinal里配置ehcachePlugin插件；(H3)</h4>
-                <p>
-                    因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
+                <h4>1、JFinal里配置ehcachePlugin插件；(H4)</h4>
+                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
                 <h4>2、在类路径下添加ehcache的的配置文件ehcache.xml中</h4>
-                <p>
-                    因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
-                <h4>3、直接使用EhcacheKit操作缓存。</h4>
-                <code>
+                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
+                <h4 >3、直接使用EhcacheKit操作缓存。</h4>
+                <pre>
+                    <code>
 
-                    ehcachef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:noNamespaceSchemaLocation="ehcacheeee.xsdeeeeee"
-                    updateCheck="false" monitoring="autodetect"
-                    dynamicConfig="true"
+.bl-cloumn-nav{
+    padding:1.5rem 0;
+    margin:0 2.5rem 0 0;
+    border-right:1px solid #dfdfdf;
+}
+.bl-cloumn-nav .bl-cloumn-nav-item{
+    padding:1rem;
+    color:#333;
+}
+.bl-cloumn-nav .bl-cloumn-nav-item.active{
+    background-color:#0050B3 ;
+    color:#fff;
+}
+.bl-about-banner{
+    height: 180px;
+    overflow: hidden;
+}
 
-                    diskStoref path="java.io.tmpdire"/
-
-                    defaultCachef
-                    maxEntriesLocalHeap="10000"
-                    eternal="false"
-                    overflowToDisk="true"
-                    timeToIdleSeconds="20"
-                    timeToLiveSeconds="60"
-                    defaultCachef
-
-                </code>
-                <p>
-                    到此，一切很顺利的进行着，但随着J按在大量的使用ehcache的，ehcache的的缓存数据操作与更新就变成了一个棘手的问题，更新数据库数据了，缓存若得不到及时更新，就会导致程序在运行的过程中有大量的BUG，各种莫名其妙的问题。此时，缓存数据的更新，就需要一个良好更新的计划和方案。</p>
+                    </code>
+                </pre>
+                <p>到此，一切很顺利的进行着，但随着J按在大量的使用ehcache的，ehcache的的缓存数据操作与更新就变成了一个棘手的问题，更新数据库数据了，缓存若得不到及时更新，就会导致程序在运行的过程中有大量的BUG，各种莫名其妙的问题。此时，缓存数据的更新，就需要一个良好更新的计划和方案。</p>
                 <p> 此段省去100万字。。。</p>
                 <P>直接上段教程</P>
                 <p>送上一句话：</p>
                 <blockquote>
-                    <span> " </span>
-                    社交媒体对身份政治（identity politics）的贡献众所周知，但我认为它对一个更深层次的东西也有贡献：这个东西就是身份麻痹（identity
-                    paralysis）。身份麻痹是指我们有一种对我们怎么说和怎么做反映的是我们自己的强迫意识（甚至包括一些似乎不重要的事情，如穿什么鞋，坐什么样的飞机）。结果就是我们这一代也会以独一无二的方式吸引品牌让我们按照自己希望的方式去感受自己，即便我们内心怎么看待自己往往不过是我们希望别人看待我们的样子罢了。
-                    <span> " </span>
-
+                    社交媒体对身份政治（identity politics）的贡献众所周知，但我认为它对一个更深层次的东西也有贡献：这个东西就是身份麻痹（identity paralysis）。身份麻痹是指我们有一种对我们怎么说和怎么做反映的是我们自己的强迫意识（甚至包括一些似乎不重要的事情，如穿什么鞋，坐什么样的飞机）。结果就是我们这一代也会以独一无二的方式吸引品牌让我们按照自己希望的方式去感受自己，即便我们内心怎么看待自己往往不过是我们希望别人看待我们的样子罢了。
                 </blockquote>
                 <p>备的早餐...到此，J按在遇到的ehcache的坑中解决完毕，终于松了一口气，美美吃上了老婆给我准.</p>
             </div>
@@ -134,15 +131,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div class="comment">
                 <h4 class="bl-title">学员评价</h4>
                 <form>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="想说就说吧..." id="exampleFormControlTextarea1"
-                                  rows="5"></textarea>
+                        <textarea class="form-control" placeholder="想说就说吧..." id="exampleFormControlTextarea1" rows="5"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary float-right">发表</button>
                     <span class="clearfix"></span>
@@ -150,8 +144,7 @@
 
                 <div class="comment-panel border-bottom">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
                     <div class="comment-panel-content">
                         <div class="comment-panel-content-item">
@@ -166,10 +159,9 @@
 
                 <div class="comment-panel clearfix border-bottom">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
-                    <div class="comment-panel-content">
+                    <div class="comment-panel-content" >
                         <div class="comment-panel-content-item">
                             <div>海哥</div>
                             <div class="bl-text-secondary">2017-10-01 18:00</div>
@@ -186,8 +178,7 @@
                 </div>
                 <div class="comment-panel">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
                     <div class="comment-panel-content">
                         <div class="comment-panel-content-item">
@@ -201,8 +192,7 @@
                 </div>
                 <div class="comment-panel">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
                     <div class="comment-panel-content">
                         <div class="comment-panel-content-item">
@@ -216,8 +206,7 @@
                 </div>
                 <div class="comment-panel">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
                     <div class="comment-panel-content">
                         <div class="comment-panel-content-item">
@@ -231,8 +220,7 @@
                 </div>
                 <div class="comment-panel">
                     <div class="comment-panel-portrait">
-                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size"
-                             alt="Responsive image">
+                        <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-portrait-size" alt="Responsive image">
                     </div>
                     <div class="comment-panel-content">
                         <div class="comment-panel-content-item">
@@ -274,8 +262,6 @@
                     <p>JPress下载、安装、导入Eclipse、运行教程</p>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>

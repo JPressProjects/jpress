@@ -47,7 +47,7 @@
 <div class="container">
     <div class="row">
         <div class="col-9">
-            <h3 class="bl-artical-title">JPress的ehcache缓存方案、以及踩过ehcache的坑</h3>
+            <h3 class="bl-artical-title">#(article.title ??)</h3>
             <div class="bl-label">
                 <div class="bl-label-item">
                     <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
@@ -56,52 +56,8 @@
                 <div class="bl-label-item">2017-10-01 18:00</div>
             </div>
             <div class="bl-artical">
-                <p>里面主要是用到了自定义白名单的功能，允许的base64的图片提交，增加视频等更多HTML5的属性支持，同时极易扩展更多的标签和属性。</p>
-                <h1>我是标题H1</h1>
-                <h2>我是标题H2</h2>
-                <h3>我是标题H3</h3>
-                <h4>我是标题H4</h4>
-                <h5>我是标题H5</h5>
-                <p><img src="img/product-example.jpg" alt=""></p>
-                <p>最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <h4>1、JFinal里配置ehcachePlugin插件；(H4)</h4>
-                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
-                <h4>2、在类路径下添加ehcache的的配置文件ehcache.xml中</h4>
-                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
-                <h4 >3、直接使用EhcacheKit操作缓存。</h4>
-                <pre>
-                    <code>
-
-.bl-cloumn-nav{
-    padding:1.5rem 0;
-    margin:0 2.5rem 0 0;
-    border-right:1px solid #dfdfdf;
-}
-.bl-cloumn-nav .bl-cloumn-nav-item{
-    padding:1rem;
-    color:#333;
-}
-.bl-cloumn-nav .bl-cloumn-nav-item.active{
-    background-color:#0050B3 ;
-    color:#fff;
-}
-.bl-about-banner{
-    height: 180px;
-    overflow: hidden;
-}
-
-                    </code>
-                </pre>
-                <p>到此，一切很顺利的进行着，但随着J按在大量的使用ehcache的，ehcache的的缓存数据操作与更新就变成了一个棘手的问题，更新数据库数据了，缓存若得不到及时更新，就会导致程序在运行的过程中有大量的BUG，各种莫名其妙的问题。此时，缓存数据的更新，就需要一个良好更新的计划和方案。</p>
-                <p> 此段省去100万字。。。</p>
-                <P>直接上段教程</P>
-                <p>送上一句话：</p>
-                <blockquote>
-                    社交媒体对身份政治（identity politics）的贡献众所周知，但我认为它对一个更深层次的东西也有贡献：这个东西就是身份麻痹（identity paralysis）。身份麻痹是指我们有一种对我们怎么说和怎么做反映的是我们自己的强迫意识（甚至包括一些似乎不重要的事情，如穿什么鞋，坐什么样的飞机）。结果就是我们这一代也会以独一无二的方式吸引品牌让我们按照自己希望的方式去感受自己，即便我们内心怎么看待自己往往不过是我们希望别人看待我们的样子罢了。
-                </blockquote>
-                <p>备的早餐...到此，J按在遇到的ehcache的坑中解决完毕，终于松了一口气，美美吃上了老婆给我准.</p>
+                #(article.text ??)
             </div>
-
 
             <div class="recommend-panel">
                 <h4 class="bl-title">相关文章</h4>

@@ -58,47 +58,9 @@
             </div>
         </div>
         <div class="col-9">
-            <h2 class="bl-title-left">关于我们</h2>
+            <h2 class="bl-title-center">#(page.title ??)</h2>
             <div class="bl-artical">
-                <p>JPress，一个wordpress的java代替版本，使用JFinal开发。支持类似wordpress的几乎所有功能，比如：模板，插件等。同时在模板上，JPress提出了“模板即模型”的概念，方便模板制作人灵活制作业务模型，移除了widget等繁杂功能，同时在模板和插件制作上比wordpress更加灵活简洁。</p>
-                <p>但是，JPress又不是wordpress的java版本，它天生融合了微信公众平台，整合了国内众多云平台、短信发送、邮件发送平台，独创的“模板即模型”概念是wordpress所不具备的，只有资深的wordpress玩家才能体会里面的微妙关系。同时后续会添加微信文章同步，QQ公众平台，今日头条，一点资讯等新媒体的文章同步功能，更加国产和本地化。</p>
-                <h4>我们的特点</h4>
-                <p><img src="img/product-example.jpg" alt="Responsive image"></p>
-                <p>最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-
-                <h4>1、JFinal里配置ehcachePlugin插件；(H3)</h4>
-                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
-                <h4>2、在类路径下添加ehcache的的配置文件ehcache.xml中</h4>
-                <p>因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。因为J按是基于JFinal快速开发框架，而JFinal又内置了的Ehcache的插件，使用起来及其简单。</p>
-                <h4 >3、直接使用EhcacheKit操作缓存。</h4>
-                <code>
-
-                    ehcachef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:noNamespaceSchemaLocation="ehcacheeee.xsdeeeeee"
-                    updateCheck="false" monitoring="autodetect"
-                    dynamicConfig="true"
-
-                    diskStoref path="java.io.tmpdire"/
-
-                    defaultCachef
-                    maxEntriesLocalHeap="10000"
-                    eternal="false"
-                    overflowToDisk="true"
-                    timeToIdleSeconds="20"
-                    timeToLiveSeconds="60"
-                    defaultCachef
-
-                </code>
-                <p>到此，一切很顺利的进行着，但随着J按在大量的使用ehcache的，ehcache的的缓存数据操作与更新就变成了一个棘手的问题，更新数据库数据了，缓存若得不到及时更新，就会导致程序在运行的过程中有大量的BUG，各种莫名其妙的问题。此时，缓存数据的更新，就需要一个良好更新的计划和方案。</p>
-                <p> 此段省去100万字。。。</p>
-                <P>直接上段教程</P>
-                <p>送上一句话：</p>
-                <blockquote>
-                    <span> " </span>
-                    社交媒体对身份政治（identity politics）的贡献众所周知，但我认为它对一个更深层次的东西也有贡献：这个东西就是身份麻痹（identity paralysis）。身份麻痹是指我们有一种对我们怎么说和怎么做反映的是我们自己的强迫意识（甚至包括一些似乎不重要的事情，如穿什么鞋，坐什么样的飞机）。结果就是我们这一代也会以独一无二的方式吸引品牌让我们按照自己希望的方式去感受自己，即便我们内心怎么看待自己往往不过是我们希望别人看待我们的样子罢了。
-                    <span> " </span>
-                </blockquote>
-                <p>备的早餐...到此，J按在遇到的ehcache的坑中解决完毕，终于松了一口气，美美吃上了老婆给我准.</p>
+                #(page.text ??)
             </div>
         </div>
     </div>

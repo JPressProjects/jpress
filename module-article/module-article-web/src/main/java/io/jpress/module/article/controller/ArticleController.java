@@ -74,11 +74,5 @@ public class ArticleController extends TemplateControllerBase {
     }
 
 
-    private void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
-        }
-    }
-
 
 }

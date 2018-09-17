@@ -32,4 +32,11 @@ public abstract class TemplateControllerBase extends JbootController {
         super.render(new TemplateRender(view));
     }
 
+
+    protected void assertNotNull(Object object) {
+        if (object == null) {
+            renderError(404);
+        }
+    }
+
 }

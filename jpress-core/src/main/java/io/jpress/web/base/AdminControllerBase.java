@@ -3,6 +3,7 @@ package io.jpress.web.base;
 import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConstants;
 import io.jpress.model.User;
@@ -52,4 +53,18 @@ public abstract class AdminControllerBase extends JbootController {
 
         return id;
     }
+
+
+    protected void assertNotNull(Object object) {
+        if (object == null) {
+            renderError(404);
+        }
+    }
+
+    protected boolean validateSlug(Model model) {
+        String slug = (String) model.get("slug");
+        return slug == null ? true : !slug.contains("-");
+    }
+
+
 }

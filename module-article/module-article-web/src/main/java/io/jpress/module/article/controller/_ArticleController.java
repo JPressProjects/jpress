@@ -112,8 +112,9 @@ public class _ArticleController extends AdminControllerBase {
     public void doWriteSave() {
         Article article = getModel(Article.class, "article");
 
-        if (article.getCommentStatus() == null) {
-            article.setCommentStatus(false);
+        if (!validateSlug(article)) {
+            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            return;
         }
 
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
@@ -128,7 +129,7 @@ public class _ArticleController extends AdminControllerBase {
         articleService.doUpdateCategorys(id, allIds);
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
-        renderJson(ret.toJson());
+        renderJson(ret);
     }
 
     private Long[] getTagIds(String[] tags) {
@@ -199,8 +200,17 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
+    @EmptyValidate({
+            @Form(name = "category.title", message = "分类名称不能为空"),
+            @Form(name = "category.slug", message = "slug 不能为空")
+    })
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
+        if (!validateSlug(category)) {
+            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            return;
+        }
+
         categoryService.saveOrUpdate(category);
         renderJson(Ret.ok());
     }

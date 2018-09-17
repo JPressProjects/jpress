@@ -77,8 +77,15 @@ public class _TemplateController extends AdminControllerBase {
 
 
     @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 88)
-    public void me() {
-        render("user/me.html");
+    public void setting() {
+        Template template = TemplateManager.me().getCurrentTemplate();
+        String view = template.matchTemplateFile("setting.html");
+        if (view == null) {
+            render("template/setting.html");
+            return;
+        }
+
+        render(template.getWebAbsolutePath() + "/setting.html");
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)

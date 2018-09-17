@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>天蓝简洁模板-JPress模板</title>
+    <title>BlueLight - Powered by JeanStudio</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bl-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
 <div class="bl-header container-fluid">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
-            <a class="nav-prand" href="bl-first-index.html">JPress</a>
+            <a class="nav-prand" href="/">#(option('bluelight_logo_text') ?? 'JeanStudio')</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -33,7 +33,7 @@
                     #end
                 </ul>
             </div>
-            <button type="button" class="btn btn-outline-light ">下载</button>
+            <a href="#option('bluelight_download_url')" class="btn btn-outline-light ">下载</a>
         </nav>
     </div>
 </div>
@@ -59,8 +59,8 @@
 <script src="jquery/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
-
 #@script?()
+
 </body>
 </html>
 #end

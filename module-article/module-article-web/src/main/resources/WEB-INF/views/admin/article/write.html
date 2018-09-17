@@ -17,49 +17,6 @@
         create: true
     });
 
-    var domain = "#option('web_domain')";
-    if (domain == "") {
-        domain = window.location.protocol + "//" + window.location.host;
-    }
-    $("#domain").text(domain);
-
-    $('#slug').editable({
-        emptytext: "标题"
-    });
-
-    $('#slug').on('save', function (e, params) {
-        $('#article-slug').attr('value', params.newValue);
-    });
-
-    var reg = /([\s|\。|\，|\？|\、|\"|\“|\”|\‘|\'|\（|\）|\《|\》|\… |\～|\￥|\&|\*|\@|\#|\$||\%|\`|\.|\【|\】])+/ig;
-
-    $("#article-title").keyup(function () {
-        if ($('#article-slug').val() == "") {
-            var value = this.value.replace(reg, "_");
-            if (value.endWith("-")) {
-                value = value.substring(0, value.length - 1);
-            }
-
-            $.get("/admin/commons/doGetPinyin/" + value, function (result) {
-                if ("ok" == result.state) {
-                    var pinyin = result.data;
-                    $("#slug").text(pinyin);
-                    $('#slug').editable('setValue', pinyin);
-                }
-            });
-        }
-    });
-
-    String.prototype.endWith = function (s) {
-        if (s == null || s == "" || this.length == 0 || s.length > this.length)
-            return false;
-        if (this.substring(this.length - s.length) == s)
-            return true;
-        else
-            return false;
-    }
-
-
     function doSubmit() {
         editorUpdate();
         $('#article-slug').val($("#slug").text());
@@ -146,7 +103,10 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12" style="padding-bottom: 2px">
-                                网址：<span id="domain"></span>/article/<span id="slug">#(article.slug ??)</span>.html
+                                网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
+                                                                                                       class="slugSpan"
+                                                                                                       for-input="article-slug"
+                                                                                                       for-listener="article-title">#(article.slug ??)</span>.html
                                 <input type="hidden" id="article-slug" name="article.slug">
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">

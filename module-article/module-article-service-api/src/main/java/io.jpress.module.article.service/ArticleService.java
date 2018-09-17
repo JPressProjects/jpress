@@ -120,4 +120,9 @@ public interface ArticleService {
     public Article findFirstBySlug(String slug);
 
 
+    public Article findNextById(long id);
+
+    public Article findPreviousById(long id);
+
+
 }

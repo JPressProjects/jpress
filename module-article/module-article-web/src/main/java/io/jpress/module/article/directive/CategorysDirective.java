@@ -9,7 +9,6 @@ import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,8 +17,8 @@ import java.util.List;
  * @Title: 文章分类：分类、专题、标签等
  * @Package io.jpress.module.article.directives
  */
-@JFinalDirective("articleCategory")
-public class CategoryDirective extends JbootDirectiveBase {
+@JFinalDirective("articleCategories")
+public class CategorysDirective extends JbootDirectiveBase {
 
     @Inject
     private ArticleCategoryService categoryService;
@@ -38,17 +37,24 @@ public class CategoryDirective extends JbootDirectiveBase {
         if (categories == null || categories.isEmpty()) {
             return;
         }
-        try {
-            for (int i = 0; i < categories.size(); i++) {
-                ArticleCategory category = categories.get(i);
-                if (i == categories.size() - 1) {
-                    writer.write(String.format("<a href=\"\">%s</a>", category.getTitle()));
-                } else {
-                    writer.write(String.format("<a href=\"\">%s</a> , ", category.getTitle()));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            for (int i = 0; i < categories.size(); i++) {
+//                ArticleCategory category = categories.get(i);
+//                if (i == categories.size() - 1) {
+//                    writer.write(String.format("<a href=\"\">%s</a>", category.getTitle()));
+//                } else {
+//                    writer.write(String.format("<a href=\"\">%s</a> , ", category.getTitle()));
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        scope.setLocal("categories", categories);
+        renderBody(env, scope, writer);
+    }
+
+    @Override
+    public boolean hasEnd() {
+        return true;
     }
 }

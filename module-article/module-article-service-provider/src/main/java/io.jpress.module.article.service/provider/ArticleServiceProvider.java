@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -97,6 +98,23 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public Article findFirstBySlug(String slug) {
         return DAO.findFirstByColumn(Column.create("slug", slug));
+    }
+
+
+    @Override
+    public Article findNextById(long id) {
+        Columns columns = Columns.create();
+        columns.add(Column.create("id", id, Column.LOGIC_GT));
+        columns.add(Column.create("status", Article.STATUS_NORMAL));
+        return DAO.findFirstByColumns(columns);
+    }
+
+    @Override
+    public Article findPreviousById(long id) {
+        Columns columns = Columns.create();
+        columns.add(Column.create("id", id, Column.LOGIC_LT));
+        columns.add(Column.create("status", Article.STATUS_NORMAL));
+        return DAO.findFirstByColumns(columns);
     }
 
 }

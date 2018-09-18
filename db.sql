@@ -1,4 +1,3 @@
-
 # Dump of table article
 # ------------------------------------------------------------
 
@@ -25,8 +24,8 @@ CREATE TABLE `article` (
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
   `flag` varchar(256) DEFAULT NULL COMMENT '标识',
-  `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
-  `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述信息',
+  `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
+  `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
@@ -289,6 +288,7 @@ CREATE TABLE `single_page` (
   `summary` text COMMENT '摘要',
   `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
+  `flag` varchar(32) DEFAULT NULL,
   `status` varchar(32) NOT NULL DEFAULT '0' COMMENT '状态',
   `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
@@ -431,4 +431,3 @@ CREATE TABLE `wechat_replay` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-

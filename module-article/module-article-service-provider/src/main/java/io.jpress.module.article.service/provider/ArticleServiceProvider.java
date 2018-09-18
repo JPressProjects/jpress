@@ -43,9 +43,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         String select = "select * ";
         StringBuilder from = new StringBuilder("from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(toSqlArrayString(categoryId));
+        from.append(" where m.category_id = ? ");
 
-        return DAO.paginate(page, pagesize, select, from.toString());
+        return DAO.paginate(page, pagesize, select, from.toString(), categoryId);
     }
 
     @Override
@@ -137,6 +137,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.add(Column.create("id", id, Column.LOGIC_LT));
         columns.add(Column.create("status", Article.STATUS_NORMAL));
         return DAO.findFirstByColumns(columns);
+    }
+
+    @Override
+    public List<Article> findListByColumns(Columns columns, String orderBy, Integer count) {
+        return DAO.findListByColumns(columns, orderBy, count);
     }
 
     private String toSqlArrayString(Long... ids) {

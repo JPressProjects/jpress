@@ -2,6 +2,7 @@ package io.jpress.module.article.service;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.module.article.model.Article;
 
 import java.util.List;
@@ -130,6 +131,8 @@ public interface ArticleService {
 
 
     public Article findPreviousById(long id);
+
+    public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
 }

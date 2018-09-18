@@ -109,4 +109,6 @@ public interface SinglePageService {
 
     public SinglePage findFirstBySlug(String slug);
 
+    public List<SinglePage> findListByFlag(String flag);
+
 }

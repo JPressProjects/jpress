@@ -9,6 +9,7 @@ import io.jpress.module.page.model.SinglePage;
 import io.jboot.service.JbootServiceBase;
 
 import javax.inject.Singleton;
+import java.util.List;
 
 @Bean
 @Singleton
@@ -45,5 +46,10 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     @Override
     public SinglePage findFirstBySlug(String slug) {
         return DAO.findFirstByColumn(Column.create("slug", slug));
+    }
+
+    @Override
+    public List<SinglePage> findListByFlag(String flag) {
+        return DAO.findListByColumn(Column.create("flag", flag));
     }
 }

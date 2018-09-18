@@ -8,6 +8,6 @@ import io.jboot.web.controller.JbootController;
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before(ApiInterceptor.class)
+@Before({ApiInterceptor.class, UserInterceptor.class})
 public abstract class ApiControllerBase extends JbootController {
 }

@@ -5,6 +5,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StringUtils;
+import io.jboot.web.JbootControllerContext;
 import io.jpress.JPressConstants;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
@@ -22,42 +23,34 @@ public class UserInterceptor implements Interceptor {
     @Inject
     private UserService userService;
 
-    private static final ThreadLocal<User> threadLocal = new ThreadLocal<User>();
-
     public static User getThreadLocalUser() {
-        return threadLocal.get();
+        return JbootControllerContext.get().getAttr(JPressConstants.ATTR_LOGINED_USER);
     }
-
 
     @Override
     public void intercept(Invocation inv) {
 
         Controller controller = inv.getController();
-
         User user = controller.getAttr(JPressConstants.ATTR_LOGINED_USER);
+
         if (user != null) {
-            doInvoke(inv, user);
-            return;
-        }
-
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
-
-        if (StringUtils.isNotBlank(uid)) {
-            doInvoke(inv, userService.findById(uid));
-            return;
-        }
-
-        inv.invoke();
-    }
-
-    private void doInvoke(Invocation inv, User user) {
-
-        if (user == null) {
             inv.invoke();
             return;
         }
 
-        threadLocal.set(user);
+
+        String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
+        if (StringUtils.isBlank(uid)) {
+            inv.invoke();
+            return;
+        }
+
+        user = userService.findById(uid);
+        if (user != null && user.isStatusOk()) {
+            inv.getController().setAttr(JPressConstants.ATTR_LOGINED_USER, user);
+        }
+
         inv.invoke();
     }
+
 }

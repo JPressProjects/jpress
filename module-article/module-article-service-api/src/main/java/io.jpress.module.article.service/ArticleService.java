@@ -101,6 +101,10 @@ public interface ArticleService {
 
     public Page<Article> paginate(int page, int pagesize);
 
+    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId);
+
+    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds);
+
     public long doGetIdBySaveOrUpdateAction(Article article);
 
 
@@ -112,7 +116,9 @@ public interface ArticleService {
 
     public Page<Article> paginateWithoutTrash(int page, int pagesize);
 
+
     public boolean doChangeStatus(long id, String status);
+
 
     public int findCountByStatus(String status);
 
@@ -121,6 +127,7 @@ public interface ArticleService {
 
 
     public Article findNextById(long id);
+
 
     public Article findPreviousById(long id);
 

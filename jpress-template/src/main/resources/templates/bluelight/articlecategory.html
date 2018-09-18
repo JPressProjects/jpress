@@ -2,9 +2,12 @@
 #@layout()
 #define content()
 <div class="container list-content">
+
+    #articlePage()
+    #for(article : articlePage.list)
     <div class="row bl-list-card">
         <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
+            <h3 class="bl-content-title"><a href="#articleUrl(article)">#(article.title ??)</a></h3>
             <p class="bl-content-info">
                 最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
             <div class="bl-label">
@@ -23,153 +26,10 @@
         <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
         </div>
     </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
-    <div class="row bl-list-card">
-        <div class="col-8 bl-card-content">
-            <h3 class="bl-content-title"><a href="bl-aritical.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-            <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-            <div class="bl-label">
-                <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
-                </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
-            </div>
-            <div class="bl-tag">
-                <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 156</div>
-                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
-            </div>
-        </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </div>
+    #end
+    #end
+
+
     <nav aria-label="Page navigation example bl-page" style="margin-top:2rem;">
         <ul class="pagination justify-content-end">
             <li class="page-item disabled">

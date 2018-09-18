@@ -21,6 +21,7 @@ public class ArticleController extends TemplateControllerBase {
 
     @Inject
     private ArticleService articleService;
+
     @Inject
     private ArticleCategoryService categoryService;
 
@@ -34,7 +35,7 @@ public class ArticleController extends TemplateControllerBase {
         render(article.getHtmlView());
     }
 
-    
+
     private Article getArticle() {
         String idOrSlug = getPara(0);
         return StringUtils.isNumeric(idOrSlug)
@@ -72,7 +73,6 @@ public class ArticleController extends TemplateControllerBase {
                 : categoryService.findFirstByTypeAndSlug(type, idOrSlug);
 
     }
-
 
 
 }

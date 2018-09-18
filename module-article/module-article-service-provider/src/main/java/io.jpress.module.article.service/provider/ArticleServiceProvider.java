@@ -37,6 +37,28 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return articlePage;
     }
 
+
+    @Override
+    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId) {
+        String select = "select * ";
+        StringBuilder from = new StringBuilder("from article a ");
+        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        from.append(" where m.category_id in ").append(toSqlArrayString(categoryId));
+
+        return DAO.paginate(page, pagesize, select, from.toString());
+    }
+
+    @Override
+    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds) {
+        String select = "select * ";
+        StringBuilder from = new StringBuilder("from article a ");
+        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        from.append(" where m.category_id in ").append(toSqlArrayString(categoryIds));
+
+        return DAO.paginate(page, pagesize, select, from.toString());
+    }
+
+
     @Override
     public long doGetIdBySaveOrUpdateAction(Article article) {
         boolean saveOrUpdateSucess = saveOrUpdate(article);
@@ -115,6 +137,18 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.add(Column.create("id", id, Column.LOGIC_LT));
         columns.add(Column.create("status", Article.STATUS_NORMAL));
         return DAO.findFirstByColumns(columns);
+    }
+
+    private String toSqlArrayString(Long... ids) {
+        int iMax = ids.length - 1;
+        StringBuilder b = new StringBuilder();
+        b.append('(');
+        for (int i = 0; ; i++) {
+            b.append(String.valueOf(ids[i]));
+            if (i == iMax)
+                return b.append(')').toString();
+            b.append(", ");
+        }
     }
 
 }

@@ -9,7 +9,7 @@ import io.jpress.core.menu.AdminMenuGroup;
 import io.jpress.core.menu.AdminMenuItem;
 import io.jpress.core.menu.AdminMenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.permission.annotation.AdminPermission;
+import io.jpress.core.annotation.AdminPermission;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;

@@ -1,14 +1,12 @@
 package io.jpress.web.base;
 
-import com.google.inject.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.StringUtils;
-import io.jpress.model.User;
-import io.jpress.service.UserService;
+import io.jpress.core.annotation.NeedAuthentication;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -21,38 +19,63 @@ import java.util.Map;
  */
 public class ApiInterceptor implements Interceptor {
 
-    @Inject
-    private UserService userService;
+    private static boolean apiEnable = false;
+    private static String apiSecret = null;
+
+    public static void initApiEnable(boolean apiEnable) {
+        ApiInterceptor.apiEnable = apiEnable;
+    }
+
+    public static void initApiSecret(String apiSecret) {
+        ApiInterceptor.apiSecret = apiSecret;
+    }
+
 
     public void intercept(Invocation inv) {
 
-        Controller controller = inv.getController();
+        String target = inv.getActionKey();
+        if (!target.startsWith("/api/")) {
+            inv.invoke();
+            return;
+        }
 
+
+        if (apiEnable == false) {
+            inv.getController().renderJson(Ret.fail().set("message", "api closed."));
+            return;
+        }
+        
+
+        if (inv.getMethod().getDeclaredAnnotation(NeedAuthentication.class) == null) {
+            inv.invoke();
+            return;
+        }
+
+
+        if (StringUtils.isBlank(apiSecret)) {
+            inv.getController().renderJson(Ret.fail().set("message", "config error"));
+            return;
+        }
+
+
+        Controller controller = inv.getController();
         String sign = controller.getPara("sign");
-        int userId = controller.getParaToInt("userId", 0);
 
         if (StringUtils.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "sign is blank"));
             return;
         }
 
-        if (userId == 0) {
-            controller.renderJson(Ret.fail("message", "userId is error"));
+        String localSing = createLocalSign(inv.getController().getRequest().getParameterMap());
+        if (sign.equals(localSing) == false) {
+            inv.getController().renderJson(Ret.fail().set("message", "sign error"));
             return;
         }
-
-        User user = userService.findById(userId);
-        if (user == null) {
-            controller.renderJson(Ret.fail("message", "userId is error"));
-            return;
-        }
-
 
         inv.invoke();
     }
 
-
-    public static String signCheak(String accessKey, Map<String, String[]> params) {
+    private String createLocalSign(Map<String, String[]> params) {
         String[] keys = params.keySet().toArray(new String[0]);
         Arrays.sort(keys);
         StringBuilder query = new StringBuilder();
@@ -69,7 +92,7 @@ public class ApiInterceptor implements Interceptor {
                 }
             }
         }
-        query.append(accessKey);
+        query.append(apiSecret);
         return query.toString();
     }
 }

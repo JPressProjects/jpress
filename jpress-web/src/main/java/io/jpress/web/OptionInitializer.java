@@ -9,6 +9,7 @@ import io.jpress.JPressConstants;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
+import io.jpress.web.base.ApiInterceptor;
 import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.render.TemplateRender;
 
@@ -40,7 +41,20 @@ public class OptionInitializer implements JbootEventListener {
         initTemplateOption(); //初始化模板配置
         initFakeStaticOption(); //初始化伪静态配置
         initCdnOption(); //初始化CDN配置
+        initApiOption();
 
+    }
+
+    private void initApiOption() {
+        Boolean cdnEnable = service.findAsBoolByKey(JPressConstants.OPTION_API_ENABLE);
+        if (cdnEnable == null || cdnEnable == false) {
+            ApiInterceptor.initApiEnable(false);
+        } else {
+            ApiInterceptor.initApiEnable(true);
+        }
+
+        String apiSecret = service.findByKey(JPressConstants.OPTION_API_SECRET);
+        ApiInterceptor.initApiSecret(apiSecret);
     }
 
     private void initCdnOption() {
@@ -89,43 +103,61 @@ public class OptionInitializer implements JbootEventListener {
     @Override
     public void onEvent(JbootEvent event) {
         Option option = event.getData();
-
-        /**
-         * 伪静态开关的设置
-         */
-        if (JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE.equals(option.getKey())) {
-
-            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-            if (enable == null || enable == false) {
-                FakeStaticHandler.initSuffix(null);
-                return;
-            }
-
-            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-            if (StringUtils.isBlank(suffix)) {
-                FakeStaticHandler.initSuffix(null);
-            } else {
-                FakeStaticHandler.initSuffix(suffix);
-            }
-
+        switch (option.getKey()) {
+            case JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE:
+            case JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX:
+                initFakeStaticOption();
+                break;
+            case JPressConstants.OPTION_API_ENABLE:
+            case JPressConstants.OPTION_API_SECRET:
+                initApiOption();
+                break;
+            case JPressConstants.OPTION_CDN_DOMAIN:
+            case JPressConstants.OPTION_CDN_ENABLE:
+                initCdnOption();
+                break;
+//            case JPressConstants.option:
+//            case JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX:
+//                initFakeStaticOption();
+//                break;
         }
 
-        /**
-         * 伪静态后缀的设置
-         */
-        else if (JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(option.getKey())) {
-            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-            if (enable == null || enable == false) {
-                return;
-            }
-
-            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-            if (StringUtils.isBlank(suffix)) {
-                FakeStaticHandler.initSuffix(null);
-            } else {
-                FakeStaticHandler.initSuffix(suffix);
-            }
-        }
+//        /**
+//         * 伪静态开关的设置
+//         */
+//        if (JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE.equals(option.getKey())) {
+//
+//            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
+//            if (enable == null || enable == false) {
+//                FakeStaticHandler.initSuffix(null);
+//                return;
+//            }
+//
+//            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
+//            if (StringUtils.isBlank(suffix)) {
+//                FakeStaticHandler.initSuffix(null);
+//            } else {
+//                FakeStaticHandler.initSuffix(suffix);
+//            }
+//
+//        }
+//
+//        /**
+//         * 伪静态后缀的设置
+//         */
+//        else if (JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(option.getKey())) {
+//            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
+//            if (enable == null || enable == false) {
+//                return;
+//            }
+//
+//            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
+//            if (StringUtils.isBlank(suffix)) {
+//                FakeStaticHandler.initSuffix(null);
+//            } else {
+//                FakeStaticHandler.initSuffix(suffix);
+//            }
+//        }
 
     }
 }

@@ -28,9 +28,12 @@ public class JPressConstants {
     public static final String OPTION_WEB_NAME = "web_name"; //网站名称
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
-    
+
     public static final String OPTION_CDN_ENABLE = "cdn_enable"; //是否启用CDN
     public static final String OPTION_CDN_DOMAIN = "cdn_domain"; //CDN域名
+
+    public static final String OPTION_API_ENABLE = "api_enable"; //是否启用API
+    public static final String OPTION_API_SECRET = "api_secret"; //API密钥
 
 
     /**

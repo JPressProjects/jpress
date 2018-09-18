@@ -1,4 +1,4 @@
-package io.jpress.core.permission.annotation;
+package io.jpress.core.annotation;
 
 import java.lang.annotation.*;
 

@@ -2,6 +2,8 @@ package io.jpress.web;
 
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
+import com.jfinal.wxaapp.WxaConfig;
+import com.jfinal.wxaapp.WxaConfigKit;
 import io.jboot.Jboot;
 import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
@@ -62,33 +64,33 @@ public class OptionInitializer implements JbootEventListener {
                 || StringUtils.isBlank(appSecret)
                 || StringUtils.isBlank(token)
                 ) {
-            /**
-             * 没有配置正确，啥都不做
-             */
-            return;
+            // 配置微信 API 相关参数
+            ApiConfig ac = new ApiConfig();
+            ac.setAppId(appId);
+            ac.setAppSecret(appSecret);
+            ac.setToken(token);
+            ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
+
+            ApiConfigKit.putApiConfig(ac);
         }
 
 
-        // 配置微信 API 相关参数
-        ApiConfig ac = new ApiConfig();
-        ac.setAppId(appId);
-        ac.setAppSecret(appSecret);
-        ac.setToken(token);
-        ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
+        String miniProgramAppId = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPID);
+        String miniProgramAppSecret = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
+        String miniProgramToken = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+        if (StringUtils.isBlank(appId)
+                || StringUtils.isBlank(appSecret)
+                || StringUtils.isBlank(token)
+                ) {
+            WxaConfig wxaConfig = new WxaConfig();
+            wxaConfig.setAppId(miniProgramAppId);
+            wxaConfig.setAppSecret(miniProgramAppSecret);
+            wxaConfig.setToken(miniProgramToken);
+            wxaConfig.setMessageEncrypt(false); //采用明文模式，同时也支持混合模式
 
-        /**
-         *  是否对消息进行加密，对应于微信平台的消息加解密方式：
-         *  1：true进行加密且必须配置 encodingAesKey
-         *  2：false采用明文模式，同时也支持混合模式
-         */
-//        ac.setEncryptMessage(PropKit.getBoolean("encryptMessage", false));
-//        ac.setEncodingAesKey(PropKit.get("encodingAesKey", "setting it in config file"));
+            WxaConfigKit.setWxaConfig(wxaConfig);
+        }
 
-        /**
-         * 多个公众号时，可以重复调用ApiConfigKit.putApiConfig(ac)依次添加即可，
-         * 第一个添加的是默认。
-         */
-        ApiConfigKit.putApiConfig(ac);
     }
 
 

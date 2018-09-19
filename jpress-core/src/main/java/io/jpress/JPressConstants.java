@@ -39,6 +39,10 @@ public class JPressConstants {
     public static final String OPTION_WECHAT_APPSECRET = "wechat_appsecret"; //微信的 APP Secret
     public static final String OPTION_WECHAT_TOKEN = "wechat_token"; //微信的 token
 
+    public static final String OPTION_WECHAT_MINIPROGRAM_APPID = "wechat_miniprogram_appid"; //微信小程序的 token
+    public static final String OPTION_WECHAT_MINIPROGRAM_APPSECRET = "wechat_miniprogram_appsecret"; //微信小程序的 token
+    public static final String OPTION_WECHAT_MINIPROGRAM_TOKEN = "wechat_miniprogram_token"; //微信小程序的 token
+
 
     /**
      * 用到的cookie name 常量

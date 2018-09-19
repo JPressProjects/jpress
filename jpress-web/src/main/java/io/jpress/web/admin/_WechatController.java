@@ -34,6 +34,7 @@ public class _WechatController extends AdminControllerBase {
         render("wechat/menu.html");
     }
 
+
     @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
     public void replay() {
         render("wechat/replay_base.html");
@@ -47,6 +48,15 @@ public class _WechatController extends AdminControllerBase {
         render("wechat/replay_list.html");
     }
 
+
+    @AdminMenu(text = "运营工具", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
+    public void addons() {
+        Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
+        setAttr("page", page);
+        render("wechat/replay_list.html");
+    }
+
+
     public void keywordWrite() {
         int id = getParaToInt(0, 0);
 
@@ -56,12 +66,5 @@ public class _WechatController extends AdminControllerBase {
         }
         render("wechat/replay_write.html");
     }
-
-
-//    @AdminMenu(text = "其他设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 13)
-//    public void other() {
-//        render("wechat/setting_other.html");
-//    }
-
 
 }

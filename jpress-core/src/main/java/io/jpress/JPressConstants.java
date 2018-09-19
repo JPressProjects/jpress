@@ -35,6 +35,10 @@ public class JPressConstants {
     public static final String OPTION_API_ENABLE = "api_enable"; //是否启用API
     public static final String OPTION_API_SECRET = "api_secret"; //API密钥
 
+    public static final String OPTION_WECHAT_APPID = "wechat_appid"; //微信的APP Id
+    public static final String OPTION_WECHAT_APPSECRET = "wechat_appsecret"; //微信的 APP Secret
+    public static final String OPTION_WECHAT_TOKEN = "wechat_token"; //微信的 token
+
 
     /**
      * 用到的cookie name 常量

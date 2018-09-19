@@ -1,5 +1,7 @@
 package io.jpress.web;
 
+import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import io.jboot.Jboot;
 import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
@@ -41,9 +43,54 @@ public class OptionInitializer implements JbootEventListener {
         initTemplateOption(); //初始化模板配置
         initFakeStaticOption(); //初始化伪静态配置
         initCdnOption(); //初始化CDN配置
-        initApiOption();
+        initApiOption(); //初始化 API 配置
+        initWechatOption();// 初始化 微信的 相关配置
 
     }
+
+    /**
+     * 设置微信的相关配置
+     */
+    private void initWechatOption() {
+
+        String appId = service.findByKey(JPressConstants.OPTION_WECHAT_APPID);
+        String appSecret = service.findByKey(JPressConstants.OPTION_WECHAT_APPSECRET);
+        String token = service.findByKey(JPressConstants.OPTION_WECHAT_TOKEN);
+
+
+        if (StringUtils.isBlank(appId)
+                || StringUtils.isBlank(appSecret)
+                || StringUtils.isBlank(token)
+                ) {
+            /**
+             * 没有配置正确，啥都不做
+             */
+            return;
+        }
+
+
+        // 配置微信 API 相关参数
+        ApiConfig ac = new ApiConfig();
+        ac.setAppId(appId);
+        ac.setAppSecret(appSecret);
+        ac.setToken(token);
+        ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
+
+        /**
+         *  是否对消息进行加密，对应于微信平台的消息加解密方式：
+         *  1：true进行加密且必须配置 encodingAesKey
+         *  2：false采用明文模式，同时也支持混合模式
+         */
+//        ac.setEncryptMessage(PropKit.getBoolean("encryptMessage", false));
+//        ac.setEncodingAesKey(PropKit.get("encodingAesKey", "setting it in config file"));
+
+        /**
+         * 多个公众号时，可以重复调用ApiConfigKit.putApiConfig(ac)依次添加即可，
+         * 第一个添加的是默认。
+         */
+        ApiConfigKit.putApiConfig(ac);
+    }
+
 
     private void initApiOption() {
         Boolean cdnEnable = service.findAsBoolByKey(JPressConstants.OPTION_API_ENABLE);
@@ -116,48 +163,12 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConstants.OPTION_CDN_ENABLE:
                 initCdnOption();
                 break;
-//            case JPressConstants.option:
-//            case JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX:
-//                initFakeStaticOption();
-//                break;
+            case JPressConstants.OPTION_WECHAT_APPID:
+            case JPressConstants.OPTION_WECHAT_APPSECRET:
+            case JPressConstants.OPTION_WECHAT_TOKEN:
+                initWechatOption();
+                break;
         }
-
-//        /**
-//         * 伪静态开关的设置
-//         */
-//        if (JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE.equals(option.getKey())) {
-//
-//            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-//            if (enable == null || enable == false) {
-//                FakeStaticHandler.initSuffix(null);
-//                return;
-//            }
-//
-//            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-//            if (StringUtils.isBlank(suffix)) {
-//                FakeStaticHandler.initSuffix(null);
-//            } else {
-//                FakeStaticHandler.initSuffix(suffix);
-//            }
-//
-//        }
-//
-//        /**
-//         * 伪静态后缀的设置
-//         */
-//        else if (JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(option.getKey())) {
-//            Boolean enable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
-//            if (enable == null || enable == false) {
-//                return;
-//            }
-//
-//            String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-//            if (StringUtils.isBlank(suffix)) {
-//                FakeStaticHandler.initSuffix(null);
-//            } else {
-//                FakeStaticHandler.initSuffix(suffix);
-//            }
-//        }
-
     }
+
 }

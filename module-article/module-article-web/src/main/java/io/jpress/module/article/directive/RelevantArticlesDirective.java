@@ -53,7 +53,7 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
         }
 
         List<Article> relevantArticles = service.findListByCategoryIds(tagIds.toArray(new Long[0]), Article.STATUS_NORMAL, 3);
-        if (relevantArticles != null && relevantArticles.isEmpty()) {
+        if (relevantArticles != null && !relevantArticles.isEmpty()) {
             scope.setLocal("relevantArticles", relevantArticles);
             renderBody(env, scope, writer);
         }

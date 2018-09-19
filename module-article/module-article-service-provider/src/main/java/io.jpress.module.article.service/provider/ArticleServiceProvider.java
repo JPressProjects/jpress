@@ -157,7 +157,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             paras.add(status);
         }
         if (count != null) {
-            from.append(" and limit " + count);
+            from.append(" limit " + count);
         }
 
         return paras.isEmpty() ? DAO.find(from.toString()) : DAO.find(from.toString(), paras.toArray());

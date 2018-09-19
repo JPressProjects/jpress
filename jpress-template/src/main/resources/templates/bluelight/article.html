@@ -16,35 +16,27 @@
                 #(article.text ??)
             </div>
 
+            #relevantArticles(article)
             <div class="recommend-panel">
                 <h4 class="bl-title">相关文章</h4>
                 <div class="card-deck">
+                    #for(article :relevantArticles )
                     <div class="card">
-                        <div class="recommend-panel-top">
-                            <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                        </div>
-                        <div class="recommend-panel-bottom">
-                            JPress下载、安装、导入Eclipse、运行教程
-                        </div>
+                        <a href="#articleUrl(article)">
+                            <div class="recommend-panel-top">
+                                <img src="img/product-example.jpg" class="img-fluid">
+                            </div>
+                            <div class="recommend-panel-bottom">
+                                #(article.title ??)
+                            </div>
+                        </a>
                     </div>
-                    <div class="card">
-                        <div class="recommend-panel-top">
-                            <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                        </div>
-                        <div class="recommend-panel-bottom">
-                            JPress下载、安装、导入Eclipse、运行教程
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="recommend-panel-top">
-                            <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                        </div>
-                        <div class="recommend-panel-bottom">
-                            JPress下载、安装、导入Eclipse、运行教程
-                        </div>
-                    </div>
+                    #end
                 </div>
             </div>
+            #end
+
+
             <div class="comment">
                 <h4 class="bl-title">学员评价</h4>
                 <form>
@@ -156,32 +148,16 @@
         </div>
         <div class="col-3">
             <div class="card-right">
+                #articles()
                 <h4 class="bl-title">热门文章</h4>
+                #for(article : articles)
                 <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
+                    <img src="img/product-example.jpg" class="img-fluid">
+                    <p>#(article.title ??)</p>
                 </div>
-                <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
-                </div>
-                <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
-                </div>
-                <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
-                </div>
-                <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
-                </div>
-                <div class="card-right-body">
-                    <img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
-                    <p>JPress下载、安装、导入Eclipse、运行教程</p>
-                </div>
+                #end
             </div>
+            #end
         </div>
     </div>
 </div>

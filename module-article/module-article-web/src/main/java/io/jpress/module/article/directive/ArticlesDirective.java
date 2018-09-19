@@ -43,7 +43,7 @@ public class ArticlesDirective extends JbootDirectiveBase {
         }
 
         List<Article> articles = service.findListByColumns(columns, orderBy, count);
-        scope.setLocal("article", articles);
+        scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }
 

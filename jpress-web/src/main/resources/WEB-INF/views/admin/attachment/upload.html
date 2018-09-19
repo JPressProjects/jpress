@@ -115,13 +115,21 @@
 </script>
 
 <script>
-    // Some options to pass to the uploader are discussed on the next page
+
     var uploader = new qq.FineUploader({
         element: document.getElementById("uploader"),
         request: {
             endpoint: '/admin/attachment/doUpload'
+        },
+        callbacks: {
+            onComplete: function (id, name, responseJSON, xhr) {
+                if(responseJSON.state == "ok"){
+                    toastr.success(name + " 上传成功")
+                }
+            }
         }
-    })
+    });
+
 </script>
 #end
 

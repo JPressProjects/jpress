@@ -22,14 +22,14 @@
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">微信 AppId</label>
+                                <label class="col-sm-2 control-label">公众号 AppId</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="登录微信公众号平台平台获取...."
+                                    <input type="input" class="form-control" placeholder="登录微信公众号平台获取...."
                                            name="wechat_appid" value="#option('wechat_appid')">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">微信 AppSecret</label>
+                                <label class="col-sm-2 control-label">公众号 AppSecret</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="同上..."
                                            name="wechat_appsecret" value="#option('wechat_appsecret')">
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">微信 Token</label>
+                                <label class="col-sm-2 control-label">公众号 Token</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="随意设置... 但是确保和微信后台设置一样。"
                                            name="wechat_token" value="#option('wechat_token')">
@@ -72,6 +72,24 @@
                                         2、正常授权：可以获取用户昵称、头像等信息<br/>
                                         3、静默优先：第一次访问正常授权，之后静默授权（无法获得用户更新的昵称和头像）
                                     </p>
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">小程序</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">小程序 AppId</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="登录微信小程序平台获取...."
+                                           name="wechat_miniprogram_appid" value="#option('wechat_miniprogram_appid')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">小程序 AppSecret</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="同上..."
+                                           name="wechat_miniprogram_appsecret"
+                                           value="#option('wechat_miniprogram_appsecret')">
                                 </div>
                             </div>
 

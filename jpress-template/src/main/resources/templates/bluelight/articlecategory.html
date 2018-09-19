@@ -9,13 +9,14 @@
         <div class="col-8 bl-card-content">
             <h3 class="bl-content-title"><a href="#articleUrl(article)">#(article.title ??)</a></h3>
             <p class="bl-content-info">
-                最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
+                #maxLength(article.text,100)
+            </p>
             <div class="bl-label">
                 <div class="bl-label-item">
-                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size" alt="Responsive image">
-                    <span class="text-success">海哥</span>
+                    <img src="img/zheng.jpg" class="img-fluid rounded-circle bl-img-size">
+                    <span class="text-success">#(article.user.nickname ??)</span>
                 </div>
-                <div class="bl-label-item">2017-10-01 18:00</div>
+                <div class="bl-label-item">#date(article.created)</div>
             </div>
             <div class="bl-tag">
                 <div class="bl-tag-item"><i class="fa fa-heart-o" aria-hidden="true"></i> 156</div>
@@ -23,15 +24,12 @@
                 <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> 2</div>
             </div>
         </div>
-        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid" alt="Responsive image">
+        <div class="col-4 bl-card-image"><img src="img/product-example.jpg" class="img-fluid">
         </div>
     </div>
     #end
-    #end
-
 
     <nav aria-label="Page navigation example bl-page" style="margin-top:2rem;">
-
         #articlePaginate()
         <ul class="pagination justify-content-end">
             #for(page : pages)
@@ -44,5 +42,6 @@
         </ul>
         #end
     </nav>
+    #end
 </div>
 #end

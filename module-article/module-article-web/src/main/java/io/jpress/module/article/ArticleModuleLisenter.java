@@ -6,8 +6,8 @@ import io.jpress.core.module.Modules;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: (请输入文件名称)
- * @Description: (用一句话描述该文件做什么)
+ * @Title: Module 监听器
+ * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
 public class ArticleModuleLisenter implements JPressModuleListener {

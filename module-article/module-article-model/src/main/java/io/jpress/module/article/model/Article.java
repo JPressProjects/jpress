@@ -35,4 +35,5 @@ public class Article extends BaseArticle<Article> {
     public String getUrl(String suffix) {
         return "/article/" + getSlug() + suffix;
     }
+
 }

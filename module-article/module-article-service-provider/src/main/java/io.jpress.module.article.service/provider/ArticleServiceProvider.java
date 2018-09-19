@@ -144,6 +144,25 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return DAO.findListByColumns(columns, orderBy, count);
     }
 
+    @Override
+    public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count) {
+        StringBuilder from = new StringBuilder("select * from article a ");
+        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        from.append(" where m.category_id in ").append(toSqlArrayString(categoryIds));
+
+        List<Object> paras = new ArrayList<>();
+
+        if (status != null) {
+            from.append(" and status = ? ");
+            paras.add(status);
+        }
+        if (count != null) {
+            from.append(" and limit " + count);
+        }
+
+        return paras.isEmpty() ? DAO.find(from.toString()) : DAO.find(from.toString(), paras.toArray());
+    }
+
     private String toSqlArrayString(Long... ids) {
         int iMax = ids.length - 1;
         StringBuilder b = new StringBuilder();

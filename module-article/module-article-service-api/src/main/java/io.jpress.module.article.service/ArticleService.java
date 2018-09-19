@@ -132,7 +132,11 @@ public interface ArticleService {
 
     public Article findPreviousById(long id);
 
+
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
+
+
+    public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count);
 
 
 }

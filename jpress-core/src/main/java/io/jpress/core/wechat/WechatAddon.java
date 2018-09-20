@@ -21,6 +21,13 @@ public class WechatAddon {
 
     private int versionCode;
 
+    public WechatAddon() {
+    }
+
+    public WechatAddon(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -108,5 +115,23 @@ public class WechatAddon {
             listener = ClassKits.newInstance(listenerClazz);
         }
         return listener;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof WechatAddon)) {
+            return false;
+        }
+
+        WechatAddon addon = (WechatAddon) obj;
+        if (addon == null || addon.getId() == null) {
+            return false;
+        }
+
+        return addon.getId().equals(getId());
+    }
+
+    public boolean isEnable() {
+        return WechatAddonManager.me().isEnable(this);
     }
 }

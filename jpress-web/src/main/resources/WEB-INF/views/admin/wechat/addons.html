@@ -3,8 +3,8 @@
 #define script()
 <script>
 
-    function trash(id) {
-        $.get("/admin/page/trash/" + id, function (result) {
+    function doEnableAddon(id) {
+        $.get("/admin/wechat/doEnableAddon?id=" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -14,8 +14,8 @@
     }
 
 
-    function draft(id) {
-        $.get("/admin/page/draft/" + id, function (result) {
+    function doCloseAddon(id) {
+        $.get("/admin/wechat/doCloseAddon?id=" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -24,25 +24,15 @@
         });
     }
 
-    function normal(id) {
-        $.get("/admin/page/normal/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
+    $("#enable").on("click", function () {
+        doEnableAddon($(this).attr("data-id"));
+    })
 
-    function del(id) {
-        $.get("/admin/page/del/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
+    $("#close").on("click", function () {
+        doCloseAddon($(this).attr("data-id"));
+    })
+
+
 </script>
 
 #end
@@ -86,12 +76,21 @@
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
-                                    <a href="#">#(wechatAddon.title ??)</a>
+                                    <strong>
+                                        <a href="#">#(wechatAddon.title ??)</a>
+                                        #if(!wechatAddon.isEnable()) （已经关闭）#end
+                                    </strong>
+
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#" style="color: #006505">启用</a> |
-                                            <a href="#"  style="color: #006505">查看</a> |
-                                            <a href="javascript:;" style="color: #a00">关闭</a>
+                                            #if(wechatAddon.isEnable())
+                                            <a href="javascript:;" style="color: #a00" data-id="#(wechatAddon.id)"
+                                               id="close">关闭</a> |
+                                            #else
+                                            <a href="javascript:;" style="color: #006505" data-id="#(wechatAddon.id)"
+                                               id="enable">启用</a> |
+                                            #end
+                                            <a href="javascript:;" style="color: #006505">查看</a>
                                         </div>
                                     </div>
 

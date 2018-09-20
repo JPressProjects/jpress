@@ -2,6 +2,7 @@ package io.jpress.core.wechat;
 
 import io.jboot.Jboot;
 import io.jboot.utils.ClassScanner;
+import io.jpress.service.OptionService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class WechatAddonManager {
 
     private static WechatAddonManager me = new WechatAddonManager();
+    private static final String OPTION_PREFIX = "wechat_addon_enable_for_";
 
     private WechatAddonManager() {
     }
@@ -22,9 +24,23 @@ public class WechatAddonManager {
         return me;
     }
 
-    private List<WechatAddon> wechatAddons = new ArrayList<>();
+    /**
+     * 所有插件
+     */
+    private List<WechatAddon> allWechatAddons = new ArrayList<>();
+
+    /**
+     * 已经启用的插件
+     */
+    private List<WechatAddon> enableWechatAddons = new ArrayList<>();
+
+
+    private OptionService optionService;
 
     public void init() {
+
+        optionService = Jboot.bean(OptionService.class);
+
         List<Class<WechatAddonListener>> classes = ClassScanner.scanSubClass(WechatAddonListener.class, true);
         if (classes == null || classes.isEmpty()) {
             return;
@@ -40,6 +56,12 @@ public class WechatAddonManager {
             addWechatAddon(addon);
         }
 
+        for (WechatAddon addon : allWechatAddons) {
+            Boolean enable = optionService.findAsBoolByKey(OPTION_PREFIX + addon.getId());
+            if (enable != null && enable == true) {
+                enableWechatAddons.add(addon);
+            }
+        }
     }
 
     private WechatAddon createWechatAddon(WechatAddonConfig config, Class<WechatAddonListener> listenerClass) {
@@ -61,15 +83,41 @@ public class WechatAddonManager {
 
 
     public void addWechatAddon(WechatAddon wechatAddon) {
-        wechatAddons.add(wechatAddon);
+        allWechatAddons.add(wechatAddon);
     }
 
     public List<WechatAddon> getWechatAddons() {
-        return wechatAddons;
+        return allWechatAddons;
     }
 
     public List<WechatAddon> getEnableWechatAddons() {
-        return wechatAddons;
+        return enableWechatAddons;
+    }
+
+    public void doCloseAddon(String id) {
+        optionService.saveOrUpdate(OPTION_PREFIX + id, "false");
+        enableWechatAddons.remove(new WechatAddon(id));
+    }
+
+    public void doEnableAddon(String id) {
+        optionService.saveOrUpdate(OPTION_PREFIX + id, "true");
+        for (WechatAddon addon : enableWechatAddons) {
+            if (addon.getId().equals(id)) {
+                return;
+            }
+        }
+
+        for (WechatAddon addon : allWechatAddons) {
+            if (addon.getId().equals(id)) {
+                enableWechatAddons.add(addon);
+                break;
+            }
+        }
+    }
+
+    public boolean isEnable(WechatAddon addon) {
+        Boolean bool =  enableWechatAddons.contains(addon);
+        return bool;
     }
 
 }

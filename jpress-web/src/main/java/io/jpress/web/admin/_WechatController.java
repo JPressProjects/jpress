@@ -1,14 +1,16 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonManager;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.WechatReplay;
+import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplayService;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -24,6 +26,9 @@ public class _WechatController extends AdminControllerBase {
 
     @Inject
     private WechatReplayService wrs;
+
+    @Inject
+    private OptionService optionService;
 
 
     @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
@@ -59,10 +64,19 @@ public class _WechatController extends AdminControllerBase {
         render("wechat/addons.html");
     }
 
+    public void doEnableAddon(String id) {
+        WechatAddonManager.me().doEnableAddon(id);
+        renderJson(Ret.ok());
+    }
+
+    public void doCloseAddon(String id) {
+        WechatAddonManager.me().doCloseAddon(id);
+        renderJson(Ret.ok());
+    }
+
 
     public void keywordWrite() {
         int id = getParaToInt(0, 0);
-
         if (id > 0) {
             WechatReplay wechatReplay = wrs.findById(id);
             setAttr("wechatReplay", wechatReplay);

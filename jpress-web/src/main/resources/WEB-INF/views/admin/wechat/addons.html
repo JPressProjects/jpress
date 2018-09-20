@@ -65,17 +65,17 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
-                                <th style="width: 450px">名称</th>
+                                <th style="width: 250px">名称</th>
                                 <th>描述</th>
-                                <th>作者</th>
-                                <th>版本</th>
+                                <th style="width: 100px">作者</th>
+                                <th style="width: 100px">版本</th>
                             </tr>
 
                             #for(wechatAddon : wechatAddons)
                             <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>
+                                <td >
                                     <strong>
                                         <a href="#">#(wechatAddon.title ??)</a>
                                         #if(!wechatAddon.isEnable()) （已经关闭）#end

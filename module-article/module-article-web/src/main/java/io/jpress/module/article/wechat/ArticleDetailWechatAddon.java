@@ -17,7 +17,8 @@ import io.jpress.core.wechat.WechatAddonListener;
 @WechatAddonConfig(
         id = "ip.press.article",
         title = "文章查看",
-        description = "输入文章：slug 返回文章内容")
+        description = "输入文章：slug 返回文章内容",
+        author = "海哥")
 public class ArticleDetailWechatAddon implements WechatAddonListener {
 
 

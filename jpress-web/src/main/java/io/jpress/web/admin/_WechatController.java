@@ -52,7 +52,7 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "运营工具", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
+    @AdminMenu(text = "运营插件", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
     public void addons() {
         List<WechatAddon> wechatAddons = WechatAddonManager.me().getWechatAddons();
         setAttr("wechatAddons", wechatAddons);

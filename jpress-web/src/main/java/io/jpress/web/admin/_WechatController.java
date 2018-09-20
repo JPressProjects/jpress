@@ -4,11 +4,14 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.WechatReplay;
 import io.jpress.service.WechatReplayService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -51,8 +54,8 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "运营工具", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
     public void addons() {
-        Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
-        setAttr("page", page);
+        List<WechatAddon> wechatAddons = WechatAddonManager.me().getWechatAddons();
+        setAttr("wechatAddons", wechatAddons);
         render("wechat/addons.html");
     }
 

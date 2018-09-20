@@ -77,47 +77,28 @@
                                 </th>
                                 <th style="width: 450px">名称</th>
                                 <th>描述</th>
-                                <th style="width: 100px">触发关键字</th>
+                                <th>作者</th>
+                                <th>版本</th>
                             </tr>
 
-                            #for(sp : page.list)
+                            #for(wechatAddon : wechatAddons)
                             <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
-                                    <a href="/admin/page/write/#(sp.id)">#(sp.title ??)</a>
-                                    #if(sp.isDraft())
-                                    （草稿）
-                                    #end
+                                    <a href="#">#(wechatAddon.title ??)</a>
                                     <div class="jp-actionblock">
-                                        #if(sp.isNormal())
                                         <div class="jp-actionitem">
-                                            <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="/#(sp.slug ??)" target="_blank" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a>
-                                            |
-                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
-                                               style="color: #a00">垃圾箱</a>
+                                            <a href="#" style="color: #006505">启用</a> |
+                                            <a href="#"  style="color: #006505">查看</a> |
+                                            <a href="javascript:;" style="color: #a00">关闭</a>
                                         </div>
-                                        #elseif(sp.isDraft())
-                                        <div class="jp-actionitem">
-                                            <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
-                                               style="color: #a00">垃圾箱</a>
-                                        </div>
-                                        #else
-                                        <div class="jp-actionitem">
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">还原</a>
-                                            |
-                                            <a href="javascript:;" onclick="del('#(sp.id??)')"
-                                               style="color: #a00">永久删除</a>
-                                        </div>
-                                        #end
                                     </div>
 
                                 </td>
-                                <td>#(sp.slug ??)</td>
-                                <td>#(sp.created ??)</td>
+                                <td>#(wechatAddon.description ??)</td>
+                                <td>#(wechatAddon.author ??)</td>
+                                <td>#(wechatAddon.version ??)</td>
                             </tr>
                             #end
 
@@ -128,7 +109,6 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
-                                #@_paginate()
                             </div>
                         </div>
                     </div>

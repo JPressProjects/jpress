@@ -24,11 +24,11 @@
         });
     }
 
-    $("#enable").on("click", function () {
+    $(".addon-enable").on("click", function () {
         doEnableAddon($(this).attr("data-id"));
     })
 
-    $("#close").on("click", function () {
+    $(".addon-close").on("click", function () {
         doCloseAddon($(this).attr("data-id"));
     })
 
@@ -85,10 +85,10 @@
                                         <div class="jp-actionitem">
                                             #if(wechatAddon.isEnable())
                                             <a href="javascript:;" style="color: #a00" data-id="#(wechatAddon.id)"
-                                               id="close">关闭</a> |
+                                               class="addon-close">关闭</a> |
                                             #else
                                             <a href="javascript:;" style="color: #006505" data-id="#(wechatAddon.id)"
-                                               id="enable">启用</a> |
+                                               class="addon-enable">启用</a> |
                                             #end
                                             <a href="javascript:;" style="color: #006505">查看</a>
                                         </div>

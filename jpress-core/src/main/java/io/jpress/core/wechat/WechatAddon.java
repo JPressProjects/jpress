@@ -1,137 +1,31 @@
 package io.jpress.core.wechat;
 
-import io.jboot.utils.ClassKits;
+import com.jfinal.weixin.sdk.jfinal.MsgController;
+import com.jfinal.weixin.sdk.msg.in.InMsg;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddon {
+public interface WechatAddon {
 
-    private String id;
-    private String title;
-    private String description;
-    private String author;
-    private String authorWebsite;
-    private String version;
-    private String updateUrl;
-    private String icon;
-    private String listenerClazz;
+    /**
+     * 用来匹配是否由该插件执行
+     *
+     * @param inMsg
+     * @param msgController
+     * @return
+     */
+    public boolean onMatchingMessage(InMsg inMsg, MsgController msgController);
+    
 
-    private int versionCode;
+    /**
+     * 执行回复逻辑
+     *
+     * @param inMsg
+     * @param msgController
+     */
+    public void onRenderMessage(InMsg inMsg, MsgController msgController);
 
-    public WechatAddon() {
-    }
-
-    public WechatAddon(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getAuthorWebsite() {
-        return authorWebsite;
-    }
-
-    public void setAuthorWebsite(String authorWebsite) {
-        this.authorWebsite = authorWebsite;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getUpdateUrl() {
-        return updateUrl;
-    }
-
-    public void setUpdateUrl(String updateUrl) {
-        this.updateUrl = updateUrl;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getListenerClazz() {
-        return listenerClazz;
-    }
-
-    public void setListenerClazz(String listenerClazz) {
-        this.listenerClazz = listenerClazz;
-    }
-
-    public int getVersionCode() {
-        return versionCode;
-    }
-
-    public void setVersionCode(int versionCode) {
-        this.versionCode = versionCode;
-    }
-
-    private WechatAddonListener listener;
-
-    public WechatAddonListener getListener() {
-        if (listener == null) {
-            listener = ClassKits.newInstance(listenerClazz);
-        }
-        return listener;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof WechatAddon)) {
-            return false;
-        }
-
-        WechatAddon addon = (WechatAddon) obj;
-        if (addon == null || addon.getId() == null) {
-            return false;
-        }
-
-        return addon.getId().equals(getId());
-    }
-
-    public boolean isEnable() {
-        return WechatAddonManager.me().isEnable(this);
-    }
 }

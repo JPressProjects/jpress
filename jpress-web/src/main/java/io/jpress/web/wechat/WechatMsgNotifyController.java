@@ -8,7 +8,7 @@ import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.service.OptionService;
 
@@ -28,7 +28,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Override
     public void index() {
-        WechatAddon addon = doMathingAddon();
+        WechatAddonInfo addon = doMathingAddon();
         if (addon == null) {
             super.index();
             return;
@@ -87,13 +87,13 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         render(outMsg);
     }
 
-    protected WechatAddon doMathingAddon() {
-        List<WechatAddon> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
+    protected WechatAddonInfo doMathingAddon() {
+        List<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
         if (enableAddons == null || enableAddons.isEmpty()) {
             return null;
         }
 
-        for (WechatAddon addon : enableAddons) {
+        for (WechatAddonInfo addon : enableAddons) {
             if (addon.getListener().onMatchingMessage(getInMsg(), this)) {
                 return addon;
             }

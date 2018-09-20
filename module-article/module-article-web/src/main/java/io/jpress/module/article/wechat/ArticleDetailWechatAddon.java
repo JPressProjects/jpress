@@ -5,7 +5,7 @@ import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jpress.core.wechat.WechatAddonConfig;
-import io.jpress.core.wechat.WechatAddonListener;
+import io.jpress.core.wechat.WechatAddon;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -19,7 +19,7 @@ import io.jpress.core.wechat.WechatAddonListener;
         title = "文章查看",
         description = "输入文章：slug 返回文章内容",
         author = "海哥")
-public class ArticleDetailWechatAddon implements WechatAddonListener {
+public class ArticleDetailWechatAddon implements WechatAddon {
 
 
     @Override

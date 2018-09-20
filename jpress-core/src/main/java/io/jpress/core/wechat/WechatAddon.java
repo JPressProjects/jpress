@@ -1,5 +1,7 @@
 package io.jpress.core.wechat;
 
+import io.jboot.utils.ClassKits;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -97,5 +99,14 @@ public class WechatAddon {
 
     public void setVersionCode(int versionCode) {
         this.versionCode = versionCode;
+    }
+
+    private WechatAddonListener listener;
+
+    public WechatAddonListener getListener() {
+        if (listener == null) {
+            listener = ClassKits.newInstance(listenerClazz);
+        }
+        return listener;
     }
 }

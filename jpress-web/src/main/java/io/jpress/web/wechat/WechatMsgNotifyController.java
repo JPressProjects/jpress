@@ -8,9 +8,12 @@ import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.service.OptionService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -22,6 +25,17 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Inject
     private OptionService optionService;
+
+    @Override
+    public void index() {
+        WechatAddon addon = doMathingAddon();
+        if (addon == null) {
+            super.index();
+            return;
+        }
+
+        addon.getListener().onRenderMessage(getInMsg(), this);
+    }
 
     /**
      * 新用户关注了公众号
@@ -71,5 +85,20 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         outMsg.setContent(text);
 
         render(outMsg);
+    }
+
+    protected WechatAddon doMathingAddon() {
+        List<WechatAddon> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
+        if (enableAddons == null || enableAddons.isEmpty()) {
+            return null;
+        }
+
+        for (WechatAddon addon : enableAddons) {
+            if (addon.getListener().onMatchingMessage(getInMsg(), this)) {
+                return addon;
+            }
+        }
+
+        return null;
     }
 }

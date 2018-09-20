@@ -10,7 +10,7 @@
     <version>${jpress.version}</version>
 
     <modules>
-        <module>jpress-codegen</module>
+        <module>codegen</module>
 
         <module>jpress-core</module>
         <module>jpress-web</module>

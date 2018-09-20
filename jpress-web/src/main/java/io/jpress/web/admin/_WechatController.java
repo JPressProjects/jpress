@@ -53,7 +53,7 @@ public class _WechatController extends AdminControllerBase {
     public void addons() {
         Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
         setAttr("page", page);
-        render("wechat/replay_list.html");
+        render("wechat/addons.html");
     }
 
 

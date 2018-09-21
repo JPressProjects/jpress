@@ -25,11 +25,37 @@
         <div class="box-header with-border">
             <h3 class="box-title">最新评论</h3>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div id="c1">
-                文章文章文章...
-            </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tbody>
+                #for(comment : articleComments)
+                <tr>
+                    <td>
+                        <div class="post">
+                            <div class="user-block">
+                                <img class="img-circle img-bordered-sm" src="/static/admin/images/avatar.png">
+                                <span class="username">
+                                      <a href="#">海哥</a>
+                                    </span>
+                                <span class="description">7:30 PM today -  来至对文章 <a href="#">《#(comment.article.title ??)》</a> 的评论</span>
+                            </div>
+                            <p>
+                                #(comment.content ??)
+                            </p>
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="/admin/article/write/17" style="color: #006505">编辑</a> |
+                                    <a href="javascript:;" onclick="draft('17')" style="color: #006505">待审核</a>|
+                                    <a href="javascript:;" onclick="trash('17')" style="color: #a00">垃圾箱</a>|
+                                    <a href="/article/test.html" target="_blank" style="color: #a00">永久删除</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                #end
+                </tbody>
+            </table>
         </div>
 
     </div>

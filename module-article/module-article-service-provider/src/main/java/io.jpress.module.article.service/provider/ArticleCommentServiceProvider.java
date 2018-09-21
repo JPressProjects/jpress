@@ -34,6 +34,9 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public List<ArticleComment> findListByColumns(Columns columns, String orderBy, Integer count) {
-        return DAO.findListByColumns(columns, orderBy, count);
+        List<ArticleComment> list = DAO.findListByColumns(columns, orderBy, count);
+        articleService.join(list, "article_id");
+        userService.join(list, "user_id");
+        return list;
     }
 }

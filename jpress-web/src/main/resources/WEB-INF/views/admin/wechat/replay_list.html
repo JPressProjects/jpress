@@ -103,44 +103,22 @@
                                 <th style="width: 100px">发布时间</th>
                             </tr>
 
-                            #for(sp : page.list)
+                            #for(replay : page.list)
                             <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
-                                    <a href="/admin/page/write/#(sp.id)">#(sp.title ??)</a>
-                                    #if(sp.isDraft())
-                                    （草稿）
-                                    #end
+                                    <a href="/admin/wechat/replayWrite/#(replay.id)">#(replay.keyword ??)</a>
                                     <div class="jp-actionblock">
-                                        #if(sp.isNormal())
                                         <div class="jp-actionitem">
-                                            <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="/#(sp.slug ??)" target="_blank" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a>
-                                            |
-                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
-                                               style="color: #a00">垃圾箱</a>
+                                            <a href="/admin/wechat/replayWrite/#(replay.id)" style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="trash('#(replay.id??)')" style="color: #a00">删除</a>
                                         </div>
-                                        #elseif(sp.isDraft())
-                                        <div class="jp-actionitem">
-                                            <a href="/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
-                                               style="color: #a00">垃圾箱</a>
-                                        </div>
-                                        #else
-                                        <div class="jp-actionitem">
-                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">还原</a>
-                                            |
-                                            <a href="javascript:;" onclick="del('#(sp.id??)')"
-                                               style="color: #a00">永久删除</a>
-                                        </div>
-                                        #end
                                     </div>
 
                                 </td>
-                                <td>#(sp.slug ??)</td>
-                                <td>#(sp.created ??)</td>
+                                <td>#(replay.content ??)</td>
+                                <td>#(replay.created ??)</td>
                             </tr>
                             #end
 

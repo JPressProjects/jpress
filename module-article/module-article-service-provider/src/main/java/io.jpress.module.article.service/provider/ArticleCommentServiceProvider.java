@@ -3,9 +3,9 @@ package io.jpress.module.article.service.provider;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
-import io.jpress.module.article.service.ArticleCommentService;
-import io.jpress.module.article.model.ArticleComment;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.module.article.model.ArticleComment;
+import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.UserService;
 
@@ -23,6 +23,16 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     @Inject
     private UserService userService;
 
+
+
+    @Override
+    public ArticleComment findById(Object id) {
+        ArticleComment comment = super.findById(id);
+        articleService.join(comment, "article_id");
+        userService.join(comment, "user_id");
+        return comment;
+    }
+
     @Override
     public Page<ArticleComment> paginate(int page, int pageSize) {
         Page p = super.paginate(page, pageSize);
@@ -39,4 +49,6 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         userService.join(list, "user_id");
         return list;
     }
+
+
 }

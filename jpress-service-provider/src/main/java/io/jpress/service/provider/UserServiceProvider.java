@@ -4,9 +4,9 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
-import io.jpress.service.UserService;
-import io.jpress.model.User;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.User;
+import io.jpress.service.UserService;
 
 import javax.inject.Singleton;
 
@@ -52,4 +52,5 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
         return Ret.ok().set("user", user);
     }
+    
 }

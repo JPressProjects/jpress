@@ -233,7 +233,9 @@ public class _ArticleController extends AdminControllerBase {
      * 评论回复 页面
      */
     public void commentReplay() {
-
+        long id = getIdPara();
+        ArticleComment comment = commentService.findById(id);
+        setAttr("comment", comment);
         render("article/commentReplay.html");
     }
 
@@ -243,6 +245,12 @@ public class _ArticleController extends AdminControllerBase {
      */
     public void doReplayComment() {
 
+    }
+
+
+    public void doCommentDel() {
+        commentService.deleteById(getIdPara());
+        renderJson(Ret.ok());
     }
 
 

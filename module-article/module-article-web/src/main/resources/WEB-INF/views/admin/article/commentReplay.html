@@ -42,25 +42,24 @@
 
                             <div class="post">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="/static/admin/images/avatar.png">
+                                    <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
                                     <span class="username">
-                                      <a href="#">海哥</a>
+                                      <a href="/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
                                     </span>
-                                    <span class="description">7:30 PM today -  来至对文章 <a href="#">《休息休息》</a> 的评论</span>
+                                    <span class="description">
+                                        #date(comment.created) -  来至对文章
+                                        <a href="#articleUrl(comment.article)" target="_blank">《#(comment.article.title ??)》</a> 的评论
+                                    </span>
                                 </div>
                                 <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
+                                    #(comment.content ??)
                                 </p>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="/admin/article/write/17" style="color: #006505">编辑</a> |
+                                        <a href="javascript:;" style="color: #006505">编辑</a> |
                                         <a href="javascript:;" onclick="draft('17')" style="color: #006505">待审核</a>|
                                         <a href="javascript:;" onclick="trash('17')" style="color: #a00">垃圾箱</a>|
-                                        <a href="/article/test.html" target="_blank" style="color: #a00">永久删除</a>
+                                        <a href="javascript:;" target="_blank" style="color: #a00">永久删除</a>
                                     </li>
                                 </ul>
 
@@ -76,7 +75,7 @@
                         <div class="box-footer">
                             <div class="col-sm-11 submit-block" style="padding-left: 20px">
                                 <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary"> 回 复 </button>
+                                    <button type="submit" class="btn btn-primary"> 回 复</button>
                                 </div>
                             </div>
                         </div>

@@ -75,13 +75,19 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    public void keywordWrite() {
+    public void replayWrite() {
         int id = getParaToInt(0, 0);
         if (id > 0) {
             WechatReplay wechatReplay = wrs.findById(id);
-            setAttr("wechatReplay", wechatReplay);
+            setAttr("replay", wechatReplay);
         }
         render("wechat/replay_write.html");
+    }
+
+    public void doReplaySave() {
+        WechatReplay replay = getBean(WechatReplay.class, "");
+        wrs.saveOrUpdate(replay);
+        redirect("/admin/wechat/keyword");
     }
 
 }

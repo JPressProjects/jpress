@@ -56,9 +56,9 @@ public class _PermissionController extends AdminControllerBase {
         int syncCount = permissionService.sync(adminPermissions);
 
         if (syncCount == 0) {
-            renderJson(Ret.ok("msg", "权限已经是最新状态，无需更新"));
+            renderJson(Ret.fail("message", "权限已经是最新状态，无需同步"));
         } else {
-            renderJson(Ret.ok("msg", "权限更新成功，共更新权限数 : " + syncCount));
+            renderJson(Ret.ok("message", "权限同步成功，共同步权限数 : " + syncCount));
         }
     }
 

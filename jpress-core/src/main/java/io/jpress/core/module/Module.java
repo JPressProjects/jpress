@@ -1,5 +1,6 @@
 package io.jpress.core.module;
 
+import com.jfinal.core.Controller;
 import io.jpress.core.menu.AdminMenuGroup;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Module {
      *
      * @return
      */
-    public String onGetDashboardBoxHtml() {
+    public String onGetDashboardHtmlBox(Controller controller) {
         return null;
     }
 

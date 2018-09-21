@@ -1,7 +1,29 @@
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="box box-dashboard">
         <div class="box-header with-border">
-            <h3 class="box-title">文章列表</h3>
+            <h3 class="box-title">最新文章</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tbody>
+                #for(article : articles)
+                <tr>
+                    <td style="width: 130px">#date(article.created ??)</td>
+                    <td><a href="#articleUrl(article)" target="_blank">#(article.title ??)</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="box box-dashboard">
+        <div class="box-header with-border">
+            <h3 class="box-title">最新评论</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">

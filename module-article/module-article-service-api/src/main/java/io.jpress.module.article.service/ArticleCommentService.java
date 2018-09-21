@@ -2,6 +2,7 @@ package io.jpress.module.article.service;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.module.article.model.ArticleComment;
 
 import java.util.List;
@@ -99,4 +100,8 @@ public interface ArticleCommentService {
     public void keep(List<? extends Model> models, String... attrs);
 
     public Page<ArticleComment> paginate(int page, int pagesieze);
+
+    public List<ArticleComment> findListByColumns(Columns columns, String orderBy, Integer count);
+
+
 }

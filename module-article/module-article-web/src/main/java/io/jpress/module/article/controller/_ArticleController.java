@@ -229,6 +229,23 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
+    /**
+     * 评论回复 页面
+     */
+    public void commentReplay() {
+
+        render("article/commentReplay.html");
+    }
+
+
+    /**
+     * 进行评论回复
+     */
+    public void doReplayComment() {
+
+    }
+
+
     @AdminMenu(text = "设置", groupId = "article", order = 6)
     public void setting() {
         render("article/setting.html");

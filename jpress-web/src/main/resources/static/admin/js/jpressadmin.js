@@ -211,7 +211,10 @@ function editorUpdate() {
 
 var dialogShowEvent;
 
-function initEditor(editor) {
+function initEditor(editor,height) {
+
+    height =  height || 467;
+
     CKEDITOR.config.toolbar =
         [
             ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'],
@@ -231,7 +234,7 @@ function initEditor(editor) {
     var ed = CKEDITOR.replace(editor, {
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
-        height: 467,
+        height: height,
         filebrowserImageUploadUrl: '/admin/ckeditor/upload',
         filebrowserBrowseUrl: '/admin/attachment/browse',
         language: 'zh-cn'

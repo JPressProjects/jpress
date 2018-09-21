@@ -63,6 +63,11 @@ public class _PermissionController extends AdminControllerBase {
     }
 
 
+    /**
+     * 构建菜单相关的权限
+     *
+     * @return 返回所有菜单权限列表
+     */
     private List<Permission> buildMenuPermissions() {
 
         List<AdminMenuGroup> adminMenuGroups = new ArrayList<>();
@@ -79,6 +84,7 @@ public class _PermissionController extends AdminControllerBase {
             groupPermission.setActionKey(menuGroup.getId());
             permissions.add(groupPermission);
 
+            // 如果该菜单没有 子菜单，则不用做任何处理
             if (menuGroup.getItems() == null) {
                 continue;
             }
@@ -97,7 +103,7 @@ public class _PermissionController extends AdminControllerBase {
     }
 
 
-    // 用于排除掉 BaseController 中的几个成为了 action 的方法
+    // 用于排除掉 AdminControllerBase 中的几个成为了 action 的方法
     private static Set<String> excludedMethodName = buildExcludedMethodName();
 
     private static Set<String> buildExcludedMethodName() {
@@ -109,6 +115,11 @@ public class _PermissionController extends AdminControllerBase {
         return excludedMethodName;
     }
 
+    /**
+     * 构建 action 的权限，每个Controller的方法对应一个action
+     *
+     * @return
+     */
     private static List<Permission> buildActionPermissions() {
         List<Permission> permissions = new ArrayList<>();
         List<String> allActionKeys = JFinal.me().getAllActionKeys();

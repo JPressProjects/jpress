@@ -243,16 +243,26 @@ public class _ArticleController extends AdminControllerBase {
     /**
      * 进行评论回复
      */
-    public void doReplayComment() {
+    public void doCommentReplay() {
 
     }
 
 
+    /**
+     * 删除评论
+     */
     public void doCommentDel() {
         commentService.deleteById(getIdPara());
         renderJson(Ret.ok());
     }
 
+
+    /**
+     * 修改评论状态
+     */
+    public void doCommentStatusChange(Long id, String status) {
+        render(commentService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
+    }
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)
     public void setting() {

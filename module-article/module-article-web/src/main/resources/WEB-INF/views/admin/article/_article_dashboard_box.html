@@ -1,3 +1,27 @@
+<script>
+
+    function doChangeStatus(id, status) {
+        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function doDelComment(id) {
+        $.get("/admin/article/doCommentDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="box box-dashboard">
         <div class="box-header with-border">
@@ -16,7 +40,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 
@@ -33,21 +56,31 @@
                     <td>
                         <div class="post">
                             <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="/static/admin/images/avatar.png">
+                                <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
                                 <span class="username">
-                                      <a href="#">海哥</a>
+                                      <a href="/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
                                     </span>
-                                <span class="description">7:30 PM today -  来至对文章 <a href="#">《#(comment.article.title ??)》</a> 的评论</span>
+                                <span class="description">#date(comment.created) -  来至对文章
+                                    <a href="#articleUrl(comment.article)" target="_blank">《#(comment.article.title ??)》</a> 的评论
+                                </span>
                             </div>
                             <p>
                                 #(comment.content ??)
+                                #if(!comment.isNormal()) <strong>（#(comment.statusString)）</strong> #end
                             </p>
                             <ul class="list-inline">
                                 <li>
                                     <a href="/admin/article/commentReplay/#(comment.id)" style="color: #006505">回复</a> |
-                                    <a href="javascript:;" onclick="draft('17')" style="color: #006505">待审核</a>|
-                                    <a href="javascript:;" onclick="trash('17')" style="color: #a00">垃圾箱</a>|
-                                    <a href="javascript:;" target="_blank" style="color: #a00">永久删除</a>
+                                    #if(comment.isNormal())
+                                    <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
+                                       style="color: #006505">待审核</a> |
+                                    #else
+                                    <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')"
+                                       style="color: #006505">设为正常</a> |
+                                    #end
+                                    <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
+                                       style="color: #a00">垃圾箱</a> |
+                                    <a href="javascript:;" onclick="doDelComment('#(comment.id)')" style="color: #a00">永久删除</a>
                                 </li>
                             </ul>
                         </div>

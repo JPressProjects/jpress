@@ -103,5 +103,7 @@ public interface ArticleCommentService {
 
     public List<ArticleComment> findListByColumns(Columns columns, String orderBy, Integer count);
 
+    public boolean doChangeStatus(long id, String status);
+
 
 }

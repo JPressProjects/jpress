@@ -54,7 +54,7 @@ public class _ArticleController extends AdminControllerBase {
         setAttr("normalCount", normalCount);
         setAttr("totalCount", draftCount + trashCount + normalCount);
 
-        render("article/list.html");
+        render("article/article_list.html");
     }
 
 
@@ -86,7 +86,7 @@ public class _ArticleController extends AdminControllerBase {
             flagCheck(subjects, categoryIds);
         }
 
-        render("article/write.html");
+        render("article/article_write.html");
     }
 
     private void flagCheck(List<ArticleCategory> categories, Long[] checkIds) {
@@ -163,7 +163,7 @@ public class _ArticleController extends AdminControllerBase {
                 }
             }
         }
-        render("article/category.html");
+        render("article/category_list.html");
     }
 
 
@@ -181,7 +181,7 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
-        render("article/subject.html");
+        render("article/subject_list.html");
     }
 
 
@@ -196,7 +196,7 @@ public class _ArticleController extends AdminControllerBase {
 
         }
 
-        render("article/tag.html");
+        render("article/tag_list.html");
     }
 
 
@@ -225,7 +225,7 @@ public class _ArticleController extends AdminControllerBase {
     public void comment() {
         Page<ArticleComment> page = commentService.paginate(getPagePara(), 10);
         setAttr("page", page);
-        render("article/comment.html");
+        render("article/comment_list.html");
     }
 
 
@@ -236,7 +236,7 @@ public class _ArticleController extends AdminControllerBase {
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
         setAttr("comment", comment);
-        render("article/commentReplay.html");
+        render("article/comment_replay.html");
     }
 
 

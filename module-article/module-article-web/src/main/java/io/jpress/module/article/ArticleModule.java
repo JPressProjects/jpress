@@ -40,6 +40,6 @@ public class ArticleModule extends Module {
         List<ArticleComment> articleComments = commentService.findListByColumns(Columns.create().ne("status", ArticleComment.STATUS_TRASH), "id desc", 10);
         controller.setAttr("articleComments", articleComments);
 
-        return "article/_article_dashboard_box.html";
+        return "article/_dashboard_box.html";
     }
 }

@@ -1,4 +1,30 @@
 #@layout()
+#define script()
+<script>
+
+    function doChangeStatus(id, status) {
+        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function doDelComment(id) {
+        $.get("/admin/article/doCommentDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.href = "/admin/article/comment";
+            }
+        });
+    }
+
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -10,7 +36,10 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="">全部 (24)</a> | <a href="">已发布 (22)</a> | <a href="">待审核 (2)</a> | <a href="">垃圾箱 (0)</a>
+        <a href="/admin/article/comment">全部 (#(totalCount ??))</a> |
+        <a href="?s=normal">已发布 (#(normalCount ??))</a> |
+        <a href="?s=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
+        <a href="?s=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -52,10 +81,19 @@
                                 <td>#(comment.content ??)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/commentReplay/#(comment.id)" style="color: #006505">回复</a> |
-                                            <a href="#" style="color: #006505">编辑</a> |
-                                            <a href="#" style="color: #a00">待审核</a> |
-                                            <a href="#" style="color: #a00">垃圾箱</a>
+                                            <a href="/admin/article/commentReplay/#(comment.id)"
+                                               style="color: #006505">回复</a> |
+                                            #if(comment.isNormal())
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
+                                               style="color: #006505">待审核</a> |
+                                            #else
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')"
+                                               style="color: #006505">设为正常</a> |
+                                            #end
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
+                                               style="color: #a00">垃圾箱</a> |
+                                            <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
+                                               style="color: #a00">永久删除</a>
                                         </div>
                                     </div>
                                 </td>

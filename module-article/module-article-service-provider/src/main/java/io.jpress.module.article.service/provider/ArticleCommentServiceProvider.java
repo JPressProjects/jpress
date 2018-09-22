@@ -1,7 +1,9 @@
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.module.article.model.ArticleComment;
@@ -22,7 +24,6 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Inject
     private UserService userService;
-
 
 
     @Override
@@ -55,6 +56,36 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         ArticleComment comment = findById(id);
         comment.setStatus(status);
         return comment.update();
+    }
+
+    @Override
+    public int findCountByStatus(String status) {
+        return Db.queryInt("select count(*) from article_comment where status = ?", status);
+    }
+
+
+    @Override
+    public Page<ArticleComment> paginateByStatus(int page, int pagesize, String status) {
+        Page<ArticleComment> p = DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", status),
+                "id desc");
+        userService.join(p, "user_id");
+        articleService.join(p, "article_id");
+        return p;
+    }
+
+    @Override
+    public Page<ArticleComment> paginateWithoutTrash(int page, int pagesize) {
+        Page<ArticleComment> p = DAO.paginateByColumn(page,
+                pagesize,
+                Column.create("status", ArticleComment.STATUS_TRASH, Column.LOGIC_NOT_EQUALS),
+                "id desc");
+
+
+        userService.join(p, "user_id");
+        articleService.join(p, "article_id");
+        return p;
     }
 
 

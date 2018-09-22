@@ -224,8 +224,25 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "评论", groupId = "article", order = 5)
     public void comment() {
-        Page<ArticleComment> page = commentService.paginate(getPagePara(), 10);
+
+        String status = getPara("s");
+
+        Page<ArticleComment> page =
+                status == null
+                        ? commentService.paginateWithoutTrash(getPagePara(), 10)
+                        : commentService.paginateByStatus(getPagePara(), 10, status);
+
         setAttr("page", page);
+
+        int unauditedCount = commentService.findCountByStatus(ArticleComment.STATUS_UNAUDITED);
+        int trashCount = commentService.findCountByStatus(ArticleComment.STATUS_TRASH);
+        int normalCount = commentService.findCountByStatus(ArticleComment.STATUS_NORMAL);
+
+        setAttr("unauditedCount", unauditedCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", unauditedCount + trashCount + normalCount);
+
         render("article/comment_list.html");
     }
 

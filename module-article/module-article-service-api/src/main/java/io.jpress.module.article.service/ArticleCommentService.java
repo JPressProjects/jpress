@@ -105,5 +105,12 @@ public interface ArticleCommentService {
 
     public boolean doChangeStatus(long id, String status);
 
+    public int findCountByStatus(String status);
+
+    public Page<ArticleComment> paginateByStatus(int page, int pagesize, String status);
+
+
+    public Page<ArticleComment> paginateWithoutTrash(int page, int pagesize);
+
 
 }

@@ -3,6 +3,48 @@
 <script src="/static/components/ckeditor/ckeditor.js"></script>
 <script>
     initEditor('editor1', 200);
+
+    function doChangeStatus(id, status) {
+        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function doDelComment(id) {
+        $.get("/admin/article/doCommentDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.href = "/admin/article/comment";
+            }
+        });
+    }
+
+    $('#form1').on('submit', function () {
+        editorUpdate();
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    toastr.options.onHidden = function () {
+                        location.href = "/admin/article/comment";
+                    }
+                    toastr.success('回复成功。');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    });
+
 </script>
 #end
 
@@ -37,9 +79,14 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
 
-                    <form class="form-horizontal form-setting" autocomplete="off">
-                        <div class="box-body ">
+                    <form class="form-horizontal form-setting" autocomplete="off" id="form1"
+                          action="/admin/article/doCommentReplay">
 
+                        <input type="hidden" name="pid" value="#(comment.id)">
+                        <input type="hidden" name="articleId" value="#(comment.articleId)">
+                        <input type="hidden" name="pid" value="#(comment.id)">
+
+                        <div class="box-body ">
                             <div class="post">
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
@@ -56,15 +103,24 @@
                                 </p>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="javascript:;" style="color: #006505">编辑</a> |
-                                        <a href="javascript:;" onclick="draft('17')" style="color: #006505">待审核</a>|
-                                        <a href="javascript:;" onclick="trash('17')" style="color: #a00">垃圾箱</a>|
-                                        <a href="javascript:;" target="_blank" style="color: #a00">永久删除</a>
+                                        <a href="/admin/article/commentReplay/#(comment.id)"
+                                           style="color: #006505">回复</a> |
+                                        #if(comment.isNormal())
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
+                                           style="color: #006505">待审核</a> |
+                                        #else
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')"
+                                           style="color: #006505">设为正常</a> |
+                                        #end
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
+                                           style="color: #a00">垃圾箱</a> |
+                                        <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
+                                           style="color: #a00">永久删除</a>
                                     </li>
                                 </ul>
 
                                 <div class="">
-                                    <textarea id="editor1" name="page.text"
+                                    <textarea id="editor1" name="content"
                                               style="height: 200px;width: 100%;background-color: white"></textarea>
                                 </div>
 

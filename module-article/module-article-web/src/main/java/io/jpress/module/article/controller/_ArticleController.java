@@ -6,6 +6,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.User;
 import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -243,8 +244,17 @@ public class _ArticleController extends AdminControllerBase {
     /**
      * 进行评论回复
      */
-    public void doCommentReplay() {
+    public void doCommentReplay(String content, Long articleId, Long pid) {
+        User user = getLoginedUser();
+        ArticleComment comment = new ArticleComment();
+        comment.setContent(content);
+        comment.setUserId(user.getId());
+        comment.setStatus(ArticleComment.STATUS_NORMAL);
+        comment.setArticleId(articleId);
+        comment.setParentId(pid);
 
+        commentService.saveOrUpdate(comment);
+        renderJson(Ret.ok());
     }
 
 

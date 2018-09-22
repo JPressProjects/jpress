@@ -21,6 +21,15 @@
     }
 
 </script>
+<style>
+    .comment-content {
+        padding-bottom: 20px;
+    }
+
+    .comment-content p {
+        display: inline;
+    }
+</style>
 
 <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="box box-dashboard">
@@ -61,13 +70,15 @@
                                       <a href="/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
                                     </span>
                                 <span class="description">#date(comment.created) -  来至对文章
-                                    <a href="#articleUrl(comment.article)" target="_blank">《#(comment.article.title ??)》</a> 的评论
+                                    <a href="#articleUrl(comment.article)"
+                                       target="_blank">《#(comment.article.title ??)》</a> 的评论
                                 </span>
                             </div>
-                            <p>
+                            <div class="comment-content">
                                 #(comment.content ??)
-                                #if(!comment.isNormal()) <strong>（#(comment.statusString)）</strong> #end
-                            </p>
+                                #if(!comment.isNormal()) <strong style="color: #000">（#(comment.statusString)）</strong>
+                                #end
+                            </div>
                             <ul class="list-inline">
                                 <li>
                                     <a href="/admin/article/commentReplay/#(comment.id)" style="color: #006505">回复</a> |

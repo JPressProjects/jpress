@@ -55,9 +55,12 @@
         margin: 20px 10px;
     }
 
-    .post p {
-        font-weight: bold;
-        color: #333;
+    .comment-content {
+        padding-bottom: 20px;
+    }
+
+    .comment-content p {
+        display: inline;
     }
 
 </style>
@@ -98,9 +101,9 @@
                                         <a href="#articleUrl(comment.article)" target="_blank">《#(comment.article.title ??)》</a> 的评论
                                     </span>
                                 </div>
-                                <p>
+                                <div class="comment-content">
                                     #(comment.content ??)
-                                </p>
+                                </div>
                                 <ul class="list-inline">
                                     <li>
                                         #if(comment.isNormal())

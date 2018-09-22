@@ -425,7 +425,7 @@ DROP TABLE IF EXISTS `wechat_replay`;
 
 CREATE TABLE `wechat_replay` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `replay` text,
+  `content` text,
   `keyword` varchar(128) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,

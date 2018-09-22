@@ -8,8 +8,8 @@ CREATE TABLE `article` (
   `pid` int(11) DEFAULT NULL COMMENT '子版本的文章id',
   `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
   `title` varchar(256) DEFAULT '' COMMENT '标题',
-  `text` longtext COMMENT '内容',
-  `edit_mode` varchar(32) DEFAULT '0' COMMENT '编辑模式：html可视化，markdown ..',
+  `content` longtext COMMENT '内容',
+  `edit_mode` varchar(32) DEFAULT '0' COMMENT '编辑模式，默认为html，其他可选项包括html，markdown ..',
   `summary` text COMMENT '摘要',
   `link_to` varchar(256) DEFAULT NULL COMMENT '连接到(常用于谋文章只是一个连接)',
   `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
@@ -23,7 +23,7 @@ CREATE TABLE `article` (
   `view_count` int(11) unsigned DEFAULT '0' COMMENT '访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-  `flag` varchar(256) DEFAULT NULL COMMENT '标识',
+  `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
   `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
@@ -44,12 +44,12 @@ DROP TABLE IF EXISTS `article_category`;
 CREATE TABLE `article_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL COMMENT '分类创建的用户ID',
   `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
   `title` varchar(512) DEFAULT NULL COMMENT '标题',
   `content` text COMMENT '内容描述',
-  `summary` text,
-  `style` varchar(32) DEFAULT NULL,
+  `summary` text COMMENT '摘要',
+  `style` varchar(32) DEFAULT NULL COMMENT '模板样式',
   `type` varchar(32) DEFAULT NULL COMMENT '类型，比如：分类、tag、专题',
   `icon` varchar(128) DEFAULT NULL COMMENT '图标',
   `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
@@ -58,9 +58,10 @@ CREATE TABLE `article_category` (
   `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
+  `modified` datetime DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`id`),
   KEY `typeslug` (`type`,`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分类表。标签、专题、类别等都属于category。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章分类表。标签、专题、类别等都属于category。';
 
 
 
@@ -70,10 +71,10 @@ CREATE TABLE `article_category` (
 DROP TABLE IF EXISTS `article_category_mapping`;
 
 CREATE TABLE `article_category_mapping` (
-  `article_id` int(11) unsigned NOT NULL,
-  `category_id` int(11) unsigned NOT NULL,
+  `article_id` int(11) unsigned NOT NULL COMMENT '文章ID',
+  `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
   PRIMARY KEY (`article_id`,`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章和分类的多对多关系表';
 
 
 
@@ -86,7 +87,7 @@ CREATE TABLE `article_comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
   `article_id` int(11) unsigned DEFAULT NULL COMMENT '评论的内容ID',
-  `article_user_id` int(11) unsigned DEFAULT NULL,
+  `article_user_id` int(11) unsigned DEFAULT NULL COMMENT '文章的用户ID，冗余字段，方便关联查询',
   `parent_id` int(11) unsigned DEFAULT NULL COMMENT '回复的评论ID',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
   `order_number` int(11) unsigned DEFAULT '0' COMMENT '排序编号，常用语置顶等',
@@ -99,7 +100,7 @@ CREATE TABLE `article_comment` (
   PRIMARY KEY (`id`),
   KEY `content_id` (`article_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评论表，用于保存content内容的回复、分享、推荐等信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章评论表';
 
 
 
@@ -112,7 +113,7 @@ CREATE TABLE `attachment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID主键',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '上传附件的用户ID',
   `title` text COMMENT '标题',
-  `description` text,
+  `description` text COMMENT '附件描述',
   `path` varchar(512) DEFAULT NULL COMMENT '路径',
   `mime_type` varchar(128) DEFAULT NULL COMMENT 'mime',
   `suffix` varchar(32) DEFAULT NULL COMMENT '附件的后缀',
@@ -120,10 +121,8 @@ CREATE TABLE `attachment` (
   `flag` varchar(256) DEFAULT NULL COMMENT '标示',
   `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
   `accessible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否可以被访问',
-  `ip` varchar(64) DEFAULT NULL,
-  `agent` text,
   `created` datetime DEFAULT NULL COMMENT '上传时间',
-  `modified` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `created` (`created`),
@@ -139,21 +138,21 @@ CREATE TABLE `attachment` (
 DROP TABLE IF EXISTS `menu`;
 
 CREATE TABLE `menu` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `pid` int(11) unsigned DEFAULT NULL,
-  `text` varchar(128) DEFAULT NULL,
-  `url` varchar(512) DEFAULT NULL,
-  `target` varchar(32) DEFAULT NULL,
-  `icon` varchar(64) DEFAULT NULL,
-  `flag` varchar(32) DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `pid` int(11) unsigned DEFAULT NULL COMMENT '父级ID',
+  `text` varchar(128) DEFAULT NULL COMMENT '文本内容',
+  `url` varchar(512) DEFAULT NULL COMMENT '链接的url',
+  `target` varchar(32) DEFAULT NULL COMMENT '打开的方式',
+  `icon` varchar(64) DEFAULT NULL COMMENT '菜单的icon',
+  `flag` varchar(32) DEFAULT NULL COMMENT '菜单标识',
   `type` varchar(32) DEFAULT '' COMMENT '菜单类型：主菜单、顶部菜单、底部菜单',
   `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
-  `relative_table` varchar(32) DEFAULT NULL,
-  `relative_table_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `relative_table` varchar(32) DEFAULT NULL COMMENT '该菜单是否和其他表关联',
+  `relative_table_id` int(11) DEFAULT NULL COMMENT '关联的具体数据id',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='type 是菜单的类型：front_header：前台顶部菜单；front_main:前台主菜单；front_footer:前台底部菜单；';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
 
 
 
@@ -220,7 +219,7 @@ CREATE TABLE `payment_record` (
   `field9` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `trx_no` (`trx_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
 
 
 
@@ -231,15 +230,15 @@ DROP TABLE IF EXISTS `permission`;
 
 CREATE TABLE `permission` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `action_key` varchar(512) NOT NULL DEFAULT '',
+  `action_key` varchar(512) NOT NULL DEFAULT '' COMMENT '唯一标识',
   `node` varchar(512) NOT NULL DEFAULT '' COMMENT '属于大的分类，可能是Controller、大的DIV、或菜单组',
   `type` varchar(32) NOT NULL DEFAULT '' COMMENT '权限的类型：url、页面元素、菜单',
-  `text` varchar(1024) DEFAULT NULL,
+  `text` varchar(1024) DEFAULT NULL COMMENT '菜单描述',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `node_actionKey` (`node`(191),`action_key`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
 
 
 
@@ -250,26 +249,26 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `description` text,
+  `name` varchar(128) NOT NULL DEFAULT '' COMMENT '角色名称',
+  `description` text COMMENT '角色的描述',
   `flag` varchar(64) DEFAULT '' COMMENT '角色标识，全局唯一，jpsa 为超级管理员',
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 
 
-# Dump of table role_permission
+# Dump of table role_permission_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `role_permission`;
+DROP TABLE IF EXISTS `role_permission_mapping`;
 
-CREATE TABLE `role_permission` (
-  `role_id` int(11) unsigned NOT NULL,
-  `permission_id` int(11) unsigned NOT NULL,
+CREATE TABLE `role_permission_mapping` (
+  `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
+  `permission_id` int(11) unsigned NOT NULL COMMENT '权限ID',
   PRIMARY KEY (`role_id`,`permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色和权限的多对多映射表';
 
 
 
@@ -284,11 +283,11 @@ CREATE TABLE `single_page` (
   `title` text COMMENT '标题',
   `text` longtext COMMENT '内容',
   `edit_mode` varchar(32) DEFAULT '' COMMENT '编辑模式：html可视化，markdown ..',
-  `link_to` varchar(512) DEFAULT NULL,
+  `link_to` varchar(512) DEFAULT NULL COMMENT '链接',
   `summary` text COMMENT '摘要',
   `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
-  `flag` varchar(32) DEFAULT NULL,
+  `flag` varchar(32) DEFAULT NULL COMMENT '标识',
   `status` varchar(32) NOT NULL DEFAULT '0' COMMENT '状态',
   `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
@@ -298,7 +297,7 @@ CREATE TABLE `single_page` (
   `remarks` text COMMENT '备注信息',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='页面表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='单页表';
 
 
 
@@ -315,10 +314,10 @@ CREATE TABLE `user` (
   `identity` varchar(128) DEFAULT NULL COMMENT '身份',
   `password` varchar(128) DEFAULT NULL COMMENT '密码',
   `salt` varchar(32) DEFAULT NULL COMMENT '盐',
-  `anonym` varchar(32) DEFAULT NULL,
-  `wx_openid` varchar(64) DEFAULT NULL,
-  `wx_unionid` varchar(64) DEFAULT NULL,
-  `qq_openid` varchar(64) DEFAULT NULL,
+  `anonym` varchar(32) DEFAULT NULL COMMENT '匿名ID',
+  `wx_openid` varchar(64) DEFAULT NULL COMMENT '微信的openId',
+  `wx_unionid` varchar(64) DEFAULT NULL COMMENT '微信的unionid',
+  `qq_openid` varchar(64) DEFAULT NULL COMMENT 'QQ的OpenId',
   `email` varchar(64) DEFAULT NULL COMMENT '邮件',
   `email_status` varchar(32) DEFAULT NULL COMMENT '邮箱状态（是否认证等）',
   `mobile` varchar(32) DEFAULT NULL COMMENT '手机电话',
@@ -336,7 +335,7 @@ CREATE TABLE `user` (
   `avatar` varchar(256) DEFAULT NULL COMMENT '头像',
   `idcardtype` varchar(128) DEFAULT NULL COMMENT '证件类型：身份证 护照 军官证等',
   `idcard` varchar(128) DEFAULT NULL COMMENT '证件号码',
-  `remark` varchar(512) DEFAULT NULL,
+  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `create_source` varchar(128) DEFAULT NULL COMMENT '用户来源（可能来之oauth第三方）',
@@ -351,16 +350,16 @@ CREATE TABLE `user` (
 
 
 
-# Dump of table user_role
+# Dump of table user_role_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_role`;
+DROP TABLE IF EXISTS `user_role_mapping`;
 
-CREATE TABLE `user_role` (
-  `user_id` int(11) unsigned NOT NULL,
-  `role_id` int(11) unsigned NOT NULL,
+CREATE TABLE `user_role_mapping` (
+  `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
+  `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色的多对多映射表';
 
 
 
@@ -379,7 +378,7 @@ CREATE TABLE `utm` (
   `source` varchar(32) DEFAULT NULL COMMENT '渠道',
   `medium` varchar(32) DEFAULT NULL COMMENT ' 媒介',
   `campaign` varchar(128) DEFAULT NULL,
-  `content` varchar(128) DEFAULT NULL,
+  `content` varchar(128) DEFAULT NULL COMMENT '来源内容',
   `term` varchar(256) DEFAULT NULL COMMENT '关键词',
   `ip` varchar(64) DEFAULT NULL COMMENT 'IP',
   `agent` varchar(1024) DEFAULT NULL COMMENT '浏览器',
@@ -395,7 +394,7 @@ CREATE TABLE `utm` (
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
 
 
 
@@ -406,15 +405,15 @@ DROP TABLE IF EXISTS `wechat_menu`;
 
 CREATE TABLE `wechat_menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `pid` int(11) unsigned DEFAULT NULL,
-  `text` varchar(512) DEFAULT NULL,
-  `keyword` varchar(128) DEFAULT NULL,
-  `type` varchar(32) DEFAULT '' COMMENT '菜单类型：主菜单、顶部菜单、底部菜单',
+  `pid` int(11) unsigned DEFAULT NULL COMMENT '父级ID',
+  `text` varchar(512) DEFAULT NULL COMMENT '文本内容',
+  `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
+  `type` varchar(32) DEFAULT '' COMMENT '菜单类型',
   `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信公众号菜单表';
 
 
 
@@ -425,9 +424,9 @@ DROP TABLE IF EXISTS `wechat_replay`;
 
 CREATE TABLE `wechat_replay` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `content` text,
-  `keyword` varchar(128) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
+  `content` text COMMENT '回复内容',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';

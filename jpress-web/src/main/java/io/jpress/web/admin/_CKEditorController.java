@@ -50,8 +50,6 @@ public class _CKEditorController extends AdminControllerBase {
         attachment.setPath(path.replace("\\", "/"));
         attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(uploadFile.getContentType());
-        attachment.setIp(getIPAddress());
-        attachment.setAgent(getUserAgent());
 
         if (attachment.save()) {
 

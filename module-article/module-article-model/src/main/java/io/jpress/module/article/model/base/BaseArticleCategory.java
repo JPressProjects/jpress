@@ -137,4 +137,12 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return get("created");
 	}
 
+	public void setModified(java.util.Date modified) {
+		set("modified", modified);
+	}
+	
+	public java.util.Date getModified() {
+		return get("modified");
+	}
+
 }

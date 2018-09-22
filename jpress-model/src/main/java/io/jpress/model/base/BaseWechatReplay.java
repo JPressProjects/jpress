@@ -17,20 +17,20 @@ public abstract class BaseWechatReplay<M extends BaseWechatReplay<M>> extends Jb
 		return getLong("id");
 	}
 
-	public void setContent(java.lang.String content) {
-		set("content", content);
-	}
-	
-	public java.lang.String getContent() {
-		return getStr("content");
-	}
-
 	public void setKeyword(java.lang.String keyword) {
 		set("keyword", keyword);
 	}
 	
 	public java.lang.String getKeyword() {
 		return getStr("keyword");
+	}
+
+	public void setContent(java.lang.String content) {
+		set("content", content);
+	}
+	
+	public java.lang.String getContent() {
+		return getStr("content");
 	}
 
 	public void setCreated(java.util.Date created) {

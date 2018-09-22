@@ -41,12 +41,12 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getStr("title");
 	}
 
-	public void setText(java.lang.String text) {
-		set("text", text);
+	public void setContent(java.lang.String content) {
+		set("content", content);
 	}
 	
-	public java.lang.String getText() {
-		return getStr("text");
+	public java.lang.String getContent() {
+		return getStr("content");
 	}
 
 	public void setEditMode(java.lang.String editMode) {

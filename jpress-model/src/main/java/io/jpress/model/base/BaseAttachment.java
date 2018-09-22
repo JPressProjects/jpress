@@ -97,22 +97,6 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
 		return get("accessible");
 	}
 
-	public void setIp(java.lang.String ip) {
-		set("ip", ip);
-	}
-	
-	public java.lang.String getIp() {
-		return getStr("ip");
-	}
-
-	public void setAgent(java.lang.String agent) {
-		set("agent", agent);
-	}
-	
-	public java.lang.String getAgent() {
-		return getStr("agent");
-	}
-
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

@@ -121,24 +121,24 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     public boolean delPermission(long roleId, long permissionId) {
-        Db.delete("delete from role_permission where role_id=? and permission_id=?", roleId, permissionId);
+        Db.delete("delete from role_permission_mapping where role_id=? and permission_id=?", roleId, permissionId);
         return true;
     }
 
     @Override
     public boolean hasPermission(long roleId, long permissionId) {
-        return Db.queryFirst("select * from role_permission where role_id = ? and permission_id = ?", roleId, permissionId) != null;
+        return Db.queryFirst("select * from role_permission_mapping where role_id = ? and permission_id = ?", roleId, permissionId) != null;
     }
 
     @Override
     public boolean doResetUserRoles(long userId, Long... RoleIds) {
 
         if (RoleIds == null || RoleIds.length == 0) {
-            return Db.delete("delete from user_role where user_id = ? ", userId) > 0;
+            return Db.delete("delete from user_role_mapping where user_id = ? ", userId) > 0;
         }
 
         return Db.tx(() -> {
-            Db.delete("delete from user_role where user_id = ? ", userId);
+            Db.delete("delete from user_role_mapping where user_id = ? ", userId);
 
             List<Record> records = new ArrayList<>();
             for (Long roleId : RoleIds) {
@@ -148,7 +148,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
                 records.add(record);
             }
 
-            Db.batchSave("user_role", records, records.size());
+            Db.batchSave("user_role_mapping", records, records.size());
 
             return true;
         });
@@ -157,7 +157,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)
     private List<Role> findRoleListByUserId(long userId) {
-        String sql = "select * from user_role where user_id = ?";
+        String sql = "select * from user_role_mapping where user_id = ?";
         List<Record> records = Db.find(sql, userId);
         if (records == null || records.isEmpty()) {
             return null;

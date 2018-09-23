@@ -257,6 +257,16 @@ public class _ArticleController extends AdminControllerBase {
         render("article/comment_replay.html");
     }
 
+    /**
+     * 评论编辑 页面
+     */
+    public void commentEdit() {
+        long id = getIdPara();
+        ArticleComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("article/comment_edit.html");
+    }
+
 
     /**
      * 进行评论回复

@@ -30,7 +30,10 @@
                 <div class="switchery-item">
                     <input type="checkbox" class="switchery" name="roleId" value="#(role.id)"
                            #checkedIf(hasRole(user.id,role.id))>
-                    #(role.name ??) ( <a href="/admin/user/rolePermissions/#(role.id)">权限</a> )
+                    #(role.name ??)
+                    #if(role.isSuperAdmin())
+                    - 超级管理员
+                    #end ( <a href="/admin/user/rolePermissions/#(role.id)">查看权限</a> )
                 </div>
                 #end
             </div>

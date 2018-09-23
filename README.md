@@ -19,6 +19,16 @@ INSERT INTO `user`
 VALUES 
 (1, 'admin', 'michael', '海哥', '程序员', 'f672ff8d263e89b313d2ab8ee88fec3d58e4c28d21939c858aa44f3bc6da7197', 'NYXvReOTBfBTh-vIhMz5_OazXk_nZs5V');
 
+
+INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
+VALUES
+	(1, '角色名称', '描述', 'jpsa', '2016-00-00 00:00:00', '2018-09-23 10:56:03');
+
+
+INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
+VALUES
+	(1, 1);
+
 ```
 
 ##### 后台登录

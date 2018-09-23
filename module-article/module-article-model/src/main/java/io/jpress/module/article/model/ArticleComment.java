@@ -29,7 +29,7 @@ public class ArticleComment extends BaseArticleComment<ArticleComment> {
         return STATUS_NORMAL.equals(getStatus());
     }
 
-    public boolean isnaudited() {
+    public boolean isUnaudited() {
         return STATUS_UNAUDITED.equals(getStatus());
     }
 

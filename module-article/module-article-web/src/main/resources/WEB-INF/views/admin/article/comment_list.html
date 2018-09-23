@@ -25,6 +25,14 @@
 </script>
 #end
 
+#define css()
+<style>
+    strong p {
+        display: inline;
+    }
+</style>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -78,7 +86,11 @@
                                     <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>#(comment.user.nickname ??)</td>
-                                <td>#(comment.content ??)
+                                <td>
+                                    <strong >
+                                        <a href="#">#(comment.content ??)</a>
+                                        #if(comment.isUnaudited()) (待审核) #end
+                                    </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/commentReplay/#(comment.id)"
@@ -97,7 +109,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(comment.article.title ??)</td>
+                                <td><a href="#articleUrl(comment.article)" target="_blank">#(comment.article.title
+                                    ??)</a></td>
                                 <td>#(comment.comment_count ??)</td>
                                 <td>#(comment.created ??)</td>
                             </tr>

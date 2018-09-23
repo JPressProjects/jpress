@@ -284,7 +284,7 @@ public class _ArticleController extends AdminControllerBase {
         comment.setUserId(user.getId());
         comment.setStatus(ArticleComment.STATUS_NORMAL);
         comment.setArticleId(articleId);
-        comment.setParentId(pid);
+        comment.setPid(pid);
 
         commentService.saveOrUpdate(comment);
         renderJson(Ret.ok());

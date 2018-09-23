@@ -41,28 +41,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("article_user_id");
 	}
 
-	public void setParentId(java.lang.Long parentId) {
-		set("parent_id", parentId);
+	public void setPid(java.lang.Long pid) {
+		set("pid", pid);
 	}
 	
-	public java.lang.Long getParentId() {
-		return getLong("parent_id");
-	}
-
-	public void setCommentCount(java.lang.Long commentCount) {
-		set("comment_count", commentCount);
-	}
-	
-	public java.lang.Long getCommentCount() {
-		return getLong("comment_count");
-	}
-
-	public void setOrderNumber(java.lang.Long orderNumber) {
-		set("order_number", orderNumber);
-	}
-	
-	public java.lang.Long getOrderNumber() {
-		return getLong("order_number");
+	public java.lang.Long getPid() {
+		return getLong("pid");
 	}
 
 	public void setAuthor(java.lang.String author) {
@@ -81,20 +65,20 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getStr("content");
 	}
 
-	public void setCreated(java.util.Date created) {
-		set("created", created);
+	public void setCommentCount(java.lang.Long commentCount) {
+		set("comment_count", commentCount);
 	}
 	
-	public java.util.Date getCreated() {
-		return get("created");
+	public java.lang.Long getCommentCount() {
+		return getLong("comment_count");
 	}
 
-	public void setStatus(java.lang.String status) {
-		set("status", status);
+	public void setOrderNumber(java.lang.Long orderNumber) {
+		set("order_number", orderNumber);
 	}
 	
-	public java.lang.String getStatus() {
-		return getStr("status");
+	public java.lang.Long getOrderNumber() {
+		return getLong("order_number");
 	}
 
 	public void setVoteUp(java.lang.Long voteUp) {
@@ -111,6 +95,22 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 	
 	public java.lang.Long getVoteDown() {
 		return getLong("vote_down");
+	}
+
+	public void setStatus(java.lang.String status) {
+		set("status", status);
+	}
+	
+	public java.lang.String getStatus() {
+		return getStr("status");
+	}
+
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+	
+	public java.util.Date getCreated() {
+		return get("created");
 	}
 
 }

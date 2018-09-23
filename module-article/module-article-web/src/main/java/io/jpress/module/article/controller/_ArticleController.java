@@ -267,6 +267,12 @@ public class _ArticleController extends AdminControllerBase {
         render("article/comment_edit.html");
     }
 
+    public void doCommentSave() {
+        ArticleComment comment = getBean(ArticleComment.class, "comment");
+        commentService.saveOrUpdate(comment);
+        renderJson(Ret.ok());
+    }
+
 
     /**
      * 进行评论回复

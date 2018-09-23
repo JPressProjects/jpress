@@ -3,6 +3,28 @@
 <script src="/static/components/ckeditor/ckeditor.js"></script>
 <script>
     initEditor('editor1', 200);
+
+    $('#from').on('submit', function () {
+
+        editorUpdate();
+
+        $(this).ajaxSubmit({
+            type: "post",
+            url: "/admin/article/doCommentSave",
+            success: function (data) {
+                if (data.state == "ok") {
+                    toastr.success('保存成功。');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    });
+
 </script>
 #end
 #define content()
@@ -26,31 +48,27 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          id="optionForm">
+                          method="post"
+                          id="from">
                         <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户ID</label>
 
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="用户ID"
-                                           name="web_name" value="#(comment.user_id ??)">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户昵称</label>
-
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="用户昵称..."
-                                           name="web_title" value="#(comment.author ??)">
-                                </div>
-                            </div>
+                            <input type="hidden" name="comment.id" value="#(comment.id ??)">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">内容</label>
 
                                 <div class="col-sm-8">
-                                     <textarea id="editor1" name="content"
+                                     <textarea id="editor1" name="comment.content"
                                                style="height: 200px;width: 100%;background-color: white">#(comment.content ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户昵称</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="用户昵称..."
+                                           name="comment.author" value="#(comment.author ??)">
                                 </div>
                             </div>
 
@@ -58,10 +76,13 @@
                                 <label class="col-sm-2 control-label">状态</label>
 
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="attachment_watermark_position">
-                                        <option value="1">正常</option>
-                                        <option value="1">冻结</option>
-                                        <option value="1">垃圾箱</option>
+                                    <select class="form-control" name="comment.status">
+                                        <option value="normal" #selectedIf(comment.status==
+                                        'normal')>正常</option>
+                                        <option value="unaudited" #selectedIf(comment.status==
+                                        'unaudited')>冻结</option>
+                                        <option value="trash" #selectedIf(comment.status==
+                                        'trash')>垃圾箱</option>
                                     </select>
                                 </div>
 
@@ -72,7 +93,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
-                                           name="web_mater_email" value="">
+                                           name="comment.vote_up" value="#(comment.vote_up ??)">
                                 </div>
 
                             </div>
@@ -82,7 +103,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
-                                           name="web_mater_email" value="">
+                                           name="comment.vote_down" value="#(comment.vote_down ??)">
                                 </div>
 
                             </div>
@@ -93,7 +114,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
-                                           name="web_ipc_no" value="">
+                                           name="web_ipc_no" value="#(comment.created ??)">
                                 </div>
                             </div>
 

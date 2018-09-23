@@ -28,7 +28,7 @@ public abstract class TemplateControllerBase extends JbootController {
             return;
         }
 
-        view = "/templates/" + template.getFolder() + "/" + view;
+        view = template.getWebAbsolutePath() + "/" + view;
         super.render(new TemplateRender(view));
     }
 

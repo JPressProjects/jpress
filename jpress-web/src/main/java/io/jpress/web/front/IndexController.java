@@ -1,5 +1,6 @@
 package io.jpress.web.front;
 
+import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -11,13 +12,24 @@ import io.jpress.web.base.TemplateControllerBase;
 @RequestMapping("/")
 public class IndexController extends TemplateControllerBase {
 
+    private static String style = null;
+
+    public static void initStyle(String style) {
+        IndexController.style = style;
+    }
+
+
     public void index() {
 
-        if ("/".equals(getRequest().getRequestURI())) {
-            render("index.html");
-            return;
+        if (!"/".equals(getRequest().getRequestURI())) {
+            forwardAction("/page");
         }
 
-        forwardAction("/page");
+
+        String indexView = StringUtils.isNotBlank(style)
+                ? "index_" + style + ".html"
+                : "index.html";
+
+        render(indexView);
     }
 }

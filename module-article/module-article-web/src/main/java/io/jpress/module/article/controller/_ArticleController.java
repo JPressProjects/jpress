@@ -108,7 +108,7 @@ public class _ArticleController extends AdminControllerBase {
 
     @EmptyValidate({
             @Form(name = "article.title", message = "标题不能为空"),
-            @Form(name = "article.text", message = "内容不能为空")
+            @Form(name = "article.content", message = "文章内容不能为空")
     })
     public void doWriteSave() {
         Article article = getModel(Article.class, "article");

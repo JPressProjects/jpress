@@ -49,7 +49,7 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "聊天回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
+    @AdminMenu(text = "自动回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
         Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
         setAttr("page", page);

@@ -20,9 +20,9 @@
   其中，template.properties 文件配置如下
   
  ```java
-id=cn.jeanstudio.bluelight
-title=BlueLight
-description=BlueLight 是设JeanStudio工作室为JPress设计的官网模板
+id= cn.jeanstudio.bluelight
+title= BlueLight
+description= BlueLight是JeanStudio工作室为JPress设计的官网模板
 anthor= jeanStudio
 authorWebsite= http://www.jeanstudio.cn
 version=1.0
@@ -45,3 +45,38 @@ screenshot=screenshot.png
 ##### 模板标签
  JPress是基于Jfinal和Jboot进行开发的，使用的模板引擎是Jfinal Enjoy，Jfinal Enjoy 模板引擎也是世界上最好的模板引擎，
  拥有极好的性能和开发体验，在学习JPress模板制作之前，很有必要学习一下Jfinal Enjoy 模板引擎。
+ 
+ 1. 菜单标签：#menu()
+ 
+ 
+    使用代码如下：
+    
+```html
+#menus("main")
+    #for(menu : menus)
+        <li class="nav-item">
+            <a href="#(menu.url ??)">#(menu.text ??)</a>
+        </li>
+    #end
+#end
+```
+
+ 2. 文章分类标签：#articlePage()
+  
+  使用代码如下：
+  
+  ```html
+#articlePage()
+
+    #for(article : articlePage.list)
+        <a href="#articleUrl(article)">#(article.title ??)</a>
+    #end
+    
+    #articlePaginate()
+            #for(page : pages)
+                <a href="#(page.url ??)">#(page.text ??)</a>
+            #end
+     #end
+     
+#end
+```

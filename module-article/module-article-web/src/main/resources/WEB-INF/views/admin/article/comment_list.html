@@ -76,8 +76,8 @@
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
                                 <th>回复至</th>
-                                <th>评论数量</th>
-                                <th style="width: 100px">发布时间</th>
+                                <th style="width: 50px"><i class="fa fa-commenting"></i></th>
+                                <th style="width: 90px">发布时间</th>
                             </tr>
 
                             #for(comment : page.list)
@@ -85,9 +85,13 @@
                                 <td>
                                     <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>#(comment.user.nickname ??)</td>
                                 <td>
-                                    <strong >
+                                    <a href="#(comment.user.detailUrl)">
+                                        #(comment.user.nickname ??)
+                                    </a>
+                                </td>
+                                <td>
+                                    <strong>
                                         <a href="/admin/article/commentEdit/#(comment.id)">#(comment.content ??)</a>
                                         #if(comment.isUnaudited()) (待审核) #end
                                     </strong>
@@ -109,10 +113,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><a href="#articleUrl(comment.article)" target="_blank">#(comment.article.title
-                                    ??)</a></td>
+                                <td>
+                                    <a href="#articleUrl(comment.article)" target="_blank">
+                                        #(comment.article.title ??)
+                                    </a>
+                                </td>
                                 <td>#(comment.comment_count ??)</td>
-                                <td>#(comment.created ??)</td>
+                                <td>#date(comment.created)</td>
                             </tr>
                             #end
 

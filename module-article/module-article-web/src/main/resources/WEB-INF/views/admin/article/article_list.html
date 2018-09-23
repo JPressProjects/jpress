@@ -157,7 +157,11 @@
                                     </div>
 
                                 </td>
-                                <td>#(article.user.nickname ??)</td>
+                                <td>
+                                    <a href="#(article.user.detailUrl ??)">
+                                        #(article.user.nickname ??)
+                                    </a>
+                                </td>
                                 <td>
                                     #articleCategories(article.id,"category")
                                     #for(category : categories)

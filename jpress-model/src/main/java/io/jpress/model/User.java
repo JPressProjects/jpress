@@ -39,7 +39,7 @@ public class User extends BaseUser<User> {
     public void keepSafe() {
         remove("password", "salt");
     }
-    
+
 
     public boolean isEmailStatusOk() {
         return STATUS_OK.equals(getEmailStatus());
@@ -48,5 +48,9 @@ public class User extends BaseUser<User> {
 
     public boolean isMobileStatusOk() {
         return STATUS_OK.equals(getMobileStatus());
+    }
+
+    public String getDetailUrl() {
+        return "/admin/user/detail/" + getId();
     }
 }

@@ -1,6 +1,8 @@
 package io.jpress.web.admin;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.upload.UploadFile;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.FileUtils;
 import io.jboot.utils.StringUtils;
@@ -20,6 +22,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,6 +60,64 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "安装", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 5)
     public void install() {
         render("template/install.html");
+    }
+
+    /**
+     * 进行模板安装
+     */
+    public void doInstall() {
+
+        if (!isMultipartRequest()) {
+            renderError(404);
+            return;
+        }
+
+        UploadFile ufile = getFile();
+        if (ufile == null) {
+            renderJson(Ret.fail().set("success", false));
+            return;
+        }
+
+        if (!".zip".equals(FileUtils.getSuffix(ufile.getFileName()))) {
+            renderJson(Ret.fail()
+                    .set("success", false)
+                    .set("message", "只支持 .zip 的压缩模板文件"));
+            return;
+        }
+
+        String webRoot = PathKit.getWebRootPath();
+        StringBuilder newFileName = new StringBuilder(webRoot);
+        newFileName.append(File.separator);
+        newFileName.append("templates");
+        newFileName.append(File.separator);
+        newFileName.append(ufile.getFileName());
+
+        File newfile = new File(newFileName.toString());
+        if (newfile.exists()) {
+            renderJson(Ret.fail()
+                    .set("success", false)
+                    .set("message", "该模板已经安装"));
+            return;
+        }
+
+        if (!newfile.getParentFile().exists()) {
+            newfile.getParentFile().mkdirs();
+        }
+
+        ufile.getFile().renameTo(newfile);
+        String zipPath = newfile.getAbsolutePath();
+
+        try {
+            FileUtils.unzip(zipPath, newfile.getParentFile().getAbsolutePath());
+        } catch (IOException e) {
+            renderJson(Ret.fail()
+                    .set("success", false)
+                    .set("message", "模板文件解压缩失败"));
+            return;
+        }
+
+        renderJson(Ret.ok().set("success", true));
+
     }
 
 

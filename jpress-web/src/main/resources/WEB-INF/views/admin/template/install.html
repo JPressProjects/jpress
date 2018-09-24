@@ -28,6 +28,7 @@
         outline: none;
     }
 
+
 </style>
 #end
 
@@ -51,7 +52,7 @@
                 <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
             </span>
         <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite"
-            aria-relevant="additions removals">
+            aria-relevant="additions removals" style="padding: 10px 1px">
             <li>
                 <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
                 <div class="qq-progress-bar-container-selector qq-progress-bar-container">
@@ -64,8 +65,8 @@
                 </div>
                 <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
                 <button type="button" class="qq-upload-retry-selector qq-upload-retry">
-                    <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
-                    Retry
+                    <span class="qq-btn qq-retry-icon" aria-label="重试"></span>
+                    重试
                 </button>
 
                 <div class="qq-file-info">
@@ -116,11 +117,28 @@
 </script>
 
 <script>
-    // Some options to pass to the uploader are discussed on the next page
     var uploader = new qq.FineUploader({
         element: document.getElementById("uploader"),
+        text: {
+            failUpload: '模板安装失败'
+        },
+        retry: {
+            showButton: false
+        },
         request: {
-            endpoint: '/admin/attachment/doInstall'
+            endpoint: '/admin/template/doInstall'
+        },
+        callbacks: {
+            onComplete: function (id, name, responseJSON, xhr) {
+                if (responseJSON.state == "ok") {
+                    toastr.options.onHidden = function () {
+                        location.href = "/admin/template";
+                    }
+                    toastr.success(" 模板安装成功 ")
+                } else {
+                    toastr.error(responseJSON.message)
+                }
+            }
         }
     })
 </script>

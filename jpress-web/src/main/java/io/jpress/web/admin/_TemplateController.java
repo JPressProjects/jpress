@@ -222,8 +222,6 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        fileContent = StringEscapeUtils.unescapeHtml(fileContent);
-
         File file = new File(pathFile, fileName);
         FileUtils.writeString(file, fileContent);
 

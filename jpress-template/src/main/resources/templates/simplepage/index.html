@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>Jboot - 一个开源的分布式、商业级微服务框架</title>
+
+    <!-- Styles -->
+    <link href="./assets/css/page.min.css" rel="stylesheet">
+    <link href="./assets/css/style.min.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+    <link rel="icon" href="./assets/img/favicon.png">
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    <header class="header text-white py-8" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <div class="container-xs text-center">
+        <h1 class="display-4 mb-4">Jboot</h1>
+        <p class="lead">一个开源的分布式、商业级微服务框架</p>
+        <hr class="hr-dash w-25 my-7">
+        <a class="btn btn-round btn-outline-light w-125" href="#">Gitee</a>
+        <a class="btn btn-round btn-outline-light w-125 ml-3" href="#">GitHub</a>
+      </div>
+    </header><!-- /.header -->
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container-xs">
+        <section class="section">
+          <p class="lead"> Jboot 是 SpringCloud 之外的另一个选择，已经使用在用户量过亿的商业产品上，有超过1000家公司在使用 Jboot 做极速开发...</p>
+
+          <br>
+
+          <h2>安装</h2>
+          <p>Jboot是通过maven进行安装的</p>
+          <pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;io.jboot&lt;/groupId&gt;
+    &lt;artifactId&gt;jboot&lt;/artifactId&gt;
+    &lt;version&gt;1.6.8&lt;/version&gt;
+&lt;/dependency&gt;
+          </pre>
+          
+
+          <br><br>
+
+          <h2>Hello World</h2>
+          <p><p>在使用Jboot之前，我们先来学习下如何使用Jboot的Hello World</p></p>
+
+        
+<pre class="language-markup no-toolbar"><code>
+import io.jboot.Jboot;
+import io.jboot.web.controller.JbootController;
+import io.jboot.web.controller.annotation.RequestMapping;
+
+@RequestMapping("/")
+public class IndexController extends JbootController {
+
+    public void index() {
+        renderText("Hello World Jboot");
+    }
+
+
+    public static void main(String[] args) {
+        Jboot.run(args);
+    }
+}
+</code></pre>
+
+        <p><p>注意事项：</p></p>
+        <ul>
+            <li>IndexController 需要继承 JbootController 或者 Controller</li>
+            <li>需要添加 <code>@RequestMapping("/")</code> 请求映射配置</li>
+            <li>通过编写 <code>index()</code> 方法来接收请求，并向浏览器输出 "Hello World Jboot" , 此处注意：必须叫 <code>index()</code> 不能修改名字，后续会讲到其原理。</li>
+        
+          </ul>
+
+
+
+          <br><br>
+
+          <h2>关于作者</h2>
+          <p>在使用Jboot有问题，随时通过以下方式联系作者：</p>
+           <ul>
+            <li>Email： <a href="mailto:fuhai999@gmail.com">fuhai999@gmail.com</a></li>
+            <li>Wechat: wx198819880</li>
+          </ul>
+
+
+          <br><br>
+
+          <h2>交流社区</h2>
+          <p>Jboot 主要由以下几个交流的地方</p>
+          <ul>
+            <li>GitHub： <a href="https://github.com/yangfuhai/jboot" target="_blank">@Jboot</a>.</li>
+            <li>开源中国社区 <a href="https://www.oschina.net/question/tag/jboot" target="_blank">查看问题列表</a>.</li>
+          </ul>
+          
+        </section>
+      </div>
+    </main><!-- /.main-content -->
+
+
+
+
+    <!-- Scripts -->
+    <script src="./assets/js/page.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+  </body>
+</html>

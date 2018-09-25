@@ -20,19 +20,28 @@
 
     $('.del-action').on('click', function () {
         var id = $(this).attr("data-id");
-        del(id);
+        $.get("/admin/article/doCategoryDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                toastr.error(result.message);
+            } else {
+                toastr.success("添加到菜单成功")
+            }
+        });
     });
 
-
-    function del(id) {
-        $.get("/admin/article/doCategoryDel/" + id, function (result) {
+    $('.addtomenu-action').on('click', function () {
+        var id = $(this).attr("data-id");
+        $.get("/admin/article/doAddCategoryToMenu/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
                 location.reload();
             }
         });
-    }
+    });
+
+
+
 </script>
 #end
 #define content()
@@ -177,7 +186,7 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 30%">标题</th>
+                                <th style="width: 40%">标题</th>
                                 <th>Slug</th>
                                 <th>描述</th>
                                 <th>排序</th>
@@ -194,6 +203,8 @@
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/category/#(category.id)"
                                                style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" class="addtomenu-action" data-id="#(category.id)"
+                                               style="color: #006505">添加到菜单</a> |
                                             <a href="javascript:;" class="del-action" data-id="#(category.id)"
                                                style="color: #a00">删除</a> |
                                             <a href="#articleCategoryUrl(category)" target="_blank" style="color: #a00">查看</a>

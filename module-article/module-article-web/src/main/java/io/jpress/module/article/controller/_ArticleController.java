@@ -2,11 +2,14 @@ package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.Jboot;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.Menu;
 import io.jpress.model.User;
+import io.jpress.module.article.kits.ArticleModuleKit;
 import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -14,6 +17,7 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -208,6 +212,30 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         render("article/tag_list.html");
+    }
+
+    public void doAddCategoryToMenu() {
+
+        Long id = getIdPara();
+
+        ArticleCategory category = categoryService.findById(id);
+        if (category == null) {
+            renderJson(Ret.fail().set("message", "该数据已经被删除"));
+            return;
+        }
+
+        Menu menu = new Menu();
+        menu.setPid(0l);
+        menu.setUrl(ArticleModuleKit.getCategoryUrl(category));
+        menu.setText(category.getTitle());
+        menu.setType(Menu.TYPE_MAIN);
+        menu.setRelativeTable("article_category");
+        menu.setRelativeTableId(id);
+
+        MenuService menuService = Jboot.bean(MenuService.class);
+        menuService.saveOrUpdate(menu);
+
+        renderJson(Ret.ok());
     }
 
 

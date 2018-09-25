@@ -22,7 +22,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
     @Override
     public List<ArticleCategory> findListByType(String type) {
-        return DAO.findListByColumn("type", type);
+        return DAO.findListByColumns(Columns.create("type", type), "id desc");
     }
 
     @Override

@@ -24,7 +24,7 @@
             if ("ok" != result.state) {
                 toastr.error(result.message);
             } else {
-                toastr.success("添加到菜单成功")
+                location.reload();
             }
         });
     });
@@ -33,13 +33,12 @@
         var id = $(this).attr("data-id");
         $.get("/admin/article/doAddCategoryToMenu/" + id, function (result) {
             if ("ok" != result.state) {
-                alert(result.message);
+                toastr.error(result.message);
             } else {
-                location.reload();
+                toastr.success("添加到菜单成功")
             }
         });
     });
-
 
 
 </script>

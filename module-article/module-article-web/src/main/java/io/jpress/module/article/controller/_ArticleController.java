@@ -53,11 +53,17 @@ public class _ArticleController extends AdminControllerBase {
         int draftCount = articleService.findCountByStatus(Article.STATUS_DRAFT);
         int trashCount = articleService.findCountByStatus(Article.STATUS_TRASH);
         int normalCount = articleService.findCountByStatus(Article.STATUS_NORMAL);
-
         setAttr("draftCount", draftCount);
         setAttr("trashCount", trashCount);
         setAttr("normalCount", normalCount);
         setAttr("totalCount", draftCount + trashCount + normalCount);
+
+
+        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        CategoryKits.toLayerCategories(categories);
+        setAttr("categories", categories);
+
+        flagCheck(categories, categoryId);
 
         render("article/article_list.html");
     }
@@ -94,7 +100,7 @@ public class _ArticleController extends AdminControllerBase {
         render("article/article_write.html");
     }
 
-    private void flagCheck(List<ArticleCategory> categories, Long[] checkIds) {
+    private void flagCheck(List<ArticleCategory> categories, Long... checkIds) {
         if (checkIds == null || checkIds.length == 0
                 || categories == null || categories.size() == 0) {
             return;
@@ -102,7 +108,7 @@ public class _ArticleController extends AdminControllerBase {
 
         for (ArticleCategory category : categories) {
             for (Long id : checkIds) {
-                if (id.equals(category.getId())) {
+                if (id != null && id.equals(category.getId())) {
                     category.put("isCheck", true);
                 }
             }

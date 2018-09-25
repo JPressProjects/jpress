@@ -92,6 +92,7 @@
         <form action="/admin/article/doWriteSave" method="post" id="form">
             <input type="hidden" id="articleStatus" name="article.status" value='#(article.id ?? "nomarl")'>
             <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+            <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
             <div class="row">
                 <div class="col-xs-9">
 

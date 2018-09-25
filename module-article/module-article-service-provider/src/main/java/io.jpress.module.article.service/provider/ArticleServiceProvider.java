@@ -96,7 +96,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        if (categoryId != null) {
+            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        }
 
         Columns columns = new Columns();
         if (StringUtils.isNotEmpty(title)) {
@@ -117,7 +119,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        if (categoryId != null) {
+            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        }
 
         Columns columns = new Columns();
         if (StringUtils.isNotEmpty(title)) {

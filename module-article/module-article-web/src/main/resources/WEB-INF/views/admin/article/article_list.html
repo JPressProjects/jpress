@@ -58,9 +58,9 @@
 
     <section class="content-header text-tap">
         <a href="/admin/article">全部 (#(totalCount ??))</a> |
-        <a href="?s=normal">已发布 (#(normalCount ??))</a> |
-        <a href="?s=draft">草稿 (#(draftCount ?? 0))</a> |
-        <a href="?s=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+        <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+        <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -69,18 +69,21 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel">
+                        <form class="form-horizontal actionPanel" action="/admin/article" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
                             <div class="row">
                                 <div class="form-group col-xs-4">
                                     <label class="col-sm-3 control-label">标题</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="title" value="#para('title')">
                                     </div>
                                 </div>
                                 <div class="form-group col-xs-4">
-                                    <label class="col-sm-3 control-label">作者</label>
+                                    <label class="col-sm-3 control-label">分类</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control">
+                                        <select class="form-control" name="categoryId">
+                                            <option value="">全部分类</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-xs-4">

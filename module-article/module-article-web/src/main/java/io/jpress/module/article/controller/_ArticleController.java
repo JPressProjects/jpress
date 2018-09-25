@@ -16,6 +16,7 @@ import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -37,12 +38,15 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
-        String status = getPara("s");
+
+        String status = getPara("status");
+        String title = getPara("title");
+        Long categoryId = getParaToLong("categoryId");
 
         Page<Article> page =
-                status == null
-                        ? articleService.paginateWithoutTrash(getPagePara(), 10)
-                        : articleService.paginateByStatus(getPagePara(), 10, status);
+                StringUtils.isBlank(status)
+                        ? articleService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
+                        : articleService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
 
         setAttr("page", page);
 

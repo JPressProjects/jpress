@@ -8,6 +8,8 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StringUtils;
+import io.jpress.commons.utils.SqlKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
@@ -90,19 +92,48 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    public Page<Article> paginateByStatus(int page, int pagesize, String status) {
-        return DAO.paginateByColumn(page,
-                pagesize,
-                Column.create("status", status),
-                "id desc");
+    public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
+
+
+        StringBuilder sqlBuilder = new StringBuilder("from article a ");
+        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+
+        Columns columns = new Columns();
+        if (StringUtils.isNotEmpty(title)) {
+            columns.like("a.title", "%"+title+"%");
+        }
+        columns.add("m.category_id", categoryId);
+        columns.add("a.status", status);
+
+        SqlKit.appendWhereIfNotEmpty(columns.getList(), sqlBuilder);
+
+        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        return joinUserPage(dataPage);
     }
 
     @Override
-    public Page<Article> paginateWithoutTrash(int page, int pagesize) {
-        return DAO.paginateByColumn(page,
-                pagesize,
-                Column.create("status", Article.STATUS_TRASH, Column.LOGIC_NOT_EQUALS),
-                "id desc");
+    public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
+
+
+        StringBuilder sqlBuilder = new StringBuilder("from article a ");
+        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+
+        Columns columns = new Columns();
+        if (StringUtils.isNotEmpty(title)) {
+            columns.like("a.title","%"+title+"%");
+        }
+        columns.add("m.category_id", categoryId);
+        columns.ne("a.status", Article.STATUS_TRASH);
+
+        SqlKit.appendWhereIfNotEmpty(columns.getList(), sqlBuilder);
+
+        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        return joinUserPage(dataPage);
+    }
+
+    private Page<Article> joinUserPage(Page<Article> page) {
+        userService.join(page, "user_id");
+        return page;
     }
 
     @Override

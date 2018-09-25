@@ -97,19 +97,16 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/commentReplay/#(comment.id)"
-                                               style="color: #006505">回复</a> |
+                                            <a href="/admin/article/commentReplay/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
-                                               style="color: #006505">待审核</a> |
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
                                             #else
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')"
-                                               style="color: #006505">设为正常</a> |
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')">设为正常</a> |
                                             #end
                                             <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
-                                               style="color: #a00">垃圾箱</a> |
+                                               class="red-action">垃圾箱</a> |
                                             <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
-                                               style="color: #a00">永久删除</a>
+                                               class="red-action">永久删除</a>
                                         </div>
                                     </div>
                                 </td>

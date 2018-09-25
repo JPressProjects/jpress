@@ -120,7 +120,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
             case TYPE_TAG:
                 return "/article/tag/" + getSlug() + suffix;
         }
-        return null;
+        return "";
     }
 
 

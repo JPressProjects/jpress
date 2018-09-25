@@ -160,3 +160,13 @@
 .toast-success {
     background-color: #00a65a;
 }
+
+.jp-actionitem a {
+    font-size: 13px;
+    font-weight: 400;
+    color: #006505;
+}
+
+.red-action {
+    color: #a00 !important;
+}

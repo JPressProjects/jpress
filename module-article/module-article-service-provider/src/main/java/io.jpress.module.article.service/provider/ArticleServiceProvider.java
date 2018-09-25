@@ -9,7 +9,7 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StringUtils;
-import io.jpress.commons.utils.SqlKit;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
@@ -100,12 +100,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = new Columns();
         if (StringUtils.isNotEmpty(title)) {
-            columns.like("a.title", "%"+title+"%");
+            columns.like("a.title", "%" + title + "%");
         }
         columns.add("m.category_id", categoryId);
         columns.add("a.status", status);
 
-        SqlKit.appendWhereIfNotEmpty(columns.getList(), sqlBuilder);
+        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(" order by id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -120,12 +121,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = new Columns();
         if (StringUtils.isNotEmpty(title)) {
-            columns.like("a.title","%"+title+"%");
+            columns.like("a.title", "%" + title + "%");
         }
         columns.add("m.category_id", categoryId);
         columns.ne("a.status", Article.STATUS_TRASH);
 
-        SqlKit.appendWhereIfNotEmpty(columns.getList(), sqlBuilder);
+        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(" order by id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);

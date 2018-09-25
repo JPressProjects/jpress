@@ -1,6 +1,7 @@
 package io.jpress.commons.utils;
 
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.ArrayUtils;
 
 import java.util.List;
@@ -8,13 +9,15 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: (请输入文件名称)
- * @Description: (用一句话描述该文件做什么)
  * @Package io.jpress.commons.utils
  */
-public class SqlKit {
+public class SqlUtils {
 
-    public static void appendWhereIfNotEmpty(List<Column> columns, StringBuilder sqlBuilder) {
+    public static void appendWhereByColumns(Columns columns, StringBuilder sqlBuilder) {
+        appendWhereByColumns(columns.getList(), sqlBuilder);
+    }
+
+    public static void appendWhereByColumns(List<Column> columns, StringBuilder sqlBuilder) {
         if (ArrayUtils.isNotEmpty(columns)) {
             sqlBuilder.append(" WHERE ");
 

@@ -18,7 +18,7 @@ package io.jpress.commons.sms;
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
 import io.jboot.utils.StringUtils;
-import io.jpress.commons.utils.SUtils;
+import io.jpress.commons.utils.SignUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +70,7 @@ public class AlidayuSmsSender implements ISmsSender {
         params.put("sms_type", "normal");
         params.put("app_key", app_key);
 
-        String sign = SUtils.signForRequest(params, app_secret);
+        String sign = SignUtils.signForRequest(params, app_secret);
         params.put("sign", sign);
 
         Map<String, String> headers = new HashMap<String, String>();

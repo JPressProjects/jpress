@@ -116,6 +116,20 @@
                                 </div>
                             </div>
 
+                            #if(styles)
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">样式</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="category.style">
+                                        <option value="">默认</option>
+                                        #for(style : styles)
+                                        <option value="#(style)">#(style)</option>
+                                        #end
+                                    </select>
+                                </div>
+                            </div>
+                            #end
+
 
                             <h4 class="page-header">SEO</h4>
 

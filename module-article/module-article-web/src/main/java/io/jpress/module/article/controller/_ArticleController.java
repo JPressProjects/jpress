@@ -7,6 +7,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.model.User;
 import io.jpress.module.article.kits.ArticleModuleKit;
@@ -101,7 +102,16 @@ public class _ArticleController extends AdminControllerBase {
             flagCheck(subjects, categoryIds);
         }
 
+        initStylesAttr("article_");
+
         render("article/article_write.html");
+    }
+
+    private void initStylesAttr(String prefix) {
+        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles(prefix);
+        if (styles != null && !styles.isEmpty()) {
+            setAttr("styles", styles);
+        }
     }
 
     private void flagCheck(List<ArticleCategory> categories, Long... checkIds) {
@@ -178,6 +188,7 @@ public class _ArticleController extends AdminControllerBase {
                 }
             }
         }
+        initStylesAttr("category_");
         render("article/category_list.html");
     }
 
@@ -196,6 +207,7 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
+        initStylesAttr("category_");
         render("article/subject_list.html");
     }
 
@@ -211,6 +223,7 @@ public class _ArticleController extends AdminControllerBase {
 
         }
 
+        initStylesAttr("category_");
         render("article/tag_list.html");
     }
 

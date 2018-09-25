@@ -140,6 +140,20 @@
                                         <form class="form-horizontal" autocomplete="off">
                                             <div class="box-body ">
 
+                                                #if(styles)
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">样式</label>
+                                                    <div class="col-sm-6">
+                                                        <select class="form-control" name="article.style">
+                                                            <option value="">默认</option>
+                                                            #for(style : styles)
+                                                            <option value="#(style)">#(style)</option>
+                                                            #end
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                #end
+
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">SEO关键字</label>
 

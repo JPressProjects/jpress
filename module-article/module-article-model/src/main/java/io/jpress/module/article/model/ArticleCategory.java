@@ -125,6 +125,6 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
 
 
     public String getHtmlView() {
-        return StringUtils.isBlank(getStyle()) ? "articlecategory.html" : "articlecategory_" + getStyle().trim() + ".html";
+        return StringUtils.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
     }
 }

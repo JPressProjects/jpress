@@ -185,7 +185,7 @@ public class _ArticleController extends AdminControllerBase {
                 }
             }
         }
-        initStylesAttr("category_");
+        initStylesAttr("artlist_");
         render("article/category_list.html");
     }
 
@@ -202,7 +202,7 @@ public class _ArticleController extends AdminControllerBase {
 
         }
 
-        initStylesAttr("category_");
+        initStylesAttr("artlist_");
         render("article/tag_list.html");
     }
 

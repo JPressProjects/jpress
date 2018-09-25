@@ -87,7 +87,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">排序</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此分类排序的序号" name="menu.order_number"
+                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
+                                           name="menu.order_number"
                                            value="#(menu.order_number ??)">
                                     <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
                                 </div>
@@ -148,13 +149,16 @@
                             #for(menu : menus)
                             <tr class="jp-actiontr">
                                 <td>
-                                    #(menu.layerString)#(menu.text ??)
+                                    <strong>
+                                        <a href="#(menu.url ??)" target="_blank">
+                                            #(menu.layerString)#(menu.text ??)
+                                        </a>
+                                    </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
-                                            <a href="#(menu.url ??)" target="_blank" style="color: #006505">查看</a> |
-                                            <a href="javascript:;" onclick="del('#(menu.id??)')"
-                                               style="color: #a00">删除</a>
+                                            <a href="javascript:;" onclick="del('#(menu.id??)')" style="color: #a00">删除</a> |
+                                            <a href="#(menu.url ??)" target="_blank" style="color: #a00">查看</a> |
                                         </div>
                                     </div>
                                 </td>

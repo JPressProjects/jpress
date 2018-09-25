@@ -54,8 +54,8 @@ public class Template {
         this.description = prop.get("description");
         this.author = prop.get("author");
         this.authorWebsite = prop.get("authorWebsite");
-        this.version = prop.get("version");
-        this.versionCode = prop.getInt("versionCode", 0);
+        this.version = prop.get("version","1.0.0");
+        this.versionCode = prop.getInt("versionCode", 1);
         this.updateUrl = prop.get("updateUrl");
         this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot", "screenshot.png");
 

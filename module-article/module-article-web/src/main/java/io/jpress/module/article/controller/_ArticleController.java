@@ -81,8 +81,6 @@ public class _ArticleController extends AdminControllerBase {
         CategoryKits.toLayerCategories(categories);
         setAttr("categories", categories);
 
-        List<ArticleCategory> subjects = categoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
-        setAttr("subjects", subjects);
 
         int articleId = getParaToInt(0, 0);
 
@@ -99,7 +97,6 @@ public class _ArticleController extends AdminControllerBase {
 
             Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
             flagCheck(categories, categoryIds);
-            flagCheck(subjects, categoryIds);
         }
 
         initStylesAttr("article_");
@@ -192,24 +189,6 @@ public class _ArticleController extends AdminControllerBase {
         render("article/category_list.html");
     }
 
-
-    @AdminMenu(text = "专题", groupId = "article", order = 3)
-    public void subject() {
-        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_SUBJECT);
-        setAttr("categories", categories);
-
-        int id = getParaToInt(0, 0);
-        if (id > 0) {
-            for (ArticleCategory category : categories) {
-                if (category.getId() == id) {
-                    setAttr("category", category);
-                }
-            }
-        }
-
-        initStylesAttr("category_");
-        render("article/subject_list.html");
-    }
 
 
     @AdminMenu(text = "标签", groupId = "article", order = 4)

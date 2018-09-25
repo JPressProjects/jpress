@@ -242,30 +242,6 @@
                         </div>
                     </div>
 
-                    #if(subjects)
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">专题</h3>
-                        </div>
-                        <div class="box-body ">
-                            <div class="form-group">
-                                #for(category : subjects)
-                                <div class="checkbox">
-                                    <label>
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-                                        #(category.title ??)
-                                    </label>
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-                    #end
-
                     <div class="box box-solid">
                         <div class="box-header with-border ">
                             <h3 class="box-title">标签</h3>

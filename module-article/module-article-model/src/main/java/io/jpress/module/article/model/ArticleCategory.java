@@ -29,15 +29,11 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
      */
     public static final String TYPE_TAG = "tag";
 
-    /**
-     * 专题，专题只有一个层级
-     */
-    public static final String TYPE_SUBJECT = "subject";
 
     /**
-     * 用户自建专题，也可以进行收费，目前暂不考虑这部分的实现
+     * 用户自建分类，目前暂不考虑这部分的实现
      */
-    public static final String TYPE_USER_SUBJECT = "user_subject";
+    public static final String TYPE_USER_CATEGORY = "user_category";
 
 
     public boolean isTag() {
@@ -121,8 +117,6 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
         switch (getType()) {
             case TYPE_CATEGORY:
                 return "/article/category/" + getSlug() + suffix;
-            case TYPE_SUBJECT:
-                return "/article/subject/" + getSlug() + suffix;
             case TYPE_TAG:
                 return "/article/tag/" + getSlug() + suffix;
         }

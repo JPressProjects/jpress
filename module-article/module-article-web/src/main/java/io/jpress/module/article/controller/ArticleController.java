@@ -52,13 +52,6 @@ public class ArticleController extends TemplateControllerBase {
     }
 
 
-    public void subject() {
-        ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_SUBJECT);
-        assertNotNull(category);
-        setAttr("category", category);
-        render(category.getHtmlView());
-    }
-
     public void tag() {
         ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_TAG);
         assertNotNull(category);

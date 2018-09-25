@@ -117,6 +117,7 @@ public class OptionInitializer implements JbootEventListener {
 
         Boolean cdnEnable = service.findAsBoolByKey(JPressConstants.OPTION_CDN_ENABLE);
         if (cdnEnable == null || cdnEnable == false) {
+            TemplateRender.initCdnDomain(null);
             return;
         }
 

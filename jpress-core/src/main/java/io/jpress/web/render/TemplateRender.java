@@ -103,12 +103,20 @@ public class TemplateRender extends Render {
         while (iterator.hasNext()) {
 
             Element element = iterator.next();
+            String url = element.attr(attrName);
 
-            if (element.hasAttr("cdn-exclude")) {
+            if (StringUtils.isBlank(url)
+                    || url.startsWith("//")
+                    || url.toLowerCase().startsWith("http")) {
                 continue;
             }
 
-            String url = element.attr(attrName);
+            if (url.startsWith("/")) {
+                if (cdnDomain != null) {
+                    element.attr(attrName, cdnDomain + url);
+                }
+                continue;
+            }
 
 
             if (StringUtils.isBlank(url)
@@ -124,7 +132,14 @@ public class TemplateRender extends Render {
                 url = template.getWebAbsolutePath() + "/" + url;
             }
 
-            element.attr(attrName, url);
+            if (cdnDomain == null) {
+                element.attr(attrName, url);
+            } else {
+                element.attr(attrName, cdnDomain + url);
+            }
+
+
         }
     }
+
 }

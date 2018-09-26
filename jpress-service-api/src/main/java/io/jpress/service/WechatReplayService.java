@@ -70,7 +70,7 @@ public interface WechatReplayService {
     public boolean update(WechatReplay model);
 
 
-    public Page<WechatReplay> paginate(int page, int pagesize);
+    public Page<WechatReplay> _paginate(int page, int pagesize, String keyword, String content);
 
 
     public void join(Page<? extends Model> page, String joinOnField);

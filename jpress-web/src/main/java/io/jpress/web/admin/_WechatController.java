@@ -51,7 +51,7 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "自动回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
-        Page<WechatReplay> page = wrs.paginate(getPagePara(), 10);
+        Page<WechatReplay> page = wrs._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
         setAttr("page", page);
         render("wechat/replay_list.html");
     }

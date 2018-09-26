@@ -98,5 +98,5 @@ public interface AttachmentService {
 
     public void keep(List<? extends Model> models, String... attrs);
 
-    public Page paginate(int page, int pagesieze);
+    public Page _paginate(int page, int pagesieze, String title);
 }

@@ -43,11 +43,5 @@ public class SqlUtils {
         }
     }
 
-    public static void eqAppend(Columns columns, String column, Object value) {
-        if (StrUtils.isNotBlank(value)) {
-            columns.add(column, value);
-        }
-    }
-
 
 }

@@ -67,4 +67,9 @@ public abstract class AdminControllerBase extends JbootController {
     }
 
 
+    @Override
+    public String getPara(String name) {
+        String value = super.getPara(name);
+        return "".equals(value) ? null : value;
+    }
 }

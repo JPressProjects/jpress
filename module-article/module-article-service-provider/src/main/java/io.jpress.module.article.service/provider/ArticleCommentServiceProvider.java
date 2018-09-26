@@ -7,6 +7,7 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
@@ -69,9 +70,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword, String status) {
 
         Columns columns = Columns.create("status", status);
-        if (StrUtils.isNotBlank(keyword)) {
-            columns.like("content", "%" + keyword + "%");
-        }
+        SqlUtils.likeAppend(columns, "content", keyword);
 
         Page<ArticleComment> p = DAO.paginateByColumns(page,
                 pagesize,

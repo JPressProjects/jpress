@@ -8,7 +8,6 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -101,11 +100,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
 
         Columns columns = new Columns();
-        if (StrUtils.isNotBlank(title)) {
-            columns.like("a.title", "%" + title + "%");
-        }
         columns.add("m.category_id", categoryId);
         columns.add("a.status", status);
+        SqlUtils.likeAppend(columns, "a.title", title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
         sqlBuilder.append(" order by id desc ");
@@ -124,11 +121,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
 
         Columns columns = new Columns();
-        if (StrUtils.isNotBlank(title)) {
-            columns.like("a.title", "%" + title + "%");
-        }
         columns.add("m.category_id", categoryId);
         columns.ne("a.status", Article.STATUS_TRASH);
+
+        SqlUtils.likeAppend(columns, "a.title", title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
         sqlBuilder.append(" order by id desc ");

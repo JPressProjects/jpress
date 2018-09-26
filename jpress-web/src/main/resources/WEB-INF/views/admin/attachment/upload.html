@@ -3,6 +3,10 @@
 #define css()
 <link href="/static/components/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
 <style>
+    #uploader {
+        height: 210px;
+    }
+
     .qq-gallery.qq-uploader {
         border: none;
         background-color: #fff;
@@ -23,6 +27,7 @@
         background-color: #3c8dbc;
         border-color: #367fa9;
     }
+
     .qq-gallery .qq-upload-button-focus {
         outline: none;
     }
@@ -123,7 +128,7 @@
         },
         callbacks: {
             onComplete: function (id, name, responseJSON, xhr) {
-                if(responseJSON.state == "ok"){
+                if (responseJSON.state == "ok") {
                     toastr.success(name + " 上传成功")
                 }
             }

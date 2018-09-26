@@ -140,6 +140,8 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 88)
     public void setting() {
         Template template = TemplateManager.me().getCurrentTemplate();
+        setAttr("template", template);
+
         String view = template.matchTemplateFile("setting.html");
         if (view == null) {
             render("template/setting.html");

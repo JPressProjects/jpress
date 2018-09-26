@@ -108,4 +108,6 @@ public interface UserService {
     public Ret doValidateUserPwd(User user, String pwd);
 
     public int findCountByStatus(String status);
+
+    public boolean doChangeStatus(long id, String status);
 }

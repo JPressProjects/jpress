@@ -68,5 +68,12 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return Db.queryInt("select count(*) from user where status = ?", status);
     }
 
+    @Override
+    public boolean doChangeStatus(long id, String status) {
+        User user = findById(id);
+        user.setStatus(status);
+        return user.update();
+    }
+
 
 }

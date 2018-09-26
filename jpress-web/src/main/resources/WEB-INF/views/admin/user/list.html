@@ -1,4 +1,31 @@
 #@layout()
+
+#define script()
+<script>
+
+    function doChangeStatus(id, status) {
+        $.get("/admin/user/doUserStatusChange?id=" + id + "&status=" + status, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function doDel(id) {
+        $.get("/admin/user/doUserDel/" + id, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.href = "/admin/user";
+            }
+        });
+    }
+
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -90,14 +117,29 @@
                                     <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>#(user.id ??)</td>
-                                <td>#(user.username ??)
+                                <td>
+                                    <strong>
+                                        <a href="/admin/user/detail/#(user.id)" >
+                                            #(user.username ??)
+                                        </a>
+                                        #if(user.isStatusReg()) （未激活） #end
+                                        #if(user.isStatusLocked()) （已冻结） #end
+                                    </strong>
+
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/user/detail/#(user.id)" style="color: #006505">编辑</a> |
-                                            <a href="/admin/user/permissions/#(user.id)" onclick="draft('#(user.id??)')"
-                                               style="color: #006505">权限</a> |
-                                            <a href="javascript:;" onclick="trash('#(user.id??)')" style="color: #a00">冻结</a>|
-                                            <a href="javascript:;" onclick="trash('#(user.id??)')" style="color: #a00">删除</a>
+                                            <a href="/admin/user/permissions/#(user.id)" onclick="draft('#(user.id??)')" >权限</a> |
+                                            #if(user.isStatusOk() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','ok')" >激活正常</a> |
+                                            #end
+                                            #if(user.isStatusReg() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','registered')" style="color: #a00">未激活</a> |
+                                            #end
+                                            #if(user.isStatusLocked() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','locked')" style="color: #a00">冻结</a> |
+                                            #end
+                                            <a href="javascript:;" onclick="doDel('#(user.id)')" style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>

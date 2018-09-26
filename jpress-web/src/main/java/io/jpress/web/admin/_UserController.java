@@ -55,7 +55,7 @@ public class _UserController extends AdminControllerBase {
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
         int okCount = userService.findCountByStatus(User.STATUS_OK);
-        
+
         setAttr("lockedCount", lockedCount);
         setAttr("regCount", regCount);
         setAttr("okCount", okCount);
@@ -246,6 +246,23 @@ public class _UserController extends AdminControllerBase {
         loginedUser.setAvatar(FileUtils.removeRootPath(newAvatarPath));
         userService.saveOrUpdate(loginedUser);
         renderJson(Ret.ok());
+    }
+
+
+    /**
+     * 删除评论
+     */
+    public void doUserDel() {
+        userService.deleteById(getIdPara());
+        renderJson(Ret.ok());
+    }
+
+
+    /**
+     * 修改评论状态
+     */
+    public void doUserStatusChange(Long id, String status) {
+        render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
     }
 
 }

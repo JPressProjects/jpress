@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.ArrayUtils;
+import io.jboot.utils.StringUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -29,12 +30,13 @@ public class _PageController extends AdminControllerBase {
     @AdminMenu(text = "页面管理", groupId = "page")
     public void index() {
 
-        String status = getPara("s");
+        String status = getPara("status");
+        String title = getPara("title");
 
         Page<SinglePage> page =
-                status == null
-                        ? sps.paginateWithoutTrash(getPagePara(), 10)
-                        : sps.paginateByStatus(getPagePara(), 10, status);
+                StringUtils.isBlank(status)
+                        ? sps._paginateWithoutTrash(getPagePara(), 10, title)
+                        : sps._paginateByStatus(getPagePara(), 10, title, status);
 
         setAttr("page", page);
 
@@ -47,7 +49,7 @@ public class _PageController extends AdminControllerBase {
         setAttr("normalCount", normalCount);
         setAttr("totalCount", draftCount + trashCount + normalCount);
 
-        render("page/list.html");
+        render("page/page_list.html");
     }
 
     @AdminMenu(text = "新建", groupId = "page")
@@ -68,7 +70,7 @@ public class _PageController extends AdminControllerBase {
             setAttr("styles", styles);
         }
 
-        render("page/write.html");
+        render("page/page_write.html");
     }
 
     @EmptyValidate({

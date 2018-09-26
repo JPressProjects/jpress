@@ -98,10 +98,10 @@ public interface SinglePageService {
 
     public void keep(List<? extends Model> models, String... attrs);
 
-    public Page<SinglePage> paginateByStatus(int page, int pagesize, String status);
+    public Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status);
 
 
-    public Page<SinglePage> paginateWithoutTrash(int page, int pagesize);
+    public Page<SinglePage> _paginateWithoutTrash(int page, int pagesize, String title);
 
     public boolean doChangeStatus(long id, String status);
 

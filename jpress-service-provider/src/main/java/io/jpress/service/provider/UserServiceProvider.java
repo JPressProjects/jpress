@@ -2,6 +2,7 @@ package io.jpress.service.provider;
 
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
@@ -61,5 +62,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
         return Ret.ok().set("user", user);
     }
+
+    @Override
+    public int findCountByStatus(String status) {
+        return Db.queryInt("select count(*) from user where status = ?", status);
+    }
+
 
 }

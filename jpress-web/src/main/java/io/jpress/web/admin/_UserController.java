@@ -51,7 +51,16 @@ public class _UserController extends AdminControllerBase {
                 getPara("username"),
                 getPara("email"),
                 getPara("status"));
+
+        int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
+        int regCount = userService.findCountByStatus(User.STATUS_REG);
+        int okCount = userService.findCountByStatus(User.STATUS_OK);
         
+        setAttr("lockedCount", lockedCount);
+        setAttr("regCount", regCount);
+        setAttr("okCount", okCount);
+        setAttr("totalCount", lockedCount + regCount + okCount);
+
         setAttr("page", page);
 
         render("user/list.html");

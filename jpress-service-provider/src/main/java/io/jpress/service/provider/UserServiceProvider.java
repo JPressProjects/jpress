@@ -4,7 +4,9 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -15,9 +17,17 @@ import javax.inject.Singleton;
 public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
 
     @Override
-    public Page<User> paginate(int page, int pagesize) {
-        return DAO.paginate(page, pagesize);
+    public Page<User> _paginate(int page, int pagesize, String username, String email, String status) {
+
+        Columns columns = Columns.create();
+
+        SqlUtils.eqAppend(columns, "status", status);
+        SqlUtils.likeAppend(columns, "username", username);
+        SqlUtils.likeAppend(columns, "email", email);
+
+        return DAO.paginateByColumns(page, pagesize, columns, "id desc");
     }
+
 
     @Override
     public Ret loginByUsername(String username, String pwd) {
@@ -52,5 +62,5 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
         return Ret.ok().set("user", user);
     }
-    
+
 }

@@ -3,6 +3,7 @@ package io.jpress.commons.utils;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.ArrayUtils;
+import io.jboot.utils.StrUtils;
 
 import java.util.List;
 
@@ -35,5 +36,18 @@ public class SqlUtils {
             }
         }
     }
+
+    public static void likeAppend(Columns columns, String column, Object value) {
+        if (StrUtils.isNotBlank(value)) {
+            columns.like(column, "%" + value + "%");
+        }
+    }
+
+    public static void eqAppend(Columns columns, String column, Object value) {
+        if (StrUtils.isNotBlank(value)) {
+            columns.add(column, value);
+        }
+    }
+
 
 }

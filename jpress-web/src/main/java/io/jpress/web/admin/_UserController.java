@@ -47,7 +47,11 @@ public class _UserController extends AdminControllerBase {
     @AdminMenu(text = "用户管理", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
-        Page<User> page = userService.paginate(getPagePara(), 10);
+        Page<User> page = userService._paginate(getPagePara(), 10,
+                getPara("username"),
+                getPara("email"),
+                getPara("status"));
+        
         setAttr("page", page);
 
         render("user/list.html");

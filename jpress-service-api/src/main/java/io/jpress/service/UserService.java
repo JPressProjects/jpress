@@ -99,7 +99,7 @@ public interface UserService {
 
     public void keep(List<? extends Model> models, String... attrs);
 
-    public Page<User> paginate(int page, int pagesize);
+    public Page<User> _paginate(int page, int pagesize, String username, String email, String status);
 
     public Ret loginByUsername(String username, String pwd);
 

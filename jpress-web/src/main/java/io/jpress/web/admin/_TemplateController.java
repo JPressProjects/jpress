@@ -50,8 +50,23 @@ public class _TemplateController extends AdminControllerBase {
 
     @AdminMenu(text = "所有模板", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 0)
     public void index() {
+
+        String title = getPara("title");
         List<Template> templates = TemplateManager.me().getInstalledTemplates();
-        setAttr("templates", templates);
+
+        if (StrUtils.isNotBlank(title)) {
+            List<Template> searchTemplate = new ArrayList<>();
+            for (Template template : templates) {
+                if (template.getTitle() != null &&
+                        template.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                    searchTemplate.add(template);
+                }
+            }
+
+            setAttr("templates", searchTemplate);
+        } else {
+            setAttr("templates", templates);
+        }
 
         render("template/list.html");
     }

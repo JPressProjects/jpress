@@ -57,6 +57,7 @@ public class TemplateManager {
     }
 
 
+
     private void scanTemplateFloders(File file, List<File> list) {
         if (file.isDirectory()) {
             File configFile = new File(file, "template.properties");

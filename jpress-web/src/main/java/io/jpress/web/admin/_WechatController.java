@@ -57,6 +57,13 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
+    public void doDelReplay() {
+        Long id = getIdPara();
+        wrs.deleteById(id);
+        renderJson(Ret.ok());
+    }
+
+
     @AdminMenu(text = "运营插件", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
     public void addons() {
         List<WechatAddonInfo> wechatAddons = WechatAddonManager.me().getWechatAddons();

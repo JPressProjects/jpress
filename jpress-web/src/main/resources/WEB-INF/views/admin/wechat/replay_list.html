@@ -3,39 +3,8 @@
 #define script()
 <script>
 
-    function trash(id) {
-        $.get("/admin/page/trash/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-
-    function draft(id) {
-        $.get("/admin/page/draft/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-    function normal(id) {
-        $.get("/admin/page/normal/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-    function del(id) {
-        $.get("/admin/page/del/" + id, function (result) {
+    function doDel(id) {
+        $.get("/admin/wechat/doDelReplay/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -108,11 +77,16 @@
                                 <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
-                                    <a href="/admin/wechat/replayWrite/#(replay.id)">#(replay.keyword ??)</a>
+                                    <strong>
+                                        <a href="/admin/wechat/replayWrite/#(replay.id)">
+                                            #(replay.keyword ??)
+                                        </a>
+                                    </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/wechat/replayWrite/#(replay.id)" style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="trash('#(replay.id??)')" style="color: #a00">删除</a>
+                                            <a href="/admin/wechat/replayWrite/#(replay.id)" >编辑</a> |
+                                            <a href="javascript:;" onclick="doDel('#(replay.id??)')"
+                                               style="color: #a00">删除</a>
                                         </div>
                                     </div>
 

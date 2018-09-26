@@ -190,7 +190,6 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
         Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
@@ -255,12 +254,13 @@ public class _ArticleController extends AdminControllerBase {
     @AdminMenu(text = "评论", groupId = "article", order = 5)
     public void comment() {
 
-        String status = getPara("s");
+        String status = getPara("status");
+        String key = getPara("keyword");
 
         Page<ArticleComment> page =
-                status == null
-                        ? commentService.paginateWithoutTrash(getPagePara(), 10)
-                        : commentService.paginateByStatus(getPagePara(), 10, status);
+                StringUtils.isBlank(status)
+                        ? commentService._paginateWithoutTrash(getPagePara(), 10, key)
+                        : commentService._paginateByStatus(getPagePara(), 10, key, status);
 
         setAttr("page", page);
 

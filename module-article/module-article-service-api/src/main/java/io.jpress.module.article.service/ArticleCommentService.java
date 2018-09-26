@@ -107,10 +107,10 @@ public interface ArticleCommentService {
 
     public int findCountByStatus(String status);
 
-    public Page<ArticleComment> paginateByStatus(int page, int pagesize, String status);
+    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword,String status);
 
 
-    public Page<ArticleComment> paginateWithoutTrash(int page, int pagesize);
+    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize,String keyword);
 
 
 }

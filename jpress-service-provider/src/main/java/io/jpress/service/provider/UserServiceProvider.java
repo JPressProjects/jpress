@@ -44,11 +44,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public Ret doValidateUserPwd(User user, String pwd) {
 
         if (user == null) {
-            return Ret.fail("msg", "用户名或密码不正确");
+            return Ret.fail("message", "用户名或密码不正确");
         }
 
         if (user.isStatusLocked()) {
-            return Ret.fail("msg", "该账号已被冻结");
+            return Ret.fail("message", "该账号已被冻结");
         }
 
         String salt = user.getSalt();
@@ -56,7 +56,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
         // 未通过密码验证
         if (user.getPassword().equals(hashedPass) == false) {
-            return Ret.fail("msg", "用户名或密码不正确");
+            return Ret.fail("message", "用户名或密码不正确");
         }
 
         return Ret.ok().set("user", user);

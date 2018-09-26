@@ -8,7 +8,7 @@ import io.jboot.Jboot;
 import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
 import io.jboot.event.JbootEventManager;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.JPressConstants;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
@@ -67,9 +67,9 @@ public class OptionInitializer implements JbootEventListener {
         String token = service.findByKey(JPressConstants.OPTION_WECHAT_TOKEN);
 
 
-        if (StringUtils.isBlank(appId)
-                || StringUtils.isBlank(appSecret)
-                || StringUtils.isBlank(token)
+        if (StrUtils.isBlank(appId)
+                || StrUtils.isBlank(appSecret)
+                || StrUtils.isBlank(token)
                 ) {
             // 配置微信 API 相关参数
             ApiConfig ac = new ApiConfig();
@@ -85,9 +85,9 @@ public class OptionInitializer implements JbootEventListener {
         String miniProgramAppId = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPID);
         String miniProgramAppSecret = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
         String miniProgramToken = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_TOKEN);
-        if (StringUtils.isBlank(appId)
-                || StringUtils.isBlank(appSecret)
-                || StringUtils.isBlank(token)
+        if (StrUtils.isBlank(appId)
+                || StrUtils.isBlank(appSecret)
+                || StrUtils.isBlank(token)
                 ) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
@@ -122,7 +122,7 @@ public class OptionInitializer implements JbootEventListener {
         }
 
         String cdnDomain = service.findByKey(JPressConstants.OPTION_CDN_DOMAIN);
-        if (StringUtils.isBlank(cdnDomain)) {
+        if (StrUtils.isBlank(cdnDomain)) {
             TemplateRender.initCdnDomain(null);
         } else {
             TemplateRender.initCdnDomain(cdnDomain);
@@ -149,7 +149,7 @@ public class OptionInitializer implements JbootEventListener {
         }
 
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        if (StringUtils.isBlank(suffix)) {
+        if (StrUtils.isBlank(suffix)) {
             FakeStaticHandler.initSuffix(null);
         } else {
             FakeStaticHandler.initSuffix(suffix);

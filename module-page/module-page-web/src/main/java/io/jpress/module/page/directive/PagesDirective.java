@@ -3,7 +3,7 @@ package io.jpress.module.page.directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.page.model.SinglePage;
@@ -27,7 +27,7 @@ public class PagesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String flag = getParam("flag", scope);
-        if (StringUtils.isBlank(flag)) {
+        if (StrUtils.isBlank(flag)) {
             throw new IllegalArgumentException("#pages(...) argument must not be empty ");
         }
 

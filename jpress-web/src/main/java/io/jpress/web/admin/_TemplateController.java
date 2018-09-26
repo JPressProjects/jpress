@@ -5,7 +5,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.FileUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -174,7 +174,7 @@ public class _TemplateController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         setAttr("template", template);
 
-        File basePath = StringUtils.isNotBlank(dirName)
+        File basePath = StrUtils.isNotBlank(dirName)
                 ? new File(template.getAbsolutePath(), dirName)
                 : new File(template.getAbsolutePath());
 
@@ -191,7 +191,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
 
-        File editFile = StringUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
+        File editFile = StrUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
         setAttr("d", dirName);
         setAttr("f", editFile.getName());
@@ -201,7 +201,7 @@ public class _TemplateController extends AdminControllerBase {
     }
 
     private void setParentDirAttr(String dirName) {
-        if (StringUtils.isBlank(dirName)
+        if (StrUtils.isBlank(dirName)
                 || "/".equals(dirName)
                 || "./".equals(dirName)) {
             return;
@@ -272,13 +272,13 @@ public class _TemplateController extends AdminControllerBase {
 
         File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
 
-        if (StringUtils.isNotBlank(dirName)) {
+        if (StrUtils.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
         }
 
 
         String fileContent = getPara("fileContent");
-        if (StringUtils.isBlank(fileContent)) {
+        if (StrUtils.isBlank(fileContent)) {
             renderJson(Ret.fail().set("message", "不能存储空内容"));
             return;
         }

@@ -3,7 +3,7 @@ package io.jpress.web.base;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.AdminMenuGroup;
 import io.jpress.core.menu.AdminMenuManager;
@@ -30,7 +30,7 @@ public class AdminInterceptor implements Interceptor {
 
 
         String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
-        if (StringUtils.isBlank(uid)) {
+        if (StrUtils.isBlank(uid)) {
             inv.getController().redirect("/admin/login");
             return;
         }

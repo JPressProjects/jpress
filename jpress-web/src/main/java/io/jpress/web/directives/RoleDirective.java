@@ -3,7 +3,7 @@ package io.jpress.web.directives;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.model.User;
@@ -33,7 +33,7 @@ public class RoleDirective extends JbootDirectiveBase {
         }
 
 
-        Set<String> roles = StringUtils.splitToSet(getParam(0, scope), ",");
+        Set<String> roles = StrUtils.splitToSet(getParam(0, scope), ",");
         if (roles == null || roles.size() == 0) {
             throw new IllegalArgumentException("#role(...) argument must not be empty");
         }

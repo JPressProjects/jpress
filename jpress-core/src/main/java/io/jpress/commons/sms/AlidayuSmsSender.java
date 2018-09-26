@@ -17,7 +17,7 @@ package io.jpress.commons.sms;
 
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.SignUtils;
 
 import java.text.SimpleDateFormat;
@@ -45,7 +45,7 @@ public class AlidayuSmsSender implements ISmsSender {
             System.err.println("sms send result:" + sendResult);
         }
 
-        if (StringUtils.isNotBlank(sendResult)) {
+        if (StrUtils.isNotBlank(sendResult)) {
             if (sendResult != null && sendResult.contains("alibaba_aliqin_fc_sms_num_send_response")
                     && sendResult.contains("success") && sendResult.contains("true")) {
                 return true;

@@ -3,16 +3,16 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
 import io.jpress.core.module.Module;
 import io.jpress.core.module.ModuleManager;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
-        Ret ret = StringUtils.isEmail(user)
+        Ret ret = StrUtils.isEmail(user)
                 ? us.loginByEmail(user, pwd)
                 : us.loginByUsername(user, pwd);
 

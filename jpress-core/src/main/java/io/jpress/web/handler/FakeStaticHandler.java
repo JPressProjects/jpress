@@ -2,7 +2,7 @@ package io.jpress.web.handler;
 
 
 import com.jfinal.handler.Handler;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class FakeStaticHandler extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        if (StringUtils.isBlank(suffix)) {
+        if (StrUtils.isBlank(suffix)) {
             next.handle(target, request, response, isHandled);
             return;
         }

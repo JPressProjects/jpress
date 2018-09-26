@@ -1,6 +1,6 @@
 package io.jpress.module.article.controller;
 
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -38,7 +38,7 @@ public class ArticleController extends TemplateControllerBase {
 
     private Article getArticle() {
         String idOrSlug = getPara(0);
-        return StringUtils.isNumeric(idOrSlug)
+        return StrUtils.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
                 : articleService.findFirstBySlug(idOrSlug);
     }
@@ -61,7 +61,7 @@ public class ArticleController extends TemplateControllerBase {
 
     private ArticleCategory getArticleCategory(String type) {
         String idOrSlug = getPara(0);
-        return StringUtils.isNumeric(idOrSlug)
+        return StrUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
                 : categoryService.findFirstByTypeAndSlug(type, idOrSlug);
 

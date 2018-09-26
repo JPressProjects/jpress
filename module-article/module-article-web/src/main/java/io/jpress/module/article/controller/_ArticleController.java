@@ -3,6 +3,7 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.Jboot;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -258,7 +259,7 @@ public class _ArticleController extends AdminControllerBase {
         String key = getPara("keyword");
 
         Page<ArticleComment> page =
-                StringUtils.isBlank(status)
+                StrUtils.isBlank(status)
                         ? commentService._paginateWithoutTrash(getPagePara(), 10, key)
                         : commentService._paginateByStatus(getPagePara(), 10, key, status);
 

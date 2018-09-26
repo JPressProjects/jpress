@@ -1,7 +1,7 @@
 package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
 import java.util.ArrayList;
@@ -125,6 +125,6 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
 
 
     public String getHtmlView() {
-        return StringUtils.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
+        return StrUtils.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
     }
 }

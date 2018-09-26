@@ -1,6 +1,6 @@
 package io.jpress.web.front;
 
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -26,7 +26,7 @@ public class IndexController extends TemplateControllerBase {
         }
 
 
-        String indexView = StringUtils.isNotBlank(style)
+        String indexView = StrUtils.isNotBlank(style)
                 ? "index_" + style + ".html"
                 : "index.html";
 

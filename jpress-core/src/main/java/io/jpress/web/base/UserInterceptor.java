@@ -4,7 +4,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.JbootControllerContext;
 import io.jpress.JPressConstants;
 import io.jpress.model.User;
@@ -40,7 +40,7 @@ public class UserInterceptor implements Interceptor {
 
 
         String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
-        if (StringUtils.isBlank(uid)) {
+        if (StrUtils.isBlank(uid)) {
             inv.invoke();
             return;
         }

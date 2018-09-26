@@ -2,12 +2,12 @@ package io.jpress.web.admin;
 
 import com.jfinal.kit.Ret;
 import io.jboot.Jboot;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.model.Option;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.service.OptionService;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class _OptionController extends AdminControllerBase {
             if (entry.getValue() != null && entry.getValue().length > 0) {
                 String value = null;
                 for (String v : entry.getValue()) {
-                    if (StringUtils.isNotEmpty(v)) {
+                    if (StrUtils.isNotEmpty(v)) {
                         value = v;
                         break;
                     }

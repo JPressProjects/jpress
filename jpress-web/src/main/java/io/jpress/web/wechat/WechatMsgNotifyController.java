@@ -6,7 +6,7 @@ import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
@@ -75,7 +75,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     private void renderOptionValue(String optionKey, String defaultText) {
         String text = optionService.findByKey(optionKey);
-        if (StringUtils.isBlank(text)) {
+        if (StrUtils.isBlank(text)) {
             renderText(defaultText);
             return;
         }

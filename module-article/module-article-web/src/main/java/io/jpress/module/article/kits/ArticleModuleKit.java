@@ -1,7 +1,7 @@
 package io.jpress.module.article.kits;
 
 import io.jboot.Jboot;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.JPressConstants;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -22,7 +22,7 @@ public class ArticleModuleKit {
         }
 
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        return StringUtils.isBlank(suffix) ? category.getUrl("") : category.getUrl(suffix);
+        return StrUtils.isBlank(suffix) ? category.getUrl("") : category.getUrl(suffix);
     }
 
 
@@ -34,6 +34,6 @@ public class ArticleModuleKit {
         }
 
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        return StringUtils.isBlank(suffix) ? article.getUrl("") : article.getUrl(suffix);
+        return StrUtils.isBlank(suffix) ? article.getUrl("") : article.getUrl(suffix);
     }
 }

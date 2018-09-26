@@ -6,7 +6,7 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
 import io.jboot.Jboot;
 import io.jboot.codegen.CodeGenHelpler;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.codegen.generator.BaseModelGenerator;
 import io.jpress.codegen.generator.ModelGenerator;
 import io.jpress.codegen.generator.ServiceApiGenerator;
@@ -134,9 +134,9 @@ public class ModuleGenerator {
         System.out.println("start generate... dir:" + modelDir);
 
         List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
-        if (StringUtils.isNotBlank(dbTables)) {
+        if (StrUtils.isNotBlank(dbTables)) {
             List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StringUtils.splitToSet(dbTables, ",");
+            Set<String> excludeTableSet = StrUtils.splitToSet(dbTables, ",");
             for (TableMeta tableMeta : tableMetaList) {
                 if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
                     newTableMetaList.add(tableMeta);

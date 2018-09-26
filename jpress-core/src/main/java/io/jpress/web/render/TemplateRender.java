@@ -3,7 +3,7 @@ package io.jpress.web.render;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.render.RenderHelpler;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -74,7 +74,7 @@ public class TemplateRender extends Render {
 
 
     public static String replaceSrcTemplateSrcPath(String content) {
-        if (StringUtils.isBlank(content)) {
+        if (StrUtils.isBlank(content)) {
             return content;
         }
 
@@ -105,7 +105,7 @@ public class TemplateRender extends Render {
             Element element = iterator.next();
             String url = element.attr(attrName);
 
-            if (StringUtils.isBlank(url)
+            if (StrUtils.isBlank(url)
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")) {
                 continue;
@@ -119,7 +119,7 @@ public class TemplateRender extends Render {
             }
 
 
-            if (StringUtils.isBlank(url)
+            if (StrUtils.isBlank(url)
                     || url.startsWith("/")
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")) {

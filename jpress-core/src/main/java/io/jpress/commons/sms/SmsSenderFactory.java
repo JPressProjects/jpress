@@ -16,7 +16,7 @@
 package io.jpress.commons.sms;
 
 
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 
 public class SmsSenderFactory {
 
@@ -25,7 +25,7 @@ public class SmsSenderFactory {
 
         String provider = "sms_app_provider";// OptionQuery.me().findValue("sms_app_provider");
 
-        if (StringUtils.isBlank(provider)) {
+        if (StrUtils.isBlank(provider)) {
             return new AlidayuSmsSender();
         } else if ("sms_provider_alidayu".equals(provider)) {
             return new AlidayuSmsSender();

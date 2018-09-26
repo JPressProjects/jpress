@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -34,7 +34,7 @@ public class _PageController extends AdminControllerBase {
         String title = getPara("title");
 
         Page<SinglePage> page =
-                StringUtils.isBlank(status)
+                StrUtils.isBlank(status)
                         ? sps._paginateWithoutTrash(getPagePara(), 10, title)
                         : sps._paginateByStatus(getPagePara(), 10, title, status);
 

@@ -18,7 +18,7 @@ package io.jpress.commons.utils;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -79,7 +79,7 @@ public class AttachmentUtils {
 
     public static boolean isImage(String path) {
         String sufffix = FileUtils.getSuffix(path);
-        if (StringUtils.isNotBlank(sufffix))
+        if (StrUtils.isNotBlank(sufffix))
             return imageSuffix.contains(sufffix.toLowerCase());
         return false;
     }

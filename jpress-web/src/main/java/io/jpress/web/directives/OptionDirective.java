@@ -4,7 +4,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.TemplateException;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.service.OptionService;
@@ -27,7 +27,7 @@ public class OptionDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String key = getParam(0, scope);
-        if (StringUtils.isBlank(key)) {
+        if (StrUtils.isBlank(key)) {
             throw new IllegalArgumentException("#option(...) argument must not be empty");
         }
 

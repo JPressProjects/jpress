@@ -3,7 +3,7 @@ package io.jpress.module.article.directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
@@ -36,7 +36,7 @@ public class ArticleDirective extends JbootDirectiveBase {
     }
 
     private Article getArticle(String idOrSlug) {
-        return StringUtils.isNumeric(idOrSlug)
+        return StrUtils.isNumeric(idOrSlug)
                 ? service.findById(idOrSlug)
                 : service.findFirstBySlug(idOrSlug);
     }

@@ -5,10 +5,10 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.StringUtils;
-import io.jpress.module.page.service.SinglePageService;
-import io.jpress.module.page.model.SinglePage;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtils;
+import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.service.SinglePageService;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -21,7 +21,7 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     public Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status) {
 
         Columns columns = Columns.create("status", status);
-        if (StringUtils.isNotBlank(title)) {
+        if (StrUtils.isNotBlank(title)) {
             columns.like("title", "%" + title + "%");
         }
 
@@ -35,7 +35,7 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     public Page<SinglePage> _paginateWithoutTrash(int page, int pagesize, String title) {
 
         Columns columns = Columns.create(Column.create("status", SinglePage.STATUS_TRASH, Column.LOGIC_NOT_EQUALS));
-        if (StringUtils.isNotBlank(title)) {
+        if (StrUtils.isNotBlank(title)) {
             columns.like("title", "%" + title + "%");
         }
 

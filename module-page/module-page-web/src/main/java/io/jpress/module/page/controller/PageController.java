@@ -1,10 +1,10 @@
 package io.jpress.module.page.controller;
 
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
+import io.jpress.web.base.TemplateControllerBase;
 
 import javax.inject.Inject;
 
@@ -23,7 +23,7 @@ public class PageController extends TemplateControllerBase {
 
         String slug = getSlug();
 
-        if (StringUtils.isBlank(slug)) {
+        if (StrUtils.isBlank(slug)) {
             render("page.html");
             return;
         }
@@ -47,6 +47,6 @@ public class PageController extends TemplateControllerBase {
             uri = uri.substring(0,uri.lastIndexOf("."));
         }
 
-        return StringUtils.urlDecode(uri.substring(1, uri.length()));
+        return StrUtils.urlDecode(uri.substring(1, uri.length()));
     }
 }

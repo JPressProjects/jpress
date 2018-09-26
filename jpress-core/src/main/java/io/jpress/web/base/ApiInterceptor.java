@@ -5,7 +5,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.core.annotation.NeedAuthentication;
 
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class ApiInterceptor implements Interceptor {
         }
 
 
-        if (StringUtils.isBlank(apiSecret)) {
+        if (StrUtils.isBlank(apiSecret)) {
             inv.getController().renderJson(Ret.fail().set("message", "config error"));
             return;
         }
@@ -61,7 +61,7 @@ public class ApiInterceptor implements Interceptor {
         Controller controller = inv.getController();
         String sign = controller.getPara("sign");
 
-        if (StringUtils.isBlank(sign)) {
+        if (StrUtils.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "sign is blank"));
             return;
         }
@@ -87,7 +87,7 @@ public class ApiInterceptor implements Interceptor {
                 continue;
             }
             for (String value : params.get(key)) {
-                if (value != null && StringUtils.areNotBlank(key, value.toString())) {
+                if (value != null && StrUtils.notBlank(key, value.toString())) {
                     query.append(key).append(value);
                 }
             }

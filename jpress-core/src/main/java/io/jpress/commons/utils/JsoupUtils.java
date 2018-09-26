@@ -15,7 +15,7 @@
  */
 package io.jpress.commons.utils;
 
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -39,7 +39,7 @@ public class JsoupUtils {
     }
 
     public static List<String> getImageSrcs(String html) {
-        if (StringUtils.isBlank(html)) {
+        if (StrUtils.isBlank(html)) {
             return null;
         }
 
@@ -63,7 +63,7 @@ public class JsoupUtils {
     private static MyWhitelist whitelist = new MyWhitelist();
 
     public static String clear(String html) {
-        if (StringUtils.isNotBlank(html))
+        if (StrUtils.isNotBlank(html))
             return Jsoup.clean(html, whitelist);
 
         return html;

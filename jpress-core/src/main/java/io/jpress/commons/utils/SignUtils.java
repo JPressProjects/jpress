@@ -1,7 +1,7 @@
 package io.jpress.commons.utils;
 
 import com.jfinal.kit.HashKit;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class SignUtils {
         query.append(secret);
         for (String key : keys) {
             String value = params.get(key);
-            if (StringUtils.areNotEmpty(key, value)) {
+            if (StrUtils.areNotEmpty(key, value)) {
                 query.append(key).append(value);
             }
         }

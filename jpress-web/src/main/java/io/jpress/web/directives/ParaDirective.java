@@ -4,7 +4,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
@@ -31,15 +31,15 @@ public class ParaDirective extends JbootDirectiveBase {
 
 
         String key = getParam(0, scope);
-        String defaultValue = "";//getParam(1, scope);
+        String defaultValue = getParam(1, scope);
 
-        if (StringUtils.isBlank(key)) {
+        if (StrUtils.isBlank(key)) {
             throw new IllegalArgumentException("#para(...) argument must not be empty");
         }
 
         String value = controller.getPara(key);
-        if (StringUtils.isBlank(value)) {
-            value = StringUtils.isNotBlank(defaultValue) ? defaultValue : "";
+        if (StrUtils.isBlank(value)) {
+            value = StrUtils.isNotBlank(defaultValue) ? defaultValue : "";
         }
 
 

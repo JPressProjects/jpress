@@ -1,7 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.model.base.BaseUser;
 
 
@@ -33,7 +33,7 @@ public class User extends BaseUser<User> {
     @Override
     public String getAvatar() {
         String avatar = super.getAvatar();
-        return StringUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR;
+        return StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR;
     }
 
     public void keepSafe() {

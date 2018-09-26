@@ -6,7 +6,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
@@ -69,7 +69,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword, String status) {
 
         Columns columns = Columns.create("status", status);
-        if (StringUtils.isNotBlank(keyword)) {
+        if (StrUtils.isNotBlank(keyword)) {
             columns.like("content", "%" + keyword + "%");
         }
 
@@ -86,7 +86,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, String keyword) {
 
         Columns columns = Columns.create(Column.create("status", ArticleComment.STATUS_TRASH, Column.LOGIC_NOT_EQUALS));
-        if (StringUtils.isNotBlank(keyword)) {
+        if (StrUtils.isNotBlank(keyword)) {
             columns.like("content", "%" + keyword + "%");
         }
 

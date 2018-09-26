@@ -4,7 +4,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.Jboot;
-import io.jboot.utils.StringUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.JPressConstants;
@@ -34,7 +34,7 @@ public class PageUrlDirective extends JbootDirectiveBase {
         }
 
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        render(writer, StringUtils.isBlank(suffix) ? page.getUrl("") : page.getUrl(suffix));
+        render(writer, StrUtils.isBlank(suffix) ? page.getUrl("") : page.getUrl(suffix));
     }
 
     private void render(Writer writer, String content) {

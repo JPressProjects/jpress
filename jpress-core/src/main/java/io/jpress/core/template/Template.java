@@ -17,6 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
+import io.jboot.utils.StrUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,10 +55,13 @@ public class Template {
         this.description = prop.get("description");
         this.author = prop.get("author");
         this.authorWebsite = prop.get("authorWebsite");
-        this.version = prop.get("version","1.0.0");
-        this.versionCode = prop.getInt("versionCode", 1);
+        this.version = prop.get("version");
         this.updateUrl = prop.get("updateUrl");
-        this.screenshot = "/templates/" + folder + "/" + prop.get("screenshot", "screenshot.png");
+
+
+        String vcode = prop.get("versionCode");
+        this.versionCode = StrUtils.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
+        this.screenshot = getWebAbsolutePath() + "/screenshot.png";
 
         String[] files = propertiesFile
                 .getParentFile()

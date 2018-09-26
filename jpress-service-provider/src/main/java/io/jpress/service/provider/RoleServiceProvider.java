@@ -3,6 +3,7 @@ package io.jpress.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Role;
@@ -131,8 +132,8 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
     @Override
+    @CacheEvict(name = "role", key = "user_roles:#(userId)")
     public boolean doResetUserRoles(long userId, Long... RoleIds) {
-
         if (RoleIds == null || RoleIds.length == 0) {
             return Db.delete("delete from user_role_mapping where user_id = ? ", userId) > 0;
         }
@@ -156,7 +157,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
 
     @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)
-    private List<Role> findRoleListByUserId(long userId) {
+    public List<Role> findRoleListByUserId(long userId) {
         String sql = "select * from user_role_mapping where user_id = ?";
         List<Record> records = Db.find(sql, userId);
         if (records == null || records.isEmpty()) {

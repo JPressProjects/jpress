@@ -11,12 +11,12 @@ import com.jfinal.kit.Ret;
 @Before({ApiInterceptor.class, UserInterceptor.class})
 public abstract class ApiControllerBase extends ControllerBase {
 
-    public void renderFailJson() {
+    protected void renderFailJson() {
         renderJson(Ret.fail());
     }
 
 
-    public void renderFailJson(String message) {
+    protected void renderFailJson(String message) {
         renderJson(Ret.fail("message", message));
     }
 }

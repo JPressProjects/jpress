@@ -92,10 +92,15 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     /**
-     * 文章列表的API
+     * 通过 分类ID 分页读取文章列表
      */
     public void paginate() {
         Long categoryId = getParaToLong("categoryId");
+        if (categoryId == null || categoryId <= 0) {
+            renderFailJson();
+            return;
+        }
+
         String orderBy = getPara("orderBy");
         int pageNumber = getParaToInt("page", 1);
 
@@ -104,6 +109,9 @@ public class ArticleApiController extends ApiControllerBase {
 
     }
 
+    /**
+     * 通过 文章属性 获得文章列表
+     */
     public void list() {
         String flag = getPara("flag");
         Boolean hasThumbnail = getParaToBoolean("hasThumbnail");

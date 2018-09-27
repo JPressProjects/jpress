@@ -36,4 +36,5 @@ public class ArticleModuleKit {
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
         return StrUtils.isBlank(suffix) ? article.getUrl("") : article.getUrl(suffix);
     }
+
 }

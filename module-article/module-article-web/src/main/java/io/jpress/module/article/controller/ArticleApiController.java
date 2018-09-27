@@ -1,6 +1,8 @@
 package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.article.model.Article;
@@ -10,6 +12,7 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.ApiControllerBase;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -89,10 +92,36 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     /**
-     * 文章类别的API
+     * 文章列表的API
      */
-    public void list() {
+    public void paginate() {
+        Long categoryId = getParaToLong("categoryId");
+        String orderBy = getPara("orderBy");
+        int pageNumber = getParaToInt("page", 1);
 
+        Page<Article> page = articleService.paginateByCategoryInNormal(pageNumber, 10, categoryId, orderBy);
+        renderJson(Ret.ok().set("page", page));
+
+    }
+
+    public void list() {
+        String flag = getPara("flag");
+        Boolean hasThumbnail = getParaToBoolean("hasThumbnail");
+        String orderBy = getPara("orderBy", "id desc");
+        int count = getParaToInt("count", 10);
+
+
+        Columns columns = Columns.create("flag", flag);
+        if (hasThumbnail != null) {
+            if (hasThumbnail) {
+                columns.is_not_null("thumbnail");
+            } else {
+                columns.is_null("thumbnail");
+            }
+        }
+
+        List<Article> articles = articleService.findListByColumns(columns, orderBy, count);
+        renderJson(Ret.ok("articles", articles));
     }
 
 

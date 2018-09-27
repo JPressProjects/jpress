@@ -19,7 +19,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
     public Render getErrorRender(int errorCode) {
 
         /**
-         * 如果是后台、api等其他非模板相关Controller，不用渲染。
+         * 如果是后台、api等其他非模板相关Controller，不用次Factory渲染。
          */
         if (!(JbootControllerContext.get() instanceof TemplateControllerBase)) {
             return super.getErrorRender(errorCode);

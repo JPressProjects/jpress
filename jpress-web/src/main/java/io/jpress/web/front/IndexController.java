@@ -23,6 +23,7 @@ public class IndexController extends TemplateControllerBase {
 
         if (!"/".equals(getRequest().getRequestURI())) {
             forwardAction("/page");
+            return;
         }
 
 

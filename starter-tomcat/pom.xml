@@ -44,11 +44,6 @@
                     <artifactId>javax.servlet-api</artifactId>
                 </exclusion>
 
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>dubbo</artifactId>
-                </exclusion>
-
             </exclusions>
         </dependency>
 
@@ -93,6 +88,12 @@
             <version>${jpress.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
 
 
     </dependencies>
@@ -155,9 +156,12 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <move file="${project.build.directory}/classes/static"  tofile="${project.build.directory}/${project.build.finalName}/static"/>
-                                <move file="${project.build.directory}/classes/templates"  tofile="${project.build.directory}/${project.build.finalName}/templates"/>
-                                <move file="${project.build.directory}/classes/WEB-INF"  tofile="${project.build.directory}/${project.build.finalName}/WEB-INF"/>
+                                <move file="${project.build.directory}/classes/static"
+                                      tofile="${project.build.directory}/${project.build.finalName}/static"/>
+                                <move file="${project.build.directory}/classes/templates"
+                                      tofile="${project.build.directory}/${project.build.finalName}/templates"/>
+                                <move file="${project.build.directory}/classes/WEB-INF"
+                                      tofile="${project.build.directory}/${project.build.finalName}/WEB-INF"/>
                             </tasks>
                         </configuration>
                     </execution>

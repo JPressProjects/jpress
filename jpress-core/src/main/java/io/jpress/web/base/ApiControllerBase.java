@@ -1,7 +1,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
-import io.jboot.web.controller.JbootController;
+import com.jfinal.kit.Ret;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -9,5 +9,14 @@ import io.jboot.web.controller.JbootController;
  * @Package io.jpress.web
  */
 @Before({ApiInterceptor.class, UserInterceptor.class})
-public abstract class ApiControllerBase extends JbootController {
+public abstract class ApiControllerBase extends ControllerBase {
+
+    public void renderFailJson() {
+        renderJson(Ret.fail());
+    }
+
+
+    public void renderFailJson(String message) {
+        renderJson(Ret.fail("message", message));
+    }
 }

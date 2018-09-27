@@ -1,6 +1,5 @@
 package io.jpress.web.base;
 
-import io.jboot.web.controller.JbootController;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.render.TemplateRender;
@@ -10,7 +9,7 @@ import io.jpress.web.render.TemplateRender;
  * @version V1.0
  * @Package io.jpress.web
  */
-public abstract class TemplateControllerBase extends JbootController {
+public abstract class TemplateControllerBase extends ControllerBase {
 
 
     @Override

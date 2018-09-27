@@ -4,7 +4,6 @@ import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
-import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConstants;
 import io.jpress.model.User;
 
@@ -14,7 +13,7 @@ import io.jpress.model.User;
  * @Package io.jpress.web
  */
 @Before({AdminInterceptor.class, UserInterceptor.class, PermissionInterceptor.class})
-public abstract class AdminControllerBase extends JbootController {
+public abstract class AdminControllerBase extends ControllerBase {
 
     @Override
     public void render(String view) {
@@ -43,23 +42,7 @@ public abstract class AdminControllerBase extends JbootController {
         return getParaToInt("page", 1);
     }
 
-    public Long getIdPara() {
-        Long id = getParaToLong();
-        if (id == null) {
 
-            //renderError 会直接抛出异常，阻止程序往下执行
-            renderError(404);
-        }
-
-        return id;
-    }
-
-
-    protected void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
-        }
-    }
 
     protected boolean validateSlug(Model model) {
         String slug = (String) model.get("slug");
@@ -67,9 +50,4 @@ public abstract class AdminControllerBase extends JbootController {
     }
 
 
-    @Override
-    public String getPara(String name) {
-        String value = super.getPara(name);
-        return "".equals(value) ? null : value;
-    }
 }

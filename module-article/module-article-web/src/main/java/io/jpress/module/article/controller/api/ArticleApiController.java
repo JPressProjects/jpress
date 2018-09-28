@@ -1,10 +1,12 @@
-package io.jpress.module.article.controller;
+package io.jpress.module.article.controller.api;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.core.annotation.NeedAuthentication;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -91,8 +93,6 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-
-
     /**
      * 通过 分类ID 分页读取文章列表
      */
@@ -110,8 +110,6 @@ public class ArticleApiController extends ApiControllerBase {
         renderJson(Ret.ok().set("page", page));
 
     }
-
-
 
 
     /**
@@ -135,6 +133,17 @@ public class ArticleApiController extends ApiControllerBase {
 
         List<Article> articles = articleService.findListByColumns(columns, orderBy, count);
         renderJson(Ret.ok("articles", articles));
+    }
+
+
+    @NeedAuthentication
+    public void save() {
+
+        String json = getBodyString();
+        Article article = JSON.parseObject(json, Article.class);
+        articleService.saveOrUpdate(article);
+
+        renderJson(Ret.ok());
     }
 
 

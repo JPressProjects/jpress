@@ -103,8 +103,9 @@ public class OptionInitializer implements JbootEventListener {
             ApiInterceptor.initApiEnable(true);
         }
 
+        String apiAppid = service.findByKey(JPressConstants.OPTION_API_APPID);
         String apiSecret = service.findByKey(JPressConstants.OPTION_API_SECRET);
-        ApiInterceptor.initApiSecret(apiSecret);
+        ApiInterceptor.initApiSecret(apiAppid, apiSecret);
     }
 
     private void initCdnOption() {

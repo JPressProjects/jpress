@@ -20,13 +20,17 @@ import java.util.Map;
 public class ApiInterceptor implements Interceptor {
 
     private static boolean apiEnable = false;
+
+    private static String apiAppId = null;
     private static String apiSecret = null;
+
 
     public static void initApiEnable(boolean apiEnable) {
         ApiInterceptor.apiEnable = apiEnable;
     }
 
-    public static void initApiSecret(String apiSecret) {
+    public static void initApiSecret(String appId,String apiSecret) {
+        ApiInterceptor.apiAppId = appId;
         ApiInterceptor.apiSecret = apiSecret;
     }
 
@@ -44,7 +48,7 @@ public class ApiInterceptor implements Interceptor {
             inv.getController().renderJson(Ret.fail().set("message", "api closed."));
             return;
         }
-        
+
 
         if (inv.getMethod().getDeclaredAnnotation(NeedAuthentication.class) == null) {
             inv.invoke();
@@ -59,6 +63,19 @@ public class ApiInterceptor implements Interceptor {
 
 
         Controller controller = inv.getController();
+
+        String appId = controller.getPara("appid");
+        if (StrUtils.isBlank(appId)) {
+            inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
+            return;
+        }
+
+
+        if (!appId.equals(apiAppId)) {
+            inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
+            return;
+        }
+
         String sign = controller.getPara("sign");
 
         if (StrUtils.isBlank(sign)) {

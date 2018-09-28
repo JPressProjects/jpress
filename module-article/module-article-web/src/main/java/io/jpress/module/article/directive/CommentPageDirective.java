@@ -11,8 +11,8 @@ import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.model.ArticleComment;
+import io.jpress.module.article.service.ArticleCommentService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +22,11 @@ import javax.servlet.http.HttpServletRequest;
  * @version V1.0
  * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("articlePage")
-public class ArticlePageDirective extends JbootDirectiveBase {
+@JFinalDirective("commentPage")
+public class CommentPageDirective extends JbootDirectiveBase {
 
     @Inject
-    private ArticleService service;
+    private ArticleCommentService service;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
@@ -35,10 +35,11 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         int page = controller.getParaToInt(1, 1);
         int pageSize = getParam("pageSize", 10, scope);
-        ArticleCategory category = controller.getAttr("category");
 
-        Page<Article> articlePage = service.paginateByCategoryId(page, pageSize, category.getId());
-        scope.setGlobal("articlePage", articlePage);
+        Article article = controller.getAttr("article");
+
+        Page<ArticleComment> articlePage = service.paginateByArticleIdInNormal(page, pageSize, article.getId());
+        scope.setGlobal("commentPage", articlePage);
         renderBody(env, scope, writer);
     }
 
@@ -49,7 +50,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     }
 
 
-    @JFinalDirective("articlePaginate")
+    @JFinalDirective("commentPaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
         @Override
@@ -59,10 +60,9 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             return Kits.doReplacePageNumber(url, pageNumber);
         }
 
-
         @Override
         protected Page<?> getPage(Env env, Scope scope, Writer writer) {
-            return (Page<?>) scope.get("articlePage");
+            return (Page<?>) scope.get("commentPage");
         }
 
     }

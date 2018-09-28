@@ -12,6 +12,7 @@ import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 
@@ -100,6 +101,8 @@ public class ArticleController extends TemplateControllerBase {
         if (StrUtils.isBlank(content)) {
             renderJson(Ret.fail());
             return;
+        }else {
+            content = StringEscapeUtils.escapeHtml(content);
         }
 
         Article article = articleService.findById(articleId);

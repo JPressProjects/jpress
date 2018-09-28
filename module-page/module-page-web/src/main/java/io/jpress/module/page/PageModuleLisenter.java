@@ -16,13 +16,14 @@ public class PageModuleLisenter implements ModuleListener {
 
 
     @Override
-    public String onGetDashboardHtmlBox(Controller controller) {
+    public String onRenderDashboardBox(Controller controller) {
         return null;
     }
 
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
+
         MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("page");
         menuGroup.setText("页面");

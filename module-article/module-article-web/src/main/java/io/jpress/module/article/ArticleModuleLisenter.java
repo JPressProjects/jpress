@@ -23,7 +23,7 @@ public class ArticleModuleLisenter implements ModuleListener {
 
 
     @Override
-    public String onGetDashboardHtmlBox(Controller controller) {
+    public String onRenderDashboardBox(Controller controller) {
         List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create(), "id desc", 10);
         controller.setAttr("articles", articles);
 

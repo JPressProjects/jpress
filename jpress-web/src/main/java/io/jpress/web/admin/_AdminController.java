@@ -67,7 +67,7 @@ public class _AdminController extends AdminControllerBase {
         List<String> moduleIncludes = new ArrayList<>();
         List<ModuleListener> listeners = ModuleManager.me().getListeners();
         for (ModuleListener listener : listeners) {
-            String path = listener.onGetDashboardHtmlBox(this);
+            String path = listener.onRenderDashboardBox(this);
             if (path == null) {
                 continue;
             }

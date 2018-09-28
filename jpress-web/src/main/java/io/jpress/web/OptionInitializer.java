@@ -14,6 +14,7 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiInterceptor;
+import io.jpress.web.base.TemplateInterceptor;
 import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.render.TemplateRender;
 
@@ -47,6 +48,31 @@ public class OptionInitializer implements JbootEventListener {
         initCdnOption(); //初始化CDN配置
         initApiOption(); //初始化 API 配置
         initWechatOption();// 初始化 微信的 相关配置
+
+        initTemplateAttrsOption(); //初始化模板的基础 attr 属性
+
+    }
+
+    private void initTemplateAttrsOption() {
+
+        String webTitle = service.findByKey(JPressConstants.OPTION_WEB_TITLE);
+        String webSubTitle = service.findByKey(JPressConstants.OPTION_WEB_SUBTITLE);
+        String webName = service.findByKey(JPressConstants.OPTION_WEB_NAME);
+        String webDomain = service.findByKey(JPressConstants.OPTION_WEB_DOMAIN);
+        String webCopyright = service.findByKey(JPressConstants.OPTION_WEB_COPYRIGHT);
+        String seoTitle = service.findByKey(JPressConstants.OPTION_SEO_TITLE);
+        String seoKeyword = service.findByKey(JPressConstants.OPTION_SEO_KEYWORD);
+        String seoDescription = service.findByKey(JPressConstants.OPTION_SEO_DESCRIPTION);
+
+
+        TemplateInterceptor.setWebTitle(webTitle);
+        TemplateInterceptor.setWebSubTitle(webSubTitle);
+        TemplateInterceptor.setWebName(webName);
+        TemplateInterceptor.setWebDomain(webDomain);
+        TemplateInterceptor.setWebCopyright(webCopyright);
+        TemplateInterceptor.setSeoTitle(seoTitle);
+        TemplateInterceptor.setSeoKeyword(seoKeyword);
+        TemplateInterceptor.setSeoDescription(seoDescription);
 
     }
 
@@ -173,7 +199,19 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConstants.OPTION_WECHAT_TOKEN:
                 initWechatOption();
                 break;
+
+            case JPressConstants.OPTION_WEB_TITLE:
+            case JPressConstants.OPTION_WEB_SUBTITLE:
+            case JPressConstants.OPTION_WEB_NAME:
+            case JPressConstants.OPTION_WEB_DOMAIN:
+            case JPressConstants.OPTION_WEB_COPYRIGHT:
+            case JPressConstants.OPTION_SEO_TITLE:
+            case JPressConstants.OPTION_SEO_KEYWORD:
+            case JPressConstants.OPTION_SEO_DESCRIPTION:
+                initTemplateAttrsOption();
+                break;
         }
     }
+
 
 }

@@ -25,7 +25,16 @@ public class JPressConstants {
     /**
      * 以下是配置相关
      */
-    public static final String OPTION_WEB_NAME = "web_name"; //网站名称
+    public static final String OPTION_WEB_TITLE = "web_title"; //网站标题
+    public static final String OPTION_WEB_SUBTITLE = "web_subtitle"; // 网站副标题
+    public static final String OPTION_WEB_NAME = "web_name"; // 网站名称
+    public static final String OPTION_WEB_DOMAIN = "web_domain"; // 网站域名
+    public static final String OPTION_WEB_COPYRIGHT = "web_copyright"; // 网站版权信息
+    public static final String OPTION_SEO_TITLE = "seo_title"; // SEO 标题
+    public static final String OPTION_SEO_KEYWORD = "seo_keyword"; //  SEO 关键字
+    public static final String OPTION_SEO_DESCRIPTION = "seo_description"; // SEO 描述
+
+
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
 
@@ -54,6 +63,16 @@ public class JPressConstants {
      * 用到的request attribute常量
      */
     public static final String ATTR_LOGINED_USER = "USER";
+
+
+    public static final String ATTR_WEB_TITLE = "WEB_TITLE"; //网站标题
+    public static final String ATTR_WEB_SUBTITLE = "WEB_SUBTITLE"; // 网站副标题
+    public static final String ATTR_WEB_NAME = "WEB_NAME"; // 网站名称
+    public static final String ATTR_WEB_DOMAIN = "WEB_DOMAIN"; // 网站域名
+    public static final String ATTR_WEB_COPYRIGHT = "WEB_COPYRIGHT"; // 网站版权信息
+    public static final String ATTR_SEO_TITLE = "SEO_TITLE"; // SEO 标题
+    public static final String ATTR_SEO_KEYWORD = "SEO_KEYWORD"; //  SEO 关键字
+    public static final String ATTR_SEO_DESCRIPTION = "SEO_DESCRIPTION"; // SEO 描述
 
     /**
      * 用到的事件机制相关常量

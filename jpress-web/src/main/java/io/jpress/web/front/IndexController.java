@@ -23,4 +23,5 @@ public class IndexController extends TemplateControllerBase {
         forwardAction("/page");
     }
 
+
 }

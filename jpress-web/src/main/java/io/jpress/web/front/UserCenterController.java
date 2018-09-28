@@ -21,12 +21,38 @@ public class UserCenterController extends ControllerBase {
     }
 
 
-
     /**
      * 用户中心首页
      */
     public void index() {
         render("index.html");
+    }
+
+
+    public void info() {
+        render("info.html");
+    }
+
+    /**
+     * 个人签名
+     */
+    public void signature() {
+        render("signature.html");
+    }
+
+
+    /**
+     * 头像设置
+     */
+    public void avatar() {
+        render("avatar.html");
+    }
+
+    /**
+     * 账号密码
+     */
+    public void pwd() {
+        render("pwd.html");
     }
 
 

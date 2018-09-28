@@ -4,6 +4,7 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.core.module.Module;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.core.module.Modules;
@@ -18,22 +19,24 @@ import java.util.*;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class AdminMenuManager {
+public class MenuManager {
 
-    private static final AdminMenuManager me = new AdminMenuManager();
+    private static final MenuManager me = new MenuManager();
 
-    private List<AdminMenuGroup> systemMenus = new ArrayList<>();
-    private List<AdminMenuGroup> moduleMenus = new ArrayList<>();
+    private List<MenuGroup> systemMenus = new ArrayList<>();
+    private List<MenuGroup> moduleMenus = new ArrayList<>();
+    private List<MenuGroup> ucenterMenus = new ArrayList<>();
 
-    public static AdminMenuManager me() {
+    public static MenuManager me() {
         return me;
     }
 
     public void init() {
         initAdminSystemMenuGroup();
-        initAdminModuleMenuGroup(ModuleManager.me().getModules());
 
         initAdminMenuItems();
+
+        initUCenterMenuItems();
     }
 
 
@@ -44,57 +47,44 @@ public class AdminMenuManager {
     private void initAdminSystemMenuGroup() {
 
 
-//        AdminMenuGroup statisticsMenuGroup = new AdminMenuGroup();
+//        MenuGroup statisticsMenuGroup = new MenuGroup();
 //        statisticsMenuGroup.setId(JPressConstants.SYSTEM_MENU_STATISTICS);
 //        statisticsMenuGroup.setText("运营");
 //        systemMenus.add(statisticsMenuGroup);
 
 
-//        AdminMenuGroup orderMenuGroup = new AdminMenuGroup();
+//        MenuGroup orderMenuGroup = new MenuGroup();
 //        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_FINANCE);
 //        orderMenuGroup.setText("财务");
 //        systemMenus.add(orderMenuGroup);
 
 
-        AdminMenuGroup userMenuGroup = new AdminMenuGroup();
+        MenuGroup userMenuGroup = new MenuGroup();
         userMenuGroup.setId(JPressConstants.SYSTEM_MENU_USER);
         userMenuGroup.setText("用户");
         userMenuGroup.setIcon("<i class=\"fa fa-fw fa-user\"></i>");
         systemMenus.add(userMenuGroup);
 
 
-        AdminMenuGroup wechatMenuGroup = new AdminMenuGroup();
+        MenuGroup wechatMenuGroup = new MenuGroup();
         wechatMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
         wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
         systemMenus.add(wechatMenuGroup);
 
 
-        AdminMenuGroup templateMenuGroup = new AdminMenuGroup();
+        MenuGroup templateMenuGroup = new MenuGroup();
         templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_TEMPLATE);
         templateMenuGroup.setText("模板");
         templateMenuGroup.setIcon("<i class=\"fa fa-magic\"></i>");
         systemMenus.add(templateMenuGroup);
 
 
-        AdminMenuGroup settingMenuGroup = new AdminMenuGroup();
+        MenuGroup settingMenuGroup = new MenuGroup();
         settingMenuGroup.setId(JPressConstants.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");
         settingMenuGroup.setIcon("<i class=\"fa fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
-
-
-//        AdminMenuGroup wechatMiniprogramMenuGroup = new AdminMenuGroup();
-//        wechatMiniprogramMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_MINI_PROGRAM);
-//        wechatMiniprogramMenuGroup.setText("小程序");
-//        systemMenus.add(wechatMiniprogramMenuGroup);
-
-
-//        AdminMenuGroup toolMenuGroup = new AdminMenuGroup();
-//        toolMenuGroup.setId(JPressConstants.SYSTEM_MENU_TOOL);
-//        toolMenuGroup.setText("工具");
-//        systemMenus.add(toolMenuGroup);
-
 
     }
 
@@ -104,41 +94,76 @@ public class AdminMenuManager {
      */
     private void initAdminModuleMenuGroup(Modules modules) {
         for (Module module : modules.getList()) {
-            moduleMenus.addAll(module.getMenus());
+            List<MenuGroup> menus = module.getAdminMenus();
+            if (menus != null) {
+                moduleMenus.addAll(menus);
+            }
         }
 
-        AdminMenuGroup attachmentMenuGroup = new AdminMenuGroup();
+        MenuGroup attachmentMenuGroup = new MenuGroup();
         attachmentMenuGroup.setId(JPressConstants.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
         attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
         moduleMenus.add(attachmentMenuGroup);
     }
 
+
     /**
      * 初始化 子菜单
      */
     private void initAdminMenuItems() {
-        List<AdminMenuItem> adminMenuItems = buildAdminMenuItems();
 
-        for (AdminMenuItem item : adminMenuItems) {
-            AdminMenuGroup group = getGroup(item.getGroupId());
+        initAdminModuleMenuGroup(ModuleManager.me().getModules());
+        List<MenuItem> adminMenuItems = buildAdminMenuItems();
+
+        for (MenuItem item : adminMenuItems) {
+            MenuGroup group = getAdminGroup(item.getGroupId());
             if (group != null) group.addItem(item);
         }
 
     }
 
-    private AdminMenuGroup getGroup(String id) {
-        for (AdminMenuGroup group : systemMenus) {
+    private void initUCenterMenuItems() {
+
+
+        for (Module module : ModuleManager.me().getModules().getList()) {
+            List<MenuGroup> menus = module.getUcenternMenus();
+            if (menus != null) {
+                ucenterMenus.addAll(menus);
+            }
+        }
+
+        List<MenuItem> ucenterMenuItems = buildUCenterMenuItems();
+        for (MenuItem item : ucenterMenuItems) {
+            MenuGroup group = getUcenterGroup(item.getGroupId());
+            if (group != null) group.addItem(item);
+        }
+
+    }
+
+    private MenuGroup getAdminGroup(String id) {
+        for (MenuGroup group : systemMenus) {
             if (id.equals(group.getId())) {
                 return group;
             }
         }
 
-        for (AdminMenuGroup group : moduleMenus) {
+        for (MenuGroup group : moduleMenus) {
             if (id.equals(group.getId())) {
                 return group;
             }
         }
+
+        return null;
+    }
+
+    private MenuGroup getUcenterGroup(String id) {
+        for (MenuGroup group : ucenterMenus) {
+            if (id.equals(group.getId())) {
+                return group;
+            }
+        }
+
 
         return null;
     }
@@ -155,8 +180,9 @@ public class AdminMenuManager {
         return excludedMethodName;
     }
 
-    private static List<AdminMenuItem> buildAdminMenuItems() {
-        List<AdminMenuItem> adminMenuItems = new ArrayList<>();
+    private static List<MenuItem> buildAdminMenuItems() {
+
+        List<MenuItem> adminMenuItems = new ArrayList<>();
         List<String> allActionKeys = JFinal.me().getAllActionKeys();
 
         String[] urlPara = new String[1];
@@ -174,7 +200,41 @@ public class AdminMenuManager {
                     continue;
                 }
 
-                AdminMenuItem menu = new AdminMenuItem();
+                MenuItem menu = new MenuItem();
+                menu.setText(adminMenu.text());
+                menu.setIcon(adminMenu.icon());
+                menu.setGroupId(adminMenu.groupId());
+                menu.setUrl(actionKey);
+                menu.setOrder(adminMenu.order());
+
+                adminMenuItems.add(menu);
+            }
+        }
+
+        return adminMenuItems;
+    }
+
+    private static List<MenuItem> buildUCenterMenuItems() {
+
+        List<MenuItem> adminMenuItems = new ArrayList<>();
+        List<String> allActionKeys = JFinal.me().getAllActionKeys();
+
+        String[] urlPara = new String[1];
+        for (String actionKey : allActionKeys) {
+            // 只处理后台的权限 和 API的权限
+            if (actionKey.startsWith("/ucenter")) {
+
+                Action action = JFinal.me().getAction(actionKey, urlPara);
+                if (action == null || excludedMethodName.contains(action.getMethodName())) {
+                    continue;
+                }
+
+                UCenterMenu adminMenu = action.getMethod().getAnnotation(UCenterMenu.class);
+                if (adminMenu == null) {
+                    continue;
+                }
+
+                MenuItem menu = new MenuItem();
                 menu.setText(adminMenu.text());
                 menu.setIcon(adminMenu.icon());
                 menu.setGroupId(adminMenu.groupId());
@@ -189,13 +249,18 @@ public class AdminMenuManager {
     }
 
 
-    public List<AdminMenuGroup> getSystemMenus() {
-        systemMenus.sort(Comparator.comparingInt(AdminMenuGroup::getOrder));
+    public List<MenuGroup> getSystemMenus() {
+        systemMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return systemMenus;
     }
 
-    public List<AdminMenuGroup> getModuleMenus() {
-        moduleMenus.sort(Comparator.comparingInt(AdminMenuGroup::getOrder));
+    public List<MenuGroup> getModuleMenus() {
+        moduleMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return moduleMenus;
+    }
+
+    public List<MenuGroup> getUcenterMenus() {
+        ucenterMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
+        return ucenterMenus;
     }
 }

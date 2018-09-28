@@ -5,9 +5,9 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
-import io.jpress.core.menu.AdminMenuGroup;
-import io.jpress.core.menu.AdminMenuItem;
-import io.jpress.core.menu.AdminMenuManager;
+import io.jpress.core.menu.MenuGroup;
+import io.jpress.core.menu.MenuItem;
+import io.jpress.core.menu.MenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.annotation.AdminPermission;
 import io.jpress.web.base.AdminControllerBase;
@@ -70,12 +70,12 @@ public class _PermissionController extends AdminControllerBase {
      */
     private List<Permission> buildMenuPermissions() {
 
-        List<AdminMenuGroup> adminMenuGroups = new ArrayList<>();
-        adminMenuGroups.addAll(AdminMenuManager.me().getSystemMenus());
-        adminMenuGroups.addAll(AdminMenuManager.me().getModuleMenus());
+        List<MenuGroup> adminMenuGroups = new ArrayList<>();
+        adminMenuGroups.addAll(MenuManager.me().getSystemMenus());
+        adminMenuGroups.addAll(MenuManager.me().getModuleMenus());
 
         List<Permission> permissions = new ArrayList<>();
-        for (AdminMenuGroup menuGroup : adminMenuGroups) {
+        for (MenuGroup menuGroup : adminMenuGroups) {
 
             Permission groupPermission = new Permission();
             groupPermission.setType(Permission.TYPE_MENU);
@@ -89,7 +89,7 @@ public class _PermissionController extends AdminControllerBase {
                 continue;
             }
 
-            for (AdminMenuItem item : menuGroup.getItems()) {
+            for (MenuItem item : menuGroup.getItems()) {
                 Permission itemPermission = new Permission();
                 itemPermission.setType(Permission.TYPE_MENU);
                 itemPermission.setText(item.getText());

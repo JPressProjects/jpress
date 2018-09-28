@@ -9,7 +9,6 @@ import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.Menu;
 import io.jpress.model.User;
 import io.jpress.module.article.kits.ArticleModuleKit;
 import io.jpress.module.article.kits.CategoryKits;
@@ -216,11 +215,11 @@ public class _ArticleController extends AdminControllerBase {
             return;
         }
 
-        Menu menu = new Menu();
+        io.jpress.model.Menu menu = new io.jpress.model.Menu();
         menu.setPid(0l);
         menu.setUrl(ArticleModuleKit.getCategoryUrl(category));
         menu.setText(category.getTitle());
-        menu.setType(Menu.TYPE_MAIN);
+        menu.setType(io.jpress.model.Menu.TYPE_MAIN);
         menu.setRelativeTable("article_category");
         menu.setRelativeTableId(id);
 

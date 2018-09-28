@@ -11,7 +11,6 @@ import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
@@ -309,13 +308,13 @@ public class _TemplateController extends AdminControllerBase {
 
     @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 6)
     public void menu() {
-        List<Menu> menus = ms.findListByType(Menu.TYPE_MAIN);
+        List<io.jpress.model.Menu> menus = ms.findListByType(io.jpress.model.Menu.TYPE_MAIN);
         MenuKits.toLayerCategories(menus);
         setAttr("menus", menus);
 
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            for (Menu menu : menus) {
+            for (io.jpress.model.Menu menu : menus) {
                 if (menu.getId() == id) {
                     setAttr("menu", menu);
                 }
@@ -326,7 +325,7 @@ public class _TemplateController extends AdminControllerBase {
     }
 
     public void doMenuSave() {
-        Menu category = getModel(Menu.class);
+        io.jpress.model.Menu category = getModel(io.jpress.model.Menu.class);
         ms.saveOrUpdate(category);
         redirect("/admin/template/menu");
     }

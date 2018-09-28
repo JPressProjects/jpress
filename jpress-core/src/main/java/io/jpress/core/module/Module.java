@@ -1,7 +1,7 @@
 package io.jpress.core.module;
 
 import com.jfinal.core.Controller;
-import io.jpress.core.menu.AdminMenuGroup;
+import io.jpress.core.menu.MenuGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,8 @@ public class Module {
     private String id;
     private String name;
 
-    private List<AdminMenuGroup> menus;
+    private List<MenuGroup> adminMenus;
+    private List<MenuGroup> ucenterMenus;
 
     /**
      * 用于给子类复写，返回的String是html内容，用于渲染用户登录的后台首页
@@ -29,22 +30,41 @@ public class Module {
     }
 
 
-    public void addMenu(String id, String text, String icon, int order) {
-        if (menus == null) {
-            menus = new ArrayList<>();
+    public void addAdminMenu(String id, String text, String icon, int order) {
+        if (adminMenus == null) {
+            adminMenus = new ArrayList<>();
         }
 
-        AdminMenuGroup menuGroup = new AdminMenuGroup();
+        MenuGroup menuGroup = new MenuGroup();
         menuGroup.setText(text);
         menuGroup.setIcon(icon);
         menuGroup.setId(id);
         menuGroup.setOrder(order);
 
-        menus.add(menuGroup);
+        adminMenus.add(menuGroup);
     }
 
-    public List<AdminMenuGroup> getMenus() {
-        return menus;
+    public List<MenuGroup> getAdminMenus() {
+        return adminMenus;
+    }
+
+
+    public void addUcenterMenu(String id, String text, String icon, int order) {
+        if (ucenterMenus == null) {
+            ucenterMenus = new ArrayList<>();
+        }
+
+        MenuGroup menuGroup = new MenuGroup();
+        menuGroup.setText(text);
+        menuGroup.setIcon(icon);
+        menuGroup.setId(id);
+        menuGroup.setOrder(order);
+
+        ucenterMenus.add(menuGroup);
+    }
+
+    public List<MenuGroup> getUcenternMenus() {
+        return ucenterMenus;
     }
 
 }

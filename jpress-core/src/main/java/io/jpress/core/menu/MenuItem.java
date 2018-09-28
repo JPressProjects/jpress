@@ -6,7 +6,7 @@ package io.jpress.core.menu;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class AdminMenuItem {
+public class MenuItem {
 
     private String text;
     private String icon;
@@ -61,7 +61,7 @@ public class AdminMenuItem {
 
     @Override
     public String toString() {
-        return "AdminMenuItem{" +
+        return "MenuItem{" +
                 "text='" + text + '\'' +
                 ", icon='" + icon + '\'' +
                 ", groupId='" + groupId + '\'' +

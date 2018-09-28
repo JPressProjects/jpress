@@ -1,0 +1,41 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
+            <li class="block"></li>
+            <li class="link">
+                <a href="/ucenter/index"><i class="fa fa-dashboard"></i> <span>我的信息</span></a>
+            </li>
+            <li class="link">
+                <a href="/ucenter/index"><i class="fa fa-dashboard"></i> <span>个人签名</span></a>
+            </li>
+            <li class="link">
+                <a href="/ucenter/index"><i class="fa fa-dashboard"></i> <span>头像设置</span></a>
+            </li>
+            <li class="link">
+                <a href="/ucenter/index"><i class="fa fa-dashboard"></i> <span>账号密码</span></a>
+            </li>
+
+            <li class="block"></li>
+            #for(group : ucenterMenus)
+            <li class="treeview">
+                <a href="#">
+                    #(group.icon ??) <span>#(group.text)</span>
+                    <span class="pull-right-container">
+                       <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    #for(item : group.items)
+                    <li><a href="#(item.url ??)">#(item.text ??)</a></li>
+                    #end
+                </ul>
+            </li>
+            #end
+
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

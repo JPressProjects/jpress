@@ -10,14 +10,14 @@ import java.util.List;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class AdminMenuGroup {
+public class MenuGroup {
 
     private int order = 100;
     private String text;
     private String icon;
     private String id;
 
-    private List<AdminMenuItem> items;
+    private List<MenuItem> items;
 
 
     public int getOrder() {
@@ -52,20 +52,20 @@ public class AdminMenuGroup {
         this.id = id;
     }
 
-    public List<AdminMenuItem> getItems() {
+    public List<MenuItem> getItems() {
         return items;
     }
 
-    public void setItems(List<AdminMenuItem> items) {
+    public void setItems(List<MenuItem> items) {
         this.items = items;
     }
 
-    public void addItem(AdminMenuItem item) {
+    public void addItem(MenuItem item) {
         if (items == null) {
             items = new ArrayList<>();
         }
         items.add(item);
-        items.sort(Comparator.comparingInt(AdminMenuItem::getOrder));
+        items.sort(Comparator.comparingInt(MenuItem::getOrder));
     }
 
     public boolean isEmpty() {
@@ -78,7 +78,7 @@ public class AdminMenuGroup {
 
     @Override
     public String toString() {
-        return "AdminMenuGroup{" +
+        return "MenuGroup{" +
                 "order=" + order +
                 ", text='" + text + '\'' +
                 ", icon='" + icon + '\'' +

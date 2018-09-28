@@ -22,7 +22,8 @@ public class ArticleModule extends Module {
     private String text = "文章";
 
     private ArticleModule() {
-        addMenu(id, text, "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
+        addAdminMenu(id, text, "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
+        addUcenterMenu(id, text, "<i class=\"fa fa-fw fa-file-text\"></i>", 1);
     }
 
     private static final ArticleModule me = new ArticleModule();

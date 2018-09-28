@@ -13,7 +13,7 @@ public class PageModule extends Module {
     private String text = "页面";
 
     private PageModule() {
-        addMenu(id, text, "<i class=\"fa fa-fw fa-file\"></i>", 2);
+        addAdminMenu(id, text, "<i class=\"fa fa-fw fa-file\"></i>", 2);
     }
 
     private static final PageModule me = new PageModule();

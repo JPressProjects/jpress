@@ -53,7 +53,7 @@ public class MenusDirective extends JbootDirectiveBase {
 //            return;
 //        }
 //
-//        for (Menu menu : menus) {
+//        for (AdminMenu menu : menus) {
 //            if (StringUtils.isBlank(menu.getUrl())) {
 //                continue;
 //            }

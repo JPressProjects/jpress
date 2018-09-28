@@ -17,6 +17,12 @@ public abstract class TemplateControllerBase extends ControllerBase {
     @Override
     public void render(String view) {
 
+        //如果是 / 开头的文件，就不通过模板文件去渲染。而是去根目录去查找。
+        if (view != null && view.startsWith("/")) {
+            super.render(view);
+            return;
+        }
+
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {
             renderText("can not find current template");
@@ -39,7 +45,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
             renderError(404);
         }
     }
-
 
 
 }

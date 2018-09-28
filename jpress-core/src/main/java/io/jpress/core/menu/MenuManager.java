@@ -5,9 +5,8 @@ import com.jfinal.core.JFinal;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
-import io.jpress.core.module.Module;
+import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
-import io.jpress.core.module.Modules;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.lang.reflect.Method;
@@ -32,31 +31,23 @@ public class MenuManager {
     }
 
     public void init() {
+
+        //初始化后台的固定菜单
         initAdminSystemMenuGroup();
 
+        //初始化后台的 module 菜单
         initAdminMenuItems();
 
+        //初始化 用户中心菜单
         initUCenterMenuItems();
     }
 
 
     /**
-     * 初始化 系统固定的菜单组
+     * 初始化 后台的固定菜单
      * 备注：子初始化菜单组，不初始化子菜单，子菜单由注解完成
      */
     private void initAdminSystemMenuGroup() {
-
-
-//        MenuGroup statisticsMenuGroup = new MenuGroup();
-//        statisticsMenuGroup.setId(JPressConstants.SYSTEM_MENU_STATISTICS);
-//        statisticsMenuGroup.setText("运营");
-//        systemMenus.add(statisticsMenuGroup);
-
-
-//        MenuGroup orderMenuGroup = new MenuGroup();
-//        orderMenuGroup.setId(JPressConstants.SYSTEM_MENU_FINANCE);
-//        orderMenuGroup.setText("财务");
-//        systemMenus.add(orderMenuGroup);
 
 
         MenuGroup userMenuGroup = new MenuGroup();
@@ -88,14 +79,16 @@ public class MenuManager {
 
     }
 
+
     /**
-     * 初始化 模块菜单组
-     * 备注：子初始化菜单组，不初始化子菜单，子菜单由注解完成
+     * 初始化 子菜单
      */
-    private void initAdminModuleMenuGroup(Modules modules) {
-        for (Module module : modules.getList()) {
-            List<MenuGroup> menus = module.getAdminMenus();
-            if (menus != null) {
+    private void initAdminMenuItems() {
+
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            List<MenuGroup> menus = new ArrayList<>();
+            listener.onConfigAdminMenu(menus);
+            if (!menus.isEmpty()) {
                 moduleMenus.addAll(menus);
             }
         }
@@ -105,15 +98,8 @@ public class MenuManager {
         attachmentMenuGroup.setText("附件");
         attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
         moduleMenus.add(attachmentMenuGroup);
-    }
 
 
-    /**
-     * 初始化 子菜单
-     */
-    private void initAdminMenuItems() {
-
-        initAdminModuleMenuGroup(ModuleManager.me().getModules());
         List<MenuItem> adminMenuItems = buildAdminMenuItems();
 
         for (MenuItem item : adminMenuItems) {
@@ -125,10 +111,10 @@ public class MenuManager {
 
     private void initUCenterMenuItems() {
 
-
-        for (Module module : ModuleManager.me().getModules().getList()) {
-            List<MenuGroup> menus = module.getUcenternMenus();
-            if (menus != null) {
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            List<MenuGroup> menus = new ArrayList<>();
+            listener.onConfigUcenterMenu(menus);
+            if (!menus.isEmpty()) {
                 ucenterMenus.addAll(menus);
             }
         }

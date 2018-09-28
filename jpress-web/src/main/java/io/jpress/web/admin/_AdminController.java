@@ -8,7 +8,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
-import io.jpress.core.module.Module;
+import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
@@ -65,9 +65,9 @@ public class _AdminController extends AdminControllerBase {
     public void index() {
 
         List<String> moduleIncludes = new ArrayList<>();
-        List<Module> modules = ModuleManager.me().getModules().getList();
-        for (Module module : modules) {
-            String path = module.onGetDashboardHtmlBox(this);
+        List<ModuleListener> listeners = ModuleManager.me().getListeners();
+        for (ModuleListener listener : listeners) {
+            String path = listener.onGetDashboardHtmlBox(this);
             if (path == null) {
                 continue;
             }

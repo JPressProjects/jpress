@@ -1,7 +1,10 @@
 package io.jpress.module.page;
 
-import io.jpress.core.module.JPressModuleListener;
-import io.jpress.core.module.Modules;
+import com.jfinal.core.Controller;
+import io.jpress.core.menu.MenuGroup;
+import io.jpress.core.module.ModuleListener;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -9,12 +12,29 @@ import io.jpress.core.module.Modules;
  * @Title: 应用启动监听器
  * @Package io.jpress.module.page
  */
-public class PageModuleLisenter implements JPressModuleListener {
+public class PageModuleLisenter implements ModuleListener {
 
 
     @Override
-    public void onConfigModule(Modules modules) {
-        modules.add(PageModule.me());
+    public String onGetDashboardHtmlBox(Controller controller) {
+        return null;
     }
 
+
+    @Override
+    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
+        MenuGroup menuGroup = new MenuGroup();
+        menuGroup.setId("page");
+        menuGroup.setText("页面");
+        menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
+        menuGroup.setOrder(2);
+
+        adminMenus.add(menuGroup);
+
+    }
+
+    @Override
+    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
+        //do nothing
+    }
 }

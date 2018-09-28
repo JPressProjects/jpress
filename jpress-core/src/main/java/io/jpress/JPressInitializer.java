@@ -4,7 +4,6 @@ import com.jfinal.config.Constants;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuManager;
-import io.jpress.core.module.ModuleManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.FakeStaticHandler;
@@ -33,7 +32,6 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onJFinalStarted() {
 
-        ModuleManager.me().init();
         MenuManager.me().init();
         WechatAddonManager.me().init();
 

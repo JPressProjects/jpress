@@ -13,27 +13,31 @@ import java.util.List;
  */
 public class ModuleManager {
     private static final ModuleManager me = new ModuleManager();
-    private Modules modules = new Modules();
-    private static final List<JPressModuleListener> moduleListeners = new ArrayList<>();
+//    private Modules modules = new Modules();
+    private  List<ModuleListener> moduleListeners = new ArrayList<>();
 
 
     private ModuleManager() {
-
+        initModuleListeners();
     }
 
     public static ModuleManager me() {
         return me;
     }
 
-    public Modules getModules() {
-        return modules;
-    }
+//    public Modules getModules() {
+//        return modules;
+//    }
 
 
-    public void init() {
+//    public void init() {
+//        initModuleListeners();
+////        invokeModuleListeners();
+//    }
 
-        initModuleListeners();
-        invokeModuleListeners();
+
+    public  List<ModuleListener> getListeners() {
+        return moduleListeners;
     }
 
     /**
@@ -42,20 +46,20 @@ public class ModuleManager {
      */
     private void initModuleListeners() {
 
-        List<Class<JPressModuleListener>> classes = ClassScanner.scanSubClass(JPressModuleListener.class, true);
+        List<Class<ModuleListener>> classes = ClassScanner.scanSubClass(ModuleListener.class, true);
         if (classes == null) {
             return;
         }
 
-        for (Class<JPressModuleListener> jPressAppListenerClass : classes) {
+        for (Class<ModuleListener> jPressAppListenerClass : classes) {
             moduleListeners.add(ClassKits.newInstance(jPressAppListenerClass));
         }
     }
 
-    private void invokeModuleListeners() {
-        for (JPressModuleListener listener : moduleListeners) {
-            listener.onConfigModule(ModuleManager.me().getModules());
-        }
-    }
+//    private void invokeModuleListeners() {
+//        for (ModuleListener listener : moduleListeners) {
+//            listener.onConfigModule(ModuleManager.me().getModules());
+//        }
+//    }
 
 }

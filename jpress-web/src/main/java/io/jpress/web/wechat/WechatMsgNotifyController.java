@@ -28,13 +28,13 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Override
     public void index() {
-        WechatAddonInfo addon = doMathingAddon();
-        if (addon == null) {
+        WechatAddonInfo addonInfo = doMathingAddon();
+        if (addonInfo == null) {
             super.index();
             return;
         }
 
-        addon.getListener().onRenderMessage(getInMsg(), this);
+        addonInfo.getAddon().onRenderMessage(getInMsg(), this);
     }
 
     /**
@@ -93,9 +93,9 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return null;
         }
 
-        for (WechatAddonInfo addon : enableAddons) {
-            if (addon.getListener().onMatchingMessage(getInMsg(), this)) {
-                return addon;
+        for (WechatAddonInfo addonInfo : enableAddons) {
+            if (addonInfo.getAddon().onMatchingMessage(getInMsg(), this)) {
+                return addonInfo;
             }
         }
 

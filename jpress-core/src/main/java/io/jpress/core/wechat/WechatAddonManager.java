@@ -46,13 +46,13 @@ public class WechatAddonManager {
             return;
         }
 
-        for (Class<WechatAddon> listenerClass : classes) {
-            WechatAddonConfig wechatAddonConfig = listenerClass.getDeclaredAnnotation(WechatAddonConfig.class);
+        for (Class<WechatAddon> addonClass : classes) {
+            WechatAddonConfig wechatAddonConfig = addonClass.getDeclaredAnnotation(WechatAddonConfig.class);
             if (wechatAddonConfig == null) {
                 continue;
             }
 
-            WechatAddonInfo addon = createWechatAddon(wechatAddonConfig, listenerClass);
+            WechatAddonInfo addon = createWechatAddon(wechatAddonConfig, addonClass);
             addWechatAddon(addon);
         }
 
@@ -64,14 +64,14 @@ public class WechatAddonManager {
         }
     }
 
-    private WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> listenerClass) {
+    private WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
 
         WechatAddonInfo wechatAddon = new WechatAddonInfo();
         wechatAddon.setId(config.id());
         wechatAddon.setAuthor(config.author());
         wechatAddon.setAuthorWebsite(config.authorWebsite());
         wechatAddon.setDescription(config.description());
-        wechatAddon.setListenerClazz(listenerClass.getCanonicalName());
+        wechatAddon.setAddonClazz(addonClass.getCanonicalName());
         wechatAddon.setTitle(config.title());
         wechatAddon.setUpdateUrl(config.updateUrl());
         wechatAddon.setVersion(config.version());

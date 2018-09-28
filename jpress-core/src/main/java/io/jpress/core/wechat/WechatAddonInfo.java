@@ -16,7 +16,7 @@ public class WechatAddonInfo {
     private String authorWebsite;
     private String version;
     private String updateUrl;
-    private String listenerClazz;
+    private String addonClazz;
 
     private int versionCode;
 
@@ -83,12 +83,12 @@ public class WechatAddonInfo {
         this.updateUrl = updateUrl;
     }
 
-    public String getListenerClazz() {
-        return listenerClazz;
+    public String getAddonClazz() {
+        return addonClazz;
     }
 
-    public void setListenerClazz(String listenerClazz) {
-        this.listenerClazz = listenerClazz;
+    public void setAddonClazz(String addonClazz) {
+        this.addonClazz = addonClazz;
     }
 
     public int getVersionCode() {
@@ -99,13 +99,13 @@ public class WechatAddonInfo {
         this.versionCode = versionCode;
     }
 
-    private WechatAddon listener;
+    private WechatAddon addon;
 
-    public WechatAddon getListener() {
-        if (listener == null) {
-            listener = ClassKits.newInstance(listenerClazz);
+    public WechatAddon getAddon() {
+        if (addon == null) {
+            addon = ClassKits.newInstance(addonClazz);
         }
-        return listener;
+        return addon;
     }
 
     @Override

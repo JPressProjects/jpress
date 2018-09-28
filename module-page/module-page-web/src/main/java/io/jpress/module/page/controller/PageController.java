@@ -23,11 +23,6 @@ public class PageController extends TemplateControllerBase {
 
         String slug = getSlug();
 
-        if (StrUtils.isBlank(slug)) {
-            render("page.html");
-            return;
-        }
-
         SinglePage page = sps.findFirstBySlug(slug);
 
         if (page == null || !page.isNormal()) {
@@ -43,8 +38,8 @@ public class PageController extends TemplateControllerBase {
         String uri = getRequest().getRequestURI();
 
         //可能已经启用了伪静态
-        if (uri.contains(".")){
-            uri = uri.substring(0,uri.lastIndexOf("."));
+        if (uri.contains(".")) {
+            uri = uri.substring(0, uri.lastIndexOf("."));
         }
 
         return StrUtils.urlDecode(uri.substring(1, uri.length()));

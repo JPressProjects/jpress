@@ -14,7 +14,6 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiInterceptor;
-import io.jpress.web.front.IndexController;
 import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.render.TemplateRender;
 
@@ -48,14 +47,9 @@ public class OptionInitializer implements JbootEventListener {
         initCdnOption(); //初始化CDN配置
         initApiOption(); //初始化 API 配置
         initWechatOption();// 初始化 微信的 相关配置
-        initWebIndexStyleOption();// 初始化 首页模板
 
     }
 
-    private void initWebIndexStyleOption() {
-        String indexStyle = service.findByKey(JPressConstants.OPTION_WEB_INDEX_STYLE);
-        IndexController.initStyle(indexStyle);
-    }
 
     /**
      * 设置微信的相关配置
@@ -177,9 +171,6 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConstants.OPTION_WECHAT_APPSECRET:
             case JPressConstants.OPTION_WECHAT_TOKEN:
                 initWechatOption();
-                break;
-            case JPressConstants.OPTION_WEB_INDEX_STYLE:
-                initWebIndexStyleOption();
                 break;
         }
     }

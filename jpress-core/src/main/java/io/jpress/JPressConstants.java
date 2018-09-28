@@ -26,7 +26,6 @@ public class JPressConstants {
      * 以下是配置相关
      */
     public static final String OPTION_WEB_NAME = "web_name"; //网站名称
-    public static final String OPTION_WEB_INDEX_STYLE = "web_index_style"; //网站首页风格
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
 

@@ -1,6 +1,8 @@
 package io.jpress.web.base;
 
 import io.jboot.web.controller.JbootController;
+import io.jpress.JPressConstants;
+import io.jpress.model.User;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -34,4 +36,10 @@ public abstract class ControllerBase extends JbootController {
         String value = super.getPara(name);
         return "".equals(value) ? null : value;
     }
+
+
+    protected User getLoginedUser() {
+        return getAttr(JPressConstants.ATTR_LOGINED_USER);
+    }
+
 }

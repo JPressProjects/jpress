@@ -1,11 +1,8 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
-import com.jfinal.ext.interceptor.NotAction;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
-import io.jpress.JPressConstants;
-import io.jpress.model.User;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -26,11 +23,6 @@ public abstract class AdminControllerBase extends ControllerBase {
 
     public void render(Ret ret) {
         renderJson(ret);
-    }
-
-    @Before(NotAction.class)
-    public User getLoginedUser() {
-        return getAttr(JPressConstants.ATTR_LOGINED_USER);
     }
 
     /**

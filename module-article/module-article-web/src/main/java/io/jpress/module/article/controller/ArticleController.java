@@ -3,6 +3,7 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -11,7 +12,6 @@ import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.web.base.UserInterceptor;
 
 import javax.inject.Inject;
 
@@ -124,7 +124,7 @@ public class ArticleController extends TemplateControllerBase {
         //是否对用户输入验证码进行验证
         Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
         if (vCodeEnable != null || vCodeEnable == true) {
-            if (doValidateCommentVCode() == false) {
+            if (validateCaptcha("captcha") == false) {
                 renderJson(Ret.fail());
                 return;
             }
@@ -133,7 +133,7 @@ public class ArticleController extends TemplateControllerBase {
         //是否允许未登录用户参与评论
         Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
         if (unLoginEnable != null || unLoginEnable == true) {
-            if (doValidateUserLogined() == false) {
+            if (getLoginedUser() == null) {
                 renderJson(Ret.fail());
                 return;
             }
@@ -150,9 +150,14 @@ public class ArticleController extends TemplateControllerBase {
         comment.setWechat(wechat);
         comment.setQq(qq);
 
+        User user = getLoginedUser();
+        if (user != null) {
+            comment.setUserId(user.getId());
+        }
+
         //是否是管理员必须审核
         Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");
-        if (unLoginEnable != null || unLoginEnable == true) {
+        if (reviewEnable != null || reviewEnable == true) {
             comment.setStatus(ArticleComment.STATUS_UNAUDITED);
         }
         /**
@@ -165,24 +170,6 @@ public class ArticleController extends TemplateControllerBase {
 
         commentService.saveOrUpdate(comment);
         renderJson(Ret.ok());
-    }
-
-    /**
-     * 验证用户是否已经登录
-     *
-     * @return 用户已经登录：true ，否则：false
-     */
-    private boolean doValidateUserLogined() {
-        return UserInterceptor.getThreadLocalUser() != null;
-    }
-
-    /**
-     * 对验证码进行验证
-     *
-     * @return 用户输入验证码正确：true , 否则：false
-     */
-    private boolean doValidateCommentVCode() {
-        return validateCaptcha("captcha");
     }
 
 

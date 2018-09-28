@@ -6,6 +6,7 @@ import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.core.menu.AdminMenuManager;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.core.wechat.WechatAddonManager;
+import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.FakeStaticHandler;
 import io.jpress.web.render.JPressRenderFactory;
 
@@ -20,6 +21,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onJfinalConstantConfig(Constants constants) {
         constants.setRenderFactory(new JPressRenderFactory());
+        constants.setCaptchaCache(new JPressCaptchaCache());
     }
 
     @Override

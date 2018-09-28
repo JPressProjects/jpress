@@ -1,5 +1,6 @@
 package io.jpress.web.base;
 
+import com.jfinal.aop.Before;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.render.TemplateRender;
@@ -9,6 +10,7 @@ import io.jpress.web.render.TemplateRender;
  * @version V1.0
  * @Package io.jpress.web
  */
+@Before({TemplateInterceptor.class, UserInterceptor.class})
 public abstract class TemplateControllerBase extends ControllerBase {
 
 

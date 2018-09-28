@@ -57,6 +57,30 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getStr("author");
 	}
 
+	public void setEmail(java.lang.String email) {
+		set("email", email);
+	}
+	
+	public java.lang.String getEmail() {
+		return getStr("email");
+	}
+
+	public void setWechat(java.lang.String wechat) {
+		set("wechat", wechat);
+	}
+	
+	public java.lang.String getWechat() {
+		return getStr("wechat");
+	}
+
+	public void setQq(java.lang.String qq) {
+		set("qq", qq);
+	}
+	
+	public java.lang.String getQq() {
+		return getStr("qq");
+	}
+
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}

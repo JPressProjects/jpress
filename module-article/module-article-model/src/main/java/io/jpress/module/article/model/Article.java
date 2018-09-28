@@ -36,4 +36,9 @@ public class Article extends BaseArticle<Article> {
         return "/article/" + getSlug() + suffix;
     }
 
+    public boolean isCommentEnable() {
+        Boolean cs = getCommentStatus();
+        return cs != null && cs == true;
+    }
+
 }

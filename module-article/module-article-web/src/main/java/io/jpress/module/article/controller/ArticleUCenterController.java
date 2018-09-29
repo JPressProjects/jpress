@@ -38,7 +38,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
     public void write() {
-        render("/WEB-INF/views/ucenter/article/article_wirte.html");
+        render("/WEB-INF/views/ucenter/article/article_write.html");
     }
 
 

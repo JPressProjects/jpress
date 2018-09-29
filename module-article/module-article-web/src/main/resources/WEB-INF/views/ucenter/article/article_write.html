@@ -1,0 +1,283 @@
+#@layout()
+#define script()
+<script src="/static/components/ckeditor/ckeditor.js"></script>
+<script src="/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="/static/components/selectize/selectize.min.js"></script>
+
+
+<script>
+
+    initEditor('editor1');
+
+    $('.article-tags').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        addPrecedence: true,
+        create: true,
+        render: {
+            option_create: function (data, escape) {
+                return '<div class="create" style="padding-left: 5px"> 使用标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+            }
+        }
+    });
+
+    function doSubmit() {
+        editorUpdate();
+        $('#article-slug').val($("#slug").text());
+        $("#form").ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    $("#articleId").attr("value", data.id);
+                    toastr.success('文章保存成功。');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+    }
+
+
+    $("#submit").on("click", function () {
+        $("#articleStatus").val("normal");
+        doSubmit();
+    })
+
+    $("#draft").on("click", function () {
+        $("#articleStatus").val("draft");
+    })
+
+    $("#dustbin").on("click", function () {
+        $("#articleStatus").val("dustbin");
+    })
+
+    $("#removeThumbnail").on("click", function () {
+        $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
+        $("#articleThumbnail").val("");
+    })
+
+
+</script>
+#end
+#define css()
+<link href="/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
+<link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<style>
+    .popover-content {
+        padding: 9px 14px;
+        margin: 0 10px;
+    }
+
+    #slug {
+        cursor: pointer;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            写文章
+        </h1>
+    </section>
+
+    <section class="content">
+        <form action="/admin/article/doWriteSave" method="post" id="form">
+            <input type="hidden" id="articleStatus" name="article.status" value='#(article.id ?? "nomarl")'>
+            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+            <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
+            <div class="row">
+                <div class="col-xs-9">
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="input" class="form-control input-lg" name="article.title"
+                                       placeholder="请输入标题"
+                                       id="article-title"
+                                       value="#(article.title ??)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12" style="padding-bottom: 2px">
+                                网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
+                                                                                                       class="slugSpan"
+                                                                                                       for-input="article-slug"
+                                                                                                       for-listener="article-title">#(article.slug ??)</span>.html
+                                <input type="hidden" id="article-slug" name="article.slug">
+                            </div>
+                            <div class="col-sm-12" style="z-index: 9999;">
+                                <textarea id="editor1" name="article.content"
+                                          style="height: 467px;width: 100%;background-color: white">
+                                #escape(article.content ??)
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">属性设置</h3>
+
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body ">
+                                        <!-- Custom Tabs -->
+
+                                        <form class="form-horizontal" autocomplete="off">
+                                            <div class="box-body ">
+
+                                                #if(styles)
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">样式</label>
+                                                    <div class="col-sm-6">
+                                                        <select class="form-control" name="article.style">
+                                                            <option value="">默认</option>
+                                                            #for(style : styles)
+                                                            <option value="#(style)">#(style)</option>
+                                                            #end
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                #end
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">SEO关键字</label>
+
+                                                    <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control" name="article.meta_keywords"
+                                                              placeholder="请输入">#(article.meta_keywords ??)</textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">SEO描述</label>
+
+                                                    <div class="col-sm-6">
+                                                    <textarea rows="3" class="form-control"
+                                                              name="article.meta_description"
+                                                              placeholder="请输入">#(article.meta_description ??)</textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">允许评论</label>
+                                                    <div class="col-sm-6">
+                                                        #if(article == null)
+                                                        <input type="checkbox" checked class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #elseif(article.comment_status ??)
+                                                        <input type="checkbox" checked class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #else
+                                                        <input type="checkbox" class="switchery"
+                                                               name="article.comment_status" value="true">
+                                                        #end
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                        <!-- nav-tabs-custom -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="box box-solid">
+
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body ">
+                            <button type="button" id="submit" class="btn btn-primary btn-sm ">发布</button>
+                            <button type="button" id="draft" class="btn btn-default btn-sm ">草稿</button>
+
+                            <a href="#" id="dustbin" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">分类</h3>
+                        </div>
+                        <div class="box-body ">
+                            <div class="form-group">
+                                #for(category : categories)
+                                <div class="checkbox">
+                                    <label>
+                                        #for(i = 0; i < category.layerNO; i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        #end
+
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+
+
+                                        #(category.title ??)
+                                    </label>
+                                </div>
+                                #end
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">标签</h3>
+                        </div>
+                        <div class="box-body">
+                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                                #for(tag : tags)
+                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                #end
+                            </select>
+                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">缩略图</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <img src="#(article.thumbnail ??'/static/admin/images/nothumbnail.jpg')"
+                                 style="width: 100%;height: 200px"
+                                 id="thumbnail">
+                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                                   id="articleThumbnail">
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-default btn-sm " id="jp-image-browser"
+                                    for-src="thumbnail"
+                                    for-input="articleThumbnail">选择图片
+                            </button>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+</div>
+#end

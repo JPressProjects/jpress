@@ -1,10 +1,9 @@
-package io.jpress.web.front;
+package io.jpress.web.base;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
-import io.jpress.web.base.UserInterceptor;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
-import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.base.UcenterControllerBase;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ import javax.inject.Inject;
  * @Package io.jpress.module.article.admin
  */
 @RequestMapping("/ucenter/article")
-public class ArticleUCenterController extends TemplateControllerBase {
+public class ArticleUCenterController extends UcenterControllerBase {
 
     @Inject
     private ArticleService articleService;
@@ -33,18 +33,18 @@ public class ArticleUCenterController extends TemplateControllerBase {
 
     @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
     public void index() {
-        renderText("article ucenter!!!");
+        render("/WEB-INF/views/ucenter/article/article_list.html");
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
     public void write() {
-        renderText("article ucenter!!!");
+        render("/WEB-INF/views/ucenter/article/article_wirte.html");
     }
 
 
     @UCenterMenu(text = "评论列表", groupId = "comment", order = 0)
     public void comment() {
-        renderText("article ucenter!!!");
+        render("/WEB-INF/views/ucenter/article/comment_list.html");
     }
 
 }

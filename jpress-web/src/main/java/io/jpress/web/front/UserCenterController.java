@@ -1,9 +1,7 @@
 package io.jpress.web.front;
 
-import com.jfinal.aop.Before;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.ControllerBase;
-import io.jpress.web.base.UserInterceptor;
+import io.jpress.web.base.UcenterControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -11,8 +9,7 @@ import io.jpress.web.base.UserInterceptor;
  * @Package io.jpress.web
  */
 @RequestMapping("/ucenter")
-@Before({UserInterceptor.class, UserCenterInterceptor.class})
-public class UserCenterController extends ControllerBase {
+public class UserCenterController extends UcenterControllerBase {
 
 
     @Override

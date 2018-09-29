@@ -1,7 +1,12 @@
 package io.jpress.web.front;
 
+import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.User;
+import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
+
+import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -10,6 +15,9 @@ import io.jpress.web.base.UcenterControllerBase;
  */
 @RequestMapping("/ucenter")
 public class UserCenterController extends UcenterControllerBase {
+
+    @Inject
+    private UserService userService;
 
 
     @Override
@@ -29,6 +37,17 @@ public class UserCenterController extends UcenterControllerBase {
     public void info() {
         render("info.html");
     }
+
+    public void doSaveUser() {
+        User user = getBean(User.class);
+        user.keep("nickname", "realname", "identity", "email", "mobile",
+                "signature", "birthday", "company", "occupation", "address",
+                "zipcode", "site", "graduateschool", "education", "idcardtype", "idcard");
+        user.setId(getLoginedUser().getId());
+        userService.saveOrUpdate(user);
+        renderJson(Ret.ok());
+    }
+
 
     /**
      * 个人签名

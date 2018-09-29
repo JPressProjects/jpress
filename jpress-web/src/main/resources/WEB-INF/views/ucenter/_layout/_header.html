@@ -12,27 +12,14 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#">
                         <img src="#(USER.avatar ??)" class="user-image">
-                        <span class="hidden-xs">您好 #(USER.nickname ??) , 欢迎回来</span>
+                        <span class="hidden-xs">您好 #(user.nickname ??) , 欢迎回来</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="#(USER.avatar ??)" class="img-circle">
-                            <p>
-                                #(USER.nickname ??) - #(USER.identity ??)
-                                <small>#(USER.created ??)</small>
-                            </p>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="/admin/user/me" class="btn btn-default btn-flat">我的资料</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="/admin/logout" class="btn btn-default btn-flat">退出</a>
-                            </div>
-                        </li>
-                    </ul>
+                </li>
+
+                <li style="border-left: 1px solid #ccc;">
+                    <a href="#"><i class="fa fa-fw fa-circle-o-notch"></i>退出</a>
                 </li>
             </ul>
         </div>

@@ -16,7 +16,12 @@
 
 .main-footer {
     background: #f7f7f7;
+    padding: 5px 15px;
+    color: #444;
+    border-top: none;
+    font-size: 8px;
 }
+
 
 .skin-black-light .sidebar-menu > li:hover > a, .skin-black-light .sidebar-menu > li.active > a {
     color: #000;

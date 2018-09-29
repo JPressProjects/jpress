@@ -1,6 +1,8 @@
 package io.jpress.web.front;
 
+import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConstants;
 import io.jpress.web.base.TemplateControllerBase;
 
 /**
@@ -23,7 +25,7 @@ public class UserController extends TemplateControllerBase {
      * 用户登录页面
      */
     public void login() {
-
+        renderText("登录页面");
     }
 
     /**
@@ -33,7 +35,13 @@ public class UserController extends TemplateControllerBase {
 
     }
 
-
+    /**
+     * 退出登录
+     */
+    public void logout() {
+        EncryptCookieUtils.remove(this, JPressConstants.COOKIE_UID);
+        redirect("/user/login");
+    }
 
 
 }

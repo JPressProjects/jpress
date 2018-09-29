@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/components/switchery/switchery.min.css">
     <link rel="stylesheet" href="/static/components/toastr/toastr.min.css">
     <link rel="stylesheet" href="/static/adminlte/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/static/adminlte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/static/adminlte/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="/static/admin/css/jpressadmin.css">
 
     <!--[if lt IE 9]>
@@ -28,11 +28,43 @@
     <script src="/static/components/toastr/toastr.min.js"></script>
     <script src="/static/adminlte/js/adminlte.min.js"></script>
     <script src="/static/admin/js/jpressadmin.js"></script>
+    <style>
+        .layout-boxed {
+            background: #eee;
+        }
+        .layout-boxed .wrapper {
+            max-width: 1250px;
+            margin: 0 auto;
+            min-height: 100%;
+            box-shadow: 0 0 1px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .content-wrapper {
+            background-color: #f7f7f7;
+        }
+
+        .skin-black-light .sidebar-menu>li:hover>a, .skin-black-light .sidebar-menu>li.active>a {
+            color: #000;
+            background: #e6e6e6;
+        }
+
+        .skin-black-light .main-header>.logo {
+            border-right: none;
+        }
+        .skin-black-light .main-header .navbar>.sidebar-toggle {
+            border-right: none;
+        }
+
+        .skin-black-light .main-header .navbar .navbar-custom-menu .navbar-nav>li>a, .skin-black-light .main-header .navbar .navbar-right>li>a {
+            border-left: none;
+        }
+
+    </style>
 
     #@css?()
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="sidebar-mini wysihtml5-supported skin-black-light layout-boxed">
 <div class="wrapper">
 
     #include("./_header.html")

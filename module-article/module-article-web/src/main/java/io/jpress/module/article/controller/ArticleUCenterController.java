@@ -31,8 +31,19 @@ public class ArticleUCenterController extends TemplateControllerBase {
     @Inject
     private ArticleCommentService commentService;
 
-    @UCenterMenu(text = "文章管理", groupId = "article", order = 0)
+    @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
     public void index() {
+        renderText("article ucenter!!!");
+    }
+
+    @UCenterMenu(text = "投稿", groupId = "article", order = 1)
+    public void write() {
+        renderText("article ucenter!!!");
+    }
+
+
+    @UCenterMenu(text = "评论列表", groupId = "comment", order = 0)
+    public void comment() {
         renderText("article ucenter!!!");
     }
 

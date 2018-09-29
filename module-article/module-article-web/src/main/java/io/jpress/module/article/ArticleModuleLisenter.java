@@ -48,15 +48,23 @@ public class ArticleModuleLisenter implements ModuleListener {
     }
 
     @Override
-    public void onConfigUcenterMenu(List<MenuGroup> adminMenus) {
+    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
 
-        MenuGroup menuGroup = new MenuGroup();
-        menuGroup.setId("article");
-        menuGroup.setText("文章");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
-        menuGroup.setOrder(1);
+        MenuGroup articleMenuGroup = new MenuGroup();
+        articleMenuGroup.setId("article");
+        articleMenuGroup.setText("我的文章");
+        articleMenuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
+        articleMenuGroup.setOrder(1);
+        ucenterMenus.add(articleMenuGroup);
 
-        adminMenus.add(menuGroup);
+
+        MenuGroup commentMenuGroup = new MenuGroup();
+        commentMenuGroup.setId("comment");
+        commentMenuGroup.setText("我的评论");
+        commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
+        commentMenuGroup.setOrder(2);
+        ucenterMenus.add(commentMenuGroup);
+
 
     }
 }

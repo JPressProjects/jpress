@@ -12,13 +12,16 @@ import io.jpress.JPressConstants;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.*;
-import io.jpress.service.UtmService;
-import io.jpress.web.base.AdminControllerBase;
+import io.jpress.model.Permission;
+import io.jpress.model.Role;
+import io.jpress.model.User;
+import io.jpress.model.Utm;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
+import io.jpress.service.UtmService;
 import io.jpress.web.admin.kits.PermissionKits;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -231,7 +234,13 @@ public class _UserController extends AdminControllerBase {
     @EmptyValidate({
             @Form(name = "path", message = "请先选择图片")
     })
-    public void doSaveAvatar(String path, int x, int y, int w, int h) {
+    public void doSaveAvatar(String path, Long uid, int x, int y, int w, int h) {
+        User user = userService.findById(uid);
+        if (user == null) {
+            renderJson(Ret.fail());
+            return;
+        }
+
         String oldPath = PathKit.getWebRootPath() + path;
 
         //先进行图片缩放，保证图片和html的图片显示大小一致
@@ -242,9 +251,8 @@ public class _UserController extends AdminControllerBase {
         String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        User loginedUser = getLoginedUser();
-        loginedUser.setAvatar(FileUtils.removeRootPath(newAvatarPath));
-        userService.saveOrUpdate(loginedUser);
+        user.setAvatar(FileUtils.removeRootPath(newAvatarPath));
+        userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }
 

@@ -1,11 +1,19 @@
 package io.jpress.web.front;
 
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.upload.UploadFile;
+import io.jboot.Jboot;
+import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.commons.utils.ImageUtils;
+import io.jpress.model.Attachment;
 import io.jpress.model.User;
+import io.jpress.service.AttachmentService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -99,6 +107,54 @@ public class UserCenterController extends UcenterControllerBase {
         user.setPassword(hashedPass);
         userService.update(user);
 
+        renderJson(Ret.ok());
+    }
+
+
+    public void doUpload() {
+        if (!isMultipartRequest()) {
+            renderError(404);
+            return;
+        }
+
+        UploadFile uploadFile = getFile();
+        if (uploadFile == null) {
+            renderJson(Ret.fail().set("success", false));
+            return;
+        }
+
+        String path = AttachmentUtils.moveFile(uploadFile);
+
+        Attachment attachment = new Attachment();
+        attachment.setUserId(getLoginedUser().getId());
+        attachment.setTitle(uploadFile.getOriginalFileName());
+        attachment.setPath(path.replace("\\", "/"));
+        attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
+        attachment.setMimeType(uploadFile.getContentType());
+
+        AttachmentService as = Jboot.bean(AttachmentService.class);
+        as.save(attachment);
+
+        renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
+    }
+
+    @EmptyValidate({
+            @Form(name = "path", message = "请先选择图片")
+    })
+    public void doSaveAvatar(String path, int x, int y, int w, int h) {
+        String oldPath = PathKit.getWebRootPath() + path;
+
+        //先进行图片缩放，保证图片和html的图片显示大小一致
+        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        ImageUtils.zoom(500, oldPath, zoomPath); //500的值必须和 html图片的max-width值一样
+
+        //进行剪切
+        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
+
+        User loginedUser = getLoginedUser();
+        loginedUser.setAvatar(FileUtils.removeRootPath(newAvatarPath));
+        userService.saveOrUpdate(loginedUser);
         renderJson(Ret.ok());
     }
 

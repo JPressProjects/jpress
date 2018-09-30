@@ -91,7 +91,7 @@
     var uploader = new qq.FineUploader({
         element: document.getElementById("uploader"),
         request: {
-            endpoint: '/admin/attachment/doUpload'
+            endpoint: '/ucenter/doUpload'
         },
         callbacks: {
             onComplete: function (id, name, responseJSON, xhr) {
@@ -189,8 +189,8 @@
 
     <section class="content-header">
         <h1>
-            我的信息
-            <small>My Profile</small>
+            我的头像
+            <small>My Avatar</small>
         </h1>
     </section>
 
@@ -200,7 +200,7 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
 
-                    <form class="form-horizontal" autocomplete="off" action="/admin/user/doSaveAvatar" method="post"
+                    <form class="form-horizontal" autocomplete="off" action="/ucenter/doSaveAvatar" method="post"
                           id="avatarForm">
                         <input type="hidden" name="path" id="path">
                         <input type="hidden" name="x" id="x">

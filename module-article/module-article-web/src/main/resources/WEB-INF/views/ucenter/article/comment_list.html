@@ -2,22 +2,13 @@
 #define script()
 <script>
 
-    function doChangeStatus(id, status) {
-        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+
+    function doDelComment(id) {
+        $.get("/ucenter/article/doCommentDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
                 location.reload();
-            }
-        });
-    }
-
-    function doDelComment(id) {
-        $.get("/admin/article/doCommentDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.href = "/admin/article/comment";
             }
         });
     }
@@ -73,14 +64,7 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/commentReplay/#(comment.id)">回复</a> |
-                                            #if(comment.isNormal())
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
-                                            #else
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')">审核</a> |
-                                            #end
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
-                                               class="red-action">垃圾箱</a> |
+                                            <a href="/ucenter/article/commentEdit/#(comment.id)">编辑</a> |
                                             <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
                                                class="red-action">永久删除</a>
                                         </div>

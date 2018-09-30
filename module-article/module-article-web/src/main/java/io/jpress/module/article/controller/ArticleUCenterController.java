@@ -182,4 +182,20 @@ public class ArticleUCenterController extends UcenterControllerBase {
         render("article/comment_list.html");
     }
 
+    /**
+     * 评论编辑 页面
+     */
+    public void commentEdit() {
+        long id = getIdPara();
+        ArticleComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("article/comment_edit.html");
+    }
+
+    public void doCommentSave() {
+        ArticleComment comment = getBean(ArticleComment.class, "comment");
+        commentService.saveOrUpdate(comment);
+        renderJson(Ret.ok());
+    }
+
 }

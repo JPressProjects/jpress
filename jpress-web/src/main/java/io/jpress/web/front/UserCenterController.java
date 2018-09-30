@@ -3,17 +3,13 @@ package io.jpress.web.front;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
-import com.jfinal.upload.UploadFile;
-import io.jboot.Jboot;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
-import io.jpress.model.Attachment;
 import io.jpress.model.User;
-import io.jpress.service.AttachmentService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -104,32 +100,6 @@ public class UserCenterController extends UcenterControllerBase {
     }
 
 
-    public void doUpload() {
-        if (!isMultipartRequest()) {
-            renderError(404);
-            return;
-        }
-
-        UploadFile uploadFile = getFile();
-        if (uploadFile == null) {
-            renderJson(Ret.fail().set("success", false));
-            return;
-        }
-
-        String path = AttachmentUtils.moveFile(uploadFile);
-
-        Attachment attachment = new Attachment();
-        attachment.setUserId(getLoginedUser().getId());
-        attachment.setTitle(uploadFile.getOriginalFileName());
-        attachment.setPath(path.replace("\\", "/"));
-        attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
-        attachment.setMimeType(uploadFile.getContentType());
-
-        AttachmentService as = Jboot.bean(AttachmentService.class);
-        as.save(attachment);
-
-        renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
-    }
 
     @EmptyValidate({
             @Form(name = "path", message = "请先选择图片")

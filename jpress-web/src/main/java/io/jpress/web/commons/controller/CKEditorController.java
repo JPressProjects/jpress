@@ -24,7 +24,6 @@ public class CKEditorController extends UcenterControllerBase {
 
     public void upload() {
 
-
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -59,9 +58,9 @@ public class CKEditorController extends UcenterControllerBase {
              * {"fileName":"1.jpg","uploaded":1,"url":"\/userfiles\/images\/1.jpg"}
              */
             Map map = new HashMap();
-            map.put("fileName",attachment.getTitle());
-            map.put("uploaded",1);
-            map.put("url",attachment.getPath());
+            map.put("fileName", attachment.getTitle());
+            map.put("uploaded", 1);
+            map.put("url", attachment.getPath());
             renderJson(map);
         } else {
             renderText("系统错误");

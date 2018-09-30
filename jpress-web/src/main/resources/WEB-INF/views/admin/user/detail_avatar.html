@@ -155,7 +155,7 @@
     var uploader = new qq.FineUploader({
         element: document.getElementById("uploader"),
         request: {
-            endpoint: '/admin/attachment/doUpload'
+            endpoint: '/commons/attachment/upload'
         },
         callbacks: {
             onComplete: function (id, name, responseJSON, xhr) {

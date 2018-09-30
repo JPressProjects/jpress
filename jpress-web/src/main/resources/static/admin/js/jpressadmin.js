@@ -70,7 +70,7 @@ function initSlugSpan() {
                     value = value.substring(0, value.length - 1);
                 }
 
-                $.get("/admin/commons/doGetPinyin/" + value, function (result) {
+                $.get("/commons/pinyin/doGetPinyin/" + value, function (result) {
                     if ("ok" == result.state) {
                         var pinyin = result.data;
                         that.text(pinyin);

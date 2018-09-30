@@ -1,12 +1,12 @@
-package io.jpress.web.admin;
+package io.jpress.web.commons.controller;
 
 import com.github.stuxuhai.jpinyin.PinyinException;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.AdminControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -14,8 +14,8 @@ import io.jpress.web.base.AdminControllerBase;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/commons")
-public class _AdminCommonsController extends AdminControllerBase {
+@RequestMapping("/commons/pinyin")
+public class PinyinController extends Controller {
 
 
     public void doGetPinyin() {

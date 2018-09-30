@@ -4,16 +4,14 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.upload.UploadFile;
-import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -104,32 +102,6 @@ public class _AttachmentController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
-
-    public void doUpload() {
-        if (!isMultipartRequest()) {
-            renderError(404);
-            return;
-        }
-
-        UploadFile uploadFile = getFile();
-        if (uploadFile == null) {
-            renderJson(Ret.fail().set("success", false));
-            return;
-        }
-
-        String path = AttachmentUtils.moveFile(uploadFile);
-
-        Attachment attachment = new Attachment();
-//        attachment.setUserId(getUser().getId());
-        attachment.setTitle(uploadFile.getOriginalFileName());
-        attachment.setPath(path.replace("\\", "/"));
-        attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
-        attachment.setMimeType(uploadFile.getContentType());
-
-        as.save(attachment);
-
-        renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
-    }
 
 
     @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 2)

@@ -1,105 +1,25 @@
 #@_ucenter_layout()
 
 #define script()
-<script src="/static/components/fine-uploader/fine-uploader.min.js"></script>
 <script src="/static/components/jcrop/js/jquery.jcrop.min.js"></script>
-
-<script type="text/template" id="qq-template">
-    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="">
-        <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
-            <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                 class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
-        </div>
-        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-            <span class="qq-upload-drop-area-text-selector"></span>
-        </div>
-        <div class="qq-upload-button-selector qq-upload-button">
-            <div><i class="fa fa-fw fa-tags"></i>选择图片</div>
-        </div>
-        <span class="qq-drop-processing-selector qq-drop-processing">
-                <span>Processing dropped files...</span>
-                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-            </span>
-        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite"
-            aria-relevant="additions removals" qq-hide-dropzone>
-            <li>
-                <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
-                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
-                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                         class="qq-progress-bar-selector qq-progress-bar"></div>
-                </div>
-                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                <div class="qq-thumbnail-wrapper">
-                    <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-                </div>
-                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-                <button type="button" class="qq-upload-retry-selector qq-upload-retry">
-                    <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
-                    Retry
-                </button>
-
-                <div class="qq-file-info">
-                    <div class="qq-file-name">
-                        <span class="qq-upload-file-selector qq-upload-file"></span>
-                        <span class="qq-edit-filename-icon-selector qq-btn qq-edit-filename-icon"
-                              aria-label="编辑文件名"></span>
-                    </div>
-                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                    <span class="qq-upload-size-selector qq-upload-size"></span>
-                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
-                        <span class="qq-btn qq-delete-icon" aria-label="删除"></span>
-                    </button>
-                    <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
-                        <span class="qq-btn qq-pause-icon" aria-label="暂停"></span>
-                    </button>
-                    <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
-                        <span class="qq-btn qq-continue-icon" aria-label="继续"></span>
-                    </button>
-                </div>
-            </li>
-        </ul>
-
-        <dialog class="qq-alert-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Close</button>
-            </div>
-        </dialog>
-
-        <dialog class="qq-confirm-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">No</button>
-                <button type="button" class="qq-ok-button-selector">Yes</button>
-            </div>
-        </dialog>
-
-        <dialog class="qq-prompt-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <input type="text">
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Cancel</button>
-                <button type="button" class="qq-ok-button-selector">Ok</button>
-            </div>
-        </dialog>
-    </div>
-</script>
-
+<script src="/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
 
     var jcrop_api;
-    var uploader = new qq.FineUploader({
-        element: document.getElementById("uploader"),
-        request: {
-            endpoint: '/commons/attachment/upload'
-        },
-        callbacks: {
-            onComplete: function (id, name, responseJSON, xhr) {
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '/commons/attachment/upload',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
                 if (jcrop_api) {
                     jcrop_api.destroy()
                 }
-                $("#path").val(responseJSON.src);
-                $("#avatarimg").attr("src", responseJSON.src);
+                var src = data.result.src;
+                $("#path").val(src);
+                $("#avatarimg").attr("src", src);
                 $('#avatarimg').Jcrop({
                     setSelect: [30, 30, 250, 250],
                     minSize: [50, 50],
@@ -138,49 +58,14 @@
         });
         return false;
     });
-
-
 </script>
 #end
 
 #define css()
-<link href="/static/components/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
-<link href="/static/components/jcrop/css/jquery.jcrop.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/components/jcrop/css/jquery.jcrop.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/components/jquery-file-upload/css/jquery.fileupload.css">
+
 <style>
-    .qq-gallery.qq-uploader {
-        border: none;
-        background-color: #fff;
-    }
-
-    .qq-gallery .qq-upload-button {
-        display: inline;
-        width: 105px;
-        padding: 7px 10px;
-        float: left;
-        text-align: center;
-        color: #fff;
-        box-shadow: none;
-        border-radius: 3px;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-        border: 1px solid transparent;
-        background-color: #3c8dbc;
-        border-color: #367fa9;
-    }
-
-    .qq-gallery.qq-uploader {
-        position: relative;
-        min-height: 60px;
-        max-height: 60px;
-    }
-
-    .qq-gallery .qq-upload-button-focus {
-        outline: none;
-    }
-
-    .qq-gallery .qq-upload-list {
-        display: none;
-    }
 
 </style>
 #end
@@ -207,8 +92,15 @@
                         <input type="hidden" name="y" id="y">
                         <input type="hidden" name="w" id="w">
                         <input type="hidden" name="h" id="h">
+                        <input type="hidden" name="uid" value="#(user.id)">
                         <div class="box-body ">
-                            <div id="uploader"></div>
+                            <div id="uploader">
+                                <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>选择图片...</span>
+                                    <input id="cfile" type="file" name="files[]" multiple>
+                                </span>
+                            </div>
                             <div class="text-center" style="margin-bottom: 20px">
                                 <div style="max-width:500px;margin: auto">
                                     <img src="/static/admin/images/avatar.png" style="width: 100%;height: 100%"
@@ -220,7 +112,7 @@
                         <div class="box-footer">
                             <div class="col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary"> 保存选择区域</button>
+                                    <button type="submit" class="btn btn-primary"> 保存选择区域 </button>
                                 </div>
                             </div>
                         </div>

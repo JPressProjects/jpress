@@ -139,5 +139,7 @@ public interface ArticleService {
 
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
+    public Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
+
 
 }

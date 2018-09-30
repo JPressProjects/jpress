@@ -135,6 +135,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    public Page<Article> _paginateByUserId(int page, int pagesize, Long userId) {
+        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "id desc");
+    }
+
+    @Override
     public Page<Article> paginateByCategoryInNormal(int page, int pagesize, Long categoryId, String orderBy) {
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");

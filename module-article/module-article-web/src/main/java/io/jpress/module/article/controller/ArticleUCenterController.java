@@ -1,8 +1,10 @@
 package io.jpress.module.article.controller;
 
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.User;
+import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
@@ -34,9 +36,11 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
     public void index() {
+
         User loginedUser = getLoginedUser();
 
-
+        Page<Article> page = articleService._paginateByUserId(getPagePara(), 10, loginedUser.getId());
+        setAttr("page", page);
 
         render("article/article_list.html");
     }

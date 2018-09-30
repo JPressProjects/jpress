@@ -21,5 +21,12 @@ public abstract class UcenterControllerBase extends ControllerBase {
     }
 
 
+    public int getPagePara() {
+        return getParaToInt("page", 1);
+    }
+
+
+
+
 
 }

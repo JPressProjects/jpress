@@ -13,26 +13,30 @@ import io.jpress.web.base.TemplateControllerBase;
 @RequestMapping("/user")
 public class UserController extends TemplateControllerBase {
 
+    private static final String default_user_template = "/WEB-INF/views/ucenter/user.html";
+    private static final String default_user_login_template = "/WEB-INF/views/ucenter/user_login.html";
+    private static final String default_user_register_template = "/WEB-INF/views/ucenter/user_regsiter.html";
+
 
     /**
      * 用户信息页面
      */
     public void index() {
-
+        render("user_detail.html", default_user_template);
     }
 
     /**
      * 用户登录页面
      */
     public void login() {
-        renderText("登录页面");
+        render("user_login.html", default_user_login_template);
     }
 
     /**
      * 用户注册页面
      */
     public void register() {
-
+        render("user_register.html", default_user_register_template);
     }
 
     /**

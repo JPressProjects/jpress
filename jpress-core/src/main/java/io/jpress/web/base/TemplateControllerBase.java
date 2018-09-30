@@ -14,8 +14,11 @@ import io.jpress.web.render.TemplateRender;
 public abstract class TemplateControllerBase extends ControllerBase {
 
 
-    @Override
     public void render(String view) {
+        render(view, null);
+    }
+
+    public void render(String view, String defaultView) {
 
         //如果是 / 开头的文件，就不通过模板文件去渲染。而是去根目录去查找。
         if (view != null && view.startsWith("/")) {
@@ -25,13 +28,13 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {
-            renderText("can not find current template");
+            renderDefault(defaultView);
             return;
         }
 
         view = template.matchTemplateFile(view);
         if (view == null) {
-            renderText("can not match view to render");
+            renderDefault(defaultView);
             return;
         }
 
@@ -43,6 +46,15 @@ public abstract class TemplateControllerBase extends ControllerBase {
     protected void assertNotNull(Object object) {
         if (object == null) {
             renderError(404);
+        }
+    }
+
+    private void renderDefault(String defaultView) {
+        if (defaultView == null) {
+            renderText("can not match view to render");
+            return;
+        } else {
+            super.render(new TemplateRender(defaultView));
         }
     }
 

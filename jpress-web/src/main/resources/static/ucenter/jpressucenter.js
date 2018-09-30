@@ -55,7 +55,43 @@ function initMenu() {
 
 
 
+function editorUpdate() {
+    for (instance in CKEDITOR.instances)
+        CKEDITOR.instances[instance].updateElement();
+}
 
+
+var dialogShowEvent;
+
+function initEditor(editor,height) {
+
+    height =  height || 467;
+
+    CKEDITOR.config.toolbar =
+        [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'],
+            ['Blockquote', 'CodeSnippet', 'Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Outdent', 'Indent'],
+            ['NumberedList', 'BulletedList'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            '/',
+            ['Format', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Undo', 'Redo'],
+            ['Maximize', 'Source']
+        ];
+
+
+    var ed = CKEDITOR.replace(editor, {
+        extraPlugins: 'codesnippet',
+        codeSnippet_theme: 'monokai_sublime',
+        height: height,
+        filebrowserImageUploadUrl: '/commons/ckeditor/upload',
+        language: 'zh-cn'
+    });
+
+}
 
 
 

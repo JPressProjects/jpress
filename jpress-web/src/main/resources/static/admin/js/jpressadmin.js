@@ -209,7 +209,7 @@ function initEditor(editor,height) {
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
-        filebrowserImageUploadUrl: '/admin/ckeditor/upload',
+        filebrowserImageUploadUrl: '/commons/ckeditor/upload',
         filebrowserBrowseUrl: '/admin/attachment/browse',
         language: 'zh-cn'
     });

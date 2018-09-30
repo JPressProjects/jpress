@@ -1,11 +1,11 @@
-package io.jpress.web.admin;
+package io.jpress.web.commons.controller;
 
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.AdminControllerBase;
-import io.jpress.model.Attachment;
 import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.model.Attachment;
+import io.jpress.web.base.UcenterControllerBase;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * Created by michael on 16/11/30.
  */
-@RequestMapping("/admin/ckeditor")
-public class _CKEditorController extends AdminControllerBase {
+@RequestMapping("/commons/ckeditor")
+public class CKEditorController extends UcenterControllerBase {
 
     public void index() {
         renderError(404);
@@ -23,6 +23,8 @@ public class _CKEditorController extends AdminControllerBase {
 
 
     public void upload() {
+
+
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -45,7 +47,7 @@ public class _CKEditorController extends AdminControllerBase {
         String path = AttachmentUtils.moveFile(uploadFile);
 
         Attachment attachment = new Attachment();
-//        attachment.setUserId(getUser().getId());
+        attachment.setUserId(getLoginedUser().getId());
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
         attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));

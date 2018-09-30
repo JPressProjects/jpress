@@ -3,9 +3,24 @@
 <script src="/static/components/ckeditor/ckeditor.js"></script>
 <script src="/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="/static/components/selectize/selectize.min.js"></script>
-
-
+<script src="/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
+
+    $('#cfile').fileupload({
+        url: '/commons/attachment/upload',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+//                toastr.success("文件上传成功...")
+                var src = data.result.src;
+                $("#thumbnail").attr("src", src);
+                $("#articleThumbnail").val(src);
+            }
+        }
+    });
+
 
     initEditor('editor1');
 
@@ -59,6 +74,7 @@
 <link href="/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="/static/components/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -126,28 +142,28 @@
                                     </div>
 
                                     <div class="box-body ">
-                                            <div class="box-body ">
+                                        <div class="box-body ">
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">SEO关键字</label>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO关键字</label>
 
-                                                    <div class="col-sm-8">
+                                                <div class="col-sm-8">
                                                     <textarea rows="3" class="form-control" name="article.meta_keywords"
                                                               placeholder="请输入">#(article.meta_keywords ??)</textarea>
-                                                    </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">SEO描述</label>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO描述</label>
 
-                                                    <div class="col-sm-8">
+                                                <div class="col-sm-8">
                                                     <textarea rows="3" class="form-control"
                                                               name="article.meta_description"
                                                               placeholder="请输入">#(article.meta_description ??)</textarea>
-                                                    </div>
                                                 </div>
-
                                             </div>
+
+                                        </div>
 
                                     </div>
                                 </div>
@@ -211,14 +227,16 @@
                             <img src="#(article.thumbnail ??'/static/admin/images/nothumbnail.jpg')"
                                  style="width: 100%;height: 150px"
                                  id="thumbnail">
-                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                            <input type="hidden" value="#(article.thumbnail ??)"
+                                   name="article.thumbnail"
                                    id="articleThumbnail">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default btn-sm " id="jp-image-browser"
-                                    for-src="thumbnail"
-                                    for-input="articleThumbnail">选择图片
-                            </button>
+                            <span class="btn  btn-default btn-sm fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>选择图片</span>
+                                <input id="cfile" type="file" name="files[]" multiple>
+                            </span>
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ public class User extends BaseUser<User> {
     /**
      * 默认头像地址
      */
-    private static final String DEFAULT_AVATAR = "/static/admin/images/avatar.png";
+    private static final String DEFAULT_AVATAR = "/static/commons/img/avatar.png";
 
     public boolean isStatusOk() {
         return STATUS_OK.equals(getStatus());

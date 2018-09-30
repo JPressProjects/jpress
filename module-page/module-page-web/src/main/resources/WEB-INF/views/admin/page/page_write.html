@@ -48,7 +48,7 @@
     })
 
     $("#removeThumbnail").on("click", function () {
-        $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
+        $("#thumbnail").attr("src", "/static/commons/img/nothumbnail.jpg");
         $("#articleThumbnail").val("");
     })
 
@@ -198,7 +198,7 @@
                             <h3 class="box-title">缩略图</h3>
                         </div>
                         <div class="box-body no-padding">
-                            <img src="#(page.thumbnail ??'/static/admin/images/nothumbnail.jpg')"
+                            <img src="#(page.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
                             <input type="hidden" value="#(page.thumbnail ??)" name="page.thumbnail"

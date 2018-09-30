@@ -11,4 +11,15 @@ import com.jfinal.aop.Before;
 public abstract class UcenterControllerBase extends ControllerBase {
 
 
+    @Override
+    public void render(String view) {
+        if (view.startsWith("/")) {
+            super.render(view);
+        } else {
+            super.render("/WEB-INF/views/ucenter/" + view);
+        }
+    }
+
+
+
 }

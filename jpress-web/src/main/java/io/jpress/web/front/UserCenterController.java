@@ -30,13 +30,6 @@ public class UserCenterController extends UcenterControllerBase {
     @Inject
     private UserService userService;
 
-
-    @Override
-    public void render(String view) {
-        super.render("/WEB-INF/views/ucenter/" + view);
-    }
-
-
     /**
      * 用户中心首页
      */

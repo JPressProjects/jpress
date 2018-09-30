@@ -2,6 +2,7 @@ package io.jpress.module.article.controller;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.annotation.UCenterMenu;
+import io.jpress.model.User;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
@@ -33,18 +34,22 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
     public void index() {
-        render("/WEB-INF/views/ucenter/article/article_list.html");
+        User loginedUser = getLoginedUser();
+
+
+
+        render("article/article_list.html");
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
     public void write() {
-        render("/WEB-INF/views/ucenter/article/article_write.html");
+        render("article/article_write.html");
     }
 
 
     @UCenterMenu(text = "评论列表", groupId = "comment", order = 0)
     public void comment() {
-        render("/WEB-INF/views/ucenter/article/comment_list.html");
+        render("article/comment_list.html");
     }
 
 }

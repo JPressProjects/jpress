@@ -44,6 +44,15 @@
     padding-top: 7px;
 }
 
+.jp-actionblock {
+    min-height: 25px;
+    line-height: 25px;
+}
+
+.jp-actionitem {
+    display: none;
+}
+
 .jp-actionitem a {
     font-size: 13px;
     font-weight: 400;

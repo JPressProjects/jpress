@@ -11,6 +11,7 @@ import io.jpress.model.User;
 import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
@@ -174,6 +175,10 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "评论列表", groupId = "comment", order = 0)
     public void comment() {
+
+        Page<ArticleComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
+        setAttr("page", page);
+
         render("article/comment_list.html");
     }
 

@@ -102,6 +102,13 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
+    public Page<ArticleComment> _paginateByUserId(int page, int pagesize, long userId) {
+        Page<ArticleComment> p = DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "id desc");
+        articleService.join(p, "article_id");
+        return p;
+    }
+
+    @Override
     public Page<ArticleComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId) {
         Columns columns = Columns.create("article_id", articleId);
         columns.add("status", ArticleComment.STATUS_NORMAL);

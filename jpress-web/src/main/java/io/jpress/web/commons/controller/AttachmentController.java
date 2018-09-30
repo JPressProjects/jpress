@@ -7,7 +7,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
-import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.base.UserControllerBase;
 
 import javax.inject.Inject;
 
@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/commons/attachment")
-public class AttachmentController extends AdminControllerBase {
+public class AttachmentController extends UserControllerBase {
 
 
     @Inject

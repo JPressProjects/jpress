@@ -5,7 +5,7 @@ import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
-import io.jpress.web.base.UcenterControllerBase;
+import io.jpress.web.base.UserControllerBase;
 
 import java.io.File;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by michael on 16/11/30.
  */
 @RequestMapping("/commons/ckeditor")
-public class CKEditorController extends UcenterControllerBase {
+public class CKEditorController extends UserControllerBase {
 
     public void index() {
         renderError(404);

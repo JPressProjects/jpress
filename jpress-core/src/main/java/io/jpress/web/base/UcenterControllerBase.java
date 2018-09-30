@@ -1,14 +1,11 @@
 package io.jpress.web.base;
 
-import com.jfinal.aop.Before;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before({UserInterceptor.class, UserCenterInterceptor.class})
-public abstract class UcenterControllerBase extends ControllerBase {
+public abstract class UcenterControllerBase extends UserControllerBase {
 
 
     @Override
@@ -24,9 +21,6 @@ public abstract class UcenterControllerBase extends ControllerBase {
     public int getPagePara() {
         return getParaToInt("page", 1);
     }
-
-
-
 
 
 }

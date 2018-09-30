@@ -30,7 +30,7 @@
             success: function (data) {
                 if (data.state == "ok") {
                     $("#articleId").attr("value", data.id);
-                    toastr.success('文章保存成功。');
+                    toastr.success('文章投稿成功。');
                 } else {
                     toastr.error(data.message, '操作失败');
                 }
@@ -43,17 +43,9 @@
 
 
     $("#submit").on("click", function () {
-        $("#articleStatus").val("normal");
         doSubmit();
     })
 
-    $("#draft").on("click", function () {
-        $("#articleStatus").val("draft");
-    })
-
-    $("#dustbin").on("click", function () {
-        $("#articleStatus").val("dustbin");
-    })
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "/static/admin/images/nothumbnail.jpg");
@@ -89,10 +81,8 @@
     </section>
 
     <section class="content">
-        <form action="/admin/article/doWriteSave" method="post" id="form">
-            <input type="hidden" id="articleStatus" name="article.status" value='#(article.id ?? "nomarl")'>
+        <form action="/ucenter/article/doWriteSave" method="post" id="form">
             <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
-            <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
             <div class="row">
                 <div class="col-xs-9">
 
@@ -141,20 +131,6 @@
                                         <form class="form-horizontal" autocomplete="off">
                                             <div class="box-body ">
 
-                                                #if(styles)
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">样式</label>
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control" name="article.style">
-                                                            <option value="">默认</option>
-                                                            #for(style : styles)
-                                                            <option value="#(style)">#(style)</option>
-                                                            #end
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                #end
-
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">SEO关键字</label>
 
@@ -171,22 +147,6 @@
                                                     <textarea rows="3" class="form-control"
                                                               name="article.meta_description"
                                                               placeholder="请输入">#(article.meta_description ??)</textarea>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">允许评论</label>
-                                                    <div class="col-sm-6">
-                                                        #if(article == null)
-                                                        <input type="checkbox" checked class="switchery"
-                                                               name="article.comment_status" value="true">
-                                                        #elseif(article.comment_status ??)
-                                                        <input type="checkbox" checked class="switchery"
-                                                               name="article.comment_status" value="true">
-                                                        #else
-                                                        <input type="checkbox" class="switchery"
-                                                               name="article.comment_status" value="true">
-                                                        #end
                                                     </div>
                                                 </div>
 
@@ -208,10 +168,7 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="box-body ">
-                            <button type="button" id="submit" class="btn btn-primary btn-sm ">发布</button>
-                            <button type="button" id="draft" class="btn btn-default btn-sm ">草稿</button>
-
-                            <a href="#" id="dustbin" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
+                            <button type="button" id="submit" class="btn btn-primary btn-sm ">投稿</button>
                         </div>
                     </div>
                     <div class="box box-solid">

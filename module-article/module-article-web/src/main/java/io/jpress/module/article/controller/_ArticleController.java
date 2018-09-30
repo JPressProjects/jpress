@@ -142,11 +142,9 @@ public class _ArticleController extends AdminControllerBase {
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
 
         Long[] categoryIds = getParaValuesToLong("category");
-        Long[] subjectIds = getParaValuesToLong("subject");
         Long[] tagIds = getTagIds(getParaValues("tag"));
 
-        Long[] allIds = ArrayUtils.addAll(categoryIds, subjectIds);
-        allIds = ArrayUtils.addAll(allIds, tagIds);
+        Long[] allIds = ArrayUtils.addAll(categoryIds, tagIds);
 
         articleService.doUpdateCategorys(id, allIds);
 

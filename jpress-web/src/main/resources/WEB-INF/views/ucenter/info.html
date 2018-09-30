@@ -1,10 +1,21 @@
 #@_ucenter_layout()
 
 #define script()
+<script src="/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
 
+    $('#birthday').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
 </script>
 #end
+
+#define css()
+<link rel="stylesheet" href="/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -119,8 +130,8 @@
                                 <label class="col-sm-2 control-label">生日</label>
 
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.birthday" value="#(user.birthday ??)">
+                                    <input type="input" id="birthday" class="form-control" placeholder="点击选择"
+                                           name="user.birthday" value="#date(user.birthday,'yyyy-MM-dd')" readonly >
                                 </div>
                             </div>
 

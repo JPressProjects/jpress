@@ -1,6 +1,7 @@
 #define user_detail_layer()
 #@layout()
 #define css()
+<link rel="stylesheet" href="/static/components/datepicker/css/bootstrap-datepicker3.min.css">
 <style>
     .nav-stacked > li.active > a {
         color: #fff;
@@ -19,7 +20,13 @@
 #end
 
 #define script()
+<script src="/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
+    $('#birthday').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
 
     var action = getPara("action");
     if (action == "") action = "base";
@@ -34,7 +41,7 @@
             li.attr("class", "");
         }
     });
-    
+
 
     $('#userForm').on('submit', function () {
         $(this).ajaxSubmit({

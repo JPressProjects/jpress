@@ -1,10 +1,10 @@
 #@user_detail_layer()
 #define detail()
+
+
 <div class="box-header ">
     <h3 class="box-title"></h3>
 </div>
-<!-- /.box-header -->
-<!-- form start -->
 <form class="form-horizontal" autocomplete="off" id="userForm" action="/admin/user/doSaveUser">
     <input name="user.id" type="hidden" value="#(user.id)">
     <div class="box-body ">
@@ -22,8 +22,8 @@
             <label class="col-sm-2 control-label">生日</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="..."
-                       name="user.birthday" value="#(user.birthday ??)">
+                <input type="input" id="birthday" class="form-control" placeholder="点击选择"
+                       name="user.birthday" value="#date(user.birthday,'yyyy-MM-dd')" >
             </div>
         </div>
 

@@ -11,7 +11,7 @@
     <section class="content-header">
         <h1>
             个人中心
-            <small>My Profile</small>
+            <small>User Center</small>
         </h1>
     </section>
 
@@ -34,7 +34,11 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-text">
-                                    fuhai999@gmail.com
+                                        #if(user.email )
+                                            #(user.email )
+                                        #else
+                                            您还未绑定邮箱，点击<a href="/ucenter/info"> 这里 </a> 进行绑定。
+                                        #end
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +47,11 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-text">
-                                    18611223344
+                                        #if(user.mobile )
+                                        #(user.mobile)
+                                        #else
+                                        您还未绑定手机，点击<a href="/ucenter/info"> 这里 </a> 进行绑定。
+                                        #end
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +61,11 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-text">
-                                    程序架构师
+                                        #if(user.identity )
+                                            #(user.identity )
+                                        #else
+                                            您还未设置个人身份，点击<a href="/ucenter/info"> 这里 </a> 进行设置。
+                                        #end
                                     </div>
                                 </div>
                             </div>
@@ -65,11 +77,6 @@
                         </div>
 
                         <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
                         </div>
                     </form>
 

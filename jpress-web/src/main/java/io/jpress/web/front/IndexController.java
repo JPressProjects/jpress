@@ -2,6 +2,7 @@ package io.jpress.web.front;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.handler.JPressHandler;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -14,7 +15,7 @@ public class IndexController extends TemplateControllerBase {
 
     public void index() {
 
-        if ("/".equals(getRequest().getRequestURI())) {
+        if ("/".equals(JPressHandler.getCurrentTarget())) {
             render("index.html");
             return;
         }

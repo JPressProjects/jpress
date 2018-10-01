@@ -6,7 +6,7 @@ import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
-import io.jpress.web.handler.FakeStaticHandler;
+import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.render.JPressRenderFactory;
 
 /**
@@ -25,7 +25,7 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add(0, new FakeStaticHandler());
+        handlers.add(0, new JPressHandler());
     }
 
 

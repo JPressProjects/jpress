@@ -14,12 +14,18 @@ import javax.servlet.http.HttpServletResponse;
  * @Package io.jpress.web.handler
  */
 
-public class FakeStaticHandler extends Handler {
+public class JPressHandler extends Handler {
+
+    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+
+    public static String getCurrentTarget() {
+        return threadLocal.get();
+    }
 
     private static String suffix = null;
 
     public static void initSuffix(String suffix) {
-        FakeStaticHandler.suffix = suffix;
+        JPressHandler.suffix = suffix;
     }
 
 
@@ -35,8 +41,14 @@ public class FakeStaticHandler extends Handler {
             target = target.substring(0, target.length() - suffix.length());
         }
 
-        request.setAttribute("CPATH", request.getContextPath());
-        next.handle(target, request, response, isHandled);
+
+        try {
+            threadLocal.set(target);
+            request.setAttribute("CPATH", request.getContextPath());
+            next.handle(target, request, response, isHandled);
+        } finally {
+            threadLocal.remove();
+        }
     }
 
 

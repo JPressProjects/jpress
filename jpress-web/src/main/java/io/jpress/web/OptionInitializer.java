@@ -15,7 +15,7 @@ import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiInterceptor;
 import io.jpress.web.base.TemplateInterceptor;
-import io.jpress.web.handler.FakeStaticHandler;
+import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.render.TemplateRender;
 
 /**
@@ -171,9 +171,9 @@ public class OptionInitializer implements JbootEventListener {
 
         String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
         if (StrUtils.isBlank(suffix)) {
-            FakeStaticHandler.initSuffix(null);
+            JPressHandler.initSuffix(null);
         } else {
-            FakeStaticHandler.initSuffix(suffix);
+            JPressHandler.initSuffix(suffix);
         }
     }
 

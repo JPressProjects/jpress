@@ -5,6 +5,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.handler.JPressHandler;
 
 import javax.inject.Inject;
 
@@ -21,7 +22,7 @@ public class PageController extends TemplateControllerBase {
 
     public void index() {
 
-        String slug = getSlug();
+        String slug = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
 
         SinglePage page = sps.findFirstBySlug(slug);
 
@@ -34,14 +35,4 @@ public class PageController extends TemplateControllerBase {
         render(page.getHtmlView());
     }
 
-    private String getSlug() {
-        String uri = getRequest().getRequestURI();
-
-        //可能已经启用了伪静态
-        if (uri.contains(".")) {
-            uri = uri.substring(0, uri.lastIndexOf("."));
-        }
-
-        return StrUtils.urlDecode(uri.substring(1, uri.length()));
-    }
 }

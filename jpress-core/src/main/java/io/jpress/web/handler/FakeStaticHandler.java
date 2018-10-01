@@ -25,13 +25,17 @@ public class FakeStaticHandler extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        if (StrUtils.isBlank(suffix)) {
-            next.handle(target, request, response, isHandled);
+
+        if (StrUtils.isBlank(suffix) && target.indexOf('.') != -1) {
             return;
         }
-        if (target.endsWith(suffix)) {
+
+        //启用伪静态
+        if (StrUtils.isNotBlank(suffix) && target.endsWith(suffix)) {
             target = target.substring(0, target.length() - suffix.length());
         }
+
+        request.setAttribute("CPATH", request.getContextPath());
         next.handle(target, request, response, isHandled);
     }
 

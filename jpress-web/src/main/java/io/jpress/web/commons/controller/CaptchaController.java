@@ -1,4 +1,4 @@
-package io.jpress.web.front;
+package io.jpress.web.commons.controller;
 
 import com.jfinal.core.Controller;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping("/captcha")
+@RequestMapping("/commons/captcha")
 public class CaptchaController extends Controller {
 
 

@@ -107,7 +107,8 @@ public class TemplateRender extends Render {
 
             if (StrUtils.isBlank(url)
                     || url.startsWith("//")
-                    || url.toLowerCase().startsWith("http")) {
+                    || url.toLowerCase().startsWith("http")
+                    || element.hasAttr("cdn-exclude")) {
                 continue;
             }
 
@@ -118,13 +119,6 @@ public class TemplateRender extends Render {
                 continue;
             }
 
-
-            if (StrUtils.isBlank(url)
-                    || url.startsWith("/")
-                    || url.startsWith("//")
-                    || url.toLowerCase().startsWith("http")) {
-                continue;
-            }
 
             if (url.startsWith("./")) {
                 url = template.getWebAbsolutePath() + url.substring(1);

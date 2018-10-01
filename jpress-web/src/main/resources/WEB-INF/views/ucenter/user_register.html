@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>登录到用户中心</title>
+    <title>用户注册</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
@@ -21,7 +21,7 @@
         }
 
         .login-box {
-            padding-top: 100px;
+            padding-top: 40px;
         }
 
         .form-group {
@@ -39,17 +39,31 @@
             <form action="/admin/doLogin" method="post" id="form">
                 <div class="form-group">
                     <label>账号</label>
-                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
+                    <input type="text" class="form-control" placeholder="请输入账号" name="username">
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="text" class="form-control" placeholder="请输入邮箱" name="email">
                 </div>
                 <div class="form-group">
                     <label>密码</label>
-                    <input type="password" class="form-control" placeholder="及密码..." name="pwd">
+                    <input type="password" class="form-control" placeholder="密码..." name="pwd">
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" class="form-control" placeholder="及确认密码..." name="confirmPwd">
+                </div>
+                <div class="form-group">
+                    <label>验证码</label>
+                    <input type="text" class="form-control" placeholder="请输入验证码" name="captcha">
+                    <img src="/commons/captcha" onclick="this.src='/commons/captcha?d='+Math.random();" cdn-exclude>
                 </div>
                 <div class="row">
                     <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="button" id="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
+                        <button type="button" id="submit" class="btn btn-primary btn-block btn-flat">注 册</button>
                     </div>
                 </div>
+
             </form>
 
         </div>

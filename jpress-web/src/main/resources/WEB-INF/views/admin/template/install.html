@@ -132,7 +132,7 @@
             onComplete: function (id, name, responseJSON, xhr) {
                 if (responseJSON.state == "ok") {
                     toastr.options.onHidden = function () {
-                        location.href = "/admin/template";
+                        location.href = "#(CPATH)/admin/template";
                     }
                     toastr.success(" 模板安装成功 ")
                 } else {

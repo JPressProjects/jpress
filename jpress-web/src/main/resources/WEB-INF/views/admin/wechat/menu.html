@@ -3,7 +3,7 @@
 #define script()
 <script>
     function del(id) {
-        $.get("/admin/template/doMenuDel/" + id, function (result) {
+        $.get("#(CPATH)/admin/template/doMenuDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -35,7 +35,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/template/doMenuSave"
+                          action="#(CPATH)/admin/template/doMenuSave"
                           method="post" id="form">
                         <input type="hidden" name="menu.id" value="#(menu.id ??)">
                         <input type="hidden" name="menu.type" value="main">
@@ -155,7 +155,7 @@
                                     #(menu.layerString)#(menu.text ??)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
+                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
                                             <a href="#(menu.url ??)" target="_blank" style="color: #006505">查看</a> |
                                             <a href="javascript:;" onclick="del('#(menu.id??)')"
                                                style="color: #a00">删除</a>

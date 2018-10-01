@@ -104,7 +104,7 @@
     </section>
 
     <section class="content">
-        <form id="form" action="/admin/template/doEditSave" method="post">
+        <form id="form" action="#(CPATH)/admin/template/doEditSave" method="post">
             <input type="hidden" name="fileContent" id="fileContent">
             <input type="hidden" name="d" value="#(d ??)">
             <input type="hidden" name="f" value="#(f ??)">
@@ -147,7 +147,7 @@
                                         #if(parentDir != null)
                                         <tr>
                                             <th>
-                                                <a href="/admin/template/edit?d=#(parentDir)"> .. </a>（上级目录）
+                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. </a>（上级目录）
                                             </th>
                                         </tr>
                                         #end
@@ -157,17 +157,17 @@
                                             <th>
                                                 #if(file.isDir())
                                                     #if(d != null)
-                                                    <a href="/admin/template/edit?d=#(d)/#(file.name ??)">
+                                                    <a href="#(CPATH)/admin/template/edit?d=#(d)/#(file.name ??)">
                                                         #(file.name ??)
                                                     </a>
                                                     #else
-                                                        <a href="/admin/template/edit?d=#(file.name ??)">
+                                                        <a href="#(CPATH)/admin/template/edit?d=#(file.name ??)">
                                                             #(file.name ??)
                                                         </a>
                                                     #end
                                                     [目录]
                                                 #else
-                                                    <a href="/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
+                                                    <a href="#(CPATH)/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
                                                         #(file.name ??)
                                                     </a>
                                                     #if(file.name == f)

@@ -5,7 +5,7 @@
 
     $("#sync").on("click", function () {
         $.ajax({
-            url: "/admin/permission/syncPermissions", success: function (result) {
+            url: "#(CPATH)/admin/permission/syncPermissions", success: function (result) {
                 if (result.state == "ok") {
                     toastr.options.onHidden = function () {
                         location.reload();
@@ -61,9 +61,9 @@
                         <div class="actionPanel">
                             <div class="col-xs-12">
                                 <div class="btn-group">
-                                    <a href="/admin/permission" id="group-all" class="btn btn-default">全部</a>
-                                    <a href="/admin/permission?type=menu" id="group-menu" class="btn btn-default">菜单</a>
-                                    <a href="/admin/permission?type=action" id="group-action" class="btn btn-default">URL</a>
+                                    <a href="#(CPATH)/admin/permission" id="group-all" class="btn btn-default">全部</a>
+                                    <a href="#(CPATH)/admin/permission?type=menu" id="group-menu" class="btn btn-default">菜单</a>
+                                    <a href="#(CPATH)/admin/permission?type=action" id="group-action" class="btn btn-default">URL</a>
                                 </div>
 
                                 <button type="button" class="btn btn-primary pull-right" id="sync">

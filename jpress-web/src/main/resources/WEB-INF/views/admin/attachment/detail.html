@@ -24,7 +24,7 @@
     });
 
     function del(id) {
-        $.get("/admin/attachment/del/" + id, function (result) {
+        $.get("#(CPATH)/admin/attachment/del/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -92,7 +92,7 @@
             </div>
 
             <div  style="margin: 20px">
-                <form action="/admin/attachment/update" id="form">
+                <form action="#(CPATH)/admin/attachment/update" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
                     <div class="form-group">
                         <label>URL</label>

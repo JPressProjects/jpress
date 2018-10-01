@@ -17,7 +17,7 @@
 </div>
 <!-- /.box-header -->
 <!-- form start -->
-<form class="form-horizontal" autocomplete="off" id="userForm" action="/admin/user/doUpdateUserRoles">
+<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdateUserRoles">
     <input name="userId" type="hidden" value="#(user.id)">
     <div class="box-body ">
 
@@ -33,7 +33,7 @@
                     #(role.name ??)
                     #if(role.isSuperAdmin())
                     - 超级管理员
-                    #end ( <a href="/admin/user/rolePermissions/#(role.id)">查看权限</a> )
+                    #end ( <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)">查看权限</a> )
                 </div>
                 #end
             </div>

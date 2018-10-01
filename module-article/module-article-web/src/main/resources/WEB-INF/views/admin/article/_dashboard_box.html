@@ -1,7 +1,7 @@
 <script>
 
     function doChangeStatus(id, status) {
-        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -11,7 +11,7 @@
     }
 
     function doDelComment(id) {
-        $.get("/admin/article/doCommentDel/" + id, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -67,7 +67,7 @@
                             <div class="user-block">
                                 <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
                                 <span class="username">
-                                      <a href="/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
+                                      <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
                                     </span>
                                 <span class="description">#date(comment.created) -  来至对文章
                                     <a href="#articleUrl(comment.article)"
@@ -81,7 +81,7 @@
                             </div>
                             <ul class="list-inline">
                                 <li>
-                                    <a href="/admin/article/commentReplay/#(comment.id)" style="color: #006505">回复</a> |
+                                    <a href="#(CPATH)/admin/article/commentReplay/#(comment.id)" style="color: #006505">回复</a> |
                                     #if(comment.isNormal())
                                     <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
                                        style="color: #006505">待审核</a> |

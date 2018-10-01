@@ -5,7 +5,7 @@
 
     $("#sync").on("click", function () {
         $.ajax({
-            url: "/admin/permission/syncPermissions", success: function (result) {
+            url: "#(CPATH)/admin/permission/syncPermissions", success: function (result) {
                 alert(result.msg);
             }
         });

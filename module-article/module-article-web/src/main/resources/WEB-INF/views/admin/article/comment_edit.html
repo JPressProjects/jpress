@@ -10,7 +10,7 @@
 
         $(this).ajaxSubmit({
             type: "post",
-            url: "/admin/article/doCommentSave",
+            url: "#(CPATH)/admin/article/doCommentSave",
             success: function (data) {
                 if (data.state == "ok") {
                     toastr.success('保存成功。');

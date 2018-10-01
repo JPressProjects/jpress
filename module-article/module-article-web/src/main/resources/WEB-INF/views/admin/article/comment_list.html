@@ -3,7 +3,7 @@
 <script>
 
     function doChangeStatus(id, status) {
-        $.get("/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -13,7 +13,7 @@
     }
 
     function doDelComment(id) {
-        $.get("/admin/article/doCommentDel/" + id, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -23,7 +23,7 @@
     }
 
     function delByIds(ids) {
-        $.get("/admin/article/doCommentDelByIds?ids=" + ids, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentDelByIds?ids=" + ids, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -43,7 +43,7 @@
 
 
     function auditByIds(ids) {
-        $.get("/admin/article/doCommentAuditByIds?ids=" + ids, function (result) {
+        $.get("#(CPATH)/admin/article/doCommentAuditByIds?ids=" + ids, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -83,7 +83,7 @@
     </section>
 
     <section class="content-header text-tap">
-        <a href="/admin/article/comment">全部 (#(totalCount ??))</a> |
+        <a href="#(CPATH)/admin/article/comment">全部 (#(totalCount ??))</a> |
         <a href="?status=normal">已发布 (#(normalCount ??))</a> |
         <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
         <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
@@ -96,7 +96,7 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
 
-                        <form class="form-horizontal actionPanel" action="/admin/article/comment" method="get">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/article/comment" method="get">
                             <input type="hidden" name="status" value="#para('status')">
                             <div class="row">
                                 <div class="form-group col-xs-4">
@@ -150,12 +150,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="/admin/article/commentEdit/#(comment.id)">#(comment.content ??)</a>
+                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)">#(comment.content ??)</a>
                                         #if(comment.isUnaudited()) (待审核) #end
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/commentReplay/#(comment.id)">回复</a> |
+                                            <a href="#(CPATH)/admin/article/commentReplay/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
                                                onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |

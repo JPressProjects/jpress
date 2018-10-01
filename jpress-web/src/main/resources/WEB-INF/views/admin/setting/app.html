@@ -2,7 +2,7 @@
 #define script()
 <script>
     function del(id) {
-        $.get("/admin/template/doMenuDel/" + id, function (result) {
+        $.get("#(CPATH)/admin/template/doMenuDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -40,7 +40,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/setting/doAppSave"
+                          action="#(CPATH)/admin/setting/doAppSave"
                           method="post" id="form">
                         <input type="hidden" name="app.id" value="#(app.id ??)">
                         <div class="box-body ">
@@ -121,7 +121,7 @@
                                     #(ai.name ??)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/setting/api/#(ai.id)" style="color: #006505">编辑</a> |
+                                            <a href="#(CPATH)/admin/setting/api/#(ai.id)" style="color: #006505">编辑</a> |
                                             <a href="#(ai.url ??)" target="_blank" style="color: #006505">详情</a> |
                                             <a href="javascript:;" onclick="disable('#(ai.id??)')" style="color: #a00">禁用</a>
                                             |

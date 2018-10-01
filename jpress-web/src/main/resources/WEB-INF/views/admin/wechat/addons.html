@@ -4,7 +4,7 @@
 <script>
 
     function doEnableAddon(id) {
-        $.get("/admin/wechat/doEnableAddon?id=" + id, function (result) {
+        $.get("#(CPATH)/admin/wechat/doEnableAddon?id=" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -15,7 +15,7 @@
 
 
     function doCloseAddon(id) {
-        $.get("/admin/wechat/doCloseAddon?id=" + id, function (result) {
+        $.get("#(CPATH)/admin/wechat/doCloseAddon?id=" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {

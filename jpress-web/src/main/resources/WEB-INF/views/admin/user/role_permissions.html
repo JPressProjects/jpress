@@ -21,7 +21,7 @@
 
     function addRolePermission(roleId, permissionId) {
         $.ajax({
-            url: "/admin/user/addRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            url: "#(CPATH)/admin/user/addRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
             success: function (result) {
                 if (result.state == "ok") {
                     toastr.success('操作成功。');
@@ -34,7 +34,7 @@
 
     function delRolePermission(roleId, permissionId) {
         $.ajax({
-            url: "/admin/user/delRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            url: "#(CPATH)/admin/user/delRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
             success: function (result) {
                 if (result.state == "ok") {
                     toastr.success('操作成功。');
@@ -109,11 +109,11 @@
 
                             <div class="col-xs-12" style="margin-left: 15px">
                                 <div class="btn-group">
-                                    <a href="/admin/user/rolePermissions/#(role.id)" id="group-all"
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)" id="group-all"
                                        class="btn btn-default">全部</a>
-                                    <a href="/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
                                        class="btn btn-default">菜单</a>
-                                    <a href="/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
                                        class="btn btn-default">URL</a>
                                 </div>
                             </div>

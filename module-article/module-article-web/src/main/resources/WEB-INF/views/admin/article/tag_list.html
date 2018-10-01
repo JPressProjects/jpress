@@ -7,7 +7,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    location.href = "/admin/article/tag";
+                    location.href = "#(CPATH)/admin/article/tag";
                 } else {
                     toastr.error(data.message, '操作失败');
                 }
@@ -21,7 +21,7 @@
 
     $('.del-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("/admin/article/doCategoryDel/" + id, function (result) {
+        $.get("#(CPATH)/admin/article/doCategoryDel/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -33,7 +33,7 @@
 
     $('.addtomenu-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("/admin/article/doAddCategoryToMenu/" + id, function (result) {
+        $.get("#(CPATH)/admin/article/doAddCategoryToMenu/" + id, function (result) {
             if ("ok" != result.state) {
                 toastr.error(result.message);
             } else {
@@ -67,7 +67,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/article/doCategorySave"
+                          action="#(CPATH)/admin/article/doCategorySave"
                           id="form"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
@@ -171,7 +171,7 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/tag/#(category.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/article/tag/#(category.id)">编辑</a> |
                                             <a href="javascript:;" class="addtomenu-action" data-id="#(category.id)">添加到菜单</a>
                                             |
                                             <a href="javascript:;" class="del-action red-action"

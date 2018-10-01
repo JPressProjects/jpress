@@ -330,6 +330,44 @@ public class _ArticleController extends AdminControllerBase {
 
 
     /**
+     * 批量删除评论
+     */
+    public void doCommentDelByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(commentService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+    }
+
+
+    /**
+     * 批量审核评论
+     */
+    public void doCommentAuditByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? Ret.ok() : Ret.fail());
+    }
+
+
+    /**
      * 修改评论状态
      */
     public void doCommentStatusChange(Long id, String status) {
@@ -354,8 +392,12 @@ public class _ArticleController extends AdminControllerBase {
             return;
         }
 
-        Set<String> idsSttrings = StrUtils.splitToSet(ids, ",");
-        render(articleService.deleteByIds(idsSttrings.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(articleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 

@@ -33,7 +33,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from article where id in  " + toSqlArrayString(ids)) > 0;
+        return Db.update("delete from article where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         String select = "select * ";
         StringBuilder from = new StringBuilder("from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(toSqlArrayString(categoryIds));
+        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(categoryIds));
 
         return DAO.paginate(page, pagesize, select, from.toString());
     }
@@ -210,7 +210,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count) {
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(toSqlArrayString(categoryIds));
+        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(categoryIds));
 
         List<Object> paras = new ArrayList<>();
 
@@ -226,21 +226,21 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
 
-    private String toSqlArrayString(Object... ids) {
-        int iMax = ids.length - 1;
-        StringBuilder b = new StringBuilder();
-        b.append('(');
-        for (int i = 0; ; i++) {
-            String id = String.valueOf(ids[i]);
-            if (!StrUtils.isNumeric(id)) {
-                throw new IllegalArgumentException("id must is numeric");
-            }
-            b.append(id);
-            if (i == iMax)
-                return b.append(')').toString();
-            b.append(", ");
-        }
-    }
+//    private String toSqlArrayString(Object... ids) {
+//        int iMax = ids.length - 1;
+//        StringBuilder b = new StringBuilder();
+//        b.append('(');
+//        for (int i = 0; ; i++) {
+//            String id = String.valueOf(ids[i]);
+//            if (!StrUtils.isNumeric(id)) {
+//                throw new IllegalArgumentException("id must is numeric");
+//            }
+//            b.append(id);
+//            if (i == iMax)
+//                return b.append(')').toString();
+//            b.append(", ");
+//        }
+//    }
 
 
     /**

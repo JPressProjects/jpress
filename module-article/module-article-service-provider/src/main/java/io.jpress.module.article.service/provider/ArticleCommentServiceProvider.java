@@ -37,6 +37,16 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.update("delete from article_comment where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+    }
+
+    @Override
+    public boolean batchChangeStatusByIds(String status, Object... ids) {
+        return Db.update("update article_comment SET `status` = ? where id in  " + SqlUtils.buildInSqlPara(ids), status) > 0;
+    }
+
+    @Override
     public Page<ArticleComment> paginate(int page, int pageSize) {
         Page p = super.paginate(page, pageSize);
         articleService.join(p, "article_id");

@@ -22,6 +22,45 @@
         });
     }
 
+    function delByIds(ids) {
+        $.get("/admin/article/doCommentDelByIds?ids=" + ids, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您为选择任何要删除的内容');
+            return
+        }
+        delByIds(ids);
+    })
+
+
+    function auditByIds(ids) {
+        $.get("/admin/article/doCommentAuditByIds?ids=" + ids, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $("#batchAudit").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您为选择任何要删除的内容');
+            return
+        }
+        auditByIds(ids);
+    })
+
 </script>
 #end
 
@@ -76,9 +115,9 @@
                         </form>
 
                         <div class="row actionPanel">
-                            <div class="col-xs-12" >
-                                <button type="button" class="btn btn-primary checkAction"> 批量审核</button>
-                                <button type="button" class="btn btn-default checkAction"> 批量删除</button>
+                            <div class="col-xs-12">
+                                <button type="button" id="batchAudit" class="btn btn-primary checkAction"> 批量审核</button>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
 
@@ -90,7 +129,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" />
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -102,7 +141,7 @@
                             #for(comment : page.list)
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
+                                    <input class="dataItem" type="checkbox" value="#(comment.id)" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
                                     <a href="#(comment.user.detailUrl)">
@@ -118,9 +157,11 @@
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/commentReplay/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
+                                            <a href="javascript:;"
+                                               onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
                                             #else
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','normal')">审核</a> |
+                                            <a href="javascript:;"
+                                               onclick="doChangeStatus('#(comment.id)','normal')">审核</a> |
                                             #end
                                             <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
                                                class="red-action">垃圾箱</a> |

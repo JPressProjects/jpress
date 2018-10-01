@@ -43,5 +43,21 @@ public class SqlUtils {
         }
     }
 
+    public static String buildInSqlPara(Object... ids) {
+        int iMax = ids.length - 1;
+        StringBuilder b = new StringBuilder();
+        b.append('(');
+        for (int i = 0; ; i++) {
+            String id = String.valueOf(ids[i]);
+            if (!StrUtils.isNumeric(id)) {
+                throw new IllegalArgumentException("id must is numeric");
+            }
+            b.append(id);
+            if (i == iMax)
+                return b.append(')').toString();
+            b.append(", ");
+        }
+    }
+
 
 }

@@ -36,6 +36,25 @@ public interface ArticleCommentService {
 
 
     /**
+     * 删除多个id
+     *
+     * @param ids
+     * @return
+     */
+    public boolean deleteByIds(Object... ids);
+
+
+    /**
+     * 批量修改状态
+     *
+     * @param status
+     * @param ids
+     * @return
+     */
+    public boolean batchChangeStatusByIds(String status, Object... ids);
+
+
+    /**
      * delete model
      *
      * @param model

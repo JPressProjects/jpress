@@ -1,6 +1,7 @@
 package io.jpress.web.front;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
@@ -13,6 +14,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -70,8 +72,72 @@ public class UserController extends TemplateControllerBase {
         render("user_register.html", default_user_register_template);
     }
 
+
     public void doRegister() {
-        validateCaptcha("captcha");
+
+
+        String username = getPara("username");
+        String email = getPara("email");
+        String pwd = getPara("pwd");
+        String confirmPwd = getPara("confirmPwd");
+
+        if (StrUtils.isBlank(username)) {
+            renderJson(Ret.fail().set("message", "username must not be empty").set("errorCode", 1));
+            return;
+        }
+
+        if (StrUtils.isBlank(email)) {
+            renderJson(Ret.fail().set("message", "email must not be empty").set("errorCode", 2));
+            return;
+        }
+
+        if (StrUtils.isBlank(pwd)) {
+            renderJson(Ret.fail().set("message", "password must not be empty").set("errorCode", 3));
+            return;
+        }
+
+        if (StrUtils.isBlank(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "confirm password must not be empty").set("errorCode", 4));
+            return;
+        }
+
+        if (pwd.equals(confirmPwd) == false) {
+            renderJson(Ret.fail().set("message", "confirm password must equals password").set("errorCode", 5));
+            return;
+        }
+
+        if (validateCaptcha("captcha") == false) {
+            renderJson(Ret.fail().set("message", "captcha is error").set("errorCode", 6));
+            return;
+        }
+
+
+        User user = userService.findFistByUsername(username);
+        if (user != null) {
+            renderJson(Ret.fail().set("message", "username exist").set("errorCode", 10));
+            return;
+        }
+
+        user = userService.findFistByEmail(email);
+        if (user != null) {
+            renderJson(Ret.fail().set("message", "email exist").set("errorCode", 11));
+            return;
+        }
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        user = new User();
+        user.setUsername(username);
+        user.setEmail(email.toLowerCase());
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+        user.setCreated(new Date());
+        user.setStatus(User.STATUS_REG);
+
+        userService.save(user);
+
+        renderJson(Ret.ok());
     }
 
     /**

@@ -112,4 +112,8 @@ public interface UserService {
     public int findCountByStatus(String status);
 
     public boolean doChangeStatus(long id, String status);
+
+    public User findFistByUsername(String username);
+    
+    public User findFistByEmail(String email);
 }

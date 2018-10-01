@@ -81,5 +81,15 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return user.update();
     }
 
+    @Override
+    public User findFistByUsername(String username) {
+        return DAO.findFirstByColumn("username", username);
+    }
+
+    @Override
+    public User findFistByEmail(String email) {
+        return DAO.findFirstByColumn("email", email);
+    }
+
 
 }

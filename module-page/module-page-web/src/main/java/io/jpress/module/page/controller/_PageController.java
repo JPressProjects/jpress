@@ -15,6 +15,7 @@ import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -87,6 +88,21 @@ public class _PageController extends AdminControllerBase {
     public void doDel() {
         Long id = getIdPara();
         render(sps.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doDelByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(sps.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 

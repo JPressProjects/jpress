@@ -7,6 +7,7 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
@@ -16,6 +17,11 @@ import java.util.List;
 @Bean
 @Singleton
 public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> implements SinglePageService {
+
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.update("delete from single_page where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+    }
 
     @Override
     public Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status) {

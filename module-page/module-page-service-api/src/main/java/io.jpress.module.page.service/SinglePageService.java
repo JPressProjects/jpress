@@ -35,6 +35,15 @@ public interface SinglePageService {
 
 
     /**
+     * 删除多个id
+     *
+     * @param ids
+     * @return
+     */
+    public boolean deleteByIds(Object... ids);
+
+
+    /**
      * delete model
      *
      * @param model

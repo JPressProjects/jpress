@@ -38,10 +38,10 @@ public interface ArticleService {
     /**
      * 删除多个id
      *
-     * @param id
+     * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... id);
+    public boolean deleteByIds(Object... ids);
 
 
     /**

@@ -19,16 +19,11 @@
     <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
     <![endif]-->
 
-    <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
-    <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
-    <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
-    <script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
-    <script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
-    <script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
-    <script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
-    <script src="#(CPATH)/static/ucenter/jpressucenter.js"></script>
-    <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
-
+    <script>
+        var jpress = {
+            cpath: '#(CPATH)'
+        }
+    </script>
     #@css?()
 
 </head>
@@ -41,6 +36,16 @@
     #include("./_footer.html")
 
 </div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
+<script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
+<script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
+<script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
+<script src="#(CPATH)/static/ucenter/jpressucenter.js"></script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 
 <script>
     $('#form').on('submit', function () {
@@ -60,7 +65,6 @@
         return false;
     });
 </script>
-
 
 #@script?()
 </body>

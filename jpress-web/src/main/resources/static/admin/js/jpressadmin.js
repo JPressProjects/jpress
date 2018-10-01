@@ -10,7 +10,6 @@ $(document).ready(function () {
 
     initImageBrowserButton();
 
-
 });
 
 
@@ -24,12 +23,12 @@ function initImageBrowserButton() {
             shadeClose: true,
             shade: 0.5,
             area: ['80%', '80%'],
-            content: '/admin/attachment/browse',
+            content: jpress.cpath + '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
                     var img = imgBrowserBtn.attr("for-src");
                     var input = imgBrowserBtn.attr("for-input");
-                    $("#" + img).attr("src", layer.data.src);
+                    $("#" + img).attr("src", jpress.cpath + layer.data.src);
                     $("#" + input).val(layer.data.src);
                 }
             }
@@ -44,8 +43,8 @@ function initImageBrowserButton() {
 function initMenu() {
 
     var pathName = location.pathname;
-    if ("/admin" == pathName || "/admin/" == pathName) {
-        pathName = "/admin/index"
+    if (jpress.cpath + "/admin" == pathName || jpress.cpath + "/admin/" == pathName) {
+        pathName = jpress.cpath + "/admin/index"
     }
 
     var activeTreeview, activeLi;
@@ -139,8 +138,8 @@ function initEditor(editor, height) {
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
-        filebrowserImageUploadUrl: '/commons/ckeditor/upload',
-        filebrowserBrowseUrl: '/admin/attachment/browse',
+        filebrowserImageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        filebrowserBrowseUrl: jpress.cpath + '/admin/attachment/browse',
         language: 'zh-cn'
     });
 
@@ -179,7 +178,7 @@ function openlayer(ed) {
         shadeClose: true,
         shade: 0.5,
         area: ['80%', '80%'],
-        content: '/admin/attachment/browse',
+        content: jpress.cpath + '/admin/attachment/browse',
         end: function () {
             if (layer.data.src != null) {
                 ed.data.getContentElement('info', 'txtUrl').setValue(layer.data.src);
@@ -194,7 +193,7 @@ function initOptionSubmit() {
     $('#optionForm').on('submit', function () {
         $(this).ajaxSubmit({
             type: "post",
-            url: "/admin/option/save",
+            url: jpress.cpath + "/admin/option/save",
             success: function (data) {
                 if (data.state == "ok") {
                     toastr.success('保存成功。');

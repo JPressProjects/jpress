@@ -1,17 +1,7 @@
 $(document).ready(function () {
-
-
     // 设置当前选中菜单
     initMenu();
-
-
-
 });
-
-
-
-
-
 
 
 /**
@@ -20,8 +10,8 @@ $(document).ready(function () {
 function initMenu() {
 
     var pathName = location.pathname;
-    if ("/ucenter" == pathName || "/ucenter/" == pathName) {
-        pathName = "/ucenter/index"
+    if (jpress.cpath + "/ucenter" == pathName || jpress.cpath + "/ucenter/" == pathName) {
+        pathName = jpress.cpath + "/ucenter/index"
     }
 
     var activeTreeview, activeLi;
@@ -35,9 +25,6 @@ function initMenu() {
                 activeLi = $(this).parent();
                 return false;
             } else if (pathName.indexOf(href) == 0) {
-                // li.addClass("active");
-                // $(this).parent().addClass("active");
-                // return false;
                 activeTreeview = li;
                 activeLi = $(this).parent();
             }
@@ -53,8 +40,6 @@ function initMenu() {
 }
 
 
-
-
 function editorUpdate() {
     for (instance in CKEDITOR.instances)
         CKEDITOR.instances[instance].updateElement();
@@ -63,9 +48,9 @@ function editorUpdate() {
 
 var dialogShowEvent;
 
-function initEditor(editor,height) {
+function initEditor(editor, height) {
 
-    height =  height || 467;
+    height = height || 467;
 
     CKEDITOR.config.toolbar =
         [
@@ -87,7 +72,7 @@ function initEditor(editor,height) {
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
-        filebrowserImageUploadUrl: '/commons/ckeditor/upload',
+        filebrowserImageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
         language: 'zh-cn'
     });
 

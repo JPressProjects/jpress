@@ -90,7 +90,7 @@
                     <div class="my-row">
                         #for(attachment : page.list)
                         <div class="attachment_item" data-aid="#(attachment.id ??)">
-                            <img src="#(attachment.path ??)"
+                            <img src="#(CPATH)#(attachment.path ??)"
                                  title="#(attachment.title ??)"
                                  alt="#(attachment.title ??)">
                         </div>

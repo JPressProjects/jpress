@@ -29,7 +29,7 @@
             shadeClose: true,
             shade: 0.6,
             area: ['70%', '90%'],
-            content: '/admin/attachment/detail/' + id,
+            content: '#(CPATH)/admin/attachment/detail/' + id,
             end: function () {
                 if (layer.data.needReload == true) {
                     location.reload();
@@ -89,7 +89,7 @@
                             <div class="row">
                                 #for(attachment : page.list)
                                 <div class="attachment_item">
-                                    <img src="#(attachment.path ??)" title="#(attachment.title ??)"
+                                    <img src="#(CPATH)#(attachment.path ??)" title="#(attachment.title ??)"
                                          alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
                                 </div>
                                 #end

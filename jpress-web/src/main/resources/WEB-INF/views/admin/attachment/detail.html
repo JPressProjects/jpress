@@ -57,7 +57,7 @@
 <div class="row">
     <div class="col-xs-7" style="background: #ffffff" id="image-box">
         <div class="row">
-            <img src="#(attachment.path ??)" style="width: 100%">
+            <img src="#(CPATH)#(attachment.path ??)" style="width: 100%">
         </div>
     </div>
 
@@ -96,7 +96,7 @@
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
                     <div class="form-group">
                         <label>URL</label>
-                        <textarea class="form-control" rows="2" readonly >#(attachment.path ??)</textarea>
+                        <textarea class="form-control" rows="2" readonly >#(CPATH)#(attachment.path ??)</textarea>
                     </div>
 
                     <div class="form-group">

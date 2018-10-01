@@ -33,6 +33,15 @@ public interface WechatReplayService {
      */
     public boolean deleteById(Object id);
 
+    /**
+     * 删除多个id
+     *
+     * @param ids
+     * @return
+     */
+    public boolean deleteByIds(Object... ids);
+
+
 
     /**
      * delete model

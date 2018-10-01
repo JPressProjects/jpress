@@ -12,6 +12,27 @@
             }
         });
     }
+
+    function delByIds(ids) {
+        $.get("/admin/wechat/doDelReplayByIds?ids=" + ids, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        delByIds(ids);
+    })
+
+
 </script>
 
 #end
@@ -61,7 +82,7 @@
                             <div class="col-xs-12">
                                 <a href="/admin/wechat/replayWrite" class="btn btn-primary "> <i
                                         class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" class="btn btn-default checkAction"> 批量删除</button>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
 
@@ -82,7 +103,7 @@
 
                             #for(replay : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
+                                <td><input class="dataItem" type="checkbox" value="#(replay.id)" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
                                     <strong>

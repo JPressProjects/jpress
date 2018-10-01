@@ -56,7 +56,7 @@
     $("#batchDel").click(function () {
         var ids = getSelectedIds();
         if (ids == "") {
-            alert('您为选择任何要删除的内容');
+            alert('您未选择任何内容');
             return
         }
         delByIds(ids);

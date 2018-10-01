@@ -1,5 +1,6 @@
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
@@ -14,6 +15,11 @@ import javax.inject.Singleton;
 @Singleton
 public class WechatReplayServiceProvider extends JbootServiceBase<WechatReplay> implements WechatReplayService {
 
+
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.update("delete from wechat_replay where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+    }
 
     @Override
     public Page<WechatReplay> _paginate(int page, int pageSize, String keyword, String content) {

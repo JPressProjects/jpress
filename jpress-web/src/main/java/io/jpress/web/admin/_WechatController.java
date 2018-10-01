@@ -2,6 +2,7 @@ package io.jpress.web.admin;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -14,6 +15,7 @@ import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -25,7 +27,7 @@ import java.util.List;
 public class _WechatController extends AdminControllerBase {
 
     @Inject
-    private WechatReplayService wrs;
+    private WechatReplayService replayService;
 
     @Inject
     private OptionService optionService;
@@ -51,7 +53,7 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "自动回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
-        Page<WechatReplay> page = wrs._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
+        Page<WechatReplay> page = replayService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
         setAttr("page", page);
         render("wechat/replay_list.html");
     }
@@ -59,8 +61,23 @@ public class _WechatController extends AdminControllerBase {
 
     public void doDelReplay() {
         Long id = getIdPara();
-        wrs.deleteById(id);
+        replayService.deleteById(id);
         renderJson(Ret.ok());
+    }
+
+    public void doDelReplayByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(replayService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 
@@ -85,7 +102,7 @@ public class _WechatController extends AdminControllerBase {
     public void replayWrite() {
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            WechatReplay wechatReplay = wrs.findById(id);
+            WechatReplay wechatReplay = replayService.findById(id);
             setAttr("replay", wechatReplay);
         }
         render("wechat/replay_write.html");
@@ -93,7 +110,7 @@ public class _WechatController extends AdminControllerBase {
 
     public void doReplaySave() {
         WechatReplay replay = getBean(WechatReplay.class, "");
-        wrs.saveOrUpdate(replay);
+        replayService.saveOrUpdate(replay);
         redirect("/admin/wechat/keyword");
     }
 

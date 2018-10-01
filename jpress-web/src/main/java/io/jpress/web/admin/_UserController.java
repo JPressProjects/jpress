@@ -66,6 +66,9 @@ public class _UserController extends AdminControllerBase {
 
         setAttr("page", page);
 
+        List<Role> roles = roleService.findAll();
+        setAttr("roles",roles);
+
         render("user/list.html");
     }
 

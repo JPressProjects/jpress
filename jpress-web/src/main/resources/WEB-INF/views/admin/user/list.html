@@ -23,6 +23,47 @@
         });
     }
 
+    function delByIds(ids) {
+        $.get("/admin/user/doUserDelByIds?ids=" + ids, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您为选择任何要删除的内容');
+            return
+        }
+        delByIds(ids);
+    })
+
+
+    function changeRoleByIdsByIds(ids, roleId) {
+        $.get("/admin/user/doChangeRoleByIds?ids=" + ids + "&roleId=" + roleId, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $(".changeRoleAction").click(function () {
+        var ids = getSelectedIds();
+        var roleId = $(this).attr("data-rid");
+        if (ids == "") {
+            alert('您为选择任何内容');
+            return
+        }
+        changeRoleByIdsByIds(ids, roleId);
+    })
+
+
 </script>
 #end
 
@@ -77,18 +118,24 @@
                         <div class="row actionPanel">
                             <div class="col-xs-12">
                                 <a href="/admin/user/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" class="btn btn-default checkAction"> 批量删除</button>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                                 <div class="btn-group checkAction">
                                     <button type="button" class="btn btn-default">将角色修改为</button>
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                             aria-expanded="false">
                                         <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
+                                        <span class="sr-only">将角色修改为</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">读者</a></li>
-                                        <li><a href="#">超级管理员</a></li>
-                                        <li><a href="#">运营小编</a></li>
+                                        #for(role : roles)
+                                        <li>
+                                            <a data-rid="#(role.id)"
+                                               href="javascript:;"
+                                               class="changeRoleAction">
+                                                #(role.name??)
+                                            </a>
+                                        </li>
+                                        #end
                                     </ul>
                                 </div>
                             </div>
@@ -101,8 +148,9 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 10px"><input name="dataItem" onchange="checkAll(this)" type="checkbox"
-                                                               value="0"/></th>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
                                 <th style="width: 10px">#</th>
                                 <th style="width: 20%">登录名</th>
                                 <th>昵称</th>
@@ -114,12 +162,12 @@
                             #for(user : page.list )
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
+                                    <input class="dataItem" type="checkbox" value="#(user.id)" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>#(user.id ??)</td>
                                 <td>
                                     <strong>
-                                        <a href="/admin/user/detail/#(user.id)" >
+                                        <a href="/admin/user/detail/#(user.id)">
                                             #(user.username ??)
                                         </a>
                                         #if(user.isStatusReg()) （未激活） #end
@@ -129,17 +177,22 @@
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/user/detail/#(user.id)" style="color: #006505">编辑</a> |
-                                            <a href="/admin/user/permissions/#(user.id)" onclick="draft('#(user.id??)')" >权限</a> |
+                                            <a href="/admin/user/permissions/#(user.id)"
+                                               onclick="draft('#(user.id??)')">权限</a> |
                                             #if(user.isStatusOk() == false)
-                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','ok')" >激活正常</a> |
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','ok')">激活正常</a>
+                                            |
                                             #end
                                             #if(user.isStatusReg() == false)
-                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','registered')" style="color: #a00">未激活</a> |
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','registered')"
+                                               style="color: #a00">未激活</a> |
                                             #end
                                             #if(user.isStatusLocked() == false)
-                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','locked')" style="color: #a00">冻结</a> |
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','locked')"
+                                               style="color: #a00">冻结</a> |
                                             #end
-                                            <a href="javascript:;" onclick="doDel('#(user.id)')" style="color: #a00">删除</a>
+                                            <a href="javascript:;" onclick="doDel('#(user.id)')"
+                                               style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>

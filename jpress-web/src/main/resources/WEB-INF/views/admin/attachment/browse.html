@@ -57,6 +57,12 @@
         }
     });
 
+    $(".attachment_item").click(function () {
+        var src = $(this).children().attr("data-path");
+        parent.layer.data.src = src;
+        parent.layer.closeAll();
+    })
+
 </script>
 #end
 
@@ -91,6 +97,7 @@
                         #for(attachment : page.list)
                         <div class="attachment_item" data-aid="#(attachment.id ??)">
                             <img src="#(CPATH)#(attachment.path ??)"
+                                 data-path="#(attachment.path ??)"
                                  title="#(attachment.title ??)"
                                  alt="#(attachment.title ??)">
                         </div>

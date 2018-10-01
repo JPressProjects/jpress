@@ -10,7 +10,6 @@ import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConstants;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
-import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -48,8 +47,7 @@ public class _AdminController extends AdminControllerBase {
                 : us.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
-            User userModel = ret.getAs("user");
-            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, userModel.getId());
+            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, ret.getLong("user_id"));
         }
 
         renderJson(ret);

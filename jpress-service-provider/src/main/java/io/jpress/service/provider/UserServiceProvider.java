@@ -66,7 +66,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             return Ret.fail("message", "用户名或密码不正确");
         }
 
-        return Ret.ok().set("user", user);
+        return Ret.ok().set("user_id", user.getId());
     }
 
     @Override

@@ -58,8 +58,7 @@ public class UserController extends TemplateControllerBase {
                 : userService.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
-            User userModel = ret.getAs("user");
-            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, userModel.getId());
+            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, ret.getLong("user_id"));
         }
 
         renderJson(ret);

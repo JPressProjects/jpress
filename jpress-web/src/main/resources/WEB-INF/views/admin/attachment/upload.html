@@ -24,7 +24,7 @@
 <script>
     $('#cfile').fileupload({
         dropZone: $('#uploader'),
-        url: '/commons/attachment/upload',
+        url: '#(CPATH)/commons/attachment/upload',
         sequentialUploads: true,
         done: function (e, data) {
             if(data.result.state == "ok"){

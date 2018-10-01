@@ -128,11 +128,14 @@ public class UserController extends TemplateControllerBase {
 
         user = new User();
         user.setUsername(username);
+        user.setNickname(username);
+        user.setRealname(username);
         user.setEmail(email.toLowerCase());
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
         user.setStatus(User.STATUS_REG);
+        user.setCreateSource("web_register");
 
         userService.save(user);
 

@@ -46,7 +46,7 @@ public class UserInterceptor implements Interceptor {
         }
 
         user = userService.findById(uid);
-        if (user != null && user.isStatusOk()) {
+        if (user != null) {
             inv.getController().setAttr(JPressConstants.ATTR_LOGINED_USER, user);
         }
 

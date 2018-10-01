@@ -7,9 +7,8 @@ import com.jfinal.aop.Before;
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before({UserInterceptor.class, UserCenterInterceptor.class})
+@Before({UserInterceptor.class, UserMustLoginedInterceptor.class})
 public abstract class UserControllerBase extends ControllerBase {
-
 
 
 }

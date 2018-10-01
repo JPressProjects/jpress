@@ -19,12 +19,6 @@ public class UserCenterInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
-        if (UserInterceptor.getThreadLocalUser() == null) {
-            inv.getController().redirect("/user/login");
-            return;
-        }
-
-
         List<MenuGroup> ucenterMenus = MenuManager.me().getUcenterMenus();
         inv.getController().setAttr("ucenterMenus", ucenterMenus);
         inv.getController().setAttr("user", UserInterceptor.getThreadLocalUser());

@@ -135,6 +135,34 @@ public class _UserController extends AdminControllerBase {
         redirect("/admin/user/role");
     }
 
+    /**
+     * 删除角色
+     */
+    public void doRoleDel() {
+        roleService.deleteById(getIdPara());
+        renderJson(Ret.ok());
+    }
+
+
+    /**
+     * 批量删除角色
+     */
+    public void doRoleDelByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(roleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+    }
+
+
 
     public void delRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);

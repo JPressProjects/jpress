@@ -7,6 +7,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.Role;
 import io.jpress.service.RoleService;
 
@@ -18,6 +19,23 @@ import java.util.List;
 @Singleton
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
 
+    @Override
+    public boolean deleteById(Object id) {
+        return Db.tx(() -> {
+            Db.update("delete from user_role_mapping where role_id = ? ", id);
+            Db.update("delete from role_permission_mapping where role_id = ? ", id);
+            return RoleServiceProvider.super.deleteById(id);
+        });
+    }
+
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.tx(() -> {
+            Db.update("delete from user_role_mapping where role_id in  " + SqlUtils.buildInSqlPara(ids));
+            Db.update("delete from role_permission_mapping where role_id in  " + SqlUtils.buildInSqlPara(ids));
+            return Db.update("delete from role where id in " + SqlUtils.buildInSqlPara(ids)) > 0;
+        });
+    }
 
     @Override
     public boolean isSupperAdmin(long userId) {

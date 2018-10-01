@@ -1,5 +1,7 @@
 package io.jpress.core.menu;
 
+import com.jfinal.core.JFinal;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -39,7 +41,7 @@ public class MenuItem {
     }
 
     public String getUrl() {
-        return url;
+        return JFinal.me().getContextPath() + url;
     }
 
     public void setUrl(String url) {

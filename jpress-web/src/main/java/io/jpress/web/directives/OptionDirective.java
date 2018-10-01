@@ -31,8 +31,12 @@ public class OptionDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#option(...) argument must not be empty");
         }
 
+        String defaultValue = getParam(1, "", scope);
+
         String value = optionService.findByKey(key);
-        if (value == null) value = "";
+        if (value == null || value == "") {
+            value = defaultValue;
+        }
 
         try {
             writer.write(value);

@@ -92,7 +92,8 @@
                                         <i class="fa fa-fw fa-image"></i> 选择图片
                                     </button>
                                     <br/>
-                                    <img src="#(CPATH)/static/commons/img/avatar.png" id="waterimg">
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')"
+                                         id="waterimg">
                                     <input type="hidden" id="imginput" name="attachment_watermark_img"
                                            value="#option('attachment_watermark_img')">
                                 </div>

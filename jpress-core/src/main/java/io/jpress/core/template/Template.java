@@ -188,7 +188,7 @@ public class Template {
     }
 
     public String getWebAbsolutePath() {
-        return "/templates/" + folder;
+        return  "/templates/" + folder;
     }
 
     /**

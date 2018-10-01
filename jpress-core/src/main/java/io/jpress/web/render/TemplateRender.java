@@ -1,5 +1,6 @@
 package io.jpress.web.render;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
@@ -121,9 +122,9 @@ public class TemplateRender extends Render {
 
 
             if (url.startsWith("./")) {
-                url = template.getWebAbsolutePath() + url.substring(1);
+                url = JFinal.me().getContextPath() + template.getWebAbsolutePath() + url.substring(1);
             } else {
-                url = template.getWebAbsolutePath() + "/" + url;
+                url = JFinal.me().getContextPath() + template.getWebAbsolutePath() + "/" + url;
             }
 
             if (cdnDomain == null) {

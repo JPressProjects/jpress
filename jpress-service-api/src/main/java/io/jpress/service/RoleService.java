@@ -114,4 +114,6 @@ public interface RoleService {
 
     public boolean doResetUserRoles(long userId, Long... RoleIds);
 
+    public boolean doChangeRoleByIds(Long roleId, Object... ids);
+
 }

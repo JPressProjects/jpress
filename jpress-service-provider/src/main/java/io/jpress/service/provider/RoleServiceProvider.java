@@ -2,6 +2,7 @@ package io.jpress.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
@@ -170,6 +171,37 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             if (role != null) roles.add(role);
         }
         return roles;
+    }
+
+
+    @Override
+    public boolean doChangeRoleByIds(Long roleId, Object... ids) {
+
+        for (Object id : ids) {
+            //删除role缓存
+            Jboot.me().getCache().remove("role", "user_roles:" + id);
+        }
+
+        return Db.tx(() -> {
+
+            //清空用户的其他所有角色
+            for (Object id : ids) {
+                Db.delete("delete from user_role_mapping where user_id = ? ", id);
+            }
+
+            //添加新的映射
+            List<Record> records = new ArrayList<>();
+            for (Object id : ids) {
+                Record record = new Record();
+                record.set("user_id", id);
+                record.set("role_id", roleId);
+                records.add(record);
+            }
+
+            Db.batchSave("user_role_mapping", records, records.size());
+
+            return true;
+        });
     }
 
 }

@@ -35,6 +35,8 @@ public interface UserService {
     public boolean deleteById(Object id);
 
 
+    public boolean deleteByIds(Object... ids);
+
     /**
      * delete model
      *

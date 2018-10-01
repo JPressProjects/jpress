@@ -5,6 +5,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.FileUtils;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -25,6 +26,7 @@ import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -67,7 +69,7 @@ public class _UserController extends AdminControllerBase {
         setAttr("page", page);
 
         List<Role> roles = roleService.findAll();
-        setAttr("roles",roles);
+        setAttr("roles", roles);
 
         render("user/list.html");
     }
@@ -266,6 +268,48 @@ public class _UserController extends AdminControllerBase {
     public void doUserDel() {
         userService.deleteById(getIdPara());
         renderJson(Ret.ok());
+    }
+
+    /**
+     * 删除评论
+     */
+    public void doUserDelByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(userService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+    }
+
+
+    /**
+     * 删除评论
+     */
+    public void doChangeRoleByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        if (idsSet == null || idsSet.isEmpty()) {
+            renderJson(Ret.fail());
+            return;
+        }
+        Long roleId = getParaToLong("roleId");
+        if (roleId == null || roleId <= 0) {
+            renderJson(Ret.fail());
+            return;
+        }
+        render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 

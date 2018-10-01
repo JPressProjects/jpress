@@ -18,6 +18,12 @@ import javax.inject.Singleton;
 public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
 
     @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.update("delete from user where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+    }
+
+
+    @Override
     public Page<User> _paginate(int page, int pagesize, String username, String email, String status) {
 
         Columns columns = Columns.create("status", status);

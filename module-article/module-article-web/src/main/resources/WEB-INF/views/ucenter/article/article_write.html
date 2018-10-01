@@ -1,15 +1,15 @@
 #@_ucenter_layout()
 #define script()
-<script src="/static/components/ckeditor/ckeditor.js"></script>
-<script src="/static/components/editable/js/bootstrap-editable.min.js"></script>
-<script src="/static/components/selectize/selectize.min.js"></script>
-<script src="/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
 
     $('#cfile').fileupload({
-        url: '/commons/attachment/upload',
+        url: '#(CPATH)/commons/attachment/upload',
         sequentialUploads: true,
         done: function (e, data) {
             if (data.result.state == "ok") {
@@ -63,7 +63,7 @@
 
 
     $("#removeThumbnail").on("click", function () {
-        $("#thumbnail").attr("src", "/static/commons/img/nothumbnail.jpg");
+        $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
         $("#articleThumbnail").val("");
     })
 
@@ -71,10 +71,10 @@
 </script>
 #end
 #define css()
-<link href="/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
-<link href="/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
-<link href="/static/components/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
 <style>
     .popover-content {
         padding: 9px 14px;

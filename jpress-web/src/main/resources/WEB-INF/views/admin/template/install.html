@@ -1,7 +1,7 @@
 #@layout()
 
 #define css()
-<link href="/static/components/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
 <style>
     .qq-gallery.qq-uploader {
         border: none;
@@ -33,7 +33,7 @@
 #end
 
 #define script()
-<script src="/static/components/fine-uploader/fine-uploader.min.js"></script>
+<script src="#(CPATH)/static/components/fine-uploader/fine-uploader.min.js"></script>
 
 <script type="text/template" id="qq-template">
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="或拖动模板到这里进行安装...">

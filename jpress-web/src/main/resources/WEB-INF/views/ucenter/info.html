@@ -1,8 +1,8 @@
 #@_ucenter_layout()
 
 #define script()
-<script src="/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
 
     $('#birthday').datepicker({
@@ -13,7 +13,7 @@
 #end
 
 #define css()
-<link rel="stylesheet" href="/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
 #end
 
 #define content()

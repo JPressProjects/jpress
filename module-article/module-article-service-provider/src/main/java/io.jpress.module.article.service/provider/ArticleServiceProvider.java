@@ -32,6 +32,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     private UserService userService;
 
     @Override
+    public boolean deleteByIds(Object... ids) {
+        return Db.update("delete from article where id in  " + toSqlArrayString(ids)) > 0;
+    }
+
+    @Override
     public Page<Article> paginate(int page, int pagesize) {
         Page<Article> articlePage = DAO.paginate(page, pagesize, "id desc");
         userService.join(articlePage, "user_id");
@@ -221,12 +226,16 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
 
-    private String toSqlArrayString(Long... ids) {
+    private String toSqlArrayString(Object... ids) {
         int iMax = ids.length - 1;
         StringBuilder b = new StringBuilder();
         b.append('(');
         for (int i = 0; ; i++) {
-            b.append(String.valueOf(ids[i]));
+            String id = String.valueOf(ids[i]);
+            if (!StrUtils.isNumeric(id)) {
+                throw new IllegalArgumentException("id must is numeric");
+            }
+            b.append(id);
             if (i == iMax)
                 return b.append(')').toString();
             b.append(", ");

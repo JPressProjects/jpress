@@ -25,6 +25,10 @@ public class ArticleUrlDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         Article article = getParam(0, scope);
+        if (article == null){
+            render(writer,"");
+            return;
+        }
 
         OptionService service = Jboot.bean(OptionService.class);
         Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);

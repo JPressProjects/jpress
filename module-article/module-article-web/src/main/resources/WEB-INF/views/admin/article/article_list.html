@@ -42,6 +42,25 @@
             }
         });
     }
+
+    function delByIds(ids) {
+        $.get("/admin/article/doDelByIds?ids=" + ids, function (result) {
+            if ("ok" != result.state) {
+                alert(result.message);
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您为选择任何要删除的内容');
+            return
+        }
+        delByIds(ids);
+    })
 </script>
 
 #end
@@ -84,7 +103,9 @@
                                         <select class="form-control" name="categoryId">
                                             <option value="">全部分类</option>
                                             #for(category : categories)
-                                            <option value="#(category.id ??)" #selectedIf(category.isCheck)>#(category.layerString)#(category.title ??)</option>
+                                            <option value="#(category.id ??)" #selectedIf(category.isCheck)>
+                                                #(category.layerString)#(category.title ??)
+                                            </option>
                                             #end
                                         </select>
                                     </div>
@@ -102,7 +123,7 @@
                             <div class="col-xs-12">
                                 <a href="/admin/article/write" class="btn btn-primary "> <i
                                         class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" class="btn btn-default checkAction"> 批量删除</button>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
 
@@ -126,7 +147,8 @@
 
                             #for(article : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="32" onchange="dataItemChange(this)"/>
+                                <td><input class="dataItem" type="checkbox" value="#(article.id)"
+                                           onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
                                     <strong>
@@ -138,20 +160,22 @@
                                     <div class="jp-actionblock">
                                         #if(article.isNormal())
                                         <div class="jp-actionitem">
-                                            <a href="/admin/article/write/#(article.id)" >编辑</a> |
+                                            <a href="/admin/article/write/#(article.id)">编辑</a> |
                                             <a href="javascript:;" onclick="draft('#(article.id??)')">草稿</a>
                                             |
-                                            <a href="javascript:;" onclick="trash('#(article.id??)')" class="red-action">垃圾箱</a>|
+                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
+                                               class="red-action">垃圾箱</a>|
                                             <a href="#articleUrl(article)" target="_blank" class="red-action">查看</a>
                                         </div>
                                         #elseif(article.isDraft())
                                         <div class="jp-actionitem">
                                             <a href="/admin/article/write/#(article.id)" style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="trash('#(article.id??)')" class="red-action">垃圾箱</a>
+                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
+                                               class="red-action">垃圾箱</a>
                                         </div>
                                         #else
                                         <div class="jp-actionitem">
-                                            <a href="javascript:;" onclick="draft('#(article.id??)')" >还原</a>
+                                            <a href="javascript:;" onclick="draft('#(article.id??)')">还原</a>
                                             |
                                             <a href="javascript:;" onclick="del('#(article.id??)')" class="red-action">永久删除</a>
                                         </div>

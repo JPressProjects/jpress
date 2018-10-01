@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -344,6 +345,17 @@ public class _ArticleController extends AdminControllerBase {
     public void doDel() {
         Long id = getIdPara();
         render(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doDelByIds() {
+        String ids = getPara("ids");
+        if (StrUtils.isBlank(ids)) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        Set<String> idsSttrings = StrUtils.splitToSet(ids, ",");
+        render(articleService.deleteByIds(idsSttrings.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 

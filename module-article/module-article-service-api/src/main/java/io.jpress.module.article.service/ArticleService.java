@@ -36,6 +36,15 @@ public interface ArticleService {
 
 
     /**
+     * 删除多个id
+     *
+     * @param id
+     * @return
+     */
+    public boolean deleteByIds(Object... id);
+
+
+    /**
      * delete model
      *
      * @param model

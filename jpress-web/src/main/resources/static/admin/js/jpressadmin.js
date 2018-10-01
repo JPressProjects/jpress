@@ -6,18 +6,12 @@ $(document).ready(function () {
     // 设置当前选中菜单
     initMenu();
 
-    // 设置弹出 toastr 提示内容
-    initToastr();
-
-
     initOptionSubmit();
 
     initImageBrowserButton();
 
 
 });
-
-
 
 
 function initImageBrowserButton() {
@@ -44,8 +38,6 @@ function initImageBrowserButton() {
 }
 
 
-
-
 /**
  * 设置当前选中菜单
  */
@@ -67,9 +59,6 @@ function initMenu() {
                 activeLi = $(this).parent();
                 return false;
             } else if (pathName.indexOf(href) == 0) {
-                // li.addClass("active");
-                // $(this).parent().addClass("active");
-                // return false;
                 activeTreeview = li;
                 activeLi = $(this).parent();
             }
@@ -97,6 +86,17 @@ function dataItemChange(checkbox) {
     })
 }
 
+function getSelectedIds() {
+    var selectedIds = "";
+    $(".dataItem").each(function () {
+        if ($(this).prop('checked')) {
+            selectedIds += $(this).val() + ",";
+        }
+    })
+
+    return selectedIds;
+}
+
 
 function initlayer() {
     layer.data = {}
@@ -107,7 +107,6 @@ function initlayer() {
 }
 
 
-
 function editorUpdate() {
     for (instance in CKEDITOR.instances)
         CKEDITOR.instances[instance].updateElement();
@@ -116,9 +115,9 @@ function editorUpdate() {
 
 var dialogShowEvent;
 
-function initEditor(editor,height) {
+function initEditor(editor, height) {
 
-    height =  height || 467;
+    height = height || 467;
 
     CKEDITOR.config.toolbar =
         [

@@ -2,173 +2,172 @@
 #@layout()
 #define content()
 <div class="container">
-<div class="ll-artical-content">
-            <h2 class="ll-artical-title">#(article.title ??)</h2>
-            <div class="ll-card-tag">
-                <div class="">
+    <div class="ll-artical-content">
+        <h2 class="ll-artical-title">#(article.title ??)</h2>
+        <div class="ll-card-tag">
+            <div class="">
+                <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                <span class="text-success">#(article.user.nickname ??)</span>
+            </div>
+            <div><i class="fa fa-clock-o"></i>#date(article.created)</div>
+            <div><i class="fa fa-eye"></i> #(article.view_count ?? 0)</div>
+            <div><i class="fa fa-commenting-o"></i> #(article.comment_count ?? 0)</div>
+        </div>
+        <div class="ll-artical">
+            #(article.content ??)
+        </div>
+
+
+        <div class="recommend-panel">
+            <h4 class="ll-title">相关文章</h4>
+            <div class="card-deck">
+                <div class="card">
+                    <a class="recommend-panel-link" href="lightlog-detail.html">
+                        <div class="recommend-panel-top">
+                            <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div class="recommend-panel-bottom">
+                            JPress下载、安装、导入Eclipse、运行教程
+                        </div>
+                    </a>
+                </div>
+                <div class="card">
+                    <a class="recommend-panel-link" href="lightlog-detail.html">
+                        <div class="recommend-panel-top">
+                            <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div class="recommend-panel-bottom">
+                            JPress下载、安装、导入Eclipse、运行教程
+                        </div>
+                    </a>
+                </div>
+                <div class="card">
+                    <a class="recommend-panel-link" href="lightlog-detail.html">
+                        <div class="recommend-panel-top">
+                            <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div class="recommend-panel-bottom">
+                            JPress下载、安装、导入Eclipse、运行教程
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="comment">
+            <h4 class="ll-title">发表评论</h4>
+
+            <form class="ll-comment-from">
+                <div>
+                    <span class="ll-comment-from-icon"><i class="fa fa-pencil"></i></span>
+                    <textarea placeholder="想说就说吧..." rows="1"></textarea>
+
+                </div>
+                <button type="button">发射</button>
+                <span class="clearfix"></span>
+            </form>
+
+
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
+                    <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                </div>
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>海哥</div>
+                        <div>2017-10-01 18:00</div>
+                    </div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
+                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
+            </div>
+
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
                     <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    <span class="text-success">海哥</span>
                 </div>
-                <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                <div><i class="fa fa-eye"></i> 156</div>
-                <div><i class="fa fa-commenting-o"></i> 2</div>
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>jean</div>
+                        <div>2017-10-01 18:00</div>
+                    </div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
+                    <!--comment-secondary-panel-->
+                    <div class="comment-secondary-panel">
+                        <div class="comment-panel-portrait">
+                            <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                        </div>
+                        <div class="comment-panel-content">
+                            <div class="comment-panel-content-item">
+                                <div>海哥</div>
+                                <div>2017-10-01 18:00</div>
+                            </div>
+                            <div class="comment-panel-content-main">稍等我看下。。。。</div>
+                        </div>
+                        <span class="clearfix"></span>
+                    </div>
+                    <!---->
+                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
             </div>
-            <div class="ll-artical">
-                #(article.content ??)
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
+                    <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                </div>
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>海哥</div>
+                        <div>2017-10-01 18:00</div>
+                    </div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
+                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
             </div>
-
-
-            <div class="recommend-panel">
-                <h4 class="ll-title">相关文章</h4>
-                <div class="card-deck">
-                    <div class="card">
-                        <a class="recommend-panel-link" href="lightlog-detail.html">
-                            <div class="recommend-panel-top">
-                               <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
-                            </div>
-                            <div class="recommend-panel-bottom">
-                                JPress下载、安装、导入Eclipse、运行教程
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a class="recommend-panel-link" href="lightlog-detail.html">
-                            <div class="recommend-panel-top">
-                                <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
-                            </div>
-                            <div class="recommend-panel-bottom">
-                                JPress下载、安装、导入Eclipse、运行教程
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a class="recommend-panel-link" href="lightlog-detail.html">
-                            <div class="recommend-panel-top">
-                                <img src="img/blog-image.jpg" class="img-fluid" alt="Responsive image">
-                            </div>
-                            <div class="recommend-panel-bottom">
-                                JPress下载、安装、导入Eclipse、运行教程
-                            </div>
-                        </a>
-                    </div>
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
+                    <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
                 </div>
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>海哥</div>
+                        <div>2017-10-01 18:00</div>
+                    </div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
+                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
             </div>
-            <div class="comment">
-                <h4 class="ll-title">发表评论</h4>
-
-                <form class="ll-comment-from">
-                    <div>
-                        <span class="ll-comment-from-icon"><i class="fa fa-pencil"></i></span>
-                        <textarea placeholder="想说就说吧..." rows="1"></textarea>
-
-                    </div>
-                    <button type="button">发射</button>
-                    <span class="clearfix"></span>
-                </form>
-
-
-
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>海哥</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
+                    <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
                 </div>
-
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>海哥</div>
+                        <div>2017-10-01 18:00</div>
                     </div>
-                    <div class="comment-panel-content" >
-                        <div class="comment-panel-content-item">
-                            <div>jean</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                        <!--comment-secondary-panel-->
-                        <div class="comment-secondary-panel">
-                            <div class="comment-panel-portrait">
-                                <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                            </div>
-                            <div class="comment-panel-content">
-                                <div class="comment-panel-content-item">
-                                    <div>海哥</div>
-                                    <div>2017-10-01 18:00</div>
-                                </div>
-                                <div class="comment-panel-content-main">稍等我看下。。。。</div>
-                            </div>
-                            <span class="clearfix"></span>
-                        </div>
-                        <!---->
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
                 </div>
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>海哥</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
-                </div>
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>海哥</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
-                </div>
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>海哥</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
-                </div>
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>海哥</div>
-                            <div>2017-10-01 18:00</div>
-                        </div>
-                        <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
-                    </div>
-                    <span class="clearfix"></span>
-                    <div class="text-right text-primary"><a href="">回复</a></div>
-                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
             </div>
-</div>
+            <div class="comment-panel">
+                <div class="comment-panel-portrait">
+                    <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                </div>
+                <div class="comment-panel-content">
+                    <div class="comment-panel-content-item">
+                        <div>海哥</div>
+                        <div>2017-10-01 18:00</div>
+                    </div>
+                    <div class="comment-panel-content-main">我上传的是FTP，怎么安装？</div>
+                </div>
+                <span class="clearfix"></span>
+                <div class="text-right text-primary"><a href="">回复</a></div>
+            </div>
+        </div>
+    </div>
 </div>
 #end

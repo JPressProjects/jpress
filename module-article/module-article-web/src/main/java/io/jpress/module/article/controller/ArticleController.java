@@ -40,10 +40,27 @@ public class ArticleController extends TemplateControllerBase {
         Article article = getArticle();
         assertNotNull(article);
 
+        setSeoTitle(article.getTitle());
+        setSeoDescription(maxLength(article.getContent(),100));
+
         Long page = getParaToLong(1);
 
         setAttr("article", article);
         render(article.getHtmlView());
+    }
+
+    private String maxLength(String content, int maxLength) {
+        if (StrUtils.isBlank(content)) {
+            return content;
+        }
+
+        if (maxLength <= 0) {
+            throw new IllegalArgumentException("#maxLength(content,length) 参数错误，length必须大于0 ");
+        }
+
+        return content.length() <= maxLength ? content :
+                content.substring(0, maxLength);
+
     }
 
 

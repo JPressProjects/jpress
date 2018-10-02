@@ -111,13 +111,18 @@
                     </div>
                 </div>
                 <span class="clearfix"></span>
-                <div class="text-right text-primary"><a href="javascript:;" data-cid="#(comment.id)"
-                                                        data-author="#(comment.author ??)" class="toReplay">回复</a></div>
+                <div class="text-right text-primary">
+                    <a href="javascript:;"
+                       data-cid="#(comment.id)"
+                       data-author="#(comment.author ??)"
+                       class="toReplay">回复</a>
+                </div>
             </div>
             #else
             <div class="comment-panel">
                 <div class="comment-panel-portrait">
-                    <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
+                    <img src="#(comment.avatar ??)" class="img-fluid rounded-circle"
+                         alt="#(comment.nickname ??)">
                 </div>
                 <div class="comment-panel-content">
                     <div class="comment-panel-content-item">
@@ -127,8 +132,12 @@
                     <div class="comment-panel-content-main">#(comment.content ??)</div>
                 </div>
                 <span class="clearfix"></span>
-                <div class="text-right text-primary"><a href="javascript:;" data-cid="#(comment.id)"
-                                                        data-author="#(comment.author ??)" class="toReplay">回复</a></div>
+                <div class="text-right text-primary">
+                    <a href="javascript:;"
+                       data-cid="#(comment.id)"
+                       data-author="#(comment.author ??)"
+                       class="toReplay">回复</a>
+                </div>
             </div>
             #end
             #end

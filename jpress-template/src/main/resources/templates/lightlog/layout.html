@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#(WEB_TITLE ??)</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ll-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -13,8 +13,8 @@
 <body>
 <div class="ll-header container-fluid">
     <div class="ll-logo">
-        <a href="lightlog-index.html">
-            <h1>JeanStudio</h1>
+        <a href="#(CPATH)/">
+            <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
             <p>一个装满UI设计、网页设计、插画设计的铺子</p>
         </a>
     </div>

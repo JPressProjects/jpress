@@ -1,6 +1,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
+import io.jpress.JPressConstants;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.render.TemplateRender;
@@ -56,6 +57,26 @@ public abstract class TemplateControllerBase extends ControllerBase {
         } else {
             super.render(new TemplateRender(defaultView));
         }
+    }
+
+    protected void setWebTilte(String webTitle) {
+        setAttr(JPressConstants.ATTR_WEB_TITLE, webTitle);
+    }
+
+    protected void setWebSubTilte(String webSubTitle) {
+        setAttr(JPressConstants.ATTR_WEB_SUBTITLE, webSubTitle);
+    }
+
+    protected void setSeoTitle(String seoTitle) {
+        setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
+    }
+
+    protected void setSeoKeyword(String seoKeyword) {
+        setAttr(JPressConstants.ATTR_SEO_KEYWORD, seoKeyword);
+    }
+
+    protected void setSeoDescription(String seoDescription) {
+        setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
     }
 
 

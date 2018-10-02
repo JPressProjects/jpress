@@ -31,7 +31,6 @@ public class ArticleViewsCountUpdateTask implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("------------------->ArticleViewsCountUpdateTask run:" + countsMap.size());
         if (countsMap.isEmpty()) {
             return;
         }

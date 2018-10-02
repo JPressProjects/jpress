@@ -9,6 +9,9 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.task.ArticleCommentsCountUpdateTask;
+import io.jpress.module.article.task.ArticleViewsCountUpdateTask;
+import io.jpress.module.article.task.CommentReplayCountUpdateTask;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -43,7 +46,8 @@ public class ArticleController extends TemplateControllerBase {
         setSeoTitle(article.getTitle());
         setSeoDescription(maxLength(article.getContent(), 100));
 
-        Long page = getParaToLong(1);
+        //记录当前浏览量
+        ArticleViewsCountUpdateTask.recordCount(article.getId());
 
         setAttr("article", article);
         render(article.getHtmlView());
@@ -160,6 +164,14 @@ public class ArticleController extends TemplateControllerBase {
          */
         else {
             comment.setStatus(ArticleComment.STATUS_NORMAL);
+        }
+
+        //记录文章的评论量
+        ArticleCommentsCountUpdateTask.recordCount(articleId);
+
+        if (pid != null) {
+            //记录评论的回复数量
+            CommentReplayCountUpdateTask.recordCount(pid);
         }
 
 

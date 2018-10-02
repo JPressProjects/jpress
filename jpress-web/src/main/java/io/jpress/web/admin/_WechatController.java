@@ -1,15 +1,21 @@
 package io.jpress.web.admin;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.weixin.sdk.api.ApiResult;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.wechat.WechatApis;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
+import io.jpress.model.WechatMenu;
 import io.jpress.model.WechatReplay;
 import io.jpress.service.OptionService;
+import io.jpress.service.WechatMenuService;
 import io.jpress.service.WechatReplayService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -31,6 +37,9 @@ public class _WechatController extends AdminControllerBase {
 
     @Inject
     private OptionService optionService;
+
+    @Inject
+    private WechatMenuService wechatMenuService;
 
 
     @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
@@ -112,6 +121,62 @@ public class _WechatController extends AdminControllerBase {
         WechatReplay replay = getBean(WechatReplay.class, "");
         replayService.saveOrUpdate(replay);
         redirect("/admin/wechat/keyword");
+    }
+
+    /**
+     * 微信菜单同步
+     */
+    public void doMenuSync() {
+        List<WechatMenu> wechatMenus = wechatMenuService.findAll();
+//        ModelSorter.tree(wechatMenus);
+
+        if (wechatMenus == null || wechatMenus.isEmpty()) {
+            renderJson(Ret.fail().set("message", "微信菜单为空"));
+            return;
+        }
+
+        JSONArray button = new JSONArray();
+        for (WechatMenu wechatMenu : wechatMenus) {
+            if (wechatMenu.hasChild()) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", wechatMenu.getText());
+                List<WechatMenu> childMenus = wechatMenu.getChilds();
+                JSONArray sub_buttons = new JSONArray();
+                for (WechatMenu child : childMenus) {
+                    createJsonObjectButton(sub_buttons, child);
+                }
+                jsonObject.put("sub_button", sub_buttons);
+                button.add(jsonObject);
+            } else {
+                createJsonObjectButton(button, wechatMenu);
+            }
+        }
+
+        JSONObject wechatMenuJson = new JSONObject();
+        wechatMenuJson.put("button", button);
+        String jsonString = wechatMenuJson.toJSONString();
+
+        ApiResult result = WechatApis.createMenu(jsonString);
+        if (result.isSucceed()) {
+            renderJson(Ret.ok());
+        } else {
+            renderJson(Ret.ok().set("message", "同步微信菜单出错，错误码：" + result.getErrorCode()));
+        }
+
+    }
+
+    private void createJsonObjectButton(JSONArray button, WechatMenu content) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", content.getType());
+        jsonObject.put("name", content.getText());
+
+        if ("view".equals(content.getType())) {
+            jsonObject.put("url", content.getText());
+        } else {
+            jsonObject.put("key", content.getText());
+        }
+
+        button.add(jsonObject);
     }
 
 }

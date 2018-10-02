@@ -78,7 +78,7 @@ public class ArticleController extends TemplateControllerBase {
     public void postComment() {
         Long articleId = getParaToLong("articleId");
         Long pid = getParaToLong("pid");
-        String author = getPara("author");
+        String nickname = getPara("nickname");
         String content = getPara("content");
         String email = getPara("email");
         String wechat = getPara("wechat");
@@ -137,9 +137,8 @@ public class ArticleController extends TemplateControllerBase {
 
         comment.setArticleId(articleId);
         comment.setContent(content);
-        comment.setAuthor(author);
+        comment.setNickname(nickname);
         comment.setPid(pid);
-        comment.setArticleUserId(article.getUserId());
         comment.setEmail(email);
         comment.setWechat(wechat);
         comment.setQq(qq);
@@ -147,7 +146,8 @@ public class ArticleController extends TemplateControllerBase {
         User user = getLoginedUser();
         if (user != null) {
             comment.setUserId(user.getId());
-            comment.setAuthor(user.getNickname());
+            comment.setNickname(user.getNickname());
+            comment.setAvatar(user.getAvatar());
         }
 
         //是否是管理员必须审核

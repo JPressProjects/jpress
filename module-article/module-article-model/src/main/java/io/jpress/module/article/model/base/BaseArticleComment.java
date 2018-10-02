@@ -17,12 +17,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("id");
 	}
 
-	public void setUserId(java.lang.Long userId) {
-		set("user_id", userId);
+	public void setPid(java.lang.Long pid) {
+		set("pid", pid);
 	}
 	
-	public java.lang.Long getUserId() {
-		return getLong("user_id");
+	public java.lang.Long getPid() {
+		return getLong("pid");
 	}
 
 	public void setArticleId(java.lang.Long articleId) {
@@ -33,28 +33,28 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("article_id");
 	}
 
-	public void setArticleUserId(java.lang.Long articleUserId) {
-		set("article_user_id", articleUserId);
+	public void setUserId(java.lang.Long userId) {
+		set("user_id", userId);
 	}
 	
-	public java.lang.Long getArticleUserId() {
-		return getLong("article_user_id");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
-	public void setPid(java.lang.Long pid) {
-		set("pid", pid);
+	public void setNickname(java.lang.String nickname) {
+		set("nickname", nickname);
 	}
 	
-	public java.lang.Long getPid() {
-		return getLong("pid");
+	public java.lang.String getNickname() {
+		return getStr("nickname");
 	}
 
-	public void setAuthor(java.lang.String author) {
-		set("author", author);
+	public void setAvatar(java.lang.String avatar) {
+		set("avatar", avatar);
 	}
 	
-	public java.lang.String getAuthor() {
-		return getStr("author");
+	public java.lang.String getAvatar() {
+		return getStr("avatar");
 	}
 
 	public void setEmail(java.lang.String email) {

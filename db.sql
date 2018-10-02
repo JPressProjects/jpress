@@ -85,11 +85,14 @@ DROP TABLE IF EXISTS `article_comment`;
 
 CREATE TABLE `article_comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
-  `article_id` int(11) unsigned DEFAULT NULL COMMENT '评论的内容ID',
-  `article_user_id` int(11) unsigned DEFAULT NULL COMMENT '文章的用户ID，冗余字段，方便关联查询',
   `pid` int(11) unsigned DEFAULT NULL COMMENT '回复的评论ID',
-  `author` varchar(128) DEFAULT NULL COMMENT '评论的作者',
+  `article_id` int(11) unsigned DEFAULT NULL COMMENT '评论的内容ID',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
+  `nickname` varchar(128) DEFAULT NULL COMMENT '评论的作者',
+  `avatar` varchar(256) DEFAULT NULL COMMENT '评论的作者头像',
+  `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
+  `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
+  `qq` varchar(32) DEFAULT NULL COMMENT 'qq号',
   `content` text COMMENT '评论的内容',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
   `order_number` int(11) unsigned DEFAULT '0' COMMENT '排序编号，常用语置顶等',

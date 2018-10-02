@@ -325,8 +325,8 @@ public class _TemplateController extends AdminControllerBase {
     }
 
     public void doMenuSave() {
-        io.jpress.model.Menu category = getModel(io.jpress.model.Menu.class);
-        ms.saveOrUpdate(category);
+        io.jpress.model.Menu menu = getModel(io.jpress.model.Menu.class);
+        ms.saveOrUpdate(menu);
         redirect("/admin/template/menu");
     }
 

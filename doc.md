@@ -1,4 +1,112 @@
-### JPress 文档
+# JPress 文档
+
+##目录
+
+
+## 安装部署
+
+在安装JPress之前，你应该对数据库、服务器、Java、Maven等有基本的认识和了解。本文档是建立在这些基础知识之上的。
+
+在安装JPress之前，需要你在你自己的电脑（或服务器）安装好Mysql数据库、Java环境 和 Maven编译环境，如果不会安装，可以通过 `oneinstack` 等第三方一键安装好 java、mysql 和 nginx 环境。
+
+另外可以通过以下几种方式获得帮助：
+
+1. JPress官方公众号：jpressio
+2. JPress交流QQ群：
+3. 开源中国进行发帖提问。
+
+### JPress安装
+JPress安装需要以下几个步骤：
+
+1. 下载JPress源码
+2. 通过maven编译JPress成war包（或可执行程序）
+3. 创建JPress数据库
+4. 建立基本数据（例如：管理员账号密码等）
+5. 配置JPress的数据库链接
+6. 通过tomcat等容器运行（或可执行程序运行）
+
+#### 1.下载JPress源码
+
+下载JPress源码通过以下几种方式：
+
+1、git clone
+
+```
+git clone https://gitee.com/fuhai/jpress.git
+```
+
+2、进入 Gitee 的 JPress 发行页面进行下载
+
+链接地址： https://gitee.com/fuhai/jpress/releases
+
+#### 2.通过Maven编译JPress成war包
+
+JPress可以编译成war包，也可以编译成可执行程序，war需要在tomcat等web容器下运行。可执行程序内置undertow，不需要其他第三方web容器，执行脚本即可运行。
+
+##### JPress编译成war包
+
+下载好 JPress 源码后，通过 shell 进入源码目录，执行如下maven命令
+
+```shell
+mvn package
+```
+即可在 starter-tomcat/target 目录下成成 `starter-tomcat-1.0.war` 的war包，拷贝这个war包放到tomcat的webapp目录下既可以启动tomcat运行。
+
+但是，JPress的正常运行需要Mysql数据库才能正常使用，因此，在启动tomcat之前需要创建好数据库和配置好JPress数据库连接配置文件。
+
+##### JPress编译成可执行程序
+
+把 JPress 编译成可执行程序，需要进入 /starter 目录，之下如下 maven 命令：
+
+```shell
+mvn clean package appassembler:generate-daemons
+```
+
+编译成功后，即可生成 `jpress.sh` (window系统叫 `jpress`) ，需要注意的是，只执行 `jpress.sh` 之前，需要给与其可执行权限。
+
+#### 3.创建JPress数据库
+
+通过Mysql客户端连接Mysql数据库后，通过运行 JPress 目录下的 db.sql，既可创建 JPress 相关数据库。
+
+#### 4.创建基本数据信息
+
+```sql
+INSERT INTO `user` 
+(`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`)
+VALUES 
+(1, 'admin', 'michael', '海哥', '程序员', 
+'f672ff8d263e89b313d2ab8ee88fec3d58e4c28d21939c858aa44f3bc6da7197', 'NYXvReOTBfBTh-vIhMz5_OazXk_nZs5V');
+
+
+INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
+VALUES
+	(1, '角色名称', '描述', 'jpsa', '2016-00-00 00:00:00', '2018-09-23 10:56:03');
+
+
+INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
+VALUES (1, 1);
+```
+ 
+ 此时，后台登录账号为：admin ，密码：111111
+ 
+#### 5.配置JPress的数据库链接
+
+JPress数据库文件存放在 WEB-INF/classes/jboot.properties，主要修改一下内容：
+
+```
+jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/数据库名称
+jboot.datasource.user=数据库账号
+jboot.datasource.password=数据库密码
+```
+
+#### 6.通过tomcat等容器运行
+暂略
+
+## 模板制作
+
+## 二次开发
+
+## 后台使用
 
 
 #### JPress模板制作教程
@@ -77,6 +185,9 @@ screenshot=screenshot.png
                 <a href="#(page.url ??)">#(page.text ??)</a>
             #end
      #end
-     
 #end
+
 ```
+
+暗室逢灯
+

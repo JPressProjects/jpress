@@ -5,7 +5,6 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -53,35 +52,6 @@ public class ArticleController extends TemplateControllerBase {
         return StrUtils.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
                 : articleService.findFirstBySlug(idOrSlug);
-    }
-
-
-    public void category() {
-        ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_CATEGORY);
-        setAttr("category", category);
-        render(category.getHtmlView());
-    }
-
-
-    public void tag() {
-        ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_TAG);
-        assertNotNull(category);
-        setAttr("category", category);
-        render(category.getHtmlView());
-    }
-
-
-    private ArticleCategory getArticleCategory(String type) {
-        String idOrSlug = getPara(0);
-
-        if (StrUtils.isBlank(idOrSlug)) {
-            return null;
-        }
-
-        return StrUtils.isNumeric(idOrSlug)
-                ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(type, idOrSlug);
-
     }
 
 

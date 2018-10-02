@@ -143,7 +143,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> paginateInNormal(int page, int pagesize) {
 
         Columns columns = new Columns();
-        columns.add("a.status", Article.STATUS_NORMAL);
+        columns.add("status", Article.STATUS_NORMAL);
 
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "id desc");
         return joinUserPage(dataPage);

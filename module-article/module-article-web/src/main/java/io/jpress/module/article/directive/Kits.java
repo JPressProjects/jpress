@@ -30,6 +30,7 @@ public class Kits {
 
     public static void main(String[] args) {
 
+        System.out.println(doReplacePageNumber("/aa/bb/all-1", 123));
         System.out.println(doReplacePageNumber("/aa/bb/cc", 123));
         System.out.println(doReplacePageNumber("/aa/bb/cc.html", 123));
         System.out.println(doReplacePageNumber("/aa/bb/cc-33-44.html", 123));

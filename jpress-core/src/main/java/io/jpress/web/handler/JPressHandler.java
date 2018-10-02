@@ -22,10 +22,14 @@ public class JPressHandler extends Handler {
         return threadLocal.get();
     }
 
-    private static String suffix = null;
+    private static String suffix = "";
 
     public static void initSuffix(String suffix) {
         JPressHandler.suffix = suffix;
+    }
+
+    public static String getSuffix() {
+        return suffix;
     }
 
 

@@ -5,6 +5,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.JbootRequestContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -56,8 +57,8 @@ public class CommentPageDirective extends JbootDirectiveBase {
         @Override
         protected String getUrl(int pageNumber) {
             HttpServletRequest request = JbootRequestContext.getRequest();
-            String url = request.getRequestURI();
-            return Kits.doReplacePageNumber(url, pageNumber);
+            String url = Kits.doReplacePageNumber(request.getRequestURI(), pageNumber);
+            return StrUtils.isBlank(getAnchor()) ? url : url + "#" + getAnchor();
         }
 
         @Override

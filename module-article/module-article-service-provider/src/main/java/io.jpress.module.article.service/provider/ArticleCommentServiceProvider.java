@@ -130,6 +130,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
                 columns,
                 "id desc");
 
+        join(p, "pid", "parent");
         userService.join(p, "user_id");
         return p;
     }

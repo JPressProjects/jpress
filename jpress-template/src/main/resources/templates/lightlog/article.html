@@ -8,16 +8,23 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert('发布成功')
+                    alert('评论发布成功，管理审核后即可正常显示。')
                 } else {
-                    alert('操作失败:' + data.message);
+                    alert('评论失败：' + data.message);
                 }
+                $('#content').val('');
             },
             error: function () {
                 alert("网络错误，请稍后重试");
             }
         });
         return false;
+    });
+
+    $('.toReplay').on('click', function () {
+        $('#pid').val($(this).attr('data-cid'));
+        $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
+        $('#content').focus();
     });
 </script>
 #end
@@ -64,9 +71,10 @@
 
             <form class="ll-comment-from" id="commentForm" action="#(CPATH)/article/postComment" method="post">
                 <input type="hidden" name="articleId" value="#(article.id)">
+                <input type="hidden" name="pid" id="pid" value="#(article.id)">
                 <div>
                     <span class="ll-comment-from-icon"><i class="fa fa-pencil"></i></span>
-                    <textarea placeholder="想说就说吧..." rows="1" name="content"></textarea>
+                    <textarea placeholder="想说就说吧..." rows="1" name="content" id="content"></textarea>
                 </div>
                 <button type="submit">发射</button>
                 <span class="clearfix"></span>
@@ -86,7 +94,6 @@
                         <div>#date(comment.parent.created)</div>
                     </div>
                     <div class="comment-panel-content-main">#(comment.parent.content ??)</div>
-                    <!--comment-secondary-panel-->
                     <div class="comment-secondary-panel">
                         <div class="comment-panel-portrait">
                             <img src="img/list-image2.jpg" class="img-fluid rounded-circle" alt="Responsive image">
@@ -102,7 +109,8 @@
                     </div>
                 </div>
                 <span class="clearfix"></span>
-                <div class="text-right text-primary"><a href="">回复</a></div>
+                <div class="text-right text-primary"><a href="javascript:;" data-cid="#(comment.id)"
+                                                        data-author="#(comment.author ??)" class="toReplay">回复</a></div>
             </div>
             #else
             <div class="comment-panel">
@@ -117,7 +125,8 @@
                     <div class="comment-panel-content-main">#(comment.content ??)</div>
                 </div>
                 <span class="clearfix"></span>
-                <div class="text-right text-primary"><a href="">回复</a></div>
+                <div class="text-right text-primary"><a href="javascript:;" data-cid="#(comment.id)"
+                                                        data-author="#(comment.author ??)" class="toReplay">回复</a></div>
             </div>
             #end
             #end

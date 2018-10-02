@@ -3,8 +3,8 @@ a{
     color:#333;
 }
 a:hover{
-    text-decoration: none;
     color:#3F6600;
+    text-decoration: none;
 }
 /*header*/
 .ll-header {
@@ -23,9 +23,9 @@ a:hover{
     padding:2rem 1rem 0 1rem;
     margin:3rem 0;
 }
-.ll-card:hover{
-    box-shadow:0 10px 30px rgba(0, 0, 0, 0.1)
-}
+/*.ll-card:hover{*/
+    /*box-shadow:0 10px 30px rgba(0, 0, 0, 0.1)*/
+/*}*/
 
 .ll-card .ll-card-image a{
     display: inline-block;
@@ -38,6 +38,20 @@ a:hover{
     overflow: hidden;
     line-height: 150px;
     text-align: center;
+    transition:0.4s ease-out;
+    -webkit-transition:0.4s ease-out;
+    -moz-transition:0.4s ease-out;
+    -o-transition:0.4s ease-out;
+    -ms-transition:0.4s ease-out;
+
+
+}
+.ll-card .ll-card-image a:hover{
+    transform:rotate(5deg);
+    -webkit-transform:rotate(5deg);
+    -moz-transform:rotate(5deg);
+    -o-transform:rotate(5deg);
+    -ms-transform:rotate(5deg);
 }
 
 .ll-card .ll-card-image a img{
@@ -84,9 +98,12 @@ a:hover{
     color:#666;
     margin-top:1rem;
 }
-.ll-card .ll-card-more{
+.ll-card .ll-card-more a{
     color:#3F6600;
-    text-align: right;
+}
+.ll-card-main-title a:hover,.ll-card .ll-card-more a:hover{
+    border-bottom:2px solid #3F6600;
+    padding-bottom:2px;
 }
 /*page*/
 .ll-page .page-item.active .page-link{

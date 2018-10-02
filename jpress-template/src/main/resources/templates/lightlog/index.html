@@ -1,157 +1,41 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>极简轻博客模板</title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/ll-css.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="ll-header container-fluid">
-    <div class="ll-logo">
-        <a href="lightlog-index.html">
-            <h1>JeanStudio</h1>
-            <p>一个装满UI设计、网页设计、插画设计的铺子</p>
-        </a>
-    </div>
-</div>
+#include("layout.html")
+#@layout()
+#define content()
+
+
 <div class="container">
+
+    #articles()
+    #for(article : articles)
     <div class="ll-card">
         <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image"><a href="#"><img src="img/list-image.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image"><a href="#"><img src="img/list-image2.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image"><a href="#"><img src="img/list-image.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image"><a href="#"><img src="img/list-image2.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image"><a href="#"><img src="img/list-image.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12  ll-card-image"><a href="#"><img src="img/list-image2.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12  ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <div class="ll-card">
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12  ll-card-image"><a href="#"><img src="img/list-image2.jpg" class="img-fluid" alt="Responsive image"></a></div>
-            <div class="col-lg-10 col-md-9 col-sm-12  ll-card-main">
-                <h3 class="ll-card-main-title"><a href="lightlog-detail.html">JPress的ehcache缓存方案、以及踩过ehcache的坑</a></h3>
-                <div class="ll-card-tag">
-                    <div><i class="fa fa-clock-o"></i> 2017-10-01 18:00</div>
-                    <div><i class="fa fa-eye"></i> 156</div>
-                    <div><i class="fa fa-commenting-o"></i> 2</div>
-                </div>
-                <p class="ll-card-main-info">最近为了提高J按的性能，减少数据查询的次数，J按大量使用了的Ehcache缓存作为起内置缓存，同时会话也是基于ehcache的重新实现的支持分部署的会议解决方案。</p>
-                <p class="ll-card-more"><i class="fa fa-ellipsis-h"></i></p>
-            </div>
-        </div>
-    </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center ll-page">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
+            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image">
+                <a href="#">
+                    <img src="#(article.thumbnail ??)"  class="img-fluid" alt="#(article.title ??)">
                 </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
-<div class="container-fluid ll-footer">
-    <div class="container">
-        <p class="ll-footer-link"><a href="#">联系我们</a></p>
-        <p class="ll-copyright">本设计由简.工作室荣誉出品</p>
-        <p class="ll-copyright">copyright @ 2017~2018 简.工作室（www.jeanstudio.cn）</p>
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
+                <h3 class="ll-card-main-title">
+                    <a href="#articleUrl(article)">
+                        #(article.title ??)
+                    </a>
+                </h3>
+                <div class="ll-card-tag">
+                    <div><i class="fa fa-clock-o"></i>#date(article.created)</div>
+                    <div><i class="fa fa-eye"></i>#(article.view_count)</div>
+                    <div><i class="fa fa-commenting-o"></i>#(article.comment_count)</div>
+                </div>
+                <p class="ll-card-main-info">
+                    #maxLength(article.content,100)
+                </p>
+                <p class="ll-card-more">
+                    <a href="#articleUrl(article)">阅读更多...</a>
+                </p>
+            </div>
+        </div>
     </div>
+    #end
+    #end
+
 </div>
-<script src="jquery/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-</body>
-</html>
+#end

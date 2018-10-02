@@ -1,0 +1,34 @@
+#define layout()
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>极简轻博客模板</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/ll-css.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="ll-header container-fluid">
+    <div class="ll-logo">
+        <a href="lightlog-index.html">
+            <h1>JeanStudio</h1>
+            <p>一个装满UI设计、网页设计、插画设计的铺子</p>
+        </a>
+    </div>
+</div>
+#@content()
+<div class="container-fluid ll-footer">
+    <div class="container">
+        <p class="ll-footer-link"><a href="#">联系我们</a></p>
+        <p class="ll-copyright">本设计由简.工作室荣誉出品</p>
+        <p class="ll-copyright">copyright @ 2017~2018 简.工作室（www.jeanstudio.cn）</p>
+    </div>
+</div>
+<script src="jquery/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+#end

@@ -37,7 +37,11 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         int pageSize = getParam("pageSize", 10, scope);
         ArticleCategory category = controller.getAttr("category");
 
-        Page<Article> articlePage = service.paginateByCategoryId(page, pageSize, category.getId());
+
+        Page<Article> articlePage = category == null ?
+                service.paginateInNormal(page, pageSize) :
+                service.paginateByCategoryIdInNormal(page, pageSize, category.getId(), null);
+
         scope.setGlobal("articlePage", articlePage);
         renderBody(env, scope, writer);
     }

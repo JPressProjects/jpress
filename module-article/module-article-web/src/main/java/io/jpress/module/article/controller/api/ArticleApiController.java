@@ -106,7 +106,7 @@ public class ArticleApiController extends ApiControllerBase {
         String orderBy = getPara("orderBy");
         int pageNumber = getParaToInt("page", 1);
 
-        Page<Article> page = articleService.paginateByCategoryInNormal(pageNumber, 10, categoryId, orderBy);
+        Page<Article> page = articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);
         renderJson(Ret.ok().set("page", page));
 
     }

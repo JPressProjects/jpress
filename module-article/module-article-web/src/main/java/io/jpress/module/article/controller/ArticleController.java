@@ -58,7 +58,6 @@ public class ArticleController extends TemplateControllerBase {
 
     public void category() {
         ArticleCategory category = getArticleCategory(ArticleCategory.TYPE_CATEGORY);
-        assertNotNull(category);
         setAttr("category", category);
         render(category.getHtmlView());
     }
@@ -74,6 +73,11 @@ public class ArticleController extends TemplateControllerBase {
 
     private ArticleCategory getArticleCategory(String type) {
         String idOrSlug = getPara(0);
+
+        if (StrUtils.isBlank(idOrSlug)) {
+            return null;
+        }
+
         return StrUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
                 : categoryService.findFirstByTypeAndSlug(type, idOrSlug);
@@ -101,7 +105,7 @@ public class ArticleController extends TemplateControllerBase {
         if (StrUtils.isBlank(content)) {
             renderJson(Ret.fail());
             return;
-        }else {
+        } else {
             content = StringEscapeUtils.escapeHtml(content);
         }
 

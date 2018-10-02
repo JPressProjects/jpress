@@ -114,9 +114,11 @@ public class TemplateRender extends Render {
             }
 
             if (url.startsWith("/")) {
+                url = JFinal.me().getContextPath() + url;
                 if (cdnDomain != null) {
-                    element.attr(attrName, cdnDomain + url);
+                    url = cdnDomain + url;
                 }
+                element.attr(attrName, url);
                 continue;
             }
 

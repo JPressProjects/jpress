@@ -41,7 +41,7 @@ public class ArticleController extends TemplateControllerBase {
         assertNotNull(article);
 
         setSeoTitle(article.getTitle());
-        setSeoDescription(maxLength(article.getContent(),100));
+        setSeoDescription(maxLength(article.getContent(), 100));
 
         Long page = getParaToLong(1);
 
@@ -104,31 +104,31 @@ public class ArticleController extends TemplateControllerBase {
 
         // 文章关闭了评论的功能
         if (!article.isCommentEnable()) {
-            renderJson(Ret.fail());
+            renderJson(Ret.fail().set("message", "该文章的评论功能已关闭"));
             return;
         }
 
         //是否开启评论功能
         Boolean commentEnable = optionService.findAsBoolByKey("article_comment_enable");
         if (commentEnable == null || commentEnable == false) {
-            renderJson(Ret.fail());
+            renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
         }
 
         //是否对用户输入验证码进行验证
         Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
-        if (vCodeEnable != null || vCodeEnable == true) {
+        if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail());
+                renderJson(Ret.fail().set("message", "验证码错误"));
                 return;
             }
         }
 
         //是否允许未登录用户参与评论
         Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
-        if (unLoginEnable != null || unLoginEnable == true) {
+        if (unLoginEnable != null && unLoginEnable == true) {
             if (getLoginedUser() == null) {
-                renderJson(Ret.fail());
+                renderJson(Ret.fail().set("message", "未登录用户不能评论"));
                 return;
             }
         }
@@ -147,11 +147,12 @@ public class ArticleController extends TemplateControllerBase {
         User user = getLoginedUser();
         if (user != null) {
             comment.setUserId(user.getId());
+            comment.setAuthor(user.getNickname());
         }
 
         //是否是管理员必须审核
         Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");
-        if (reviewEnable != null || reviewEnable == true) {
+        if (reviewEnable != null && reviewEnable == true) {
             comment.setStatus(ArticleComment.STATUS_UNAUDITED);
         }
         /**

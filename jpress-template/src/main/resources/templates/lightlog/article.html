@@ -1,5 +1,27 @@
 #include("layout.html")
 #@layout()
+
+#define script()
+<script>
+    $('#commentForm').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    alert('发布成功')
+                } else {
+                    alert('操作失败:' + data.message);
+                }
+            },
+            error: function () {
+                alert("网络错误，请稍后重试");
+            }
+        });
+        return false;
+    });
+</script>
+#end
+
 #define content()
 <div class="container">
     <div class="ll-artical-content">
@@ -40,13 +62,13 @@
         <div class="comment" id="comments">
             <h4 class="ll-title">发表评论</h4>
 
-            <form class="ll-comment-from" >
+            <form class="ll-comment-from" id="commentForm" action="#(CPATH)/article/postComment" method="post">
+                <input type="hidden" name="articleId" value="#(article.id)">
                 <div>
                     <span class="ll-comment-from-icon"><i class="fa fa-pencil"></i></span>
-                    <textarea placeholder="想说就说吧..." rows="1"></textarea>
-
+                    <textarea placeholder="想说就说吧..." rows="1" name="content"></textarea>
                 </div>
-                <button type="button">发射</button>
+                <button type="submit">发射</button>
                 <span class="clearfix"></span>
             </form>
 
@@ -54,7 +76,7 @@
             #commentPage()
             #for(comment : commentPage.list)
             #if(comment.parent)
-            <div class="comment-panel" >
+            <div class="comment-panel">
                 <div class="comment-panel-portrait">
                     <img src="img/list-image.jpg" class="img-fluid rounded-circle" alt="Responsive image">
                 </div>
@@ -101,11 +123,8 @@
             #end
 
 
-
-
-
             #commentPaginate(anchor="comments")
-            <nav aria-label="Page navigation example" >
+            <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center ll-page">
                     #for(page : pages)
                     <li class="page-item #(page.style ??)">

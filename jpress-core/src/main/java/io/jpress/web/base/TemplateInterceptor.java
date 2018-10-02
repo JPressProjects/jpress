@@ -24,42 +24,34 @@ public class TemplateInterceptor implements Interceptor {
     private static String seoDescription = null;
 
     public static void setWebTitle(String webTitle) {
-        if (webTitle == null) webTitle = "";
         TemplateInterceptor.webTitle = webTitle;
     }
 
     public static void setWebSubTitle(String webSubTitle) {
-        if (webSubTitle == null) webSubTitle = "";
         TemplateInterceptor.webSubTitle = webSubTitle;
     }
 
     public static void setWebName(String webName) {
-        if (webName == null) webName = "";
         TemplateInterceptor.webName = webName;
     }
 
     public static void setWebDomain(String webDomain) {
-        if (webDomain == null) webDomain = "";
         TemplateInterceptor.webDomain = webDomain;
     }
 
     public static void setWebCopyright(String webCopyright) {
-        if (webCopyright == null) webCopyright = "";
         TemplateInterceptor.webCopyright = webCopyright;
     }
 
     public static void setSeoTitle(String seoTitle) {
-        if (seoTitle == null) seoTitle = "";
         TemplateInterceptor.seoTitle = seoTitle;
     }
 
     public static void setSeoKeyword(String seoKeyword) {
-        if (seoKeyword == null) seoKeyword = "";
         TemplateInterceptor.seoKeyword = seoKeyword;
     }
 
     public static void setSeoDescription(String seoDescription) {
-        if (seoDescription == null) seoDescription = "";
         TemplateInterceptor.seoDescription = seoDescription;
     }
 

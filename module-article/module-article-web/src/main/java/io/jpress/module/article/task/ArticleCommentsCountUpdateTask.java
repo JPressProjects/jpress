@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @Title: 用于更新文章 访问 数量
  * @Package io.jpress.module.article.task
  */
-@FixedRate(period = 5000, initialDelay = 5000)
+@FixedRate(period = 5, initialDelay = 5)
 public class ArticleCommentsCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();

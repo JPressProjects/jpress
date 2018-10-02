@@ -17,6 +17,7 @@ import io.jpress.model.WechatReplay;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatMenuService;
 import io.jpress.service.WechatReplayService;
+import io.jpress.web.admin.kits.WechatMenuKits;
 import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
@@ -128,7 +129,7 @@ public class _WechatController extends AdminControllerBase {
      */
     public void doMenuSync() {
         List<WechatMenu> wechatMenus = wechatMenuService.findAll();
-//        ModelSorter.tree(wechatMenus);
+        WechatMenuKits.toTree(wechatMenus);
 
         if (wechatMenus == null || wechatMenus.isEmpty()) {
             renderJson(Ret.fail().set("message", "微信菜单为空"));

@@ -142,13 +142,16 @@ public interface ArticleService {
     public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count);
 
 
-    public Page<Article> paginateByCategoryInNormal(int page, int pagesize, Long categoryId, String orderBy);
-
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
 
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
+
+
+    public Page<Article> paginateInNormal(int page, int pagesize);
+
+    public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
 
 
 }

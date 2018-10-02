@@ -1,7 +1,6 @@
 package io.jpress.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
@@ -17,7 +16,6 @@ import io.jpress.service.UserService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,9 +48,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         String select = "select * ";
         StringBuilder from = new StringBuilder("from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id = ? ");
+        from.append(" where a.status = ? and m.category_id = ? ");
 
-        return DAO.paginate(page, pagesize, select, from.toString(), categoryId);
+        return DAO.paginate(page, pagesize, select, from.toString(), Article.STATUS_NORMAL, categoryId);
     }
 
     @Override
@@ -75,24 +73,21 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {
 
-        Db.tx(new IAtom() {
-            @Override
-            public boolean run() throws SQLException {
-                Db.update("delete from article_category_mapping where article_id = ?", articleId);
+        Db.tx(() -> {
+            Db.update("delete from article_category_mapping where article_id = ?", articleId);
 
-                if (categoryIds != null && categoryIds.length > 0) {
-                    List<Record> records = new ArrayList<>();
-                    for (long categoryId : categoryIds) {
-                        Record record = new Record();
-                        record.set("article_id", articleId);
-                        record.set("category_id", categoryId);
-                        records.add(record);
-                    }
-                    Db.batchSave("article_category_mapping", records, records.size());
+            if (categoryIds != null && categoryIds.length > 0) {
+                List<Record> records = new ArrayList<>();
+                for (long categoryId : categoryIds) {
+                    Record record = new Record();
+                    record.set("article_id", articleId);
+                    record.set("category_id", categoryId);
+                    records.add(record);
                 }
-
-                return true;
+                Db.batchSave("article_category_mapping", records, records.size());
             }
+
+            return true;
         });
     }
 
@@ -145,7 +140,18 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    public Page<Article> paginateByCategoryInNormal(int page, int pagesize, Long categoryId, String orderBy) {
+    public Page<Article> paginateInNormal(int page, int pagesize) {
+
+        Columns columns = new Columns();
+        columns.add("a.status", Article.STATUS_NORMAL);
+
+        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "id desc");
+        return joinUserPage(dataPage);
+    }
+
+
+    @Override
+    public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
         sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");

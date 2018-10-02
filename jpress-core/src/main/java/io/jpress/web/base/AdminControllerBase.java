@@ -3,6 +3,7 @@ package io.jpress.web.base;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
+import io.jboot.utils.StrUtils;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -35,10 +36,9 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
 
-
     protected boolean validateSlug(Model model) {
         String slug = (String) model.get("slug");
-        return slug == null ? true : !slug.contains("-");
+        return slug == null ? true : !slug.contains("-") && !StrUtils.isNumeric(slug);
     }
 
 

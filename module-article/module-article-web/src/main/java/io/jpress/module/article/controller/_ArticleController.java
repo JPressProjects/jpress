@@ -136,7 +136,7 @@ public class _ArticleController extends AdminControllerBase {
         Article article = getModel(Article.class, "article");
 
         if (!validateSlug(article)) {
-            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
             return;
         }
 
@@ -236,7 +236,7 @@ public class _ArticleController extends AdminControllerBase {
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
         if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
             return;
         }
 

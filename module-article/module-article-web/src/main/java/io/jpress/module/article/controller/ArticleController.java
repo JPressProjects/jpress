@@ -47,7 +47,7 @@ public class ArticleController extends TemplateControllerBase {
         setSeoTitle(article.getTitle());
         setSeoKeywords(article.getMetaKeywords());
         setSeoDescription(StrUtils.isBlank(article.getMetaDescription())
-                ? CommonsUtils.maxLength(article.getContent(), 100)
+                ? CommonsUtils.maxLength(article.getText(), 100)
                 : article.getMetaDescription());
 
         //记录当前浏览量

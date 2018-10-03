@@ -100,4 +100,6 @@ public interface UtmService {
     public void keep(Model model, String... attrs);
 
     public void keep(List<? extends Model> models, String... attrs);
+
+    public void doRecord(Utm utm);
 }

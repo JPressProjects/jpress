@@ -11,4 +11,8 @@ import javax.inject.Singleton;
 @Singleton
 public class UtmServiceProvider extends JbootServiceBase<Utm> implements UtmService {
 
+    @Override
+    public void doRecord(Utm utm) {
+
+    }
 }

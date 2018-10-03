@@ -12,6 +12,7 @@
     <modules>
         <module>codegen</module>
 
+        <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
         <module>jpress-service-api</module>
@@ -68,6 +69,12 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-commons</artifactId>
+                <version>${jpress.version}</version>
             </dependency>
 
             <dependency>

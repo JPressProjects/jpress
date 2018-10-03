@@ -56,6 +56,9 @@ public class JsoupUtils {
     }
 
     public static String getText(String html) {
+        if (StrUtils.isBlank(html)) {
+            return html;
+        }
         return Jsoup.parse(html).text();
     }
 

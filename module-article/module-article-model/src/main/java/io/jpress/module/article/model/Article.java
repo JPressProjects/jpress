@@ -2,6 +2,7 @@ package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.article.model.base.BaseArticle;
 
 /**
@@ -39,6 +40,10 @@ public class Article extends BaseArticle<Article> {
     public boolean isCommentEnable() {
         Boolean cs = getCommentStatus();
         return cs != null && cs == true;
+    }
+
+    public String getText(){
+        return JsoupUtils.getText(getContent());
     }
 
 }

@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>parent</artifactId>
         <groupId>io.jpress</groupId>
-        <artifactId>module-article</artifactId>
-        <version>${jpress.version}</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-article-model</artifactId>
+    <artifactId>jpress-commons</artifactId>
 
     <dependencies>
 
@@ -20,11 +20,14 @@
         </dependency>
 
         <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>jpress-commons</artifactId>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
         </dependency>
 
     </dependencies>
-
-
 </project>

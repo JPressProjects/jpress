@@ -76,7 +76,7 @@ public class _PageController extends AdminControllerBase {
 
     @EmptyValidate({
             @Form(name = "page.title", message = "标题不能为空"),
-            @Form(name = "page.text", message = "内容不能为空")
+            @Form(name = "page.content", message = "内容不能为空")
     })
     public void doWriteSave() {
         SinglePage page = getModel(SinglePage.class, "page");

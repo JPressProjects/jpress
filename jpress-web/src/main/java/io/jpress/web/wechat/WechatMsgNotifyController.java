@@ -44,7 +44,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
      */
     @Override
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
-        renderOptionValue("wechat_replay_user_subscribe", "");
+        renderOptionValue("wechat_reply_user_subscribe", "");
     }
 
     /**
@@ -70,7 +70,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Override
     protected void renderDefault() {
-        renderOptionValue("wechat_replay_unknow", "");
+        renderOptionValue("wechat_reply_unknow", "");
     }
 
     private void renderOptionValue(String optionKey, String defaultText) {

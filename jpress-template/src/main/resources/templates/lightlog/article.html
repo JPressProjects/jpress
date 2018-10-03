@@ -21,7 +21,7 @@
         return false;
     });
 
-    $('.toReplay').on('click', function () {
+    $('.toReply').on('click', function () {
         $('#pid').val($(this).attr('data-cid'));
         $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
         $('#content').focus();
@@ -115,7 +115,7 @@
                     <a href="javascript:;"
                        data-cid="#(comment.id)"
                        data-author="#(comment.author ??)"
-                       class="toReplay">回复</a>
+                       class="toReply">回复</a>
                 </div>
             </div>
             #else
@@ -136,7 +136,7 @@
                     <a href="javascript:;"
                        data-cid="#(comment.id)"
                        data-author="#(comment.author ??)"
-                       class="toReplay">回复</a>
+                       class="toReply">回复</a>
                 </div>
             </div>
             #end

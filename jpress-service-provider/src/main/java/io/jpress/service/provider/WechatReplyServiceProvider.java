@@ -17,7 +17,7 @@ public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> im
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from wechat_replay where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        return Db.update("delete from wechat_reply where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
     }
 
     @Override

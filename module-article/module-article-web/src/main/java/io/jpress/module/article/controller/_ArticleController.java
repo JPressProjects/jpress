@@ -279,11 +279,11 @@ public class _ArticleController extends AdminControllerBase {
     /**
      * 评论回复 页面
      */
-    public void commentReplay() {
+    public void commentReply() {
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
         setAttr("comment", comment);
-        render("article/comment_replay.html");
+        render("article/comment_reply.html");
     }
 
     /**
@@ -306,7 +306,7 @@ public class _ArticleController extends AdminControllerBase {
     /**
      * 进行评论回复
      */
-    public void doCommentReplay(String content, Long articleId, Long pid) {
+    public void doCommentReply(String content, Long articleId, Long pid) {
         User user = getLoginedUser();
         ArticleComment comment = new ArticleComment();
         comment.setContent(content);

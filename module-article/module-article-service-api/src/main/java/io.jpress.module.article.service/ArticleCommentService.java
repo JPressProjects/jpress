@@ -134,6 +134,6 @@ public interface ArticleCommentService {
 
     public Page<ArticleComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId);
 
-    public void doIncCommentReplayCount(long commentId);
+    public void doIncCommentReplyCount(long commentId);
 
 }

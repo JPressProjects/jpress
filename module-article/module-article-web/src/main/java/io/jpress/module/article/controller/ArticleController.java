@@ -159,7 +159,7 @@ public class ArticleController extends TemplateControllerBase {
 
         if (pid != null) {
             //记录评论的回复数量
-            commentService.doIncCommentReplayCount(pid);
+            commentService.doIncCommentReplyCount(pid);
         }
 
 

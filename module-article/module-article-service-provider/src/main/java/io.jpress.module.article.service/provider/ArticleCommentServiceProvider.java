@@ -137,7 +137,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
-    public void doIncCommentReplayCount(long commentId) {
+    public void doIncCommentReplyCount(long commentId) {
         CommentReplyCountUpdateTask.recordCount(commentId);
     }
 

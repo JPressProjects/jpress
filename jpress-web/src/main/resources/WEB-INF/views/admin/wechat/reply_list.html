@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        $.get("#(CPATH)/admin/wechat/doDelReplay/" + id, function (result) {
+        $.get("#(CPATH)/admin/wechat/doDelReply/" + id, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -14,7 +14,7 @@
     }
 
     function delByIds(ids) {
-        $.get("#(CPATH)/admin/wechat/doDelReplayByIds?ids=" + ids, function (result) {
+        $.get("#(CPATH)/admin/wechat/doDelReplyByIds?ids=" + ids, function (result) {
             if ("ok" != result.state) {
                 alert(result.message);
             } else {
@@ -44,7 +44,7 @@
     <section class="content-header">
         <h1>
             自动回复
-            <small>Auto Replay Management</small>
+            <small>Auto Reply Management</small>
         </h1>
     </section>
 
@@ -80,7 +80,7 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/wechat/replayWrite" class="btn btn-primary "> <i
+                                <a href="#(CPATH)/admin/wechat/replyWrite" class="btn btn-primary "> <i
                                         class="fa fa-fw fa-plus"></i> 新建</a>
                                 <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
@@ -101,27 +101,27 @@
                                 <th style="width: 100px">发布时间</th>
                             </tr>
 
-                            #for(replay : page.list)
+                            #for(reply : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(replay.id)" onchange="dataItemChange(this)"/>
+                                <td><input class="dataItem" type="checkbox" value="#(reply.id)" onchange="dataItemChange(this)"/>
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/wechat/replayWrite/#(replay.id)">
-                                            #(replay.keyword ??)
+                                        <a href="#(CPATH)/admin/wechat/replyWrite/#(reply.id)">
+                                            #(reply.keyword ??)
                                         </a>
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/wechat/replayWrite/#(replay.id)" >编辑</a> |
-                                            <a href="javascript:;" onclick="doDel('#(replay.id??)')"
+                                            <a href="#(CPATH)/admin/wechat/replyWrite/#(reply.id)" >编辑</a> |
+                                            <a href="javascript:;" onclick="doDel('#(reply.id??)')"
                                                style="color: #a00">删除</a>
                                         </div>
                                     </div>
 
                                 </td>
-                                <td>#(replay.content ??)</td>
-                                <td>#(replay.created ??)</td>
+                                <td>#(reply.content ??)</td>
+                                <td>#(reply.created ??)</td>
                             </tr>
                             #end
 

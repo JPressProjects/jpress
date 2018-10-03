@@ -13,10 +13,10 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.model.WechatMenu;
-import io.jpress.model.WechatReplay;
+import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatMenuService;
-import io.jpress.service.WechatReplayService;
+import io.jpress.service.WechatReplyService;
 import io.jpress.web.admin.kits.WechatMenuKits;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -34,7 +34,7 @@ import java.util.Set;
 public class _WechatController extends AdminControllerBase {
 
     @Inject
-    private WechatReplayService replayService;
+    private WechatReplyService replyService;
 
     @Inject
     private OptionService optionService;
@@ -68,26 +68,26 @@ public class _WechatController extends AdminControllerBase {
 
 
     @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
-    public void replay() {
-        render("wechat/replay_base.html");
+    public void reply() {
+        render("wechat/reply_base.html");
     }
 
 
     @AdminMenu(text = "自动回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
-        Page<WechatReplay> page = replayService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
+        Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
         setAttr("page", page);
-        render("wechat/replay_list.html");
+        render("wechat/reply_list.html");
     }
 
 
-    public void doDelReplay() {
+    public void doDelReply() {
         Long id = getIdPara();
-        replayService.deleteById(id);
+        replyService.deleteById(id);
         renderJson(Ret.ok());
     }
 
-    public void doDelReplayByIds() {
+    public void doDelReplyByIds() {
         String ids = getPara("ids");
         if (StrUtils.isBlank(ids)) {
             renderJson(Ret.fail());
@@ -99,7 +99,7 @@ public class _WechatController extends AdminControllerBase {
             renderJson(Ret.fail());
             return;
         }
-        render(replayService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        render(replyService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 
@@ -121,18 +121,18 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    public void replayWrite() {
+    public void replyWrite() {
         int id = getParaToInt(0, 0);
         if (id > 0) {
-            WechatReplay wechatReplay = replayService.findById(id);
-            setAttr("replay", wechatReplay);
+            WechatReply wechatReply = replyService.findById(id);
+            setAttr("reply", wechatReply);
         }
-        render("wechat/replay_write.html");
+        render("wechat/reply_write.html");
     }
 
-    public void doReplaySave() {
-        WechatReplay replay = getBean(WechatReplay.class, "");
-        replayService.saveOrUpdate(replay);
+    public void doReplySave() {
+        WechatReply reply = getBean(WechatReply.class, "");
+        replyService.saveOrUpdate(reply);
         redirect("/admin/wechat/keyword");
     }
 

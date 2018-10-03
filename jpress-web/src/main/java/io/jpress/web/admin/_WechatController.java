@@ -51,6 +51,18 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
     public void menu() {
+        List<WechatMenu> menus = wechatMenuService.findAll();
+        WechatMenuKits.toLayer(menus);
+        setAttr("menus", menus);
+
+        int id = getParaToInt(0, 0);
+        if (id > 0) {
+            for (WechatMenu menu : menus) {
+                if (menu.getId() == id) {
+                    setAttr("menu", menu);
+                }
+            }
+        }
         render("wechat/menu.html");
     }
 
@@ -122,6 +134,12 @@ public class _WechatController extends AdminControllerBase {
         WechatReplay replay = getBean(WechatReplay.class, "");
         replayService.saveOrUpdate(replay);
         redirect("/admin/wechat/keyword");
+    }
+
+    public void doMenuSave() {
+        WechatMenu menu = getModel(WechatMenu.class, "menu");
+        wechatMenuService.saveOrUpdate(menu);
+        redirect("/admin/wechat/menu");
     }
 
     /**

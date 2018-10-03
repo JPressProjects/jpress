@@ -27,6 +27,7 @@
         });
     });
 
+
 </script>
 #end
 
@@ -54,7 +55,6 @@
                           action="#(CPATH)/admin/wechat/doMenuSave"
                           method="post" id="form">
                         <input type="hidden" name="menu.id" value="#(menu.id ??)">
-                        <input type="hidden" name="menu.type" value="main">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名称</label>
@@ -74,7 +74,7 @@
                                 <label class="col-sm-2 control-label">类型</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="menu.pid">
+                                    <select class="form-control" name="menu.type">
                                         <option value="click">点击推事件</option>
                                         <option value="view">跳转URL</option>
                                         <option value="scancode_push">扫码推事件</option>
@@ -92,7 +92,7 @@
 
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="..."
-                                           value="#(menu.url ??)" name="menu.url">
+                                           value="#(menu.keyword ??)" name="menu.keyword">
                                     <p class="help-block">
                                         填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。
                                     </p>
@@ -128,7 +128,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">排序</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此分类排序的序号" name="menu.order_number"
+                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
+                                           name="menu.order_number"
                                            value="#(menu.order_number ??)">
                                     <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
                                 </div>
@@ -172,15 +173,15 @@
                                     #(menu.layerString)#(menu.text ??)
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
-                                            <a href="#(menu.url ??)" target="_blank" style="color: #006505">查看</a> |
+                                            <a href="#(CPATH)/admin/wechat/menu/#(menu.id)">编辑</a> |
                                             <a href="javascript:;" onclick="del('#(menu.id??)')"
                                                style="color: #a00">删除</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(menu.url ??)</td>
-                                <td>#(menu.desc_no ??)</td>
+                                <td>#(menu.type ??)</td>
+                                <td>#(menu.keyword ??)</td>
+                                <td>#(menu.order_number ??)</td>
                             </tr>
                             #end
                             </tbody>

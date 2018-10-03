@@ -2,6 +2,7 @@ package io.jpress.module.page.controller;
 
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -22,7 +23,8 @@ public class PageController extends TemplateControllerBase {
 
     public void index() {
 
-        String slug = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
+        String target = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
+        String slug = target.substring(1);
 
         SinglePage page = sps.findFirstBySlug(slug);
 
@@ -30,6 +32,12 @@ public class PageController extends TemplateControllerBase {
             renderError(404);
             return;
         }
+
+        setSeoTitle(page.getTitle());
+        setSeoKeywords(page.getMetaKeywords());
+        setSeoDescription(StrUtils.isBlank(page.getMetaDescription())
+                ? CommonsUtils.maxLength(page.getText(), 100)
+                : page.getMetaDescription());
 
         setAttr("page", page);
         render(page.getHtmlView());

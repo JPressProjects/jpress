@@ -2,6 +2,7 @@ package io.jpress.module.page.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
 
 /**
@@ -34,6 +35,11 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
     public String getUrl(String suffix) {
         return "/" + getSlug() + suffix;
+    }
+
+
+    public String getText(){
+        return JsoupUtils.getText(getContent());
     }
 
 }

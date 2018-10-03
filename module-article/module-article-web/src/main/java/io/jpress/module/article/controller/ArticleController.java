@@ -3,6 +3,7 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
@@ -44,7 +45,10 @@ public class ArticleController extends TemplateControllerBase {
         assertNotNull(article);
 
         setSeoTitle(article.getTitle());
-        setSeoDescription(maxLength(article.getContent(), 100));
+        setSeoKeywords(article.getMetaKeywords());
+        setSeoDescription(StrUtils.isBlank(article.getMetaDescription())
+                ? CommonsUtils.maxLength(article.getContent(), 100)
+                : article.getMetaDescription());
 
         //记录当前浏览量
         ArticleViewsCountUpdateTask.recordCount(article.getId());
@@ -53,19 +57,7 @@ public class ArticleController extends TemplateControllerBase {
         render(article.getHtmlView());
     }
 
-    private String maxLength(String content, int maxLength) {
-        if (StrUtils.isBlank(content)) {
-            return content;
-        }
 
-        if (maxLength <= 0) {
-            throw new IllegalArgumentException("#maxLength(content,length) 参数错误，length必须大于0 ");
-        }
-
-        return content.length() <= maxLength ? content :
-                content.substring(0, maxLength);
-
-    }
 
 
     private Article getArticle() {

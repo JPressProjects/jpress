@@ -2,9 +2,9 @@ package io.jpress.module.article.controller;
 
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
 
@@ -20,9 +20,6 @@ import javax.inject.Inject;
 public class ArticleTagController extends TemplateControllerBase {
 
     @Inject
-    private ArticleService articleService;
-
-    @Inject
     private ArticleCategoryService categoryService;
 
 
@@ -33,7 +30,21 @@ public class ArticleTagController extends TemplateControllerBase {
         }
         ArticleCategory category = getTag();
         setAttr("category", category);
-        render(category.getHtmlView());
+        setSeoInfos(category);
+
+        render(getRenderView(category));
+    }
+
+    private void setSeoInfos(ArticleCategory category) {
+        if (category == null) {
+            return;
+        }
+
+        setSeoTitle(category.getTitle());
+        setSeoKeywords(category.getMetaKeywords());
+        setSeoDescription(StrUtils.isBlank(category.getMetaDescription())
+                ? CommonsUtils.maxLength(category.getContent(), 100)
+                : category.getMetaDescription());
     }
 
 
@@ -48,6 +59,12 @@ public class ArticleTagController extends TemplateControllerBase {
                 ? categoryService.findById(idOrSlug)
                 : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, idOrSlug);
 
+    }
+
+    private String getRenderView(ArticleCategory category) {
+        return category == null
+                ? "artlist.html"
+                : category.getHtmlView();
     }
 
 

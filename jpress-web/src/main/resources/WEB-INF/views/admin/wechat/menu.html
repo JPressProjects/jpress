@@ -16,12 +16,9 @@
         $.ajax({
             url: "#(CPATH)/admin/wechat/doMenuSync", success: function (result) {
                 if (result.state == "ok") {
-                    toastr.options.onHidden = function () {
-                        location.reload();
-                    }
                     toastr.success(result.message);
                 } else {
-                    toastr.success(result.message);
+                    toastr.error(result.message, "错误");
                 }
             }
         });
@@ -76,23 +73,31 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.type">
                                         #if(menu == null)
-                                        <option value="click" >点击推事件</option>
-                                        <option value="view" >跳转URL</option>
-                                        <option value="scancode_push" >扫码推事件</option>
-                                        <option value="scancode_waitmsg" >扫码推事件且弹出“消息接收中”提示框</option>
-                                        <option value="pic_sysphoto" >弹出系统拍照发图</option>
+                                        <option value="click">点击推事件</option>
+                                        <option value="view">跳转URL</option>
+                                        <option value="scancode_push">扫码推事件</option>
+                                        <option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
+                                        <option value="pic_sysphoto">弹出系统拍照发图</option>
                                         <option value="pic_photo_or_album">弹出拍照或者相册发图</option>
-                                        <option value="pic_weixin" >弹出微信相册发图器</option>
+                                        <option value="pic_weixin">弹出微信相册发图器</option>
                                         <option value="location_select">弹出地理位置选择器</option>
                                         #else
-                                        <option value="click" #selectedIf('click' == menu.type)>点击推事件</option>
-                                        <option value="view" #selectedIf('view' == menu.type)>跳转URL</option>
-                                        <option value="scancode_push" #selectedIf('scancode_push' == menu.type)>扫码推事件</option>
-                                        <option value="scancode_waitmsg" #selectedIf('scancode_waitmsg' == menu.type)>扫码推事件且弹出“消息接收中”提示框</option>
-                                        <option value="pic_sysphoto" #selectedIf('pic_sysphoto' == menu.type)>弹出系统拍照发图</option>
-                                        <option value="pic_photo_or_album" #selectedIf('pic_photo_or_album' == menu.type)>弹出拍照或者相册发图</option>
-                                        <option value="pic_weixin" #selectedIf('pic_weixin' == menu.type)>弹出微信相册发图器</option>
-                                        <option value="location_select" #selectedIf('location_select' == menu.type)>弹出地理位置选择器</option>
+                                        <option value="click" #selectedIf(
+                                        'click' == menu.type)>点击推事件</option>
+                                        <option value="view" #selectedIf(
+                                        'view' == menu.type)>跳转URL</option>
+                                        <option value="scancode_push" #selectedIf(
+                                        'scancode_push' == menu.type)>扫码推事件</option>
+                                        <option value="scancode_waitmsg" #selectedIf(
+                                        'scancode_waitmsg' == menu.type)>扫码推事件且弹出“消息接收中”提示框</option>
+                                        <option value="pic_sysphoto" #selectedIf(
+                                        'pic_sysphoto' == menu.type)>弹出系统拍照发图</option>
+                                        <option value="pic_photo_or_album" #selectedIf(
+                                        'pic_photo_or_album' == menu.type)>弹出拍照或者相册发图</option>
+                                        <option value="pic_weixin" #selectedIf(
+                                        'pic_weixin' == menu.type)>弹出微信相册发图器</option>
+                                        <option value="location_select" #selectedIf(
+                                        'location_select' == menu.type)>弹出地理位置选择器</option>
                                         #end
                                     </select>
                                 </div>

@@ -177,9 +177,9 @@ public class _WechatController extends AdminControllerBase {
 
         ApiResult result = WechatApis.createMenu(jsonString);
         if (result.isSucceed()) {
-            renderJson(Ret.ok());
+            renderJson(Ret.ok().set("message", "微信菜单同步成功"));
         } else {
-            renderJson(Ret.ok().set("message", "同步微信菜单出错，错误码：" + result.getErrorCode()));
+            renderJson(Ret.fail().set("message", "错误码：" + result.getErrorCode() + "，" + result.getErrorMsg()));
         }
 
     }

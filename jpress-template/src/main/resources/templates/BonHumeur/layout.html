@@ -1,0 +1,47 @@
+#define layout()
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>蓝天白云造就好心情</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bh-css.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid" style="padding:0;">
+    <div class="bh-content">
+        <div class="bh-sidebar">
+            <div class="bh-sidebar-main">
+                <p class="bh-portrait"><img src="img/list-image.jpg"/></p>
+                <h1>杨福海博客</h1>
+                <p>杨福海，架构师，CTO，全栈工程师</p>
+            </div>
+        </div>
+        <div class="bh-nav-sidebar">
+            <ul>
+                <li><a class="active" href="/">Index</a></li>
+                <li><a href="/">Me!</a></li>
+            </ul>
+        </div>
+        <div class="bh-main">
+
+            #@content()
+
+            <div class="bh-footer">
+                <p class="bh-copyright"><a href="#">联系我们</a> | 本设计由简.工作室荣誉出品</p>
+                <p class="bh-copyright">copyright @ 2017~2018 简.工作室（www.jeanstudio.cn）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="jquery/jquery.min.js"></script>
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+#@script?()
+</body>
+</html>
+#end

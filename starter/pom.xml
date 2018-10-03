@@ -12,6 +12,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>starter</artifactId>
 
+
     <dependencies>
 
         <dependency>
@@ -29,6 +30,7 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-service-provider</artifactId>
+            <version>${jpress.version}</version>
         </dependency>
 
         <dependency>
@@ -54,6 +56,8 @@
             <artifactId>module-page-service-provider</artifactId>
             <version>${jpress.version}</version>
         </dependency>
+
+
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>codegen</artifactId>
@@ -109,6 +113,99 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.10</version>
+
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <goals>
+                            <goal>generate-daemons</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+
+
+                    <!-- 根目录 -->
+                    <assembleDirectory>${project.build.directory}/app</assembleDirectory>
+                    <!-- 打包的jar，以及maven依赖的jar放到这个目录里面 -->
+                    <repositoryName>lib</repositoryName>
+                    <!-- 可执行脚本的目录 -->
+                    <binFolder>bin</binFolder>
+                    <!-- 配置classpath 或 webroot目录 -->
+                    <configurationDirectory>webRoot</configurationDirectory>
+                    <!-- 拷贝配置文件到上面的目录中 -->
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    <!-- 从哪里拷贝配置文件 (默认src/main/config) -->
+                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                    <!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 -->
+                    <repositoryLayout>flat</repositoryLayout>
+                    <encoding>UTF-8</encoding>
+                    <logsDirectory>logs</logsDirectory>
+                    <tempDirectory>tmp</tempDirectory>
+
+                    <programs>
+                        <!--程序打包 mvn clean package appassembler:assemble -->
+                        <program>
+                            <mainClass>io.jboot.Jboot</mainClass>
+                            <id>jpress</id>
+                            <platforms>
+                                <platform>windows</platform>
+                                <platform>unix</platform>
+                            </platforms>
+                        </program>
+                    </programs>
+
+                    <daemons>
+                        <!-- 后台程序打包：mvn clean package appassembler:generate-daemons -->
+                        <daemon>
+                            <mainClass>io.jboot.Jboot</mainClass>
+                            <id>jpress</id>
+                            <platforms>
+                                <platform>jsw</platform>
+                            </platforms>
+                            <generatorConfigurations>
+                                <generatorConfiguration>
+                                    <generator>jsw</generator>
+                                    <includes>
+                                        <include>linux-x86-32</include>
+                                        <include>linux-x86-64</include>
+                                        <include>macosx-universal-32</include>
+                                        <include>macosx-universal-64</include>
+                                        <include>windows-x86-32</include>
+                                        <include>windows-x86-64</include>
+                                    </includes>
+                                    <configuration>
+                                        <property>
+                                            <name>configuration.directory.in.classpath.first</name>
+                                            <value>webRoot</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.ping.timeout</name>
+                                            <value>120</value>
+                                        </property>
+                                        <property>
+                                            <name>set.default.REPO_DIR</name>
+                                            <value>lib</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile</name>
+                                            <value>logs/wrapper.log</value>
+                                        </property>
+                                    </configuration>
+                                </generatorConfiguration>
+                            </generatorConfigurations>
+                        </daemon>
+                    </daemons>
+
+                </configuration>
             </plugin>
 
 

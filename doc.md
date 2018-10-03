@@ -39,11 +39,11 @@ git clone https://gitee.com/fuhai/jpress.git
 
 链接地址： https://gitee.com/fuhai/jpress/releases
 
-#### 2.通过Maven编译JPress成war包
+#### 2.通过Maven编译JPress成war包和可支持程序
 
 JPress可以编译成war包，也可以编译成可执行程序，war需要在tomcat等web容器下运行。可执行程序内置undertow，不需要其他第三方web容器，执行脚本即可运行。
 
-##### JPress编译成war包
+
 
 下载好 JPress 源码后，通过 shell 进入源码目录，执行如下maven命令
 
@@ -52,17 +52,38 @@ mvn package
 ```
 即可在 starter-tomcat/target 目录下成成 `starter-tomcat-1.0.war` 的war包，拷贝这个war包放到tomcat的webapp目录下既可以启动tomcat运行。
 
-但是，JPress的正常运行需要Mysql数据库才能正常使用，因此，在启动tomcat之前需要创建好数据库和配置好JPress数据库连接配置文件。
+与此同时，
 
-##### JPress编译成可执行程序
+在 `starter/target/generated-resources/appassembler/jsw/` 目录下会有一个 jpress 的文件夹，jpress 文件夹的目录如下：
 
-把 JPress 编译成可执行程序，需要进入 /starter 目录，之下如下 maven 命令：
-
-```shell
-mvn clean package appassembler:generate-daemons
+```
+├── bin
+│   ├── jpress
+│   ├── jpress.bat
+│   ├── wrapper-linux-x86-32
+│   ├── wrapper-linux-x86-64
+│   ├── wrapper-macosx-universal-32
+│   ├── wrapper-macosx-universal-64
+│   ├── wrapper-windows-x86-32.exe
+│   └── wrapper-windows-x86-64.exe
+├── lib
+├── logs
+├── tmp
+└── webRoot
+    ├── jboot.properties
+    ├── logback.xml
+    └── wrapper.conf
 ```
 
-编译成功后，即可生成 `jpress.sh` (window系统叫 `jpress`) ，需要注意的是，只执行 `jpress.sh` 之前，需要给与其可执行权限。
+拷贝 `jpress` 目录，放到 Linux 上执行 `./bin/jpress` 脚本也可以启动jpress项目（window系统下执行 `./bin/jpress.bat` ）。
+
+需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
+
+
+
+但是，JPress的正常运行需要Mysql数据库才能正常使用，因此，在启动tomcat之前需要创建好数据库和配置好JPress数据库连接配置文件。
+
+
 
 #### 3.创建JPress数据库
 

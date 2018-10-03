@@ -1,6 +1,7 @@
 #define user_detail_layer()
 #@layout()
 #define css()
+#@layout_css?()
 <link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
 <style>
     .nav-stacked > li.active > a {
@@ -20,6 +21,7 @@
 #end
 
 #define script()
+#@layout_script?()
 <script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>

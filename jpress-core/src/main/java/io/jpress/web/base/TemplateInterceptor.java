@@ -66,7 +66,7 @@ public class TemplateInterceptor implements Interceptor {
         controller.setAttr(JPressConstants.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConstants.ATTR_WEB_COPYRIGHT, webCopyright);
         controller.setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
-        controller.setAttr(JPressConstants.ATTR_SEO_KEYWORD, seoKeyword);
+        controller.setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
         controller.setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
 
         inv.invoke();

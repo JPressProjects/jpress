@@ -61,7 +61,7 @@ public class OptionInitializer implements JbootEventListener {
         String webDomain = service.findByKey(JPressConstants.OPTION_WEB_DOMAIN);
         String webCopyright = service.findByKey(JPressConstants.OPTION_WEB_COPYRIGHT);
         String seoTitle = service.findByKey(JPressConstants.OPTION_SEO_TITLE);
-        String seoKeyword = service.findByKey(JPressConstants.OPTION_SEO_KEYWORD);
+        String seoKeyword = service.findByKey(JPressConstants.OPTION_SEO_KEYWORDS);
         String seoDescription = service.findByKey(JPressConstants.OPTION_SEO_DESCRIPTION);
 
 
@@ -206,7 +206,7 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConstants.OPTION_WEB_DOMAIN:
             case JPressConstants.OPTION_WEB_COPYRIGHT:
             case JPressConstants.OPTION_SEO_TITLE:
-            case JPressConstants.OPTION_SEO_KEYWORD:
+            case JPressConstants.OPTION_SEO_KEYWORDS:
             case JPressConstants.OPTION_SEO_DESCRIPTION:
                 initTemplateAttrsOption();
                 break;

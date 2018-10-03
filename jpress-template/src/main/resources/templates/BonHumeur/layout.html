@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>蓝天白云造就好心情</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <meta name="referrer" content="always"/>
+    <meta name="keywords" content="#(SEO_KEYWORDS)">
+    <meta name="description" content="#(SEO_DESCRIPTION)">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bh-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -16,8 +19,8 @@
         <div class="bh-sidebar">
             <div class="bh-sidebar-main">
                 <p class="bh-portrait"><img src="img/list-image.jpg"/></p>
-                <h1>杨福海博客</h1>
-                <p>杨福海，架构师，CTO，全栈工程师</p>
+                <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
+                <p>#option('bonhumeur_web_desc','一个小博客....')</p>
             </div>
         </div>
         <div class="bh-nav-sidebar">

@@ -1,4 +1,4 @@
-package io.jpress.module.article.task;
+package io.jpress.module.article.service.task;
 
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.schedule.annotation.FixedRate;

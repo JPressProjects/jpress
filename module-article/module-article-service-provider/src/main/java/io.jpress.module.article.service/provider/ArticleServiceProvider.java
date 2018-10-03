@@ -12,6 +12,8 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
+import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
 
 import javax.inject.Inject;
@@ -166,6 +168,16 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
+    }
+
+    @Override
+    public void doIncArticleViewCount(long articleId) {
+        ArticleViewsCountUpdateTask.recordCount(articleId);
+    }
+
+    @Override
+    public void doIncArticleCommentCount(long articleId) {
+        ArticleCommentsCountUpdateTask.recordCount(articleId);
     }
 
     private Page<Article> joinUserPage(Page<Article> page) {

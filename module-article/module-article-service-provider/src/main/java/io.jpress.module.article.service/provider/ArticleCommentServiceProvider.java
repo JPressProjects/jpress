@@ -11,6 +11,7 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.service.task.CommentReplayCountUpdateTask;
 import io.jpress.service.UserService;
 
 import javax.inject.Inject;
@@ -133,6 +134,11 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         join(p, "pid", "parent");
         userService.join(p, "user_id");
         return p;
+    }
+
+    @Override
+    public void doIncCommentReplayCount(long commentId) {
+        CommentReplayCountUpdateTask.recordCount(commentId);
     }
 
 

@@ -10,9 +10,7 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.task.ArticleCommentsCountUpdateTask;
-import io.jpress.module.article.task.ArticleViewsCountUpdateTask;
-import io.jpress.module.article.task.CommentReplayCountUpdateTask;
+import io.jpress.module.article.service.task.CommentReplayCountUpdateTask;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -40,6 +38,7 @@ public class ArticleController extends TemplateControllerBase {
     @Inject
     private ArticleCommentService commentService;
 
+
     public void index() {
         Article article = getArticle();
         assertNotNull(article);
@@ -51,13 +50,11 @@ public class ArticleController extends TemplateControllerBase {
                 : article.getMetaDescription());
 
         //记录当前浏览量
-        ArticleViewsCountUpdateTask.recordCount(article.getId());
+        articleService.doIncArticleViewCount(article.getId());
 
         setAttr("article", article);
         render(article.getHtmlView());
     }
-
-
 
 
     private Article getArticle() {
@@ -159,11 +156,11 @@ public class ArticleController extends TemplateControllerBase {
         }
 
         //记录文章的评论量
-        ArticleCommentsCountUpdateTask.recordCount(articleId);
+        articleService.doIncArticleCommentCount(articleId);
 
         if (pid != null) {
             //记录评论的回复数量
-            CommentReplayCountUpdateTask.recordCount(pid);
+            commentService.doIncCommentReplayCount(pid);
         }
 
 

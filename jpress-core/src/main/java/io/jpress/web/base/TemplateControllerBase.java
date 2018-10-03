@@ -71,8 +71,8 @@ public abstract class TemplateControllerBase extends ControllerBase {
         setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
     }
 
-    protected void setSeoKeyword(String seoKeyword) {
-        setAttr(JPressConstants.ATTR_SEO_KEYWORD, seoKeyword);
+    protected void setSeoKeywords(String seoKeyword) {
+        setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
     }
 
     protected void setSeoDescription(String seoDescription) {

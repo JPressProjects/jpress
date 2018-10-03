@@ -10,7 +10,6 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.service.task.CommentReplayCountUpdateTask;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;

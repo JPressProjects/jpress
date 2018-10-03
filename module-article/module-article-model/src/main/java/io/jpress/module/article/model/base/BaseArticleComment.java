@@ -89,12 +89,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getStr("content");
 	}
 
-	public void setCommentCount(java.lang.Long commentCount) {
-		set("comment_count", commentCount);
+	public void setReplyCount(java.lang.Long replyCount) {
+		set("reply_count", replyCount);
 	}
 	
-	public java.lang.Long getCommentCount() {
-		return getLong("comment_count");
+	public java.lang.Long getReplyCount() {
+		return getLong("reply_count");
 	}
 
 	public void setOrderNumber(java.lang.Long orderNumber) {

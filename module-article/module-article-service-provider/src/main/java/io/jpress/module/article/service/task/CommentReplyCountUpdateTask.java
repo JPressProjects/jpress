@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @Package io.jpress.module.article.task
  */
 @FixedRate(period = 5, initialDelay = 5)
-public class CommentReplayCountUpdateTask implements Runnable {
+public class CommentReplyCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();
 
@@ -39,7 +39,7 @@ public class CommentReplayCountUpdateTask implements Runnable {
         countsMap.clear();
 
         for (Map.Entry<Long, AtomicLong> entry : articleViews.entrySet()) {
-            Db.update("update article_comment set comment_count = comment_count + "
+            Db.update("update article_comment set reply_count = reply_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
         }

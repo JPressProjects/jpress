@@ -87,10 +87,7 @@ public class OptionInitializer implements JbootEventListener {
         String token = service.findByKey(JPressConstants.OPTION_WECHAT_TOKEN);
 
 
-        if (StrUtils.isBlank(appId)
-                || StrUtils.isBlank(appSecret)
-                || StrUtils.isBlank(token)
-                ) {
+        if (StrUtils.areNotEmpty(appId, appSecret, token)) {
             // 配置微信 API 相关参数
             ApiConfig ac = new ApiConfig();
             ac.setAppId(appId);
@@ -105,10 +102,8 @@ public class OptionInitializer implements JbootEventListener {
         String miniProgramAppId = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPID);
         String miniProgramAppSecret = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
         String miniProgramToken = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_TOKEN);
-        if (StrUtils.isBlank(appId)
-                || StrUtils.isBlank(appSecret)
-                || StrUtils.isBlank(token)
-                ) {
+
+        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);

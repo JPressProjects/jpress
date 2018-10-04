@@ -26,22 +26,22 @@
     </div>
     #end
 
-    #articlePaginate()
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center ll-page">
-            #for(page : pages)
-            <li class="page-item #(page.style ??)">
-                <a class="page-link" href="#(page.url ??)">
-                    #(page.text ??)
-                </a>
-            </li>
-            #end
-        </ul>
-    </nav>
-    #end
 
+    <div class="bh-more">
+        #articlePaginate()
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center ll-page">
+                #for(page : pages)
+                <li class="page-item #(page.style ??)">
+                    <a class="page-link" href="#(page.url ??)">
+                        #(page.text ??)
+                    </a>
+                </li>
+                #end
+            </ul>
+        </nav>
+        #end
+    </div>
     #end
-
-    <div class="bh-more"><a href="bonhumeur-detail.html">查看更多</a></div>
 </div>
 #end

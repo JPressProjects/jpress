@@ -58,7 +58,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         List<ArticleCategory> tagList = new ArrayList<>();
         for (Record r : records) {
             ArticleCategory category = findById(r.getLong("category_id"));
-            if (category.isTag()) tagList.add(category);
+            if (category != null && category.isTag()) tagList.add(category);
         }
 
         return tagList.isEmpty() ? null : tagList;

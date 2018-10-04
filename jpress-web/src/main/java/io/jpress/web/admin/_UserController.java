@@ -233,7 +233,14 @@ public class _UserController extends AdminControllerBase {
 
 
     public void doUpdateUserRoles() {
+
         Long userId = getParaToLong("userId");
+
+        if (getLoginedUser().getId().equals(userId)) {
+            renderJson(Ret.fail().set("message", "自己不能修改自己的权限"));
+            return;
+        }
+
         Long[] roleIds = getParaValuesToLong("roleId");
         roleService.doResetUserRoles(userId, roleIds);
         renderJson(Ret.ok());

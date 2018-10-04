@@ -1,4 +1,4 @@
-#define layout()
+#define layout(showSidebar)
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -16,6 +16,7 @@
 <body>
 <div class="container-fluid" style="padding:0;">
     <div class="bh-content">
+        #if(showSidebar)
         <div class="bh-sidebar">
             <div class="bh-sidebar-main">
                 <p class="bh-portrait"><img src="img/list-image.jpg"/></p>
@@ -23,6 +24,7 @@
                 <p>#option('bonhumeur_web_desc','一个小博客....')</p>
             </div>
         </div>
+        #end
         <div class="bh-nav-sidebar">
             <ul>
                 <li><a class="active" href="/">Index</a></li>

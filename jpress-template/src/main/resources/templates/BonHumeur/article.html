@@ -1,5 +1,5 @@
 #include("layout.html")
-#@layout()
+#@layout(false)
 #define script()
 <script>
     $('#commentForm').on('submit', function () {
@@ -28,7 +28,7 @@
 </script>
 #end
 #define content()
-<div class="bh-main-body">
+<div class="container">
 
     #include("header.html")
     <div class="bh-artical-content">

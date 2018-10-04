@@ -94,7 +94,7 @@ CREATE TABLE `article_comment` (
   `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
   `qq` varchar(32) DEFAULT NULL COMMENT 'qq号',
   `content` text COMMENT '评论的内容',
-  `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
+  `reply_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
   `order_number` int(11) unsigned DEFAULT '0' COMMENT '排序编号，常用语置顶等',
   `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
   `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
@@ -284,7 +284,7 @@ CREATE TABLE `single_page` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
   `title` text COMMENT '标题',
-  `text` longtext COMMENT '内容',
+  `content` longtext COMMENT '内容',
   `edit_mode` varchar(32) DEFAULT '' COMMENT '编辑模式：html可视化，markdown ..',
   `link_to` varchar(512) DEFAULT NULL COMMENT '链接',
   `summary` text COMMENT '摘要',
@@ -373,7 +373,7 @@ DROP TABLE IF EXISTS `utm`;
 
 CREATE TABLE `utm` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
   `anonym` varchar(32) DEFAULT NULL COMMENT '匿名标识',
   `action_key` varchar(512) DEFAULT NULL COMMENT '访问路径',
   `action_query` varchar(512) DEFAULT NULL COMMENT '访问参数',
@@ -396,7 +396,8 @@ CREATE TABLE `utm` (
   `network` varchar(128) DEFAULT NULL COMMENT '网络情况',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
 
 
@@ -420,12 +421,12 @@ CREATE TABLE `wechat_menu` (
 
 
 
-# Dump of table wechat_replay
+# Dump of table wechat_reply
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `wechat_replay`;
+DROP TABLE IF EXISTS `wechat_reply`;
 
-CREATE TABLE `wechat_replay` (
+CREATE TABLE `wechat_reply` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
   `content` text COMMENT '回复内容',

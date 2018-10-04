@@ -40,4 +40,10 @@ public class PermissionKits {
         RoleService roleService = Jboot.bean(RoleService.class);
         return roleService.hasRole(userId, roleFlag);
     }
+
+    public static final boolean isSupperAdmin() {
+        User user = UserInterceptor.getThreadLocalUser();
+        RoleService roleService = Jboot.bean(RoleService.class);
+        return roleService.isSupperAdmin(user.getId());
+    }
 }

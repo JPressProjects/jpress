@@ -42,4 +42,15 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
 
+    private static final String NO_PERMISSION_VIEW = "/WEB-INF/views/admin/error/nopermission.html";
+
+    public void renderErrorForNoPermission() {
+        if (isAjaxRequest()) {
+            renderJson(Ret.fail().set("message", "您没有权限操作此功能。"));
+        } else {
+            render(NO_PERMISSION_VIEW);
+        }
+    }
+
+
 }

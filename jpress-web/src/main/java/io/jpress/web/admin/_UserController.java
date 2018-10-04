@@ -208,6 +208,13 @@ public class _UserController extends AdminControllerBase {
         }
 
         if ("role".equals(action)) {
+
+            //不是超级管理员，不让修改用户角色
+            if (roleService.isSupperAdmin(user.getId()) == false) {
+                renderErrorForNoPermission();
+                return;
+            }
+
             List<Role> roles = roleService.findAll();
             setAttr("roles", roles);
         }

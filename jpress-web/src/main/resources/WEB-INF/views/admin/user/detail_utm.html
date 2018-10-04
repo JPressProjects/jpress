@@ -5,66 +5,22 @@
     <table class="table table-striped">
         <tbody>
         <tr>
-            <th style="width: 450px">路径</th>
-            <th>查询</th>
-            <th>渠道</th>
-            <th>媒介</th>
-            <th style="width: 100px">时间</th>
+            <th style="width: 30%">路径</th>
+            <th style="width: 30%">查询</th>
+            <th style="width: 10%">渠道</th>
+            <th style="width: 10%">媒介</th>
+            <th style="width: 180px">时间</th>
         </tr>
 
+        #for(utm : page.list)
         <tr class="jp-actiontr">
-            <td>
-                <a href="/admin/page/write/1">页面页面</a>
-                <div class="jp-actionblock">
-                    <div class="jp-actionitem" style="display: none;">
-                        <a href="/admin/page/write/1" style="color: #006505">编辑</a> |
-                        <a href="/aabb" target="_blank" style="color: #006505">查看</a> |
-                        <a href="javascript:;" onclick="draft('1')" style="color: #006505">草稿</a>
-                        |
-                        <a href="javascript:;" onclick="trash('1')" style="color: #a00">垃圾箱</a>
-                    </div>
-                </div>
-
-            </td>
-            <td>aabb</td>
-            <td>aabb</td>
-            <td>请选择样式</td>
-            <td>2018-08-28 13:59:19.0</td>
+            <td>#(utm.action_key ??)</td>
+            <td>#(utm.action_query ??)</td>
+            <td>#(utm.source ??)</td>
+            <td>#(utm.medium ??)</td>
+            <td>#(utm.created ??)</td>
         </tr>
-        <tr class="jp-actiontr">
-            <td>
-                <a href="/admin/page/write/2">爸爸爸爸吧爸爸1111</a>
-                （草稿）
-                <div class="jp-actionblock">
-                    <div class="jp-actionitem" style="display: none;">
-                        <a href="/admin/page/write/2" style="color: #006505">编辑</a> |
-                        <a href="javascript:;" onclick="trash('2')" style="color: #a00">垃圾箱</a>
-                    </div>
-                </div>
-
-            </td>
-            <td>阿法士大夫</td>
-            <td>阿法士大夫</td>
-            <td>请选择样式</td>
-            <td>2018-08-28 14:03:32.0</td>
-        </tr>
-        <tr class="jp-actiontr">
-            <td>
-                <a href="/admin/page/write/3">爸爸爸爸吧爸爸123123123</a>
-                （草稿）
-                <div class="jp-actionblock">
-                    <div class="jp-actionitem" style="display: none;">
-                        <a href="/admin/page/write/3" style="color: #006505">编辑</a> |
-                        <a href="javascript:;" onclick="trash('3')" style="color: #a00">垃圾箱</a>
-                    </div>
-                </div>
-
-            </td>
-            <td></td>
-            <td>请选择样式</td>
-            <td>请选择样式</td>
-            <td>2018-08-28 14:03:49.0</td>
-        </tr>
+        #end
 
         </tbody>
     </table>

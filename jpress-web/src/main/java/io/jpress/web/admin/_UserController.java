@@ -163,7 +163,6 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-
     public void delRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);
         renderJson(Ret.ok());
@@ -180,7 +179,7 @@ public class _UserController extends AdminControllerBase {
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);
-        exeOtherAction();
+        exeOtherAction(user);
         render(getRenderHtml());
     }
 
@@ -189,7 +188,7 @@ public class _UserController extends AdminControllerBase {
         Long uid = getParaToLong();
         User user = userService.findById(uid);
         setAttr("user", user);
-        exeOtherAction();
+        exeOtherAction(user);
         render(getRenderHtml());
     }
 
@@ -201,10 +200,10 @@ public class _UserController extends AdminControllerBase {
         return "user/detail_" + action + ".html";
     }
 
-    private void exeOtherAction() {
+    private void exeOtherAction(User user) {
         String action = getPara("action", "base");
         if ("utm".equals(action)) {
-            Page<Utm> page = utmService.paginate(getPagePara(), 10);
+            Page<Utm> page = utmService._paginateByUserId(getPagePara(), 20, user.getId());
             setAttr("page", page);
         }
 

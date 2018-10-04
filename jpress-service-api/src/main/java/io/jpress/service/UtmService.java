@@ -102,4 +102,6 @@ public interface UtmService {
     public void keep(List<? extends Model> models, String... attrs);
 
     public void doRecord(Utm utm);
+
+    public Page<Utm> _paginateByUserId(int page, int pagesize, long userId);
 }

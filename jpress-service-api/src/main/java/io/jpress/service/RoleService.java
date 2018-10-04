@@ -43,8 +43,6 @@ public interface RoleService {
     public boolean deleteByIds(Object... ids);
 
 
-
-
     /**
      * delete model
      *

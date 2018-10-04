@@ -6,8 +6,11 @@ import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
+import io.jpress.model.Permission;
 import io.jpress.model.Role;
 import io.jpress.service.RoleService;
 
@@ -149,6 +152,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     public boolean hasPermission(long roleId, long permissionId) {
         return Db.queryFirst("select * from role_permission_mapping where role_id = ? and permission_id = ?", roleId, permissionId) != null;
     }
+
 
     @Override
     @CacheEvict(name = "role", key = "user_roles:#(userId)")

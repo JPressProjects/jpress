@@ -1,5 +1,6 @@
 package io.jpress.web.admin;
 
+import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
@@ -36,6 +37,8 @@ import java.util.Set;
  */
 @RequestMapping("/admin/user")
 public class _UserController extends AdminControllerBase {
+
+    private static final String USER_ROLE_EDIT_ACTION = "/admin/user/roleEdit";
 
     @Inject
     private RoleService roleService;
@@ -114,7 +117,7 @@ public class _UserController extends AdminControllerBase {
         render("user/role_permissions.html");
     }
 
-
+    @ActionKey(USER_ROLE_EDIT_ACTION)
     public void roleEdit() {
         Long id = getParaToLong();
         if (id != null) {
@@ -210,7 +213,7 @@ public class _UserController extends AdminControllerBase {
         if ("role".equals(action)) {
 
             //不是超级管理员，不让修改用户角色
-            if (roleService.isSupperAdmin(user.getId()) == false) {
+            if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION)) {
                 renderErrorForNoPermission();
                 return;
             }

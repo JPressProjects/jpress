@@ -16,11 +16,15 @@
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="填写邮箱账号"
                        name="user.email" value="#(user.email ??)">
+
+                #if(user.email)
                 #if(user.isEmailStatusOk())
                 <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
                 #else
                 <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
                 #end
+                #end
+
             </div>
 
         </div>
@@ -31,10 +35,12 @@
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="及手机号"
                        name="user.mobile" value="#(user.mobile ??)">
+                #if(user.mobile)
                 #if(user.isMobileStatusOk())
                 <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
                 #else
                 <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
+                #end
                 #end
             </div>
         </div>

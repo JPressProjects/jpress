@@ -216,7 +216,7 @@ public class _UserController extends AdminControllerBase {
 
     public void doSaveUser() {
         User user = getBean(User.class);
-        user.keepSafe();
+        user.keepUpdateSafe();
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }
@@ -225,7 +225,6 @@ public class _UserController extends AdminControllerBase {
     public void doUpdateUserRoles() {
         Long userId = getParaToLong("userId");
         Long[] roleIds = getParaValuesToLong("roleId");
-
         roleService.doResetUserRoles(userId, roleIds);
         renderJson(Ret.ok());
     }

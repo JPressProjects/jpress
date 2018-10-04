@@ -40,6 +40,20 @@ public class User extends BaseUser<User> {
         remove("password", "salt");
     }
 
+    public void keepUpdateSafe() {
+
+        //这些字段不允许用户自己更新
+        
+        remove("password", "salt",
+                "username", "wx_openid",
+                "wx_unionid", "qq_openid",
+                "email_status", "mobile_status",
+                "status", "created",
+                "create_source", "logged",
+                "activated");
+
+    }
+
 
     public boolean isEmailStatusOk() {
         return STATUS_OK.equals(getEmailStatus());

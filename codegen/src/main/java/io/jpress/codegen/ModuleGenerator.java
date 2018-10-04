@@ -150,8 +150,8 @@ public class ModuleGenerator {
         new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
         new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
 
-        String apiPath = basePath + serviceApiModuleName + "/src/main/java/" + servicePackage;
-        String providerPath = basePath + serviceProviderModuleName + "/src/main/java/" + servicePackage + "/provider";
+        String apiPath = basePath + serviceApiModuleName + "/src/main/java/" + servicePackage.replace(".", "/");
+        String providerPath = basePath + serviceProviderModuleName + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);

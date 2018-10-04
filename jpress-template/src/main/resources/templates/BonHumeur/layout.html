@@ -28,7 +28,13 @@
         <div class="bh-nav-sidebar">
             <ul>
                 <li><a class="active" href="/">Index</a></li>
-                <li><a href="/">Me!</a></li>
+                #menus("main")
+                #for(menu : menus)
+                <li class="nav-item">
+                    <a href="#(menu.url ??)">#(menu.text ??)</a>
+                </li>
+                #end
+                #end
             </ul>
         </div>
         <div class="bh-main">

@@ -17,38 +17,24 @@ import java.util.List;
  * @Title: 文章分类：分类、专题、标签等
  * @Package io.jpress.module.article.directives
  */
-@JFinalDirective("articleCategories")
-public class CategorysDirective extends JbootDirectiveBase {
+@JFinalDirective("categories")
+public class CategoriesDirective extends JbootDirectiveBase {
 
     @Inject
     private ArticleCategoryService categoryService;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Long id = getParam(0, scope);
-        String type = getParam(1, scope);
+        String type = getParam(0, ArticleCategory.TYPE_CATEGORY, scope);
 
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("articleCategory error");
+        if (type == null) {
+            throw new IllegalArgumentException("#categories(type) is error");
         }
 
-
-        List<ArticleCategory> categories = categoryService.findListByType(id, type);
+        List<ArticleCategory> categories = categoryService.findListByType(type);
         if (categories == null || categories.isEmpty()) {
             return;
         }
-//        try {
-//            for (int i = 0; i < categories.size(); i++) {
-//                ArticleCategory category = categories.get(i);
-//                if (i == categories.size() - 1) {
-//                    writer.write(String.format("<a href=\"\">%s</a>", category.getTitle()));
-//                } else {
-//                    writer.write(String.format("<a href=\"\">%s</a> , ", category.getTitle()));
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         scope.setLocal("categories", categories);
         renderBody(env, scope, writer);
     }

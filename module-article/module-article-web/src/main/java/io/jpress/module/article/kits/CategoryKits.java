@@ -40,7 +40,7 @@ public class CategoryKits {
         categories.clear();
 
         for (ArticleCategory category : temp) {
-            if (category.isTopCategory()) {
+            if (category.isTop()) {
                 category.setLayerNO(0);
                 fillChild(category, temp);
                 categories.add(category);

@@ -71,7 +71,7 @@
                                 <td>
                                     #articleCategories(article.id,"category")
                                     #for(category : categories)
-                                    <a href="#articleCategoryUrl(category)" target="_blank">#(category.title ??)</a>
+                                    <a href="#categoryUrl(category)" target="_blank">#(category.title ??)</a>
                                     #if(!for.last) , #end
                                     #end
                                     #end
@@ -79,7 +79,7 @@
                                 <td>
                                     #articleCategories(article.id,"tag")
                                     #for(category : categories)
-                                    <a href="#articleCategoryUrl(category)" target="_blank">#(category.title ??)</a>
+                                    <a href="#categoryUrl(category)" target="_blank">#(category.title ??)</a>
                                     #if(!for.last) , #end
                                     #end
                                     #end

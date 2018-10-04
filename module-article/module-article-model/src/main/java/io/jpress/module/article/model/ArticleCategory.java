@@ -45,7 +45,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
      *
      * @return
      */
-    public boolean isTopCategory() {
+    public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
 

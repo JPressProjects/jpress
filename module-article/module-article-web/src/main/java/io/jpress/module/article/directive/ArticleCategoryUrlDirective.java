@@ -18,7 +18,7 @@ import java.io.IOException;
  * @version V1.0
  * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("articleCategoryUrl")
+@JFinalDirective("categoryUrl")
 public class ArticleCategoryUrlDirective extends JbootDirectiveBase {
 
     @Override

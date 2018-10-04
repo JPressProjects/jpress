@@ -136,6 +136,7 @@ public class UserController extends TemplateControllerBase {
         user.setCreated(new Date());
         user.setStatus(User.STATUS_REG);
         user.setCreateSource("web_register");
+        user.setAnonym(EncryptCookieUtils.get(this, JPressConstants.COOKIE_ANONYM));
 
         userService.save(user);
 

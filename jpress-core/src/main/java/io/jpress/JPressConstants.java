@@ -58,6 +58,7 @@ public class JPressConstants {
      * 用到的cookie name 常量
      */
     public static final String COOKIE_UID = "_jpuid";
+    public static final String COOKIE_ANONYM = "_jpanonym";
 
     /**
      * 用到的request attribute常量

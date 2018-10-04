@@ -4,6 +4,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jpress.service.UtmService;
 import io.jpress.model.Utm;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.service.task.UtmBatchSaveTask;
 
 import javax.inject.Singleton;
 
@@ -13,6 +14,6 @@ public class UtmServiceProvider extends JbootServiceBase<Utm> implements UtmServ
 
     @Override
     public void doRecord(Utm utm) {
-
+        UtmBatchSaveTask.record(utm);
     }
 }

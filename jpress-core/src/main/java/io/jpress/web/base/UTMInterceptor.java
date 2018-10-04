@@ -30,6 +30,7 @@ public class UTMInterceptor implements Interceptor {
         Controller ctrl = inv.getController();
 
         Utm utm = new Utm();
+        utm.setId(StrUtils.uuid());
         utm.setActionKey(inv.getActionKey());
         utm.setActionQuery(ctrl.getRequest().getQueryString());
         utm.setIp(RequestUtils.getIpAddress(ctrl.getRequest()));

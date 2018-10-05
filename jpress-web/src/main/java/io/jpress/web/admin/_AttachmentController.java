@@ -5,7 +5,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -30,7 +30,7 @@ public class _AttachmentController extends AdminControllerBase {
     @Inject
     private AttachmentService as;
 
-    @AdminMenu(text = "所有附件", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 0)
+    @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void index() {
 
         Page<Attachment> page = as._paginate(getPagePara(), 15, getPara("title"));
@@ -39,7 +39,7 @@ public class _AttachmentController extends AdminControllerBase {
 
     }
 
-    @AdminMenu(text = "上传", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 1)
+    @AdminMenu(text = "上传", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 1)
     public void upload() {
         render("attachment/upload.html");
     }
@@ -104,7 +104,7 @@ public class _AttachmentController extends AdminControllerBase {
 
 
 
-    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_ATTACHMENT, order = 2)
+    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 2)
     public void setting() {
         render("attachment/setting.html");
     }

@@ -8,7 +8,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -58,7 +58,7 @@ public class UserController extends TemplateControllerBase {
                 : userService.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
-            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, ret.getLong("user_id"));
+            EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
         }
 
         renderJson(ret);
@@ -136,7 +136,7 @@ public class UserController extends TemplateControllerBase {
         user.setCreated(new Date());
         user.setStatus(User.STATUS_REG);
         user.setCreateSource("web_register");
-        user.setAnonym(EncryptCookieUtils.get(this, JPressConstants.COOKIE_ANONYM));
+        user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
 
         userService.save(user);
 
@@ -147,7 +147,7 @@ public class UserController extends TemplateControllerBase {
      * 退出登录
      */
     public void logout() {
-        EncryptCookieUtils.remove(this, JPressConstants.COOKIE_UID);
+        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
         redirect("/user/login");
     }
 

@@ -4,7 +4,7 @@ import com.jfinal.kit.Ret;
 import io.jboot.Jboot;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
@@ -52,7 +52,7 @@ public class _OptionController extends AdminControllerBase {
 
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
             os.saveOrUpdate(entry.getKey(), entry.getValue());
-            Jboot.sendEvent(JPressConstants.EVENT_OPTION_UPDATE, new Option(entry.getKey(), entry.getValue()));
+            Jboot.sendEvent(JPressConsts.EVENT_OPTION_UPDATE, new Option(entry.getKey(), entry.getValue()));
         }
 
         renderJson(Ret.ok());

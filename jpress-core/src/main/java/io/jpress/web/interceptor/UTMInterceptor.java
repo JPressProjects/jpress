@@ -6,7 +6,7 @@ import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.RequestUtils;
 import io.jboot.utils.StrUtils;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.Utm;
 import io.jpress.service.UtmService;
 
@@ -38,7 +38,7 @@ public class UTMInterceptor implements Interceptor {
         utm.setReferer(RequestUtils.getReferer(ctrl.getRequest()));
 
 
-        String uid = EncryptCookieUtils.get(ctrl, JPressConstants.COOKIE_UID);
+        String uid = EncryptCookieUtils.get(ctrl, JPressConsts.COOKIE_UID);
         if (StrUtils.isNotBlank(uid)) {
             utm.setUserId(Long.valueOf(uid));
         }
@@ -48,11 +48,11 @@ public class UTMInterceptor implements Interceptor {
          */
         else {
             //anonym
-            String anonym = EncryptCookieUtils.get(ctrl, JPressConstants.COOKIE_ANONYM);
+            String anonym = EncryptCookieUtils.get(ctrl, JPressConsts.COOKIE_ANONYM);
             if (StrUtils.isNotBlank(anonym)) {
                 utm.setAnonym(anonym);
             } else {
-                EncryptCookieUtils.put(ctrl, JPressConstants.COOKIE_ANONYM, StrUtils.uuid(), 60 * 60 * 24 * 365);
+                EncryptCookieUtils.put(ctrl, JPressConsts.COOKIE_ANONYM, StrUtils.uuid(), 60 * 60 * 24 * 365);
             }
         }
 

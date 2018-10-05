@@ -7,7 +7,7 @@ import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.FileUtils;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -48,7 +48,7 @@ public class _TemplateController extends AdminControllerBase {
     @Inject
     private OptionService optionService;
 
-    @AdminMenu(text = "所有模板", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 0)
+    @AdminMenu(text = "所有模板", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 0)
     public void index() {
 
         String title = getPara("title");
@@ -72,7 +72,7 @@ public class _TemplateController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "安装", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 5)
+    @AdminMenu(text = "安装", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 5)
     public void install() {
         render("template/install.html");
     }
@@ -152,7 +152,7 @@ public class _TemplateController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 88)
+    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 88)
     public void setting() {
         Template template = TemplateManager.me().getCurrentTemplate();
         setAttr("template", template);
@@ -166,7 +166,7 @@ public class _TemplateController extends AdminControllerBase {
         render(template.getWebAbsolutePath() + "/setting.html");
     }
 
-    @AdminMenu(text = "编辑", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 99)
+    @AdminMenu(text = "编辑", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 99)
     public void edit() {
 
         String dirName = getPara("d");
@@ -307,7 +307,7 @@ public class _TemplateController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 6)
+    @AdminMenu(text = "菜单", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 6)
     public void menu() {
         List<Menu> menus = ms.findListByType(Menu.TYPE_MAIN);
         SortKit.toLayer(menus);

@@ -10,7 +10,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -52,7 +52,7 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private UtmService utmService;
 
-    @AdminMenu(text = "用户管理", groupId = JPressConstants.SYSTEM_MENU_USER, order = 0)
+    @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
         Page<User> page = userService._paginate(getPagePara(), 10,
@@ -88,7 +88,7 @@ public class _UserController extends AdminControllerBase {
         render("user/edit.html");
     }
 
-    @AdminMenu(text = "角色", groupId = JPressConstants.SYSTEM_MENU_USER, order = 5)
+    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void role() {
         List<Role> roles = roleService.findAll();
         setAttr("roles", roles);
@@ -178,7 +178,7 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "我的资料", groupId = JPressConstants.SYSTEM_MENU_USER)
+    @AdminMenu(text = "我的资料", groupId = JPressConsts.SYSTEM_MENU_USER)
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);

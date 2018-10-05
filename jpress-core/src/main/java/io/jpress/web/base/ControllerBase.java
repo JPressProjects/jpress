@@ -1,7 +1,7 @@
 package io.jpress.web.base;
 
 import io.jboot.web.controller.JbootController;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.User;
 
 /**
@@ -39,7 +39,7 @@ public abstract class ControllerBase extends JbootController {
 
 
     protected User getLoginedUser() {
-        return getAttr(JPressConstants.ATTR_LOGINED_USER);
+        return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
 
 }

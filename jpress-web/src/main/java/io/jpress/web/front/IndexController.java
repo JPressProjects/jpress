@@ -1,7 +1,7 @@
 package io.jpress.web.front;
 
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.Menu;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
@@ -33,11 +33,11 @@ public class IndexController extends TemplateControllerBase {
         List<Menu> menus = getMenus();
 //        menus.stream()
 //                .filter(menu -> "/".equals(menu.getUrl()))
-//                .map(menu -> menu.put(JPressConstants.IS_ACTIVE, true));
+//                .map(menu -> menu.put(JPressConsts.IS_ACTIVE, true));
 
         for (Menu menu : menus){
             if ("/".equals(menu.getUrl())){
-                menu.put(JPressConstants.IS_ACTIVE,true);
+                menu.put(JPressConsts.IS_ACTIVE,true);
             }
         }
     }

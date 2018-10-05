@@ -7,7 +7,7 @@ import io.jboot.Jboot;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.service.OptionService;
 
@@ -27,13 +27,13 @@ public class PageUrlDirective extends JbootDirectiveBase {
         SinglePage page = getParam(0, scope);
 
         OptionService service = Jboot.bean(OptionService.class);
-        Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
+        Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE);
         if (fakeStaticEnable == null || fakeStaticEnable == false) {
             render(writer, page.getUrl(""));
             return;
         }
 
-        String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
+        String suffix = service.findByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX);
         render(writer, StrUtils.isBlank(suffix) ? page.getUrl("") : page.getUrl(suffix));
     }
 

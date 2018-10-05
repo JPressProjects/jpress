@@ -2,7 +2,7 @@ package io.jpress.core.menu;
 
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.core.module.ModuleListener;
@@ -51,28 +51,28 @@ public class SystemMenuManager {
 
 
         MenuGroup userMenuGroup = new MenuGroup();
-        userMenuGroup.setId(JPressConstants.SYSTEM_MENU_USER);
+        userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);
         userMenuGroup.setText("用户");
         userMenuGroup.setIcon("<i class=\"fa fa-fw fa-user\"></i>");
         systemMenus.add(userMenuGroup);
 
 
         MenuGroup wechatMenuGroup = new MenuGroup();
-        wechatMenuGroup.setId(JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
+        wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
         wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
         systemMenus.add(wechatMenuGroup);
 
 
         MenuGroup templateMenuGroup = new MenuGroup();
-        templateMenuGroup.setId(JPressConstants.SYSTEM_MENU_TEMPLATE);
+        templateMenuGroup.setId(JPressConsts.SYSTEM_MENU_TEMPLATE);
         templateMenuGroup.setText("模板");
         templateMenuGroup.setIcon("<i class=\"fa fa-magic\"></i>");
         systemMenus.add(templateMenuGroup);
 
 
         MenuGroup settingMenuGroup = new MenuGroup();
-        settingMenuGroup.setId(JPressConstants.SYSTEM_MENU_SYSTEM);
+        settingMenuGroup.setId(JPressConsts.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");
         settingMenuGroup.setIcon("<i class=\"fa fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
@@ -94,7 +94,7 @@ public class SystemMenuManager {
         }
 
         MenuGroup attachmentMenuGroup = new MenuGroup();
-        attachmentMenuGroup.setId(JPressConstants.SYSTEM_MENU_ATTACHMENT);
+        attachmentMenuGroup.setId(JPressConsts.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
         attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
         moduleMenus.add(attachmentMenuGroup);

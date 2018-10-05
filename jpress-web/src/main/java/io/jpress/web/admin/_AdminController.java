@@ -7,7 +7,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.service.UserService;
@@ -47,7 +47,7 @@ public class _AdminController extends AdminControllerBase {
                 : us.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
-            EncryptCookieUtils.put(this, JPressConstants.COOKIE_UID, ret.getLong("user_id"));
+            EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
         }
 
         renderJson(ret);
@@ -55,7 +55,7 @@ public class _AdminController extends AdminControllerBase {
 
     @Clear
     public void logout() {
-        EncryptCookieUtils.remove(this, JPressConstants.COOKIE_UID);
+        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
         redirect("/admin/login");
     }
 

@@ -6,7 +6,7 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -83,7 +83,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
     private void doFlagByCurrentCategory(List<ArticleCategory> categories, ArticleCategory currentCategory) {
         for (ArticleCategory category : categories) {
             if (currentCategory.getId().equals(category.getId())) {
-                category.put(JPressConstants.IS_ACTIVE, true);
+                category.put(JPressConsts.IS_ACTIVE, true);
             }
         }
     }

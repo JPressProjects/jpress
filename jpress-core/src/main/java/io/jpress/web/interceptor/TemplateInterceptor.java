@@ -4,7 +4,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
@@ -67,20 +67,20 @@ public class TemplateInterceptor implements Interceptor {
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConstants.ATTR_WEB_TITLE, webTitle);
-        controller.setAttr(JPressConstants.ATTR_WEB_SUBTITLE, webSubTitle);
-        controller.setAttr(JPressConstants.ATTR_WEB_NAME, webName);
-        controller.setAttr(JPressConstants.ATTR_WEB_DOMAIN, webDomain);
-        controller.setAttr(JPressConstants.ATTR_WEB_COPYRIGHT, webCopyright);
-        controller.setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
-        controller.setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
-        controller.setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
+        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, webTitle);
+        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, webSubTitle);
+        controller.setAttr(JPressConsts.ATTR_WEB_NAME, webName);
+        controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
+        controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
+        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, seoTitle);
+        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, seoKeyword);
+        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, seoDescription);
 
 
         MenuService menuService = Jboot.bean(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
         SortKit.toTree(menus);
-        controller.setAttr(JPressConstants.ATTR_MENUS, menus);
+        controller.setAttr(JPressConsts.ATTR_MENUS, menus);
 
         inv.invoke();
     }

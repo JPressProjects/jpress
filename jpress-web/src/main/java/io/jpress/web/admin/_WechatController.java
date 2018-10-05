@@ -8,7 +8,7 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.wechat.WechatApis;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.wechat.WechatAddonInfo;
@@ -43,13 +43,13 @@ public class _WechatController extends AdminControllerBase {
     private WechatMenuService wechatMenuService;
 
 
-    @AdminMenu(text = "基础设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
+    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
     public void base() {
         render("wechat/setting_base.html");
     }
 
 
-    @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
+    @AdminMenu(text = "菜单设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
     public void menu() {
         List<WechatMenu> menus = wechatMenuService.findAll();
         SortKit.toLayer(menus);
@@ -67,13 +67,13 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "默认回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
+    @AdminMenu(text = "默认回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
     public void reply() {
         render("wechat/reply_base.html");
     }
 
 
-    @AdminMenu(text = "自动回复", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
+    @AdminMenu(text = "自动回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
     public void keyword() {
         Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
         setAttr("page", page);
@@ -103,7 +103,7 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "运营插件", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
+    @AdminMenu(text = "运营插件", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
     public void addons() {
         List<WechatAddonInfo> wechatAddons = WechatAddonManager.me().getWechatAddons();
         setAttr("wechatAddons", wechatAddons);

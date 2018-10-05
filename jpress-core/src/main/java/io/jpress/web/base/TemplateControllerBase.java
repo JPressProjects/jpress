@@ -1,7 +1,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
@@ -65,27 +65,53 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
     protected void setWebTilte(String webTitle) {
-        setAttr(JPressConstants.ATTR_WEB_TITLE, webTitle);
+        setAttr(JPressConsts.ATTR_WEB_TITLE, webTitle);
     }
 
     protected void setWebSubTilte(String webSubTitle) {
-        setAttr(JPressConstants.ATTR_WEB_SUBTITLE, webSubTitle);
+        setAttr(JPressConsts.ATTR_WEB_SUBTITLE, webSubTitle);
     }
 
     protected void setSeoTitle(String seoTitle) {
-        setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
+        setAttr(JPressConsts.ATTR_SEO_TITLE, seoTitle);
     }
 
     protected void setSeoKeywords(String seoKeyword) {
-        setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
+        setAttr(JPressConsts.ATTR_SEO_KEYWORDS, seoKeyword);
     }
 
     protected void setSeoDescription(String seoDescription) {
-        setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
+        setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, seoDescription);
     }
 
-    protected List<Menu> getMenus() {
-        return getAttr(JPressConstants.ATTR_MENUS);
+
+    /**
+     * 在当前页面，对菜单选中进行判断
+     *
+     * @param flager
+     */
+    protected void doFlagMenuActive(MenuActiveFlager flager) {
+        List<Menu> menus = getAttr(JPressConsts.ATTR_MENUS);
+        if (menus == null || menus.isEmpty()) {
+            return;
+        }
+
+        doFlagMenuActive(flager, menus);
+    }
+
+    private void doFlagMenuActive(MenuActiveFlager flager, List<Menu> menus) {
+        for (Menu menu : menus) {
+            if (flager.flagActive(menu)) {
+                JPressConsts.doFlagModelActive(menu);
+            }
+            if (menu.hasChild()) {
+                doFlagMenuActive(flager, menu.getChilds());
+            }
+        }
+    }
+
+    public static interface MenuActiveFlager {
+        public boolean flagActive(Menu menu);
     }
 
 

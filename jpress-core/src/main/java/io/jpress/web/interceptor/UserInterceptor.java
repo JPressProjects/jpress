@@ -6,7 +6,7 @@ import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.JbootControllerContext;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -24,14 +24,14 @@ public class UserInterceptor implements Interceptor {
     private UserService userService;
 
     public static User getThreadLocalUser() {
-        return JbootControllerContext.get().getAttr(JPressConstants.ATTR_LOGINED_USER);
+        return JbootControllerContext.get().getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
 
     @Override
     public void intercept(Invocation inv) {
 
         Controller controller = inv.getController();
-        User user = controller.getAttr(JPressConstants.ATTR_LOGINED_USER);
+        User user = controller.getAttr(JPressConsts.ATTR_LOGINED_USER);
 
         if (user != null) {
             inv.invoke();
@@ -39,7 +39,7 @@ public class UserInterceptor implements Interceptor {
         }
 
 
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
+        String uid = EncryptCookieUtils.get(inv.getController(), JPressConsts.COOKIE_UID);
         if (StrUtils.isBlank(uid)) {
             inv.invoke();
             return;
@@ -47,7 +47,7 @@ public class UserInterceptor implements Interceptor {
 
         user = userService.findById(uid);
         if (user != null) {
-            inv.getController().setAttr(JPressConstants.ATTR_LOGINED_USER, user);
+            inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
         }
 
         inv.invoke();

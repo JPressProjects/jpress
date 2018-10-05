@@ -9,7 +9,7 @@ import io.jboot.event.JbootEvent;
 import io.jboot.event.JbootEventListener;
 import io.jboot.event.JbootEventManager;
 import io.jboot.utils.StrUtils;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -41,7 +41,7 @@ public class OptionInitializer implements JbootEventListener {
     public void init() {
 
         service = Jboot.bean(OptionService.class);
-        JbootEventManager.me().registerListener(this, false, JPressConstants.EVENT_OPTION_UPDATE);
+        JbootEventManager.me().registerListener(this, false, JPressConsts.EVENT_OPTION_UPDATE);
 
         initTemplateOption(); //初始化模板配置
         initFakeStaticOption(); //初始化伪静态配置
@@ -55,14 +55,14 @@ public class OptionInitializer implements JbootEventListener {
 
     private void initTemplateAttrsOption() {
 
-        String webTitle = service.findByKey(JPressConstants.OPTION_WEB_TITLE);
-        String webSubTitle = service.findByKey(JPressConstants.OPTION_WEB_SUBTITLE);
-        String webName = service.findByKey(JPressConstants.OPTION_WEB_NAME);
-        String webDomain = service.findByKey(JPressConstants.OPTION_WEB_DOMAIN);
-        String webCopyright = service.findByKey(JPressConstants.OPTION_WEB_COPYRIGHT);
-        String seoTitle = service.findByKey(JPressConstants.OPTION_SEO_TITLE);
-        String seoKeyword = service.findByKey(JPressConstants.OPTION_SEO_KEYWORDS);
-        String seoDescription = service.findByKey(JPressConstants.OPTION_SEO_DESCRIPTION);
+        String webTitle = service.findByKey(JPressConsts.OPTION_WEB_TITLE);
+        String webSubTitle = service.findByKey(JPressConsts.OPTION_WEB_SUBTITLE);
+        String webName = service.findByKey(JPressConsts.OPTION_WEB_NAME);
+        String webDomain = service.findByKey(JPressConsts.OPTION_WEB_DOMAIN);
+        String webCopyright = service.findByKey(JPressConsts.OPTION_WEB_COPYRIGHT);
+        String seoTitle = service.findByKey(JPressConsts.OPTION_SEO_TITLE);
+        String seoKeyword = service.findByKey(JPressConsts.OPTION_SEO_KEYWORDS);
+        String seoDescription = service.findByKey(JPressConsts.OPTION_SEO_DESCRIPTION);
 
 
         TemplateInterceptor.setWebTitle(webTitle);
@@ -82,9 +82,9 @@ public class OptionInitializer implements JbootEventListener {
      */
     private void initWechatOption() {
 
-        String appId = service.findByKey(JPressConstants.OPTION_WECHAT_APPID);
-        String appSecret = service.findByKey(JPressConstants.OPTION_WECHAT_APPSECRET);
-        String token = service.findByKey(JPressConstants.OPTION_WECHAT_TOKEN);
+        String appId = service.findByKey(JPressConsts.OPTION_WECHAT_APPID);
+        String appSecret = service.findByKey(JPressConsts.OPTION_WECHAT_APPSECRET);
+        String token = service.findByKey(JPressConsts.OPTION_WECHAT_TOKEN);
 
 
         if (StrUtils.areNotEmpty(appId, appSecret, token)) {
@@ -99,9 +99,9 @@ public class OptionInitializer implements JbootEventListener {
         }
 
 
-        String miniProgramAppId = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPID);
-        String miniProgramAppSecret = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
-        String miniProgramToken = service.findByKey(JPressConstants.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+        String miniProgramAppId = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
+        String miniProgramAppSecret = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
+        String miniProgramToken = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
         if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
             WxaConfig wxaConfig = new WxaConfig();
@@ -117,27 +117,27 @@ public class OptionInitializer implements JbootEventListener {
 
 
     private void initApiOption() {
-        Boolean cdnEnable = service.findAsBoolByKey(JPressConstants.OPTION_API_ENABLE);
+        Boolean cdnEnable = service.findAsBoolByKey(JPressConsts.OPTION_API_ENABLE);
         if (cdnEnable == null || cdnEnable == false) {
             ApiInterceptor.initApiEnable(false);
         } else {
             ApiInterceptor.initApiEnable(true);
         }
 
-        String apiAppid = service.findByKey(JPressConstants.OPTION_API_APPID);
-        String apiSecret = service.findByKey(JPressConstants.OPTION_API_SECRET);
+        String apiAppid = service.findByKey(JPressConsts.OPTION_API_APPID);
+        String apiSecret = service.findByKey(JPressConsts.OPTION_API_SECRET);
         ApiInterceptor.initApiSecret(apiAppid, apiSecret);
     }
 
     private void initCdnOption() {
 
-        Boolean cdnEnable = service.findAsBoolByKey(JPressConstants.OPTION_CDN_ENABLE);
+        Boolean cdnEnable = service.findAsBoolByKey(JPressConsts.OPTION_CDN_ENABLE);
         if (cdnEnable == null || cdnEnable == false) {
             TemplateRender.initCdnDomain(null);
             return;
         }
 
-        String cdnDomain = service.findByKey(JPressConstants.OPTION_CDN_DOMAIN);
+        String cdnDomain = service.findByKey(JPressConsts.OPTION_CDN_DOMAIN);
         if (StrUtils.isBlank(cdnDomain)) {
             TemplateRender.initCdnDomain(null);
         } else {
@@ -159,12 +159,12 @@ public class OptionInitializer implements JbootEventListener {
      * 初始化 伪静态
      */
     private void initFakeStaticOption() {
-        Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE);
+        Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE);
         if (fakeStaticEnable == null || fakeStaticEnable == false) {
             return;
         }
 
-        String suffix = service.findByKey(JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX);
+        String suffix = service.findByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX);
         if (StrUtils.isBlank(suffix)) {
             JPressHandler.initSuffix(null);
         } else {
@@ -177,32 +177,32 @@ public class OptionInitializer implements JbootEventListener {
     public void onEvent(JbootEvent event) {
         Option option = event.getData();
         switch (option.getKey()) {
-            case JPressConstants.OPTION_WEB_FAKE_STATIC_ENABLE:
-            case JPressConstants.OPTION_WEB_FAKE_STATIC_SUFFIX:
+            case JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE:
+            case JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX:
                 initFakeStaticOption();
                 break;
-            case JPressConstants.OPTION_API_ENABLE:
-            case JPressConstants.OPTION_API_SECRET:
+            case JPressConsts.OPTION_API_ENABLE:
+            case JPressConsts.OPTION_API_SECRET:
                 initApiOption();
                 break;
-            case JPressConstants.OPTION_CDN_DOMAIN:
-            case JPressConstants.OPTION_CDN_ENABLE:
+            case JPressConsts.OPTION_CDN_DOMAIN:
+            case JPressConsts.OPTION_CDN_ENABLE:
                 initCdnOption();
                 break;
-            case JPressConstants.OPTION_WECHAT_APPID:
-            case JPressConstants.OPTION_WECHAT_APPSECRET:
-            case JPressConstants.OPTION_WECHAT_TOKEN:
+            case JPressConsts.OPTION_WECHAT_APPID:
+            case JPressConsts.OPTION_WECHAT_APPSECRET:
+            case JPressConsts.OPTION_WECHAT_TOKEN:
                 initWechatOption();
                 break;
 
-            case JPressConstants.OPTION_WEB_TITLE:
-            case JPressConstants.OPTION_WEB_SUBTITLE:
-            case JPressConstants.OPTION_WEB_NAME:
-            case JPressConstants.OPTION_WEB_DOMAIN:
-            case JPressConstants.OPTION_WEB_COPYRIGHT:
-            case JPressConstants.OPTION_SEO_TITLE:
-            case JPressConstants.OPTION_SEO_KEYWORDS:
-            case JPressConstants.OPTION_SEO_DESCRIPTION:
+            case JPressConsts.OPTION_WEB_TITLE:
+            case JPressConsts.OPTION_WEB_SUBTITLE:
+            case JPressConsts.OPTION_WEB_NAME:
+            case JPressConsts.OPTION_WEB_DOMAIN:
+            case JPressConsts.OPTION_WEB_COPYRIGHT:
+            case JPressConsts.OPTION_SEO_TITLE:
+            case JPressConsts.OPTION_SEO_KEYWORDS:
+            case JPressConsts.OPTION_SEO_DESCRIPTION:
                 initTemplateAttrsOption();
                 break;
         }

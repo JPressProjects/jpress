@@ -4,7 +4,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.model.User;
@@ -29,7 +29,7 @@ public class AdminInterceptor implements Interceptor {
     public void intercept(Invocation inv) {
 
 
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConstants.COOKIE_UID);
+        String uid = EncryptCookieUtils.get(inv.getController(), JPressConsts.COOKIE_UID);
         if (StrUtils.isBlank(uid)) {
             inv.getController().redirect("/admin/login");
             return;
@@ -47,7 +47,7 @@ public class AdminInterceptor implements Interceptor {
         inv.getController().setAttr("systemMenuGroups", systemMenuGroups);
         inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);
 
-        inv.getController().setAttr(JPressConstants.ATTR_LOGINED_USER, user);
+        inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
 
         inv.invoke();
     }

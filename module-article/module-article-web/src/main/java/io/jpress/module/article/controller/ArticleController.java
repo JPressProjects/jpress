@@ -3,9 +3,7 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.model.Menu;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -71,33 +69,28 @@ public class ArticleController extends TemplateControllerBase {
     }
 
     private void doFlagMenuActive(Article article) {
-        List<Menu> menus = getMenus();
-        if (menus == null || menus.isEmpty()) {
-            return;
-        }
+
+        doFlagMenuActive(menu -> menu.getUrl().startsWith(article.getUrl("")));
+
+
         List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(article.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }
-        doFlagMenu(menus, articleCategories);
 
-    }
-
-    private void doFlagMenu(List<Menu> menus, List<ArticleCategory> articleCategories) {
-        for (Menu menu : menus) {
+        doFlagMenuActive(menu -> {
             if ("article_category".equals(menu.getRelativeTable())) {
                 for (ArticleCategory category : articleCategories) {
                     if (category.getId().equals(menu.getRelativeId())) {
-                        menu.put(JPressConstants.IS_ACTIVE, true);
+                        return true;
                     }
                 }
             }
+            return false;
+        });
 
-            if (menu.hasChild()) {
-                doFlagMenu(menu.getChilds(), articleCategories);
-            }
-        }
     }
+
 
     /**
      * 发布评论

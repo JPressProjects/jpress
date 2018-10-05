@@ -1,7 +1,7 @@
 package io.jpress.web.admin;
 
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.service.RoleService;
@@ -20,13 +20,13 @@ public class _FinanceController extends AdminControllerBase {
     @Inject
     private RoleService roleService;
 
-    @AdminMenu(text = "订单管理", groupId = JPressConstants.SYSTEM_MENU_FINANCE, order = 0)
+    @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_FINANCE, order = 0)
     public void index() {
         render("order/list.html");
 
     }
 
-    @AdminMenu(text = "设置", groupId = JPressConstants.SYSTEM_MENU_FINANCE)
+    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_FINANCE)
     public void my() {
         render("my.html");
     }

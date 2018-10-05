@@ -4,7 +4,7 @@ import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConstants;
+import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.SystemMenuManager;
@@ -31,7 +31,7 @@ public class _PermissionController extends AdminControllerBase {
     @Inject
     private PermissionService permissionService;
 
-    @AdminMenu(text = "权限", groupId = JPressConstants.SYSTEM_MENU_USER, order = 10)
+    @AdminMenu(text = "权限", groupId = JPressConsts.SYSTEM_MENU_USER, order = 10)
     public void index() {
         String type = getPara("type");
 

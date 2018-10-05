@@ -27,10 +27,9 @@
         #end
         <div class="bh-nav-sidebar">
             <ul>
-                <li><a  href="/">首页</a></li>
                 #for(menu : MENUS)
-                <li class="#(menu.isActive ? 'active' : 'nav-item')">
-                    <a href="#(menu.url ??)">#(menu.text ??)</a>
+                <li>
+                    <a href="#(menu.url ??)" class="#(menu.isActive ? 'active' : 'nav-item')">#(menu.text ??)</a>
                 </li>
                 #end
             </ul>

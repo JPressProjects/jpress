@@ -35,6 +35,6 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     public List<Menu> findListByType(String type) {
-        return DAO.findListByColumn(Column.create("type", type));
+        return DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc");
     }
 }

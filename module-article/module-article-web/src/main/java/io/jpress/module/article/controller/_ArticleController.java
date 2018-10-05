@@ -220,7 +220,7 @@ public class _ArticleController extends AdminControllerBase {
         menu.setText(category.getTitle());
         menu.setType(io.jpress.model.Menu.TYPE_MAIN);
         menu.setRelativeTable("article_category");
-        menu.setRelativeTableId(id);
+        menu.setRelativeId(id);
 
         MenuService menuService = Jboot.bean(MenuService.class);
         menuService.saveOrUpdate(menu);

@@ -31,9 +31,15 @@ public class IndexController extends TemplateControllerBase {
 
     private void doFlagMenuActive() {
         List<Menu> menus = getMenus();
-        menus.stream()
-                .filter(menu -> "/".equals(menu.getUrl()))
-                .map(menu -> menu.put(JPressConstants.IS_ACTIVE, true));
+//        menus.stream()
+//                .filter(menu -> "/".equals(menu.getUrl()))
+//                .map(menu -> menu.put(JPressConstants.IS_ACTIVE, true));
+
+        for (Menu menu : menus){
+            if ("/".equals(menu.getUrl())){
+                menu.put(JPressConstants.IS_ACTIVE,true);
+            }
+        }
     }
 
 

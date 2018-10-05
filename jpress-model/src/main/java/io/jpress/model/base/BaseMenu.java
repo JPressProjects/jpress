@@ -89,12 +89,12 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends JbootModel<M> impl
 		return getStr("relative_table");
 	}
 
-	public void setRelativeTableId(java.lang.Long relativeTableId) {
-		set("relative_table_id", relativeTableId);
+	public void setRelativeId(java.lang.Long relativeId) {
+		set("relative_id", relativeId);
 	}
 	
-	public java.lang.Long getRelativeTableId() {
-		return getLong("relative_table_id");
+	public java.lang.Long getRelativeId() {
+		return getLong("relative_id");
 	}
 
 	public void setCreated(java.util.Date created) {

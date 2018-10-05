@@ -87,7 +87,7 @@ public class ArticleController extends TemplateControllerBase {
         for (Menu menu : menus) {
             if ("article_category".equals(menu.getRelativeTable())) {
                 for (ArticleCategory category : articleCategories) {
-                    if (category.getId().equals(menu.getRelativeTableId())) {
+                    if (category.getId().equals(menu.getRelativeId())) {
                         menu.put(JPressConstants.IS_ACTIVE, true);
                     }
                 }

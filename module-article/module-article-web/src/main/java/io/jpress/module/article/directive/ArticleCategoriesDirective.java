@@ -33,7 +33,7 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
         }
 
 
-        List<ArticleCategory> categories = categoryService.findListByType(id, type);
+        List<ArticleCategory> categories = categoryService.findListByArticleId(id, type);
         if (categories == null || categories.isEmpty()) {
             return;
         }

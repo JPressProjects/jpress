@@ -36,20 +36,14 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
         }
 
-        List<ArticleCategory> categories = categoryService.findTagListByArticleId(article.getId());
-        if (categories == null || categories.isEmpty()) {
+        List<ArticleCategory> tags = categoryService.findListByArticleId(article.getId(), ArticleCategory.TYPE_TAG);
+        if (tags == null || tags.isEmpty()) {
             return;
         }
 
         List<Long> tagIds = new ArrayList<>();
-        for (ArticleCategory category : categories) {
-            if (category.isTag()) {
-                tagIds.add(category.getId());
-            }
-        }
-
-        if (tagIds == null || tagIds.isEmpty()) {
-            return;
+        for (ArticleCategory category : tags) {
+            tagIds.add(category.getId());
         }
 
         List<Article> relevantArticles = service.findListByCategoryIds(tagIds.toArray(new Long[0]), Article.STATUS_NORMAL, 3);

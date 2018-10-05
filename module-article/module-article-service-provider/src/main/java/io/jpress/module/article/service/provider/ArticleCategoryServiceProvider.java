@@ -6,14 +6,15 @@ import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.model.ArticleCategory;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 @Singleton
@@ -25,8 +26,14 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return DAO.findListByColumns(Columns.create("type", type), "id desc");
     }
 
+
     @Override
-    public List<ArticleCategory> findListByType(long articleId, String type) {
+    public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
+        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "id desc");
+    }
+
+    @Override
+    public List<ArticleCategory> findListByArticleId(long articleId) {
         List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {
             return null;
@@ -35,7 +42,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         List<ArticleCategory> categoryList = new ArrayList<>();
         for (Record mapping : mappings) {
             ArticleCategory articleCategory = DAO.findById((long) mapping.get("category_id"));
-            if (articleCategory != null && type.equals(articleCategory.getType())) {
+            if (articleCategory != null) {
                 categoryList.add(articleCategory);
             }
         }
@@ -44,24 +51,9 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "id desc");
-    }
-
-
-    @Override
-    public List<ArticleCategory> findTagListByArticleId(long articleId) {
-        List<Record> records = Db.find("select * from article_category_mapping where article_id = ?", articleId);
-        if (records == null || records.isEmpty())
-            return null;
-
-        List<ArticleCategory> tagList = new ArrayList<>();
-        for (Record r : records) {
-            ArticleCategory category = findById(r.getLong("category_id"));
-            if (category != null && category.isTag()) tagList.add(category);
-        }
-
-        return tagList.isEmpty() ? null : tagList;
+    public List<ArticleCategory> findListByArticleId(long articleId, String type) {
+        List<ArticleCategory> categoryList = findListByArticleId(articleId);
+        return categoryList.stream().filter(category -> type.equals(category.getType())).collect(Collectors.toList());
     }
 
 

@@ -79,4 +79,10 @@ public class JPressConstants {
      * 用到的事件机制相关常量
      */
     public static final String EVENT_OPTION_UPDATE = "event_option_update";
+
+
+    /**
+     * 用于标识当前 是否选中
+     */
+    public static final String IS_ACTIVE = "isActive";
 }

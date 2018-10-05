@@ -16,6 +16,7 @@
 package io.jpress.core.template;
 
 import io.jboot.Jboot;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.web.interceptor.TemplateInterceptor;
@@ -39,6 +40,7 @@ public class TemplateMenuManager {
     public void init() {
         MenuService menuService = Jboot.bean(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
+        SortKit.toTree(menus);
         TemplateInterceptor.setMenus(menus);
     }
 

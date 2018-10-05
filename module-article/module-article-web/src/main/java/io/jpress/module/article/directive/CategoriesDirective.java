@@ -62,14 +62,14 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
 
     private void doFlagIsActiveByCurrentArticle(List<ArticleCategory> categories) {
-        Article currentArticle = JbootControllerContext.get().getAttr("aticle");
+        Article currentArticle = JbootControllerContext.get().getAttr("article");
 
         //当前页面并不是文章详情页面
         if (currentArticle == null) {
             return;
         }
 
-        List<ArticleCategory> articleCategories = categoryService.findListByArticleId(currentArticle.getId());
+        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(currentArticle.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }

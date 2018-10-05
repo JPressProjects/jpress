@@ -79,6 +79,10 @@ public class TemplateInterceptor implements Interceptor {
         controller.setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
 
         if (menus != null) {
+            /**
+             * 为什么每次要用一个新的list ？
+             * 因为：不同的页面，会改变不同的 menu 属性
+             */
             controller.setAttr(JPressConstants.ATTR_MENUS, new ArrayList<>(menus));
         }
 

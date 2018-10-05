@@ -65,6 +65,10 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
         return childs;
     }
 
+    public boolean hasChild() {
+        return childs != null && !childs.isEmpty();
+    }
+
     @Override
     public void setLayerNumber(int layerNumber) {
         this.layerNumber = layerNumber;

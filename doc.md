@@ -197,13 +197,13 @@ screenshot=screenshot.png
 使用代码如下：
     
 ```html
-#menus("main")
-    #for(menu : menus)
+
+    #for(menu : MENUS)
         <li class="nav-item">
             <a href="#(menu.url ??)">#(menu.text ??)</a>
         </li>
     #end
-#end
+
 ```
 
  2. 文章分类标签：#articlePage()

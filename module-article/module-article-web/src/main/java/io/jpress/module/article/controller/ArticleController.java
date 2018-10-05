@@ -3,9 +3,12 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConstants;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.model.Menu;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -15,6 +18,7 @@ import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -48,6 +52,9 @@ public class ArticleController extends TemplateControllerBase {
                 ? CommonsUtils.maxLength(article.getText(), 100)
                 : article.getMetaDescription());
 
+
+        doFlagMenuActive(article);
+
         //记录当前浏览量
         articleService.doIncArticleViewCount(article.getId());
 
@@ -63,6 +70,34 @@ public class ArticleController extends TemplateControllerBase {
                 : articleService.findFirstBySlug(idOrSlug);
     }
 
+    private void doFlagMenuActive(Article article) {
+        List<Menu> menus = getMenus();
+        if (menus == null || menus.isEmpty()) {
+            return;
+        }
+        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(article.getId());
+        if (articleCategories == null || articleCategories.isEmpty()) {
+            return;
+        }
+        doFlagMenu(menus, articleCategories);
+
+    }
+
+    private void doFlagMenu(List<Menu> menus, List<ArticleCategory> articleCategories) {
+        for (Menu menu : menus) {
+            if ("article_category".equals(menu.getRelativeTable())) {
+                for (ArticleCategory category : articleCategories) {
+                    if (category.getId().equals(menu.getRelativeTableId())) {
+                        menu.put(JPressConstants.IS_ACTIVE, true);
+                    }
+                }
+            }
+
+            if (menu.hasChild()) {
+                doFlagMenu(menu.getChilds(), articleCategories);
+            }
+        }
+    }
 
     /**
      * 发布评论

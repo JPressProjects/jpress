@@ -4,9 +4,12 @@ import com.jfinal.aop.Before;
 import io.jpress.JPressConstants;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.model.Menu;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
 import io.jpress.web.render.TemplateRender;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -79,6 +82,10 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     protected void setSeoDescription(String seoDescription) {
         setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
+    }
+
+    protected List<Menu> getMenus() {
+        return getAttr(JPressConstants.ATTR_MENUS);
     }
 
 

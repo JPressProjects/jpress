@@ -24,12 +24,10 @@
                     <li class="nav-item active">
                         <a href="/">首页 <span class="sr-only">(current)</span></a>
                     </li>
-                    #menus("main")
-                    #for(menu : menus)
+                    #for(menu : MENUS)
                     <li class="nav-item">
                         <a href="#(menu.url ??)">#(menu.text ??)</a>
                     </li>
-                    #end
                     #end
                 </ul>
             </div>

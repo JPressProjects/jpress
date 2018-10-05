@@ -46,6 +46,7 @@ public class SortKit {
     private static <M extends SortModel> void fillChild(M parent, List<M> models) {
         for (M model : models) {
             if (parent.getId().equals(model.getParentId())) {
+                model.setParent(parent);
                 model.setLayerNumber(parent.getLayerNumber() + 1);
                 parent.addChild(model);
                 fillChild(model, models);

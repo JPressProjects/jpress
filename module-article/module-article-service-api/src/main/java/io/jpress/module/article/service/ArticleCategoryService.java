@@ -107,6 +107,8 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByArticleId(long articleId, String type);
 
+    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId);
+
     public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
     public Long[] findCategoryIdsByArticleId(long articleId);

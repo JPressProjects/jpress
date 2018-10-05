@@ -88,6 +88,10 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
         return childs;
     }
 
+    public boolean hasChild() {
+        return childs != null && !childs.isEmpty();
+    }
+
     @Override
     public void setLayerNumber(int layerNumber) {
         this.layerNumber = layerNumber;
@@ -149,4 +153,5 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     public String getHtmlView() {
         return StrUtils.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
     }
+
 }

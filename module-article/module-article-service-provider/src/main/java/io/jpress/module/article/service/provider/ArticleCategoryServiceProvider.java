@@ -7,14 +7,13 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Bean
@@ -42,7 +41,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         return mappings
                 .stream()
-                .map(record -> DAO.findById(record.get("category_id")))
+                .map(record -> DAO.findById((long)record.get("category_id")))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
@@ -57,6 +56,51 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
                 .stream()
                 .filter(category -> type.equals(category.getType()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId) {
+
+        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
+        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
+            return null;
+        }
+
+
+        List<ArticleCategory> articleCategories = findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
+        if (articleCategories == null || articleCategories.isEmpty()) {
+            return null;
+        }
+
+        SortKit.toTree(allArticleCategories);
+
+        Set<ArticleCategory> activeCategories = new HashSet<>();
+        findActiveCategories(allArticleCategories, articleCategories, activeCategories);
+
+        return new ArrayList<>(activeCategories);
+    }
+
+    private void findActiveCategories(List<ArticleCategory> allArticleCategories
+            , List<ArticleCategory> articleCategories
+            , Set<ArticleCategory> activeCategories) {
+
+        for (ArticleCategory articleCategory : allArticleCategories) {
+            if (articleCategories.contains(articleCategory)) {
+                activeCategories.add(articleCategory);
+            }
+
+            if (articleCategory.hasChild()) {
+                findActiveCategories(articleCategory.getChilds(), articleCategories, activeCategories);
+            }
+        }
+    }
+
+    private void doAddActiveCategory(ArticleCategory category, Set<ArticleCategory> activeCategories) {
+        if (category == null) {
+            return;
+        }
+        activeCategories.add(category);
+        doAddActiveCategory((ArticleCategory) category.getParent(), activeCategories);
     }
 
 

@@ -9,6 +9,7 @@ import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -33,8 +34,42 @@ public class ArticleCategoryController extends TemplateControllerBase {
         ArticleCategory category = getCategory();
         setAttr("category", category);
         setSeoInfos(category);
+        doFlagMenuActive(category);
+
 
         render(getRenderView(category));
+    }
+
+    private void doFlagMenuActive(ArticleCategory currentCategory) {
+
+        if (currentCategory == null) {
+            return;
+        }
+
+        if (currentCategory.isTop()) {
+            doFlagMenuActive(menu -> {
+                return "article_category".equals(menu.getRelativeTable())
+                        && currentCategory.getId().equals(menu.getRelativeId());
+            });
+        }
+
+        List<ArticleCategory> acitveCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
+        if (acitveCategories == null || acitveCategories.isEmpty()) {
+            return;
+        }
+
+        doFlagMenuActive(menu -> {
+            if (!"article_category".equals(menu.getRelativeTable())) {
+                return false;
+            }
+            for (ArticleCategory category : acitveCategories) {
+                if (category.getId().equals(menu.getRelativeId())) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
     }
 
     private void setSeoInfos(ArticleCategory category) {
@@ -57,10 +92,17 @@ public class ArticleCategoryController extends TemplateControllerBase {
             return null;
         }
 
-        return StrUtils.isNumeric(idOrSlug)
+        ArticleCategory category = StrUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
                 : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, idOrSlug);
 
+        //当 slug 不为空，但是查询出来的category却是null的时候
+        //应该404显示
+        if (category == null) {
+            renderError(404);
+        }
+
+        return category;
     }
 
     private String getRenderView(ArticleCategory category) {

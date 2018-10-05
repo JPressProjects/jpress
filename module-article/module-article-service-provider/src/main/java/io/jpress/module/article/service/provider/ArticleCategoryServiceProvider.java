@@ -1,5 +1,6 @@
 package io.jpress.module.article.service.provider;
 
+import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -41,7 +42,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         return mappings
                 .stream()
-                .map(record -> DAO.findById((long)record.get("category_id")))
+                .map(record -> DAO.findById((long) record.get("category_id")))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
@@ -76,6 +77,21 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         Set<ArticleCategory> activeCategories = new HashSet<>();
         findActiveCategories(allArticleCategories, articleCategories, activeCategories);
+
+        return new ArrayList<>(activeCategories);
+    }
+
+    @Override
+    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId) {
+        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
+        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
+            return null;
+        }
+
+        SortKit.toTree(allArticleCategories);
+
+        Set<ArticleCategory> activeCategories = new HashSet<>();
+        findActiveCategories(allArticleCategories, Lists.newArrayList(findById(categoryId)), activeCategories);
 
         return new ArrayList<>(activeCategories);
     }

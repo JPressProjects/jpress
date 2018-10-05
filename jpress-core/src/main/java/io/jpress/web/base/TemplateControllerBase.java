@@ -99,6 +99,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
         doFlagMenuActive(flager, menus);
     }
 
+
     private void doFlagMenuActive(MenuActiveFlager flager, List<Menu> menus) {
         for (Menu menu : menus) {
             if (flager.flagActive(menu)) {

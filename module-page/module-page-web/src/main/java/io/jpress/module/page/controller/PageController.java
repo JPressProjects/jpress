@@ -39,6 +39,8 @@ public class PageController extends TemplateControllerBase {
                 ? CommonsUtils.maxLength(page.getText(), 100)
                 : page.getMetaDescription());
 
+        doFlagMenuActive(menu -> menu.getUrl().startsWith(target));
+
         setAttr("page", page);
         render(page.getHtmlView());
     }

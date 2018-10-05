@@ -12,6 +12,7 @@ import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.core.template.TemplateMenuManager;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
@@ -328,6 +329,7 @@ public class _TemplateController extends AdminControllerBase {
     public void doMenuSave() {
         Menu menu = getModel(Menu.class);
         ms.saveOrUpdate(menu);
+        TemplateMenuManager.me().init();
         redirect("/admin/template/menu");
     }
 
@@ -339,6 +341,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         ms.deleteById(id);
+        TemplateMenuManager.me().init();
         renderJson(Ret.ok());
     }
 

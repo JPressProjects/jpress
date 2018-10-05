@@ -4,8 +4,10 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtils;
+import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.JPressConsts;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
@@ -32,8 +34,34 @@ public class PagesDirective extends JbootDirectiveBase {
         }
 
         List<SinglePage> singlePages = singlePageService.findListByFlag(flag);
+        if (singlePages == null || singlePages.isEmpty()) {
+            return;
+        }
+
+        doFlagIsActiveByCurrentPage(singlePages);
         scope.setLocal("pages", singlePages);
 
         renderBody(env, scope, writer);
+    }
+
+
+    @Override
+    public boolean hasEnd() {
+        return true;
+    }
+
+    private void doFlagIsActiveByCurrentPage(List<SinglePage> pages) {
+        SinglePage currentPage = JbootControllerContext.get().getAttr("page");
+
+        //当前url并不是页面详情
+        if (currentPage == null) {
+            return;
+        }
+
+        for (SinglePage page : pages) {
+            if (page.equals(currentPage)) {
+                JPressConsts.doFlagModelActive(page);
+            }
+        }
     }
 }

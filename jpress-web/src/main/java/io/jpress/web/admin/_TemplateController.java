@@ -8,6 +8,7 @@ import io.jboot.utils.FileUtils;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConstants;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -17,7 +18,6 @@ import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.web.commons.kits.MenuKits;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
@@ -310,7 +310,7 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "菜单", groupId = JPressConstants.SYSTEM_MENU_TEMPLATE, order = 6)
     public void menu() {
         List<Menu> menus = ms.findListByType(Menu.TYPE_MAIN);
-        MenuKits.toLayerCategories(menus);
+        SortKit.toLayer(menus);
         setAttr("menus", menus);
 
         int id = getParaToInt(0, 0);

@@ -9,6 +9,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.wechat.WechatApis;
 import io.jpress.JPressConstants;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
@@ -17,7 +18,6 @@ import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatMenuService;
 import io.jpress.service.WechatReplyService;
-import io.jpress.web.admin.kits.WechatMenuKits;
 import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
@@ -52,7 +52,7 @@ public class _WechatController extends AdminControllerBase {
     @AdminMenu(text = "菜单设置", groupId = JPressConstants.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
     public void menu() {
         List<WechatMenu> menus = wechatMenuService.findAll();
-        WechatMenuKits.toLayer(menus);
+        SortKit.toLayer(menus);
         setAttr("menus", menus);
 
         int id = getParaToInt(0, 0);
@@ -147,7 +147,7 @@ public class _WechatController extends AdminControllerBase {
      */
     public void doMenuSync() {
         List<WechatMenu> wechatMenus = wechatMenuService.findAll();
-        WechatMenuKits.toTree(wechatMenus);
+        SortKit.toTree(wechatMenus);
 
         if (wechatMenus == null || wechatMenus.isEmpty()) {
             renderJson(Ret.fail().set("message", "微信菜单为空"));

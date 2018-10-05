@@ -1,6 +1,6 @@
 # JPress 文档
 
-##目录
+## 目录
 
 
 ## 安装部署
@@ -16,14 +16,14 @@
 3. 开源中国进行发帖提问。
 
 ### JPress安装
+
 JPress安装需要以下几个步骤：
 
 1. 下载JPress源码
 2. 通过maven编译JPress成war包（或可执行程序）
 3. 创建JPress数据库
 4. 建立基本数据（例如：管理员账号密码等）
-5. 配置JPress的数据库链接
-6. 通过tomcat等容器运行（或可执行程序运行）
+5. 配置JPress的数据库链接并运行
 
 #### 1.下载JPress源码
 
@@ -39,22 +39,18 @@ git clone https://gitee.com/fuhai/jpress.git
 
 链接地址： https://gitee.com/fuhai/jpress/releases
 
-#### 2.通过Maven编译JPress成war包和可支持程序
+#### 2.通过Maven编译JPress成war包和可执行程序
 
-JPress可以编译成war包，也可以编译成可执行程序，war需要在tomcat等web容器下运行。可执行程序内置undertow，不需要其他第三方web容器，执行脚本即可运行。
+JPress可以编译成war包和可执行程序，war需要在tomcat等web容器下运行。可执行程序内置undertow，不需要其他第三方web容器，运行脚本即可通过浏览器访问jpress应用。
 
 
-
-下载好 JPress 源码后，通过 shell 进入源码目录，执行如下maven命令
+下载好 JPress 源码后，通过 shell 进入源码目录，执行如下 maven 命令：
 
 ```shell
 mvn package
 ```
-即可在 starter-tomcat/target 目录下成成 `starter-tomcat-1.0.war` 的war包，拷贝这个war包放到tomcat的webapp目录下既可以启动tomcat运行。
 
-与此同时，
-
-在 `starter/target/generated-resources/appassembler/jsw/` 目录下会有一个 jpress 的文件夹，jpress 文件夹的目录如下：
+稍等片刻，待命令执行完毕之后，即可在 `starter-tomcat/target` 目录下生成 `starter-tomcat-1.0.war` 的war包，在 `starter/target/generated-resources/appassembler/jsw/` 目录下生成 jpress 的文件夹，jpress 文件夹的目录如下：
 
 ```
 ├── bin
@@ -75,15 +71,6 @@ mvn package
     └── wrapper.conf
 ```
 
-拷贝 `jpress` 目录，放到 Linux 上执行 `./bin/jpress` 脚本也可以启动jpress项目（window系统下执行 `./bin/jpress.bat` ）。
-
-需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
-
-
-
-但是，JPress的正常运行需要Mysql数据库才能正常使用，因此，在启动tomcat之前需要创建好数据库和配置好JPress数据库连接配置文件。
-
-
 
 #### 3.创建JPress数据库
 
@@ -96,7 +83,8 @@ INSERT INTO `user`
 (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`)
 VALUES 
 (1, 'admin', 'michael', '海哥', '程序员', 
-'f672ff8d263e89b313d2ab8ee88fec3d58e4c28d21939c858aa44f3bc6da7197', 'NYXvReOTBfBTh-vIhMz5_OazXk_nZs5V');
+'f672ff8d263e89b313d2ab8ee88fec3d58e4c28d21939c858aa44f3bc6da7197', 
+'NYXvReOTBfBTh-vIhMz5_OazXk_nZs5V');
 
 
 INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
@@ -108,11 +96,15 @@ INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
 VALUES (1, 1);
 ```
  
- 此时，后台登录账号为：admin ，密码：111111
+此时，后台登录账号为：admin ，密码：111111
  
-#### 5.配置JPress的数据库链接
+#### 5.配置JPress的数据库链接并运行
 
-JPress数据库文件存放在 WEB-INF/classes/jboot.properties，主要修改一下内容：
+##### 运行war包
+
+拷贝`starter-tomcat/target` 目录下的 `starter-tomcat-1.0.war` war包，放到tomcat的webapp目录下，手动解压缩。
+
+找到 WEB-INF/classes/jboot.properties 文件，并配置如下：
 
 ```
 jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/数据库名称
@@ -120,10 +112,34 @@ jboot.datasource.user=数据库账号
 jboot.datasource.password=数据库密码
 ```
 
-#### 6.通过tomcat等容器运行
-暂略
+配置成功后，启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
+
+
+##### 运行可执行程序
+
+
+拷贝`starter/target/generated-resources/appassembler/jsw/` 的 `jpress` 目录，放到 Linux 上。 
+
+修改 `webRoot/jboot.properties` 配置文件数据库连接：
+
+```
+jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/数据库名称
+jboot.datasource.user=数据库账号
+jboot.datasource.password=数据库密码
+```
+
+
+执行 `./bin/jpress` 脚本也可以启动jpress项目（window系统下执行 `./bin/jpress.bat` ）。
+
+需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
+
 
 ## 模板制作
+
+### 模板概述
+### 首页模板
+### 列表页模板
+### 详情页模板
 
 ## 二次开发
 
@@ -175,10 +191,10 @@ screenshot=screenshot.png
  JPress是基于Jfinal和Jboot进行开发的，使用的模板引擎是Jfinal Enjoy，Jfinal Enjoy 模板引擎也是世界上最好的模板引擎，
  拥有极好的性能和开发体验，在学习JPress模板制作之前，很有必要学习一下Jfinal Enjoy 模板引擎。
  
- 1. 菜单标签：#menu()
+1. 菜单标签：#menu()
  
  
-    使用代码如下：
+使用代码如下：
     
 ```html
 #menus("main")
@@ -192,9 +208,9 @@ screenshot=screenshot.png
 
  2. 文章分类标签：#articlePage()
   
-  使用代码如下：
+使用代码如下：
   
-  ```html
+```html
 #articlePage()
 
     #for(article : articlePage.list)
@@ -207,8 +223,6 @@ screenshot=screenshot.png
             #end
      #end
 #end
-
 ```
 
-暗室逢灯
 

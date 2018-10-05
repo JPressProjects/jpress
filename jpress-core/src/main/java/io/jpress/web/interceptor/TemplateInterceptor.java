@@ -3,10 +3,12 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jboot.Jboot;
 import io.jpress.JPressConstants;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.model.Menu;
+import io.jpress.service.MenuService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +29,6 @@ public class TemplateInterceptor implements Interceptor {
     private static String seoKeyword = null;
     private static String seoDescription = null;
 
-    private static List<Menu> menus = null;
 
     public static void setWebTitle(String webTitle) {
         TemplateInterceptor.webTitle = webTitle;
@@ -61,9 +62,6 @@ public class TemplateInterceptor implements Interceptor {
         TemplateInterceptor.seoDescription = seoDescription;
     }
 
-    public static void setMenus(List<Menu> menus) {
-        TemplateInterceptor.menus = menus;
-    }
 
     public void intercept(Invocation inv) {
 
@@ -78,13 +76,11 @@ public class TemplateInterceptor implements Interceptor {
         controller.setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
         controller.setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
 
-        if (menus != null) {
-            /**
-             * 为什么每次要用一个新的list ？
-             * 因为：不同的页面，会改变不同的 menu 属性
-             */
-            controller.setAttr(JPressConstants.ATTR_MENUS, new ArrayList<>(menus));
-        }
+
+        MenuService menuService = Jboot.bean(MenuService.class);
+        List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
+        SortKit.toTree(menus);
+        controller.setAttr(JPressConstants.ATTR_MENUS, menus);
 
         inv.invoke();
     }

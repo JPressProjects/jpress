@@ -5,7 +5,6 @@ import com.jfinal.config.Interceptors;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.core.menu.SystemMenuManager;
-import io.jpress.core.template.TemplateMenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.JPressHandler;
@@ -40,7 +39,6 @@ public class JPressInitializer extends JbootAppListenerBase {
     public void onJFinalStarted() {
 
         SystemMenuManager.me().init();
-        TemplateMenuManager.me().init();
         WechatAddonManager.me().init();
 
     }

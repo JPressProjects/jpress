@@ -3,7 +3,7 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.menu.MenuManager;
+import io.jpress.core.menu.SystemMenuManager;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class UserCenterInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
-        List<MenuGroup> ucenterMenus = MenuManager.me().getUcenterMenus();
+        List<MenuGroup> ucenterMenus = SystemMenuManager.me().getUcenterMenus();
         inv.getController().setAttr("ucenterMenus", ucenterMenus);
         inv.getController().setAttr("user", UserInterceptor.getThreadLocalUser());
 

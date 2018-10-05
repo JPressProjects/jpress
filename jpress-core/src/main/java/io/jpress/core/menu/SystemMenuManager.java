@@ -18,15 +18,15 @@ import java.util.*;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class MenuManager {
+public class SystemMenuManager {
 
-    private static final MenuManager me = new MenuManager();
+    private static final SystemMenuManager me = new SystemMenuManager();
 
     private List<MenuGroup> systemMenus = new ArrayList<>();
     private List<MenuGroup> moduleMenus = new ArrayList<>();
     private List<MenuGroup> ucenterMenus = new ArrayList<>();
 
-    public static MenuManager me() {
+    public static SystemMenuManager me() {
         return me;
     }
 

@@ -6,7 +6,7 @@ import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConstants;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.menu.MenuManager;
+import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -41,8 +41,8 @@ public class AdminInterceptor implements Interceptor {
             return;
         }
 
-        List<MenuGroup> systemMenuGroups = MenuManager.me().getSystemMenus();
-        List<MenuGroup> moduleMenuGroups = MenuManager.me().getModuleMenus();
+        List<MenuGroup> systemMenuGroups = SystemMenuManager.me().getSystemMenus();
+        List<MenuGroup> moduleMenuGroups = SystemMenuManager.me().getModuleMenus();
 
         inv.getController().setAttr("systemMenuGroups", systemMenuGroups);
         inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);

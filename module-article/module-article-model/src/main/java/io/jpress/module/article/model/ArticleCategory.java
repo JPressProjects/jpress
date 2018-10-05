@@ -2,6 +2,7 @@ package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.layer.SortModel;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * 标签和专题  只能有一个层级，分类可以有多个层级
  */
 @Table(tableName = "article_category", primaryKey = "id")
-public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
+public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implements SortModel {
 
     /**
      * 普通的分类
@@ -40,6 +41,11 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
         return TYPE_TAG.equals(getType());
     }
 
+    private int layerNumber;
+    private SortModel parent;
+    private List<SortModel> childs;
+
+
     /**
      * 是否是顶级菜单
      *
@@ -49,40 +55,56 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
         return getPid() != null && getPid() == 0;
     }
 
-    private List<ArticleCategory> childs;
-
-    public List<ArticleCategory> getChilds() {
-        return childs;
+    @Override
+    public Long getParentId() {
+        return getPid();
     }
 
-    public void setChilds(List<ArticleCategory> childs) {
+    @Override
+    public void setParent(SortModel parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public SortModel getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setChilds(List childs) {
         this.childs = childs;
     }
 
-    public void addChild(ArticleCategory child) {
+    @Override
+    public void addChild(SortModel child) {
         if (childs == null) {
             childs = new ArrayList<>();
         }
         childs.add(child);
     }
 
-    private int layerNO = 0;
-
-    public int getLayerNO() {
-        return layerNO;
+    @Override
+    public List getChilds() {
+        return childs;
     }
 
-    public void setLayerNO(int layerNO) {
-        this.layerNO = layerNO;
+    @Override
+    public void setLayerNumber(int layerNumber) {
+        this.layerNumber = layerNumber;
+    }
+
+    @Override
+    public int getLayerNumber() {
+        return layerNumber;
     }
 
     public String getLayerString() {
-        if (layerNO == 0) {
+        if (layerNumber == 0) {
             return "";
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < layerNO; i++) {
+        for (int i = 0; i < layerNumber; i++) {
             if (i == 0)
                 sb.append("|—");
             else
@@ -99,8 +121,8 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
         return isMyChild(childs, id);
     }
 
-    private boolean isMyChild(List<ArticleCategory> categories, long id) {
-        for (ArticleCategory category : categories) {
+    private boolean isMyChild(List<SortModel> categories, long id) {
+        for (SortModel category : categories) {
             if (category.getId() == id) {
                 return true;
             }

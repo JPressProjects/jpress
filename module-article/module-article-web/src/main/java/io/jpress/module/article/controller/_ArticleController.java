@@ -7,11 +7,11 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.User;
 import io.jpress.module.article.kits.ArticleModuleKit;
-import io.jpress.module.article.kits.CategoryKits;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -66,7 +66,7 @@ public class _ArticleController extends AdminControllerBase {
 
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        CategoryKits.toLayerCategories(categories);
+        SortKit.toLayer(categories);
         setAttr("categories", categories);
 
         flagCheck(categories, categoryId);
@@ -79,7 +79,7 @@ public class _ArticleController extends AdminControllerBase {
     public void write() {
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        CategoryKits.toLayerCategories(categories);
+        SortKit.toLayer(categories);
         setAttr("categories", categories);
 
 
@@ -174,7 +174,7 @@ public class _ArticleController extends AdminControllerBase {
     @AdminMenu(text = "分类", groupId = "article", order = 2)
     public void category() {
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
-        CategoryKits.toLayerCategories(categories);
+        SortKit.toLayer(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
         if (id > 0) {

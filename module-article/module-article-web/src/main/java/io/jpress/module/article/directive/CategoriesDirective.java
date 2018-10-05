@@ -83,7 +83,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
     private void doFlagByCurrentCategory(List<ArticleCategory> categories, ArticleCategory currentCategory) {
         for (ArticleCategory category : categories) {
             if (currentCategory.getId().equals(category.getId())) {
-                category.put(JPressConsts.IS_ACTIVE, true);
+                JPressConsts.doFlagModelActive(category);
             }
         }
     }

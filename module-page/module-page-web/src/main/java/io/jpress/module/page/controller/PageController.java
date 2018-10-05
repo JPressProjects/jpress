@@ -42,6 +42,7 @@ public class PageController extends TemplateControllerBase {
         doFlagMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.getUrl().startsWith(target));
 
         setAttr("page", page);
+        
         render(page.getHtmlView());
     }
 

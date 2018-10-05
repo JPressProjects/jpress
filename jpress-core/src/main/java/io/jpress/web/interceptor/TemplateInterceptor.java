@@ -1,9 +1,13 @@
-package io.jpress.web.base;
+package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jpress.JPressConstants;
+import io.jpress.model.Menu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -22,6 +26,8 @@ public class TemplateInterceptor implements Interceptor {
     private static String seoTitle = null;
     private static String seoKeyword = null;
     private static String seoDescription = null;
+
+    private static List<Menu> menus = null;
 
     public static void setWebTitle(String webTitle) {
         TemplateInterceptor.webTitle = webTitle;
@@ -55,7 +61,10 @@ public class TemplateInterceptor implements Interceptor {
         TemplateInterceptor.seoDescription = seoDescription;
     }
 
-    
+    public static void setMenus(List<Menu> menus) {
+        TemplateInterceptor.menus = menus;
+    }
+
     public void intercept(Invocation inv) {
 
         Controller controller = inv.getController();
@@ -68,6 +77,10 @@ public class TemplateInterceptor implements Interceptor {
         controller.setAttr(JPressConstants.ATTR_SEO_TITLE, seoTitle);
         controller.setAttr(JPressConstants.ATTR_SEO_KEYWORDS, seoKeyword);
         controller.setAttr(JPressConstants.ATTR_SEO_DESCRIPTION, seoDescription);
+
+        if (menus != null) {
+            controller.setAttr(JPressConstants.ATTR_MENUS, new ArrayList<>(menus));
+        }
 
         inv.invoke();
     }

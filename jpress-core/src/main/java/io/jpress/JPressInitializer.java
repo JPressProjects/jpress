@@ -6,7 +6,7 @@ import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
-import io.jpress.web.base.UTMInterceptor;
+import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.render.JPressRenderFactory;

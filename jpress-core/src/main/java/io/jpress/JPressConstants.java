@@ -75,6 +75,8 @@ public class JPressConstants {
     public static final String ATTR_SEO_KEYWORDS = "SEO_KEYWORDS"; //  SEO 关键字
     public static final String ATTR_SEO_DESCRIPTION = "SEO_DESCRIPTION"; // SEO 描述
 
+    public static final String ATTR_MENUS = "MENUS"; // 页面菜单
+
     /**
      * 用到的事件机制相关常量
      */

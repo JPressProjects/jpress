@@ -7,7 +7,7 @@ import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.model.User;
 import io.jpress.service.PermissionService;
-import io.jpress.web.base.UserInterceptor;
+import io.jpress.web.interceptor.UserInterceptor;
 
 import javax.inject.Inject;
 

@@ -3,7 +3,7 @@ package io.jpress.web.sharekit;
 import io.jboot.Jboot;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
-import io.jpress.web.base.UserInterceptor;
+import io.jpress.web.interceptor.UserInterceptor;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

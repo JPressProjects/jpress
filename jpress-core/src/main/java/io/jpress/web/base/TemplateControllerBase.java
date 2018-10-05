@@ -4,6 +4,8 @@ import com.jfinal.aop.Before;
 import io.jpress.JPressConstants;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.web.interceptor.TemplateInterceptor;
+import io.jpress.web.interceptor.UserInterceptor;
 import io.jpress.web.render.TemplateRender;
 
 /**

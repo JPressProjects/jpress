@@ -1,4 +1,4 @@
-package io.jpress.web.base;
+package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;

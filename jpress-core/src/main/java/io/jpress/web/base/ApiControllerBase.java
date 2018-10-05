@@ -2,6 +2,8 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Ret;
+import io.jpress.web.interceptor.ApiInterceptor;
+import io.jpress.web.interceptor.UserInterceptor;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

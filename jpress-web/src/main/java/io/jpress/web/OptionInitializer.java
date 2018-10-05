@@ -13,8 +13,8 @@ import io.jpress.JPressConstants;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
-import io.jpress.web.base.ApiInterceptor;
-import io.jpress.web.base.TemplateInterceptor;
+import io.jpress.web.interceptor.ApiInterceptor;
+import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.render.TemplateRender;
 

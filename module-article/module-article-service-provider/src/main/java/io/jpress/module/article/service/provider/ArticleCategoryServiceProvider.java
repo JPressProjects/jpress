@@ -14,6 +14,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Bean
@@ -39,21 +40,23 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
             return null;
         }
 
-        List<ArticleCategory> categoryList = new ArrayList<>();
-        for (Record mapping : mappings) {
-            ArticleCategory articleCategory = DAO.findById((long) mapping.get("category_id"));
-            if (articleCategory != null) {
-                categoryList.add(articleCategory);
-            }
-        }
-
-        return categoryList;
+        return mappings
+                .stream()
+                .map(record -> DAO.findById(record.get("category_id")))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ArticleCategory> findListByArticleId(long articleId, String type) {
         List<ArticleCategory> categoryList = findListByArticleId(articleId);
-        return categoryList.stream().filter(category -> type.equals(category.getType())).collect(Collectors.toList());
+        if (categoryList == null || categoryList.isEmpty()) {
+            return null;
+        }
+        return categoryList
+                .stream()
+                .filter(category -> type.equals(category.getType()))
+                .collect(Collectors.toList());
     }
 
 

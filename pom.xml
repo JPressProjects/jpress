@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>${jpress.version}</version>
 
     <modules>
         <module>codegen</module>

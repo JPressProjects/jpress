@@ -1,8 +1,10 @@
 package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
+import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.email.Email;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
@@ -16,7 +18,9 @@ import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -189,10 +193,33 @@ public class ArticleController extends TemplateControllerBase {
             //记录评论的回复数量
             commentService.doIncCommentReplyCount(pid);
         }
-
-
         commentService.saveOrUpdate(comment);
+
         renderJson(Ret.ok());
+
+        doSendEmail(article, comment);
+    }
+
+    private void doSendEmail(Article article, ArticleComment comment) {
+        Boolean enable = optionService.findAsBoolByKey("article_comment_email_notify_enable");
+        if (enable == null || enable == false) {
+            // do nothing
+            return;
+        }
+
+        String emailTemplate = optionService.findByKey("article_comment_email_notify_template");
+        String sendTo = optionService.findByKey("article_comment_email_notify_address");
+
+        Map<String, Object> paras = new HashMap();
+        paras.put("article", article);
+        paras.put("comment", comment);
+
+        String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
+        Email email = Email.create();
+        email.content(content);
+        email.subject("有人评论你的文章：" + article.getTitle());
+        email.to(sendTo);
+        email.send();
     }
 
 

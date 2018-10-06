@@ -34,6 +34,11 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
     private static String name;
     private static String password;
     private static boolean useSSL = true;
+    private static boolean enable = false;
+
+    public static void setEnable(boolean enable) {
+        SimplerEmailSender.enable = enable;
+    }
 
     public static void init(String host, String name, String password, boolean useSSL) {
         SimplerEmailSender.host = host;
@@ -95,6 +100,11 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
     @Override
     public void send(Email email) {
+        if (enable == false) {
+            //do nothing
+            return;
+        }
+
         Message message = createMessage();
         try {
             message.setSubject(email.getSubject());

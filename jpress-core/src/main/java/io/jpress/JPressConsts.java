@@ -56,6 +56,13 @@ public class JPressConsts {
     public static final String OPTION_WECHAT_MINIPROGRAM_TOKEN = "wechat_miniprogram_token"; //微信小程序的 token
 
 
+    public static final String OPTION_CONNECTION_EMAIL_ENABLE = "connection_email_enable"; // 是否启用邮件发送功能
+    public static final String OPTION_CONNECTION_EMAIL_SMTP = "connection_email_smtp"; // 邮件服务器smtp
+    public static final String OPTION_CONNECTION_EMAIL_ACCOUNT = "connection_email_account"; //邮箱账号
+    public static final String OPTION_CONNECTION_EMAIL_PASSWORD = "connection_email_password"; //邮箱密码
+    public static final String OPTION_CONNECTION_EMAIL_SSL_ENABLE = "connection_email_ssl_enable"; //是否启用ssl
+
+
     /**
      * 用到的cookie name 常量
      */

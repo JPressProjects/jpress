@@ -10,6 +10,7 @@ import io.jboot.event.JbootEventListener;
 import io.jboot.event.JbootEventManager;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
+import io.jpress.commons.email.SimplerEmailSender;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -50,6 +51,25 @@ public class OptionInitializer implements JbootEventListener {
         initWechatOption();// 初始化 微信的 相关配置
 
         initTemplateAttrsOption(); //初始化模板的基础 attr 属性
+        initEmailOption();// 初始化邮件相关配置
+
+    }
+
+    private void initEmailOption() {
+        Boolean emailEnable = service.findAsBoolByKey(JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE);
+        if (emailEnable == null || emailEnable == false) {
+            SimplerEmailSender.setEnable(false);
+            return;
+        }
+
+        SimplerEmailSender.setEnable(true);
+
+        String smtp = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_SMTP);
+        String account = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT);
+        String password = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD);
+        Boolean sslEnable = service.findAsBoolByKey(JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE);
+
+        SimplerEmailSender.init(smtp, account, password, sslEnable == null ? false : sslEnable);
 
     }
 
@@ -194,7 +214,6 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConsts.OPTION_WECHAT_TOKEN:
                 initWechatOption();
                 break;
-
             case JPressConsts.OPTION_WEB_TITLE:
             case JPressConsts.OPTION_WEB_SUBTITLE:
             case JPressConsts.OPTION_WEB_NAME:
@@ -204,6 +223,13 @@ public class OptionInitializer implements JbootEventListener {
             case JPressConsts.OPTION_SEO_KEYWORDS:
             case JPressConsts.OPTION_SEO_DESCRIPTION:
                 initTemplateAttrsOption();
+                break;
+            case JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE:
+            case JPressConsts.OPTION_CONNECTION_EMAIL_SMTP:
+            case JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT:
+            case JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD:
+            case JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE:
+                initEmailOption();
                 break;
         }
     }

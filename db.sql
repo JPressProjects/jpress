@@ -151,7 +151,7 @@ CREATE TABLE `menu` (
   `type` varchar(32) DEFAULT '' COMMENT '菜单类型：主菜单、顶部菜单、底部菜单',
   `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
   `relative_table` varchar(32) DEFAULT NULL COMMENT '该菜单是否和其他表关联',
-  `relative_table_id` int(11) unsigned DEFAULT NULL COMMENT '关联的具体数据id',
+  `relative_id` int(11) unsigned DEFAULT NULL COMMENT '关联的具体数据id',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)

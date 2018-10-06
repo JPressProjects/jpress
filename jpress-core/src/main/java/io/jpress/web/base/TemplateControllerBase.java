@@ -57,7 +57,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     private void renderDefault(String defaultView) {
         if (defaultView == null) {
-            renderText("can not match view to render");
+            renderText("can not match template view to render");
             return;
         } else {
             super.render(new TemplateRender(defaultView));

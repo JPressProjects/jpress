@@ -1,5 +1,7 @@
 package io.jpress.commons.email;
 
+import com.jfinal.log.Log;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -7,6 +9,8 @@ package io.jpress.commons.email;
  */
 
 public class Email {
+
+    private static final Log LOG = Log.getLog(Email.class);
 
     private String[] to = null;
     private String[] cc = null;
@@ -58,7 +62,11 @@ public class Email {
     }
 
     public void send(IEmailSender sender) {
-        sender.send(this);
+        try {
+            sender.send(this);
+        } catch (Throwable ex) {
+            LOG.error(ex.toString(), ex);
+        }
     }
 
     public static void main(String[] args) {

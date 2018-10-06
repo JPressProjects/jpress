@@ -52,9 +52,9 @@
 
             <div class="col-sm-8">
                 <select class="form-control" name="user.status">
-                    <option value="ok">正常</option>
-                    <option value="registered">注册未激活</option>
-                    <option value="locked">锁定账号</option>
+                    <option value="ok" #selectedIf('ok' == user.status)>正常</option>
+                    <option value="registered" #selectedIf('registered' == user.status)>注册未激活</option>
+                    <option value="locked" #selectedIf('locked' == user.status)>锁定账号</option>
                 </select>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <label class="col-sm-2 control-label">注册日期</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#(user.created ??)" readonly>
+                <input type="input" class="form-control" value="#date(user.created)" readonly>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
             <label class="col-sm-2 control-label">激活日期</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#(user.activated ??)" readonly>
+                <input type="input" class="form-control" value="#date(user.activated)" readonly>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
             <label class="col-sm-2 control-label">最后登录时间</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#(user.logged ??)" readonly>
+                <input type="input" class="form-control" value="#date(user.logged)" readonly>
             </div>
         </div>
 

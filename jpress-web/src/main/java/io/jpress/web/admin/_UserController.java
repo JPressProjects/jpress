@@ -182,8 +182,9 @@ public class _UserController extends AdminControllerBase {
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);
-        exeOtherAction(user);
-        render(getRenderHtml());
+        if (exeOtherAction(user)) {
+            render(getRenderHtml());
+        }
     }
 
 
@@ -192,7 +193,9 @@ public class _UserController extends AdminControllerBase {
         User user = userService.findById(uid);
         setAttr("user", user);
         exeOtherAction(user);
-        render(getRenderHtml());
+        if (exeOtherAction(user)) {
+            render(getRenderHtml());
+        }
     }
 
 
@@ -203,7 +206,7 @@ public class _UserController extends AdminControllerBase {
         return "user/detail_" + action + ".html";
     }
 
-    private void exeOtherAction(User user) {
+    private boolean exeOtherAction(User user) {
         String action = getPara("action", "base");
         if ("utm".equals(action)) {
             Page<Utm> page = utmService._paginateByUserId(getPagePara(), 20, user.getId());
@@ -213,14 +216,16 @@ public class _UserController extends AdminControllerBase {
         if ("role".equals(action)) {
 
             //不是超级管理员，不让修改用户角色
-            if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION)) {
+            if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION) == false) {
                 renderErrorForNoPermission();
-                return;
+                return false;
             }
 
             List<Role> roles = roleService.findAll();
             setAttr("roles", roles);
         }
+
+        return true;
     }
 
 

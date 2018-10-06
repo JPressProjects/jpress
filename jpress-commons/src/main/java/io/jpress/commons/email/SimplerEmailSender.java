@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2015-2016, Michael Yang 杨福海 (fuhai999@gmail.com).
- *
+ * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.gnu.org/licenses/lgpl-3.0.txt
- *
+ * <p>
+ * http://www.gnu.org/licenses/lgpl-3.0.txt
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,87 +27,86 @@ import java.util.Properties;
 import java.util.Set;
 
 public class SimplerEmailSender extends Authenticator implements IEmailSender {
-	private static final Log logger = Log.getLog(SimplerEmailSender.class);
 
-	private String host;
-	private String name;
-	private String password;
+    private static final Log logger = Log.getLog(SimplerEmailSender.class);
 
-	private boolean useSSL = true;
+    private static String host;
+    private static String name;
+    private static String password;
+    private static boolean useSSL = true;
 
-	private void init() {
-//		this.host = OptionQuery.me().findValue("email_host");// "smtp.qq.com";
-//		this.name = OptionQuery.me().findValue("email_username");// "198819880@qq.com";
-//		this.password = OptionQuery.me().findValue("email_password");
-//		this.useSSL = Boolean.parseBoolean(OptionQuery.me().findValue("email_usessl"));
-	}
+    public static void init(String host, String name, String password, boolean useSSL) {
+        SimplerEmailSender.host = host;
+        SimplerEmailSender.name = name;
+        SimplerEmailSender.password = password;
+        SimplerEmailSender.useSSL = useSSL;
+    }
 
-	private Message createMessage() {
+    private Message createMessage() {
 
-		init();
 
-		Properties props = new Properties();
+        Properties props = new Properties();
 
-		props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.transport.protocol", "smtp");
 
-		props.setProperty("mail.smtp.auth", "true");
-		props.setProperty("mail.smtp.host", host);
-		props.setProperty("mail.smtp.port", "25");
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.host", host);
+        props.setProperty("mail.smtp.port", "25");
 
-		if (useSSL) {
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			props.setProperty("mail.smtp.port", "465");
-		}
+        if (useSSL) {
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.setProperty("mail.smtp.port", "465");
+        }
 
-		// error:javax.mail.MessagingException: 501 Syntax: HELO hostname
-		props.setProperty("mail.smtp.localhost", "127.0.0.1");
+        // error:javax.mail.MessagingException: 501 Syntax: HELO hostname
+        props.setProperty("mail.smtp.localhost", "127.0.0.1");
 
-		Session session = Session.getInstance(props, this);
-		Message message = new MimeMessage(session);
+        Session session = Session.getInstance(props, this);
+        Message message = new MimeMessage(session);
 
-		try {
-			message.setFrom(new InternetAddress(MimeUtility.encodeText(name) + "<" + name + ">"));
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return message;
-	}
+        try {
+            message.setFrom(new InternetAddress(MimeUtility.encodeText(name) + "<" + name + ">"));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return message;
+    }
 
-	@Override
-	protected PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(name, password);
-	}
+    @Override
+    protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication(name, password);
+    }
 
-	private static Address[] toAddress(String... emails) {
-		if (emails == null || emails.length == 0)
-			return null;
+    private static Address[] toAddress(String... emails) {
+        if (emails == null || emails.length == 0)
+            return null;
 
-		Set<Address> addSet = new HashSet<Address>();
-		for (String email : emails) {
-			try {
-				addSet.add(new InternetAddress(email));
-			} catch (AddressException e) {
-				continue;
-			}
-		}
-		return addSet.toArray(new Address[0]);
-	}
+        Set<Address> addSet = new HashSet<Address>();
+        for (String email : emails) {
+            try {
+                addSet.add(new InternetAddress(email));
+            } catch (AddressException e) {
+                continue;
+            }
+        }
+        return addSet.toArray(new Address[0]);
+    }
 
-	@Override
-	public void send(Email email) {
-		Message message = createMessage();
-		try {
-			message.setSubject(email.getSubject());
-			message.setContent(email.getContent(), "text/html;charset=utf-8");
+    @Override
+    public void send(Email email) {
+        Message message = createMessage();
+        try {
+            message.setSubject(email.getSubject());
+            message.setContent(email.getContent(), "text/html;charset=utf-8");
 
-			message.setRecipients(Message.RecipientType.TO, toAddress(email.getTo()));
-			message.setRecipients(Message.RecipientType.CC, toAddress(email.getCc()));
+            message.setRecipients(Message.RecipientType.TO, toAddress(email.getTo()));
+            message.setRecipients(Message.RecipientType.CC, toAddress(email.getCc()));
 
-			Transport.send(message);
-		} catch (MessagingException e) {
-			logger.error("SimplerEmailSender send error", e);
-		}
+            Transport.send(message);
+        } catch (MessagingException e) {
+            logger.error("SimplerEmailSender send error", e);
+        }
 
-	}
+    }
 }

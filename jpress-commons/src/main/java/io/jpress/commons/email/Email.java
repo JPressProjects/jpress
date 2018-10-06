@@ -54,7 +54,11 @@ public class Email {
     }
 
     public void send() {
-        EmailSenderFactory.createSender().send(this);
+        send(new SimplerEmailSender());
+    }
+
+    public void send(IEmailSender sender) {
+        sender.send(this);
     }
 
     public static void main(String[] args) {

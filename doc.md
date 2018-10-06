@@ -71,6 +71,24 @@ mvn package
     └── wrapper.conf
 ```
 
+ 若编译不通过注意事项：
+ 
+ * maven版本建议用3.0 以上，2.x没有测试过
+ * java版本1.8
+ * maven注意添加aliyun的源，修改 `maven/conf/setting.xml`文件，找到 mirrors 节点 ，修改如下：
+
+ ```xml
+<mirrors>
+        <mirror>  
+        	  <id>alimaven</id>  
+        	  <name>aliyun maven</name>  
+        	  <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
+        	  <mirrorOf>central</mirrorOf>  
+    	</mirror>
+</mirrors>
+
+ ```
+
 
 #### 3.创建JPress数据库
 

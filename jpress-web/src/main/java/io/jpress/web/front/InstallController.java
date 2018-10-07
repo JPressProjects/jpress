@@ -43,7 +43,7 @@ public class InstallController extends TemplateControllerBase {
     }
 
     public static void setInstalled(boolean installed) {
-//        InstallController.installed = installed;
+        InstallController.installed = installed;
     }
 
 
@@ -127,6 +127,7 @@ public class InstallController extends TemplateControllerBase {
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
+        user.setActivated(new Date());
         user.setStatus(User.STATUS_OK);
         user.setCreateSource("web_register");
 
@@ -137,6 +138,7 @@ public class InstallController extends TemplateControllerBase {
         optionService.saveOrUpdate("web_title", webTitle);
         optionService.saveOrUpdate("web_subtitle", webSubtitle);
 
+        setInstalled(true);
         renderJson(Ret.ok());
     }
 

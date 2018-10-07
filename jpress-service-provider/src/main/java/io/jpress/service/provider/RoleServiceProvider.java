@@ -244,7 +244,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         Role role = new Role();
         role.setId(1l);
         role.setName("默认角色");
-        role.setDescription("这个系统自动创建的默认角色");
+        role.setDescription("这个是系统自动创建的默认角色");
         role.setFlag(Role.ADMIN_FLAG);
         role.setCreated(new Date());
         role.setModified(new Date());

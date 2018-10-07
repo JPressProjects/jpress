@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">密码</label>
                     <div class="col-sm-9">
-                        <input type="input" class="form-control" placeholder="及密码"
+                        <input type="password" class="form-control" placeholder="及密码"
                                name="pwd">
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">确认密码</label>
                     <div class="col-sm-9">
-                        <input type="input" class="form-control" placeholder="..."
+                        <input type="password" class="form-control" placeholder="..."
                                name="confirmPwd">
                     </div>
                 </div>
@@ -127,7 +127,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert("超级管理员初始化，请登陆")
+                    alert("超级管理员初始化成功，请登陆")
                     location.href = "#(CPATH)/admin/login";
                 } else {
                     alert(data.message);

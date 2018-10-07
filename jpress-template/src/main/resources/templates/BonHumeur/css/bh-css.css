@@ -61,12 +61,19 @@ a:hover{
     width: 8rem;
     height: 8rem;
     margin:2rem auto;
-}
-.bh-portrait img{
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
+    overflow: hidden;
+    border:1px solid #eee;
+    text-align: center;
+    line-height: 7rem;
+}
+
+.bh-portrait img{
+    width: 100%;
     max-width: 100%;
+    min-height: 100%;
 }
 /*card*/
 .bh-card{
@@ -334,6 +341,9 @@ a:hover{
 }
 
 .recommend-panel-top img{
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
     transition:0.4s ease-out;
     -webkit-transition:0.4s ease-out;
     -moz-transition:0.4s ease-out;

@@ -60,7 +60,7 @@
                 <div class="card bh-panel">
                     <a class="recommend-panel-link" href="#articleUrl(article)">
                         <div class="recommend-panel-top">
-                            <img src="img/blog-image.jpg" class="img-fluid" alt="#(article.title ??)">
+                            <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid" alt="#(article.title ??)">
                         </div>
                         <div class="recommend-panel-bottom">
                             #(article.title ??)

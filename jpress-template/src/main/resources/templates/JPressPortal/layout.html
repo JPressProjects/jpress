@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>天蓝简洁模板-JPress模板</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <meta name="referrer" content="always"/>
+    <meta name="keywords" content="#(SEO_KEYWORDS)">
+    <meta name="description" content="#(SEO_DESCRIPTION)">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bl-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -14,7 +17,7 @@
     <div class="bl-header container-fluid">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
-                <a class="nav-prand" href="bl-first-index.html">#(option('bluelight_logo_text') ?? 'JPress')</a>
+                <a class="nav-prand" href="#(CPATH)/">#(option('bluelight_logo_text') ?? 'JPress')</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,8 +53,10 @@
             <div class="copyright">copyright @ 2018 JPress设计部出品</div>
         </div>
     </div>
-<script src="jquery/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="jquery/jquery.min.js"></script>
+    <script src="/static/components/jquery/jquery.form.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="highlight/highlight.pack.js"></script>
     #@script?()
 </body>
 </html>

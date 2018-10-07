@@ -17,8 +17,11 @@ package io.jpress.web.front;
 
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
+import io.jboot.Jboot;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
+import io.jpress.model.Option;
 import io.jpress.model.User;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
@@ -137,6 +140,10 @@ public class InstallController extends TemplateControllerBase {
         optionService.saveOrUpdate("web_name", webName);
         optionService.saveOrUpdate("web_title", webTitle);
         optionService.saveOrUpdate("web_subtitle", webSubtitle);
+
+        Jboot.sendEvent(JPressConsts.EVENT_OPTION_UPDATE, new Option("web_name", webName));
+        Jboot.sendEvent(JPressConsts.EVENT_OPTION_UPDATE, new Option("web_title", webTitle));
+        Jboot.sendEvent(JPressConsts.EVENT_OPTION_UPDATE, new Option("web_subtitle", webSubtitle));
 
         setInstalled(true);
         renderJson(Ret.ok());

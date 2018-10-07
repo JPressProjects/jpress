@@ -109,8 +109,14 @@
     overflow: hidden;
     border:1px solid #eee;
     height: 14rem;
+    margin:0;
+    padding:0;
+    line-height: 13rem;
 }
 .bl-card-image img{
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
     transition:0.4s ease-out;
     -webkit-transition:0.4s ease-out;
     -moz-transition:0.4s ease-out;
@@ -201,10 +207,14 @@
 }
 /*recommend aritical*/
 .recommend-panel-top{
-    height: 7rem;
+    height: 10rem;
     overflow: hidden;
+    line-height: 10rem;
 }
 .recommend-panel-top img,.card-right-body img{
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
     transition:0.4s ease-out;
     -webkit-transition:0.4s ease-out;
     -moz-transition:0.4s ease-out;
@@ -334,6 +344,7 @@
 @media(min-width: 576px){
     .recommend-panel-top{
         height: 5rem;
+        line-height: 5rem;
     }
 }
 @media(max-width: 768px) {
@@ -367,6 +378,7 @@
     }
     .recommend-panel-top{
         height: 7rem;
+        line-height: 7rem;
     }
     .card-right-body div{
         height: 8rem;

@@ -120,20 +120,6 @@ a:hover {
     padding-bottom: 2px;
 }
 
-/*page*/
-.ll-page .page-item.active .page-link {
-    background-color: #3F6600;
-    border-color: #3F6600;
-    color: #fff;
-}
-
-.ll-page .page-item .page-link {
-    color: #3F6600;
-}
-
-.ll-page {
-    margin: 5rem 0 0 0;
-}
 
 /*footer*/
 .ll-footer {
@@ -371,6 +357,24 @@ a:hover {
     -moz-transform: scale(1.1, 1.1);
 }
 
+.pagination .page-item.active .page-link{
+    background-color:#3F6600;
+    border-color:#3F6600;
+    color:#fff;
+}
+.pagination .page-item .page-link{
+    color:#3F6600;
+}
+.pagination{
+    margin:5rem 0 0 0;
+}
+.pagination li.disabled .page-link{
+    background-color: #eee;
+    color:#999;
+}
+.pagination li.disabled{
+    cursor: not-allowed;
+}
 
 
 

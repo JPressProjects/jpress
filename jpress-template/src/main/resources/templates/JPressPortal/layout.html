@@ -12,52 +12,56 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bl-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="highlight/styles/railscasts.css" rel="stylesheet">
 </head>
 <body>
-    <div class="bl-header container-fluid">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
-                <a class="nav-prand" href="#(CPATH)/">#(option('bluelight_logo_text') ?? 'JPress')</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        #for(menu : MENUS)
-                        <li class="nav-item #(menu.isActive ? 'active' : '')">
-                            <a href="#(menu.url ??)">#(menu.text ??)</a>
-                        </li>
-                        #end
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-outline-light ">下载源码</button>
-            </nav>
-        </div>
+<div class="bl-header container-fluid">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
+            <a class="nav-prand" href="#(CPATH)/">#(option('jpressportal_logo_text') ?? 'JPress')</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    #for(menu : MENUS)
+                    <li class="nav-item #(menu.isActive ? 'active' : '')">
+                        <a href="#(menu.url ??)">#(menu.text ??)</a>
+                    </li>
+                    #end
+                </ul>
+            </div>
+            #if(option('jpressportal_download_btn_enable'))
+            <a href="#option('jpressportal_download_url')" class="btn btn-outline-light " target="_blank">下载源码</a>
+            #end
+        </nav>
     </div>
+</div>
 
-    #@content()
+#@content()
 
-    <div class="bl-footer container-fluid">
-        <div class="container">
-            <ul class="bl-footer-list">
-                <li class="bl-footer-item">
-                    <a href="#">帮助</a>
-                </li>
-                <li class="bl-footer-item">
-                    <a href="#">隐私</a>
-                </li>
-                <li class="bl-footer-item">
-                    <a href="#">条款</a>
-                </li>
-            </ul>
-            <div class="copyright">copyright @ 2018 JPress设计部出品</div>
-        </div>
+<div class="bl-footer container-fluid">
+    <div class="container">
+        <ul class="bl-footer-list">
+            <li class="bl-footer-item">
+                <a href="#">帮助</a>
+            </li>
+            <li class="bl-footer-item">
+                <a href="#">隐私</a>
+            </li>
+            <li class="bl-footer-item">
+                <a href="#">条款</a>
+            </li>
+        </ul>
+        <div class="copyright">copyright @ 2018 JPress设计部出品</div>
     </div>
-    <script src="jquery/jquery.min.js"></script>
-    <script src="/static/components/jquery/jquery.form.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="highlight/highlight.pack.js"></script>
-    #@script?()
+</div>
+<script src="jquery/jquery.min.js"></script>
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="highlight/highlight.pack.js"></script>
+#@script?()
 </body>
 </html>
 #end

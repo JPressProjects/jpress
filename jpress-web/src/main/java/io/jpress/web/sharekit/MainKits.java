@@ -45,15 +45,17 @@ public class MainKits {
     }
 
 
-    public static String option(String key) {
+    public static Object option(String key) {
         OptionService service = Jboot.bean(OptionService.class);
-        return service.findByKey(key);
-    }
+        String value = service.findByKey(key);
+        if (value != null && value.equalsIgnoreCase("true")) {
+            return true;
+        }
 
-
-    public static Boolean optionAsBool(String key) {
-        OptionService service = Jboot.bean(OptionService.class);
-        return service.findAsBoolByKey(key);
+        if (value != null && value.equalsIgnoreCase("false")) {
+            return false;
+        }
+        return value;
     }
 
 

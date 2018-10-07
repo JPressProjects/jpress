@@ -113,7 +113,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
         //当 slug 不为空，但是查询出来的category却是null的时候
         //应该404显示
-        if (category == null) {
+        if (!"index".equals(idOrSlug) && category == null) {
             renderError(404);
         }
 

@@ -57,7 +57,7 @@
             <h4 class="ll-title">相关文章</h4>
             <div class="card-deck">
                 #for(article :relevantArticles )
-                <div class="card">
+                <div class="card bh-panel">
                     <a class="recommend-panel-link" href="#articleUrl(article)">
                         <div class="recommend-panel-top">
                             <img src="img/blog-image.jpg" class="img-fluid" alt="#(article.title ??)">
@@ -152,7 +152,7 @@
 
             #commentPaginate(anchor="comments")
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center ll-page">
+                <ul class="pagination justify-content-center bh-page">
                     #for(page : pages)
                     <li class="page-item #(page.style ??)">
                         <a class="page-link" href="#(page.url ??)">

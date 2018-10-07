@@ -9,14 +9,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-sm-12">
+            #pages(flag = 'leftbar')
             <div class="bl-cloumn-nav">
-                #pages(flag = 'leftbar')
                 #for(page : pages)
                 <a class="bl-cloumn-nav-item nav-link #(page.isActive ? 'active' : '')"
                    href="#pageUrl(page)">#(page.title ??)</a>
                 #end
-                #end
             </div>
+            #end
         </div>
         <div class="col-md-9 col-sm-12">
             <h2 class="bl-title-center">#(page.title ??)</h2>

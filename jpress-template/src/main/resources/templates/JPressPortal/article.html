@@ -74,14 +74,14 @@
                 <form class="bl-comment-form" id="commentForm" action="#(CPATH)/article/postComment" method="post">
                     <input type="hidden" name="articleId" value="#(article.id)">
                     <input type="hidden" name="pid" id="pid">
-                    <div>
+                    <div class="form-group">
                         <textarea class="form-control"
                                   placeholder="想说就说吧..."
                                   id="content"
                                   name="content"
                                   rows="5"></textarea>
                     </div>
-                    <button type="submit">发射</button>
+                    <button type="submit">发布</button>
                     <span class="clearfix"></span>
                 </form>
 
@@ -164,12 +164,16 @@
             <div class="card-right">
                 <h4 class="bl-title">热门文章</h4>
 
+                #articles()
                 #for(article : articles)
                 <div class="card-right-body">
-                    <img src="#(article.thumbnail ??)" class="img-fluid"
-                         alt="#(article.title ??)">
-                    <p>#(article.title ??)</p>
+                    <a href="#articleUrl(article)">
+                        <img src="#(article.thumbnail ??)" class="img-fluid"
+                             alt="#(article.title ??)">
+                        <p>#(article.title ??)</p>
+                    </a>
                 </div>
+                #end
                 #end
 
             </div>

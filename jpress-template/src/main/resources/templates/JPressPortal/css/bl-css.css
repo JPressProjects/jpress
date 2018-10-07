@@ -122,7 +122,25 @@
     -o-transform: scale(1.1, 1.1);
     -moz-transform: scale(1.1, 1.1);
 }
-
+/*page*/
+.pagination .page-item.active .page-link{
+    background-color:#154fa1;
+    border-color:#154fa1;
+    color:#fff;
+}
+.pagination .page-item .page-link{
+    color:#154fa1;
+}
+.pagination{
+    margin:5rem 0 0 0;
+}
+.pagination li.disabled .page-link{
+    background-color: #eee;
+    color:#999;
+}
+.pagination li.disabled{
+    cursor: not-allowed;
+}
 
 /*comment panel*/
 .comment-panel{
@@ -191,6 +209,10 @@
     -webkit-transition:0.4s ease-out;
     -moz-transition:0.4s ease-out;
     -o-transition:0.4s ease-out;
+}
+.card-right-body a{
+    display: block;
+    text-decoration: none;
 }
 .recommend-panel-top img:hover,.card-right-body img:hover{
     transform: scale(1.1, 1.1);
@@ -514,24 +536,5 @@ a.nav-prand:hover{
 .bl-content-info{
     color:#999;
 }
-
-.pagination .page-item.active .page-link{
-    background-color:#154fa1;
-    border-color:#154fa1;
-    color:#fff;
-}
-.pagination .page-item .page-link{
-    color:#154fa1;
-}
-
-.pagination{
-    margin:5rem 0 0 0;
-}
-.pagination li.disabled .page-link{
-    background-color: #eee;
-    color:#999;
-}
-.pagination li.disabled{
-    cursor: not-allowed;
-}
+/*animation*/
 

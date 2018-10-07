@@ -15,10 +15,18 @@
  */
 package io.jpress.web.front;
 
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.User;
+import io.jpress.service.OptionService;
+import io.jpress.service.RoleService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
+
+import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -35,8 +43,18 @@ public class InstallController extends TemplateControllerBase {
     }
 
     public static void setInstalled(boolean installed) {
-        InstallController.installed = installed;
+//        InstallController.installed = installed;
     }
+
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private RoleService roleService;
+
+    @Inject
+    private OptionService optionService;
 
     public void index() {
 
@@ -56,36 +74,70 @@ public class InstallController extends TemplateControllerBase {
         }
 
         String username = getPara("username");
-        String email = getPara("email");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-        if (StrUtils.isBlank(username)) {
-            renderJson(Ret.fail().set("message", "username must not be empty").set("errorCode", 1));
-            return;
-        }
+        String webName = getPara("web_name");
+        String webTitle = getPara("web_title");
+        String webSubtitle = getPara("web_subtitle");
 
-        if (StrUtils.isBlank(email)) {
-            renderJson(Ret.fail().set("message", "email must not be empty").set("errorCode", 2));
+        if (StrUtils.isBlank(username)) {
+            renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
             return;
         }
 
         if (StrUtils.isBlank(pwd)) {
-            renderJson(Ret.fail().set("message", "password must not be empty").set("errorCode", 3));
+            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
         if (StrUtils.isBlank(confirmPwd)) {
-            renderJson(Ret.fail().set("message", "confirm password must not be empty").set("errorCode", 4));
+            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
 
         if (pwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "confirm password must equals password").set("errorCode", 5));
+            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
             return;
         }
 
+        if (StrUtils.isBlank(webName)) {
+            renderJson(Ret.fail().set("message", "网站名称不能为空").set("errorCode", 10));
+            return;
+        }
 
+        if (StrUtils.isBlank(webTitle)) {
+            renderJson(Ret.fail().set("message", "网站标题不能为空").set("errorCode", 11));
+            return;
+        }
+
+        if (StrUtils.isBlank(webSubtitle)) {
+            renderJson(Ret.fail().set("message", "网站副标题不能为空").set("errorCode", 12));
+            return;
+        }
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        User user = new User();
+        user.setId(1l);
+        user.setUsername(username);
+        user.setNickname(username);
+        user.setRealname(username);
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+        user.setCreated(new Date());
+        user.setStatus(User.STATUS_OK);
+        user.setCreateSource("web_register");
+
+        userService.save(user);
+        roleService.initWebRole();
+
+        optionService.saveOrUpdate("web_name", webName);
+        optionService.saveOrUpdate("web_title", webTitle);
+        optionService.saveOrUpdate("web_subtitle", webSubtitle);
+
+        renderJson(Ret.ok());
     }
 
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>用户注册</title>
+    <title>JPress网站安装</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
@@ -15,6 +15,7 @@
     <script src="#(CPATH)/static/respond/respond.min.js"></script>
     <![endif]-->
     <style>
+
         .login-page {
             background-image: url("#(CPATH)/static/commons/img/loginbg.png");
             background-size: cover;
@@ -25,9 +26,16 @@
         }
 
         .login-box {
-            width: 360px;
-            margin: 10% auto;
+            margin: 2% auto;
+            width: 660px;
             padding: 0;
+        }
+
+        .page-header {
+            margin: 50px 0 30px 0;
+            font-size: 16px;
+            color: #999;
+            text-align: left;
         }
 
 
@@ -38,29 +46,68 @@
 <div class="row">
     <div class="login-box text-center">
         <div class="login-box-body">
-            <form action="#(CPATH)/install/doInstall" method="post" id="form">
+            <form class="form-horizontal form-setting"
+                  action="#(CPATH)/install/doInstall" method="post" id="form">
                 <div class="form-group">
-                    JPress用户您好，您应该是初次安装 JPress ，在使用JPress之前，请先初始化<b>超级管理员</b>的账号和密码。
+                    <div class="col-sm-12">
+                        JPress用户您好，在使用JPress之前，请先初始化网站基本信息。
+                    </div>
+                </div>
+                <h4 class="page-header" style="margin-top: 20px">网站信息</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">网站名称</label>
+
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="取个好听的名字"
+                               name="web_name">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>账号</label>
-                    <input type="text" class="form-control" placeholder="请输入账号" name="username">
+                    <label class="col-sm-2 control-label">网站标题</label>
+
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="设置你的网站标题"
+                               name="web_title">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">网站副标题</label>
+
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="及副标题..."
+                               name="web_subtitle">
+                    </div>
+                </div>
+
+                <h4 class="page-header">超级管理员</h4>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">账号</label>
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="管理员的登录账号"
+                               name="username">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>邮箱</label>
-                    <input type="text" class="form-control" placeholder="请输入邮箱" name="email">
+                    <label class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="及密码"
+                               name="pwd">
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" class="form-control" placeholder="密码..." name="pwd">
+                    <label class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-9">
+                        <input type="input" class="form-control" placeholder="..."
+                               name="confirmPwd">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>确认密码</label>
-                    <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd">
-                </div>
+
                 <div class="row">
-                    <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="button" id="submit" class="btn btn-primary btn-block btn-flat">确认初始化</button>
+                    <div class="col-xs-offset-3 col-xs-6 " style="padding-top: 15px">
+                        <button type="button" id="submit" class="btn btn-primary btn-block btn-flat"> 确认初始化</button>
                     </div>
                 </div>
 

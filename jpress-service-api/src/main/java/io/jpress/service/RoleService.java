@@ -140,4 +140,6 @@ public interface RoleService {
 
     public boolean doChangeRoleByIds(Long roleId, Object... ids);
 
+    public void initWebRole();
+
 }

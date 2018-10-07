@@ -168,8 +168,11 @@
                 #for(article : articles)
                 <div class="card-right-body">
                     <a href="#articleUrl(article)">
-                        <img src="#(article.thumbnail ??)" class="img-fluid"
-                             alt="#(article.title ??)">
+                        <div>
+                            <img src="#(article.thumbnail ??)"
+                                 class="img-fluid"
+                                 alt="#(article.title ??)">
+                        </div>
                         <p>#(article.title ??)</p>
                     </a>
                 </div>

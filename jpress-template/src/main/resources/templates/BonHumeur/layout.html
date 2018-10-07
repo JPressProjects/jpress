@@ -20,7 +20,9 @@
         #if(showSidebar)
         <div class="bh-sidebar">
             <div class="bh-sidebar-main">
-                <p class="bh-portrait"><img src="img/list-image.jpg"/></p>
+                <p class="bh-portrait">
+                    <img src="#option('bonhumeur_web_avatar','img/list-image.jpg')" />
+                </p>
                 <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
                 <p>#option('bonhumeur_web_desc','一个小博客....')</p>
             </div>

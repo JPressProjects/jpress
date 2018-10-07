@@ -83,6 +83,8 @@ public class _TemplateController extends AdminControllerBase {
             setAttr("templates", templates);
         }
 
+        setAttr("templateCount", templates == null ? 0 : templates.size());
+
         render("template/list.html");
     }
 

@@ -84,7 +84,7 @@ public class ArticleController extends TemplateControllerBase {
         String idOrSlug = getPara(0);
         return StrUtils.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
-                : articleService.findFirstBySlug(idOrSlug);
+                : articleService.findFirstBySlug(StrUtils.urlDecode(idOrSlug));
     }
 
     private void doFlagMenuActive(Article article) {

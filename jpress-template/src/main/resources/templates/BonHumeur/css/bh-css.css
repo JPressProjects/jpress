@@ -109,6 +109,18 @@ a:hover{
 .bh-more a:hover{
     background-color: #0c6b9c;
 }
+/*page*/
+.bh-page .page-item.active .page-link{
+    background-color:#107AB1;
+    border-color:#107AB1;
+    color:#fff;
+}
+.bh-page .page-item .page-link{
+    color:#107AB1;
+}
+.bh-page{
+    margin:5rem 0 0 0;
+}
 
 /*footer*/
 .bh-footer{
@@ -189,13 +201,6 @@ a:hover{
 .bh-artical blockquote span{
     font-size:36px
 }
-.bh-artical pre{
-    padding:0 2rem;
-    background-color: #5a5a5a;
-}
-.bh-artical code{
-    color:#fff;
-}
 .bh-artical p img{
     vertical-align: middle;
     width: 100%;
@@ -257,6 +262,11 @@ a:hover{
     margin:0.5rem 0;
     background-color: #fffffb;
 }
+@media (min-width: 576px){
+    .bh-panel{
+        max-width: 30%;
+    }
+}
 /*comment form*/
 .bh-comment-from{
     margin:2rem 0;
@@ -313,6 +323,7 @@ a:hover{
 }
 .recommend-panel-top{
     overflow: hidden;
+    height: 12rem;
 }
 
 .recommend-panel-top img{

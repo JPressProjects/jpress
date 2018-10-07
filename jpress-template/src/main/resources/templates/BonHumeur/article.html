@@ -2,6 +2,9 @@
 #@layout(false)
 #define script()
 <script>
+
+    hljs.initHighlightingOnLoad();
+
     $('#commentForm').on('submit', function () {
         $(this).ajaxSubmit({
             type: "post",

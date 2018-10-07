@@ -1,4 +1,7 @@
 /*global*/
+.ll-cantainer{
+    min-height: 80vh;
+}
 a{
     color:#333;
 }
@@ -81,7 +84,6 @@ a:hover{
         border-radius:4px;
         -webkit-border-radius:4px;
         -moz-border-radius:4px;
-
     }
 
 }
@@ -180,13 +182,7 @@ a:hover{
 .ll-artical blockquote span{
     font-size:36px
 }
-.ll-artical pre{
-    padding:0 2rem;
-    background-color: #5a5a5a;
-}
-.ll-artical code{
-    color:#fff;
-}
+
 .ll-artical p img{
     vertical-align: middle;
     width: 100%;
@@ -248,6 +244,12 @@ a:hover{
     margin:0.5rem 0;
     background-color: #fffffb;
 }
+@media (min-width: 576px){
+    .ll-panel{
+        max-width: 30%;
+    }
+}
+
 /*comment form*/
 .ll-comment-from{
     margin:2rem 0;
@@ -303,6 +305,7 @@ a:hover{
 }
 .recommend-panel-top{
     overflow: hidden;
+    height: 12rem;
 }
 
 .recommend-panel-top img{

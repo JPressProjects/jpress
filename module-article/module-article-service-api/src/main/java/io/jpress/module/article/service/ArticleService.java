@@ -154,7 +154,7 @@ public interface ArticleService {
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
-    public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count);
+    public List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
 
 
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);

@@ -21,12 +21,10 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,17 +49,7 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
         }
 
-        List<ArticleCategory> tags = categoryService.findListByArticleId(article.getId(), ArticleCategory.TYPE_TAG);
-        if (tags == null || tags.isEmpty()) {
-            return;
-        }
-
-        List<Long> tagIds = new ArrayList<>();
-        for (ArticleCategory category : tags) {
-            tagIds.add(category.getId());
-        }
-
-        List<Article> relevantArticles = service.findListByCategoryIds(tagIds.toArray(new Long[0]), Article.STATUS_NORMAL, 3);
+        List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, 3);
         if (relevantArticles != null && !relevantArticles.isEmpty()) {
             scope.setLocal("relevantArticles", relevantArticles);
             renderBody(env, scope, writer);

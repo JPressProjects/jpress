@@ -25,6 +25,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
@@ -41,7 +42,7 @@ import java.util.List;
 public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
 
     @Inject
-    private ArticleCategoryService acs;
+    private ArticleCategoryService categoryService;
 
     @Inject
     private UserService userService;
@@ -240,40 +241,41 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    public List<Article> findListByCategoryIds(Long[] categoryIds, String status, Integer count) {
+    public List<Article> findRelevantListByArticleId(long articleId, String status, Integer count) {
+
+        List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
+        if (tags == null || tags.isEmpty()) {
+            return null;
+        }
+
+        List<Long> tagIds = new ArrayList<>();
+        for (ArticleCategory category : tags) {
+            tagIds.add(category.getId());
+        }
+
+
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(categoryIds));
+        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(tagIds.toArray()));
+        from.append(" and a.id != ? ");
+
 
         List<Object> paras = new ArrayList<>();
+        paras.add(articleId);
 
         if (status != null) {
             from.append(" and status = ? ");
             paras.add(status);
         }
+
+        from.append(" group by a.id");
+
         if (count != null) {
             from.append(" limit " + count);
         }
 
-        return paras.isEmpty() ? DAO.find(from.toString()) : DAO.find(from.toString(), paras.toArray());
+        return DAO.find(from.toString(), paras.toArray());
     }
-
-
-//    private String toSqlArrayString(Object... ids) {
-//        int iMax = ids.length - 1;
-//        StringBuilder b = new StringBuilder();
-//        b.append('(');
-//        for (int i = 0; ; i++) {
-//            String id = String.valueOf(ids[i]);
-//            if (!StrUtils.isNumeric(id)) {
-//                throw new IllegalArgumentException("id must is numeric");
-//            }
-//            b.append(id);
-//            if (i == iMax)
-//                return b.append(')').toString();
-//            b.append(", ");
-//        }
-//    }
 
 
     /**

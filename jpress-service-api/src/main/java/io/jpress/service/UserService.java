@@ -131,4 +131,5 @@ public interface UserService {
     public User findFistByUsername(String username);
 
     public User findFistByEmail(String email);
+
 }

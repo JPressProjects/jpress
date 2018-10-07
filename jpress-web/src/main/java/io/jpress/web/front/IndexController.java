@@ -30,14 +30,24 @@ public class IndexController extends TemplateControllerBase {
 
     public void index() {
 
-        if ("/".equals(JPressHandler.getCurrentTarget())) {
-            doFlagMenuActive(menu -> "/".equals(menu.getUrl()));
-            render("index.html");
+        //JPress 没有安装，先进行安装
+        if (InstallController.isInstalled() == false) {
+            redirect("/install");
             return;
         }
 
+        //不是首页 / ，使用 page 模块去处理
+        if (!"/".equals(JPressHandler.getCurrentTarget())) {
+            forwardAction("/page");
+            return;
+        }
 
-        forwardAction("/page");
+        //设置菜单高亮
+        doFlagMenuActive(menu -> "/".equals(menu.getUrl()));
+
+        //渲染 模板下的 index.html
+        render("index.html");
+
     }
 
 

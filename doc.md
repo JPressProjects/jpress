@@ -22,8 +22,7 @@ JPress安装需要以下几个步骤：
 1. 下载JPress源码
 2. 通过maven编译JPress成war包（或可执行程序）
 3. 创建JPress数据库
-4. 建立基本数据（例如：管理员账号密码等）
-5. 配置JPress的数据库链接并运行
+4. 修改jpress数据库链接配置并启动
 
 #### 1.下载JPress源码
 
@@ -94,31 +93,11 @@ mvn package
 
 通过Mysql客户端连接Mysql数据库后，通过运行 JPress 目录下的 db.sql，既可创建 JPress 相关数据库。
 
-#### 4.创建基本数据信息
 
-```sql
-INSERT INTO `user` 
-(`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`,`status`)
-VALUES 
-(1, 'admin', 'michael', '海哥', '程序员', 
-'f672ff8d263e89b313d2ab8ee88fec3d58e4c28d21939c858aa44f3bc6da7197', 
-'NYXvReOTBfBTh-vIhMz5_OazXk_nZs5V','ok');
-
-
-INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
-VALUES
-	(1, '超级管理员', '描述', 'jpsa', '2016-00-00 00:00:00', '2018-09-23 10:56:03');
-
-
-INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
-VALUES (1, 1);
-```
  
-此时，后台登录账号为：admin ，密码：111111
- 
-#### 5.配置JPress的数据库链接并运行
+#### 4.修改jpress数据库链接配置并启动
 
-##### 运行war包
+##### 启动 jpress war 包
 
 拷贝`starter-tomcat/target` 目录下的 `starter-tomcat-1.0.war` war包，放到tomcat的webapp目录下，手动解压缩。
 
@@ -133,7 +112,7 @@ jboot.datasource.password=数据库密码
 配置成功后，启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
 
 
-##### 运行可执行程序
+##### 启动 jpress 可执行程序
 
 
 拷贝`starter/target/generated-resources/appassembler/jsw/` 的 `jpress` 目录，放到 Linux 上。 
@@ -173,10 +152,11 @@ jboot.datasource.password=数据库密码
   JPress 目录结构如下：
   
   * index.html 首页模板
+  * error.html 错误页面模板
+  * setting.html 模板设置页面
   * page.html 页面默认模板
   * article.html 文章详情的默认模板
-  * articlecategory.html 文章类别的默认模板
-  * setting.html 模板设置页面
+  * artlist.html 文章类别的默认模板
   * template.properties 模板信息配置
   * screenshot.png 缩略图
   
@@ -206,25 +186,22 @@ screenshot=screenshot.png
 
 
 ##### 模板标签
- JPress是基于Jfinal和Jboot进行开发的，使用的模板引擎是Jfinal Enjoy，Jfinal Enjoy 模板引擎也是世界上最好的模板引擎，
- 拥有极好的性能和开发体验，在学习JPress模板制作之前，很有必要学习一下Jfinal Enjoy 模板引擎。
+
+JPress是基于JFinal和Jboot进行开发的，使用的模板引擎是Jfinal Enjoy，Jfinal Enjoy 拥有极好的性能和开发体验，在学习JPress模板制作之前，很有必要学习一下Jfinal Enjoy 模板引擎。
  
-1. 菜单标签：#menu()
- 
+
  
 使用代码如下：
     
 ```html
-
-    #for(menu : MENUS)
-        <li class="nav-item">
-            <a href="#(menu.url ??)">#(menu.text ??)</a>
-        </li>
-    #end
-
+#for(menu : MENUS)
+    <li class="nav-item">
+        <a href="#(menu.url ??)">#(menu.text ??)</a>
+    </li>
+#end
 ```
 
- 2. 文章分类标签：#articlePage()
+* 文章分类标签：#articlePage()
   
 使用代码如下：
   

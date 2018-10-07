@@ -1,0 +1,27 @@
+#include("./layout.html")
+#@layout()
+#define content()
+<div class="container-fluid bl-bgclor">
+    <div class="container bl-about-banner">关于我们</div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+            <div class="bl-cloumn-nav">
+                #pages(flag = 'leftbar')
+                #for(page : pages)
+                <a class="bl-cloumn-nav-item nav-link #(page.isActive ? 'active' : '')"
+                   href="#pageUrl(page)">#(page.title ??)</a>
+                #end
+                #end
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <h2 class="bl-title-center">#(page.title ??)</h2>
+            <div class="bl-artical">
+                #(page.text ??)
+            </div>
+        </div>
+    </div>
+</div>
+#end

@@ -1,0 +1,179 @@
+#include("./layout.html")
+#@layout()
+#define script()
+<script>
+
+    hljs.initHighlightingOnLoad();
+
+    $('#commentForm').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    alert('评论发布成功，管理审核后即可正常显示。')
+                } else {
+                    alert('评论失败：' + data.message);
+                }
+                $('#content').val('');
+            },
+            error: function () {
+                alert("网络错误，请稍后重试");
+            }
+        });
+        return false;
+    });
+
+    $('.toReply').on('click', function () {
+        $('#pid').val($(this).attr('data-cid'));
+        $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
+        $('#content').focus();
+    });
+</script>
+#end
+#define content()
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-sm-12">
+            <h3 class="bl-artical-title">
+                #(article.title ??)
+            </h3>
+            <div class="bl-label">
+                <div class="bl-label-item">
+                    <img src="#(article.user.avatar ??)" class="img-fluid rounded-circle bl-img-size" alt="">
+                    <span class="text-success">#(article.user.nickname ??)</span>
+                </div>
+                <div class="bl-label-item">#date(article.created)</div>
+            </div>
+            <div class="bl-artical">
+                #(article.content ??)
+            </div>
+
+            #relevantArticles(article)
+            <div class="recommend-panel">
+                <h4 class="bl-title">相关文章</h4>
+                <div class="card-deck">
+                    #for(article :relevantArticles )
+                    <div class="card bl-panel">
+                        <a class="recommend-panel-link" href="#articleUrl(article)">
+                            <div class="recommend-panel-top">
+                                <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid"
+                                     alt="#(article.title ??)">
+                            </div>
+                            <div class="recommend-panel-bottom">
+                                #(article.title ??)
+                            </div>
+                        </a>
+                    </div>
+                    #end
+                </div>
+            </div>
+            #end
+
+            <div class="comment" id="comments">
+                <h4 class="bl-title">相关评论</h4>
+                <form class="bl-comment-form" id="commentForm" action="#(CPATH)/article/postComment" method="post">
+                    <input type="hidden" name="articleId" value="#(article.id)">
+                    <input type="hidden" name="pid" id="pid">
+                    <div>
+                        <textarea class="form-control"
+                                  placeholder="想说就说吧..."
+                                  id="content"
+                                  name="content"
+                                  rows="5"></textarea>
+                    </div>
+                    <button type="submit">发射</button>
+                    <span class="clearfix"></span>
+                </form>
+
+                #commentPage()
+                #for(comment : commentPage.list)
+                #if(comment.parent == null)
+                <div class="comment-panel">
+                    <div class="comment-panel-portrait">
+                        <img src="#(comment.avatar ??)"
+                             class="img-fluid rounded-circle"
+                             alt="#(comment.nickname ??)">
+                    </div>
+                    <div class="comment-panel-content">
+                        <div class="comment-panel-content-item">
+                            <div>#(comment.author ??)</div>
+                            <div>#date(comment.created)</div>
+                        </div>
+                        <p>#(comment.content ??)</p>
+                    </div>
+                    <span class="clearfix"></span>
+                    <p class="bl-reply">
+                        <a href="javascript:;"
+                           data-cid="#(comment.id)"
+                           data-author="#(comment.author ??)"
+                           class="toReply">回复</a>
+                    </p>
+                </div>
+
+                #else
+
+                <div class="comment-panel">
+                    <div class="comment-panel-portrait">
+                        <img src="#(comment.avatar ??)"
+                             class="img-fluid rounded-circle"
+                             alt="#(comment.nickname ??)">
+                    </div>
+                    <div class="comment-panel-content">
+                        <div class="comment-panel-content-item">
+                            <div>#(comment.author ??)</div>
+                            <div>#date(comment.created)</div>
+                        </div>
+                        <div class="comment-panel-secondary">
+                            <span>引用来自于 <span> #(comment.parent.user.nickname ??)</span> 的内容</span>
+                            <p>#(comment.parent.content ??)</p>
+                        </div>
+                        <p>#(comment.content ??)</p>
+                    </div>
+                    <span class="clearfix"></span>
+                    <p class="bl-reply">
+                        <a href="javascript:;"
+                           data-cid="#(comment.id)"
+                           data-author="#(comment.author ??)"
+                           class="toReply">回复</a>
+                    </p>
+                </div>
+
+                #end
+                #end
+
+                #commentPaginate(anchor="comments")
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center ll-page">
+                        #for(page : pages)
+                        <li class="page-item #(page.style ??)">
+                            <a class="page-link" href="#(page.url ??)">
+                                #(page.text ??)
+                            </a>
+                        </li>
+                        #end
+                    </ul>
+                </nav>
+                #end
+
+                #end
+
+
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="card-right">
+                <h4 class="bl-title">热门文章</h4>
+
+                #for(article : articles)
+                <div class="card-right-body">
+                    <img src="#(article.thumbnail ??)" class="img-fluid"
+                         alt="#(article.title ??)">
+                    <p>#(article.title ??)</p>
+                </div>
+                #end
+
+            </div>
+        </div>
+    </div>
+</div>
+#end

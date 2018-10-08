@@ -127,17 +127,21 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <move file="${project.build.directory}/classes/static"
-                                      tofile="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/static"/>
-                                <move file="${project.build.directory}/classes/templates"
-                                      tofile="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/templates"/>
-                                <move file="${project.build.directory}/classes/WEB-INF"
-                                      tofile="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/WEB-INF"/>
+                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/static">
+                                    <fileset dir="${project.build.directory}/classes/static"/>
+                                </copy>
+                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/templates">
+                                    <fileset dir="${project.build.directory}/classes/templates"/>
+                                </copy>
+                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/WEB-INF">
+                                    <fileset dir="${project.build.directory}/classes/WEB-INF"/>
+                                </copy>
                             </tasks>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

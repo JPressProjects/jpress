@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>JPress网站安装</title>
+    <title>JPress网站初始化</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
@@ -127,7 +127,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert("超级管理员初始化成功，请登陆")
+                    alert("网站基本信息初始化成功，请登陆。")
                     location.href = "#(CPATH)/admin/login";
                 } else {
                     alert(data.message);

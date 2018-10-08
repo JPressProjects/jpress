@@ -20,6 +20,9 @@
                     doRenderComment(data);
                 } else {
                     alert('评论失败：' + data.message);
+                    if (data.errorCode == 9) {
+                        location.href = '#(CPATH)/user/login';
+                    }
                 }
                 $('#content').val('');
             },

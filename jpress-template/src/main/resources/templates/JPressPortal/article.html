@@ -16,9 +16,12 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert('评论发布成功，管理审核后即可正常显示。')
+                    doRenderComment(data);
                 } else {
                     alert('评论失败：' + data.message);
+                    if (data.errorCode == 9) {
+                        location.href = '#(CPATH)/user/login';
+                    }
                 }
                 $('#content').val('');
             },
@@ -29,11 +32,51 @@
         return false;
     });
 
+    function doRenderComment(data) {
+        if (data.code == 0) {
+            var comment = data.comment;
+            var tmpl = $.templates("#commentTmpl");
+            var html = tmpl.render(comment);
+            $("#commentForm").after(html);
+        } else {
+            alert('评论发布成功，管理审核后即可正常显示。')
+        }
+    }
+
     $('.toReply').on('click', function () {
         $('#pid').val($(this).attr('data-cid'));
         $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
         $('#content').focus();
     });
+</script>
+<script id="commentTmpl" type="text/x-jsrender">
+   <div class="comment-panel">
+        <div class="comment-panel-portrait">
+             {{if user }}
+                <img src="{{:user.avatar}}" class="img-fluid rounded-circle"
+                        alt="{{:author}}">
+                {{else}}
+                <img src="/static/commons/img/avatar.png" class="img-fluid rounded-circle"
+                        alt="{{:author}}">
+             {{/if}}
+
+        </div>
+        <div class="comment-panel-content">
+            <div class="comment-panel-content-item">
+                <div>{{:author}}</div>
+                <div>{{:created}}</div>
+            </div>
+            <p>{{:content}}</p>
+        </div>
+
+        <span class="clearfix"></span>
+        <p class="bl-reply">
+            <a href="javascript:;"
+               data-cid="{{:id}}"
+               data-author="{{:author}}"
+               class="toReply">回复</a>
+        </p>
+    </div>
 </script>
 #end
 #define content()

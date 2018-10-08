@@ -167,7 +167,7 @@ public class ArticleController extends TemplateControllerBase {
         Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
         if (unLoginEnable != null && unLoginEnable == true) {
             if (getLoginedUser() == null) {
-                renderJson(Ret.fail().set("message", "未登录用户不能评论"));
+                renderJson(Ret.fail().set("message", "未登录用户不能评论").set("errorCode", 9));
                 return;
             }
         }

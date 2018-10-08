@@ -88,7 +88,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
         renderJson(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
-
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
@@ -211,6 +210,28 @@ public class ArticleUCenterController extends UcenterControllerBase {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
         commentService.saveOrUpdate(comment);
         renderJson(Ret.ok());
+    }
+
+    public void doCommentDel() {
+
+        Long id = getIdPara();
+        if (id == null) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        ArticleComment comment = commentService.findById(id);
+        if (comment == null) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        if (!comment.getUserId().equals(getLoginedUser().getId())) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        renderJson(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
 }

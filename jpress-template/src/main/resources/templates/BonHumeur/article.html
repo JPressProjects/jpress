@@ -91,7 +91,7 @@
             #if(comment.parent == null)
             <div class="comment-panel">
                 <div class="comment-panel-portrait">
-                    <img src="#(comment.avatar ??)" class="img-fluid rounded-circle"
+                    <img src="#(comment.user.avatar ??)" class="img-fluid rounded-circle"
                          alt="#(comment.nickname ??)">
                 </div>
                 <div class="comment-panel-content">
@@ -114,7 +114,7 @@
 
             <div class="comment-panel">
                 <div class="comment-panel-portrait">
-                    <img src="#(comment.parent.avatar ??)" class="img-fluid rounded-circle"
+                    <img src="#(comment.parent.user.avatar ??)" class="img-fluid rounded-circle"
                          alt="#(comment.parent.nickname ??)">
                 </div>
                 <div class="comment-panel-content">
@@ -125,7 +125,7 @@
                     <div class="comment-panel-content-main">#(comment.parent.content ??)</div>
                     <div class="comment-secondary-panel">
                         <div class="comment-panel-portrait">
-                            <img src="#(comment.avatar ??)" class="img-fluid rounded-circle"
+                            <img src="#(comment.user.avatar ??)" class="img-fluid rounded-circle"
                                  alt="#(comment.nickname ??)">
                         </div>
                         <div class="comment-panel-content">

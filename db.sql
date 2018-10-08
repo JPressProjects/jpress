@@ -1,4 +1,4 @@
-# Dump of table article
+ Dump of table article
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `article`;
@@ -88,8 +88,7 @@ CREATE TABLE `article_comment` (
   `pid` int(11) unsigned DEFAULT NULL COMMENT '回复的评论ID',
   `article_id` int(11) unsigned DEFAULT NULL COMMENT '评论的内容ID',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
-  `nickname` varchar(128) DEFAULT NULL COMMENT '评论的作者',
-  `avatar` varchar(256) DEFAULT NULL COMMENT '评论的作者头像',
+  `author` varchar(128) DEFAULT NULL COMMENT '评论的作者',
   `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
   `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
   `qq` varchar(32) DEFAULT NULL COMMENT 'qq号',

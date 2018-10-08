@@ -16,6 +16,7 @@
 package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.model.User;
 import io.jpress.module.article.model.base.BaseArticleComment;
 
 import java.util.HashMap;
@@ -57,4 +58,9 @@ public class ArticleComment extends BaseArticleComment<ArticleComment> {
         return string == null ? "未知状态" : string;
     }
 
+    @Override
+    public String getAuthor() {
+        User user = get("user");
+        return user != null ? user.getNickname() : super.getAuthor();
+    }
 }

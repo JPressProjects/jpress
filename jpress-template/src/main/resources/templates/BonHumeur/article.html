@@ -92,7 +92,7 @@
             <div class="comment-panel">
                 <div class="comment-panel-portrait">
                     <img src="#(comment.user.avatar ??)" class="img-fluid rounded-circle"
-                         alt="#(comment.nickname ??)">
+                         alt="#(comment.author ??)">
                 </div>
                 <div class="comment-panel-content">
                     <div class="comment-panel-content-item">
@@ -115,22 +115,22 @@
             <div class="comment-panel">
                 <div class="comment-panel-portrait">
                     <img src="#(comment.parent.user.avatar ??)" class="img-fluid rounded-circle"
-                         alt="#(comment.parent.nickname ??)">
+                         alt="#(comment.parent.author ??)">
                 </div>
                 <div class="comment-panel-content">
                     <div class="comment-panel-content-item">
-                        <div>#(comment.parent.nickname ??)</div>
+                        <div>#(comment.parent.author ??)</div>
                         <div>#date(comment.parent.created)</div>
                     </div>
                     <div class="comment-panel-content-main">#(comment.parent.content ??)</div>
                     <div class="comment-secondary-panel">
                         <div class="comment-panel-portrait">
                             <img src="#(comment.user.avatar ??)" class="img-fluid rounded-circle"
-                                 alt="#(comment.nickname ??)">
+                                 alt="#(comment.author ??)">
                         </div>
                         <div class="comment-panel-content">
                             <div class="comment-panel-content-item">
-                                <div>#(comment.nickname ??)</div>
+                                <div>#(comment.author ??)</div>
                                 <div>#date(comment.created)</div>
                             </div>
                             <div class="comment-panel-content-main">#(comment.content ??)</div>

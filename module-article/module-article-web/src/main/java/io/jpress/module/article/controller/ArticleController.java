@@ -209,8 +209,14 @@ public class ArticleController extends TemplateControllerBase {
         }
         commentService.saveOrUpdate(comment);
 
-        renderJson(Ret.ok());
+        Ret ret = Ret.ok();
+        if (comment.isNormal()) {
+            ret.set("comment", comment).set("code", 0);
+        } else {
+            ret.set("code", 0);
+        }
 
+        renderJson(ret);
         doSendEmail(article, comment);
     }
 

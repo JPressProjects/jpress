@@ -1,7 +1,12 @@
 #include("layout.html")
 #@layout()
-
+#define css()
+<link href="highlight/styles/railscasts.css" rel="stylesheet">
+#end
 #define script()
+<script src="jquery/jsrender.min.js"></script>
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="highlight/highlight.pack.js"></script>
 <script>
 
     hljs.initHighlightingOnLoad();

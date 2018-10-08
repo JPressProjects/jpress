@@ -147,9 +147,22 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
                 "id desc");
 
         join(p, "pid", "parent");
+        joinParentUser(p);
         userService.join(p, "user_id");
+
         return p;
     }
+
+    private void joinParentUser(Page<ArticleComment> p) {
+        if (p == null || p.getList().isEmpty()) {
+            return;
+        }
+
+        for (ArticleComment articleComment : p.getList()) {
+            userService.join((ArticleComment) articleComment.get("parent"), "user_id");
+        }
+    }
+
 
     @Override
     public void doIncCommentReplyCount(long commentId) {

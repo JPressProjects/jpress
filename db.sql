@@ -1,4 +1,4 @@
- Dump of table article
+# Dump of table article
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `article`;

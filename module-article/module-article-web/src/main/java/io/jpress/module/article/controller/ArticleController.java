@@ -135,6 +135,16 @@ public class ArticleController extends TemplateControllerBase {
             content = StringEscapeUtils.escapeHtml(content);
         }
 
+        //是否对用户输入验证码进行验证
+        Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
+        if (vCodeEnable != null && vCodeEnable == true) {
+            if (validateCaptcha("captcha") == false) {
+                renderJson(Ret.fail().set("message", "验证码错误"));
+                return;
+            }
+        }
+
+
         Article article = articleService.findById(articleId);
         if (article == null) {
             renderJson(Ret.fail());
@@ -154,18 +164,10 @@ public class ArticleController extends TemplateControllerBase {
             return;
         }
 
-        //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
-        if (vCodeEnable != null && vCodeEnable == true) {
-            if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误"));
-                return;
-            }
-        }
 
         //是否允许未登录用户参与评论
         Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
-        if (unLoginEnable != null && unLoginEnable == true) {
+        if (unLoginEnable == null || unLoginEnable == false) {
             if (getLoginedUser() == null) {
                 renderJson(Ret.fail().set("message", "未登录用户不能评论").set("errorCode", 9));
                 return;

@@ -176,7 +176,7 @@ public class ArticleController extends TemplateControllerBase {
 
         comment.setArticleId(articleId);
         comment.setContent(content);
-        comment.setNickname(nickname);
+        comment.setAuthor(nickname);
         comment.setPid(pid);
         comment.setEmail(email);
         comment.setWechat(wechat);
@@ -185,8 +185,7 @@ public class ArticleController extends TemplateControllerBase {
         User user = getLoginedUser();
         if (user != null) {
             comment.setUserId(user.getId());
-            comment.setNickname(user.getNickname());
-            comment.setAvatar(user.getAvatar());
+            comment.setAuthor(user.getNickname());
         }
 
         //是否是管理员必须审核

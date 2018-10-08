@@ -41,20 +41,12 @@ public abstract class BaseArticleComment<M extends BaseArticleComment<M>> extend
 		return getLong("user_id");
 	}
 
-	public void setNickname(java.lang.String nickname) {
-		set("nickname", nickname);
+	public void setAuthor(java.lang.String author) {
+		set("author", author);
 	}
 	
-	public java.lang.String getNickname() {
-		return getStr("nickname");
-	}
-
-	public void setAvatar(java.lang.String avatar) {
-		set("avatar", avatar);
-	}
-	
-	public java.lang.String getAvatar() {
-		return getStr("avatar");
+	public java.lang.String getAuthor() {
+		return getStr("author");
 	}
 
 	public void setEmail(java.lang.String email) {

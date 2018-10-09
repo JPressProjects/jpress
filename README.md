@@ -31,7 +31,7 @@ jboot.datasource.password=
 
 **问题3：eclipse 或者 idea 调试的时候，为什么后台无法接受参数**
 
-答：请先查看下JFinal文档 http://www.jfinal.com/doc/3-3，确认下自己的开发工具是否配置正确。
+答：请先查看下JFinal文档 http://www.jfinal.com/doc/3-3 ，确认下自己的开发工具是否配置正确。
 
 **问题4：为什么无法对文章进行评论**
 

@@ -18,7 +18,7 @@
     </properties>
 
     <dependencies>
-        
+
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>

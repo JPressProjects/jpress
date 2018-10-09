@@ -17,6 +17,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-web</artifactId>
             <version>${jpress.version}</version>
@@ -257,7 +262,6 @@
 
                 </configuration>
             </plugin>
-
 
         </plugins>
 

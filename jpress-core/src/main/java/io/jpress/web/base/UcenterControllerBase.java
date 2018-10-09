@@ -16,6 +16,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.NotAction;
 import io.jpress.web.interceptor.UserCenterInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
 import io.jpress.web.interceptor.UserMustLoginedInterceptor;
@@ -32,6 +33,7 @@ public abstract class UcenterControllerBase extends ControllerBase {
 
 
     @Override
+    @NotAction
     public void render(String view) {
         if (view.startsWith("/")) {
             super.render(view);
@@ -40,7 +42,7 @@ public abstract class UcenterControllerBase extends ControllerBase {
         }
     }
 
-
+    @NotAction
     public int getPagePara() {
         return getParaToInt("page", 1);
     }

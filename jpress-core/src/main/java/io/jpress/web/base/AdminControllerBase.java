@@ -16,6 +16,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtils;
@@ -32,6 +33,7 @@ import io.jpress.web.interceptor.UserInterceptor;
 public abstract class AdminControllerBase extends ControllerBase {
 
     @Override
+    @NotAction
     public void render(String view) {
         if (view.startsWith("/")) {
             super.render(view);
@@ -40,6 +42,7 @@ public abstract class AdminControllerBase extends ControllerBase {
         }
     }
 
+    @NotAction
     public void render(Ret ret) {
         renderJson(ret);
     }
@@ -49,6 +52,7 @@ public abstract class AdminControllerBase extends ControllerBase {
      *
      * @return
      */
+    @NotAction
     public int getPagePara() {
         return getParaToInt("page", 1);
     }
@@ -62,6 +66,7 @@ public abstract class AdminControllerBase extends ControllerBase {
 
     private static final String NO_PERMISSION_VIEW = "/WEB-INF/views/admin/error/nopermission.html";
 
+    @NotAction
     public void renderErrorForNoPermission() {
         if (isAjaxRequest()) {
             renderJson(Ret.fail().set("message", "您没有权限操作此功能。"));

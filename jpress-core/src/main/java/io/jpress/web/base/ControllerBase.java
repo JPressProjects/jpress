@@ -15,6 +15,7 @@
  */
 package io.jpress.web.base;
 
+import com.jfinal.core.NotAction;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
@@ -27,6 +28,7 @@ import io.jpress.model.User;
 public abstract class ControllerBase extends JbootController {
 
 
+    @NotAction
     public Long getIdPara() {
         Long id = getParaToLong();
         if (id == null) {
@@ -47,6 +49,7 @@ public abstract class ControllerBase extends JbootController {
 
 
     @Override
+    @NotAction
     public String getPara(String name) {
         String value = super.getPara(name);
         return "".equals(value) ? null : value;

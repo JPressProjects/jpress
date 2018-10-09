@@ -19,12 +19,10 @@
             <artifactId>jboot</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-core</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>io.jpress</groupId>

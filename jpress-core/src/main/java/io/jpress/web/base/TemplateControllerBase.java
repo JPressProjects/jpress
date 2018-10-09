@@ -16,6 +16,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.NotAction;
 import io.jpress.JPressConsts;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -35,10 +36,12 @@ import java.util.List;
 public abstract class TemplateControllerBase extends ControllerBase {
 
 
+    @NotAction
     public void render(String view) {
         render(view, null);
     }
 
+    @NotAction
     public void render(String view, String defaultView) {
 
         //如果是 / 开头的文件，就不通过模板文件去渲染。而是去根目录去查找。

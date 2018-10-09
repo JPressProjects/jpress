@@ -154,7 +154,7 @@ public class ArticleApiController extends ApiControllerBase {
     @NeedAuthentication
     public void save() {
 
-        String json = getBodyString();
+        String json = getRawData();
         Article article = JSON.parseObject(json, Article.class);
         articleService.saveOrUpdate(article);
 

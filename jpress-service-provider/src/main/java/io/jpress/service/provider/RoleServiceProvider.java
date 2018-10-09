@@ -151,8 +151,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     @Override
     public boolean addPermission(long roleId, long permissionId) {
         Record rolePermission = new Record().set("role_id", roleId).set("permission_id", permissionId);
-        Db.save("role_permission", rolePermission);
-        return true;
+        return Db.save("role_permission_mapping", rolePermission);
     }
 
     @Override

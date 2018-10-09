@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
 import io.jpress.commons.layer.SortModel;
@@ -157,9 +158,9 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     public String getUrl(String suffix) {
         switch (getType()) {
             case TYPE_CATEGORY:
-                return "/article/category/" + getSlug() + suffix;
+                return JFinal.me().getContextPath() + "/article/category/" + getSlug() + suffix;
             case TYPE_TAG:
-                return "/article/tag/" + getSlug() + suffix;
+                return JFinal.me().getContextPath() + "/article/tag/" + getSlug() + suffix;
         }
         return "";
     }

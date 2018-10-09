@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.JsoupUtils;
@@ -49,7 +50,7 @@ public class Article extends BaseArticle<Article> {
 
 
     public String getUrl(String suffix) {
-        return "/article/" + getSlug() + suffix;
+        return JFinal.me().getContextPath() + "/article/" + getSlug() + suffix;
     }
 
     public boolean isCommentEnable() {

@@ -15,6 +15,7 @@
  */
 package io.jpress.module.page.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.JsoupUtils;
@@ -49,7 +50,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
     public String getUrl(String suffix) {
-        return "/" + getSlug() + suffix;
+        return JFinal.me().getContextPath() + "/" + getSlug() + suffix;
     }
 
 

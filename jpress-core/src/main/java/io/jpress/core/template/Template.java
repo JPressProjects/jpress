@@ -188,7 +188,7 @@ public class Template {
     }
 
     public String getWebAbsolutePath() {
-        return  "/templates/" + folder;
+        return "/templates/" + folder;
     }
 
     /**
@@ -206,7 +206,8 @@ public class Template {
 
         List<String> styles = new ArrayList<>();
         for (String html : htmls) {
-            if (html.startsWith(prefix)) {
+            //xxx_h5.html 不算独立样式
+            if (html.startsWith(prefix) && !html.contains("_h5.")) {
                 styles.add(html.substring(prefix.length(), html.length() - 5));
             }
         }

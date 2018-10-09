@@ -53,6 +53,18 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
+        //如果是手机浏览器，优先使用 h5 模板去渲染（如果模板支持h5独立模板的话）
+        if (isMoblieBrowser()) {
+            //把 index.html 换成 index_h5.html
+            //或者 把 article_style1.html 换成 article_style1_h5.html
+            view = view.replace(".", "_h5.");
+        }
+
+        //matchTemplateFile：匹配到可以用的view
+        //例如 view = article_style1_h5.html ，
+        //那么 会优先匹配到 article_style1_h5.html，当article_style1_h5.html不存在的时候
+        //会自动去匹配 article_style1.html，article_style1.html 不存在的时候
+        //会自动去匹配 article.html
         view = template.matchTemplateFile(view);
         if (view == null) {
             renderDefault(defaultView);

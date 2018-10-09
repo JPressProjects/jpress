@@ -22,8 +22,8 @@ import io.jpress.model.Utm;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@FixedRate(period = 5, initialDelay = 5)
+//5分支执行一次
+@FixedRate(period = 300, initialDelay = 300)
 public class UtmBatchSaveTask implements Runnable {
 
     private static List<Utm> utmList = new ArrayList<>();

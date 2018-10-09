@@ -27,6 +27,9 @@ import java.util.List;
 public class SortKit {
 
     public static <M extends SortModel> void toLayer(List<M> models) {
+        if (models == null || models.isEmpty()){
+            return;
+        }
         toTree(models);
         List<M> layerModelList = new ArrayList<>();
         treeToLayer(models, layerModelList);
@@ -47,6 +50,9 @@ public class SortKit {
 
 
     public static <M extends SortModel> void toTree(List<M> models) {
+        if (models == null || models.isEmpty()){
+            return;
+        }
         List<M> temp = new ArrayList<>(models);
         models.clear();
         for (M model : temp) {

@@ -43,7 +43,7 @@ public class IndexController extends TemplateControllerBase {
         }
 
         //设置菜单高亮
-        doFlagMenuActive(menu -> "/".equals(menu.getUrl()));
+        setMenuActive(menu -> "/".equals(menu.getUrl()));
 
         //渲染 模板下的 index.html
         render("index.html");

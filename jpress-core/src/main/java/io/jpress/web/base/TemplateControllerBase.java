@@ -103,31 +103,31 @@ public abstract class TemplateControllerBase extends ControllerBase {
     /**
      * 在当前页面，对菜单选中进行判断
      *
-     * @param flager
+     * @param checker
      */
-    protected void doFlagMenuActive(MenuActiveFlager flager) {
+    protected void setMenuActive(MenuActiveChecker checker) {
         List<Menu> menus = getAttr(JPressConsts.ATTR_MENUS);
         if (menus == null || menus.isEmpty()) {
             return;
         }
 
-        doFlagMenuActive(flager, menus);
+        setMenuActive(checker, menus);
     }
 
 
-    private void doFlagMenuActive(MenuActiveFlager flager, List<Menu> menus) {
+    private void setMenuActive(MenuActiveChecker checker, List<Menu> menus) {
         for (Menu menu : menus) {
-            if (flager.flagActive(menu)) {
+            if (checker.isActive(menu)) {
                 JPressConsts.doFlagModelActive(menu);
             }
             if (menu.hasChild()) {
-                doFlagMenuActive(flager, menu.getChilds());
+                setMenuActive(checker, menu.getChilds());
             }
         }
     }
 
-    public static interface MenuActiveFlager {
-        public boolean flagActive(Menu menu);
+    public static interface MenuActiveChecker {
+        public boolean isActive(Menu menu);
     }
 
 

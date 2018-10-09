@@ -62,7 +62,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
         }
 
         if (currentCategory.isTop()) {
-            doFlagMenuActive(menu -> {
+            setMenuActive(menu -> {
                 return "article_category".equals(menu.getRelativeTable())
                         && currentCategory.getId().equals(menu.getRelativeId());
             });
@@ -73,7 +73,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
             return;
         }
 
-        doFlagMenuActive(menu -> {
+        setMenuActive(menu -> {
             if (!"article_category".equals(menu.getRelativeTable())) {
                 return false;
             }

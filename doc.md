@@ -126,7 +126,7 @@ jboot.datasource.password=数据库密码
 ```
 
 
-执行 `./bin/jpress` 脚本也可以启动jpress项目（window系统下执行 `./bin/jpress.bat` ）。
+执行 `./bin/jpress start` 脚本也可以启动jpress项目（window系统下先执行  `./bin/jpress.bat install`， 再执行 `./bin/jpress.bat start`）。
 
 需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
 
@@ -253,19 +253,33 @@ screenshot = screenshot.png
 
 **2、数据指令，数据指令一般情况下只能用于特有页面**
 
+文章相关指令：
+
 | 指令名称 | 可用页面 |描述 |  
 | --- | --- | --- | 
 | #article() | 任意 | 用于读取特定的单篇文章 |  
 | #articles() | 任意 | 用于读取文章列表，例如：热门文章文章、最新评论文章列表等等 | 
-| #articlePage() | artlist.html | 用于对文章列表进行的内容和分页进行显示 | 
-| #commentPage() | article.html | 用于对文章评论的内容和分页进行显示 | 
-| #nextArticle() | article.html | 下一篇文章 | 
-| #previousArticle() | article.html | 上一篇文章 | 
-| #relevantArticles() | article.html | 相关文章列表，相同标签的的文章 |
+| #articlePage() | 文章列表：artlist.html | 用于对文章列表进行的内容和分页进行显示 | 
+| #commentPage() | 文章详情：article.html | 用于对文章评论的内容和分页进行显示 | 
+| #nextArticle() | 文章详情：article.html | 下一篇文章 | 
+| #previousArticle() | 文章详情：article.html | 上一篇文章 | 
+| #relevantArticles() | 文章详情：article.html | 相关文章列表，相同标签的的文章 |
 | #categories() | 任意 | 读取文章模块的所有分类 |  
 | #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
 
+页面相关指令：
 
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- | 
+| #page() | 任意 | 用于读取某个页面 |  
+| #pages() | 任意 | 用于读取页面列表 | 
+ 
+ 
+ 用户相关指令：
+
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- |  
+| #users() | 暂不支持 | 用于读取页面列表 | 
 
 
 

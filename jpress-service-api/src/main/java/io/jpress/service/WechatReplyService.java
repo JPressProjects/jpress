@@ -127,5 +127,7 @@ public interface WechatReplyService {
 
     public Page<WechatReply> _paginate(int page, int pagesize, String keyword, String content);
 
+    public WechatReply findByKey(String keyword);
+
 
 }

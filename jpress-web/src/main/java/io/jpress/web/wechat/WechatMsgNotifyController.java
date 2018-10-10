@@ -27,7 +27,9 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
+import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
+import io.jpress.service.WechatReplyService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -42,6 +44,9 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Inject
     private OptionService optionService;
+
+    @Inject
+    private WechatReplyService wechatReplyService;
 
     @Override
     @Before(MsgInterceptor.class)
@@ -72,6 +77,21 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
      */
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
+        String key = inTextMsg.getContent();
+        if (StrUtils.isBlank(key)) {
+            renderDefault();
+            return;
+        }
+
+        WechatReply wechatReply = wechatReplyService.findByKey(key);
+        if (wechatReply == null || StrUtils.isBlank(wechatReply.getContent())) {
+            renderDefault();
+            return;
+        }
+
+        OutTextMsg outTextMsg = new OutTextMsg(inTextMsg);
+        outTextMsg.setContent(wechatReply.getContent());
+        render(outTextMsg);
 
     }
 
@@ -104,6 +124,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
         render(outMsg);
     }
+
 
     protected WechatAddonInfo doMathingAddon() {
         List<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();

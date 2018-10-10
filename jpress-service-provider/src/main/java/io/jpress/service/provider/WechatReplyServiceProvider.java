@@ -18,6 +18,7 @@ package io.jpress.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.service.WechatReplyService;
@@ -42,5 +43,10 @@ public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> im
         SqlUtils.likeAppend(columns, "content", content);
 
         return DAO.paginateByColumns(page, pageSize, columns, "id desc");
+    }
+
+    @Override
+    public WechatReply findByKey(String keyword) {
+        return DAO.findFirstByColumn(Column.create("keyword",keyword));
     }
 }

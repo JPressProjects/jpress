@@ -104,7 +104,7 @@
             <div class="card-deck">
                 #for(article :relevantArticles )
                 <div class="card ll-panel">
-                    <a class="recommend-panel-link" href="#articleUrl(article)">
+                    <a class="recommend-panel-link" href="#(article.url ??)">
                         <div class="recommend-panel-top">
                             <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid" alt="#(article.title ??)">
                         </div>

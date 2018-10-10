@@ -43,7 +43,7 @@
                 #for(article : articles)
                 <tr>
                     <td style="width: 130px">#date(article.created ??)</td>
-                    <td><a href="#articleUrl(article)" target="_blank">#(article.title ??)</a></td>
+                    <td><a href="#(article.url ??)" target="_blank">#(article.title ??)</a></td>
                 </tr>
                 #end
                 </tbody>
@@ -70,7 +70,7 @@
                                       <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">#(comment.author ??)</a>
                                     </span>
                                 <span class="description">#date(comment.created) -  来至对文章
-                                    <a href="#articleUrl(comment.article)"
+                                    <a href="#(comment.article.url ??)"
                                        target="_blank">《#(comment.article.title ??)》</a> 的评论
                                 </span>
                             </div>

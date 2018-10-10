@@ -51,7 +51,7 @@
                                 <td>
                                     <strong>
                                         #if(article.isNormal())
-                                        <a href="#articleUrl(article)" target="_blank">#(article.title ??)</a>
+                                        <a href="#(article.url ??)" target="_blank">#(article.title ??)</a>
                                         #else
                                         <a href="/ucenter/article/write/#(article.id)">#(article.title ??)</a>
                                         （审核中...）

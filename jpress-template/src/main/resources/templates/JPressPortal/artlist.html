@@ -8,7 +8,7 @@
     <div class="row bl-list-card">
         <div class="col-md-8 col-sm-12 bl-card-content">
             <h3 class="bl-content-title">
-                <a href="#articleUrl(article)">#(article.title ??)</a>
+                <a href="#(article.url ??)">#(article.title ??)</a>
             </h3>
             <p class="bl-content-info">
                 #maxLength(article.text,100)
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-12 bl-card-image">
-            <a href="#articleUrl(article)">
+            <a href="#(article.url ??)">
                 <img src="#(article.thumbnail ??)" class="img-fluid" alt="">
             </a>
         </div>

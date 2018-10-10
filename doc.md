@@ -209,7 +209,7 @@ JPress是基于JFinal和Jboot进行开发的，使用的模板引擎是Jfinal En
 #articlePage()
 
     #for(article : articlePage.list)
-        <a href="#articleUrl(article)">#(article.title ??)</a>
+        <a href="#(article.url ??)">#(article.title ??)</a>
     #end
     
     #articlePaginate()

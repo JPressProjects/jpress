@@ -103,7 +103,7 @@
                 <div class="card-deck">
                     #for(article :relevantArticles )
                     <div class="card bl-panel">
-                        <a class="recommend-panel-link" href="#articleUrl(article)">
+                        <a class="recommend-panel-link" href="#(article.url ??)">
                             <div class="recommend-panel-top">
                                 <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid"
                                      alt="#(article.title ??)">
@@ -216,7 +216,7 @@
                 #articles()
                 #for(article : articles)
                 <div class="card-right-body">
-                    <a href="#articleUrl(article)">
+                    <a href="#(article.url ??)">
                         <div>
                             <img src="#(article.thumbnail ??)"
                                  class="img-fluid"

@@ -260,6 +260,20 @@ public class _ArticleController extends AdminControllerBase {
         renderJson(Ret.ok());
     }
 
+    @EmptyValidate({
+            @Form(name = "category.title", message = "标签名称不能为空"),
+    })
+    public void doTagSave() {
+        ArticleCategory category = getModel(ArticleCategory.class, "category");
+        if (!validateSlug(category)) {
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            return;
+        }
+
+        categoryService.saveOrUpdate(category);
+        renderJson(Ret.ok());
+    }
+
     public void doCategoryDel() {
         categoryService.deleteById(getIdPara());
         renderJson(Ret.ok());

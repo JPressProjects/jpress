@@ -157,6 +157,11 @@ public class _WechatController extends AdminControllerBase {
         redirect("/admin/wechat/menu");
     }
 
+    public void doMenuDel() {
+        wechatMenuService.deleteById(getParaToLong());
+        renderJson(Ret.ok());
+    }
+
     /**
      * 微信菜单同步
      */
@@ -205,9 +210,9 @@ public class _WechatController extends AdminControllerBase {
         jsonObject.put("name", content.getText());
 
         if ("view".equals(content.getType())) {
-            jsonObject.put("url", content.getText());
+            jsonObject.put("url", content.getKeyword());
         } else {
-            jsonObject.put("key", content.getText());
+            jsonObject.put("key", content.getKeyword());
         }
 
         button.add(jsonObject);

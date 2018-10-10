@@ -21,7 +21,6 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.web.handler.JPressHandler;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -42,7 +41,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
     public void index() {
 
         if (StrUtils.isBlank(getPara())) {
-            redirect("/article/category/index" + JPressHandler.getSuffix());
+            redirect("/article/category/index");
             return;
         }
 

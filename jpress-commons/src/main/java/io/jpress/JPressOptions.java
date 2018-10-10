@@ -37,6 +37,10 @@ public class JPressOptions {
     private static final List<OptionChangeListener> LISTENERS = new ArrayList<>();
 
     public static void set(String key, String value) {
+        if (StrUtils.isBlank(key)) {
+            return;
+        }
+
         String oldValue = options.get(key);
 
         if (Objects.equals(value, oldValue)) {

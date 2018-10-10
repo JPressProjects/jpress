@@ -101,11 +101,6 @@ public class JPressConsts {
 
     public static final String ATTR_MENUS = "MENUS"; // 页面菜单
 
-    /**
-     * 用到的事件机制相关常量
-     */
-    public static final String EVENT_OPTION_UPDATE = "event_option_update";
-
 
     /**
      * 用于标识当前 是否选中

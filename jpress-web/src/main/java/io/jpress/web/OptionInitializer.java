@@ -20,9 +20,6 @@ import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
 import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.event.JbootEventManager;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -41,7 +38,7 @@ import java.util.List;
  * @Title: 用于在应用启动的时候，读取数据库的配置信息进行某些配置
  * @Package io.jpress.web
  */
-public class OptionInitializer implements JbootEventListener {
+public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
     private static OptionInitializer me = new OptionInitializer();
 
@@ -49,16 +46,13 @@ public class OptionInitializer implements JbootEventListener {
 
     }
 
-    private OptionService service;
-
     public static OptionInitializer me() {
         return me;
     }
 
     public void init() {
 
-        service = Jboot.bean(OptionService.class);
-        JbootEventManager.me().registerListener(this, false, JPressConsts.EVENT_OPTION_UPDATE);
+        OptionService service = Jboot.bean(OptionService.class);
 
         List<Option> options = service.findAll();
         for (Option option : options) {
@@ -79,7 +73,11 @@ public class OptionInitializer implements JbootEventListener {
         ApiInterceptor.init();
 
 
-        initWechatOption();// 初始化 微信的 相关配置
+        initWechatOption();// 初始化 微信公众号 的配置
+
+        initWechatMiniProgramOption();// 初始化 微信小程序 的配置
+
+        JPressOptions.addListener(this);
 
     }
 
@@ -89,10 +87,9 @@ public class OptionInitializer implements JbootEventListener {
      */
     private void initWechatOption() {
 
-        String appId = service.findByKey(JPressConsts.OPTION_WECHAT_APPID);
-        String appSecret = service.findByKey(JPressConsts.OPTION_WECHAT_APPSECRET);
-        String token = service.findByKey(JPressConsts.OPTION_WECHAT_TOKEN);
-
+        String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);
+        String appSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPSECRET);
+        String token = JPressOptions.get(JPressConsts.OPTION_WECHAT_TOKEN);
 
         if (StrUtils.areNotEmpty(appId, appSecret, token)) {
             // 配置微信 API 相关参数
@@ -105,10 +102,13 @@ public class OptionInitializer implements JbootEventListener {
             ApiConfigKit.putApiConfig(ac);
         }
 
+    }
 
-        String miniProgramAppId = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
-        String miniProgramAppSecret = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
-        String miniProgramToken = service.findByKey(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+    private void initWechatMiniProgramOption() {
+
+        String miniProgramAppId = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
+        String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
+        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
         if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
             WxaConfig wxaConfig = new WxaConfig();
@@ -124,21 +124,18 @@ public class OptionInitializer implements JbootEventListener {
 
 
     @Override
-    public void onEvent(JbootEvent event) {
-        Option option = event.getData();
-        JPressOptions.set(option.getKey(), option.getValue());
-
-        switch (option.getKey()) {
+    public void onChanged(String key, String newValue, String oldValue) {
+        switch (key) {
             case JPressConsts.OPTION_WECHAT_APPID:
             case JPressConsts.OPTION_WECHAT_APPSECRET:
             case JPressConsts.OPTION_WECHAT_TOKEN:
+                initWechatOption();
+                break;
             case JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID:
             case JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET:
             case JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN:
-                initWechatOption();
+                initWechatMiniProgramOption();
                 break;
         }
     }
-
-
 }

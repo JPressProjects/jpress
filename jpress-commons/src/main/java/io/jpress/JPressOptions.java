@@ -15,10 +15,14 @@
  */
 package io.jpress;
 
+import com.jfinal.log.Log;
 import io.jboot.utils.StrUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -28,14 +32,38 @@ import java.util.Map;
  */
 public class JPressOptions {
 
-    private static final Map<String, String> options = new HashMap<>();
+    private static final Log LOG = Log.getLog(JPressOptions.class);
+    private static final Map<String, String> options = new ConcurrentHashMap<>();
+    private static final List<OptionChangeListener> LISTENERS = new ArrayList<>();
 
     public static void set(String key, String value) {
+        String oldValue = options.get(key);
+
+        if (Objects.equals(value, oldValue)) {
+            return;
+        }
+
         options.put(key, value);
+
+        for (OptionChangeListener listener : LISTENERS) {
+            try {
+                listener.onChanged(key, value, oldValue);
+            } catch (Throwable ex) {
+                LOG.error(ex.toString(), ex);
+            }
+        }
     }
 
     public static String get(String key) {
         return options.get(key);
+    }
+
+    public static void addListener(OptionChangeListener listener) {
+        LISTENERS.add(listener);
+    }
+
+    public static void removeListener(OptionChangeListener listener) {
+        LISTENERS.remove(listener);
     }
 
     public static boolean getAsBool(String key) {
@@ -50,6 +78,20 @@ public class JPressOptions {
 
         String suffix = get(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX);
         return StrUtils.isBlank(suffix) ? "" : suffix;
+    }
+
+    public static String getCDNDomain() {
+        boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
+        if (cdnEnable == false) {
+            return null;
+        }
+
+        String cdnDomain = get(JPressConsts.OPTION_CDN_DOMAIN);
+        return StrUtils.isBlank(cdnDomain) ? null : cdnDomain;
+    }
+
+    public static interface OptionChangeListener {
+        public void onChanged(String key, String newValue, String oldValue);
     }
 
 }

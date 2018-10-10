@@ -19,6 +19,7 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConfig;
+import io.jpress.JPressOptions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class TemplateManager {
         return me;
     }
 
+    public void init(){
+        String templateId = JPressOptions.get("web_template");
+        TemplateManager.me().setCurrentTemplate(templateId);
+    }
 
     public List<Template> getInstalledTemplates() {
         String basePath = PathKit.getWebRootPath() + "/templates";

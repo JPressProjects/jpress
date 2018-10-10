@@ -25,14 +25,15 @@ import io.jboot.event.JbootEventListener;
 import io.jboot.event.JbootEventManager;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
-import io.jpress.commons.email.SimplerEmailSender;
+import io.jpress.JPressOptions;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
-import io.jpress.web.render.TemplateRender;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -59,55 +60,26 @@ public class OptionInitializer implements JbootEventListener {
         service = Jboot.bean(OptionService.class);
         JbootEventManager.me().registerListener(this, false, JPressConsts.EVENT_OPTION_UPDATE);
 
-        initTemplateOption(); //初始化模板配置
-        initFakeStaticOption(); //初始化伪静态配置
-        initCdnOption(); //初始化CDN配置
-        initApiOption(); //初始化 API 配置
-        initWechatOption();// 初始化 微信的 相关配置
-
-        initTemplateAttrsOption(); //初始化模板的基础 attr 属性
-        initEmailOption();// 初始化邮件相关配置
-
-    }
-
-    private void initEmailOption() {
-        Boolean emailEnable = service.findAsBoolByKey(JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE);
-        if (emailEnable == null || emailEnable == false) {
-            SimplerEmailSender.setEnable(false);
-            return;
+        List<Option> options = service.findAll();
+        for (Option option : options) {
+            //整个网站的后台配置不超过100个，再未来最多也100多个，所以全部放在内存毫无压力
+            JPressOptions.set(option.getKey(), option.getValue());
         }
 
-        SimplerEmailSender.setEnable(true);
+        //初始化模板拦截器配置
+        TemplateInterceptor.init();
 
-        String smtp = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_SMTP);
-        String account = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT);
-        String password = service.findByKey(JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD);
-        Boolean sslEnable = service.findAsBoolByKey(JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE);
+        //初始化模板配置
+        TemplateManager.me().init();
 
-        SimplerEmailSender.init(smtp, account, password, sslEnable == null ? false : sslEnable);
+        //初始化伪静态配置
+        JPressHandler.init();
 
-    }
-
-    private void initTemplateAttrsOption() {
-
-        String webTitle = service.findByKey(JPressConsts.OPTION_WEB_TITLE);
-        String webSubTitle = service.findByKey(JPressConsts.OPTION_WEB_SUBTITLE);
-        String webName = service.findByKey(JPressConsts.OPTION_WEB_NAME);
-        String webDomain = service.findByKey(JPressConsts.OPTION_WEB_DOMAIN);
-        String webCopyright = service.findByKey(JPressConsts.OPTION_WEB_COPYRIGHT);
-        String seoTitle = service.findByKey(JPressConsts.OPTION_SEO_TITLE);
-        String seoKeyword = service.findByKey(JPressConsts.OPTION_SEO_KEYWORDS);
-        String seoDescription = service.findByKey(JPressConsts.OPTION_SEO_DESCRIPTION);
+        //初始化 API 配置
+        ApiInterceptor.init();
 
 
-        TemplateInterceptor.setWebTitle(webTitle);
-        TemplateInterceptor.setWebSubTitle(webSubTitle);
-        TemplateInterceptor.setWebName(webName);
-        TemplateInterceptor.setWebDomain(webDomain);
-        TemplateInterceptor.setWebCopyright(webCopyright);
-        TemplateInterceptor.setSeoTitle(seoTitle);
-        TemplateInterceptor.setSeoKeyword(seoKeyword);
-        TemplateInterceptor.setSeoDescription(seoDescription);
+        initWechatOption();// 初始化 微信的 相关配置
 
     }
 
@@ -151,100 +123,19 @@ public class OptionInitializer implements JbootEventListener {
     }
 
 
-    private void initApiOption() {
-        Boolean cdnEnable = service.findAsBoolByKey(JPressConsts.OPTION_API_ENABLE);
-        if (cdnEnable == null || cdnEnable == false) {
-            ApiInterceptor.initApiEnable(false);
-        } else {
-            ApiInterceptor.initApiEnable(true);
-        }
-
-        String apiAppid = service.findByKey(JPressConsts.OPTION_API_APPID);
-        String apiSecret = service.findByKey(JPressConsts.OPTION_API_SECRET);
-        ApiInterceptor.initApiSecret(apiAppid, apiSecret);
-    }
-
-    private void initCdnOption() {
-
-        Boolean cdnEnable = service.findAsBoolByKey(JPressConsts.OPTION_CDN_ENABLE);
-        if (cdnEnable == null || cdnEnable == false) {
-            TemplateRender.initCdnDomain(null);
-            return;
-        }
-
-        String cdnDomain = service.findByKey(JPressConsts.OPTION_CDN_DOMAIN);
-        if (StrUtils.isBlank(cdnDomain)) {
-            TemplateRender.initCdnDomain(null);
-        } else {
-            TemplateRender.initCdnDomain(cdnDomain);
-        }
-    }
-
-
-    /**
-     * 初始化模板配置
-     */
-    private void initTemplateOption() {
-        String templateId = service.findByKey("web_template");
-        TemplateManager.me().setCurrentTemplate(templateId);
-    }
-
-
-    /**
-     * 初始化 伪静态
-     */
-    private void initFakeStaticOption() {
-        Boolean fakeStaticEnable = service.findAsBoolByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE);
-        if (fakeStaticEnable == null || fakeStaticEnable == false) {
-            return;
-        }
-
-        String suffix = service.findByKey(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        if (StrUtils.isBlank(suffix)) {
-            JPressHandler.initSuffix(null);
-        } else {
-            JPressHandler.initSuffix(suffix);
-        }
-    }
-
-
     @Override
     public void onEvent(JbootEvent event) {
         Option option = event.getData();
+        JPressOptions.set(option.getKey(), option.getValue());
+
         switch (option.getKey()) {
-            case JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE:
-            case JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX:
-                initFakeStaticOption();
-                break;
-            case JPressConsts.OPTION_API_ENABLE:
-            case JPressConsts.OPTION_API_SECRET:
-                initApiOption();
-                break;
-            case JPressConsts.OPTION_CDN_DOMAIN:
-            case JPressConsts.OPTION_CDN_ENABLE:
-                initCdnOption();
-                break;
             case JPressConsts.OPTION_WECHAT_APPID:
             case JPressConsts.OPTION_WECHAT_APPSECRET:
             case JPressConsts.OPTION_WECHAT_TOKEN:
+            case JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID:
+            case JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET:
+            case JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN:
                 initWechatOption();
-                break;
-            case JPressConsts.OPTION_WEB_TITLE:
-            case JPressConsts.OPTION_WEB_SUBTITLE:
-            case JPressConsts.OPTION_WEB_NAME:
-            case JPressConsts.OPTION_WEB_DOMAIN:
-            case JPressConsts.OPTION_WEB_COPYRIGHT:
-            case JPressConsts.OPTION_SEO_TITLE:
-            case JPressConsts.OPTION_SEO_KEYWORDS:
-            case JPressConsts.OPTION_SEO_DESCRIPTION:
-                initTemplateAttrsOption();
-                break;
-            case JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE:
-            case JPressConsts.OPTION_CONNECTION_EMAIL_SMTP:
-            case JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT:
-            case JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD:
-            case JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE:
-                initEmailOption();
                 break;
         }
     }

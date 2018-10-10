@@ -16,6 +16,8 @@
 package io.jpress.commons.email;
 
 import com.jfinal.log.Log;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -30,21 +32,18 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
     private static final Log logger = Log.getLog(SimplerEmailSender.class);
 
-    private static String host;
-    private static String name;
-    private static String password;
-    private static boolean useSSL = true;
-    private static boolean enable = false;
+    private String host;
+    private String name;
+    private String password;
+    private boolean useSSL = true;
+    private boolean enable = false;
 
-    public static void setEnable(boolean enable) {
-        SimplerEmailSender.enable = enable;
-    }
-
-    public static void init(String host, String name, String password, boolean useSSL) {
-        SimplerEmailSender.host = host;
-        SimplerEmailSender.name = name;
-        SimplerEmailSender.password = password;
-        SimplerEmailSender.useSSL = useSSL;
+    public SimplerEmailSender() {
+        this.host = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_SMTP);
+        this.name = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT);
+        this.password = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD);
+        this.useSSL = JPressOptions.getAsBool(JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE);
+        this.enable = JPressOptions.getAsBool(JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE);
     }
 
     private Message createMessage() {

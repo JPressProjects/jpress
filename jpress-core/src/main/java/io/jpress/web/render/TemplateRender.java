@@ -21,6 +21,7 @@ import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.render.RenderHelpler;
+import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import org.jsoup.Jsoup;
@@ -50,12 +51,7 @@ public class TemplateRender extends Render {
         return engine;
     }
 
-    private static String cdnDomain;
-
-    public static void initCdnDomain(String cdnDomain) {
-        TemplateRender.cdnDomain = cdnDomain;
-    }
-
+    private String cdnDomain = JPressOptions.getCDNDomain();
 
     public TemplateRender(String view) {
         this.view = view;
@@ -89,7 +85,7 @@ public class TemplateRender extends Render {
     }
 
 
-    public static String replaceSrcTemplateSrcPath(String content) {
+    public String replaceSrcTemplateSrcPath(String content) {
         if (StrUtils.isBlank(content)) {
             return content;
         }
@@ -113,7 +109,7 @@ public class TemplateRender extends Render {
 
     }
 
-    private static void replace(Elements elements, String attrName) {
+    private void replace(Elements elements, String attrName) {
         Iterator<Element> iterator = elements.iterator();
         Template template = TemplateManager.me().getCurrentTemplate();
         while (iterator.hasNext()) {

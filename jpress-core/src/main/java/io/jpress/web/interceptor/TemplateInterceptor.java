@@ -20,6 +20,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
@@ -32,7 +33,7 @@ import java.util.List;
  * @Title: Api的拦截器
  * @Package io.jpress.web
  */
-public class TemplateInterceptor implements Interceptor {
+public class TemplateInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
 
 
     private static String webTitle = null;
@@ -44,37 +45,21 @@ public class TemplateInterceptor implements Interceptor {
     private static String seoKeyword = null;
     private static String seoDescription = null;
 
-
-    public static void setWebTitle(String webTitle) {
-        TemplateInterceptor.webTitle = webTitle;
+    public TemplateInterceptor() {
+        JPressOptions.addListener(this);
     }
 
-    public static void setWebSubTitle(String webSubTitle) {
-        TemplateInterceptor.webSubTitle = webSubTitle;
-    }
+    public static void init() {
 
-    public static void setWebName(String webName) {
-        TemplateInterceptor.webName = webName;
-    }
+        webTitle = JPressOptions.get(JPressConsts.OPTION_WEB_TITLE);
+        webSubTitle = JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE);
+        webName = JPressOptions.get(JPressConsts.OPTION_WEB_NAME);
+        webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+        webCopyright = JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT);
+        seoTitle = JPressOptions.get(JPressConsts.OPTION_SEO_TITLE);
+        seoKeyword = JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS);
+        seoDescription = JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION);
 
-    public static void setWebDomain(String webDomain) {
-        TemplateInterceptor.webDomain = webDomain;
-    }
-
-    public static void setWebCopyright(String webCopyright) {
-        TemplateInterceptor.webCopyright = webCopyright;
-    }
-
-    public static void setSeoTitle(String seoTitle) {
-        TemplateInterceptor.seoTitle = seoTitle;
-    }
-
-    public static void setSeoKeyword(String seoKeyword) {
-        TemplateInterceptor.seoKeyword = seoKeyword;
-    }
-
-    public static void setSeoDescription(String seoDescription) {
-        TemplateInterceptor.seoDescription = seoDescription;
     }
 
 
@@ -100,4 +85,33 @@ public class TemplateInterceptor implements Interceptor {
         inv.invoke();
     }
 
+
+    @Override
+    public void onChanged(String key, String newValue, String oldValue) {
+
+        switch (key) {
+            case JPressConsts.OPTION_WEB_TITLE:
+                webTitle = newValue;
+                break;
+            case JPressConsts.OPTION_WEB_SUBTITLE:
+                webSubTitle = newValue;
+                break;
+            case JPressConsts.OPTION_WEB_NAME:
+                webName = newValue;
+                break;
+            case JPressConsts.OPTION_WEB_DOMAIN:
+                webDomain = newValue;
+                break;
+            case JPressConsts.OPTION_SEO_TITLE:
+                seoTitle = newValue;
+                break;
+            case JPressConsts.OPTION_SEO_KEYWORDS:
+                seoKeyword = newValue;
+                break;
+            case JPressConsts.OPTION_SEO_DESCRIPTION:
+                seoDescription = newValue;
+                break;
+        }
+
+    }
 }

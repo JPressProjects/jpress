@@ -21,6 +21,8 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.core.annotation.NeedAuthentication;
 
 import java.util.Arrays;
@@ -32,21 +34,22 @@ import java.util.Map;
  * @Title: Api的拦截器
  * @Package io.jpress.web
  */
-public class ApiInterceptor implements Interceptor {
+public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
 
     private static boolean apiEnable = false;
 
     private static String apiAppId = null;
     private static String apiSecret = null;
 
-
-    public static void initApiEnable(boolean apiEnable) {
-        ApiInterceptor.apiEnable = apiEnable;
+    public ApiInterceptor() {
+        JPressOptions.addListener(this);
     }
 
-    public static void initApiSecret(String appId, String apiSecret) {
-        ApiInterceptor.apiAppId = appId;
-        ApiInterceptor.apiSecret = apiSecret;
+
+    public static void init() {
+        apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
+        apiAppId = JPressOptions.get(JPressConsts.OPTION_API_APPID);
+        apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
     }
 
 
@@ -126,5 +129,21 @@ public class ApiInterceptor implements Interceptor {
         }
         query.append(apiSecret);
         return query.toString();
+    }
+
+    @Override
+    public void onChanged(String key, String newValue, String oldValue) {
+
+        switch (key) {
+            case JPressConsts.OPTION_API_ENABLE:
+                apiEnable = Boolean.parseBoolean(newValue);
+                break;
+            case JPressConsts.OPTION_API_APPID:
+                apiAppId = newValue;
+                break;
+            case JPressConsts.OPTION_API_SECRET:
+                apiSecret = newValue;
+                break;
+        }
     }
 }

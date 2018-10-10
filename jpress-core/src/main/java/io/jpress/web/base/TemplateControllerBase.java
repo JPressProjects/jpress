@@ -18,6 +18,7 @@ package io.jpress.web.base;
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
@@ -78,6 +79,10 @@ public abstract class TemplateControllerBase extends ControllerBase {
         super.render(new TemplateRender(view));
     }
 
+    @Override
+    public void redirect(String url) {
+        super.redirect(url + JPressOptions.getAppUrlSuffix());
+    }
 
     protected void assertNotNull(Object object) {
         if (object == null) {

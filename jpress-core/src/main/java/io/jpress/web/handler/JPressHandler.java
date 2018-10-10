@@ -18,6 +18,8 @@ package io.jpress.web.handler;
 
 import com.jfinal.handler.Handler;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Package io.jpress.web.handler
  */
 
-public class JPressHandler extends Handler {
+public class JPressHandler extends Handler implements JPressOptions.OptionChangeListener {
 
     private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
@@ -39,12 +41,12 @@ public class JPressHandler extends Handler {
 
     private static String suffix = "";
 
-    public static void initSuffix(String suffix) {
-        JPressHandler.suffix = suffix;
+    public static void init() {
+        suffix = JPressOptions.getAppUrlSuffix();
     }
 
-    public static String getSuffix() {
-        return suffix;
+    public JPressHandler() {
+        JPressOptions.addListener(this);
     }
 
 
@@ -71,4 +73,12 @@ public class JPressHandler extends Handler {
     }
 
 
+    @Override
+    public void onChanged(String key, String newValue, String oldValue) {
+
+        if (JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE.equals(key)
+                || JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
+            init();
+        }
+    }
 }

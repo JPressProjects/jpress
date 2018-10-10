@@ -2,7 +2,7 @@
     #categories()
     #for(category : categories)
     #if(category.isTop())
-    <a href="#categoryUrl(category)" class="#(category.isActive ? 'active' : '')">#(category.title ??) .</a>
+    <a href="#(category.url ??)" class="#(category.isActive ? 'active' : '')">#(category.title ??) .</a>
     #end
     #end
     #end

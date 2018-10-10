@@ -208,7 +208,7 @@
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
-                                        <a href="#categoryUrl(category)" target="_blank">
+                                        <a href="#(category.url ??)" target="_blank">
                                             #(category.layerString)#(category.title)
                                         </a>
                                     </strong>
@@ -217,7 +217,7 @@
                                             <a href="#(CPATH)/admin/article/category/#(category.id)" >编辑</a> |
                                             <a href="javascript:;" class="addtomenu-action" data-id="#(category.id)" >添加到菜单</a> |
                                             <a href="javascript:;" class="del-action red-action" data-id="#(category.id)" >删除</a> |
-                                            <a href="#categoryUrl(category)" target="_blank" class="red-action">查看</a>
+                                            <a href="#(category.url ??)" target="_blank" class="red-action">查看</a>
                                         </div>
                                     </div>
                                 </td>

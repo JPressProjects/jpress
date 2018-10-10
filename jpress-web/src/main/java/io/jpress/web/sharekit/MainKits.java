@@ -15,8 +15,7 @@
  */
 package io.jpress.web.sharekit;
 
-import io.jboot.Jboot;
-import io.jpress.service.OptionService;
+import io.jpress.JPressOptions;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -46,13 +45,12 @@ public class MainKits {
 
 
     public static Object option(String key) {
-        OptionService service = Jboot.bean(OptionService.class);
-        String value = service.findByKey(key);
-        if (value != null && value.equalsIgnoreCase("true")) {
+        String value = JPressOptions.get(key);
+        if ("true".equalsIgnoreCase(value)) {
             return true;
         }
 
-        if (value != null && value.equalsIgnoreCase("false")) {
+        if ("false".equalsIgnoreCase(value)) {
             return false;
         }
         return value;

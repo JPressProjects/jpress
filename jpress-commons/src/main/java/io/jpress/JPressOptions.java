@@ -58,16 +58,16 @@ public class JPressOptions {
         return options.get(key);
     }
 
+    public static boolean getAsBool(String key) {
+        return Boolean.parseBoolean(options.get(key));
+    }
+
     public static void addListener(OptionChangeListener listener) {
         LISTENERS.add(listener);
     }
 
     public static void removeListener(OptionChangeListener listener) {
         LISTENERS.remove(listener);
-    }
-
-    public static boolean getAsBool(String key) {
-        return Boolean.parseBoolean(options.get(key));
     }
 
     public static String getAppUrlSuffix() {

@@ -22,9 +22,8 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.service.OptionService;
+import io.jpress.JPressOptions;
 
-import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -35,8 +34,6 @@ import java.io.IOException;
 @JFinalDirective("option")
 public class OptionDirective extends JbootDirectiveBase {
 
-    @Inject
-    private OptionService optionService;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
@@ -48,7 +45,7 @@ public class OptionDirective extends JbootDirectiveBase {
 
         String defaultValue = getParam(1, "", scope);
 
-        String value = optionService.findByKey(key);
+        String value = JPressOptions.get(key);
         if (value == null || value == "") {
             value = defaultValue;
         }

@@ -89,7 +89,7 @@ public class ArticleController extends TemplateControllerBase {
 
     private void doFlagMenuActive(Article article) {
 
-        setMenuActive(menu -> menu.getUrl().startsWith(article.getUrl("")));
+        setMenuActive(menu -> menu.getUrl().startsWith(article.getUrl()));
 
 
         List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(article.getId());

@@ -87,7 +87,7 @@ public class ArticleDetailWechatAddon implements WechatAddon {
         News news = new News();
         news.setDescription(CommonsUtils.maxLength(article.getText(), 100));
         news.setTitle(article.getTitle());
-        news.setUrl(webDomain + article.getUrl(""));
+        news.setUrl(webDomain + article.getUrl());
         news.setPicUrl(webDomain + article.getThumbnail());
 
         OutNewsMsg outNewsMsg = new OutNewsMsg(inMsg);

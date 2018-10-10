@@ -18,6 +18,7 @@ package io.jpress.module.page.model;
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressOptions;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
 
@@ -49,8 +50,8 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return StrUtils.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 
-    public String getUrl(String suffix) {
-        return JFinal.me().getContextPath() + "/" + getSlug() + suffix;
+    public String getUrl() {
+        return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();
     }
 
 

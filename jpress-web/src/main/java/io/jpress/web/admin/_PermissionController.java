@@ -20,19 +20,22 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.core.annotation.AdminPermission;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.annotation.AdminPermission;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
 import io.jpress.web.admin.kits.PermissionKits;
+import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

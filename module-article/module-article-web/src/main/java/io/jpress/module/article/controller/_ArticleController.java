@@ -27,7 +27,6 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.model.User;
-import io.jpress.module.article.kits.ArticleModuleKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -232,7 +231,7 @@ public class _ArticleController extends AdminControllerBase {
 
         Menu menu = new Menu();
         menu.setPid(0l);
-        menu.setUrl(ArticleModuleKit.getCategoryUrl(category));
+        menu.setUrl(category.getUrl());
         menu.setText(category.getTitle());
         menu.setType(io.jpress.model.Menu.TYPE_MAIN);
         menu.setRelativeTable("article_category");

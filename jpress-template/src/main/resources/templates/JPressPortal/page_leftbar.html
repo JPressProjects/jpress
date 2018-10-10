@@ -13,7 +13,7 @@
             <div class="bl-cloumn-nav">
                 #for(page : pages)
                 <a class="bl-cloumn-nav-item nav-link #(page.isActive ? 'active' : '')"
-                   href="#pageUrl(page)">#(page.title ??)</a>
+                   href="#(page.url ??)">#(page.title ??)</a>
                 #end
             </div>
             #end

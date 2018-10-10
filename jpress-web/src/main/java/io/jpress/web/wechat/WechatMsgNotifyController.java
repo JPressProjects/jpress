@@ -51,14 +51,22 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     @Before(MsgInterceptor.class)
     public void index() {
+
+        //找到可以接收该消息的微信插件
         WechatAddonInfo addonInfo = doMathingAddon();
         if (addonInfo == null) {
+            //找不到，走默认流程
             super.index();
             return;
         }
 
+        //让该插件去处理该消息
         boolean success = addonInfo.getAddon().onRenderMessage(getInMsg(), this);
-        if (success == false) super.index();
+        if (success == false) {
+            //如果处理不成功，
+            //或者插件本身不做处理，走默认流程
+            super.index();
+        }
     }
 
     /**

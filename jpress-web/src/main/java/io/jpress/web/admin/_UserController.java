@@ -257,7 +257,7 @@ public class _UserController extends AdminControllerBase {
         Long userId = getParaToLong("userId");
 
         if (getLoginedUser().getId().equals(userId)) {
-            renderJson(Ret.fail().set("message", "自己不能修改自己的权限"));
+            renderJson(Ret.fail().set("message", "不能修改自己的角色"));
             return;
         }
 

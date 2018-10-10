@@ -52,6 +52,12 @@ public class WechatAddonManager {
 
     private OptionService optionService;
 
+    /**
+     * 初始化的主要逻辑
+     *
+     * 1. 扫描当前所有的微信插件
+     * 2. 查看该微信插件是否开启
+     */
     public void init() {
 
         optionService = Jboot.bean(OptionService.class);

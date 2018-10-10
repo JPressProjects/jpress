@@ -18,6 +18,7 @@ package io.jpress.core.template;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 import io.jboot.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class Template {
      * @param template
      * @return
      */
-    public String matchTemplateFile(String template) {
+    public String matchTemplateFile(String template, boolean isMoblieBrowser) {
 
         if (htmls.contains(template)) {
             return template;
@@ -90,12 +91,44 @@ public class Template {
             return null;
         }
 
+        //手机浏览器，优先去找_h5的模板进行渲染
+        if (isMoblieBrowser) {
+            String h5Template = matchH5Template(template);
+            if (h5Template != null) return h5Template;
+        }
+
         while (lastIndex > 0) {
             template = template.substring(0, lastIndex) + ".html";
             if (htmls.contains(template)) {
                 return template;
             }
             lastIndex = template.lastIndexOf(TEMPLATE_SEPARATOR);
+        }
+
+        return htmls.contains(template) ? template : null;
+    }
+
+
+    /**
+     * 只匹配 h5 的模板 ，如果匹配不到 h5 ，返回 null
+     * <p>
+     * 例如：
+     * 需要 aa_bb_cc_dd_h5.html
+     * 寻找的顺序是：aa_bb_cc_h5.html  ->   aa_bb_h5.html  ->   aa_h5.html
+     *
+     * @param template
+     * @return
+     */
+    private String matchH5Template(String template) {
+
+        while (StringUtils.countMatches(template, '_') > 1) {
+
+            int sLastIndex = StringUtils.lastOrdinalIndexOf(template, "_", 2);
+            template = template.substring(0, sLastIndex) + "_h5.html";
+
+            if (htmls.contains(template)) {
+                return template;
+            }
         }
 
         return htmls.contains(template) ? template : null;

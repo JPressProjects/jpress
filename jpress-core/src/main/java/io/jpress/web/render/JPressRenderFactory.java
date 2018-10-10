@@ -45,7 +45,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return new TextRender(errorCode + " error, bug can not find current template to render");
         }
 
-        String view = template.matchTemplateFile("error_" + errorCode + ".html");
+        String view = template.matchTemplateFile("error_" + errorCode + ".html",((TemplateControllerBase) JbootControllerContext.get()).isMoblieBrowser());
         if (view == null) {
             return super.getErrorRender(errorCode);
         }

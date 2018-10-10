@@ -28,7 +28,7 @@ import io.jboot.config.annotation.PropertyConfig;
 public class JPressConfig {
 
     private String indexAction = "/page";
-    private String defaultTemplate = "jportal";
+    private String defaultTemplate; //通过 jboot.properties 配置文件来进行配置
 
 
     public String getIndexAction() {

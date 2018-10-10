@@ -133,45 +133,37 @@ jboot.datasource.password=数据库密码
 
 ## 模板制作
 
-### 模板概述
-### 首页模板
-### 列表页模板
-### 详情页模板
+JPress模板主要是由html、css、js和JPress标签组成，JPress标签的主要作用是用于读取后台数据，逻辑控制。
 
-## 二次开发
-
-## 后台使用
+与此同时、JPress模板文件的文件名也是固定的，目录结构如下：
 
 
-#### JPress模板制作教程
+|模板文件| 描述 | 备注 |
+| --- | --- | --- |
+| index.html |首页模板|  |
+| error.html |错误页面模板| 当系统发生错误的时候，会自动调用此页面进行渲染，也可以扩展为 error_404.html，当发生404错误的时候优先使用此文件，同理可以扩展 error_500.html ，当系统发生500错误的时候调用此文件渲染。 |
+| setting.html |后台的模板设置页面| 当次html不存在的时候，用户进入后台的模板设置，会显示此模板不支持设置功能 |
+| screenshot.png |模板缩略图| 用于在后台的模板列表里显示的图片  |
+| template.properties |模板信息描述文件|  文件格式在下方 |
+| page.html |页面模块的模板|  page.html 可以扩展为 page_aaa.html 、page_bbbb.html ，当模板扩展出 page_xxx.html 的时候，用户在后台发布页面内容的时候，就可以选择使用哪个模板样式进行渲染。例如： page_xxx.html 其中 `xxx` 为样式的名称。|
+| article.html | 文章详情模板| 和page模块一样，article.html 可以扩展出 article_styel1.html、article_style2.html，这样，用户在后台发布文章的时候，可以选择文章样式。（备注：用户中心投稿不能选择样式）  |
+| artlist.html | 文章列表模板| 和page、article一样，可以通过样式 |
 
-##### 描述
+
+备注：所有的模板文件都可以扩展出专门用于渲染手机的模板，例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当网站用户通过手机浏览网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
+
+template.properties 文件配置如下
   
-  JPress模板是由一些列 html、css、js 和 JPress 标签组成的文件目录。
-  
-  JPress 目录结构如下：
-  
-  * index.html 首页模板
-  * error.html 错误页面模板
-  * setting.html 模板设置页面
-  * page.html 页面默认模板
-  * article.html 文章详情的默认模板
-  * artlist.html 文章类别的默认模板
-  * template.properties 模板信息配置
-  * screenshot.png 缩略图
-  
-  其中，template.properties 文件配置如下
-  
- ```java
-id= cn.jeanstudio.bluelight
-title= BlueLight
-description= BlueLight是JeanStudio工作室为JPress设计的官网模板
-anthor= jeanStudio
-authorWebsite= http://www.jeanstudio.cn
-version=1.0
-versionCode=1
-updateUrl=
-screenshot=screenshot.png
+```
+id = cn.jeanstudio.bluelight
+title = BlueLight
+description = BlueLight是JeanStudio工作室为JPress设计的官网模板
+anthor = jeanStudio
+authorWebsite = http://www.jeanstudio.cn
+version = 1.0
+versionCode = 1
+updateUrl =
+screenshot = screenshot.png
 ```
 
 * id ：模板ID，全网唯一，建议用域名+名称的命名方式
@@ -179,45 +171,105 @@ screenshot=screenshot.png
 * description ：模板简介
 * anthor ：模板作者
 * authorWebsite ：模板作者的官网
-* version ：版本
-* versionCode ：版本号
+* version ：版本（不添加默认为1.0.0）
+* versionCode ：版本号（只能是数字，不填写默认为1）
 * updateUrl ：此模板升级的url地址
 * screenshot ：此模板的缩略图图片（不填写默认为：screenshot.png）
 
 
-##### 模板标签
 
-JPress是基于JFinal和Jboot进行开发的，使用的模板引擎是Jfinal Enjoy，Jfinal Enjoy 拥有极好的性能和开发体验，在学习JPress模板制作之前，很有必要学习一下Jfinal Enjoy 模板引擎。
- 
 
- 
-使用代码如下：
-    
+#### 模板标签
+
+有了以上这些目录结构，实际上不用任何的标签就可以成为一套模板了，只是这个模板是静态模板，不能读取后台数据。
+
+只有通过在静态的html上，添加 JPress 标签，才能可以读取后台数据。
+
+目前，JPress内置的模板标签如下：
+
+**1、全局标签，全局标签用全用大写显示，全局标签在任意模板页面都可以使用。**
+
+| 标签名称 | 数据类型 | 标签描述 |  
+| --- | --- | --- | 
+| #(WEB_NAME ??) | 字符串 |  网站名称 |  
+| #(WEB_TITLE ??) |  字符串 | 网站标题 |  
+| #(ATTR_WEB_SUBTITLE ??) |  字符串 | 网站副标题 | 
+| #(ATTR_WEB_DOMAIN ??) |  字符串 | 网站域名 | 
+| #(ATTR_WEB_COPYRIGHT ??) |  字符串 | 网站版权信息 | 
+| #(ATTR_SEO_TITLE ??) |  字符串 | 网站SEO标题 | 
+| #(ATTR_SEO_KEYWORDS ??) |  字符串 | 网站SEO关键字 | 
+| #(ATTR_SEO_DESCRIPTION ??) |  字符串 | 网站SEO描述 | 
+| MENUS  | 数据列表( list ) | 菜单数据 | 
+
+标签描述，标签建议用 `#( 名称 ??)` 的方式来读取数据，而不是用 `#(名称)` 两个问号（??）的意思是如果 后台填写的名称为空格，那么就用 两个问号（??）之后的内容来显示。
+
+例如： 
+`#(WEB_NAME ??)` 表示优先使用 WEB_NAME 来显示，但是当 WEB_NAME 为空的时候，显示空数据（因为两个问好（??）之后的内容为空）。
+
+`#(WEB_NAME ?? WEB_TITLE)` 表示优先使用 WEB_NAME 来显示，但是当 WEB_NAME 为空的时候，用 WEB_TITLE（网站标题） 来显示。
+
+`#(ATTR_SEO_TITLE ?? WEB_TITLE +'-'+ ATTR_WEB_SUBTITLE)` 表示优先使用 ATTR_SEO_TITLE（SEO标题） 来显示，但是当 ATTR_SEO_TITLE 为空的时候，用 `WEB_TITLE - WEB_SUBTITLE` 来显示。
+
+有了以上知识后，我们的 index.html 首页模板文件可以如下：
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <meta name="keywords" content="#(SEO_KEYWORDS ??)">
+    <meta name="description" content="#(SEO_DESCRIPTION ??)">
+</head>
+<body>
+这是首页....
+</body>
+</html>
+```
+
+以上内容都只是针对 `字符串` 这种数据类型进行展示的，全局标签中还有一种数据类型叫 `数据列表( list )`，那么，怎么来显示数据列表呢？
+
+这个时候`#( 名称 ??)`就不能正常显示了，需要用到一个新的标签：
+
+```java
+#for 
+... 
+#end
+```
+
+`#for ... #end` 标签也叫循环标签，意思是把列表循环显示出来。
+
+对于 `MENUS` 这种数据类型为 `数据列表( list )` 的数据，`#for ... #end` 标签使用如下。
+
+   
 ```html
 #for(menu : MENUS)
-    <li class="nav-item">
-        <a href="#(menu.url ??)">#(menu.text ??)</a>
-    </li>
+    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
 #end
 ```
 
-* 文章分类标签：#articlePage()
-  
-使用代码如下：
-  
-```html
-#articlePage()
+这样，若我们在后台创建了5个菜单，那么html会输出 5个 `<li> ... </li>`
 
-    #for(article : articlePage.list)
-        <a href="#(article.url ??)">#(article.title ??)</a>
-    #end
-    
-    #articlePaginate()
-            #for(page : pages)
-                <a href="#(page.url ??)">#(page.text ??)</a>
-            #end
-     #end
-#end
-```
+
+
+**2、数据指令，数据指令一般情况下只能用于特有页面**
+
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- | 
+| #article() | 任意 | 用于读取特定的单篇文章 |  
+| #articles() | 任意 | 用于读取文章列表，例如：热门文章文章、最新评论文章列表等等 | 
+| #articlePage() | artlist.html | 用于对文章列表进行的内容和分页进行显示 | 
+| #commentPage() | article.html | 用于对文章评论的内容和分页进行显示 | 
+| #nextArticle() | article.html | 下一篇文章 | 
+| #previousArticle() | article.html | 上一篇文章 | 
+| #relevantArticles() | article.html | 相关文章列表，相同标签的的文章 |
+| #categories() | 任意 | 读取文章模块的所有分类 |  
+| #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
+
+
+
+
+
+
+
 
 

@@ -15,7 +15,9 @@
  */
 package io.jpress.web.wechat;
 
+import com.jfinal.aop.Before;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
+import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
@@ -42,6 +44,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     private OptionService optionService;
 
     @Override
+    @Before(MsgInterceptor.class)
     public void index() {
         WechatAddonInfo addonInfo = doMathingAddon();
         if (addonInfo == null) {

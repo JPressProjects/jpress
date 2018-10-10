@@ -15,6 +15,7 @@
  */
 package io.jpress.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
 import io.jpress.model.base.BaseUser;
@@ -52,12 +53,16 @@ public class User extends BaseUser<User> {
     }
 
     public void keepSafe() {
+
+        //在读取用户资料进行输出的时候
+        //调用下此方法，再用于渲染json数据给客户端
         remove("password", "salt");
     }
 
     public void keepUpdateSafe() {
 
-        //这些字段不允许用户自己更新
+        //用户在更新自己的资料的时候，先调用此方法
+        //以下这些字段不允许用户自己更新
 
         remove("password", "salt",
                 "username", "wx_openid",
@@ -80,6 +85,6 @@ public class User extends BaseUser<User> {
     }
 
     public String getDetailUrl() {
-        return "/admin/user/detail/" + getId();
+        return JFinal.me().getContextPath() + "/admin/user/detail/" + getId();
     }
 }

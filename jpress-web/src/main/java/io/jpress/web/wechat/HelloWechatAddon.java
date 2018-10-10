@@ -14,6 +14,7 @@ package io.jpress.web.wechat;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
@@ -49,9 +50,10 @@ public class HelloWechatAddon implements WechatAddon {
 
 
     @Override
-    public void onRenderMessage(InMsg inMsg, MsgController msgController) {
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
         OutTextMsg outTextMsg = new OutTextMsg(inMsg);
         outTextMsg.setContent("world");
         msgController.render(outTextMsg);
+        return true;
     }
 }

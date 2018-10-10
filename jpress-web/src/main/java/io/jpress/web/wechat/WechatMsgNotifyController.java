@@ -57,7 +57,8 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        addonInfo.getAddon().onRenderMessage(getInMsg(), this);
+        boolean success = addonInfo.getAddon().onRenderMessage(getInMsg(), this);
+        if (success == false) super.index();
     }
 
     /**

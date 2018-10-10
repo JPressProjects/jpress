@@ -18,9 +18,19 @@ package io.jpress.module.article.wechat;
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
+import com.jfinal.weixin.sdk.msg.out.News;
+import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
-import io.jpress.core.wechat.WechatAddonConfig;
+import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonConfig;
+import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
+import io.jpress.service.OptionService;
+
+import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,6 +46,11 @@ import io.jpress.core.wechat.WechatAddon;
         author = "海哥")
 public class ArticleDetailWechatAddon implements WechatAddon {
 
+    @Inject
+    ArticleService articleService;
+
+    @Inject
+    OptionService optionService;
 
     @Override
     public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
@@ -50,9 +65,35 @@ public class ArticleDetailWechatAddon implements WechatAddon {
 
 
     @Override
-    public void onRenderMessage(InMsg inMsg, MsgController msgController) {
-        OutTextMsg outTextMsg = new OutTextMsg(inMsg);
-        outTextMsg.setContent("测试成功");
-        msgController.render(outTextMsg);
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
+        InTextMsg inTextMsg = (InTextMsg) inMsg;
+
+        String content = inTextMsg.getContent();
+        String slug = content.substring(8); // 8 =  "article:".length();
+
+        Article article = articleService.findFirstBySlug(slug);
+        if (article == null) {
+            return false;
+        }
+
+        String webDomain = optionService.findByKey(JPressConsts.OPTION_WEB_DOMAIN);
+        if (StrUtils.isBlank(webDomain)) {
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent("服务器配置错误：网站域名配置为空，请先到 后台->系统->常规 配置网站域名");
+            msgController.render(outTextMsg);
+            return true;
+        }
+
+        News news = new News();
+        news.setDescription(CommonsUtils.maxLength(article.getText(), 100));
+        news.setTitle(article.getTitle());
+        news.setUrl(webDomain + article.getUrl(""));
+        news.setPicUrl(webDomain + article.getThumbnail());
+
+        OutNewsMsg outNewsMsg = new OutNewsMsg(inMsg);
+        outNewsMsg.addNews(news);
+        msgController.render(outNewsMsg);
+
+        return true;
     }
 }

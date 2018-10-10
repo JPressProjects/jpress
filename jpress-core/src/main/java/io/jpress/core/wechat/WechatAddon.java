@@ -41,6 +41,6 @@ public interface WechatAddon {
      * @param inMsg
      * @param msgController
      */
-    public void onRenderMessage(InMsg inMsg, MsgController msgController);
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController);
 
 }

@@ -22,6 +22,7 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.commons.utils.CommonsUtils;
 
 import java.io.IOException;
 
@@ -45,12 +46,8 @@ public class MaxLengthDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#maxLength(content,length) 参数错误，length必须大于0 ");
         }
 
-        if (content.length() > maxLength) {
-            content = content.substring(0, maxLength);
-        }
-
         try {
-            writer.write(content);
+            writer.write(CommonsUtils.maxLength(content, maxLength));
         } catch (IOException e) {
             throw new TemplateException(e.getMessage(), location, e);
         }

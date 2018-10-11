@@ -18,8 +18,10 @@ package io.jpress.module.page.model;
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.JsoupUtils;
+import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
 
 /**
@@ -57,6 +59,19 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
     public String getText() {
         return JsoupUtils.getText(getContent());
+    }
+
+    @Override
+    public String getContent() {
+        if (JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode())) {
+            return MarkdownUtils.toHtml(super.getContent());
+        }
+        return super.getContent();
+    }
+
+
+    public String getOriginalContent() {
+        return super.getContent();
     }
 
 }

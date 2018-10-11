@@ -18,7 +18,6 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
@@ -116,7 +115,9 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
         String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
-        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
+        setAttr("editMode", JPressConsts.EDIT_MODE_MARKDOWN.equals(editMode)
+                ? JPressConsts.EDIT_MODE_MARKDOWN
+                : JPressConsts.EDIT_MODE_HTML);
 
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);

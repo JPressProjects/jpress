@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import io.jboot.utils.StrUtils;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -28,6 +29,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 public class MarkdownUtils {
 
     public static String toHtml(String markdown) {
+        if (StrUtils.isBlank(markdown)) return markdown;
         Parser parser = Parser.builder().build();
         Node document = parser.parse(markdown);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
@@ -36,7 +38,7 @@ public class MarkdownUtils {
 
     public static void main(String[] args) {
         long ctime = System.currentTimeMillis();
-        for (int i = 0 ;i< 100000;i++){
+        for (int i = 0; i < 100000; i++) {
             toHtml("This is *Sparta*");
         }
         System.out.println("100000 times : " + (System.currentTimeMillis() - ctime));

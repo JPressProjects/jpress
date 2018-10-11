@@ -102,6 +102,9 @@ public class JPressConsts {
 
     public static final String ATTR_MENUS = "MENUS"; // 页面菜单
 
+    public static final String EDIT_MODE_HTML = "html"; //html 的编辑模式
+    public static final String EDIT_MODE_MARKDOWN = "markdown"; //markdown 的编辑模式
+
 
     /**
      * 用于标识当前 是否选中

@@ -118,7 +118,9 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
-        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
+        setAttr("editMode", JPressConsts.EDIT_MODE_MARKDOWN.equals(editMode)
+                ? JPressConsts.EDIT_MODE_MARKDOWN
+                : JPressConsts.EDIT_MODE_HTML);
 
         initStylesAttr("article_");
 

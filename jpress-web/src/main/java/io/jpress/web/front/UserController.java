@@ -17,6 +17,7 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
@@ -67,6 +68,11 @@ public class UserController extends TemplateControllerBase {
             @Form(name = "pwd", message = "密码不能为空")
     })
     public void doLogin(String user, String pwd) {
+
+        if (StrUtils.isBlank(user) || StrUtils.isBlank(pwd)) {
+            LogKit.error("你当前的 idea 或者 eclipse 可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
+            return;
+        }
 
         Ret ret = StrUtils.isEmail(user)
                 ? userService.loginByEmail(user, pwd)

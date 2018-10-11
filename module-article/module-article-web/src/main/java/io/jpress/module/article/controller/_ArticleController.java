@@ -22,6 +22,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
@@ -100,8 +101,9 @@ public class _ArticleController extends AdminControllerBase {
 
         int articleId = getParaToInt(0, 0);
 
+        Article article = null;
         if (articleId > 0) {
-            Article article = articleService.findById(articleId);
+            article = articleService.findById(articleId);
             if (article == null) {
                 renderError(404);
                 return;
@@ -114,6 +116,9 @@ public class _ArticleController extends AdminControllerBase {
             Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
             flagCheck(categories, categoryIds);
         }
+
+        String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
+        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
 
         initStylesAttr("article_");
 

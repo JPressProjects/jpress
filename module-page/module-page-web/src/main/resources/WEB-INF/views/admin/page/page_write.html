@@ -3,11 +3,10 @@
 <script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
+<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
 
 
 <script>
-
-    initEditor('editor1');
 
 
     function doSubmit() {
@@ -52,6 +51,27 @@
         $("#articleThumbnail").val("");
     })
 
+    var editMode = "#(editMode ?? 'html')";
+    function doChangeEditor() {
+        if ("html" == editMode) {
+            doAjax('#(CPATH)/commons/changeEditor/markdown');
+        } else {
+            doAjax('#(CPATH)/commons/changeEditor/html');
+        }
+    }
+
+    function doAjax(url) {
+        $.get(url, function (result) {
+            if (result.state == 'fail') {
+                toastr.error(result.message, '操作失败');
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    initEditor('editor1', 467, editMode);
+
 
 </script>
 #end
@@ -59,6 +79,9 @@
 <link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -68,6 +91,7 @@
     #slug {
         cursor: pointer;
     }
+
 </style>
 #end
 
@@ -84,6 +108,7 @@
         <form action="#(CPATH)/admin/page/doWriteSave" method="post" id="form">
             <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "normal")'>
             <input type="hidden" id="pageId" name="page.id" value="#(page.id ??)">
+            <input type="hidden" id="editModeId" name="page.edit_mode" value="#(editMode ??)">
             <div class="row">
                 <div class="col-xs-9">
 
@@ -105,12 +130,11 @@
                                                                                                for-input="page-slug"
                                                                                                for-listener="page-title">#(page.slug ??)</span>.html
                                 <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="page.content"
-                                          style="height: 467px;width: 100%;background-color: white">
-                                #escape(page.content ??)
-                                </textarea>
+                                          style="height: 467px;width: 100%;background-color: white">#(page.content ??)</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -140,9 +164,11 @@
                                                             <option value="">默认</option>
                                                             #for(style : styles)
                                                             #if(page)
-                                                            <option value="#(style)"  #selectedIf(page.style == style)>#(style)</option>
+                                                            <option value="#(style)" #selectedIf(page.style== style)>
+                                                                #(style)
+                                                            </option>
                                                             #else
-                                                            <option value="#(style)"  >#(style)</option>
+                                                            <option value="#(style)">#(style)</option>
                                                             #end
                                                             #end
                                                         </select>

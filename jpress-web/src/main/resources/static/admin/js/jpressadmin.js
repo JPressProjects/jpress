@@ -109,15 +109,32 @@ function initlayer() {
 function editorUpdate() {
     for (instance in CKEDITOR.instances)
         CKEDITOR.instances[instance].updateElement();
+
+    if (_simplemde) {
+        $(_editor).text(simplemde.markdown(simplemde.value()));
+    }
 }
 
 
 var dialogShowEvent;
+var _simplemde;
+var _editor;
 
-function initEditor(editor, height) {
-
+function initEditor(editor, height, type) {
     height = height || 467;
+    type = type || 'html'; //默认用ckeditor
+    _editor = editor;
 
+    if (type == 'html') {
+        return initCkEdtior(editor, height);
+    }
+
+    else if (type == 'markdown') {
+        return initMarkdownEditor(editor, height);
+    }
+}
+
+function initCkEdtior(editor, height) {
     CKEDITOR.config.toolbar =
         [
             ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'],
@@ -168,9 +185,54 @@ function initEditor(editor, height) {
         })
 
     });
+
+    return ed;
 }
 
+function initMarkdownEditor(editor, height) {
+    _simplemde = new SimpleMDE({
+        element: $(editor)[0],
+
+        toolbar: [
+            "heading", "bold", "italic", "|"
+            , "quote", "unordered-list", "ordered-list", "|"
+            , "code", "table", "horizontal-rule", "|"
+            , "link", {
+                name: "image",
+                action: function customFunction(editor) {
+                    openlayerfForSimplemde(editor);
+                },
+                className: "fa fa-picture-o",
+                title: "插入图片",
+            }, "|"
+            , "preview", "side-by-side", "fullscreen"
+        ]
+
+    });
+    return _simplemde;
+}
+
+function openlayerfForSimplemde(editor) {
+    layer.data.src = null;
+    layer.open({
+        type: 2,
+        title: '选择图片',
+        anim: 2,
+        shadeClose: true,
+        shade: 0.5,
+        area: ['80%', '80%'],
+        content: jpress.cpath + '/admin/attachment/browse',
+        end: function () {
+            if (layer.data.src != null) {
+                editor.codemirror.replaceSelection('![](' + jpress.cpath + layer.data.src + ')')
+            }
+        }
+    });
+}
+
+
 function openlayer(ed) {
+    layer.data.src = null;
     layer.open({
         type: 2,
         title: '选择图片',

@@ -23,6 +23,7 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
@@ -72,22 +73,20 @@ public class _PageController extends AdminControllerBase {
     public void write() {
         int pageId = getParaToInt(0, 0);
 
-        if (pageId > 0) {
-            SinglePage page = sps.findById(pageId);
-            if (page == null) {
-                renderError(404);
-                return;
-            }
-            setAttr("page", page);
-        }
+        SinglePage page = pageId > 0 ? sps.findById(pageId) : null;
+        setAttr("page", page);
 
         List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles("page_");
         if (ArrayUtils.isNotEmpty(styles)) {
             setAttr("styles", styles);
         }
 
+        String editMode = page == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : page.getEditMode();
+        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
+
         render("page/page_write.html");
     }
+
 
     @EmptyValidate({
             @Form(name = "page.title", message = "标题不能为空"),

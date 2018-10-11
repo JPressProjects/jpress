@@ -35,5 +35,10 @@
             <artifactId>javax.mail</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

@@ -18,9 +18,11 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.User;
@@ -95,9 +97,10 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         int articleId = getParaToInt(0, 0);
 
+        Article article = null;
         if (articleId > 0) {
 
-            Article article = articleService.findById(articleId);
+            article = articleService.findById(articleId);
             if (article == null) {
                 renderError(404);
                 return;
@@ -111,6 +114,9 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
             setAttr("article", article);
         }
+
+        String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
+        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
 
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);

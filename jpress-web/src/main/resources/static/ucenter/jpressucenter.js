@@ -48,9 +48,23 @@ function editorUpdate() {
 
 var dialogShowEvent;
 
+
 function initEditor(editor, height) {
 
     height = height || 467;
+    type = type || 'html'; //默认用ckeditor
+    _editor = editor;
+
+    if (type == 'html') {
+        return initCkEdtior(editor, height);
+    }
+
+    else if (type == 'markdown') {
+        return initMarkdownEditor(editor, height);
+    }
+}
+
+function initCkEdtior() {
 
     CKEDITOR.config.toolbar =
         [
@@ -76,6 +90,22 @@ function initEditor(editor, height) {
         language: 'zh-cn'
     });
 
+    return ed;
+}
+
+function initMarkdownEditor(editor, height) {
+    _simplemde = new SimpleMDE({
+        element: $(editor)[0],
+        toolbar: [
+            "heading", "bold", "italic", "|"
+            , "quote", "unordered-list", "ordered-list", "|"
+            , "code", "table", "horizontal-rule", "|"
+            , "link", "image", "|"
+            , "preview", "side-by-side", "fullscreen"
+        ]
+
+    });
+    return _simplemde;
 }
 
 

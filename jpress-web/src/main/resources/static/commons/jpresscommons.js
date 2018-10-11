@@ -103,7 +103,6 @@ function initSlugSpan() {
 }
 
 
-
 function getPara(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -114,4 +113,63 @@ function getPara(variable) {
         }
     }
     return "";
+}
+
+function ajaxSubmit() {
+
+}
+
+
+function ajaxGet(url, okFunction, failFunction) {
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+            location.reload();
+        };
+
+    failFunction = failFunction || function (result) {
+            toastr.error(result.message, '操作失败');
+        };
+
+    $.get(url, function (result) {
+        if (result.state == 'ok') {
+            okFunction(result);
+        } else {
+            failFunction(result);
+        }
+    });
+}
+
+function ajaxSubmit(form, okFunction, failFunction) {
+
+    if (typeof(CKEDITOR) != "undefined") {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+
+    okFunction = okFunction || function (result) {
+            location.reload();
+        };
+
+    failFunction = failFunction || function (result) {
+            toastr.error(result.message, '操作失败');
+        };
+
+    $(form).ajaxSubmit({
+        type: "post",
+        success: function (result) {
+            if (result.state == "ok") {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function () {
+            toastr.error('网络错误，请稍后重试。', '操作失败');
+        }
+    });
 }

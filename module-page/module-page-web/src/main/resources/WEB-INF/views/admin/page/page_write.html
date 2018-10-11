@@ -9,42 +9,25 @@
 
 <script>
 
-
-    function doSubmit() {
-        editorUpdate();
-
+    function doSubmit(status) {
+        $("#pageStatus").val(status);
         $('#page-slug').val($("#slug").text());
-
-        $("#form").ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    $("#pageId").attr("value", data.id);
-                    toastr.success('文章保存成功。');
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
-            }
-        });
+        ajaxSubmit("#form", function (data) {
+            $("#articleId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
     }
 
-
     $("#submit").on("click", function () {
-        $("#pageStatus").val("normal");
-        doSubmit();
+        doSubmit("normal");
     })
 
     $("#draft").on("click", function () {
-        $("#pageStatus").val("draft");
-        doSubmit();
+        doSubmit("draft");
     })
 
     $("#trash").on("click", function () {
-        $("#pageStatus").val("trash");
-        doSubmit();
+        doSubmit("trash");
     })
 
     $("#removeThumbnail").on("click", function () {
@@ -55,20 +38,10 @@
     var editMode = "#(editMode ?? 'html')";
     function doChangeEditor() {
         if ("html" == editMode) {
-            doAjax('#(CPATH)/commons/changeEditor/markdown');
+            ajaxGet('#(CPATH)/commons/changeEditor/markdown');
         } else {
-            doAjax('#(CPATH)/commons/changeEditor/html');
+            ajaxGet('#(CPATH)/commons/changeEditor/html');
         }
-    }
-
-    function doAjax(url) {
-        $.get(url, function (result) {
-            if (result.state == 'fail') {
-                toastr.error(result.message, '操作失败');
-            } else {
-                location.reload();
-            }
-        });
     }
 
     initEditor('editor1', 467, editMode);

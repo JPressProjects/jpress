@@ -40,23 +40,10 @@ function initMenu() {
 }
 
 
-function editorUpdate() {
-    for (instance in CKEDITOR.instances)
-        CKEDITOR.instances[instance].updateElement();
-    // if (_simplemde) {
-    //     $("#" + _editor).text(_simplemde.value());
-    // }
-}
-
-
-var _simplemde;
-var _editor;
-
 function initEditor(editor, height, type) {
 
     height = height || 467;
     type = type || 'html'; //默认用ckeditor
-    _editor = editor;
 
     if (type == 'html') {
         return initCkEdtior(editor, height);
@@ -84,20 +71,18 @@ function initCkEdtior(editor, height) {
             ['Maximize', 'Source']
         ];
 
-
-    var ed = CKEDITOR.replace(editor, {
+    return CKEDITOR.replace(editor, {
+        autoUpdateElement: true,
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
         filebrowserImageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
         language: 'zh-cn'
     });
-
-    return ed;
 }
 
 function initMarkdownEditor(editor, height) {
-    _simplemde = new SimpleMDE({
+    return new SimpleMDE({
         element: $(editor)[0],
         autoDownloadFontAwesome: false,
         spellChecker: false,
@@ -115,8 +100,6 @@ function initMarkdownEditor(editor, height) {
         ]
 
     })
-    ;
-    return _simplemde;
 }
 
 

@@ -105,25 +105,11 @@ function initlayer() {
     });
 }
 
-
-function editorUpdate() {
-    for (instance in CKEDITOR.instances)
-        CKEDITOR.instances[instance].updateElement();
-
-    // if (_simplemde) {
-    //     $("#" + _editor).text(_simplemde.value());
-    // }
-}
-
-
 var _dialogShowEvent;
-var _simplemde;
-var _editor;
 
 function initEditor(editor, height, type) {
     height = height || 467;
     type = type || 'html'; //默认用ckeditor
-    _editor = editor;
 
     if (type == 'html') {
         return initCkEdtior(editor, height);
@@ -152,6 +138,7 @@ function initCkEdtior(editor, height) {
 
 
     var ed = CKEDITOR.replace(editor, {
+        autoUpdateElement: true,
         extraPlugins: 'codesnippet',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
@@ -189,14 +176,14 @@ function initCkEdtior(editor, height) {
 }
 
 function initMarkdownEditor(editor, height) {
-    _simplemde = new SimpleMDE({
+    return new SimpleMDE({
         element: $(editor)[0],
         autoDownloadFontAwesome: false,
         spellChecker: false,
         styleSelectedText: false,
         forceSync: true,
         renderingConfig: {
-            codeSyntaxHighlighting: true,
+            codeSyntaxHighlighting: true
         },
         toolbar: [
             "heading", "bold", "italic", "|"
@@ -214,7 +201,6 @@ function initMarkdownEditor(editor, height) {
         ]
 
     });
-    return _simplemde;
 }
 
 function openlayerfForSimplemde(editor) {
@@ -274,6 +260,8 @@ function initOptionSubmit() {
         });
         return false;
     });
+
+
 
 }
 

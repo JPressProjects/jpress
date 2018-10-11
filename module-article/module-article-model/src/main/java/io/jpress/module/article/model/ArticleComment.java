@@ -16,6 +16,7 @@
 package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.model.base.BaseArticleComment;
 
@@ -63,4 +64,9 @@ public class ArticleComment extends BaseArticleComment<ArticleComment> {
         User user = get("user");
         return user != null ? user.getNickname() : super.getAuthor();
     }
+
+    public String getText() {
+        return JsoupUtils.getText(getContent());
+    }
+
 }

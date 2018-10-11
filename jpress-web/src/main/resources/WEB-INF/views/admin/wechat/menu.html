@@ -3,25 +3,14 @@
 #define script()
 <script>
     function del(id) {
-        $.get("#(CPATH)/admin/wechat/doMenuDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/wechat/doMenuDel/" + id)
     }
 
     $("#menuSync").on("click", function () {
-        $.ajax({
-            url: "#(CPATH)/admin/wechat/doMenuSync", success: function (result) {
-                if (result.state == "ok") {
-                    toastr.success(result.message);
-                } else {
-                    toastr.error(result.message, "错误");
-                }
-            }
-        });
+        ajaxGet("#(CPATH)/admin/wechat/doMenuSync",function () {
+            toastr.success(result.message);
+        })
+
     });
 
 

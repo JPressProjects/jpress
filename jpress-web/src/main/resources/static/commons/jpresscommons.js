@@ -90,13 +90,11 @@ function initSlugSpan() {
                     value = value.substring(0, value.length - 1);
                 }
 
-                $.get("/commons/pinyin/doGetPinyin/" + value, function (result) {
-                    if ("ok" == result.state) {
-                        var pinyin = result.data;
-                        that.text(pinyin);
-                        that.editable('setValue', pinyin);
-                    }
-                });
+                ajaxGet(jpress.cpath+"/commons/pinyin/doGetPinyin/" + value,function (result) {
+                    var pinyin = result.data;
+                    that.text(pinyin);
+                    that.editable('setValue', pinyin);
+                })
             }
         });
     })
@@ -114,11 +112,6 @@ function getPara(variable) {
     }
     return "";
 }
-
-function ajaxSubmit() {
-
-}
-
 
 function ajaxGet(url, okFunction, failFunction) {
     if (url == null || "" == url) {

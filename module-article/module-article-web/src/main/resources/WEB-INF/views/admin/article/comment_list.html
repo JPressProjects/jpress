@@ -3,34 +3,13 @@
 <script>
 
     function doChangeStatus(id, status) {
-        $.get("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
-        $.get("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCommentDel/" + id)
     }
 
-    function delByIds(ids) {
-        $.get("#(CPATH)/admin/article/doCommentDelByIds?ids=" + ids, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
 
     $("#batchDel").click(function () {
         var ids = getSelectedIds();
@@ -38,19 +17,9 @@
             alert('您未选择任何内容');
             return
         }
-        delByIds(ids);
+        ajaxGet("#(CPATH)/admin/article/doCommentDelByIds?ids=" + ids)
     })
 
-
-    function auditByIds(ids) {
-        $.get("#(CPATH)/admin/article/doCommentAuditByIds?ids=" + ids, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
 
     $("#batchAudit").click(function () {
         var ids = getSelectedIds();
@@ -58,7 +27,7 @@
             alert('您未选择任何内容');
             return
         }
-        auditByIds(ids);
+        ajaxGet("#(CPATH)/admin/article/doCommentAuditByIds?ids=" + ids)
     })
 
 </script>

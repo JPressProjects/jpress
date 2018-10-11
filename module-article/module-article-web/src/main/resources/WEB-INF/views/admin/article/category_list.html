@@ -2,42 +2,22 @@
 #define script()
 <script>
     $('#form').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    location.href = "#(CPATH)/admin/article/category";
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
-            }
-        });
+        ajaxSubmit('#form',function () {
+            location.href = "#(CPATH)/admin/article/category";
+        })
         return false;
     });
 
     $('.del-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("#(CPATH)/admin/article/doCategoryDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                toastr.error(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
     });
 
     $('.addtomenu-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("#(CPATH)/admin/article/doAddCategoryToMenu/" + id, function (result) {
-            if ("ok" != result.state) {
-                toastr.error(result.message);
-            } else {
-                toastr.success("添加到菜单成功")
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doAddCategoryToMenu/" + id,function () {
+            toastr.success("添加到菜单成功")
+        })
     });
 
 

@@ -3,54 +3,20 @@
 <script>
 
     function trash(id) {
-        $.get("#(CPATH)/admin/article/doTrash/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doTrash/" + id);
     }
 
 
     function draft(id) {
-        $.get("#(CPATH)/admin/article/doDraft/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doDraft/" + id);
     }
 
     function normal(id) {
-        $.get("#(CPATH)/admin/article/doNormal/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doNormal/" + id);
     }
 
     function del(id) {
-        $.get("#(CPATH)/admin/article/doDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-    function delByIds(ids) {
-        $.get("#(CPATH)/admin/article/doDelByIds?ids=" + ids, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -59,7 +25,7 @@
             alert('您未选择任何内容');
             return
         }
-        delByIds(ids);
+        ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
     })
 </script>
 
@@ -169,7 +135,7 @@
                                         </div>
                                         #elseif(article.isDraft())
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/write/#(article.id)" >编辑</a> |
+                                            <a href="#(CPATH)/admin/article/write/#(article.id)">编辑</a> |
                                             <a href="javascript:;" onclick="trash('#(article.id??)')"
                                                class="red-action">垃圾箱</a>
                                         </div>

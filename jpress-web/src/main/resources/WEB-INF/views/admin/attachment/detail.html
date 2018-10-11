@@ -24,30 +24,16 @@
     });
 
     function del(id) {
-        $.get("#(CPATH)/admin/attachment/del/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                parent.layer.data.needReload = true;
-                parent.layer.closeAll();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/attachment/del/" + id,function () {
+            parent.layer.data.needReload = true;
+            parent.layer.closeAll();
+        })
     }
 
     function update() {
-        $("#form").ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    toastr.success('修改成功');
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
-            }
-        });
+        ajaxSubmit("#form",function () {
+            toastr.success('修改成功');
+        })
     }
 </script>
 #end

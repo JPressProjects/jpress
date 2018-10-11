@@ -110,9 +110,9 @@ function editorUpdate() {
     for (instance in CKEDITOR.instances)
         CKEDITOR.instances[instance].updateElement();
 
-    if (_simplemde) {
-        $("#"+_editor).text(_simplemde.value());
-    }
+    // if (_simplemde) {
+    //     $("#" + _editor).text(_simplemde.value());
+    // }
 }
 
 
@@ -191,6 +191,13 @@ function initCkEdtior(editor, height) {
 function initMarkdownEditor(editor, height) {
     _simplemde = new SimpleMDE({
         element: $(editor)[0],
+        autoDownloadFontAwesome: false,
+        spellChecker: false,
+        styleSelectedText: false,
+        forceSync: true,
+        renderingConfig: {
+            codeSyntaxHighlighting: true,
+        },
         toolbar: [
             "heading", "bold", "italic", "|"
             , "quote", "unordered-list", "ordered-list", "|"

@@ -129,7 +129,7 @@ public class ArticleController extends TemplateControllerBase {
         }
 
         if (StrUtils.isBlank(content)) {
-            renderJson(Ret.fail());
+            renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {
             content = StringEscapeUtils.escapeHtml(content);

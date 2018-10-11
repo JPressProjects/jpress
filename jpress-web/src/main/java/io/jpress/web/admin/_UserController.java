@@ -41,6 +41,7 @@ import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -101,6 +102,58 @@ public class _UserController extends AdminControllerBase {
 
     public void edit() {
         render("user/edit.html");
+    }
+
+    /**
+     * 新增用户
+     */
+    public void doAdd() {
+
+        String pwd = getPara("newPwd");
+        String confirmPwd = getPara("confirmPwd");
+        User user = getBean(User.class);
+
+        if (StrUtils.isBlank(pwd)) {
+            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
+            return;
+        }
+
+        if (StrUtils.isBlank(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
+            return;
+        }
+
+        if (pwd.equals(confirmPwd) == false) {
+            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
+            return;
+        }
+
+        User dbUser = userService.findFistByUsername(user.getUsername());
+        if (dbUser != null) {
+            renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
+            return;
+        }
+
+        if (StrUtils.isNotBlank(user.getEmail())) {
+            dbUser = userService.findFistByEmail(user.getEmail());
+            if (dbUser != null) {
+                renderJson(Ret.fail().set("message", "邮箱已经存在了").set("errorCode", 11));
+                return;
+            }
+        }
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+        user.setCreated(new Date());
+        user.setStatus(User.STATUS_OK);
+        user.setCreateSource("admin_create");
+
+        userService.save(user);
+
+        renderJson(Ret.ok());
     }
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)

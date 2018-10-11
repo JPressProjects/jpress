@@ -1,11 +1,25 @@
 #@layout()
+
+#define script()
+<script>
+
+    $('#form').on('submit', function () {
+        ajaxSubmit('#form', function () {
+            location.href = "#(CPATH)/admin/user"
+        });
+        return false;
+    });
+
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-            编辑用户
-            <small>User Edit</small>
+            新增用户
+            <small>Add User</small>
         </h1>
     </section>
 
@@ -19,7 +33,8 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off">
+                    <form class="form-horizontal" autocomplete="off" id="form" method="post"
+                          action="#(CPATH)/admin/user/doAdd">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">登录账号</label>

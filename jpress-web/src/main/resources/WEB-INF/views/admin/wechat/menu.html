@@ -7,7 +7,7 @@
     }
 
     $("#menuSync").on("click", function () {
-        ajaxGet("#(CPATH)/admin/wechat/doMenuSync",function () {
+        ajaxGet("#(CPATH)/admin/wechat/doMenuSync",function (result) {
             toastr.success(result.message);
         })
 

@@ -142,7 +142,9 @@
                                                                                                        for-input="article-slug"
                                                                                                        for-listener="article-title">#(article.slug ??)</span>.html
                                 <input type="hidden" id="article-slug" name="article.slug">
+                                #if(!article)
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+                                #end
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="article.content"

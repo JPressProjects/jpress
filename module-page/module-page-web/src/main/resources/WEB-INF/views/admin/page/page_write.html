@@ -131,6 +131,9 @@
                                                                                                for-listener="page-title">#(page.slug ??)</span>.html
                                 <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+                                #if(!page)
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+                                #end
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="page.content"

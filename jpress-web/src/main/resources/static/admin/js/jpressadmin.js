@@ -111,12 +111,12 @@ function editorUpdate() {
         CKEDITOR.instances[instance].updateElement();
 
     if (_simplemde) {
-        $(_editor).text(simplemde.markdown(simplemde.value()));
+        $("#"+_editor).text(_simplemde.value());
     }
 }
 
 
-var dialogShowEvent;
+var _dialogShowEvent;
 var _simplemde;
 var _editor;
 
@@ -161,17 +161,16 @@ function initCkEdtior(editor, height) {
     });
 
     ed.on("dialogShow", function (event) {
-        if (dialogShowEvent != null) {
+        if (_dialogShowEvent != null) {
             return;
         }
 
-        dialogShowEvent = event;
+        _dialogShowEvent = event;
 
         event.data.getContentElement("info", "browse").removeAllListeners();
         event.data.getContentElement("Link", "browse").removeAllListeners();
 
         $(".cke_dialog_ui_button").each(function () {
-            //"浏览服务器" == $(this).attr("title") ||
             if ("浏览服务器" == $(this).text()) {
                 $(this).off("click");
                 $(this).on("click", function (e) {
@@ -192,7 +191,6 @@ function initCkEdtior(editor, height) {
 function initMarkdownEditor(editor, height) {
     _simplemde = new SimpleMDE({
         element: $(editor)[0],
-
         toolbar: [
             "heading", "bold", "italic", "|"
             , "quote", "unordered-list", "ordered-list", "|"

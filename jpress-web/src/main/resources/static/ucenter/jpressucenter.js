@@ -43,13 +43,16 @@ function initMenu() {
 function editorUpdate() {
     for (instance in CKEDITOR.instances)
         CKEDITOR.instances[instance].updateElement();
+    if (_simplemde) {
+        $("#"+_editor).text(_simplemde.value());
+    }
 }
 
 
-var dialogShowEvent;
+var _simplemde;
+var _editor;
 
-
-function initEditor(editor, height) {
+function initEditor(editor, height, type) {
 
     height = height || 467;
     type = type || 'html'; //默认用ckeditor
@@ -64,7 +67,7 @@ function initEditor(editor, height) {
     }
 }
 
-function initCkEdtior() {
+function initCkEdtior(editor, height) {
 
     CKEDITOR.config.toolbar =
         [

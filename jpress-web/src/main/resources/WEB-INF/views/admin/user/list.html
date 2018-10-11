@@ -4,33 +4,11 @@
 <script>
 
     function doChangeStatus(id, status) {
-        $.get("#(CPATH)/admin/user/doUserStatusChange?id=" + id + "&status=" + status, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/user/doUserStatusChange?id=" + id + "&status=" + status)
     }
 
     function doDel(id) {
-        $.get("#(CPATH)/admin/user/doUserDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
-
-    function delByIds(ids) {
-        $.get("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/user/doUserDel/" + id)
     }
 
     $("#batchDel").click(function () {
@@ -39,19 +17,9 @@
             alert('您未选择任何内容');
             return
         }
-        delByIds(ids);
+        ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
     })
 
-
-    function changeRoleByIdsByIds(ids, roleId) {
-        $.get("#(CPATH)/admin/user/doChangeRoleByIds?ids=" + ids + "&roleId=" + roleId, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
-    }
 
     $(".changeRoleAction").click(function () {
         var ids = getSelectedIds();
@@ -60,7 +28,7 @@
             alert('您未选择任何内容');
             return
         }
-        changeRoleByIdsByIds(ids, roleId);
+        ajaxGet("#(CPATH)/admin/user/doChangeRoleByIds?ids=" + ids + "&roleId=" + roleId)
     })
 
 

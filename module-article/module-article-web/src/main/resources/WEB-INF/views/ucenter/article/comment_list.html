@@ -1,16 +1,8 @@
 #@_ucenter_layout()
 #define script()
 <script>
-
-
     function doDelComment(id) {
-        $.get("/ucenter/article/doCommentDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/ucenter/article/doCommentDel/" + id)
     }
 
 </script>

@@ -5,23 +5,15 @@
     initEditor('editor1', 200);
 
     function doChangeStatus(id, status) {
-        $.get("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
-        $.get("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.href = "#(CPATH)/admin/article/comment";
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCommentDel/" + id,function (result) {
+            alert(result.message);
+        },function () {
+            location.href = "#(CPATH)/admin/article/comment";
+        })
     }
 
     $('#form1').on('submit', function () {

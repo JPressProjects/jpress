@@ -21,25 +21,15 @@
 
     $('.del-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("#(CPATH)/admin/article/doCategoryDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
     });
 
 
     $('.addtomenu-action').on('click', function () {
         var id = $(this).attr("data-id");
-        $.get("#(CPATH)/admin/article/doAddCategoryToMenu/" + id, function (result) {
-            if ("ok" != result.state) {
-                toastr.error(result.message);
-            } else {
-                toastr.success("添加到菜单成功")
-            }
-        });
+        ajaxGet("#(CPATH)/admin/article/doAddCategoryToMenu/" + id,null,function () {
+            toastr.success("添加到菜单成功")
+        })
     });
 
 </script>

@@ -4,24 +4,12 @@
 <script>
 
     function doEnableAddon(id) {
-        $.get("#(CPATH)/admin/wechat/doEnableAddon?id=" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/wechat/doEnableAddon?id=" + id)
     }
 
 
     function doCloseAddon(id) {
-        $.get("#(CPATH)/admin/wechat/doCloseAddon?id=" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/wechat/doCloseAddon?id=" + id)
     }
 
     $(".addon-enable").on("click", function () {

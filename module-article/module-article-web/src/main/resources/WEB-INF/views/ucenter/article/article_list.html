@@ -3,13 +3,7 @@
 <script>
 
     function del(id) {
-        $.get("/ucenter/article/doDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/ucenter/article/doDel/" + id)
     }
 </script>
 

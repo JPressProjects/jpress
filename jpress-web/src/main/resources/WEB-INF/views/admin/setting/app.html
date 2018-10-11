@@ -2,13 +2,7 @@
 #define script()
 <script>
     function del(id) {
-        $.get("#(CPATH)/admin/template/doMenuDel/" + id, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id)
     }
 
 </script>

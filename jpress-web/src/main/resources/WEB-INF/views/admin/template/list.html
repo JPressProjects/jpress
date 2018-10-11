@@ -5,13 +5,7 @@
 
     $(".enable-template").on("click", function () {
         var templateId = $(this).attr("for-tid");
-        $.get("#(CPATH)/admin/template/enable?tid=" + templateId, function (result) {
-            if ("ok" != result.state) {
-                alert(result.message);
-            } else {
-                location.reload();
-            }
-        });
+        ajaxGet("#(CPATH)/admin/template/enable?tid=" + templateId);
     })
 
 

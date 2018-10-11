@@ -23,6 +23,7 @@ import io.jboot.utils.FileUtils;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -162,6 +163,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
+        JPressOptions.set("web_template", template.getId());
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
 

@@ -15,6 +15,7 @@
  */
 package io.jpress.web.commons.controller;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -75,7 +76,7 @@ public class CKEditorController extends UserControllerBase {
             Map map = new HashMap();
             map.put("fileName", attachment.getTitle());
             map.put("uploaded", 1);
-            map.put("url", attachment.getPath());
+            map.put("url", JFinal.me().getContextPath() + attachment.getPath());
             renderJson(map);
         } else {
             renderText("系统错误");

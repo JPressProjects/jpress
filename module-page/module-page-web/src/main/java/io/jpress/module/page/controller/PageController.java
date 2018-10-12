@@ -42,23 +42,28 @@ public class PageController extends TemplateControllerBase {
         String slug = target.substring(1);
 
         SinglePage page = sps.findFirstBySlug(slug);
-
         if (page == null || !page.isNormal()) {
             renderError(404);
             return;
         }
 
-        setSeoTitle(page.getTitle());
-        setSeoKeywords(page.getMetaKeywords());
-        setSeoDescription(StrUtils.isBlank(page.getMetaDescription())
-                ? CommonsUtils.maxLength(page.getText(), 100)
-                : page.getMetaDescription());
+        //设置SEO信息
+        setSeoInfos(page);
 
+        //设置菜单高亮
         setMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.getUrl().startsWith(target));
 
         setAttr("page", page);
 
         render(page.getHtmlView());
+    }
+
+    private void setSeoInfos(SinglePage page) {
+        setSeoTitle(page.getTitle());
+        setSeoKeywords(page.getMetaKeywords());
+        setSeoDescription(StrUtils.isBlank(page.getMetaDescription())
+                ? CommonsUtils.maxLength(page.getText(), 100)
+                : page.getMetaDescription());
     }
 
 }

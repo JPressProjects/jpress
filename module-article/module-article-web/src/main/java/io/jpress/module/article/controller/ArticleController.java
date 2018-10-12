@@ -63,13 +63,17 @@ public class ArticleController extends TemplateControllerBase {
         Article article = getArticle();
         assertNotNull(article);
 
-        setSeoTitle(article.getTitle());
-        setSeoKeywords(article.getMetaKeywords());
-        setSeoDescription(StrUtils.isBlank(article.getMetaDescription())
-                ? CommonsUtils.maxLength(article.getText(), 100)
-                : article.getMetaDescription());
+        //当文章处于审核中、草稿等的时候，显示404
+        if (!article.isNormal()) {
+            renderError(404);
+            return;
+        }
+
+        //设置页面的seo信息
+        setSeoInfos(article);
 
 
+        //设置菜单高亮
         doFlagMenuActive(article);
 
         //记录当前浏览量
@@ -77,6 +81,14 @@ public class ArticleController extends TemplateControllerBase {
 
         setAttr("article", article);
         render(article.getHtmlView());
+    }
+
+    private void setSeoInfos(Article article) {
+        setSeoTitle(article.getTitle());
+        setSeoKeywords(article.getMetaKeywords());
+        setSeoDescription(StrUtils.isBlank(article.getMetaDescription())
+                ? CommonsUtils.maxLength(article.getText(), 100)
+                : article.getMetaDescription());
     }
 
 
@@ -87,6 +99,7 @@ public class ArticleController extends TemplateControllerBase {
                 : articleService.findFirstBySlug(StrUtils.urlDecode(idOrSlug));
     }
 
+    
     private void doFlagMenuActive(Article article) {
 
         setMenuActive(menu -> menu.getUrl().startsWith(article.getUrl()));
@@ -222,6 +235,12 @@ public class ArticleController extends TemplateControllerBase {
         doSendEmail(article, comment);
     }
 
+    /**
+     * 发送邮件给管理员，告知网站有新的评论了
+     *
+     * @param article
+     * @param comment
+     */
     private void doSendEmail(Article article, ArticleComment comment) {
         Boolean enable = optionService.findAsBoolByKey("article_comment_email_notify_enable");
         if (enable == null || enable == false) {

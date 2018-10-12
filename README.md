@@ -38,3 +38,9 @@ jboot.datasource.password=
 答：JPress的文章评论功能是关闭的，请先在后台 `文章 -> 设置` 开启评论功能。
 
 
+**更多问题，请关注 JPress 公众号 ：**
+
+![](./doc/images/jpress_qrcode.jpg)
+
+
+

@@ -282,8 +282,139 @@ screenshot = screenshot.png
 | #users() | 暂不支持 | 用于读取页面列表 | 
 
 
+## 二次开发文档
+
+通过 jpress 来做二次开发，是非常简单容易的。 jpress 提供了基本的用户管理、权限管理、微信公众号对接、小程序对接等基本功能。
+
+开发者只需要关系自己模块的业务逻辑就可以了。
+
+假设我们要使用 jpress 来开发一个小型的论坛，如何做呢？
+
+主要有以下几个步骤：
+
+* 1、需求分析和建库建表
+* 2、通过 JPress 直接生成 maven 模块和相关基础代码
+* 3、通过 实现 ModuleListener 配置模块基本信息
+* 4、通过 注解 @AdminMenu 和  @UcenterMenu配置后台和用户中心菜单
+* 5、编码实现模块基本逻辑
+
+**1、需求分析和建库建表**
+
+我们假设论坛有三个表、分表时论坛版块、帖子和帖子回复，因为jpress已经有用户表了，所以不再需要用户表。
+
+为了能够讲清楚如何使用jpress进行二次开发，我们故意把论坛的版块功能给简化了，论坛版块暂时不支持子版块功能。
+
+表名分别为：`club_category`、`club_post`、`club_post_comment`。
 
 
+**2、通过 JPress 直接生成 maven 模块和相关基础代码**
+
+我们在 jpress 项目的 starter 模块下，建立一个新的代码生成器，用于对社区模块的代码生成。
+
+代码生成器如下：
+
+```java
+public class PageModuleGenerator {
 
 
+    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
+    private static String dbUser = "root";
+    private static String dbPassword = "";
+
+
+    private static String moduleName = "club";
+    private static String dbTables = "club_category,club_post,club_post_comment";
+    private static String modelPackage = "io.jpress.module.club.model";
+    private static String servicePackage = "io.jpress.module.club.service";
+
+    public static void main(String[] args) {
+
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        moduleGenerator.gen();
+
+    }
+}
+```
+
+执行完 `main()` 方法后，会在当前目录下生产一个叫 club 的新的maven模块。
+
+**3、通过 实现 ModuleListener 配置模块基本信息**
+
+我们自动生成的 `module-club-web` 模块里，建立一个 叫 `ClubModuleListener` 的类，实现`ModuleListener`接口。
+
+代码如下：
+
+```java
+public class ClubModuleListener implements ModuleListener {
+
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+        //在这里配置后台首页的相关模块
+        //代码可以参考 ArticleModuleLisenter
+        return null;
+    }
+
+    @Override
+    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
+        //这里配置后台菜单
+        //代码参考 ArticleModuleLisenter
+    }
+
+    @Override
+    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
+        //这里配置用户中心菜单
+        //代码参考 ArticleModuleLisenter
+    }
+}
+
+```
+
+**4、通过 @AdminMenu 和  @UcenterMenu 配置后台和用户中心菜单**
+
+我们来为club这个模块添加一个新的后台菜单，在这个之前，我们先来建立一个共识：
+
+* 1、菜单，肯定是一个可以访问的url地址。
+* 2、既然是可以访问的url地址，那么这个url地址肯定会对应某个Controller的某个方法。
+
+因此，某个菜单，其实就是Controller的某个方法。
+
+对于这个论坛系统，我们希望后台菜单显示如下：
+
+```
+论坛管理
+>>> 帖子列表
+>>> 回帖管理
+>>> 版块管理
+```
+
+那么，我们需要建立一个叫 `_ClubController` 的类（名字任意取，后台相关的Controller，建议用下划线（_）开头，这样可以和 jpress 统一。）
+
+代码如下：
+
+```java
+@RequestMapping("/admin/club")
+public class _PageController extends AdminControllerBase {
+
+    @AdminMenu(text = "帖子列表", groupId = "club")
+    public void index() {
+        render("club/post_list.html");
+    }
+    
+    @AdminMenu(text = "回帖管理", groupId = "club")
+    public void index() {
+        render("club/post_comment_list.html");
+    }
+
+    @AdminMenu(text = "版块管理", groupId = "club")
+    public void index() {
+        render("club/category_list.html");
+    }  
+}
+```
+
+**注意：**
+
+* `@AdminMenu`里的`groupId`的值必须是`ClubModuleListener`里配置的id。如果我们把 `groupId` 修改为 `groupId = "page"`，那么此菜单将会被添加到后台的页 `页面管理` 这个菜单下面。
+* `_PageController` 必须继承至 `AdminControllerBase`。
+* `@RequestMapping("/admin/club")`里的值必须是 `/admin/`开头。
 

@@ -2,7 +2,7 @@
 
 旧版本请移步：https://gitee.com/fuhai/jpress/tree/alpha/
 
-新版本尝鲜，请先看文档： [doc.md](./doc.md)
+新版本文档： [点击这里](./doc/readme.md)
 
     
 ## 新版本相关视频教程

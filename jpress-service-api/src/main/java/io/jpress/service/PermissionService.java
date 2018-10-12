@@ -118,10 +118,14 @@ public interface PermissionService {
 
     public boolean hasPermission(long userId, String actionKey);
 
+    public boolean hasPermission(long userId, long permissionId);
+
     public Page<Permission> page(int size, int count);
 
     public Page<Permission> page(int size, int count, int type);
 
     public List<Permission> findListByType(String type);
+
+    public List<Permission> findPermissionListByUserId(long userId);
 
 }

@@ -3,14 +3,15 @@
 #define script()
 <script>
 
-    $("#sync").on("click", function () {
-        $.ajax({
-            url: "#(CPATH)/admin/permission/syncPermissions", success: function (result) {
-                alert(result.msg);
-            }
-        });
-    })
 </script>
+#end
+
+#define css()
+<style>
+    .switchery-small {
+        margin-top: 0px;
+    }
+</style>
 #end
 
 #define content()
@@ -35,7 +36,7 @@
                             <div class="col-xs-12">
                                 <h2 class="page-header">
                                     <i class="fa fa-globe"></i>
-                                    Jean 的权限列表
+                                    #(user.nickname ??) 的权限列表
                                 </h2>
                             </div>
                             <!-- /.col -->
@@ -61,7 +62,11 @@
                                         </tr>
                                         #for(permission : x.value)
                                         <tr>
+                                            #if(hasPermission(user,permission.id))
                                             <td><input type="checkbox" checked readonly class="switchery"></td>
+                                            #else
+                                            <td><input type="checkbox" readonly class="switchery"></td>
+                                            #end
                                             <td>#(permission.action_key ??)</td>
                                             <td>#(permission.text ??)</td>
                                             <td>#(permission.typeText ??)</td>

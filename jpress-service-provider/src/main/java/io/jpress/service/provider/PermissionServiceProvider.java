@@ -79,13 +79,39 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
             return true;
         }
 
-        Set<Permission> permissions = findPermissionListByUserId(userId);
+        List<Permission> permissions = findPermissionListByUserId(userId);
         if (permissions == null || permissions.isEmpty()) {
             return false;
         }
 
         for (Permission permission : permissions) {
             if (permission.getActionKey().equals(actionKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public boolean hasPermission(long userId, long permissionId) {
+        User user = userService.findById(userId);
+        if (user == null || !user.isStatusOk()) {
+            return false;
+        }
+
+        if (roleService.isSupperAdmin(userId)) {
+            return true;
+        }
+
+        List<Permission> permissions = findPermissionListByUserId(userId);
+        if (permissions == null || permissions.isEmpty()) {
+            return false;
+        }
+
+        for (Permission permission : permissions) {
+            if (permission.getId().equals(permissionId)) {
                 return true;
             }
         }
@@ -109,11 +135,11 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
-    @Cacheable(name = "permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
-    private Set<Permission> findPermissionListByUserId(long userId) {
+    @Cacheable(name = "user_permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
+    public List<Permission> findPermissionListByUserId(long userId) {
 
         Set<Permission> permissions = new HashSet<>();
-        String sql = "select * from user_role where user_id = ? ";
+        String sql = "select * from user_role_mapping where user_id = ? ";
         List<Record> userRoleRecords = Db.find(sql, userId);
         if (userRoleRecords != null) {
             for (Record userRoleRecord : userRoleRecords) {
@@ -136,12 +162,12 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
 //            }
 //        }
 
-        return permissions;
+        return new ArrayList<>(permissions);
     }
 
 
     private List<Permission> findPermissionListByRoleId(long roleId) {
-        String sql = "select * from role_permission where role_id = ? ";
+        String sql = "select * from role_permission_mapping where role_id = ? ";
         List<Record> rolePermissionRecords = Db.find(sql, roleId);
         if (rolePermissionRecords == null || rolePermissionRecords.isEmpty()) {
             return null;

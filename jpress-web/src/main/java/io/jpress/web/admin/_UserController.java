@@ -95,6 +95,8 @@ public class _UserController extends AdminControllerBase {
 
 
     public void permissions() {
+        User user = userService.findById(getParaToLong());
+        setAttr("user", user);
         List<Permission> permissions = permissionService.findAll();
         setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
         render("user/user_permissions.html");

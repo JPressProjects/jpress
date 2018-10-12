@@ -87,4 +87,5 @@ public class User extends BaseUser<User> {
     public String getDetailUrl() {
         return JFinal.me().getContextPath() + "/admin/user/detail/" + getId();
     }
+
 }

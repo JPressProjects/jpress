@@ -32,7 +32,7 @@ import javax.inject.Inject;
  * @Package io.jpress.core.directives
  */
 @JFinalDirective("hasPermission")
-public class PermissionDirective extends JbootDirectiveBase {
+public class HasPermissionDirective extends JbootDirectiveBase {
 
     @Inject
     private PermissionService permissionService;

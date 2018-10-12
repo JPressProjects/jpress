@@ -21,11 +21,14 @@ import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.core.cache.annotation.CacheEvict;
 import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.core.cache.annotation.CachesEvict;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.Role;
+import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +38,12 @@ import java.util.List;
 @Singleton
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
 
+    @Inject
+    private PermissionService permissionService;
+
+
     @Override
+    @CacheEvict(name = "user_role", key = "*")
     public boolean deleteById(Object id) {
         return Db.tx(() -> {
             Db.update("delete from user_role_mapping where role_id = ? ", id);
@@ -45,12 +53,25 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
     @Override
+    @CacheEvict(name = "user_role", key = "*")
     public boolean deleteByIds(Object... ids) {
         return Db.tx(() -> {
             Db.update("delete from user_role_mapping where role_id in  " + SqlUtils.buildInSqlPara(ids));
             Db.update("delete from role_permission_mapping where role_id in  " + SqlUtils.buildInSqlPara(ids));
             return Db.update("delete from role where id in " + SqlUtils.buildInSqlPara(ids)) > 0;
         });
+    }
+
+    @Override
+    @CacheEvict(name = "user_role", key = "*")
+    public boolean update(Role model) {
+        return super.update(model);
+    }
+
+    @Override
+    @CacheEvict(name = "user_role", key = "*")
+    public boolean saveOrUpdate(Role model) {
+        return super.saveOrUpdate(model);
     }
 
     @Override
@@ -149,12 +170,14 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
     @Override
+    @CacheEvict(name = "user_permission", key = "*")
     public boolean addPermission(long roleId, long permissionId) {
         Record rolePermission = new Record().set("role_id", roleId).set("permission_id", permissionId);
         return Db.save("role_permission_mapping", rolePermission);
     }
 
     @Override
+    @CacheEvict(name = "user_permission", key = "*")
     public boolean delPermission(long roleId, long permissionId) {
         Db.delete("delete from role_permission_mapping where role_id=? and permission_id=?", roleId, permissionId);
         return true;
@@ -167,7 +190,10 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
 
     @Override
-    @CacheEvict(name = "role", key = "user_roles:#(userId)")
+    @CachesEvict({
+            @CacheEvict(name = "user_role", key = "user_roles:#(userId)"),
+            @CacheEvict(name = "user_permission", key = "*")
+    })
     public boolean doResetUserRoles(long userId, Long... RoleIds) {
         if (RoleIds == null || RoleIds.length == 0) {
             return Db.delete("delete from user_role_mapping where user_id = ? ", userId) > 0;
@@ -191,7 +217,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
 
-    @Cacheable(name = "role", key = "user_roles:#(userId)", nullCacheEnable = true)
+    @Cacheable(name = "user_role", key = "user_roles:#(userId)", nullCacheEnable = true)
     public List<Role> findRoleListByUserId(long userId) {
         String sql = "select * from user_role_mapping where user_id = ?";
         List<Record> records = Db.find(sql, userId);

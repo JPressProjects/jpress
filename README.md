@@ -71,6 +71,8 @@ jboot.datasource.password=
 
 ![](./doc/images/screenshot/013.png)
 
+**用户中心的相关截图**
+
 ![](./doc/images/screenshot/014.png)
 
 ![](./doc/images/screenshot/015.png)

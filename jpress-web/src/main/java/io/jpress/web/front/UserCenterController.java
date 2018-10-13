@@ -55,9 +55,7 @@ public class UserCenterController extends UcenterControllerBase {
 
     public void doSaveUser() {
         User user = getBean(User.class);
-        user.keep("nickname", "realname", "identity", "email", "mobile",
-                "signature", "birthday", "company", "occupation", "address",
-                "zipcode", "site", "graduateschool", "education", "idcardtype", "idcard");
+        user.keepUpdateSafe();
         user.setId(getLoginedUser().getId());
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());

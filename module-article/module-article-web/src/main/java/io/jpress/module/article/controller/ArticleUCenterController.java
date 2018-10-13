@@ -111,6 +111,12 @@ public class ArticleUCenterController extends UcenterControllerBase {
                 return;
             }
 
+            //不是自己的文章
+            if (commentService.isOwn(articleId, getLoginedUser().getId())) {
+                renderError(404);
+                return;
+            }
+
             setAttr("article", article);
         }
 
@@ -216,7 +222,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         long id = getIdPara();
 
         if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
-            renderJson(Ret.fail().set("message", "非法操作"));
+            renderError(404);
             return;
         }
 
@@ -227,20 +233,19 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
-        if (comment != null || comment.getUserId() != null) {
-            if (commentService.isOwn(comment.getId(), getLoginedUser().getId()) == false) {
-                renderJson(Ret.fail().set("message", "非法操作"));
-                return;
-            }
+        if (comment.getId() != null && commentService.isOwn(comment.getId(), getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
+            return;
         }
 
+        comment.setUserId(getLoginedUser().getId());
         commentService.saveOrUpdate(comment);
         renderJson(Ret.ok());
     }
 
     public void doCommentDel() {
 
-        Long id = getIdPara();
+        long id = getIdPara();
 
         if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
             renderJson(Ret.fail().set("message", "非法操作"));

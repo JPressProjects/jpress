@@ -59,7 +59,8 @@ public class InstallController extends TemplateControllerBase {
 
     public void index() {
 
-        if (installed) {
+        //已经安装了，不让进行访问
+        if (installed == true) {
             renderError(404);
             return;
         }
@@ -69,7 +70,9 @@ public class InstallController extends TemplateControllerBase {
 
 
     public void doInstall() {
-        if (installed) {
+
+        //已经安装了，不让进行访问
+        if (installed == true) {
             renderError(404);
             return;
         }

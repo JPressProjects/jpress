@@ -44,16 +44,18 @@ public class PagesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String flag = getParam("flag", scope);
-        if (StrUtils.isBlank(flag)) {
-            throw new IllegalArgumentException("#pages(...) argument must not be empty ");
-        }
 
-        List<SinglePage> singlePages = singlePageService.findListByFlag(flag);
+        List<SinglePage> singlePages = StrUtils.isBlank(flag)
+                ? singlePageService.findAll()
+                : singlePageService.findListByFlag(flag);
+
         if (singlePages == null || singlePages.isEmpty()) {
             return;
         }
 
+        //设置页面高亮
         doFlagIsActiveByCurrentPage(singlePages);
+
         scope.setLocal("pages", singlePages);
 
         renderBody(env, scope, writer);

@@ -169,5 +169,14 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         CommentReplyCountUpdateTask.recordCount(commentId);
     }
 
+    @Override
+    public boolean isOwn(long resourceId, long userId) {
+        ArticleComment articleComment = findById(resourceId);
+        if (articleComment == null || articleComment.getUserId() == null) {
+            return false;
+        }
+        return articleComment.getId().equals(userId);
+    }
+
 
 }

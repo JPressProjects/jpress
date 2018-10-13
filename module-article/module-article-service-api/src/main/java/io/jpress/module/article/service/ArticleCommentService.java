@@ -151,4 +151,7 @@ public interface ArticleCommentService {
 
     public void doIncCommentReplyCount(long commentId);
 
+    public boolean isOwn(long resourceId, long userId);
+
+
 }

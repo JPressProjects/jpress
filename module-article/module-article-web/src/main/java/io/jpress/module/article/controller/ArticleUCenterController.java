@@ -77,13 +77,13 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        Article article = articleService.findById(id);
-        if (article == null) {
-            renderJson(Ret.fail());
+        if (articleService.isOwn(id, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
 
-        if (!article.getUserId().equals(getLoginedUser().getId())) {
+        Article article = articleService.findById(id);
+        if (article == null) {
             renderJson(Ret.fail());
             return;
         }
@@ -163,16 +163,22 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
+        if (article.getId() != null) {
+            if (articleService.isOwn(article.getId(), getLoginedUser().getId()) == false) {
+                renderJson(Ret.fail().set("message", "非法操作"));
+                return;
+            }
+        }
+
         article.setUserId(getLoginedUser().getId());
         article.setStatus(Article.STATUS_DRAFT);
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
 
-
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
         Long[] allIds = ArrayUtils.addAll(categoryIds, tagIds);
-        articleService.doUpdateCategorys(id, allIds);
 
+        articleService.doUpdateCategorys(id, allIds);
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
@@ -208,6 +214,12 @@ public class ArticleUCenterController extends UcenterControllerBase {
      */
     public void commentEdit() {
         long id = getIdPara();
+
+        if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
+            return;
+        }
+
         ArticleComment comment = commentService.findById(id);
         setAttr("comment", comment);
         render("article/comment_edit.html");
@@ -215,6 +227,13 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
+        if (comment != null || comment.getUserId() != null) {
+            if (commentService.isOwn(comment.getId(), getLoginedUser().getId()) == false) {
+                renderJson(Ret.fail().set("message", "非法操作"));
+                return;
+            }
+        }
+
         commentService.saveOrUpdate(comment);
         renderJson(Ret.ok());
     }
@@ -222,18 +241,14 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doCommentDel() {
 
         Long id = getIdPara();
-        if (id == null) {
-            renderJson(Ret.fail());
+
+        if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
 
         ArticleComment comment = commentService.findById(id);
         if (comment == null) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        if (!comment.getUserId().equals(getLoginedUser().getId())) {
             renderJson(Ret.fail());
             return;
         }

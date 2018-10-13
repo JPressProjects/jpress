@@ -196,6 +196,14 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         ArticleCommentsCountUpdateTask.recordCount(articleId);
     }
 
+
+    @Override
+    public boolean isOwn(long articleId, long userId) {
+        Article article = findById(articleId);
+        if (article == null || article.getUserId() == null) return false;
+        return article.getUserId().equals(userId);
+    }
+
     private Page<Article> joinUserPage(Page<Article> page) {
         userService.join(page, "user_id");
         return page;

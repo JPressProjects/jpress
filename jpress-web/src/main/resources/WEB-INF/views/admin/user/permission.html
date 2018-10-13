@@ -6,13 +6,13 @@
     $("#sync").on("click", function () {
         ajaxGet(
             "#(CPATH)/admin/permission/syncPermissions",
-            function () {
+            function (result) {
                 toastr.options.onHidden = function () {
                     location.reload();
                 }
                 toastr.success(result.message);
             },
-            function () {
+            function (result) {
                 toastr.success(result.message);
             }
         )

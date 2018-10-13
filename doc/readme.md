@@ -366,8 +366,8 @@ public class ClubModuleListener implements ModuleListener {
         //代码参考 ArticleModuleLisenter
     }
 }
-
 ```
+以上提到的`ArticleModuleLisenter`代码在： https://gitee.com/fuhai/jpress/blob/master/module-article/module-article-web/src/main/java/io/jpress/module/article/ArticleModuleLisenter.java
 
 **4、通过 @AdminMenu 和  @UcenterMenu 配置后台和用户中心菜单**
 
@@ -393,7 +393,7 @@ public class ClubModuleListener implements ModuleListener {
 
 ```java
 @RequestMapping("/admin/club")
-public class _PageController extends AdminControllerBase {
+public class _ClubController extends AdminControllerBase {
 
     @AdminMenu(text = "帖子列表", groupId = "club")
     public void index() {
@@ -415,6 +415,82 @@ public class _PageController extends AdminControllerBase {
 **注意：**
 
 * `@AdminMenu`里的`groupId`的值必须是`ClubModuleListener`里配置的id。如果我们把 `groupId` 修改为 `groupId = "page"`，那么此菜单将会被添加到后台的页 `页面管理` 这个菜单下面。
-* `_PageController` 必须继承至 `AdminControllerBase`。
+* `_ClubController` 必须继承至 `AdminControllerBase`。
 * `@RequestMapping("/admin/club")`里的值必须是 `/admin/`开头。
+
+
+## 微信插件开发
+
+在 jpress 里，做微信开发非常简单，直接看代码：
+
+```java
+public class HelloWechatAddon implements WechatAddon {
+
+    @Override
+    public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
+      
+        return true;
+    }
+}
+```
+**说明：**
+
+* 1、在任意maven module下，编写任意名称的类，实现WechatAddon接口。JPress 会自动扫描到该类，并添加到 JPress 的管理体系里去。
+* 2、复写方法`onMatchingMessage`和`onRenderMessage`。
+    * onMatchingMessage ：用来匹配是否是本插件要处理的消息
+    * onRenderMessage ：用来返回给微信客户端一个消息
+
+* 3、添加 `@WechatAddonConfig` 注解的配置，用来给这个插件添加描述。
+
+以下代码是完整的 hello world 例子，当用户在微信客客户端给公众号输入 `hello` 的时候，服务器给微信返回 `world` 字符串：
+
+```java
+@WechatAddonConfig(
+        id = "ip.press.helloaddon", //这个插件的ID
+        title = "Hello World",//这个插件的标题，用于在后台显示
+        description = "这是一个 Hello World 微信插件，方便开发参考。用户输入 hello，返回 world", //这个插件的描述
+        author = "海哥" //这个插件的作者
+)
+public class HelloWechatAddon implements WechatAddon {
+
+    @Override
+    public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
+        
+        //当用户给公众号发送的不是文本消息的时候
+        //返回 false 不由本插件处理
+        if (!(inMsg instanceof InTextMsg)) {
+            return false;
+        }
+
+        InTextMsg inTextMsg = (InTextMsg) inMsg;
+        String content = inTextMsg.getContent();
+        
+        //当用户输入的内容不是 hello 的时候
+        //返回false，不由本插件处理
+        return content != null && content.equalsIgnoreCase("hello");
+    }
+
+
+    @Override
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
+    
+        //创建一个新的文本消息
+        //通过 msgController 进行渲染返回给用户
+        OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+        outTextMsg.setContent("world");
+        msgController.render(outTextMsg);
+        
+        //返回 true，表示本插件已经成功处理该消息
+        //若返回false，表示本插件处理消息失败，将会交给系统或者其他插件去处理
+        return true;
+    }
+}
+```
+完整代码可以看这里：https://gitee.com/fuhai/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
 

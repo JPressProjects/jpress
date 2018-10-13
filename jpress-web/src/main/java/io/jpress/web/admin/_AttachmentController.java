@@ -100,7 +100,7 @@ public class _AttachmentController extends AdminControllerBase {
         render("attachment/detail.html");
     }
 
-    public void del() {
+    public void doDel() {
         Long id = getParaToLong();
         if (id == null) {
             renderError(404);
@@ -111,7 +111,7 @@ public class _AttachmentController extends AdminControllerBase {
     }
 
 
-    public void update() {
+    public void doUpdate() {
         Attachment attachment = getBean(Attachment.class);
         as.saveOrUpdate(attachment);
         renderJson(Ret.ok());

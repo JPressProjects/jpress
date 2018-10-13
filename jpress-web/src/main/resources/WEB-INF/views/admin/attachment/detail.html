@@ -24,7 +24,7 @@
     });
 
     function del(id) {
-        ajaxGet("#(CPATH)/admin/attachment/del/" + id,function () {
+        ajaxGet("#(CPATH)/admin/attachment/doDel/" + id,function () {
             parent.layer.data.needReload = true;
             parent.layer.closeAll();
         })
@@ -78,7 +78,7 @@
             </div>
 
             <div  style="margin: 20px">
-                <form action="#(CPATH)/admin/attachment/update" id="form">
+                <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
                     <div class="form-group">
                         <label>URL</label>

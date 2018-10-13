@@ -39,7 +39,7 @@ public class _OptionController extends AdminControllerBase {
     @Inject
     private OptionService os;
 
-    public void save() {
+    public void doSave() {
 
         Map<String, String[]> paraMap = getParaMap();
         if (paraMap == null || paraMap.isEmpty()) {

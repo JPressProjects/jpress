@@ -246,7 +246,7 @@ function initOptionSubmit() {
     $('#optionForm').on('submit', function () {
         $(this).ajaxSubmit({
             type: "post",
-            url: jpress.cpath + "/admin/option/save",
+            url: jpress.cpath + "/admin/option/doSave",
             success: function (data) {
                 if (data.state == "ok") {
                     toastr.success('保存成功。');

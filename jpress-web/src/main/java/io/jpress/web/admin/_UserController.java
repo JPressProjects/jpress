@@ -236,13 +236,13 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-    public void delRolePermission(long roleId, long permissionId) {
+    public void doDelRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);
         renderJson(Ret.ok());
     }
 
 
-    public void addRolePermission(long roleId, long permissionId) {
+    public void doAddRolePermission(long roleId, long permissionId) {
         roleService.addPermission(roleId, permissionId);
         renderJson(Ret.ok());
     }

@@ -1,9 +1,6 @@
 #@layout()
 #define script()
 <script>
-    $("#sync").on("click", function () {
-
-    })
 
     var elems = Array.prototype.slice.call(document.querySelectorAll('.myswitchery'));
     elems.forEach(function (elem) {
@@ -20,29 +17,21 @@
     });
 
     function addRolePermission(roleId, permissionId) {
-        $.ajax({
-            url: "#(CPATH)/admin/user/addRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
-            success: function (result) {
-                if (result.state == "ok") {
-                    toastr.success('操作成功。');
-                } else {
-                    toastr.error(result.message, '操作失败');
-                }
+        ajaxGet(
+            "#(CPATH)/admin/user/doAddRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            function () {
+                toastr.success('操作成功。');
             }
-        });
+        )
     }
 
     function delRolePermission(roleId, permissionId) {
-        $.ajax({
-            url: "#(CPATH)/admin/user/delRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
-            success: function (result) {
-                if (result.state == "ok") {
-                    toastr.success('操作成功。');
-                } else {
-                    toastr.error(result.message, '操作失败');
-                }
+        ajaxGet(
+            "#(CPATH)/admin/user/doDelRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            function () {
+                toastr.success('操作成功。');
             }
-        });
+        )
     }
 
     var type = getPara("type");

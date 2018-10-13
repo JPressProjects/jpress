@@ -48,6 +48,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onInterceptorConfig(Interceptors interceptors) {
         interceptors.add(new UTMInterceptor());
+//        interceptors.add(new CSRFInterceptor());
     }
 
     @Override

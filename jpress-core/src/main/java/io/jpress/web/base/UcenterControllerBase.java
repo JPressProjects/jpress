@@ -17,6 +17,7 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
+import io.jpress.web.interceptor.CSRFInterceptor;
 import io.jpress.web.interceptor.UserCenterInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
 import io.jpress.web.interceptor.UserMustLoginedInterceptor;
@@ -26,9 +27,12 @@ import io.jpress.web.interceptor.UserMustLoginedInterceptor;
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before({UserInterceptor.class,
+@Before({
+        CSRFInterceptor.class,
+        UserInterceptor.class,
         UserMustLoginedInterceptor.class,
-        UserCenterInterceptor.class})
+        UserCenterInterceptor.class
+})
 public abstract class UcenterControllerBase extends ControllerBase {
 
 

@@ -164,13 +164,6 @@ public class UserController extends TemplateControllerBase {
         renderJson(Ret.ok());
     }
 
-    /**
-     * 退出登录
-     */
-    public void logout() {
-        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
-        redirect("/user/login");
-    }
 
 
 }

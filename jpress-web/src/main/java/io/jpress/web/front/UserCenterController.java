@@ -18,10 +18,12 @@ package io.jpress.web.front;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.User;
@@ -132,6 +134,15 @@ public class UserCenterController extends UcenterControllerBase {
         userService.saveOrUpdate(loginedUser);
         renderJson(Ret.ok());
     }
+
+    /**
+     * 退出登录
+     */
+    public void doLogout() {
+        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
+        redirect("/user/login");
+    }
+
 
 
 }

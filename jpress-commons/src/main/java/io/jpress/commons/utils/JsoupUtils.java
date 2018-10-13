@@ -28,7 +28,7 @@ import java.util.List;
 public class JsoupUtils {
 
     public static String getFirstImageSrc(String html) {
-        if (html == null)
+        if (StrUtils.isBlank(html))
             return null;
 
         Elements es = Jsoup.parseBodyFragment(html).select("img");
@@ -52,7 +52,7 @@ public class JsoupUtils {
                 list.add(e.attr("src"));
             }
         }
-        return list;
+        return list.isEmpty() ? null : list;
     }
 
     public static String getText(String html) {

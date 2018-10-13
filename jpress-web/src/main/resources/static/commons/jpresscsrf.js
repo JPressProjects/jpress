@@ -1,9 +1,11 @@
 $(document).ready(function () {
 
-    $("form").submit(function () {
-        if ($(this).find("input[name=csrf_token]").size() == 0) {
+    $("form").each(function () {
+        if ($(this).find("input[name=csrf_token]").length == 0) {
             var token = getCookie("csrf_token");
-            $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
+            if (token != null) {
+                $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
+            }
         }
     });
 

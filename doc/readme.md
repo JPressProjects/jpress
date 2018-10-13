@@ -282,7 +282,81 @@ screenshot = screenshot.png
 | #users() | 暂不支持 | 用于读取页面列表 | 
 
 
-## 二次开发文档
+##### #article() 指令的用法
+
+此指令是用来读取一篇文章，网站的任意页面进行展示。
+
+```java
+#article()
+<a href="#(article.url)">#(article.title)</a>
+<div>#(article.content)</div>
+#end
+```
+
+##### #articles() 指令的用法
+
+此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
+
+```java
+#articles(flag="",hasThumbnail="",orderBy="",count="")
+    #for(article : articles)
+        <a href="#(article.url)">#(article.title)</a>
+    #end
+#end
+```
+
+**#articles() 指令支持的参数有：**
+
+* flag：文章标识，这个是在编辑文章的时候自由填写。
+* hasThumbnail：是否需要缩略图，值为 true 和 false。
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
+* count ：要显示多少篇文章
+
+##### #articlePage() 指令的用法
+指令 #articlePage() 只能用在文章列表也，也就是 artlist.html 模板文件及其扩展文件。
+
+```java
+#articlePage()
+
+    #for(article : articlePage.list)
+        <a href="#(article.url ??)">
+        文章标题是：#(article.title ??)
+        </a> 
+        <div>
+            文章内容是：#maxLength(article.text,100)
+        </div>    
+    #end
+
+    #articlePaginate()
+        #for(page : pages)
+            <a class="page-link" href="#(page.url ??)">
+                #(page.text ??)
+            </a>
+        #end
+    #end
+    
+#end
+```
+**说明**
+指令 #articlePage() 内部又包含了另一个指令 #articlePaginate()，#articlePaginate()是用于显示上一页和下一下。
+
+**指令 #articlePage() 的参数有：**
+
+* pageSize ：可以用来指定当前页面有多少条数据，默认值是：10。也就是说 `#articlePage()` 等同于 `#articlePage(pageSize=10)`
+
+**分页指令#articlePaginate()的参数有**
+
+* previousClass ：上一页的样式
+* nextClass ：下一页的样式
+* activeClass ：当前页面的样式
+* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式）
+* anchor ：锚点链接
+* onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
+* previousText ：上一页按钮的文本内容（默认值为：上一页）
+* nextText ：下一页按钮的文本内容（默认值为：下一页）
+
+
+## JPress二次开发
 
 通过 jpress 来做二次开发，是非常简单容易的。 jpress 提供了基本的用户管理、权限管理、微信公众号对接、小程序对接等基本功能。
 

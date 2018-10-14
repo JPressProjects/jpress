@@ -9,31 +9,22 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/article/doCommentDel/" + id,function (result) {
+        ajaxGet("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
             alert(result.message);
-        },function () {
+        }, function () {
             location.href = "#(CPATH)/admin/article/comment";
         })
     }
 
     $('#form1').on('submit', function () {
-        editorUpdate();
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    toastr.options.onHidden = function () {
-                        location.href = "#(CPATH)/admin/article/comment";
-                    }
-                    toastr.success('回复成功。');
-                } else {
-                    toastr.error(data.message, '操作失败');
+        ajaxSubmit("#form1",
+            function () {
+                toastr.options.onHidden = function () {
+                    location.href = "#(CPATH)/admin/article/comment";
                 }
-            },
-            error: function () {
-                alert("信息提交错误");
+                toastr.success('回复成功。');
             }
-        });
+        );
         return false;
     });
 
@@ -74,7 +65,9 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
 
-                    <form class="form-horizontal form-setting" autocomplete="off" id="form1"
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="form1"
+                          method="post"
                           action="#(CPATH)/admin/article/doCommentReply">
 
                         <input type="hidden" name="pid" value="#(comment.id)">
@@ -98,7 +91,8 @@
                                 </div>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)" style="color: #006505">编辑</a>
+                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)"
+                                           style="color: #006505">编辑</a>
                                         |
                                         #if(comment.isNormal())
                                         <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"

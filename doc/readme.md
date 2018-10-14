@@ -627,3 +627,136 @@ public class HelloWechatAddon implements WechatAddon {
 ```
 完整代码可以看这里：https://gitee.com/fuhai/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
 
+
+## JPress Http API
+
+### 配置相关API
+
+#### 获取配置信息
+
+* 访问路径：/api/option
+* 参数信息
+
+
+| 参数  | 描述 | 备注 |
+| --- | --- | --- |
+|  key| 获取哪些key | 可以传入多个key，多个key用英文逗号隔开 |
+
+例如：
+
+http://127.0.0.1:8080/api/option?key=key1,key2
+
+返回数据：
+
+```json
+ {
+  state : "ok",
+     data : {
+         key1: "data1",
+         key2: "data2"
+     }
+ }
+```
+
+
+### 用户相关API
+
+#### 获取用户信息
+#### 注册用户
+#### 通过微信公众创建用户
+#### 通过微信小程序创建用户
+
+
+### 文章相关API
+
+#### 获取文章详情
+
+* 访问路径：/api/article
+* 参数信息
+
+
+| 参数  | 描述 | 备注 |
+| --- | --- | --- |
+|  id| 通过ID获取文章内容 |  |
+|  slug| 通过slug获取文章内容 |  |
+
+例如：
+
+http://127.0.0.1:8080/api/article?id=123
+
+返回数据：
+
+```json
+ {
+"state": "ok",
+"article": {
+    "commentCount": 9,
+    "commentEnable": true,
+    "commentStatus": true,
+    "content": "文章内容\n",
+    "created": "2018-09-25 14:58:09",
+    "draft": false,
+    "editMode": "html",
+    "htmlView": "article.html",
+    "id": 20,
+    "modified": "2018-10-07 11:17:12",
+    "normal": true,
+    "orderNumber": 0,
+    "originalContent": "<p>文章原始内容（这部分可能是markdown）\n",
+    "slug": "slug",
+    "status": "normal",
+    "text": "文本没人....",
+    "thumbnail": "/attachment/20181001/1a0fc4fa8e6e4fa8b11de48a362b92d2.png",
+    "title": "文章标题",
+    "trash": false,
+    "url": "/article/slug.html",
+    "userId": 1,
+    "viewCount": 328
+    }
+}
+```
+
+#### 获取文章类别
+
+* 访问路径：/api/article/category
+* 参数信息
+
+
+| 参数  | 描述 | 备注 |
+| --- | --- | --- |
+|  id| 通过ID获取类别|  |
+|  slug| 通过slug获取类别 |  |
+|  type| 类别的类型 | 支持的参数有：`category`, `tag` |
+
+例如：
+
+http://127.0.0.1:8080/api/article/category?id=100
+
+返回数据：
+
+```json
+ {
+"state": "ok",
+"category": {
+    "count": 0,
+    "htmlView": "artlist.html",
+    "id": 10,
+    "layerNumber": 0,
+    "layerString": "",
+    "modified": "2018-10-04 14:30:58",
+    "parentId": 0,
+    "pid": 0,
+    "slug": "keji",
+    "tag": false,
+    "title": "科技",
+    "top": true,
+    "type": "category",
+    "url": "/article/category/keji.html"
+    }
+}
+```
+
+
+### 页面相关API
+
+

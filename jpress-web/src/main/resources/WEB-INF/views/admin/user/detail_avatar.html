@@ -42,21 +42,13 @@
     }
 
     $('#avatarForm').on('submit', function () {
-        $(this).ajaxSubmit({
-            success: function (data) {
-                if (data.state == "ok") {
-                    toastr.options.onHidden = function () {
-                        location.reload();
-                    }
-                    toastr.success('头像修改成功，2s后自动刷新...');
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
+        ajaxSubmit('#avatarForm',function () {
+            toastr.options.onHidden = function () {
+                location.reload();
             }
+            toastr.success('头像修改成功，2s后自动刷新...');
         });
+
         return false;
     });
 </script>

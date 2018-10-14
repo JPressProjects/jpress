@@ -5,23 +5,10 @@
     initEditor('editor1', 200);
 
     $('#from').on('submit', function () {
-
-        editorUpdate();
-
-        $(this).ajaxSubmit({
-            type: "post",
-            url: "#(CPATH)/admin/article/doCommentSave",
-            success: function (data) {
-                if (data.state == "ok") {
-                    toastr.success('保存成功。');
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
-            }
+        ajaxSubmit('#form',function () {
+            toastr.success('保存成功。');
         });
+
         return false;
     });
 
@@ -49,6 +36,7 @@
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
                           method="post"
+                          action="#(CPATH)/admin/article/doCommentSave"
                           id="from">
                         <div class="box-body ">
 

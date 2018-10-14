@@ -313,7 +313,7 @@ screenshot = screenshot.png
 * count ：要显示多少篇文章
 
 ##### #articlePage() 指令的用法
-指令 #articlePage() 只能用在文章列表也，也就是 artlist.html 模板文件及其扩展文件。
+指令 #articlePage() 只能用在文章列表页，也就是 artlist.html 模板文件及其扩展文件。
 
 ```java
 #articlePage()
@@ -355,6 +355,65 @@ screenshot = screenshot.png
 * previousText ：上一页按钮的文本内容（默认值为：上一页）
 * nextText ：下一页按钮的文本内容（默认值为：下一页）
 
+##### #commentPage()指令的用法
+
+指令 #commentPage() 只能用在文章详情页，也就是 article.html 模板文件及其扩展文件。用于读取这篇文章的相关评论信息以及评论的分页功能。
+
+```java
+#commentPage()
+
+    #for(comment : commentPage.list)
+        <div>评论内容是：#(comment.content ??)</div>  
+        <div>评论作者是：#(comment.authro ??)</div>  
+    #end
+
+    #commentPaginate()
+        #for(page : pages)
+            <a class="page-link" href="#(page.url ??)">
+                #(page.text ??)
+            </a>
+        #end
+    #end
+    
+#end
+```
+**说明**
+和一样#articlePage()，#commentPage()指令  内部又包含了另一个指令 #commentPaginate()，#commentPaginate()是用于显示评论的上一页和下一下。
+
+**指令 #commentPage() 的参数有：**
+
+* pageSize ：可以用来指定当前文章详情，每页的评论条数是多少，默认值是：10。也就是说 `#commentPage()` 等同于 `#commentPage(pageSize=10)`
+
+**分页指令#commentPaginate()的参数有**
+
+* previousClass ：上一页的样式
+* nextClass ：下一页的样式
+* activeClass ：当前页面的样式
+* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式）
+* anchor ：锚点链接
+* onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
+* previousText ：上一页按钮的文本内容（默认值为：上一页）
+* nextText ：下一页按钮的文本内容（默认值为：下一页）
+
+##### #nextArticle() 指令的用法
+
+指令 #nextArticle() 只能用于**文章详情页**，用于显示下一篇文章的相关信息或者内容。
+
+```java
+#nextArticle()
+<a href="#(next.url)">标题是：#(next.title ??)</a>
+#end
+```
+
+##### #previousArticle() 指令的用法
+
+指令 #previousArticle() 只能用于**文章详情页**，用于显示上一篇文章的相关信息或者内容。
+
+```java
+#previousArticle()
+<a href="#(previous.url)">标题是：#(previous.title ??)</a>
+#end
+```
 
 ## JPress二次开发
 

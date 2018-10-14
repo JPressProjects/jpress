@@ -111,7 +111,21 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
      */
     @Override
     protected void processInMenuEvent(InMenuEvent inMenuEvent) {
+        String key = inMenuEvent.getEventKey();
+        if (StrUtils.isBlank(key)) {
+            renderDefault();
+            return;
+        }
 
+        WechatReply wechatReply = wechatReplyService.findByKey(key);
+        if (wechatReply == null || StrUtils.isBlank(wechatReply.getContent())) {
+            renderDefault();
+            return;
+        }
+
+        OutTextMsg outTextMsg = new OutTextMsg(inMenuEvent);
+        outTextMsg.setContent(wechatReply.getContent());
+        render(outTextMsg);
     }
 
 

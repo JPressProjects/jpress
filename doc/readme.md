@@ -249,6 +249,23 @@ screenshot = screenshot.png
 
 这样，若我们在后台创建了5个菜单，那么html会输出 5个 `<li> ... </li>`
 
+对于以上的菜单显示，还有一个问题就是如何显示二级菜单呢？
+
+代码如下：
+
+```html
+#for(menu : MENUS)
+    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+    #if(menu.hasChild())
+    <div class="二级菜单的class">
+    #for(childMenu : menu.getChilds())
+    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+    #end
+    </div>
+    #end
+#end
+```
+
 
 
 **2、数据指令，数据指令一般情况下只能用于特有页面**

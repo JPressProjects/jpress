@@ -55,7 +55,7 @@ function initDomainSpan() {
 
 function initSlugSpan() {
 
-    var reg = /([\s|\。|\，|\？|\、|\"|\“|\”|\‘|\'|\（|\）|\《|\》|\… |\～|\￥|\&|\*|\@|\#|\$||\%|\`|\.|\【|\】|\-])+/ig;
+    var reg = /([\s|\。|\，|\？|\、|\"|\“|\”|\‘|\'|\（|\）|\《|\》|\… |\～|\￥|\&|\*|\@|\#|\$||\%|\`|\.|\【|\】|\-|\<|\>|\=])+/ig;
 
     String.prototype.endWith = function (s) {
         if (s == null || s == "" || this.length == 0 || s.length > this.length)

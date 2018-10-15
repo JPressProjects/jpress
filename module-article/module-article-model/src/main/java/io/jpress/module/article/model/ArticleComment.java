@@ -16,6 +16,7 @@
 package io.jpress.module.article.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.model.base.BaseArticleComment;
@@ -69,4 +70,16 @@ public class ArticleComment extends BaseArticleComment<ArticleComment> {
         return JsoupUtils.getText(getContent());
     }
 
+
+    @Override
+    public boolean save() {
+        CommonsUtils.preventingXssAttacks(this,"content");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.preventingXssAttacks(this,"content");
+        return super.update();
+    }
 }

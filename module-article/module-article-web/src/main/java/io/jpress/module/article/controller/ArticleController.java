@@ -99,7 +99,7 @@ public class ArticleController extends TemplateControllerBase {
                 : articleService.findFirstBySlug(StrUtils.urlDecode(idOrSlug));
     }
 
-    
+
     private void doFlagMenuActive(Article article) {
 
         setMenuActive(menu -> menu.getUrl().startsWith(article.getUrl()));

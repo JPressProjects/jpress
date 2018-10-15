@@ -20,6 +20,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.base.BaseArticle;
@@ -88,6 +89,18 @@ public class Article extends BaseArticle<Article> {
 
     public String getFirstImage() {
         return JsoupUtils.getFirstImageSrc(getContent());
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.preventingXssAttacks(this,"content");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.preventingXssAttacks(this,"content");
+        return super.update();
     }
 
 

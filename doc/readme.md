@@ -497,7 +497,7 @@ screenshot = screenshot.png
 
 * slug ：page的唯一标识，在后台编辑页面的时候填写，如下图：
 
-!()[./images/docimgs/page_about_slug.png]
+![](./images/docimgs/page_about_slug.png)
 
 ##### #pages() 指令的用法
 

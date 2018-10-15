@@ -27,6 +27,7 @@ import java.util.List;
 
 public class JsoupUtils {
 
+
     public static String getFirstImageSrc(String html) {
         if (StrUtils.isBlank(html))
             return null;

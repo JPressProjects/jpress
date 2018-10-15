@@ -15,7 +15,10 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtils;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,5 +39,26 @@ public class CommonsUtils {
         return content.length() <= maxLength ? content :
                 content.substring(0, maxLength);
 
+    }
+
+    /**
+     * 防止 model 存储关于 xss 相关代码
+     *
+     * @param model
+     */
+    public static void preventingXssAttacks(Model model, String... ignoreAttr) {
+        String[] attrNames = model._getAttrNames();
+        for (String attrName : attrNames) {
+
+            if (ArrayUtils.contains(ignoreAttr, attrName)) {
+                continue;
+            }
+
+            Object value = model.get(attrName);
+
+            if (value != null && value instanceof String) {
+                model.set(attrName, StringEscapeUtils.escapeHtml(value.toString()));
+            }
+        }
     }
 }

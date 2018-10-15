@@ -18,6 +18,7 @@ package io.jpress.model;
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtils;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUser;
 
 
@@ -86,6 +87,18 @@ public class User extends BaseUser<User> {
 
     public String getDetailUrl() {
         return JFinal.me().getContextPath() + "/admin/user/detail/" + getId();
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.preventingXssAttacks(this);
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.preventingXssAttacks(this);
+        return super.update();
     }
 
 }

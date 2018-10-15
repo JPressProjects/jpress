@@ -432,6 +432,98 @@ screenshot = screenshot.png
 #end
 ```
 
+
+
+##### #categories() 指令的用法
+
+指令 #categories() 可以在任意页面使用，用来读取分类的内容。
+
+```java
+#categories()
+    #for(category : categories)
+        <a href="#(category.url ??)">#(category.title ??)</a>
+    #end
+#end
+```
+
+**指令#categories()的参数有**
+
+* type ：类型，默认是category，值有：category 和 tag ，分表代表的是要获取的是文章的分类还是标签。
+* asTree ：是否以树状的数据进行返回，默认是false，返回全部分类。
+
+##### #articleCategories() 指令的用法
+
+指令 #articleCategories() 是用于读取某一篇文章的分类、或tag标签。
+
+如下代码是用于读取文章的分类：
+
+```java
+#articleCategories(article.id,"category")
+    #for(category : categories)
+    <a href="#(category.url ??)">#(category.title ??)</a>
+    #end
+#end
+```
+
+如下代码是用于读取文章的标签：
+
+```java
+#articleCategories(article.id,"tag")
+    #for(category : categories)
+    <a href="#(category.url ??)">#(category.title ??)</a>
+    #end
+#end
+```
+
+**指令#articleCategories()的参数有**
+
+* articleCategories的使用必须传入两个值，顺序不能相反。第一个是文章的id，第二个是指定要获取文章分类的类型。
+
+
+##### #page() 指令的用法
+
+指令 #page() 可以用于任何页面，用于读取页面内容。
+
+代码如下：
+
+```java
+#page(slug=“about”)
+这个页面的标题是：#(page.title ??)
+这个页面的内容是：#(page.content ??)
+#end
+```
+
+**指令#page()的参数有**
+
+* slug ：page的唯一标识，在后台编辑页面的时候填写，如下图：
+
+!()[./images/docimgs/page_about_slug.png]
+
+##### #pages() 指令的用法
+
+指令 #pages() 可以用于任何页面，用于读取页面内容**列表**。
+
+代码如下：
+
+```java
+#pages()
+    #for(page : pages)
+    这个页面的标题是：#(page.title ??)
+    这个页面的内容是：#(page.content ??)
+    #end
+#end
+```
+
+**指令#pages()的参数有**
+
+* flag ：页面标志，可以在后台编辑页面的时候填写。通过flag，可以把几个页面归属到同一个flag，做到页面的“归类”作用。
+
+##### #users() 指令的用法
+
+暂未完成
+
+
+
 ## JPress二次开发
 
 通过 jpress 来做二次开发，是非常简单容易的。 jpress 提供了基本的用户管理、权限管理、微信公众号对接、小程序对接等基本功能。

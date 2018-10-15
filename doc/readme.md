@@ -775,6 +775,58 @@ http://127.0.0.1:8080/api/option?key=key1,key2
 #### 通过微信公众创建用户
 #### 通过微信小程序创建用户
 
+通过微信小程序创建用户需要以下几个步骤。
+
+**第一步：小程序端调用 wx.login() 之后获得 code**
+**第二步：得到code之后，调用 jpress 的code2session接口**
+
+* 访问路径：/api/wechat/mp/code2session
+* 参数信息
+
+
+| 参数  | 描述 | 备注 |
+| --- | --- | --- |
+|  code| 通过 wx.login() 获得的code |  |
+
+服务器相应内容如下：
+
+```json
+ {
+  state : "ok",
+  sessionId : "session_id_data"
+ }
+```
+
+**第三步：小程序调用wx.getUserInfo() 得到加密的用户数据**
+**第四步：得到加密数据后，调用 jpress 的解密接口，得到用户ID**
+
+* 访问路径：/api/wechat/mp/decryptUserInfo
+* 参数信息
+
+
+| 参数  | 描述 | 备注 |
+| --- | --- | --- |
+|  rawData| 通过 wx.getUserInfo() 获得的|  |
+|  signature| 通过 wx.getUserInfo() 获得的|  |
+|  encryptedData| 通过 wx.getUserInfo() 获得的|  |
+|  iv| 通过 wx.getUserInfo() 获得的|  |
+|  sessionId| 通过第二步调用code2session接口获得的 |  |
+
+
+服务器相应内容如下：
+
+```json
+ {
+  state : "ok",
+  token : "token_data"
+ }
+```
+token 非常重要，是用户的唯一标识。其数据是通过jwt进行加密得到的，客户端也可以通过jwt解密后得到原始的 userId。
+
+小程序端的api，涉及到任何和用户相关的操作，都必须传此token进行用户验证。
+
+备注：`/api/wechat/mp/decryptUserInfo`接口不仅仅是对用户数据进行解密，解密成功之后，会把数据存入数据库，得到的用户ID返回给客户端。
+
 
 ### 文章相关API
 

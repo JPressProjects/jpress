@@ -42,7 +42,7 @@ public class PageDirective extends JbootDirectiveBase {
 
         String slug = getParam("slug", scope);
         if (StrUtils.isBlank(slug)) {
-            throw new IllegalArgumentException("#page(...) argument must not be empty ");
+            throw new IllegalArgumentException("#page(slug = ...) argument must not be empty ");
         }
 
         SinglePage page = singlePageService.findFirstBySlug(slug);

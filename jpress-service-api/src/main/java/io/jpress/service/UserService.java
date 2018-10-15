@@ -132,4 +132,9 @@ public interface UserService {
 
     public User findFistByEmail(String email);
 
+    public User findFistByWxUnionid(String unioinId);
+
+    public User findFistByWxOpenid(String openId);
+
+    public Long saveAndGetId(User user);
 }

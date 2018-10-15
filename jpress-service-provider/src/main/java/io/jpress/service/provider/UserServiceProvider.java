@@ -106,5 +106,20 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return DAO.findFirstByColumn("email", email);
     }
 
+    @Override
+    public User findFistByWxUnionid(String unioinId) {
+        return DAO.findFirstByColumn("wx_unionid", unioinId);
+    }
+
+    @Override
+    public User findFistByWxOpenid(String openId) {
+        return DAO.findFirstByColumn("wx_openid", openId);
+    }
+
+    @Override
+    public Long saveAndGetId(User user) {
+        return user.save() ? user.getId() : null;
+    }
+
 
 }

@@ -22,6 +22,7 @@ import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.JPressConsts;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -43,11 +44,9 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        String type = getParam(0, ArticleCategory.TYPE_CATEGORY, scope);
 
-        if (type == null) {
-            throw new IllegalArgumentException("#categories(type) is error");
-        }
+        String type = getParam("type", ArticleCategory.TYPE_CATEGORY, scope);
+        Boolean asTree = getParam("asTree", Boolean.FALSE, scope);
 
         List<ArticleCategory> categories = categoryService.findListByType(type);
         if (categories == null || categories.isEmpty()) {
@@ -56,6 +55,10 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
         doFlagIsActiveByCurrentCategory(categories);
         doFlagIsActiveByCurrentArticle(categories);
+
+        if (asTree != null && asTree == true) {
+            SortKit.toTree(categories);
+        }
 
         scope.setLocal("categories", categories);
         renderBody(env, scope, writer);

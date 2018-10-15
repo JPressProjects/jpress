@@ -83,14 +83,21 @@ function initSlugSpan() {
 
 
         $("#" + forListener).keyup(function () {
+
             if ($('#' + forInput).val() == "") {
 
                 var value = this.value.replace(reg, "_");
+
                 if (value.endWith("_")) {
                     value = value.substring(0, value.length - 1);
                 }
 
-                ajaxGet(jpress.cpath+"/commons/pinyin/doGetPinyin/" + value,function (result) {
+                if(value == ""){
+                    that.text(value);
+                    that.editable('setValue', value);
+                    return;
+                }
+                ajaxGet(jpress.cpath + "/commons/pinyin/doGetPinyin/" + value, function (result) {
                     var pinyin = result.data;
                     that.text(pinyin);
                     that.editable('setValue', pinyin);

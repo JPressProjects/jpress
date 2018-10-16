@@ -57,8 +57,12 @@ public class CommonsUtils {
             Object value = model.get(attrName);
 
             if (value != null && value instanceof String) {
-                model.set(attrName, StringEscapeUtils.escapeHtml(value.toString()));
+                model.set(attrName, escapeHtml(value.toString()));
             }
         }
+    }
+
+    public static String escapeHtml(String content) {
+        return StringEscapeUtils.escapeHtml(content);
     }
 }

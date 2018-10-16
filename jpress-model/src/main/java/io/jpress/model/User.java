@@ -91,13 +91,13 @@ public class User extends BaseUser<User> {
 
     @Override
     public boolean save() {
-        CommonsUtils.preventingXssAttacks(this);
+        CommonsUtils.preventingXssAttacks(this, "salt", "password");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.preventingXssAttacks(this);
+        CommonsUtils.preventingXssAttacks(this, "salt", "password");
         return super.update();
     }
 

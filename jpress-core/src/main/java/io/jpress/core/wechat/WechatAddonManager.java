@@ -17,6 +17,7 @@ package io.jpress.core.wechat;
 
 import io.jboot.Jboot;
 import io.jboot.utils.ClassScanner;
+import io.jpress.JPressOptions;
 import io.jpress.service.OptionService;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class WechatAddonManager {
 
     /**
      * 初始化的主要逻辑
-     *
+     * <p>
      * 1. 扫描当前所有的微信插件
      * 2. 查看该微信插件是否开启
      */
@@ -117,11 +118,14 @@ public class WechatAddonManager {
 
     public void doCloseAddon(String id) {
         optionService.saveOrUpdate(OPTION_PREFIX + id, "false");
+        JPressOptions.set(OPTION_PREFIX + id, "false");
         enableWechatAddons.remove(new WechatAddonInfo(id));
     }
 
     public void doEnableAddon(String id) {
         optionService.saveOrUpdate(OPTION_PREFIX + id, "true");
+        JPressOptions.set(OPTION_PREFIX + id, "true");
+        
         for (WechatAddonInfo addon : enableWechatAddons) {
             if (addon.getId().equals(id)) {
                 return;

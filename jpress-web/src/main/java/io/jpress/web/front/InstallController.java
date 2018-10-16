@@ -81,9 +81,9 @@ public class InstallController extends TemplateControllerBase {
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-        String webName = getPara("web_name");
-        String webTitle = getPara("web_title");
-        String webSubtitle = getPara("web_subtitle");
+        String webName = getEscapeHtmlPara("web_name");
+        String webTitle = getEscapeHtmlPara("web_title");
+        String webSubtitle = getEscapeHtmlPara("web_subtitle");
 
         if (StrUtils.isBlank(username)) {
             renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));

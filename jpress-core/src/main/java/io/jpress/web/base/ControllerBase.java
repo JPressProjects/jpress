@@ -18,6 +18,7 @@ package io.jpress.web.base;
 import com.jfinal.core.NotAction;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 
 /**
@@ -58,6 +59,14 @@ public abstract class ControllerBase extends JbootController {
 
     protected User getLoginedUser() {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
+    }
+
+    public String getEscapeHtmlPara(String name) {
+        String value = super.getPara(name);
+        if (value == null || "".equals(value)) {
+            return null;
+        }
+        return CommonsUtils.escapeHtml(value);
     }
 
 }

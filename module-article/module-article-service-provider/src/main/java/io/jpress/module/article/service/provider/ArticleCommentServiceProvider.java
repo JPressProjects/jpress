@@ -175,7 +175,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         if (articleComment == null || articleComment.getUserId() == null) {
             return false;
         }
-        return articleComment.getId().equals(userId);
+        return articleComment.getUserId().equals(userId);
     }
 
 

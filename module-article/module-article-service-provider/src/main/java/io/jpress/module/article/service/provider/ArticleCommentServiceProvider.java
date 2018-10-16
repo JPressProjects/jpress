@@ -170,12 +170,15 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
-    public boolean isOwn(long resourceId, long userId) {
-        ArticleComment articleComment = findById(resourceId);
-        if (articleComment == null || articleComment.getUserId() == null) {
+    public boolean isOwn(ArticleComment comment, long userId) {
+        if (comment.getId() == null) {
+            return true;
+        }
+
+        if (comment == null || comment.getUserId() == null) {
             return false;
         }
-        return articleComment.getUserId().equals(userId);
+        return comment.getUserId().equals(userId);
     }
 
 

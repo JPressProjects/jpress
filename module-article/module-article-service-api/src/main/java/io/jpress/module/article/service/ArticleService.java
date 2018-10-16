@@ -172,7 +172,7 @@ public interface ArticleService {
 
     public void doIncArticleCommentCount(long articleId);
 
-    public boolean isOwn(long articleId, long userId);
+    public boolean isOwn(Article article, long userId);
 
 
 }

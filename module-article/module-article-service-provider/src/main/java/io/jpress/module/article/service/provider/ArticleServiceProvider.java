@@ -198,11 +198,23 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
     @Override
-    public boolean isOwn(long articleId, long userId) {
-        Article article = findById(articleId);
-        if (article == null || article.getUserId() == null) return false;
+    public boolean isOwn(Article article, long userId) {
+        if (article == null) {
+            return false;
+        }
+
+        if (article.getId() == null) {
+            //谁都可以用于一篇没有主键的文章，因为这篇文章处于编辑中，还未保存到数据库
+            return true;
+        }
+
+        if (article.getUserId() == null) {
+            return false;
+        }
+
         return article.getUserId().equals(userId);
     }
+
 
     private Page<Article> joinUserPage(Page<Article> page) {
         userService.join(page, "user_id");

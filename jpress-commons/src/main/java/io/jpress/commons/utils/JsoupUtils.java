@@ -66,7 +66,7 @@ public class JsoupUtils {
 
     private static MyWhitelist whitelist = new MyWhitelist();
 
-    public static String clear(String html) {
+    public static String clean(String html) {
         if (StrUtils.isNotBlank(html))
             return Jsoup.clean(html, whitelist);
 

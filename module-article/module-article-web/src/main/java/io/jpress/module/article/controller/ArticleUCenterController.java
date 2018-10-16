@@ -23,6 +23,7 @@ import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
@@ -31,7 +32,6 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.service.OptionService;
 import io.jpress.web.base.UcenterControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -54,9 +54,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
     private ArticleCategoryService categoryService;
 
     @Inject
-    private OptionService optionService;
-
-    @Inject
     private ArticleCommentService commentService;
 
     @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
@@ -77,14 +74,14 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        if (articleService.isOwn(id, getLoginedUser().getId()) == false) {
-            renderJson(Ret.fail().set("message", "非法操作"));
-            return;
-        }
-
         Article article = articleService.findById(id);
         if (article == null) {
             renderJson(Ret.fail());
+            return;
+        }
+
+        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
 
@@ -112,7 +109,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             }
 
             //不是自己的文章
-            if (commentService.isOwn(articleId, getLoginedUser().getId())) {
+            if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
                 renderError(404);
                 return;
             }
@@ -164,17 +161,20 @@ public class ArticleUCenterController extends UcenterControllerBase {
         Article article = getModel(Article.class, "article");
         article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description");
 
+
         if (!validateSlug(article)) {
             renderJson(Ret.fail("message", "slug不能包含该字符：- "));
             return;
         }
 
-        if (article.getId() != null) {
-            if (articleService.isOwn(article.getId(), getLoginedUser().getId()) == false) {
-                renderJson(Ret.fail().set("message", "非法操作"));
-                return;
-            }
+        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
+            return;
         }
+
+        //只保留的基本的html，其他的html比如<script>将会被清除
+        String content = JsoupUtils.clean(article.getContent());
+        article.setContent(content);
 
         article.setUserId(getLoginedUser().getId());
         article.setStatus(Article.STATUS_DRAFT);
@@ -219,24 +219,29 @@ public class ArticleUCenterController extends UcenterControllerBase {
      * 评论编辑 页面
      */
     public void commentEdit() {
-        long id = getIdPara();
 
-        if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
+        long id = getIdPara();
+        ArticleComment comment = commentService.findById(id);
+
+        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
             renderError(404);
             return;
         }
 
-        ArticleComment comment = commentService.findById(id);
         setAttr("comment", comment);
         render("article/comment_edit.html");
     }
 
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
-        if (comment.getId() != null && commentService.isOwn(comment.getId(), getLoginedUser().getId()) == false) {
+        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
+
+        //只保留的基本的html，其他的html比如<script>将会被清除
+        String content = JsoupUtils.clean(comment.getContent());
+        comment.setContent(content);
 
         comment.setUserId(getLoginedUser().getId());
         commentService.saveOrUpdate(comment);
@@ -247,14 +252,15 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         long id = getIdPara();
 
-        if (commentService.isOwn(id, getLoginedUser().getId()) == false) {
-            renderJson(Ret.fail().set("message", "非法操作"));
-            return;
-        }
-
         ArticleComment comment = commentService.findById(id);
         if (comment == null) {
             renderJson(Ret.fail());
+            return;
+        }
+
+
+        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
 

@@ -952,6 +952,12 @@ http://127.0.0.1:8080/api/article/category?id=100
 
 ![](./images/docimgs/wechat_config2.jpg)
 
+**三、微信后台 -> 开发 -> 基本设置 -> IP白名单**
+
+如下图所示，点击查看后，填写上 JPress 部署服务器的IP地址。
+
+![](./images/docimgs/wechat_config2.jpg)
+
 ### 微信小程序
 
 

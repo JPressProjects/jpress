@@ -20,7 +20,7 @@
                 }
                 var src = data.result.src;
                 $("#path").val(src);
-                $("#avatarimg").attr("src", src);
+                $("#avatarimg").attr("src", "#(CPATH)" + src);
                 $('#avatarimg').Jcrop({
                     setSelect: [30, 30, 250, 250],
                     minSize: [50, 50],
@@ -42,7 +42,7 @@
     }
 
     $('#avatarForm').on('submit', function () {
-        ajaxSubmit('#avatarForm',function () {
+        ajaxSubmit('#avatarForm', function () {
             toastr.options.onHidden = function () {
                 location.reload();
             }
@@ -60,7 +60,8 @@
 #end
 
 #define detail()
-<form class="form-horizontal" autocomplete="off" action="#(CPATH)/admin/user/doSaveAvatar" method="post" id="avatarForm">
+<form class="form-horizontal" autocomplete="off" action="#(CPATH)/admin/user/doSaveAvatar" method="post"
+      id="avatarForm">
     <input type="hidden" name="path" id="path">
     <input type="hidden" name="x" id="x">
     <input type="hidden" name="y" id="y">

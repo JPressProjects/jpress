@@ -16,6 +16,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.base.BaseAttachment;
 
 /**
@@ -23,5 +24,9 @@ import io.jpress.model.base.BaseAttachment;
  */
 @Table(tableName = "attachment", primaryKey = "id")
 public class Attachment extends BaseAttachment<Attachment> {
+
+    public boolean isImage() {
+        return AttachmentUtils.isImage(getPath());
+    }
 
 }

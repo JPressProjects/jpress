@@ -54,6 +54,7 @@ public class AttachmentController extends UserControllerBase {
 
         String path = AttachmentUtils.moveFile(uploadFile);
 
+
         Attachment attachment = new Attachment();
         attachment.setUserId(getLoginedUser().getId());
         attachment.setTitle(uploadFile.getOriginalFileName());

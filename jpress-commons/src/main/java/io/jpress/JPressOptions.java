@@ -66,6 +66,22 @@ public class JPressOptions {
         return Boolean.parseBoolean(options.get(key));
     }
 
+    public static int getAsInt(String key, int defaultValue) {
+        String value = get(key);
+        if (StrUtils.isBlank(value)) {
+            return defaultValue;
+        }
+        return Integer.parseInt(value);
+    }
+
+    public static float getAsFloat(String key, float defaultValue) {
+        String value = get(key);
+        if (StrUtils.isBlank(value)) {
+            return defaultValue;
+        }
+        return Float.parseFloat(value);
+    }
+
     public static void addListener(OptionChangeListener listener) {
         LISTENERS.add(listener);
     }

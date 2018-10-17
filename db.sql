@@ -347,6 +347,8 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `mobile` (`mobile`),
+  UNIQUE KEY `wx_unioinId` (`wx_unionid`),
+  UNIQUE KEY `wx_openid` (`wx_openid`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表，保存用户信息。';
 

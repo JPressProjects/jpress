@@ -25,10 +25,12 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ControllerBase;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -136,7 +138,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
         ApiResult userInfoResult = getUserInfo(openId, accessToken);
 
-        Long userId = WechatKit.doGetOrCreateUser(userInfoResult, userService,"wechat_web");
+        Long userId = doGetOrCreateUser(userInfoResult);
         if (userId == null) {
             //这种情况非常严重，一般情况下只有链接不上数据库了
             //或者是在 RPC 下，无法调用到 provider 了
@@ -174,6 +176,67 @@ public class WechatAuthorizationController extends ControllerBase {
             return null;
 
         return new ApiResult(jsonResult);
+    }
+
+    public Long doGetOrCreateUser(ApiResult apiResult) {
+
+        /**
+         * {
+         "subscribe": 1,
+         "openid": "xxx",
+         "nickname": "Band",
+         "sex": 1,
+         "language": "zh_CN",
+         "city": "广州",
+         "province": "广东",
+         "country": "中国",
+         "headimgurl":  "xxx",
+         "subscribe_time": xxxx,
+         "unionid": " xxxx"
+         "remark": "",
+         "groupid": 0,
+         "tagid_list":[128,2]
+         }
+         */
+
+        String openId = apiResult.get("openid");
+        String unionId = apiResult.get("unionid");
+
+
+        User user = null;
+
+        //优先根据 unioinId 进行查询
+        if (StrUtils.isNotBlank(unionId)) {
+            user = userService.findFistByWxUnionid(unionId);
+            if (user != null) return user.getId();
+        }
+
+        //之后根据 openId 进行查询
+        if (StrUtils.isNotBlank(openId)) {
+            user = userService.findFistByWxOpenid(openId);
+            if (user != null) return user.getId();
+        }
+
+        // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
+        String nickName = apiResult.get("nickname");
+        int sex = apiResult.get("sex");
+        String city = apiResult.get("city");
+        String province = apiResult.get("province");
+        String country = apiResult.get("country");
+        String avatarUrl = apiResult.get("headimgurl");
+
+        user = new User();
+        user.setNickname(nickName);
+        user.setAddress(country + province + city);
+        user.setWxUnionid(unionId);
+        user.setWxOpenid(openId);
+        user.setAvatar(avatarUrl);
+        user.setCreated(new Date());
+        user.setLogged(new Date());
+        user.setCreateSource("wechat_web");
+        user.setStatus(User.STATUS_OK);
+
+        return userService.saveAndGetId(user);
     }
 
 }

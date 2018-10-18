@@ -74,7 +74,11 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     @Override
     public void redirect(String url) {
-        super.redirect(url + JPressOptions.getAppUrlSuffix());
+        if (url.contains("?") || url.endsWith("/")) {
+            super.redirect(url);
+        } else {
+            super.redirect(url + JPressOptions.getAppUrlSuffix());
+        }
     }
 
     protected void assertNotNull(Object object) {

@@ -25,6 +25,7 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
+import io.jpress.web.interceptor.WechatInterceptor;
 import io.jpress.web.render.TemplateRender;
 
 import java.util.List;
@@ -34,7 +35,9 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.web
  */
-@Before({TemplateInterceptor.class, UserInterceptor.class})
+@Before({WechatInterceptor.class,
+        TemplateInterceptor.class,
+        UserInterceptor.class})
 public abstract class TemplateControllerBase extends ControllerBase {
 
 

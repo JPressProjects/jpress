@@ -38,6 +38,7 @@ import javax.inject.Inject;
 @RequestMapping("/wechat/authorization")
 public class WechatAuthorizationController extends ControllerBase {
 
+
     /**
      * 获取用户信息的url地址
      * 会弹出框让用户进行授权
@@ -67,7 +68,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
     public void index() {
 
-        String gotoUrl = getPara("gotoUrl");
+        String gotoUrl = getPara("goto");
 
 
         String uid = EncryptCookieUtils.get(this, JPressConsts.COOKIE_UID);
@@ -105,7 +106,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
 
     public void back() {
-        String gotoUrl = getPara("gotoUrl");
+        String gotoUrl = getPara("goto");
         String code = getPara("code");
 
         String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);

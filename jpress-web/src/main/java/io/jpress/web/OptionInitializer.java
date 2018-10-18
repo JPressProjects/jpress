@@ -29,6 +29,7 @@ import io.jpress.service.OptionService;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
+import io.jpress.web.interceptor.WechatInterceptor;
 
 import java.util.List;
 
@@ -101,6 +102,8 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
             ApiConfigKit.putApiConfig(ac);
         }
+
+        WechatInterceptor.init();
 
     }
 

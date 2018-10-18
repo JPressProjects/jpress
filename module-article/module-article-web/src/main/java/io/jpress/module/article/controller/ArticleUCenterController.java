@@ -161,14 +161,19 @@ public class ArticleUCenterController extends UcenterControllerBase {
         Article article = getModel(Article.class, "article");
         article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description");
 
+        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+            renderJson(Ret.fail().set("message", "非法操作"));
+            return;
+        }
 
         if (!validateSlug(article)) {
             renderJson(Ret.fail("message", "slug不能包含该字符：- "));
             return;
         }
 
-        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
-            renderJson(Ret.fail().set("message", "非法操作"));
+        Article slugArticle = articleService.findFirstBySlug(article.getSlug());
+        if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
+            renderJson(Ret.fail("message", "该slug已经存在"));
             return;
         }
 

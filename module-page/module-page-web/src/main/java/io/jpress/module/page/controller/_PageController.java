@@ -94,6 +94,18 @@ public class _PageController extends AdminControllerBase {
     })
     public void doWriteSave() {
         SinglePage page = getModel(SinglePage.class, "page");
+
+        if (!validateSlug(page)) {
+            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            return;
+        }
+
+        SinglePage bySlug = sps.findFirstBySlug(page.getSlug());
+        if (bySlug != null && bySlug.getId().equals(page.getId()) == false) {
+            renderJson(Ret.fail("message", "该slug已经存在"));
+            return;
+        }
+
         sps.saveOrUpdate(page);
         renderJson(Ret.ok().set("id", page.getId()));
     }

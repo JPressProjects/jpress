@@ -43,6 +43,7 @@ public class TemplateRender extends Render {
 
     private static Engine engine;
     private static final String contentType = "text/html; charset=" + getEncoding();
+    private static String contextPath = JFinal.me().getContextPath();
 
     private Engine getEngine() {
         if (engine == null) {
@@ -125,19 +126,25 @@ public class TemplateRender extends Render {
             }
 
             if (url.startsWith("/")) {
-                url = JFinal.me().getContextPath() + url;
+
+                if (contextPath.length() > 0 && url.startsWith(contextPath + "/") == false) {
+                    url = contextPath + url;
+                }
+
                 if (cdnDomain != null) {
                     url = cdnDomain + url;
                 }
+
                 element.attr(attrName, url);
+
                 continue;
             }
 
 
             if (url.startsWith("./")) {
-                url = JFinal.me().getContextPath() + template.getWebAbsolutePath() + url.substring(1);
+                url = contextPath + template.getWebAbsolutePath() + url.substring(1);
             } else {
-                url = JFinal.me().getContextPath() + template.getWebAbsolutePath() + "/" + url;
+                url = contextPath + template.getWebAbsolutePath() + "/" + url;
             }
 
             if (cdnDomain == null) {
@@ -145,8 +152,6 @@ public class TemplateRender extends Render {
             } else {
                 element.attr(attrName, cdnDomain + url);
             }
-
-
         }
     }
 

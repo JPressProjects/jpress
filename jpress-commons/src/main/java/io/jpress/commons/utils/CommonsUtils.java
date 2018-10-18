@@ -17,7 +17,6 @@ package io.jpress.commons.utils;
 
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -63,6 +62,47 @@ public class CommonsUtils {
     }
 
     public static String escapeHtml(String content) {
-        return StringEscapeUtils.escapeHtml(content);
+
+        if (StrUtils.isBlank(content)) {
+            return content;
+        }
+
+        /**
+         "&lt;" represents the < sign.
+         "&gt;" represents the > sign.
+         "&amp;" represents the & sign.
+         "&quot; represents the " mark.
+         */
+
+        return unEscapeHtml(content)
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("'", "&#39;")
+                .replace("&", "&amp;")
+                .replace("\"", "&quot;");
+    }
+
+    public static String unEscapeHtml(String content) {
+
+        if (StrUtils.isBlank(content)) {
+            return content;
+        }
+
+        return content
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&")
+                .replace("&#39;", "'")
+                .replace("&quot;", "\"");
+    }
+
+
+    public static void main(String[] args) {
+        String script = "<script>alert(\"abc\");</script>";
+        String script1 = "&amp;lt;script&amp;gt;alert(&quot;abc&quot;);&amp;lt;/script&amp;gt;";
+        System.out.println(escapeHtml(script));
+        System.out.println(escapeHtml(escapeHtml(script)));
+        System.out.println(escapeHtml(script1));
+        System.out.println(escapeHtml(unEscapeHtml(script1)));
     }
 }

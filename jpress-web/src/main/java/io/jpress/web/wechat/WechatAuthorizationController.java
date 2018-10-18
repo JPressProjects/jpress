@@ -97,7 +97,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
         //这个url是微信执行完毕之后跳转回来的url
         //也是下方的这个 action
-        String redirecturi = domain + "/wechat/authorization/back?gotoUrl=" + gotoUrl;
+        String redirecturi = domain + "/wechat/authorization/back?goto=" + gotoUrl;
 
         String wechatUrl = AUTHORIZE_URL.replace("{appid}", appId).replace("{redirecturi}", redirecturi);
 

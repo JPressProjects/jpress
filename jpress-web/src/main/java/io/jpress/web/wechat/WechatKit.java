@@ -72,6 +72,7 @@ public class WechatKit {
         user.setCreated(new Date());
         user.setLogged(new Date());
         user.setCreateSource("wechat_miniprogram");
+        user.setStatus(User.STATUS_OK);
 
         return userService.saveAndGetId(user);
     }

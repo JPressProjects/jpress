@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class WechatKit {
 
-    public static Long doGetOrCreateUser(ApiResult apiResult, UserService userService) {
+    public static Long doGetOrCreateUser(ApiResult apiResult, UserService userService, String create_source) {
 
         /**
          * 文档：https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
@@ -71,7 +71,7 @@ public class WechatKit {
         user.setAvatar(avatarUrl);
         user.setCreated(new Date());
         user.setLogged(new Date());
-        user.setCreateSource("wechat_miniprogram");
+        user.setCreateSource(create_source);
         user.setStatus(User.STATUS_OK);
 
         return userService.saveAndGetId(user);

@@ -124,11 +124,11 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
             return;
         }
 
-        Long userId = WechatKit.doGetOrCreateUser(apiResult, userService);
+        Long userId = WechatKit.doGetOrCreateUser(apiResult, userService, "wechat_miniprogram");
         if (userId == null) {
             //这种情况非常严重，一般情况下只有链接不上数据库了
             //或者是在 RPC 下，无法调用到 provider 了
-            renderFailJson(501, "can not query user or save user Model to database");
+            renderFailJson(501, "can not query user or save user to database");
             return;
         }
 

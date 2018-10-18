@@ -136,11 +136,11 @@ public class WechatAuthorizationController extends ControllerBase {
 
         ApiResult userInfoResult = getUserInfo(openId, accessToken);
 
-        Long userId = WechatKit.doGetOrCreateUser(userInfoResult, userService);
+        Long userId = WechatKit.doGetOrCreateUser(userInfoResult, userService,"wechat_web");
         if (userId == null) {
             //这种情况非常严重，一般情况下只有链接不上数据库了
             //或者是在 RPC 下，无法调用到 provider 了
-            renderText("can not query user or save user Model to database");
+            renderText("can not query user or save user to database");
             return;
         }
 

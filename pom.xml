@@ -31,6 +31,7 @@
         <jpress.version>1.0</jpress.version>
         <jdk.version>1.8</jdk.version>
         <jboot.version>1.7.0</jboot.version>
+        <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.1.11</logback.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -63,6 +64,12 @@
                 <groupId>io.jboot</groupId>
                 <artifactId>jboot</artifactId>
                 <version>${jboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <dependency>

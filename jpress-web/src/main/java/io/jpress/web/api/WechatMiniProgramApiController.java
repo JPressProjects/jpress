@@ -15,6 +15,9 @@
  */
 package io.jpress.web.api;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Before;
 import com.jfinal.kit.Ret;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -25,6 +28,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
+import io.jpress.web.interceptor.ApiInterceptor;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -33,6 +37,8 @@ import java.util.Date;
  * 小程序相关的API
  */
 @RequestMapping("/api/wechat/mp")
+@Before({ApiInterceptor.class,
+        WechatMiniProgramApiInterceptor.class})
 public class WechatMiniProgramApiController extends ApiControllerBase {
 
     @Inject
@@ -60,6 +66,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
             renderFailJson(105, "code is blank");
             return;
         }
+
 
         // 获取SessionKey 和 openId
         // 返回{"session_key":"nzoqhc3OnwHzeTxJs+inbQ==","expires_in":2592000,"openid":"oVBkZ0aYgDMDIywRdgPW8-joxXc4"}
@@ -90,26 +97,39 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
      */
     public void decryptUserInfo() {
 
+
+        String postData = getRawData();
+        if (StrUtils.isBlank(postData)) {
+            renderFailJson(107, "can not get data");
+            return;
+        }
+
+        JSONObject json = JSON.parseObject(postData);
+
+        //小程序端调用 /api/wechat/mp/code2session之后得到的sessionId
+        String sessionId = json.getString("sessionId");
+
+        IAccessTokenCache accessTokenCache = ApiConfigKit.getAccessTokenCache();
+        String sessionKey = accessTokenCache.get("wxa:session:" + sessionId);
+        if (StrUtils.isBlank(sessionKey)) {
+            renderFailJson(107, "session id is error.");
+            return;
+        }
+
+
         //不包括敏感信息的原始数据字符串，用于计算签名
-        String rawData = getPara("rawData");
+        String rawData = json.getString("rawData");
 
         //签名：使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息
-        String signature = getPara("signature");
+        String signature = json.getString("signature");
 
         //包括敏感数据在内的完整用户信息的加密数据
         //具体加密方法在：https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95
-        String encryptedData = getPara("encryptedData");
+        String encryptedData = json.getString("encryptedData");
 
         //加密算法的初始向量
-        String iv = getPara("iv");
+        String iv = json.getString("iv");
 
-        //小程序端调用 /api/wechat/mp/code2session之后得到的sessionId
-        String sessionId = getPara("sessionId");
-
-        // 参数空校验 不做演示
-        // 利用 appId 与 accessToken 建立关联，支持多账户
-        IAccessTokenCache accessTokenCache = ApiConfigKit.getAccessTokenCache();
-        String sessionKey = accessTokenCache.get("wxa:session:" + sessionId);
 
         // 用户信息校验
         boolean check = wxaUserApi.checkUserInfo(sessionKey, rawData, signature);
@@ -182,7 +202,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
         String nickName = apiResult.get("nickName");
-        String gender = apiResult.get("gender");
+        int gender = apiResult.getInt("gender");
         String city = apiResult.get("city");
         String province = apiResult.get("province");
         String country = apiResult.get("country");

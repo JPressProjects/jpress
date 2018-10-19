@@ -196,8 +196,9 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user.setAvatar(avatarUrl);
         user.setCreated(new Date());
         user.setLogged(new Date());
-        user.setCreateSource("wechat_miniprogram");
+        user.setCreateSource(User.SOURCE_WECHAT_MINIPROGRAM);
         user.setStatus(User.STATUS_OK);
+
 
         return userService.saveAndGetId(user);
     }

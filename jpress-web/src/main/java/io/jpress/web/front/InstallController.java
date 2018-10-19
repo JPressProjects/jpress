@@ -133,7 +133,7 @@ public class InstallController extends TemplateControllerBase {
         user.setCreated(new Date());
         user.setActivated(new Date());
         user.setStatus(User.STATUS_OK);
-        user.setCreateSource("web_register");
+        user.setCreateSource(User.SOURCE_WEB_REGISTER);
 
         userService.save(user);
         roleService.initWebRole();

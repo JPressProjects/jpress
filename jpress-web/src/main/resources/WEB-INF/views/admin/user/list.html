@@ -85,7 +85,8 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
+                                <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
+                                        class="fa fa-fw fa-plus"></i> 新建</a>
                                 <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                                 <div class="btn-group checkAction">
                                     <button type="button" class="btn btn-default">将角色修改为</button>
@@ -119,32 +120,36 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-                                <th style="width: 10px">#</th>
                                 <th style="width: 20%">登录名</th>
                                 <th>昵称</th>
                                 <th>邮箱</th>
                                 <th>手机</th>
-                                <th>角色</th>
+                                <th style="width: 100px">来源</th>
                             </tr>
 
                             #for(user : page.list )
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(user.id)" onchange="dataItemChange(this)"/>
+                                    <input class="dataItem" type="checkbox" value="#(user.id)"
+                                           onchange="dataItemChange(this)"/>
                                 </td>
-                                <td>#(user.id ??)</td>
                                 <td>
                                     <strong>
+                                        #if(user.username)
                                         <a href="#(CPATH)/admin/user/detail/#(user.id)">
                                             #(user.username ??)
                                         </a>
+                                        #else
+                                        无用户名
+                                        #end
                                         #if(user.isStatusReg()) （未激活） #end
                                         #if(user.isStatusLocked()) （已冻结） #end
                                     </strong>
 
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/user/detail/#(user.id)" style="color: #006505">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/detail/#(user.id)"
+                                               style="color: #006505">编辑</a> |
                                             <a href="#(CPATH)/admin/user/permissions/#(user.id)"
                                                onclick="draft('#(user.id??)')">权限</a> |
                                             #if(user.isStatusOk() == false)
@@ -167,7 +172,7 @@
                                 <td>#(user.nickname ??)</td>
                                 <td>#(user.email ??)</td>
                                 <td>#(user.mobile ??)</td>
-                                <td>#(user.role ??)</td>
+                                <td>#(user.sourceString ??)</td>
                             </tr>
                             #end
 

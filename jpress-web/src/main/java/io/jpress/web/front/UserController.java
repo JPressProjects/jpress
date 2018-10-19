@@ -156,14 +156,13 @@ public class UserController extends TemplateControllerBase {
         user.setPassword(hashedPass);
         user.setCreated(new Date());
         user.setStatus(User.STATUS_REG);
-        user.setCreateSource("web_register");
+        user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
 
         userService.save(user);
 
         renderJson(Ret.ok());
     }
-
 
 
 }

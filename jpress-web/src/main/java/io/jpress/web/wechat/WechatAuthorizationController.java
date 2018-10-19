@@ -233,8 +233,10 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setAvatar(avatarUrl);
         user.setCreated(new Date());
         user.setLogged(new Date());
-        user.setCreateSource("wechat_web");
+        user.setCreateSource(User.SOURCE_WECHAT_WEB);
         user.setStatus(User.STATUS_OK);
+        user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
+
 
         return userService.saveAndGetId(user);
     }

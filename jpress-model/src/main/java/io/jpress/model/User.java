@@ -21,9 +21,32 @@ import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUser;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Table(tableName = "user", primaryKey = "id")
 public class User extends BaseUser<User> {
+
+    public static final String SOURCE_WECHAT_WEB = "wechat_web";//来至微信网页授权
+    public static final String SOURCE_WECHAT_MINIPROGRAM = "wechat_miniprogram";//来至微信小程序
+    public static final String SOURCE_WEB_REGISTER = "web_register";//来至网页注册
+    public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至网页注册
+
+    public static final Map<String, String> sourceMap = new HashMap<>();
+
+    static {
+        sourceMap.put(SOURCE_WECHAT_WEB, "微信网页授权");
+        sourceMap.put(SOURCE_WECHAT_MINIPROGRAM, "微信小程序");
+        sourceMap.put(SOURCE_WEB_REGISTER, "网页注册");
+        sourceMap.put(SOURCE_ADMIN_CREATE, "后台创建");
+    }
+
+    public String getSourceString() {
+        String text = sourceMap.get(getCreateSource());
+        return StrUtils.isBlank(text) ? "" : text;
+    }
+
 
     public static final String STATUS_LOCK = "locked";    // 锁定账号，无法做任何事情
     public static final String STATUS_REG = "registered";         // 注册、未激活

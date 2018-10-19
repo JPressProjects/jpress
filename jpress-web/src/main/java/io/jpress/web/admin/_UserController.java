@@ -151,7 +151,7 @@ public class _UserController extends AdminControllerBase {
         user.setPassword(hashedPass);
         user.setCreated(new Date());
         user.setStatus(User.STATUS_OK);
-        user.setCreateSource("admin_create");
+        user.setCreateSource(User.SOURCE_ADMIN_CREATE);
 
         userService.save(user);
 

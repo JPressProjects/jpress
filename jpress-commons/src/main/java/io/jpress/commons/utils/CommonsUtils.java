@@ -75,10 +75,10 @@ public class CommonsUtils {
          */
 
         return unEscapeHtml(content)
+                .replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("'", "&#39;")
-                .replace("&", "&amp;")
                 .replace("\"", "&quot;");
     }
 
@@ -89,9 +89,9 @@ public class CommonsUtils {
         }
 
         return content
+                .replace("&amp;", "&")
                 .replace("&lt;", "<")
                 .replace("&gt;", ">")
-                .replace("&amp;", "&")
                 .replace("&#39;", "'")
                 .replace("&quot;", "\"");
     }

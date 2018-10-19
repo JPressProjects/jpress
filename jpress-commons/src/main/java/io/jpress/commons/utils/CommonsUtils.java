@@ -89,20 +89,18 @@ public class CommonsUtils {
         }
 
         return content
-                .replace("&amp;", "&")
                 .replace("&lt;", "<")
                 .replace("&gt;", ">")
                 .replace("&#39;", "'")
-                .replace("&quot;", "\"");
+                .replace("&quot;", "\"")
+                .replace("&amp;", "&");
     }
 
 
     public static void main(String[] args) {
         String script = "<script>alert(\"abc\");</script>";
-        String script1 = "&amp;lt;script&amp;gt;alert(&quot;abc&quot;);&amp;lt;/script&amp;gt;";
         System.out.println(escapeHtml(script));
         System.out.println(escapeHtml(escapeHtml(script)));
-        System.out.println(escapeHtml(script1));
-        System.out.println(escapeHtml(unEscapeHtml(script1)));
+        System.out.println(unEscapeHtml(escapeHtml(script)));
     }
 }

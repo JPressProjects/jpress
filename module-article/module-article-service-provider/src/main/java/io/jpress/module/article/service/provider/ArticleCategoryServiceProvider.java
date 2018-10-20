@@ -39,13 +39,13 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
     @Override
     public List<ArticleCategory> findListByType(String type) {
-        return DAO.findListByColumns(Columns.create("type", type), "id desc");
+        return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 
 
     @Override
     public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "id desc");
+        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "order_number asc,id desc");
     }
 
     @Override

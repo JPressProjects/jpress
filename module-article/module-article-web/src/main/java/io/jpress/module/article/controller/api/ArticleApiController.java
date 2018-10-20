@@ -21,7 +21,6 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.annotation.NeedAuthentication;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -151,7 +150,6 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-    @NeedAuthentication
     public void save() {
 
         String json = getRawData();

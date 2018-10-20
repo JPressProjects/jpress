@@ -18,12 +18,12 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
-import io.jpress.core.annotation.NeedAuthentication;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -68,12 +68,6 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
 
-        if (inv.getMethod().getDeclaredAnnotation(NeedAuthentication.class) == null) {
-            inv.invoke();
-            return;
-        }
-
-
         if (StrUtils.isBlank(apiSecret)) {
             inv.getController().renderJson(Ret.fail().set("message", "config error"));
             return;
@@ -82,7 +76,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
         Controller controller = inv.getController();
 
-        String appId = controller.getPara("appid");
+        String appId = controller.getPara("appId");
         if (StrUtils.isBlank(appId)) {
             inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
             return;
@@ -128,8 +122,9 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             }
         }
         query.append(apiSecret);
-        return query.toString();
+        return HashKit.md5(query.toString());
     }
+
 
     @Override
     public void onChanged(String key, String newValue, String oldValue) {

@@ -17,7 +17,6 @@ package io.jpress.web.api;
 
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.annotation.NeedAuthentication;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
@@ -36,7 +35,6 @@ public class UserApiController extends ApiControllerBase {
     /**
      * 获取用户信息
      */
-    @NeedAuthentication
     public void index() {
 
         Long id = getParaToLong("id");

@@ -18,7 +18,6 @@ package io.jpress.web.api;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.annotation.NeedAuthentication;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
 
@@ -49,7 +48,6 @@ public class OptionApiController extends ApiControllerBase {
     @Inject
     private OptionService optionService;
 
-    @NeedAuthentication
     public void index() {
 
         String keyPara = getPara("key");

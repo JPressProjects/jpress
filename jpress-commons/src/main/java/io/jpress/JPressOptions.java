@@ -41,13 +41,18 @@ public class JPressOptions {
             return;
         }
 
-        String oldValue = options.get(key);
 
+        String oldValue = options.get(key);
         if (Objects.equals(value, oldValue)) {
             return;
         }
 
-        options.put(key, value);
+        if (StrUtils.isBlank(value)) {
+            options.remove(key);
+        } else {
+            options.put(key, value);
+        }
+
 
         for (OptionChangeListener listener : LISTENERS) {
             try {

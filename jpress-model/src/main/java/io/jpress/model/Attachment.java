@@ -29,15 +29,15 @@ public class Attachment extends BaseAttachment<Attachment> {
 
     private static List<String> imageSuffix = Lists.newArrayList(".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp");
     private static List<String> docSuffix = Lists.newArrayList(".doc", ".docx", ".pages", ".dot", ".dotx", ".docm", ".dotm");
-    private static List<String> xlsSuffix = Lists.newArrayList(".xls", ".xlsx", ".xltx", ".numbers");
-    private static List<String> pptSuffix = Lists.newArrayList(".ppt", ".pptx", ".key", ".ppsx", "potx");
-    private static List<String> txtSuffix = Lists.newArrayList(".txt", ".log", ".xml");
-    private static List<String> zipSuffix = Lists.newArrayList(".zip");
+    private static List<String> xlsSuffix = Lists.newArrayList(".xls", ".xlsx", ".xltx", ".numbers", ".csv");
+    private static List<String> pptSuffix = Lists.newArrayList(".ppt", ".pptx", ".key", ".ppsx", ".potx");
+    private static List<String> txtSuffix = Lists.newArrayList(".txt", ".log", ".xml", ".json", ".js", ".css", ".html", ".sql", ".md");
+    private static List<String> zipSuffix = Lists.newArrayList(".zip", ".tar", ".gz", ".jar", ".war", ".bz2", ".z");
     private static List<String> rarSuffix = Lists.newArrayList(".rar");
-    private static List<String> exeSuffix = Lists.newArrayList(".exe");
+    private static List<String> exeSuffix = Lists.newArrayList(".exe", ".pkg", ".dmg");
     private static List<String> pdfSuffix = Lists.newArrayList(".pdf");
     private static List<String> audioSuffix = Lists.newArrayList(".mp3", ".au", ".cd", ".wma", ".ogg", ".ape", ".flac", ".aiff");
-    private static List<String> videoSuffix = Lists.newArrayList(".mp4", ".avi", ".wmv", ".mpeg", ".mov", ".mkv", ".flv", ".rmvb", ".rm", ".3gp", ".ts", ".vob");
+    private static List<String> videoSuffix = Lists.newArrayList(".mp4", ".avi", ".wmv", ".mpeg", ".mov", ".mkv", ".flv", ".rmvb", ".rm", ".3gp", ".ts", ".vob", ".m3u8");
 
     public boolean isImage() {
         return suffixIn(imageSuffix);

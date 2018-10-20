@@ -130,6 +130,11 @@
                                   name="content"
                                   rows="5"></textarea>
                     </div>
+                    #if(option('article_comment_vcode_enable'))
+                    验证码：
+                    <input placeholder="请输入验证码" style="margin: 1rem 0" name="captcha">
+                    <img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
+                    #end
                     <button type="submit">发布</button>
                     <span class="clearfix"></span>
                 </form>

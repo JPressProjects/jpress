@@ -77,6 +77,9 @@
         class="toReply">回复</a>
     </div>
     </div>
+
+
+
 </script>
 #end
 #define content()
@@ -131,6 +134,11 @@
                     <span class="bh-comment-from-icon"><i class="fa fa-pencil"></i></span>
                     <textarea placeholder="想说就说吧..." rows="1" name="content" id="content"></textarea>
                 </div>
+                #if(option('article_comment_vcode_enable'))
+                验证码：
+                <input placeholder="请输入验证码" style="margin: 1rem 0" name="captcha">
+                <img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
+                #end
                 <button type="submit">发射</button>
                 <span class="clearfix"></span>
             </form>

@@ -24,14 +24,14 @@
     });
 
     function del(id) {
-        ajaxGet("#(CPATH)/admin/attachment/doDel/" + id,function () {
+        ajaxGet("#(CPATH)/admin/attachment/doDel/" + id, function () {
             parent.layer.data.needReload = true;
             parent.layer.closeAll();
         })
     }
 
     function update() {
-        ajaxSubmit("#form",function () {
+        ajaxSubmit("#form", function () {
             toastr.success('修改成功');
         })
     }
@@ -43,7 +43,33 @@
 <div class="row">
     <div class="col-xs-7" style="background: #ffffff" id="image-box">
         <div class="row">
+
+            #if(attachment.isImage())
             <img src="#(CPATH)#(attachment.path ??)" style="width: 100%">
+            #elseif(attachment.isDoc())
+            <img src="#(CPATH)/static/commons/img/suffix/doc.png" style="width: 100%">
+            #elseif(attachment.isXls())
+            <img src="#(CPATH)/static/commons/img/suffix/xls.png" style="width: 100%">
+            #elseif(attachment.isPpt())
+            <img src="#(CPATH)/static/commons/img/suffix/ppt.png" style="width: 100%">
+            #elseif(attachment.isTxt())
+            <img src="#(CPATH)/static/commons/img/suffix/txt.png" style="width: 100%">
+            #elseif(attachment.isZip())
+            <img src="#(CPATH)/static/commons/img/suffix/zip.png" style="width: 100%">
+            #elseif(attachment.isRar())
+            <img src="#(CPATH)/static/commons/img/suffix/rar.png" style="width: 100%">
+            #elseif(attachment.isExe())
+            <img src="#(CPATH)/static/commons/img/suffix/exe.png" style="width: 100%">
+            #elseif(attachment.isPdf())
+            <img src="#(CPATH)/static/commons/img/suffix/pdf.png" style="width: 100%">
+            #elseif(attachment.isAudio())
+            <img src="#(CPATH)/static/commons/img/suffix/audio.png" style="width: 100%">
+            #elseif(attachment.isVideo())
+            <img src="#(CPATH)/static/commons/img/suffix/video.png" style="width: 100%">
+            #else
+            <img src="#(CPATH)/static/commons/img/suffix/unknow.png" style="width: 100%">
+            #end
+
         </div>
     </div>
 
@@ -77,12 +103,12 @@
 
             </div>
 
-            <div  style="margin: 20px">
+            <div style="margin: 20px">
                 <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
                     <div class="form-group">
                         <label>URL</label>
-                        <textarea class="form-control" rows="2" readonly >#(CPATH)#(attachment.path ??)</textarea>
+                        <textarea class="form-control" rows="2" readonly>#(CPATH)#(attachment.path ??)</textarea>
                     </div>
 
                     <div class="form-group">
@@ -92,7 +118,7 @@
 
                     <div class="form-group">
                         <label>描述</label>
-                        <textarea class="form-control" rows="3" name="attachment.description" >#(attachment.description ??)</textarea>
+                        <textarea class="form-control" rows="3" name="attachment.description">#(attachment.description ??)</textarea>
                     </div>
                 </form>
             </div>

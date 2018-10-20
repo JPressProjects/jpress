@@ -89,8 +89,46 @@
                             <div class="row">
                                 #for(attachment : page.list)
                                 <div class="attachment_item">
+                                    #if(attachment.isImage())
                                     <img src="#(CPATH)#(attachment.path ??)" title="#(attachment.title ??)"
                                          alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isDoc())
+                                    <img src="#(CPATH)/static/commons/img/suffix/doc.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isXls())
+                                    <img src="#(CPATH)/static/commons/img/suffix/xls.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isPpt())
+                                    <img src="#(CPATH)/static/commons/img/suffix/ppt.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isTxt())
+                                    <img src="#(CPATH)/static/commons/img/suffix/txt.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isZip())
+                                    <img src="#(CPATH)/static/commons/img/suffix/zip.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isRar())
+                                    <img src="#(CPATH)/static/commons/img/suffix/rar.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isExe())
+                                    <img src="#(CPATH)/static/commons/img/suffix/exe.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isPdf())
+                                    <img src="#(CPATH)/static/commons/img/suffix/pdf.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isAudio())
+                                    <img src="#(CPATH)/static/commons/img/suffix/audio.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isVideo())
+                                    <img src="#(CPATH)/static/commons/img/suffix/video.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #else
+                                    <img src="#(CPATH)/static/commons/img/suffix/unknow.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #end
                                 </div>
                                 #end
                             </div>

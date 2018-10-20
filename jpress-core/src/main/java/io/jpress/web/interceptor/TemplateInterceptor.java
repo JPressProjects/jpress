@@ -99,6 +99,9 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
             case JPressConsts.OPTION_WEB_NAME:
                 webName = newValue;
                 break;
+            case JPressConsts.OPTION_WEB_COPYRIGHT:
+                webCopyright = newValue;
+                break;
             case JPressConsts.OPTION_WEB_DOMAIN:
                 webDomain = newValue;
                 break;

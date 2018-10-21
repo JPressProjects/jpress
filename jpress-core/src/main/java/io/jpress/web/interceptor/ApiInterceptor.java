@@ -17,14 +17,15 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.StrUtils;
+import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.service.UserService;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -52,6 +53,8 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
     }
 
+    @Inject
+    private UserService userService;
 
     public void intercept(Invocation inv) {
 
@@ -61,21 +64,17 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-
         if (apiEnable == false) {
             inv.getController().renderJson(Ret.fail().set("message", "api closed."));
             return;
         }
-
 
         if (StrUtils.isBlank(apiSecret)) {
             inv.getController().renderJson(Ret.fail().set("message", "config error"));
             return;
         }
 
-
-        Controller controller = inv.getController();
-
+        JbootController controller = (JbootController) inv.getController();
         String appId = controller.getPara("appId");
         if (StrUtils.isBlank(appId)) {
             inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
@@ -89,16 +88,20 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
         String sign = controller.getPara("sign");
-
         if (StrUtils.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "sign is blank"));
             return;
         }
 
-        String localSing = createLocalSign(inv.getController().getRequest().getParameterMap());
-        if (sign.equals(localSing) == false) {
+        String localSign = createLocalSign(controller.getRequest().getParameterMap());
+        if (sign.equals(localSign) == false) {
             inv.getController().renderJson(Ret.fail().set("message", "sign error"));
             return;
+        }
+
+        Long userId = controller.getJwtAttr("userId");
+        if (userId != null) {
+            controller.setAttr(JPressConsts.ATTR_LOGINED_USER, userService.findById(userId));
         }
 
         inv.invoke();
@@ -109,14 +112,11 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         Arrays.sort(keys);
         StringBuilder query = new StringBuilder();
         for (String key : keys) {
-            if (ArrayUtils.isNullOrEmpty(params.get(key))) {
-                continue;
-            }
             if ("sign".equals(key)) {
                 continue;
             }
             for (String value : params.get(key)) {
-                if (value != null && StrUtils.notBlank(key, value.toString())) {
+                if (StrUtils.notBlank(key, value)) {
                     query.append(key).append(value);
                 }
             }

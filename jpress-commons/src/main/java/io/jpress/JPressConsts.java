@@ -109,6 +109,9 @@ public class JPressConsts {
     public static final String EDIT_MODE_MARKDOWN = "markdown"; //markdown 的编辑模式
 
 
+    public static final String JWT_USERID = "userId";
+
+
     /**
      * 用于标识当前 是否选中
      */

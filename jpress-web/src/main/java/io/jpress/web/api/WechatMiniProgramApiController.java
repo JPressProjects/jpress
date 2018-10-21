@@ -25,6 +25,7 @@ import com.jfinal.weixin.sdk.cache.IAccessTokenCache;
 import com.jfinal.wxaapp.api.WxaUserApi;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
@@ -154,7 +155,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         }
 
 
-        setJwtAttr("userId", userId);
+        setJwtAttr(JPressConsts.JWT_USERID, userId);
 
         //设置 jwt Token 给客户端
         //以后客户端通过此token定位用户信息

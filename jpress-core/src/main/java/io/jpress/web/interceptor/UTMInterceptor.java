@@ -21,6 +21,7 @@ import com.jfinal.core.Controller;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.RequestUtils;
 import io.jboot.utils.StrUtils;
+import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.Utm;
 import io.jpress.service.UtmService;
@@ -56,6 +57,15 @@ public class UTMInterceptor implements Interceptor {
         String uid = EncryptCookieUtils.get(ctrl, JPressConsts.COOKIE_UID);
         if (StrUtils.isNotBlank(uid)) {
             utm.setUserId(Long.valueOf(uid));
+        }
+
+        /**
+         * 可能是API的用户，API 通过 jwt 获取用户信息
+         */
+        else if (ctrl instanceof JbootController) {
+            JbootController c = (JbootController) ctrl;
+            Long userId = c.getJwtAttr(JPressConsts.JWT_USERID);
+            if (userId != null) utm.setUserId(userId);
         }
 
         /**

@@ -99,7 +99,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        Long userId = controller.getJwtAttr("userId");
+        Long userId = controller.getJwtAttr(JPressConsts.JWT_USERID);
         if (userId != null) {
             controller.setAttr(JPressConsts.ATTR_LOGINED_USER, userService.findById(userId));
         }

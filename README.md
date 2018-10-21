@@ -11,6 +11,10 @@
 
 https://pan.baidu.com/s/1Pe0KcYcQGalxPnlUNw9rmg
 
+## JPress 微信小程序SDK
+
+网址：https://gitee.com/fuhai/jpress-miniprogram-sdk
+
 
 ## 常见问题
 

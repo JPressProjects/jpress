@@ -37,14 +37,15 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="reg_email_validate_template">#option("reg_email_validate_template")</textarea>
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
                                     </p>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">启用短信</label>
+                                <label class="col-sm-2 control-label">启用短信验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
                                            #checkedIf(option("reg_sms_validate_enable"))>
@@ -57,7 +58,8 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="reg_sms_validate_template">#option("reg_sms_validate_template")</textarea>
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能后才能使用。
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能后才能使用，阿里云请填写短信模板ID。
                                     </p>
                                 </div>
                             </div>

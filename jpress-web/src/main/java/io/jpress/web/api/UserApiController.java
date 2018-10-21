@@ -15,6 +15,7 @@
  */
 package io.jpress.web.api;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
@@ -46,5 +47,34 @@ public class UserApiController extends ApiControllerBase {
 
         User user = userService.findById(id);
         renderJson(Ret.ok().set("user", user));
+    }
+
+
+    /**
+     * 获取登录用户自己的信息
+     */
+    public void me() {
+        User user = getLoginedUser();
+        if (user == null) {
+            renderFailJson(1, "user not logined");
+            return;
+        }
+
+        renderJson(Ret.ok().set("user", user));
+    }
+
+
+    public void save() {
+        User user = JSON.parseObject(getRawData(), User.class);
+
+        if (user == null) {
+            renderFailJson(1, "can not get user data");
+            return;
+        }
+
+        user.keepUpdateSafe();
+        userService.saveOrUpdate(user);
+
+        renderOk();
     }
 }

@@ -40,4 +40,12 @@ public abstract class ApiControllerBase extends ControllerBase {
     protected void renderFailJson(int code, String message) {
         renderJson(Ret.fail("code", code).set("message", message));
     }
+
+    protected void renderOk() {
+        renderJson(Ret.ok());
+    }
+
+    protected void renderOk(String attr, Object value) {
+        renderJson(Ret.ok(attr, value));
+    }
 }

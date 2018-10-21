@@ -150,6 +150,21 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
+    /**
+     * 文章详情
+     */
+    public void detail() {
+        Long articleId = getParaToLong("id");
+        if (articleId == null) {
+            renderFailJson(1, "id is empty");
+            return;
+        }
+
+        Article article = articleService.findById(articleId);
+        renderOk("article", article);
+    }
+
+
     public void save() {
 
         String json = getRawData();

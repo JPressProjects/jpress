@@ -17,7 +17,12 @@ package io.jpress.module.page.controller;
 
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.ApiControllerBase;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -27,21 +32,32 @@ import io.jpress.web.base.ApiControllerBase;
 @RequestMapping("/api/page")
 public class PageApiController extends ApiControllerBase {
 
+    @Inject
+    private SinglePageService service;
 
     public void index() {
-        renderJson(Ret.ok());
+        Long id = getParaToLong("id");
+        if (id != null) {
+            SinglePage page = service.findById(id);
+            renderJson(Ret.ok("page", page));
+            return;
+        }
+
+        String slug = getPara("slug");
+        if (slug != null) {
+            SinglePage page = service.findFirstBySlug(slug);
+            renderJson(Ret.ok("page", page));
+            return;
+        }
+
+        renderFailJson();
     }
 
-    public void add() {
-
+    public void list() {
+        String flag = getPara("flag");
+        List<SinglePage> pages = service.findListByFlag(flag);
+        renderOk("pages", pages);
     }
 
-    public void delete() {
-
-    }
-
-    public void update() {
-
-    }
 
 }

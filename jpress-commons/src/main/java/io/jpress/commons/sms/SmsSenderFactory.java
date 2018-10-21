@@ -23,12 +23,12 @@ public class SmsSenderFactory {
 
     public static ISmsSender createSender() {
 
-        String provider = "sms_app_provider";// OptionQuery.me().findValue("sms_app_provider");
+        String provider = "sms_app_provider";
 
         if (StrUtils.isBlank(provider)) {
-            return new AlidayuSmsSender();
+            return new AliyunSmsSender();
         } else if ("sms_provider_alidayu".equals(provider)) {
-            return new AlidayuSmsSender();
+            return new AliyunSmsSender();
         }
 
 //		其他短信服务商
@@ -36,7 +36,7 @@ public class SmsSenderFactory {
 //			return new XXXSmsSender();
 //		}
 
-        return new AlidayuSmsSender();
+        return new AliyunSmsSender();
 
     }
 

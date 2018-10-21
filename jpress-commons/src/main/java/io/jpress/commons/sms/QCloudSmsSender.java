@@ -15,42 +15,34 @@
  */
 package io.jpress.commons.sms;
 
-public class SmsMessage {
+import com.jfinal.log.Log;
 
-    private String mobile;
-    private String sign; //阿里云和腾讯云需要签名
-    private String template;
-    private String param;
+/**
+ * 腾讯云短信发送
+ * api 接口文档 ：https://cloud.tencent.com/document/product/382/5976
+ */
+public class QCloudSmsSender implements ISmsSender {
+    private static final Log log = Log.getLog(QCloudSmsSender.class);
 
-    public String getMobile() {
-        return mobile;
+
+    @Override
+    public boolean send(SmsMessage sms) {
+
+        String app_key = "your app key";
+        String app_secret = "your app secret";
+
+        return false;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+
+    public static void main(String[] args) {
+        SmsMessage sms = new SmsMessage();
+
+
+        boolean sendOk = new QCloudSmsSender().send(sms);
+
+        System.out.println(sendOk);
+        System.out.println("===============finished!===================");
     }
 
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    public String getParam() {
-        return param;
-    }
-
-    public void setParam(String param) {
-        this.param = param;
-    }
 }

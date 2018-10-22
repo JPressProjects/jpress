@@ -65,6 +65,7 @@ public class JPressHandler extends Handler implements JPressOptions.OptionChange
 
         try {
             threadLocal.set(target);
+            request.setAttribute("VERSION", JPressConsts.VERSION);
             request.setAttribute("CPATH", request.getContextPath());
             next.handle(target, request, response, isHandled);
         } finally {

@@ -3,7 +3,7 @@
 #define css()
 <style>
     .attachment_item {
-        height: 200px;
+        height: 220px;
         width: 200px;
         padding: 0px;
         border: 1px solid #ddd;
@@ -13,9 +13,23 @@
     }
 
     .attachment_item img {
-        height: 100%;
+        height: 90%;
+        min-height: 90%;
         width: 100%;
     }
+
+    .attachment_item_title {
+        height: 10%;
+        background-color: #ecf0f5;
+        text-align: center;
+        padding: 0 5px;
+        overflow: hidden;
+    }
+
+    .attachment_item_title p {
+        overflow: hidden;
+    }
+
 </style>
 #end
 
@@ -129,6 +143,9 @@
                                          title="#(attachment.title ??)"
                                          alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
                                     #end
+                                    <div class="attachment_item_title">
+                                        <p>#(attachment.title ??)</p>
+                                    </div>
                                 </div>
                                 #end
                             </div>

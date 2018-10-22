@@ -22,7 +22,7 @@ function initImageBrowserButton() {
             anim: 2,
             shadeClose: true,
             shade: 0.5,
-            area: ['80%', '80%'],
+            area: ['90%', '90%'],
             content: jpress.cpath + '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
@@ -211,7 +211,7 @@ function openlayerfForSimplemde(editor) {
         anim: 2,
         shadeClose: true,
         shade: 0.5,
-        area: ['80%', '80%'],
+        area: ['90%', '90%'],
         content: jpress.cpath + '/admin/attachment/browse',
         end: function () {
             if (layer.data.src != null) {
@@ -230,7 +230,7 @@ function openlayer(ed) {
         anim: 2,
         shadeClose: true,
         shade: 0.5,
-        area: ['80%', '80%'],
+        area: ['90%', '90%'],
         content: jpress.cpath + '/admin/attachment/browse',
         end: function () {
             if (layer.data.src != null) {

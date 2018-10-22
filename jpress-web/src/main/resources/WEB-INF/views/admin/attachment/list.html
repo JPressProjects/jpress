@@ -43,11 +43,11 @@
     function show(id) {
         layer.open({
             type: 2,
-            title: '详情',
+            title: '附件详情',
             anim: 2,
             shadeClose: true,
             shade: 0.6,
-            area: ['70%', '90%'],
+            area: ['90%', '90%'],
             content: '#(CPATH)/admin/attachment/detail/' + id,
             end: function () {
                 if (layer.data.needReload == true) {

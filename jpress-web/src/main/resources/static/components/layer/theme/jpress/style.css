@@ -1,8 +1,10 @@
 body .layer-ext-jpress .layui-layer-title {
     background: #3c8dbc;
     color: #fff;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
+    border-bottom: none;
+    border-radius: 0;
 }
 
 body .layui-ext-jpress .layui-layer-btn {

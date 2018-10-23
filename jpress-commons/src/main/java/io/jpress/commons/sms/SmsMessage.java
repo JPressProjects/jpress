@@ -20,7 +20,7 @@ public class SmsMessage {
     private String mobile;
     private String sign; //阿里云和腾讯云需要签名
     private String template;
-    private String param;
+    private String code; //验证码
 
     public String getMobile() {
         return mobile;
@@ -46,11 +46,18 @@ public class SmsMessage {
         this.template = template;
     }
 
-    public String getParam() {
-        return param;
+    public String getCode() {
+        return code;
     }
 
-    public void setParam(String param) {
-        this.param = param;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * 发送短信
+     */
+    public void send() {
+        SmsSenderFactory.createSender().send(this);
     }
 }

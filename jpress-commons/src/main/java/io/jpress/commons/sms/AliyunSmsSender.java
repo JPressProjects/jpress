@@ -16,28 +16,109 @@
 package io.jpress.commons.sms;
 
 import com.jfinal.log.Log;
+import io.jboot.Jboot;
+import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SimpleTimeZone;
 
 /**
  * 阿里云短信发送
  * api 接口文档 ：https://help.aliyun.com/document_detail/56189.html?spm=a2c4g.11186623.6.590.263891ebLwA3nl
  */
 public class AliyunSmsSender implements ISmsSender {
-    private static final Log log = Log.getLog(AliyunSmsSender.class);
 
+    private static final Log log = Log.getLog(AliyunSmsSender.class);
 
     @Override
     public boolean send(SmsMessage sms) {
 
-        String app_key = "your app key";
-        String app_secret = "your app secret";
+        String app_key = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPKEY);
+        String app_secret = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET);
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("AccessKeyId", app_key);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        df.setTimeZone(new SimpleTimeZone(0, "GMT"));
+        String timestamp = df.format(new Date());
+        params.put("Timestamp", timestamp);
+        params.put("Format", "JSON");
+        params.put("SignatureMethod", "HMAC-SHA1");
+        params.put("SignatureVersion", "1.0");
+        params.put("SignatureNonce", StrUtils.uuid());
+
+
+        params.put("Action", "SendSms");
+        params.put("Version", "2017-05-25");
+        params.put("RegionId", "cn-hangzhou");
+        params.put("PhoneNumbers", sms.getMobile());
+        params.put("SignName", sms.getSign());
+        params.put("TemplateCode", sms.getTemplate());
+        params.put("TemplateParam", "{\"code\":" + sms.getCode() + "}");
+
+
+        try {
+
+            String url = doSignAndGetUrl(params, app_secret);
+            String content = Jboot.httpGet(url);
+            return StrUtils.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
+        } catch (Exception e) {
+            log.error("AliyunSmsSender exception", e);
+        }
 
         return false;
     }
 
+    public static String doSignAndGetUrl(Map<String, String> params, String secret) throws Exception {
+
+        java.util.TreeMap<String, String> sortParas = new java.util.TreeMap<>();
+        sortParas.putAll(params);
+
+
+        java.util.Iterator<String> it = sortParas.keySet().iterator();
+        StringBuilder sortQueryStringTmp = new StringBuilder();
+        while (it.hasNext()) {
+            String key = it.next();
+            sortQueryStringTmp.append("&").append(specialUrlEncode(key)).append("=").append(specialUrlEncode(params.get(key).toString()));
+        }
+        String sortedQueryString = sortQueryStringTmp.substring(1);// 去除第一个多余的&符号
+        StringBuilder stringToSign = new StringBuilder();
+        stringToSign.append("GET").append("&");
+        stringToSign.append(specialUrlEncode("/")).append("&");
+        stringToSign.append(specialUrlEncode(sortedQueryString));
+        String sign = sign(secret + "&", stringToSign.toString());
+
+
+        String signature = specialUrlEncode(sign);
+        return "http://dysmsapi.aliyuncs.com/?Signature=" + signature + sortQueryStringTmp;
+    }
+
+    public static String specialUrlEncode(String value) throws Exception {
+        return java.net.URLEncoder.encode(value, "UTF-8").replace("+", "%20").replace("*", "%2A").replace("%7E", "~");
+    }
+
+    public static String sign(String accessSecret, String stringToSign) throws Exception {
+        javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA1");
+        mac.init(new javax.crypto.spec.SecretKeySpec(accessSecret.getBytes("UTF-8"), "HmacSHA1"));
+        byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
+        return new sun.misc.BASE64Encoder().encode(signData);
+    }
+
 
     public static void main(String[] args) {
-        SmsMessage sms = new SmsMessage();
 
+        SmsMessage sms = new SmsMessage();
+        sms.setMobile("18611223344");
+        sms.setTemplate("SMS_xxxxxx");
+        sms.setSign("JPress");
+        sms.setCode("1234");
 
         boolean sendOk = new AliyunSmsSender().send(sms);
 

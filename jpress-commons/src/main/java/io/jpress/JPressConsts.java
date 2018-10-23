@@ -83,6 +83,16 @@ public class JPressConsts {
     public static final String OPTION_CONNECTION_EMAIL_SSL_ENABLE = "connection_email_ssl_enable"; //是否启用ssl
 
 
+    public static final String OPTION_CONNECTION_SMS_ENABLE = "connection_sms_enable"; //是否启用短信
+    public static final String OPTION_CONNECTION_SMS_TYPE = "connection_sms_type"; //短信服务商
+    public static final String OPTION_CONNECTION_SMS_APPKEY = "connection_sms_appkey"; // 服务商 的appkey（或者appid）
+    public static final String OPTION_CONNECTION_SMS_APPSECRET = "connection_sms_appsecret"; //app密钥
+    public static final String OPTION_CONNECTION_SMS_SIGN = "connection_sms_sign"; //签名
+
+
+    public static final String SMS_TYPE_ALIYUN = "aliyun"; //短信服务商：阿里云
+    public static final String SMS_TYPE_QCLOUD = "qcloud"; //短信服务商：腾讯云
+
     /**
      * 用到的cookie name 常量
      */

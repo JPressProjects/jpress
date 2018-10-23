@@ -16,28 +16,38 @@
 package io.jpress.commons.sms;
 
 
+import io.jboot.core.spi.JbootSpiLoader;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 
 public class SmsSenderFactory {
 
 
     public static ISmsSender createSender() {
 
-        String provider = "sms_app_provider";
+        boolean smsEnable = JPressOptions.getAsBool(JPressConsts.OPTION_CONNECTION_SMS_ENABLE);
 
-        if (StrUtils.isBlank(provider)) {
-            return new AliyunSmsSender();
-        } else if ("sms_provider_alidayu".equals(provider)) {
+        if (smsEnable == false) {
+            return new NonSmsSender();
+        }
+
+        String type = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_TYPE);
+
+        // 默认使用阿里云
+        if (StrUtils.isBlank(type)) {
             return new AliyunSmsSender();
         }
 
-//		其他短信服务商
-//		else if("sms_provider_xxx".equals(provider)){
-//			return new XXXSmsSender();
-//		}
+        switch (type) {
+            case JPressConsts.SMS_TYPE_ALIYUN:
+                return new AliyunSmsSender();
+            case JPressConsts.SMS_TYPE_QCLOUD:
+                return new QCloudSmsSender();
+        }
 
-        return new AliyunSmsSender();
-
+        //其他通过SPI扩展机制加载
+        return JbootSpiLoader.load(ISmsSender.class, type);
     }
 
 }

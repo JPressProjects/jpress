@@ -22,6 +22,17 @@ public class SmsMessage {
     private String template;
     private String code; //验证码
 
+
+    public static SmsMessage create(String mobile, Object code, String template, String sign) {
+        SmsMessage sms = new SmsMessage();
+        sms.setCode(code.toString());
+        sms.setSign(sign);
+        sms.setMobile(mobile);
+        sms.setTemplate(template);
+        return sms;
+    }
+
+
     public String getMobile() {
         return mobile;
     }
@@ -57,7 +68,7 @@ public class SmsMessage {
     /**
      * 发送短信
      */
-    public void send() {
-        SmsSenderFactory.createSender().send(this);
+    public boolean send() {
+        return SmsSenderFactory.createSender().send(this);
     }
 }

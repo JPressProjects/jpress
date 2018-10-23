@@ -38,7 +38,7 @@ public class AliyunSmsSender implements ISmsSender {
     @Override
     public boolean send(SmsMessage sms) {
 
-        String app_key = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPKEY);
+        String app_key = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPID);
         String app_secret = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET);
 
 
@@ -113,6 +113,12 @@ public class AliyunSmsSender implements ISmsSender {
 
 
     public static void main(String[] args) {
+
+        String app_key = "";
+        String app_secret = "";
+
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPID, app_key);
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET, app_secret);
 
         SmsMessage sms = new SmsMessage();
         sms.setMobile("18611223344");

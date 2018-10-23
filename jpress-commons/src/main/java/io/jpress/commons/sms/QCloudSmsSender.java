@@ -15,29 +15,75 @@
  */
 package io.jpress.commons.sms;
 
-import com.jfinal.log.Log;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jfinal.kit.HashKit;
+import com.jfinal.kit.HttpKit;
+import io.jboot.utils.StrUtils;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
+
+import java.util.Random;
 
 /**
  * 腾讯云短信发送
  * api 接口文档 ：https://cloud.tencent.com/document/product/382/5976
  */
 public class QCloudSmsSender implements ISmsSender {
-    private static final Log log = Log.getLog(QCloudSmsSender.class);
+
+    private static final String SMS_JSON = "{\"ext\":\"\",\"extend\":\"\",\"params\":[\"{code}\",30],\"sig\":\"{sig}\",\"sign\":\"{sign}\",\"tel\":{\"mobile\":\"{mobile}\",\"nationcode\":\"86\"},\"time\":{time},\"tpl_id\":{tpl_id}}";
 
 
     @Override
     public boolean send(SmsMessage sms) {
 
-        String app_key = "your app key";
-        String app_secret = "your app secret";
+        String app_key = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPID);
+        String app_secret = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET);
 
-        return false;
+        String random = new Random().nextInt(1000000)+"";
+        String time = System.currentTimeMillis() / 1000 + "";
+
+        String srcStr = "appkey=" + app_secret + "&random=" + random + "&time=" + time + "&mobile=" + sms.getMobile();
+        String sig = HashKit.sha256(srcStr);
+
+
+        String postContent = SMS_JSON
+                .replace("{code}", sms.getCode())
+                .replace("{sig}", sig)
+                .replace("{sign}", sms.getSign())
+                .replace("{mobile}", sms.getMobile())
+                .replace("{time}", time)
+                .replace("{tpl_id}", sms.getTemplate());
+
+        String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=" + app_key + "&random=" + random;
+
+        String content = HttpKit.post(url, postContent);
+
+        System.out.println(content);
+        if (StrUtils.isBlank(content)) {
+            return false;
+        }
+
+        JSONObject resultJson = JSON.parseObject(content);
+        Integer result = resultJson.getInteger("result");
+        return result != null && result == 0;
     }
 
 
     public static void main(String[] args) {
-        SmsMessage sms = new SmsMessage();
 
+        String app_id = "1400***434";
+        String app_key = "bb4374d1*******00f62bb97fd6";
+
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPID, app_id);
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET, app_key);
+
+
+        SmsMessage sms = new SmsMessage();
+        sms.setMobile("18611223344");
+        sms.setTemplate("215659");
+        sms.setSign("JPress大本营");
+        sms.setCode("1234");
 
         boolean sendOk = new QCloudSmsSender().send(sms);
 

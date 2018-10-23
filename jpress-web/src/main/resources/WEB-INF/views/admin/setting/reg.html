@@ -59,10 +59,21 @@
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="reg_sms_validate_template">#option("reg_sms_validate_template")</textarea>
                                     <p class="help-block">
-                                        请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能后才能使用，阿里云请填写短信模板ID。
+                                        请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信签名</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
+                                           name="reg_sms_validate_sign"
+                                           value="#option('reg_sms_validate_sign')">
+                                    <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                </div>
+                            </div>
+
 
                         </div>
                         <!-- /.box-body -->

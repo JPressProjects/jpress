@@ -15,7 +15,6 @@
  */
 package io.jpress.module.article.controller.api;
 
-import com.alibaba.fastjson.JSON;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
@@ -150,11 +149,8 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-
     public void save() {
-
-        String json = getRawData();
-        Article article = JSON.parseObject(json, Article.class);
+        Article article = getRawObject(Article.class);
         articleService.saveOrUpdate(article);
 
         renderJson(Ret.ok());

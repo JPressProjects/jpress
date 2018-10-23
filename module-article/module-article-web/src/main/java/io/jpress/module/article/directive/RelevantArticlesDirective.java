@@ -44,7 +44,7 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Article article = getParam(0, scope);
+        Article article = getPara(0, scope);
         if (article == null) {
             throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
         }

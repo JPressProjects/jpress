@@ -38,12 +38,12 @@ public class OptionDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String key = getParam(0, scope);
+        String key = getPara(0, scope);
         if (StrUtils.isBlank(key)) {
             throw new IllegalArgumentException("#option(...) argument must not be empty");
         }
 
-        String defaultValue = getParam(1, "", scope);
+        String defaultValue = getPara(1, scope, "");
 
         String value = JPressOptions.get(key);
         if (value == null || value == "") {

@@ -46,7 +46,7 @@ public class HasPermissionDirective extends JbootDirectiveBase {
         }
 
 
-        String permission = getParam(0, scope);
+        String permission = getPara(0, scope);
         if (permission == null || permission.trim().length() == 0) {
             throw new IllegalArgumentException("#permission(...) argument must not be empty");
         }

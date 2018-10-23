@@ -38,7 +38,7 @@ public class PreviousArticleDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Article article = getParam(0, scope);
+        Article article = getPara(0, scope);
         scope.setLocal("previous", service.findPreviousById(article.getId()));
         renderBody(env, scope, writer);
     }

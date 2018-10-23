@@ -39,7 +39,7 @@ public class ArticleDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        String idOrSlug = getParam(0, scope);
+        String idOrSlug = getPara(0, scope);
         Article article = getArticle(idOrSlug);
 
         if (article == null) {

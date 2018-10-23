@@ -15,7 +15,6 @@
  */
 package io.jpress.web.api;
 
-import com.alibaba.fastjson.JSON;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
@@ -65,7 +64,7 @@ public class UserApiController extends ApiControllerBase {
 
 
     public void save() {
-        User user = JSON.parseObject(getRawData(), User.class);
+        User user = getRawObject(User.class);
 
         if (user == null) {
             renderFailJson(1, "can not get user data");

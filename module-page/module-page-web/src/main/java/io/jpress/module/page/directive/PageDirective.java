@@ -40,7 +40,7 @@ public class PageDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String slug = getParam("slug", scope);
+        String slug = getPara("slug", scope);
         if (StrUtils.isBlank(slug)) {
             throw new IllegalArgumentException("#page(slug = ...) argument must not be empty ");
         }

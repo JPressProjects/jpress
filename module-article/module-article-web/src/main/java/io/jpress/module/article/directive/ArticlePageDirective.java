@@ -49,7 +49,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         int page = controller.getParaToInt(1, 1);
-        int pageSize = getParam("pageSize", 10, scope);
+        int pageSize = getPara("pageSize", scope, 10);
         ArticleCategory category = controller.getAttr("category");
 
 

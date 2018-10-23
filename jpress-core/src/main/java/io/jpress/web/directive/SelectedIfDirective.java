@@ -35,7 +35,7 @@ public class SelectedIfDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Object param = getParam(0, scope);
+        Object param = getPara(0, scope);
         if ("true".equalsIgnoreCase(String.valueOf(param))) {
             try {
                 writer.write("selected");

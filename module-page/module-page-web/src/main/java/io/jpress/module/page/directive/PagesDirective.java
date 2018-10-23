@@ -43,7 +43,7 @@ public class PagesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String flag = getParam("flag", scope);
+        String flag = getPara("flag", scope);
 
         List<SinglePage> singlePages = StrUtils.isBlank(flag)
                 ? singlePageService.findAll()

@@ -48,7 +48,7 @@ public class RoleDirective extends JbootDirectiveBase {
         }
 
 
-        Set<String> roles = StrUtils.splitToSet(getParam(0, scope), ",");
+        Set<String> roles = StrUtils.splitToSet(getPara(0, scope), ",");
         if (roles == null || roles.size() == 0) {
             throw new IllegalArgumentException("#role(...) argument must not be empty");
         }

@@ -45,8 +45,8 @@ public class ParaDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
 
-        String key = getParam(0, scope);
-        String defaultValue = getParam(1, scope);
+        String key = getPara(0, scope);
+        String defaultValue = getPara(1, scope);
 
         if (StrUtils.isBlank(key)) {
             throw new IllegalArgumentException("#para(...) argument must not be empty");

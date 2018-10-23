@@ -40,8 +40,8 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Long id = getParam(0, scope);
-        String type = getParam(1, scope);
+        Long id = getPara(0, scope);
+        String type = getPara(1, scope);
 
         if (id == null || type == null) {
             throw new IllegalArgumentException("articleCategory error");

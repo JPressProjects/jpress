@@ -36,12 +36,12 @@ public class MaxLengthDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        String content = getParam(0, scope);
+        String content = getPara(0, scope);
         if (StrUtils.isBlank(content)) {
             return;
         }
 
-        int maxLength = getParam(1, 0, scope);
+        int maxLength = getPara(1, scope, 0);
         if (maxLength <= 0) {
             throw new IllegalArgumentException("#maxLength(content,length) 参数错误，length必须大于0 ");
         }

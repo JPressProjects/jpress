@@ -24,8 +24,12 @@ import io.jpress.service.OptionService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ArticleKit {
+
+    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     /**
      * 发送邮件给管理员，告知网站有新的评论了
@@ -34,6 +38,12 @@ public class ArticleKit {
      * @param comment
      */
     public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment) {
+        fixedThreadPool.execute(() -> {
+            doSendEmail(article, comment);
+        });
+    }
+
+    private static void doSendEmail(Article article, ArticleComment comment) {
 
         OptionService optionService = Jboot.bean(OptionService.class);
 
@@ -57,5 +67,6 @@ public class ArticleKit {
         email.to(sendTo);
         email.send();
     }
+
 
 }

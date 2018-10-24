@@ -125,6 +125,7 @@ public class ArticleController extends TemplateControllerBase {
      * 发布评论
      */
     public void postComment() {
+
         Long articleId = getParaToLong("articleId");
         Long pid = getParaToLong("pid");
         String nickname = getPara("nickname");

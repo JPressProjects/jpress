@@ -62,11 +62,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>io.jsonwebtoken</groupId>
-                    <artifactId>jjwt</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
@@ -99,6 +94,12 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
+            <artifactId>module-page-service-provider</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
             <version>${jpress.version}</version>
         </dependency>
@@ -106,12 +107,6 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-provider</artifactId>
-            <version>${jpress.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-page-service-provider</artifactId>
             <version>${jpress.version}</version>
         </dependency>
 

@@ -20,11 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-core</artifactId>
         </dependency>

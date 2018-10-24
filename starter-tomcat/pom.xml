@@ -85,11 +85,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>io.jsonwebtoken</groupId>
-                    <artifactId>jjwt</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>

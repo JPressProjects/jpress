@@ -34,9 +34,8 @@
 
     function doRenderComment(data) {
         if (data.code == 0) {
-            var comment = data.comment;
             var tmpl = $.templates("#commentTmpl");
-            var html = tmpl.render(comment);
+            var html = tmpl.render(data);
             $("#commentForm").after(html);
         } else {
             alert('评论发布成功，管理审核后即可正常显示。')
@@ -55,25 +54,25 @@
          <div class="comment-panel-portrait">
             {{if user }}
                 <img src="{{:user.avatar}}" class="img-fluid rounded-circle"
-                        alt="{{:author}}">
+                        alt="{{:comment.author}}">
                 {{else}}
                 <img src="/static/commons/img/avatar.png" class="img-fluid rounded-circle"
-                        alt="{{:author}}">
+                        alt="{{:comment.author}}">
              {{/if}}
         </div>
         <div class="comment-panel-content">
             <div class="comment-panel-content-item">
-                <div>{{:author}}</div>
-                <div>{{:created}}</div>
+                <div>{{:comment.author}}</div>
+                <div>{{:comment.created}}</div>
             </div>
-            <div class="comment-panel-content-main">{{:content}}</div>
+            <div class="comment-panel-content-main">{{:comment.content}}</div>
 
         </div>
         <span class="clearfix"></span>
         <div class="text-right text-primary">
             <a href="javascript:;"
-                data-cid="{{:id}}"
-                data-author="{{:author}}"
+                data-cid="{{:comment.id}}"
+                data-author="{{:comment.author}}"
                 class="toReply">回复</a>
          </div>
     </div>

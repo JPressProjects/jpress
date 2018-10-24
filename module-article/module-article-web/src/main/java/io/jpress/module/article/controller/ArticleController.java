@@ -228,7 +228,12 @@ public class ArticleController extends TemplateControllerBase {
             ret.set("code", 0);
         }
 
+        if (user != null) {
+            ret.put("user", user.keepSafe());
+        }
+
         renderJson(ret);
+
         ArticleKit.doNotifyAdministratorByEmail(article, comment);
     }
 

@@ -76,11 +76,13 @@ public class User extends BaseUser<User> {
         return JFinal.me().getContextPath() + (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
-    public void keepSafe() {
+    public User keepSafe() {
 
         //在读取用户资料进行输出的时候
         //调用下此方法，再用于渲染json数据给客户端
         remove("password", "salt");
+
+        return this;
     }
 
     public void keepUpdateSafe() {
@@ -122,6 +124,10 @@ public class User extends BaseUser<User> {
     public boolean update() {
         CommonsUtils.preventingXssAttacks(this, "salt", "password");
         return super.update();
+    }
+
+    public User getUser() {
+        return get("user");
     }
 
 

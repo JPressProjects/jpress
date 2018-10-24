@@ -49,7 +49,10 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
         }
 
-        List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, 3);
+        //默认值 3
+        int count = getPara(1, scope, 3);
+
+        List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, count);
         if (relevantArticles != null && !relevantArticles.isEmpty()) {
             scope.setLocal("relevantArticles", relevantArticles);
             renderBody(env, scope, writer);

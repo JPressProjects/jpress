@@ -667,55 +667,58 @@ public class _ClubController extends AdminControllerBase {
 
 
 **6、修改maven配置并运行**
-默认情况下，如此如果直接运行starter模块下的main方法，看不到任何效果，原因是：
 
-* 1、starter 这个模块并未依赖你生成的maven模块
-* 2、starter 里的resource并没有新模块的资源、比如html、css等。
+默认情况下，此时通过 `mvn clean install` 进行进行编译，会出现maven编译错误。原因是代码生成器虽然生成了 club 模块，但是 club 模块依赖 `parent`， `module-club` 下的 pom 文件如下：
 
-所以，接下来我们需要修改 starter 的pom.xml 文件，解决以上两个问题。
+```xml
+<parent>
+    <groupId>io.jpress</groupId>
+    <artifactId>parent</artifactId>
+    <version>${jpress.version}</version>
+</parent>
+```
+maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找不到这个 module 就会出现 maven编译错误。
 
-就以JPress自带的article 模块为例，starter依赖了如下模块
+因此，需要修改 jpress 根目录的 pom.xml ，添加把 `module-club` 添加到 pom.xml 里去，让 `module-club` 成为 jpress 的子模块。
+
+如下代码：
+```
+<modules>
+
+    <!--.....略 .... -->
+    <module>module-article</module>
+    <module>module-page</module>
+    
+    <!-- 添加这一行代码-->
+    <module>module-club</module>
+
+    <!--.....略 .... -->
+</modules>
+```
+
+此时，如果直接运行starter模块下的main方法，也不到任何效果，原因是：
+
+* 1、starter 这个模块并未依赖你生成的 club 模块
+* 2、starter 里的resource并没有 club 模块的资源、比如html、css等。
+
+所以，接下来我们需要修改 starter 的 `pom.xml` 文件，添加如下依赖。
 
 ```xml
 <dependency>
     <groupId>io.jpress</groupId>
-    <artifactId>module-article-web</artifactId>
+    <artifactId>module-club-web</artifactId>
     <version>${jpress.version}</version>
 </dependency>
 
 <dependency>
     <groupId>io.jpress</groupId>
-    <artifactId>module-article-service-provider</artifactId>
+    <artifactId>module-club-service-provider</artifactId>
     <version>${jpress.version}</version>
 </dependency>
 ```
 
-因此，参考这个，必须把 `club` 这个模块的依赖进来。
 
-问题2，把 `club` 中的资源在maven编译的时候，自动拷贝过来。这个需要我们需要的maven的 `maven-remote-resources-plugin` 插件。
-
-第一步：在 `module-club-web` 这个模块的pom.xml 文件添加如下配置。
-
-```xml
-<plugin>
-    <artifactId>maven-remote-resources-plugin</artifactId>
-    <version>1.5</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>bundle</goal>
-            </goals>
-        </execution>
-    </executions>
-    <configuration>
-        <includes>
-            <include>**/*.*</include>
-        </includes>
-    </configuration>
-</plugin>
-```
-
-第二步：修改starter模块下的 pom.xml 的xx插件配置为如下：
+同时，为了让 maven 编译的时候，把 `club` 中的资源拷贝到 starter 里阿里。我们需要修改starter模块下的 pom.xml 的`maven-remote-resources-plugin`插件配置为如下：
 
 ```xml
 <plugin>
@@ -744,7 +747,7 @@ public class _ClubController extends AdminControllerBase {
 </plugin>
 ```
 
-修改完毕后，在maven进行编译的时候，maven 就会自动把 club 下的代码和资源文件拷贝到 starter 这个模块里来，此时就可以正常运行了。
+此时，进行 `mvn clean install` 完毕之后，就可以正常运行了。
 
 注意：`starter-tomcat` 模块也需要做如此配置。
 

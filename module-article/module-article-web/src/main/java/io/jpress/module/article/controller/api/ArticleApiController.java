@@ -20,11 +20,17 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.User;
+import io.jpress.module.article.kit.ArticleKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -43,6 +49,12 @@ public class ArticleApiController extends ApiControllerBase {
 
     @Inject
     private ArticleCategoryService categoryService;
+
+    @Inject
+    private OptionService optionService;
+
+    @Inject
+    private ArticleCommentService commentService;
 
     /**
      * 文章详情的api
@@ -168,9 +180,95 @@ public class ArticleApiController extends ApiControllerBase {
     public void save() {
         Article article = getRawObject(Article.class);
         articleService.saveOrUpdate(article);
-
         renderJson(Ret.ok());
     }
+
+
+    /**
+     * 发布评论
+     */
+    public void postComment() {
+        Long articleId = getParaToLong("articleId");
+        Long pid = getParaToLong("pid");
+        String content = getPara("content");
+
+        if (articleId == null || articleId <= 0) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        if (StrUtils.isBlank(content)) {
+            renderJson(Ret.fail().set("message", "评论内容不能为空"));
+            return;
+        } else {
+            content = StringEscapeUtils.escapeHtml(content);
+        }
+
+
+        Article article = articleService.findById(articleId);
+        if (article == null) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        // 文章关闭了评论的功能
+        if (!article.isCommentEnable()) {
+            renderJson(Ret.fail().set("message", "该文章的评论功能已关闭"));
+            return;
+        }
+
+        //是否开启评论功能
+        Boolean commentEnable = optionService.findAsBoolByKey("article_comment_enable");
+        if (commentEnable == null || commentEnable == false) {
+            renderJson(Ret.fail().set("message", "评论功能已关闭"));
+            return;
+        }
+
+        User user = getLoginedUser();
+
+        ArticleComment comment = new ArticleComment();
+
+        comment.setArticleId(articleId);
+        comment.setContent(content);
+        comment.setPid(pid);
+        comment.setEmail(user.getEmail());
+
+        comment.setUserId(user.getId());
+        comment.setAuthor(user.getNickname());
+
+        //是否是管理员必须审核
+        Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");
+        if (reviewEnable != null && reviewEnable == true) {
+            comment.setStatus(ArticleComment.STATUS_UNAUDITED);
+        }
+        /**
+         * 无需管理员审核、直接发布
+         */
+        else {
+            comment.setStatus(ArticleComment.STATUS_NORMAL);
+        }
+
+        //记录文章的评论量
+        articleService.doIncArticleCommentCount(articleId);
+
+        if (pid != null) {
+            //记录评论的回复数量
+            commentService.doIncCommentReplyCount(pid);
+        }
+        commentService.saveOrUpdate(comment);
+
+        Ret ret = Ret.ok();
+        if (comment.isNormal()) {
+            ret.set("comment", comment).set("code", 0);
+        } else {
+            ret.set("code", 0);
+        }
+
+        renderJson(ret);
+
+        ArticleKit.doNotifyAdministratorByEmail(article, comment);
+    }
+
 
 
 }

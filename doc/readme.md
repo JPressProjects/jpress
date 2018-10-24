@@ -539,6 +539,7 @@ screenshot = screenshot.png
 * 3、通过 实现 ModuleListener 配置模块基本信息
 * 4、通过 注解 @AdminMenu 和  @UcenterMenu配置后台和用户中心菜单
 * 5、编码实现模块基本逻辑
+* 6、修改maven配置并运行
 
 **1、需求分析和建库建表**
 
@@ -659,6 +660,93 @@ public class _ClubController extends AdminControllerBase {
 * `@AdminMenu`里的`groupId`的值必须是`ClubModuleListener`里配置的id。如果我们把 `groupId` 修改为 `groupId = "page"`，那么此菜单将会被添加到后台的页 `页面管理` 这个菜单下面。
 * `_ClubController` 必须继承至 `AdminControllerBase`。
 * `@RequestMapping("/admin/club")`里的值必须是 `/admin/`开头。
+
+**5、编码实现模块基本逻辑**
+
+暂略
+
+
+**6、修改maven配置并运行**
+默认情况下，如此如果直接运行starter模块下的main方法，看不到任何效果，原因是：
+
+* 1、starter 这个模块并未依赖你生成的maven模块
+* 2、starter 里的resource并没有新模块的资源、比如html、css等。
+
+所以，接下来我们需要修改 starter 的pom.xml 文件，解决以上两个问题。
+
+就以JPress自带的article 模块为例，starter依赖了如下模块
+
+```xml
+<dependency>
+    <groupId>io.jpress</groupId>
+    <artifactId>module-article-web</artifactId>
+    <version>${jpress.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>io.jpress</groupId>
+    <artifactId>module-article-service-provider</artifactId>
+    <version>${jpress.version}</version>
+</dependency>
+```
+
+因此，参考这个，必须把 `club` 这个模块的依赖进来。
+
+问题2，把 `club` 中的资源在maven编译的时候，自动拷贝过来。这个需要我们需要的maven的 `maven-remote-resources-plugin` 插件。
+
+第一步：在 `module-club-web` 这个模块的pom.xml 文件添加如下配置。
+
+```xml
+<plugin>
+    <artifactId>maven-remote-resources-plugin</artifactId>
+    <version>1.5</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>bundle</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <includes>
+            <include>**/*.*</include>
+        </includes>
+    </configuration>
+</plugin>
+```
+
+第二步：修改starter模块下的 pom.xml 的xx插件配置为如下：
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-remote-resources-plugin</artifactId>
+    <version>1.5</version>
+    <configuration>
+        <resourceBundles>
+            
+            <resourceBundle>io.jpress:jpress-web:${project.version}</resourceBundle>
+            <resourceBundle>io.jpress:jpress-template:${project.version}</resourceBundle>
+            <resourceBundle>io.jpress:module-page-web:${project.version}</resourceBundle>
+            <resourceBundle>io.jpress:module-article-web:${project.version}</resourceBundle>
+            
+            <!-- 添加这一行代码-->
+            <resourceBundle>io.jpress:module-club-web:${project.version}</resourceBundle>
+        </resourceBundles>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>process</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+修改完毕后，在maven进行编译的时候，maven 就会自动把 club 下的代码和资源文件拷贝到 starter 这个模块里来，此时就可以正常运行了。
+
+注意：`starter-tomcat` 模块也需要做如此配置。
 
 
 ## 微信插件开发

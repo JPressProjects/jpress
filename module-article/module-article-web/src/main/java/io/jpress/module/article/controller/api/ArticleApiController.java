@@ -190,7 +190,7 @@ public class ArticleApiController extends ApiControllerBase {
     public void postComment() {
         Long articleId = getParaToLong("articleId");
         Long pid = getParaToLong("pid");
-        String content = getPara("content");
+        String content = getRawData();
 
         if (articleId == null || articleId <= 0) {
             renderJson(Ret.fail());
@@ -268,7 +268,6 @@ public class ArticleApiController extends ApiControllerBase {
 
         ArticleKit.doNotifyAdministratorByEmail(article, comment);
     }
-
 
 
 }

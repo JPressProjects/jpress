@@ -148,6 +148,22 @@ public class ArticleApiController extends ApiControllerBase {
         renderJson(Ret.ok("articles", articles));
     }
 
+    /**
+     * 某一篇文章的相关文章
+     */
+    public void relevantList() {
+
+        Long id = getParaToLong("id");
+        if (id == null) {
+            renderFailJson();
+        }
+
+        int count = getParaToInt("count", 3);
+
+        List<Article> relevantArticles = articleService.findRelevantListByArticleId(id, Article.STATUS_NORMAL, count);
+        renderOk("articles", relevantArticles);
+    }
+
 
     public void save() {
         Article article = getRawObject(Article.class);

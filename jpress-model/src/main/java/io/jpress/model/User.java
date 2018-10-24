@@ -73,7 +73,7 @@ public class User extends BaseUser<User> {
     @Override
     public String getAvatar() {
         String avatar = super.getAvatar();
-        return StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR;
+        return JFinal.me().getContextPath() + (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
     public void keepSafe() {
@@ -123,5 +123,6 @@ public class User extends BaseUser<User> {
         CommonsUtils.preventingXssAttacks(this, "salt", "password");
         return super.update();
     }
+
 
 }

@@ -56,6 +56,10 @@ public class Article extends BaseArticle<Article> {
 
 
     public String getUrl() {
+        String link = getLinkTo();
+        if (StrUtils.isNotBlank(link)) {
+            return link;
+        }
         return JFinal.me().getContextPath() + "/article/" + getSlug() + JPressOptions.getAppUrlSuffix();
     }
 
@@ -93,13 +97,13 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.preventingXssAttacks(this,"content");
+        CommonsUtils.preventingXssAttacks(this, "content");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.preventingXssAttacks(this,"content");
+        CommonsUtils.preventingXssAttacks(this, "content");
         return super.update();
     }
 

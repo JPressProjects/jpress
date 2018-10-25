@@ -66,6 +66,11 @@ public class ArticleController extends TemplateControllerBase {
             return;
         }
 
+        if (StrUtils.isNotBlank(article.getLinkTo())) {
+            redirect(article.getLinkTo());
+            return;
+        }
+
         //设置页面的seo信息
         setSeoInfos(article);
 

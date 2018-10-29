@@ -18,6 +18,7 @@ package io.jpress.module.article.directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
@@ -38,7 +39,7 @@ public class NextArticleDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Article article = getPara(0, scope);
+        Article article = JbootControllerContext.get().getAttr("article");
         scope.setLocal("next", service.findNextById(article.getId()));
         renderBody(env, scope, writer);
     }

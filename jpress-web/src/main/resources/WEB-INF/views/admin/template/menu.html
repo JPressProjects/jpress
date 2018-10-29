@@ -104,8 +104,13 @@
 
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.target">
+                                        #if(menu)
+                                        <option value="_self"  #selectedIf(menu.target == '_self')>当前页面</option>
+                                        <option value="_blank" #selectedIf(menu.target == '_blank')>新窗口</option>
+                                        #else
                                         <option value="_self" selected>当前页面</option>
                                         <option value="_blank">新窗口</option>
+                                        #end
                                     </select>
                                 </div>
                             </div>

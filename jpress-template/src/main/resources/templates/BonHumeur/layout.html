@@ -32,7 +32,7 @@
             <ul>
                 #for(menu : MENUS)
                 <li>
-                    <a href="#(menu.url ??)" class="#(menu.isActive ? 'active' : 'nav-item')">#(menu.text ??)</a>
+                    <a href="#(menu.url ??)" class="#(menu.isActive ? 'active' : 'nav-item')" target="#(menu.target ??)">#(menu.text ??)</a>
                 </li>
                 #end
             </ul>

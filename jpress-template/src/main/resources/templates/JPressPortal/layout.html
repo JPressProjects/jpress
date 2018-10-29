@@ -26,7 +26,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     #for(menu : MENUS)
-                    <li class="nav-item #(menu.isActive ? 'active' : '')">
+                    <li class="nav-item #(menu.isActive ? 'active' : '')" target="#(menu.target ??)">
                         <a href="#(menu.url ??)">#(menu.text ??)</a>
                     </li>
                     #end

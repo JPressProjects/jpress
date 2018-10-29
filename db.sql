@@ -11,7 +11,7 @@ CREATE TABLE `article` (
   `content` longtext COMMENT '内容',
   `edit_mode` varchar(32) DEFAULT 'html' COMMENT '编辑模式，默认为html，其他可选项包括html，markdown ..',
   `summary` text COMMENT '摘要',
-  `link_to` varchar(256) DEFAULT NULL COMMENT '连接到(常用于谋文章只是一个连接)',
+  `link_to` varchar(512) DEFAULT NULL COMMENT '连接到(常用于谋文章只是一个连接)',
   `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
@@ -53,14 +53,15 @@ CREATE TABLE `article_category` (
   `type` varchar(32) DEFAULT NULL COMMENT '类型，比如：分类、tag、专题',
   `icon` varchar(128) DEFAULT NULL COMMENT '图标',
   `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
-  `order_number` int(11) DEFAULT NULL COMMENT '排序编码',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
   `flag` varchar(256) DEFAULT NULL COMMENT '标识',
   `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`id`),
-  KEY `typeslug` (`type`,`slug`)
+  KEY `typeslug` (`type`,`slug`),
+  KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章分类表。标签、专题、类别等都属于category。';
 
 
@@ -148,12 +149,13 @@ CREATE TABLE `menu` (
   `icon` varchar(64) DEFAULT NULL COMMENT '菜单的icon',
   `flag` varchar(32) DEFAULT NULL COMMENT '菜单标识',
   `type` varchar(32) DEFAULT '' COMMENT '菜单类型：主菜单、顶部菜单、底部菜单',
-  `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序字段',
   `relative_table` varchar(32) DEFAULT NULL COMMENT '该菜单是否和其他表关联',
   `relative_id` int(11) unsigned DEFAULT NULL COMMENT '关联的具体数据id',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
 
 

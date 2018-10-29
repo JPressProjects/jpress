@@ -166,6 +166,8 @@ public interface ArticleService {
 
     public Page<Article> paginateInNormal(int page, int pagesize);
 
+    public Page<Article> paginateInNormal(int page, int pagesize, String orderBy);
+
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
 
     public void doIncArticleViewCount(long articleId);

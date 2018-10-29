@@ -167,6 +167,20 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return joinUserPage(dataPage);
     }
 
+    @Override
+    public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
+
+        if (StrUtils.isBlank(orderBy)) {
+            orderBy = "id desc";
+        }
+
+        Columns columns = new Columns();
+        columns.add("status", Article.STATUS_NORMAL);
+
+        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
+        return joinUserPage(dataPage);
+    }
+
 
     @Override
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {

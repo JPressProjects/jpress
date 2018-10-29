@@ -123,15 +123,13 @@ public class ArticleApiController extends ApiControllerBase {
      */
     public void paginate() {
         Long categoryId = getParaToLong("categoryId");
-        if (categoryId == null || categoryId <= 0) {
-            renderFailJson();
-            return;
-        }
-
         String orderBy = getPara("orderBy");
         int pageNumber = getParaToInt("page", 1);
 
-        Page<Article> page = articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);
+        Page<Article> page = categoryId == null
+                ? articleService.paginateInNormal(pageNumber, 10, orderBy)
+                : articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);
+
         renderJson(Ret.ok().set("page", page));
 
     }
@@ -181,6 +179,15 @@ public class ArticleApiController extends ApiControllerBase {
         Article article = getRawObject(Article.class);
         articleService.saveOrUpdate(article);
         renderJson(Ret.ok());
+    }
+
+
+    public void commentPaginate() {
+        Long articleId = getParaToLong("articleId");
+        int pageNumber = getParaToInt("page", 1);
+
+        Page<ArticleComment> page = commentService.paginateByArticleIdInNormal(pageNumber, 10, articleId);
+        renderJson(Ret.ok().set("page", page));
     }
 
 

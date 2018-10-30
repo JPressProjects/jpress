@@ -34,7 +34,7 @@ public class PinyinController extends Controller {
 
 
     public void doGetPinyin() {
-        String para = getPara();
+        String para = getPara("key");
         if (StrUtils.isBlank(para)) {
             renderJson(Ret.fail());
             return;
@@ -42,7 +42,7 @@ public class PinyinController extends Controller {
 
         try {
             String pinyin = PinyinHelper.convertToPinyinString(StrUtils.urlDecode(para), "", PinyinFormat.WITHOUT_TONE);
-            renderJson(Ret.ok().set("data", pinyin));
+            renderJson(Ret.ok().set("data", pinyin.toLowerCase()));
             return;
         } catch (PinyinException e) {
             e.printStackTrace();

@@ -97,7 +97,7 @@ function initSlugSpan() {
                     that.editable('setValue', value);
                     return;
                 }
-                ajaxGet(jpress.cpath + "/commons/pinyin/doGetPinyin/" + value, function (result) {
+                ajaxGet(jpress.cpath + "/commons/pinyin/doGetPinyin?key=" + value, function (result) {
                     var pinyin = result.data;
                     that.text(pinyin);
                     that.editable('setValue', pinyin);

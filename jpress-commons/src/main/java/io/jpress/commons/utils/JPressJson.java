@@ -16,9 +16,12 @@
 package io.jpress.commons.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.jfinal.json.JFinalJson;
+import io.jpress.JPressOptions;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,22 +32,42 @@ import java.util.Map;
  */
 public class JPressJson extends JFinalJson {
 
+    private static final List<String> needAddDomainAttrs = Lists.newArrayList("avatar", "thumbnail");
+
 
     @Override
     protected String mapToJson(Map map, int depth) {
-        removeNullValueAttrs(map);
+        roptimizeMapAttrs(map);
         return map == null || map.isEmpty() ? "null" : super.mapToJson(map, depth);
     }
 
 
-    private void removeNullValueAttrs(Map map) {
+    /**
+     * 优化 map 的属性
+     *
+     * @param map
+     */
+    private void roptimizeMapAttrs(Map map) {
         if (map == null) return;
         Iterator iter = map.entrySet().iterator();
         while (iter.hasNext()) {
+
             Map.Entry entry = (Map.Entry) iter.next();
+
+            //移除 null 值的属性
             if (entry.getValue() == null) {
                 iter.remove();
+                continue;
             }
+
+            //给图片类的属性，添加域名成为绝对路径，相对路径放到app上去麻烦
+            if (needAddDomainAttrs.contains(entry.getKey())) {
+                String value = (String) entry.getValue();
+                if (!value.startsWith("http")) {
+                    entry.setValue(JPressOptions.getResDomain() + value);
+                }
+            }
+
         }
     }
 

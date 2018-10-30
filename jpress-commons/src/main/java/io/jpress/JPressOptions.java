@@ -115,6 +115,11 @@ public class JPressOptions {
         return StrUtils.isBlank(cdnDomain) ? null : cdnDomain;
     }
 
+    public static String getResDomain() {
+        String cdnDomain = getCDNDomain();
+        return cdnDomain == null ? get(JPressConsts.OPTION_WEB_DOMAIN) : cdnDomain;
+    }
+
     public static interface OptionChangeListener {
         public void onChanged(String key, String newValue, String oldValue);
     }

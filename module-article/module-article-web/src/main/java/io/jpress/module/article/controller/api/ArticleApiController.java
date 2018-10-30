@@ -21,6 +21,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.layer.SortKit;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleKit;
 import io.jpress.module.article.model.Article;
@@ -30,8 +31,8 @@ import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -56,6 +57,9 @@ public class ArticleApiController extends ApiControllerBase {
 
     @Inject
     private ArticleCommentService commentService;
+
+    @Inject
+    private UserService userService;
 
     /**
      * 文章详情的api
@@ -226,7 +230,7 @@ public class ArticleApiController extends ApiControllerBase {
             renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {
-            content = StringEscapeUtils.escapeHtml(content);
+            content = CommonsUtils.escapeHtml(content);
         }
 
 
@@ -260,6 +264,8 @@ public class ArticleApiController extends ApiControllerBase {
 
         comment.setUserId(user.getId());
         comment.setAuthor(user.getNickname());
+
+        comment.put("user", user.keepSafe());
 
         //是否是管理员必须审核
         Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");

@@ -73,7 +73,12 @@ public class User extends BaseUser<User> {
     @Override
     public String getAvatar() {
         String avatar = super.getAvatar();
-        return JFinal.me().getContextPath() + (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
+        if (avatar != null && avatar.toLowerCase().startsWith("http")) {
+            return avatar;
+        }
+
+        return JFinal.me().getContextPath() +
+                (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
     public User keepSafe() {

@@ -20,6 +20,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleKit;
 import io.jpress.module.article.model.Article;
@@ -80,6 +81,23 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         renderFailJson();
+    }
+
+    /**
+     * 获取文章的分类
+     */
+    public void categories() {
+        String type = getPara("type");
+
+        if (StrUtils.isBlank(type)
+                || StrUtils.isBlank(type)) {
+            renderFailJson();
+            return;
+        }
+
+        List<ArticleCategory> categories = categoryService.findListByType(type);
+        SortKit.toTree(categories);
+        renderJson(Ret.ok("categories", categories));
     }
 
 

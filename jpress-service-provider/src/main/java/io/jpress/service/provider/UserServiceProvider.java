@@ -18,6 +18,7 @@ package io.jpress.service.provider;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
@@ -121,5 +122,10 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return user.save() ? user.getId() : null;
     }
 
+    private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature"};
 
+    @Override
+    public void join(Model model, String joinOnField) {
+        super.join(model, joinOnField, defaultJoinAttrs);
+    }
 }

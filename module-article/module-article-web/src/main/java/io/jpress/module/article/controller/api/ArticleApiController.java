@@ -181,7 +181,7 @@ public class ArticleApiController extends ApiControllerBase {
      */
     public void relevantList() {
 
-        Long id = getParaToLong("id");
+        Long id = getParaToLong("articleId");
         if (id == null) {
             renderFailJson();
         }

@@ -115,11 +115,9 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             if ("sign".equals(key)) {
                 continue;
             }
-            for (String value : params.get(key)) {
-                if (StrUtils.notBlank(key, value)) {
-                    query.append(key).append(value);
-                }
-            }
+
+            String value = params.get(key)[0];
+            query.append(key).append(value);
         }
         query.append(apiSecret);
         return HashKit.md5(query.toString());

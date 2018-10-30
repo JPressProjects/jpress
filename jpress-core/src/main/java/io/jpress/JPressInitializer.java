@@ -19,6 +19,7 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
+import io.jpress.commons.utils.JPressJson;
 import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
@@ -38,6 +39,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     public void onJfinalConstantConfig(Constants constants) {
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JPressCaptchaCache());
+        constants.setJsonFactory(() -> new JPressJson());
     }
 
     @Override

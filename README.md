@@ -1,8 +1,11 @@
-全新 JPress 正在重构...
 
-旧版本请移步：https://gitee.com/fuhai/jpress/tree/alpha/
+## JPress 文档 
 
-新版本文档： [点击这里](./doc/readme.md)
+[点击这里](./doc/readme.md)
+
+## JPress School 
+
+https://mp.weixin.qq.com/s/GbNv0xaK6jruWqTDJ_Ospw
 
     
 ## 新版本相关视频教程

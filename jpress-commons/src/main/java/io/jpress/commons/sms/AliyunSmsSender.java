@@ -16,7 +16,7 @@
 package io.jpress.commons.sms;
 
 import com.jfinal.log.Log;
-import io.jboot.Jboot;
+import io.jboot.core.http.JbootHttpKit;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -67,7 +67,7 @@ public class AliyunSmsSender implements ISmsSender {
         try {
 
             String url = doSignAndGetUrl(params, app_secret);
-            String content = Jboot.httpGet(url);
+            String content = JbootHttpKit.httpGet(url);
             return StrUtils.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
         } catch (Exception e) {
             log.error("AliyunSmsSender exception", e);
@@ -121,8 +121,8 @@ public class AliyunSmsSender implements ISmsSender {
         JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET, app_secret);
 
         SmsMessage sms = new SmsMessage();
-        sms.setMobile("18611223344");
-        sms.setTemplate("SMS_xxxxxx");
+        sms.setMobile("18611220000");
+        sms.setTemplate("SMS_148593333");
         sms.setSign("JPress");
         sms.setCode("1234");
 

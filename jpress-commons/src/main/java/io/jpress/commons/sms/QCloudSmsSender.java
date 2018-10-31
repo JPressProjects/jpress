@@ -18,7 +18,7 @@ package io.jpress.commons.sms;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.HttpKit;
+import io.jboot.core.http.JbootHttpKit;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -40,7 +40,7 @@ public class QCloudSmsSender implements ISmsSender {
         String app_key = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPID);
         String app_secret = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET);
 
-        String random = new Random().nextInt(1000000)+"";
+        String random = new Random().nextInt(1000000) + "";
         String time = System.currentTimeMillis() / 1000 + "";
 
         String srcStr = "appkey=" + app_secret + "&random=" + random + "&time=" + time + "&mobile=" + sms.getMobile();
@@ -57,7 +57,7 @@ public class QCloudSmsSender implements ISmsSender {
 
         String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=" + app_key + "&random=" + random;
 
-        String content = HttpKit.post(url, postContent);
+        String content = JbootHttpKit.httpPost(url, null, postContent);
 
         System.out.println(content);
         if (StrUtils.isBlank(content)) {
@@ -72,15 +72,15 @@ public class QCloudSmsSender implements ISmsSender {
 
     public static void main(String[] args) {
 
-        String app_id = "1400***434";
-        String app_key = "bb4374d1*******00f62bb97fd6";
+        String app_id = "";
+        String app_key = "";
 
         JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPID, app_id);
         JPressOptions.set(JPressConsts.OPTION_CONNECTION_SMS_APPSECRET, app_key);
 
 
         SmsMessage sms = new SmsMessage();
-        sms.setMobile("18611223344");
+        sms.setMobile("18611220000");
         sms.setTemplate("215659");
         sms.setSign("JPress大本营");
         sms.setCode("1234");

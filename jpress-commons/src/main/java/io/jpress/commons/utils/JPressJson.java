@@ -18,6 +18,7 @@ package io.jpress.commons.utils;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.jfinal.json.JFinalJson;
+import io.jboot.db.model.JbootModel;
 import io.jpress.JPressOptions;
 
 import java.util.Iterator;
@@ -49,6 +50,7 @@ public class JPressJson extends JFinalJson {
      */
     private void roptimizeMapAttrs(Map map) {
         if (map == null) return;
+        String resDomain = JPressOptions.getResDomain();
         Iterator iter = map.entrySet().iterator();
         while (iter.hasNext()) {
 
@@ -60,17 +62,25 @@ public class JPressJson extends JFinalJson {
                 continue;
             }
 
-            //给图片类的属性，添加域名成为绝对路径，相对路径放到app上去麻烦
-            if (needAddDomainAttrs.contains(entry.getKey())) {
+            // 给图片类的属性，添加域名成为绝对路径，
+            // 相对路径放到app上去麻烦
+            // 这个行为会改变model的值（涉及到改变缓存的值），所以应该由 以下 otherToJson() 方法进行拷贝
+            if (resDomain != null && needAddDomainAttrs.contains(entry.getKey())) {
                 String value = (String) entry.getValue();
                 if (!value.startsWith("http")) {
-                    entry.setValue(JPressOptions.getResDomain() + value);
+                    entry.setValue(resDomain + value);
                 }
             }
 
         }
     }
 
+    @Override
+    protected String otherToJson(Object value, int depth) {
+        return value instanceof JbootModel
+                ? super.otherToJson(((JbootModel) value).copy(), depth)
+                : super.otherToJson(value, depth);
+    }
 
     @Override
     public <T> T parse(String jsonString, Class<T> type) {

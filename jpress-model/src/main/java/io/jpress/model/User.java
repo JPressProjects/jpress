@@ -135,5 +135,4 @@ public class User extends BaseUser<User> {
         return get("user");
     }
 
-
 }

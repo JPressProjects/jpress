@@ -57,12 +57,19 @@ public class OptionApiController extends ApiControllerBase {
             return;
         }
 
-        Map<String, String> data = new HashMap<>();
+
         Set<String> keys = StrUtils.splitToSet(keyPara, ",");
+        if (keys != null || keys.size() == 1) {
+            renderOk("value", optionService.findByKey(keyPara));
+            return;
+        }
+
+
+        Map<String, String> data = new HashMap<>();
         for (String key : keys) {
             data.put(key, optionService.findByKey(key));
         }
 
-        renderJson(Ret.ok().set("data", data));
+        renderJson(Ret.ok().set("values", data));
     }
 }

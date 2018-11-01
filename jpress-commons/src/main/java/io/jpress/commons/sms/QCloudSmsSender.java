@@ -57,7 +57,7 @@ public class QCloudSmsSender implements ISmsSender {
 
         String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=" + app_key + "&random=" + random;
 
-        String content = JbootHttpKit.httpPost(url, null, postContent);
+        String content = JbootHttpKit.httpPost(url, postContent);
 
         System.out.println(content);
         if (StrUtils.isBlank(content)) {

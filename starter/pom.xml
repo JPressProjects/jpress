@@ -33,11 +33,6 @@
 
                 <exclusion>
                     <groupId>io.dropwizard.metrics</groupId>
-                    <artifactId>metrics-core</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.dropwizard.metrics</groupId>
                     <artifactId>metrics-servlets</artifactId>
                 </exclusion>
 

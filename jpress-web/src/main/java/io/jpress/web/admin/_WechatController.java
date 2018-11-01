@@ -98,8 +98,6 @@ public class _WechatController extends AdminControllerBase {
 
     @AdminMenu(text = "小程序", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
     public void miniprogram() {
-        Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
-        setAttr("page", page);
         render("wechat/miniprogram.html");
     }
 

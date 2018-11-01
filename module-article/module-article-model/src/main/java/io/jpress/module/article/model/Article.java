@@ -74,14 +74,15 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public String getContent() {
+        String content = super.getContent();
         if (JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode())) {
-            return MarkdownUtils.toHtml(super.getContent());
+            content = MarkdownUtils.toHtml(content);
         }
-        return super.getContent();
+        return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
     }
 
 
-    public String getOriginalContent() {
+    public String _getOriginalContent() {
         return super.getContent();
     }
 

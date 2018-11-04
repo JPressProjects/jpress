@@ -73,7 +73,14 @@ public class DevStarter {
                 if (FileScanner.ACTION_INIT.equals(action)) {
                     return;
                 }
-                File target = new File(classPath, file.substring(file.indexOf("resources/") + 10));
+
+                // main/resources/
+                int indexOf = file.indexOf("main"
+                        + File.separator
+                        + "resources"
+                        + File.separator);
+
+                File target = new File(classPath, file.substring(indexOf + 15));
                 System.err.println(action + ":" + target);
 
                 //文件删除
@@ -92,4 +99,5 @@ public class DevStarter {
         };
         scanner.start();
     }
+
 }

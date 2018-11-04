@@ -41,6 +41,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     private static String apiAppId = null;
     private static String apiSecret = null;
+    private static final long timeout = 10 * 60 * 1000; //10分钟
 
     public ApiInterceptor() {
         JPressOptions.addListener(this);
@@ -64,11 +65,13 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
+        // API 功能未启用
         if (apiEnable == false) {
             inv.getController().renderJson(Ret.fail().set("message", "api closed."));
             return;
         }
 
+        // 服务器的 API Secret 为空
         if (StrUtils.isBlank(apiSecret)) {
             inv.getController().renderJson(Ret.fail().set("message", "config error"));
             return;
@@ -90,6 +93,18 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         String sign = controller.getPara("sign");
         if (StrUtils.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "sign is blank"));
+            return;
+        }
+
+        Long time = controller.getParaToLong("t");
+        if (time == null) {
+            controller.renderJson(Ret.fail("message", "time is blank"));
+            return;
+        }
+
+        // 时间验证，可以防止重放攻击
+        if (Math.abs(System.currentTimeMillis() - time) > timeout) {
+            controller.renderJson(Ret.fail("message", "timeout"));
             return;
         }
 

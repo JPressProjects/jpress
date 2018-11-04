@@ -75,10 +75,18 @@ public class DevStarter {
                 }
                 File target = new File(classPath, file.substring(file.indexOf("resources/") + 10));
                 System.err.println(action + ":" + target);
-                try {
-                    FileUtils.copyFile(new File(file), target);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                //文件删除
+                if (FileScanner.ACTION_DELETE.equals(action)) {
+                    target.delete();
+                }
+                //新增文件 或 修改文件
+                else {
+                    try {
+                        FileUtils.copyFile(new File(file), target);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

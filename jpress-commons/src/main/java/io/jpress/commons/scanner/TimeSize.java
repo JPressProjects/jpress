@@ -13,20 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress;
+package io.jpress.commons.scanner;
 
-import io.jboot.Jboot;
+import java.io.File;
 
-/**
- * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Package io.jpress
- */
-public class Starter {
+class TimeSize {
 
-    public static void main(String[] args) {
-        Jboot.run(args);
+    final long time;
+    final long size;
+
+    public TimeSize(File file) {
+        this.time = file.lastModified();
+        this.size = file.length();
     }
 
 
+    public int hashCode() {
+        return (int) (time ^ size);
+    }
+
+    public boolean equals(Object o) {
+        if (o instanceof TimeSize) {
+            TimeSize ts = (TimeSize) o;
+            return ts.time == this.time && ts.size == this.size;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeSize{" +
+                "time=" + time +
+                ", size=" + size +
+                '}';
+    }
 }

@@ -106,7 +106,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
         ArticleCategory category = StrUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, idOrSlug);
+                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, StrUtils.urlDecode(idOrSlug));
 
         //当 slug 不为空，但是查询出来的category却是null的时候
         //应该404显示

@@ -39,14 +39,20 @@ public class ArticleTagController extends TemplateControllerBase {
 
     public void index() {
         if (StrUtils.isBlank(getPara())) {
-            redirect("/article/tag/index");
+            renderError(404);
             return;
         }
-        ArticleCategory category = getTag();
-        setAttr("category", category);
-        setSeoInfos(category);
 
-        render(getRenderView(category));
+        ArticleCategory tag = getTag();
+        if (tag == null) {
+            renderError(404);
+            return;
+        }
+
+        setAttr("category", tag);
+        setSeoInfos(tag);
+
+        render(getRenderView(tag));
     }
 
     private void setSeoInfos(ArticleCategory category) {
@@ -71,7 +77,7 @@ public class ArticleTagController extends TemplateControllerBase {
 
         return StrUtils.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, idOrSlug);
+                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, StrUtils.urlDecode(idOrSlug));
 
     }
 

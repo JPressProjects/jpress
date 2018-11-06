@@ -12,7 +12,7 @@
 另外可以通过以下几种方式获得帮助：
 
 1. JPress官方公众号：jpressio
-2. JPress交流QQ群：
+2. JPress交流QQ群：288397536
 3. 开源中国进行发帖提问。
 
 ### JPress安装
@@ -150,7 +150,7 @@ JPress模板主要是由html、css、js和JPress标签组成，JPress标签的�
 | artlist.html | 文章列表模板| 和page、article一样，可以通过样式 |
 
 
-备注：所有的模板文件都可以扩展出专门用于渲染手机的模板，例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当网站用户通过手机浏览网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
+备注：所有的模板文件都可以扩展出专门用于渲染手机浏览器的模板。例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
 
 template.properties 文件配置如下
   
@@ -257,11 +257,33 @@ screenshot = screenshot.png
 #for(menu : MENUS)
     <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
     #if(menu.hasChild())
-    <div class="二级菜单的class">
-    #for(childMenu : menu.getChilds())
-    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
-    #end
+        <div class="二级菜单的class">
+        #for(childMenu : menu.getChilds())
+            <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+        #end
     </div>
+    #end
+#end
+```
+
+以上代码显示了所有菜单的的二级菜单，但是，有些时候我们想在网站的某些位置，显示 **当前菜单** 下的子菜单，如果做呢？
+
+
+代码如下：
+
+```html
+#for(me: MENUS)
+    #if(me.isActive && me.hasChild())
+        <h3 class="menut-title">#(me.text ??)</h3>
+        <ul class="inner-menut">
+            #for(m : me.getChilds())
+                <li class="#(m.isActive ? 'active' : '')">
+                    <a href="#(CPATH)#(m.url ??)">
+                    #(m.text ??)
+                    </a>
+                </li>
+            #end
+        </ul>
     #end
 #end
 ```
@@ -526,18 +548,53 @@ screenshot = screenshot.png
 
 ## JPress二次开发
 
-通过 jpress 来做二次开发，是非常简单容易的。 jpress 提供了基本的用户管理、权限管理、微信公众号对接、小程序对接等基本功能。
+JPress 是一个内置了几乎任何互联网系统都必须模块：
 
-开发者只需要关系自己模块的业务逻辑就可以了。
+* 用户管理
+* 权限管理
+* 文章功能
+* 页面功能
+* 微信公众号对接
+* 微信小程序
+* API接口
+* 安全机制
+* ...
 
-假设我们要使用 jpress 来开发一个小型的论坛，如何做呢？
+目前、市面是几乎任何的互联网系统都应该具备以上几个功能，所以，通过JPress来做二次开发，是非常明智的选择。
+
+另外，是基于JFinal 和 Jboot进行开发的，JFinal 连续在开源中国（oschina.net）获得了多年的 “最受欢迎的中国开源软件” 称号，Jboot 是基于JFinal的一个微服务框架，在1亿+用户量的商业产品得到了验证，稳定和安全。
+
+通过 JPress 进行二次开发，也是非常容易的。
+
+在开始 JPress 二次开发之前，有必要了解下JPress的目录结构：
+
+
+| 目录  | 描述 |  备注 |
+| --- | --- | --- |
+| codegen | 代码生成器 | 开发的时候用与生成maven模块代码，运行时用不到该模块 |
+| doc | 文档存放目录 |  |
+| jpress-commons | 工具类和公用代码 |  |
+| jpress-core | JPress的核心代码 |  |
+| jpress-model | JPress非业务实体类 |  |
+| jpress-service-api | JPress非业务 service 接口定义  |  |
+| jpress-service-provider | JPress非业务 service 接口实现 |  |
+| jpress-template | JPress的html模板 |  |
+| jpress-web | JPress非业务的web处理代码 | 包含了 Controller、指令等 |
+| module-article | 文章模块代码 |  |
+| module-page | 页面模块代码 |  |
+| starter | undertow启动模块，开发的时候可以运行里面的 DevStarter.java 的main方法 | 编译的时候会 jpress 可执行程序 |
+| starter-tomcat | tomcat 启动模块 | 编译的时候回生成 war 包，用于放在tomcat部署 |
+
+
+
+如果使用JPress来开发一个自己的程序呢 ？我们假设要使用 jpress 来开发一个小型的论坛。
 
 主要有以下几个步骤：
 
 * 1、需求分析和建库建表
 * 2、通过 JPress 直接生成 maven 模块和相关基础代码
 * 3、通过 实现 ModuleListener 配置模块基本信息
-* 4、通过 注解 @AdminMenu 和  @UcenterMenu配置后台和用户中心菜单
+* 4、通过 注解 @AdminMenu 和  @UcenterMenu 配置后台和用户中心菜单
 * 5、编码实现模块基本逻辑
 * 6、修改maven配置并运行
 

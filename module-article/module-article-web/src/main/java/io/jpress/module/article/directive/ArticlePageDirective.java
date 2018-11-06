@@ -26,6 +26,7 @@ import io.jboot.web.JbootRequestContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
+import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleService;
@@ -73,11 +74,11 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     @JFinalDirective("articlePaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
-        private boolean forIndex = false;
+        private boolean firstGotoIndex = false;
 
         @Override
         public void onRender(Env env, Scope scope, Writer writer) {
-            forIndex = getPara("forIndex", scope, false);
+            firstGotoIndex = getPara("firstGotoIndex", scope, false);
             super.onRender(env, scope, writer);
         }
 
@@ -88,14 +89,14 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             String url = request.getRequestURI();
             String contextPath = JFinal.me().getContextPath();
 
-            if (forIndex == false) {
-                return Kits.doReplacePageNumber(url, pageNumber);
+            if (pageNumber == 1 && firstGotoIndex) {
+                return contextPath + "/";
             }
 
-            if (pageNumber == 1) {
-                return contextPath + "/";
-            } else if (url.equals(contextPath + "/")) {
-                url = contextPath + "/article/category";
+            // 如果当前页面是首页的话
+            // 改变当前的url，因为 上一页或下一页是通过当前的url解析出来的
+            if (url.equals(contextPath + "/")) {
+                url = contextPath + "/article/category/index" + JPressOptions.getAppUrlSuffix();
             }
 
             return Kits.doReplacePageNumber(url, pageNumber);

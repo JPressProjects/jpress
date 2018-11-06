@@ -200,7 +200,13 @@
                                                     <select class="form-control" name="article.style">
                                                         <option value="">默认</option>
                                                         #for(style : styles)
+                                                        #if(article)
+                                                        <option value="#(style)" #selectedIf(article.style== style)>
+                                                            #(style)
+                                                        </option>
+                                                        #else
                                                         <option value="#(style)">#(style)</option>
+                                                        #end
                                                         #end
                                                     </select>
                                                 </div>

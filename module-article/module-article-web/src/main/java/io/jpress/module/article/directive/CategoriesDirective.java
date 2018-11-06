@@ -18,6 +18,7 @@ package io.jpress.module.article.directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtils;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
@@ -29,6 +30,7 @@ import io.jpress.module.article.service.ArticleCategoryService;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -46,18 +48,26 @@ public class CategoriesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String type = getPara("type", scope, ArticleCategory.TYPE_CATEGORY);
-        Boolean asTree = getPara("asTree", scope, Boolean.FALSE);
+        String flag = getPara("flag", scope);
+        boolean asTree = getPara("asTree", scope, Boolean.FALSE);
 
         List<ArticleCategory> categories = categoryService.findListByType(type);
         if (categories == null || categories.isEmpty()) {
             return;
         }
 
-        doFlagIsActiveByCurrentCategory(categories);
-        doFlagIsActiveByCurrentArticle(categories);
+        setActiveFlagByCurrentCategory(categories);
+        setActiveFlagByCurrentArticle(categories);
 
-        if (asTree != null && asTree == true) {
+        if (asTree == true) {
             SortKit.toTree(categories);
+        }
+
+        if (StrUtils.isNotBlank(flag)) {
+            categories = categories
+                    .stream()
+                    .filter(category -> flag.equals(category.getFlag()))
+                    .collect(Collectors.toList());
         }
 
         scope.setLocal("categories", categories);
@@ -65,7 +75,12 @@ public class CategoriesDirective extends JbootDirectiveBase {
     }
 
 
-    private void doFlagIsActiveByCurrentCategory(List<ArticleCategory> categories) {
+    /**
+     * 根据当前的分类，设置 高亮 标识
+     *
+     * @param categories
+     */
+    private void setActiveFlagByCurrentCategory(List<ArticleCategory> categories) {
 
         ArticleCategory currentCategory = JbootControllerContext.get().getAttr("category");
 
@@ -79,7 +94,12 @@ public class CategoriesDirective extends JbootDirectiveBase {
     }
 
 
-    private void doFlagIsActiveByCurrentArticle(List<ArticleCategory> categories) {
+    /**
+     * 根据当前的文章，设置 高亮 标识
+     *
+     * @param categories
+     */
+    private void setActiveFlagByCurrentArticle(List<ArticleCategory> categories) {
         Article currentArticle = JbootControllerContext.get().getAttr("article");
 
         //当前页面并不是文章详情页面

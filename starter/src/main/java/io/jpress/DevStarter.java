@@ -42,32 +42,32 @@ public class DevStarter {
             String classPath = DevStarter.class.getClassLoader().getResource("").toURI().getPath();
             File srcRootPath = new File(classPath + "../../../");
 
-            List<File> resourceDirs = new ArrayList<>();
-            findResourcesPath(srcRootPath, resourceDirs);
+            List<File> resourcesDirs = new ArrayList<>();
+            findResourcesPath(srcRootPath, resourcesDirs);
 
-            for (File resourceDir : resourceDirs) {
-                starteNewScanner(resourceDir.getCanonicalFile(), classPath);
+            for (File resourcesDir : resourcesDirs) {
+                startNewScanner(resourcesDir.getCanonicalFile(), classPath);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void findResourcesPath(File root, List<File> resourcesFiles) {
+    private static void findResourcesPath(File root, List<File> resourcesDirs) {
         File[] dirs = root.listFiles(pathname -> pathname.isDirectory());
         for (File dir : dirs) {
             if (dir.getName().equals("resources")
                     && dir.getParentFile().getName().equals("main")) {
-                resourcesFiles.add(dir);
+                resourcesDirs.add(dir);
             } else {
-                findResourcesPath(dir, resourcesFiles);
+                findResourcesPath(dir, resourcesDirs);
             }
         }
-
     }
 
-    private static void starteNewScanner(File resourcesPath, String classPath) throws IOException, URISyntaxException {
-        FileScanner scanner = new FileScanner(resourcesPath.getCanonicalPath(), 5) {
+
+    private static void startNewScanner(File resourcesDir, String classPath) throws IOException, URISyntaxException {
+        FileScanner scanner = new FileScanner(resourcesDir.getCanonicalPath(), 5) {
             @Override
             public void onChange(String action, String file) {
                 if (FileScanner.ACTION_INIT.equals(action)) {

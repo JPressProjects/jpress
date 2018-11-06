@@ -73,6 +73,7 @@ public class Template {
 
 
     private static final String TEMPLATE_SEPARATOR = "_";
+    private static final String TEMPLATE_H5_SUFFIX = "_h5.html";
 
     /**
      * 找出可以用来渲染的 html 模板
@@ -81,6 +82,11 @@ public class Template {
      * @return
      */
     public String matchTemplateFile(String template, boolean isMoblieBrowser) {
+
+        if (isMoblieBrowser) {
+            int indexOf = template.indexOf(".");
+            template = template.substring(0, indexOf) + TEMPLATE_H5_SUFFIX;
+        }
 
         if (htmls.contains(template)) {
             return template;

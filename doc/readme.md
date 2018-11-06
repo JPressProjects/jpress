@@ -230,7 +230,7 @@ screenshot = screenshot.png
 
 这个时候`#( 名称 ??)`就不能正常显示了，需要用到一个新的标签：
 
-```java
+```html
 #for 
 ... 
 #end
@@ -325,7 +325,7 @@ screenshot = screenshot.png
 
 此指令是用来读取一篇文章，网站的任意页面进行展示。
 
-```java
+```html
 #article()
 <a href="#(article.url)">#(article.title)</a>
 <div>#(article.content)</div>
@@ -336,7 +336,7 @@ screenshot = screenshot.png
 
 此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
-```java
+```html
 #articles(flag="",hasThumbnail="",orderBy="",count="")
     #for(article : articles)
         <a href="#(article.url)">#(article.title)</a>
@@ -398,7 +398,7 @@ screenshot = screenshot.png
 
 指令 #commentPage() 只能用在文章详情页，也就是 article.html 模板文件及其扩展文件。用于读取这篇文章的相关评论信息以及评论的分页功能。
 
-```java
+```html
 #commentPage()
 
     #for(comment : commentPage.list)
@@ -438,7 +438,7 @@ screenshot = screenshot.png
 
 指令 #nextArticle() 只能用于**文章详情页**，用于显示下一篇文章的相关信息或者内容。
 
-```java
+```html
 #nextArticle()
 <a href="#(next.url)">标题是：#(next.title ??)</a>
 #end
@@ -448,7 +448,7 @@ screenshot = screenshot.png
 
 指令 #previousArticle() 只能用于**文章详情页**，用于显示上一篇文章的相关信息或者内容。
 
-```java
+```html
 #previousArticle()
 <a href="#(previous.url)">标题是：#(previous.title ??)</a>
 #end
@@ -460,7 +460,7 @@ screenshot = screenshot.png
 
 指令 #categories() 可以在任意页面使用，用来读取分类的内容。
 
-```java
+```html
 #categories()
     #for(category : categories)
         <a href="#(category.url ??)">#(category.title ??)</a>
@@ -479,7 +479,7 @@ screenshot = screenshot.png
 
 如下代码是用于读取文章的分类：
 
-```java
+```html
 #articleCategories(article.id,"category")
     #for(category : categories)
     <a href="#(category.url ??)">#(category.title ??)</a>
@@ -489,7 +489,7 @@ screenshot = screenshot.png
 
 如下代码是用于读取文章的标签：
 
-```java
+```html
 #articleCategories(article.id,"tag")
     #for(category : categories)
     <a href="#(category.url ??)">#(category.title ??)</a>
@@ -508,7 +508,7 @@ screenshot = screenshot.png
 
 代码如下：
 
-```java
+```html
 #page(slug=“about”)
 这个页面的标题是：#(page.title ??)
 这个页面的内容是：#(page.content ??)
@@ -527,7 +527,7 @@ screenshot = screenshot.png
 
 代码如下：
 
-```java
+```html
 #pages()
     #for(page : pages)
     这个页面的标题是：#(page.title ??)

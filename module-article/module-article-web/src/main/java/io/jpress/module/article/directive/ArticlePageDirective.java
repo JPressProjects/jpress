@@ -16,6 +16,7 @@
 package io.jpress.module.article.directive;
 
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -50,6 +51,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         int page = controller.getParaToInt(1, 1);
         int pageSize = getPara("pageSize", scope, 10);
+
         ArticleCategory category = controller.getAttr("category");
 
 
@@ -71,10 +73,31 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     @JFinalDirective("articlePaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
+        private boolean forIndex = false;
+
+        @Override
+        public void onRender(Env env, Scope scope, Writer writer) {
+            forIndex = getPara("forIndex", scope, false);
+            super.onRender(env, scope, writer);
+        }
+
+
         @Override
         protected String getUrl(int pageNumber) {
             HttpServletRequest request = JbootRequestContext.getRequest();
             String url = request.getRequestURI();
+            String contextPath = JFinal.me().getContextPath();
+
+            if (forIndex == false) {
+                return Kits.doReplacePageNumber(url, pageNumber);
+            }
+
+            if (pageNumber == 1) {
+                return contextPath + "/";
+            } else if (url.equals(contextPath + "/")) {
+                url = contextPath + "/article/category";
+            }
+
             return Kits.doReplacePageNumber(url, pageNumber);
         }
 

@@ -61,10 +61,8 @@ public class ArticleCategoryController extends TemplateControllerBase {
         }
 
         if (currentCategory.isTop()) {
-            setMenuActive(menu -> {
-                return "article_category".equals(menu.getRelativeTable())
-                        && currentCategory.getId().equals(menu.getRelativeId());
-            });
+            setMenuActive(menu -> "article_category".equals(menu.getRelativeTable())
+                    && currentCategory.getId().equals(menu.getRelativeId()));
         }
 
         List<ArticleCategory> acitveCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());

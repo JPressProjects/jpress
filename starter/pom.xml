@@ -13,6 +13,10 @@
     <groupId>io.jpress</groupId>
     <artifactId>starter</artifactId>
 
+    <properties>
+        <wrapper.tray.port.value>15002</wrapper.tray.port.value>
+    </properties>
+
 
     <dependencies>
 
@@ -266,6 +270,14 @@
                                         <property>
                                             <name>wrapper.logfile</name>
                                             <value>logs/wrapper.log</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.tray</name>
+                                            <value>true</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.tray.port</name>
+                                            <value>${wrapper.tray.port.value}</value>
                                         </property>
                                     </configuration>
                                 </generatorConfiguration>

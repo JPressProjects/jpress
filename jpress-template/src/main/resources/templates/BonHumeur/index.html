@@ -5,8 +5,8 @@
 
     #include("header.html")
 
-    #articles()
-    #for(article : articles)
+    #articlePage()
+    #for(article : articlePage.list)
     <div class="bh-card">
         <div class="bh-card-main">
             <h3 class="bh-card-main-title">
@@ -25,8 +25,21 @@
         </div>
     </div>
     #end
-    #end
 
-    <div class="bh-more"><a href="#(CPATH)/article/category/index-2.html">查看更多</a></div>
+
+    #articlePaginate()
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+    #end
 </div>
 #end

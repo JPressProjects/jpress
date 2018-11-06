@@ -4,8 +4,10 @@
 
 
 <div class="container ll-cantainer">
-    #articles()
-    #for(article : articles)
+
+    #articlePage()
+    #for(article : articlePage.list)
+
     <div class="ll-card">
         <div class="row">
             <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image">
@@ -36,10 +38,19 @@
     #end
 
 
-    <div style="text-align: center">
-        <a href="#(CPATH)/article/category/index-2" style="background:#3f6600;color: #fff;padding: 10px ">更多文章...</a>
-    </div>
-
+    #articlePaginate(firstGotoIndex=true)
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
 
     #end
 

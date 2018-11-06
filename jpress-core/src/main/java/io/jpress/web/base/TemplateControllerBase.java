@@ -72,6 +72,17 @@ public abstract class TemplateControllerBase extends ControllerBase {
         super.render(new TemplateRender(view));
     }
 
+
+    protected boolean hasTemplate(String view) {
+
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            return false;
+        }
+
+        return template.matchTemplateFile(view, isMoblieBrowser()) != null;
+    }
+
     @Override
     public void redirect(String url) {
         if (url.contains("?") || url.endsWith("/")) {

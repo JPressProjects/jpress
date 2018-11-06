@@ -40,7 +40,6 @@ import java.util.Date;
 @RequestMapping("/user")
 public class UserController extends TemplateControllerBase {
 
-    private static final String default_user_template = "/WEB-INF/views/ucenter/user.html";
     private static final String default_user_login_template = "/WEB-INF/views/ucenter/user_login.html";
     private static final String default_user_register_template = "/WEB-INF/views/ucenter/user_register.html";
 
@@ -52,7 +51,27 @@ public class UserController extends TemplateControllerBase {
      * 用户信息页面
      */
     public void index() {
-        render("user_detail.html", default_user_template);
+
+        //不支持渲染用户详情
+        if (hasTemplate("user_detail.html") == false) {
+            renderError(404);
+            return;
+        }
+
+        Long id = getParaToLong();
+        if (id == null) {
+            renderError(404);
+            return;
+        }
+
+        User user = userService.findById(id);
+        if (user == null) {
+            renderError(404);
+            return;
+        }
+
+        setAttr("user", user.keepSafe());
+        render("user_detail.html");
     }
 
     /**

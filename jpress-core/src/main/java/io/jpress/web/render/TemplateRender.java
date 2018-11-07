@@ -100,9 +100,6 @@ public class TemplateRender extends Render {
         Elements imgElements = doc.select("img[src]");
         replace(imgElements, "src");
 
-        Elements lazyElements = doc.select("img[data-original]");
-        replace(lazyElements, "data-original");
-
         Elements linkElements = doc.select("link[href]");
         replace(linkElements, "href");
 
@@ -121,37 +118,35 @@ public class TemplateRender extends Render {
             if (StrUtils.isBlank(url)
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")
-                    || element.hasAttr("cdn-exclude")) {
+                    || (attrName.equals("src") && url.startsWith("data:image/"))
+                    || element.hasAttr("cdn-exclude")
+                    ) {
                 continue;
             }
 
-            if (url.startsWith("/")) {
+            // 以 / 开头的，需要添加 contextPath
+            if (url.startsWith("/")
+                    && contextPath.length() > 0
+                    && url.startsWith(contextPath + "/") == false) {
 
-                if (contextPath.length() > 0 && url.startsWith(contextPath + "/") == false) {
-                    url = contextPath + url;
-                }
-
-                if (cdnDomain != null) {
-                    url = cdnDomain + url;
-                }
-
-                element.attr(attrName, url);
-
-                continue;
+                url = contextPath + url;
             }
 
-
-            if (url.startsWith("./")) {
+            // 以 ./ 开头的文件，需要添加模板路径
+            else if (url.startsWith("./")) {
                 url = contextPath + template.getWebAbsolutePath() + url.substring(1);
-            } else {
+            }
+
+            // 直接是文件目录名开头
+            else {
                 url = contextPath + template.getWebAbsolutePath() + "/" + url;
             }
 
-            if (cdnDomain == null) {
-                element.attr(attrName, url);
-            } else {
-                element.attr(attrName, cdnDomain + url);
+            if (cdnDomain != null) {
+                url = cdnDomain + url;
             }
+
+            element.attr(attrName, url);
         }
     }
 

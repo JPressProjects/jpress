@@ -135,7 +135,7 @@
                                     <select class="form-control" name="category.style">
                                         <option value="">默认</option>
                                         #for(style : styles)
-                                        <option value="#(style)">#(style)</option>
+                                        <option value="#(style)" #selectedIf(category && category.style == style)>#(style)</option>
                                         #end
                                     </select>
                                 </div>

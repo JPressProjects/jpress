@@ -115,6 +115,7 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByType(String type);
 
+    public List<ArticleCategory> findTagList(String orderBy, int count);
 
     public Page<ArticleCategory> paginateByType(int page, int pagesize, String type);
 
@@ -132,6 +133,6 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);
 
-    public void updateCount(long  categoryId);
+    public void updateCount(long categoryId);
 
 }

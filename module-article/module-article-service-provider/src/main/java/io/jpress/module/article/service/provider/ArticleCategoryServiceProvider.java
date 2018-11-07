@@ -42,6 +42,11 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 
+    @Override
+    public List<ArticleCategory> findTagList(String orderBy, int count) {
+        return DAO.findListByColumns(Columns.create("type", ArticleCategory.TYPE_TAG), orderBy, count);
+    }
+
 
     @Override
     public Page<ArticleCategory> paginateByType(int page, int pagesize, String type) {
@@ -119,10 +124,10 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    public void updateCount(long  categoryId) {
+    public void updateCount(long categoryId) {
         long articleCount = Db.queryLong("select count(*) from article_category_mapping where category_id = ? ", categoryId);
         ArticleCategory category = findById(categoryId);
-        if (category != null){
+        if (category != null) {
             category.setCount(articleCount);
             category.update();
         }

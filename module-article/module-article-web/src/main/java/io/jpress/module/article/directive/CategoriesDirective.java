@@ -47,11 +47,10 @@ public class CategoriesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String type = getPara("type", scope, ArticleCategory.TYPE_CATEGORY);
         String flag = getPara("flag", scope);
         boolean asTree = getPara("asTree", scope, Boolean.FALSE);
 
-        List<ArticleCategory> categories = categoryService.findListByType(type);
+        List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         if (categories == null || categories.isEmpty()) {
             return;
         }

@@ -132,4 +132,6 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);
 
+    public void updateCount(long  categoryId);
+
 }

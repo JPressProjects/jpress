@@ -49,7 +49,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from article where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        for (Object id : ids) {
+            deleteById(id);
+        }
+        return true;
     }
 
     @Override
@@ -81,6 +84,28 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return DAO.paginate(page, pagesize, select, from.toString());
     }
 
+    @Override
+    public boolean deleteById(Object id) {
+        return Db.tx(() -> {
+            boolean delOk = ArticleServiceProvider.super.deleteById(id);
+            if (delOk == false) {
+                return false;
+            }
+
+            List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
+            if (records == null || records.isEmpty()) {
+                return true;
+            }
+
+            Db.update("delete from article_category_mapping where article_id = ?", id);
+
+            records.stream().forEach(record -> {
+                categoryService.updateCount(record.get("category_id"));
+            });
+
+            return true;
+        });
+    }
 
     @Override
     public long doGetIdBySaveOrUpdateAction(Article article) {

@@ -96,6 +96,13 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return new ArrayList<>(activeCategories);
     }
 
+
+    @Override
+    public boolean deleteById(Object id) {
+        Db.update("delete from article_category_mapping where category_id = ?", id);
+        return super.deleteById(id);
+    }
+
     @Override
     public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId) {
         List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
@@ -109,6 +116,16 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         findActiveCategories(allArticleCategories, Lists.newArrayList(findById(categoryId)), activeCategories);
 
         return new ArrayList<>(activeCategories);
+    }
+
+    @Override
+    public void updateCount(long  categoryId) {
+        long articleCount = Db.queryLong("select count(*) from article_category_mapping where category_id = ? ", categoryId);
+        ArticleCategory category = findById(categoryId);
+        if (category != null){
+            category.setCount(articleCount);
+            category.update();
+        }
     }
 
     private void findActiveCategories(List<ArticleCategory> allArticleCategories
@@ -176,4 +193,5 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     public ArticleCategory findFirstByTypeAndSlug(String type, String slug) {
         return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
     }
+
 }

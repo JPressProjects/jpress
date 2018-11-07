@@ -177,6 +177,10 @@ public class _ArticleController extends AdminControllerBase {
 
         articleService.doUpdateCategorys(id, allIds);
 
+        for (Long categoryId : allIds) {
+            categoryService.updateCount(categoryId);
+        }
+
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }
@@ -189,13 +193,6 @@ public class _ArticleController extends AdminControllerBase {
         List<ArticleCategory> categories = categoryService.doNewOrFindByTagString(tags);
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
-    }
-
-
-    @EmptyValidate(@Form(name = "article.title"))
-    public void save(Article article) {
-        boolean success = articleService.saveOrUpdate(article);
-        render(success ? Ret.ok() : Ret.fail());
     }
 
 
@@ -270,6 +267,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         categoryService.saveOrUpdate(category);
+        categoryService.updateCount(category.getId());
         renderJson(Ret.ok());
     }
 
@@ -284,6 +282,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         categoryService.saveOrUpdate(category);
+        categoryService.updateCount(category.getId());
         renderJson(Ret.ok());
     }
 

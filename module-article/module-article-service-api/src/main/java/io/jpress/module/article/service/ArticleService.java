@@ -95,6 +95,7 @@ public interface ArticleService {
     public boolean update(Article model);
 
 
+
     public void join(Page<? extends Model> page, String joinOnField);
 
     public void join(Page<? extends Model> page, String joinOnField, String[] attrs);

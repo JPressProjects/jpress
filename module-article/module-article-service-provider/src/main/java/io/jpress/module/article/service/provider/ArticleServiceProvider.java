@@ -316,12 +316,23 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    public List<Article> findListByCategoryId(long categoryId, String orderBy, Integer count) {
+    public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
         from.append(" where m.category_id = ? ");
         from.append(" and a.status = ? ");
+
+
+        if (hasThumbnail != null) {
+            if (hasThumbnail == true) {
+                from.append(" and a.thumbnail is not null");
+            } else {
+                from.append(" and a.thumbnail is null");
+            }
+        }
+
+
         from.append(" group by a.id ");
 
         if (orderBy != null) {

@@ -53,6 +53,8 @@ public class TagArticlesDirective extends JbootDirectiveBase {
             throw new RuntimeException("#tagArticles(tag=xxx) is error, tag must not be empty");
         }
 
+
+        Boolean hasThumbnail = getPara("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
         int count = getPara("count", scope, 10);
 
@@ -61,7 +63,7 @@ public class TagArticlesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<Article> articles = service.findListByCategoryId(category.getId(), orderBy, count);
+        List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }

@@ -156,7 +156,7 @@ public interface ArticleService {
 
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
-    public List<Article> findListByCategoryId(long categoryId, String orderBy, Integer count);
+    public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
 
 
     public List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);

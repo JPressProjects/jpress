@@ -1,0 +1,178 @@
+#@layout()
+
+#define css()
+<style>
+
+    .attachment_item {
+        height: 220px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .attachment_item:hover {
+        border: 1px solid #3c8dbc;
+    }
+
+    .attachment_item img {
+        height: 90%;
+        min-height: 90%;
+        width: 100%;
+    }
+
+    .attachment_item_title {
+        height: 10%;
+        background-color: #ecf0f5;
+        text-align: center;
+        padding: 0 5px;
+        overflow: hidden;
+    }
+
+    .attachment_item_title p {
+        overflow: hidden;
+    }
+
+</style>
+#end
+
+#define script()
+<script>
+    function show(id) {
+        layer.open({
+            type: 2,
+            title: '附件详情',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.6,
+            area: ['90%', '90%'],
+            content: '#(CPATH)/admin/attachment/detail/' + id,
+            end: function () {
+                if (layer.data.needReload == true) {
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            附件管理
+            <small>Attachment Management</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/attachment" method="get">
+                            <div class="row">
+                                <div class="form-group col-xs-4">
+                                    <label class="col-sm-3 control-label">标题</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="title" value="#para('title')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-4">
+                                    <button type="submit" class="btn btn-primary ">查询</button>
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="#(CPATH)/admin/attachment/upload" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 上传
+                                </a>
+                                <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <div class="col-xs-12 ">
+                            <div class="row">
+                                #for(attachment : page.list)
+                                <div class="attachment_item">
+                                    #if(attachment.isImage())
+                                    <img src="#(CPATH)#(attachment.path ??)" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isDoc())
+                                    <img src="#(CPATH)/static/commons/img/suffix/doc.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isXls())
+                                    <img src="#(CPATH)/static/commons/img/suffix/xls.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isPpt())
+                                    <img src="#(CPATH)/static/commons/img/suffix/ppt.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isTxt())
+                                    <img src="#(CPATH)/static/commons/img/suffix/txt.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isZip())
+                                    <img src="#(CPATH)/static/commons/img/suffix/zip.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isRar())
+                                    <img src="#(CPATH)/static/commons/img/suffix/rar.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isExe())
+                                    <img src="#(CPATH)/static/commons/img/suffix/exe.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isPdf())
+                                    <img src="#(CPATH)/static/commons/img/suffix/pdf.png" title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isAudio())
+                                    <img src="#(CPATH)/static/commons/img/suffix/audio.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #elseif(attachment.isVideo())
+                                    <img src="#(CPATH)/static/commons/img/suffix/video.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #else
+                                    <img src="#(CPATH)/static/commons/img/suffix/unknow.png"
+                                         title="#(attachment.title ??)"
+                                         alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                                    #end
+                                    <div class="attachment_item_title">
+                                        <p>#(attachment.title ??)</p>
+                                    </div>
+                                </div>
+                                #end
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

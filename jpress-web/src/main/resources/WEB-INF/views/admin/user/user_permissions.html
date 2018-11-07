@@ -1,0 +1,92 @@
+#@layout()
+
+#define script()
+<script>
+
+</script>
+#end
+
+#define css()
+<style>
+    .switchery-small {
+        margin-top: 0px;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            用户权限管理
+            <small>User Permission Management</small>
+        </h1>
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-header  ">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2 class="page-header">
+                                    <i class="fa fa-globe"></i>
+                                    #(user.nickname ??) 的权限列表
+                                </h2>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body waterfall-container">
+                        #for(x : permissionGroup)
+                        <div class="waterfall-item">
+                            <div class="box box-dashboard">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">#(x.key ??)</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-padding">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>ActionKey</th>
+                                            <th>描述</th>
+                                            <th style="width: 80px">类型</th>
+                                        </tr>
+                                        #for(permission : x.value)
+                                        <tr>
+                                            #if(hasPermission(user,permission.id))
+                                            <td><input type="checkbox" checked readonly class="switchery"></td>
+                                            #else
+                                            <td><input type="checkbox" readonly class="switchery"></td>
+                                            #end
+                                            <td>#(permission.action_key ??)</td>
+                                            <td>#(permission.text ??)</td>
+                                            <td>#(permission.typeText ??)</td>
+                                        </tr>
+                                        #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        #end
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+#end

@@ -1,0 +1,72 @@
+#@layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            模板设置
+            <small>Template Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Logo文字</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="Logo文字的内容..."
+                                           name="jpressportal_logo_text" value="#option('jpressportal_logo_text')">
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">下载按钮</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示下载按钮</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="jpressportal_download_btn_enable"
+                                           #checkedIf(option("jpressportal_download_btn_enable"))>
+                                    <input type="hidden" id="jpressportal_download_btn_enable"
+                                           name="jpressportal_download_btn_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">链接地址</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：http://www.JeanStudio.cn"
+                                           name="jpressportal_download_url" value="#option('jpressportal_download_url')">
+                                    <p class="help-block"> http（或https）开头。 </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

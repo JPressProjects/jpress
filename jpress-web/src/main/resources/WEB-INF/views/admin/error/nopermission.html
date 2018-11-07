@@ -1,0 +1,32 @@
+#@layout()
+#define css()
+<style>
+    .error-content {
+        margin-top: 100px;
+    }
+
+    .error-page > .error-content {
+        margin-left: 0;
+        display: block;
+    }
+
+    .error-page > .error-content > h3 {
+        font-weight: 300;
+        font-size: 35px;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+    <section class="content">
+        <div class="error-page">
+
+            <div class="error-content">
+                <h3><i class="fa fa-warning text-yellow"></i> 诶呀! 您还没有权限操作此页面。</h3>
+            </div>
+        </div>
+    </section>
+
+</div>
+#end

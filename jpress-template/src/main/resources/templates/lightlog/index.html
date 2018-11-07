@@ -1,0 +1,58 @@
+#include("layout.html")
+#@layout()
+#define content()
+
+
+<div class="container ll-cantainer">
+
+    #articlePage()
+    #for(article : articlePage.list)
+
+    <div class="ll-card">
+        <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image">
+                <a href="#">
+                    <img src="#(article.thumbnail ??)" class="img-fluid" alt="#(article.title ??)">
+                </a>
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
+                <h3 class="ll-card-main-title">
+                    <a href="#(article.url ??)">
+                        #(article.title ??)
+                    </a>
+                </h3>
+                <div class="ll-card-tag">
+                    <div><i class="fa fa-clock-o"></i>#date(article.created)</div>
+                    <div><i class="fa fa-eye"></i>#(article.view_count)</div>
+                    <div><i class="fa fa-commenting-o"></i>#(article.comment_count)</div>
+                </div>
+                <p class="ll-card-main-info">
+                    #maxLength(article.text,100)
+                </p>
+                <p class="ll-card-more">
+                    <a href="#(article.url ??)">阅读更多...</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    #end
+
+
+    #articlePaginate(firstGotoIndex=true)
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+</div>
+#end

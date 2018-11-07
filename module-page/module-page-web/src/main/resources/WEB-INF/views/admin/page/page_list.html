@@ -1,0 +1,163 @@
+#@layout()
+
+#define script()
+<script>
+
+    function trash(id) {
+        ajaxGet("#(CPATH)/admin/page/doTrash/" + id);
+    }
+
+
+    function draft(id) {
+        ajaxGet("#(CPATH)/admin/page/doDraft/" + id);
+    }
+
+    function normal(id) {
+        ajaxGet("#(CPATH)/admin/page/doNormal/" + id);
+    }
+
+    function del(id) {
+        ajaxGet("#(CPATH)/admin/page/doDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        ajaxGet("#(CPATH)/admin/page/doDelByIds?ids=" + ids);
+    })
+
+</script>
+
+#end
+
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            页面管理
+            <small>Page Management</small>
+        </h1>
+    </section>
+
+    <section class="content-header text-tap">
+        <a href="#(CPATH)/admin/page">全部 (#(totalCount ??))</a> |
+        <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+        <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/page" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
+                            <div class="row">
+                                <div class="form-group col-xs-4">
+                                    <label class="col-sm-3 control-label">标题</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="title" value="#para('title')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-4">
+                                    <button type="submit" class="btn btn-primary ">查询</button>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="#(CPATH)/admin/page/write" class="btn btn-primary "> <i
+                                        class="fa fa-fw fa-plus"></i> 新建</a>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                </th>
+                                <th style="width: 450px">标题</th>
+                                <th>Slug</th>
+                                <th>样式</th>
+                                <th style="width: 100px">发布时间</th>
+                            </tr>
+
+                            #for(sp : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(sp.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/page/write/#(sp.id)">#(sp.title ??)</a>
+                                        #if(sp.isDraft())
+                                        （草稿）
+                                        #end
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        #if(sp.isNormal())
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">草稿</a>
+                                            |
+                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
+                                               style="color: #a00">垃圾箱</a> |
+                                            <a href="#(sp.url ??)" target="_blank" style="color: #a00">查看</a>
+                                        </div>
+                                        #elseif(sp.isDraft())
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/page/write/#(sp.id)" style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="trash('#(sp.id??)')"
+                                               style="color: #a00">垃圾箱</a>
+                                        </div>
+                                        #else
+                                        <div class="jp-actionitem">
+                                            <a href="javascript:;" onclick="draft('#(sp.id??)')" style="color: #006505">还原</a>
+                                            |
+                                            <a href="javascript:;" onclick="del('#(sp.id??)')"
+                                               style="color: #a00">永久删除</a>
+                                        </div>
+                                        #end
+                                    </div>
+                                </td>
+                                <td>#(sp.slug ??)</td>
+                                <td>#(sp.style ?? "默认")</td>
+                                <td>#(sp.created ??)</td>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

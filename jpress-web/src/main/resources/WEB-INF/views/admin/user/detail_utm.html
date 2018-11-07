@@ -1,0 +1,46 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout()
+#define detail()
+<div class="box-body no-padding">
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th style="width: 45%">路径</th>
+            <th style="width: 25%">查询</th>
+            <th style="width: 10%">渠道</th>
+            <th style="width: 10%">媒介</th>
+            <th style="width: 180px">时间</th>
+        </tr>
+
+        #for(utm : page.list)
+        <tr class="jp-actiontr">
+            <td>
+                #if(utm.action_query)
+                <a href="#(utm.action_key ??)?#(utm.action_query)" target="_blank">
+                    #(utm.action_key ??)
+                </a>
+                #else
+                <a href="#(utm.action_key ??)" target="_blank">#(utm.action_key ??)</a>
+                #end
+            </td>
+            <td>#(utm.action_query ??)</td>
+            <td>#(utm.source ??)</td>
+            <td>#(utm.medium ??)</td>
+            <td>#(utm.created ??)</td>
+        </tr>
+        #end
+
+        </tbody>
+    </table>
+</div>
+
+<div class="box-footer">
+    <div class="row">
+        <div class="col-sm-12">
+            #@_paginate()
+        </div>
+    </div>
+</div>
+
+#end
+

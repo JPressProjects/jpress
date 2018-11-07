@@ -1,0 +1,119 @@
+#@layout()
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            附件设置
+            <small>Attachment Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">允许附件类型</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：png, jpg, txt...."
+                                           name="attachment_allow_suffix" value="#option('attachment_allow_suffix')">
+                                    <p class="help-block"> 多个附件用英文逗号（,）隔开，不填写默认允许所有类型 </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">附件大小限制</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="单位：MB"
+                                           name="attachment_allow_filesize"
+                                           value="#option('attachment_allow_filesize')">
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">图片水印</h4>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否启用水印</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
+                                           #checkedIf(option("attachment_watermark_enable"))>
+                                    <input type="hidden" id="attachment_watermark_enable"
+                                           name="attachment_watermark_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">水印位置</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="attachment_watermark_position">
+                                        <option value="1" #selectedIf(option(
+                                        'attachment_watermark_position') == '1')>左上角</option>
+                                        <option value="2" #selectedIf(option(
+                                        'attachment_watermark_position') == '2')>右上角</option>
+                                        <option value="3" #selectedIf(option(
+                                        'attachment_watermark_position') == '3')>正中间</option>
+                                        <option value="4" #selectedIf(option(
+                                        'attachment_watermark_position') == '4')>左下角</option>
+                                        <option value="5" #selectedIf(option(
+                                        'attachment_watermark_position') == '5')>右下角</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">透明度</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="attachment_watermark_transparency"
+                                           value="#option('attachment_watermark_transparency')">
+                                    <p class="help-block"> 请填写0~1的数字，默认为1不透明 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">水印图片</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            id="jp-image-browser"
+                                            for-src="waterimg"
+                                            for-input="imginput"
+                                            class="btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')"
+                                         id="waterimg">
+                                    <input type="hidden" id="imginput" name="attachment_watermark_img"
+                                           value="#option('attachment_watermark_img')">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

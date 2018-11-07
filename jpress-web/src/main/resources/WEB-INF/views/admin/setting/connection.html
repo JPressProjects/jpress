@@ -1,0 +1,140 @@
+#@layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            通信设置
+            <small>Connection Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="box-body ">
+
+                            <h4 class="page-first-header">邮件</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="connection_email_enable"
+                                           #checkedIf(option("connection_email_enable"))>
+                                    <input type="hidden" id="connection_email_enable" name="connection_email_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">SMTP地址</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：smtp.qq.com"
+                                           name="connection_email_smtp"
+                                           value="#option('connection_email_smtp')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="邮箱账号..."
+                                           name="connection_email_account"
+                                           value="#option('connection_email_account')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control" placeholder="及密码"
+                                           name="connection_email_password"
+                                           value="#option('connection_email_password')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">使用SSL</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="connection_email_ssl_enable"
+                                           #checkedIf(option("connection_email_ssl_enable"))>
+                                    <input type="hidden" id="connection_email_ssl_enable"
+                                           name="connection_email_ssl_enable">
+                                    <p class="help-block"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">手机短信</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="connection_sms_enable"
+                                           #checkedIf(option("connection_sms_enable"))>
+                                    <input type="hidden" id="connection_sms_enable" name="connection_sms_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信服务商</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="connection_sms_type">
+                                        <option value="aliyun" #selectedIf(option(
+                                        'connection_sms_type') == 'aliyun') >阿里云</option>
+                                        <option value="qcloud" #selectedIf(option(
+                                        'connection_sms_type') == 'qcloud') >腾讯云</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Id</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="从服务商获取的appId ..."
+                                           name="connection_sms_appid"
+                                           value="#option('connection_sms_appid')">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Secret</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="及appSecret"
+                                           name="connection_sms_appsecret"
+                                           value="#option('connection_sms_appsecret')">
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

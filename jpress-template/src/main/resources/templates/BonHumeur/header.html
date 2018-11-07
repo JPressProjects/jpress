@@ -1,0 +1,9 @@
+<nav class="bh-header">
+    #categories()
+    #for(category : categories)
+    #if(category.isTop())
+    <a href="#(category.url ??)" class="#(category.isActive ? 'active' : '')">#(category.title ??) .</a>
+    #end
+    #end
+    #end
+</nav>

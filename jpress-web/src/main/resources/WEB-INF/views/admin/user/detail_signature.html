@@ -1,0 +1,34 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout()
+#define detail()
+<div class="box-header ">
+    <h3 class="box-title"></h3>
+</div>
+<!-- /.box-header -->
+<!-- form start -->
+<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doSaveUser">
+    <input name="user.id" type="hidden" value="#(user.id)">
+    <div class="box-body ">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">个人签名</label>
+
+            <div class="col-sm-8">
+                <textarea rows="5" class="form-control" placeholder="写写现在的心情..."
+                          name="user.signature">#(user.signature ??)</textarea>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box-footer">
+        <div class="col-sm-offset-2 col-sm-10 submit-block">
+            <div class="box-submit">
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+#end
+

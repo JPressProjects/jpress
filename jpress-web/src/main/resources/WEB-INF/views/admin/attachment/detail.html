@@ -1,0 +1,136 @@
+#@layer()
+
+#define css()
+<style>
+    .jp-group .control-label {
+        text-align: right;
+    }
+
+    .jp-block {
+        padding-top: 10px;
+    }
+</style>
+#end
+
+#define script()
+<script>
+
+    $(document).ready(function () {
+        var height = $(document).height();
+        $("#image-box").css("height", height + "px");
+        $("#image-box").css("min-height", height + "px");
+        $("#image-info").css("height", height + "px");
+        $("#image-info").css("min-height", height + "px");
+        $("img").css("max-height", height + "px");
+    });
+
+    function del(id) {
+        ajaxGet("#(CPATH)/admin/attachment/doDel/" + id, function () {
+            parent.layer.data.needReload = true;
+            parent.layer.closeAll();
+        })
+    }
+
+    function update() {
+        ajaxSubmit("#form", function () {
+            toastr.success('修改成功');
+        })
+    }
+</script>
+#end
+
+#define content()
+
+<div class="row">
+    <div class="col-xs-7" style="background: #ffffff" id="image-box">
+        <div class="row">
+
+            #if(attachment.isImage())
+            <img src="#(CPATH)#(attachment.path ??)" style="width: 100%">
+            #elseif(attachment.isDoc())
+            <img src="#(CPATH)/static/commons/img/suffix/doc.png" style="width: 100%">
+            #elseif(attachment.isXls())
+            <img src="#(CPATH)/static/commons/img/suffix/xls.png" style="width: 100%">
+            #elseif(attachment.isPpt())
+            <img src="#(CPATH)/static/commons/img/suffix/ppt.png" style="width: 100%">
+            #elseif(attachment.isTxt())
+            <img src="#(CPATH)/static/commons/img/suffix/txt.png" style="width: 100%">
+            #elseif(attachment.isZip())
+            <img src="#(CPATH)/static/commons/img/suffix/zip.png" style="width: 100%">
+            #elseif(attachment.isRar())
+            <img src="#(CPATH)/static/commons/img/suffix/rar.png" style="width: 100%">
+            #elseif(attachment.isExe())
+            <img src="#(CPATH)/static/commons/img/suffix/exe.png" style="width: 100%">
+            #elseif(attachment.isPdf())
+            <img src="#(CPATH)/static/commons/img/suffix/pdf.png" style="width: 100%">
+            #elseif(attachment.isAudio())
+            <img src="#(CPATH)/static/commons/img/suffix/audio.png" style="width: 100%">
+            #elseif(attachment.isVideo())
+            <img src="#(CPATH)/static/commons/img/suffix/video.png" style="width: 100%">
+            #else
+            <img src="#(CPATH)/static/commons/img/suffix/unknow.png" style="width: 100%">
+            #end
+
+        </div>
+    </div>
+
+    <div class="col-xs-5" style="background: #efefef" id="image-info">
+        <div class="row">
+
+            <div class="jp-block">
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件名</label>
+                    #(attachment.title ??)
+                </div>
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件类型</label>
+                    #(attachment.mime_type ??)（#(attachment.suffix ??)）
+                </div>
+
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">上传于</label>
+                    #(attachment.created ??)
+                </div>
+
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">文件大小</label>
+                    #(attachmentSize ??)
+                </div>
+
+                <div class="row jp-group">
+                    <label class="col-sm-3 control-label">分辨率</label>
+                    #(attachmentRatio ??)
+                </div>
+
+            </div>
+
+            <div style="margin: 20px">
+                <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
+                    <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
+                    <div class="form-group">
+                        <label>URL</label>
+                        <textarea class="form-control" rows="2" readonly>#(CPATH)#(attachment.path ??)</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>文件名</label>
+                        <input type="text" class="form-control" name="attachment.title" value="#(attachment.title ??)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>描述</label>
+                        <textarea class="form-control" rows="3" name="attachment.description">#(attachment.description ??)</textarea>
+                    </div>
+                </form>
+            </div>
+
+            <div style="padding: 20px">
+                <a href="javascript:;" onclick="update()">保存</a>
+                <span>|</span>
+                <a href="javascript:;" onclick="del('#(attachment.id ??)')" style="color: #a00">彻底删除</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+#end

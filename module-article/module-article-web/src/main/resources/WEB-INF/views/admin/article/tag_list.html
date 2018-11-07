@@ -1,0 +1,188 @@
+#@layout()
+
+#define script()
+<script>
+    $('#form').on('submit', function () {
+        ajaxSubmit('#form',function () {
+            location.href = "#(CPATH)/admin/article/tag";
+        });
+        return false;
+    });
+
+    $('.del-action').on('click', function () {
+        var id = $(this).attr("data-id");
+        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
+    });
+
+
+    $('.addtomenu-action').on('click', function () {
+        var id = $(this).attr("data-id");
+        ajaxGet("#(CPATH)/admin/article/doAddCategoryToMenu/" + id,null,function () {
+            toastr.success("添加到菜单成功")
+        })
+    });
+
+</script>
+
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            标签管理
+            <small>Tag Management</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="#(CPATH)/admin/article/doTagSave"
+                          id="form"
+                          method="post">
+                        <input type="hidden" name="category.id" value="#(category.id ??)">
+                        <input type="hidden" name="category.type" value="tag">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..."
+                                           value="#(category.title ??)" name="category.title">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="category.content">#(category.content ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">摘要</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="category.summary">#(category.summary ??)</textarea>
+                                </div>
+                            </div>
+
+                            #if(styles)
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">样式</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="category.style">
+                                        <option value="">默认</option>
+                                        #for(style : styles)
+                                        <option value="#(style)" #selectedIf(category && category.style == style)>#(style)</option>
+                                        #end
+                                    </select>
+                                </div>
+                            </div>
+                            #end
+
+
+                            <h4 class="page-header">SEO</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">描述</label>
+
+                                <div class="col-sm-9">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="此内容会显示在搜索引擎的列表描述上..."
+                                              name="category.meta_description">#(category.meta_description ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">关键字</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
+                                           name="category.meta_keywords" value="#(category.meta_keywords ??)">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-7">
+                <div class="box box-primary">
+
+                    <div class="box-header with-border">
+
+                    </div>
+
+                    <div class="box-body no-padding ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 40%">标题</th>
+                                <th>描述</th>
+                                <th>排序</th>
+                            </tr>
+                            #for(category : page.list)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <strong>
+                                        <a href="#(category.url ??)" target="_blank">
+                                            #(category.title)
+                                        </a>
+                                        （#(category.count ?? 0)）
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/article/tag/#(category.id)">编辑</a> |
+                                            <a href="javascript:;" class="addtomenu-action" data-id="#(category.id)">添加到菜单</a>
+                                            |
+                                            <a href="javascript:;" class="del-action red-action"
+                                               data-id="#(category.id)">删除</a> |
+                                            <a href="#(category.url ??)" class="red-action" target="_blank">查看</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(category.content ??)</td>
+                                <td>#(category.order_number ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

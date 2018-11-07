@@ -1,0 +1,119 @@
+#@layout()
+
+#define script()
+<script>
+
+    $("#sync").on("click", function () {
+        ajaxGet(
+            "#(CPATH)/admin/permission/syncPermissions",
+            function (result) {
+                toastr.options.onHidden = function () {
+                    location.reload();
+                }
+                toastr.success(result.message);
+            },
+            function (result) {
+                toastr.success(result.message);
+            }
+        )
+    });
+
+
+    var type = getPara("type");
+    if ("menu" == type) {
+        $("#group-menu").addClass("active");
+    } else if ("action" == type) {
+        $("#group-action").addClass("active");
+    } else {
+        $("#group-all").addClass("active");
+    }
+
+
+</script>
+#end
+
+#define css()
+<style>
+    .switchery-small {
+        margin-top: 0px;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            权限列表
+            <small>Permission List</small>
+        </h1>
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-header  ">
+                        <div class="actionPanel">
+                            <div class="col-xs-12">
+                                <div class="btn-group">
+                                    <a href="#(CPATH)/admin/permission" id="group-all" class="btn btn-default">全部</a>
+                                    <a href="#(CPATH)/admin/permission?type=menu" id="group-menu"
+                                       class="btn btn-default">菜单</a>
+                                    <a href="#(CPATH)/admin/permission?type=action" id="group-action"
+                                       class="btn btn-default">URL</a>
+                                </div>
+
+                                <button type="button" class="btn btn-primary pull-right" id="sync">
+                                    <i class="fa fa-fw fa-refresh"></i>同步所有权限
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body waterfall-container">
+
+                        #for(x : permissionGroup)
+                        <div class="waterfall-item">
+                            <div class="box box-dashboard">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">#(x.key ??)</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-padding">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <th>ActionKey</th>
+                                            <th>描述</th>
+                                            <th style="width: 80px">类型</th>
+                                        </tr>
+                                        #for(permission : x.value)
+                                        <tr>
+                                            <td>#(permission.action_key ??)</td>
+                                            <td>#(permission.text ??)</td>
+                                            <td>#(permission.typeText ??)</td>
+                                        </tr>
+                                        #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        #end
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+#end

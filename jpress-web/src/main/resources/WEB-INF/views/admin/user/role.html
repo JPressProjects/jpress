@@ -1,0 +1,102 @@
+#@layout()
+
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("#(CPATH)/admin/user/doRoleDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        ajaxGet("#(CPATH)/admin/user/doRoleDelByIds?ids=" + ids);
+    })
+
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            角色管理
+            <small>Roles Manager</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="roleEdit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th style="width: 30%">名称</th>
+                                <th>描述</th>
+                            </tr>
+                            #for(role : roles)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(role.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/user/roleEdit/#(role.id)"> #(role.name ??) </a>
+                                        #if(role.isSuperAdmin())
+                                        （超级管理员）
+                                        #end
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/user/roleEdit/#(role.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)">权限</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(role.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(role.description ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

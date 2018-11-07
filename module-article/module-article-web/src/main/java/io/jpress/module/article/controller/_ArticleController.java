@@ -178,8 +178,10 @@ public class _ArticleController extends AdminControllerBase {
 
         articleService.doUpdateCategorys(id, allIds);
 
-        for (Long categoryId : allIds) {
-            categoryService.updateCount(categoryId);
+        if (allIds != null && allIds.length > 0) {
+            for (Long categoryId : allIds) {
+                categoryService.updateCount(categoryId);
+            }
         }
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();

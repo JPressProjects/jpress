@@ -191,6 +191,12 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         articleService.doUpdateCategorys(id, allIds);
 
+        if (allIds != null && allIds.length > 0) {
+            for (Long categoryId : allIds) {
+                categoryService.updateCount(categoryId);
+            }
+        }
+
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }

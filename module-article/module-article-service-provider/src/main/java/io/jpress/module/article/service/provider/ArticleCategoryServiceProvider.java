@@ -199,4 +199,14 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
     }
 
+    @Override
+    public ArticleCategory findFirstByFlag(String flag) {
+        return DAO.findFirstByColumns(Columns.create("flag", flag));
+    }
+
+    @Override
+    public List<ArticleCategory> findListByFlag(String flag) {
+        return DAO.findListByColumns(Columns.create("flag", flag));
+    }
+
 }

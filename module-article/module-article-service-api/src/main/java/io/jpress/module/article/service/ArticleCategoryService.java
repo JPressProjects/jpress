@@ -129,6 +129,10 @@ public interface ArticleCategoryService {
 
     public ArticleCategory findFirstByTypeAndSlug(String type, String slug);
 
+    public ArticleCategory findFirstByFlag(String flag);
+
+    public List<ArticleCategory> findListByFlag(String flag);
+
     public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId);
 
     public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);

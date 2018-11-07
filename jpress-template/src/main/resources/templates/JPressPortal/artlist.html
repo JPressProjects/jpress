@@ -1,0 +1,57 @@
+#include("./layout.html")
+#@layout()
+#define content()
+<div class="container list-content bl-container">
+
+    #articlePage()
+    #for(article : articlePage.list)
+    <div class="row bl-list-card">
+        <div class="col-md-8 col-sm-12 bl-card-content">
+            <h3 class="bl-content-title">
+                <a href="#(article.url ??)">#(article.title ??)</a>
+            </h3>
+            <p class="bl-content-info">
+                #maxLength(article.text,100)
+            </p>
+            <div class="bl-label">
+                <div class="bl-label-item">
+                    <img src="#(article.user.avatar ??)" class="img-fluid rounded-circle bl-img-size" alt="">
+                    <span>#(article.user.nickname ??)</span>
+                </div>
+                <div class="bl-label-item">#date(article.created)</div>
+            </div>
+            <div class="bl-tag">
+                <div class="bl-tag-item"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> #(article.view_count)
+                </div>
+                <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> #(article.comment_count)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 bl-card-image">
+            <a href="#(article.url ??)">
+                <img src="#(article.thumbnail ??)" class="img-fluid" alt="">
+            </a>
+        </div>
+    </div>
+    #end
+
+
+    #articlePaginate()
+    <nav aria-label="Page navigation example" style="margin-top:2rem;">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+
+</div>
+#end

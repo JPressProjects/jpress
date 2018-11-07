@@ -1,0 +1,10 @@
+#include("./layout.html")
+#@layout()
+#define content()
+<div class="container bl-container">
+    <h2 class="bl-title-center">#(page.title ??)</h2>
+    <div class="bl-artical">
+        #(page.content ??)
+    </div>
+</div>
+#end

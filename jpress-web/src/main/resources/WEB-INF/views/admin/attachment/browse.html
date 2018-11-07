@@ -1,0 +1,195 @@
+#@layer()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<style>
+
+    .attachment_item {
+        height: 220px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .attachment_item:hover {
+        border: 1px solid #3c8dbc;
+    }
+
+    .attachment_item img {
+        height: 90%;
+        min-height: 90%;
+        width: 100%;
+    }
+
+    .attachment_item_title {
+        height: 10%;
+        background-color: #ecf0f5;
+        text-align: center;
+        padding: 0 5px;
+        overflow: hidden;
+    }
+
+    .attachment_item_title p {
+        overflow: hidden;
+    }
+
+    .my-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #uploader {
+        height: 230px;
+    }
+
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/commons/attachment/upload',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                parent.layer.data.src = data.result.src;
+                parent.layer.closeAll();
+            }
+        }
+    });
+
+    $(".attachment_item").click(function () {
+        var src = $(this).children().attr("data-path");
+        parent.layer.data.src = src;
+        parent.layer.closeAll();
+    })
+
+</script>
+#end
+
+#define content()
+
+<div class="row" style="padding-top: 1px">
+    <div class="col-xs-12" style="padding: 0 20px">
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li><a href="#timeline" data-toggle="tab">图片上传</a></li>
+                <li class="active"><a href="#activity" data-toggle="tab">图片库</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="timeline">
+                    <div id="uploader">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>选择文件...</span>
+                                <input id="cfile" type="file" name="files[]" multiple>
+                            </span>
+
+                        <div class="myPanel">
+                            或者拖动文件到这里进行上传...
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="active tab-pane" id="activity">
+                    <div class="my-row">
+                        #for(attachment : page.list)
+                        <div class="attachment_item" data-aid="#(attachment.id ??)">
+                            #if(attachment.isImage())
+                            <img src="#(CPATH)#(attachment.path ??)"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isDoc())
+                            <img src="#(CPATH)/static/commons/img/suffix/doc.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isXls())
+                            <img src="#(CPATH)/static/commons/img/suffix/xls.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isPpt())
+                            <img src="#(CPATH)/static/commons/img/suffix/ppt.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isTxt())
+                            <img src="#(CPATH)/static/commons/img/suffix/txt.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isZip())
+                            <img src="#(CPATH)/static/commons/img/suffix/zip.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isRar())
+                            <img src="#(CPATH)/static/commons/img/suffix/rar.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isExe())
+                            <img src="#(CPATH)/static/commons/img/suffix/exe.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isPdf())
+                            <img src="#(CPATH)/static/commons/img/suffix/pdf.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isAudio())
+                            <img src="#(CPATH)/static/commons/img/suffix/audio.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #elseif(attachment.isVideo())
+                            <img src="#(CPATH)/static/commons/img/suffix/video.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #else
+                            <img src="#(CPATH)/static/commons/img/suffix/unknow.png"
+                                 data-path="#(attachment.path ??)"
+                                 title="#(attachment.title ??)"
+                                 alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>
+                            #end
+                            <div class="attachment_item_title">
+                                <p>#(attachment.title ??)</p>
+                            </div>
+                        </div>
+
+                        #end
+                    </div>
+
+                    <div class="row" style="padding-right: 20px">
+                        <div class="col-sm-12">
+                            #@_paginate()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#end

@@ -1,0 +1,172 @@
+#@layout()
+#define script()
+<script>
+
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.myswitchery'));
+    elems.forEach(function (elem) {
+        var switchery = new Switchery(elem, {size: 'small'});
+        var roleId = elem.getAttribute("data-rid");
+        var permissionId = elem.getAttribute("data-pid");
+        elem.onchange = function () {
+            if (elem.checked) {
+                addRolePermission(roleId, permissionId);
+            } else {
+                delRolePermission(roleId, permissionId);
+            }
+        }
+    });
+
+    function addRolePermission(roleId, permissionId) {
+        ajaxGet(
+            "#(CPATH)/admin/user/doAddRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            function () {
+                toastr.success('操作成功。');
+            }
+        )
+    }
+
+    function delRolePermission(roleId, permissionId) {
+        ajaxGet(
+            "#(CPATH)/admin/user/doDelRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+            function () {
+                toastr.success('操作成功。');
+            }
+        )
+    }
+
+    var type = getPara("type");
+    if ("menu" == type) {
+        $("#group-menu").addClass("active");
+    } else if ("action" == type) {
+        $("#group-action").addClass("active");
+    } else {
+        $("#group-all").addClass("active");
+    }
+
+
+</script>
+#end
+
+#define css()
+<style>
+    .switchery-small {
+        margin-top: 0px;
+    }
+
+    .page-header {
+        padding-bottom: 9px;
+        padding-left: 20px;
+        margin: 40px 0 20px;
+        border-bottom: 1px solid #eee;
+        font-size: 18px;
+    }
+</style>
+#end
+
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            角色权限管理
+            <small>Role Permission Management</small>
+        </h1>
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-header  ">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2 class="page-header">
+                                    <i class="fa fa-globe"></i>
+                                    #if(role.isSuperAdmin())
+                                    <span style="color: red">#(role.name ??)</span> 是超级管理员，默认拥有所有权限，无需设置。
+                                    #else
+                                    您正在设置角色 <span style="color: red">#(role.name ??)</span> 的权限
+                                    #end
+
+
+                                </h2>
+                            </div>
+
+                            <div class="col-xs-12" style="margin-left: 15px">
+                                <div class="btn-group">
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)" id="group-all"
+                                       class="btn btn-default">全部</a>
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
+                                       class="btn btn-default">菜单</a>
+                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
+                                       class="btn btn-default">URL</a>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body waterfall-container">
+                        #for(x : permissionGroup)
+                        <div class="waterfall-item">
+                            <div class="box box-dashboard">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">#(x.key ??)</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-padding">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>ActionKey</th>
+                                            <th>描述</th>
+                                            <th style="width: 80px">类型</th>
+                                        </tr>
+                                        #if(role.isSuperAdmin())
+
+                                        #for(permission : x.value)
+                                        <tr>
+                                            <td><input type="checkbox" checked class="myswitchery"
+                                                       disabled></td>
+                                            <td>#(permission.action_key ??)</td>
+                                            <td>#(permission.text ??)</td>
+                                            <td>#(permission.typeText ??)</td>
+                                        </tr>
+                                        #end
+
+                                        #else
+                                        #for(permission : x.value)
+                                        <tr>
+                                            <td><input type="checkbox" class="myswitchery"
+                                                       data-pid="#(permission.id ??)"
+                                                       data-rid="#(role.id ??)"
+                                                       #checkedIf(hasPermission(role,permission.id))></td>
+                                            <td>#(permission.action_key ??)</td>
+                                            <td>#(permission.text ??)</td>
+                                            <td>#(permission.typeText ??)</td>
+                                        </tr>
+                                        #end
+                                        #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        #end
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+#end

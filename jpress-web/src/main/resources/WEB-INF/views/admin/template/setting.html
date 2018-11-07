@@ -1,0 +1,41 @@
+#@layout()
+
+#define css()
+<style>
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        height: 230px;
+        padding-top: 100px;
+
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            模板设置
+            <small>Template Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body myPanel">
+                        当前模板#(template.title ??)不支持设置功能
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.jpress</groupId>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+    <version>${jpress.version}</version>
+
+    <modules>
+        <module>codegen</module>
+
+        <module>jpress-commons</module>
+        <module>jpress-core</module>
+        <module>jpress-web</module>
+        <module>jpress-service-api</module>
+        <module>jpress-service-provider</module>
+        <module>jpress-model</module>
+        <module>jpress-template</module>
+
+        <module>module-article</module>
+        <module>module-page</module>
+
+        <module>starter</module>
+        <module>starter-tomcat</module>
+    </modules>
+
+    <properties>
+        <jpress.version>1.0</jpress.version>
+        <jdk.version>1.8</jdk.version>
+        <jboot.version>1.7.3</jboot.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <logback.version>1.1.11</logback.version>
+        <jpinyin.version>1.1.8</jpinyin.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
+        <commons-io.version>2.5</commons-io.version>
+        <commonmark.version>0.11.0</commonmark.version>
+        
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.atlassian.commonmark</groupId>
+                <artifactId>commonmark</artifactId>
+                <version>${commonmark.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.stuxuhai</groupId>
+                <artifactId>jpinyin</artifactId>
+                <version>${jpinyin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jboot</groupId>
+                <artifactId>jboot</artifactId>
+                <version>${jboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-commons</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-core</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-model</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-web</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-service-api</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jpress</groupId>
+                <artifactId>jpress-service-provider</artifactId>
+                <version>${jpress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>javax.mail-api</artifactId>
+                <version>${javax.mail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${javax.mail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

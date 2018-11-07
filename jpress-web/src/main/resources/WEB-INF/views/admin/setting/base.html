@@ -1,0 +1,111 @@
+#@layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            常规设置
+            <small>Base Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站名称</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="给您的网站起个名字"
+                                           name="web_name" value="#option('web_name')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站标题</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="设置网站的主标题"
+                                           name="web_title" value="#option('web_title')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站副标题</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="副标题..."
+                                           name="web_subtitle" value="#option('web_subtitle')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站域名</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="填写网站的域名"
+                                           name="web_domain" value="#option('web_domain')">
+                                    <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://jpress.io </p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">管理员邮箱</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="web_mater_email" value="#option('web_mater_email')">
+                                </div>
+
+                            </div>
+
+                            <h4 class="page-header">其他</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">备案号</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="网站在中国区接入需要备案号"
+                                           name="web_ipc_no" value="#option('web_ipc_no')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">版权信息</label>
+
+                                <div class="col-sm-6">
+                                    <textarea rows="5" class="form-control" name="web_copyright"
+                                              placeholder="版权信息一般显示在网站的底部...">#option("web_copyright")</textarea>
+                                    <p class="help-block"> 注意：此处的信息是否正确显示，决定于您使用的模板是否支持版权设置功能。 </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

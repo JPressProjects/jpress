@@ -1,0 +1,150 @@
+#@layout()
+#define script()
+<script>
+    function del(id) {
+        ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id)
+    }
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            接口管理
+            <small>API Management</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">设置</a></li>
+            <li class="active">接口</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-5">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="#(CPATH)/admin/setting/doAppSave"
+                          method="post" id="form">
+                        <input type="hidden" name="app.id" value="#(app.id ??)">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="给API应用取个名称..."
+                                           value="#(app.name ??)" name="app.name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">描述</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" name="app.description" class="form-control"
+                                              placeholder="同时添加点描述...">#(app.description ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="margin-top: -12px">App Key</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="建议长度为32位..."
+                                           value="#(app.appkey ??)" name="app.appkey">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="margin-top: -12px">App Secret</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="建议长度为32位..."
+                                           name="app.secret"
+                                           value="#(app.secret ??)">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" checked class="switchery" name="app.enable" value="true">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-7">
+                <div class="box box-primary">
+
+                    <div class="box-header with-border">
+
+                    </div>
+
+                    <div class="box-body no-padding ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 30%">应用</th>
+                                <th>App Key</th>
+                                <th>描述</th>
+                            </tr>
+                            #for(ai : apps)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    #(ai.name ??)
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/setting/api/#(ai.id)" style="color: #006505">编辑</a> |
+                                            <a href="#(ai.url ??)" target="_blank" style="color: #006505">详情</a> |
+                                            <a href="javascript:;" onclick="disable('#(ai.id??)')" style="color: #a00">禁用</a>
+                                            |
+                                            <a href="javascript:;" onclick="del('#(ai.id??)')"
+                                               style="color: #a00">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(ai.appkey ??)</td>
+                                <td>#(ai.description ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

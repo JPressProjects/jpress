@@ -1,0 +1,106 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout()
+#define detail()
+<div class="box-header ">
+    <h3 class="box-title"></h3>
+</div>
+<!-- /.box-header -->
+<!-- form start -->
+<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doSaveUser">
+    <input name="user.id" type="hidden" value="#(user.id)">
+    <div class="box-body ">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">登录账号</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="#(user.username ??)" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">昵称</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" placeholder="取个好听的昵称..."
+                       value="#(user.nickname ??)" name="user.nickname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">身份</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" placeholder="设计师？程序员？..."
+                       value="#(user.identity ??)" name="user.identity">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">备注</label>
+
+            <div class="col-sm-8">
+                <textarea rows="3" class="form-control" placeholder="添加点备注..."
+                          name="user.remark">#(user.remark ??)</textarea>
+            </div>
+        </div>
+
+
+        <h4 class="page-header">其他</h4>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">状态</label>
+
+            <div class="col-sm-8">
+                <select class="form-control" name="user.status">
+                    <option value="ok" #selectedIf('ok' == user.status)>正常</option>
+                    <option value="registered" #selectedIf('registered' == user.status)>注册未激活</option>
+                    <option value="locked" #selectedIf('locked' == user.status)>锁定账号</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">注册日期</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="#date(user.created)" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">激活日期</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="#date(user.activated)" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">最后登录时间</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="#date(user.logged)" readonly>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">来源</label>
+
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="#(user.sourceString ??)" readonly>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="box-footer">
+        <div class="col-sm-offset-2 col-sm-10 submit-block">
+            <div class="box-submit">
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</form>
+#end
+

@@ -1,0 +1,18 @@
+#include("layout.html")
+#@layout(true)
+#define content()
+<div class="bh-main-body">
+
+    #include("header.html")
+    <div class="bh-artical-content">
+
+        <h2 class="bh-artical-title">
+            #(page.title ??)
+        </h2>
+        <div class="bh-artical">
+            #(page.content ??)
+        </div>
+
+    </div>
+</div>
+#end

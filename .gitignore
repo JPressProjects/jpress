@@ -1,0 +1,16 @@
+*/target/
+.idea
+*.iml
+.project
+.settings
+*.jar
+*.log
+.logs
+logs
+*.iws
+*.classpath
+.DS_Store
+*.patch
+~$*
+*/*.jar
+pom.properties

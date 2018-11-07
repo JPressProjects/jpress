@@ -104,7 +104,7 @@
                     <div class="card bl-panel">
                         <a class="recommend-panel-link" href="#(article.url ??)">
                             <div class="recommend-panel-top">
-                                <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid"
+                                <img src="#(article.showImage ?? 'img/blog-image.jpg')" class="img-fluid"
                                      alt="#(article.title ??)">
                             </div>
                             <div class="recommend-panel-bottom">
@@ -222,7 +222,7 @@
                 <div class="card-right-body">
                     <a href="#(article.url ??)">
                         <div>
-                            <img src="#(article.thumbnail ??)"
+                            <img src="#(article.showImage ?? 'img/blog-image.jpg')"
                                  class="img-fluid"
                                  alt="#(article.title ??)">
                         </div>

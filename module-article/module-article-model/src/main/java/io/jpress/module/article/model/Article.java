@@ -96,6 +96,11 @@ public class Article extends BaseArticle<Article> {
         return JsoupUtils.getFirstImageSrc(getContent());
     }
 
+    public String getShowImage() {
+        String thumbnail = getThumbnail();
+        return StrUtils.isNotBlank(thumbnail) ? thumbnail : getFirstImage();
+    }
+
     @Override
     public boolean save() {
         CommonsUtils.preventingXssAttacks(this, "content");

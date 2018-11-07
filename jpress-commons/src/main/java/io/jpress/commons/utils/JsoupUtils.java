@@ -33,8 +33,10 @@ public class JsoupUtils {
             return null;
 
         Elements es = Jsoup.parseBodyFragment(html).select("img");
-        if (es != null && es.size() > 0)
-            return es.first().attr("src");
+        if (es != null && es.size() > 0) {
+            String src = es.first().attr("src");
+            return StrUtils.isBlank(src) ? null : src;
+        }
 
         return null;
     }

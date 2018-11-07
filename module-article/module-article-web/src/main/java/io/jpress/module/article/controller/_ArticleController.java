@@ -169,6 +169,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
+        articleService.doUpdateCommentCount(id);
 
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
@@ -297,11 +298,12 @@ public class _ArticleController extends AdminControllerBase {
 
         String status = getPara("status");
         String key = getPara("keyword");
+        Long articleId = getParaToLong("articleId");
 
         Page<ArticleComment> page =
                 StrUtils.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, key, status);
+                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
+                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
 
         setAttr("page", page);
 

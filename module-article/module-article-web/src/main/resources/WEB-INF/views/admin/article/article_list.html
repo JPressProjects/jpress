@@ -170,7 +170,11 @@
                                     #end
                                     #end
                                 </td>
-                                <td>#(article.comment_count ??)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/article/comment?articleId=#(article.id)">
+                                    #(article.comment_count ??)
+                                    </a>
+                                </td>
                                 <td>#date(article.created)</td>
                             </tr>
                             #end

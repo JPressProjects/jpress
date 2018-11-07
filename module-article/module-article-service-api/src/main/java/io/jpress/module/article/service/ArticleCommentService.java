@@ -143,9 +143,9 @@ public interface ArticleCommentService {
 
     public long findCountByArticleId(Long articleId);
 
-    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword, String status);
+    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status);
 
-    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, String keyword);
+    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword);
 
     public Page<ArticleComment> _paginateByUserId(int page, int pagesize, long userId);
 

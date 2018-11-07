@@ -21,7 +21,6 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -115,27 +114,29 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
 
     @Override
-    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword, String status) {
+    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status) {
 
-        Columns columns = Columns.create("status", status);
-        SqlUtils.likeAppend(columns, "content", keyword);
+        Columns columns = Columns.create("article_id", articleId)
+                .add("status", status)
+                .likeAppendPercent("content", keyword);
 
         Page<ArticleComment> p = DAO.paginateByColumns(page,
                 pagesize,
                 columns,
                 "id desc");
+
         userService.join(p, "user_id");
         articleService.join(p, "article_id");
         return p;
     }
 
-    @Override
-    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, String keyword) {
 
-        Columns columns = Columns.create(Column.create("status", ArticleComment.STATUS_TRASH, Column.LOGIC_NOT_EQUALS));
-        if (StrUtils.isNotBlank(keyword)) {
-            columns.like("content", "%" + keyword + "%");
-        }
+    @Override
+    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword) {
+
+        Columns columns = Columns.create("article_id", articleId)
+                .ne("status", ArticleComment.STATUS_TRASH)
+                .likeAppendPercent("content", keyword);
 
         Page<ArticleComment> p = DAO.paginateByColumns(
                 page,

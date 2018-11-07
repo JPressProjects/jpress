@@ -27,6 +27,7 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
@@ -46,6 +47,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private ArticleCommentService commentService;
 
     @Override
     public boolean deleteByIds(Object... ids) {
@@ -132,6 +136,18 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
             return true;
         });
+    }
+
+    @Override
+    public void doUpdateCommentCount(long articleId) {
+        Article article = findById(articleId);
+        if (article == null) {
+            return;
+        }
+
+        long count = commentService.findCountByArticleId(articleId);
+        article.setCommentCount(count);
+        article.update();
     }
 
     @Override

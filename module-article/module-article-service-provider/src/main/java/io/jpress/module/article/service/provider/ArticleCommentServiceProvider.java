@@ -54,7 +54,24 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from article_comment where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        for (Object id : ids) {
+            deleteById(id);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteById(Object id) {
+        ArticleComment comment = findById(id);
+        if (comment == null) {
+            return false;
+        }
+
+        boolean delOK = super.deleteById(id);
+        if (delOK && comment.getArticleId() != null) {
+            articleService.doUpdateCommentCount(comment.getArticleId());
+        }
+        return delOK;
     }
 
     @Override
@@ -87,8 +104,13 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
-    public int findCountByStatus(String status) {
-        return Db.queryInt("select count(*) from article_comment where status = ?", status);
+    public long findCountByStatus(String status) {
+        return Db.queryLong("select count(*) from article_comment where status = ?", status);
+    }
+
+    @Override
+    public long findCountByArticleId(Long articleId) {
+        return Db.queryLong("select count(*) from article_comment where article_id = ?", articleId);
     }
 
 

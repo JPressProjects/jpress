@@ -305,9 +305,9 @@ public class _ArticleController extends AdminControllerBase {
 
         setAttr("page", page);
 
-        int unauditedCount = commentService.findCountByStatus(ArticleComment.STATUS_UNAUDITED);
-        int trashCount = commentService.findCountByStatus(ArticleComment.STATUS_TRASH);
-        int normalCount = commentService.findCountByStatus(ArticleComment.STATUS_NORMAL);
+        long unauditedCount = commentService.findCountByStatus(ArticleComment.STATUS_UNAUDITED);
+        long trashCount = commentService.findCountByStatus(ArticleComment.STATUS_TRASH);
+        long normalCount = commentService.findCountByStatus(ArticleComment.STATUS_NORMAL);
 
         setAttr("unauditedCount", unauditedCount);
         setAttr("trashCount", trashCount);
@@ -350,6 +350,7 @@ public class _ArticleController extends AdminControllerBase {
      */
     public void doCommentReply(String content, Long articleId, Long pid) {
         User user = getLoginedUser();
+
         ArticleComment comment = new ArticleComment();
         comment.setContent(content);
         comment.setUserId(user.getId());
@@ -357,7 +358,7 @@ public class _ArticleController extends AdminControllerBase {
         comment.setArticleId(articleId);
         comment.setPid(pid);
 
-        commentService.saveOrUpdate(comment);
+        commentService.save(comment);
         renderJson(Ret.ok());
     }
 

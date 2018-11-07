@@ -139,7 +139,9 @@ public interface ArticleCommentService {
 
     public boolean doChangeStatus(long id, String status);
 
-    public int findCountByStatus(String status);
+    public long findCountByStatus(String status);
+
+    public long findCountByArticleId(Long articleId);
 
     public Page<ArticleComment> _paginateByStatus(int page, int pagesize, String keyword, String status);
 

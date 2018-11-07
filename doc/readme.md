@@ -300,6 +300,8 @@ screenshot = screenshot.png
 | --- | --- | --- | 
 | #article() | 任意 | 用于读取特定的单篇文章 |  
 | #articles() | 任意 | 用于读取文章列表，例如：热门文章文章、最新评论文章列表等等 | 
+| #tagArticles() | 任意 | 读取某个tag下的文章列表 | 
+| #categoryArticles() | 任意 | 读取某个分类下的文章列表 | 
 | #articlePage() | 文章列表：artlist.html | 用于对文章列表进行的内容和分页进行显示 | 
 | #commentPage() | 文章详情：article.html | 用于对文章评论的内容和分页进行显示 | 
 | #nextArticle() | 文章详情：article.html | 下一篇文章 | 
@@ -349,6 +351,44 @@ screenshot = screenshot.png
 **#articles() 指令支持的参数有：**
 
 * flag：文章标识，这个是在编辑文章的时候自由填写。
+* hasThumbnail：是否需要缩略图，值为 true 和 false。
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
+* count ：要显示多少篇文章
+
+##### #tagArticles() 指令的用法
+
+此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
+
+```html
+#tagArticles(tag="aaa",hasThumbnail="",orderBy="",count="")
+    #for(article : articles)
+        <a href="#(article.url)">#(article.title)</a>
+    #end
+#end
+```
+
+**#tagArticles() 指令支持的参数有：**
+
+* tag：哪个tag。
+* hasThumbnail：是否需要缩略图，值为 true 和 false。
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
+* count ：要显示多少篇文章
+
+##### #categoryArticles() 指令的用法
+
+此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
+
+```html
+#articles(categoryFlag="",hasThumbnail="",orderBy="",count="")
+    #for(article : articles)
+        <a href="#(article.url)">#(article.title)</a>
+    #end
+#end
+```
+
+**#categoryArticles() 指令支持的参数有：**
+
+* categoryFlag：分类的标识。
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
 * orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章

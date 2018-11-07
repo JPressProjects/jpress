@@ -125,11 +125,11 @@ public class TemplateRender extends Render {
             }
 
             // 以 / 开头的，需要添加 contextPath
-            if (url.startsWith("/")
-                    && contextPath.length() > 0
-                    && url.startsWith(contextPath + "/") == false) {
-
-                url = contextPath + url;
+            if (url.startsWith("/")) {
+                if (contextPath.length() > 0
+                        && url.startsWith(contextPath + "/") == false) {
+                    url = contextPath + url;
+                }
             }
 
             // 以 ./ 开头的文件，需要添加模板路径

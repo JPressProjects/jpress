@@ -42,7 +42,7 @@
         }
     }
 
-    $('.toReply').on('click', function () {
+    $('body').on('click','.toReply', function () {
         $('#pid').val($(this).attr('data-cid'));
         $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
         $('#content').focus();

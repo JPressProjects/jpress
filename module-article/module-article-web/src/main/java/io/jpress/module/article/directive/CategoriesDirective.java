@@ -88,7 +88,12 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        doFlagByCurrentCategory(categories, currentCategory);
+        List<ArticleCategory> activeCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
+        if (activeCategories != null && activeCategories.size() > 0) {
+            for (ArticleCategory activeCategory : activeCategories) {
+                doFlagByCurrentCategory(categories, activeCategory);
+            }
+        }
 
     }
 

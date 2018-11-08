@@ -63,6 +63,8 @@ public class ArticleCategoryController extends TemplateControllerBase {
         if (currentCategory.isTop()) {
             setMenuActive(menu -> "article_category".equals(menu.getRelativeTable())
                     && currentCategory.getId().equals(menu.getRelativeId()));
+
+            return;
         }
 
         List<ArticleCategory> acitveCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
@@ -71,11 +73,15 @@ public class ArticleCategoryController extends TemplateControllerBase {
         }
 
         setMenuActive(menu -> {
-            if (!"article_category".equals(menu.getRelativeTable())) {
-                return false;
-            }
+
             for (ArticleCategory category : acitveCategories) {
-                if (category.getId().equals(menu.getRelativeId())) {
+                if (CommonsUtils.removeSuffix(menu.getUrl())
+                        .equals(CommonsUtils.removeSuffix(category.getUrl()))) {
+                    return true;
+                }
+
+                if ("article_category".equals(menu.getRelativeTable())
+                        && category.getId().equals(menu.getRelativeId())) {
                     return true;
                 }
             }

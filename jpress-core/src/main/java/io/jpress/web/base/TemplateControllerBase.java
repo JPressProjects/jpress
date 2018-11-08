@@ -147,12 +147,19 @@ public abstract class TemplateControllerBase extends ControllerBase {
         for (Menu menu : menus) {
             if (StrUtils.isNotBlank(menu.getUrl())) {
                 if (checker.isActive(menu)) {
-                    JPressConsts.doFlagModelActive(menu);
+                    doSetMenuActive(menu);
                 }
             }
             if (menu.hasChild()) {
                 setMenuActive(checker, menu.getChilds());
             }
+        }
+    }
+
+    private void doSetMenuActive(Menu menu) {
+        JPressConsts.doFlagModelActive(menu);
+        if (menu.getParent() != null) {
+            doSetMenuActive((Menu) menu.getParent());
         }
     }
 

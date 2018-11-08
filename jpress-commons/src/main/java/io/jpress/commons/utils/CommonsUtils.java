@@ -40,6 +40,18 @@ public class CommonsUtils {
 
     }
 
+
+    public static String removeSuffix(String url) {
+
+        int indexOf = url.indexOf(".");
+
+        if (indexOf == -1) {
+            return url;
+        }
+
+        return url.substring(0, indexOf);
+    }
+
     /**
      * 防止 model 存储关于 xss 相关代码
      *

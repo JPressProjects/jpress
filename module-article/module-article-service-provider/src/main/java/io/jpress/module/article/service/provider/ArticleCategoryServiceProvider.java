@@ -139,13 +139,20 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         for (ArticleCategory articleCategory : allArticleCategories) {
             if (articleCategories.contains(articleCategory)) {
-                activeCategories.add(articleCategory);
+//                activeCategories.add(articleCategory);
+                addCategories(activeCategories, articleCategory);
             }
 
             if (articleCategory.hasChild()) {
                 findActiveCategories(articleCategory.getChilds(), articleCategories, activeCategories);
             }
         }
+    }
+
+    private void addCategories(Set<ArticleCategory> activeCategories, ArticleCategory articleCategory) {
+        activeCategories.add(articleCategory);
+        if (articleCategory.getParent() != null)
+            addCategories(activeCategories, (ArticleCategory) articleCategory.getParent());
     }
 
     private void doAddActiveCategory(ArticleCategory category, Set<ArticleCategory> activeCategories) {

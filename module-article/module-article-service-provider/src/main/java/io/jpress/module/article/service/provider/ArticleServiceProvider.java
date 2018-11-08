@@ -307,7 +307,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = Columns.create();
         columns.add(Column.create("id", id, Column.LOGIC_LT));
         columns.add(Column.create("status", Article.STATUS_NORMAL));
-        return DAO.findFirstByColumns(columns);
+        return DAO.findFirstByColumns(columns, "id desc");
     }
 
     @Override

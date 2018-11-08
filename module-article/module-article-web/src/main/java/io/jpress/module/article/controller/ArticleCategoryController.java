@@ -23,7 +23,6 @@ import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.base.TemplateControllerBase;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -48,6 +47,8 @@ public class ArticleCategoryController extends TemplateControllerBase {
         ArticleCategory category = getCategory();
         setAttr("category", category);
         setSeoInfos(category);
+
+        //标识菜单高亮
         doFlagMenuActive(category);
 
 
@@ -60,30 +61,15 @@ public class ArticleCategoryController extends TemplateControllerBase {
             return;
         }
 
-        if (currentCategory.isTop()) {
-            setMenuActive(menu -> "article_category".equals(menu.getRelativeTable())
-                    && currentCategory.getId().equals(menu.getRelativeId()));
-
-            return;
-        }
-
-        List<ArticleCategory> acitveCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
-        if (acitveCategories == null || acitveCategories.isEmpty()) {
-            return;
-        }
-
         setMenuActive(menu -> {
+            if (CommonsUtils.removeSuffix(menu.getUrl())
+                    .equals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
+                return true;
+            }
 
-            for (ArticleCategory category : acitveCategories) {
-                if (CommonsUtils.removeSuffix(menu.getUrl())
-                        .equals(CommonsUtils.removeSuffix(category.getUrl()))) {
-                    return true;
-                }
-
-                if ("article_category".equals(menu.getRelativeTable())
-                        && category.getId().equals(menu.getRelativeId())) {
-                    return true;
-                }
+            if ("article_category".equals(menu.getRelativeTable())
+                    && currentCategory.getId().equals(menu.getRelativeId())) {
+                return true;
             }
             return false;
         });

@@ -122,7 +122,8 @@
                                 网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
                                                                                                        class="slugSpan"
                                                                                                        for-input="article-slug"
-                                                                                                       for-listener="article-title">#(article.slug ??)</span>.html
+                                                                                                       for-listener="article-title">#(article.slug ??)</span>
+                                #if(option("web_fake_static_enable"))  #option('web_fake_static_suffix') #end
                                 <input type="hidden" id="article-slug" name="article.slug">
                                 #if(!article)
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>

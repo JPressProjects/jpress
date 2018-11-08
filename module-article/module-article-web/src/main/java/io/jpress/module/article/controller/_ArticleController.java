@@ -279,6 +279,8 @@ public class _ArticleController extends AdminControllerBase {
     })
     public void doTagSave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
+        //标签管理页面添加的标签没有slug，无法显示对应标签下的文章列表 wanghui 2018.11.7
+        category.setSlug(category.getTitle());
         if (!validateSlug(category)) {
             renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
             return;

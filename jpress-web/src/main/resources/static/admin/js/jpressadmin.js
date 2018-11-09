@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 
 function initImageBrowserButton() {
-    $("#jp-image-browser").on("click", function () {
+    $(".jp-image-browser").on("click", function () {
         var imgBrowserBtn = $(this);
         layer.open({
             type: 2,

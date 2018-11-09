@@ -159,7 +159,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doWriteSave() {
 
         Article article = getModel(Article.class, "article");
-        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description");
+        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description", "user_id");
 
         if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
             renderJson(Ret.fail().set("message", "非法操作"));

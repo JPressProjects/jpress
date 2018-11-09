@@ -1,0 +1,145 @@
+#include("./_layout.html")
+#@mylaout()
+
+#define script()
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script>
+    $('#commentForm').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    location.href = location.href.indexOf("#allComment") > 0 ?
+                        location.href :
+                        location.href+"#allComment";
+                    location.reload()
+                } else {
+                    alert('评论失败：' + data.message);
+                    if (data.errorCode == 9) {
+                        location.href = '#(CPATH)/user/login';
+                    }
+                }
+                $('#content').val('');
+            },
+            error: function () {
+                alert("网络错误，请稍后重试");
+            }
+        });
+        return false;
+    });
+</script>
+#end
+
+#define content()
+<div class="col-md-9 cl-left">
+    <div class="cl-artical-content">
+        <h2 class="cl-artical-title">#(article.title)</h2>
+        <div class="cl-card-tag">
+            <div><span>124</span>人浏览 / <span>3</span>人评论</div>
+        </div>
+        <div class="cl-artical">
+            #(article.content)
+        </div>
+    </div>
+
+
+    #relevantArticles(article)
+    <div class="recommend-panel">
+        <h4 class="right-card-title">相关文章</h4>
+        <div class="card-deck">
+
+            #for(article :relevantArticles )
+            <div class="card ll-panel">
+                <a class="recommend-panel-link" href="#(article.url ??)">
+                    <div class="recommend-panel-top">
+                        <img src="#(article.showImage ?? 'temporary-img/list-image1.jpg')" class="img-fluid"
+                             alt="#(article.title ??)">
+                    </div>
+                    <div class="recommend-panel-bottom">
+                        #(article.title ??)
+                    </div>
+                </a>
+            </div>
+            #end
+
+        </div>
+    </div>
+    #end
+
+
+
+
+    <div class="comment" id="allComment">
+
+
+        <form class="cl-comment-from" action="#(CPATH)/article/postComment" id="commentForm" method="post">
+            <input type="hidden" name="articleId" value="#(article.id)">
+            <input type="hidden" name="pid" id="pid">
+
+            <div><textarea placeholder="说点什么吧..." rows="1" name="content"></textarea></div>
+            #if(option('article_comment_vcode_enable'))
+            验证码：
+            <input placeholder="请输入验证码" style="margin: 1rem 0" name="captcha">
+            <img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
+            #end
+            <button type="submit" >留言</button>
+            <span class="clearfix"></span>
+        </form>
+
+
+        <h4 class="right-card-title" >全部评论</h4>
+
+        #commentPage()
+        #for(comment : commentPage.list)
+        <div class="comment-panel">
+            <div class="comment-panel-portrait">
+                <img src="img/portrait.png" class="img-fluid rounded-circle" alt="">
+            </div>
+            <div class="comment-panel-content">
+                <div class="comment-panel-content-item">
+                    <div class="comment-author">#(comment.author)</div>
+                    <div>#(comment.created )</div>
+                </div>
+                <div class="comment-panel-content-main">#(comment.content)</div>
+                #if(comment.parent)
+                <div class="comment-secondary-panel">
+                    <span class="triangle-icon"><i class="fa fa-sort-asc" aria-hidden="true"></i></span>
+                    <div class="comment-panel-content">
+                        <div class="comment-panel-content-item">
+                            <div class="comment-author">#(comment.parent.author)</div>
+                            <div>#(comment.parent.created)</div>
+                        </div>
+                        <div class="comment-panel-content-main">#(comment.parent.content)</div>
+                    </div>
+                    <span class="clearfix"></span>
+                </div>
+                #end
+            </div>
+            <span class="clearfix"></span>
+            <div class="text-primary"><a href="">回复</a></div>
+        </div>
+        #end
+        #end
+
+
+        #commentPaginate(anchor="allComment")
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center ">
+                #for(page : pages)
+                <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+                #end
+            </ul>
+        </nav>
+        #end
+
+
+
+    </div>
+
+</div>
+
+<div class="col-md-3 cl-right">
+    #include("_leftbar.html")
+
+</div>
+#end

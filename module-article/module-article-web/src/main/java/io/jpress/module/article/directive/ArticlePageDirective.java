@@ -15,12 +15,6 @@
  */
 package io.jpress.module.article.directive;
 
-import com.jfinal.core.Controller;
-import com.jfinal.core.JFinal;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.template.Env;
-import com.jfinal.template.io.Writer;
-import com.jfinal.template.stat.Scope;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.JbootRequestContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -34,6 +28,13 @@ import io.jpress.module.article.service.ArticleService;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.template.Env;
+import com.jfinal.template.io.Writer;
+import com.jfinal.template.stat.Scope;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -42,71 +43,70 @@ import javax.servlet.http.HttpServletRequest;
 @JFinalDirective("articlePage")
 public class ArticlePageDirective extends JbootDirectiveBase {
 
-    @Inject
-    private ArticleService service;
+  @Inject
+  private ArticleService service;
+
+  @Override
+  public void onRender(Env env, Scope scope, Writer writer) {
+
+    Controller controller = JbootControllerContext.get();
+
+    int page = controller.getParaToInt(1, 1);
+    int pageSize = getPara("pageSize", scope, 10);
+    Long categoryId = getPara("categoryId", scope, 0L);
+    if (categoryId == 0) {
+      ArticleCategory category = controller.getAttr("category");
+      categoryId = category.getId();
+    }
+
+    Page<Article> articlePage = categoryId == 0 ? service.paginateInNormal(
+        page, pageSize) : service.paginateByCategoryIdInNormal(page, pageSize,
+        categoryId, null);
+
+    scope.setGlobal("articlePage", articlePage);
+    renderBody(env, scope, writer);
+  }
+
+  @Override
+  public boolean hasEnd() {
+    return true;
+  }
+
+  @JFinalDirective("articlePaginate")
+  public static class TemplatePaginateDirective extends PaginateDirectiveBase {
+
+    private boolean firstGotoIndex = false;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-
-        Controller controller = JbootControllerContext.get();
-
-        int page = controller.getParaToInt(1, 1);
-        int pageSize = getPara("pageSize", scope, 10);
-
-        ArticleCategory category = controller.getAttr("category");
-
-
-        Page<Article> articlePage = category == null ?
-                service.paginateInNormal(page, pageSize) :
-                service.paginateByCategoryIdInNormal(page, pageSize, category.getId(), null);
-
-        scope.setGlobal("articlePage", articlePage);
-        renderBody(env, scope, writer);
+      firstGotoIndex = getPara("firstGotoIndex", scope, false);
+      super.onRender(env, scope, writer);
     }
-
 
     @Override
-    public boolean hasEnd() {
-        return true;
+    protected String getUrl(int pageNumber) {
+      HttpServletRequest request = JbootRequestContext.getRequest();
+      String url = request.getRequestURI();
+      String contextPath = JFinal.me().getContextPath();
+
+      if (pageNumber == 1 && firstGotoIndex) {
+        return contextPath + "/";
+      }
+
+      // 如果当前页面是首页的话
+      // 改变当前的url，因为 上一页或下一页是通过当前的url解析出来的
+      if (url.equals(contextPath + "/")) {
+        url = contextPath + "/article/category/index"
+            + JPressOptions.getAppUrlSuffix();
+      }
+
+      return Kits.doReplacePageNumber(url, pageNumber);
     }
 
-
-    @JFinalDirective("articlePaginate")
-    public static class TemplatePaginateDirective extends PaginateDirectiveBase {
-
-        private boolean firstGotoIndex = false;
-
-        @Override
-        public void onRender(Env env, Scope scope, Writer writer) {
-            firstGotoIndex = getPara("firstGotoIndex", scope, false);
-            super.onRender(env, scope, writer);
-        }
-
-
-        @Override
-        protected String getUrl(int pageNumber) {
-            HttpServletRequest request = JbootRequestContext.getRequest();
-            String url = request.getRequestURI();
-            String contextPath = JFinal.me().getContextPath();
-
-            if (pageNumber == 1 && firstGotoIndex) {
-                return contextPath + "/";
-            }
-
-            // 如果当前页面是首页的话
-            // 改变当前的url，因为 上一页或下一页是通过当前的url解析出来的
-            if (url.equals(contextPath + "/")) {
-                url = contextPath + "/article/category/index" + JPressOptions.getAppUrlSuffix();
-            }
-
-            return Kits.doReplacePageNumber(url, pageNumber);
-        }
-
-
-        @Override
-        protected Page<?> getPage(Env env, Scope scope, Writer writer) {
-            return (Page<?>) scope.get("articlePage");
-        }
-
+    @Override
+    protected Page<?> getPage(Env env, Scope scope, Writer writer) {
+      return (Page<?>) scope.get("articlePage");
     }
+
+  }
 }

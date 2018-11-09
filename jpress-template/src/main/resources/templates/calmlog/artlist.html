@@ -1,0 +1,47 @@
+#include("./_layout.html")
+#@mylaout()
+
+
+#define content()
+<div class="col-md-9 cl-left">
+
+    #articlePage()
+    #for(article : articlePage.list)
+    <div class="cl-card">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
+                <a href="#(article.url)">
+                    <img src="#(article.showImage ? article.showImage  : 'img/default-img.png')" class="img-fluid" alt="">
+                </a>
+            </div>
+
+            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+                <h3 class="cl-card-main-title">
+                    <a href="#(article.url)">#(article.title)</a>
+                </h3>
+                <p class="cl-card-main-info">#maxLength(article.text,100)</p>
+                <p class="cl-card-more"><a href="#(article.url)">阅读更多...</a></p>
+            </div>
+        </div>
+    </div>
+    #end
+
+    #articlePaginate(firstGotoIndex=true)
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+</div>
+<div class="col-md-3 cl-right">
+
+    #include("./_leftbar.html")
+
+</div>
+#end

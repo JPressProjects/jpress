@@ -1,0 +1,91 @@
+#include("./_layout.html")
+#@mylaout()
+
+
+#define content()
+<div class="col-md-9 cl-left">
+
+    <div class="recommend-index">
+
+        #if(option('calmlog_slides'))
+        <div class="recommend-top">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    #for(slide : linesOption('calmlog_slides'))
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="#(for.index == 0 ? 'active' : '')"></li>
+                    #end
+                </ol>
+                <div class="carousel-inner">
+                    #for(slide : linesOption('calmlog_slides'))
+                    <div class="carousel-item #(for.index == 0 ? 'active' : '')">
+                        <img class="d-block w-100" src="#(slide)" alt="First slide">
+                    </div>
+                    #end
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">上一个</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">下一个</span>
+                </a>
+            </div>
+        </div>
+        #end
+
+        <div class="recommend-bottom">
+
+            #articles(hasThumbnail=true,count=2)
+            #for(article : articles)
+            <div class="recommend-item">
+                <a href="#(article.url)">
+                    <img src="#(article.showImage)" class="img-fluid" alt="">
+                </a>
+            </div>
+            #end
+            #end
+        </div>
+
+    </div>
+
+    #articlePage()
+    #for(article : articlePage.list)
+    <div class="cl-card">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
+                <a href="#(article.url)">
+                    <img src="#(article.showImage ? article.showImage  : 'img/default-img.png')" class="img-fluid" alt="">
+                </a>
+            </div>
+
+            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+                <h3 class="cl-card-main-title">
+                    <a href="#(article.url)">#(article.title)</a>
+                </h3>
+                <p class="cl-card-main-info">#maxLength(article.text,100)</p>
+                <p class="cl-card-more"><a href="#(article.url)">阅读更多...</a></p>
+            </div>
+        </div>
+    </div>
+    #end
+
+    #articlePaginate()
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+</div>
+<div class="col-md-3 cl-right">
+
+    #include("./_leftbar.html")
+
+</div>
+#end

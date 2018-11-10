@@ -18,6 +18,14 @@ https://mp.weixin.qq.com/s/GbNv0xaK6jruWqTDJ_Ospw
 
 https://pan.baidu.com/s/1Pe0KcYcQGalxPnlUNw9rmg
 
+* **2. 一个小时开发一个论坛**
+
+https://pan.baidu.com/s/1rJ5OMOxUwVz9ylK3oFD3PQ
+
+* **3. JPress模板开发教程**
+
+https://pan.baidu.com/s/1zSSezfMOfrZxGvs_Sz4Kig  密码:tvzh
+
 ## JPress 微信小程序SDK
 
 网址：https://gitee.com/fuhai/jpress-miniprogram-sdk

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.service.task;
+package io.jpress.module.page.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.schedule.annotation.FixedRate;
@@ -26,11 +26,11 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 用于更新文章的 访问 数量
+ * @Title: 用于 页面的 访问 数量
  * @Package io.jpress.module.article.task
  */
 @FixedRate(period = 5, initialDelay = 5)
-public class ArticleViewsCountUpdateTask implements Runnable {
+public class PageViewsCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();
 
@@ -50,11 +50,11 @@ public class ArticleViewsCountUpdateTask implements Runnable {
             return;
         }
 
-        Map<Long, AtomicLong> articleViews = new HashMap<>(countsMap);
+        Map<Long, AtomicLong> pageViews = new HashMap<>(countsMap);
         countsMap.clear();
 
-        for (Map.Entry<Long, AtomicLong> entry : articleViews.entrySet()) {
-            Db.update("update article set view_count = view_count + "
+        for (Map.Entry<Long, AtomicLong> entry : pageViews.entrySet()) {
+            Db.update("update single_page set view_count = view_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
         }

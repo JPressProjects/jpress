@@ -29,6 +29,7 @@ public class JPressConfig {
 
     private String indexAction = "/page";
     private String defaultTemplate; //通过 jboot.properties 配置文件来进行配置
+    private String attachmentRoot; // attachment 目录，只在tomcat下有用
 
 
     public String getIndexAction() {
@@ -45,6 +46,14 @@ public class JPressConfig {
 
     public void setDefaultTemplate(String defaultTemplate) {
         this.defaultTemplate = defaultTemplate;
+    }
+
+    public String getAttachmentRoot() {
+        return attachmentRoot;
+    }
+
+    public void setAttachmentRoot(String attachmentRoot) {
+        this.attachmentRoot = attachmentRoot;
     }
 
     public static final JPressConfig me = Jboot.config(JPressConfig.class);

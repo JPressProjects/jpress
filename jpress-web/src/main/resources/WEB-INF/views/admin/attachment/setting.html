@@ -21,22 +21,49 @@
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">允许附件类型</label>
 
+
+                            <h4 class="page-first-header">阿里云附件同步</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否启用附件同步</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：png, jpg, txt...."
-                                           name="attachment_allow_suffix" value="#option('attachment_allow_suffix')">
-                                    <p class="help-block"> 多个附件用英文逗号（,）隔开，不填写默认允许所有类型 </p>
+                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
+                                           #checkedIf(option("attachment_aliyunoss_enable"))>
+                                    <input type="hidden" id="attachment_aliyunoss_enable"
+                                           name="attachment_aliyunoss_enable">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">附件大小限制</label>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">endpoint</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="单位：MB"
-                                           name="attachment_allow_filesize"
-                                           value="#option('attachment_allow_filesize')">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="attachment_aliyunoss_endpoint" value="#option('attachment_aliyunoss_endpoint')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">accessId</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="attachment_aliyunoss_accesskeyid" value="#option('attachment_aliyunoss_accessid')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">accessKey</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="attachment_aliyunoss_accesskeysecret" value="#option('attachment_aliyunoss_accesskey')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">bucketName</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="attachment_aliyunoss_bucketname" value="#option('attachment_aliyunoss_bucketname')">
                                 </div>
                             </div>
 

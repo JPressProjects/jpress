@@ -37,7 +37,8 @@
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.5</commons-io.version>
         <commonmark.version>0.11.0</commonmark.version>
-        
+        <aliyunoss.version>3.3.0</aliyunoss.version>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -136,6 +137,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyunoss.version}</version>
             </dependency>
 
         </dependencies>

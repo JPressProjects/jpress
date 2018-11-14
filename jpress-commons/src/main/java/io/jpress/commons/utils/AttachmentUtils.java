@@ -51,7 +51,11 @@ public class AttachmentUtils {
 
         file.renameTo(newfile);
 
-        return FileUtils.removePrefix(newfile.getAbsolutePath(), PathKit.getWebRootPath());
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
+        return FileUtils.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 
     public static File newAttachemnetFile(String suffix) {

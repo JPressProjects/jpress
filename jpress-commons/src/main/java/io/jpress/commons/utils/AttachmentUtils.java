@@ -55,6 +55,7 @@ public class AttachmentUtils {
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
+
         return FileUtils.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 
@@ -73,6 +74,14 @@ public class AttachmentUtils {
                 .append(suffix);
 
         return new File(newFileName.toString());
+    }
+
+    public static File file(String path) {
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
+        return new File(attachmentRoot, path);
     }
 
     static List<String> imageSuffix = new ArrayList<String>();

@@ -26,6 +26,7 @@ import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.User;
@@ -33,6 +34,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -136,8 +138,11 @@ public class UserCenterController extends UcenterControllerBase {
         String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
+        String newPath = FileUtils.removePrefix(newAvatarPath, attachmentRoot);
+        AliyunOssUtils.upload(newPath, new File(newAvatarPath));
+
         User loginedUser = getLoginedUser();
-        loginedUser.setAvatar(FileUtils.removePrefix(newAvatarPath, attachmentRoot));
+        loginedUser.setAvatar(newPath);
         userService.saveOrUpdate(loginedUser);
         renderJson(Ret.ok());
     }

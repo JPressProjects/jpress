@@ -33,8 +33,8 @@ public class AliyunOssUtils {
 
     private static final String KEY_ENABLE = "attachment_aliyunoss_enable";
     private static final String KEY_ENDPOINT = "attachment_aliyunoss_endpoint";
-    private static final String KEY_ACCESSKID = "attachment_aliyunoss_accessid";
-    private static final String KEY_ACCESSKEY = "attachment_aliyunoss_accesskey";
+    private static final String KEY_ACCESSKEYID = "attachment_aliyunoss_accesskeyid";
+    private static final String KEY_ACCESSKEYSECRET = "attachment_aliyunoss_accesskeysecret";
     private static final String KEY_BUCKETNAME = "attachment_aliyunoss_bucketname";
 
     /**
@@ -125,8 +125,8 @@ public class AliyunOssUtils {
 
     private static OSSClient newOSSClient() {
         String endpoint = JPressOptions.get(KEY_ENDPOINT);
-        String accessId = JPressOptions.get(KEY_ACCESSKID);
-        String accessKey = JPressOptions.get(KEY_ACCESSKEY);
+        String accessId = JPressOptions.get(KEY_ACCESSKEYID);
+        String accessKey = JPressOptions.get(KEY_ACCESSKEYSECRET);
         return new OSSClient(endpoint, new DefaultCredentialProvider(accessId, accessKey), null);
     }
 

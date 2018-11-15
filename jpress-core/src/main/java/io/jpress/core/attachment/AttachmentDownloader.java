@@ -61,15 +61,16 @@ public class AttachmentDownloader {
 
 
         File downloadToFile = AttachmentUtils.file(path);
+
         if (downloadToFile.exists()) {
-            return;
+            downloadToFile.delete();
         }
 
         if (downloadToFile.getParentFile().exists() == false) {
             downloadToFile.getParentFile().mkdirs();
         }
 
-        JbootHttpRequest request = JbootHttpRequest.create(url, null, JbootHttpRequest.METHOD_GET);
+        JbootHttpRequest request = JbootHttpRequest.create(url);
         request.setDownloadFile(downloadToFile);
 
         JbootHttpResponse response = Jboot.me().getHttp().handle(request);

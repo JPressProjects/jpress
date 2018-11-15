@@ -60,7 +60,12 @@ public class Article extends BaseArticle<Article> {
         if (StrUtils.isNotBlank(link)) {
             return link;
         }
-        return JFinal.me().getContextPath() + "/article/" + getSlug() + JPressOptions.getAppUrlSuffix();
+
+        if (StrUtils.isBlank(getSlug())) {
+            return JFinal.me().getContextPath() + "/article/" + getId() + JPressOptions.getAppUrlSuffix();
+        } else {
+            return JFinal.me().getContextPath() + "/article/" + getSlug() + JPressOptions.getAppUrlSuffix();
+        }
     }
 
     public boolean isCommentEnable() {

@@ -1,24 +1,18 @@
 package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
-import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
+import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
-import io.jpress.model.User;
+import io.jpress.module.article.kit.wordpress.WordPressAttachementDownloader;
+import io.jpress.module.article.kit.wordpress.WordPressXmlParser;
 import io.jpress.module.article.model.Article;
 import io.jpress.web.base.AdminControllerBase;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,9 +31,6 @@ public class _WordpressImport extends AdminControllerBase {
 
     public void doWordPressImport() {
 
-        keepPara();
-
-
         UploadFile ufile = getFile();
         if (ufile == null) {
             renderJson(Ret.fail("message", "您还未选择WordPress文件"));
@@ -54,148 +45,46 @@ public class _WordpressImport extends AdminControllerBase {
         String newPath = AttachmentUtils.moveFile(ufile);
         File xmlFile = AttachmentUtils.file(newPath);
 
-        List<Article> contents = null;//WordPressUtils.parse(xmlFile);
-        if (contents == null || contents.size() == 0) {
-            renderJson(Ret.fail("message", "无法解析WordPress格式，可能是导出有误"));
-            return;
+        WordPressXmlParser wordPressXmlParser = new WordPressXmlParser();
+        wordPressXmlParser.parse(xmlFile);
+
+
+        List<Article> contents = wordPressXmlParser.getArticles();
+        if (ArrayUtils.isNotEmpty(contents)) {
+//            doSaveArticles(contents);
         }
 
-
-        for (Article c : contents) {
-            if (c.getCreated() == null) {
-                c.setCreated(new Date());
-            }
-
-            String slug = StrUtils.isBlank(c.getSlug()) ? c.getTitle() : c.getSlug();
-            c.setSlug(slug);
-
-            if (c.getUserId() == null) {
-                User user = getLoginedUser();
-                c.setUserId(user.getId());
-            }
-
-//            if (c.getModule() == null) {
-//                c.setModule(moduelName);
-//            }
-
-            c.save();
+        List<Attachment> attachments = wordPressXmlParser.getAttachments();
+        if (ArrayUtils.isNotEmpty(attachments)) {
+            doSaveAttachements(attachments);
         }
+
 
         renderJson(Ret.ok());
     }
 
 
-    public static class WordPressUtils extends DefaultHandler {
-        private static final Log log = Log.getLog(WordPressUtils.class);
-        private List<Article> articles = new ArrayList<>();
-        private List<Attachment> attachments = new ArrayList<>();
-        //
-        private String elementValue = null;
+    private void doSaveArticles(List<Article> articles) {
 
-        private String title;
-        private String post_type;
-        private String attachment_url;
-        //        private String post_date;
-        private String content_encoded;
-        private String status;
+        for (Article article : articles) {
 
-
-        public void startParse(File wordpressXml) {
-            try {
-                SAXParserFactory factory = SAXParserFactory.newInstance();
-                SAXParser parser = factory.newSAXParser();
-                parser.parse(wordpressXml, this);
-            } catch (Exception e) {
-                log.warn("ConfigParser parser exception", e);
+            if (article.getCreated() == null) {
+                article.setCreated(new Date());
+                article.setModified(new Date());
             }
 
+            article.setUserId(getLoginedUser().getId());
+            article.save();
         }
+    }
 
-        public static void parse(File wordpressXml) {
-            new WordPressUtils().startParse(wordpressXml);
-        }
+    private void doSaveAttachements(List<Attachment> attachments) {
+        for (Attachment attachment : attachments) {
 
+            attachment.setUserId(getLoginedUser().getId());
+//            attachment.save();
 
-        @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-
-            if ("item".equalsIgnoreCase(qName)) {
-                addContent();
-                clear();
-            } else if ("title".equalsIgnoreCase(qName)) {
-                title = elementValue;
-            } else if ("wp:post_type".equalsIgnoreCase(qName)) {
-                post_type = elementValue;
-            } else if ("content:encoded".equalsIgnoreCase(qName)) {
-                content_encoded = elementValue;
-            } else if ("wp:status".equalsIgnoreCase(qName)) {
-                status = elementValue;
-            } else if ("wp:attachment_url".equalsIgnoreCase(qName)) {
-                attachment_url = elementValue;
-            }
-
-        }
-
-        private void addContent() {
-            if (StrUtils.isBlank(post_type)) {
-                //unknow type,do nothing
-                return;
-            }
-
-            switch (post_type) {
-                case "attachment":
-                    addAttachement();
-                    break;
-                case "post":
-                    addArticle();
-                    break;
-            }
-
-        }
-
-        private void addAttachement() {
-            if (StrUtils.isBlank(attachment_url)) {
-                return;
-            }
-
-            Attachment attachment = new Attachment(attachment_url);
-            attachments.add(attachment);
-        }
-
-
-        private void addArticle() {
-            if (StrUtils.isBlank(title) || StrUtils.isBlank(content_encoded)) {
-                return;
-            }
-
-            Article article = new Article();
-            article.setTitle(title);
-            article.setContent(content_encoded);
-            article.setEditMode(JPressConsts.EDIT_MODE_HTML);
-            if ("publish".equals(status)) {
-                article.setStatus(Article.STATUS_NORMAL);
-            } else if ("draft".equals(status)) {
-                article.setStatus(Article.STATUS_DRAFT);
-            } else {
-                article.setStatus(Article.STATUS_DRAFT);
-            }
-
-            articles.add(article);
-        }
-
-        private void clear() {
-
-            this.title = null;
-            this.post_type = null;
-            this.attachment_url = null;
-//            this.post_date = null;
-            this.content_encoded = null;
-            this.status = null;
-        }
-
-        @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
-            elementValue = new String(ch, start, length);
+            WordPressAttachementDownloader.download(attachment);
         }
     }
 

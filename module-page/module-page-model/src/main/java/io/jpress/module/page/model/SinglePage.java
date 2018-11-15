@@ -55,7 +55,12 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
     public String getUrl() {
-        return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();
+
+        if (StrUtils.isBlank(getSlug())) {
+            return JFinal.me().getContextPath() + "/" + getId() + JPressOptions.getAppUrlSuffix();
+        } else {
+            return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();
+        }
     }
 
 

@@ -28,10 +28,7 @@
         sequentialUploads: true,
         done: function (e, data) {
             if (data.result.state == "ok") {
-                toastr.options.onHidden = function () {
-                    location.href = "#(CPATH)/admin/template";
-                }
-                toastr.success(" 模板安装成功 ")
+                toastr.success(" WordPress 导入成功成功，附件本地化需要点时间... ")
             } else {
                 toastr.error(data.result.message)
             }

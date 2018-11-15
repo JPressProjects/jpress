@@ -7,7 +7,7 @@ import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
-import io.jpress.module.article.kit.wordpress.WordPressAttachementDownloader;
+import io.jpress.core.attachment.AttachmentDownloader;
 import io.jpress.module.article.kit.wordpress.WordPressXmlParser;
 import io.jpress.module.article.model.Article;
 import io.jpress.web.base.AdminControllerBase;
@@ -84,7 +84,7 @@ public class _WordpressImport extends AdminControllerBase {
             attachment.setUserId(getLoginedUser().getId());
             attachment.save();
 
-            WordPressAttachementDownloader.download(attachment);
+            AttachmentDownloader.download(attachment);
         }
     }
 

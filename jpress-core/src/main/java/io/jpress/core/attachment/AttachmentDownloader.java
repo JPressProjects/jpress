@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.kit.wordpress;
+package io.jpress.core.attachment;
 
+import com.jfinal.kit.LogKit;
 import io.jboot.Jboot;
 import io.jboot.core.http.JbootHttpRequest;
 import io.jboot.core.http.JbootHttpResponse;
+import io.jboot.utils.StrUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 
@@ -26,7 +28,10 @@ import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class WordPressAttachementDownloader {
+/**
+ * 负责把远程的附件本地化
+ */
+public class AttachmentDownloader {
 
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
@@ -42,28 +47,40 @@ public class WordPressAttachementDownloader {
     }
 
     private static void doDownload(Attachment attachment) {
-        if (attachment.isLocal()) return;
+
+        if (attachment.isLocal()) {
+            return;
+        }
 
         String url = attachment.getPath();
+        if (StrUtils.isBlank(url)) {
+            return;
+        }
 
         String path = URI.create(url).getPath();
 
 
-        JbootHttpRequest request = JbootHttpRequest.create(url, null, JbootHttpRequest.METHOD_GET);
-
         File downloadToFile = AttachmentUtils.file(path);
-        if (downloadToFile.getParentFile().exists() == false){
+        if (downloadToFile.exists()) {
+            return;
+        }
+
+        if (downloadToFile.getParentFile().exists() == false) {
             downloadToFile.getParentFile().mkdirs();
         }
 
+        JbootHttpRequest request = JbootHttpRequest.create(url, null, JbootHttpRequest.METHOD_GET);
         request.setDownloadFile(downloadToFile);
 
         JbootHttpResponse response = Jboot.me().getHttp().handle(request);
-        if (response.isError() == false) {
-            attachment.setMimeType(request.getContentType());
-            attachment.setPath(path);
-            attachment.update();
+        if (response.isError()) {
+            LogKit.error("download attachment error by url:" + url);
+            return;
         }
+
+        attachment.setMimeType(request.getContentType());
+        attachment.setPath(path);
+        attachment.update();
 
     }
 

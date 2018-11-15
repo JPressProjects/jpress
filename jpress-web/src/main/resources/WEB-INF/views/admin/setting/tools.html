@@ -1,0 +1,54 @@
+#@layout()
+
+#define script()
+<script>
+
+</script>
+#end
+
+#define css()
+<style>
+    .inner {
+        min-height: 100px;
+    }
+    .small-box:hover .icon {
+        font-size: 90px;
+    }
+</style>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            小工具箱
+            <small>Tools Box</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-body">
+
+                        <div class="row">
+
+                            #for(moduleHtml : moduleIncludes)
+                                #render(moduleHtml)
+                            #end
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+#end

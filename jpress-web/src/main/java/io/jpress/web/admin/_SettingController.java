@@ -18,7 +18,12 @@ package io.jpress.web.admin;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleManager;
 import io.jpress.web.base.AdminControllerBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -61,6 +66,27 @@ public class _SettingController extends AdminControllerBase {
     @AdminMenu(text = "搜索优化", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 111)
     public void seo() {
         render("setting/seo.html");
+    }
+
+    @AdminMenu(text = "小工具箱", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 222)
+    public void tools() {
+        List<String> moduleIncludes = new ArrayList<>();
+        List<ModuleListener> listeners = ModuleManager.me().getListeners();
+        for (ModuleListener listener : listeners) {
+            String path = listener.onRenderToolsBox(this);
+            if (path == null) {
+                continue;
+            }
+
+            if (path.startsWith("/")) {
+                moduleIncludes.add(path);
+            } else {
+                moduleIncludes.add("/WEB-INF/views/admin/" + path);
+            }
+        }
+
+        setAttr("moduleIncludes", moduleIncludes);
+        render("setting/tools.html");
     }
 
 

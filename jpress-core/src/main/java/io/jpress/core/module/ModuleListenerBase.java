@@ -13,33 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.page;
+package io.jpress.core.module;
 
+import com.jfinal.core.Controller;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListenerBase;
 
 import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 应用启动监听器
- * @Package io.jpress.module.page
+ * @Title: JPress 监听器
+ * @Package io.jpress
  */
-public class PageModuleLisenter extends ModuleListenerBase {
+public class ModuleListenerBase implements ModuleListener {
 
+
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+        return null;
+    }
+
+    @Override
+    public String onRenderToolsBox(Controller controller) {
+        return null;
+    }
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 
-        MenuGroup menuGroup = new MenuGroup();
-        menuGroup.setId("page");
-        menuGroup.setText("页面");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
-        menuGroup.setOrder(2);
-
-        adminMenus.add(menuGroup);
-
     }
 
+    @Override
+    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
+
+    }
 }

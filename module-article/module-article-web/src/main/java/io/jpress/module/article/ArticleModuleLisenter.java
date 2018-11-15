@@ -50,6 +50,11 @@ public class ArticleModuleLisenter implements ModuleListener {
     }
 
     @Override
+    public String onRenderToolsBox(Controller controller) {
+        return "article/_tools_box.html";
+    }
+
+    @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 
         MenuGroup menuGroup = new MenuGroup();
@@ -59,7 +64,6 @@ public class ArticleModuleLisenter implements ModuleListener {
         menuGroup.setOrder(1);
 
         adminMenus.add(menuGroup);
-
     }
 
     @Override
@@ -79,7 +83,5 @@ public class ArticleModuleLisenter implements ModuleListener {
         commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
         commentMenuGroup.setOrder(2);
         ucenterMenus.add(commentMenuGroup);
-
-
     }
 }

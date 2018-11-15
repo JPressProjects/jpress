@@ -88,4 +88,12 @@ public class Attachment extends BaseAttachment<Attachment> {
         return suffix != null && suffixList.contains(suffix.toLowerCase());
     }
 
+    public Attachment() {
+
+    }
+
+    public Attachment(String domainOrPath) {
+
+    }
+
 }

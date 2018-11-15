@@ -57,7 +57,7 @@ function initSlugSpan() {
 
     $(".slugSpan").each(function () {
 
-        var forInput = that.attr("for-input");
+        var forInput = $(this).attr("for-input");
 
         $(this).editable({
             emptytext: "id"

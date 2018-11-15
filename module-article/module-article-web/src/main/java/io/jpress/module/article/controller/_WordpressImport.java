@@ -51,7 +51,7 @@ public class _WordpressImport extends AdminControllerBase {
 
         List<Article> contents = wordPressXmlParser.getArticles();
         if (ArrayUtils.isNotEmpty(contents)) {
-//            doSaveArticles(contents);
+            doSaveArticles(contents);
         }
 
         List<Attachment> attachments = wordPressXmlParser.getAttachments();
@@ -82,7 +82,7 @@ public class _WordpressImport extends AdminControllerBase {
         for (Attachment attachment : attachments) {
 
             attachment.setUserId(getLoginedUser().getId());
-//            attachment.save();
+            attachment.save();
 
             WordPressAttachementDownloader.download(attachment);
         }

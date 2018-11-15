@@ -21,6 +21,7 @@ import io.jboot.core.http.JbootHttpResponse;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 
+import java.io.File;
 import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +50,13 @@ public class WordPressAttachementDownloader {
 
 
         JbootHttpRequest request = JbootHttpRequest.create(url, null, JbootHttpRequest.METHOD_GET);
-        request.setDownloadFile(AttachmentUtils.file(path));
+
+        File downloadToFile = AttachmentUtils.file(path);
+        if (downloadToFile.getParentFile().exists() == false){
+            downloadToFile.getParentFile().mkdirs();
+        }
+
+        request.setDownloadFile(downloadToFile);
 
         JbootHttpResponse response = Jboot.me().getHttp().handle(request);
         if (response.isError() == false) {

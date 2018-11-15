@@ -25,7 +25,6 @@
 
     function doSubmit(status) {
         $("#articleStatus").val(status);
-        $('#article-slug').val($("#slug").text());
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');

@@ -25,7 +25,7 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v1.0-rc.6";
+    public static final String VERSION = "v1.0-rc.7";
 
     /**
      * 后台系统菜单的 ID

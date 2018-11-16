@@ -1,3 +1,17 @@
+jpress v1.0-rc.7
+新增：附件目录自定义根目录的功能，可以把附件配置到非web目录
+新增：附件自动同步到阿里云OSS的功能，方便使用CDN + 分布式部署
+新增：小工具箱功能，并在小工具箱添加 WordPress 导入小工具
+新增：文章编辑添加最近标签直接选择的功能
+
+修复：SEO关键是设置不生效的问题
+修复：在二级目录下，模板无法安装的问题
+修复：当文章和页面slug为空的时候，获取的url不正确的问题
+
+重构：重构 ModuleListener 功能，添加 ModuleListenerBase
+
+
+
 jpress v1.0-rc.6
 新增：新模板calmlog
 新增：#tagArticles 标签用于读取tag下的文章列表

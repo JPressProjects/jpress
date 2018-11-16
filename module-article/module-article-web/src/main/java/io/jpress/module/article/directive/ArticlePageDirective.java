@@ -55,9 +55,9 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         // 可以指定当前的分类ID
         Long categoryId = getPara("categoryId", scope, 0L);
+        ArticleCategory category = controller.getAttr("category");
 
-        if (categoryId == 0) {
-            ArticleCategory category = controller.getAttr("category");
+        if (categoryId == 0 && category != null) {
             categoryId = category.getId();
         }
 

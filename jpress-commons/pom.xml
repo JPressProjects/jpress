@@ -45,5 +45,10 @@
             <artifactId>commonmark</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-gfm-tables</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

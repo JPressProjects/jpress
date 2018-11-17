@@ -31,7 +31,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.AuthCode;
 import io.jpress.web.commons.AuthCodeKit;
-import io.jpress.web.commons.JPressEmailSender;
+import io.jpress.web.commons.UserEmailSender;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -47,6 +47,7 @@ public class UserController extends TemplateControllerBase {
     private static final String default_user_login_template = "/WEB-INF/views/ucenter/user_login.html";
     private static final String default_user_register_template = "/WEB-INF/views/ucenter/user_register.html";
     private static final String default_user_register_activate = "/WEB-INF/views/ucenter/user_activate.html";
+    private static final String default_user_register_emailactivate = "/WEB-INF/views/ucenter/user_emailactivate.html";
 
     @Inject
     private UserService userService;
@@ -130,7 +131,7 @@ public class UserController extends TemplateControllerBase {
         AuthCode authCode = AuthCodeKit.get(id);
         if (authCode == null) {
             setAttr("code", 1);
-            setAttr("message", "链接已经失效，可以尝试在登录页再次发送激活邮件");
+            setAttr("message", "链接已经失效，可以尝试再次发送激活邮件");
             render("user_activate.html", default_user_register_activate);
             return;
         }
@@ -149,6 +150,41 @@ public class UserController extends TemplateControllerBase {
         setAttr("code", 0);
         setAttr("user", user);
         render("user_activate.html", default_user_register_activate);
+    }
+
+
+    /**
+     * 邮件激活
+     */
+    public void emailactivate() {
+        String id = getPara("id");
+        if (StrUtils.isBlank(id)) {
+            renderError(404);
+            return;
+        }
+
+        AuthCode authCode = AuthCodeKit.get(id);
+        if (authCode == null) {
+            setAttr("code", 1);
+            setAttr("message", "链接已经失效，您可以尝试在用户中心再次发送激活邮件");
+            render("user_emailactivate.html", default_user_register_emailactivate);
+            return;
+        }
+
+        User user = userService.findById(authCode.getUserId());
+        if (user == null) {
+            setAttr("code", 2);
+            setAttr("message", "用户不存在或已经被删除");
+            render("user_emailactivate.html", default_user_register_emailactivate);
+            return;
+        }
+
+        user.setEmailStatus(User.STATUS_OK);
+        userService.update(user);
+
+        setAttr("code", 0);
+        setAttr("user", user);
+        render("user_emailactivate.html", default_user_register_emailactivate);
     }
 
 
@@ -222,7 +258,7 @@ public class UserController extends TemplateControllerBase {
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
         if (emailValidate) {
             user.setStatus(User.STATUS_REG);
-            JPressEmailSender.sendEmailForUserRegisterValidate(user);
+            UserEmailSender.sendEmailForUserRegisterActivate(user);
         } else {
             user.setStatus(User.STATUS_OK);
         }

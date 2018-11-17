@@ -82,6 +82,12 @@ function getPara(variable) {
     return "";
 }
 
+function doActivateEmail(userId) {
+    ajaxGet(jpress.cpath + "/commons/emailactivate?userId=" + userId, function (result) {
+        alert(result.message);
+    })
+}
+
 function ajaxGet(url, okFunction, failFunction) {
     if (url == null || "" == url) {
         alert("url 不能为空 ");

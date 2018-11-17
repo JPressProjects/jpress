@@ -22,6 +22,8 @@ import java.util.UUID;
 
 public abstract class Oauth2Controller extends JbootController {
 
+    // www.xxx.com/xxx/qq
+    // www.xxx.com/xxx/weibo
     public void index() {
 
         String para = getPara();
@@ -48,9 +50,8 @@ public abstract class Oauth2Controller extends JbootController {
         redirect(url);
     }
 
-    // xxx/callback/qq
-    // xxx/callback/weibo
-    // xxx/callback/qq
+    // www.xxx.com/xxx/callback/qq
+    // www.xxx.com/xxx/callback/weibo
     public void callback() {
         String sessionState = getSessionAttr("oauth_state");
         String state = getPara("state");
@@ -67,11 +68,11 @@ public abstract class Oauth2Controller extends JbootController {
         }
 
         String processerName = getPara();
-        OauthConnector op = onConnectorGet(processerName);
+        OauthConnector connector = onConnectorGet(processerName);
 
         OauthUser ouser = null;
         try {
-            ouser = op.getUser(code);
+            ouser = connector.getUser(code);
         } catch (Exception e) {
             onAuthorizeError("get oauth user exception:" + e.getMessage());
             return;

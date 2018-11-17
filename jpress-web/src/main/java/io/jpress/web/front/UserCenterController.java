@@ -63,6 +63,12 @@ public class UserCenterController extends UcenterControllerBase {
         User user = getBean(User.class);
         user.keepUpdateSafe();
         user.setId(getLoginedUser().getId());
+
+        //若用户更新邮件，那么重置邮件状态为：未激活
+        if (user.getEmail() != null && user.getEmail().equals(getLoginedUser().getEmail())) {
+            user.setEmailStatus(null);
+        }
+
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }

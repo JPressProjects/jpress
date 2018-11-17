@@ -17,6 +17,8 @@ package io.jpress.model;
 
 import com.google.common.collect.Lists;
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.FileUtils;
+import io.jboot.utils.StrUtils;
 import io.jpress.model.base.BaseAttachment;
 
 import java.util.List;
@@ -86,6 +88,31 @@ public class Attachment extends BaseAttachment<Attachment> {
     private boolean suffixIn(List<String> suffixList) {
         String suffix = getSuffix();
         return suffix != null && suffixList.contains(suffix.toLowerCase());
+    }
+
+    public Attachment() {
+
+    }
+
+    public Attachment(String domainOrPath) {
+        if (StrUtils.isBlank(domainOrPath)) {
+            return;
+        }
+        setPath(domainOrPath);
+        setTitle(domainOrPath.substring(domainOrPath.lastIndexOf("/") + 1));
+        setSuffix(FileUtils.getSuffix(domainOrPath));
+    }
+
+    /**
+     * 是否是本地附件
+     *
+     * @return
+     */
+    public boolean isLocal() {
+        String path = getPath();
+        return path != null
+                && path.toLowerCase().startsWith("http://") == false
+                && path.toLowerCase().startsWith("https://") == false;
     }
 
 }

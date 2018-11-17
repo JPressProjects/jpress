@@ -15,9 +15,8 @@
  */
 package io.jpress.module.page;
 
-import com.jfinal.core.Controller;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleListenerBase;
 
 import java.util.List;
 
@@ -27,14 +26,7 @@ import java.util.List;
  * @Title: 应用启动监听器
  * @Package io.jpress.module.page
  */
-public class PageModuleLisenter implements ModuleListener {
-
-
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        //do nothing
-        return null;
-    }
+public class PageModuleLisenter extends ModuleListenerBase {
 
 
     @Override
@@ -50,8 +42,4 @@ public class PageModuleLisenter implements ModuleListener {
 
     }
 
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-        //do nothing
-    }
 }

@@ -13,39 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress;
+package io.jpress.core.module;
 
-import io.jboot.Jboot;
-import io.jboot.config.annotation.PropertyConfig;
+import com.jfinal.core.Controller;
+import io.jpress.core.menu.MenuGroup;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: JPress 环境配置
+ * @Title: JPress 监听器
  * @Package io.jpress
  */
-@PropertyConfig(prefix = "io.jpress")
-public class JPressConfig {
-
-    private String indexAction = "/page";
-    private String defaultTemplate; //通过 jboot.properties 配置文件来进行配置
+public class ModuleListenerBase implements ModuleListener {
 
 
-    public String getIndexAction() {
-        return indexAction;
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+        return null;
     }
 
-    public void setIndexAction(String indexAction) {
-        this.indexAction = indexAction;
+    @Override
+    public String onRenderToolsBox(Controller controller) {
+        return null;
     }
 
-    public String getDefaultTemplate() {
-        return defaultTemplate;
+    @Override
+    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
+
     }
 
-    public void setDefaultTemplate(String defaultTemplate) {
-        this.defaultTemplate = defaultTemplate;
-    }
+    @Override
+    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
 
-    public static final JPressConfig me = Jboot.config(JPressConfig.class);
+    }
 }

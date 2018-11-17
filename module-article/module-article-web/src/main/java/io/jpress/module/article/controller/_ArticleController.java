@@ -162,11 +162,15 @@ public class _ArticleController extends AdminControllerBase {
             return;
         }
 
-        Article slugArticle = articleService.findFirstBySlug(article.getSlug());
-        if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
-            renderJson(Ret.fail("message", "该slug已经存在"));
-            return;
+
+        if (StrUtils.isNotBlank(article.getSlug())) {
+            Article slugArticle = articleService.findFirstBySlug(article.getSlug());
+            if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
+                renderJson(Ret.fail("message", "该slug已经存在"));
+                return;
+            }
         }
+
 
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
         articleService.doUpdateCommentCount(id);

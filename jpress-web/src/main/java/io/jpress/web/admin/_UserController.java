@@ -25,7 +25,9 @@ import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
+import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -41,6 +43,7 @@ import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -364,7 +367,11 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        String oldPath = PathKit.getWebRootPath() + path;
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
+        String oldPath = attachmentRoot + path;
 
         //先进行图片缩放，保证图片和html的图片显示大小一致
         String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
@@ -374,7 +381,10 @@ public class _UserController extends AdminControllerBase {
         String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        user.setAvatar(FileUtils.removeRootPath(newAvatarPath));
+        String newPath = FileUtils.removePrefix(newAvatarPath, attachmentRoot);
+        AliyunOssUtils.upload(newPath, new File(newAvatarPath));
+
+        user.setAvatar(newPath);
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }

@@ -19,6 +19,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
@@ -53,6 +54,7 @@ public class AttachmentController extends UserControllerBase {
         }
 
         String path = AttachmentUtils.moveFile(uploadFile);
+        AliyunOssUtils.upload(path, AttachmentUtils.file(path));
 
 
         Attachment attachment = new Attachment();

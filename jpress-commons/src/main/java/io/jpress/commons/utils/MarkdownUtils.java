@@ -16,9 +16,14 @@
 package io.jpress.commons.utils;
 
 import io.jboot.utils.StrUtils;
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -30,9 +35,10 @@ public class MarkdownUtils {
 
     public static String toHtml(String markdown) {
         if (StrUtils.isBlank(markdown)) return markdown;
-        Parser parser = Parser.builder().build();
+        Set<Extension> tableExt = Collections.singleton(TablesExtension.create());
+        Parser parser = Parser.builder().extensions(tableExt).build();
         Node document = parser.parse(markdown);
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().extensions(tableExt).build();
         return renderer.render(document);
     }
 

@@ -42,6 +42,15 @@ public interface ModuleListener {
 
 
     /**
+     * 对后台的 "工具箱" 进行进行渲染
+     *
+     * @param controller
+     * @return
+     */
+    public String onRenderToolsBox(Controller controller);
+
+
+    /**
      * 配置后台的菜单
      *
      * @param adminMenus

@@ -65,7 +65,8 @@ public class UserCenterController extends UcenterControllerBase {
         user.setId(getLoginedUser().getId());
 
         //若用户更新邮件，那么重置邮件状态为：未激活
-        if (user.getEmail() != null && user.getEmail().equals(getLoginedUser().getEmail())) {
+        if (user.getEmail() != null
+                && user.getEmail().equals(getLoginedUser().getEmail()) == false) {
             user.setEmailStatus(null);
         }
 

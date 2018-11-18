@@ -73,7 +73,6 @@ public class _AdminController extends AdminControllerBase {
     }
 
 
-    @Clear
     public void doLogout() {
         EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
         redirect("/admin/login");
@@ -81,7 +80,6 @@ public class _AdminController extends AdminControllerBase {
 
 
     public void index() {
-
         List<String> moduleIncludes = new ArrayList<>();
         List<ModuleListener> listeners = ModuleManager.me().getListeners();
         for (ModuleListener listener : listeners) {

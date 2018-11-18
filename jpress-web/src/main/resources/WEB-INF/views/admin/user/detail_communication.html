@@ -17,12 +17,10 @@
                 <input type="input" class="form-control" placeholder="填写邮箱账号"
                        name="user.email" value="#(user.email ??)">
 
-                #if(user.email)
-                #if(user.isEmailStatusOk())
-                <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
-                #else
-                <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
-                #end
+                #if(user.email && !user.isEmailStatusOk())
+                <p class="help-block">
+                    用户邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>发送激活邮件。
+                </p>
                 #end
 
             </div>
@@ -35,13 +33,10 @@
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="及手机号"
                        name="user.mobile" value="#(user.mobile ??)">
-                #if(user.mobile)
-                #if(user.isMobileStatusOk())
-                <p class="help-block" style="color: #00a65a"><i class="fa fa-fw fa-check"></i> 已激活 </p>
-                #else
-                <p class="help-block"><i class="fa fa-fw fa-close"></i> 未激活 </p>
+                #if(user.mobile && !user.isMobileStatusOk())
+                <p class="help-block"><i class="fa fa-fw fa-close"></i> 手机号未激活 </p>
                 #end
-                #end
+
             </div>
         </div>
 

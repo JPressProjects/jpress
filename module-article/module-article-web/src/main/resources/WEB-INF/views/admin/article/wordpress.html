@@ -1,0 +1,75 @@
+#@layout()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<style>
+    #uploader {
+        height: 230px;
+    }
+
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/admin/setting/tools/wordpress/doWordPressImport',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                toastr.success(" WordPress 导入成功成功，附件本地化需要点时间... ")
+            } else {
+                toastr.error(data.result.message)
+            }
+        }
+    });
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            WordPress导入
+            <small>WordPress Import</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div id="uploader">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 220px">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>请选择导出的WordPress文件</span>
+                                <input id="cfile" type="file" name="files[]" multiple>
+                            </span>
+
+                            <div class="myPanel">
+                                支持WordPress文章和附件导入...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

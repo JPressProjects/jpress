@@ -47,9 +47,11 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
+        Long categoryId = getPara("categoryId", scope);
         String flag = getPara("categoryFlag", scope);
-        if (StrUtils.isBlank(flag)) {
-            throw new RuntimeException("#categoryArticles(categoryFlag=xxx) is error, categoryFlag must not be empty");
+
+        if (StrUtils.isBlank(flag) && categoryId == null) {
+            throw new RuntimeException("#categoryArticles(categoryFlag=xxx，categoryId=xxx) is error, categoryFlag or categoryId must not be empty");
         }
 
 
@@ -57,7 +59,9 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         String orderBy = getPara("orderBy", scope, "id desc");
         int count = getPara("count", scope, 10);
 
-        ArticleCategory category = categoryService.findFirstByFlag(flag);
+        ArticleCategory category = categoryId != null
+                ? categoryService.findById(categoryId)
+                : categoryService.findFirstByFlag(flag);
         if (category == null) {
             return;
         }

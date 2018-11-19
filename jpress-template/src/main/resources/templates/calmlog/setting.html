@@ -1,0 +1,124 @@
+#@layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            模板设置
+            <small>Template Setting</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">logo设置</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            for-src="calmlog_logo"
+                                            for-input="calmlog_logo_input"
+                                            class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('calmlog_logo','/templates/calmlog/img/logo.jpg')"
+                                         id="calmlog_logo">
+                                    <input type="hidden" id="calmlog_logo_input" name="calmlog_logo"
+                                           value="#option('calmlog_logo')">
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">二维码</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">二维码文章</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="左边二维码底部的文字..."
+                                           name="calmlog_qrcode_text" value="#option('calmlog_qrcode_text')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">二维码</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            for-src="calmlog_qrcode"
+                                            for-input="calmlog_qrcode_input"
+                                            class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('calmlog_qrcode','/templates/calmlog/img/code.jpg')"
+                                         id="calmlog_qrcode">
+                                    <input type="hidden" id="calmlog_qrcode_input" name="calmlog_qrcode"
+                                           value="#option('calmlog_qrcode')">
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">广告位</h4>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">右边栏广告位</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            for-src="calmlog_ad"
+                                            for-input="calmlog_ad_input"
+                                            class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('calmlog_ad','/static/commons/img/avatar.png')"
+                                         id="calmlog_ad">
+                                    <input type="hidden" id="calmlog_ad_input" name="calmlog_ad"
+                                           value="#option('calmlog_ad')">
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">幻灯片设置</h4>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">首页幻灯片</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="5" class="form-control"
+                                              placeholder="幻灯片地址..."
+                                              name="calmlog_slides">#option("calmlog_slides")</textarea>
+                                    <p class="help-block"> 一行一条数据。 </p>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

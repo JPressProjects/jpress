@@ -15,8 +15,13 @@
  */
 package io.jpress.web.sharekit;
 
+import com.google.common.collect.Lists;
+import io.jboot.utils.StrUtils;
 import io.jpress.JPressOptions;
-import org.apache.commons.lang.StringEscapeUtils;
+import io.jpress.commons.utils.CommonsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -40,7 +45,7 @@ public class MainKits {
         if (html == null || html.trim().length() == 0) {
             return "";
         }
-        return StringEscapeUtils.escapeHtml(html);
+        return CommonsUtils.escapeHtml(html);
     }
 
 
@@ -54,6 +59,36 @@ public class MainKits {
             return false;
         }
         return value;
+    }
+
+
+    public static List<String> linesOption(String key) {
+        String value = JPressOptions.get(key);
+        if (StrUtils.isBlank(value)) {
+            return Lists.newArrayList();
+        }
+
+        String[] lines = value.split("\n");
+        List<String> list = new ArrayList<>();
+        for (String line : lines) {
+            list.add(line.trim());
+        }
+        return list;
+    }
+
+
+    public static List<String[]> linesOption(String key, String split) {
+        String value = JPressOptions.get(key);
+        if (StrUtils.isBlank(value)) {
+            return Lists.newArrayList();
+        }
+
+        String[] lines = value.split("\n");
+        List<String[]> list = new ArrayList<>();
+        for (String line : lines) {
+            list.add(line.trim().split(split));
+        }
+        return list;
     }
 
 

@@ -24,7 +24,7 @@
 <script>
     $('#cfile').fileupload({
         dropZone: $('#uploader'),
-        url: '/admin/template/doInstall',
+        url: '#(CPATH)/admin/template/doInstall',
         sequentialUploads: true,
         done: function (e, data) {
             if (data.result.state == "ok") {

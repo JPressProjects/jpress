@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 用于更新文章的 评论 数量
+ * @Title: 用于更新文章的 访问 数量
  * @Package io.jpress.module.article.task
  */
 @FixedRate(period = 5, initialDelay = 5)

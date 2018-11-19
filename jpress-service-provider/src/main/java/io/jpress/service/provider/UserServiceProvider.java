@@ -118,6 +118,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
+    public User findFistByQQOpenid(String openId) {
+        return DAO.findFirstByColumn("qq_openid", openId);
+    }
+
+    @Override
     public Long saveAndGetId(User user) {
         return user.save() ? user.getId() : null;
     }

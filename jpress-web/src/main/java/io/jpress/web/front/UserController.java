@@ -25,9 +25,13 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.commons.AuthCode;
+import io.jpress.web.commons.AuthCodeKit;
+import io.jpress.web.commons.UserEmailSender;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -42,6 +46,8 @@ public class UserController extends TemplateControllerBase {
 
     private static final String default_user_login_template = "/WEB-INF/views/ucenter/user_login.html";
     private static final String default_user_register_template = "/WEB-INF/views/ucenter/user_register.html";
+    private static final String default_user_register_activate = "/WEB-INF/views/ucenter/user_activate.html";
+    private static final String default_user_register_emailactivate = "/WEB-INF/views/ucenter/user_emailactivate.html";
 
     @Inject
     private UserService userService;
@@ -112,6 +118,76 @@ public class UserController extends TemplateControllerBase {
     }
 
 
+    /**
+     * 用户激活页面
+     */
+    public void activate() {
+        String id = getPara("id");
+        if (StrUtils.isBlank(id)) {
+            renderError(404);
+            return;
+        }
+
+        AuthCode authCode = AuthCodeKit.get(id);
+        if (authCode == null) {
+            setAttr("code", 1);
+            setAttr("message", "链接已经失效，可以尝试再次发送激活邮件");
+            render("user_activate.html", default_user_register_activate);
+            return;
+        }
+
+        User user = userService.findById(authCode.getUserId());
+        if (user == null) {
+            setAttr("code", 2);
+            setAttr("message", "用户不存在或已经被删除");
+            render("user_activate.html", default_user_register_activate);
+            return;
+        }
+
+        user.setStatus(User.STATUS_OK);
+        userService.update(user);
+
+        setAttr("code", 0);
+        setAttr("user", user);
+        render("user_activate.html", default_user_register_activate);
+    }
+
+
+    /**
+     * 邮件激活
+     */
+    public void emailactivate() {
+        String id = getPara("id");
+        if (StrUtils.isBlank(id)) {
+            renderError(404);
+            return;
+        }
+
+        AuthCode authCode = AuthCodeKit.get(id);
+        if (authCode == null) {
+            setAttr("code", 1);
+            setAttr("message", "链接已经失效，您可以尝试在用户中心再次发送激活邮件");
+            render("user_emailactivate.html", default_user_register_emailactivate);
+            return;
+        }
+
+        User user = userService.findById(authCode.getUserId());
+        if (user == null) {
+            setAttr("code", 2);
+            setAttr("message", "用户不存在或已经被删除");
+            render("user_emailactivate.html", default_user_register_emailactivate);
+            return;
+        }
+
+        user.setEmailStatus(User.STATUS_OK);
+        userService.update(user);
+
+        setAttr("code", 0);
+        setAttr("user", user);
+        render("user_emailactivate.html", default_user_register_emailactivate);
+    }
+
+
     public void doRegister() {
 
 
@@ -174,9 +250,18 @@ public class UserController extends TemplateControllerBase {
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
-        user.setStatus(User.STATUS_REG);
+
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
+
+
+        boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
+        if (emailValidate) {
+            user.setStatus(User.STATUS_REG);
+            UserEmailSender.sendEmailForUserRegisterActivate(user);
+        } else {
+            user.setStatus(User.STATUS_OK);
+        }
 
         userService.save(user);
 

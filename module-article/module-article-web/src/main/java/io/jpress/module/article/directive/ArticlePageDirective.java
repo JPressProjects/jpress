@@ -53,17 +53,21 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         int page = controller.getParaToInt(1, 1);
         int pageSize = getPara("pageSize", scope, 10);
 
+        // 可以指定当前的分类ID
+        Long categoryId = getPara("categoryId", scope, 0L);
         ArticleCategory category = controller.getAttr("category");
 
+        if (categoryId == 0 && category != null) {
+            categoryId = category.getId();
+        }
 
-        Page<Article> articlePage = category == null ?
-                service.paginateInNormal(page, pageSize) :
-                service.paginateByCategoryIdInNormal(page, pageSize, category.getId(), null);
+        Page<Article> articlePage = categoryId == 0
+                ? service.paginateInNormal(page, pageSize)
+                : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, null);
 
         scope.setGlobal("articlePage", articlePage);
         renderBody(env, scope, writer);
     }
-
 
     @Override
     public boolean hasEnd() {
@@ -82,7 +86,6 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             super.onRender(env, scope, writer);
         }
 
-
         @Override
         protected String getUrl(int pageNumber) {
             HttpServletRequest request = JbootRequestContext.getRequest();
@@ -94,14 +97,13 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             }
 
             // 如果当前页面是首页的话
-            // 改变当前的url，因为 上一页或下一页是通过当前的url解析出来的
+            // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
             if (url.equals(contextPath + "/")) {
-                url = contextPath + "/article/category/index" + JPressOptions.getAppUrlSuffix();
+                url = contextPath + "/article/category/index"
+                        + JPressOptions.getAppUrlSuffix();
             }
-
             return Kits.doReplacePageNumber(url, pageNumber);
         }
-
 
         @Override
         protected Page<?> getPage(Env env, Scope scope, Writer writer) {

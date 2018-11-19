@@ -37,7 +37,6 @@
     });
 
     function doSubmit() {
-        $('#article-slug').val($("#slug").text());
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
@@ -183,7 +182,7 @@
                 <div class="col-xs-3">
                     <div class="box box-solid">
                         <div class="box-body ">
-                            <button type="button" id="submit" class="btn btn-primary btn-sm ">投稿</button>
+                            <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
                         </div>
                     </div>
                     <div class="box box-solid">

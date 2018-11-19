@@ -37,6 +37,7 @@
         <commons-io.version>2.5</commons-io.version>
         <commonmark.version>0.11.0</commonmark.version>
         <aliyunoss.version>3.3.0</aliyunoss.version>
+        <codehighlight.version>1.0.2</codehighlight.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -142,6 +143,12 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyunoss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codewaves.codehighlight</groupId>
+                <artifactId>codehighlight</artifactId>
+                <version>${codehighlight.version}</version>
             </dependency>
 
         </dependencies>

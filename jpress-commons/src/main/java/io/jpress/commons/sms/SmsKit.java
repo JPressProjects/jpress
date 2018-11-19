@@ -15,12 +15,17 @@
  */
 package io.jpress.commons.sms;
 
+import io.jboot.Jboot;
+import io.jpress.commons.utils.CommonsUtils;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.commons.sms
  */
 public class SmsKit {
+
+    private static final String CACHE_NAME = "sms_code";
 
     /**
      * 发送验证码
@@ -31,15 +36,41 @@ public class SmsKit {
      * @param sign     短信签名
      * @return
      */
-    public static boolean sendCode(String mobile, int code, String template, String sign) {
+    public static boolean sendCode(String mobile, String code, String template, String sign) {
+
 
         SmsMessage sms = new SmsMessage();
-        sms.setCode(code+"");
+        sms.setCode(code + "");
         sms.setSign(sign);
         sms.setMobile(mobile);
         sms.setTemplate(template);
 
-        return sms.send();
+        if (sms.send()) {
+            Jboot.me().getCache().put(CACHE_NAME, mobile, code);
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * 验证用户输入的手机号是否正确
+     *
+     * @param mobile
+     * @param code
+     * @return
+     */
+    public static boolean validateCode(String mobile, String code) {
+        String cacheCode = Jboot.me().getCache().get(CACHE_NAME, mobile);
+        return cacheCode != null && cacheCode.equals(code);
+    }
+
+
+    /**
+     * 生成一个四位数字的码
+     *
+     * @return
+     */
+    public static String generateCode() {
+        return CommonsUtils.generateCode();
     }
 }

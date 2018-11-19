@@ -26,7 +26,6 @@ import io.jpress.JPressOptions;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
-import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
@@ -66,9 +65,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         //初始化模板配置
         TemplateManager.me().init();
-
-        //初始化伪静态配置
-        JPressHandler.init();
 
         //初始化 API 配置
         ApiInterceptor.init();

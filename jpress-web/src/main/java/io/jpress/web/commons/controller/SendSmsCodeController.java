@@ -56,7 +56,7 @@ public class SendSmsCodeController extends Controller {
         Boolean sendOk = SmsKit.sendCode(phone, code, template, sign);
 
         if (sendOk) {
-            renderJson(Ret.ok().set("message", "短信发送成功"));
+            renderJson(Ret.ok().set("message", "短信发送成功，请手机查看"));
         } else {
             renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
         }

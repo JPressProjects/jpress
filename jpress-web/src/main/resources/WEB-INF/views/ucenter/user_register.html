@@ -50,8 +50,9 @@
 
 
             $.get("#(CPATH)/commons/getsmscode?phone=" + phone + "&captcha=" + captcha, function (result) {
-                alert(result.message);
+                $('#captcha').val('');
                 $('#captchaimg').attr("src", '#(CPATH)/commons/captcha?d=' + Math.random())
+                alert(result.message);
             });
         }
 

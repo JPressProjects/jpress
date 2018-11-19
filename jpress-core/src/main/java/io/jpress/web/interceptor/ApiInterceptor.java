@@ -59,12 +59,6 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     public void intercept(Invocation inv) {
 
-        String target = inv.getActionKey();
-        if (!target.startsWith("/api/")) {
-            inv.invoke();
-            return;
-        }
-
         // API 功能未启用
         if (apiEnable == false) {
             inv.getController().renderJson(Ret.fail().set("message", "api closed."));

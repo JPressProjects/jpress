@@ -22,6 +22,76 @@
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
+
+                            <h4 class="page-first-header">微信登录支持</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="login_wechat_enable"
+                                           #checkedIf(option("login_wechat_enable"))>
+                                    <input type="hidden" id="login_wechat_enable" name="login_wechat_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">AppKey</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="login_wechat_appkey"
+                                           value="#option('login_wechat_appkey')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">AppSecret</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="login_wechat_appsecret"
+                                           value="#option('login_wechat_appsecret')">
+                                    <p class="help-block">
+                                         微信的 AppKey 和 AppSecret 请去 <a href=" https://open.weixin.qq.com/" target="_blank"> https://open.weixin.qq.com</a> 申请。
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">QQ登录支持</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="login_qq_enable"
+                                           #checkedIf(option("login_qq_enable"))>
+                                    <input type="hidden" id="login_qq_enable" name="login_qq_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">AppKey </label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="login_qq_appkey"
+                                           value="#option('login_qq_appkey')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">AppSecret</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="login_qq_appsecret"
+                                           value="#option('login_qq_appsecret')">
+                                    <p class="help-block">
+                                        QQ 的 AppKey 和 AppSecret 请去 <a href="https://connect.qq.com/" target="_blank">https://connect.qq.com</a> 申请。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">用户注册</h4>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
@@ -29,6 +99,16 @@
                                            #checkedIf(option("reg_email_validate_enable"))>
                                     <input type="hidden" id="reg_email_validate_enable"
                                            name="reg_email_validate_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮件标题</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="reg_email_validate_title"
+                                           value="#option('reg_email_validate_title')">
                                 </div>
                             </div>
 

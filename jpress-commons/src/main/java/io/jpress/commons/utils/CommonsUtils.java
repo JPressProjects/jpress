@@ -19,12 +19,21 @@ import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Random;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.commons.utils
  */
 public class CommonsUtils {
+
+
+    public static String generateCode() {
+        Random random = new Random();
+        return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);
+    }
+
 
     public static String maxLength(String content, int maxLength) {
         if (StrUtils.isBlank(content)) {
@@ -114,5 +123,6 @@ public class CommonsUtils {
         System.out.println(escapeHtml(script));
         System.out.println(escapeHtml(escapeHtml(script)));
         System.out.println(unEscapeHtml(escapeHtml(script)));
+        System.out.println(generateCode());
     }
 }

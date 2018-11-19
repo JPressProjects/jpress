@@ -87,4 +87,9 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     public List<SinglePage> findListByFlag(String flag) {
         return DAO.findListByColumn(Column.create("flag", flag));
     }
+
+    @Override
+    public void doIncViewCount(long id) {
+        PageViewsCountUpdateTask.recordCount(id);
+    }
 }

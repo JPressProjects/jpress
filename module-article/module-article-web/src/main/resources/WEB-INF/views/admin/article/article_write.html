@@ -9,7 +9,7 @@
 
 <script>
 
-    $('.article-tags').selectize({
+    var $select = $('.article-tags').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -17,15 +17,23 @@
         create: true,
         render: {
             option_create: function (data, escape) {
-                return '<div class="create" style="padding-left: 5px"> 使用标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
             }
         }
     });
 
+    var selectize = $select[0].selectize;
+
+    $(".newTag").each(function () {
+        $(this).on('click',function () {
+            selectize.createItem($(this).text());
+        })
+    })
+
+
 
     function doSubmit(status) {
         $("#articleStatus").val(status);
-        $('#article-slug').val($("#slug").text());
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
@@ -283,6 +291,14 @@
                                 #end
                             </select>
                             <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                            <div class="tags">
+                                #tags(count = 20)
+                                #for(tag : tags)
+                                <a href="javascript:;" class="newTag">#(tag.title)</a>
+                                #end
+                                #end
+                            </div>
                         </div>
                     </div>
                     <div class="box box-solid">
@@ -297,7 +313,7 @@
                                    id="articleThumbnail">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="btn btn-default btn-sm " id="jp-image-browser"
+                            <button type="button" class="jp-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
                                     for-input="articleThumbnail">选择图片
                             </button>

@@ -16,7 +16,6 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Clear;
-import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.EncryptCookieUtils;
 import io.jboot.utils.StrUtils;
@@ -28,6 +27,7 @@ import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.interceptor.PermissionInterceptor;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -59,8 +59,7 @@ public class _AdminController extends AdminControllerBase {
     public void doLogin(String user, String pwd) {
 
         if (StrUtils.isBlank(user) || StrUtils.isBlank(pwd)) {
-            LogKit.error("你当前的 idea 或者 eclipse 可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
-            return;
+            throw new RuntimeException("你当前的编辑器（idea 或者 eclipse）可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
         }
 
         Ret ret = StrUtils.isEmail(user)
@@ -74,7 +73,8 @@ public class _AdminController extends AdminControllerBase {
         renderJson(ret);
     }
 
-    
+    //清除PermissionInterceptor，防止在没有授权的情况下，用户无法退出的问题
+    @Clear(PermissionInterceptor.class)
     public void doLogout() {
         EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
         redirect("/admin/login");
@@ -82,7 +82,6 @@ public class _AdminController extends AdminControllerBase {
 
 
     public void index() {
-
         List<String> moduleIncludes = new ArrayList<>();
         List<ModuleListener> listeners = ModuleManager.me().getListeners();
         for (ModuleListener listener : listeners) {

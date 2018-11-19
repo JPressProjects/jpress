@@ -135,4 +135,6 @@ public interface SinglePageService {
 
     public List<SinglePage> findListByFlag(String flag);
 
+    public void doIncViewCount(long id);
+
 }

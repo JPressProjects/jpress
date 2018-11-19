@@ -221,6 +221,7 @@ public class _TemplateController extends AdminControllerBase {
                 || file.isDirectory());
 
         setAttr("files", doGetFileInfos(files));
+        setAttr("d", dirName);
 
         if (ArrayUtils.isNullOrEmpty(files)) {
             return;
@@ -229,7 +230,6 @@ public class _TemplateController extends AdminControllerBase {
 
         File editFile = StrUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
-        setAttr("d", dirName);
         setAttr("f", editFile.getName());
         setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
 

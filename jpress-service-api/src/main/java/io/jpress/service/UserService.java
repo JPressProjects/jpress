@@ -136,5 +136,7 @@ public interface UserService {
 
     public User findFistByWxOpenid(String openId);
 
+    public User findFistByQQOpenid(String openId);
+
     public Long saveAndGetId(User user);
 }

@@ -33,11 +33,11 @@
         <jboot.version>1.7.3</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.1.11</logback.version>
-        <jpinyin.version>1.1.8</jpinyin.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.5</commons-io.version>
         <commonmark.version>0.11.0</commonmark.version>
-        
+        <aliyunoss.version>3.3.0</aliyunoss.version>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -55,9 +55,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.stuxuhai</groupId>
-                <artifactId>jpinyin</artifactId>
-                <version>${jpinyin.version}</version>
+                <groupId>com.atlassian.commonmark</groupId>
+                <artifactId>commonmark-ext-gfm-tables</artifactId>
+                <version>${commonmark.version}</version>
             </dependency>
 
             <dependency>
@@ -136,6 +136,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyunoss.version}</version>
             </dependency>
 
         </dependencies>

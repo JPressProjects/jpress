@@ -19,6 +19,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.utils.StrUtils;
+import io.jpress.JPressConfig;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -28,8 +29,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class AttachmentUtils {
-
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
     /**
      * @param uploadFile
@@ -52,18 +51,37 @@ public class AttachmentUtils {
 
         file.renameTo(newfile);
 
-        return FileUtils.removePrefix(newfile.getAbsolutePath(), PathKit.getWebRootPath());
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
+
+        return FileUtils.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 
     public static File newAttachemnetFile(String suffix) {
-        String webRoot = PathKit.getWebRootPath();
+
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
-        StringBuilder newFileName = new StringBuilder(webRoot).append(File.separator).append("attachment")
-                .append(File.separator).append(dateFormat.format(new Date())).append(File.separator).append(uuid)
+        StringBuilder newFileName = new StringBuilder(attachmentRoot)
+                .append(File.separator).append("attachment")
+                .append(File.separator).append(new SimpleDateFormat("yyyyMMdd").format(new Date()))
+                .append(File.separator).append(uuid)
                 .append(suffix);
 
         return new File(newFileName.toString());
+    }
+
+    public static File file(String path) {
+        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+                ? JPressConfig.me.getAttachmentRoot()
+                : PathKit.getWebRootPath();
+
+        return new File(attachmentRoot, path);
     }
 
     static List<String> imageSuffix = new ArrayList<String>();

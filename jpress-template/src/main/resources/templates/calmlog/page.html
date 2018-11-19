@@ -1,0 +1,19 @@
+#include("./_layout.html")
+#@mylaout()
+
+#define content()
+<div class="col-md-12 cl-left">
+
+    <div class="cl-artical-content">
+        <h2 class="cl-artical-title">#(page.title)</h2>
+        <div class="cl-card-tag">
+            <div><span>#(page.view_count)</span>人浏览</div>
+        </div>
+        <div class="cl-artical">
+            #(page.content)
+        </div>
+    </div>
+
+</div>
+
+#end

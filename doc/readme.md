@@ -195,12 +195,12 @@ screenshot = screenshot.png
 | --- | --- | --- | 
 | #(WEB_NAME ??) | 字符串 |  网站名称 |  
 | #(WEB_TITLE ??) |  字符串 | 网站标题 |  
-| #(ATTR_WEB_SUBTITLE ??) |  字符串 | 网站副标题 | 
-| #(ATTR_WEB_DOMAIN ??) |  字符串 | 网站域名 | 
-| #(ATTR_WEB_COPYRIGHT ??) |  字符串 | 网站版权信息 | 
-| #(ATTR_SEO_TITLE ??) |  字符串 | 网站SEO标题 | 
-| #(ATTR_SEO_KEYWORDS ??) |  字符串 | 网站SEO关键字 | 
-| #(ATTR_SEO_DESCRIPTION ??) |  字符串 | 网站SEO描述 | 
+| #(WEB_SUBTITLE ??) |  字符串 | 网站副标题 | 
+| #(WEB_DOMAIN ??) |  字符串 | 网站域名 | 
+| #(WEB_COPYRIGHT ??) |  字符串 | 网站版权信息 | 
+| #(SEO_TITLE ??) |  字符串 | 网站SEO标题 | 
+| #(SEO_KEYWORDS ??) |  字符串 | 网站SEO关键字 | 
+| #(SEO_DESCRIPTION ??) |  字符串 | 网站SEO描述 | 
 | MENUS  | 数据列表( list ) | 菜单数据 | 
 
 标签描述，标签建议用 `#( 名称 ??)` 的方式来读取数据，而不是用 `#(名称)` 两个问号（??）的意思是如果 后台填写的名称为空格，那么就用 两个问号（??）之后的内容来显示。
@@ -302,13 +302,15 @@ screenshot = screenshot.png
 | #articles() | 任意 | 用于读取文章列表，例如：热门文章文章、最新评论文章列表等等 | 
 | #tagArticles() | 任意 | 读取某个tag下的文章列表 | 
 | #categoryArticles() | 任意 | 读取某个分类下的文章列表 | 
-| #articlePage() | 文章列表：artlist.html | 用于对文章列表进行的内容和分页进行显示 | 
+| #articlePage() | 任意 | 用于对文章列表进行的内容和分页进行显示 | 
 | #commentPage() | 文章详情：article.html | 用于对文章评论的内容和分页进行显示 | 
 | #nextArticle() | 文章详情：article.html | 下一篇文章 | 
 | #previousArticle() | 文章详情：article.html | 上一篇文章 | 
 | #relevantArticles() | 文章详情：article.html | 相关文章列表，相同标签的的文章 |
-| #categories() | 任意 | 读取文章模块的所有分类 |  
+| #categories() | 任意 | 读取文章模块的所有分类 | 
+| #tags() | 任意 | 用于读取文章标签 |  
 | #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
+
 
 页面相关指令：
 
@@ -427,14 +429,15 @@ screenshot = screenshot.png
 
 **分页指令#articlePaginate()的参数有**
 
-* previousClass ：上一页的样式
-* nextClass ：下一页的样式
-* activeClass ：当前页面的样式
-* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式）
+* previousClass ：上一页的样式，默认值：previous
+* nextClass ：下一页的样式，默认值：next
+* activeClass ：当前页面的样式，默认值：active
+* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式），默认值：disabled
 * anchor ：锚点链接
 * onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
-* previousText ：上一页按钮的文本内容（默认值为：上一页）
-* nextText ：下一页按钮的文本内容（默认值为：下一页）
+* previousText ：上一页按钮的文本内容，默认值：上一页
+* nextText ：下一页按钮的文本内容，默认值：下一页
+* firstGotoIndex : 是否让第一页进入首页，默认值：false
 
 ##### #commentPage()指令的用法
 
@@ -467,14 +470,14 @@ screenshot = screenshot.png
 
 **分页指令#commentPaginate()的参数有**
 
-* previousClass ：上一页的样式
-* nextClass ：下一页的样式
-* activeClass ：当前页面的样式
-* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式）
+* previousClass ：上一页的样式，默认值：previous
+* nextClass ：下一页的样式，默认值：next
+* activeClass ：当前页面的样式，默认值：active
+* disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式），默认值：disabled
 * anchor ：锚点链接
 * onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
-* previousText ：上一页按钮的文本内容（默认值为：上一页）
-* nextText ：下一页按钮的文本内容（默认值为：下一页）
+* previousText ：上一页按钮的文本内容，默认值：上一页
+* nextText ：下一页按钮的文本内容，默认值：下一页
 
 ##### #nextArticle() 指令的用法
 

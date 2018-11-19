@@ -34,18 +34,20 @@ import javax.inject.Inject;
 public class PageController extends TemplateControllerBase {
 
     @Inject
-    private SinglePageService sps;
+    private SinglePageService pageService;
 
     public void index() {
 
         String target = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
         String slug = target.substring(1);
 
-        SinglePage page = sps.findFirstBySlug(slug);
+        SinglePage page = pageService.findFirstBySlug(slug);
         if (page == null || !page.isNormal()) {
             renderError(404);
             return;
         }
+
+        pageService.doIncViewCount(page.getId());
 
         //设置SEO信息
         setSeoInfos(page);

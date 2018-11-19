@@ -49,8 +49,9 @@
             }
 
 
-            $.get("#(CPATH)/commons/getsmscode?phone="+phone+"&captcha="+captcha, function (result) {
+            $.get("#(CPATH)/commons/getsmscode?phone=" + phone + "&captcha=" + captcha, function (result) {
                 alert(result.message);
+                $('#captchaimg').attr("src", '#(CPATH)/commons/captcha?d=' + Math.random())
             });
         }
 
@@ -99,7 +100,7 @@
                     <label>验证码</label>
                     <input type="text" class="form-control" placeholder="请输入验证码" name="captcha" id="captcha">
                     <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"
-                         cdn-exclude>
+                         cdn-exclude id="captchaimg">
                 </div>
                 <div class="row">
                     <div class="col-xs-12" style="padding-top: 15px">

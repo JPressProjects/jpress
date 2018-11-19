@@ -40,7 +40,7 @@ public class SmsKit {
 
 
         SmsMessage sms = new SmsMessage();
-        sms.setCode(code + "");
+        sms.setCode(code);
         sms.setSign(sign);
         sms.setMobile(mobile);
         sms.setTemplate(template);

@@ -240,7 +240,7 @@ public class ArticleController extends TemplateControllerBase {
 
         renderJson(ret);
 
-        ArticleKit.doNotifyAdministratorByEmail(article, comment);
+        ArticleKit.doNotifyAdministrator(article, comment);
     }
 
 

@@ -28,16 +28,31 @@ public class SmsKit {
     private static final String CACHE_NAME = "sms_code";
 
     /**
-     * 发送验证码
+     * 发送短信
      *
      * @param mobile   手机号
-     * @param code     验证码
      * @param template 短信模板
      * @param sign     短信签名
      * @return
      */
-    public static boolean sendCode(String mobile, String code, String template, String sign) {
+    public static boolean sendSms(String mobile, String template, String sign) {
+        SmsMessage sms = new SmsMessage();
+        sms.setSign(sign);
+        sms.setMobile(mobile);
+        sms.setTemplate(template);
+        return sms.send();
+    }
 
+    /**
+     * 发送短信验证码
+     *
+     * @param mobile
+     * @param code
+     * @param template
+     * @param sign
+     * @return
+     */
+    public static boolean sendCode(String mobile, String code, String template, String sign) {
 
         SmsMessage sms = new SmsMessage();
         sms.setCode(code);

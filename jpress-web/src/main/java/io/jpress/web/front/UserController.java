@@ -264,6 +264,9 @@ public class UserController extends TemplateControllerBase {
         user.setPassword(hashedPass);
         user.setCreated(new Date());
 
+        user.setMobile(phoneNumber);
+        user.setMobileStatus(smsValidate ? "ok" : null); // 如果 smsValidate == true，并走到此处，说明验证码已经验证通过了
+
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
 

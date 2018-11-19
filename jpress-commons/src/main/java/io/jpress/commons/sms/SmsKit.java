@@ -46,7 +46,8 @@ public class SmsKit {
         sms.setTemplate(template);
 
         if (sms.send()) {
-            Jboot.me().getCache().put(CACHE_NAME, mobile, code);
+            //有效期，2个小时
+            Jboot.me().getCache().put(CACHE_NAME, mobile, code, 60 * 60 * 2);
             return true;
         }
         return false;

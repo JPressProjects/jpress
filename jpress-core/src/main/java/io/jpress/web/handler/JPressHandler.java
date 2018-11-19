@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Package io.jpress.web.handler
  */
 
-public class JPressHandler extends Handler implements JPressOptions.OptionChangeListener {
+public class JPressHandler extends Handler {
 
     private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
@@ -39,19 +39,11 @@ public class JPressHandler extends Handler implements JPressOptions.OptionChange
         return threadLocal.get();
     }
 
-    private static String suffix = "";
-
-    public static void init() {
-        suffix = JPressOptions.getAppUrlSuffix();
-    }
-
-    public JPressHandler() {
-        JPressOptions.addListener(this);
-    }
-
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+
+        String suffix = JPressOptions.getAppUrlSuffix();
 
         if (StrUtils.isBlank(suffix) && target.indexOf('.') != -1) {
             return;
@@ -74,12 +66,4 @@ public class JPressHandler extends Handler implements JPressOptions.OptionChange
     }
 
 
-    @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-
-        if (JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE.equals(key)
-                || JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
-            init();
-        }
-    }
 }

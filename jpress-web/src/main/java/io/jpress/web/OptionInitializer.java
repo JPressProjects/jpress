@@ -107,13 +107,13 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         String miniProgramAppId = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
-        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+//        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
+        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);
-            wxaConfig.setToken(miniProgramToken);
+//            wxaConfig.setToken(miniProgramToken);
             wxaConfig.setMessageEncrypt(false); //采用明文模式，同时也支持混合模式
 
             WxaConfigKit.setWxaConfig(wxaConfig);

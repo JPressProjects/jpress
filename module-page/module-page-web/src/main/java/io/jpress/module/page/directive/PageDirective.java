@@ -51,5 +51,8 @@ public class PageDirective extends JbootDirectiveBase {
         renderBody(env, scope, writer);
     }
 
-
+    @Override
+    public boolean hasEnd() {
+        return true;
+    }
 }

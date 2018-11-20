@@ -18,6 +18,7 @@ package io.jpress.web.sharekit;
 import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressOptions;
+import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.CommonsUtils;
 
 import java.util.ArrayList;
@@ -77,16 +78,21 @@ public class MainKits {
     }
 
 
-    public static List<String[]> linesOption(String key, String split) {
+    public static List<RenderList> linesOption(String key, String split) {
         String value = JPressOptions.get(key);
         if (StrUtils.isBlank(value)) {
             return Lists.newArrayList();
         }
 
         String[] lines = value.split("\n");
-        List<String[]> list = new ArrayList<>();
+        List<RenderList> list = new ArrayList<>();
         for (String line : lines) {
-            list.add(line.trim().split(split));
+            RenderList<String> items = new RenderList<>();
+            String[] lineItems = line.trim().split(split);
+            for (String lineItem : lineItems) {
+                items.add(lineItem.trim());
+            }
+            list.add(items);
         }
         return list;
     }

@@ -100,10 +100,12 @@ public class _PageController extends AdminControllerBase {
             return;
         }
 
-        SinglePage bySlug = sps.findFirstBySlug(page.getSlug());
-        if (bySlug != null && bySlug.getId().equals(page.getId()) == false) {
-            renderJson(Ret.fail("message", "该slug已经存在"));
-            return;
+        if (StrUtils.isNotBlank(page.getSlug())) {
+            SinglePage bySlug = sps.findFirstBySlug(page.getSlug());
+            if (bySlug != null && bySlug.getId().equals(page.getId()) == false) {
+                renderJson(Ret.fail("message", "该slug已经存在"));
+                return;
+            }
         }
 
         sps.saveOrUpdate(page);

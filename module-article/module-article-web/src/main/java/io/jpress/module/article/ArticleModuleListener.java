@@ -39,7 +39,7 @@ public class ArticleModuleListener implements ModuleListener {
 
     @Override
     public String onRenderDashboardBox(Controller controller) {
-        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create(), "id desc", 10);
+        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articles", articles);
 
         ArticleCommentService commentService = Jboot.bean(ArticleCommentService.class);

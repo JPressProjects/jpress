@@ -26,7 +26,7 @@ import java.util.List;
  * @Title: 应用启动监听器
  * @Package io.jpress.module.page
  */
-public class PageModuleLisenter extends ModuleListenerBase {
+public class PageModuleListener extends ModuleListenerBase {
 
 
     @Override

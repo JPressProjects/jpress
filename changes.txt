@@ -10,11 +10,11 @@ jpress v1.0-rc.8
 新增：#articles() 指令添加可以指定 style 的支持
 
 优化：#categoryArticles() 指令，添加输出当前category的支持
-优化：#articlePage() 指令增加可以指定当前分类的参数（@zhanex）
+优化：#articlePage() 指令增加可以指定当前分类的参数（ @zhanex ）
 优化：linesOption 指令，防止读取分割出错的问题
 优化：后台菜单功能的文字提示错误
 
-修复：模板编辑目录为空时，页面不显示当前目录的问题 （@rocsky）
+修复：模板编辑目录为空时，页面不显示当前目录的问题 （ @rocsky ）
 修复：calmlog模板，文章详情页浏览量和评论数据错误的问题。（ [@whoismy8023](https://gitee.com/whoismy8023) ）
 修复：当未设置权限，登录后台的用户无法退出的问题（ [@Tom.Lin](https://gitee.com/tomlin) ）
 修复：#article() 指令无法读取文章内容的问题

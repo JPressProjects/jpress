@@ -28,6 +28,7 @@ import io.jpress.model.User;
 import io.jpress.service.UserService;
 
 import javax.inject.Singleton;
+import java.util.Date;
 
 @Bean
 @Singleton

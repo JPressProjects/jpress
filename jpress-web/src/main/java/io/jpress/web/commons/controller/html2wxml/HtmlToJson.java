@@ -2,7 +2,6 @@ package io.jpress.web.commons.controller.html2wxml;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.codewaves.codehighlight.core.Highlighter;
 import com.jfinal.kit.StrKit;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -128,7 +127,7 @@ public class HtmlToJson {
         //后面用Element操作更方便一点 转一下
 
         //如果这个元素没有内容 忽略掉
-		/*if (elementIsEmpty(element)) {
+        /*if (elementIsEmpty(element)) {
 			return null;
 		}*/
         JSONObject eleJsonObj = new JSONObject();
@@ -285,12 +284,12 @@ public class HtmlToJson {
         node.put("attr", attr);
 
         //使用highlighter库 将代码进行高亮转换
-        final Highlighter highlighter = new Highlighter(new RendererFactory());
-        final Highlighter.HighlightResult result = highlighter.highlightAuto(element.html(), null);
-        final CharSequence styledCode = result.getResult();
-        if (styledCode != null) {
-            element.html(styledCode.toString());
-        }
+//        final Highlighter highlighter = new Highlighter(new RendererFactory());
+//        final Highlighter.HighlightResult result = highlighter.highlightAuto(element.html(), null);
+//        final CharSequence styledCode = result.getResult();
+//        if (styledCode != null) {
+//            element.html(styledCode.toString());
+//        }
         // 处理Class
         processClass(element, "pre", node);
         //pre标签里的代码内容 需要创建ol和li去包裹每一行转换后的代码 行号

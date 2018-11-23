@@ -20,11 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.codewaves.codehighlight</groupId>
-            <artifactId>codehighlight</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-core</artifactId>
         </dependency>

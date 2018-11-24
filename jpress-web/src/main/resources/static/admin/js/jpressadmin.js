@@ -234,8 +234,9 @@ function openlayer(ed) {
         content: jpress.cpath + '/admin/attachment/browse',
         end: function () {
             if (layer.data.src != null) {
-                ed.data.getContentElement('info', 'txtUrl').setValue(layer.data.src);
-                ed.data.getContentElement('Link', 'txtUrl').setValue(layer.data.src);
+                var src = jpress.cpath + layer.data.src;
+                ed.data.getContentElement('info', 'txtUrl').setValue(src);
+                ed.data.getContentElement('Link', 'txtUrl').setValue(src);
             }
         }
     });

@@ -26,7 +26,6 @@ import io.jpress.JPressOptions;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
-import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
@@ -66,9 +65,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         //初始化模板配置
         TemplateManager.me().init();
-
-        //初始化伪静态配置
-        JPressHandler.init();
 
         //初始化 API 配置
         ApiInterceptor.init();
@@ -111,13 +107,13 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         String miniProgramAppId = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
-        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+//        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
+        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);
-            wxaConfig.setToken(miniProgramToken);
+//            wxaConfig.setToken(miniProgramToken);
             wxaConfig.setMessageEncrypt(false); //采用明文模式，同时也支持混合模式
 
             WxaConfigKit.setWxaConfig(wxaConfig);

@@ -53,6 +53,7 @@ public class AliyunOssUtils {
         }
 
         path = removeFileSeparator(path);
+        path = path.replace('\\','/');
 
 
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);

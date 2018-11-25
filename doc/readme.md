@@ -210,7 +210,7 @@ screenshot = screenshot.png
 
 `#(WEB_NAME ?? WEB_TITLE)` 表示优先使用 WEB_NAME 来显示，但是当 WEB_NAME 为空的时候，用 WEB_TITLE（网站标题） 来显示。
 
-`#(ATTR_SEO_TITLE ?? WEB_TITLE +'-'+ ATTR_WEB_SUBTITLE)` 表示优先使用 ATTR_SEO_TITLE（SEO标题） 来显示，但是当 ATTR_SEO_TITLE 为空的时候，用 `WEB_TITLE - WEB_SUBTITLE` 来显示。
+`#(SEO_TITLE ?? WEB_TITLE +'-'+ WEB_SUBTITLE)` 表示优先使用 SEO_TITLE（SEO标题） 来显示，但是当 SEO_TITLE 为空的时候，用 `WEB_TITLE - WEB_SUBTITLE` 来显示。
 
 有了以上知识后，我们的 index.html 首页模板文件可以如下：
 
@@ -343,7 +343,7 @@ screenshot = screenshot.png
 此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
 ```html
-#articles(flag="",hasThumbnail="",orderBy="",count="")
+#articles(flag="",hasThumbnail="",orderBy="",count=10)
     #for(article : articles)
         <a href="#(article.url)">#(article.title)</a>
     #end
@@ -356,13 +356,14 @@ screenshot = screenshot.png
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
 * orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章
+* style ：文章样式
 
 ##### #tagArticles() 指令的用法
 
 此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
 ```html
-#tagArticles(tag="aaa",hasThumbnail="",orderBy="",count="")
+#tagArticles(tag="aaa",hasThumbnail="",orderBy="",count=10)
     #for(article : articles)
         <a href="#(article.url)">#(article.title)</a>
     #end

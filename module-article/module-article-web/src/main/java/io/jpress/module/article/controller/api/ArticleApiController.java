@@ -297,7 +297,7 @@ public class ArticleApiController extends ApiControllerBase {
 
         renderJson(ret);
 
-        ArticleKit.doNotifyAdministratorByEmail(article, comment);
+        ArticleKit.doNotifyAdministrator(article, comment);
     }
 
 

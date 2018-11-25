@@ -43,12 +43,14 @@ public class ArticlesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String flag = getPara("flag", scope);
+        String style = getPara("style", scope);
         Boolean hasThumbnail = getPara("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
         int count = getPara("count", scope, 10);
 
 
         Columns columns = Columns.create("flag", flag);
+        columns.add("style", style);
         columns.add("status", Article.STATUS_NORMAL);
 
         if (hasThumbnail != null) {

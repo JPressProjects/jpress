@@ -3,9 +3,16 @@
 #define script()
 <script>
 
-    $(".enable-template").on("click", function () {
+    $(".template-enable").on("click", function () {
         var templateId = $(this).attr("for-tid");
-        ajaxGet("#(CPATH)/admin/template/enable?tid=" + templateId);
+        ajaxGet("#(CPATH)/admin/template/doEnable?tid=" + templateId);
+    })
+
+    $(".template-uninstall").on("click", function () {
+        if (confirm('确定要卸载该主题吗？卸载后不可恢复')) {
+            var templateId = $(this).attr("for-tid");
+            ajaxGet("#(CPATH)/admin/template/doUninstall?tid=" + templateId);
+        }
     })
 
 
@@ -92,9 +99,15 @@
                                             <i class="fa fa-fw fa-check"></i>已启用
                                         </button>
                                         #else
-                                        <button type="button" class="btn btn-primary pull-right enable-template"
-                                                for-tid="#(template.id)">启用
-                                        </button>
+                                        <div class="pull-right">
+                                            <button type="button" class="btn btn-default template-uninstall"
+                                                    for-tid="#(template.id)">卸载
+                                            </button>
+                                            <button type="button" class="btn btn-primary template-enable"
+                                                    for-tid="#(template.id)">启用
+                                            </button>
+                                        </div>
+
                                         #end
                                     </div>
                                 </div>

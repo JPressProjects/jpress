@@ -28,6 +28,7 @@ import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -45,6 +46,9 @@ public class ArticleController extends TemplateControllerBase {
 
     @Inject
     private ArticleService articleService;
+
+    @Inject
+    private UserService userService;
 
     @Inject
     private ArticleCategoryService categoryService;
@@ -80,6 +84,12 @@ public class ArticleController extends TemplateControllerBase {
 
         //记录当前浏览量
         articleService.doIncArticleViewCount(article.getId());
+
+        User articleAuthor = article.getUserId() != null
+                ? userService.findById(article.getUserId())
+                : null;
+
+        article.put("user", articleAuthor);
 
         setAttr("article", article);
         render(article.getHtmlView());
@@ -240,7 +250,7 @@ public class ArticleController extends TemplateControllerBase {
 
         renderJson(ret);
 
-        ArticleKit.doNotifyAdministratorByEmail(article, comment);
+        ArticleKit.doNotifyAdministrator(article, comment);
     }
 
 

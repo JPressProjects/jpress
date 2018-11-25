@@ -61,7 +61,10 @@ public class JPressOptions {
                 LOG.error(ex.toString(), ex);
             }
         }
+
+        doFinishedChanged(key, value, oldValue);
     }
+
 
     public static String get(String key) {
         return options.get(key);
@@ -95,15 +98,6 @@ public class JPressOptions {
         LISTENERS.remove(listener);
     }
 
-    public static String getAppUrlSuffix() {
-        boolean fakeStaticEnable = getAsBool(JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE);
-        if (fakeStaticEnable == false) {
-            return "";
-        }
-
-        String suffix = get(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX);
-        return StrUtils.isBlank(suffix) ? "" : suffix;
-    }
 
     public static String getCDNDomain() {
         boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
@@ -122,6 +116,41 @@ public class JPressOptions {
 
     public static interface OptionChangeListener {
         public void onChanged(String key, String newValue, String oldValue);
+    }
+
+
+    private static final String indexStyleKey = "index_style";
+
+    private static void doFinishedChanged(String key, String value, String oldValue) {
+        if (indexStyleKey.equals(key)) {
+            indexStyleValue = value;
+        }
+
+        //伪静态的是否启用
+        else if (JPressConsts.OPTION_WEB_FAKE_STATIC_ENABLE.equals(key)) {
+            fakeStaticEnable = "true".equalsIgnoreCase(value);
+        }
+
+        //伪静态后缀
+        else if (JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
+            fakeStaticSuffix = value;
+        }
+    }
+
+    private static String indexStyleValue = null;
+
+    public static String getIndexStyle() {
+        return indexStyleValue;
+    }
+
+    
+    private static boolean fakeStaticEnable = false;
+    private static String fakeStaticSuffix = "";
+
+    public static String getAppUrlSuffix() {
+        return fakeStaticEnable
+                ? (StrUtils.isBlank(fakeStaticSuffix) ? "" : fakeStaticSuffix)
+                : "";
     }
 
 }

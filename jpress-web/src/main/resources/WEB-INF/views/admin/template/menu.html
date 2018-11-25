@@ -38,7 +38,7 @@
                                 <label class="col-sm-2 control-label">名称</label>
 
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..."
+                                    <input type="input" class="form-control" placeholder="请输入菜单名称"
                                            value="#(menu.text ??)" name="menu.text">
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 <label class="col-sm-2 control-label">URL</label>
 
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="slug会显示在网址上..."
+                                    <input type="input" class="form-control" placeholder="以及菜单对应的连接地址..."
                                            value="#(menu.url ??)" name="menu.url">
                                 </div>
                             </div>
@@ -105,10 +105,10 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.target">
                                         #if(menu)
-                                        <option value="_self"  #selectedIf(menu.target == '_self')>当前页面</option>
+                                        <option value="_self"  #selectedIf(menu.target == '_self')>当前页</option>
                                         <option value="_blank" #selectedIf(menu.target == '_blank')>新窗口</option>
                                         #else
-                                        <option value="_self" selected>当前页面</option>
+                                        <option value="_self" selected>当前页</option>
                                         <option value="_blank">新窗口</option>
                                         #end
                                     </select>

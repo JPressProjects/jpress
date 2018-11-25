@@ -26,6 +26,7 @@ import io.jboot.web.controller.validate.EmptyValidate;
 import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.sms.SmsKit;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -226,6 +227,18 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
+        String phoneNumber = getPara("phone");
+
+        //是否启用短信验证
+        boolean smsValidate = JPressOptions.getAsBool("reg_sms_validate_enable");
+        if (smsValidate == true) {
+            String paraCode = getPara("sms_code");
+            if (SmsKit.validateCode(phoneNumber, paraCode) == false) {
+                renderJson(Ret.fail().set("message", "sms code is error").set("errorCode", 7));
+                return;
+            }
+        }
+
 
         User user = userService.findFistByUsername(username);
         if (user != null) {
@@ -251,10 +264,13 @@ public class UserController extends TemplateControllerBase {
         user.setPassword(hashedPass);
         user.setCreated(new Date());
 
+        user.setMobile(phoneNumber);
+        user.setMobileStatus(smsValidate ? "ok" : null); // 如果 smsValidate == true，并走到此处，说明验证码已经验证通过了
+
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
 
-
+        // 是否启用邮件验证
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
         if (emailValidate) {
             user.setStatus(User.STATUS_REG);

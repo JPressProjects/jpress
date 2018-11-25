@@ -18,9 +18,11 @@ package io.jpress.core.template;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 import io.jboot.utils.StrUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -252,5 +254,13 @@ public class Template {
         }
 
         return styles;
+    }
+
+    public void uninstall(){
+        try {
+            FileUtils.deleteDirectory(new File(getAbsolutePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

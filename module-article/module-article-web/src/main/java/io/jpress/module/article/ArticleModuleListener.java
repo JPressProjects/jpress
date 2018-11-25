@@ -34,7 +34,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleLisenter implements ModuleListener {
+public class ArticleModuleListener implements ModuleListener {
 
 
     @Override

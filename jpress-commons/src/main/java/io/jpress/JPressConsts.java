@@ -25,7 +25,7 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v1.0-rc.7";
+    public static final String VERSION = "v1.0-rc.8";
 
     /**
      * 后台系统菜单的 ID
@@ -49,6 +49,7 @@ public class JPressConsts {
     public static final String OPTION_WEB_NAME = "web_name"; // 网站名称
     public static final String OPTION_WEB_DOMAIN = "web_domain"; // 网站域名
     public static final String OPTION_WEB_COPYRIGHT = "web_copyright"; // 网站版权信息
+    public static final String OPTION_WEB_IPC_NO = "web_ipc_no"; // 网站备案号
     public static final String OPTION_SEO_TITLE = "seo_title"; // SEO 标题
     public static final String OPTION_SEO_KEYWORDS = "seo_keywords"; //  SEO 关键字
     public static final String OPTION_SEO_DESCRIPTION = "seo_description"; // SEO 描述
@@ -110,6 +111,7 @@ public class JPressConsts {
     public static final String ATTR_WEB_NAME = "WEB_NAME"; // 网站名称
     public static final String ATTR_WEB_DOMAIN = "WEB_DOMAIN"; // 网站域名
     public static final String ATTR_WEB_COPYRIGHT = "WEB_COPYRIGHT"; // 网站版权信息
+    public static final String ATTR_WEB_IPC_NO = "WEB_IPC_NO"; // 网站备案号
     public static final String ATTR_SEO_TITLE = "SEO_TITLE"; // SEO 标题
     public static final String ATTR_SEO_KEYWORDS = "SEO_KEYWORDS"; //  SEO 关键字
     public static final String ATTR_SEO_DESCRIPTION = "SEO_DESCRIPTION"; // SEO 描述

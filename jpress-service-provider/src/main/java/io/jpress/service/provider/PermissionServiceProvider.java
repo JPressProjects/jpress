@@ -183,4 +183,10 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
+    @Override
+    public List<Permission> findListByNode(String node) {
+        Columns columns = Columns.create();
+        columns.likeAppendPercent("node", node);
+        return DAO.findListByColumns(columns);
+    }
 }

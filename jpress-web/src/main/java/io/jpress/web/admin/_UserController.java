@@ -44,9 +44,7 @@ import io.jpress.web.base.AdminControllerBase;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -185,7 +183,27 @@ public class _UserController extends AdminControllerBase {
                 ? permissionService.findAll()
                 : permissionService.findListByType(type);
 
-        setAttr("permissionGroup", PermissionKits.groupPermission(permissions));
+        Map<String,List<Permission>> permissionGroup = PermissionKits.groupPermission(permissions);
+
+        Map<String,Boolean> groupCheck = new HashMap();
+        for (String groupKey : permissionGroup.keySet()) {
+            List<Permission> permList = permissionGroup.get(groupKey);
+            int length = permList.size(),index=0;
+            for (Permission permission : permList) {
+                boolean hasPerm = roleService.hasPermission(role.getId(), permission.getId());
+                if (hasPerm) {
+                    index++;
+                }
+            }
+            if (length == index) {
+                groupCheck.put(groupKey, true);
+            }else{
+                groupCheck.put(groupKey, false);
+            }
+        }
+
+        setAttr("groupCheck", groupCheck);
+        setAttr("permissionGroup", permissionGroup);
 
         render("user/role_permissions.html");
     }
@@ -448,4 +466,26 @@ public class _UserController extends AdminControllerBase {
         render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
     }
 
+    public void doAddGroupRolePermission(long roleId,String groupId){
+        List<Long> permIds = new ArrayList<Long>();
+        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...",""));
+        for (Permission permission : permissionList) {
+            //先清空再添加
+            if (!roleService.hasPermission(roleId, permission.getId())) {
+                roleService.addPermission(roleId, permission.getId());
+            }
+            permIds.add(permission.getId());
+        }
+        renderJson(Ret.ok().set("permissionIds",permIds));
+    }
+
+    public void doDelGroupRolePermission(long roleId,String groupId){
+        List<Long> permIds = new ArrayList<Long>();
+        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...",""));
+        for (Permission permission : permissionList) {
+            roleService.delPermission(roleId, permission.getId());
+            permIds.add(permission.getId());
+        }
+        renderJson(Ret.ok().set("permissionIds",permIds));
+    }
 }

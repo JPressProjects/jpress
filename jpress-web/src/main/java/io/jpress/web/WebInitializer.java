@@ -16,9 +16,7 @@
 package io.jpress.web;
 
 import com.jfinal.template.Engine;
-import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
-import io.jpress.web.install.InstallHandler;
 import io.jpress.web.sharekit.MainKits;
 import io.jpress.web.sharekit.PermissionKits;
 
@@ -44,10 +42,6 @@ public class WebInitializer extends JbootAppListenerBase {
 
     }
 
-    @Override
-    public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add(0, new InstallHandler());
-    }
 
     @Override
     public void onJFinalStarted() {

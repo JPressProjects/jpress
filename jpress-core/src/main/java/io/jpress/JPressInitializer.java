@@ -20,6 +20,7 @@ import com.jfinal.config.Interceptors;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.commons.utils.JPressJson;
+import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
@@ -44,7 +45,8 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add(0, new JPressHandler());
+        handlers.add(0, new InstallHandler());
+        handlers.add(new JPressHandler());
     }
 
     @Override

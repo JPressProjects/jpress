@@ -128,4 +128,6 @@ public interface PermissionService {
 
     public List<Permission> findPermissionListByUserId(long userId);
 
+    public List<Permission> findListByNode(String node);
+
 }

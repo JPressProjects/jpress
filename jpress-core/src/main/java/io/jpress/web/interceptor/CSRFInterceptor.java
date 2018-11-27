@@ -73,11 +73,12 @@ public class CSRFInterceptor implements Interceptor {
 
 
     private void renderNormal(Invocation inv) {
-        String uuid = StrUtils.uuid();
+
 
         // 不是 ajax 请求，才需要重置本地 的token
         // ajax 请求，需要保证之前的token可以继续使用
         if (RequestUtils.isAjaxRequest(inv.getController().getRequest()) == false) {
+            String uuid = StrUtils.uuid();
             inv.getController().setCookie(CSRF_KEY, uuid, -1);
             inv.getController().setAttr(CSRF_KEY, uuid);
         }

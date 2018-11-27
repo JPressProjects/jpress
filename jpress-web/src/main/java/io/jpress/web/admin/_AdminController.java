@@ -71,7 +71,7 @@ public class _AdminController extends AdminControllerBase {
         if (ret.isOk()) {
             User u = us.findFistByUsername(user);
             u.setLogged(new Date());
-            u.update();
+            us.update(u);
             EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
         }
 

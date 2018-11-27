@@ -188,17 +188,14 @@ public class _UserController extends AdminControllerBase {
         Map<String,Boolean> groupCheck = new HashMap();
         for (String groupKey : permissionGroup.keySet()) {
             List<Permission> permList = permissionGroup.get(groupKey);
-            int length = permList.size(),index=0;
             for (Permission permission : permList) {
                 boolean hasPerm = roleService.hasPermission(role.getId(), permission.getId());
-                if (hasPerm) {
-                    index++;
+                if (!hasPerm) {
+                    groupCheck.put(groupKey, false);
+                    break;
+                }else{
+                    groupCheck.put(groupKey, true);
                 }
-            }
-            if (length == index) {
-                groupCheck.put(groupKey, true);
-            }else{
-                groupCheck.put(groupKey, false);
             }
         }
 

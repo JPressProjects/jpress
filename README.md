@@ -26,6 +26,10 @@ https://pan.baidu.com/s/1rJ5OMOxUwVz9ylK3oFD3PQ
 
 https://pan.baidu.com/s/1zSSezfMOfrZxGvs_Sz4Kig  密码:tvzh
 
+* **4. JPress与CDN的整合实现**
+
+https://pan.baidu.com/s/10aPgdD1HNZO1qb5ab9YB5w
+
 ## JPress 微信小程序SDK
 
 网址：https://gitee.com/fuhai/jpress-miniprogram-sdk

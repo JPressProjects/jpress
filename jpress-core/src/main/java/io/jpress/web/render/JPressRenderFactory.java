@@ -16,8 +16,8 @@
 package io.jpress.web.render;
 
 import com.jfinal.render.Render;
+import io.jboot.utils.RequestUtils;
 import io.jboot.web.JbootControllerContext;
-import io.jboot.web.controller.JbootController;
 import io.jboot.web.render.JbootRenderFactory;
 import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.template.Template;
@@ -54,7 +54,8 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return super.getErrorRender(errorCode);
         }
 
-        String view = template.matchTemplateFile("error_" + errorCode + ".html", ((JbootController) JbootControllerContext.get()).isMoblieBrowser());
+        String view = template.matchTemplateFile("error_" + errorCode + ".html",
+                RequestUtils.isMoblieBrowser(JbootControllerContext.get().getRequest()));
         if (view == null) {
             return super.getErrorRender(errorCode);
         }

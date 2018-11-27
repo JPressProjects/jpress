@@ -13,21 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.front;
+package io.jpress.web.install;
 
+import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import io.jboot.db.JbootDbManager;
+import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.utils.StrUtils;
+import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
+import io.jpress.core.install.InstallUtils;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.model.User;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
-import io.jpress.web.base.TemplateControllerBase;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -35,18 +44,8 @@ import java.util.Date;
  * @Package io.jpress.web
  */
 @RequestMapping("/install")
-public class InstallController extends TemplateControllerBase {
-
-    private static boolean installed = false;
-
-    public static boolean isInstalled() {
-        return installed;
-    }
-
-    public static void setInstalled(boolean installed) {
-        InstallController.installed = installed;
-    }
-
+@Before(InstallInterceptor.class)
+public class InstallController extends JbootController {
 
     @Inject
     private UserService userService;
@@ -58,32 +57,95 @@ public class InstallController extends TemplateControllerBase {
     private OptionService optionService;
 
     public void index() {
+        render("/WEB-INF/install/views/step1.html");
+    }
 
-        //已经安装了，不让进行访问
-        if (installed == true) {
-            renderError(404);
+    public void step1() {
+        redirect("/install");
+    }
+    public void step2() {
+        render("/WEB-INF/install/views/step2.html");
+    }
+
+    public void step3() {
+        render("/WEB-INF/install/views/step3.html");
+    }
+
+    public void error() {
+        render("/WEB-INF/install/views/error.html");
+    }
+
+    public void initdb() {
+
+        String dbName = getPara("dbName");
+        String dbUser = getPara("dbUser");
+        String dbPwd = getPara("dbPwd");
+        String dbHost = getPara("dbHost");
+        String dbPort = getPara("dbPort");
+
+        if (StrUtils.isBlank(dbName)) {
+            renderJson(Ret.fail().set("message", "数据库名不能为空").set("errorCode", 1));
             return;
         }
 
-        render("/WEB-INF/views/commons/install.html");
+        if (StrUtils.isBlank(dbUser)) {
+            renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 2));
+            return;
+        }
+
+        if (StrUtils.isBlank(dbHost)) {
+            renderJson(Ret.fail().set("message", "主机不能为空").set("errorCode", 3));
+            return;
+        }
+
+        if (StrUtils.isBlank(dbPort)) {
+            renderJson(Ret.fail().set("message", "端口号不能为空").set("errorCode", 4));
+            return;
+        }
+
+        try {
+
+            InstallUtils.init(dbName, dbUser, dbPwd, dbHost, dbPort);
+
+            List<String> tables = InstallUtils.getTableList();
+            if (tables.contains("user")
+                    || tables.contains("utm")
+                    || tables.contains("option")
+                    || tables.contains("menu")
+                    || tables.contains("role")
+                    || tables.contains("permission")
+                    ) {
+                renderJson(Ret.fail());
+                return;
+            }
+
+            InstallUtils.initJPressTables();
+
+            DataSourceConfig config = InstallUtils.getDataSourceConfig();
+            config.setName(DataSourceConfig.NAME_DEFAULT);
+
+            ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);
+            activeRecordPlugin.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            renderJson(Ret.fail());
+            return;
+        }
+
+        renderJson(Ret.ok());
     }
 
 
-    public void doInstall() {
-
-        //已经安装了，不让进行访问
-        if (installed == true) {
-            renderError(404);
-            return;
-        }
+    public void install() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-        String webName = getEscapeHtmlPara("web_name");
-        String webTitle = getEscapeHtmlPara("web_title");
-        String webSubtitle = getEscapeHtmlPara("web_subtitle");
+        String webName = getPara("web_name");
+        String webTitle = getPara("web_title");
+        String webSubtitle = getPara("web_subtitle");
 
         if (StrUtils.isBlank(username)) {
             renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
@@ -146,7 +208,24 @@ public class InstallController extends TemplateControllerBase {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-        setInstalled(true);
+        JPressInstaller.setInstalled(true);
+
+
+        try {
+            File lockFile = InstallUtils.lockFile();
+            lockFile.createNewFile();
+
+            InstallUtils.initJpressProperties();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return;
+        }
+
+
+        JPressInstaller.publishInstalledEvent();
+
         renderJson(Ret.ok());
     }
 

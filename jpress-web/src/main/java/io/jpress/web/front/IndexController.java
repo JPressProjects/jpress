@@ -20,6 +20,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
+import io.jpress.core.install.JPressInstaller;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -33,7 +34,7 @@ public class IndexController extends TemplateControllerBase {
     public void index() {
 
         //JPress 没有安装，先进行安装
-        if (InstallController.isInstalled() == false) {
+        if (JPressInstaller.isInstalled() == false) {
             redirect("/install");
             return;
         }

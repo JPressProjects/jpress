@@ -89,8 +89,9 @@ public class InstallUtils {
                 : new Properties();
 
         p.put("jboot.mode", "product");
-        String uuid = StrUtils.uuid();
+        p.put("jboot.model.idCacheEnable", "true");
 
+        String uuid = StrUtils.uuid();
         p.put("jboot.web.cookieEncryptKey", uuid);
         p.put("jboot.web.jwt.secret", uuid);
 

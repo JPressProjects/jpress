@@ -1,0 +1,36 @@
+#include("layout.html")
+#@layout()
+#define content()
+<div class="form-horizontal form-setting">
+    <div class="form-group">
+
+        <div class="col-sm-12">
+
+            看到此页面，意味着您在刚才填写的数据库用户名、密码等信息不正确，导致JPress未能连接到数据库服务器。
+
+            <br/>
+            <br/>
+            <br/> 您确定数据库已经创建了吗？
+            <br/> 您确定数据库用户名和密码正确吗？
+            <br/> 您确定输入的主机名和端口号正确吗？
+            <br/> 您确定数据库服务器在运行吗？
+            <br/> 数据库中是否已经存在相同名称的数据表了？
+            <br/> <br/> <br/>
+
+            如果您不明白这是什么意思，您可以联系您的服务提供商。或请访问<a href="http://jpress.io" target="_blank">JPress官网</a>获得帮助。
+            <br/>
+            <br/>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-offset-4 col-xs-4 " style="padding-top: 15px">
+            <a href="#(CPATH)/install/step2" class="btn btn-primary btn-block btn-flat"> 重试 </a>
+        </div>
+    </div>
+
+</div>
+#end

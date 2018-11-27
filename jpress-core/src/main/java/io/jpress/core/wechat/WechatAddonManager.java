@@ -16,8 +16,11 @@
 package io.jpress.core.wechat;
 
 import io.jboot.Jboot;
+import io.jboot.event.JbootEvent;
+import io.jboot.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jpress.JPressOptions;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.service.OptionService;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddonManager {
+public class WechatAddonManager implements JbootEventListener{
 
     private static WechatAddonManager me = new WechatAddonManager();
     private static final String OPTION_PREFIX = "wechat_addon_enable_for_";
@@ -60,6 +63,11 @@ public class WechatAddonManager {
      * 2. 查看该微信插件是否开启
      */
     public void init() {
+
+        if (JPressInstaller.isInstalled() == false){
+            JPressInstaller.addListener(this);
+            return;
+        }
 
         optionService = Jboot.bean(OptionService.class);
 
@@ -145,4 +153,8 @@ public class WechatAddonManager {
         return bool;
     }
 
+    @Override
+    public void onEvent(JbootEvent jbootEvent) {
+        init();
+    }
 }

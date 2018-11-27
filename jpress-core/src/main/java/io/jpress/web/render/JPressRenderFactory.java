@@ -16,7 +16,6 @@
 package io.jpress.web.render;
 
 import com.jfinal.render.Render;
-import com.jfinal.render.TextRender;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.render.JbootRenderFactory;
 import io.jpress.core.template.Template;
@@ -42,7 +41,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
 
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {
-            return new TextRender(errorCode + " error, bug can not find current template to render");
+            return super.getErrorRender(errorCode);
         }
 
         String view = template.matchTemplateFile("error_" + errorCode + ".html",((TemplateControllerBase) JbootControllerContext.get()).isMoblieBrowser());

@@ -176,8 +176,13 @@
                             <div class="box box-dashboard">
                                 <div class="box-header with-border">
                                     <div style="float: left;margin-right: 15px;">
+                                        #if(role.isSuperAdmin())
+                                        <input  type="checkbox" class="myswitchery"
+                                                data-gid="#(x.key ??)" data-rid="#(role.id ??)" checked disabled>
+                                        #else
                                         <input  type="checkbox" class="myswitchery"
                                                 data-gid="#(x.key ??)" data-rid="#(role.id ??)" #for(group:groupCheck)  #if(x.key==group.key && group.value) checked #end  #end>
+                                        #end
                                     </div>
                                     <h3 class="box-title">#(x.key ??)</h3>
                                 </div>

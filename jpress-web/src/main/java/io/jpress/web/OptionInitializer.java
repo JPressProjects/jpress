@@ -20,9 +20,12 @@ import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
 import io.jboot.Jboot;
+import io.jboot.event.JbootEvent;
+import io.jboot.event.JbootEventListener;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -38,7 +41,7 @@ import java.util.List;
  * @Title: 用于在应用启动的时候，读取数据库的配置信息进行某些配置
  * @Package io.jpress.web
  */
-public class OptionInitializer implements JPressOptions.OptionChangeListener {
+public class OptionInitializer implements JPressOptions.OptionChangeListener, JbootEventListener {
 
     private static OptionInitializer me = new OptionInitializer();
 
@@ -51,6 +54,11 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
     }
 
     public void init() {
+
+        if (JPressInstaller.isInstalled() == false) {
+            JPressInstaller.addListener(this);
+            return;
+        }
 
         OptionService service = Jboot.bean(OptionService.class);
 
@@ -136,5 +144,10 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
                 initWechatMiniProgramOption();
                 break;
         }
+    }
+
+    @Override
+    public void onEvent(JbootEvent jbootEvent) {
+        init();
     }
 }

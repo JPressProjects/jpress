@@ -73,6 +73,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         if (user.isStatusLocked()) {
             return Ret.fail("message", "该账号已被冻结");
         }
+//        if (user.isStatusReg()) {
+//            return Ret.fail("message", "该账号未激活");
+//        }
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + pwd);

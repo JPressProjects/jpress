@@ -16,12 +16,14 @@
 package io.jpress.web.render;
 
 import com.jfinal.render.Render;
-import com.jfinal.render.TextRender;
+import io.jboot.utils.RequestUtils;
 import io.jboot.web.JbootControllerContext;
 import io.jboot.web.render.JbootRenderFactory;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.handler.JPressHandler;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -33,19 +35,27 @@ public class JPressRenderFactory extends JbootRenderFactory {
     @Override
     public Render getErrorRender(int errorCode) {
 
-        /**
-         * 如果是后台、api等其他非模板相关Controller，不用此Factory渲染。
-         */
-        if (!(JbootControllerContext.get() instanceof TemplateControllerBase)) {
+        if (JbootControllerContext.get() instanceof TemplateControllerBase) {
+            return getTemplateRender(errorCode);
+        }
+
+        if (JPressHandler.getCurrentTarget().startsWith("/install")
+                && JPressInstaller.isInstalled()) {
+            return getTemplateRender(errorCode);
+        }
+
+        return super.getErrorRender(errorCode);
+
+    }
+
+    private Render getTemplateRender(int errorCode) {
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
             return super.getErrorRender(errorCode);
         }
 
-        Template template = TemplateManager.me().getCurrentTemplate();
-        if (template == null) {
-            return new TextRender(errorCode + " error, bug can not find current template to render");
-        }
-
-        String view = template.matchTemplateFile("error_" + errorCode + ".html",((TemplateControllerBase) JbootControllerContext.get()).isMoblieBrowser());
+        String view = template.matchTemplateFile("error_" + errorCode + ".html",
+                RequestUtils.isMoblieBrowser(JbootControllerContext.get().getRequest()));
         if (view == null) {
             return super.getErrorRender(errorCode);
         }

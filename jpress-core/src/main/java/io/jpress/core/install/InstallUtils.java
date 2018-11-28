@@ -62,8 +62,11 @@ public class InstallUtils {
         dbHostPort = db_host_port;
 
 
-        jdbcUrl = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?" + "useUnicode=true&"
-                + "characterEncoding=utf8&" + "zeroDateTimeBehavior=convertToNull";
+        jdbcUrl = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?"
+                + "useUnicode=true&"
+                + "useSSL=false&"
+                + "characterEncoding=utf8&"
+                + "zeroDateTimeBehavior=convertToNull";
 
         dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setUrl(jdbcUrl);
@@ -89,7 +92,6 @@ public class InstallUtils {
                 : new Properties();
 
         p.put("jboot.mode", "product");
-        p.put("jboot.model.idCacheEnable", "true");
 
         p.put("jboot.web.cookieEncryptKey", StrUtils.uuid());
         p.put("jboot.web.jwt.secret", StrUtils.uuid());
@@ -109,7 +111,7 @@ public class InstallUtils {
             fos = new FileOutputStream(pFile);
             p.store(fos, "Auto create by JPress");
         } catch (Exception e) {
-            log.warn("InstallUtils save erro", e);
+            log.warn("InstallUtils save error", e);
             return false;
         } finally {
             if (fos != null)

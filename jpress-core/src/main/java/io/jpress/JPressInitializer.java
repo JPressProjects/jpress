@@ -17,6 +17,7 @@ package io.jpress;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
+import io.jboot.Jboot;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.server.listener.JbootAppListenerBase;
 import io.jpress.commons.utils.JPressJson;
@@ -36,8 +37,12 @@ import io.jpress.web.render.JPressRenderFactory;
  */
 public class JPressInitializer extends JbootAppListenerBase {
 
+
     @Override
     public void onJfinalConstantConfig(Constants constants) {
+
+        Jboot.setBootArg("jboot.model.idCacheEnable", "true");
+
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JPressCaptchaCache());
         constants.setJsonFactory(() -> new JPressJson());

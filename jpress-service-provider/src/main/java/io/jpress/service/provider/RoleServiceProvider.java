@@ -24,6 +24,7 @@ import io.jboot.core.cache.annotation.Cacheable;
 import io.jboot.core.cache.annotation.CachesEvict;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
+import io.jpress.model.Permission;
 import io.jpress.model.Role;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
@@ -185,7 +186,18 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     public boolean hasPermission(long roleId, long permissionId) {
-        return Db.queryFirst("select * from role_permission_mapping where role_id = ? and permission_id = ?", roleId, permissionId) != null;
+
+        List<Permission> permissions = permissionService.findPermissionListByRoleId(roleId);
+
+        if (permissions == null || permissions.isEmpty()) {
+            return false;
+        }
+
+        for (Permission permission : permissions) {
+            if (permission.getId().equals(permissionId)) return true;
+        }
+
+        return false;
     }
 
 

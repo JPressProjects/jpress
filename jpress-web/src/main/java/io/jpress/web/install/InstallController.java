@@ -19,6 +19,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import io.jboot.Jboot;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.utils.StrUtils;
@@ -208,9 +209,6 @@ public class InstallController extends JbootController {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-        JPressInstaller.setInstalled(true);
-
-
         try {
             File lockFile = InstallUtils.lockFile();
             lockFile.createNewFile();
@@ -224,7 +222,8 @@ public class InstallController extends JbootController {
         }
 
 
-        JPressInstaller.publishInstalledEvent();
+        JPressInstaller.setInstalled(true);
+        JPressInstaller.notifyAllListeners();
 
         renderJson(Ret.ok());
     }

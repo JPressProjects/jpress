@@ -54,7 +54,7 @@ public class JPressInstaller {
         JbootEventManager.me().registerListener(eventListener, false, INSTALL_EVENT);
     }
 
-    public static void publishInstalledEvent(){
+    public static void notifyAllListeners(){
         JbootEventManager.me().pulish(new JbootEvent(INSTALL_EVENT,null));
     }
 

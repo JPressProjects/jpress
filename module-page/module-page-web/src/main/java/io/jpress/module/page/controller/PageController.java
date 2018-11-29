@@ -39,9 +39,12 @@ public class PageController extends TemplateControllerBase {
     public void index() {
 
         String target = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
-        String slug = target.substring(1);
+        String slugOrId = target.substring(1);
 
-        SinglePage page = pageService.findFirstBySlug(slug);
+        SinglePage page = StrUtils.isNumeric(slugOrId)
+                ? pageService.findById(slugOrId)
+                : pageService.findFirstBySlug(slugOrId);
+
         if (page == null || !page.isNormal()) {
             renderError(404);
             return;

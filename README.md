@@ -45,14 +45,14 @@ https://pan.baidu.com/s/10aPgdD1HNZO1qb5ab9YB5w
 Linux :
 
 ```
-wget https://raw.githubusercontent.com/JpressProjects/jpress/master/docker/docker-compose.yml
+wget https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
 docker-compose up -d
 ```
 
 Mac OS :
 
 ```
-curl -O https://raw.githubusercontent.com/JpressProjects/jpress/master/docker/docker-compose.yml
+curl -O https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
 docker-compose up -d
 ```
 

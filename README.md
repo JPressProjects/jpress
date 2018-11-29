@@ -73,28 +73,33 @@ docker-compose start
 
 ## 常见问题
 
-**问题1： 初始化数据表为没有任何数据 ？**
+**问题1： 如何在本地运行JPress ？**
 
-答：JPress 在初次正常运行的时候，会引导用户通过web页面去初始化基本数据，包括网站信息和管理员账号等。
+如果使用Docker，以上已经给出了方法。
 
-**问题2：为什么发布文章是乱码？**
+如果是tomcat，下载源码，通过 `mvn clean install`命令之后，在 stater-tomcat/target目录下回生成 jpress 的war包。把war包扔到自己对他tomcat，并启动tomcat即可。
 
-答：创建数据库的时候，注意编码要选择 `utf8mb4`，如果还出现乱码，请添加下jdbc链接的编码配置。例如：
+JPress会引导你走安装过程。
 
-```
-jboot.datasource.type=mysql
-jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/jpress-master?useUnicode=true&characterEncoding=UTF-8
-jboot.datasource.user=root
-jboot.datasource.password=
-```
+**问题2：在开发环境下，如果让JPress不要自动安装**
+可以在 starter 模块的 resource 下，创建两个文件：
 
-**问题3：eclipse 或者 idea 调试的时候，为什么后台无法接受参数**
+* jboot.porperties ：配置文件
+* install.lock ：空白内容，只要这个文件存在即可
 
-答：请先查看下JFinal文档 http://www.jfinal.com/doc/3-3 ，确认下自己的开发工具是否配置正确。
+可以把resource目录下的 `jboot-simple.properties` 文件重命名为 `jboot.properties` 然后修改其配置内容即可 。
 
-**问题4：为什么无法对文章进行评论**
+**问题2：为什么运行不起来?**
 
-答：JPress的文章评论功能是关闭的，请先在后台 `文章 -> 设置` 开启评论功能。
+注意下你本地的环境，JPress要求的环境如下：
+
+* jdk: 1.8.x
+* tomcat: 8.x
+* mysql: 5.6+
+
+**问题3：为什么无法对文章进行评论**
+
+答：JPress的文章评论功能默认是关闭的，请先在后台 `文章 -> 设置` 开启评论功能。
 
 
 **更多问题，请关注 JPress 公众号 ：**

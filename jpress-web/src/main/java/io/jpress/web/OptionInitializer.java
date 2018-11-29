@@ -20,13 +20,15 @@ import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
 import io.jboot.Jboot;
+import io.jboot.event.JbootEvent;
+import io.jboot.event.JbootEventListener;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
-import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
@@ -39,7 +41,7 @@ import java.util.List;
  * @Title: 用于在应用启动的时候，读取数据库的配置信息进行某些配置
  * @Package io.jpress.web
  */
-public class OptionInitializer implements JPressOptions.OptionChangeListener {
+public class OptionInitializer implements JPressOptions.OptionChangeListener, JbootEventListener {
 
     private static OptionInitializer me = new OptionInitializer();
 
@@ -52,6 +54,11 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
     }
 
     public void init() {
+
+        if (JPressInstaller.isInstalled() == false) {
+            JPressInstaller.addListener(this);
+            return;
+        }
 
         OptionService service = Jboot.bean(OptionService.class);
 
@@ -66,9 +73,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         //初始化模板配置
         TemplateManager.me().init();
-
-        //初始化伪静态配置
-        JPressHandler.init();
 
         //初始化 API 配置
         ApiInterceptor.init();
@@ -111,13 +115,13 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
 
         String miniProgramAppId = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPID);
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
-        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
+//        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret, miniProgramToken)) {
+        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);
-            wxaConfig.setToken(miniProgramToken);
+//            wxaConfig.setToken(miniProgramToken);
             wxaConfig.setMessageEncrypt(false); //采用明文模式，同时也支持混合模式
 
             WxaConfigKit.setWxaConfig(wxaConfig);
@@ -140,5 +144,10 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener {
                 initWechatMiniProgramOption();
                 break;
         }
+    }
+
+    @Override
+    public void onEvent(JbootEvent jbootEvent) {
+        init();
     }
 }

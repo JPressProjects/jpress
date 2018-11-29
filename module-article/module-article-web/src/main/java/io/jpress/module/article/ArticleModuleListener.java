@@ -34,12 +34,12 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleLisenter implements ModuleListener {
+public class ArticleModuleListener implements ModuleListener {
 
 
     @Override
     public String onRenderDashboardBox(Controller controller) {
-        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create(), "id desc", 10);
+        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articles", articles);
 
         ArticleCommentService commentService = Jboot.bean(ArticleCommentService.class);

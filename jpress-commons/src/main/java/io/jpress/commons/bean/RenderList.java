@@ -13,33 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.page;
+package io.jpress.commons.bean;
 
-import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListenerBase;
-
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 应用启动监听器
- * @Package io.jpress.module.page
+ * @Title: 用于在模板进行渲染，防止出错 get(index) 出错
+ * @Package io.jpress.commons.bean
  */
-public class PageModuleLisenter extends ModuleListenerBase {
-
+public class RenderList<E> extends ArrayList<E> {
 
     @Override
-    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
-
-        MenuGroup menuGroup = new MenuGroup();
-        menuGroup.setId("page");
-        menuGroup.setText("页面");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
-        menuGroup.setOrder(2);
-
-        adminMenus.add(menuGroup);
-
+    public E get(int index) {
+        if (index >= size()) return null;
+        return super.get(index);
     }
-
 }

@@ -17,7 +17,10 @@ package io.jpress.core.menu;
 
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
+import io.jboot.event.JbootEvent;
+import io.jboot.event.JbootEventListener;
 import io.jpress.JPressConsts;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.core.module.ModuleListener;
@@ -33,7 +36,7 @@ import java.util.*;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class SystemMenuManager {
+public class SystemMenuManager implements JbootEventListener {
 
     private static final SystemMenuManager me = new SystemMenuManager();
 
@@ -41,11 +44,21 @@ public class SystemMenuManager {
     private List<MenuGroup> moduleMenus = new ArrayList<>();
     private List<MenuGroup> ucenterMenus = new ArrayList<>();
 
+    private SystemMenuManager() {
+
+    }
+
     public static SystemMenuManager me() {
         return me;
     }
 
     public void init() {
+
+
+        if (JPressInstaller.isInstalled() == false) {
+            JPressInstaller.addListener(this);
+            return;
+        }
 
         //初始化后台的固定菜单
         initAdminSystemMenuGroup();
@@ -263,5 +276,10 @@ public class SystemMenuManager {
     public List<MenuGroup> getUcenterMenus() {
         ucenterMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return ucenterMenus;
+    }
+
+    @Override
+    public void onEvent(JbootEvent jbootEvent) {
+        init();
     }
 }

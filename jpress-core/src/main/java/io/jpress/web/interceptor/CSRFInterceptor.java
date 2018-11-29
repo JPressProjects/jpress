@@ -46,7 +46,7 @@ public class CSRFInterceptor implements Interceptor {
 
         //从cookie中读取token，因为 第三方网站 无法修改 和 获得 cookie
         //所以从cookie获取存储的token是安全的
-        String cookieToken = inv.getController().getCookie(CSRF_KEY);// EncryptCookieUtils.get(inv.getController(), CSRF_KEY);
+        String cookieToken = inv.getController().getCookie(CSRF_KEY);
         if (StrUtils.isBlank(cookieToken)) {
             renderBad(inv);
             return;
@@ -56,7 +56,7 @@ public class CSRFInterceptor implements Interceptor {
             inv.getController().getFile();
         }
 
-        //参数里的token
+        //url参数里的csrf_token
         String paraToken = inv.getController().getPara(CSRF_KEY);
         if (StrUtils.isBlank(paraToken)) {
             renderBad(inv);
@@ -69,14 +69,20 @@ public class CSRFInterceptor implements Interceptor {
         }
 
         renderNormal(inv);
-
     }
 
 
     private void renderNormal(Invocation inv) {
-        String uuid = StrUtils.uuid();
-        inv.getController().setCookie(CSRF_KEY, uuid, -1);
-        inv.getController().setAttr(CSRF_KEY, uuid);
+
+
+        // 不是 ajax 请求，才需要重置本地 的token
+        // ajax 请求，需要保证之前的token可以继续使用
+        if (RequestUtils.isAjaxRequest(inv.getController().getRequest()) == false) {
+            String uuid = StrUtils.uuid();
+            inv.getController().setCookie(CSRF_KEY, uuid, -1);
+            inv.getController().setAttr(CSRF_KEY, uuid);
+        }
+
         inv.invoke();
     }
 

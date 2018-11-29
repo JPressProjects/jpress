@@ -115,46 +115,57 @@ public class _TemplateController extends AdminControllerBase {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "只支持 .zip 的压缩模板文件"));
+            deleteFileQuietly(ufile.getFile());
             return;
         }
+
 
         String webRoot = PathKit.getWebRootPath();
         StringBuilder newFileName = new StringBuilder(webRoot);
         newFileName.append(File.separator);
         newFileName.append("templates");
         newFileName.append(File.separator);
-        newFileName.append(ufile.getFileName());
+        newFileName.append(ufile.getOriginalFileName());
 
-        File newfile = new File(newFileName.toString());
-        if (newfile.exists()) {
+
+        String templatePath = newFileName.substring(0, newFileName.length() - 4);
+        if (new File(templatePath).exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "该模板已经安装"));
+            deleteFileQuietly(ufile.getFile());
             return;
         }
 
-        if (!newfile.getParentFile().exists()) {
-            newfile.getParentFile().mkdirs();
+        File templateZipFile = new File(newFileName.toString());
+        if (!templateZipFile.getParentFile().exists()) {
+            templateZipFile.getParentFile().mkdirs();
         }
 
-        ufile.getFile().renameTo(newfile);
-        String zipPath = newfile.getAbsolutePath();
-
         try {
-            FileUtils.unzip(zipPath, newfile.getParentFile().getAbsolutePath());
+            org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), templateZipFile);
+            FileUtils.unzip(templateZipFile.getAbsolutePath(),
+                    templateZipFile.getParentFile().getAbsolutePath());
         } catch (IOException e) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "模板文件解压缩失败"));
             return;
+        } finally {
+            //安装成功后，删除zip包
+            deleteFileQuietly(templateZipFile);
+            deleteFileQuietly(ufile.getFile());
         }
 
         renderJson(Ret.ok().set("success", true));
+    }
 
+    private void deleteFileQuietly(File file){
+        org.apache.commons.io.FileUtils.deleteQuietly(file);
     }
 
 
-    public void enable() {
+    public void doEnable() {
         String tid = getPara("tid");
         Template template = TemplateManager.me().getTemplateById(tid);
 
@@ -167,6 +178,20 @@ public class _TemplateController extends AdminControllerBase {
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
 
+        renderJson(Ret.ok());
+    }
+
+
+    public void doUninstall() {
+        String tid = getPara("tid");
+        Template template = TemplateManager.me().getTemplateById(tid);
+
+        if (template == null) {
+            renderJson(Ret.fail().set("message", "没有该模板"));
+            return;
+        }
+
+        template.uninstall();
         renderJson(Ret.ok());
     }
 

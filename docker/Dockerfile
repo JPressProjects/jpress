@@ -4,4 +4,4 @@ MAINTAINER fuhai fuhai999@gmail.com
 
 RUN rm /usr/local/tomcat/webapps/ROOT -rf
 
-COPY ../starter-tomcat/target/starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war
+COPY starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war

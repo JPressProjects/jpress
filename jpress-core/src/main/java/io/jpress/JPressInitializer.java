@@ -50,8 +50,8 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
+        handlers.add(0, new JPressHandler());
         handlers.add(0, new InstallHandler());
-        handlers.add(new JPressHandler());
     }
 
     @Override

@@ -42,11 +42,34 @@ https://pan.baidu.com/s/10aPgdD1HNZO1qb5ab9YB5w
 
 ##### 2、通过docker-compose 运行 JPress
 
+Linux :
+
 ```
 wget https://raw.githubusercontent.com/JpressProjects/jpress/master/docker/docker-compose.yml
 docker-compose up -d
 ```
+
+Mac OS :
+
+```
+curl -O https://raw.githubusercontent.com/JpressProjects/jpress/master/docker/docker-compose.yml
+docker-compose up -d
+```
+
 然后访问 127.0.0.1:8080 ，JPress会引导安装过程，一路下一步就可以了。
+
+停止JPress ：
+
+```
+docker-compose stop
+```
+
+再次启动JPress：
+
+```
+docker-compose start
+```
+
 
 ## 常见问题
 

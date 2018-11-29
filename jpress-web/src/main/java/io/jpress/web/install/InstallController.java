@@ -19,7 +19,6 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import io.jboot.Jboot;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.utils.StrUtils;
@@ -64,7 +63,15 @@ public class InstallController extends JbootController {
     public void step1() {
         redirect("/install");
     }
+
     public void step2() {
+
+        setAttr("JPRESS_DB_HOST",System.getenv("JPRESS_DB_HOST"));
+        setAttr("JPRESS_DB_PORT",System.getenv("JPRESS_DB_PORT"));
+        setAttr("JPRESS_DB_NAME",System.getenv("JPRESS_DB_NAME"));
+        setAttr("JPRESS_DB_USER",System.getenv("JPRESS_DB_USER"));
+        setAttr("JPRESS_DB_PASSWORD",System.getenv("JPRESS_DB_PASSWORD"));
+
         render("/WEB-INF/install/views/step2.html");
     }
 

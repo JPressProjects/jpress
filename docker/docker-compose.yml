@@ -7,20 +7,25 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-       MYSQL_ROOT_PASSWORD: 123456
+       MYSQL_ROOT_PASSWORD: jpress
        MYSQL_DATABASE: jpress
        MYSQL_USER: jpress
        MYSQL_PASSWORD: jpress
-    ports:
-      - "3306:3306"
 
   jpress:
     depends_on:
       - db
+    links:
+      - db
     image: fuhai/jpress:latest
     ports:
-      - "80:8080"
-      - "443:443"
+      - "8080:8080"
     restart: always
+    environment:
+           JPRESS_DB_HOST: db
+           JPRESS_DB_PORT: 3306
+           JPRESS_DB_NAME: jpress
+           JPRESS_DB_USER: jpress
+           JPRESS_DB_PASSWORD: jpress
 
 

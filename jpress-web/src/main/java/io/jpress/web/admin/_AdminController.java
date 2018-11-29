@@ -65,7 +65,7 @@ public class _AdminController extends AdminControllerBase {
         }
 
         Ret ret = StrUtils.isEmail(user)
-                ? us.loginByEmail(user, pwd)
+                ? us.loginByEmail(user.toLowerCase(), pwd)
                 : us.loginByUsername(user, pwd);
 
         if (ret.isOk()) {

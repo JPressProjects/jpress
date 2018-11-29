@@ -66,11 +66,11 @@ public class InstallController extends JbootController {
 
     public void step2() {
 
-        setAttr("JPRESS_DB_HOST",System.getenv("JPRESS_DB_HOST"));
-        setAttr("JPRESS_DB_PORT",System.getenv("JPRESS_DB_PORT"));
-        setAttr("JPRESS_DB_NAME",System.getenv("JPRESS_DB_NAME"));
-        setAttr("JPRESS_DB_USER",System.getenv("JPRESS_DB_USER"));
-        setAttr("JPRESS_DB_PASSWORD",System.getenv("JPRESS_DB_PASSWORD"));
+        setAttr("JPRESS_DB_HOST", System.getenv("JPRESS_DB_HOST"));
+        setAttr("JPRESS_DB_PORT", System.getenv("JPRESS_DB_PORT"));
+        setAttr("JPRESS_DB_NAME", System.getenv("JPRESS_DB_NAME"));
+        setAttr("JPRESS_DB_USER", System.getenv("JPRESS_DB_USER"));
+        setAttr("JPRESS_DB_PASSWORD", System.getenv("JPRESS_DB_PASSWORD"));
 
         render("/WEB-INF/install/views/step2.html");
     }
@@ -198,12 +198,18 @@ public class InstallController extends JbootController {
         user.setUsername(username);
         user.setNickname(username);
         user.setRealname(username);
+
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
         user.setActivated(new Date());
         user.setStatus(User.STATUS_OK);
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
+
+
+        if (StrUtils.isEmail(username)) {
+            user.setEmail(username.toLowerCase());
+        }
 
         userService.save(user);
         roleService.initWebRole();

@@ -41,6 +41,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
     private static String webName = null;
     private static String webDomain = null;
     private static String webCopyright = null;
+    private static String webIpcNo = null;
     private static String seoTitle = null;
     private static String seoKeyword = null;
     private static String seoDescription = null;
@@ -56,6 +57,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
         webName = JPressOptions.get(JPressConsts.OPTION_WEB_NAME);
         webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
         webCopyright = JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT);
+        webIpcNo = JPressOptions.get(JPressConsts.OPTION_WEB_IPC_NO);
         seoTitle = JPressOptions.get(JPressConsts.OPTION_SEO_TITLE);
         seoKeyword = JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS);
         seoDescription = JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION);
@@ -72,6 +74,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
         controller.setAttr(JPressConsts.ATTR_WEB_NAME, webName);
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
+        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, webIpcNo);
         controller.setAttr(JPressConsts.ATTR_SEO_TITLE, seoTitle);
         controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, seoKeyword);
         controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, seoDescription);
@@ -101,6 +104,9 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
                 break;
             case JPressConsts.OPTION_WEB_COPYRIGHT:
                 webCopyright = newValue;
+                break;
+            case JPressConsts.OPTION_WEB_IPC_NO:
+                webIpcNo = newValue;
                 break;
             case JPressConsts.OPTION_WEB_DOMAIN:
                 webDomain = newValue;

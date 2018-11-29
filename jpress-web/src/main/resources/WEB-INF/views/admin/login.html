@@ -47,11 +47,10 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="button" id="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -61,8 +60,8 @@
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script>
 
-    $("#submit").on("click", function () {
-        $("#form").ajaxSubmit({
+    $('#form').on('submit', function () {
+        $(this).ajaxSubmit({
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
@@ -75,7 +74,10 @@
                 alert("网络错误，请稍后重试");
             }
         });
-    })
+
+        return false;
+    });
+
 </script>
 
 </body>

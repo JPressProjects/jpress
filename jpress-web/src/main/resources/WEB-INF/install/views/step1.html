@@ -1,0 +1,33 @@
+#include("layout.html")
+#@layout()
+#define content()
+<div class="form-horizontal form-setting" >
+    <div class="form-group">
+
+        <div class="col-sm-12">
+            欢迎使用JPress。在开始前，JPress需要您提供如下信息。<br/> <br/>
+            1、数据库名<br/>
+            2、数据库用户名<br/>
+            3、数据库密码<br/>
+            4、数据库主机<br/> <br/>
+
+            我们会使用这些信息来创建一个名为 jboot.properties 的数据库信息文件。
+            如果自动创建未能成功，不用担心，您可以在文本编辑器中打开 jboot-sample.properties ，填入数据库信息，并将其另存为 jboot.properties 。 <br/> <br/>
+            绝大多数时候，您的网站服务商会给您这些信息。如果您没有这些信息，在继续安装JPress之前您将需要联系他们。
+
+            <br/> <br/>
+            如果您准备好了，那么，愉快的玩耍吧... 若需要更多帮助，您可以请访问<a href="http://jpress.io" target="_blank">JPress官网</a>获取。
+            <br/> <br/>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-offset-9 col-xs-3 " style="padding-top: 15px">
+            <a href="#(CPATH)/install/step2" class="btn btn-primary btn-block btn-flat"> 下一步</a>
+        </div>
+    </div>
+
+</div>
+#end

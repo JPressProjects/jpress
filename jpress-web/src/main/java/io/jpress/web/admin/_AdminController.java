@@ -25,12 +25,14 @@ import io.jboot.web.controller.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
+import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.interceptor.PermissionInterceptor;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,10 +65,13 @@ public class _AdminController extends AdminControllerBase {
         }
 
         Ret ret = StrUtils.isEmail(user)
-                ? us.loginByEmail(user, pwd)
+                ? us.loginByEmail(user.toLowerCase(), pwd)
                 : us.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
+            User u = us.findFistByUsername(user);
+            u.setLogged(new Date());
+            us.update(u);
             EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
         }
 

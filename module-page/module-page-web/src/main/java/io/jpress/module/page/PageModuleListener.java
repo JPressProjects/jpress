@@ -13,42 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web;
+package io.jpress.module.page;
 
-import io.jboot.Jboot;
-import io.jpress.model.User;
-import io.jpress.service.UserService;
-import io.jpress.web.front.InstallController;
+import io.jpress.core.menu.MenuGroup;
+import io.jpress.core.module.ModuleListenerBase;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 用于在应用启动的时候，检测 JPress 是否已经安装
- * @Package io.jpress.web
+ * @Title: 应用启动监听器
+ * @Package io.jpress.module.page
  */
-public class InstallInitializer {
+public class PageModuleListener extends ModuleListenerBase {
 
-    private static InstallInitializer me = new InstallInitializer();
 
-    private InstallInitializer() {
+    @Override
+    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 
-    }
+        MenuGroup menuGroup = new MenuGroup();
+        menuGroup.setId("page");
+        menuGroup.setText("页面");
+        menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
+        menuGroup.setOrder(2);
 
-    public static InstallInitializer me() {
-        return me;
-    }
-
-    public void init() {
-
-        UserService service = Jboot.bean(UserService.class);
-
-        if (service.findCountByStatus(User.STATUS_OK) > 0) {
-            InstallController.setInstalled(true);
-        } else {
-            InstallController.setInstalled(false);
-        }
+        adminMenus.add(menuGroup);
 
     }
-
 
 }

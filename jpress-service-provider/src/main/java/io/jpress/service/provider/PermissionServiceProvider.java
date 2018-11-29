@@ -166,7 +166,8 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
-    private List<Permission> findPermissionListByRoleId(long roleId) {
+    @Cacheable(name = "user_permission", key = "role:#(roleId)", nullCacheEnable = true)
+    public List<Permission> findPermissionListByRoleId(long roleId) {
         String sql = "select * from role_permission_mapping where role_id = ? ";
         List<Record> rolePermissionRecords = Db.find(sql, roleId);
         if (rolePermissionRecords == null || rolePermissionRecords.isEmpty()) {
@@ -183,4 +184,10 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
+    @Override
+    public List<Permission> findListByNode(String node) {
+        Columns columns = Columns.create();
+        columns.likeAppendPercent("node", node);
+        return DAO.findListByColumns(columns);
+    }
 }

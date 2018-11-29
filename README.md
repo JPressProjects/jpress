@@ -34,6 +34,19 @@ https://pan.baidu.com/s/10aPgdD1HNZO1qb5ab9YB5w
 
 网址：https://gitee.com/fuhai/jpress-miniprogram-sdk
 
+## 通过Docker运行JPress
+
+##### 1、安装docker
+
+过程略
+
+##### 2、通过docker-compose 运行 JPress
+
+```
+wget https://raw.githubusercontent.com/JpressProjects/jpress/master/docker/docker-compose.yml
+docker-compose up -d
+```
+然后访问 127.0.0.1:8080 ，JPress会引导安装过程，一路下一步就可以了。
 
 ## 常见问题
 

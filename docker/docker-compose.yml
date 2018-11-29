@@ -22,10 +22,10 @@ services:
       - "8080:8080"
     restart: always
     environment:
-           JPRESS_DB_HOST: db
-           JPRESS_DB_PORT: 3306
-           JPRESS_DB_NAME: jpress
-           JPRESS_DB_USER: jpress
-           JPRESS_DB_PASSWORD: jpress
+       JPRESS_DB_HOST: db
+       JPRESS_DB_PORT: 3306
+       JPRESS_DB_NAME: jpress
+       JPRESS_DB_USER: jpress
+       JPRESS_DB_PASSWORD: jpress
 
 

@@ -28,7 +28,7 @@
         sequentialUploads: true,
         done: function (e, data) {
             if (data.result.state == "ok") {
-                toastr.success(" Markdown 导入成功")
+                toastr.success(" Markdown 文章导入成功")
             } else {
                 toastr.error(data.result.message)
             }
@@ -42,7 +42,7 @@
 
     <section class="content-header">
         <h1>
-            Markdown导入
+            Markdown文章导入
             <small>Markdown Import</small>
         </h1>
     </section>

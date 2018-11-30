@@ -46,8 +46,11 @@ public class PageDirective extends JbootDirectiveBase {
         }
 
         SinglePage page = singlePageService.findFirstBySlug(slug);
-        scope.setLocal("page", page);
+        if (page == null) {
+            return;
+        }
 
+        scope.setLocal("page", page);
         renderBody(env, scope, writer);
     }
 

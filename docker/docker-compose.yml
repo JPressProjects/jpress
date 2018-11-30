@@ -11,6 +11,8 @@ services:
        MYSQL_DATABASE: jpress
        MYSQL_USER: jpress
        MYSQL_PASSWORD: jpress
+#    volumes:
+#      - "/my/own/datadir:/var/lib/mysql"
 
   jpress:
     depends_on:
@@ -28,4 +30,6 @@ services:
        JPRESS_DB_NAME: jpress
        JPRESS_DB_USER: jpress
        JPRESS_DB_PASSWORD: jpress
+#    volumes:
+#       - "/Users/michael/Desktop/test:/usr/local/tomcat/webapps/ROOT/attachment"
 

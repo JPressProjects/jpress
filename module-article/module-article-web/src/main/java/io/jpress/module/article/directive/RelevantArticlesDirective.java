@@ -53,10 +53,13 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
         int count = getPara(1, scope, 3);
 
         List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, count);
-        if (relevantArticles != null && !relevantArticles.isEmpty()) {
-            scope.setLocal("relevantArticles", relevantArticles);
-            renderBody(env, scope, writer);
+
+        if (relevantArticles == null || relevantArticles.isEmpty()) {
+            return;
         }
+
+        scope.setLocal("relevantArticles", relevantArticles);
+        renderBody(env, scope, writer);
     }
 
     @Override

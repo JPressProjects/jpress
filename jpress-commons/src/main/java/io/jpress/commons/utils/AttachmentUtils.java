@@ -16,12 +16,14 @@
 package io.jpress.commons.utils;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressConfig;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +31,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class AttachmentUtils {
+
+    private static final Log LOG = Log.getLog(AttachmentUtils.class);
 
     /**
      * @param uploadFile
@@ -49,7 +53,11 @@ public class AttachmentUtils {
             newfile.getParentFile().mkdirs();
         }
 
-        file.renameTo(newfile);
+        try {
+            org.apache.commons.io.FileUtils.moveFile(file, newfile);
+        } catch (IOException e) {
+            LOG.error(e.toString(), e);
+        }
 
         String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()

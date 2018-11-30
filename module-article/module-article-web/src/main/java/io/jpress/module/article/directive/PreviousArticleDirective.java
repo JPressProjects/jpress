@@ -40,7 +40,13 @@ public class PreviousArticleDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         Article article = JbootControllerContext.get().getAttr("article");
-        scope.setLocal("previous", service.findPreviousById(article.getId()));
+
+        Article previousArticle = service.findPreviousById(article.getId());
+        if (previousArticle == null) {
+            return;
+        }
+
+        scope.setLocal("previous", previousArticle);
         renderBody(env, scope, writer);
     }
 

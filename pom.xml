@@ -32,7 +32,7 @@
         <jdk.version>1.8</jdk.version>
         <jboot.version>1.7.4</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <logback.version>1.1.11</logback.version>
+        <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.5</commons-io.version>
         <commonmark.version>0.11.0</commonmark.version>
@@ -40,8 +40,6 @@
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
-
     </properties>
 
 

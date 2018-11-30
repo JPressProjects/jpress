@@ -241,7 +241,6 @@ public class UserController extends TemplateControllerBase {
             }
         }
 
-
         User user = userService.findFistByUsername(username);
         if (user != null) {
             renderJson(Ret.fail().set("message", "username exist").set("errorCode", 10));

@@ -69,6 +69,10 @@ public class CategoriesDirective extends JbootDirectiveBase {
                     .collect(Collectors.toList());
         }
 
+        if (categories == null || categories.isEmpty()) {
+            return;
+        }
+
         scope.setLocal("categories", categories);
         renderBody(env, scope, writer);
     }

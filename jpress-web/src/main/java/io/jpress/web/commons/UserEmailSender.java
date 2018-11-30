@@ -16,6 +16,7 @@
 package io.jpress.web.commons;
 
 import com.jfinal.template.Engine;
+import io.jboot.utils.StrUtils;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
@@ -38,7 +39,11 @@ public class UserEmailSender {
      */
     public static void sendEmailForUserRegisterActivate(User user) {
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
-        if (emailValidate == false) return;
+        if (emailValidate == false)
+            return;
+
+        if (StrUtils.isBlank(user.getEmail()))
+            return;
 
         AuthCode authCode = AuthCode.newCode(user.getId());
         AuthCodeKit.save(authCode);

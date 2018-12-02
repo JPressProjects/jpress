@@ -116,14 +116,9 @@ public class InstallController extends JbootController {
             InstallUtils.init(dbName, dbUser, dbPwd, dbHost, dbPort);
 
             List<String> tables = InstallUtils.getTableList();
-            if (tables.contains("user")
-                    || tables.contains("utm")
-                    || tables.contains("option")
-                    || tables.contains("menu")
-                    || tables.contains("role")
-                    || tables.contains("permission")
-                    ) {
-                renderJson(Ret.fail());
+            if (tables != null && tables.size() > 0) {
+                renderJson(Ret.fail("message", "无法安装，该数据库已有表信息了，为了安全起见，请选择全新的数据库进行安装。")
+                        .set("errorCode", 5));
                 return;
             }
 

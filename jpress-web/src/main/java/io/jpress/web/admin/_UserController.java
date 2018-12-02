@@ -183,9 +183,9 @@ public class _UserController extends AdminControllerBase {
                 ? permissionService.findAll()
                 : permissionService.findListByType(type);
 
-        Map<String,List<Permission>> permissionGroup = PermissionKits.groupPermission(permissions);
+        Map<String, List<Permission>> permissionGroup = PermissionKits.groupPermission(permissions);
 
-        Map<String,Boolean> groupCheck = new HashMap();
+        Map<String, Boolean> groupCheck = new HashMap();
         for (String groupKey : permissionGroup.keySet()) {
             List<Permission> permList = permissionGroup.get(groupKey);
             for (Permission permission : permList) {
@@ -193,7 +193,7 @@ public class _UserController extends AdminControllerBase {
                 if (!hasPerm) {
                     groupCheck.put(groupKey, false);
                     break;
-                }else{
+                } else {
                     groupCheck.put(groupKey, true);
                 }
             }
@@ -319,7 +319,13 @@ public class _UserController extends AdminControllerBase {
 
     public void doSaveUser() {
         User user = getBean(User.class);
-        user.keepUpdateSafe();
+
+        //自己修改自己资料的时候，需要移除安全字段
+        //修改其他人的资料的时候，可以不用修改
+        if (getLoginedUser().getId().equals(user.getId())) {
+            user.keepUpdateSafe();
+        }
+
         userService.saveOrUpdate(user);
         renderJson(Ret.ok());
     }
@@ -463,9 +469,9 @@ public class _UserController extends AdminControllerBase {
         render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
     }
 
-    public void doAddGroupRolePermission(long roleId,String groupId){
+    public void doAddGroupRolePermission(long roleId, String groupId) {
         List<Long> permIds = new ArrayList<Long>();
-        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...",""));
+        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...", ""));
         for (Permission permission : permissionList) {
             //先清空再添加
             if (!roleService.hasPermission(roleId, permission.getId())) {
@@ -473,16 +479,16 @@ public class _UserController extends AdminControllerBase {
             }
             permIds.add(permission.getId());
         }
-        renderJson(Ret.ok().set("permissionIds",permIds));
+        renderJson(Ret.ok().set("permissionIds", permIds));
     }
 
-    public void doDelGroupRolePermission(long roleId,String groupId){
+    public void doDelGroupRolePermission(long roleId, String groupId) {
         List<Long> permIds = new ArrayList<Long>();
-        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...",""));
+        List<Permission> permissionList = permissionService.findListByNode(groupId.replace("...", ""));
         for (Permission permission : permissionList) {
             roleService.delPermission(roleId, permission.getId());
             permIds.add(permission.getId());
         }
-        renderJson(Ret.ok().set("permissionIds",permIds));
+        renderJson(Ret.ok().set("permissionIds", permIds));
     }
 }

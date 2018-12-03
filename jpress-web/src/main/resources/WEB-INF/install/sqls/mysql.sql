@@ -296,8 +296,8 @@ CREATE TABLE `single_page` (
   `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-  `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
-  `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述信息',
+  `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
+  `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)

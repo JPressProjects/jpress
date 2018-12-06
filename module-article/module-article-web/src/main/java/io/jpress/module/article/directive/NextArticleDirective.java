@@ -40,7 +40,13 @@ public class NextArticleDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         Article article = JbootControllerContext.get().getAttr("article");
-        scope.setLocal("next", service.findNextById(article.getId()));
+
+        Article nextArticle = service.findNextById(article.getId());
+        if (nextArticle == null) {
+            return;
+        }
+
+        scope.setLocal("next", nextArticle);
         renderBody(env, scope, writer);
     }
 

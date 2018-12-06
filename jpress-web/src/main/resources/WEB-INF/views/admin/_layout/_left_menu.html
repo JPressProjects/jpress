@@ -12,11 +12,8 @@
             #for(group : moduleMenuGroups)
                 #hasPermission(group.permission)
                 <li class="treeview">
-                    <a href="#">
-                        #(group.icon ??) <span>#(group.text)</span>
-                        <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
+                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
                         #for(item : group.items)
@@ -32,11 +29,8 @@
             #for(group : systemMenuGroups)
                 #hasPermission(group.permission)
                 <li class="treeview">
-                    <a href="#">
-                        #(group.icon ??) <span>#(group.text)</span>
-                        <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                            </span>
+                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
                         #for(item : group.items)

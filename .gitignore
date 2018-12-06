@@ -3,6 +3,8 @@
 *.iml
 .project
 .settings
+jboot.properties
+install.lock
 *.jar
 *.log
 .logs

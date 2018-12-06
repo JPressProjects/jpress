@@ -1,13 +1,8 @@
 # JPress 文档
 
-## 目录
 
 
-## 安装部署
-
-在安装JPress之前，你应该对数据库、服务器、Java、Maven等有基本的认识和了解。本文档是建立在这些基础知识之上的。
-
-在安装JPress之前，需要你在你自己的电脑（或服务器）安装好Mysql数据库、Java环境 和 Maven编译环境，如果不会安装，可以通过 `oneinstack` 等第三方一键安装好 java、mysql 和 nginx 环境。
+在使用JPress之前，你应该对数据库、服务器等有基本的认识。本文档是建立在这些基础知识之上的。
 
 另外可以通过以下几种方式获得帮助：
 
@@ -15,14 +10,33 @@
 2. JPress交流QQ群：288397536
 3. 开源中国进行发帖提问。
 
-### JPress安装
+## JPress安装
 
-JPress安装需要以下几个步骤：
+### 通过Docker进行安装
+
+Linux :
+
+```
+wget https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+docker-compose up -d
+```
+
+Mac OS :
+
+```
+curl -O https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+docker-compose up -d
+```
+
+执行完毕以上命令之后，访问 `http://127.0.0.1:8080` 即可。
+
+### 手动安装
+
+JPress手动安装需要以下几个步骤：
 
 1. 下载JPress源码
 2. 通过maven编译JPress成war包（或可执行程序）
-3. 创建JPress数据库
-4. 修改jpress数据库链接配置并启动
+3. 启动JPress
 
 #### 1.下载JPress源码
 
@@ -89,41 +103,21 @@ mvn package
  ```
 
 
-#### 3.创建JPress数据库
-
-通过Mysql客户端连接Mysql数据库后，通过运行 JPress 目录下的 db.sql，既可创建 JPress 相关数据库。
-
-
- 
-#### 4.修改jpress数据库链接配置并启动
+#### 3、启动JPress
 
 ##### 启动 jpress war 包
 
 拷贝`starter-tomcat/target` 目录下的 `starter-tomcat-1.0.war` war包，放到tomcat的webapp目录下，手动解压缩。
 
-找到 WEB-INF/classes/jboot.properties 文件，并配置如下：
+启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。
 
-```
-jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/数据库名称
-jboot.datasource.user=数据库账号
-jboot.datasource.password=数据库密码
-```
-
-配置成功后，启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
+若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
 
 
 ##### 启动 jpress 可执行程序
 
 
 拷贝`starter/target/generated-resources/appassembler/jsw/` 的 `jpress` 目录，放到 Linux 上。 
-
-修改 `webRoot/jboot.properties` 配置文件数据库连接：
-
-```
-jboot.datasource.url=jdbc:mysql://127.0.0.1:3306/数据库名称
-jboot.datasource.user=数据库账号
-jboot.datasource.password=数据库密码
-```
 
 
 执行 `./bin/jpress start` 脚本也可以启动jpress项目（window系统下先执行  `./bin/jpress.bat install`， 再执行 `./bin/jpress.bat start`）。

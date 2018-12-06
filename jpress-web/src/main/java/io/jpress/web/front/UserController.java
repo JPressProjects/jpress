@@ -101,7 +101,7 @@ public class UserController extends TemplateControllerBase {
         }
 
         Ret ret = StrUtils.isEmail(user)
-                ? userService.loginByEmail(user, pwd)
+                ? userService.loginByEmail(user.toLowerCase(), pwd)
                 : userService.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
@@ -205,6 +205,8 @@ public class UserController extends TemplateControllerBase {
         if (StrUtils.isBlank(email)) {
             renderJson(Ret.fail().set("message", "email must not be empty").set("errorCode", 2));
             return;
+        } else {
+            email = email.toLowerCase();
         }
 
         if (StrUtils.isBlank(pwd)) {
@@ -238,7 +240,6 @@ public class UserController extends TemplateControllerBase {
                 return;
             }
         }
-
 
         User user = userService.findFistByUsername(username);
         if (user != null) {

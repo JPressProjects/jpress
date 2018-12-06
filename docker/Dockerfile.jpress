@@ -1,0 +1,11 @@
+FROM fuhai/tomcat:8.5
+
+MAINTAINER fuhai fuhai999@gmail.com
+
+COPY starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war
+
+RUN unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOT
+
+RUN rm /usr/local/tomcat/webapps/ROOT.war -rf
+RUN rm /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/install.lock -rf
+RUN rm /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties -rf

@@ -17,29 +17,71 @@ package io.jpress.commons.utils;
 
 import io.jboot.utils.StrUtils;
 import org.commonmark.Extension;
+import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
+import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
+ * @author Ryan Wang（i@ryanc.cc）
+ * @version V1.1
  * @Title: Markdown 工具类
  * @Package io.jpress.commons.utils
  */
 public class MarkdownUtils {
 
+    /**
+     * Front-matter插件
+     */
+    private static final Set<Extension> EXTENSIONS_YAML = Collections.singleton(YamlFrontMatterExtension.create());
+
+    /**
+     * Table插件
+     */
+    private static final Set<Extension> EXTENSIONS_TABLE = Collections.singleton(TablesExtension.create());
+
+    /**
+     * 解析Markdown文档
+     */
+    private static final Parser PARSER = Parser.builder().extensions(EXTENSIONS_YAML).extensions(EXTENSIONS_TABLE).build();
+
+    /**
+     * 渲染HTML文档
+     */
+    private static final HtmlRenderer RENDERER = HtmlRenderer.builder().extensions(EXTENSIONS_YAML).extensions(EXTENSIONS_TABLE).build();
+
+
+    /**
+     * 渲染html
+     *
+     * @param markdown markdown格式文本
+     * @return html文本
+     */
     public static String toHtml(String markdown) {
         if (StrUtils.isBlank(markdown)) return markdown;
-        Set<Extension> tableExt = Collections.singleton(TablesExtension.create());
-        Parser parser = Parser.builder().extensions(tableExt).build();
-        Node document = parser.parse(markdown);
-        HtmlRenderer renderer = HtmlRenderer.builder().extensions(tableExt).build();
-        return renderer.render(document);
+        Node document = PARSER.parse(markdown);
+        return RENDERER.render(document);
+    }
+
+    /**
+     * 获取元数据
+     *
+     * @param content content
+     * @return Map
+     */
+    public static Map<String, List<String>> getFrontMatter(String content) {
+        YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
+        Node document = PARSER.parse(content);
+        document.accept(visitor);
+        return visitor.getData();
     }
 
     public static void main(String[] args) {

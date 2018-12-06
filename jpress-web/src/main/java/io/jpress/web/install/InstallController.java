@@ -19,7 +19,6 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import io.jboot.Jboot;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.utils.StrUtils;
@@ -64,7 +63,15 @@ public class InstallController extends JbootController {
     public void step1() {
         redirect("/install");
     }
+
     public void step2() {
+
+        setAttr("JPRESS_DB_HOST", System.getenv("JPRESS_DB_HOST"));
+        setAttr("JPRESS_DB_PORT", System.getenv("JPRESS_DB_PORT"));
+        setAttr("JPRESS_DB_NAME", System.getenv("JPRESS_DB_NAME"));
+        setAttr("JPRESS_DB_USER", System.getenv("JPRESS_DB_USER"));
+        setAttr("JPRESS_DB_PASSWORD", System.getenv("JPRESS_DB_PASSWORD"));
+
         render("/WEB-INF/install/views/step2.html");
     }
 
@@ -109,14 +116,9 @@ public class InstallController extends JbootController {
             InstallUtils.init(dbName, dbUser, dbPwd, dbHost, dbPort);
 
             List<String> tables = InstallUtils.getTableList();
-            if (tables.contains("user")
-                    || tables.contains("utm")
-                    || tables.contains("option")
-                    || tables.contains("menu")
-                    || tables.contains("role")
-                    || tables.contains("permission")
-                    ) {
-                renderJson(Ret.fail());
+            if (tables != null && tables.size() > 0) {
+                renderJson(Ret.fail("message", "无法安装，该数据库已有表信息了，为了安全起见，请选择全新的数据库进行安装。")
+                        .set("errorCode", 5));
                 return;
             }
 
@@ -191,12 +193,18 @@ public class InstallController extends JbootController {
         user.setUsername(username);
         user.setNickname(username);
         user.setRealname(username);
+
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
         user.setActivated(new Date());
         user.setStatus(User.STATUS_OK);
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
+
+
+        if (StrUtils.isEmail(username)) {
+            user.setEmail(username.toLowerCase());
+        }
 
         userService.save(user);
         roleService.initWebRole();

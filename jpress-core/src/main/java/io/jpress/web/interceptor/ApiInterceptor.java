@@ -17,6 +17,7 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtils;
@@ -102,7 +103,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String localSign = createLocalSign(controller.getRequest().getParameterMap());
+        String localSign = createLocalSign(controller);
         if (sign.equals(localSign) == false) {
             inv.getController().renderJson(Ret.fail().set("message", "sign error"));
             return;
@@ -116,12 +117,21 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         inv.invoke();
     }
 
-    private String createLocalSign(Map<String, String[]> params) {
+    private String createLocalSign(Controller controller) {
+
+        String queryString = controller.getRequest().getQueryString();
+        Map<String, String[]> params = controller.getRequest().getParameterMap();
+
         String[] keys = params.keySet().toArray(new String[0]);
         Arrays.sort(keys);
         StringBuilder query = new StringBuilder();
         for (String key : keys) {
             if ("sign".equals(key)) {
+                continue;
+            }
+
+            //只对get参数里的进行签名
+            if (queryString.indexOf(key + "=") == -1) {
                 continue;
             }
 

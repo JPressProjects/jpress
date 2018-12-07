@@ -102,7 +102,7 @@
 <script>
     $(".delBtn").on("click", function () {
         var path = $(this).attr('data-path');//"#(d ??)/#(f ??)";
-        if (confirm("确定要删除文件 " + path + " ?，删除后不可恢复")) {
+        if (confirm("确定要删除文件 " + path + " 吗？删除后不可恢复。")) {
             ajaxGet("#(CPATH)/admin/template/doDelFile?path=" + path);
         }
     })
@@ -113,7 +113,7 @@
         if (srcFile.indexOf(upFile) == -1) {
             return true;
         }
-        return confirm("存在重名文件【" + upFile + "】，确认覆盖吗？");
+        return confirm(upFile + " 文件已经存在，确定覆盖吗？");
     }
 
     $('#cfile').fileupload({

@@ -100,7 +100,7 @@ public class MainKits {
 
 
     public static boolean isImage(String path) {
-        return StrUtils.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.toLowerCase().equals(".ico"));
+        return StrUtils.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.endsWith(".ico"));
     }
 
 

@@ -275,14 +275,17 @@ public class UserController extends TemplateControllerBase {
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
         if (emailValidate) {
             user.setStatus(User.STATUS_REG);
-            UserEmailSender.sendEmailForUserRegisterActivate(user);
         } else {
             user.setStatus(User.STATUS_OK);
         }
 
-        userService.save(user);
+        boolean saveOk = userService.save(user);
 
-        renderJson(Ret.ok());
+        if (saveOk && emailValidate) {
+            UserEmailSender.sendEmailForUserRegisterActivate(user);
+        }
+
+        renderJson(saveOk ? Ret.ok() : Ret.fail());
     }
 
 

@@ -106,7 +106,7 @@
                                 <label class="col-sm-2 control-label">邮件标题</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="..."
+                                    <input type="input" class="form-control" placeholder="例如：欢迎注册成为JPress会员"
                                            name="reg_email_validate_title"
                                            value="#option('reg_email_validate_title')">
                                 </div>
@@ -115,7 +115,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."
+                                    <textarea rows="3" class="form-control" placeholder="例如：尊敬的#('#(user.nickname)')，欢迎注册成为JPress会员，请先点击链接 #('#(url)') 进行激活..."
                                               name="reg_email_validate_template">#option("reg_email_validate_template")</textarea>
                                     <p class="help-block">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。

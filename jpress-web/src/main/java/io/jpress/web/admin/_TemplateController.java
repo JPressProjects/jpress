@@ -34,13 +34,13 @@ import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.sharekit.MainKits;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -243,10 +243,7 @@ public class _TemplateController extends AdminControllerBase {
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
                 || file.getName().endsWith(".js")
-                || file.getName().endsWith(".png")
-                || file.getName().endsWith(".jpg")
-                || file.getName().endsWith(".ico")
-                || file.getName().endsWith(".gif")
+                || MainKits.isImage(file.getName())
                 || file.isDirectory());
 
         List srcFiles = new ArrayList<String>();
@@ -296,21 +293,18 @@ public class _TemplateController extends AdminControllerBase {
             fileInfoList.add(new FileInfo(file));
         }
 
-        fileInfoList.sort(new Comparator<FileInfo>() {
-            @Override
-            public int compare(FileInfo o1, FileInfo o2) {
+        fileInfoList.sort((o1, o2) -> {
 
-                if (o1.isDir() && !o2.isDir())
-                    return -1;
-                if (!o1.isDir() && o2.isDir())
-                    return 1;
+            if (o1.isDir() && !o2.isDir())
+                return -1;
+            if (!o1.isDir() && o2.isDir())
+                return 1;
 
-                if (o2.getName().equals("index.html")) {
-                    return 1;
-                }
-
-                return o2.getName().compareTo(o1.getName());
+            if (o2.getName().equals("index.html")) {
+                return 1;
             }
+
+            return o2.getName().compareTo(o1.getName());
         });
 
         return fileInfoList;
@@ -437,20 +431,30 @@ public class _TemplateController extends AdminControllerBase {
             org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
         } catch (Exception e) {
             e.printStackTrace();
+            renderJson(Ret.fail());
+            return;
         } finally {
-            org.apache.commons.io.FileUtils.deleteQuietly(uploadFile.getFile());
+            deleteFileQuietly(uploadFile.getFile());
         }
 
         renderJson(Ret.ok());
     }
 
+
     public void doDelFile() {
         String path = getPara("path");
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
-        if (pathFile.isDirectory()) {
+
+        //防止删除非模板目录之外的其他目录文件
+        if (path != null && path.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        File delFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
+
+        if (delFile.isDirectory() || delFile.delete() == false) {
             renderJson(Ret.fail());
         } else {
-            pathFile.delete();
             renderJson(Ret.ok());
         }
     }

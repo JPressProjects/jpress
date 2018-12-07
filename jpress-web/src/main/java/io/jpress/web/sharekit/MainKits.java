@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtils;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
+import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.CommonsUtils;
 
 import java.util.ArrayList;
@@ -95,6 +96,11 @@ public class MainKits {
             list.add(items);
         }
         return list;
+    }
+
+
+    public static boolean isImage(String path) {
+        return StrUtils.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.toLowerCase().equals(".ico"));
     }
 
 

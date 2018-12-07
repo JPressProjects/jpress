@@ -1,3 +1,12 @@
+jpress v1.0-rc.10
+新增：支持Markdown文章导入，因此支持Hexo，Jekyll的导入功能
+修复：后台管理员无法修改其他用户状态的问题
+修复：Api数据签名在某些情况下签名错误的问题
+
+优化：Docker Build 的逻辑
+优化：升级相关Maven依赖
+
+
 jpress v1.0-rc.9
 新增：Docker一键部署的支持
 新增：JPress 安装功能，把war扔到tomcat之后，会自动引导用户进行安装

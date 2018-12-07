@@ -34,13 +34,13 @@ import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.sharekit.MainKits;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -160,7 +160,7 @@ public class _TemplateController extends AdminControllerBase {
         renderJson(Ret.ok().set("success", true));
     }
 
-    private void deleteFileQuietly(File file){
+    private void deleteFileQuietly(File file) {
         org.apache.commons.io.FileUtils.deleteQuietly(file);
     }
 
@@ -243,19 +243,16 @@ public class _TemplateController extends AdminControllerBase {
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
                 || file.getName().endsWith(".js")
-                || file.getName().endsWith(".png")
-                || file.getName().endsWith(".jpg")
-                || file.getName().endsWith(".ico")
-                || file.getName().endsWith(".gif")
+                || MainKits.isImage(file.getName())
                 || file.isDirectory());
 
         List srcFiles = new ArrayList<String>();
-        for (File file : files){
-            if(!file.isDirectory())
+        for (File file : files) {
+            if (!file.isDirectory())
                 srcFiles.add(file.getName());
         }
         setAttr("srcFiles", srcFiles);
-        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("classes/")+7));
+        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("classes/") + 7));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);
@@ -296,21 +293,18 @@ public class _TemplateController extends AdminControllerBase {
             fileInfoList.add(new FileInfo(file));
         }
 
-        fileInfoList.sort(new Comparator<FileInfo>() {
-            @Override
-            public int compare(FileInfo o1, FileInfo o2) {
+        fileInfoList.sort((o1, o2) -> {
 
-                if (o1.isDir() && !o2.isDir())
-                    return -1;
-                if (!o1.isDir() && o2.isDir())
-                    return 1;
+            if (o1.isDir() && !o2.isDir())
+                return -1;
+            if (!o1.isDir() && o2.isDir())
+                return 1;
 
-                if (o2.getName().equals("index.html")) {
-                    return 1;
-                }
-
-                return o2.getName().compareTo(o1.getName());
+            if (o2.getName().equals("index.html")) {
+                return 1;
             }
+
+            return o2.getName().compareTo(o1.getName());
         });
 
         return fileInfoList;
@@ -414,36 +408,53 @@ public class _TemplateController extends AdminControllerBase {
         }
     }
 
-    public void uploadFile(){
+    public void doUploadFile() {
+
         UploadFile uploadFile = getFile();
-
-        String paras = uploadFile.getParameterName();
-        String uploadPath = uploadFile.getUploadPath();
         String fileName = uploadFile.getFileName();
-        File upFile = new File(uploadPath,fileName);
+        String dirName = getPara("d").trim();
 
-        String[] para;
-        String dirName = null;
-        if (paras.indexOf("[")!=-1 && paras.indexOf("]")!=-1){
-            para = paras.substring(paras.indexOf("[") + 1, paras.indexOf("]")).split(",");
-            dirName = para[0];
+        //防止浏览非模板目录之外的其他目录
+        if (dirName != null && dirName.contains("..")) {
+            renderError(404);
+            return;
         }
 
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(),dirName);
+        if (fileName.contains("/") || fileName.contains("..")) {
+            renderError(404);
+            return;
+        }
 
-        FileUtils.writeString(new File(pathFile,fileName),FileUtils.readString(upFile));
-        upFile.delete();
+        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), dirName);
+
+        try {
+            org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+            renderJson(Ret.fail());
+            return;
+        } finally {
+            deleteFileQuietly(uploadFile.getFile());
+        }
 
         renderJson(Ret.ok());
     }
 
-    public void delFile(){
+
+    public void doDelFile() {
         String path = getPara("path");
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(),path);
-        if(pathFile.isDirectory()){
+
+        //防止删除非模板目录之外的其他目录文件
+        if (path != null && path.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        File delFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
+
+        if (delFile.isDirectory() || delFile.delete() == false) {
             renderJson(Ret.fail());
-        }else{
-            pathFile.delete();
+        } else {
             renderJson(Ret.ok());
         }
     }

@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 
 services:
 
@@ -6,7 +6,7 @@ services:
     restart: always
     image: mysql:5.6
     command: --default-authentication-plugin=mysql_native_password
-    container_name: mysql:5.6
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: jpress
       MYSQL_DATABASE: jpress
@@ -33,10 +33,12 @@ services:
     image: jwilder/docker-gen
     container_name: docker-gen
     volumes:
+      - /etc/nginx/conf.d
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /etc/nginx/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - /etc/nginx/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
-    volumes_from:
-      - nginx
     entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -wait 5s:30s
       /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
 
@@ -44,9 +46,11 @@ services:
     restart: always
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt-nginx-proxy-companion
-    volumes_from:
-      - nginx
     volumes:
+      - /etc/nginx/conf.d
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /etc/nginx/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/nginx/certs:/etc/nginx/certs:rw
     environment:

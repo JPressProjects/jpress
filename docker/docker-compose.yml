@@ -1,18 +1,19 @@
-version: '3.1'
+version: '2'
 
 services:
 
   db:
+    restart: always
     image: mysql:5.6
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    container_name: mysql:5.6
     environment:
-       MYSQL_ROOT_PASSWORD: jpress
-       MYSQL_DATABASE: jpress
-       MYSQL_USER: jpress
-       MYSQL_PASSWORD: jpress
-#    volumes:
-#      - "/my/own/datadir:/var/lib/mysql"
+      MYSQL_ROOT_PASSWORD: jpress
+      MYSQL_DATABASE: jpress
+      MYSQL_USER: jpress
+      MYSQL_PASSWORD: jpress
+  #    volumes:
+  #      - "/my/own/datadir:/var/lib/mysql"
 
   nginx:
     restart: always
@@ -52,6 +53,7 @@ services:
       NGINX_DOCKER_GEN_CONTAINER: docker-gen
 
   jpress:
+    restart: always
     depends_on:
       - db
     links:
@@ -59,7 +61,7 @@ services:
     image: fuhai/jpress:latest
     ports:
       - "8080:8080"
-    restart: always
+    container_name: jpress
     environment:
       TZ: Asia/Shanghai
       JPRESS_DB_HOST: db
@@ -73,4 +75,3 @@ services:
       LETSENCRYPT_EMAIL: i@example.com #证书所有者的邮箱，快过期时会提醒
 #    volumes:
 #       - "/Users/michael/Desktop/test:/usr/local/tomcat/webapps/ROOT/attachment"
-

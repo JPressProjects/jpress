@@ -160,7 +160,7 @@ public class _TemplateController extends AdminControllerBase {
         renderJson(Ret.ok().set("success", true));
     }
 
-    private void deleteFileQuietly(File file){
+    private void deleteFileQuietly(File file) {
         org.apache.commons.io.FileUtils.deleteQuietly(file);
     }
 
@@ -243,7 +243,19 @@ public class _TemplateController extends AdminControllerBase {
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
                 || file.getName().endsWith(".js")
+                || file.getName().endsWith(".png")
+                || file.getName().endsWith(".jpg")
+                || file.getName().endsWith(".ico")
+                || file.getName().endsWith(".gif")
                 || file.isDirectory());
+
+        List srcFiles = new ArrayList<String>();
+        for (File file : files) {
+            if (!file.isDirectory())
+                srcFiles.add(file.getName());
+        }
+        setAttr("srcFiles", srcFiles);
+        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("classes/") + 7));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);
@@ -402,5 +414,45 @@ public class _TemplateController extends AdminControllerBase {
         }
     }
 
+    public void doUploadFile() {
+
+        UploadFile uploadFile = getFile();
+        String fileName = uploadFile.getFileName();
+        String dirName = getPara("d").trim();
+
+        //防止浏览非模板目录之外的其他目录
+        if (dirName != null && dirName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        if (fileName.contains("/") || fileName.contains("..")) {
+            renderError(404);
+            return;
+        }
+
+        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), dirName);
+
+        try {
+            org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            org.apache.commons.io.FileUtils.deleteQuietly(uploadFile.getFile());
+        }
+
+        renderJson(Ret.ok());
+    }
+
+    public void doDelFile() {
+        String path = getPara("path");
+        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
+        if (pathFile.isDirectory()) {
+            renderJson(Ret.fail());
+        } else {
+            pathFile.delete();
+            renderJson(Ret.ok());
+        }
+    }
 
 }

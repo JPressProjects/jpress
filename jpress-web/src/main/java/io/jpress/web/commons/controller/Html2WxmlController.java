@@ -32,7 +32,7 @@ import java.util.Collections;
 public class Html2WxmlController extends ApiControllerBase {
 
     public void index() {
-        String html = getRawData(); // 要求html内容必须通过post传过来
+        String html = getPara("html"); // 要求html内容必须通过post传过来
         Params params = getParams();
         String resultJson = HtmlToJson.by(html, params).get();
 

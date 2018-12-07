@@ -1,0 +1,5 @@
+FROM tomcat:8.5.35
+
+MAINTAINER fuhai fuhai999@gmail.com
+
+RUN rm /usr/local/tomcat/webapps -rf

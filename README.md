@@ -73,23 +73,31 @@ docker-compose start
 
 ## 常见问题
 
-**问题1： 如何在本地运行JPress ？**
+#### 问题1： 如何在运行JPress ？
 
 如果使用Docker，以上已经给出了方法。
 
-如果是tomcat，下载源码，通过 `mvn clean install`命令之后，在 stater-tomcat/target目录下回生成 jpress 的war包。把war包扔到自己对他tomcat，并启动tomcat即可。
+如果是tomcat，下载源码，通过 `mvn clean install`命令之后，在 `stater-tomcat/target` 目录下回生成 jpress 的war包。把war包扔到自己对他tomcat，并启动tomcat即可。
 
 JPress会引导你走安装过程。
 
-**问题2：在开发环境下，如果让JPress不要自动安装**
-可以在 starter 模块的 resource 下，创建两个文件：
+#### 问题2：如何导入 idea 或 eclipse 开发工具运行
 
-* jboot.porperties ：配置文件
-* install.lock ：空白内容，只要这个文件存在即可
+分为以下几步：
 
-可以把resource目录下的 `jboot-simple.properties` 文件重命名为 `jboot.properties` 然后修改其配置内容即可 。
+1. 通过maven的方式导入到 idea 或 eclipse
+2. 在 `starter` 的 resource 目录下创建文件 jboot.properties 和 install.lock 文件
+3. 通过 jpress 根目录下的 `db-init.sql` 初始化数据库
+4. 运行 `starter` 下的 DevStarter.java 的 `main()` 方法即可
 
-**问题2：为什么运行不起来?**
+**说明：**
+
+* jboot.porperties ：jpress 主要的配置文件（重命名 `jboot-simple.properties` 为 `jboot.properties` ，并修改其数据库连接等信息）
+* install.lock ：如果没有该文件，jpress会自动安装。空白内容即可。
+
+
+
+#### 问题3：为什么运行不起来?
 
 注意下你本地的环境，JPress要求的环境如下：
 
@@ -97,7 +105,7 @@ JPress会引导你走安装过程。
 * tomcat: 8.x
 * mysql: 5.6+
 
-**问题3：为什么无法对文章进行评论**
+#### 问题4：为什么无法对文章进行评论
 
 答：JPress的文章评论功能默认是关闭的，请先在后台 `文章 -> 设置` 开启评论功能。
 

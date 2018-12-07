@@ -1,6 +1,7 @@
 #@layout()
 
 #define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
 <style>
     #editor {
         height: 500px;
@@ -91,6 +92,47 @@
         }
     });
 </script>
+
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+
+    $("#delBtn").on("click", function () {
+        var path = "#(d ??)/#(f ??)";
+        if(confirm("确定要删除文件【#(f ??)】?，删除后不可恢复")){
+            ajaxGet("#(CPATH)/admin/template/delFile?path=" + path);
+        }
+    })
+
+    function compareFile(uploadFile) {
+        var upFile = uploadFile[0]["name"];
+        var srcFile = "#(srcFiles ??)";
+        if(srcFile.indexOf(upFile)!=-1){
+            if(confirm("存在重名文件【"+upFile+"】，是否覆盖")){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+    
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/admin/template/uploadFile',
+        sequentialUploads: true,
+        add: function (e, data) {
+            if(compareFile(data.files)){ data.submit(); }
+        },
+        done: function (e, data) {
+            if(data.result.state == "ok"){
+                toastr.success("文件上传成功...")
+            }
+        }
+    });
+</script>
 #end
 
 #define content()
@@ -108,22 +150,33 @@
             <input type="hidden" name="fileContent" id="fileContent">
             <input type="hidden" name="d" value="#(d ??)">
             <input type="hidden" name="f" value="#(f ??)">
+            <input type="hidden" name="srcFile" value="#(srcFiles ??)">
         </form>
 
         <div class="row">
             <div class="col-lg-9">
                 <div class="box box-primary">
                     <form class="form-horizontal" autocomplete="off">
+                        #if(f)
+                        #if(f.indexOf(".jpg")==-1
+                            && f.indexOf(".png")==-1
+                            && f.indexOf(".ico")==-1
+                            && f.indexOf(".gif")==-1)
                         <div class="box-body no-padding">
                             <div id="editor" for-filename="#(f ??)">#(editFileContent ??)</div>
-
                         </div>
+                        #else
+                        <div class="text-center">
+                            <img src="#(prefixPath)/#(d ??)/#(f ??)" style="width: 50%">
+                        </div>
+                        #end#end
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
                                     <button type="button" onclick="doSubmit()" class="btn btn-primary">更新文件</button>
                                     提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）
+                                    <button id="delBtn" type="button" class="btn btn-danger">删除文件</button>
                                 </div>
                             </div>
                         </div>
@@ -142,6 +195,13 @@
                         <div class="box-body no-padding">
                             <div class="form-group">
                                 <div class="col-sm-12">
+                                    <div id="uploader">
+                                        <span class="btn btn-block btn-primary fileinput-button">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span>上传文件...</span>
+                                            <input id="cfile" type="file" name="files[#(d ?? '/')]" multiple>
+                                        </span>
+                                    </div>
                                     <table class="table table-striped">
                                         <tbody>
                                         #if(parentDir != null)

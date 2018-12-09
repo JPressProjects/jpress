@@ -28,6 +28,7 @@ import io.jpress.model.User;
 import io.jpress.service.UserService;
 
 import javax.inject.Singleton;
+import java.util.Date;
 
 @Bean
 @Singleton
@@ -85,7 +86,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             return Ret.fail("message", "用户名或密码不正确");
         }
 
+        // 更新用户的登录时间
+        updateUserLoginedDate(user);
+
         return Ret.ok().set("user_id", user.getId());
+    }
+
+
+    private void updateUserLoginedDate(User user) {
+        user.setLogged(new Date());
+        update(user);
     }
 
     @Override
@@ -130,7 +140,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return user.save() ? user.getId() : null;
     }
 
-    private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature","id"};
+    private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature", "id"};
 
     @Override
     public void join(Model model, String joinOnField) {

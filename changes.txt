@@ -1,3 +1,8 @@
+jpress v1.0
+新增：模板编辑功能新增文件删除、编辑和新增的功能。
+新增：Docker 的正式版部署功能：nginx、tomcat、ssl 自动化。感谢 ( [@babyrui](https://gitee.com/babyrui))
+
+
 jpress v1.0-rc.10
 新增：支持Markdown文章导入，因此支持Hexo，Jekyll的导入功能
 修复：后台管理员无法修改其他用户状态的问题

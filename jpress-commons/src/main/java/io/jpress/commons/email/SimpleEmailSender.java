@@ -28,9 +28,9 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-public class SimplerEmailSender extends Authenticator implements IEmailSender {
+public class SimpleEmailSender extends Authenticator implements IEmailSender {
 
-    private static final Log logger = Log.getLog(SimplerEmailSender.class);
+    private static final Log logger = Log.getLog(SimpleEmailSender.class);
 
     private String host;
     private String name;
@@ -38,7 +38,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
     private boolean useSSL = true;
     private boolean enable = false;
 
-    public SimplerEmailSender() {
+    public SimpleEmailSender() {
         this.host = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_SMTP);
         this.name = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT);
         this.password = JPressOptions.get(JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD);
@@ -114,7 +114,7 @@ public class SimplerEmailSender extends Authenticator implements IEmailSender {
 
             Transport.send(message);
         } catch (MessagingException e) {
-            logger.error("SimplerEmailSender send error", e);
+            logger.error("SimpleEmailSender send error", e);
         }
 
     }

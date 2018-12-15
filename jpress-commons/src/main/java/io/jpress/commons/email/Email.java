@@ -73,7 +73,7 @@ public class Email {
     }
 
     public void send() {
-        send(new SimplerEmailSender());
+        send(new SimpleEmailSender());
     }
 
     public void send(IEmailSender sender) {

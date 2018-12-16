@@ -252,7 +252,7 @@ public class _TemplateController extends AdminControllerBase {
                 srcFiles.add(file.getName());
         }
         setAttr("srcFiles", srcFiles);
-        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("classes/") + 7));
+        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("/templates/")));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);

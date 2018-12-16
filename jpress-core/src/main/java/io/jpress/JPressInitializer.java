@@ -46,6 +46,7 @@ public class JPressInitializer extends JbootAppListenerBase {
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JPressCaptchaCache());
         constants.setJsonFactory(() -> new JPressJson());
+
     }
 
     @Override
@@ -66,6 +67,5 @@ public class JPressInitializer extends JbootAppListenerBase {
         WechatAddonManager.me().init();
 
     }
-
 
 }

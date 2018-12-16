@@ -254,6 +254,10 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         User user = getLoginedUser();
+        if (user == null){
+            renderJson(Ret.fail().set("message", "用户未登录"));
+            return;
+        }
 
         ArticleComment comment = new ArticleComment();
 

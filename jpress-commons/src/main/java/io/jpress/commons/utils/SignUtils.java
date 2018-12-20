@@ -33,7 +33,6 @@ public class SignUtils {
         Arrays.sort(keys);
 
         StringBuilder query = new StringBuilder();
-        query.append(secret);
         for (String key : keys) {
             String value = params.get(key);
             if (StrUtils.areNotEmpty(key, value)) {
@@ -41,6 +40,6 @@ public class SignUtils {
             }
         }
         query.append(secret);
-        return HashKit.md5(query.toString()).toUpperCase();
+        return HashKit.md5(query.toString());
     }
 }

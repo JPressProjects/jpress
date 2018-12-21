@@ -1,3 +1,12 @@
+jpress v1.0.1
+优化：拼写错误，修改 SimplerEmailSender 为 SimpleEmailSender（感谢 [@xhf](https://gitee.com/pilibeibei)）
+修复：文章的 Api 接口，当微信小程序用户未登录的时候回出现空指针异常的问题
+修复：签名算法工具类签名错误的问题 （感谢 [@retire](https://gitee.com/retire)）
+修复：后台编写文章的时候，截图粘贴无法显示图片的问题
+修复：后台编写文章的时候，控制台会输出ckeditor的image cloud错误的问题
+修复：后台会输出 favicon.ico 请求404错误的问题
+
+
 jpress v1.0
 新增：模板编辑功能新增文件删除、编辑和新增的功能。
 新增：Docker 的正式版部署功能：nginx、tomcat、ssl 自动化。感谢 ( [@babyrui](https://gitee.com/babyrui))

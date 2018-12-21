@@ -139,10 +139,13 @@ function initCkEdtior(editor, height) {
 
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,
-        extraPlugins: 'codesnippet',
+        removePlugins: 'easyimage,cloudservices',
+        extraPlugins: 'codesnippet,uploadimage,flash,image',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
-        filebrowserImageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        uploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        imageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        filebrowserUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
         filebrowserBrowseUrl: jpress.cpath + '/admin/attachment/browse',
         language: 'zh-cn'
     });
@@ -261,7 +264,6 @@ function initOptionSubmit() {
         });
         return false;
     });
-
 
 
 }

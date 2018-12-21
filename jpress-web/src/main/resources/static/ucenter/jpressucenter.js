@@ -73,11 +73,15 @@ function initCkEdtior(editor, height) {
 
     return CKEDITOR.replace(editor, {
         autoUpdateElement: true,
-        extraPlugins: 'codesnippet',
+        removePlugins: 'easyimage,cloudservices',
+        extraPlugins: 'codesnippet,uploadimage,flash,image',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
-        filebrowserImageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        uploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        imageUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
+        filebrowserUploadUrl: jpress.cpath + '/commons/ckeditor/upload',
         language: 'zh-cn'
+
     });
 }
 

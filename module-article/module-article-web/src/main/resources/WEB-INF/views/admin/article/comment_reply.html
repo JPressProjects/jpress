@@ -9,10 +9,10 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/article/doCommentDel/" + id, function (result) {
-            alert(result.message);
-        }, function () {
+        ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id,  function () {
             location.href = "#(CPATH)/admin/article/comment";
+        },function (result) {
+            alert(result.message);
         })
     }
 

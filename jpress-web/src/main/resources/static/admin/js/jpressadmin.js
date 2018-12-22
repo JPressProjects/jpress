@@ -264,8 +264,6 @@ function initOptionSubmit() {
         });
         return false;
     });
-
-
 }
 
 

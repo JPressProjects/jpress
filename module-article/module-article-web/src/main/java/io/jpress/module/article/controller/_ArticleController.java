@@ -377,7 +377,8 @@ public class _ArticleController extends AdminControllerBase {
      * 删除评论
      */
     public void doCommentDel() {
-        commentService.deleteById(getIdPara());
+        Long id = getParaToLong("id");
+        commentService.deleteById(id);
         renderJson(Ret.ok());
     }
 

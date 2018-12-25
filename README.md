@@ -9,17 +9,16 @@
 
 
 <p align="center">
-<img alt="Version" src="https://img.shields.io/github/release/JpressProjects/jpress.svg?style=flat-square"/>
+<img alt="release" src="https://img.shields.io/github/release/JpressProjects/jpress.svg?style=flat-square"/>
 
-<img alt="Version" src="https://img.shields.io/github/release-date/JpressProjects/jpress.svg?style=flat-square"/>
+<img alt="release" src="https://img.shields.io/github/release-date/JpressProjects/jpress.svg?style=flat-square"/>
 
-<img alt="Version" src="https://img.shields.io/github/last-commit/JpressProjects/jpress.svg?style=flat-square"/>
+<img alt="commit" src="https://img.shields.io/github/last-commit/JpressProjects/jpress.svg?style=flat-square"/>
 
-<img alt="Version" src="https://img.shields.io/github/issues-closed/JpressProjects/jpress.svg?style=flat-square"/>
+<img alt="issues" src="https://img.shields.io/github/issues-closed/JpressProjects/jpress.svg?style=flat-square"/>
 
-<img alt="Version" src="https://img.shields.io/github/downloads/JpressProjects/jpress/total.svg?style=flat-square"/>
 
-<img alt="Version" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
+<img alt="license" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
 </p>
 
 ## 特点
@@ -69,11 +68,11 @@
 
 ## 相关链接
 
-- [快速开始]()
-- [二次开发]()
-- [帮助文档]()
-- [视频教程]()
-- [常见问题]()
+- [快速开始](./doc/readme.md)
+- [二次开发](./doc/readme.md)
+- [帮助文档](./doc/readme.md)
+- [视频教程](./doc/videos.md)
+- [常见问题](./doc/readme.md)
 
 ## 赞助我们
 <p align="center">

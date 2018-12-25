@@ -142,10 +142,10 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*.*</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
         </resources>
 
@@ -215,6 +215,10 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                    <packagingExcludes>
+                        WEB-INF/classes/jboot.properties,
+                        WEB-INF/classes/install.lock
+                    </packagingExcludes>
                 </configuration>
             </plugin>
 

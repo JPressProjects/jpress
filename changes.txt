@@ -1,3 +1,9 @@
+jpress v1.0.2
+修复：Maven 生成的 WAR 包会包含 install.lock 和 jboot.properties 的问题
+修复：后台个别页面会出现 CSRF Token 不可用的问题
+修复：Shortcut Icon 显示不正确的问题
+
+
 jpress v1.0.1
 优化：拼写错误，修改 SimplerEmailSender 为 SimpleEmailSender（感谢 [@xhf](https://gitee.com/pilibeibei)）
 修复：文章的 Api 接口，当微信小程序用户未登录的时候回出现空指针异常的问题

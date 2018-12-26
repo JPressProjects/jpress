@@ -47,6 +47,7 @@ ENV M2=$M2_HOME/bin
 ENV PATH=$M2:$PATH
 
 
+#安装编译jpress
 RUN git clone https://github.com/JpressProjects/jpress.git && \
 cd jpress && \
 mvn clean install && \
@@ -56,5 +57,6 @@ rm -rf /usr/local/tomcat/webapps/ROOT.war && \
 rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/install.lock  && \
 rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties
 
+EXPOSE 8080
 
-CMD java -version && mvn -version
+CMD ["catalina.sh", "run"]

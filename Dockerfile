@@ -27,7 +27,7 @@ wget -qO- https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${T
 tar zxf apache-tomcat-*.tar.gz && \
 mkdir /usr/local/tomcat && \
 mv apache-tomcat-${TOMCAT_MINOR_VERSION}/* /usr/local/tomcat && \
-rm -rf /usr/local/tomcat/webapps && \
+rm -rf /usr/local/tomcat/webapps/* && \
 rm -rf apache-tomcat-*
 
 

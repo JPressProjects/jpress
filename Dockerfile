@@ -6,6 +6,8 @@ USER root
 RUN	yum install -y wget
 RUN	yum install -y tar
 RUN	yum install -y git
+RUN	yum install -y unzip
+
 
 #JAVA 版本
 ENV JAVA_VERSION 1.8.0
@@ -59,4 +61,4 @@ rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]

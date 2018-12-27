@@ -42,6 +42,8 @@ public class InstallUtils {
     private static String dbUser;
     private static String dbPassword;
 
+    private static boolean initBefore = false;
+
     private static DataSource dataSource;
     private static DataSourceConfig dataSourceConfig;
     private static String jdbcUrl;
@@ -132,7 +134,8 @@ public class InstallUtils {
     }
 
 
-    public static void initJPressTables() throws SQLException {
+    public static void tryInitJPressTables() throws SQLException {
+        if (initBefore) return;
         String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
         String installSql = FileUtils.readString(new File(SqlFilePath));
         executeBatchSql(installSql);
@@ -232,5 +235,13 @@ public class InstallUtils {
 
     public static DataSourceConfig getDataSourceConfig() {
         return dataSourceConfig;
+    }
+
+    public static void setInitBefore(boolean initBefore) {
+        InstallUtils.initBefore = initBefore;
+    }
+
+    public static boolean isInitBefore() {
+        return initBefore;
     }
 }

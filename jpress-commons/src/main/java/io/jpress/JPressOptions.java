@@ -33,8 +33,31 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JPressOptions {
 
     private static final Log LOG = Log.getLog(JPressOptions.class);
-    private static final Map<String, String> options = new ConcurrentHashMap<>();
-    private static final List<OptionChangeListener> LISTENERS = new ArrayList<>();
+    private static OptionStore store = new OptionStore() {
+        private final Map<String, String> cache = new ConcurrentHashMap<>();
+
+        @Override
+        public String get(String key) {
+            return cache.get(key);
+        }
+
+        @Override
+        public void put(String key, String value) {
+            if (StrUtils.isBlank(value)) {
+                remove(key);
+            } else {
+                cache.put(key, value);
+            }
+        }
+
+        @Override
+        public void remove(String key) {
+            cache.remove(key);
+        }
+    };
+
+
+    private static List<OptionChangeListener> LISTENERS = new ArrayList<>();
 
     public static void set(String key, String value) {
         if (StrUtils.isBlank(key)) {
@@ -42,16 +65,12 @@ public class JPressOptions {
         }
 
 
-        String oldValue = options.get(key);
+        String oldValue = store.get(key);
         if (Objects.equals(value, oldValue)) {
             return;
         }
 
-        if (StrUtils.isBlank(value)) {
-            options.remove(key);
-        } else {
-            options.put(key, value);
-        }
+        store.put(key, value);
 
 
         for (OptionChangeListener listener : LISTENERS) {
@@ -67,11 +86,11 @@ public class JPressOptions {
 
 
     public static String get(String key) {
-        return options.get(key);
+        return store.get(key);
     }
 
     public static boolean getAsBool(String key) {
-        return Boolean.parseBoolean(options.get(key));
+        return Boolean.parseBoolean(store.get(key));
     }
 
     public static int getAsInt(String key, int defaultValue) {
@@ -143,7 +162,7 @@ public class JPressOptions {
         return indexStyleValue;
     }
 
-    
+
     private static boolean fakeStaticEnable = false;
     private static String fakeStaticSuffix = "";
 
@@ -152,5 +171,24 @@ public class JPressOptions {
                 ? (StrUtils.isBlank(fakeStaticSuffix) ? "" : fakeStaticSuffix)
                 : "";
     }
+
+    public static OptionStore getStore() {
+        return store;
+    }
+
+    public static void setStore(OptionStore store) {
+        JPressOptions.store = store;
+    }
+
+    public static interface OptionStore {
+
+        public String get(String key);
+
+        public void put(String key, String value);
+
+        public void remove(String key);
+
+    }
+
 
 }

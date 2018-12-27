@@ -15,7 +15,7 @@
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="新管理员账号"
                    name="username">
-            <p class="help-block" style="color: red">保留之前的管理员，请填写不要填写任何内容。</p>
+            <p class="help-block" style="color: red">若想保留之前的管理员账号，请不要填写任何内容。</p>
         </div>
     </div>
     <div class="form-group">
@@ -55,7 +55,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert("JPress安装成功，请登陆。")
+                    alert("恭喜您，JPress安装成功！登录后台可以进行更多的设置...");
                     location.href = "#(CPATH)/admin/login";
                 } else {
                     alert(data.message);

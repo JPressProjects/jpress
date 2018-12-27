@@ -35,6 +35,7 @@ import io.jpress.service.UserService;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -112,23 +113,15 @@ public class InstallController extends JbootController {
         }
 
         try {
-
             InstallUtils.init(dbName, dbUser, dbPwd, dbHost, dbPort);
 
             List<String> tables = InstallUtils.getTableList();
+
             if (tables != null && tables.size() > 0) {
                 renderJson(Ret.fail("message", "无法安装，该数据库已有表信息了，为了安全起见，请选择全新的数据库进行安装。")
                         .set("errorCode", 5));
                 return;
             }
-
-            InstallUtils.initJPressTables();
-
-            DataSourceConfig config = InstallUtils.getDataSourceConfig();
-            config.setName(DataSourceConfig.NAME_DEFAULT);
-
-            ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);
-            activeRecordPlugin.start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,6 +177,20 @@ public class InstallController extends JbootController {
             renderJson(Ret.fail().set("message", "网站副标题不能为空").set("errorCode", 12));
             return;
         }
+
+        try {
+            InstallUtils.initJPressTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            renderJson(Ret.fail());
+            return;
+        }
+
+        DataSourceConfig config = InstallUtils.getDataSourceConfig();
+        config.setName(DataSourceConfig.NAME_DEFAULT);
+
+        ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);
+        activeRecordPlugin.start();
 
         String salt = HashKit.generateSaltForSha256();
         String hashedPass = HashKit.sha256(salt + pwd);

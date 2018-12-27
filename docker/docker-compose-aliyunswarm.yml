@@ -1,15 +1,17 @@
 jpress:
   image: 'fuhai/jpress:latest'
   restart: always
+  depends_on:
+    - db
+  links:
+    - db
   environment:
     - TZ=Asia/Shanghai
-    - JPRESS_DB_HOST=jpressdb.local
+    - JPRESS_DB_HOST=db
     - JPRESS_DB_PORT=3306
     - JPRESS_DB_NAME=jpress
     - JPRESS_DB_USER=jpress
     - JPRESS_DB_PASSWORD=jpress
-  external_links:
-    - "jpressdb.local"
   labels:
     aliyun.scale: '1'
     aliyun.routing.port_8080: 'http://jpress'
@@ -24,4 +26,3 @@ db:
     - MYSQL_PASSWORD=jpress
   labels:
     aliyun.scale: '1'
-    aliyun.routing.port_3306: jpressdb.local

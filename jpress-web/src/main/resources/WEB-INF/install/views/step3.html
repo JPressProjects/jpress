@@ -81,7 +81,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert("JPress安装成功，请登陆。")
+                    alert("恭喜您，JPress安装成功！登录后台可以进行更多的设置...");
                     location.href = "#(CPATH)/admin/login";
                 } else {
                     alert(data.message);

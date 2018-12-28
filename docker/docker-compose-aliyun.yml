@@ -12,7 +12,7 @@ db:
   volumes:
     - 'jpress-db:/var/lib/mysql:rw'
 jpress:
-  image: 'fuhai/jpress:1.0.2'
+  image: 'fuhai/jpress:1.0.3'
   restart: always
   environment:
     - TZ=Asia/Shanghai

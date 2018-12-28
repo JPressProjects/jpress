@@ -135,32 +135,11 @@ public class InstallUtils {
 
 
     public static void tryInitJPressTables() throws SQLException {
-        if (initBefore) return;
         String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
         String installSql = FileUtils.readString(new File(SqlFilePath));
         executeBatchSql(installSql);
     }
 
-
-    public static void executeSQL(String sql, Object... params) throws SQLException {
-        Connection conn = getConnection();
-        PreparedStatement pstmt = null;
-        try {
-            pstmt = conn.prepareStatement(sql);
-            if (null != params && params.length > 0) {
-                int i = 0;
-                for (Object param : params) {
-                    pstmt.setString(++i, param.toString());
-                }
-            }
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            log.warn("InstallUtils executeSQL erro", e);
-        } finally {
-            close(pstmt, conn);
-        }
-    }
 
     private static void executeBatchSql(String batchSql) throws SQLException {
         Connection conn = getConnection();
@@ -184,6 +163,7 @@ public class InstallUtils {
             close(pst, conn);
         }
     }
+    
 
     private static <T> List<T> query(Connection conn, String sql) throws SQLException {
         List result = new ArrayList();

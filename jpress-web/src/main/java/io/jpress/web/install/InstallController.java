@@ -158,20 +158,18 @@ public class InstallController extends JbootController {
     public void install() {
 
         if (InstallUtils.isInitBefore()) {
-            doProcessInitBefore();
+            doProcessInOldDb();
         } else {
             doProcessNormal();
         }
 
     }
 
-    private void doProcessInitBefore() {
-
+    private void doProcessInOldDb() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
-
 
         if (StrUtils.isNotBlank(username)) {
 
@@ -208,7 +206,6 @@ public class InstallController extends JbootController {
             user.setActivated(new Date());
             user.setStatus(User.STATUS_OK);
             user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
 
             if (StrUtils.isEmail(username)) {
                 user.setEmail(username.toLowerCase());
@@ -255,7 +252,6 @@ public class InstallController extends JbootController {
             return;
         }
 
-
         if (StrUtils.isBlank(username)) {
             renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
             return;
@@ -273,6 +269,14 @@ public class InstallController extends JbootController {
 
         if (pwd.equals(confirmPwd) == false) {
             renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
+            return;
+        }
+
+        try {
+            InstallUtils.tryInitJPressTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            renderJson(Ret.fail());
             return;
         }
 
@@ -322,17 +326,7 @@ public class InstallController extends JbootController {
 
 
     private void initActiveRecordPlugin() {
-        try {
-            /**
-             * 尝试去初始化数据库
-             * 备注：如果检测之前数据库已经有表了，说明该数据库已经被初始化过了，不会再初始化
-             */
-            InstallUtils.tryInitJPressTables();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            renderJson(Ret.fail());
-            return;
-        }
+
 
         DataSourceConfig config = InstallUtils.getDataSourceConfig();
         config.setName(DataSourceConfig.NAME_DEFAULT);
@@ -355,9 +349,9 @@ public class InstallController extends JbootController {
             return false;
         }
 
-
         JPressInstaller.setInstalled(true);
         JPressInstaller.notifyAllListeners();
+
         return true;
     }
 

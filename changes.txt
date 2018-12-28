@@ -1,3 +1,10 @@
+jpress v1.0.3
+新增：Docker Cloud 的自动构建功能以及 JPress 的根目录下的 Dockerfile
+新增：阿里云 Docker 容器服务的 Compose 一键部署功能以及阿里云专属的 Dockercompose 文件
+优化：JPress 可以安装在一个已经存在 JPress 的数据库上，方便 Dockerfile 可以通过修改版本的方式平滑升级
+
+
+
 jpress v1.0.2
 修复：Maven 生成的 WAR 包会包含 install.lock 和 jboot.properties 的问题
 修复：后台个别页面会出现 CSRF Token 不可用的问题

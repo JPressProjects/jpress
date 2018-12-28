@@ -74,12 +74,9 @@
 - [视频教程](./doc/videos.md)
 - [常见问题](./doc/readme.md)
 
-## 赞助我们
-<p align="center">
-<img alt="Version" src="./doc/images/wx.png" style="width:40%;padding:4%"/>
-<img alt="Version" src="./doc/images/zfb.png" style="width:40%;padding:4%"/>
-</p>
+## 微信交流群
 
+![](./doc/images/jpress-wechat-group.png)
 
 
 

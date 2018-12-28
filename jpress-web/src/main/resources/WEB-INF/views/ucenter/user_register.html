@@ -125,7 +125,7 @@
             type: "post",
             success: function (data) {
                 if (data.state == "ok") {
-                    alert("注册成功，请登陆")
+                    alert("注册成功，点击确定进行登录。")
                     location.href = "#(CPATH)/user/login";
                 } else {
                     alert(data.message);

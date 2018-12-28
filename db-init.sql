@@ -312,7 +312,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `username` varchar(128) DEFAULT NULL COMMENT '登陆名',
+  `username` varchar(128) DEFAULT NULL COMMENT '登录名',
   `nickname` varchar(128) DEFAULT NULL COMMENT '昵称',
   `realname` varchar(128) DEFAULT NULL COMMENT '实名',
   `identity` varchar(128) DEFAULT NULL COMMENT '身份',
@@ -343,7 +343,7 @@ CREATE TABLE `user` (
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `create_source` varchar(128) DEFAULT NULL COMMENT '用户来源（可能来之oauth第三方）',
-  `logged` datetime DEFAULT NULL COMMENT '最后的登陆时间',
+  `logged` datetime DEFAULT NULL COMMENT '最后的登录时间',
   `activated` datetime DEFAULT NULL COMMENT '激活时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),

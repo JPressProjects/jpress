@@ -12,14 +12,14 @@ services:
        MYSQL_USER: jpress
        MYSQL_PASSWORD: jpress
 #    volumes:
-#      - "/my/own/datadir:/var/lib/mysql"
+#      - "/Users/michael/work/dockerapps/jpress:/var/lib/mysql"
 
   jpress:
     depends_on:
       - db
     links:
       - db
-    image: fuhai/jpress:latest
+    image: fuhai/jpress:v1.0.3
     ports:
       - "8080:8080"
     restart: always
@@ -31,4 +31,5 @@ services:
        JPRESS_DB_USER: jpress
        JPRESS_DB_PASSWORD: jpress
 #    volumes:
-#       - "/Users/michael/Desktop/test:/usr/local/tomcat/webapps/ROOT/attachment"
+#       - "/Users/michael/work/dockerapps/jpress:/usr/local/tomcat/webapps/ROOT/attachment"
+#       - "/Users/michael/work/dockerapps/jpress:/usr/local/tomcat/webapps/ROOT/wp-content"

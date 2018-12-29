@@ -30,5 +30,4 @@ jpress:
     - db
   volumes:
     - 'jpress-web:/usr/local/tomcat/webapps/ROOT/attachment:rw'
-    - 'jpress-web:/usr/local/tomcat/webapps/ROOT/templates:rw'
     - 'jpress-web:/usr/local/tomcat/webapps/ROOT/wp-content:rw'

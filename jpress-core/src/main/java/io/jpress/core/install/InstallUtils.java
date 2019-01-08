@@ -93,10 +93,10 @@ public class InstallUtils {
                 ? PropKit.use("jboot.properties").getProperties()
                 : new Properties();
 
-        p.put("jboot.mode", "product");
 
-        p.put("jboot.web.cookieEncryptKey", StrUtils.uuid());
-        p.put("jboot.web.jwt.secret", StrUtils.uuid());
+        putPropertieIfValueIsNull(p, "jboot.mode", "product");
+        putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", StrUtils.uuid());
+        putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", StrUtils.uuid());
 
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", jdbcUrl);
@@ -104,6 +104,11 @@ public class InstallUtils {
         p.put("jboot.datasource.password", dbPassword);
 
         return save(p, propertieFile);
+    }
+
+    private static void putPropertieIfValueIsNull(Properties p, String key, String value) {
+        Object v = p.get(key);
+        if (v == null) p.put(key, value);
     }
 
 
@@ -163,7 +168,7 @@ public class InstallUtils {
             close(pst, conn);
         }
     }
-    
+
 
     private static <T> List<T> query(Connection conn, String sql) throws SQLException {
         List result = new ArrayList();

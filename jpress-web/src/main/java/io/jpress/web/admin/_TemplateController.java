@@ -17,6 +17,7 @@ package io.jpress.web.admin;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.render.RenderManager;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.ArrayUtils;
 import io.jboot.utils.FileUtils;
@@ -352,6 +353,8 @@ public class _TemplateController extends AdminControllerBase {
 
         File file = new File(pathFile, fileName);
         FileUtils.writeString(file, fileContent);
+
+        RenderManager.me().getEngine().removeAllTemplateCache();
 
         renderJson(Ret.ok());
     }

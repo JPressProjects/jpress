@@ -35,7 +35,7 @@
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.5</commons-io.version>
-        <commonmark.version>0.11.0</commonmark.version>
+        <commonmark.version>0.12.1</commonmark.version>
         <aliyunoss.version>3.3.0</aliyunoss.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>

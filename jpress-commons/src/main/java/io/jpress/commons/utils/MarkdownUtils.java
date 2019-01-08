@@ -51,12 +51,19 @@ public class MarkdownUtils {
     /**
      * 解析Markdown文档
      */
-    private static final Parser PARSER = Parser.builder().extensions(EXTENSIONS_YAML).extensions(EXTENSIONS_TABLE).build();
+    private static final Parser PARSER = Parser.builder()
+            .extensions(EXTENSIONS_YAML)
+            .extensions(EXTENSIONS_TABLE)
+            .build();
 
     /**
      * 渲染HTML文档
      */
-    private static final HtmlRenderer RENDERER = HtmlRenderer.builder().extensions(EXTENSIONS_YAML).extensions(EXTENSIONS_TABLE).build();
+    private static final HtmlRenderer RENDERER = HtmlRenderer.builder()
+//            .nodeRendererFactory(context -> new IndentedCodeBlockNodeRenderer(context))
+            .extensions(EXTENSIONS_YAML)
+            .extensions(EXTENSIONS_TABLE)
+            .build();
 
 
     /**
@@ -84,12 +91,16 @@ public class MarkdownUtils {
         return visitor.getData();
     }
 
+
     public static void main(String[] args) {
+
+        String markdown = "This is *Sparta*  : `aaa` \n\n```\naaa\n```\n\n";
+
         long ctime = System.currentTimeMillis();
         for (int i = 0; i < 100000; i++) {
-            toHtml("This is *Sparta*");
+            toHtml(markdown);
         }
         System.out.println("100000 times : " + (System.currentTimeMillis() - ctime));
-        System.out.println(toHtml("This is *Sparta*"));
+        System.out.println(toHtml(markdown));
     }
 }

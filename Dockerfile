@@ -54,7 +54,7 @@ RUN git clone https://github.com/JpressProjects/jpress.git && \
 cd jpress && \
 mvn clean install && \
 cp -rf ./starter-tomcat/target/starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war && \
-unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOTdo
+unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOT
 
 
 RUN cd .. && \

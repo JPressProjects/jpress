@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.sms;
 
+import com.jfinal.kit.Base64Kit;
 import com.jfinal.log.Log;
 import io.jboot.core.http.JbootHttpKit;
 import io.jboot.utils.StrUtils;
@@ -112,7 +113,8 @@ public class AliyunSmsSender implements ISmsSender {
         javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA1");
         mac.init(new javax.crypto.spec.SecretKeySpec(accessSecret.getBytes("UTF-8"), "HmacSHA1"));
         byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
-        return new sun.misc.BASE64Encoder().encode(signData);
+        return Base64Kit.encode(signData);
+//        return new sun.misc.BASE64Encoder().encode(signData);
     }
 
 

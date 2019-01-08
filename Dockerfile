@@ -3,10 +3,10 @@ FROM centos:7.6.1810
 USER root
 
 #安装必须软件
-RUN	yum install -y wget
-RUN	yum install -y tar
-RUN	yum install -y git
-RUN	yum install -y unzip
+RUN	yum install -y wget && \
+yum install -y tar && \
+yum install -y git && \
+yum install -y unzip
 
 
 #JAVA 版本
@@ -54,10 +54,20 @@ RUN git clone https://github.com/JpressProjects/jpress.git && \
 cd jpress && \
 mvn clean install && \
 cp -rf ./starter-tomcat/target/starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war && \
-unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOT && \
+unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOTdo
+
+
+RUN cd .. && \
+rm -rf jpress && \
 rm -rf /usr/local/tomcat/webapps/ROOT.war && \
 rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/install.lock  && \
-rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties
+rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties && \
+rm -rf /usr/local/maven && \
+yum -y remove wget && \
+yum -y remove tar && \
+yum -y remove git && \
+yum -y remove unzip
+
 
 EXPOSE 8080
 

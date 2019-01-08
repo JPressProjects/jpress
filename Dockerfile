@@ -62,11 +62,7 @@ rm -rf jpress && \
 rm -rf /usr/local/tomcat/webapps/ROOT.war && \
 rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/install.lock  && \
 rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties && \
-rm -rf /usr/local/maven && \
-yum -y remove wget && \
-yum -y remove tar && \
-yum -y remove git && \
-yum -y remove unzip
+rm -rf /usr/local/maven
 
 
 EXPOSE 8080

@@ -57,14 +57,28 @@ public class _WechatController extends AdminControllerBase {
     @Inject
     private WechatMenuService wechatMenuService;
 
-
-    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
-    public void base() {
-        render("wechat/setting_base.html");
+    @AdminMenu(text = "默认回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
+    public void reply() {
+        render("wechat/reply_base.html");
     }
 
 
-    @AdminMenu(text = "菜单设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
+    @AdminMenu(text = "自动回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
+    public void keyword() {
+        Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
+        setAttr("page", page);
+        render("wechat/reply_list.html");
+    }
+
+    @AdminMenu(text = "运营插件", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 5)
+    public void addons() {
+        List<WechatAddonInfo> wechatAddons = WechatAddonManager.me().getWechatAddons();
+        setAttr("wechatAddons", wechatAddons);
+        render("wechat/addons.html");
+    }
+
+
+    @AdminMenu(text = "菜单设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 12)
     public void menu() {
         List<WechatMenu> menus = wechatMenuService.findAll();
         SortKit.toLayer(menus);
@@ -82,17 +96,9 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "默认回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 10)
-    public void reply() {
-        render("wechat/reply_base.html");
-    }
-
-
-    @AdminMenu(text = "自动回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 11)
-    public void keyword() {
-        Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
-        setAttr("page", page);
-        render("wechat/reply_list.html");
+    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 21)
+    public void base() {
+        render("wechat/setting_base.html");
     }
 
 
@@ -123,13 +129,6 @@ public class _WechatController extends AdminControllerBase {
         render(replyService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
-
-    @AdminMenu(text = "运营插件", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
-    public void addons() {
-        List<WechatAddonInfo> wechatAddons = WechatAddonManager.me().getWechatAddons();
-        setAttr("wechatAddons", wechatAddons);
-        render("wechat/addons.html");
-    }
 
     public void doEnableAddon(String id) {
         WechatAddonManager.me().doEnableAddon(id);

@@ -151,14 +151,15 @@ function initCkEdtior(editor, height) {
     });
 
     ed.on("dialogShow", function (event) {
-        if (_dialogShowEvent != null) {
-            return;
-        }
 
+        // 方便调试
         _dialogShowEvent = event;
 
-        event.data.getContentElement("info", "browse").removeAllListeners();
-        event.data.getContentElement("Link", "browse").removeAllListeners();
+        var infoEle = event.data.getContentElement("info", "browse");
+        if (infoEle) infoEle.removeAllListeners();
+
+        var linkEle = event.data.getContentElement("Link", "browse");
+        if (linkEle) linkEle.removeAllListeners();
 
         $(".cke_dialog_ui_button").each(function () {
             if ("浏览服务器" == $(this).text()) {
@@ -225,7 +226,7 @@ function openlayerfForSimplemde(editor) {
 }
 
 
-function openlayer(ed) {
+function openlayer(event) {
     layer.data.src = null;
     layer.open({
         type: 2,
@@ -238,8 +239,18 @@ function openlayer(ed) {
         end: function () {
             if (layer.data.src != null) {
                 var src = jpress.cpath + layer.data.src;
-                ed.data.getContentElement('info', 'txtUrl').setValue(src);
-                ed.data.getContentElement('Link', 'txtUrl').setValue(src);
+
+                var infoTxtUrlEle = event.data.getContentElement('info', 'txtUrl');
+                if (infoTxtUrlEle) infoTxtUrlEle.setValue(src);
+
+                var infoUrlEle = event.data.getContentElement('info', 'url');
+                if (infoUrlEle) infoUrlEle.setValue(src);
+
+                var infoSrcEle = event.data.getContentElement('info', 'src');
+                if (infoSrcEle) infoSrcEle.setValue(src);
+
+                var linkTxtUrlEle = event.data.getContentElement('Link', 'txtUrl')
+                if (linkTxtUrlEle) linkTxtUrlEle.setValue(src);
             }
         }
     });

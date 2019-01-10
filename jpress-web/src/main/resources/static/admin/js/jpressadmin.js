@@ -124,7 +124,7 @@ function initCkEdtior(editor, height) {
     CKEDITOR.config.toolbar =
         [
             ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'],
-            ['Blockquote', 'CodeSnippet', 'Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['Blockquote', 'CodeSnippet', 'Image', 'Html5audio', 'Html5video', 'Flash', 'Table', 'HorizontalRule'],
             ['Link', 'Unlink', 'Anchor'],
             ['Outdent', 'Indent'],
             ['NumberedList', 'BulletedList'],
@@ -136,11 +136,15 @@ function initCkEdtior(editor, height) {
             ['Maximize', 'Source']
         ];
 
+    CKEDITOR.config.wordcount = {
+        showCharCount: true,
+    };
+
 
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,
         removePlugins: 'easyimage,cloudservices',
-        extraPlugins: 'codesnippet,uploadimage,flash,image',
+        extraPlugins: 'codesnippet,uploadimage,flash,image,wordcount,notification,html5audio,html5video,widget,widgetselection,clipboard,lineutils',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
         uploadUrl: jpress.cpath + '/commons/ckeditor/upload',

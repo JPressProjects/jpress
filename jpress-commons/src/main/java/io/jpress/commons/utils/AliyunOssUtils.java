@@ -24,6 +24,8 @@ import io.jboot.utils.StrUtils;
 import io.jpress.JPressOptions;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class AliyunOssUtils {
@@ -37,6 +39,9 @@ public class AliyunOssUtils {
     private static final String KEY_ACCESSKEYSECRET = "attachment_aliyunoss_accesskeysecret";
     private static final String KEY_BUCKETNAME = "attachment_aliyunoss_bucketname";
 
+
+    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+
     /**
      * 同步本地文件到阿里云OSS
      *
@@ -44,7 +49,20 @@ public class AliyunOssUtils {
      * @param file
      * @return
      */
-    public static boolean upload(String path, File file) {
+    public static void upload(String path, File file) {
+        fixedThreadPool.execute(() -> {
+            uploadsync(path, file);
+        });
+    }
+
+    /**
+     * 同步本地文件到阿里云OSS
+     *
+     * @param path
+     * @param file
+     * @return
+     */
+    public static boolean uploadsync(String path, File file) {
 
         boolean enable = JPressOptions.getAsBool(KEY_ENABLE);
 
@@ -53,8 +71,7 @@ public class AliyunOssUtils {
         }
 
         path = removeFileSeparator(path);
-        path = path.replace('\\','/');
-
+        path = path.replace('\\', '/');
 
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);
         OSSClient ossClient = newOSSClient();

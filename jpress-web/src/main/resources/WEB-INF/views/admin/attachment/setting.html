@@ -23,7 +23,27 @@
                         <div class="box-body ">
 
 
-                            <h4 class="page-first-header">阿里云OSS同步</h4>
+                            <h4 class="page-first-header">附件大小限制</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">图片限制</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="图片最大值"
+                                           name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
+                                    <p class="help-block"> 单位兆（M），默认为2M，填写0允许任何大小。</p>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">其他文件</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="视频、文档等最大值"
+                                           name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
+                                    <p class="help-block"> 单位兆（M），默认为100M，填写0允许任何大小。</p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">阿里云OSS同步</h4>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否启用附件同步</label>
@@ -126,21 +146,7 @@
                                 </div>
                             </div>
 
-                            <h4 class="page-header">附件大小限制</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">图片限制</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="图片最大size（单位M）"
-                                           name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">其他文件</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="视频、文档等最大size（单位M）"
-                                           name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
-                                </div>
-                            </div>
+
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">

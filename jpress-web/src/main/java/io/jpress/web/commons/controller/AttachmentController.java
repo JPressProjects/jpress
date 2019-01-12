@@ -19,6 +19,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
@@ -52,28 +53,25 @@ public class AttachmentController extends UserControllerBase {
 
         UploadFile uploadFile = getFile();
         if (uploadFile == null) {
-            renderJson(Ret.fail().set("message", "请提交上传的文件"));
+            renderJson(Ret.fail().set("message", "请选择要上传的文件"));
             return;
         }
 
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
-        Integer maxImgSize = optionService.findAsIntegerByKey("attachment_img_maxsize");
-        Integer maxOtherSize = optionService.findAsIntegerByKey("attachment_other_maxsize");
-        maxImgSize = maxImgSize == null ? 2 : maxImgSize; //没设置 默认2M
-        maxOtherSize = maxOtherSize == null ? 20 : maxOtherSize; //没设置 默认20M
+        Integer maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
+        Integer maxOtherSize = JPressOptions.getAsInt("attachment_img_maxsize", 100);
         Integer maxSize = fileType.equals("image") ? maxImgSize : maxOtherSize;
         File file = uploadFile.getFile();
-        if (file != null) {
-            int fileSize = Math.round(file.length() / 1024 * 100) / 100;
-            if (fileSize > maxSize*1024) {
-                renderJson(Ret.fail().set("message", "文件大小不能超过" + maxSize + "MB"));
-                return;
-            }
+        int fileSize = Math.round(file.length() / 1024 * 100) / 100;
+        if (fileSize > maxSize * 1024) {
+            file.delete();
+            renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
+            return;
         }
+
         String path = AttachmentUtils.moveFile(uploadFile);
         AliyunOssUtils.upload(path, AttachmentUtils.file(path));
-
 
         Attachment attachment = new Attachment();
         attachment.setUserId(getLoginedUser().getId());

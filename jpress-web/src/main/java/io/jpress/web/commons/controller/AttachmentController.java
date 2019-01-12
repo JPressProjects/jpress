@@ -23,9 +23,11 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -39,7 +41,8 @@ public class AttachmentController extends UserControllerBase {
 
     @Inject
     private AttachmentService as;
-
+    @Inject
+    OptionService optionService;
 
     public void upload() {
         if (!isMultipartRequest()) {
@@ -49,10 +52,25 @@ public class AttachmentController extends UserControllerBase {
 
         UploadFile uploadFile = getFile();
         if (uploadFile == null) {
-            renderJson(Ret.fail().set("success", false));
+            renderJson(Ret.fail().set("message", "请提交上传的文件"));
             return;
         }
 
+        String mineType = uploadFile.getContentType();
+        String fileType = mineType.split("/")[0];
+        Integer maxImgSize = optionService.findAsIntegerByKey("attachment_img_maxsize");
+        Integer maxOtherSize = optionService.findAsIntegerByKey("attachment_other_maxsize");
+        maxImgSize = maxImgSize == null ? 2 : maxImgSize; //没设置 默认2M
+        maxOtherSize = maxOtherSize == null ? 20 : maxOtherSize; //没设置 默认20M
+        Integer maxSize = fileType.equals("image") ? maxImgSize : maxOtherSize;
+        File file = uploadFile.getFile();
+        if (file != null) {
+            int fileSize = Math.round(file.length() / 1024 * 100) / 100;
+            if (fileSize > maxSize*1024) {
+                renderJson(Ret.fail().set("message", "文件大小不能超过" + maxSize + "MB"));
+                return;
+            }
+        }
         String path = AttachmentUtils.moveFile(uploadFile);
         AliyunOssUtils.upload(path, AttachmentUtils.file(path));
 

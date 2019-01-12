@@ -29,6 +29,8 @@
         done: function (e, data) {
             if(data.result.state == "ok"){
                 toastr.success("文件上传成功...")
+            }else {
+                toastr.error(data.result.message)
             }
         }
     });

@@ -22,8 +22,10 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,9 @@ import java.util.Map;
  */
 @RequestMapping("/commons/ckeditor")
 public class CKEditorController extends UserControllerBase {
+
+    @Inject
+    OptionService optionService;
 
     public void index() {
         renderError(404);
@@ -46,16 +51,31 @@ public class CKEditorController extends UserControllerBase {
             return;
         }
 
+        Map result = new HashMap();
         UploadFile uploadFile = getFile();
         if (uploadFile == null) {
-            renderText("请提交上传的文件。");
+            Map msgMap = new HashMap();
+            msgMap.put("message", "请提交上传的文件");
+            result.put("error", msgMap);
+            renderJson(result);
             return;
         }
+
+        String mineType = uploadFile.getContentType();
+        String fileType = mineType.split("/")[0];
+        Integer maxImgSize = optionService.findAsIntegerByKey("attachment_img_maxsize");
+        Integer maxOtherSize = optionService.findAsIntegerByKey("attachment_other_maxsize");
+        maxImgSize = maxImgSize == null ? 2 : maxImgSize; //没设置 默认2M
+        maxOtherSize = maxOtherSize == null ? 20 : maxOtherSize; //没设置 默认20M
+        Integer maxSize = fileType.equals("image") ? maxImgSize : maxOtherSize;
         File file = uploadFile.getFile();
         if (file != null) {
             int fileSize = Math.round(file.length() / 1024 * 100) / 100;
-            if (fileSize > 2048) {
-                renderText("图片大小不能超过2MB");
+            if (fileSize > maxSize * 1024) {
+                Map msgMap = new HashMap();
+                msgMap.put("message", "文件大小不能超过" + maxSize + "MB");
+                result.put("error", msgMap);
+                renderJson(result);
                 return;
             }
         }
@@ -69,7 +89,7 @@ public class CKEditorController extends UserControllerBase {
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
         attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
-        attachment.setMimeType(uploadFile.getContentType());
+        attachment.setMimeType(mineType);
 
         if (attachment.save()) {
 
@@ -82,9 +102,11 @@ public class CKEditorController extends UserControllerBase {
             map.put("url", JFinal.me().getContextPath() + attachment.getPath());
             renderJson(map);
         } else {
-            renderText("系统错误");
+            Map msgMap = new HashMap();
+            msgMap.put("message", "系统错误");
+            result.put("error", msgMap);
+            renderJson(result);
         }
     }
-
 
 }

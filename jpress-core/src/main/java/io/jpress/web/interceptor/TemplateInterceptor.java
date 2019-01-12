@@ -22,6 +22,7 @@ import io.jboot.Jboot;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
@@ -69,16 +70,16 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, webTitle);
-        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, webSubTitle);
-        controller.setAttr(JPressConsts.ATTR_WEB_NAME, webName);
+        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, CommonsUtils.escapeHtml(webTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, CommonsUtils.escapeHtml(webSubTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_NAME, CommonsUtils.escapeHtml(webName));
+        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, CommonsUtils.escapeHtml(webIpcNo));
+        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, CommonsUtils.escapeHtml(seoTitle));
+        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, CommonsUtils.escapeHtml(seoKeyword));
+        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, CommonsUtils.escapeHtml(seoDescription));
+
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
-        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, webIpcNo);
-        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, seoTitle);
-        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, seoKeyword);
-        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, seoDescription);
-
 
         MenuService menuService = Jboot.bean(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);

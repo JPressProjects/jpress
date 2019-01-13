@@ -49,6 +49,23 @@ public class CommonsUtils {
 
     }
 
+    public static String maxLength(String content, int maxLength,String suffix) {
+        if (StrUtils.isBlank(suffix)) {
+            return maxLength(content, maxLength);
+        }
+
+        if (StrUtils.isBlank(content)) {
+            return content;
+        }
+
+        if (maxLength <= 0) {
+            throw new IllegalArgumentException("maxLength 必须大于 0 ");
+        }
+
+        return content.length() <= maxLength ? content :
+                content.substring(0, maxLength)+suffix;
+
+    }
 
     public static String removeSuffix(String url) {
 

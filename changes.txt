@@ -1,3 +1,18 @@
+jpress v1.0.4
+修复：修改错别字 "登陆" 为 "登录"
+修复：CkEditor 在选择附件的时候，无法弹出自定义附件列表的问题
+修复：CKEditor 上传文件的时候，在某些情况下会出现 undefined 的问题
+修复：用户中心投稿的时候，添加图片无法在后台显示的问题，优化 xss 逻辑
+新增：添加 JPress 安装的时候优先读取已经存在的 jboot.properties 文件的功能
+新增：CKEditor 添加网页视频的插件和音频的插件
+新增：附件功能新增上传图片、附件大小限制配置的功能
+优化：优化 AliyunSmsSender 阿里云短信发送的数据签名逻辑
+优化：升级 Markdown 的相关依赖，增强 markdown 解析性能
+优化：后台 微信 功能的菜单，增强 运营插件 功能的排序
+优化：优化 阿里云 OSS 文件同步的逻辑，解决当本地开启 OSS 同步的时候可能导致文件上传过慢的问题
+
+
+
 jpress v1.0.3
 新增：Docker Cloud 的自动构建功能以及 JPress 的根目录下的 Dockerfile
 新增：阿里云 Docker 容器服务的 Compose 一键部署功能以及阿里云专属的 Dockercompose 文件

@@ -49,7 +49,7 @@ public class CommonsUtils {
 
     }
 
-    public static String maxLength(String content, int maxLength,String suffix) {
+    public static String maxLength(String content, int maxLength, String suffix) {
         if (StrUtils.isBlank(suffix)) {
             return maxLength(content, maxLength);
         }
@@ -63,7 +63,7 @@ public class CommonsUtils {
         }
 
         return content.length() <= maxLength ? content :
-                content.substring(0, maxLength)+suffix;
+                content.substring(0, maxLength) + suffix;
 
     }
 

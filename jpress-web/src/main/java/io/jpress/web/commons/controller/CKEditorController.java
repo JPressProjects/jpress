@@ -54,12 +54,8 @@ public class CKEditorController extends UserControllerBase {
         }
 
         UploadFile uploadFile = getFile();
-        Map result = new HashMap();
         if (uploadFile == null) {
-            Map msgMap = new HashMap();
-            msgMap.put("message", "请选择要上传的文件");
-            result.put("error", msgMap);
-            renderJson(result);
+            renderJson(Ret.create("error", Ret.create("message", "请选择要上传的文件")));
             return;
         }
 
@@ -73,10 +69,7 @@ public class CKEditorController extends UserControllerBase {
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
         if (fileSize > maxSize * 1024) {
             file.delete();
-            Map msgMap = new HashMap();
-            msgMap.put("message", "上传文件大小不能超过 " + maxSize + " MB");
-            result.put("error", msgMap);
-            renderJson(result);
+            renderJson(Ret.create("error", Ret.create("message", "上传文件大小不能超过 " + maxSize + " MB")));
             return;
         }
 
@@ -102,10 +95,7 @@ public class CKEditorController extends UserControllerBase {
             map.put("url", JFinal.me().getContextPath() + attachment.getPath());
             renderJson(map);
         } else {
-            Map msgMap = new HashMap();
-            msgMap.put("message", "系统错误");
-            result.put("error", msgMap);
-            renderJson(result);
+            renderJson(Ret.create("error", Ret.create("message", "系统错误")));
         }
     }
 

@@ -98,7 +98,12 @@ public class JPressOptions {
         if (StrUtils.isBlank(value)) {
             return defaultValue;
         }
-        return Integer.parseInt(value);
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception ex) {
+            LOG.warn(ex.toString(), ex);
+            return defaultValue;
+        }
     }
 
     public static float getAsFloat(String key, float defaultValue) {
@@ -106,7 +111,12 @@ public class JPressOptions {
         if (StrUtils.isBlank(value)) {
             return defaultValue;
         }
-        return Float.parseFloat(value);
+        try {
+            return Float.parseFloat(value);
+        } catch (Exception ex) {
+            LOG.warn(ex.toString(), ex);
+            return defaultValue;
+        }
     }
 
     public static void addListener(OptionChangeListener listener) {

@@ -18,10 +18,10 @@ package io.jpress.service.provider;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
+import io.jboot.db.model.JbootModel;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
@@ -141,7 +141,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature", "id"};
 
     @Override
-    public User join(Model model, String joinOnField) {
-        return (User) super.join(model, joinOnField, defaultJoinAttrs);
+    protected JbootModel joinById(Object id) {
+        return (JbootModel) super.joinById(id).keep(defaultJoinAttrs);
     }
 }

@@ -227,7 +227,7 @@
                     <programs>
                         <!--程序打包 mvn clean package appassembler:assemble -->
                         <program>
-                            <mainClass>io.jboot.Jboot</mainClass>
+                            <mainClass>io.jboot.app.JbootApplication</mainClass>
                             <id>jpress</id>
                             <platforms>
                                 <platform>windows</platform>
@@ -239,7 +239,7 @@
                     <daemons>
                         <!-- 后台程序打包：mvn clean package appassembler:generate-daemons -->
                         <daemon>
-                            <mainClass>io.jboot.Jboot</mainClass>
+                            <mainClass>io.jboot.app.JbootApplication</mainClass>
                             <id>jpress</id>
                             <platforms>
                                 <platform>jsw</platform>

@@ -64,8 +64,8 @@ public class AttachmentDownloader {
         JbootHttpRequest request = JbootHttpRequest.create(url);
         request.setDownloadFile(downloadToFile);
 
-        boolean failed = JbootHttpKit.download(url,downloadToFile);
-        if (failed) {
+        boolean success = JbootHttpKit.download(url, downloadToFile);
+        if (!success) {
             LogKit.error("download attachment error by url:" + url);
             return;
         }

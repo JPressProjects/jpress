@@ -18,10 +18,10 @@ package io.jpress.service.provider;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
-import io.jboot.db.model.JbootModel;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
@@ -72,9 +72,6 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         if (user.isStatusLocked()) {
             return Ret.fail("message", "该账号已被冻结");
         }
-//        if (user.isStatusReg()) {
-//            return Ret.fail("message", "该账号未激活");
-//        }
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + pwd);
@@ -141,7 +138,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature", "id"};
 
     @Override
-    protected JbootModel joinById(Object id) {
-        return (JbootModel) super.joinById(id).keep(defaultJoinAttrs);
+    public <M extends Model> M join(M model, String joinOnField) {
+        return super.join(model, joinOnField, defaultJoinAttrs);
     }
 }

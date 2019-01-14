@@ -15,7 +15,6 @@
  */
 package io.jpress.module.page.service;
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.page.model.SinglePage;
 
@@ -73,7 +72,7 @@ public interface SinglePageService {
      * @param model
      * @return
      */
-    public boolean save(SinglePage model);
+    public <T> T save(SinglePage model);
 
 
     /**
@@ -82,7 +81,7 @@ public interface SinglePageService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(SinglePage model);
+    public <T> T saveOrUpdate(SinglePage model);
 
 
     /**
@@ -93,34 +92,6 @@ public interface SinglePageService {
      */
     public boolean update(SinglePage model);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 
     public Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status);
 

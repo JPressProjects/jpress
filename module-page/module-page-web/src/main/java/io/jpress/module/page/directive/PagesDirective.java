@@ -15,18 +15,18 @@
  */
 package io.jpress.module.page.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
-import io.jboot.web.JbootControllerContext;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.JPressConsts;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -45,7 +45,7 @@ public class PagesDirective extends JbootDirectiveBase {
 
         String flag = getPara("flag", scope);
 
-        List<SinglePage> singlePages = StrUtils.isBlank(flag)
+        List<SinglePage> singlePages = StrUtil.isBlank(flag)
                 ? singlePageService.findAll()
                 : singlePageService.findListByFlag(flag);
 

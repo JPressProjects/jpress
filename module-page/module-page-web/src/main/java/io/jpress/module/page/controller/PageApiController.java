@@ -15,13 +15,13 @@
  */
 package io.jpress.module.page.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.ApiControllerBase;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**

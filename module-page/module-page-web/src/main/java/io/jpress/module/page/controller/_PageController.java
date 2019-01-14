@@ -15,14 +15,14 @@
  */
 package io.jpress.module.page.controller;
 
-import com.google.inject.Inject;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
@@ -51,7 +51,7 @@ public class _PageController extends AdminControllerBase {
         String title = getPara("title");
 
         Page<SinglePage> page =
-                StrUtils.isBlank(status)
+                StrUtil.isBlank(status)
                         ? sps._paginateWithoutTrash(getPagePara(), 10, title)
                         : sps._paginateByStatus(getPagePara(), 10, title, status);
 
@@ -77,12 +77,12 @@ public class _PageController extends AdminControllerBase {
         setAttr("page", page);
 
         List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles("page_");
-        if (ArrayUtils.isNotEmpty(styles)) {
+        if (ArrayUtil.isNotEmpty(styles)) {
             setAttr("styles", styles);
         }
 
         String editMode = page == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : page.getEditMode();
-        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
+        setAttr("editMode", StrUtil.isBlank(editMode) ? "html" : editMode);
 
         render("page/page_write.html");
     }
@@ -100,7 +100,7 @@ public class _PageController extends AdminControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(page.getSlug())) {
+        if (StrUtil.isNotBlank(page.getSlug())) {
             SinglePage bySlug = sps.findFirstBySlug(page.getSlug());
             if (bySlug != null && bySlug.getId().equals(page.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
@@ -120,12 +120,12 @@ public class _PageController extends AdminControllerBase {
 
     public void doDelByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;

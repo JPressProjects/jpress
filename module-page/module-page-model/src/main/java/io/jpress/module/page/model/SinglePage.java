@@ -17,7 +17,7 @@ package io.jpress.module.page.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.JsoupUtils;
@@ -51,12 +51,12 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
 
     public String getHtmlView() {
-        return StrUtils.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
+        return StrUtil.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 
     public String getUrl() {
 
-        if (StrUtils.isBlank(getSlug())) {
+        if (StrUtil.isBlank(getSlug())) {
             return JFinal.me().getContextPath() + "/" + getId() + JPressOptions.getAppUrlSuffix();
         } else {
             return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();

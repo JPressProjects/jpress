@@ -15,7 +15,8 @@
  */
 package io.jpress.module.page.controller;
 
-import io.jboot.utils.StrUtils;
+import com.jfinal.aop.Inject;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.page.model.SinglePage;
@@ -23,7 +24,6 @@ import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -38,10 +38,10 @@ public class PageController extends TemplateControllerBase {
 
     public void index() {
 
-        String target = StrUtils.urlDecode(JPressHandler.getCurrentTarget());
+        String target = StrUtil.urlDecode(JPressHandler.getCurrentTarget());
         String slugOrId = target.substring(1);
 
-        SinglePage page = StrUtils.isNumeric(slugOrId)
+        SinglePage page = StrUtil.isNumeric(slugOrId)
                 ? pageService.findById(slugOrId)
                 : pageService.findFirstBySlug(slugOrId);
 
@@ -66,7 +66,7 @@ public class PageController extends TemplateControllerBase {
     private void setSeoInfos(SinglePage page) {
         setSeoTitle(page.getTitle());
         setSeoKeywords(page.getMetaKeywords());
-        setSeoDescription(StrUtils.isBlank(page.getMetaDescription())
+        setSeoDescription(StrUtil.isBlank(page.getMetaDescription())
                 ? CommonsUtils.maxLength(page.getText(), 100)
                 : page.getMetaDescription());
     }

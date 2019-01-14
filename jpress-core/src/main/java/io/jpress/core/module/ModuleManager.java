@@ -15,8 +15,8 @@
  */
 package io.jpress.core.module;
 
-import io.jboot.utils.ClassKits;
 import io.jboot.utils.ClassScanner;
+import io.jboot.utils.ClassUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class ModuleManager {
         }
 
         for (Class<ModuleListener> jPressAppListenerClass : classes) {
-            moduleListeners.add(ClassKits.newInstance(jPressAppListenerClass));
+            moduleListeners.add(ClassUtil.newInstance(jPressAppListenerClass));
         }
     }
 

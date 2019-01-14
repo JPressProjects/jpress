@@ -16,10 +16,9 @@
 package io.jpress.core.attachment;
 
 import com.jfinal.kit.LogKit;
-import io.jboot.Jboot;
-import io.jboot.core.http.JbootHttpRequest;
-import io.jboot.core.http.JbootHttpResponse;
-import io.jboot.utils.StrUtils;
+import io.jboot.components.http.JbootHttpKit;
+import io.jboot.components.http.JbootHttpRequest;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 
@@ -53,7 +52,7 @@ public class AttachmentDownloader {
         }
 
         String url = attachment.getPath();
-        if (StrUtils.isBlank(url)) {
+        if (StrUtil.isBlank(url)) {
             return;
         }
 
@@ -65,8 +64,8 @@ public class AttachmentDownloader {
         JbootHttpRequest request = JbootHttpRequest.create(url);
         request.setDownloadFile(downloadToFile);
 
-        JbootHttpResponse response = Jboot.me().getHttp().handle(request);
-        if (response.isError()) {
+        boolean failed = JbootHttpKit.download(url,downloadToFile);
+        if (failed) {
             LogKit.error("download attachment error by url:" + url);
             return;
         }

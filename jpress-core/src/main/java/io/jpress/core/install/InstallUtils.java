@@ -21,8 +21,8 @@ import com.jfinal.log.Log;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.exception.JbootException;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -95,8 +95,8 @@ public class InstallUtils {
 
 
         putPropertieIfValueIsNull(p, "jboot.mode", "product");
-        putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", StrUtils.uuid());
-        putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", StrUtils.uuid());
+        putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", StrUtil.uuid());
+        putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", StrUtil.uuid());
 
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", jdbcUrl);
@@ -141,7 +141,7 @@ public class InstallUtils {
 
     public static void tryInitJPressTables() throws SQLException {
         String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
-        String installSql = FileUtils.readString(new File(SqlFilePath));
+        String installSql = FileUtil.readString(new File(SqlFilePath));
         executeBatchSql(installSql);
     }
 

@@ -16,8 +16,8 @@
 package io.jpress.core.wechat;
 
 import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jpress.JPressOptions;
 import io.jpress.core.install.JPressInstaller;
@@ -31,7 +31,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddonManager implements JbootEventListener{
+public class WechatAddonManager implements JbootEventListener {
 
     private static WechatAddonManager me = new WechatAddonManager();
     private static final String OPTION_PREFIX = "wechat_addon_enable_for_";

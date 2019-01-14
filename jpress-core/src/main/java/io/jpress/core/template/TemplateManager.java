@@ -17,7 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 
@@ -94,7 +94,7 @@ public class TemplateManager {
     }
 
     public void setCurrentTemplate(String templateId) {
-        if (StrUtils.isBlank(templateId)) {
+        if (StrUtil.isBlank(templateId)) {
             initDefaultTemplate();
             return;
         }

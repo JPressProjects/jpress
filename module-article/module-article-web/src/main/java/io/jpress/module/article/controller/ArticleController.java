@@ -15,8 +15,9 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
@@ -30,9 +31,7 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import org.apache.commons.lang.StringEscapeUtils;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -70,7 +69,7 @@ public class ArticleController extends TemplateControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(article.getLinkTo())) {
+        if (StrUtil.isNotBlank(article.getLinkTo())) {
             redirect(article.getLinkTo());
             return;
         }
@@ -98,7 +97,7 @@ public class ArticleController extends TemplateControllerBase {
     private void setSeoInfos(Article article) {
         setSeoTitle(article.getTitle());
         setSeoKeywords(article.getMetaKeywords());
-        setSeoDescription(StrUtils.isBlank(article.getMetaDescription())
+        setSeoDescription(StrUtil.isBlank(article.getMetaDescription())
                 ? CommonsUtils.maxLength(article.getText(), 100)
                 : article.getMetaDescription());
     }
@@ -106,9 +105,9 @@ public class ArticleController extends TemplateControllerBase {
 
     private Article getArticle() {
         String idOrSlug = getPara(0);
-        return StrUtils.isNumeric(idOrSlug)
+        return StrUtil.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
-                : articleService.findFirstBySlug(StrUtils.urlDecode(idOrSlug));
+                : articleService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));
     }
 
 
@@ -154,11 +153,11 @@ public class ArticleController extends TemplateControllerBase {
             return;
         }
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {
-            content = StringEscapeUtils.escapeHtml(content);
+            content = CommonsUtils.escapeHtml(content);
         }
 
         //是否对用户输入验证码进行验证

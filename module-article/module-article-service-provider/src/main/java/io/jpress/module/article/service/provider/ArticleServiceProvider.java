@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -22,7 +23,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -33,13 +34,10 @@ import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
 @Bean
-@Singleton
 public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
 
     @Inject
@@ -211,7 +209,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
 
-        if (StrUtils.isBlank(orderBy)) {
+        if (StrUtil.isBlank(orderBy)) {
             orderBy = "id desc";
         }
 
@@ -393,7 +391,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
      */
     private static void buildOrderBySQL(StringBuilder sqlBuilder, String orderBy) {
 
-        if (StrUtils.isBlank(orderBy)) {
+        if (StrUtil.isBlank(orderBy)) {
             sqlBuilder.append(" ORDER BY a.id DESC");
             return;
         }

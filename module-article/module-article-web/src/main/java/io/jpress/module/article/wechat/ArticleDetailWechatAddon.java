@@ -15,13 +15,14 @@
  */
 package io.jpress.module.article.wechat;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.out.News;
 import com.jfinal.weixin.sdk.msg.out.OutNewsMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.wechat.WechatAddon;
@@ -29,8 +30,6 @@ import io.jpress.core.wechat.WechatAddonConfig;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
-
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -77,7 +76,7 @@ public class ArticleDetailWechatAddon implements WechatAddon {
         }
 
         String webDomain = optionService.findByKey(JPressConsts.OPTION_WEB_DOMAIN);
-        if (StrUtils.isBlank(webDomain)) {
+        if (StrUtil.isBlank(webDomain)) {
             OutTextMsg outTextMsg = new OutTextMsg(inMsg);
             outTextMsg.setContent("服务器配置错误：网站域名配置为空，请先到 后台->系统->常规 配置网站域名");
             msgController.render(outTextMsg);

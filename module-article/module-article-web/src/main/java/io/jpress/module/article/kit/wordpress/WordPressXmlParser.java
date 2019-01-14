@@ -1,7 +1,7 @@
 package io.jpress.module.article.kit.wordpress;
 
 import com.jfinal.log.Log;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.model.Attachment;
 import io.jpress.module.article.model.Article;
@@ -76,7 +76,7 @@ public class WordPressXmlParser extends DefaultHandler {
     }
 
     private void addContent() {
-        if (StrUtils.isBlank(post_type)) {
+        if (StrUtil.isBlank(post_type)) {
             //unknow type,do nothing
             return;
         }
@@ -93,7 +93,7 @@ public class WordPressXmlParser extends DefaultHandler {
     }
 
     private void addAttachement() {
-        if (StrUtils.isBlank(attachment_url)) {
+        if (StrUtil.isBlank(attachment_url)) {
             return;
         }
 
@@ -103,7 +103,7 @@ public class WordPressXmlParser extends DefaultHandler {
 
 
     private void addArticle() {
-        if (StrUtils.isBlank(title) || StrUtils.isBlank(content_encoded)) {
+        if (StrUtil.isBlank(title) || StrUtil.isBlank(content_encoded)) {
             return;
         }
 

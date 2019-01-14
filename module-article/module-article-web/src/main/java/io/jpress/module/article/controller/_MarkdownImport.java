@@ -18,7 +18,7 @@ package io.jpress.module.article.controller;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.module.article.kit.markdown.MarkdownParser;
@@ -49,7 +49,7 @@ public class _MarkdownImport extends AdminControllerBase {
             return;
         }
 
-        if (!".md".equals(FileUtils.getSuffix(ufile.getFileName()))) {
+        if (!".md".equals(FileUtil.getSuffix(ufile.getFileName()))) {
             renderJson(Ret.fail("message", "请选择Markdown格式的文件"));
             return;
         }

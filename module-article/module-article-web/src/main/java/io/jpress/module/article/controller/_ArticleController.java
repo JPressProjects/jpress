@@ -15,13 +15,14 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.Jboot;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -39,7 +40,6 @@ import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 
@@ -164,7 +164,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
 
-        if (StrUtils.isNotBlank(article.getSlug())) {
+        if (StrUtil.isNotBlank(article.getSlug())) {
             Article slugArticle = articleService.findFirstBySlug(article.getSlug());
             if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
@@ -309,7 +309,7 @@ public class _ArticleController extends AdminControllerBase {
         Long articleId = getParaToLong("articleId");
 
         Page<ArticleComment> page =
-                StrUtils.isBlank(status)
+                StrUtil.isBlank(status)
                         ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
                         : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
 
@@ -388,12 +388,12 @@ public class _ArticleController extends AdminControllerBase {
      */
     public void doCommentDelByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;
@@ -407,12 +407,12 @@ public class _ArticleController extends AdminControllerBase {
      */
     public void doCommentAuditByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;
@@ -441,12 +441,12 @@ public class _ArticleController extends AdminControllerBase {
 
     public void doDelByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;

@@ -15,14 +15,14 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.web.JbootControllerContext;
-import io.jboot.web.JbootRequestContext;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
@@ -31,7 +31,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -88,7 +87,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber) {
-            HttpServletRequest request = JbootRequestContext.getRequest();
+            HttpServletRequest request = JbootControllerContext.get().getRequest();
             String url = request.getRequestURI();
             String contextPath = JFinal.me().getContextPath();
 

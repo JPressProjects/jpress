@@ -17,7 +17,7 @@ package io.jpress.module.article.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.CommonsUtils;
@@ -51,17 +51,17 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHtmlView() {
-        return StrUtils.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
+        return StrUtil.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
     }
 
 
     public String getUrl() {
         String link = getLinkTo();
-        if (StrUtils.isNotBlank(link)) {
+        if (StrUtil.isNotBlank(link)) {
             return link;
         }
 
-        if (StrUtils.isBlank(getSlug())) {
+        if (StrUtil.isBlank(getSlug())) {
             return JFinal.me().getContextPath() + "/article/" + getId() + JPressOptions.getAppUrlSuffix();
         } else {
             return JFinal.me().getContextPath() + "/article/" + getSlug() + JPressOptions.getAppUrlSuffix();
@@ -109,7 +109,7 @@ public class Article extends BaseArticle<Article> {
 
     public String getShowImage() {
         String thumbnail = getThumbnail();
-        return StrUtils.isNotBlank(thumbnail) ? thumbnail : getFirstImage();
+        return StrUtil.isNotBlank(thumbnail) ? thumbnail : getFirstImage();
     }
 
     @Override

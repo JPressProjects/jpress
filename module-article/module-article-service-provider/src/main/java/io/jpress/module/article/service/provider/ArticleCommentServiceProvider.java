@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
@@ -28,12 +29,9 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.task.CommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
 @Bean
-@Singleton
 public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComment> implements ArticleCommentService {
 
     @Inject

@@ -1,7 +1,7 @@
 package io.jpress.module.article.kit.markdown;
 
 import com.jfinal.log.Log;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.FileUtil;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.Article;
@@ -76,7 +76,7 @@ public class MarkdownParser {
      */
     public void parse(File mdFile) {
         try {
-            markdown = FileUtils.readString(mdFile);
+            markdown = FileUtil.readString(mdFile);
             datas = MarkdownUtils.getFrontMatter(markdown);
         } catch (Exception e) {
             log.warn("ConfigParser parser exception", e);

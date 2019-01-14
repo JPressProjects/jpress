@@ -17,8 +17,8 @@ package io.jpress.core.menu;
 
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
 import io.jpress.JPressConsts;
 import io.jpress.core.install.JPressInstaller;
 import io.jpress.core.menu.annotation.AdminMenu;

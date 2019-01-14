@@ -16,9 +16,9 @@
 package io.jpress.core.install;
 
 import com.jfinal.kit.PathKit;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.event.JbootEventManager;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.components.event.JbootEventManager;
 
 import java.io.File;
 

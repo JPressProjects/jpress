@@ -15,18 +15,18 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.RequestUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.Utm;
 import io.jpress.service.UtmService;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -46,16 +46,16 @@ public class UTMInterceptor implements Interceptor {
         Controller ctrl = inv.getController();
 
         Utm utm = new Utm();
-        utm.setId(StrUtils.uuid());
+        utm.setId(StrUtil.uuid());
         utm.setActionKey(ctrl.getRequest().getRequestURI());
         utm.setActionQuery(ctrl.getRequest().getQueryString());
-        utm.setIp(RequestUtils.getIpAddress(ctrl.getRequest()));
-        utm.setAgent(RequestUtils.getUserAgent(ctrl.getRequest()));
-        utm.setReferer(RequestUtils.getReferer(ctrl.getRequest()));
+        utm.setIp(RequestUtil.getIpAddress(ctrl.getRequest()));
+        utm.setAgent(RequestUtil.getUserAgent(ctrl.getRequest()));
+        utm.setReferer(RequestUtil.getReferer(ctrl.getRequest()));
 
 
-        String uid = EncryptCookieUtils.get(ctrl, JPressConsts.COOKIE_UID);
-        if (StrUtils.isNotBlank(uid)) {
+        String uid = CookieUtil.get(ctrl, JPressConsts.COOKIE_UID);
+        if (StrUtil.isNotBlank(uid)) {
             utm.setUserId(Long.valueOf(uid));
         }
 
@@ -73,11 +73,11 @@ public class UTMInterceptor implements Interceptor {
          */
         else {
             //anonym
-            String anonym = EncryptCookieUtils.get(ctrl, JPressConsts.COOKIE_ANONYM);
-            if (StrUtils.isNotBlank(anonym)) {
+            String anonym = CookieUtil.get(ctrl, JPressConsts.COOKIE_ANONYM);
+            if (StrUtil.isNotBlank(anonym)) {
                 utm.setAnonym(anonym);
             } else {
-                EncryptCookieUtils.put(ctrl, JPressConsts.COOKIE_ANONYM, StrUtils.uuid(), 60 * 60 * 24 * 365);
+                CookieUtil.put(ctrl, JPressConsts.COOKIE_ANONYM, StrUtil.uuid(), 60 * 60 * 24 * 365);
             }
         }
 

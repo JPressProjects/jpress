@@ -15,18 +15,18 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -67,14 +67,14 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
         // 服务器的 API Secret 为空
-        if (StrUtils.isBlank(apiSecret)) {
+        if (StrUtil.isBlank(apiSecret)) {
             inv.getController().renderJson(Ret.fail().set("message", "config error"));
             return;
         }
 
         JbootController controller = (JbootController) inv.getController();
         String appId = controller.getPara("appId");
-        if (StrUtils.isBlank(appId)) {
+        if (StrUtil.isBlank(appId)) {
             inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
             return;
         }
@@ -86,7 +86,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
         String sign = controller.getPara("sign");
-        if (StrUtils.isBlank(sign)) {
+        if (StrUtil.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "sign is blank"));
             return;
         }

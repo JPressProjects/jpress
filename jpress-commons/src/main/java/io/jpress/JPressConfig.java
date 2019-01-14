@@ -16,7 +16,7 @@
 package io.jpress;
 
 import io.jboot.Jboot;
-import io.jboot.config.annotation.PropertyConfig;
+import io.jboot.app.config.annotation.ConfigModel;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -24,7 +24,7 @@ import io.jboot.config.annotation.PropertyConfig;
  * @Title: JPress 环境配置
  * @Package io.jpress
  */
-@PropertyConfig(prefix = "io.jpress")
+@ConfigModel(prefix = "io.jpress")
 public class JPressConfig {
 
     private String indexAction = "/page";

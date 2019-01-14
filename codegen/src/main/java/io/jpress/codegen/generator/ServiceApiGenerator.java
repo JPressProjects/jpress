@@ -21,7 +21,7 @@ import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
-import io.jboot.Jboot;
+import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
 
 import java.io.File;
@@ -36,8 +36,8 @@ public class ServiceApiGenerator extends BaseModelGenerator {
 
     public static void main(String[] args) {
 
-        Jboot.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jbootdemo");
-        Jboot.setBootArg("jboot.datasource.user", "root");
+        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jbootdemo");
+        JbootApplication.setBootArg("jboot.datasource.user", "root");
 
         String basePackage = "io.jboot.codegen.service.test";
         String modelPackage = "io.jboot.codegen.model.test";

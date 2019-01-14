@@ -17,7 +17,7 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
@@ -145,7 +145,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     private void setMenuActive(MenuActiveChecker checker, List<Menu> menus) {
         for (Menu menu : menus) {
-            if (StrUtils.isNotBlank(menu.getUrl())) {
+            if (StrUtil.isNotBlank(menu.getUrl())) {
                 if (checker.isActive(menu)) {
                     doSetMenuActive(menu);
                 }

@@ -16,7 +16,7 @@
 package io.jpress;
 
 import com.jfinal.log.Log;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class JPressOptions {
 
         @Override
         public void put(String key, String value) {
-            if (StrUtils.isBlank(value)) {
+            if (StrUtil.isBlank(value)) {
                 remove(key);
             } else {
                 cache.put(key, value);
@@ -60,7 +60,7 @@ public class JPressOptions {
     private static List<OptionChangeListener> LISTENERS = new ArrayList<>();
 
     public static void set(String key, String value) {
-        if (StrUtils.isBlank(key)) {
+        if (StrUtil.isBlank(key)) {
             return;
         }
 
@@ -95,7 +95,7 @@ public class JPressOptions {
 
     public static int getAsInt(String key, int defaultValue) {
         String value = get(key);
-        if (StrUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return defaultValue;
         }
         try {
@@ -108,7 +108,7 @@ public class JPressOptions {
 
     public static float getAsFloat(String key, float defaultValue) {
         String value = get(key);
-        if (StrUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return defaultValue;
         }
         try {
@@ -135,7 +135,7 @@ public class JPressOptions {
         }
 
         String cdnDomain = get(JPressConsts.OPTION_CDN_DOMAIN);
-        return StrUtils.isBlank(cdnDomain) ? null : cdnDomain;
+        return StrUtil.isBlank(cdnDomain) ? null : cdnDomain;
     }
 
     public static String getResDomain() {
@@ -178,7 +178,7 @@ public class JPressOptions {
 
     public static String getAppUrlSuffix() {
         return fakeStaticEnable
-                ? (StrUtils.isBlank(fakeStaticSuffix) ? "" : fakeStaticSuffix)
+                ? (StrUtil.isBlank(fakeStaticSuffix) ? "" : fakeStaticSuffix)
                 : "";
     }
 

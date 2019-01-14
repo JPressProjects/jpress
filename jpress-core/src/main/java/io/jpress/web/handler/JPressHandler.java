@@ -17,7 +17,7 @@ package io.jpress.web.handler;
 
 
 import com.jfinal.handler.Handler;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -45,12 +45,12 @@ public class JPressHandler extends Handler {
 
         String suffix = JPressOptions.getAppUrlSuffix();
 
-        if (StrUtils.isBlank(suffix) && target.indexOf('.') != -1) {
+        if (StrUtil.isBlank(suffix) && target.indexOf('.') != -1) {
             return;
         }
 
         //启用伪静态
-        if (StrUtils.isNotBlank(suffix) && target.endsWith(suffix)) {
+        if (StrUtil.isNotBlank(suffix) && target.endsWith(suffix)) {
             target = target.substring(0, target.length() - suffix.length());
         }
 

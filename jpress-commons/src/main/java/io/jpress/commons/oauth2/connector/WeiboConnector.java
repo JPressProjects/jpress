@@ -16,7 +16,7 @@
 package io.jpress.commons.oauth2.connector;
 
 import com.alibaba.fastjson.JSONObject;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
 
@@ -52,7 +52,7 @@ public class WeiboConnector extends OauthConnector {
 		String url = "https://api.weibo.com/oauth2/access_token";
 		String httpString = httpPost(url, params);
 
-		if (StrUtils.isBlank(httpString)) {
+		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
 

@@ -17,11 +17,12 @@ package io.jpress.module.article.service;
 
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.article.model.Article;
 
 import java.util.List;
 
-public interface ArticleService {
+public interface ArticleService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

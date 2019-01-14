@@ -16,7 +16,7 @@
 package io.jpress.commons.oauth2;
 
 import com.jfinal.log.Log;
-import io.jboot.core.http.JbootHttpKit;
+import io.jboot.components.http.JbootHttpKit;
 
 import java.util.Map;
 

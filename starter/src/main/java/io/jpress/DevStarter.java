@@ -15,7 +15,7 @@
  */
 package io.jpress;
 
-import io.jboot.Jboot;
+import io.jboot.app.JbootApplication;
 import io.jpress.commons.scanner.FileScanner;
 import org.apache.commons.io.FileUtils;
 
@@ -33,7 +33,7 @@ import java.util.List;
 public class DevStarter {
 
     public static void main(String[] args) {
-        Jboot.run(args);
+        JbootApplication.run(args);
         startFileScanner();
     }
 

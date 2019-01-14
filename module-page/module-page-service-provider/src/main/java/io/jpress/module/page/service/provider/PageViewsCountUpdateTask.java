@@ -16,7 +16,7 @@
 package io.jpress.module.page.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
-import io.jboot.schedule.annotation.FixedRate;
+import io.jboot.components.schedule.annotation.FixedRate;
 
 import java.util.HashMap;
 import java.util.Map;

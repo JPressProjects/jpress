@@ -15,7 +15,7 @@
  */
 package io.jpress.commons.utils;
 
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
@@ -29,20 +29,20 @@ public class JsoupUtils {
 
 
     public static String getFirstImageSrc(String html) {
-        if (StrUtils.isBlank(html))
+        if (StrUtil.isBlank(html))
             return null;
 
         Elements es = Jsoup.parseBodyFragment(html).select("img");
         if (es != null && es.size() > 0) {
             String src = es.first().attr("src");
-            return StrUtils.isBlank(src) ? null : src;
+            return StrUtil.isBlank(src) ? null : src;
         }
 
         return null;
     }
 
     public static List<String> getImageSrcs(String html) {
-        if (StrUtils.isBlank(html)) {
+        if (StrUtil.isBlank(html)) {
             return null;
         }
 
@@ -53,7 +53,7 @@ public class JsoupUtils {
         if (es != null && es.size() > 0) {
             for (Element e : es) {
                 String src = e.attr("src");
-                if (StrUtils.isNotBlank(src)) list.add(src);
+                if (StrUtil.isNotBlank(src)) list.add(src);
             }
         }
         return list.isEmpty() ? null : list;
@@ -69,7 +69,7 @@ public class JsoupUtils {
      */
     public static String makeImageSrcToAbsolutePath(String html, String domain) {
 
-        if (StrUtils.isBlank(domain)) {
+        if (StrUtil.isBlank(domain)) {
             return html;
         }
 
@@ -78,7 +78,7 @@ public class JsoupUtils {
         if (es != null && es.size() > 0) {
             for (Element e : es) {
                 String src = e.attr("src");
-                if (StrUtils.isNotBlank(src) && src.startsWith("/")) {
+                if (StrUtil.isNotBlank(src) && src.startsWith("/")) {
                     src = domain + src;
                     e.attr("src", src);
                 }
@@ -88,7 +88,7 @@ public class JsoupUtils {
     }
 
     public static String getText(String html) {
-        if (StrUtils.isBlank(html)) {
+        if (StrUtil.isBlank(html)) {
             return html;
         }
         return Jsoup.parse(html).text();
@@ -98,7 +98,7 @@ public class JsoupUtils {
     private static MyWhitelist whitelist = new MyWhitelist();
 
     public static String clean(String html) {
-        if (StrUtils.isNotBlank(html))
+        if (StrUtil.isNotBlank(html))
             return Jsoup.clean(html, whitelist);
 
         return html;
@@ -148,7 +148,7 @@ public class JsoupUtils {
         protected boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
             if ("src".equalsIgnoreCase(attr.getKey())) {
                 String src = attr.getValue();
-                if (StrUtils.isNotBlank(src) && src.toLowerCase().startsWith("javascript")) {
+                if (StrUtil.isNotBlank(src) && src.toLowerCase().startsWith("javascript")) {
                     return false;
                 }
             }

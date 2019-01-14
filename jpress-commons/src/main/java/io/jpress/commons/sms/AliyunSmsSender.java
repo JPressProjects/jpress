@@ -17,8 +17,8 @@ package io.jpress.commons.sms;
 
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.log.Log;
-import io.jboot.core.http.JbootHttpKit;
-import io.jboot.utils.StrUtils;
+import io.jboot.components.http.JbootHttpKit;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -53,7 +53,7 @@ public class AliyunSmsSender implements ISmsSender {
         params.put("Format", "JSON");
         params.put("SignatureMethod", "HMAC-SHA1");
         params.put("SignatureVersion", "1.0");
-        params.put("SignatureNonce", StrUtils.uuid());
+        params.put("SignatureNonce", StrUtil.uuid());
 
 
         params.put("Action", "SendSms");
@@ -63,7 +63,7 @@ public class AliyunSmsSender implements ISmsSender {
         params.put("SignName", sms.getSign());
         params.put("TemplateCode", sms.getTemplate());
 
-        if (StrUtils.isNotBlank(sms.getCode())) {
+        if (StrUtil.isNotBlank(sms.getCode())) {
             params.put("TemplateParam", "{\"code\":" + sms.getCode() + "}");
 
         }
@@ -73,7 +73,7 @@ public class AliyunSmsSender implements ISmsSender {
 
             String url = doSignAndGetUrl(params, app_secret);
             String content = JbootHttpKit.httpGet(url);
-            return StrUtils.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
+            return StrUtil.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
         } catch (Exception e) {
             log.error("AliyunSmsSender exception", e);
         }

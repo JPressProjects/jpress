@@ -17,7 +17,7 @@ package io.jpress.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUser;
 
@@ -44,7 +44,7 @@ public class User extends BaseUser<User> {
 
     public String getSourceString() {
         String text = sourceMap.get(getCreateSource());
-        return StrUtils.isBlank(text) ? "" : text;
+        return StrUtil.isBlank(text) ? "" : text;
     }
 
 
@@ -78,7 +78,7 @@ public class User extends BaseUser<User> {
         }
 
         return JFinal.me().getContextPath() +
-                (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
+                (StrUtil.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
     public User keepSafe() {

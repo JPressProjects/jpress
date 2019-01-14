@@ -15,10 +15,11 @@
  */
 package io.jpress.web.commons.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
@@ -27,7 +28,6 @@ import io.jpress.model.Attachment;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +81,7 @@ public class CKEditorController extends UserControllerBase {
         attachment.setUserId(getLoginedUser().getId());
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
-        attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
+        attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(mineType);
 
         if (attachment.save()) {

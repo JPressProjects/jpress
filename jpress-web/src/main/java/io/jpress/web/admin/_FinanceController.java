@@ -15,13 +15,13 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.service.RoleService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

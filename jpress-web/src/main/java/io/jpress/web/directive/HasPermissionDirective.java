@@ -15,6 +15,7 @@
  */
 package io.jpress.web.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
@@ -23,8 +24,6 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.model.User;
 import io.jpress.service.PermissionService;
 import io.jpress.web.interceptor.UserInterceptor;
-
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

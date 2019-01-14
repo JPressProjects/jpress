@@ -15,16 +15,17 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
@@ -42,7 +43,6 @@ import io.jpress.service.UtmService;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.util.*;
 
@@ -116,12 +116,12 @@ public class _UserController extends AdminControllerBase {
         String confirmPwd = getPara("confirmPwd");
         User user = getBean(User.class);
 
-        if (StrUtils.isBlank(pwd)) {
+        if (StrUtil.isBlank(pwd)) {
             renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
-        if (StrUtils.isBlank(confirmPwd)) {
+        if (StrUtil.isBlank(confirmPwd)) {
             renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
@@ -137,7 +137,7 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(user.getEmail())) {
+        if (StrUtil.isNotBlank(user.getEmail())) {
             dbUser = userService.findFistByEmail(user.getEmail());
             if (dbUser != null) {
                 renderJson(Ret.fail().set("message", "邮箱已经存在了").set("errorCode", 11));
@@ -240,12 +240,12 @@ public class _UserController extends AdminControllerBase {
      */
     public void doRoleDelByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;
@@ -388,21 +388,21 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
         String oldPath = attachmentRoot + path;
 
         //先进行图片缩放，保证图片和html的图片显示大小一致
-        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.zoom(500, oldPath, zoomPath); //500的值必须和 html图片的max-width值一样
 
         //进行剪切
-        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        String newPath = FileUtils.removePrefix(newAvatarPath, attachmentRoot);
+        String newPath = FileUtil.removePrefix(newAvatarPath, attachmentRoot);
         AliyunOssUtils.upload(newPath, new File(newAvatarPath));
 
         user.setAvatar(newPath);
@@ -424,12 +424,12 @@ public class _UserController extends AdminControllerBase {
      */
     public void doUserDelByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;
@@ -443,12 +443,12 @@ public class _UserController extends AdminControllerBase {
      */
     public void doChangeRoleByIds() {
         String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
+        if (StrUtil.isBlank(ids)) {
             renderJson(Ret.fail());
             return;
         }
 
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
+        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
             renderJson(Ret.fail());
             return;

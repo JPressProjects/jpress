@@ -15,15 +15,16 @@
  */
 package io.jpress.web.front;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
@@ -33,7 +34,6 @@ import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 
 /**
@@ -131,21 +131,21 @@ public class UserCenterController extends UcenterControllerBase {
     })
     public void doSaveAvatar(String path, int x, int y, int w, int h) {
 
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
         String oldPath = attachmentRoot + path;
 
         //先进行图片缩放，保证图片和html的图片显示大小一致
-        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.zoom(500, oldPath, zoomPath); //500的值必须和 html图片的max-width值一样
 
         //进行剪切
-        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        String newPath = FileUtils.removePrefix(newAvatarPath, attachmentRoot);
+        String newPath = FileUtil.removePrefix(newAvatarPath, attachmentRoot);
         AliyunOssUtils.upload(newPath, new File(newAvatarPath));
 
         User loginedUser = getLoginedUser();
@@ -158,7 +158,7 @@ public class UserCenterController extends UcenterControllerBase {
      * 退出登录
      */
     public void doLogout() {
-        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
+        CookieUtil.remove(this, JPressConsts.COOKIE_UID);
         redirect("/user/login");
     }
 

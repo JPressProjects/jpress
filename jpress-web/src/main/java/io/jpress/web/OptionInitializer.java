@@ -20,9 +20,9 @@ import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
 import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.utils.StrUtils;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.core.install.JPressInstaller;
@@ -96,7 +96,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String appSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPSECRET);
         String token = JPressOptions.get(JPressConsts.OPTION_WECHAT_TOKEN);
 
-        if (StrUtils.areNotEmpty(appId, appSecret, token)) {
+        if (StrUtil.areNotEmpty(appId, appSecret, token)) {
             // 配置微信 API 相关参数
             ApiConfig ac = new ApiConfig();
             ac.setAppId(appId);
@@ -117,7 +117,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
 //        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
+        if (StrUtil.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);

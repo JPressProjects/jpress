@@ -15,13 +15,13 @@
  */
 package io.jpress.web.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -52,13 +52,13 @@ public class OptionApiController extends ApiControllerBase {
 
         String keyPara = getPara("key");
 
-        if (StrUtils.isBlank(keyPara)) {
+        if (StrUtil.isBlank(keyPara)) {
             renderFailJson("key must not be empty");
             return;
         }
 
 
-        Set<String> keys = StrUtils.splitToSet(keyPara, ",");
+        Set<String> keys = StrUtil.splitToSet(keyPara, ",");
         if (keys != null || keys.size() == 1) {
             renderOk("value", optionService.findByKey(keyPara));
             return;

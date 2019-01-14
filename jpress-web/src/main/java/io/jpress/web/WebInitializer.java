@@ -16,7 +16,7 @@
 package io.jpress.web;
 
 import com.jfinal.template.Engine;
-import io.jboot.server.listener.JbootAppListenerBase;
+import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.web.sharekit.MainKits;
 import io.jpress.web.sharekit.PermissionKits;
 

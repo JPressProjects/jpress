@@ -46,8 +46,9 @@ public class MaxLengthDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#maxLength(content,length) 参数错误，length必须大于0 ");
         }
 
+        String suffix = getPara(2, scope);
         try {
-            writer.write(CommonsUtils.maxLength(content, maxLength));
+            writer.write(CommonsUtils.maxLength(content, maxLength, suffix));
         } catch (IOException e) {
             throw new TemplateException(e.getMessage(), location, e);
         }

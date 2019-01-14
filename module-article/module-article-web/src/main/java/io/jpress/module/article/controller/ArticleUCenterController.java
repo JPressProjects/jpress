@@ -181,8 +181,10 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
         //只保留的基本的html，其他的html比如<script>将会被清除
-        String content = JsoupUtils.clean(article.getContent());
-        article.setContent(content);
+        if (!article._isMarkdownMode()) {
+            String content = JsoupUtils.clean(article.getContent());
+            article.setContent(content);
+        }
 
         article.setUserId(getLoginedUser().getId());
         article.setStatus(Article.STATUS_DRAFT);

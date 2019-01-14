@@ -155,6 +155,7 @@ public class _ArticleController extends AdminControllerBase {
             @Form(name = "article.content", message = "文章内容不能为空")
     })
     public void doWriteSave() {
+
         Article article = getModel(Article.class, "article");
 
         if (!validateSlug(article)) {
@@ -170,7 +171,6 @@ public class _ArticleController extends AdminControllerBase {
                 return;
             }
         }
-
 
         long id = articleService.doGetIdBySaveOrUpdateAction(article);
         articleService.doUpdateCommentCount(id);

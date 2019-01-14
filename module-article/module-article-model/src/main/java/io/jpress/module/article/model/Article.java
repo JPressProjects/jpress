@@ -80,10 +80,16 @@ public class Article extends BaseArticle<Article> {
     @Override
     public String getContent() {
         String content = super.getContent();
-        if (JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode())) {
+        if (_isMarkdownMode()) {
             content = MarkdownUtils.toHtml(content);
+            content = JsoupUtils.clean(content);
         }
         return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
+    }
+
+
+    public boolean _isMarkdownMode() {
+        return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
 

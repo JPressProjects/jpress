@@ -21,17 +21,15 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 
-import javax.inject.Singleton;
 import java.io.File;
 
 @Bean
-@Singleton
 public class AttachmentServiceProvider extends JbootServiceBase<Attachment> implements AttachmentService {
 
     private static final Log LOG = Log.getLog(AttachmentServiceProvider.class);
@@ -39,7 +37,7 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
     @Override
     public Page _paginate(int page, int pagesieze, String title) {
         Columns columns = Columns.create();
-        if (StrUtils.isNotBlank(title)) {
+        if (StrUtil.isNotBlank(title)) {
             columns.like("title", "%" + title + "%");
         }
 
@@ -48,11 +46,12 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
 
 
     @Override
-    public boolean save(Attachment model) {
+    public Object save(Attachment model) {
 
         tryToProcessWatermark(model);
-        return super.save(model);
+        return super.save(model) ? model.getId() : null;
     }
+
 
     /**
      * 处理水印的问题

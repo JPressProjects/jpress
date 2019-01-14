@@ -15,13 +15,14 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
-import io.jboot.core.cache.annotation.Cacheable;
-import io.jboot.core.cache.annotation.CachesEvict;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.Permission;
@@ -29,14 +30,11 @@ import io.jpress.model.Role;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Bean
-@Singleton
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
 
     @Inject
@@ -71,7 +69,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @CacheEvict(name = "user_role", key = "*")
-    public boolean saveOrUpdate(Role model) {
+    public <T> T  saveOrUpdate(Role model) {
         return super.saveOrUpdate(model);
     }
 
@@ -251,7 +249,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
         for (Object id : ids) {
             //删除role缓存
-            Jboot.me().getCache().remove("role", "user_roles:" + id);
+            Jboot.getCache().remove("role", "user_roles:" + id);
         }
 
         return Db.tx(() -> {

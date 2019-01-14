@@ -15,26 +15,27 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.model.*;
-import io.jpress.service.*;
+import io.jpress.model.Permission;
+import io.jpress.model.User;
+import io.jpress.service.PermissionService;
+import io.jpress.service.RoleService;
+import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Bean
-@Singleton
 public class PermissionServiceProvider extends JbootServiceBase<Permission> implements PermissionService {
 
     @Inject

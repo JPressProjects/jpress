@@ -27,11 +27,9 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
-import javax.inject.Singleton;
 import java.util.Date;
 
 @Bean
-@Singleton
 public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
 
     @Override
@@ -143,7 +141,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature", "id"};
 
     @Override
-    public void join(Model model, String joinOnField) {
-        super.join(model, joinOnField, defaultJoinAttrs);
+    public User join(Model model, String joinOnField) {
+        return (User) super.join(model, joinOnField, defaultJoinAttrs);
     }
 }

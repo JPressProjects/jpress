@@ -16,13 +16,14 @@
 package io.jpress.web.install;
 
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -33,7 +34,6 @@ import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -100,22 +100,22 @@ public class InstallController extends JbootController {
         String dbHost = getPara("dbHost");
         String dbPort = getPara("dbPort");
 
-        if (StrUtils.isBlank(dbName)) {
+        if (StrUtil.isBlank(dbName)) {
             renderJson(Ret.fail().set("message", "数据库名不能为空").set("errorCode", 1));
             return;
         }
 
-        if (StrUtils.isBlank(dbUser)) {
+        if (StrUtil.isBlank(dbUser)) {
             renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 2));
             return;
         }
 
-        if (StrUtils.isBlank(dbHost)) {
+        if (StrUtil.isBlank(dbHost)) {
             renderJson(Ret.fail().set("message", "主机不能为空").set("errorCode", 3));
             return;
         }
 
-        if (StrUtils.isBlank(dbPort)) {
+        if (StrUtil.isBlank(dbPort)) {
             renderJson(Ret.fail().set("message", "端口号不能为空").set("errorCode", 4));
             return;
         }
@@ -125,7 +125,7 @@ public class InstallController extends JbootController {
 
             List<String> tables = InstallUtils.getTableList();
 
-            if (ArrayUtils.isNotEmpty(tables)
+            if (ArrayUtil.isNotEmpty(tables)
                     && tables.contains("attachment")
                     && tables.contains("option")
                     && tables.contains("menu")
@@ -139,7 +139,7 @@ public class InstallController extends JbootController {
                 return;
             }
 
-            if (ArrayUtils.isNotEmpty(tables)) {
+            if (ArrayUtil.isNotEmpty(tables)) {
                 renderJson(Ret.fail("message", "无法安装，该数据库已有表信息了，为了安全起见，请选择全新的数据库进行安装。")
                         .set("errorCode", 5));
                 return;
@@ -171,14 +171,14 @@ public class InstallController extends JbootController {
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-        if (StrUtils.isNotBlank(username)) {
+        if (StrUtil.isNotBlank(username)) {
 
-            if (StrUtils.isBlank(pwd)) {
+            if (StrUtil.isBlank(pwd)) {
                 renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
                 return;
             }
 
-            if (StrUtils.isBlank(confirmPwd)) {
+            if (StrUtil.isBlank(confirmPwd)) {
                 renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
                 return;
             }
@@ -207,7 +207,7 @@ public class InstallController extends JbootController {
             user.setStatus(User.STATUS_OK);
             user.setCreateSource(User.SOURCE_WEB_REGISTER);
 
-            if (StrUtils.isEmail(username)) {
+            if (StrUtil.isEmail(username)) {
                 user.setEmail(username.toLowerCase());
             }
 
@@ -237,32 +237,32 @@ public class InstallController extends JbootController {
         String confirmPwd = getPara("confirmPwd");
 
 
-        if (StrUtils.isBlank(webName)) {
+        if (StrUtil.isBlank(webName)) {
             renderJson(Ret.fail().set("message", "网站名称不能为空").set("errorCode", 10));
             return;
         }
 
-        if (StrUtils.isBlank(webTitle)) {
+        if (StrUtil.isBlank(webTitle)) {
             renderJson(Ret.fail().set("message", "网站标题不能为空").set("errorCode", 11));
             return;
         }
 
-        if (StrUtils.isBlank(webSubtitle)) {
+        if (StrUtil.isBlank(webSubtitle)) {
             renderJson(Ret.fail().set("message", "网站副标题不能为空").set("errorCode", 12));
             return;
         }
 
-        if (StrUtils.isBlank(username)) {
+        if (StrUtil.isBlank(username)) {
             renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
             return;
         }
 
-        if (StrUtils.isBlank(pwd)) {
+        if (StrUtil.isBlank(pwd)) {
             renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
-        if (StrUtils.isBlank(confirmPwd)) {
+        if (StrUtil.isBlank(confirmPwd)) {
             renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
@@ -309,7 +309,7 @@ public class InstallController extends JbootController {
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
 
 
-        if (StrUtils.isEmail(username)) {
+        if (StrUtil.isEmail(username)) {
             user.setEmail(username.toLowerCase());
         }
 

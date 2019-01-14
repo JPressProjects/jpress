@@ -15,6 +15,7 @@
  */
 package io.jpress.web.commons.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
@@ -22,8 +23,6 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UserControllerBase;
 import io.jpress.web.commons.UserEmailSender;
-
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

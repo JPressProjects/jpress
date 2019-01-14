@@ -15,13 +15,14 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.RenderManager;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -36,9 +37,8 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.sharekit.MainKits;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class _TemplateController extends AdminControllerBase {
         String title = getPara("title");
         List<Template> templates = TemplateManager.me().getInstalledTemplates();
 
-        if (StrUtils.isNotBlank(title)) {
+        if (StrUtil.isNotBlank(title)) {
             List<Template> searchTemplate = new ArrayList<>();
             for (Template template : templates) {
                 if (template.getTitle() != null &&
@@ -112,7 +112,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        if (!".zip".equals(FileUtils.getSuffix(ufile.getFileName()))) {
+        if (!".zip".equals(FileUtil.getSuffix(ufile.getFileName()))) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "只支持 .zip 的压缩模板文件"));
@@ -145,7 +145,7 @@ public class _TemplateController extends AdminControllerBase {
 
         try {
             org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtils.unzip(templateZipFile.getAbsolutePath(),
+            FileUtil.unzip(templateZipFile.getAbsolutePath(),
                     templateZipFile.getParentFile().getAbsolutePath());
         } catch (IOException e) {
             renderJson(Ret.fail()
@@ -236,7 +236,7 @@ public class _TemplateController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         setAttr("template", template);
 
-        File basePath = StrUtils.isNotBlank(dirName)
+        File basePath = StrUtil.isNotBlank(dirName)
                 ? new File(template.getAbsolutePath(), dirName)
                 : new File(template.getAbsolutePath());
 
@@ -258,21 +258,20 @@ public class _TemplateController extends AdminControllerBase {
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);
 
-        if (ArrayUtils.isNullOrEmpty(files)) {
+        if (ArrayUtil.isNullOrEmpty(files)) {
             return;
         }
 
 
-        File editFile = StrUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
+        File editFile = StrUtil.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
         setAttr("f", editFile.getName());
-        setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
-
+        setAttr("editFileContent", StringEscapeUtils.escapeHtml4(FileUtil.readString(editFile)));
 
     }
 
     private void setParentDirAttr(String dirName) {
-        if (StrUtils.isBlank(dirName)
+        if (StrUtil.isBlank(dirName)
                 || "/".equals(dirName)
                 || "./".equals(dirName)) {
             return;
@@ -340,19 +339,19 @@ public class _TemplateController extends AdminControllerBase {
 
         File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
 
-        if (StrUtils.isNotBlank(dirName)) {
+        if (StrUtil.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
         }
 
 
         String fileContent = getPara("fileContent");
-        if (StrUtils.isBlank(fileContent)) {
+        if (StrUtil.isBlank(fileContent)) {
             renderJson(Ret.fail().set("message", "不能存储空内容"));
             return;
         }
 
         File file = new File(pathFile, fileName);
-        FileUtils.writeString(file, fileContent);
+        FileUtil.writeString(file, fileContent);
 
         RenderManager.me().getEngine().removeAllTemplateCache();
 

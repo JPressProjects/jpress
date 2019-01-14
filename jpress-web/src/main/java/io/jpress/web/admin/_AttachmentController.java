@@ -15,6 +15,7 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
@@ -28,7 +29,6 @@ import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 
 /**

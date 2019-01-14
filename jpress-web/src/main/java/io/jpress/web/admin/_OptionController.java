@@ -15,14 +15,14 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +53,7 @@ public class _OptionController extends AdminControllerBase {
             if (entry.getValue() != null && entry.getValue().length > 0) {
                 String value = null;
                 for (String v : entry.getValue()) {
-                    if (StrUtils.isNotEmpty(v)) {
+                    if (StrUtil.isNotEmpty(v)) {
                         value = v;
                         break;
                     }

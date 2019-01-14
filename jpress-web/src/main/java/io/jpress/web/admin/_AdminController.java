@@ -16,12 +16,13 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
@@ -29,7 +30,6 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.interceptor.PermissionInterceptor;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,16 +58,16 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
-        if (StrUtils.isBlank(user) || StrUtils.isBlank(pwd)) {
+        if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             throw new RuntimeException("你当前的编辑器（idea 或者 eclipse）可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
         }
 
-        Ret ret = StrUtils.isEmail(user)
+        Ret ret = StrUtil.isEmail(user)
                 ? us.loginByEmail(user.toLowerCase(), pwd)
                 : us.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
-            EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
         }
 
         renderJson(ret);
@@ -76,7 +76,7 @@ public class _AdminController extends AdminControllerBase {
     //清除PermissionInterceptor，防止在没有授权的情况下，用户无法退出的问题
     @Clear(PermissionInterceptor.class)
     public void doLogout() {
-        EncryptCookieUtils.remove(this, JPressConsts.COOKIE_UID);
+        CookieUtil.remove(this, JPressConsts.COOKIE_UID);
         redirect("/admin/login");
     }
 

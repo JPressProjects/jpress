@@ -16,6 +16,7 @@
 package io.jpress.web.wechat;
 
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Inject;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
@@ -23,7 +24,7 @@ import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
@@ -31,7 +32,6 @@ import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplyService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -87,13 +87,13 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
         String key = inTextMsg.getContent();
-        if (StrUtils.isBlank(key)) {
+        if (StrUtil.isBlank(key)) {
             renderDefault();
             return;
         }
 
         WechatReply wechatReply = wechatReplyService.findByKey(key);
-        if (wechatReply == null || StrUtils.isBlank(wechatReply.getContent())) {
+        if (wechatReply == null || StrUtil.isBlank(wechatReply.getContent())) {
             renderDefault();
             return;
         }
@@ -112,13 +112,13 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInMenuEvent(InMenuEvent inMenuEvent) {
         String key = inMenuEvent.getEventKey();
-        if (StrUtils.isBlank(key)) {
+        if (StrUtil.isBlank(key)) {
             renderDefault();
             return;
         }
 
         WechatReply wechatReply = wechatReplyService.findByKey(key);
-        if (wechatReply == null || StrUtils.isBlank(wechatReply.getContent())) {
+        if (wechatReply == null || StrUtil.isBlank(wechatReply.getContent())) {
             renderDefault();
             return;
         }
@@ -136,7 +136,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     private void renderOptionValue(String optionKey, String defaultText) {
         String text = optionService.findByKey(optionKey);
-        if (StrUtils.isBlank(text)) {
+        if (StrUtil.isBlank(text)) {
             renderText(defaultText);
             return;
         }

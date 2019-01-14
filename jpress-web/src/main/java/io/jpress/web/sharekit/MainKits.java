@@ -16,7 +16,7 @@
 package io.jpress.web.sharekit;
 
 import com.google.common.collect.Lists;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -66,7 +66,7 @@ public class MainKits {
 
     public static List<String> linesOption(String key) {
         String value = JPressOptions.get(key);
-        if (StrUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return Lists.newArrayList();
         }
 
@@ -81,7 +81,7 @@ public class MainKits {
 
     public static List<RenderList> linesOption(String key, String split) {
         String value = JPressOptions.get(key);
-        if (StrUtils.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             return Lists.newArrayList();
         }
 
@@ -100,7 +100,7 @@ public class MainKits {
 
 
     public static boolean isImage(String path) {
-        return StrUtils.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.toLowerCase().endsWith(".ico"));
+        return StrUtil.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.toLowerCase().endsWith(".ico"));
     }
 
 

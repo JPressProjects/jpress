@@ -17,7 +17,7 @@ package io.jpress.web.commons.controller;
 
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 
@@ -33,7 +33,7 @@ public class ChangeEditorController extends Controller {
 
     public void index() {
         String para = getPara();
-        if (StrUtils.isBlank(para)) {
+        if (StrUtil.isBlank(para)) {
             renderJson(Ret.fail());
             return;
         }

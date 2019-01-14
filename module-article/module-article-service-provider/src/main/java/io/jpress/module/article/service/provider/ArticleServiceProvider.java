@@ -109,11 +109,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         });
     }
 
-    @Override
-    public long doGetIdBySaveOrUpdateAction(Article article) {
-        boolean saveOrUpdateSucess = saveOrUpdate(article);
-        return saveOrUpdateSucess ? article.getId() : 0;
-    }
 
     @Override
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {

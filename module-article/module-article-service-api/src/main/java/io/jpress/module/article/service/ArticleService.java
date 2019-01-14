@@ -100,8 +100,6 @@ public interface ArticleService extends JbootServiceJoiner {
 
     public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds);
 
-    public long doGetIdBySaveOrUpdateAction(Article article);
-
 
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
 

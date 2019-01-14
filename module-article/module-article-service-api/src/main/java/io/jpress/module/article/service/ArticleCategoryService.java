@@ -15,7 +15,6 @@
  */
 package io.jpress.module.article.service;
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.ArticleCategory;
 
@@ -64,7 +63,7 @@ public interface ArticleCategoryService {
      * @param model
      * @return
      */
-    public boolean save(ArticleCategory model);
+    public <T> T save(ArticleCategory model);
 
 
     /**
@@ -73,7 +72,7 @@ public interface ArticleCategoryService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(ArticleCategory model);
+    public <T> T saveOrUpdate(ArticleCategory model);
 
 
     /**
@@ -84,34 +83,6 @@ public interface ArticleCategoryService {
      */
     public boolean update(ArticleCategory model);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 
     public List<ArticleCategory> findListByType(String type);
 

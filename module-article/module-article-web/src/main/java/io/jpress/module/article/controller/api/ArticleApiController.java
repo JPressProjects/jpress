@@ -15,10 +15,11 @@
  */
 package io.jpress.module.article.controller.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.CommonsUtils;
@@ -34,7 +35,6 @@ import io.jpress.service.OptionService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -93,8 +93,8 @@ public class ArticleApiController extends ApiControllerBase {
     public void categories() {
         String type = getPara("type");
 
-        if (StrUtils.isBlank(type)
-                || StrUtils.isBlank(type)) {
+        if (StrUtil.isBlank(type)
+                || StrUtil.isBlank(type)) {
             renderFailJson();
             return;
         }
@@ -128,8 +128,8 @@ public class ArticleApiController extends ApiControllerBase {
         String slug = getPara("slug");
         String type = getPara("type");
 
-        if (StrUtils.isBlank(slug)
-                || StrUtils.isBlank(type)) {
+        if (StrUtil.isBlank(slug)
+                || StrUtil.isBlank(type)) {
             renderFailJson();
             return;
         }
@@ -226,7 +226,7 @@ public class ArticleApiController extends ApiControllerBase {
             return;
         }
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {

@@ -17,8 +17,8 @@ package io.jpress.commons.utils;
 
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.StrUtil;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class SqlUtils {
     }
 
     public static void appendWhereByColumns(List<Column> columns, StringBuilder sqlBuilder) {
-        if (ArrayUtils.isNotEmpty(columns)) {
+        if (ArrayUtil.isNotEmpty(columns)) {
             sqlBuilder.append(" WHERE ");
 
             int index = 0;
@@ -53,7 +53,7 @@ public class SqlUtils {
     }
 
     public static void likeAppend(Columns columns, String column, Object value) {
-        if (StrUtils.isNotBlank(value)) {
+        if (StrUtil.isNotBlank(value)) {
             columns.like(column, "%" + value + "%");
         }
     }
@@ -64,7 +64,7 @@ public class SqlUtils {
         b.append('(');
         for (int i = 0; ; i++) {
             String id = String.valueOf(ids[i]);
-            if (!StrUtils.isNumeric(id)) {
+            if (!StrUtil.isNumeric(id)) {
                 throw new IllegalArgumentException("id must is numeric");
             }
             b.append(id);

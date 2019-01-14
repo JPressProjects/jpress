@@ -17,11 +17,12 @@ package io.jpress.service;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends JbootServiceJoiner{
 
     /**
      * find model by primary key

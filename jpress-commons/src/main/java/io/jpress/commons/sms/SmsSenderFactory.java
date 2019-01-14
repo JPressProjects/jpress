@@ -17,7 +17,7 @@ package io.jpress.commons.sms;
 
 
 import io.jboot.core.spi.JbootSpiLoader;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -35,7 +35,7 @@ public class SmsSenderFactory {
         String type = JPressOptions.get(JPressConsts.OPTION_CONNECTION_SMS_TYPE);
 
         // 默认使用阿里云
-        if (StrUtils.isBlank(type)) {
+        if (StrUtil.isBlank(type)) {
             return new AliyunSmsSender();
         }
 

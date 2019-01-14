@@ -16,7 +16,7 @@
 package io.jpress.commons.utils;
 
 import com.jfinal.plugin.activerecord.Model;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
@@ -36,7 +36,7 @@ public class CommonsUtils {
 
 
     public static String maxLength(String content, int maxLength) {
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -50,11 +50,11 @@ public class CommonsUtils {
     }
 
     public static String maxLength(String content, int maxLength, String suffix) {
-        if (StrUtils.isBlank(suffix)) {
+        if (StrUtil.isBlank(suffix)) {
             return maxLength(content, maxLength);
         }
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -101,7 +101,7 @@ public class CommonsUtils {
 
     public static String escapeHtml(String content) {
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -122,7 +122,7 @@ public class CommonsUtils {
 
     public static String unEscapeHtml(String content) {
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 

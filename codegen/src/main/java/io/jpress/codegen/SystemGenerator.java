@@ -17,9 +17,9 @@ package io.jpress.codegen;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
-import io.jboot.Jboot;
+import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.BaseModelGenerator;
 import io.jpress.codegen.generator.ModelGenerator;
 import io.jpress.codegen.generator.ServiceApiGenerator;
@@ -41,8 +41,8 @@ public class SystemGenerator {
 
         String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,wechat_menu,wechat_reply";
 
-        Jboot.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/newjpress");
-        Jboot.setBootArg("jboot.datasource.user", "root");
+        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/newjpress");
+        JbootApplication.setBootArg("jboot.datasource.user", "root");
 
         String modelPackage = "io.jpress.model";
 
@@ -54,7 +54,7 @@ public class SystemGenerator {
         System.out.println("start generate...dir:" + modelDir);
 
         List<TableMeta> tableMetaList = new ArrayList<>();
-        Set<String> excludeTableSet = StrUtils.splitToSet(dbTables, ",");
+        Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
         for (TableMeta tableMeta : CodeGenHelpler.createMetaBuilder().build()) {
             if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
                 tableMetaList.add(tableMeta);

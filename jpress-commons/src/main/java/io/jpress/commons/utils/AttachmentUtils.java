@@ -18,8 +18,8 @@ package io.jpress.commons.utils;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public class AttachmentUtils {
             return null;
         }
 
-        File newfile = newAttachemnetFile(FileUtils.getSuffix(file.getName()));
+        File newfile = newAttachemnetFile(FileUtil.getSuffix(file.getName()));
 
         if (!newfile.getParentFile().exists()) {
             newfile.getParentFile().mkdirs();
@@ -59,17 +59,17 @@ public class AttachmentUtils {
             LOG.error(e.toString(), e);
         }
 
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
 
-        return FileUtils.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
+        return FileUtil.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 
     public static File newAttachemnetFile(String suffix) {
 
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
@@ -85,7 +85,7 @@ public class AttachmentUtils {
     }
 
     public static File file(String path) {
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
@@ -104,14 +104,14 @@ public class AttachmentUtils {
     }
 
     public static boolean isImage(String path) {
-        String sufffix = FileUtils.getSuffix(path);
-        if (StrUtils.isNotBlank(sufffix))
+        String sufffix = FileUtil.getSuffix(path);
+        if (StrUtil.isNotBlank(sufffix))
             return imageSuffix.contains(sufffix.toLowerCase());
         return false;
     }
 
     public static void main(String[] args) {
-        System.out.println(FileUtils.getSuffix("xxx.jpg"));
+        System.out.println(FileUtil.getSuffix("xxx.jpg"));
     }
 
 }

@@ -15,8 +15,6 @@
  */
 package io.jpress.service;
 
-import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.WechatMenu;
 
 import java.util.List;
@@ -64,7 +62,7 @@ public interface WechatMenuService {
      * @param model
      * @return
      */
-    public boolean save(WechatMenu model);
+    public <T> T save(WechatMenu model);
 
 
     /**
@@ -73,7 +71,7 @@ public interface WechatMenuService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(WechatMenu model);
+    public <T> T saveOrUpdate(WechatMenu model);
 
 
     /**
@@ -84,32 +82,4 @@ public interface WechatMenuService {
      */
     public boolean update(WechatMenu model);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 }

@@ -17,18 +17,16 @@ package io.jpress.service.provider;
 
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
 @Bean
-@Singleton
 public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuService {
 
     @Override
@@ -53,7 +51,7 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     @CacheEvict(name = "menu", key = "*")
-    public boolean saveOrUpdate(Menu model) {
+    public <T> T  saveOrUpdate(Menu model) {
         return super.saveOrUpdate(model);
     }
 
@@ -65,7 +63,7 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     public List<Menu> findListByType(String type) {
-        List<Menu> menus = Jboot.me().getCache().get("menu",
+        List<Menu> menus = Jboot.getCache().get("menu",
                 "type:" + type,
                 () -> DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc"));
 

@@ -16,16 +16,14 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
-import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 
-import javax.inject.Singleton;
 
 @Bean
-@Singleton
 public class OptionServiceProvider extends JbootServiceBase<Option> implements OptionService {
 
     @Override

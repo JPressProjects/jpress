@@ -114,13 +114,13 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.preventingXssAttacks(this, "content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.preventingXssAttacks(this, "content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
         return super.update();
     }
 

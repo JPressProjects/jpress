@@ -96,18 +96,18 @@ public class JsoupUtils {
     }
 
 
-    private static MyWhitelist whitelist = new MyWhitelist();
-
     public static void clean(Model model, String... attrs) {
         if (attrs != null && attrs.length == 0) return;
 
         for (String attr : attrs) {
             Object data = model.get(attr);
-            if (data == null || data instanceof String) continue;
+            if (data == null || !(data instanceof String)) continue;
 
             model.set(attr, clean((String) data));
         }
     }
+
+    private static MyWhitelist whitelist = new MyWhitelist();
 
     public static String clean(String html) {
         if (StrUtils.isNotBlank(html))

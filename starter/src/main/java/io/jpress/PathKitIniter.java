@@ -1,11 +1,19 @@
 package io.jpress;
 
-/**
- * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Title: (请输入文件名称)
- * @Description: (用一句话描述该文件做什么)
- * @Package io.jpress
- */
-public class PathKitIniter {
+import com.jfinal.kit.PathKit;
+import io.jboot.core.listener.JbootAppListenerBase;
+
+import java.net.URISyntaxException;
+
+
+public class PathKitIniter extends JbootAppListenerBase {
+
+    @Override
+    public void onInit() {
+        try {
+            PathKit.setWebRootPath(PathKitIniter.class.getResource("/").toURI().getPath());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -121,13 +121,13 @@ public class User extends BaseUser<User> {
 
     @Override
     public boolean save() {
-        CommonsUtils.preventingXssAttacks(this, "salt", "password");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "salt", "password");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.preventingXssAttacks(this, "salt", "password");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "salt", "password");
         return super.update();
     }
 

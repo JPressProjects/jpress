@@ -83,18 +83,18 @@ public class CommonsUtils {
      *
      * @param model
      */
-    public static void preventingXssAttacks(Model model, String... ignoreAttr) {
+    public static void escapeHtmlForAllAttrs(Model model, String... ignoreAttrs) {
         String[] attrNames = model._getAttrNames();
-        for (String attrName : attrNames) {
+        for (String attr : attrNames) {
 
-            if (ArrayUtils.contains(ignoreAttr, attrName)) {
+            if (ArrayUtils.contains(ignoreAttrs, attr)) {
                 continue;
             }
 
-            Object value = model.get(attrName);
+            Object value = model.get(attr);
 
             if (value != null && value instanceof String) {
-                model.set(attrName, escapeHtml(value.toString()));
+                model.set(attr, escapeHtml(value.toString()));
             }
         }
     }

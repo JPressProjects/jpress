@@ -73,13 +73,15 @@ public class ArticleComment extends BaseArticleComment<ArticleComment> {
 
     @Override
     public boolean save() {
-        CommonsUtils.preventingXssAttacks(this,"content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        JsoupUtils.clean(this, "content");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.preventingXssAttacks(this,"content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        JsoupUtils.clean(this, "content");
         return super.update();
     }
 }

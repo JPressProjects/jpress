@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
@@ -94,6 +95,16 @@ public class JsoupUtils {
         return Jsoup.parse(html).text();
     }
 
+    public static void clean(Model model, String... attrs) {
+        if (attrs != null && attrs.length == 0) return;
+
+        for (String attr : attrs) {
+            Object data = model.get(attr);
+            if (data == null || !(data instanceof String)) continue;
+
+            model.set(attr, clean((String) data));
+        }
+    }
 
     private static MyWhitelist whitelist = new MyWhitelist();
 

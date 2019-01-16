@@ -45,7 +45,7 @@
 
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/webapp</directory>
                 <includes>
                     <include>**/*.*</include>
                 </includes>

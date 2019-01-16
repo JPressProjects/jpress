@@ -185,10 +185,10 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

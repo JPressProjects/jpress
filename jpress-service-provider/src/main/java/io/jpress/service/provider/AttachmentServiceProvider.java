@@ -47,9 +47,8 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
 
     @Override
     public Object save(Attachment model) {
-
         tryToProcessWatermark(model);
-        return super.save(model) ? model.getId() : null;
+        return super.save(model) ;
     }
 
 

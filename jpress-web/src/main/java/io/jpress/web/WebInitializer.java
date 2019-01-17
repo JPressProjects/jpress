@@ -44,7 +44,7 @@ public class WebInitializer extends JbootAppListenerBase {
 
 
     @Override
-    public void onJFinalStarted() {
+    public void onJFinalStartedBefore() {
 
         OptionInitializer.me().init();
 

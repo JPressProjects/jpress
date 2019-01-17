@@ -25,7 +25,6 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
-import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
 import java.io.File;
@@ -41,9 +40,7 @@ public class AttachmentController extends UserControllerBase {
 
 
     @Inject
-    private AttachmentService as;
-    @Inject
-    OptionService optionService;
+    private AttachmentService service;
 
     public void upload() {
         if (!isMultipartRequest()) {
@@ -80,7 +77,7 @@ public class AttachmentController extends UserControllerBase {
         attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(uploadFile.getContentType());
 
-        as.save(attachment);
+        service.save(attachment);
 
         renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
     }

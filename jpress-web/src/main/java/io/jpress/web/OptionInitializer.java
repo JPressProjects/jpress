@@ -15,11 +15,11 @@
  */
 package io.jpress.web;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
-import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.StrUtil;
@@ -60,7 +60,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
             return;
         }
 
-        OptionService service = Jboot.bean(OptionService.class);
+        OptionService service = Aop.get(OptionService.class);
 
         List<Option> options = service.findAll();
         for (Option option : options) {

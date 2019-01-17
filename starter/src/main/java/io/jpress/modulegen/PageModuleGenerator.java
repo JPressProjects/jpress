@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress;
+package io.jpress.modulegen;
 
 import io.jpress.codegen.ModuleGenerator;
 
@@ -22,18 +22,18 @@ import io.jpress.codegen.ModuleGenerator;
  * @version V1.0
  * @Package io.jboot.codegen
  */
-public class ArticleModuleGenerator {
+public class PageModuleGenerator {
 
 
     private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
     private static String dbUser = "root";
     private static String dbPassword = "";
 
-    private static String moduleName = "article";
-    private static String dbTables = "article,article_category,article_comment";
-    private static String modelPackage = "io.jpress.module.article.model";
-    private static String servicePackage = "io.jpress.module.article.service";
 
+    private static String moduleName = "page";
+    private static String dbTables = "single_page";
+    private static String modelPackage = "io.jpress.module.page.model";
+    private static String servicePackage = "io.jpress.module.page.service";
 
     public static void main(String[] args) {
 

@@ -177,28 +177,6 @@
                 </executions>
             </plugin>
 
-
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webapp">
-                                    <fileset dir="${project.build.directory}/classes/webapp/"/>
-                                </copy>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -230,100 +208,7 @@
             </plugin>
 
 
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>appassembler-maven-plugin</artifactId>-->
-                <!--<version>1.10</version>-->
-
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>package</id>-->
-                        <!--<goals>-->
-                            <!--<goal>generate-daemons</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-
-                <!--<configuration>-->
-
-                    <!--<assembleDirectory>${project.build.directory}/app</assembleDirectory>-->
-                    <!--<repositoryName>lib</repositoryName>-->
-                    <!--<binFolder>bin</binFolder>-->
-                    <!--<configurationDirectory>webapp</configurationDirectory>-->
-                    <!--<copyConfigurationDirectory>true</copyConfigurationDirectory>-->
-                    <!--<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>-->
-                    <!--<repositoryLayout>flat</repositoryLayout>-->
-                    <!--<encoding>UTF-8</encoding>-->
-                    <!--<logsDirectory>logs</logsDirectory>-->
-                    <!--<tempDirectory>tmp</tempDirectory>-->
-
-                    <!--<programs>-->
-                        <!--&lt;!&ndash;程序打包 mvn clean package appassembler:assemble &ndash;&gt;-->
-                        <!--<program>-->
-                            <!--<mainClass>io.jboot.app.JbootApplication</mainClass>-->
-                            <!--<id>jpress</id>-->
-                            <!--<platforms>-->
-                                <!--<platform>windows</platform>-->
-                                <!--<platform>unix</platform>-->
-                            <!--</platforms>-->
-                        <!--</program>-->
-                    <!--</programs>-->
-
-                    <!--<daemons>-->
-                        <!--&lt;!&ndash; 后台程序打包：mvn clean package appassembler:generate-daemons &ndash;&gt;-->
-                        <!--<daemon>-->
-                            <!--<mainClass>io.jboot.app.JbootApplication</mainClass>-->
-                            <!--<id>jpress</id>-->
-                            <!--<platforms>-->
-                                <!--<platform>jsw</platform>-->
-                            <!--</platforms>-->
-                            <!--<generatorConfigurations>-->
-                                <!--<generatorConfiguration>-->
-                                    <!--<generator>jsw</generator>-->
-                                    <!--<includes>-->
-                                        <!--<include>linux-x86-32</include>-->
-                                        <!--<include>linux-x86-64</include>-->
-                                        <!--<include>macosx-universal-32</include>-->
-                                        <!--<include>macosx-universal-64</include>-->
-                                        <!--<include>windows-x86-32</include>-->
-                                        <!--<include>windows-x86-64</include>-->
-                                    <!--</includes>-->
-                                    <!--<configuration>-->
-                                        <!--<property>-->
-                                            <!--<name>configuration.directory.in.classpath.first</name>-->
-                                            <!--<value>webRoot</value>-->
-                                        <!--</property>-->
-                                        <!--<property>-->
-                                            <!--<name>wrapper.ping.timeout</name>-->
-                                            <!--<value>120</value>-->
-                                        <!--</property>-->
-                                        <!--<property>-->
-                                            <!--<name>set.default.REPO_DIR</name>-->
-                                            <!--<value>lib</value>-->
-                                        <!--</property>-->
-                                        <!--<property>-->
-                                            <!--<name>wrapper.logfile</name>-->
-                                            <!--<value>logs/wrapper.log</value>-->
-                                        <!--</property>-->
-                                        <!--<property>-->
-                                            <!--<name>wrapper.tray</name>-->
-                                            <!--<value>true</value>-->
-                                        <!--</property>-->
-                                        <!--<property>-->
-                                            <!--<name>wrapper.tray.port</name>-->
-                                            <!--<value>${wrapper.tray.port.value}</value>-->
-                                        <!--</property>-->
-                                    <!--</configuration>-->
-                                <!--</generatorConfiguration>-->
-                            <!--</generatorConfigurations>-->
-                        <!--</daemon>-->
-                    <!--</daemons>-->
-
-                <!--</configuration>-->
-            <!--</plugin>-->
-
         </plugins>
-
 
     </build>
 

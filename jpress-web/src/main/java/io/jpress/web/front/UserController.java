@@ -279,13 +279,13 @@ public class UserController extends TemplateControllerBase {
             user.setStatus(User.STATUS_OK);
         }
 
-        boolean saveOk = userService.save(user);
+        Object userId = userService.save(user);
 
-        if (saveOk && emailValidate) {
+        if (userId != null && emailValidate) {
             UserEmailSender.sendEmailForUserRegisterActivate(user);
         }
 
-        renderJson(saveOk ? Ret.ok() : Ret.fail());
+        renderJson(user != null ? Ret.ok() : Ret.fail());
     }
 
 

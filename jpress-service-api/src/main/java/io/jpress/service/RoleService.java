@@ -71,7 +71,7 @@ public interface RoleService {
      * @param model
      * @return
      */
-    public <T> T save(Role model);
+    public Object save(Role model);
 
 
     /**
@@ -80,7 +80,7 @@ public interface RoleService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Role model);
+    public Object saveOrUpdate(Role model);
 
 
     /**

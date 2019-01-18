@@ -62,7 +62,7 @@ public interface PaymentRecordService {
      * @param model
      * @return
      */
-    public <T> T save(PaymentRecord model);
+    public Object save(PaymentRecord model);
 
 
     /**
@@ -71,7 +71,7 @@ public interface PaymentRecordService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(PaymentRecord model);
+    public Object saveOrUpdate(PaymentRecord model);
 
 
     /**

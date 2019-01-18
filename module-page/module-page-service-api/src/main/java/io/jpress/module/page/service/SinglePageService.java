@@ -72,7 +72,7 @@ public interface SinglePageService {
      * @param model
      * @return
      */
-    public <T> T save(SinglePage model);
+    public Object save(SinglePage model);
 
 
     /**
@@ -81,7 +81,7 @@ public interface SinglePageService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(SinglePage model);
+    public Object saveOrUpdate(SinglePage model);
 
 
     /**

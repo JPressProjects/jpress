@@ -64,7 +64,7 @@ public interface WechatReplyService {
      * @param model
      * @return
      */
-    public <T> T save(WechatReply model);
+    public Object save(WechatReply model);
 
 
     /**
@@ -73,7 +73,7 @@ public interface WechatReplyService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(WechatReply model);
+    public Object saveOrUpdate(WechatReply model);
 
 
     /**

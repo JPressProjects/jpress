@@ -63,7 +63,7 @@ public interface PermissionService {
      * @param model
      * @return
      */
-    public <T> T save(Permission model);
+    public Object save(Permission model);
 
 
     /**
@@ -72,7 +72,7 @@ public interface PermissionService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Permission model);
+    public Object saveOrUpdate(Permission model);
 
 
     /**

@@ -62,7 +62,7 @@ public interface MenuService {
      * @param model
      * @return
      */
-    public  <T> T  save(Menu model);
+    public  Object  save(Menu model);
 
 
     /**
@@ -71,7 +71,7 @@ public interface MenuService {
      * @param model
      * @return if save or update success
      */
-    public  <T> T  saveOrUpdate(Menu model);
+    public  Object  saveOrUpdate(Menu model);
 
 
     /**

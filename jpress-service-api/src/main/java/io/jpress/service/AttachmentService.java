@@ -63,7 +63,7 @@ public interface AttachmentService {
      * @param model
      * @return
      */
-    public <T> T save(Attachment model);
+    public Object save(Attachment model);
 
 
     /**
@@ -72,7 +72,7 @@ public interface AttachmentService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Attachment model);
+    public Object saveOrUpdate(Attachment model);
 
 
     /**

@@ -62,7 +62,7 @@ public interface OptionService {
      * @param model
      * @return
      */
-    public <T> T save(Option model);
+    public Object save(Option model);
 
 
     /**
@@ -71,7 +71,7 @@ public interface OptionService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Option model);
+    public Object saveOrUpdate(Option model);
 
 
     /**
@@ -92,7 +92,7 @@ public interface OptionService {
 
     public Float findAsFloatByKey(String key);
 
-    public boolean saveOrUpdate(String key, String value);
+    public Object saveOrUpdate(String key, String value);
 
 
 }

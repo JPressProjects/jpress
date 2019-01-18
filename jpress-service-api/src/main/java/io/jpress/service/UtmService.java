@@ -63,7 +63,7 @@ public interface UtmService {
      * @param model
      * @return
      */
-    public <T> T save(Utm model);
+    public Object save(Utm model);
 
 
     /**
@@ -72,7 +72,7 @@ public interface UtmService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Utm model);
+    public Object saveOrUpdate(Utm model);
 
 
     /**

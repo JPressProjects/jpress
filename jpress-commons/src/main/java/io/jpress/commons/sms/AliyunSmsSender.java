@@ -17,7 +17,7 @@ package io.jpress.commons.sms;
 
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.log.Log;
-import io.jboot.components.http.JbootHttpKit;
+import io.jboot.utils.HttpUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -72,7 +72,7 @@ public class AliyunSmsSender implements ISmsSender {
         try {
 
             String url = doSignAndGetUrl(params, app_secret);
-            String content = JbootHttpKit.httpGet(url);
+            String content = HttpUtil.httpGet(url);
             return StrUtil.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
         } catch (Exception e) {
             log.error("AliyunSmsSender exception", e);

@@ -16,7 +16,7 @@
 package io.jpress.commons.oauth2;
 
 import com.jfinal.log.Log;
-import io.jboot.components.http.JbootHttpKit;
+import io.jboot.utils.HttpUtil;
 
 import java.util.Map;
 
@@ -74,7 +74,7 @@ public abstract class OauthConnector {
 
     protected String httpGet(String url) {
         try {
-            return JbootHttpKit.httpGet(url);
+            return HttpUtil.httpGet(url);
         } catch (Exception e) {
             LOGGER.error("httpGet error", e);
         }
@@ -83,7 +83,7 @@ public abstract class OauthConnector {
 
     protected String httpPost(String url, Map<String, Object> params) {
         try {
-            return JbootHttpKit.httpPost(url, params);
+            return HttpUtil.httpPost(url, params);
         } catch (Exception e) {
             LOGGER.error("httpGet error", e);
         }

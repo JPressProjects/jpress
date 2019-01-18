@@ -18,7 +18,7 @@ package io.jpress.commons.sms;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.HashKit;
-import io.jboot.components.http.JbootHttpKit;
+import io.jboot.utils.HttpUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -57,7 +57,7 @@ public class QCloudSmsSender implements ISmsSender {
 
         String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=" + app_key + "&random=" + random;
 
-        String content = JbootHttpKit.httpPost(url, postContent);
+        String content = HttpUtil.httpPost(url, postContent);
 
         System.out.println(content);
         if (StrUtil.isBlank(content)) {

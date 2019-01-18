@@ -188,7 +188,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         article.setUserId(getLoginedUser().getId());
         article.setStatus(Article.STATUS_DRAFT);
-        long id = articleService.saveOrUpdate(article);
+        long id = (long) articleService.saveOrUpdate(article);
 
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));

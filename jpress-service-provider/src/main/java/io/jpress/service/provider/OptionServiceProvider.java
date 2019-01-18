@@ -53,7 +53,7 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
 
     @Override
     @CacheEvict(name = "option", key = "#(key)")
-    public boolean saveOrUpdate(String key, String value) {
+    public Object saveOrUpdate(String key, String value) {
         Option option = DAO.findFirstByColumn("key", key);
 
         if (option == null) {

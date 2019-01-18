@@ -83,7 +83,7 @@ public interface ArticleCommentService {
      * @param model
      * @return
      */
-    public <T> T save(ArticleComment model);
+    public Object save(ArticleComment model);
 
 
     /**
@@ -92,7 +92,7 @@ public interface ArticleCommentService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(ArticleComment model);
+    public Object saveOrUpdate(ArticleComment model);
 
 
     /**

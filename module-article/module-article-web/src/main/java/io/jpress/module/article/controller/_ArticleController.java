@@ -172,7 +172,7 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
-        long id = articleService.saveOrUpdate(article);
+        long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);
 
         Long[] categoryIds = getParaValuesToLong("category");

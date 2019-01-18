@@ -74,7 +74,7 @@ public interface ArticleService extends JbootServiceJoiner {
      * @param model
      * @return
      */
-    public <T> T save(Article model);
+    public Object save(Article model);
 
 
     /**
@@ -83,7 +83,7 @@ public interface ArticleService extends JbootServiceJoiner {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(Article model);
+    public Object saveOrUpdate(Article model);
 
 
     /**

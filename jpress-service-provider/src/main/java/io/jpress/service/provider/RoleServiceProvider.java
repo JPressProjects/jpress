@@ -69,7 +69,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @CacheEvict(name = "user_role", key = "*")
-    public <T> T  saveOrUpdate(Role model) {
+    public Object saveOrUpdate(Role model) {
         return super.saveOrUpdate(model);
     }
 

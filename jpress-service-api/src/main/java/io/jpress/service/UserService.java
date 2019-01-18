@@ -67,7 +67,7 @@ public interface UserService extends JbootServiceJoiner{
      * @param model
      * @return
      */
-    public <T> T save(User model);
+    public Object save(User model);
 
 
     /**
@@ -76,7 +76,7 @@ public interface UserService extends JbootServiceJoiner{
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(User model);
+    public Object saveOrUpdate(User model);
 
 
     /**

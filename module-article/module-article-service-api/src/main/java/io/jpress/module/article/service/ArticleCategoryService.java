@@ -63,7 +63,7 @@ public interface ArticleCategoryService {
      * @param model
      * @return
      */
-    public <T> T save(ArticleCategory model);
+    public Object save(ArticleCategory model);
 
 
     /**
@@ -72,7 +72,7 @@ public interface ArticleCategoryService {
      * @param model
      * @return if save or update success
      */
-    public <T> T saveOrUpdate(ArticleCategory model);
+    public Object saveOrUpdate(ArticleCategory model);
 
 
     /**

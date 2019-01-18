@@ -51,7 +51,7 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     @CacheEvict(name = "menu", key = "*")
-    public <T> T  saveOrUpdate(Menu model) {
+    public Object saveOrUpdate(Menu model) {
         return super.saveOrUpdate(model);
     }
 

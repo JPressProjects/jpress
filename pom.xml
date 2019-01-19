@@ -12,6 +12,7 @@
     <modules>
         <module>codegen</module>
 
+        <module>jpress-addons</module>
         <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
@@ -25,6 +26,7 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
+
     </modules>
 
     <properties>

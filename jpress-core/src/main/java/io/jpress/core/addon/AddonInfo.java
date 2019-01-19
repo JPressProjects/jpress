@@ -16,6 +16,12 @@
 package io.jpress.core.addon;
 
 import com.jfinal.log.Log;
+import io.jpress.core.addon.controller.AddonController;
+import io.jpress.core.addon.handler.AddonHandler;
+import io.jpress.core.addon.interceptor.AddonInterceptor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddonInfo {
 
@@ -35,6 +41,10 @@ public class AddonInfo {
 
     private boolean hasError = false;
     private boolean start = false;
+
+    private List<Class<? extends AddonController>> controllers;
+    private List<Class<? extends AddonInterceptor>> interceptors;
+    private List<Class<? extends AddonHandler>> handlers;
 
     public String getId() {
         return id;
@@ -128,6 +138,38 @@ public class AddonInfo {
         return start;
     }
 
+
+
+    public void addController(Class<? extends AddonController> clazz){
+        if (controllers == null){
+            controllers = new ArrayList<>();
+        }
+        controllers.add(clazz);
+    }
+
+    public List<Class<? extends AddonController>> getControllers() {
+        return controllers;
+    }
+
+    public void setControllers(List<Class<? extends AddonController>> controllers) {
+        this.controllers = controllers;
+    }
+
+    public List<Class<? extends AddonInterceptor>> getInterceptors() {
+        return interceptors;
+    }
+
+    public void setInterceptors(List<Class<? extends AddonInterceptor>> interceptors) {
+        this.interceptors = interceptors;
+    }
+
+    public List<Class<? extends AddonHandler>> getHandlers() {
+        return handlers;
+    }
+
+    public void setHandlers(List<Class<? extends AddonHandler>> handlers) {
+        this.handlers = handlers;
+    }
 
     @Override
     public boolean equals(Object obj) {

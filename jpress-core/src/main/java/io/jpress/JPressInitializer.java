@@ -55,8 +55,6 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onJfinalConstantConfig(Constants constants) {
 
-//        JbootApplication.setBootArg("jboot.model.idCacheEnable", "true");
-
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JPressCaptchaCache());
         constants.setJsonFactory(() -> new JPressJson());

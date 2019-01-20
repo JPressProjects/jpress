@@ -139,9 +139,8 @@ public class AddonInfo {
     }
 
 
-
-    public void addController(Class<? extends AddonController> clazz){
-        if (controllers == null){
+    public void addController(Class<? extends AddonController> clazz) {
+        if (controllers == null) {
             controllers = new ArrayList<>();
         }
         controllers.add(clazz);
@@ -155,12 +154,27 @@ public class AddonInfo {
         this.controllers = controllers;
     }
 
+
+    public void addInterceptor(Class<? extends AddonInterceptor> clazz) {
+        if (interceptors == null) {
+            interceptors = new ArrayList<>();
+        }
+        interceptors.add(clazz);
+    }
+
     public List<Class<? extends AddonInterceptor>> getInterceptors() {
         return interceptors;
     }
 
     public void setInterceptors(List<Class<? extends AddonInterceptor>> interceptors) {
         this.interceptors = interceptors;
+    }
+
+    public void addHandler(Class<? extends AddonHandler> clazz) {
+        if (handlers == null) {
+            handlers = new ArrayList<>();
+        }
+        handlers.add(clazz);
     }
 
     public List<Class<? extends AddonHandler>> getHandlers() {

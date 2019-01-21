@@ -17,4 +17,9 @@ package io.jpress.core.addon.interceptor;
 
 
 public class AddonInterceptorManager {
+
+    public static AddonInterceptor[] matchInterceptors(String target) {
+
+        return null;
+    }
 }

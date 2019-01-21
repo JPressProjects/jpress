@@ -16,6 +16,12 @@
 package io.jpress.core.addon.controller;
 
 
+import com.jfinal.core.Action;
+
 public class AddonControllerManager {
 
+    public static Action getAction(String target, String[] urlPara) {
+
+        return null;
+    }
 }

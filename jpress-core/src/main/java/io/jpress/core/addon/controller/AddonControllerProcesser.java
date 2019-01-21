@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.addon.interceptor;
+package io.jpress.core.addon.controller;
+
+import com.jfinal.core.Action;
+import io.jboot.web.handler.JbootActionHandler;
 
 
-import com.jfinal.aop.Interceptor;
+public class AddonControllerProcesser extends JbootActionHandler {
 
-public interface AddonInterceptor extends Interceptor {
+    @Override
+    public Action getAction(String target, String[] urlPara) {
+        Action action = super.getAction(target, urlPara);
+        if (action != null) return action;
 
-    public void matchTarget(String target);
-
+        return AddonControllerManager.getAction(target, urlPara);
+    }
 }

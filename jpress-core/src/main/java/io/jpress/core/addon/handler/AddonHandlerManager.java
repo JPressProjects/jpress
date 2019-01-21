@@ -16,5 +16,13 @@
 package io.jpress.core.addon.handler;
 
 
+import com.jfinal.handler.Handler;
+
+import java.util.List;
+
 public class AddonHandlerManager {
+
+    public static List<Handler> getHandlers(){
+        return null;
+    }
 }

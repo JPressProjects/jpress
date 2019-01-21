@@ -60,16 +60,21 @@ public class AddonClassLoader extends URLClassLoader {
                 try {
                     Class loadedClass = loadClass(className);
 
+                    // controllers
                     if (AddonController.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addController(loadedClass);
                     }
-
-                    if (AddonInterceptor.class.isAssignableFrom(loadedClass)) {
+                    // interceptors
+                    else if (AddonInterceptor.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addInterceptor(loadedClass);
                     }
-
-                    if (AddonHandler.class.isAssignableFrom(loadedClass)) {
+                    // handlers
+                    else if (AddonHandler.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addHandler(loadedClass);
+                    }
+                    // addonClass
+                    else if (Addon.class.isAssignableFrom(loadedClass)) {
+                        addonInfo.setAddonClass(loadedClass);
                     }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();

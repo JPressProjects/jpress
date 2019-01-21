@@ -20,16 +20,16 @@ import io.jpress.core.addon.controller.AddonController;
 import io.jpress.core.addon.handler.AddonHandler;
 import io.jpress.core.addon.interceptor.AddonInterceptor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-public class AddonInfo {
+public class AddonInfo implements Serializable {
 
     private static final Log log = Log.getLog(AddonInfo.class);
 
     private String id;
-    private String jarPath;
-    private String addonClass;
     private String title;
     private String description;
     private String author;
@@ -38,6 +38,23 @@ public class AddonInfo {
     private int versionCode;
     private String updateUrl;
 
+    private String jarPath;
+    private Class addonClass;
+
+    public AddonInfo() {
+
+    }
+
+    public AddonInfo(Properties properties) {
+        this.id = properties.getProperty("id");
+        this.title = properties.getProperty("title");
+        this.description = properties.getProperty("description");
+        this.author = properties.getProperty("author");
+        this.authorWebsite = properties.getProperty("authorWebsite");
+        this.version = properties.getProperty("version");
+        this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
+        this.updateUrl = properties.getProperty("updateUrl");
+    }
 
     private boolean hasError = false;
     private boolean start = false;
@@ -62,11 +79,11 @@ public class AddonInfo {
         this.jarPath = jarPath;
     }
 
-    public String getAddonClass() {
+    public Class getAddonClass() {
         return addonClass;
     }
 
-    public void setAddonClass(String addonClass) {
+    public void setAddonClass(Class addonClass) {
         this.addonClass = addonClass;
     }
 

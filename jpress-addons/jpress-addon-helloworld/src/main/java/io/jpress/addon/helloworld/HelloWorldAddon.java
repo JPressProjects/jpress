@@ -25,13 +25,6 @@ public class HelloWorldAddon implements Addon {
     }
 
     @Override
-    public void onStarted() {
-
-        System.out.println("onStarted");
-
-    }
-
-    @Override
     public void onStop() {
 
         System.out.println("onStop");

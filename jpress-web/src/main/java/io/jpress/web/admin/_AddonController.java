@@ -22,6 +22,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.addon.AddonInfo;
+import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -102,7 +103,7 @@ public class _AddonController extends AdminControllerBase {
 
         try {
             org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), newAddonFile);
-            AddonUtil.unzipResources(newAddonFile);
+            AddonManager.me().install(addon);
         } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)

@@ -20,7 +20,11 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.kit.PathKit;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jboot.web.fixedinterceptor.FixedInterceptors;
 import io.jpress.commons.utils.JPressJson;
+import io.jpress.core.addon.controller.AddonControllerProcesser;
+import io.jpress.core.addon.handler.AddonHandlerProcesser;
+import io.jpress.core.addon.interceptor.AddonInterceptorProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.SystemMenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
@@ -61,10 +65,20 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     }
 
+
+    @Override
+    public void onFixedInterceptorConfig(FixedInterceptors fixedInterceptors) {
+        fixedInterceptors.add(new AddonInterceptorProcesser());
+    }
+
+
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add(0, new JPressHandler());
-        handlers.add(0, new InstallHandler());
+        handlers.add( new InstallHandler());
+        handlers.add(new JPressHandler());
+        handlers.add(new AddonHandlerProcesser());
+
+        handlers.setActionHandler(new AddonControllerProcesser());
     }
 
     @Override

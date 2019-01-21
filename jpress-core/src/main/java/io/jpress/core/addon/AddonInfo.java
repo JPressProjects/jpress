@@ -15,11 +15,13 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import io.jpress.core.addon.controller.AddonController;
 import io.jpress.core.addon.handler.AddonHandler;
 import io.jpress.core.addon.interceptor.AddonInterceptor;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,13 @@ public class AddonInfo implements Serializable {
     private int versionCode;
     private String updateUrl;
 
-    private String jarPath;
     private Class addonClass;
+    private boolean hasError = false;
+    private boolean start = false;
+
+    private List<Class<? extends AddonController>> controllers;
+    private List<Class<? extends AddonInterceptor>> interceptors;
+    private List<Class<? extends AddonHandler>> handlers;
 
     public AddonInfo() {
 
@@ -56,12 +63,6 @@ public class AddonInfo implements Serializable {
         this.updateUrl = properties.getProperty("updateUrl");
     }
 
-    private boolean hasError = false;
-    private boolean start = false;
-
-    private List<Class<? extends AddonController>> controllers;
-    private List<Class<? extends AddonInterceptor>> interceptors;
-    private List<Class<? extends AddonHandler>> handlers;
 
     public String getId() {
         return id;
@@ -69,14 +70,6 @@ public class AddonInfo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getJarPath() {
-        return jarPath;
-    }
-
-    public void setJarPath(String jarPath) {
-        this.jarPath = jarPath;
     }
 
     public Class getAddonClass() {
@@ -217,6 +210,22 @@ public class AddonInfo implements Serializable {
         }
 
         return addon.getId().equals(getId());
+    }
+
+    public File buildJarFile(){
+
+        String webRoot = PathKit.getWebRootPath();
+
+        StringBuilder fileName = new StringBuilder(webRoot);
+        fileName.append(File.separator);
+        fileName.append("WEB-INF");
+        fileName.append(File.separator);
+        fileName.append("addons");
+        fileName.append(File.separator);
+        fileName.append(getId());
+        fileName.append(".jar");
+
+        return new File(fileName.toString());
     }
 
 }

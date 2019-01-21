@@ -15,7 +15,6 @@
  */
 package io.jpress.web.admin;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
@@ -82,23 +81,12 @@ public class _AddonController extends AdminControllerBase {
         if (addon == null || StrUtil.isBlank(addon.getId())) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "无法读取插件Id信息。"));
+                    .set("message", "无法读取插件配置信息。"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
 
-        String webRoot = PathKit.getWebRootPath();
-
-        StringBuilder newFileName = new StringBuilder(webRoot);
-        newFileName.append(File.separator);
-        newFileName.append("WEB-INF");
-        newFileName.append(File.separator);
-        newFileName.append("addons");
-        newFileName.append(File.separator);
-        newFileName.append(addon.getId());
-        newFileName.append(".jar");
-
-        File newAddonFile = new File(newFileName.toString());
+        File newAddonFile = addon.buildJarFile();
 
         if (newAddonFile.exists()) {
             renderJson(Ret.fail()

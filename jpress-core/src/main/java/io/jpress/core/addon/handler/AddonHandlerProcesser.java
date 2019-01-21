@@ -29,27 +29,22 @@ public class AddonHandlerProcesser extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        if (doHandle(target, request, response, isHandled)) {
-            next.handle(target, request, response, isHandled);
-        }
-    }
 
-    public boolean doHandle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
         List<Handler> list = AddonHandlerManager.getHandlers();
+
         if (list == null || list.isEmpty()) {
-            return true;
+            next.handle(target, request, response, isHandled);
+            return;
         }
 
-        boolean[] nextHandle = new boolean[]{false};
         Handler handler = HandlerFactory.getHandler(list, new Handler() {
             @Override
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-                nextHandle[0] = true;
+                AddonHandlerProcesser.this.next.handle(target, request, response, isHandled);
             }
         });
 
         handler.handle(target, request, response, isHandled);
-        return nextHandle[0];
     }
 
 

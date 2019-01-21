@@ -22,7 +22,6 @@ public class AddonController extends JbootController {
 
     @Override
     public void render(String view) {
-        System.out.println("this:"+this);
         super.render(view);
     }
 }

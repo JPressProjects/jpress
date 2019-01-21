@@ -22,6 +22,7 @@ import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -77,8 +78,8 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
 
-        String addonId = AddonUtil.readAddonId(ufile.getFile());
-        if (StrUtil.isBlank(addonId)){
+        AddonInfo addon = AddonUtil.readAddonFromFile(ufile.getFile());
+        if (addon == null || StrUtil.isBlank(addon.getId())) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "无法读取插件Id信息。"));
@@ -94,7 +95,7 @@ public class _AddonController extends AdminControllerBase {
         newFileName.append(File.separator);
         newFileName.append("addons");
         newFileName.append(File.separator);
-        newFileName.append(addonId);
+        newFileName.append(addon.getId());
         newFileName.append(".jar");
 
         File newAddonFile = new File(newFileName.toString());

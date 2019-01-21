@@ -20,7 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -71,13 +73,21 @@ public class AddonUtil {
         }
     }
 
+
+    private static Map<String, AddonInfo> addonInfoCache = new ConcurrentHashMap<>();
+
+
     public static AddonInfo readAddonInfo(File addonFile) {
-
-
-        return null;
+        AddonInfo addonInfo = addonInfoCache.get(addonFile.getAbsolutePath());
+        if (addonInfo == null) {
+            addonInfo = readAddonFromFile(addonFile);
+            addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
+        }
+        return addonInfo;
     }
 
-    public static String readAddonId(File addonFile) {
+
+    public static AddonInfo readAddonFromFile(File addonFile) {
         ZipFile zipFile = null;
         try {
             new ZipFile(addonFile);
@@ -91,7 +101,7 @@ public class AddonUtil {
                             is = zipFile.getInputStream(zipEntry);
                             Properties properties = new Properties();
                             properties.load(new InputStreamReader(is, "utf-8"));
-                            return (String) properties.get("id");
+                            return new AddonInfo(properties);
                         }
                     } finally {
                         if (is != null)

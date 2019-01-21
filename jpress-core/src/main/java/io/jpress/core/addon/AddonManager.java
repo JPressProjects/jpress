@@ -19,4 +19,19 @@ package io.jpress.core.addon;
  * 插件管理器
  */
 public class AddonManager {
+
+    private static final AddonManager me = new AddonManager();
+
+    public static AddonManager me() {
+        return me;
+    }
+
+
+    public void install(AddonInfo addonInfo) {
+
+    }
+
+    public void uninstall(AddonInfo addonInfo) {
+
+    }
 }

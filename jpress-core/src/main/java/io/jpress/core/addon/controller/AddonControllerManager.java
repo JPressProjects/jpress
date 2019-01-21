@@ -16,12 +16,57 @@
 package io.jpress.core.addon.controller;
 
 
+import com.jfinal.config.Routes;
 import com.jfinal.core.Action;
+import com.jfinal.core.ActionMapping;
+import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.core.addon.AddonInfo;
 
 public class AddonControllerManager {
 
-    public static Action getAction(String target, String[] urlPara) {
+    private static Routes routes = new Routes() {
+        @Override
+        public void config() {
 
-        return null;
+        }
+    };
+    private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
+
+    private static void addController(Class<? extends AddonController> controllerClass, AddonInfo addonInfo) {
+        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
+        if (mapping == null) return;
+
+        String value = AnnotationUtil.get(mapping.value());
+        if (value == null) return;
+
+        String viewPath = AnnotationUtil.get(mapping.viewPath());
+        if (StrUtil.isBlank(viewPath)) {
+            viewPath = "addons/" + addonInfo.getId();
+        }
+
+        routes.add(value, controllerClass, viewPath);
+    }
+
+    public static void buildActionMapping() {
+        actionMapping.buildActionMapping();
+    }
+
+    public static Action getAction(String target, String[] urlPara) {
+        return actionMapping.getAction(target, urlPara);
+    }
+
+    public static class AddonActionMapping extends ActionMapping {
+
+        public AddonActionMapping(Routes routes) {
+            super(routes);
+        }
+
+        @Override
+        public void buildActionMapping() {
+            super.buildActionMapping();
+        }
+
     }
 }

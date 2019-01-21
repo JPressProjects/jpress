@@ -17,6 +17,9 @@ package io.jpress.core.addon;
 
 
 import com.jfinal.log.Log;
+import io.jpress.core.addon.controller.AddonController;
+import io.jpress.core.addon.handler.AddonHandler;
+import io.jpress.core.addon.interceptor.AddonInterceptor;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -29,15 +32,15 @@ import java.util.jar.JarFile;
 public class AddonClassLoader extends URLClassLoader {
 
     private static final Log log = Log.getLog(AddonClassLoader.class);
-    private String path;
+    private AddonInfo addonInfo;
 
-    public AddonClassLoader(String path) {
+    public AddonClassLoader(AddonInfo addonInfo) {
         super(new URL[]{}, Thread.currentThread().getContextClassLoader());
-        this.path = path;
+        this.addonInfo = addonInfo;
     }
 
     public void init() {
-        File jarFile = new File(path);
+        File jarFile = new File(addonInfo.getJarPath());
         try {
             addURL(jarFile.toURI().toURL());
         } catch (MalformedURLException e) {
@@ -45,7 +48,7 @@ public class AddonClassLoader extends URLClassLoader {
         }
     }
 
-    public void autoLoadClass(JarFile jarfile) {
+    public void doLoad(JarFile jarfile) {
 
         Enumeration<JarEntry> entries = jarfile.entries();
 
@@ -55,7 +58,19 @@ public class AddonClassLoader extends URLClassLoader {
             if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
                 String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
                 try {
-                    loadClass(className);
+                    Class loadedClass = loadClass(className);
+
+                    if (AddonController.class.isAssignableFrom(loadedClass)) {
+                        addonInfo.addController(loadedClass);
+                    }
+
+                    if (AddonInterceptor.class.isAssignableFrom(loadedClass)) {
+                        addonInfo.addInterceptor(loadedClass);
+                    }
+
+                    if (AddonHandler.class.isAssignableFrom(loadedClass)) {
+                        addonInfo.addHandler(loadedClass);
+                    }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

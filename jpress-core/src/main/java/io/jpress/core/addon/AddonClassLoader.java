@@ -40,7 +40,7 @@ public class AddonClassLoader extends URLClassLoader {
     }
 
     public void init() {
-        File jarFile = new File(addonInfo.getJarPath());
+        File jarFile = addonInfo.buildJarFile();
         try {
             addURL(jarFile.toURI().toURL());
         } catch (MalformedURLException e) {

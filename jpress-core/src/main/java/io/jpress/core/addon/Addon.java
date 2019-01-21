@@ -24,8 +24,6 @@ public interface Addon {
 
     public void onStart();
 
-    public void onStarted();
-
     public void onStop();
 
 }

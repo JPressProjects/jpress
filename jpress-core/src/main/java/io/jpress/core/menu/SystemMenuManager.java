@@ -99,6 +99,13 @@ public class SystemMenuManager implements JbootEventListener {
         systemMenus.add(templateMenuGroup);
 
 
+        MenuGroup addonMenuGroup = new MenuGroup();
+        addonMenuGroup.setId(JPressConsts.SYSTEM_MENU_ADDON);
+        addonMenuGroup.setText("插件");
+        addonMenuGroup.setIcon("<i class=\"fa fa-plug\"></i>");
+        systemMenus.add(addonMenuGroup);
+
+
         MenuGroup settingMenuGroup = new MenuGroup();
         settingMenuGroup.setId(JPressConsts.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");

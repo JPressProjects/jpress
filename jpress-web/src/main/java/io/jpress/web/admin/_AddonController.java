@@ -19,6 +19,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.addon.AddonUtil;
@@ -77,6 +78,13 @@ public class _AddonController extends AdminControllerBase {
         }
 
         String addonId = AddonUtil.readAddonId(ufile.getFile());
+        if (StrUtil.isBlank(addonId)){
+            renderJson(Ret.fail()
+                    .set("success", false)
+                    .set("message", "无法读取插件Id信息。"));
+            deleteFileQuietly(ufile.getFile());
+            return;
+        }
 
         String webRoot = PathKit.getWebRootPath();
 

@@ -21,13 +21,14 @@ import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,7 +44,6 @@ public class _AddonController extends AdminControllerBase {
     public void index() {
 
 
-
         render("addon/list.html");
     }
 
@@ -54,10 +54,9 @@ public class _AddonController extends AdminControllerBase {
     }
 
     /**
-     * 进行模板安装
+     * 进行插件安装
      */
     public void doInstall() {
-
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -69,50 +68,49 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
 
-        if (!".zip".equals(FileUtil.getSuffix(ufile.getFileName()))) {
+        if (!StringUtils.equalsAnyIgnoreCase(FileUtil.getSuffix(ufile.getFileName()), ".zip", ".jar")) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "只支持 .zip 的压缩模板文件"));
+                    .set("message", "只支持 .zip 或 .jar 的插件文件"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
 
+        String addonId = AddonUtil.readAddonId(ufile.getFile());
 
         String webRoot = PathKit.getWebRootPath();
+
         StringBuilder newFileName = new StringBuilder(webRoot);
         newFileName.append(File.separator);
-        newFileName.append("templates");
+        newFileName.append("WEB-INF");
         newFileName.append(File.separator);
-        newFileName.append(ufile.getOriginalFileName());
+        newFileName.append("addons");
+        newFileName.append(File.separator);
+        newFileName.append(addonId);
+        newFileName.append(".jar");
 
+        File newAddonFile = new File(newFileName.toString());
 
-        String templatePath = newFileName.substring(0, newFileName.length() - 4);
-        if (new File(templatePath).exists()) {
+        if (newAddonFile.exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该模板已经安装"));
+                    .set("message", "该插件已经安装"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
 
-        File templateZipFile = new File(newFileName.toString());
-        if (!templateZipFile.getParentFile().exists()) {
-            templateZipFile.getParentFile().mkdirs();
+        if (!newAddonFile.getParentFile().exists()) {
+            newAddonFile.getParentFile().mkdirs();
         }
 
         try {
-            org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtil.unzip(templateZipFile.getAbsolutePath(),
-                    templateZipFile.getParentFile().getAbsolutePath());
-        } catch (IOException e) {
+            org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), newAddonFile);
+            AddonUtil.unzipResources(newAddonFile);
+        } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "模板文件解压缩失败"));
+                    .set("message", "插件文件解压缩失败"));
             return;
-        } finally {
-            //安装成功后，删除zip包
-            deleteFileQuietly(templateZipFile);
-            deleteFileQuietly(ufile.getFile());
         }
 
         renderJson(Ret.ok().set("success", true));
@@ -142,12 +140,6 @@ public class _AddonController extends AdminControllerBase {
         template.uninstall();
         renderJson(Ret.ok());
     }
-
-
-
-
-
-
 
 
 }

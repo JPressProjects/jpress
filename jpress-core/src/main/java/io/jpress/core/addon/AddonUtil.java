@@ -14,18 +14,14 @@ import java.util.zip.ZipFile;
  */
 public class AddonUtil {
 
+    /**
+     * 解压 zip 或者 jar 的资源文件
+     *
+     * @param addonFile
+     * @throws IOException
+     */
     public static void unzipResources(File addonFile) throws IOException {
-
-        String targetPath = PathKit.getWebRootPath();
-//                + File.separator
-//                + "WEB-INF";
-//                + File.separator
-//                + "addons"
-//                + File.separator
-//                + readAddonId(addonFile);
-
         ZipFile zipFile = new ZipFile(addonFile);
-
         try {
             Enumeration<?> entryEnum = zipFile.entries();
             if (null != entryEnum) {
@@ -35,7 +31,7 @@ public class AddonUtil {
                     try {
                         ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
                         if (!zipEntry.isDirectory() && zipEntry.getName().startsWith("addons")) {
-                            File targetFile = new File(targetPath + File.separator + zipEntry.getName());
+                            File targetFile = new File(PathKit.getWebRootPath() + File.separator + zipEntry.getName());
                             if (!targetFile.getParentFile().exists()) {
                                 targetFile.getParentFile().mkdirs();
                             }
@@ -67,36 +63,36 @@ public class AddonUtil {
     }
 
     public static String readAddonId(File addonFile) {
-
+        ZipFile zipFile = null;
         try {
-            ZipFile zipFile = new ZipFile(addonFile);
-
-            try {
-                Enumeration<?> entryEnum = zipFile.entries();
-                if (null != entryEnum) {
-                    while (entryEnum.hasMoreElements()) {
-                        InputStream is = null;
-                        try {
-                            ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
-                            if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "addon.txt", "addon.properties")) {
-                                is = zipFile.getInputStream(zipEntry);
-                                Properties properties = new Properties();
-                                properties.load(new InputStreamReader(is, "utf-8"));
-                                return (String) properties.get("id");
-                            }
-                        } finally {
-                            if (is != null)
-                                is.close();
+            new ZipFile(addonFile);
+            Enumeration<?> entryEnum = zipFile.entries();
+            if (null != entryEnum) {
+                while (entryEnum.hasMoreElements()) {
+                    InputStream is = null;
+                    try {
+                        ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
+                        if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "addon.txt", "addon.properties")) {
+                            is = zipFile.getInputStream(zipEntry);
+                            Properties properties = new Properties();
+                            properties.load(new InputStreamReader(is, "utf-8"));
+                            return (String) properties.get("id");
                         }
+                    } finally {
+                        if (is != null)
+                            is.close();
                     }
                 }
-            } finally {
-                zipFile.close();
             }
-
         } catch (IOException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                zipFile.close();
+            } catch (IOException e) {
+            }
         }
+
         return null;
     }
 

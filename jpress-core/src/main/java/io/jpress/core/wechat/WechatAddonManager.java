@@ -15,6 +15,7 @@
  */
 package io.jpress.core.wechat;
 
+import com.jfinal.aop.Aop;
 import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
@@ -69,7 +70,7 @@ public class WechatAddonManager implements JbootEventListener {
             return;
         }
 
-//        optionService = Aop.get(OptionService.class);
+        optionService = Aop.get(OptionService.class);
 
         List<Class<WechatAddon>> classes = ClassScanner.scanSubClass(WechatAddon.class, true);
         if (classes == null || classes.isEmpty()) {

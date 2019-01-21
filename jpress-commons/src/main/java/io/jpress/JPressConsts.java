@@ -33,6 +33,7 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_USER = "user";
     public static final String SYSTEM_MENU_ATTACHMENT = "attachment";
     public static final String SYSTEM_MENU_TEMPLATE = "template";
+    public static final String SYSTEM_MENU_ADDON = "addon";
     public static final String SYSTEM_MENU_SYSTEM = "system";
     //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";

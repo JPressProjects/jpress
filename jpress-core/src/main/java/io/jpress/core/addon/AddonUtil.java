@@ -80,14 +80,15 @@ public class AddonUtil {
     public static AddonInfo readAddonInfo(File addonFile) {
         AddonInfo addonInfo = addonInfoCache.get(addonFile.getAbsolutePath());
         if (addonInfo == null) {
-            addonInfo = readAddonFromFile(addonFile);
+            addonInfo = readSimpleAddonInfo(addonFile);
+            new AddonClassLoader(addonInfo).load();
             addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
         }
         return addonInfo;
     }
 
 
-    public static AddonInfo readAddonFromFile(File addonFile) {
+    public static AddonInfo readSimpleAddonInfo(File addonFile) {
         ZipFile zipFile = null;
         try {
             new ZipFile(addonFile);

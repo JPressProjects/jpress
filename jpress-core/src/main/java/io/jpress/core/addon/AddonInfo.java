@@ -40,7 +40,7 @@ public class AddonInfo implements Serializable {
     private int versionCode;
     private String updateUrl;
 
-    private Class addonClass;
+    private Class<? extends Addon> addonClass;
     private boolean hasError = false;
     private boolean start = false;
 
@@ -72,11 +72,11 @@ public class AddonInfo implements Serializable {
         this.id = id;
     }
 
-    public Class getAddonClass() {
+    public Class<? extends Addon> getAddonClass() {
         return addonClass;
     }
 
-    public void setAddonClass(Class addonClass) {
+    public void setAddonClass(Class<? extends Addon> addonClass) {
         this.addonClass = addonClass;
     }
 

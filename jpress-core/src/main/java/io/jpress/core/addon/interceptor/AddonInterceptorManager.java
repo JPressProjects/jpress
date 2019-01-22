@@ -22,4 +22,10 @@ public class AddonInterceptorManager {
 
         return null;
     }
+
+    public static void addInterceptor(Class<? extends AddonInterceptor> c) {
+    }
+
+    public static void deleteInterceptor(Class<? extends AddonInterceptor> c) {
+    }
 }

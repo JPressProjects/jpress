@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,6 +112,10 @@ public class AddonManager implements JbootEventListener {
         }
 
         return null;
+    }
+
+    public List<AddonInfo> getAllAddonInfos() {
+        return new ArrayList<>(addonInfoList);
     }
 
 

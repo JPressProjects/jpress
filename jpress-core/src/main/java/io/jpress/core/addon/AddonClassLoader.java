@@ -51,6 +51,8 @@ public class AddonClassLoader extends URLClassLoader {
 
     public void load() {
 
+        init();
+
         Enumeration<JarEntry> entries = null;
         try {
             entries = new JarFile(addonInfo.buildJarFile()).entries();

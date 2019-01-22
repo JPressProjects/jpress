@@ -4,12 +4,12 @@
 <script>
 
     function doEnableAddon(id) {
-        ajaxGet("#(CPATH)/admin/wechat/doEnableAddon?id=" + id)
+        ajaxGet("#(CPATH)/admin/addon/doEnableAddon?id=" + id)
     }
 
 
     function doCloseAddon(id) {
-        ajaxGet("#(CPATH)/admin/wechat/doCloseAddon?id=" + id)
+        ajaxGet("#(CPATH)/admin/addon/doCloseAddon?id=" + id)
     }
 
     $(".addon-enable").on("click", function () {
@@ -56,31 +56,42 @@
                                 <th style="width: 100px">版本</th>
                             </tr>
 
-                            #for(wechatAddon : wechatAddons)
+                            #for(addon : addons)
                             <tr class="jp-actiontr">
-                                <td >
+                                <td>
                                     <strong>
-                                        <a href="#">#(wechatAddon.title ??)</a>
-                                        #if(!wechatAddon.isEnable()) （已经关闭）#end
+                                        <a href="#">#(addon.title ??)</a>
+                                        #if(!addon.isInstall()) （未安装）
+                                        #elseif(!addon.isStart()) (未启用)
+                                        #end
                                     </strong>
 
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            #if(wechatAddon.isEnable())
-                                            <a href="javascript:;" style="color: #a00" data-id="#(wechatAddon.id)"
+                                            #if(addon.isInstall())
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-close">卸载</a> |
+                                            #else
+                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
+                                               class="addon-enable">安装</a> |
+                                            #end
+
+                                            #if(addon.isStart())
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
                                                class="addon-close">关闭</a> |
                                             #else
-                                            <a href="javascript:;" style="color: #006505" data-id="#(wechatAddon.id)"
+                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
                                                class="addon-enable">启用</a> |
                                             #end
+
                                             <a href="javascript:;" style="color: #006505">查看</a>
                                         </div>
                                     </div>
 
                                 </td>
-                                <td>#(wechatAddon.description ??)</td>
-                                <td>#(wechatAddon.author ??)</td>
-                                <td>#(wechatAddon.version ??)</td>
+                                <td>#(addon.description ??)</td>
+                                <td>#(addon.author ??)</td>
+                                <td>#(addon.version ??)</td>
                             </tr>
                             #end
 

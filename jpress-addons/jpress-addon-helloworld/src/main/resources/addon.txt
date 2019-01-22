@@ -1,6 +1,6 @@
 id=io.jpress.addon.helloworld
 title=hello world
-description=
+description=这只是一个插件demo，方便开发者参考开发
 author=海哥
 authorWebsite=
 version=

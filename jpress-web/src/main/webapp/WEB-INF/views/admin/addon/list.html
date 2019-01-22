@@ -69,21 +69,21 @@
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             #if(addon.isInstall())
-                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
-                                               class="addon-close">卸载</a> |
+                                                #if(addon.isStart())
+                                                <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                                   class="addon-close">关闭</a> |
+                                                #else
+                                                <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
+                                                   class="addon-enable">启用</a> |
+                                                <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                                   class="addon-close">卸载</a> |
+                                                #end
                                             #else
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-enable">删除</a> |
                                             <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
                                                class="addon-enable">安装</a> |
                                             #end
-
-                                            #if(addon.isStart())
-                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
-                                               class="addon-close">关闭</a> |
-                                            #else
-                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
-                                               class="addon-enable">启用</a> |
-                                            #end
-
                                             <a href="javascript:;" style="color: #006505">查看</a>
                                         </div>
                                     </div>

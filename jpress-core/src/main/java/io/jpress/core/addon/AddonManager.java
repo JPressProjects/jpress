@@ -226,6 +226,8 @@ public class AddonManager implements JbootEventListener {
         if (controllerClasses != null) {
             for (Class<? extends AddonController> c : controllerClasses)
                 AddonControllerManager.addController(c, addonInfo);
+
+            AddonControllerManager.buildActionMapping();
         }
 
 

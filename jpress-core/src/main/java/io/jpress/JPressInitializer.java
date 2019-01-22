@@ -17,6 +17,7 @@ package io.jpress;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
+import com.jfinal.config.Routes;
 import com.jfinal.kit.PathKit;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
@@ -66,6 +67,10 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     }
 
+    @Override
+    public void onJfinalRouteConfig(Routes routes) {
+        routes.setClearAfterMapping(false);
+    }
 
     @Override
     public void onFixedInterceptorConfig(FixedInterceptors fixedInterceptors) {

@@ -141,6 +141,9 @@ public class AddonManager implements JbootEventListener {
         }
     }
 
+    public boolean install(String id) {
+        return install(getAddonInfo(id).buildJarFile());
+    }
 
     /**
      * 安装插件：
@@ -151,6 +154,7 @@ public class AddonManager implements JbootEventListener {
      * @param jarFile
      * @return
      */
+
     public boolean install(File jarFile) {
 
         AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
@@ -172,6 +176,10 @@ public class AddonManager implements JbootEventListener {
 
     }
 
+
+    public boolean uninstall(String id) {
+        return uninstall(getAddonInfo(id));
+    }
 
     /**
      * 卸载的动作：
@@ -247,6 +255,11 @@ public class AddonManager implements JbootEventListener {
         addon.onStart();
 
         addonInfo.setStatus(AddonInfo.STATUS_START);
+    }
+
+
+    public boolean stop(String id) {
+        return stop(getAddonInfo(id));
     }
 
 

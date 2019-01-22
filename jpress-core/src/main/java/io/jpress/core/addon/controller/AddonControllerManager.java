@@ -24,6 +24,8 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.addon.AddonInfo;
 
+import java.lang.reflect.Field;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
@@ -31,8 +33,9 @@ public class AddonControllerManager {
     private static Routes routes = new Routes() {
         @Override
         public void config() {
-
+            this.setClearAfterMapping(false);
         }
+
     };
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
@@ -73,6 +76,7 @@ public class AddonControllerManager {
 
         public AddonActionMapping(Routes routes) {
             super(routes);
+            routes.config();
             this.mapping = new ConcurrentHashMap<>();
         }
 
@@ -83,7 +87,20 @@ public class AddonControllerManager {
 
         public void deleteAction(String target) {
             this.mapping.remove(target);
+            this.routes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(target));
+            try {
+                Field field = Routes.class.getDeclaredField("controllerKeySet");
+                field.setAccessible(true);
+                Set<String> routes = (Set<String>) field.get(null);
+                routes.remove(target);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
+        @Override
+        public Action getAction(String url, String[] urlPara) {
+            return super.getAction(url, urlPara);
+        }
     }
 }

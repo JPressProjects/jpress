@@ -134,7 +134,7 @@ public class AddonManager {
         List<Class<? extends AddonController>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
             for (Class<? extends AddonController> c : controllerClasses)
-                AddonControllerManager.addController(c);
+                AddonControllerManager.addController(c, addonInfo);
         }
 
 
@@ -167,6 +167,8 @@ public class AddonManager {
         if (controllerClasses != null) {
             for (Class<? extends AddonController> c : controllerClasses)
                 AddonControllerManager.deleteController(c);
+
+            AddonControllerManager.buildActionMapping();
         }
 
 

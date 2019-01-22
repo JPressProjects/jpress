@@ -25,8 +25,6 @@ import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.Template;
-import io.jpress.core.template.TemplateManager;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.StringUtils;
 
@@ -47,7 +45,7 @@ public class _AddonController extends AdminControllerBase {
     public void index() {
 
         List<AddonInfo> addons = AddonManager.me().getAllAddonInfos();
-        setAttr("addons",addons);
+        setAttr("addons", addons);
         render("addon/list.html");
     }
 
@@ -60,7 +58,7 @@ public class _AddonController extends AdminControllerBase {
     /**
      * 进行插件安装
      */
-    public void doInstall() {
+    public void doUploadAndInstall() {
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -94,7 +92,7 @@ public class _AddonController extends AdminControllerBase {
         if (newAddonFile.exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该插件已经安装"));
+                    .set("message", "该插件已经存在。"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
@@ -108,9 +106,12 @@ public class _AddonController extends AdminControllerBase {
             AddonManager.me().install(newAddonFile);
             AddonManager.me().start(addon.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "插件文件解压缩失败"));
+                    .set("message", "该插件安装失败。"));
+            deleteFileQuietly(ufile.getFile());
+            deleteFileQuietly(newAddonFile);
             return;
         }
 
@@ -122,23 +123,28 @@ public class _AddonController extends AdminControllerBase {
     }
 
 
-    public void doEnable() {
-        String tid = getPara("tid");
-
+    public void doDel() {
+        String id = getPara("id");
         renderJson(Ret.ok());
     }
 
+    public void doInstall() {
+        String id = getPara("id");
+        renderJson(Ret.ok());
+    }
 
     public void doUninstall() {
-        String tid = getPara("tid");
-        Template template = TemplateManager.me().getTemplateById(tid);
+        String id = getPara("id");
+        renderJson(Ret.ok());
+    }
 
-        if (template == null) {
-            renderJson(Ret.fail().set("message", "没有该模板"));
-            return;
-        }
+    public void doStart() {
+        String id = getPara("id");
+        renderJson(Ret.ok());
+    }
 
-        template.uninstall();
+    public void doStop() {
+        String id = getPara("id");
         renderJson(Ret.ok());
     }
 

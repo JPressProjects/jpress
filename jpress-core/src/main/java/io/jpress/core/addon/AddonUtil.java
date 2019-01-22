@@ -92,7 +92,7 @@ public class AddonUtil {
     public static AddonInfo readSimpleAddonInfo(File addonFile) {
         ZipFile zipFile = null;
         try {
-            new ZipFile(addonFile);
+            zipFile = new ZipFile(addonFile);
             Enumeration<?> entryEnum = zipFile.entries();
             if (null != entryEnum) {
                 while (entryEnum.hasMoreElements()) {
@@ -115,7 +115,7 @@ public class AddonUtil {
             ex.printStackTrace();
         } finally {
             try {
-                zipFile.close();
+                if (zipFile != null) zipFile.close();
             } catch (IOException e) {
             }
         }

@@ -22,6 +22,7 @@ import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.web.fixedinterceptor.FixedInterceptors;
 import io.jpress.commons.utils.JPressJson;
+import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.addon.interceptor.AddonInterceptorProcesser;
@@ -91,6 +92,7 @@ public class JPressInitializer extends JbootAppListenerBase {
 
         SystemMenuManager.me().init();
         WechatAddonManager.me().init();
+        AddonManager.me().init();
 
     }
 

@@ -29,6 +29,10 @@ import java.util.Properties;
 
 public class AddonInfo implements Serializable {
 
+    public static final int STATUS_INIT = 0;
+    public static final int STATUS_INSTALL = 1;
+    public static final int STATUS_START = 2;
+
     private static final Log log = Log.getLog(AddonInfo.class);
 
     private String id;
@@ -41,8 +45,7 @@ public class AddonInfo implements Serializable {
     private String updateUrl;
 
     private Class<? extends Addon> addonClass;
-    private boolean hasError = false;
-    private boolean start = false;
+    private int status = STATUS_INIT;
 
     private List<Class<? extends AddonController>> controllers;
     private List<Class<? extends AddonInterceptor>> interceptors;
@@ -136,18 +139,21 @@ public class AddonInfo implements Serializable {
         this.updateUrl = updateUrl;
     }
 
-    public boolean getHasError() {
-        return hasError;
+    public int getStatus() {
+        return status;
     }
 
-    public void setHasError(boolean hasError) {
-        this.hasError = hasError;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public boolean isInstall() {
+        return status > STATUS_INIT;
     }
 
     public boolean isStart() {
-        return start;
+        return status > STATUS_INSTALL;
     }
-
 
     public void addController(Class<? extends AddonController> clazz) {
         if (controllers == null) {
@@ -212,7 +218,7 @@ public class AddonInfo implements Serializable {
         return addon.getId().equals(getId());
     }
 
-    public File buildJarFile(){
+    public File buildJarFile() {
 
         String webRoot = PathKit.getWebRootPath();
 

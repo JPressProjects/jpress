@@ -104,6 +104,7 @@ public class _AddonController extends AdminControllerBase {
         try {
             org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), newAddonFile);
             AddonManager.me().install(newAddonFile);
+            AddonManager.me().start(addon.getId());
         } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)

@@ -3,21 +3,25 @@
 #define script()
 <script>
 
-    function doEnableAddon(id) {
-        ajaxGet("#(CPATH)/admin/addon/doEnableAddon?id=" + id)
-    }
 
-
-    function doCloseAddon(id) {
-        ajaxGet("#(CPATH)/admin/addon/doCloseAddon?id=" + id)
-    }
-
-    $(".addon-enable").on("click", function () {
-        doEnableAddon($(this).attr("data-id"));
+    $(".addon-del").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doDel?id=" + $(this).attr("data-id"))
     })
 
-    $(".addon-close").on("click", function () {
-        doCloseAddon($(this).attr("data-id"));
+    $(".addon-unisntall").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doUninstall?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-install").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doInstall?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-start").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doStart?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-stop").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doStop?id=" + $(this).attr("data-id"))
     })
 
 
@@ -69,20 +73,20 @@
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             #if(addon.isInstall())
-                                                #if(addon.isStart())
-                                                <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
-                                                   class="addon-close">关闭</a> |
-                                                #else
-                                                <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
-                                                   class="addon-enable">启用</a> |
-                                                <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
-                                                   class="addon-close">卸载</a> |
-                                                #end
+                                            #if(addon.isStart())
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-stop">停用</a> |
+                                            #else
+                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
+                                               class="addon-start">启用</a> |
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-unisntall">卸载</a> |
+                                            #end
                                             #else
                                             <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
-                                               class="addon-enable">删除</a> |
+                                               class="addon-del">删除</a> |
                                             <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
-                                               class="addon-enable">安装</a> |
+                                               class="addon-install">安装</a> |
                                             #end
                                             <a href="javascript:;" style="color: #006505">查看</a>
                                         </div>

@@ -125,26 +125,51 @@ public class _AddonController extends AdminControllerBase {
 
     public void doDel() {
         String id = getPara("id");
+        if (StrUtil.isBlank(id)) {
+            renderJson(Ret.fail().set("message", "ID数据不能为空"));
+            return;
+        }
+        AddonManager.me().uninstall(id);
         renderJson(Ret.ok());
     }
 
     public void doInstall() {
         String id = getPara("id");
+        if (StrUtil.isBlank(id)) {
+            renderJson(Ret.fail().set("message", "ID数据不能为空"));
+            return;
+        }
+        AddonManager.me().install(id);
         renderJson(Ret.ok());
     }
 
     public void doUninstall() {
         String id = getPara("id");
+        if (StrUtil.isBlank(id)) {
+            renderJson(Ret.fail().set("message", "ID数据不能为空"));
+            return;
+        }
+        AddonManager.me().uninstall(id);
         renderJson(Ret.ok());
     }
 
     public void doStart() {
         String id = getPara("id");
+        if (StrUtil.isBlank(id)) {
+            renderJson(Ret.fail().set("message", "ID数据不能为空"));
+            return;
+        }
+        AddonManager.me().start(id);
         renderJson(Ret.ok());
     }
 
     public void doStop() {
         String id = getPara("id");
+        if (StrUtil.isBlank(id)) {
+            renderJson(Ret.fail().set("message", "ID数据不能为空"));
+            return;
+        }
+        AddonManager.me().stop(id);
         renderJson(Ret.ok());
     }
 

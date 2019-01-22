@@ -25,4 +25,10 @@ public class AddonHandlerManager {
     public static List<Handler> getHandlers(){
         return null;
     }
+
+    public static void addHandler(Class<? extends AddonHandler> c) {
+    }
+
+    public static void deleteHandler(Class<? extends AddonHandler> c) {
+    }
 }

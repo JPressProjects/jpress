@@ -57,6 +57,12 @@ public class AddonControllerManager {
         return actionMapping.getAction(target, urlPara);
     }
 
+    public static void addController(Class<? extends AddonController> c) {
+    }
+
+    public static void deleteController(Class<? extends AddonController> c) {
+    }
+
     public static class AddonActionMapping extends ActionMapping {
 
         public AddonActionMapping(Routes routes) {

@@ -48,6 +48,15 @@ public interface OptionService {
 
 
     /**
+     * 根据 key 进行删除
+     *
+     * @param key
+     * @return
+     */
+    public boolean deleteByKey(String key);
+
+
+    /**
      * delete model
      *
      * @param model

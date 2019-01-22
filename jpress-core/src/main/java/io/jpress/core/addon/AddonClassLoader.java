@@ -22,6 +22,7 @@ import io.jpress.core.addon.handler.AddonHandler;
 import io.jpress.core.addon.interceptor.AddonInterceptor;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -48,9 +49,16 @@ public class AddonClassLoader extends URLClassLoader {
         }
     }
 
-    public void doLoad(JarFile jarfile) {
+    public void load() {
 
-        Enumeration<JarEntry> entries = jarfile.entries();
+        Enumeration<JarEntry> entries = null;
+        try {
+            entries = new JarFile(addonInfo.buildJarFile()).entries();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (entries == null) return;
 
         while (entries.hasMoreElements()) {
             JarEntry jarEntry = entries.nextElement();

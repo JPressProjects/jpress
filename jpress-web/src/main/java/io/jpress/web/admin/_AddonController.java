@@ -78,7 +78,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
 
-        AddonInfo addon = AddonUtil.readAddonFromFile(ufile.getFile());
+        AddonInfo addon = AddonUtil.readSimpleAddonInfo(ufile.getFile());
         if (addon == null || StrUtil.isBlank(addon.getId())) {
             renderJson(Ret.fail()
                     .set("success", false)
@@ -103,7 +103,7 @@ public class _AddonController extends AdminControllerBase {
 
         try {
             org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), newAddonFile);
-            AddonManager.me().install(addon);
+            AddonManager.me().install(newAddonFile);
         } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)

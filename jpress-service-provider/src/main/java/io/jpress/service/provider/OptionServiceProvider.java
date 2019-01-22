@@ -74,6 +74,14 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
     }
 
     @Override
+    public boolean deleteByKey(String key) {
+        Option option = DAO.findFirstByColumn("key", key);
+        if (option == null) return true;
+
+        return deleteById(option.getId());
+    }
+
+    @Override
     @CacheEvict(name = "option", key = "#(model.key)")
     public boolean update(Option model) {
         return super.update(model);

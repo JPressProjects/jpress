@@ -17,18 +17,23 @@ package io.jpress.core.addon;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.kit.PathKit;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
 import io.jpress.core.addon.controller.AddonController;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandler;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptor;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
+import io.jpress.core.install.JPressInstaller;
 import io.jpress.service.OptionService;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 插件管理器：安装、卸载、启用、停用
@@ -59,12 +64,76 @@ import java.util.List;
  * 1、插件的作者可以在 onInstall() 进行数据库表创建等工作
  * 2、插件的作者可以在 onUninstall() 进行数据库表删除和其他资源删除等工作
  */
-public class AddonManager {
+public class AddonManager implements JbootEventListener {
 
     private static final AddonManager me = new AddonManager();
 
     public static AddonManager me() {
         return me;
+    }
+
+    private Set<AddonInfo> addonInfoList = new HashSet<>();
+
+    public void init() {
+
+        if (JPressInstaller.isInstalled() == false) {
+            JPressInstaller.addListener(this);
+            return;
+        }
+
+        initLoad();
+    }
+
+    /**
+     * 启动的时候，加载所有插件
+     * 备注：插件可能是复制到插件目录下，而非通过后台进行 "安装"
+     */
+    private void initLoad() {
+
+        File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
+        if (!addonDir.exists()) return;
+
+        File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
+        if (addonJarFiles == null || addonJarFiles.length == 0) return;
+
+        for (File jarFile : addonJarFiles) {
+            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+            if (addonInfo != null) addonInfoList.add(addonInfo);
+        }
+
+        installInit(addonJarFiles);
+        startInit(addonJarFiles);
+    }
+
+    public AddonInfo getAddonInfo(String id) {
+        for (AddonInfo addonInfo : addonInfoList) {
+            if (id.equals(addonInfo.getId())) return addonInfo;
+        }
+
+        return null;
+    }
+
+
+    private void installInit(File[] addonJars) {
+
+        OptionService optionService = Aop.get(OptionService.class);
+
+        for (File jarFile : addonJars) {
+            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+            if (addonInfo != null && optionService.findByKey("addonInstall:" + addonInfo.getId()) != null) {
+                addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+            }
+        }
+    }
+
+    private void startInit(File[] addonJars) {
+        OptionService optionService = Aop.get(OptionService.class);
+        for (File jarFile : addonJars) {
+            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+            if (addonInfo != null && optionService.findByKey("addonStart:" + addonInfo.getId()) != null) {
+                doStrat(addonInfo);
+            }
+        }
     }
 
 
@@ -80,6 +149,8 @@ public class AddonManager {
     public boolean install(File jarFile) {
 
         AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+        addonInfoList.add(addonInfo);
+
         Addon addon = Aop.get(addonInfo.getAddonClass());
 
         try {
@@ -88,6 +159,8 @@ public class AddonManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         OptionService optionService = Aop.get(OptionService.class);
         return optionService.saveOrUpdate("addonInstall:" + addonInfo.getId(), "true") != null;
@@ -112,9 +185,16 @@ public class AddonManager {
         addonInfo.buildJarFile().delete();
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addon/" + addonInfo.getId()));
 
+        addonInfo.setStatus(AddonInfo.STATUS_INIT);
+
         OptionService optionService = Aop.get(OptionService.class);
         return optionService.deleteByKey("addonInstall:" + addonInfo.getId());
 
+    }
+
+
+    public boolean start(String addonInfoId) {
+        return start(getAddonInfo(addonInfoId));
     }
 
     /**
@@ -131,6 +211,12 @@ public class AddonManager {
         OptionService optionService = Aop.get(OptionService.class);
         optionService.saveOrUpdate("addonStart:" + addonInfo.getId(), "true");
 
+        doStrat(addonInfo);
+
+        return true;
+    }
+
+    private void doStrat(AddonInfo addonInfo) {
         List<Class<? extends AddonController>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
             for (Class<? extends AddonController> c : controllerClasses)
@@ -153,7 +239,7 @@ public class AddonManager {
         Addon addon = Aop.get(addonInfo.getAddonClass());
         addon.onStart();
 
-        return true;
+        addonInfo.setStatus(AddonInfo.STATUS_START);
     }
 
 
@@ -187,7 +273,14 @@ public class AddonManager {
         Addon addon = Aop.get(addonInfo.getAddonClass());
         addon.onStop();
 
+        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+
         return true;
 
+    }
+
+    @Override
+    public void onEvent(JbootEvent jbootEvent) {
+        init();
     }
 }

@@ -81,6 +81,7 @@ public class AddonUtil {
         AddonInfo addonInfo = addonInfoCache.get(addonFile.getAbsolutePath());
         if (addonInfo == null) {
             addonInfo = readSimpleAddonInfo(addonFile);
+            if (addonInfo == null) return null;
             new AddonClassLoader(addonInfo).load();
             addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
         }

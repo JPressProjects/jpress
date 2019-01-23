@@ -24,7 +24,7 @@ import io.jpress.JPressConsts;
 import io.jpress.core.annotation.AdminPermission;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuItem;
-import io.jpress.core.menu.SystemMenuManager;
+import io.jpress.core.menu.MenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
@@ -89,8 +89,8 @@ public class _PermissionController extends AdminControllerBase {
     private List<Permission> buildMenuPermissions() {
 
         List<MenuGroup> adminMenuGroups = new ArrayList<>();
-        adminMenuGroups.addAll(SystemMenuManager.me().getSystemMenus());
-        adminMenuGroups.addAll(SystemMenuManager.me().getModuleMenus());
+        adminMenuGroups.addAll(MenuManager.me().getSystemMenus());
+        adminMenuGroups.addAll(MenuManager.me().getModuleMenus());
 
         List<Permission> permissions = new ArrayList<>();
         for (MenuGroup menuGroup : adminMenuGroups) {

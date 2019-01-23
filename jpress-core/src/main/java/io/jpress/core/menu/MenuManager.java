@@ -36,19 +36,19 @@ import java.util.*;
  * @Title: JPress 的 module
  * @Package io.jpress.module
  */
-public class SystemMenuManager implements JbootEventListener {
+public class MenuManager implements JbootEventListener {
 
-    private static final SystemMenuManager me = new SystemMenuManager();
+    private static final MenuManager me = new MenuManager();
 
     private List<MenuGroup> systemMenus = new ArrayList<>();
     private List<MenuGroup> moduleMenus = new ArrayList<>();
     private List<MenuGroup> ucenterMenus = new ArrayList<>();
 
-    private SystemMenuManager() {
+    private MenuManager() {
 
     }
 
-    public static SystemMenuManager me() {
+    public static MenuManager me() {
         return me;
     }
 

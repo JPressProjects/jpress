@@ -23,7 +23,6 @@ import com.jfinal.core.Controller;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.core.addon.AddonInfo;
 
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -40,7 +39,7 @@ public class AddonControllerManager {
     };
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
-    public static void addController(Class<? extends Controller> controllerClass, AddonInfo addonInfo) {
+    public static void addController(Class<? extends Controller> controllerClass) {
         RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
         if (mapping == null) return;
 
@@ -49,10 +48,10 @@ public class AddonControllerManager {
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath)) {
-            viewPath = "addons/" + addonInfo.getId();
+            routes.add(value, controllerClass);
+        } else {
+            routes.add(value, controllerClass, viewPath);
         }
-
-        routes.add(value, controllerClass, viewPath);
     }
 
     public static void buildActionMapping() {

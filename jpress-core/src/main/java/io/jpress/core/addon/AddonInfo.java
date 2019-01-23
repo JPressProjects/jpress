@@ -20,6 +20,9 @@ import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import io.jboot.db.annotation.Table;
+import io.jboot.db.model.JbootModel;
 
 import java.io.File;
 import java.io.Serializable;
@@ -50,6 +53,8 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends Controller>> controllers;
     private List<Class<? extends Interceptor>> interceptors;
     private List<Class<? extends Handler>> handlers;
+    private List<Class<? extends JbootModel>> models;
+    private ActiveRecordPlugin arp;
 
     public AddonInfo() {
 
@@ -199,6 +204,34 @@ public class AddonInfo implements Serializable {
 
     public void setHandlers(List<Class<? extends Handler>> handlers) {
         this.handlers = handlers;
+    }
+
+
+    public void addModel(Class<? extends JbootModel> clazz) {
+        Table table = clazz.getAnnotation(Table.class);
+        if (table == null) {
+            return;
+        }
+        if (models == null) {
+            models = new ArrayList<>();
+        }
+        models.add(clazz);
+    }
+
+    public List<Class<? extends JbootModel>> getModels() {
+        return models;
+    }
+
+    public void setModels(List<Class<? extends JbootModel>> models) {
+        this.models = models;
+    }
+
+    public ActiveRecordPlugin getArp() {
+        return arp;
+    }
+
+    public void setArp(ActiveRecordPlugin arp) {
+        this.arp = arp;
     }
 
     @Override

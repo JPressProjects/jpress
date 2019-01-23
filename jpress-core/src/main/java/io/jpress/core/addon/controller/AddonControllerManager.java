@@ -19,6 +19,7 @@ package io.jpress.core.addon.controller;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Action;
 import com.jfinal.core.ActionMapping;
+import com.jfinal.core.Controller;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class AddonControllerManager {
     };
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
-    public static void addController(Class<? extends AddonController> controllerClass, AddonInfo addonInfo) {
+    public static void addController(Class<? extends Controller> controllerClass, AddonInfo addonInfo) {
         RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
         if (mapping == null) return;
 
@@ -62,7 +63,7 @@ public class AddonControllerManager {
         return actionMapping.getAction(target, urlPara);
     }
 
-    public static void deleteController(Class<? extends AddonController> c) {
+    public static void deleteController(Class<? extends Controller> c) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
         if (mapping == null) return;
 

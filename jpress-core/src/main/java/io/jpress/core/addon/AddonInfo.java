@@ -15,11 +15,11 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.aop.Interceptor;
+import com.jfinal.core.Controller;
+import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
-import io.jpress.core.addon.controller.AddonController;
-import io.jpress.core.addon.handler.AddonHandler;
-import io.jpress.core.addon.interceptor.AddonInterceptor;
 
 import java.io.File;
 import java.io.Serializable;
@@ -47,9 +47,9 @@ public class AddonInfo implements Serializable {
     private Class<? extends Addon> addonClass;
     private int status = STATUS_INIT;
 
-    private List<Class<? extends AddonController>> controllers;
-    private List<Class<? extends AddonInterceptor>> interceptors;
-    private List<Class<? extends AddonHandler>> handlers;
+    private List<Class<? extends Controller>> controllers;
+    private List<Class<? extends Interceptor>> interceptors;
+    private List<Class<? extends Handler>> handlers;
 
     public AddonInfo() {
 
@@ -155,49 +155,49 @@ public class AddonInfo implements Serializable {
         return status > STATUS_INSTALL;
     }
 
-    public void addController(Class<? extends AddonController> clazz) {
+    public void addController(Class<? extends Controller> clazz) {
         if (controllers == null) {
             controllers = new ArrayList<>();
         }
         controllers.add(clazz);
     }
 
-    public List<Class<? extends AddonController>> getControllers() {
+    public List<Class<? extends Controller>> getControllers() {
         return controllers;
     }
 
-    public void setControllers(List<Class<? extends AddonController>> controllers) {
+    public void setControllers(List<Class<? extends Controller>> controllers) {
         this.controllers = controllers;
     }
 
 
-    public void addInterceptor(Class<? extends AddonInterceptor> clazz) {
+    public void addInterceptor(Class<? extends Interceptor> clazz) {
         if (interceptors == null) {
             interceptors = new ArrayList<>();
         }
         interceptors.add(clazz);
     }
 
-    public List<Class<? extends AddonInterceptor>> getInterceptors() {
+    public List<Class<? extends Interceptor>> getInterceptors() {
         return interceptors;
     }
 
-    public void setInterceptors(List<Class<? extends AddonInterceptor>> interceptors) {
+    public void setInterceptors(List<Class<? extends Interceptor>> interceptors) {
         this.interceptors = interceptors;
     }
 
-    public void addHandler(Class<? extends AddonHandler> clazz) {
+    public void addHandler(Class<? extends Handler> clazz) {
         if (handlers == null) {
             handlers = new ArrayList<>();
         }
         handlers.add(clazz);
     }
 
-    public List<Class<? extends AddonHandler>> getHandlers() {
+    public List<Class<? extends Handler>> getHandlers() {
         return handlers;
     }
 
-    public void setHandlers(List<Class<? extends AddonHandler>> handlers) {
+    public void setHandlers(List<Class<? extends Handler>> handlers) {
         this.handlers = handlers;
     }
 

@@ -16,10 +16,10 @@
 package io.jpress.core.addon;
 
 
+import com.jfinal.aop.Interceptor;
+import com.jfinal.core.Controller;
+import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
-import io.jpress.core.addon.controller.AddonController;
-import io.jpress.core.addon.handler.AddonHandler;
-import io.jpress.core.addon.interceptor.AddonInterceptor;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,15 +71,15 @@ public class AddonClassLoader extends URLClassLoader {
                     Class loadedClass = loadClass(className);
 
                     // controllers
-                    if (AddonController.class.isAssignableFrom(loadedClass)) {
+                    if (Controller.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addController(loadedClass);
                     }
                     // interceptors
-                    else if (AddonInterceptor.class.isAssignableFrom(loadedClass)) {
+                    else if (Interceptor.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addInterceptor(loadedClass);
                     }
                     // handlers
-                    else if (AddonHandler.class.isAssignableFrom(loadedClass)) {
+                    else if (Handler.class.isAssignableFrom(loadedClass)) {
                         addonInfo.addHandler(loadedClass);
                     }
                     // addonClass

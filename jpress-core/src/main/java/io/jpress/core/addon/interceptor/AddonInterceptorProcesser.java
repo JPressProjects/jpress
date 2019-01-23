@@ -15,6 +15,7 @@
  */
 package io.jpress.core.addon.interceptor;
 
+import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.web.fixedinterceptor.FixedInterceptor;
@@ -27,9 +28,7 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
     @Override
     public void intercept(FixedInvocation fixedInvocation) {
 
-        String target = fixedInvocation.getActionKey();
-
-        AddonInterceptor[] interceptors = AddonInterceptorManager.matchInterceptors(target);
+        Interceptor[] interceptors = AddonInterceptorManager.getInterceptors();
 
         if (interceptors == null || interceptors.length == 0) {
             fixedInvocation.invoke();
@@ -42,12 +41,12 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
     public class AddonInvocation extends Invocation {
 
         private FixedInvocation invocation;
-        private AddonInterceptor[] inters;
+        private Interceptor[] inters;
 
         private int index = 0;
 
 
-        public AddonInvocation(FixedInvocation invocation, AddonInterceptor[] interceptors) {
+        public AddonInvocation(FixedInvocation invocation, Interceptor[] interceptors) {
             this.invocation = invocation;
             this.inters = interceptors;
         }

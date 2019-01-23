@@ -16,16 +16,17 @@
 package io.jpress.core.addon.interceptor;
 
 
+import com.jfinal.aop.Interceptor;
+
 public class AddonInterceptorManager {
 
-    public static AddonInterceptor[] matchInterceptors(String target) {
-
+    public static Interceptor[] getInterceptors() {
         return null;
     }
 
-    public static void addInterceptor(Class<? extends AddonInterceptor> c) {
+    public static void addInterceptor(Class<? extends Interceptor> c) {
     }
 
-    public static void deleteInterceptor(Class<? extends AddonInterceptor> c) {
+    public static void deleteInterceptor(Class<? extends Interceptor> c) {
     }
 }

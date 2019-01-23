@@ -22,13 +22,13 @@ import java.util.List;
 
 public class AddonHandlerManager {
 
-    public static List<Handler> getHandlers(){
+    public static List<Handler> getHandlers() {
         return null;
     }
 
-    public static void addHandler(Class<? extends AddonHandler> c) {
+    public static void addHandler(Class<? extends Handler> c) {
     }
 
-    public static void deleteHandler(Class<? extends AddonHandler> c) {
+    public static void deleteHandler(Class<? extends Handler> c) {
     }
 }

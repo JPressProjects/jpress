@@ -16,14 +16,14 @@
 package io.jpress.core.addon;
 
 import com.jfinal.aop.Aop;
+import com.jfinal.aop.Interceptor;
+import com.jfinal.core.Controller;
+import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
-import io.jpress.core.addon.controller.AddonController;
 import io.jpress.core.addon.controller.AddonControllerManager;
-import io.jpress.core.addon.handler.AddonHandler;
 import io.jpress.core.addon.handler.AddonHandlerManager;
-import io.jpress.core.addon.interceptor.AddonInterceptor;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
 import io.jpress.core.install.JPressInstaller;
 import io.jpress.service.OptionService;
@@ -230,24 +230,24 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void doStrat(AddonInfo addonInfo) {
-        List<Class<? extends AddonController>> controllerClasses = addonInfo.getControllers();
+        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends AddonController> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses)
                 AddonControllerManager.addController(c, addonInfo);
 
             AddonControllerManager.buildActionMapping();
         }
 
 
-        List<Class<? extends AddonHandler>> handlerClasses = addonInfo.getHandlers();
+        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends AddonHandler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses)
                 AddonHandlerManager.addHandler(c);
         }
 
-        List<Class<? extends AddonInterceptor>> interceptorClasses = addonInfo.getInterceptors();
+        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends AddonInterceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses)
                 AddonInterceptorManager.addInterceptor(c);
         }
 
@@ -269,24 +269,24 @@ public class AddonManager implements JbootEventListener {
         OptionService optionService = Aop.get(OptionService.class);
         optionService.deleteByKey("addonStart:" + addonInfo.getId());
 
-        List<Class<? extends AddonController>> controllerClasses = addonInfo.getControllers();
+        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends AddonController> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses)
                 AddonControllerManager.deleteController(c);
 
             AddonControllerManager.buildActionMapping();
         }
 
 
-        List<Class<? extends AddonHandler>> handlerClasses = addonInfo.getHandlers();
+        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends AddonHandler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses)
                 AddonHandlerManager.deleteHandler(c);
         }
 
-        List<Class<? extends AddonInterceptor>> interceptorClasses = addonInfo.getInterceptors();
+        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends AddonInterceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses)
                 AddonInterceptorManager.deleteInterceptor(c);
         }
 

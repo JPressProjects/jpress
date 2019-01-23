@@ -17,18 +17,49 @@ package io.jpress.core.addon.handler;
 
 
 import com.jfinal.handler.Handler;
+import io.jboot.utils.ClassUtil;
 
-import java.util.List;
+import java.util.*;
 
 public class AddonHandlerManager {
 
+    private static List<Handler> handlers;
+    private static Set<Class<? extends Handler>> handlerClasses = Collections.synchronizedSet(new HashSet<>());
+
+
     public static List<Handler> getHandlers() {
-        return null;
+        if (handlerClasses.isEmpty()) {
+            return null;
+        }
+
+        if (!handlerClasses.isEmpty()) {
+            if (handlers == null || handlers.size() != handlerClasses.size()) {
+                initHandlers();
+            }
+        }
+
+        return handlers;
+    }
+
+    private static void initHandlers() {
+        synchronized (AddonHandlerManager.class) {
+            if (handlers != null && handlers.size() == handlerClasses.size()) {
+                return;
+            }
+
+            List<Handler> temp = new ArrayList<>();
+            Iterator<Class<? extends Handler>> iterator = handlerClasses.iterator();
+            while (iterator.hasNext()) temp.add(ClassUtil.newInstance(iterator.next()));
+
+            handlers = temp;
+        }
     }
 
     public static void addHandler(Class<? extends Handler> c) {
+        handlerClasses.add(c);
     }
 
     public static void deleteHandler(Class<? extends Handler> c) {
+        handlerClasses.remove(c);
     }
 }

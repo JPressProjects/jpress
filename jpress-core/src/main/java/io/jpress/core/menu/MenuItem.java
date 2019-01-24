@@ -25,11 +25,20 @@ import com.jfinal.core.JFinal;
  */
 public class MenuItem {
 
+    private String id;
     private String text;
     private String icon;
     private String groupId;
     private String url;
     private int order = 100;
+
+    public String getId() {
+        return id != null ? id : text + "--" + url;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;
@@ -75,6 +84,13 @@ public class MenuItem {
         return groupId + ":" + url;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj instanceof MenuItem == false) {
+            return false;
+        }
+        return ((MenuItem) obj).getId().equals(id);
+    }
 
     @Override
     public String toString() {

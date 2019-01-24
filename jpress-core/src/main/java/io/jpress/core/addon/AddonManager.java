@@ -20,8 +20,15 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
+import io.jboot.db.JbootDbManager;
+import io.jboot.db.annotation.Table;
+import io.jboot.db.datasource.DataSourceConfig;
+import io.jboot.db.datasource.DataSourceConfigManager;
+import io.jboot.db.model.JbootModel;
+import io.jboot.utils.AnnotationUtil;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
@@ -238,8 +245,6 @@ public class AddonManager implements JbootEventListener {
         if (controllerClasses != null) {
             for (Class<? extends Controller> c : controllerClasses)
                 AddonControllerManager.addController(c);
-
-            AddonControllerManager.buildActionMapping();
         }
 
 
@@ -255,8 +260,26 @@ public class AddonManager implements JbootEventListener {
                 AddonInterceptorManager.addInterceptor(c);
         }
 
+        List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
+        if (modelClasses != null && !modelClasses.isEmpty()) {
+
+            DataSourceConfig config = DataSourceConfigManager.me().getMainDatasourceConfig();
+            config.setNeedAddMapping(false);
+            ActiveRecordPlugin arp = JbootDbManager.me().createRecordPlugin(config);
+
+            for (Class<? extends JbootModel<?>> c : modelClasses) {
+                Table table = c.getAnnotation(Table.class);
+                arp.addMapping(AnnotationUtil.get(table.tableName()), c);
+            }
+
+            addonInfo.setArp(arp);
+            arp.start();
+        }
+
         Addon addon = Aop.get(addonInfo.getAddonClass());
         addon.onStart();
+
+        AddonControllerManager.buildActionMapping();
 
         addonInfo.setStatus(AddonInfo.STATUS_START);
     }
@@ -277,8 +300,6 @@ public class AddonManager implements JbootEventListener {
         if (controllerClasses != null) {
             for (Class<? extends Controller> c : controllerClasses)
                 AddonControllerManager.deleteController(c);
-
-            AddonControllerManager.buildActionMapping();
         }
 
 
@@ -294,8 +315,14 @@ public class AddonManager implements JbootEventListener {
                 AddonInterceptorManager.deleteInterceptor(c);
         }
 
+        if (addonInfo.getArp() != null) {
+            addonInfo.getArp().stop();
+        }
+
         Addon addon = Aop.get(addonInfo.getAddonClass());
         addon.onStop();
+
+        AddonControllerManager.buildActionMapping();
 
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 

@@ -216,6 +216,10 @@ public class AddonManager implements JbootEventListener {
      * 2、添加插件的 controller、handler、interceptor 到对应的管理器
      * 3、回调插件的 onStart()
      * 4、每次重启 JPress 都会调用 onStart()
+     * <p>
+     * 新增：
+     * 1、构建后台或用户中心菜单
+     * 2、若有 Model 类，启动 arp 插件
      *
      * @param addonInfo
      * @return

@@ -116,6 +116,16 @@ public class MenuGroup {
         return id;
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj instanceof MenuItem == false) {
+            return false;
+        }
+        return ((MenuItem) obj).getId().equals(id);
+    }
+
+
     @Override
     public String toString() {
         return "MenuGroup{" +

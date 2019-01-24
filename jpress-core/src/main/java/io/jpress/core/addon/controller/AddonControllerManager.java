@@ -45,7 +45,7 @@ public class AddonControllerManager {
     };
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
-    public static void addController(Class<? extends Controller> controllerClass) {
+    public static void addController(Class<? extends Controller> controllerClass, String addonId) {
         RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
         if (mapping == null) return;
 
@@ -54,7 +54,7 @@ public class AddonControllerManager {
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath)) {
-            routes.add(value, controllerClass);
+            routes.add(value, controllerClass, "addons/" + addonId);
         } else {
             routes.add(value, controllerClass, viewPath);
         }

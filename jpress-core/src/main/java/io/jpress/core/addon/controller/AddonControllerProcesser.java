@@ -21,11 +21,20 @@ import io.jboot.web.handler.JbootActionHandler;
 
 public class AddonControllerProcesser extends JbootActionHandler {
 
+    private static final String INDEX_ACTION_KEY = "/";
+
     @Override
     public Action getAction(String target, String[] urlPara) {
         Action action = super.getAction(target, urlPara);
-        if (action != null) return action;
+        if (action == null) {
+            return AddonControllerManager.getAction(target, urlPara);
+        }
 
-        return AddonControllerManager.getAction(target, urlPara);
+        if (!INDEX_ACTION_KEY.equals(target) && INDEX_ACTION_KEY.equals(action.getActionKey())) {
+            Action addonAction = AddonControllerManager.getAction(target, urlPara);
+            if (addonAction != null) return addonAction;
+        }
+
+        return action;
     }
 }

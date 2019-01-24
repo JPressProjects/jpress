@@ -16,12 +16,11 @@
 package io.jpress.core.addon;
 
 import com.jfinal.kit.PathKit;
+import io.jboot.utils.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -31,14 +30,45 @@ import java.util.zip.ZipFile;
  */
 public class AddonUtil {
 
+    private static List<String> resourceSuffix = new ArrayList<String>();
+
+    static {
+        resourceSuffix.add(".html");
+        resourceSuffix.add(".htm");
+        resourceSuffix.add(".css");
+        resourceSuffix.add(".js");
+        resourceSuffix.add(".jpg");
+        resourceSuffix.add(".jpeg");
+        resourceSuffix.add(".png");
+        resourceSuffix.add(".bmp");
+        resourceSuffix.add(".gif");
+        resourceSuffix.add(".webp");
+        resourceSuffix.add(".svg");
+        resourceSuffix.add(".ttf");
+        resourceSuffix.add(".woff");
+        resourceSuffix.add(".woff2");
+        resourceSuffix.add(".webp");
+    }
+
+    private static boolean isResource(String name) {
+        String suffix = FileUtil.getSuffix(name);
+        return suffix != null && resourceSuffix.contains(suffix.toLowerCase());
+    }
+
     /**
      * 解压 zip 或者 jar 的资源文件
      *
-     * @param addonFile
+     * @param addonInfo
      * @throws IOException
      */
-    public static void unzipResources(File addonFile) throws IOException {
-        ZipFile zipFile = new ZipFile(addonFile);
+    public static void unzipResources(AddonInfo addonInfo) throws IOException {
+        String basePath = PathKit.getWebRootPath()
+                + File.separator
+                + "addons"
+                + File.separator
+                + addonInfo.getId();
+
+        ZipFile zipFile = new ZipFile(addonInfo.buildJarFile());
         try {
             Enumeration<?> entryEnum = zipFile.entries();
             if (null != entryEnum) {
@@ -47,8 +77,8 @@ public class AddonUtil {
                     InputStream is = null;
                     try {
                         ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
-                        if (!zipEntry.isDirectory() && zipEntry.getName().startsWith("addons")) {
-                            File targetFile = new File(PathKit.getWebRootPath() + File.separator + zipEntry.getName());
+                        if (!zipEntry.isDirectory() && isResource(zipEntry.getName())) {
+                            File targetFile = new File(basePath + File.separator + zipEntry.getName());
                             if (!targetFile.getParentFile().exists()) {
                                 targetFile.getParentFile().mkdirs();
                             }
@@ -122,7 +152,6 @@ public class AddonUtil {
 
         return null;
     }
-
 
 
 }

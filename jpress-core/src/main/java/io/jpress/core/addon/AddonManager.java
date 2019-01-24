@@ -21,6 +21,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.JbootDbManager;
@@ -170,7 +171,7 @@ public class AddonManager implements JbootEventListener {
         Addon addon = Aop.get(addonInfo.getAddonClass());
 
         try {
-            AddonUtil.unzipResources(jarFile);
+            AddonUtil.unzipResources(addonInfo);
             addon.onInstall();
         } catch (IOException e) {
             e.printStackTrace();
@@ -244,7 +245,7 @@ public class AddonManager implements JbootEventListener {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
             for (Class<? extends Controller> c : controllerClasses)
-                AddonControllerManager.addController(c);
+                AddonControllerManager.addController(c,addonInfo.getId());
         }
 
 
@@ -267,9 +268,9 @@ public class AddonManager implements JbootEventListener {
             config.setNeedAddMapping(false);
             ActiveRecordPlugin arp = JbootDbManager.me().createRecordPlugin(config);
 
-            for (Class<? extends JbootModel<?>> c : modelClasses) {
+            for (Class<? extends JbootModel> c : modelClasses) {
                 Table table = c.getAnnotation(Table.class);
-                arp.addMapping(AnnotationUtil.get(table.tableName()), c);
+                arp.addMapping(AnnotationUtil.get(table.tableName()), (Class<? extends Model<?>>) c);
             }
 
             addonInfo.setArp(arp);

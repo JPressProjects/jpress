@@ -35,7 +35,7 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_TEMPLATE = "template";
     public static final String SYSTEM_MENU_ADDON = "addon";
     public static final String SYSTEM_MENU_SYSTEM = "system";
-    //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
+//    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";
     public static final String SYSTEM_MENU_FINANCE = "finance";
     public static final String SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT = "wechat_pubulic_account";

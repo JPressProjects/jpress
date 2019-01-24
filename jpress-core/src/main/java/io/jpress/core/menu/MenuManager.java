@@ -40,9 +40,9 @@ public class MenuManager implements JbootEventListener {
 
     private static final MenuManager me = new MenuManager();
 
-    private List<MenuGroup> systemMenus = new ArrayList<>();
-    private List<MenuGroup> moduleMenus = new ArrayList<>();
-    private List<MenuGroup> ucenterMenus = new ArrayList<>();
+    private MenuArrayList systemMenus = new MenuArrayList();
+    private MenuArrayList moduleMenus = new MenuArrayList();
+    private MenuArrayList ucenterMenus = new MenuArrayList();
 
     private MenuManager() {
 
@@ -121,11 +121,7 @@ public class MenuManager implements JbootEventListener {
     private void initAdminMenuItems() {
 
         for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            List<MenuGroup> menus = new ArrayList<>();
-            listener.onConfigAdminMenu(menus);
-            if (!menus.isEmpty()) {
-                moduleMenus.addAll(menus);
-            }
+            listener.onConfigAdminMenu(moduleMenus);
         }
 
         MenuGroup attachmentMenuGroup = new MenuGroup();
@@ -161,24 +157,23 @@ public class MenuManager implements JbootEventListener {
 
     public void addMenuItem(MenuItem item) {
         for (MenuGroup group : systemMenus) {
-            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/admin"))
+                group.addItem(item);
         }
         for (MenuGroup group : moduleMenus) {
-            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/admin"))
+                group.addItem(item);
         }
         for (MenuGroup group : ucenterMenus) {
-            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/ucenter"))
+                group.addItem(item);
         }
     }
 
     private void initUCenterMenuItems() {
 
         for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            List<MenuGroup> menus = new ArrayList<>();
-            listener.onConfigUcenterMenu(menus);
-            if (!menus.isEmpty()) {
-                ucenterMenus.addAll(menus);
-            }
+            listener.onConfigUcenterMenu(ucenterMenus);
         }
 
         addMenuItems(buildUCenterMenuItems());

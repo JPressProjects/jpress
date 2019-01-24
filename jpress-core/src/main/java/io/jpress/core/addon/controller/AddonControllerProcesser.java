@@ -30,9 +30,10 @@ public class AddonControllerProcesser extends JbootActionHandler {
             return AddonControllerManager.getAction(target, urlPara);
         }
 
-        if (!INDEX_ACTION_KEY.equals(target) && INDEX_ACTION_KEY.equals(action.getActionKey())) {
+        if (!target.equals(action.getActionKey())) {
             Action addonAction = AddonControllerManager.getAction(target, urlPara);
-            if (addonAction != null) return addonAction;
+            if (addonAction != null && target.equals(addonAction.getActionKey()))
+                return addonAction;
         }
 
         return action;

@@ -135,13 +135,40 @@ public class MenuManager implements JbootEventListener {
         moduleMenus.add(attachmentMenuGroup);
 
 
-        List<MenuItem> adminMenuItems = buildAdminMenuItems();
+        addMenuItems(buildAdminMenuItems());
+    }
 
-        for (MenuItem item : adminMenuItems) {
-            MenuGroup group = getAdminGroup(item.getGroupId());
-            if (group != null) group.addItem(item);
+    public void deleteMenuItem(String id) {
+        for (MenuGroup group : systemMenus) {
+            group.getItems().removeIf(item -> item.getId().equals(id));
         }
+        for (MenuGroup group : moduleMenus) {
+            group.getItems().removeIf(item -> item.getId().equals(id));
+        }
+        for (MenuGroup group : ucenterMenus) {
+            group.getItems().removeIf(item -> item.getId().equals(id));
+        }
+    }
 
+    public void addMenuItems(List<MenuItem> items) {
+        if (items == null) {
+            return;
+        }
+        for (MenuItem item : items) {
+            addMenuItem(item);
+        }
+    }
+
+    public void addMenuItem(MenuItem item) {
+        for (MenuGroup group : systemMenus) {
+            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+        }
+        for (MenuGroup group : moduleMenus) {
+            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+        }
+        for (MenuGroup group : ucenterMenus) {
+            if (group.getId().equals(item.getGroupId())) group.addItem(item);
+        }
     }
 
     private void initUCenterMenuItems() {
@@ -154,40 +181,9 @@ public class MenuManager implements JbootEventListener {
             }
         }
 
-        List<MenuItem> ucenterMenuItems = buildUCenterMenuItems();
-        for (MenuItem item : ucenterMenuItems) {
-            MenuGroup group = getUcenterGroup(item.getGroupId());
-            if (group != null) group.addItem(item);
-        }
-
+        addMenuItems(buildUCenterMenuItems());
     }
 
-    private MenuGroup getAdminGroup(String id) {
-        for (MenuGroup group : systemMenus) {
-            if (id.equals(group.getId())) {
-                return group;
-            }
-        }
-
-        for (MenuGroup group : moduleMenus) {
-            if (id.equals(group.getId())) {
-                return group;
-            }
-        }
-
-        return null;
-    }
-
-    private MenuGroup getUcenterGroup(String id) {
-        for (MenuGroup group : ucenterMenus) {
-            if (id.equals(group.getId())) {
-                return group;
-            }
-        }
-
-
-        return null;
-    }
 
     // 用于排除掉 BaseController 中的几个成为了 action 的方法
     private static Set<String> excludedMethodName = buildExcludedMethodName();
@@ -289,4 +285,6 @@ public class MenuManager implements JbootEventListener {
     public void onEvent(JbootEvent jbootEvent) {
         init();
     }
+
+
 }

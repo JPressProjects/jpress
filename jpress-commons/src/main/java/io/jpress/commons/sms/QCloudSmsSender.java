@@ -47,7 +47,7 @@ public class QCloudSmsSender implements ISmsSender {
         String srcStr = "appkey=" + app_secret + "&random=" + random + "&time=" + time + "&mobile=" + sms.getMobile();
         String sig = HashKit.sha256(srcStr);
 
-        boolean hasCode = StrUtils.isBlank(sms.getCode());
+        boolean hasCode = StrUtils.isNotBlank(sms.getCode());
         String postContent = (hasCode ? SMS_JSON.replace("{code}", sms.getCode()) : SMS_NO_CODE_JSON)
                 .replace("{sig}", sig)
                 .replace("{sign}", sms.getSign())

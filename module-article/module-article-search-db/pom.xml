@@ -5,7 +5,7 @@
     <parent>
         <artifactId>module-article</artifactId>
         <groupId>io.jpress</groupId>
-        <version>1.0</version>
+        <version>${jpress.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -25,7 +25,7 @@
             <artifactId>module-article-model</artifactId>
             <version>${jpress.version}</version>
         </dependency>
-        
+
     </dependencies>
 
 </project>

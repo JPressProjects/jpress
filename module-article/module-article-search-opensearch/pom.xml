@@ -5,12 +5,27 @@
     <parent>
         <artifactId>module-article</artifactId>
         <groupId>io.jpress</groupId>
-        <version>1.0</version>
+        <version>${jpress.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
     <artifactId>module-article-search-opensearch</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-search-api</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-model</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

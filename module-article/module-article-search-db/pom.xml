@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>module-article</artifactId>
+        <groupId>io.jpress</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.jpress</groupId>
+    <artifactId>module-article-search-db</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-search-api</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-model</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+        
+    </dependencies>
+
+</project>

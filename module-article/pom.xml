@@ -7,6 +7,7 @@
         <artifactId>parent</artifactId>
         <version>${jpress.version}</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
@@ -24,8 +25,10 @@
         <module>module-article-web</module>
         <module>module-article-service-api</module>
         <module>module-article-service-provider</module>
+        <module>module-article-search-api</module>
+        <module>module-article-search-db</module>
+        <module>module-article-search-es</module>
+        <module>module-article-search-opensearch</module>
     </modules>
-
-
 
 </project>

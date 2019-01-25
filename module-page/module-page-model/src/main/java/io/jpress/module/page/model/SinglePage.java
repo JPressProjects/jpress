@@ -78,10 +78,25 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
 
-    public String _getOriginalContent() {
-        return super.getContent();
+    public boolean _isMarkdownMode() {
+        return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
+
+    public String _getOriginalContent() {
+        String originalContent = super.getContent();
+        if (StrUtils.isBlank(originalContent) || _isMarkdownMode()) {
+            return originalContent;
+        }
+
+        //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
+        //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;"
+        //方案：http://komlenic.com/246/encoding-entities-to-work-with-ckeditor-3/
+
+        return originalContent.replace("&lt;", "&amp;lt;")
+                .replace("&gt;", "&amp;gt;");
+
+    }
 
     public List<String> getImages() {
         return JsoupUtils.getImageSrcs(getContent());

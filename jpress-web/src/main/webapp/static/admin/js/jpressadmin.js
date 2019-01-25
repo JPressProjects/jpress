@@ -144,7 +144,7 @@ function initCkEdtior(editor, height) {
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,
         removePlugins: 'easyimage,cloudservices',
-        extraPlugins: 'codesnippet,uploadimage,flash,image,wordcount,notification,html5audio,html5video,widget,widgetselection,clipboard,lineutils',
+        extraPlugins: 'entities,codesnippet,uploadimage,flash,image,wordcount,notification,html5audio,html5video,widget,widgetselection,clipboard,lineutils',
         codeSnippet_theme: 'monokai_sublime',
         height: height,
         uploadUrl: jpress.cpath + '/commons/ckeditor/upload',
@@ -153,6 +153,7 @@ function initCkEdtior(editor, height) {
         filebrowserBrowseUrl: jpress.cpath + '/admin/attachment/browse',
         language: 'zh-cn'
     });
+
 
     ed.on("dialogShow", function (event) {
 

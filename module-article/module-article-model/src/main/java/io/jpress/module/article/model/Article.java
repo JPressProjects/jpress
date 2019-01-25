@@ -94,7 +94,18 @@ public class Article extends BaseArticle<Article> {
 
 
     public String _getOriginalContent() {
-        return super.getContent();
+        String originalContent = super.getContent();
+        if (StrUtils.isBlank(originalContent) || _isMarkdownMode()) {
+            return originalContent;
+        }
+
+        //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
+        //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;"
+        //方案：http://komlenic.com/246/encoding-entities-to-work-with-ckeditor-3/
+
+        return originalContent.replace("&lt;", "&amp;lt;")
+                .replace("&gt;", "&amp;gt;");
+
     }
 
 

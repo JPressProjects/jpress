@@ -26,6 +26,12 @@
             <version>${jpress.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-article-service-api</artifactId>
+            <version>${jpress.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -149,5 +149,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     public boolean isOwn(Article article, long userId);
 
+    public Page<Article> search(String queryString, int pageNum, int pageSize);
+
 
 }

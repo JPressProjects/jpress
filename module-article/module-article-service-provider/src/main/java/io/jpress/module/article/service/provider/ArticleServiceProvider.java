@@ -263,6 +263,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return article.getUserId().equals(userId);
     }
 
+    @Override
+    public Page<Article> search(String queryString, int pageNum, int pageSize) {
+        Columns columns = Columns.create("status", Article.STATUS_NORMAL)
+                .likeAppendPercent("title", queryString);
+        return joinUserPage(DAO.paginateByColumns(pageNum, pageSize, columns, "id desc"));
+    }
+
 
     private Page<Article> joinUserPage(Page<Article> page) {
         userService.join(page, "user_id");

@@ -21,6 +21,7 @@ import io.jpress.module.article.service.search.ArticleSearcher;
 
 
 public class ElasticSearcher implements ArticleSearcher {
+
     @Override
     public void init() {
 

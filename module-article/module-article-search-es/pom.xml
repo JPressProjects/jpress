@@ -12,6 +12,12 @@
     <groupId>io.jpress</groupId>
     <artifactId>module-article-search-es</artifactId>
 
+    <properties>
+        <elasticsearch.version>6.5.4</elasticsearch.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -25,6 +31,13 @@
             <artifactId>module-article-model</artifactId>
             <version>${jpress.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
 
     </dependencies>
 

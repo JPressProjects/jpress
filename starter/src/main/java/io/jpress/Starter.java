@@ -25,6 +25,11 @@ import io.jboot.app.JbootApplication;
 public class Starter {
 
     public static void main(String[] args) {
+        String unscanPrefix = "jcseg-,lucene-,elasticsearch-,jopt-," +
+                "httpasyncclient-,jna-,lang-mustache-client-,parent-join-client-," +
+                "lang-mustache-client-,rank-eval-client-,t-digest-," +
+                "aggs-matrix-stats-client-,compiler-,hppc-";
+        JbootApplication.setBootArg("jboot.app.scanner.unScanJarPrefix",unscanPrefix);
         JbootApplication.run(args);
     }
 

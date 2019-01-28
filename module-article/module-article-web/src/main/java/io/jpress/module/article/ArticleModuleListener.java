@@ -24,7 +24,7 @@ import io.jpress.core.module.ModuleListener;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
-import io.jpress.module.article.service.ArticleSearcherFactory;
+import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.ArticleService;
 
 import java.util.List;

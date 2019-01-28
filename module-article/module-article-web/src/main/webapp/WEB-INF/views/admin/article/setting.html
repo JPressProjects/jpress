@@ -66,35 +66,6 @@
                                 </div>
                             </div>
 
-                            <h4 class="page-header">文章搜索功能</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用</label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery"
-                                           data-for="article_search_enable"
-                                           #checkedIf(option("article_search_enable"))>
-                                    <input type="hidden" id="article_search_enable"
-                                           name="article_search_enable">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">搜索引擎</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="article_search_engine">
-                                        <option value="sql" #selectedIf(option(
-                                        'article_search_engine') == 'sql')>默认（数据库SQL检索）</option>
-                                        <option value="lucene" #selectedIf(option(
-                                        'article_search_engine') == 'lucene')>Lucene</option>
-                                        <option value="es" #selectedIf(option(
-                                        'article_search_engine') == 'es')>ElasticSearch</option>
-                                        <option value="aliopensearch" #selectedIf(option(
-                                        'article_search_engine') == 'aliopensearch')>阿里云Opensearch</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-
 
                             <h4 class="page-header">评论邮件通知管理员</h4>
                             <div class="form-group">
@@ -162,6 +133,71 @@
                                            name="article_comment_sms_notify_sign"
                                            value="#option('article_comment_sms_notify_sign')">
                                     <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">文章搜索功能</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"
+                                           data-for="article_search_enable"
+                                           #checkedIf(option("article_search_enable"))>
+                                    <input type="hidden" id="article_search_enable"
+                                           name="article_search_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">搜索引擎</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="article_search_engine">
+                                        <option value="sql" #selectedIf(option(
+                                        'article_search_engine') == 'sql')>默认（数据库SQL检索）</option>
+                                        <option value="lucene" #selectedIf(option(
+                                        'article_search_engine') == 'lucene')>Lucene</option>
+                                        <option value="es" #selectedIf(option(
+                                        'article_search_engine') == 'es')>ElasticSearch</option>
+                                        <option value="aliopensearch" #selectedIf(option(
+                                        'article_search_engine') == 'aliopensearch')>阿里云OpenSearch</option>
+                                    </select>
+                                    <p class="help-block"> 注意：选择 ElasticSearch 或 OpenSearch 需要在下方填写对应的服务器配置。</p>
+                                </div>
+                            </div>
+
+                            <h4 class="page-header">ElasticSearch 服务器配置</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">服务器地址</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="请填写ElasticSearch的IP地址或域名"
+                                           name="article_search_es_host"
+                                           value="#option('article_search_es_host')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">服务器端口号</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="以及端口号（默认值：9200）"
+                                           name="article_search_es_port"
+                                           value="#option('article_search_es_port')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">认证账号</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="ElasticSearch服务器的账号"
+                                           name="article_search_es_username"
+                                           value="#option('article_search_es_username')">
+                                    <p class="help-block">若服务器不配置，不要填写任何内容。</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="以及密码"
+                                           name="article_search_es_password"
+                                           value="#option('article_search_es_password')">
+                                    <p class="help-block">若服务器不配置，不要填写任何内容。</p>
                                 </div>
                             </div>
 

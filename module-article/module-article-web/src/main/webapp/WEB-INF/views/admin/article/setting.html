@@ -80,15 +80,15 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">搜索引擎</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="article_search_engin">
+                                    <select class="form-control" name="article_search_engine">
                                         <option value="sql" #selectedIf(option(
-                                        'article_search_engin') == 'sql')>默认（数据库SQL检索）</option>
+                                        'article_search_engine') == 'sql')>默认（数据库SQL检索）</option>
                                         <option value="lucene" #selectedIf(option(
-                                        'article_search_engin') == 'lucene')>Lucene</option>
+                                        'article_search_engine') == 'lucene')>Lucene</option>
                                         <option value="es" #selectedIf(option(
-                                        'article_search_engin') == 'es')>ElasticSearch</option>
+                                        'article_search_engine') == 'es')>ElasticSearch</option>
                                         <option value="aliopensearch" #selectedIf(option(
-                                        'article_search_engin') == 'aliopensearch')>阿里云Opensearch</option>
+                                        'article_search_engine') == 'aliopensearch')>阿里云Opensearch</option>
                                     </select>
                                 </div>
                             </div>

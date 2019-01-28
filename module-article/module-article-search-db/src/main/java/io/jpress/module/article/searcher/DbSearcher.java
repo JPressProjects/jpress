@@ -3,8 +3,8 @@ package io.jpress.module.article.searcher;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.search.ArticleSearcher;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.service.search.ArticleSearcher;
 
 
 public class DbSearcher implements ArticleSearcher {
@@ -40,6 +40,6 @@ public class DbSearcher implements ArticleSearcher {
 
     @Override
     public Page<Article> search(String queryString, int pageNum, int pageSize) {
-        return articleService.search(queryString, pageNum, pageSize);
+        return articleService.searchIndb(queryString, pageNum, pageSize);
     }
 }

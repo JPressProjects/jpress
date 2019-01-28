@@ -151,5 +151,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     public Page<Article> search(String queryString, int pageNum, int pageSize);
 
+    public Page<Article> searchIndb(String queryString, int pageNum, int pageSize);
+
 
 }

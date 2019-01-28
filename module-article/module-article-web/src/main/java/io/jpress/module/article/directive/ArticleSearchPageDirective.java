@@ -25,8 +25,7 @@ import io.jboot.web.directive.JbootPaginateDirective;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
-import io.jpress.module.article.search.ArticleSearcher;
-import io.jpress.module.article.search.ArticleSearcherFactory;
+import io.jpress.module.article.service.ArticleService;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -35,6 +34,8 @@ import io.jpress.module.article.search.ArticleSearcherFactory;
  */
 @JFinalDirective("articleSearchPage")
 public class ArticleSearchPageDirective extends JbootDirectiveBase {
+
+    private ArticleService articleService;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
@@ -45,8 +46,7 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
         int page = controller.getAttr("page");
         int pageSize = getPara("pageSize", scope, 10);
 
-        ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
-        Page<Article> dataPage = searcher.search(keyword, page, pageSize);
+        Page<Article> dataPage = articleService.search(keyword, page, pageSize);
 
         scope.setGlobal("articlePage", dataPage);
         renderBody(env, scope, writer);

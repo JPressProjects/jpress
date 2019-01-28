@@ -66,8 +66,37 @@
                                 </div>
                             </div>
 
+                            <h4 class="page-header">文章搜索功能</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"
+                                           data-for="article_search_enable"
+                                           #checkedIf(option("article_search_enable"))>
+                                    <input type="hidden" id="article_search_enable"
+                                           name="article_search_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">搜索引擎</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="article_search_engin">
+                                        <option value="sql" #selectedIf(option(
+                                        'article_search_engin') == 'sql')>默认（数据库SQL检索）</option>
+                                        <option value="lucene" #selectedIf(option(
+                                        'article_search_engin') == 'lucene')>Lucene</option>
+                                        <option value="es" #selectedIf(option(
+                                        'article_search_engin') == 'es')>ElasticSearch</option>
+                                        <option value="aliopensearch" #selectedIf(option(
+                                        'article_search_engin') == 'aliopensearch')>阿里云Opensearch</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                            <h4 class="page-header">评论邮件通知</h4>
+
+
+
+                            <h4 class="page-header">评论邮件通知管理员</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
@@ -79,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">通知邮箱</label>
+                                <label class="col-sm-2 control-label">管理员邮箱</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：email@jpress.io"
                                            name="article_comment_email_notify_address"
@@ -87,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">邮件模板</label>
+                                <label class="col-sm-2 control-label">通知邮件模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="article_comment_email_notify_template">#option('article_comment_email_notify_template')</textarea>
@@ -97,7 +126,7 @@
                             </div>
 
 
-                            <h4 class="page-header">评论短信通知</h4>
+                            <h4 class="page-header">评论短信通知管理员</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
@@ -109,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">通知手机号</label>
+                                <label class="col-sm-2 control-label">管理员手机号</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：18612345678"
                                            name="article_comment_sms_notify_mobile"
@@ -117,7 +146,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">短信模板</label>
+                                <label class="col-sm-2 control-label">通知短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="..."
                                               name="article_comment_sms_notify_template">#option('article_comment_sms_notify_template')</textarea>

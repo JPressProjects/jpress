@@ -29,7 +29,9 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
+import io.jpress.module.article.service.ArticleSearcherFactory;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.service.search.ArticleSearcher;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
@@ -88,6 +90,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public boolean deleteById(Object id) {
+
+        ArticleSearcherFactory.getSearcher().deleteArticle(id);
+
         return Db.tx(() -> {
             boolean delOk = ArticleServiceProvider.super.deleteById(id);
             if (delOk == false) {
@@ -265,9 +270,17 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> search(String queryString, int pageNum, int pageSize) {
+
+        ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
+        return searcher.search(queryString, pageNum, pageSize);
+
+    }
+
+    @Override
+    public Page<Article> searchIndb(String queryString, int pageNum, int pageSize) {
         Columns columns = Columns.create("status", Article.STATUS_NORMAL)
                 .likeAppendPercent("title", queryString);
-        return joinUserPage(DAO.paginateByColumns(pageNum, pageSize, columns, "id desc"));
+        return joinUserPage(paginateByColumns(pageNum, pageSize, columns, "id desc"));
     }
 
 
@@ -461,5 +474,24 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
 
     }
+
+    @Override
+    public Object save(Article model) {
+        ArticleSearcherFactory.getSearcher().addArticle(model);
+        return super.save(model);
+    }
+
+    @Override
+    public boolean update(Article model) {
+        ArticleSearcherFactory.getSearcher().updateArticle(model);
+        return super.update(model);
+    }
+
+    @Override
+    public boolean delete(Article model) {
+        ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+        return super.delete(model);
+    }
+
 
 }

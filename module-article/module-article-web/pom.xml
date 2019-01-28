@@ -42,29 +42,7 @@
             <version>${jpress.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-api</artifactId>
-            <version>${jpress.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-db</artifactId>
-            <version>${jpress.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-es</artifactId>
-            <version>${jpress.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-opensearch</artifactId>
-            <version>${jpress.version}</version>
-        </dependency>
 
     </dependencies>
 

@@ -412,15 +412,19 @@ public class _UserController extends AdminControllerBase {
 
 
     /**
-     * 删除评论
+     * 删除用户
      */
     public void doUserDel() {
+        if (getLoginedUser().getId().equals(getIdPara())) {
+            renderJson(Ret.fail().set("message", "不能删除自己"));
+            return;
+        }
         userService.deleteById(getIdPara());
         renderJson(Ret.ok());
     }
 
     /**
-     * 删除评论
+     * 批量删除用户
      */
     public void doUserDelByIds() {
         String ids = getPara("ids");
@@ -434,12 +438,18 @@ public class _UserController extends AdminControllerBase {
             renderJson(Ret.fail());
             return;
         }
+
+        if (idsSet.contains(getLoginedUser().getId().toString())) {
+            renderJson(Ret.fail().set("message", "删除的用户不能包含自己"));
+            return;
+        }
+
         render(userService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
     }
 
 
     /**
-     * 删除评论
+     * 批量删除角色
      */
     public void doChangeRoleByIds() {
         String ids = getPara("ids");
@@ -466,6 +476,10 @@ public class _UserController extends AdminControllerBase {
      * 修改评论状态
      */
     public void doUserStatusChange(Long id, String status) {
+        if (getLoginedUser().getId().equals(id)) {
+            renderJson(Ret.fail().set("message", "不能修改自己的状态"));
+            return;
+        }
         render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
     }
 

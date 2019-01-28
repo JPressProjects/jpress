@@ -17,12 +17,14 @@ package io.jpress.module.article;
 
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
+import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
+import io.jpress.module.article.service.ArticleSearcherFactory;
 import io.jpress.module.article.service.ArticleService;
 
 import java.util.List;
@@ -34,7 +36,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleListener implements ModuleListener {
+public class ArticleModuleListener extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override
@@ -83,5 +85,12 @@ public class ArticleModuleListener implements ModuleListener {
         commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
         commentMenuGroup.setOrder(2);
         ucenterMenus.add(commentMenuGroup);
+    }
+
+    @Override
+    public void onJFinalStarted() {
+        //每次启动都会进行 init
+        //因此，如果 init 进行索引重建，则需要在异步线程里执行
+        ArticleSearcherFactory.getSearcher().init();
     }
 }

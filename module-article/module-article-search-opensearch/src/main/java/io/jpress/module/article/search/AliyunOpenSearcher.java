@@ -19,7 +19,9 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 
-
+/**
+ * 帮助文档：https://help.aliyun.com/document_detail/29166.html
+ */
 public class AliyunOpenSearcher implements ArticleSearcher {
     @Override
     public void init() {

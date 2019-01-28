@@ -29,7 +29,7 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
-import io.jpress.module.article.service.ArticleSearcherFactory;
+import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;

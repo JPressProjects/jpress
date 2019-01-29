@@ -172,7 +172,7 @@ public class AddonManager implements JbootEventListener {
 
         try {
             AddonUtil.unzipResources(addonInfo);
-            addon.onInstall();
+            if (addon != null) addon.onInstall();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +201,7 @@ public class AddonManager implements JbootEventListener {
     public boolean uninstall(AddonInfo addonInfo) {
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        addon.onUninstall();
+        if (addon != null) addon.onUninstall();
 
         addonInfo.buildJarFile().delete();
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addon/" + addonInfo.getId()));
@@ -245,7 +245,7 @@ public class AddonManager implements JbootEventListener {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
             for (Class<? extends Controller> c : controllerClasses)
-                AddonControllerManager.addController(c,addonInfo.getId());
+                AddonControllerManager.addController(c, addonInfo.getId());
         }
 
 
@@ -278,7 +278,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        addon.onStart();
+        if (addon != null) addon.onStart();
 
         AddonControllerManager.buildActionMapping();
 
@@ -321,7 +321,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        addon.onStop();
+        if (addon != null) addon.onStop();
 
         AddonControllerManager.buildActionMapping();
 

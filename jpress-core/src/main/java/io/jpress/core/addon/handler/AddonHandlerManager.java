@@ -17,49 +17,45 @@ package io.jpress.core.addon.handler;
 
 
 import com.jfinal.handler.Handler;
+import com.jfinal.handler.HandlerFactory;
 import io.jboot.utils.ClassUtil;
 
 import java.util.*;
 
 public class AddonHandlerManager {
 
-    private static List<Handler> handlers;
-    private static Set<Class<? extends Handler>> handlerClasses = Collections.synchronizedSet(new HashSet<>());
+    private static Handler processHandler;
+    private static List<Handler> handlers = Collections.synchronizedList(new ArrayList<>());
 
-
-    public static List<Handler> getHandlers() {
-        if (handlerClasses.isEmpty()) {
-            return null;
+    public static Handler getProcessHandler(Handler originHandler) {
+        if (processHandler == null) {
+            processHandler = buildHandler(originHandler);
         }
 
-        if (!handlerClasses.isEmpty()) {
-            if (handlers == null || handlers.size() != handlerClasses.size()) {
-                initHandlers();
-            }
-        }
-
-        return handlers;
+        return processHandler;
     }
 
-    private static void initHandlers() {
-        synchronized (AddonHandlerManager.class) {
-            if (handlers != null && handlers.size() == handlerClasses.size()) {
-                return;
-            }
-
-            List<Handler> temp = new ArrayList<>();
-            Iterator<Class<? extends Handler>> iterator = handlerClasses.iterator();
-            while (iterator.hasNext()) temp.add(ClassUtil.newInstance(iterator.next()));
-
-            handlers = temp;
+    private static synchronized Handler buildHandler(Handler originHandler) {
+        if (processHandler != null) {
+            return processHandler;
         }
+
+        if (handlers.isEmpty()) return originHandler;
+
+        return HandlerFactory.getHandler(handlers, originHandler);
     }
 
     public static void addHandler(Class<? extends Handler> c) {
-        handlerClasses.add(c);
+        handlers.add(ClassUtil.newInstance(c));
+        resetProcessHandler();
     }
 
     public static void deleteHandler(Class<? extends Handler> c) {
-        handlerClasses.remove(c);
+        handlers.removeIf(handler -> ClassUtil.getUsefulClass(handler.getClass()).getName().equals(c.getName()));
+        resetProcessHandler();
+    }
+
+    private static void resetProcessHandler(){
+        processHandler = null;
     }
 }

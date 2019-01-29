@@ -17,12 +17,10 @@ package io.jpress.core.addon.handler;
 
 
 import com.jfinal.handler.Handler;
-import com.jfinal.handler.HandlerFactory;
 import com.jfinal.kit.HandlerKit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 
 public class AddonHandlerProcesser extends Handler {
@@ -37,22 +35,16 @@ public class AddonHandlerProcesser extends Handler {
             return;
         }
 
-        List<Handler> list = AddonHandlerManager.getHandlers();
-
-        if (list == null || list.isEmpty()) {
-            next.handle(target, request, response, isHandled);
-            return;
-        }
-
-        Handler handler = HandlerFactory.getHandler(list, new Handler() {
-            @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-                AddonHandlerProcesser.this.next.handle(target, request, response, isHandled);
-            }
-        });
-
-        handler.handle(target, request, response, isHandled);
+        AddonHandlerManager.getProcessHandler(originHandler)
+                .handle(target, request, response, isHandled);
     }
+
+    private Handler originHandler = new Handler() {
+        @Override
+        public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            AddonHandlerProcesser.this.next.handle(target, request, response, isHandled);
+        }
+    };
 
 
 }

@@ -28,7 +28,7 @@ public class Starter {
         String unscanPrefix = "jcseg-,lucene-,elasticsearch-,jopt-," +
                 "httpasyncclient-,jna-,lang-mustache-client-,parent-join-client-," +
                 "lang-mustache-client-,rank-eval-client-,t-digest-," +
-                "aggs-matrix-stats-client-,compiler-,hppc-";
+                "aggs-matrix-stats-client-,compiler-,hppc-,libthrift-";
         JbootApplication.setBootArg("jboot.app.scanner.unScanJarPrefix",unscanPrefix);
         JbootApplication.run(args);
     }

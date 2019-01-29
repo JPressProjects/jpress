@@ -203,10 +203,16 @@ public class AddonManager implements JbootEventListener {
         Addon addon = Aop.get(addonInfo.getAddonClass());
         if (addon != null) addon.onUninstall();
 
+        //删除jar包
         addonInfo.buildJarFile().delete();
-        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addon/" + addonInfo.getId()));
+
+        //删除已解压缩的资源文件
+        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
 
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
+
+        //删除插件列表缓存
+        addonInfoList.remove(addonInfo);
 
         OptionService optionService = Aop.get(OptionService.class);
         return optionService.deleteByKey("addonInstall:" + addonInfo.getId());

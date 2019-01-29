@@ -22,8 +22,6 @@ import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -32,7 +30,8 @@ import java.util.jar.JarFile;
 
 public class AddonClassLoader extends URLClassLoader {
 
-    private static final Log log = Log.getLog(AddonClassLoader.class);
+    private static final Log LOG = Log.getLog(AddonClassLoader.class);
+
     private AddonInfo addonInfo;
 
     public AddonClassLoader(AddonInfo addonInfo) {
@@ -40,56 +39,45 @@ public class AddonClassLoader extends URLClassLoader {
         this.addonInfo = addonInfo;
     }
 
-    public void init() {
-        File jarFile = addonInfo.buildJarFile();
-        try {
-            addURL(jarFile.toURI().toURL());
-        } catch (MalformedURLException e) {
-            log.error("AddonClassLoader init error", e);
-        }
-    }
 
     public void load() {
-
-        init();
-
-        Enumeration<JarEntry> entries = null;
         try {
-            entries = new JarFile(addonInfo.buildJarFile()).entries();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        if (entries == null) return;
+            File jarFile = addonInfo.buildJarFile();
+            addURL(jarFile.toURI().toURL());
+            Enumeration<JarEntry> entries = new JarFile(addonInfo.buildJarFile()).entries();
 
-        while (entries.hasMoreElements()) {
-            JarEntry jarEntry = entries.nextElement();
-            String entryName = jarEntry.getName();
-            if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
-                String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
-                try {
-                    Class loadedClass = loadClass(className);
-
-                    // controllers
-                    if (Controller.class.isAssignableFrom(loadedClass)) {
-                        addonInfo.addController(loadedClass);
+            while (entries.hasMoreElements()) {
+                JarEntry jarEntry = entries.nextElement();
+                String entryName = jarEntry.getName();
+                if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
+                    String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
+                    try {
+                        Class loadedClass = loadClass(className);
+                        // controllers
+                        if (Controller.class.isAssignableFrom(loadedClass)) {
+                            addonInfo.addController(loadedClass);
+                        }
+                        // interceptors
+                        else if (Interceptor.class.isAssignableFrom(loadedClass)) {
+                            addonInfo.addInterceptor(loadedClass);
+                        }
+                        // handlers
+                        else if (Handler.class.isAssignableFrom(loadedClass)) {
+                            addonInfo.addHandler(loadedClass);
+                        }
+                        // addonClass
+                        else if (Addon.class.isAssignableFrom(loadedClass)) {
+                            addonInfo.setAddonClass(loadedClass);
+                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
-                    // interceptors
-                    else if (Interceptor.class.isAssignableFrom(loadedClass)) {
-                        addonInfo.addInterceptor(loadedClass);
-                    }
-                    // handlers
-                    else if (Handler.class.isAssignableFrom(loadedClass)) {
-                        addonInfo.addHandler(loadedClass);
-                    }
-                    // addonClass
-                    else if (Addon.class.isAssignableFrom(loadedClass)) {
-                        addonInfo.setAddonClass(loadedClass);
-                    }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
+
     }
 }

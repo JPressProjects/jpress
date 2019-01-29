@@ -27,26 +27,11 @@ public class AddonInterceptorManager {
     private static Set<Class<? extends Interceptor>> interceptorClasses = Collections.synchronizedSet(new HashSet<>());
 
     public static Interceptor[] getInterceptors() {
-
-        if (interceptorClasses.isEmpty()) {
-            return null;
-        }
-
-        if (!interceptorClasses.isEmpty()) {
-            if (interceptors == null || interceptors.length != interceptorClasses.size()) {
-                initInterceptors();
-            }
-        }
-
         return interceptors;
     }
 
     private static void initInterceptors() {
         synchronized (AddonInterceptorManager.class) {
-            if (interceptors != null && interceptors.length == interceptorClasses.size()) {
-                return;
-            }
-
             Interceptor[] temp = new Interceptor[interceptorClasses.size()];
             int index = 0;
             Iterator<Class<? extends Interceptor>> iterator = interceptorClasses.iterator();
@@ -58,9 +43,11 @@ public class AddonInterceptorManager {
 
     public static void addInterceptor(Class<? extends Interceptor> c) {
         interceptorClasses.add(c);
+        initInterceptors();
     }
 
     public static void deleteInterceptor(Class<? extends Interceptor> c) {
-        interceptorClasses.remove(c);
+        interceptorClasses.removeIf(aClass -> Objects.equals(c.getName(),aClass.getName()));
+        initInterceptors();
     }
 }

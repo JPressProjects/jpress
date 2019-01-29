@@ -21,7 +21,6 @@ import io.jboot.web.handler.JbootActionHandler;
 
 public class AddonControllerProcesser extends JbootActionHandler {
 
-    private static final String INDEX_ACTION_KEY = "/";
 
     @Override
     public Action getAction(String target, String[] urlPara) {

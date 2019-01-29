@@ -80,18 +80,18 @@ public class AddonControllerManager {
 
 
     public static void buildActionMapping() {
-        deleteMenus();
+        deleteAddonMenus();
         actionMapping.buildActionMapping();
-        addMenus();
+        addAddonMenus();
     }
 
 
-    private static void deleteMenus() {
+    private static void deleteAddonMenus() {
         List<MenuItem> menuItems = buildAdminMenuItems();
         for (MenuItem menuItem : menuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
     }
 
-    private static void addMenus() {
+    private static void addAddonMenus() {
         MenuManager.me().addMenuItems(buildAdminMenuItems());
         MenuManager.me().addMenuItems(buildUcenterMenuItems());
     }

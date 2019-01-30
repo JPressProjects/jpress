@@ -45,18 +45,17 @@ public class ElasticSearcher implements ArticleSearcher {
 
     private RestHighLevelClient client;
 
-
-    @Override
-    public void init() {
-
+    public ElasticSearcher(){
         String host = JPressOptions.get("article_search_es_host");
         int port = JPressOptions.getAsInt("article_search_es_port", 9200);
 
         RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
         configUserNameAndPassowrd(builder);
         client = new RestHighLevelClient(builder);
-
     }
+
+
+
 
     private void configUserNameAndPassowrd(RestClientBuilder builder) {
         String username = JPressOptions.get("article_search_es_username");
@@ -71,8 +70,9 @@ public class ElasticSearcher implements ArticleSearcher {
         builder.setHttpClientConfigCallback(httpAsyncClientBuilder -> httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
     }
 
+
     @Override
-    public void addArticle(Article bean) {
+    public void addArticle(Article article) {
 
     }
 
@@ -82,17 +82,13 @@ public class ElasticSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void updateArticle(Article bean) {
+    public void updateArticle(Article article) {
 
     }
 
-    @Override
-    public Page<Article> search(String keyword) {
-        return null;
-    }
 
     @Override
-    public Page<Article> search(String queryString, int pageNum, int pageSize) {
+    public Page<Article> search(String keyword, int pageNum, int pageSize) {
         return null;
     }
 

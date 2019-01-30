@@ -29,12 +29,7 @@ public class DbSearcher implements ArticleSearcher {
     private ArticleService articleService;
 
     @Override
-    public void init() {
-        // do noting
-    }
-
-    @Override
-    public void addArticle(Article bean) {
+    public void addArticle(Article article) {
         // do noting
     }
 
@@ -44,17 +39,12 @@ public class DbSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void updateArticle(Article bean) {
+    public void updateArticle(Article article) {
         // do noting
     }
 
     @Override
-    public Page<Article> search(String keyword) {
-        return search(keyword, 1, 10);
-    }
-
-    @Override
-    public Page<Article> search(String queryString, int pageNum, int pageSize) {
-        return articleService.searchIndb(queryString, pageNum, pageSize);
+    public Page<Article> search(String keyword, int pageNum, int pageSize) {
+        return articleService.searchIndb(keyword, pageNum, pageSize);
     }
 }

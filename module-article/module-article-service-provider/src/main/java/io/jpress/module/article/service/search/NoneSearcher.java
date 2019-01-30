@@ -19,13 +19,9 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.Article;
 
 public class NoneSearcher implements ArticleSearcher {
-    @Override
-    public void init() {
-
-    }
 
     @Override
-    public void addArticle(Article bean) {
+    public void addArticle(Article article) {
 
     }
 
@@ -35,17 +31,12 @@ public class NoneSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void updateArticle(Article bean) {
+    public void updateArticle(Article article) {
 
     }
 
     @Override
-    public Page<Article> search(String keyword) {
-        return null;
-    }
-
-    @Override
-    public Page<Article> search(String queryString, int pageNum, int pageSize) {
+    public Page<Article> search(String keyword, int pageNum, int pageSize) {
         return null;
     }
 }

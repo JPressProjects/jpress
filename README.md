@@ -10,14 +10,9 @@
 
 <p align="center">
 <img alt="release" src="https://img.shields.io/github/release/JpressProjects/jpress.svg?style=flat-square"/>
-
 <img alt="release" src="https://img.shields.io/github/release-date/JpressProjects/jpress.svg?style=flat-square"/>
-
 <img alt="commit" src="https://img.shields.io/github/last-commit/JpressProjects/jpress.svg?style=flat-square"/>
-
 <img alt="issues" src="https://img.shields.io/github/issues-closed/JpressProjects/jpress.svg?style=flat-square"/>
-
-
 <img alt="license" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
 </p>
 
@@ -25,11 +20,10 @@
 
 #### 模板
 
-- 模板安装
-- 模板卸载
-- 在线编辑
-- 完善的开发文档
-- 极致的开发体验
+- 模板安装、卸载
+- 在线编辑及实时生效
+- 完善的模板开发文档
+- 极致的模板开发体验
 
 #### 插件
 
@@ -43,9 +37,9 @@
 - 支持在插件里创建新的数据库表以及对应的Model
 - 支持在插件里链接不同的数据库
 - 支持通过插件设置后台菜单和用户中心菜单
-- 插件设置的菜单要支持权限设置的管理
-- 插件被停止：所用的Controller、Handler、Intercepter 自动被移除
-- 插件被卸载：所有资源全部被删除
+- 插件扩展的菜单支持权限设置的管理
+- 插件被停止：该插件的所有Controller、Handler、Intercepter 自动被移除
+- 插件被卸载：该插件的所有资源全部被删除
 
 
 #### 用户
@@ -54,6 +48,7 @@
 - 手机短信和邮箱激活配置
 - 前台用户中心（投稿、文章管理和评论管理、个人资料等）
 - 支持第三方登录：微信和QQ等
+
 
 #### 微信
 

@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.search;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyun.opensearch.DocumentClient;
 import com.aliyun.opensearch.OpenSearchClient;
 import com.aliyun.opensearch.SearcherClient;
@@ -101,13 +102,14 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
         SearchParams searchParams = new SearchParams(config);
 
-        //query 组合搜索的文档：https://help.aliyun.com/document_detail/29191.html?
+        //query 组合搜索的文档：https://help.aliyun.com/document_detail/29191.html
         String query = String.format("title:'%s' OR content:'%s'", keyword);
         searchParams.setQuery(query);
         try {
             SearchResult searchResult = searcherClient.execute(searchParams);
             String resultJson = searchResult.getResult();
 
+            JSONObject jsonObject = JSONObject.parseObject(resultJson);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,6 +20,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.JbootPaginateDirective;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -43,6 +44,9 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         String keyword = controller.getAttr("keyword");
+        if (StrUtil.isBlank(keyword)) {
+            return;
+        }
         int page = controller.getAttr("page");
         int pageSize = getPara("pageSize", scope, 10);
 

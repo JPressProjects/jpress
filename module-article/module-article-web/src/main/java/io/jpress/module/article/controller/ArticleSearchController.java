@@ -37,8 +37,13 @@ public class ArticleSearchController extends TemplateControllerBase {
             return;
         }
 
+        /**
+         * 不让页面大于100，我认为：
+         * 1、当一个真实用户在搜索某个关键字的内容，通过翻页去找对应数据，不可能翻到100页以上。
+         * 2、翻页翻到100页以上，一般是机器：可能是来抓取数据的。
+         */
         int page = getParaToInt("page", 1);
-        if (page <= 0 || page > 1000) {
+        if (page <= 0 || page > 100) {
             renderError(404);
             return;
         }
@@ -46,7 +51,7 @@ public class ArticleSearchController extends TemplateControllerBase {
         setAttr("keyword", keyword);
         setAttr("page", page);
 
-        setMenuActive(menu -> menu.getUrl() != null && menu.getUrl().startsWith("/article/search"));
+        setMenuActive(menu -> menu.getUrl().startsWith("/article/search"));
 
         render("artsearch.html");
     }

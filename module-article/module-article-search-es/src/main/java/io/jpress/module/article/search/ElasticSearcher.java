@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.search;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.app.config.annotation.ConfigInject;
@@ -44,7 +45,9 @@ import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -52,10 +55,10 @@ public class ElasticSearcher implements ArticleSearcher {
 
 
     @ConfigInject("jpress.elasticsearch.index:jpress-index")
-    private String index;
+    private String index = "jpress-index";
 
     @ConfigInject("jpress.elasticsearch.type:jpress-type")
-    private String type;
+    private String type = "jpress-type";
 
 
     private RestHighLevelClient client;
@@ -96,7 +99,8 @@ public class ElasticSearcher implements ArticleSearcher {
 
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
-            CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+            CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
+            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,6 +125,7 @@ public class ElasticSearcher implements ArticleSearcher {
         indexRequest.source(article.toJson(), XContentType.JSON);
         try {
             IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
+            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,6 +137,7 @@ public class ElasticSearcher implements ArticleSearcher {
         DeleteRequest request = new DeleteRequest(index, type, id.toString());
         try {
             DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
+            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,6 +153,7 @@ public class ElasticSearcher implements ArticleSearcher {
 
         try {
             UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
+            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,7 +179,22 @@ public class ElasticSearcher implements ArticleSearcher {
         searchRequest.types(type);
 
         try {
-            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+            if (response ==null || response.getHits() == null || response.getHits().totalHits <= 0){
+                return null;
+            }
+
+            int total = (int) response.getHits().totalHits;
+
+            List<Article> articles = new ArrayList<>();
+            response.getHits().forEach(hit -> {
+                Article article = new Article();
+                article.put(hit.getSourceAsMap());
+                articles.add(article);
+            });
+
+            return new Page<>(articles, pageNum, pageSize, total / pageSize, total);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

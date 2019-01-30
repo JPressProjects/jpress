@@ -20,6 +20,7 @@ import com.aliyun.opensearch.DocumentClient;
 import com.aliyun.opensearch.OpenSearchClient;
 import com.aliyun.opensearch.SearcherClient;
 import com.aliyun.opensearch.sdk.generated.OpenSearch;
+import com.aliyun.opensearch.sdk.generated.commons.OpenSearchResult;
 import com.aliyun.opensearch.sdk.generated.search.Config;
 import com.aliyun.opensearch.sdk.generated.search.SearchFormat;
 import com.aliyun.opensearch.sdk.generated.search.SearchParams;
@@ -68,7 +69,8 @@ public class AliyunOpenSearcher implements ArticleSearcher {
         if (autoSync) return;
         try {
             String json = Action.addAction(article).toJson();
-            documentClient.push(json, appName, tableName);
+            OpenSearchResult result =  documentClient.push(json, appName, tableName);
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +81,8 @@ public class AliyunOpenSearcher implements ArticleSearcher {
         if (autoSync) return;
         try {
             String json = Action.delAction(id).toJson();
-            documentClient.push(json, appName, tableName);
+            OpenSearchResult result =  documentClient.push(json, appName, tableName);
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }

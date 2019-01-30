@@ -477,20 +477,29 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Object save(Article model) {
-        ArticleSearcherFactory.getSearcher().addArticle(model);
-        return super.save(model);
+        Object id = super.save(model);
+        if (id != null) {
+            ArticleSearcherFactory.getSearcher().addArticle(model);
+        }
+        return id;
     }
 
     @Override
     public boolean update(Article model) {
-        ArticleSearcherFactory.getSearcher().updateArticle(model);
-        return super.update(model);
+        boolean success = super.update(model);
+        if (success) {
+            ArticleSearcherFactory.getSearcher().updateArticle(model);
+        }
+        return success;
     }
 
     @Override
     public boolean delete(Article model) {
-        ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
-        return super.delete(model);
+        boolean success = super.delete(model);
+        if (success) {
+            ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+        }
+        return success;
     }
 
 

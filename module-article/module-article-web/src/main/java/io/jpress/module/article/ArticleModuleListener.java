@@ -24,7 +24,6 @@ import io.jpress.core.module.ModuleListener;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
-import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.ArticleService;
 
 import java.util.List;
@@ -91,6 +90,5 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
     public void onJFinalStarted() {
         //每次启动都会进行 init
         //因此，如果 init 进行索引重建，则需要在异步线程里执行
-        ArticleSearcherFactory.getSearcher().init();
     }
 }

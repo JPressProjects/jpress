@@ -6,15 +6,11 @@ import io.jpress.module.article.model.Article;
 
 public interface ArticleSearcher {
 
-    public void init();
-
-    public void addArticle(Article bean);
+    public void addArticle(Article article);
 
     public void deleteArticle(Object id);
 
-    public void updateArticle(Article bean);
+    public void updateArticle(Article article);
 
-    public Page<Article> search(String keyword);
-
-    public Page<Article> search(String queryString, int pageNum, int pageSize);
+    public Page<Article> search(String keyword, int pageNum, int pageSize);
 }

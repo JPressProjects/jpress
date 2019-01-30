@@ -42,8 +42,7 @@ public class LuceneSearcher implements ArticleSearcher {
     private static Directory directory;
 
 
-    @Override
-    public void init() {
+    public LuceneSearcher() {
         File indexDir = new File(PathKit.getRootClassPath(), INDEX_PATH);
         if (!indexDir.exists()) {
             indexDir.mkdirs();
@@ -56,11 +55,11 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void addArticle(Article bean) {
+    public void addArticle(Article article) {
         IndexWriter writer = null;
         try {
             writer = createIndexWriter();
-            Document doc = createDocument(bean);
+            Document doc = createDocument(article);
             writer.addDocument(doc);
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,15 +82,11 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void updateArticle(Article bean) {
-        deleteArticle(bean.getId());
-        addArticle(bean);
+    public void updateArticle(Article article) {
+        deleteArticle(article.getId());
+        addArticle(article);
     }
 
-    @Override
-    public Page<Article> search(String keyword) {
-        return search(keyword, 1, 10);
-    }
 
     @Override
     public Page<Article> search(String keyword, int pageNum, int pageSize) {

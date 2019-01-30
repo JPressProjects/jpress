@@ -42,8 +42,7 @@ public class AliyunOpenSearcher implements ArticleSearcher {
     private DocumentClient documentClient;
     private SearcherClient searcherClient;
 
-    @Override
-    public void init() {
+    public AliyunOpenSearcher() {
 
         String accesskey = JPressOptions.get("article_search_aliopensearch_accesskey");
         String secret = JPressOptions.get("article_search_aliopensearch_secret");
@@ -64,10 +63,10 @@ public class AliyunOpenSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void addArticle(Article bean) {
+    public void addArticle(Article article) {
         if (autoSync) return;
         try {
-            String json = Action.addAction(bean).toJson();
+            String json = Action.addAction(article).toJson();
             documentClient.push(json, appName, tableName);
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,15 +85,10 @@ public class AliyunOpenSearcher implements ArticleSearcher {
     }
 
     @Override
-    public void updateArticle(Article bean) {
+    public void updateArticle(Article article) {
         if (autoSync) return;
-        deleteArticle(bean.getId());
-        updateArticle(bean);
-    }
-
-    @Override
-    public Page<Article> search(String keyword) {
-        return search(keyword, 1, 10);
+        deleteArticle(article.getId());
+        updateArticle(article);
     }
 
     @Override
@@ -108,7 +102,7 @@ public class AliyunOpenSearcher implements ArticleSearcher {
         SearchParams searchParams = new SearchParams(config);
 
         //query 组合搜索的文档：https://help.aliyun.com/document_detail/29191.html?
-        String query = String.format("title:'%s' OR content:'%s'",keyword);
+        String query = String.format("title:'%s' OR content:'%s'", keyword);
         searchParams.setQuery(query);
         try {
             SearchResult searchResult = searcherClient.execute(searchParams);

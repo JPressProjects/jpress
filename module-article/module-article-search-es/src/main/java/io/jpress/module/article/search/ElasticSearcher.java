@@ -51,10 +51,10 @@ import java.util.Map;
 public class ElasticSearcher implements ArticleSearcher {
 
 
-    @ConfigInject("${jpress.elasticsearch.index:jpress-index}")
+    @ConfigInject("jpress.elasticsearch.index:jpress-index")
     private String index;
 
-    @ConfigInject("${jpress.elasticsearch.type:jpress-type}")
+    @ConfigInject("jpress.elasticsearch.type:jpress-type")
     private String type;
 
 
@@ -90,7 +90,10 @@ public class ElasticSearcher implements ArticleSearcher {
 
 
     private void tryCreateIndex() {
-        if (checkIndexExist()) return;
+        if (checkIndexExist()) {
+            return;
+        }
+
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
             CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);

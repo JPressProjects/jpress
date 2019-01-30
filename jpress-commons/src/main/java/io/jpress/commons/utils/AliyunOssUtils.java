@@ -66,7 +66,7 @@ public class AliyunOssUtils {
 
         boolean enable = JPressOptions.getAsBool(KEY_ENABLE);
 
-        if (enable == false || StrUtil.isBlank(path)) {
+        if (!enable || StrUtil.isBlank(path)) {
             return false;
         }
 
@@ -112,7 +112,7 @@ public class AliyunOssUtils {
     public static boolean download(String path, File toFile) {
         boolean enable = JPressOptions.getAsBool(KEY_ENABLE);
 
-        if (enable == false || StrUtil.isBlank(path)) {
+        if (!enable || StrUtil.isBlank(path)) {
             return false;
         }
 

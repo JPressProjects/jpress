@@ -15,9 +15,9 @@
  */
 package io.jpress.module.article.search;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.app.config.annotation.ConfigInject;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
@@ -29,32 +29,49 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.*;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ElasticSearcher implements ArticleSearcher {
 
 
-    private RestHighLevelClient client;
+    @ConfigInject("${jpress.elasticsearch.index:jpress-index}")
+    private String index;
 
-    public ElasticSearcher(){
+    @ConfigInject("${jpress.elasticsearch.type:jpress-type}")
+    private String type;
+
+
+    private RestHighLevelClient client;
+    private RestClient restClient;
+
+    public ElasticSearcher() {
         String host = JPressOptions.get("article_search_es_host");
         int port = JPressOptions.getAsInt("article_search_es_port", 9200);
 
         RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
         configUserNameAndPassowrd(builder);
         client = new RestHighLevelClient(builder);
+        restClient = builder.build();
+
+        tryCreateIndex();
     }
-
-
 
 
     private void configUserNameAndPassowrd(RestClientBuilder builder) {
@@ -67,53 +84,97 @@ public class ElasticSearcher implements ArticleSearcher {
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, username));
-        builder.setHttpClientConfigCallback(httpAsyncClientBuilder -> httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+        builder.setHttpClientConfigCallback(httpAsyncClientBuilder ->
+                httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+    }
+
+
+    private void tryCreateIndex() {
+        if (checkIndexExist()) return;
+        CreateIndexRequest request = new CreateIndexRequest(index);
+        try {
+            CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkIndexExist() {
+        try {
+            Response response = restClient.performRequest(new Request("HEAD", index));
+            return response.getStatusLine().getReasonPhrase().equals("OK");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
     }
 
 
     @Override
     public void addArticle(Article article) {
-
+        IndexRequest indexRequest = new IndexRequest(index, type, article.getId().toString());
+        indexRequest.source(article.toJson(), XContentType.JSON);
+        try {
+            IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteArticle(Object id) {
 
+        DeleteRequest request = new DeleteRequest(index, type, id.toString());
+        try {
+            DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void updateArticle(Article article) {
+        UpdateRequest updateRequest = new UpdateRequest(index, type, article.getId().toString());
+        Map<String, Object> map = new HashMap<>();
+        map.putAll(CPI.getAttrs(article));
+        updateRequest.doc(map);
 
+        try {
+            UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Override
     public Page<Article> search(String keyword, int pageNum, int pageSize) {
-        return null;
-    }
 
-    public boolean createIndex(String index) {
-        //index名必须全小写，否则报错
-        CreateIndexRequest request = new CreateIndexRequest(index);
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        boolQueryBuilder.should(new MatchQueryBuilder("title", keyword));
+        boolQueryBuilder.should(new MatchQueryBuilder("content", keyword));
+
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.from(pageNum * pageSize - pageSize);
+        sourceBuilder.size(pageSize);
+        sourceBuilder.query(boolQueryBuilder);
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.source(sourceBuilder);
+        searchRequest.indices(index);
+        searchRequest.types(type);
+
         try {
-            CreateIndexResponse indexResponse = client.indices().create(request, RequestOptions.DEFAULT);
-            return indexResponse.isAcknowledged();
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
-    }
-
-    public String addData(String index, String type, String id, JSONObject object) {
-        IndexRequest indexRequest = new IndexRequest(index, type, id);
-        try {
-            indexRequest.source(new ObjectMapper().writeValueAsString(object), XContentType.JSON);
-            IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
-            return indexResponse.getId();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return null;
     }
+
 
 }

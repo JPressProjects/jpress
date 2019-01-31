@@ -86,9 +86,5 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
         ucenterMenus.add(commentMenuGroup);
     }
 
-    @Override
-    public void onJFinalStarted() {
-        //每次启动都会进行 init
-        //因此，如果 init 进行索引重建，则需要在异步线程里执行
-    }
+
 }

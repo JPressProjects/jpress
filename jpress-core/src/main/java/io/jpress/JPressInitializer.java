@@ -93,7 +93,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     }
 
     @Override
-    public void onJFinalStarted() {
+    public void onJFinalStart() {
 
         MenuManager.me().init();
         WechatAddonManager.me().init();

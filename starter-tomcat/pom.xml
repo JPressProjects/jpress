@@ -50,16 +50,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-metrics-event-stream</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-codahale-metrics-publisher</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.dropwizard.metrics</groupId>
                     <artifactId>metrics-servlets</artifactId>
                 </exclusion>
@@ -88,6 +78,7 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
+
             </exclusions>
         </dependency>
 

@@ -212,14 +212,7 @@ public class MenuManager implements JbootEventListener {
                     continue;
                 }
 
-                MenuItem menu = new MenuItem();
-                menu.setText(adminMenu.text());
-                menu.setIcon(adminMenu.icon());
-                menu.setGroupId(adminMenu.groupId());
-                menu.setUrl(actionKey);
-                menu.setOrder(adminMenu.order());
-
-                adminMenuItems.add(menu);
+                adminMenuItems.add(new MenuItem(adminMenu, actionKey));
             }
         }
 
@@ -241,19 +234,12 @@ public class MenuManager implements JbootEventListener {
                     continue;
                 }
 
-                UCenterMenu adminMenu = action.getMethod().getAnnotation(UCenterMenu.class);
-                if (adminMenu == null) {
+                UCenterMenu uCenterMenu = action.getMethod().getAnnotation(UCenterMenu.class);
+                if (uCenterMenu == null) {
                     continue;
                 }
 
-                MenuItem menu = new MenuItem();
-                menu.setText(adminMenu.text());
-                menu.setIcon(adminMenu.icon());
-                menu.setGroupId(adminMenu.groupId());
-                menu.setUrl(actionKey);
-                menu.setOrder(adminMenu.order());
-
-                adminMenuItems.add(menu);
+                adminMenuItems.add(new MenuItem(uCenterMenu, actionKey));
             }
         }
 

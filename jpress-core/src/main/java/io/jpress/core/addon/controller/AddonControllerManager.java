@@ -28,10 +28,9 @@ import io.jpress.core.menu.MenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
@@ -68,14 +67,7 @@ public class AddonControllerManager {
         if (value == null) return;
 
         routes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
-        try {
-            Field field = Routes.class.getDeclaredField("controllerKeySet");
-            field.setAccessible(true);
-            Set<String> routes = (Set<String>) field.get(null);
-            routes.remove(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Routes.getControllerKeySet().removeIf(s -> Objects.equals(s, value));
     }
 
 
@@ -115,14 +107,7 @@ public class AddonControllerManager {
                     continue;
                 }
 
-                MenuItem menu = new MenuItem();
-                menu.setText(uCenterMenu.text());
-                menu.setIcon(uCenterMenu.icon());
-                menu.setGroupId(uCenterMenu.groupId());
-                menu.setUrl(actionKey);
-                menu.setOrder(uCenterMenu.order());
-
-                adminMenuItems.add(menu);
+                adminMenuItems.add(new MenuItem(uCenterMenu,actionKey));
             }
         }
 
@@ -149,14 +134,7 @@ public class AddonControllerManager {
                     continue;
                 }
 
-                MenuItem menu = new MenuItem();
-                menu.setText(adminMenu.text());
-                menu.setIcon(adminMenu.icon());
-                menu.setGroupId(adminMenu.groupId());
-                menu.setUrl(actionKey);
-                menu.setOrder(adminMenu.order());
-
-                adminMenuItems.add(menu);
+                adminMenuItems.add(new MenuItem(adminMenu,actionKey));
             }
         }
 
@@ -181,10 +159,6 @@ public class AddonControllerManager {
             super.buildActionMapping();
         }
 
-//        public Action deleteAction(String target) {
-//
-////            return this.mapping.remove(target);
-//        }
 
         @Override
         public Action getAction(String url, String[] urlPara) {

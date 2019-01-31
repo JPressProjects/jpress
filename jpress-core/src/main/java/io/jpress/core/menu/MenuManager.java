@@ -156,16 +156,17 @@ public class MenuManager implements JbootEventListener {
     }
 
     public void addMenuItem(MenuItem item) {
+        String ctxPath = JFinal.me().getContextPath();
         for (MenuGroup group : systemMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/admin"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin"))
                 group.addItem(item);
         }
         for (MenuGroup group : moduleMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/admin"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin"))
                 group.addItem(item);
         }
         for (MenuGroup group : ucenterMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith("/ucenter"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter"))
                 group.addItem(item);
         }
     }

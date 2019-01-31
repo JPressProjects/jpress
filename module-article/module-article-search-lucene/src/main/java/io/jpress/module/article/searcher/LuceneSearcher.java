@@ -34,6 +34,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LuceneSearcher implements ArticleSearcher {
@@ -151,8 +152,7 @@ public class LuceneSearcher implements ArticleSearcher {
         doc.add(new StringField("aid", article.getId().toString(), Field.Store.YES));
         doc.add(new TextField("content", article.getContent(), Field.Store.YES));
         doc.add(new TextField("title", article.getTitle(), Field.Store.YES));
-        doc.add(new StringField("created", DateTools.dateToString(article.getCreated(), DateTools.Resolution.YEAR), Field.Store.NO));
-        doc.add(new StringField("summary", article.getSummary(), Field.Store.YES));
+        doc.add(new StringField("created", DateTools.dateToString(article.getCreated() == null ? new Date() : article.getCreated(), DateTools.Resolution.YEAR), Field.Store.NO));
         return doc;
     }
 
@@ -205,7 +205,6 @@ public class LuceneSearcher implements ArticleSearcher {
             article.setId(Long.valueOf(doc.get("aid")));
             article.setTitle(doc.get("title"));
             article.setContent(doc.get("content"));
-            article.setSummary(doc.get("summary"));
             articles.add(article);
         }
         return articles;

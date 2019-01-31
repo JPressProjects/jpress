@@ -15,10 +15,8 @@
  */
 package io.jpress.module.article.controller;
 
-import com.jfinal.aop.Aop;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.TemplateControllerBase;
 
 /**
@@ -50,9 +48,9 @@ public class ArticleSearchController extends TemplateControllerBase {
             return;
         }
 
-
-        ArticleService articleService = Aop.get(ArticleService.class);
-        articleService.search(keyword,1,10);
+//        for test only
+//        ArticleService articleService = Aop.get(ArticleService.class);
+//        articleService.search(keyword,1,10);
 
         setAttr("keyword", keyword);
         setAttr("page", page);

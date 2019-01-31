@@ -16,6 +16,8 @@
 package io.jpress.core.menu;
 
 import com.jfinal.core.JFinal;
+import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.menu.annotation.UCenterMenu;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -31,6 +33,25 @@ public class MenuItem {
     private String groupId;
     private String url;
     private int order = 100;
+
+    public MenuItem() {
+    }
+
+    public MenuItem(UCenterMenu uCenterMenu,String actionKey) {
+        this.setText(uCenterMenu.text());
+        this.setIcon(uCenterMenu.icon());
+        this.setGroupId(uCenterMenu.groupId());
+        this.setUrl(actionKey);
+        this.setOrder(uCenterMenu.order());
+    }
+
+    public MenuItem(AdminMenu adminMenu, String actionKey) {
+        this.setText(adminMenu.text());
+        this.setIcon(adminMenu.icon());
+        this.setGroupId(adminMenu.groupId());
+        this.setUrl(actionKey);
+        this.setOrder(adminMenu.order());
+    }
 
     public String getId() {
         return id != null ? id : text + "--" + url;

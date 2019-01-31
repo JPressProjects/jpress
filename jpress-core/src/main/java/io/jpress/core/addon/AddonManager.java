@@ -144,7 +144,7 @@ public class AddonManager implements JbootEventListener {
         for (File jarFile : addonJars) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             if (addonInfo != null && optionService.findByKey("addonStart:" + addonInfo.getId()) != null) {
-                doStrat(addonInfo);
+                doStart(addonInfo);
             }
         }
     }
@@ -172,7 +172,7 @@ public class AddonManager implements JbootEventListener {
 
         try {
             AddonUtil.unzipResources(addonInfo);
-            if (addon != null) addon.onInstall();
+            if (addon != null) addon.onInstall(addonInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +201,7 @@ public class AddonManager implements JbootEventListener {
     public boolean uninstall(AddonInfo addonInfo) {
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        if (addon != null) addon.onUninstall();
+        if (addon != null) addon.onUninstall(addonInfo);
 
         //删除jar包
         addonInfo.buildJarFile().delete();
@@ -242,12 +242,12 @@ public class AddonManager implements JbootEventListener {
         OptionService optionService = Aop.get(OptionService.class);
         optionService.saveOrUpdate("addonStart:" + addonInfo.getId(), "true");
 
-        doStrat(addonInfo);
+        doStart(addonInfo);
 
         return true;
     }
 
-    private void doStrat(AddonInfo addonInfo) {
+    private void doStart(AddonInfo addonInfo) {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
             for (Class<? extends Controller> c : controllerClasses)

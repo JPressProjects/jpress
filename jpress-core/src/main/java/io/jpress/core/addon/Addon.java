@@ -18,9 +18,9 @@ package io.jpress.core.addon;
 
 public interface Addon {
 
-    public void onInstall();
+    public void onInstall(AddonInfo addonInfo);
 
-    public void onUninstall();
+    public void onUninstall(AddonInfo addonInfo);
 
     public void onStart();
 

@@ -49,6 +49,12 @@ public interface ArticleCommentService {
     public boolean deleteById(Object id);
 
 
+    public void deleteCacheById(Object id);
+
+
+
+
+
     /**
      * 删除多个id
      *

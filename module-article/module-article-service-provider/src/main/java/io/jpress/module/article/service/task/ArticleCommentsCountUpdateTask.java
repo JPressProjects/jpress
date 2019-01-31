@@ -15,8 +15,10 @@
  */
 package io.jpress.module.article.service.task;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.components.schedule.annotation.FixedRate;
+import io.jpress.module.article.service.ArticleService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class ArticleCommentsCountUpdateTask implements Runnable {
             Db.update("update article set comment_count = comment_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
+            Aop.get(ArticleService.class).deleteCacheById(entry.getKey());
         }
     }
 }

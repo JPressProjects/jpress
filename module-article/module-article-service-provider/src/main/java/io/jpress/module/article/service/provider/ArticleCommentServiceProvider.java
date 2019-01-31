@@ -72,6 +72,11 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
+    }
+
+    @Override
     public boolean batchChangeStatusByIds(String status, Object... ids) {
         return Db.update("update article_comment SET `status` = ? where id in  " + SqlUtils.buildInSqlPara(ids), status) > 0;
     }

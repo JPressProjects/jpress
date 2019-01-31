@@ -32,6 +32,11 @@ import java.util.List;
 public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> implements SinglePageService {
 
     @Override
+    public void deleteCacheById(Object id) {
+         DAO.deleteIdCacheById(id);
+    }
+
+    @Override
     public boolean deleteByIds(Object... ids) {
         return Db.update("delete from single_page where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
     }

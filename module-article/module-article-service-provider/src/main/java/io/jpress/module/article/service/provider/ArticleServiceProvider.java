@@ -114,6 +114,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         });
     }
 
+    @Override
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
+    }
+
 
     @Override
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {

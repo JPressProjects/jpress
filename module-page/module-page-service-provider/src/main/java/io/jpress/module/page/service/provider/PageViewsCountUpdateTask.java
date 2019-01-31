@@ -15,8 +15,10 @@
  */
 package io.jpress.module.page.service.provider;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.components.schedule.annotation.FixedRate;
+import io.jpress.module.page.service.SinglePageService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class PageViewsCountUpdateTask implements Runnable {
             Db.update("update single_page set view_count = view_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
+            Aop.get(SinglePageService.class).deleteCacheById(entry.getKey());
         }
     }
 }

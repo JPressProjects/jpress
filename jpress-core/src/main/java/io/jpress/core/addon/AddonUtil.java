@@ -91,15 +91,12 @@ public class AddonUtil {
                             }
                         }
                     } finally {
-                        if (is != null)
-                            is.close();
-                        if (os != null)
-                            os.close();
+                        quietlyClose(is, os);
                     }
                 }
             }
         } finally {
-            zipFile.close();
+            quietlyClose(zipFile);
         }
     }
 
@@ -121,6 +118,8 @@ public class AddonUtil {
 
     public static AddonInfo readSimpleAddonInfo(File addonFile) {
         ZipFile zipFile = null;
+        Properties addonProp = null;
+        Properties addonConfigProp = null;
         try {
             zipFile = new ZipFile(addonFile);
             Enumeration<?> entryEnum = zipFile.entries();
@@ -131,26 +130,46 @@ public class AddonUtil {
                         ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
                         if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "addon.txt", "addon.properties")) {
                             is = zipFile.getInputStream(zipEntry);
-                            Properties properties = new Properties();
-                            properties.load(new InputStreamReader(is, "utf-8"));
-                            return new AddonInfo(properties);
+                            addonProp = new Properties();
+                            addonProp.load(new InputStreamReader(is, "utf-8"));
+                        } else if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "config.txt", "config.properties")) {
+                            is = zipFile.getInputStream(zipEntry);
+                            addonConfigProp = new Properties();
+                            addonConfigProp.load(new InputStreamReader(is, "utf-8"));
                         }
                     } finally {
-                        if (is != null)
-                            is.close();
+                        quietlyClose(is);
                     }
                 }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            try {
-                if (zipFile != null) zipFile.close();
-            } catch (IOException e) {
-            }
+            quietlyClose(zipFile);
         }
 
-        return null;
+        if (addonProp == null) {
+            return null;
+        }
+
+        AddonInfo addonInfo = new AddonInfo(addonProp);
+        if (addonConfigProp != null) {
+            addonConfigProp.forEach((o, o2) -> {
+                if (o != null && o2 != null) addonInfo.addConfig(o.toString(), o2.toString());
+            });
+        }
+
+        return addonInfo;
+    }
+
+    public static void quietlyClose(Closeable... closeable) {
+        for (Closeable c : closeable)
+            if (closeable != null) {
+                try {
+                    c.close();
+                } catch (IOException e) {
+                }
+            }
     }
 
 

@@ -26,9 +26,7 @@ import io.jboot.db.model.JbootModel;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class AddonInfo implements Serializable {
 
@@ -55,6 +53,7 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends Handler>> handlers;
     private List<Class<? extends JbootModel>> models;
     private ActiveRecordPlugin arp;
+    private Map<String, String> config;
 
     public AddonInfo() {
 
@@ -150,6 +149,23 @@ public class AddonInfo implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Map<String, String> getConfig() {
+        return config;
+    }
+
+    public void setConfig(Map<String, String> config) {
+        this.config = config;
+    }
+
+    public AddonInfo addConfig(String key, String value) {
+        if (this.config == null) {
+            this.config = new HashMap<>();
+        }
+
+        this.config.put(key, value);
+        return this;
     }
 
     public boolean isInstall() {
@@ -250,6 +266,7 @@ public class AddonInfo implements Serializable {
 
         return addon.getId().equals(getId());
     }
+
 
     public File buildJarFile() {
 

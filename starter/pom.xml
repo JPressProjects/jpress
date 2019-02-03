@@ -194,7 +194,7 @@
                             <!-- jar 等压缩文件在被打包进入 zip、tar.gz 时是否压缩，设置为 false 可加快打包速度 -->
                             <recompressZippedFiles>false</recompressZippedFiles>
                             <!-- 打包生成的文件是否要追加 release.xml 中定义的 id 值 -->
-                            <appendAssemblyId>true</appendAssemblyId>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <!-- 指向打包描述文件 package.xml -->
                             <descriptors>
                                 <descriptor>package.xml</descriptor>

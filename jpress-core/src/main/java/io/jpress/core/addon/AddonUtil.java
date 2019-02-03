@@ -162,14 +162,15 @@ public class AddonUtil {
         return addonInfo;
     }
 
-    public static void quietlyClose(Closeable... closeable) {
-        for (Closeable c : closeable)
-            if (closeable != null) {
-                try {
-                    c.close();
-                } catch (IOException e) {
+    public static void quietlyClose(Closeable... closeables) {
+        if (closeables != null && closeables.length != 0)
+            for (Closeable c : closeables)
+                if (c != null) {
+                    try {
+                        c.close();
+                    } catch (IOException e) {
+                    }
                 }
-            }
     }
 
 

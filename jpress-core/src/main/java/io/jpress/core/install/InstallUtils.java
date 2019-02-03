@@ -101,7 +101,11 @@ public class InstallUtils {
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", jdbcUrl);
         p.put("jboot.datasource.user", dbUser);
-        p.put("jboot.datasource.password", dbPassword);
+
+        if (dbPassword != null) {
+            p.put("jboot.datasource.password", dbPassword);
+        }
+
 
         return save(p, propertieFile);
     }

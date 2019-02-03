@@ -1,4 +1,4 @@
-FROM maven:3-jdk-8-alpine
+FROM maven:3.6-jdk-8-alpine
 LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress

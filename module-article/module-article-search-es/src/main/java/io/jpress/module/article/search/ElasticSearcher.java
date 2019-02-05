@@ -18,7 +18,7 @@ package io.jpress.module.article.search;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.app.config.annotation.ConfigInject;
+import io.jboot.aop.annotation.ConfigValue;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
@@ -54,10 +54,10 @@ import java.util.Map;
 public class ElasticSearcher implements ArticleSearcher {
 
 
-    @ConfigInject("jpress.elasticsearch.index:jpress-index")
+    @ConfigValue("jpress.elasticsearch.index")
     private String index = "jpress-index";
 
-    @ConfigInject("jpress.elasticsearch.type:jpress-type")
+    @ConfigValue("jpress.elasticsearch.type")
     private String type = "jpress-type";
 
 

@@ -30,7 +30,7 @@ public class ArticleSearcherFactory {
     public static ArticleSearcher getSearcher() {
 
         boolean searchEnable = JPressOptions.getAsBool("article_search_enable");
-        if (!searchEnable){
+        if (!searchEnable) {
             return new NoneSearcher();
         }
 
@@ -51,7 +51,7 @@ public class ArticleSearcherFactory {
         }
 
         ArticleSearcher searcher = JbootSpiLoader.load(ArticleSearcher.class, engine);
-        return searcher != null ? searcher : Aop.get(DbSearcher.class);
+        return searcher != null ? Aop.inject(searcher) : Aop.get(DbSearcher.class);
 
     }
 }

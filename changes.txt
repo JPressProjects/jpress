@@ -1,4 +1,4 @@
 jpress v2.0-rc.1:
 新增：插件功能
 新增：文章搜索功能
-优化：升级Jboot到最新版本jboot v2.0-rc.4
+优化：升级Jboot到 v2.0 版本

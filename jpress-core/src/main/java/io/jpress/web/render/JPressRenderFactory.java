@@ -19,7 +19,7 @@ import com.jfinal.render.Render;
 import io.jboot.utils.RequestUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.render.JbootRenderFactory;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.base.TemplateControllerBase;
@@ -40,7 +40,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
         }
 
         if (JPressHandler.getCurrentTarget().startsWith("/install")
-                && JPressInstaller.isInstalled()) {
+                && Installer.isInstalled()) {
             return getTemplateRender(errorCode);
         }
 

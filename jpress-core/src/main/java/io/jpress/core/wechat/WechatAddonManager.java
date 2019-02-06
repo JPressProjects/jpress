@@ -21,7 +21,7 @@ import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.service.OptionService;
 
 import java.util.ArrayList;
@@ -65,8 +65,8 @@ public class WechatAddonManager implements JbootEventListener {
      */
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 

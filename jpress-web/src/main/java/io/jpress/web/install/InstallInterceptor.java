@@ -17,13 +17,13 @@ package io.jpress.web.install;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 
 public class InstallInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
-        if (JPressInstaller.isInstalled()) {
+        if (Installer.isInstalled()) {
             inv.getController().renderError(404);
             return;
         }

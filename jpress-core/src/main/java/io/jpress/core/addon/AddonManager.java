@@ -34,7 +34,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.service.OptionService;
 import org.apache.commons.io.FileUtils;
 
@@ -83,8 +83,8 @@ public class AddonManager implements JbootEventListener {
 
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 

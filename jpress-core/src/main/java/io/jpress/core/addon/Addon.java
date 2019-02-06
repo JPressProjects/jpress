@@ -15,15 +15,17 @@
  */
 package io.jpress.core.addon;
 
-
+/**
+ * 插件（扩展）的接口
+ */
 public interface Addon {
 
     public void onInstall(AddonInfo addonInfo);
 
     public void onUninstall(AddonInfo addonInfo);
 
-    public void onStart();
+    public void onStart(AddonInfo addonInfo);
 
-    public void onStop();
+    public void onStop(AddonInfo addonInfo);
 
 }

@@ -35,7 +35,7 @@ public class HelloWorldAddon implements Addon {
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AddonInfo addonInfo) {
 
         /**
          *  在 onStart 方法中，我们可以做很多事情，例如：创建后台或用户中心的菜单
@@ -49,7 +49,7 @@ public class HelloWorldAddon implements Addon {
     }
 
     @Override
-    public void onStop() {
+    public void onStop(AddonInfo addonInfo) {
 
         /**
          *  和 onStart 对应，在 onStart 所处理的事情，在 onStop 应该释放

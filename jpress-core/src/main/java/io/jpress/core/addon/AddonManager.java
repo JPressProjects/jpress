@@ -282,7 +282,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        if (addon != null) addon.onStart();
+        if (addon != null) addon.onStart(addonInfo);
 
         AddonControllerManager.buildActionMapping();
 
@@ -400,7 +400,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        if (addon != null) addon.onStop();
+        if (addon != null) addon.onStop(addonInfo);
 
         AddonControllerManager.buildActionMapping();
 

@@ -22,11 +22,15 @@ import io.jboot.components.event.JbootEventManager;
 
 import java.io.File;
 
-public class JPressInstaller {
+public class Installer {
 
     public static final String INSTALL_EVENT = "jpress_install_ok";
 
     private static Boolean installed = null;
+
+    public static boolean notInstall() {
+        return !isInstalled();
+    }
 
     public static boolean isInstalled() {
         if (installed == null) {
@@ -47,7 +51,7 @@ public class JPressInstaller {
     }
 
     public static void setInstalled(boolean installed) {
-        JPressInstaller.installed = installed;
+        Installer.installed = installed;
     }
 
     public static void addListener(JbootEventListener eventListener) {

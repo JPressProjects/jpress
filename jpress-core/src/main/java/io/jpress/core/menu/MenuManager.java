@@ -20,7 +20,7 @@ import com.jfinal.core.JFinal;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jpress.JPressConsts;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.core.module.ModuleListener;
@@ -55,8 +55,8 @@ public class MenuManager implements JbootEventListener {
     public void init() {
 
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 

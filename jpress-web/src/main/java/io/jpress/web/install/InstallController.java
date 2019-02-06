@@ -28,7 +28,7 @@ import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.core.install.InstallUtils;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.model.User;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
@@ -349,8 +349,8 @@ public class InstallController extends JbootController {
             return false;
         }
 
-        JPressInstaller.setInstalled(true);
-        JPressInstaller.notifyAllListeners();
+        Installer.setInstalled(true);
+        Installer.notifyAllListeners();
 
         return true;
     }

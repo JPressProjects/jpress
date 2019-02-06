@@ -25,7 +25,7 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -55,8 +55,8 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
 
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 

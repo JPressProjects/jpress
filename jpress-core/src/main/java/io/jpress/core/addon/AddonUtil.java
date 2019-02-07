@@ -18,13 +18,18 @@ package io.jpress.core.addon;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
+import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.sql.DataSource;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
@@ -167,15 +172,47 @@ public class AddonUtil {
         return addonInfo;
     }
 
-    private static void quietlyClose(Closeable... closeables) {
+    private static void quietlyClose(AutoCloseable... closeables) {
         if (closeables != null && closeables.length != 0)
-            for (Closeable c : closeables)
+            for (AutoCloseable c : closeables)
                 if (c != null) {
                     try {
                         c.close();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                     }
                 }
+    }
+
+    /**
+     * 执行 Sql，可能用于在插件安装的时候进行执行 Sql 创建表等
+     * 支持 Sql 批量执行
+     * @param addonInfo
+     * @param sql
+     * @throws SQLException
+     */
+    public static void exeSql(AddonInfo addonInfo,String sql) throws SQLException {
+        DataSourceConfig dataSourceConfig  = getDatasourceConfig(addonInfo);
+        DataSource dataSource = new DataSourceBuilder(dataSourceConfig).build();
+
+        Connection conn = dataSource.getConnection();
+        Statement pst = null;
+        try {
+            pst = conn.createStatement();
+            sql = StrUtil.requireNonBlank(sql,"sql must not be null or blank.");
+            if (sql.contains(";")) {
+                String sqls[] = sql.split(";");
+                for (String s : sqls) {
+                    if (StrUtil.isNotBlank(s)){
+                        pst.addBatch(s);
+                    }
+                }
+            } else {
+                pst.addBatch(sql);
+            }
+        } finally {
+            pst.executeBatch();
+            quietlyClose(pst, conn);
+        }
     }
 
 
@@ -192,6 +229,7 @@ public class AddonUtil {
 
         String url = config.get("db.url");
         String user = config.get("db.user");
+
         /**
          * must need url and user
          */

@@ -58,11 +58,22 @@ public class AddonUtil {
         resourceSuffix.add(".woff");
         resourceSuffix.add(".woff2");
         resourceSuffix.add(".webp");
+        resourceSuffix.add(".sql");
     }
 
     private static boolean isResource(String name) {
         String suffix = FileUtil.getSuffix(name);
         return suffix != null && resourceSuffix.contains(suffix.toLowerCase());
+    }
+
+    public static File resourceFile(AddonInfo addonInfo, String path) {
+        String basePath = PathKit.getWebRootPath()
+                + File.separator
+                + "addons"
+                + File.separator
+                + addonInfo.getId();
+
+        return new File(basePath, path);
     }
 
     /**
@@ -71,6 +82,7 @@ public class AddonUtil {
      * @param addonInfo
      * @throws IOException
      */
+
     public static void unzipResources(AddonInfo addonInfo) throws IOException {
         String basePath = PathKit.getWebRootPath()
                 + File.separator
@@ -186,23 +198,24 @@ public class AddonUtil {
     /**
      * 执行 Sql，可能用于在插件安装的时候进行执行 Sql 创建表等
      * 支持 Sql 批量执行
+     *
      * @param addonInfo
      * @param sql
      * @throws SQLException
      */
-    public static void exeSql(AddonInfo addonInfo,String sql) throws SQLException {
-        DataSourceConfig dataSourceConfig  = getDatasourceConfig(addonInfo);
+    public static void exeSql(AddonInfo addonInfo, String sql) throws SQLException {
+        DataSourceConfig dataSourceConfig = getDatasourceConfig(addonInfo);
         DataSource dataSource = new DataSourceBuilder(dataSourceConfig).build();
 
         Connection conn = dataSource.getConnection();
         Statement pst = null;
         try {
             pst = conn.createStatement();
-            sql = StrUtil.requireNonBlank(sql,"sql must not be null or blank.");
+            sql = StrUtil.requireNonBlank(sql, "sql must not be null or blank.");
             if (sql.contains(";")) {
                 String sqls[] = sql.split(";");
                 for (String s : sqls) {
-                    if (StrUtil.isNotBlank(s)){
+                    if (StrUtil.isNotBlank(s)) {
                         pst.addBatch(s);
                     }
                 }

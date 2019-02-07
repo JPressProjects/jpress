@@ -20,6 +20,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.module.article.kit.markdown.MarkdownParser;
 import io.jpress.module.article.model.Article;
@@ -33,7 +34,7 @@ import java.text.ParseException;
  * @version V1.0
  * @Package io.jpress.module.article.controller
  */
-@RequestMapping("/admin/setting/tools/markdown")
+@RequestMapping(value = "/admin/setting/tools/markdown", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _MarkdownImport extends AdminControllerBase {
 
     public void index() {

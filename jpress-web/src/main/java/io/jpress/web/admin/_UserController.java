@@ -52,7 +52,7 @@ import java.util.*;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/user")
+@RequestMapping(value = "/admin/user", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _UserController extends AdminControllerBase {
 
     private static final String USER_ROLE_EDIT_ACTION = "/admin/user/roleEdit";

@@ -29,7 +29,7 @@ import io.jpress.web.base.AdminControllerBase;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/finance")
+@RequestMapping(value = "/admin/finance", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FinanceController extends AdminControllerBase {
 
     @Inject

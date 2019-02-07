@@ -37,7 +37,7 @@ import java.io.File;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/attachment")
+@RequestMapping(value = "/admin/attachment", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AttachmentController extends AdminControllerBase {
 
     private static final Log LOG = Log.getLog(_AttachmentController.class);

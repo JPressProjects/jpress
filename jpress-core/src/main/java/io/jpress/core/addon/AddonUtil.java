@@ -16,7 +16,12 @@
 package io.jpress.core.addon;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import io.jboot.db.JbootDbManager;
+import io.jboot.db.datasource.DataSourceConfig;
+import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -162,7 +167,7 @@ public class AddonUtil {
         return addonInfo;
     }
 
-    public static void quietlyClose(Closeable... closeables) {
+    private static void quietlyClose(Closeable... closeables) {
         if (closeables != null && closeables.length != 0)
             for (Closeable c : closeables)
                 if (c != null) {
@@ -173,5 +178,87 @@ public class AddonUtil {
                 }
     }
 
+
+    public static ActiveRecordPlugin createRecordPlugin(AddonInfo addonInfo) {
+        DataSourceConfig config = getDatasourceConfig(addonInfo);
+        config.setNeedAddMapping(false);
+        return JbootDbManager.me().createRecordPlugin(config);
+    }
+
+
+    private static DataSourceConfig getDatasourceConfig(AddonInfo addonInfo) {
+
+        Map<String, String> config = addonInfo.getConfig();
+
+        String url = config.get("db.url");
+        String user = config.get("db.user");
+        /**
+         * must need url and user
+         */
+        if (config == null || StrUtil.isBlank(url) || StrUtil.isBlank(user)) {
+            return DataSourceConfigManager.me().getMainDatasourceConfig();
+        }
+
+
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl(url);
+        dsc.setUser(user);
+        dsc.setPassword(config.get("db.password"));
+        dsc.setConnectionInitSql(config.get("db.connectionInitSql"));
+        dsc.setPoolName(config.get("db.poolName"));
+        dsc.setSqlTemplate(config.get("db.sqlTemplate"));
+        dsc.setSqlTemplatePath(config.get("db.sqlTemplatePath"));
+        dsc.setFactory(config.get("db.factory"));
+        dsc.setShardingConfigYaml(config.get("db.shardingConfigYaml"));
+        dsc.setDbProFactory(config.get("db.dbProFactory"));
+        dsc.setTable(config.get("db.table"));
+        dsc.setExTable(config.get("db.exTable"));
+        dsc.setDialectClass(config.get("db.dialectClass"));
+        dsc.setActiveRecordPluginClass(config.get("db.activeRecordPluginClass"));
+
+        String cachePrepStmts = config.get("cachePrepStmts");
+        String prepStmtCacheSize = config.get("prepStmtCacheSize");
+        String prepStmtCacheSqlLimit = config.get("prepStmtCacheSqlLimit");
+        String maximumPoolSize = config.get("maximumPoolSize");
+        String maxLifetime = config.get("maxLifetime");
+        String minimumIdle = config.get("minimumIdle");
+
+        if (StrUtil.isNotBlank(cachePrepStmts)) {
+            dsc.setCachePrepStmts(Boolean.valueOf(cachePrepStmts));
+        }
+
+        if (StrUtil.isNotBlank(prepStmtCacheSize)) {
+            dsc.setPrepStmtCacheSize(Integer.valueOf(cachePrepStmts));
+        }
+
+        if (StrUtil.isNotBlank(prepStmtCacheSqlLimit)) {
+            dsc.setPrepStmtCacheSqlLimit(Integer.valueOf(prepStmtCacheSqlLimit));
+        }
+
+        if (StrUtil.isNotBlank(maximumPoolSize)) {
+            dsc.setMaximumPoolSize(Integer.valueOf(maximumPoolSize));
+        }
+
+        if (StrUtil.isNotBlank(maxLifetime)) {
+            dsc.setMaxLifetime(Long.valueOf(maxLifetime));
+        }
+
+        if (StrUtil.isNotBlank(minimumIdle)) {
+            dsc.setMinimumIdle(Integer.valueOf(minimumIdle));
+        }
+
+        String type = config.get("type");
+        String driverClassName = config.get("driverClassName");
+
+        if (StrUtil.isNotBlank(type)) {
+            dsc.setType(type);
+        }
+
+        if (StrUtil.isNotBlank(driverClassName)) {
+            dsc.setDriverClassName(driverClassName);
+        }
+
+        return dsc;
+    }
 
 }

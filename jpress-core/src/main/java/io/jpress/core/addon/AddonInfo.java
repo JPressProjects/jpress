@@ -246,6 +246,13 @@ public class AddonInfo implements Serializable {
         return arp;
     }
 
+    public ActiveRecordPlugin createOrGetArp() {
+        if (arp == null) {
+            arp = AddonUtil.createRecordPlugin(this);
+        }
+        return arp;
+    }
+
     public void setArp(ActiveRecordPlugin arp) {
         this.arp = arp;
     }
@@ -283,5 +290,6 @@ public class AddonInfo implements Serializable {
 
         return new File(fileName.toString());
     }
+
 
 }

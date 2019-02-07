@@ -243,6 +243,7 @@ public class AddonUtil {
 
     public static ActiveRecordPlugin createRecordPlugin(AddonInfo addonInfo) {
         DataSourceConfig config = getDatasourceConfig(addonInfo);
+        config.setName(addonInfo.getId());
         config.setNeedAddMapping(false);
         return JbootDbManager.me().createRecordPlugin(config);
     }

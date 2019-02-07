@@ -16,12 +16,20 @@
 package io.jpress.core.addon;
 
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
+import io.jboot.aop.annotation.Bean;
+import io.jboot.aop.annotation.BeanExclude;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.components.mq.JbootmqMessageListener;
+import io.jboot.db.model.JbootModel;
+import io.jboot.utils.ArrayUtil;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -54,6 +62,12 @@ public class AddonClassLoader extends URLClassLoader {
                     String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
                     try {
                         Class loadedClass = loadClass(className);
+
+                        Bean bean = (Bean) loadedClass.getDeclaredAnnotation(Bean.class);
+                        if (bean != null) {
+                            initBeanMapping(loadedClass);
+                        }
+
                         // controllers
                         if (Controller.class.isAssignableFrom(loadedClass)) {
                             addonInfo.addController(loadedClass);
@@ -66,10 +80,15 @@ public class AddonClassLoader extends URLClassLoader {
                         else if (Handler.class.isAssignableFrom(loadedClass)) {
                             addonInfo.addHandler(loadedClass);
                         }
+                        // models
+                        else if (JbootModel.class.isAssignableFrom(loadedClass)){
+                            addonInfo.addModel(loadedClass);
+                        }
                         // addonClass
                         else if (Addon.class.isAssignableFrom(loadedClass)) {
                             addonInfo.setAddonClass(loadedClass);
                         }
+
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -78,6 +97,46 @@ public class AddonClassLoader extends URLClassLoader {
         } catch (Exception e) {
             LOG.error(e.toString(), e);
         }
+    }
 
+
+    private static Class[] default_excludes = new Class[]{JbootEventListener.class, JbootmqMessageListener.class, Serializable.class};
+
+    /**
+     * 初始化 @Bean 注解的映射关系
+     */
+    private void initBeanMapping(Class implClass) {
+
+        Class<?>[] interfaceClasses = implClass.getInterfaces();
+
+        if (interfaceClasses == null || interfaceClasses.length == 0) {
+            return;
+        }
+
+        Class[] excludes = buildExcludeClasses(implClass);
+
+        for (Class interfaceClass : interfaceClasses) {
+            if (inExcludes(interfaceClass, excludes) == false) {
+                Aop.getAopFactory().addMapping(interfaceClass, implClass);
+            }
+        }
+    }
+
+    private Class[] buildExcludeClasses(Class implClass) {
+        BeanExclude beanExclude = (BeanExclude) implClass.getAnnotation(BeanExclude.class);
+
+        //对某些系统的类 进行排除，例如：Serializable 等
+        return beanExclude == null
+                ? default_excludes
+                : ArrayUtil.concat(default_excludes, beanExclude.value());
+    }
+
+    private boolean inExcludes(Class interfaceClass, Class[] excludes) {
+        for (Class ex : excludes) {
+            if (ex.isAssignableFrom(interfaceClass)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

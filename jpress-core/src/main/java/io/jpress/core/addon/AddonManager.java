@@ -24,13 +24,9 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
-import io.jboot.db.JbootDbManager;
 import io.jboot.db.annotation.Table;
-import io.jboot.db.datasource.DataSourceConfig;
-import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.AnnotationUtil;
-import io.jboot.utils.StrUtil;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
@@ -40,7 +36,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 插件管理器：安装、卸载、启用、停用
@@ -268,9 +267,7 @@ public class AddonManager implements JbootEventListener {
         List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
         if (modelClasses != null && !modelClasses.isEmpty()) {
 
-            DataSourceConfig config = getDatasourceConfig(addonInfo);
-            config.setNeedAddMapping(false);
-            ActiveRecordPlugin arp = JbootDbManager.me().createRecordPlugin(config);
+            ActiveRecordPlugin arp = addonInfo.createOrGetArp();
 
             for (Class<? extends JbootModel> c : modelClasses) {
                 Table table = c.getAnnotation(Table.class);
@@ -289,80 +286,7 @@ public class AddonManager implements JbootEventListener {
         addonInfo.setStatus(AddonInfo.STATUS_START);
     }
 
-    private DataSourceConfig getDatasourceConfig(AddonInfo addonInfo){
 
-        Map<String,String> config = addonInfo.getConfig();
-
-        String url = config.get("db.url");
-        String user = config.get("db.user");
-        /**
-         * must need url and user
-         */
-        if (config == null || StrUtil.isBlank(url) || StrUtil.isBlank(user)){
-            return DataSourceConfigManager.me().getMainDatasourceConfig();
-        }
-
-
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(url);
-        dsc.setUser(user);
-        dsc.setPassword(config.get("db.password"));
-        dsc.setConnectionInitSql(config.get("db.connectionInitSql"));
-        dsc.setPoolName(config.get("db.poolName"));
-        dsc.setSqlTemplate(config.get("db.sqlTemplate"));
-        dsc.setSqlTemplatePath(config.get("db.sqlTemplatePath"));
-        dsc.setFactory(config.get("db.factory"));
-        dsc.setShardingConfigYaml(config.get("db.shardingConfigYaml"));
-        dsc.setDbProFactory(config.get("db.dbProFactory"));
-        dsc.setTable(config.get("db.table"));
-        dsc.setExTable(config.get("db.exTable"));
-        dsc.setDialectClass(config.get("db.dialectClass"));
-        dsc.setActiveRecordPluginClass(config.get("db.activeRecordPluginClass"));
-
-        String cachePrepStmts = config.get("cachePrepStmts");
-        String prepStmtCacheSize = config.get("prepStmtCacheSize");
-        String prepStmtCacheSqlLimit = config.get("prepStmtCacheSqlLimit");
-        String maximumPoolSize = config.get("maximumPoolSize");
-        String maxLifetime = config.get("maxLifetime");
-        String minimumIdle = config.get("minimumIdle");
-
-        if (StrUtil.isNotBlank(cachePrepStmts)){
-            dsc.setCachePrepStmts(Boolean.valueOf(cachePrepStmts));
-        }
-
-        if (StrUtil.isNotBlank(prepStmtCacheSize)){
-            dsc.setPrepStmtCacheSize(Integer.valueOf(cachePrepStmts));
-        }
-
-        if (StrUtil.isNotBlank(prepStmtCacheSqlLimit)){
-            dsc.setPrepStmtCacheSqlLimit(Integer.valueOf(prepStmtCacheSqlLimit));
-        }
-
-        if (StrUtil.isNotBlank(maximumPoolSize)){
-            dsc.setMaximumPoolSize(Integer.valueOf(maximumPoolSize));
-        }
-
-        if (StrUtil.isNotBlank(maxLifetime)){
-            dsc.setMaxLifetime(Long.valueOf(maxLifetime));
-        }
-
-        if (StrUtil.isNotBlank(minimumIdle)){
-            dsc.setMinimumIdle(Integer.valueOf(minimumIdle));
-        }
-
-        String type = config.get("type");
-        String driverClassName = config.get("driverClassName");
-
-        if (StrUtil.isNotBlank(type)){
-            dsc.setType(type);
-        }
-
-        if (StrUtil.isNotBlank(driverClassName)){
-            dsc.setDriverClassName(driverClassName);
-        }
-
-        return dsc;
-    }
 
 
     public boolean stop(String id) {

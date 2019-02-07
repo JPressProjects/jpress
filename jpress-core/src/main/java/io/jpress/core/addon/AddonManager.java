@@ -169,16 +169,22 @@ public class AddonManager implements JbootEventListener {
 
         try {
             AddonUtil.unzipResources(addonInfo);
-            if (addon != null) addon.onInstall(addonInfo);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try {
+            if (addon != null) addon.onInstall(addonInfo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
         }
 
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         OptionService optionService = Aop.get(OptionService.class);
-        return optionService.saveOrUpdate("addonInstall:" + addonInfo.getId(), "true") != null;
 
+        return optionService.saveOrUpdate("addonInstall:" + addonInfo.getId(), "true") != null;
     }
 
 
@@ -228,7 +234,7 @@ public class AddonManager implements JbootEventListener {
      * 3、若有 Model 类，启动新的 arp 插件
      * 4、回调插件的 onStart()
      * 5、构建后台或用户中心菜单
-     *
+     * <p>
      * 备注：
      * 每次重启 JPress 都会调用 onStart()
      *
@@ -285,8 +291,6 @@ public class AddonManager implements JbootEventListener {
 
         addonInfo.setStatus(AddonInfo.STATUS_START);
     }
-
-
 
 
     public boolean stop(String id) {

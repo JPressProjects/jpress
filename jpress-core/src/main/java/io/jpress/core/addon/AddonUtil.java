@@ -196,6 +196,18 @@ public class AddonUtil {
     }
 
     /**
+     * 批量执行 Sql
+     *
+     * @param addonInfo
+     * @param sqlFilePath
+     * @throws SQLException
+     */
+    public static void exeSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
+        String sql = FileUtil.readString(resourceFile(addonInfo, sqlFilePath));
+        exeSql(addonInfo, sql);
+    }
+
+    /**
      * 执行 Sql，可能用于在插件安装的时候进行执行 Sql 创建表等
      * 支持 Sql 批量执行
      *

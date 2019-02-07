@@ -139,8 +139,11 @@ public class _AddonController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "ID数据不能为空"));
             return;
         }
-        AddonManager.me().install(id);
-        renderJson(Ret.ok());
+        if (AddonManager.me().install(id)){
+            renderJson(Ret.ok());
+        }else {
+            renderJson(Ret.fail().set("message", "插件安装失败，请联系插件开发者。"));
+        }
     }
 
     public void doUninstall() {

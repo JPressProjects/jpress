@@ -16,6 +16,8 @@
 package io.jpress.core.addon.controller;
 
 
+import com.jfinal.aop.Interceptor;
+import com.jfinal.aop.Invocation;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Action;
 import com.jfinal.core.ActionMapping;
@@ -30,6 +32,7 @@ import io.jpress.core.menu.annotation.UCenterMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,8 +43,11 @@ public class AddonControllerManager {
         public void config() {
             this.setClearAfterMapping(false);
         }
-
     };
+
+
+    private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
+
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
     public static void addController(Class<? extends Controller> controllerClass, String addonId) {
@@ -57,6 +63,7 @@ public class AddonControllerManager {
         } else {
             routes.add(value, controllerClass, viewPath);
         }
+        controllerAddonMapping.put(controllerClass, addonId);
     }
 
     public static void deleteController(Class<? extends Controller> c) {
@@ -68,6 +75,7 @@ public class AddonControllerManager {
 
         routes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
         Routes.getControllerKeySet().removeIf(s -> Objects.equals(s, value));
+        controllerAddonMapping.remove(c);
     }
 
 
@@ -107,7 +115,7 @@ public class AddonControllerManager {
                     continue;
                 }
 
-                adminMenuItems.add(new MenuItem(uCenterMenu,actionKey));
+                adminMenuItems.add(new MenuItem(uCenterMenu, actionKey));
             }
         }
 
@@ -134,7 +142,7 @@ public class AddonControllerManager {
                     continue;
                 }
 
-                adminMenuItems.add(new MenuItem(adminMenu,actionKey));
+                adminMenuItems.add(new MenuItem(adminMenu, actionKey));
             }
         }
 
@@ -146,11 +154,22 @@ public class AddonControllerManager {
     }
 
 
+    public static class AddonControllerInterceptor implements Interceptor {
+        @Override
+        public void intercept(Invocation inv) {
+            String addonId = controllerAddonMapping.get(inv.getController().getClass());
+            inv.getController().set("APATH","addons/"+addonId+"/");
+            inv.invoke();
+        }
+    }
+
+
     public static class AddonActionMapping extends ActionMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);
             routes.config();
+            routes.addInterceptor(new AddonControllerInterceptor());
             this.mapping = new ConcurrentHashMap<>();
         }
 

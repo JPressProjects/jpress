@@ -50,7 +50,7 @@ import java.util.List;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/template")
+@RequestMapping(value = "/admin/template", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _TemplateController extends AdminControllerBase {
 
     @Inject

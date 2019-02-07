@@ -43,7 +43,7 @@ import java.util.Set;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/permission")
+@RequestMapping(value = "/admin/permission", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _PermissionController extends AdminControllerBase {
 
     @Inject

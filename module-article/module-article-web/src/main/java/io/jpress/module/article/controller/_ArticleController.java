@@ -48,7 +48,7 @@ import java.util.Set;
  * @version V1.0
  * @Package io.jpress.module.article.admin
  */
-@RequestMapping("/admin/article")
+@RequestMapping(value = "/admin/article", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _ArticleController extends AdminControllerBase {
 
     @Inject

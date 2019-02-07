@@ -60,7 +60,9 @@ public class AddonClassLoader extends URLClassLoader {
                 String entryName = jarEntry.getName();
                 if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
                     String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
+
                     try {
+
                         Class loadedClass = loadClass(className);
 
                         Bean bean = (Bean) loadedClass.getDeclaredAnnotation(Bean.class);

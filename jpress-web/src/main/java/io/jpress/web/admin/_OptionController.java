@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
@@ -32,7 +33,7 @@ import java.util.Map;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/option")
+@RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
 

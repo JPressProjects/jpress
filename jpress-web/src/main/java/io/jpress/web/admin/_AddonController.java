@@ -37,7 +37,7 @@ import java.util.List;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/addon")
+@RequestMapping(value = "/admin/addon",viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AddonController extends AdminControllerBase {
 
 

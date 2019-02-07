@@ -251,6 +251,9 @@ public class AddonUtil {
     private static DataSourceConfig getDatasourceConfig(AddonInfo addonInfo) {
 
         Map<String, String> config = addonInfo.getConfig();
+        if (config == null || config.isEmpty()){
+            return DataSourceConfigManager.me().getMainDatasourceConfig();
+        }
 
         String url = config.get("db.url");
         String user = config.get("db.user");

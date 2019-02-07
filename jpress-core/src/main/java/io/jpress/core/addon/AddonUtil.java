@@ -216,12 +216,12 @@ public class AddonUtil {
         dsc.setDialectClass(config.get("db.dialectClass"));
         dsc.setActiveRecordPluginClass(config.get("db.activeRecordPluginClass"));
 
-        String cachePrepStmts = config.get("cachePrepStmts");
-        String prepStmtCacheSize = config.get("prepStmtCacheSize");
-        String prepStmtCacheSqlLimit = config.get("prepStmtCacheSqlLimit");
-        String maximumPoolSize = config.get("maximumPoolSize");
-        String maxLifetime = config.get("maxLifetime");
-        String minimumIdle = config.get("minimumIdle");
+        String cachePrepStmts = config.get("db.cachePrepStmts");
+        String prepStmtCacheSize = config.get("db.prepStmtCacheSize");
+        String prepStmtCacheSqlLimit = config.get("db.prepStmtCacheSqlLimit");
+        String maximumPoolSize = config.get("db.maximumPoolSize");
+        String maxLifetime = config.get("db.maxLifetime");
+        String minimumIdle = config.get("db.minimumIdle");
 
         if (StrUtil.isNotBlank(cachePrepStmts)) {
             dsc.setCachePrepStmts(Boolean.valueOf(cachePrepStmts));

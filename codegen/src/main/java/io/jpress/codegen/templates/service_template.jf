@@ -77,7 +77,7 @@ public interface #(tableMeta.modelName)Service  {
      * @param pageSize
      * @return
      */
-    public Page<? extends Model> paginate(int page, int pageSize);
+    public Page<#(tableMeta.modelName)> paginate(int page, int pageSize);
 
 
 }

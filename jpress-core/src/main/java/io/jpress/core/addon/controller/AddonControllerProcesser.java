@@ -26,15 +26,21 @@ public class AddonControllerProcesser extends JbootActionHandler {
     public Action getAction(String target, String[] urlPara) {
         Action action = super.getAction(target, urlPara);
         if (action == null) {
+            clearUrlPara(urlPara);
             return AddonControllerManager.getAction(target, urlPara);
         }
 
         if (!target.equals(action.getActionKey())) {
             Action addonAction = AddonControllerManager.getAction(target, urlPara);
-            if (addonAction != null && target.equals(addonAction.getActionKey()))
+            if (addonAction != null && target.equals(addonAction.getActionKey())) {
+                clearUrlPara(urlPara);
                 return addonAction;
+            }
         }
-
         return action;
+    }
+
+    private static void clearUrlPara(String[] urlPara) {
+        urlPara[0] = null;
     }
 }

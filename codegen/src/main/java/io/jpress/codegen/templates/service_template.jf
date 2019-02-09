@@ -71,7 +71,7 @@ public interface #(tableMeta.modelName)Service  {
 
 
     /**
-     * 分页
+     * paginate query
      *
      * @param page
      * @param pageSize

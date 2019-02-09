@@ -57,6 +57,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
     private void doFlagMenuActive(ArticleCategory currentCategory) {
 
+        //文章首页高亮
         if (currentCategory == null) {
             setMenuActive(menu -> {
                 String url = CommonsUtils.removeSuffix(menu.getUrl());

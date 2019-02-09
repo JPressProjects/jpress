@@ -202,9 +202,9 @@ public class AddonUtil {
      * @param sqlFilePath
      * @throws SQLException
      */
-    public static void exeSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
+    public static void execSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
         String sql = FileUtil.readString(resourceFile(addonInfo, sqlFilePath));
-        exeSql(addonInfo, sql);
+        execSql(addonInfo, sql);
     }
 
     /**
@@ -215,7 +215,7 @@ public class AddonUtil {
      * @param sql
      * @throws SQLException
      */
-    public static void exeSql(AddonInfo addonInfo, String sql) throws SQLException {
+    public static void execSql(AddonInfo addonInfo, String sql) throws SQLException {
         DataSourceConfig dataSourceConfig = getDatasourceConfig(addonInfo);
         DataSource dataSource = new DataSourceBuilder(dataSourceConfig).build();
 

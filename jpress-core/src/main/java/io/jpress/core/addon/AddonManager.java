@@ -72,6 +72,9 @@ import java.util.Set;
  */
 public class AddonManager implements JbootEventListener {
 
+    private static final String ADDON_INSTALL_PREFFIX = "addon-install:";
+    private static final String ADDON_START_PREFFIX = "addon-start:";
+
     private static final AddonManager me = new AddonManager();
 
     public static AddonManager me() {
@@ -87,14 +90,14 @@ public class AddonManager implements JbootEventListener {
             return;
         }
 
-        initLoad();
+        doInitInstalledAddons();
     }
 
     /**
      * 启动的时候，加载所有插件
      * 备注：插件可能是复制到插件目录下，而非通过后台进行 "安装"
      */
-    private void initLoad() {
+    private void doInitInstalledAddons() {
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
         if (!addonDir.exists()) return;
@@ -130,7 +133,7 @@ public class AddonManager implements JbootEventListener {
 
         for (File jarFile : addonJars) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            if (addonInfo != null && optionService.findByKey("addonInstall:" + addonInfo.getId()) != null) {
+            if (addonInfo != null && optionService.findByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId()) != null) {
                 addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
             }
         }
@@ -140,7 +143,7 @@ public class AddonManager implements JbootEventListener {
         OptionService optionService = Aop.get(OptionService.class);
         for (File jarFile : addonJars) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            if (addonInfo != null && optionService.findByKey("addonStart:" + addonInfo.getId()) != null) {
+            if (addonInfo != null && optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
                 doStart(addonInfo);
             }
         }
@@ -184,7 +187,7 @@ public class AddonManager implements JbootEventListener {
 
         OptionService optionService = Aop.get(OptionService.class);
 
-        return optionService.saveOrUpdate("addonInstall:" + addonInfo.getId(), "true") != null;
+        return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null;
     }
 
 
@@ -218,7 +221,7 @@ public class AddonManager implements JbootEventListener {
         addonInfoList.remove(addonInfo);
 
         OptionService optionService = Aop.get(OptionService.class);
-        return optionService.deleteByKey("addonInstall:" + addonInfo.getId());
+        return optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
 
     }
 
@@ -243,7 +246,7 @@ public class AddonManager implements JbootEventListener {
      */
     public boolean start(AddonInfo addonInfo) {
         OptionService optionService = Aop.get(OptionService.class);
-        optionService.saveOrUpdate("addonStart:" + addonInfo.getId(), "true");
+        optionService.saveOrUpdate(ADDON_START_PREFFIX + addonInfo.getId(), "true");
 
         doStart(addonInfo);
 
@@ -302,7 +305,7 @@ public class AddonManager implements JbootEventListener {
 
 
         OptionService optionService = Aop.get(OptionService.class);
-        optionService.deleteByKey("addonStart:" + addonInfo.getId());
+        optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
 
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {

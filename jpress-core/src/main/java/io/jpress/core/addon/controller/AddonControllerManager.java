@@ -50,8 +50,8 @@ public class AddonControllerManager {
 
     private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
 
-    public static void addController(Class<? extends Controller> controllerClass, String addonId) {
-        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
+    public static void addController(Class<? extends Controller> c, String addonId) {
+        RequestMapping mapping = c.getAnnotation(RequestMapping.class);
         if (mapping == null) return;
 
         String value = AnnotationUtil.get(mapping.value());
@@ -59,11 +59,11 @@ public class AddonControllerManager {
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath)) {
-            routes.add(value, controllerClass, "addons/" + addonId);
+            routes.add(value, c, "addons/" + addonId);
         } else {
-            routes.add(value, controllerClass, viewPath);
+            routes.add(value, c, viewPath);
         }
-        controllerAddonMapping.put(controllerClass, addonId);
+        controllerAddonMapping.put(c, addonId);
     }
 
     public static void deleteController(Class<? extends Controller> c) {
@@ -74,7 +74,7 @@ public class AddonControllerManager {
         if (value == null) return;
 
         routes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
-        Routes.getControllerKeySet().removeIf(s -> Objects.equals(s, value));
+        Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
         controllerAddonMapping.remove(c);
     }
 

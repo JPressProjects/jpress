@@ -75,7 +75,7 @@ public class TemplateRender extends Render {
         String html = getEngine().getTemplate(view).renderToString(data);
         html = replaceSrcTemplateSrcPath(html);
 
-        RenderHelpler.actionCacheExec(html, contentType);
+//        RenderHelpler.actionCacheExec(html, contentType);
         RenderHelpler.renderHtml(response, html, contentType);
 
     }

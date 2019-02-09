@@ -58,21 +58,26 @@ public class ArticleCategoryController extends TemplateControllerBase {
     private void doFlagMenuActive(ArticleCategory currentCategory) {
 
         if (currentCategory == null) {
-            return;
+            setMenuActive(menu -> {
+                String url = CommonsUtils.removeSuffix(menu.getUrl());
+                return url.equals("/article/category")
+                        || url.equals("/article/category/")
+                        || url.equals("/article/category/index");
+            });
+        } else {
+            setMenuActive(menu -> {
+                if (CommonsUtils.removeSuffix(menu.getUrl())
+                        .equals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
+                    return true;
+                }
+
+                if ("article_category".equals(menu.getRelativeTable())
+                        && currentCategory.getId().equals(menu.getRelativeId())) {
+                    return true;
+                }
+                return false;
+            });
         }
-
-        setMenuActive(menu -> {
-            if (CommonsUtils.removeSuffix(menu.getUrl())
-                    .equals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
-                return true;
-            }
-
-            if ("article_category".equals(menu.getRelativeTable())
-                    && currentCategory.getId().equals(menu.getRelativeId())) {
-                return true;
-            }
-            return false;
-        });
 
     }
 

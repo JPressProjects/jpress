@@ -527,7 +527,7 @@ screenshot = screenshot.png
 #end
 ```
 
-如下代码是用于读取文章的标签：
+如下代码是用于读取谋一篇文章的标签（一般用在文章列表循环里）：
 
 ```html
 #articleCategories(article.id,"tag")
@@ -537,9 +537,20 @@ screenshot = screenshot.png
 #end
 ```
 
+
 **指令#articleCategories()的参数有**
 
 * articleCategories的使用必须传入两个值，顺序不能相反。第一个是文章的id，第二个是指定要获取文章分类的类型。
+
+
+##### #tags() 指令的用法
+```html
+#tags()
+    #for(tag : tags)
+        <li><a href="#(tag.url)">#(tag.title)</a></li>
+    #end
+#end
+```
 
 
 ##### #page() 指令的用法

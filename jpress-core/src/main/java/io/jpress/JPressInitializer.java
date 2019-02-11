@@ -59,7 +59,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     }
 
     @Override
-    public void onJfinalConstantConfig(Constants constants) {
+    public void onConstantConfig(Constants constants) {
 
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JPressCaptchaCache());
@@ -68,7 +68,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     }
 
     @Override
-    public void onJfinalRouteConfig(Routes routes) {
+    public void onRouteConfig(Routes routes) {
         routes.setClearAfterMapping(false);
     }
 
@@ -93,7 +93,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     }
 
     @Override
-    public void onJFinalStart() {
+    public void onStart() {
 
         MenuManager.me().init();
         WechatAddonManager.me().init();

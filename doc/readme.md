@@ -552,6 +552,12 @@ screenshot = screenshot.png
 #end
 ```
 
+**指令#tags() 的参数有**
+
+* orderBy : 排序方式
+* count : 数量
+
+
 
 ##### #page() 指令的用法
 

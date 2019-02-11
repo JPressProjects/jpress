@@ -30,7 +30,7 @@ public class WebInitializer extends JbootAppListenerBase {
 
 
     @Override
-    public void onJfinalEngineConfig(Engine engine) {
+    public void onEngineConfig(Engine engine) {
 
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
@@ -44,7 +44,7 @@ public class WebInitializer extends JbootAppListenerBase {
 
 
     @Override
-    public void onJFinalStartBefore() {
+    public void onStartBefore() {
 
         OptionInitializer.me().init();
 

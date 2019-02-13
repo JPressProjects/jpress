@@ -116,6 +116,12 @@
             <version>${jpress.version}</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>io.jpress</groupId>-->
+            <!--<artifactId>jpress-addon-club</artifactId>-->
+            <!--<version>${jpress.version}</version>-->
+        <!--</dependency>-->
+
 
     </dependencies>
 
@@ -170,6 +176,9 @@
                                 <resource>
                                     <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
                                 </resource>
+                                <!--<resource>-->
+                                    <!--<directory>${basedir}/../jpress-addons/jpress-addon-club/src/main/webapp</directory>-->
+                                <!--</resource>-->
                             </resources>
                         </configuration>
                     </execution>

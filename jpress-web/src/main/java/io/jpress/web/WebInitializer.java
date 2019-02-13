@@ -32,14 +32,24 @@ public class WebInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
 
-        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
-        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
-        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
-        engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
+        try {
+            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
+            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
+            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
+            engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
 
-        engine.addSharedStaticMethod(MainKits.class);
-        engine.addSharedStaticMethod(PermissionKits.class);
+            engine.addSharedStaticMethod(MainKits.class);
+            engine.addSharedStaticMethod(PermissionKits.class);
 
+        } catch (Exception ex) {
+            printErrorInfoAndExit();
+        }
+    }
+
+    private void printErrorInfoAndExit() {
+        System.err.println("\n\r错误：无法找到必须的资源文件，启动失败! ");
+        System.err.println("请您先使用 maven 编译后，再运行 jpress，编译命令: mvn clean install ");
+        System.exit(-1);
     }
 
 

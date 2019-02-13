@@ -20,7 +20,7 @@
 
     <modules>
         <module>jpress-addon-helloworld</module>
-        <module>jpress-addon-club</module>
+        <!--<module>jpress-addon-club</module>-->
     </modules>
 
 </project>

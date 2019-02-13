@@ -1,3 +1,28 @@
+jpress v2.0-rc.2:
+新增：插件添加自有配置的设置功能
+新增：插件添加自有的数据源功能
+新增：AddonUtil新增execSql和execSqlFile功能，方便插件在安装的过程中创建的数据表
+新增：AddonModuleGenerator，用于自动生成插件的基础代码
+新增：全局变量（APATH）的支持，方便访问插件本身自己的资源文件
+新增：文档添加 #tags() 的相关文档
+优化：docker构建脚本、减少docker镜像文件大小
+优化：自启动脚本，通过 ./jpress start 进行启动
+优化：文章搜索引擎工程类创建的搜索引擎支持AOP注入
+优化：插件监听器 onStart 修改为 onStart(AddonInfo addonInfo)，onStop 修改为 onStop(AddonInfo addonInfo)
+优化：JPressInstaller 重命名为 Installer
+优化：AddonHandlerProcesser 不让用户通过浏览器访问插件的 .sql 文件
+优化：AddonManager 对插件进行安装的时候，优化提示错误
+优化：Service层的代码生成器，paginate 需要强转的问题
+优化：优化后台的部分文字提示，更加人性化
+优化：优化 maven 的 pom 文件，减少不必要的资源文件打包，是JPress项目整体文件大小进一步减小
+优化：优化 ApiInterceptor 的错误提示，当发生错误的时候能直观定位问题
+优化：升级 Jboot 到最新版本 v2.0-rc.8 版本
+修复：JPress安装的时候，倘若不设置数据库密码可能出现无法安装的问题
+修复：插件工具类AddonUtil无法正确关闭资源的问题
+修复：AddonControllerProcesser 可能出现无法获取正确的 para 的问题
+修复：在文章列表页 `/article/category` 菜单无法正确高亮的问题
+
+
 jpress v2.0-rc.1:
 新增：插件功能
 新增：文章搜索功能

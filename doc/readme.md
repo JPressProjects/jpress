@@ -63,25 +63,14 @@ JPress可以编译成war包和可执行程序，war需要在tomcat等web容器�
 mvn package
 ```
 
-稍等片刻，待命令执行完毕之后，即可在 `starter-tomcat/target` 目录下生成 `starter-tomcat-1.0.war` 的war包，在 `starter/target/generated-resources/appassembler/jsw/` 目录下生成 jpress 的文件夹，jpress 文件夹的目录如下：
+稍等片刻，待命令执行完毕之后，即可在 `starter-tomcat/target` 目录下生成 `starter-tomcat-2.0.war` 的war包，在 `starter/target/` 目录下生成 starter-2.0 的文件夹，starter-2.0 文件夹的目录如下：
 
 ```
-├── bin
-│   ├── jpress
-│   ├── jpress.bat
-│   ├── wrapper-linux-x86-32
-│   ├── wrapper-linux-x86-64
-│   ├── wrapper-macosx-universal-32
-│   ├── wrapper-macosx-universal-64
-│   ├── wrapper-windows-x86-32.exe
-│   └── wrapper-windows-x86-64.exe
+├── config
 ├── lib
-├── logs
-├── tmp
-└── webRoot
-    ├── jboot.properties
-    ├── logback.xml
-    └── wrapper.conf
+├── webapp
+├── jpress.sh
+└── jpress.bat
 ```
 
  若编译不通过注意事项：
@@ -109,20 +98,19 @@ mvn package
 
 拷贝`starter-tomcat/target` 目录下的 `starter-tomcat-1.0.war` war包，放到tomcat的webapp目录下，手动解压缩。
 
-启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。
+启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-2.0` 即可访问。
 
-若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
+若把 `tomcat/webapp/starter-tomcat-2.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
 
 
 ##### 启动 jpress 可执行程序
 
 
-拷贝`starter/target/generated-resources/appassembler/jsw/` 的 `jpress` 目录，放到 Linux 上。 
+拷贝`starter/target/` 的 `starter-2.0` 目录，放到 Linux 上。
 
 
-执行 `./bin/jpress start` 脚本也可以启动jpress项目（window系统下先执行  `./bin/jpress.bat install`， 再执行 `./bin/jpress.bat start`）。
+执行 `./jpress.sh start` 脚本也可以启动jpress项目（window系统下执行  `./jpress.bat`）。
 
-需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
 
 
 ## 模板制作

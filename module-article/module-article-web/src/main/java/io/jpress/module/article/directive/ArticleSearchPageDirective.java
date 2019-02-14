@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
@@ -36,6 +37,7 @@ import io.jpress.module.article.service.ArticleService;
 @JFinalDirective("articleSearchPage")
 public class ArticleSearchPageDirective extends JbootDirectiveBase {
 
+    @Inject
     private ArticleService articleService;
 
     @Override

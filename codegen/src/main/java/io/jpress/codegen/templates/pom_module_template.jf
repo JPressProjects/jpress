@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
+    <version>2.0</version>
 
     <groupId>io.jpress</groupId>
     <artifactId>module-#(moduleName)</artifactId>
@@ -26,6 +27,17 @@
         <module>module-#(moduleName)-service-provider</module>
     </modules>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

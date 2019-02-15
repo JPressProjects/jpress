@@ -94,7 +94,7 @@ public class InstallUtils {
                 : new Properties();
 
 
-        putPropertieIfValueIsNull(p, "jboot.mode", "product");
+        putPropertieIfValueIsNull(p, "jboot.app.mode", "product");
         putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", StrUtil.uuid());
         putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", StrUtil.uuid());
 

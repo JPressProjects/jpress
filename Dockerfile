@@ -13,7 +13,6 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
 RUN cd /tmp && \
     mvn package -Pci &&  \
     mv starter/target/starter-2.0/* /opt/jpress/ && \
-    rm -rf /usr/share/maven && \
     rm -rf /tmp && \
     rm -rf ~/.m2 && \
     rm -rf /opt/jpress/config/jboot.properties && \

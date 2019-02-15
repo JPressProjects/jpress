@@ -825,7 +825,7 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 ```
 
 
-同时，为了让 maven 编译的时候，把 `club` 中的资源拷贝到 starter 里阿里。我们需要修改starter模块下的 pom.xml 的`maven-remote-resources-plugin`插件配置为如下：
+同时，为了让 maven 编译的时候，把 `club` 中的资源拷贝到 starter 里阿里。我们需要修改starter模块下的 pom.xml 的`maven-resources-plugin`插件配置为如下：
 
 ```xml
 <plugin>

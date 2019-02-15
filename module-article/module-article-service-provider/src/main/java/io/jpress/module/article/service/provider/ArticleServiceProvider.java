@@ -275,7 +275,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> search(String queryString, int pageNum, int pageSize) {
-
         ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
         return searcher.search(queryString, pageNum, pageSize);
 
@@ -483,7 +482,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public Object save(Article model) {
         Object id = super.save(model);
-        if (id != null) {
+        if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
         }
         return id;
@@ -493,7 +492,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
-            ArticleSearcherFactory.getSearcher().updateArticle(model);
+            if (model.isNormal()) {
+                ArticleSearcherFactory.getSearcher().updateArticle(model);
+            } else {
+                ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+            }
         }
         return success;
     }

@@ -829,29 +829,40 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 
 ```xml
 <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-remote-resources-plugin</artifactId>
-    <version>1.5</version>
-    <configuration>
-        <resourceBundles>
-            
-            <resourceBundle>io.jpress:jpress-web:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:jpress-template:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:module-page-web:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:module-article-web:${project.version}</resourceBundle>
-            
-            <!-- 添加这一行代码-->
-            <resourceBundle>io.jpress:module-club-web:${project.version}</resourceBundle>
-        </resourceBundles>
-    </configuration>
+    <artifactId>maven-resources-plugin</artifactId>
     <executions>
         <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
             <goals>
-                <goal>process</goal>
+                <goal>copy-resources</goal>
             </goals>
+            <configuration>
+                <outputDirectory>${basedir}/target/classes/webapp</outputDirectory>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/../jpress-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../jpress-template/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
+                    </resource>
+
+                    <!-- 添加如下代码-->
+                    <resource>
+                        <directory>${basedir}/../module-club/module-club-web/src/main/webapp</directory>
+                    </resource>
+                </resources>
+            </configuration>
         </execution>
     </executions>
 </plugin>
+
 ```
 
 此时，进行 `mvn clean install` 完毕之后，就可以正常运行了。

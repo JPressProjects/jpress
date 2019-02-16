@@ -364,7 +364,7 @@ screenshot = screenshot.png
 此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
 ```html
-#articles(categoryFlag="",hasThumbnail="",orderBy="",count="")
+#categoryArticles(categoryFlag="",hasThumbnail="",orderBy="",count="")
     #for(article : articles)
         <a href="#(article.url)">#(article.title)</a>
     #end
@@ -498,7 +498,8 @@ screenshot = screenshot.png
 
 **指令#categories()的参数有**
 
-* type ：类型，默认是category，值有：category 和 tag ，分表代表的是要获取的是文章的分类还是标签。
+* flag ：读取哪些flag的分类列表。
+* parentFlag ：读取父级必须是该flag的分类列表。
 * asTree ：是否以树状的数据进行返回，默认是false，返回全部分类。
 
 ##### #articleCategories() 指令的用法

@@ -165,7 +165,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
         columns.add("a.status", status);
-        SqlUtils.likeAppend(columns, "a.title", title);
+        columns.likeAppendPercent("a.title",title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
         sqlBuilder.append(" order by id desc ");

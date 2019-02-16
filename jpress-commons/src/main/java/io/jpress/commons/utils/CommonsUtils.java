@@ -34,6 +34,18 @@ public class CommonsUtils {
         return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);
     }
 
+    public static void quietlyClose(AutoCloseable... autoCloseables) {
+        for (AutoCloseable closeable : autoCloseables) {
+            if (closeable != null) {
+                try {
+                    closeable.close();
+                } catch (Exception e) {
+                    // do nothing
+                }
+            }
+        }
+    }
+
 
     public static String maxLength(String content, int maxLength) {
         if (StrUtil.isBlank(content)) {

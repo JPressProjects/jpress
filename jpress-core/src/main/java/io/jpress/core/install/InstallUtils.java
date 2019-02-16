@@ -26,11 +26,11 @@ import io.jboot.support.jwt.JwtConfig;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.JbootWebConfig;
+import io.jpress.commons.utils.CommonsUtils;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,14 +141,10 @@ public class InstallUtils {
             fos = new FileOutputStream(pFile);
             p.store(fos, "Auto create by JPress");
         } catch (Exception e) {
-            log.warn("InstallUtils save error", e);
+            log.warn(e.toString(), e);
             return false;
         } finally {
-            if (fos != null)
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                }
+            CommonsUtils.quietlyClose(fos);
         }
         return true;
     }
@@ -188,7 +184,7 @@ public class InstallUtils {
             }
         } finally {
             pst.executeBatch();
-            close(pst, conn);
+            CommonsUtils.quietlyClose(pst, conn);
         }
     }
 
@@ -215,23 +211,12 @@ public class InstallUtils {
                 }
             }
         } finally {
-            close(rs, pst);
+            CommonsUtils.quietlyClose(rs, pst);
         }
 
         return result;
     }
 
-
-    private static final void close(AutoCloseable... sts) {
-        for (AutoCloseable st : sts)
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-    }
 
     private static Connection getConnection() {
         try {

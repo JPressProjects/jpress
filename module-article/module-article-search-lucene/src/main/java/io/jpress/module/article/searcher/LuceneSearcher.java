@@ -17,6 +17,7 @@ package io.jpress.module.article.searcher;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import org.apache.lucene.analysis.Analyzer;
@@ -30,7 +31,6 @@ import org.apache.lucene.store.NIOFSDirectory;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class LuceneSearcher implements ArticleSearcher {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            queitlyClose(writer);
+            CommonsUtils.quietlyClose(writer);
         }
     }
 
@@ -78,7 +78,7 @@ public class LuceneSearcher implements ArticleSearcher {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            queitlyClose(writer);
+            CommonsUtils.quietlyClose(writer);
         }
     }
 
@@ -107,7 +107,7 @@ public class LuceneSearcher implements ArticleSearcher {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            queitlyClose(indexReader);
+            CommonsUtils.quietlyClose(indexReader);
         }
         return null;
     }
@@ -162,15 +162,6 @@ public class LuceneSearcher implements ArticleSearcher {
         return new IndexWriter(directory, iwc);
     }
 
-    private static void queitlyClose(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private static Query buildQuery(String keyword) {
         try {

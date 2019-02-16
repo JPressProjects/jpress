@@ -23,6 +23,7 @@ import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.CommonsUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
@@ -113,12 +114,12 @@ public class AddonUtil {
                             }
                         }
                     } finally {
-                        quietlyClose(is, os);
+                        CommonsUtils.quietlyClose(is, os);
                     }
                 }
             }
         } finally {
-            quietlyClose(zipFile);
+            CommonsUtils.quietlyClose(zipFile);
         }
     }
 
@@ -160,14 +161,14 @@ public class AddonUtil {
                             addonConfigProp.load(new InputStreamReader(is, "utf-8"));
                         }
                     } finally {
-                        quietlyClose(is);
+                        CommonsUtils.quietlyClose(is);
                     }
                 }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            quietlyClose(zipFile);
+            CommonsUtils.quietlyClose(zipFile);
         }
 
         if (addonProp == null) {
@@ -182,17 +183,6 @@ public class AddonUtil {
         }
 
         return addonInfo;
-    }
-
-    private static void quietlyClose(AutoCloseable... closeables) {
-        if (closeables != null && closeables.length != 0)
-            for (AutoCloseable c : closeables)
-                if (c != null) {
-                    try {
-                        c.close();
-                    } catch (Exception e) {
-                    }
-                }
     }
 
     /**
@@ -236,7 +226,7 @@ public class AddonUtil {
             }
         } finally {
             pst.executeBatch();
-            quietlyClose(pst, conn);
+            CommonsUtils.quietlyClose(pst, conn);
         }
     }
 

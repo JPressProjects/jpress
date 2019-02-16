@@ -18,11 +18,14 @@ package io.jpress.core.install;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
+import io.jboot.Jboot;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.exception.JbootException;
+import io.jboot.support.jwt.JwtConfig;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.JbootWebConfig;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -94,9 +97,20 @@ public class InstallUtils {
                 : new Properties();
 
 
+        //jboot.app.mode
         putPropertieIfValueIsNull(p, "jboot.app.mode", "product");
-        putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", StrUtil.uuid());
-        putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", StrUtil.uuid());
+
+        //cookieEncryptKey
+        String cookieEncryptKey = StrUtil.uuid();
+        if (putPropertieIfValueIsNull(p, "jboot.web.cookieEncryptKey", cookieEncryptKey)) {
+            Jboot.config(JbootWebConfig.class).setCookieEncryptKey("cookieEncryptKey");
+        }
+
+        //jwtSecret
+        String jwtSecret = StrUtil.uuid();
+        if (putPropertieIfValueIsNull(p, "jboot.web.jwt.secret", jwtSecret)) {
+            Jboot.config(JwtConfig.class).setSecret(jwtSecret);
+        }
 
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", jdbcUrl);
@@ -110,9 +124,14 @@ public class InstallUtils {
         return save(p, propertieFile);
     }
 
-    private static void putPropertieIfValueIsNull(Properties p, String key, String value) {
+    private static boolean putPropertieIfValueIsNull(Properties p, String key, String value) {
         Object v = p.get(key);
-        if (v == null) p.put(key, value);
+        if (v == null) {
+            p.put(key, value);
+            return true;
+        }
+
+        return false;
     }
 
 

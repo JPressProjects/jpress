@@ -48,12 +48,24 @@ public class CategoriesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String flag = getPara("flag", scope);
+        String pflag = getPara("parentFlag", scope);
         boolean asTree = getPara("asTree", scope, Boolean.FALSE);
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         if (categories == null || categories.isEmpty()) {
             return;
         }
+
+        SortKit.toLayer(categories);
+
+
+        if (StrUtil.isNotBlank(pflag)) {
+            categories = categories.stream().filter(category -> {
+                ArticleCategory parent = (ArticleCategory) category.getParent();
+                return parent != null && pflag.equals(parent.getFlag());
+            }).collect(Collectors.toList());
+        }
+
 
         setActiveFlagByCurrentCategory(categories);
         setActiveFlagByCurrentArticle(categories);

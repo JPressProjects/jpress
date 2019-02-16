@@ -19,6 +19,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import org.apache.lucene.analysis.Analyzer;
@@ -200,7 +201,7 @@ public class LuceneSearcher implements ArticleSearcher {
 
     private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs,Highlighter highlighter,String keyword) throws IOException {
         List<Article> articles = new ArrayList<>();
-        Analyzer luceneAnalyzer = new CJKAnalyzer();
+        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
         for (ScoreDoc item : topDocs.scoreDocs) {
             Document doc = searcher.doc(item.doc);
             Article article = new Article();
@@ -211,12 +212,11 @@ public class LuceneSearcher implements ArticleSearcher {
             article.setContent(content);
             //关键字高亮
             try {
-                String highlightTitle = highlighter.getBestFragment(luceneAnalyzer.tokenStream(keyword, new StringReader(title)), title);
+                String highlightTitle = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(title)), title);
                 article.setHighlightTitle(highlightTitle);
 
-                String plainContent = CommonsUtils.removeHtmlTag(content);
-                plainContent.replaceAll("\\s*|\t|\r|\n","");
-                String highlightContent = highlighter.getBestFragment(luceneAnalyzer.tokenStream(keyword, new StringReader(plainContent)), plainContent);
+                String plainContent = JsoupUtils.getText(content);
+                String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(plainContent)), plainContent);
                 article.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
                 logger.error(e.getMessage(),e);

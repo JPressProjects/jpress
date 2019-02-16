@@ -23,7 +23,6 @@ import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;

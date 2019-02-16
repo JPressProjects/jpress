@@ -146,13 +146,6 @@ public class CommonsUtils {
                 .replace("&amp;", "&");
     }
 
-    public static String removeHtmlTag(String content) {
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-        return content.replaceAll("<[^>]*>", "");
-    }
-
 
     public static void main(String[] args) {
         String script = "<script>alert(\"abc\");</script>";

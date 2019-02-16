@@ -6,6 +6,8 @@ import io.jpress.module.article.model.Article;
 
 public interface ArticleSearcher {
 
+    String HIGH_LIGHT_CLASS = "search-highlight";
+
     public void addArticle(Article article);
 
     public void deleteArticle(Object id);

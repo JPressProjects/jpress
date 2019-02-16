@@ -16,7 +16,6 @@
 package io.jpress.core.wechat;
 
 import com.jfinal.aop.Aop;
-import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
@@ -96,7 +95,7 @@ public class WechatAddonManager implements JbootEventListener {
         }
     }
 
-    private WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
+    public WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
 
         WechatAddonInfo wechatAddon = new WechatAddonInfo();
         wechatAddon.setId(config.id());
@@ -109,7 +108,7 @@ public class WechatAddonManager implements JbootEventListener {
         wechatAddon.setVersion(config.version());
         wechatAddon.setVersionCode(config.versionCode());
 
-        Jboot.injectMembers(wechatAddon);
+        Aop.inject(wechatAddon);
         return wechatAddon;
     }
 

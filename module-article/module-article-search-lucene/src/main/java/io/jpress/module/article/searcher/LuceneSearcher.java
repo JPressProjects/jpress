@@ -161,6 +161,7 @@ public class LuceneSearcher implements ArticleSearcher {
         Document doc = new Document();
         doc.add(new StringField("aid", article.getId().toString(), Field.Store.YES));
         doc.add(new TextField("content", article.getContent(), Field.Store.YES));
+        doc.add(new TextField("text", article.getText(), Field.Store.YES));
         doc.add(new TextField("title", article.getTitle(), Field.Store.YES));
         doc.add(new StringField("created", DateTools.dateToString(article.getCreated() == null ? new Date() : article.getCreated(), DateTools.Resolution.YEAR), Field.Store.NO));
         return doc;
@@ -177,8 +178,8 @@ public class LuceneSearcher implements ArticleSearcher {
         try {
 
             Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
-
-            QueryParser queryParser1 = new QueryParser("content", analyzer);
+            //这里使用text，防止搜索出html的tag或者tag中属性
+            QueryParser queryParser1 = new QueryParser("text", analyzer);
             Query termQuery1 = queryParser1.parse(keyword);
             BooleanClause booleanClause1 = new BooleanClause(termQuery1, BooleanClause.Occur.SHOULD);
 
@@ -213,9 +214,8 @@ public class LuceneSearcher implements ArticleSearcher {
             try {
                 String highlightTitle = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(title)), title);
                 article.setHighlightTitle(highlightTitle);
-
-                String plainContent = JsoupUtils.getText(content);
-                String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(plainContent)), plainContent);
+                String text = article.getText();
+                String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
                 article.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
                 logger.error(e.getMessage(),e);

@@ -134,7 +134,9 @@ JPress模板主要是由html、css、js和JPress标签组成，JPress标签的�
 | user_register.html | 用注册页面| 用法通 user_login.html |
 
 
-备注：所有的模板文件都可以扩展出专门用于渲染手机浏览器的模板。例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
+备注：所有的模板文件都可以扩展出专门用于渲染手机浏览器的模板。
+
+例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
 
 template.properties 文件配置如下
   

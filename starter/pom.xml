@@ -13,10 +13,6 @@
     <groupId>io.jpress</groupId>
     <artifactId>starter</artifactId>
 
-    <properties>
-        <wrapper.tray.port.value>15002</wrapper.tray.port.value>
-    </properties>
-
 
     <dependencies>
 
@@ -51,11 +47,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>io.opentracing.brave</groupId>
-                    <artifactId>brave-opentracing</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.zipkin.reporter2</groupId>
                     <artifactId>zipkin-sender-urlconnection</artifactId>
                 </exclusion>
@@ -64,6 +55,12 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
+
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-framework</artifactId>
+                </exclusion>
+
             </exclusions>
         </dependency>
 
@@ -116,12 +113,17 @@
             <version>2.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>io.jpress</groupId>-->
-            <!--<artifactId>jpress-addon-club</artifactId>-->
-            <!--<version>${jpress.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
     </dependencies>
 
@@ -176,9 +178,6 @@
                                 <resource>
                                     <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
                                 </resource>
-                                <!--<resource>-->
-                                    <!--<directory>${basedir}/../jpress-addons/jpress-addon-club/src/main/webapp</directory>-->
-                                <!--</resource>-->
                             </resources>
                         </configuration>
                     </execution>

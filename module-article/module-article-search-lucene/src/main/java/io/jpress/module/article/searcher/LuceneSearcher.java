@@ -16,8 +16,10 @@
 package io.jpress.module.article.searcher;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import org.apache.lucene.analysis.Analyzer;
@@ -26,6 +28,7 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
+import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
@@ -33,11 +36,14 @@ import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class LuceneSearcher implements ArticleSearcher {
+
+    private static final Log logger = Log.getLog(LuceneSearcher.class);
 
     public static String INDEX_PATH = "~/indexes/";
     private static Directory directory;
@@ -100,9 +106,12 @@ public class LuceneSearcher implements ArticleSearcher {
             ScoreDoc lastScoreDoc = getLastScoreDoc(pageNum, pageSize, query, indexSearcher);
             TopDocs topDocs = indexSearcher.searchAfter(lastScoreDoc, query, pageSize);
 
-            List<Article> articles = toArticleList(indexSearcher, topDocs);
-            int totalRow = getTotalRow(indexSearcher, query);
+            SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font class=\""+ HIGH_LIGHT_CLASS +"\">", "</font>");
+            Highlighter highlighter=new Highlighter(formatter, new QueryScorer(query));
+            highlighter.setTextFragmenter(new SimpleFragmenter(100));
 
+            List<Article> articles = toArticleList(indexSearcher, topDocs,highlighter,keyword);
+            int totalRow = getTotalRow(indexSearcher, query);
             return newPage(pageNum, pageSize, totalRow, articles);
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,8 +124,9 @@ public class LuceneSearcher implements ArticleSearcher {
 
     private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query,
                                             IndexSearcher indexSearcher) throws IOException {
-        if (pageIndex == 1)
+        if (pageIndex == 1){
             return null; // 如果是第一页返回空
+        }
         int num = pageSize * (pageIndex - 1); // 获取上一页的数量
         TopDocs tds = indexSearcher.search(query, num);
         return tds.scoreDocs[num - 1];
@@ -151,6 +161,7 @@ public class LuceneSearcher implements ArticleSearcher {
         Document doc = new Document();
         doc.add(new StringField("aid", article.getId().toString(), Field.Store.YES));
         doc.add(new TextField("content", article.getContent(), Field.Store.YES));
+        doc.add(new TextField("text", article.getText(), Field.Store.YES));
         doc.add(new TextField("title", article.getTitle(), Field.Store.YES));
         doc.add(new StringField("created", DateTools.dateToString(article.getCreated() == null ? new Date() : article.getCreated(), DateTools.Resolution.YEAR), Field.Store.NO));
         return doc;
@@ -167,8 +178,8 @@ public class LuceneSearcher implements ArticleSearcher {
         try {
 
             Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
-
-            QueryParser queryParser1 = new QueryParser("content", analyzer);
+            //这里使用text，防止搜索出html的tag或者tag中属性
+            QueryParser queryParser1 = new QueryParser("text", analyzer);
             Query termQuery1 = queryParser1.parse(keyword);
             BooleanClause booleanClause1 = new BooleanClause(termQuery1, BooleanClause.Occur.SHOULD);
 
@@ -188,14 +199,27 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
 
-    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs) throws IOException {
+    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs,Highlighter highlighter,String keyword) throws IOException {
         List<Article> articles = new ArrayList<>();
+        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
         for (ScoreDoc item : topDocs.scoreDocs) {
             Document doc = searcher.doc(item.doc);
             Article article = new Article();
+            String title = doc.get("title");
+            String content = doc.get("content");
             article.setId(Long.valueOf(doc.get("aid")));
-            article.setTitle(doc.get("title"));
-            article.setContent(doc.get("content"));
+            article.setTitle(title);
+            article.setContent(content);
+            //关键字高亮
+            try {
+                String highlightTitle = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(title)), title);
+                article.setHighlightTitle(highlightTitle);
+                String text = article.getText();
+                String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
+                article.setHighlightContent(highlightContent);
+            } catch (InvalidTokenOffsetsException e) {
+                logger.error(e.getMessage(),e);
+            }
             articles.add(article);
         }
         return articles;

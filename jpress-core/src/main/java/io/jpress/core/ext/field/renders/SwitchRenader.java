@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.ext;
+package io.jpress.core.ext.field.renders;
 
-import io.jpress.module.article.model.Article;
+import io.jpress.core.ext.field.ExtField;
+import io.jpress.core.ext.field.ExtFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Field 渲染器，目的是生成 html 的内容
+ * @Title: Textarea 的渲染器
  */
-public interface ArticleFieldRender {
+public class SwitchRenader implements ExtFieldRender {
 
-    public String onRender(Article article, ArticleField field);
+    @Override
+    public String onRender(ExtField field, Object value) {
+        return null;
+    }
 }

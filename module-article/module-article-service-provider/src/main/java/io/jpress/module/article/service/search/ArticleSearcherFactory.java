@@ -48,6 +48,7 @@ public class ArticleSearcherFactory {
                 return Aop.get(ElasticSearcher.class);
             case "aliopensearch":
                 return Aop.get(AliyunOpenSearcher.class);
+            default:
         }
 
         ArticleSearcher searcher = JbootSpiLoader.load(ArticleSearcher.class, engine);

@@ -60,7 +60,7 @@ function initSlugSpan() {
         var forInput = $(this).attr("for-input");
 
         $(this).editable({
-            emptytext: "id"
+            emptytext: "点击可编辑"
         });
 
         $(this).on('save', function (e, params) {

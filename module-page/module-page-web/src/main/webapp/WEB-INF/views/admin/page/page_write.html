@@ -101,8 +101,11 @@
                             <div class="col-sm-12" style="padding-bottom: 2px">
                                 网址：<span class="domainSpan">#option('web_domain')</span>/<span id="slug"
                                                                                                class="slugSpan"
-                                                                                               for-input="page-slug"
-                                                                                               for-listener="page-title">#(page.slug ??)</span>#if(option("web_fake_static_enable"))  #option('web_fake_static_suffix') #end
+                                                                                               for-input="page-slug">#(page.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+
+                                #if(page && page.isNormal())
+                                （<a href="#(page.url)" target="_blank">访问</a>）
+                                #end
                                 <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
                                 #if(!page)
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>

@@ -1,7 +1,7 @@
 # 配置 undertow
 
 undertow.devMode=true
-undertow.host=0.0.0.0
+undertow.host=localhost
 undertow.port=8080
 
 # 开启 gzip 压缩
@@ -19,17 +19,17 @@ undertow.gzip.minLength=1024
 # 是否开启 ssl
 #undertow.ssl.enable=true
 # ssl 监听端口号，部署环境设置为 443
-undertow.ssl.port=443
+#undertow.ssl.port=443
 # 密钥库类型，建议使用 PKCS12
-undertow.ssl.keyStoreType=PKCS12
+#undertow.ssl.keyStoreType=PKCS12
 # 密钥库文件
-undertow.ssl.keyStore=club.pfx
+#undertow.ssl.keyStore=club.pfx
 # 密钥库密码
-undertow.ssl.keyStorePassword=111111
+#undertow.ssl.keyStorePassword=111111
 
 
 # ssl 开启时，是否开启 http2。检测该配置是否生效在 chrome 地址栏中输入: chrome://net-internals/#http2
-undertow.http2.enable=true
+#undertow.http2.enable=true
 
 
 # ssl 开启时，http 请求是否重定向到 https

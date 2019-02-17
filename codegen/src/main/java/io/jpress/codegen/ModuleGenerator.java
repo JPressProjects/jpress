@@ -65,6 +65,7 @@ public class ModuleGenerator {
         genModule();
         genPomXml();
         genCode();
+		genModuleListener();
 
     }
 
@@ -171,5 +172,68 @@ public class ModuleGenerator {
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
 
+    }
+	 private void genModuleListener()
+    {
+    	 List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
+         if (StrUtil.isNotBlank(dbTables)) {
+             List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
+             Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
+             for (TableMeta tableMeta : tableMetaList) {
+                 if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
+                     newTableMetaList.add(tableMeta);
+                 }
+             }
+             tableMetaList.clear();
+             tableMetaList.addAll(newTableMetaList);
+         }
+         
+         
+         System.out.println("Generate  module listener ...");
+         System.out.println("Module listener Output Dir: ");
+
+         Engine engine = Engine.create("forModuleListener");
+         engine.setSourceFactory(new ClassPathSourceFactory());
+         engine.addSharedMethod(new StrKit());
+         
+         
+         Kv data = Kv.by("forModuleListener", moduleName);
+         
+         String upcasedModuleName=(new StringBuilder()).append(Character.toUpperCase(moduleName.charAt(0))).append(moduleName.substring(1)).toString();
+         data.set("moduleName", moduleName);
+         data.set("upcasedModuleName", upcasedModuleName);
+         data.set("modelPackage", modelPackage);
+         String template = "/io/jpress/codegen/templates/module_listener_template.jf";
+         String moduleListenerContent = engine.getTemplate(template).renderToString(data);
+        
+         
+         String webPath = basePath + "/module-" + moduleName + "-web";
+         String moduleListenerPakcage=modelPackage.substring(0, modelPackage.lastIndexOf("."));
+    	 String path = webPath + "/src/main/java/" + moduleListenerPakcage.replace(".", "/");
+    	 
+    	
+    	 System.out.println("Generate  module listener for "+path);
+         
+         File dir = new File(path);
+         if (!dir.exists()) {
+             dir.mkdirs();
+         }
+
+         String target = path + File.separator + upcasedModuleName + "ModuleListener" + ".java";
+
+         File targetFile = new File(target);
+         if (targetFile.exists()) {
+             return;
+         }
+         try {
+			FileWriter fw = new FileWriter(target);
+			 try {
+			     fw.write(moduleListenerContent);
+			 } finally {
+			     fw.close();
+			 }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 }

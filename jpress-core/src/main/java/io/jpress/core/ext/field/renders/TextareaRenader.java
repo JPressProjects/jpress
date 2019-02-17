@@ -45,6 +45,6 @@ public class TextareaRenader implements ExtFieldRender {
                 .replace("{placeholder}", field.getPlaceholder())
                 .replace("{value}", value == null ? field.getValue() : value.toString())
                 .replace("{helpText}", field.getHelpText())
-                .replace("{attrs}", field.getAttrsAsString());
+                .replace("{attrs}", field.getAttrs());
     }
 }

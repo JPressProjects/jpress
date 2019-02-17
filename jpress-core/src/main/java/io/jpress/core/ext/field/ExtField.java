@@ -22,8 +22,6 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -37,6 +35,10 @@ public class ExtField {
     public static final String TYPE_SELECT = "select";
     public static final String TYPE_CHECKBOX = "checkbox";
     public static final String TYPE_SWITCH = "switch";
+    public static final String TYPE_RADIO = "radio";
+    public static final String TYPE_IMAGE = "image";
+    public static final String TYPE_FILE = "file";
+    public static final String TYPE_DATE = "date";
 
 
     private String id;                  //ID
@@ -47,10 +49,10 @@ public class ExtField {
     private String value;               //值，多个值用英文逗号隔开，checkbox、select 支持多个值
     private String valueText;           //每个值对应的显示内容，例如 option 有 value 属性和其显示的具体内容
     private String helpText;            //帮助文本内容
-    private Map<String, String> attrs;  //其他的属性，例如 "row = 3"
+    private String attrs;               //其他的属性，例如 "rows" = "3"
 
     private int orderNo;                //排序字段
-    private ExtFieldRender render;  //自定义自己的render，自己没有render的时候，才会通过 ExtFieldRenderFactory 去获取
+    private ExtFieldRender render;      //自定义自己的render，自己没有render的时候，才会通过 ExtFieldRenderFactory 去获取
 
     public ExtField() {
     }
@@ -131,34 +133,24 @@ public class ExtField {
         this.helpText = helpText;
     }
 
-    public Map<String, String> getAttrs() {
+    public String getAttrs() {
         return attrs;
     }
 
-    public String getAttrsAsString() {
-        if (attrs == null || attrs.size() == 0) {
-            return "";
-        }
-
-        StringBuilder s = new StringBuilder();
-        for (Map.Entry<String, String> entry : attrs.entrySet()) {
-            s.append(entry.getKey().trim())
-                    .append("=\"")
-                    .append(entry.getValue() == null ? "" : entry.getValue().trim())
-                    .append("\" ");
-        }
-        return s.toString();
-    }
-
-    public void setAttrs(Map<String, String> attrs) {
+    public ExtField setAttrs(String attrs) {
         this.attrs = attrs;
+        return this;
     }
 
-    public ExtField addAttr(String attrName, Object attrValue) {
-        if (attrs == null) {
-            attrs = new HashMap<>();
-        }
-        attrs.put(attrName, String.valueOf(attrValue));
+    public ExtField addAttr(String key, Object value) {
+        StringBuilder s = new StringBuilder(" \"")
+                .append(key)
+                .append("\"=\"")
+                .append(value.toString())
+                .append("\" ");
+        this.attrs = this.attrs == null
+                ? s.toString()
+                : this.attrs + s.toString();
         return this;
     }
 
@@ -183,10 +175,16 @@ public class ExtField {
     }
 
     public String render() {
-        String name = this.name;
-        if (StrUtil.isBlank(name)){
-            return getRender().onRender(this,null);
+        if (StrUtil.isBlank(this.name)) {
+            return getRender().onRender(this, null);
         }
+
+        Object data = doGetDataByNameFromController(this.name);
+        return getRender().onRender(this, data);
+
+    }
+
+    public Object doGetDataByNameFromController(String name) {
         Controller controller = JbootControllerContext.get();
         if (name.contains(".")) {
             String[] modelAndAttr = name.split("\\.");
@@ -194,22 +192,22 @@ public class ExtField {
             String attr = modelAndAttr[1];
             Object object = controller.getAttr(modelName);
             if (object == null) {
-                return getRender().onRender(this, null);
+                return null;
             } else if (object instanceof Model) {
-                return getRender().onRender(this, ((Model) object).get(attr));
+                return ((Model) object).get(attr);
             } else {
                 try {
                     Method method = object.getClass().getMethod("get" + StrKit.firstCharToUpperCase(attr));
-                    Object data = method.invoke(object);
-                    return getRender().onRender(this, data);
+                    return method.invoke(object);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return "";
+                return null;
             }
-
         } else {
-            return getRender().onRender(this, controller.getAttr(name));
+            return controller.getAttr(name);
         }
     }
+
+
 }

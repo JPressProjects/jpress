@@ -38,10 +38,6 @@ public class Article extends BaseArticle<Article> {
     public static final String STATUS_TRASH = "trash";
 
 
-    private String highlightContent;
-
-    private String highlightTitle;
-
     public boolean isNormal() {
         return STATUS_NORMAL.equals(getStatus());
     }
@@ -128,19 +124,19 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHighlightContent() {
-        return highlightContent;
+        return getStr("highlightContent");
     }
 
     public void setHighlightContent(String highlightContent) {
-        this.highlightContent = highlightContent;
+        put("highlightContent",highlightContent);
     }
 
     public String getHighlightTitle() {
-        return highlightTitle;
+        return getStr("highlightTitle");
     }
 
     public void setHighlightTitle(String highlightTitle) {
-        this.highlightTitle = highlightTitle;
+        put("highlightTitle",highlightTitle);
     }
 
     @Override

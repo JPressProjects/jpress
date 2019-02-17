@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.ext.renders;
+package io.jpress.core.ext.field.renders;
 
-import io.jpress.module.article.ext.ArticleField;
-import io.jpress.module.article.ext.ArticleFieldRender;
-import io.jpress.module.article.model.Article;
+import io.jpress.core.ext.field.ExtField;
+import io.jpress.core.ext.field.ExtFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: Textarea 的渲染器
  */
-public class InputRenader implements ArticleFieldRender {
+public class CheckboxRenader implements ExtFieldRender {
     
     @Override
-    public String onRender(Article article, ArticleField field) {
+    public String onRender(ExtField field, Object value) {
         return null;
     }
 }

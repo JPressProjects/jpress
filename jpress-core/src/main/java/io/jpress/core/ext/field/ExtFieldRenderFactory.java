@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.ext;
+package io.jpress.core.ext.field;
 
 
-import io.jpress.module.article.ext.renders.*;
+import io.jpress.core.ext.field.renders.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,23 +26,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version V1.0
  * @Title: Field 渲染器，目的是生成 html 的内容
  */
-public class ArticleFieldRenderFactory {
+public class ExtFieldRenderFactory {
 
-    private static Map<String, ArticleFieldRender> renderMap = new ConcurrentHashMap<>();
+    private static Map<String, ExtFieldRender> renderMap = new ConcurrentHashMap<>();
 
     static {
-        registerRender(ArticleField.TYPE_INPUT, new InputRenader());
-        registerRender(ArticleField.TYPE_TEXTAREA, new TextareaRenader());
-        registerRender(ArticleField.TYPE_SELECT, new SelectRenader());
-        registerRender(ArticleField.TYPE_CHECKBOX, new CheckboxRenader());
-        registerRender(ArticleField.TYPE_SWITCH, new SwitchRenader());
+        registerRender(ExtField.TYPE_INPUT, new InputRenader());
+        registerRender(ExtField.TYPE_TEXTAREA, new TextareaRenader());
+        registerRender(ExtField.TYPE_SELECT, new SelectRenader());
+        registerRender(ExtField.TYPE_CHECKBOX, new CheckboxRenader());
+        registerRender(ExtField.TYPE_SWITCH, new SwitchRenader());
     }
 
-    public static void registerRender(String type, ArticleFieldRender render) {
+    public static void registerRender(String type, ExtFieldRender render) {
         renderMap.put(type, render);
     }
 
-    public static ArticleFieldRender getRender(String type) {
+    public static ExtFieldRender getRender(String type) {
         return renderMap.get(type);
     }
 }

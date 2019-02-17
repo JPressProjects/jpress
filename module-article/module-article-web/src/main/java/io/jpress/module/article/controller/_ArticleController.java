@@ -29,6 +29,7 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.model.User;
+import io.jpress.module.article.ArticleFields;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -97,6 +98,8 @@ public class _ArticleController extends AdminControllerBase {
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
+
+        setAttr("fields", ArticleFields.me());
 
 
         int articleId = getParaToInt(0, 0);

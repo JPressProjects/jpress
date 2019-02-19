@@ -49,6 +49,14 @@ public abstract class BaseArticleMetaInfo<M extends BaseArticleMetaInfo<M>> exte
 		return getStr("placeholder");
 	}
 
+	public void setHelpText(java.lang.String helpText) {
+		set("help_text", helpText);
+	}
+	
+	public java.lang.String getHelpText() {
+		return getStr("help_text");
+	}
+
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
@@ -87,6 +95,14 @@ public abstract class BaseArticleMetaInfo<M extends BaseArticleMetaInfo<M>> exte
 	
 	public java.lang.Integer getOrderNo() {
 		return getInt("order_no");
+	}
+
+	public void setRemarks(java.lang.String remarks) {
+		set("remarks", remarks);
+	}
+	
+	public java.lang.String getRemarks() {
+		return getStr("remarks");
 	}
 
 }

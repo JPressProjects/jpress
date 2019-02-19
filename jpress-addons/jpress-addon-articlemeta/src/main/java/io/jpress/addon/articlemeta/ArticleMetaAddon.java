@@ -15,6 +15,8 @@
  */
 package io.jpress.addon.articlemeta;
 
+import com.jfinal.render.RenderManager;
+import io.jpress.addon.articlemeta.directive.ArticleMetaDirective;
 import io.jpress.core.addon.Addon;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonUtil;
@@ -49,11 +51,11 @@ public class ArticleMetaAddon implements Addon {
 
     @Override
     public void onStart(AddonInfo addonInfo) {
-        //do nothing
+        RenderManager.me().getEngine().addDirective("articleMeta", ArticleMetaDirective.class);
     }
 
     @Override
     public void onStop(AddonInfo addonInfo) {
-        //do nothing
+        RenderManager.me().getEngine().removeDirective("articleMeta");
     }
 }

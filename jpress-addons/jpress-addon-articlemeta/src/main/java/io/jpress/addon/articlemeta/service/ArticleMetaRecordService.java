@@ -88,4 +88,5 @@ public interface ArticleMetaRecordService  {
     public Page<ArticleMetaRecord> paginate(int page, int pageSize);
 
 
+    public void batchSaveOrUpdate(List<ArticleMetaRecord> records);
 }

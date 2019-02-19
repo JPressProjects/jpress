@@ -57,7 +57,6 @@ public class ArticleMetaAddon implements Addon {
     @Override
     public void onStart(AddonInfo addonInfo) {
         RenderManager.me().getEngine().addDirective("articleMeta", ArticleMetaDirective.class);
-
         List<ArticleMetaInfo> metaInfos = Aop.get(ArticleMetaInfoService.class).findAll();
         if (metaInfos != null) {
             for (ArticleMetaInfo inf : metaInfos) {

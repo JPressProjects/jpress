@@ -6,6 +6,8 @@ import io.jpress.addon.articlemeta.service.ArticleMetaRecordService;
 import io.jpress.addon.articlemeta.model.ArticleMetaRecord;
 import io.jboot.service.JbootServiceBase;
 
+import java.util.List;
+
 @Bean
 public class ArticleMetaRecordServiceProvider extends JbootServiceBase<ArticleMetaRecord> implements ArticleMetaRecordService {
 
@@ -14,5 +16,16 @@ public class ArticleMetaRecordServiceProvider extends JbootServiceBase<ArticleMe
         Columns columns = Columns.create("article_id", articleId)
                 .eq("field_name", fieldName);
         return DAO.findFirstByColumns(columns);
+    }
+
+    @Override
+    public void batchSaveOrUpdate(List<ArticleMetaRecord> records) {
+        for (ArticleMetaRecord record : records) {
+            ArticleMetaRecord dbRecord = findByArticleIdAndFieldName(record.getArticleId(), record.getFieldName());
+            if (dbRecord != null) {
+                record.setId(dbRecord.getId());
+            }
+            saveOrUpdate(record);
+        }
     }
 }

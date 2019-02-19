@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.addon.articlemeta;
+package io.jpress.addon.articlemeta.web;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
@@ -23,6 +23,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.addon.articlemeta.model.ArticleMetaInfo;
 import io.jpress.addon.articlemeta.service.ArticleMetaInfoService;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.module.article.ArticleFields;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Set;
@@ -58,6 +59,7 @@ public class _ArticleMetaController extends AdminControllerBase {
     public void doSave() {
         ArticleMetaInfo metaInfo = getModel(ArticleMetaInfo.class, "meta");
         articleMetaInfoService.saveOrUpdate(metaInfo);
+        ArticleFields.me().addField(metaInfo.toSmartField());
         redirect("/admin/article/meta");
     }
 
@@ -67,6 +69,13 @@ public class _ArticleMetaController extends AdminControllerBase {
             renderError(404);
         }
 
+        ArticleMetaInfo inf = articleMetaInfoService.findById(id);
+        if (inf == null) {
+            renderJson(Ret.fail());
+            return;
+        }
+
+        ArticleFields.me().removeField(inf.getFieldId());
         articleMetaInfoService.deleteById(id);
         renderJson(Ret.ok());
     }
@@ -86,6 +95,9 @@ public class _ArticleMetaController extends AdminControllerBase {
         }
 
         for (String id : idsSet) {
+            ArticleMetaInfo inf = articleMetaInfoService.findById(id);
+            if (inf == null) continue;
+            ArticleFields.me().removeField(inf.getFieldId());
             articleMetaInfoService.deleteById(id);
         }
 

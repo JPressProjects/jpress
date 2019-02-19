@@ -10,14 +10,18 @@ import io.jpress.core.ext.field.SmartField;
 @Table(tableName = "article_meta_info", primaryKey = "id")
 public class ArticleMetaInfo extends BaseArticleMetaInfo<ArticleMetaInfo> {
 
+    /**
+     * 默认的排序值
+     */
+    private static final int DEFAULT_ORDER_NUMBER = 100;
 
-    public SmartField toSmartField(){
+    public SmartField toSmartField() {
         SmartField smartField = new SmartField();
-        smartField.setOrderNo(getOrderNo());
+        smartField.setOrderNo(getOrderNo() == null ? DEFAULT_ORDER_NUMBER : getOrderNo());
         smartField.setAttrs(getAttrs());
         smartField.setHelpText(getHelpText());
         smartField.setId(getFieldId());
-        smartField.setName(getFieldName());
+        smartField.setName("articleMeta." + getFieldName());
         smartField.setLabel(getLabel());
         smartField.setPlaceholder(getPlaceholder());
         smartField.setType(getType());
@@ -25,4 +29,6 @@ public class ArticleMetaInfo extends BaseArticleMetaInfo<ArticleMetaInfo> {
         smartField.setValueText(getValueText());
         return smartField;
     }
+
+
 }

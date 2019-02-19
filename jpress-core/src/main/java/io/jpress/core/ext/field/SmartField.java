@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * @version V1.0
  * @Title: 文章字段
  */
-public class ExtField {
+public class SmartField {
 
     public static final String TYPE_INPUT = "input";
     public static final String TYPE_TEXTAREA = "textarea";
@@ -52,12 +52,12 @@ public class ExtField {
     private String attrs;               //其他的属性，例如 "rows" = "3"
 
     private int orderNo;                //排序字段
-    private ExtFieldRender render;      //自定义自己的render，自己没有render的时候，才会通过 ExtFieldRenderFactory 去获取
+    private SmartFieldRender render;      //自定义自己的render，自己没有render的时候，才会通过 SmartFieldRenderFactory 去获取
 
-    public ExtField() {
+    public SmartField() {
     }
 
-    public ExtField(String id, String label, String name, String placeholder, String type, String value, String valueText, String helpText, int orderNo) {
+    public SmartField(String id, String label, String name, String placeholder, String type, String value, String valueText, String helpText, int orderNo) {
         this.id = id;
         this.label = label;
         this.name = name;
@@ -137,12 +137,12 @@ public class ExtField {
         return attrs;
     }
 
-    public ExtField setAttrs(String attrs) {
+    public SmartField setAttrs(String attrs) {
         this.attrs = attrs;
         return this;
     }
 
-    public ExtField addAttr(String key, Object value) {
+    public SmartField addAttr(String key, Object value) {
         StringBuilder s = new StringBuilder(" \"")
                 .append(key)
                 .append("\"=\"")
@@ -158,18 +158,18 @@ public class ExtField {
         return orderNo;
     }
 
-    public ExtField setOrderNo(int orderNo) {
+    public SmartField setOrderNo(int orderNo) {
         this.orderNo = orderNo;
         return this;
     }
 
-    public ExtFieldRender getRender() {
+    public SmartFieldRender getRender() {
         return render == null
-                ? ExtFieldRenderFactory.getRender(type)
+                ? SmartFieldRenderFactory.getRender(type)
                 : render;
     }
 
-    public ExtField setRender(ExtFieldRender render) {
+    public SmartField setRender(SmartFieldRender render) {
         this.render = render;
         return this;
     }
@@ -181,7 +181,6 @@ public class ExtField {
 
         Object data = doGetDataByNameFromController(this.name);
         return getRender().onRender(this, data);
-
     }
 
     public Object doGetDataByNameFromController(String name) {

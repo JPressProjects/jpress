@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article;
 
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.core.ext.field.SmartField;
 import io.jpress.core.ext.field.SmartFieldRender;
@@ -107,7 +108,8 @@ public class ArticleFields {
     }
 
     public void removeField(String id) {
-        fields.removeIf(field -> field.getId().equals(id));
+        if (StrUtil.isBlank(id)) return;
+        fields.removeIf(field -> id.equals(field.getId()));
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
 

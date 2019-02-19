@@ -15,18 +15,18 @@
  */
 package io.jpress.core.ext.field.renders;
 
-import io.jpress.core.ext.field.ExtField;
-import io.jpress.core.ext.field.ExtFieldRender;
+import io.jpress.core.ext.field.SmartField;
+import io.jpress.core.ext.field.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: Textarea 的渲染器
  */
-public class CheckboxRenader implements ExtFieldRender {
-    
+public class SwitchRender implements SmartFieldRender {
+
     @Override
-    public String onRender(ExtField field, Object value) {
+    public String onRender(SmartField field, Object value) {
         return null;
     }
 }

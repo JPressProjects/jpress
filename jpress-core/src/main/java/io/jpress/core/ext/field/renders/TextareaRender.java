@@ -15,18 +15,30 @@
  */
 package io.jpress.core.ext.field.renders;
 
-import io.jpress.core.ext.field.ExtField;
-import io.jpress.core.ext.field.ExtFieldRender;
+import io.jpress.core.ext.field.SmartField;
+import io.jpress.core.ext.field.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: Textarea 的渲染器
  */
-public class SelectRenader implements ExtFieldRender {
+public class TextareaRender implements SmartFieldRender {
+
+    protected static String template = "" +
+            "<div class=\"form-group\">\n" +
+            "<label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "<div class=\"col-sm-6\">\n" +
+            "    <textarea class=\"form-control\" \n" +
+            "       id=\"{id}\"\n" +
+            "       name=\"{name}\"\n" +
+            "       placeholder=\"{placeholder}\" {attrs}>{value}</textarea>\n" +
+            "    <p class=\"help-block\">{helpText}</p>\n" +
+            "</div>\n" +
+            "</div>";
 
     @Override
-    public String onRender(ExtField field, Object value) {
-        return null;
+    public String onRender(SmartField field, Object value) {
+        return RenderKit.render(template, field, value);
     }
 }

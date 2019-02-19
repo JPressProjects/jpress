@@ -16,8 +16,8 @@
 package io.jpress.module.article;
 
 import io.jboot.web.controller.JbootControllerContext;
-import io.jpress.core.ext.field.ExtField;
-import io.jpress.core.ext.field.ExtFieldRender;
+import io.jpress.core.ext.field.SmartField;
+import io.jpress.core.ext.field.SmartFieldRender;
 import io.jpress.module.article.model.Article;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class ArticleFields {
 
-    private List<ExtField> fields = new ArrayList<>();
+    private List<SmartField> fields = new ArrayList<>();
     private static ArticleFields me = new ArticleFields();
 
     private ArticleFields() {
@@ -40,60 +40,60 @@ public class ArticleFields {
 
     private void initDefaultFields() {
 
-        fields.add(new ExtField("summary",
+        fields.add(new SmartField("summary",
                 "文章摘要",
                 "article.summary",
                 "请输入",
-                ExtField.TYPE_TEXTAREA,
+                SmartField.TYPE_TEXTAREA,
                 null,
                 null,
                 null,
                 10).addAttr("rows", 4));
 
-        fields.add(new ExtField("meta_keywords",
+        fields.add(new SmartField("meta_keywords",
                 "SEO关键字",
                 "article.meta_keywords",
                 "请输入",
-                ExtField.TYPE_TEXTAREA,
+                SmartField.TYPE_TEXTAREA,
                 null,
                 null,
                 null,
                 20).addAttr("rows", 2));
 
-        fields.add(new ExtField("meta_description",
+        fields.add(new SmartField("meta_description",
                 "SEO描述",
                 "article.meta_description",
                 "请输入",
-                ExtField.TYPE_TEXTAREA,
+                SmartField.TYPE_TEXTAREA,
                 null,
                 null,
                 null,
                 30).addAttr("rows", 2));
 
-        fields.add(new ExtField("flag",
+        fields.add(new SmartField("flag",
                 "标识",
                 "article.flag",
                 "请输入",
-                ExtField.TYPE_INPUT,
+                SmartField.TYPE_INPUT,
                 null,
                 null,
                 null,
                 40));
 
-        fields.add(new ExtField("link_to",
+        fields.add(new SmartField("link_to",
                 "外链",
                 "article.link_to",
                 "请输入",
-                ExtField.TYPE_INPUT,
+                SmartField.TYPE_INPUT,
                 null,
                 null,
                 "填写外链后，浏览文章将会跳转到此链接。",
                 50));
 
-        fields.add(new ExtField().setOrderNo(60).setRender(new CommentEnableRender()));
+        fields.add(new SmartField().setOrderNo(60).setRender(new CommentEnableRender()));
 
 
-        fields.sort(Comparator.comparingInt(ExtField::getOrderNo));
+        fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
 
     }
 
@@ -101,29 +101,29 @@ public class ArticleFields {
         return me;
     }
 
-    public void addField(ExtField field) {
+    public void addField(SmartField field) {
         fields.add(field);
-        fields.sort(Comparator.comparingInt(ExtField::getOrderNo));
+        fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
 
     public void removeField(String id) {
         fields.removeIf(field -> field.getId().equals(id));
-        fields.sort(Comparator.comparingInt(ExtField::getOrderNo));
+        fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
 
-    public List<ExtField> getFields() {
+    public List<SmartField> getFields() {
         return fields;
     }
 
     public String render() {
         StringBuilder s = new StringBuilder();
-        for (ExtField field : fields) {
+        for (SmartField field : fields) {
             s.append(field.render());
         }
         return s.toString();
     }
 
-    static class CommentEnableRender implements ExtFieldRender {
+    static class CommentEnableRender implements SmartFieldRender {
         String template = "" +
                 "<div class=\"form-group\">\n" +
                 "    <label class=\"col-sm-2 control-label\">允许评论</label>\n" +
@@ -136,7 +136,7 @@ public class ArticleFields {
                 "</div>";
 
         @Override
-        public String onRender(ExtField field, Object value) {
+        public String onRender(SmartField field, Object value) {
             Article article = JbootControllerContext.get().getAttr("article");
             String checked = (article == null || article.isCommentEnable())
                     ? "checked"

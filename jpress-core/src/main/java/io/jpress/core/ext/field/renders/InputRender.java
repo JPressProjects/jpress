@@ -15,17 +15,17 @@
  */
 package io.jpress.core.ext.field.renders;
 
-import io.jpress.core.ext.field.ExtField;
-import io.jpress.core.ext.field.ExtFieldRender;
+import io.jpress.core.ext.field.SmartField;
+import io.jpress.core.ext.field.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: Textarea 的渲染器
  */
-public class InputRenader implements ExtFieldRender {
+public class InputRender implements SmartFieldRender {
 
-    private static String template =
+    protected static String template =
             "<div class=\"form-group\">\n" +
                     "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
                     "    <div class=\"col-sm-6\">\n" +
@@ -38,14 +38,8 @@ public class InputRenader implements ExtFieldRender {
                     "</div>";
 
     @Override
-    public String onRender(ExtField field, Object value) {
-        return template.replace("{label}", field.getLabel())
-                .replace("{id}", field.getId())
-                .replace("{name}", field.getName())
-                .replace("{placeholder}", field.getPlaceholder())
-                .replace("{value}", value == null ? field.getValue() : value.toString())
-                .replace("{helpText}", field.getHelpText())
-                .replace("{attrs}", field.getAttrs());
+    public String onRender(SmartField field, Object value) {
+        return RenderKit.render(template, field, value);
     }
 
 }

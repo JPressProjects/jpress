@@ -26,23 +26,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version V1.0
  * @Title: Field 渲染器，目的是生成 html 的内容
  */
-public class ExtFieldRenderFactory {
+public class SmartFieldRenderFactory {
 
-    private static Map<String, ExtFieldRender> renderMap = new ConcurrentHashMap<>();
+    private static Map<String, SmartFieldRender> renderMap = new ConcurrentHashMap<>();
 
     static {
-        registerRender(ExtField.TYPE_INPUT, new InputRenader());
-        registerRender(ExtField.TYPE_TEXTAREA, new TextareaRenader());
-        registerRender(ExtField.TYPE_SELECT, new SelectRenader());
-        registerRender(ExtField.TYPE_CHECKBOX, new CheckboxRenader());
-        registerRender(ExtField.TYPE_SWITCH, new SwitchRenader());
+        registerRender(SmartField.TYPE_INPUT, new InputRender());
+        registerRender(SmartField.TYPE_TEXTAREA, new TextareaRender());
+        registerRender(SmartField.TYPE_SELECT, new SelectRender());
+        registerRender(SmartField.TYPE_CHECKBOX, new CheckboxRender());
+        registerRender(SmartField.TYPE_SWITCH, new SwitchRender());
     }
 
-    public static void registerRender(String type, ExtFieldRender render) {
+    public static void registerRender(String type, SmartFieldRender render) {
         renderMap.put(type, render);
     }
 
-    public static ExtFieldRender getRender(String type) {
+    public static SmartFieldRender getRender(String type) {
         return renderMap.get(type);
     }
 }

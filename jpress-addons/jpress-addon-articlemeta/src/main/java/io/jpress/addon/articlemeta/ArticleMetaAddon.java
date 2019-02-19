@@ -15,13 +15,18 @@
  */
 package io.jpress.addon.articlemeta;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.render.RenderManager;
 import io.jpress.addon.articlemeta.directive.ArticleMetaDirective;
+import io.jpress.addon.articlemeta.model.ArticleMetaInfo;
+import io.jpress.addon.articlemeta.service.ArticleMetaInfoService;
 import io.jpress.core.addon.Addon;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonUtil;
+import io.jpress.module.article.ArticleFields;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -52,10 +57,23 @@ public class ArticleMetaAddon implements Addon {
     @Override
     public void onStart(AddonInfo addonInfo) {
         RenderManager.me().getEngine().addDirective("articleMeta", ArticleMetaDirective.class);
+
+        List<ArticleMetaInfo> metaInfos = Aop.get(ArticleMetaInfoService.class).findAll();
+        if (metaInfos != null) {
+            for (ArticleMetaInfo inf : metaInfos) {
+                ArticleFields.me().addField(inf.toSmartField());
+            }
+        }
     }
 
     @Override
     public void onStop(AddonInfo addonInfo) {
         RenderManager.me().getEngine().removeDirective("articleMeta");
+        List<ArticleMetaInfo> metaInfos = Aop.get(ArticleMetaInfoService.class).findAll();
+        if (metaInfos != null) {
+            for (ArticleMetaInfo inf : metaInfos) {
+                ArticleFields.me().removeField(inf.getFieldId());
+            }
+        }
     }
 }

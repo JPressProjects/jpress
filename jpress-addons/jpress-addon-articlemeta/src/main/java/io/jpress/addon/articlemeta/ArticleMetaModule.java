@@ -20,7 +20,12 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.addon.articlemeta.directive.ArticleMetaDirective;
+import io.jpress.addon.articlemeta.model.ArticleMetaInfo;
+import io.jpress.addon.articlemeta.service.ArticleMetaInfoService;
 import io.jpress.addon.articlemeta.web.MetaInterceptor;
+import io.jpress.module.article.ArticleFields;
+
+import java.util.List;
 
 /**
  * 此类没任何作用，只是用于开发的时候
@@ -40,4 +45,13 @@ public class ArticleMetaModule extends JbootAppListenerBase {
     }
 
 
+    @Override
+    public void onStart() {
+        List<ArticleMetaInfo> metaInfos = Aop.get(ArticleMetaInfoService.class).findAll();
+        if (metaInfos != null) {
+            for (ArticleMetaInfo inf : metaInfos) {
+                ArticleFields.me().addField(inf.toSmartField());
+            }
+        }
+    }
 }

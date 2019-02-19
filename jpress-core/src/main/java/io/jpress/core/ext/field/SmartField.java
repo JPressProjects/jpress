@@ -22,6 +22,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -179,11 +180,11 @@ public class SmartField {
             return getRender().onRender(this, null);
         }
 
-        Object data = doGetDataByNameFromController(this.name);
+        Object data = doGetDataFromControllerByName(this.name);
         return getRender().onRender(this, data);
     }
 
-    public Object doGetDataByNameFromController(String name) {
+    public Object doGetDataFromControllerByName(String name) {
         Controller controller = JbootControllerContext.get();
         if (name.contains(".")) {
             String[] modelAndAttr = name.split("\\.");
@@ -194,6 +195,8 @@ public class SmartField {
                 return null;
             } else if (object instanceof Model) {
                 return ((Model) object).get(attr);
+            } else if (object instanceof Map) {
+                return ((Map) object).get(attr);
             } else {
                 try {
                     Method method = object.getClass().getMethod("get" + StrKit.firstCharToUpperCase(attr));

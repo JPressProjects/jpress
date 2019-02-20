@@ -11,11 +11,14 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone
 
 RUN cd /tmp && \
+    cp -f ./maven/settings.xml /usr/share/maven/conf/settings.xml  &&  \
     mvn package -Pci &&  \
     mv starter/target/starter-2.0/* /opt/jpress/ && \
     rm -rf /tmp && \
     rm -rf ~/.m2 && \
+    rm -rf /opt/jpress/jpress.bat && \
     rm -rf /opt/jpress/config/jboot.properties && \
+    rm -rf /opt/jpress/config/undertow.txt && \
     rm -rf /opt/jpress/config/install.lock
 
 EXPOSE 8080

@@ -1,13 +1,22 @@
 $(document).ready(function () {
 
-    initJPActions();
+    initTableActions();
     initToastr();
     initSwitchery();
     initDomainSpan();
     initSlugSpan();
+    initDatepicker();
+
 });
 
-function initJPActions() {
+function initDatepicker() {
+    $('.datepicker').datepicker({
+        format: $(this).attr("data-format"),
+        language: 'zh-CN'
+    });
+}
+
+function initTableActions() {
     $(".jp-actiontr").mouseover(function () {
         $(this).find(".jp-actionitem").show();
     }).mouseout(function () {

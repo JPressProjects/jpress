@@ -32,7 +32,7 @@ public class DatetimeRender implements SmartFieldRender {
             "        <input type=\"text\" class=\"form-control datepicker\"\n" +
             "               id=\"{id}\"\n" +
             "               name=\"{name}\"\n" +
-            "               data-date-format=\"yyyy-mm-dd hh:ii:ss\"\n" +
+            "               data-date-format=\"yyyy-mm-dd\"\n" +
             "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
             "        <p class=\"help-block\">{helpText}</p>\n" +
             "    </div>\n" +

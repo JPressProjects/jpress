@@ -21,21 +21,21 @@ import io.jpress.core.ext.field.SmartFieldRender;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Textarea 的渲染器
+ * @Title: Input 输入框的渲染器
  */
 public class InputRender implements SmartFieldRender {
 
-    protected static String template =
+    protected static String template = "" +
             "<div class=\"form-group\">\n" +
-                    "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
-                    "    <div class=\"col-sm-6\">\n" +
-                    "        <input type=\"text\" class=\"form-control\"\n" +
-                    "               id=\"{id}\"\n" +
-                    "               name=\"{name}\"\n" +
-                    "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
-                    "        <p class=\"help-block\">{helpText}</p>\n" +
-                    "    </div>\n" +
-                    "</div>";
+            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "    <div class=\"col-sm-6\">\n" +
+            "        <input type=\"text\" class=\"form-control\"\n" +
+            "               id=\"{id}\"\n" +
+            "               name=\"{name}\"\n" +
+            "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
+            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "    </div>\n" +
+            "</div>";
 
     @Override
     public String onRender(SmartField field, Object value) {

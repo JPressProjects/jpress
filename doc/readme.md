@@ -784,7 +784,7 @@ public class _ClubController extends AdminControllerBase {
 <parent>
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </parent>
 ```
 maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找不到这个 module 就会出现 maven编译错误。
@@ -817,13 +817,13 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 <dependency>
     <groupId>io.jpress</groupId>
     <artifactId>module-club-web</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </dependency>
 
 <dependency>
     <groupId>io.jpress</groupId>
     <artifactId>module-club-service-provider</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </dependency>
 ```
 

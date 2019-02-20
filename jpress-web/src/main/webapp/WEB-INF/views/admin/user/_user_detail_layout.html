@@ -26,13 +26,7 @@
 
 #define script()
 #@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
-    $('#birthday').datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
-    });
 
     var action = getPara("action");
     if (action == "") action = "base";

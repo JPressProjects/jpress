@@ -31,6 +31,8 @@ function start()
 {
     # 运行为后台进程，并在控制台输出信息
     java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} &
+    # 当以此方式在Docker下启动时，由于是后台进程，无前台进程，Docker容器启动后会马上退出，需加命令tail -f /dev/null，就可以保持你的容器一直在前台运行了，非Docker环境下可忽略
+    tail -f /dev/null
 
     # 运行为后台进程，并且不在控制台输出信息
     # nohup java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} >/dev/null 2>&1 &

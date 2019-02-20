@@ -16,10 +16,7 @@
 package io.jpress.module.article;
 
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.core.ext.field.SmartField;
-import io.jpress.core.ext.field.SmartFieldRender;
-import io.jpress.module.article.model.Article;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -91,7 +88,15 @@ public class ArticleFields {
                 "填写外链后，浏览文章将会跳转到此链接。",
                 50));
 
-        fields.add(new SmartField().setOrderNo(60).setRender(new CommentEnableRender()));
+        fields.add(new SmartField("comment_status",
+                "允许评论",
+                "article.comment_status",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                60));
 
 
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
@@ -103,6 +108,7 @@ public class ArticleFields {
     }
 
     public void addField(SmartField field) {
+        removeField(field.getId()); //防止添加重复的Field
         fields.add(field);
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
@@ -120,30 +126,10 @@ public class ArticleFields {
     public String render() {
         StringBuilder s = new StringBuilder();
         for (SmartField field : fields) {
-            s.append(field.render());
+            String html = field.render();
+            if (html != null) s.append(html);
         }
         return s.toString();
     }
 
-    static class CommentEnableRender implements SmartFieldRender {
-        String template = "" +
-                "<div class=\"form-group\">\n" +
-                "    <label class=\"col-sm-2 control-label\">允许评论</label>\n" +
-                "    <div class=\"col-sm-6\">\n" +
-                "        <input type=\"checkbox\" {checked} class=\"switchery\"\n" +
-                "               data-for=\"comment_status\" value=\"true\">\n" +
-                "        <input type=\"hidden\" id=\"comment_status\"\n" +
-                "               name=\"article.comment_status\">\n" +
-                "    </div>\n" +
-                "</div>";
-
-        @Override
-        public String onRender(SmartField field, Object value) {
-            Article article = JbootControllerContext.get().getAttr("article");
-            String checked = (article == null || article.isCommentEnable())
-                    ? "checked"
-                    : "";
-            return template.replace("{checked}", checked);
-        }
-    }
 }

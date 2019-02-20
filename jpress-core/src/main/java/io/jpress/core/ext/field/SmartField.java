@@ -40,6 +40,7 @@ public class SmartField {
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_FILE = "file";
     public static final String TYPE_DATE = "date";
+    public static final String TYPE_DATETIME = "datetime";
 
 
     private String id;                  //ID

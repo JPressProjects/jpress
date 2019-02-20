@@ -36,7 +36,13 @@ public class SmartFieldRenderFactory {
         registerRender(SmartField.TYPE_SELECT, new SelectRender());
         registerRender(SmartField.TYPE_CHECKBOX, new CheckboxRender());
         registerRender(SmartField.TYPE_SWITCH, new SwitchRender());
+        registerRender(SmartField.TYPE_RADIO, new RadioRender());
+        registerRender(SmartField.TYPE_IMAGE, new ImageRender());
+        registerRender(SmartField.TYPE_FILE, new FileRender());
+        registerRender(SmartField.TYPE_DATE, new DateRender());
+        registerRender(SmartField.TYPE_DATETIME, new DatetimeRender());
     }
+
 
     public static void registerRender(String type, SmartFieldRender render) {
         renderMap.put(type, render);

@@ -18,6 +18,7 @@ package io.jpress.commons.sms;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.LogKit;
 import io.jboot.utils.HttpUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
@@ -60,14 +61,18 @@ public class QCloudSmsSender implements ISmsSender {
 
         String content = HttpUtil.httpPost(url, postContent);
 
-        System.out.println(content);
         if (StrUtil.isBlank(content)) {
             return false;
         }
 
         JSONObject resultJson = JSON.parseObject(content);
         Integer result = resultJson.getInteger("result");
-        return result != null && result == 0;
+        if (result != null && result == 0) {
+            return true;
+        } else {
+            LogKit.error("qcloud sms send error : " + content);
+            return false;
+        }
     }
 
 

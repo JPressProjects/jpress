@@ -18,15 +18,29 @@ package io.jpress.core.ext.field.renders;
 import io.jpress.core.ext.field.SmartField;
 import io.jpress.core.ext.field.SmartFieldRender;
 
+import java.util.Objects;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Textarea 的渲染器
+ * @Title: Switch 的渲染器
  */
 public class SwitchRender implements SmartFieldRender {
 
+    protected static String template = "" +
+            "<div class=\"form-group\">\n" +
+            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "    <div class=\"col-sm-6\">\n" +
+            "        <input type=\"checkbox\" {checked} class=\"switchery\"\n" +
+            "               data-for=\"{id}\" value=\"true\">\n" +
+            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "        <input type=\"hidden\" id=\"{id}\" name=\"{name}\">\n" +
+            "    </div>\n" +
+            "</div>";
+
     @Override
     public String onRender(SmartField field, Object value) {
-        return null;
+        String checked = Objects.equals("true", value) ? "checked" : "";
+        return RenderKit.render(template, field, value).replace("{checked}", checked);
     }
 }

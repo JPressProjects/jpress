@@ -65,15 +65,16 @@ public class AliyunSmsSender implements ISmsSender {
 
         if (StrUtil.isNotBlank(sms.getCode())) {
             params.put("TemplateParam", "{\"code\":" + sms.getCode() + "}");
-
         }
 
-
         try {
-
             String url = doSignAndGetUrl(params, app_secret);
             String content = HttpUtil.httpGet(url);
-            return StrUtil.isNotBlank(content) && content.contains("\"Code\":\"OK\"");
+            if (StrUtil.isNotBlank(content) && content.contains("\"Code\":\"OK\"")) {
+                return true;
+            } else {
+                log.error("aliyun sms send error : " + content);
+            }
         } catch (Exception e) {
             log.error("AliyunSmsSender exception", e);
         }

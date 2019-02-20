@@ -11,7 +11,6 @@ $(document).ready(function () {
 
 function initDatepicker() {
     $('.datepicker').datepicker({
-        format: $(this).attr("data-format"),
         language: 'zh-CN'
     });
 }

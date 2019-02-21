@@ -11,10 +11,7 @@ import io.jpress.addon.articlemeta.service.ArticleMetaInfoService;
 import io.jpress.addon.articlemeta.service.ArticleMetaRecordService;
 import io.jpress.module.article.model.Article;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class MetaInterceptor implements Interceptor {
@@ -49,7 +46,7 @@ public class MetaInterceptor implements Interceptor {
                 continue;
             }
             String[] values = entry.getValue();
-            String value = (values != null && values.length > 0) ? values[0] : null;
+            String value = getValue(values);
 
             ArticleMetaRecord record = new ArticleMetaRecord();
             record.setArticleId(article.getId());
@@ -62,7 +59,20 @@ public class MetaInterceptor implements Interceptor {
         if (records.size() > 0) {
             metaRecordService.batchSaveOrUpdate(records);
         }
+    }
 
+    private static String getValue(String[] values) {
+        if (values == null) return null;
+        if (values.length == 1) return values[0];
+
+        int iMax = values.length - 1;
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; ; i++) {
+            b.append(values[i]);
+            if (i == iMax)
+                return b.toString();
+            b.append(",");
+        }
     }
 
     private void doReadMetaInfos(Invocation inv) {

@@ -37,7 +37,7 @@ public class CheckboxRender implements SmartFieldRender {
             "   <div class=\"{offset} col-sm-10\">\n" +
             "        <div class=\"checkbox\">\n" +
             "            <label>\n" +
-            "                <input type=\"checkbox\" value=\"{value}\" {checked}> {text}\n" +
+            "                <input type=\"checkbox\" name=\"{name}\" value=\"{value}\" {checked}> {text}\n" +
             "            </label>\n" +
             "        </div>\n" +
             "    </div>";
@@ -53,22 +53,34 @@ public class CheckboxRender implements SmartFieldRender {
         String[] values = field.getValue().split(",");
         String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
 
+        String[] dbValues = value == null
+                ? null
+                : value.toString().split(",");
+
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
             String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
                     .replace("{text}", getText(texts, index, v))
-                    .replace("{checked}", getCheckedText(v, value))
-                    .replace("{value}",v);
+                    .replace("{checked}", getCheckedText(v, dbValues))
+                    .replace("{name}", field.getName())
+                    .replace("{value}", v);
             items.append(item);
+            index++;
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +
                 items.toString() + template2;
     }
 
-    private String getCheckedText(String v, Object value) {
-        return Objects.equals(v, value) ? "checked" : "";
+    private String getCheckedText(String v, String[] values) {
+        if (values == null) {
+            return "";
+        }
+        for (String value : values) {
+            if (Objects.equals(v, value)) return "checked";
+        }
+        return "";
     }
 
     private String getText(String[] texts, int i, String v) {

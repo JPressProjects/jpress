@@ -37,7 +37,7 @@ public class RadioRender implements SmartFieldRender {
             "   <div class=\"{offset} col-sm-10\">\n" +
             "        <div class=\"radio\">\n" +
             "            <label>\n" +
-            "                <input type=\"radio\" value=\"{value}\" {checked}> {text}\n" +
+            "                <input type=\"radio\" name=\"{name}\" value=\"{value}\" {checked}> {text}\n" +
             "            </label>\n" +
             "        </div>\n" +
             "    </div>";
@@ -59,8 +59,10 @@ public class RadioRender implements SmartFieldRender {
             String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
                     .replace("{text}", getText(texts, index, v))
                     .replace("{checked}", getCheckedText(v, value))
+                    .replace("{name}", field.getName())
                     .replace("{value}",v);
             items.append(item);
+            index++;
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +

@@ -19,6 +19,4 @@ logs
 ~$*
 */*.jar
 pom.properties
-starter/pom.xml
-jpress-addons/pom.xml
 

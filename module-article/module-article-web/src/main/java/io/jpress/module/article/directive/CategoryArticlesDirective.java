@@ -47,7 +47,7 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long categoryId = getPara("categoryId", scope);
+        Long categoryId = getParaToLang("categoryId", scope);
         String flag = getPara("categoryFlag", scope);
 
         if (StrUtil.isBlank(flag) && categoryId == null) {
@@ -55,9 +55,9 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         }
 
 
-        Boolean hasThumbnail = getPara("hasThumbnail", scope);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryId != null
                 ? categoryService.findById(categoryId)

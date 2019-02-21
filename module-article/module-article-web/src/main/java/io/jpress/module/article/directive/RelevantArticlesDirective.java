@@ -50,7 +50,7 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
         }
 
         //默认值 3
-        int count = getPara(1, scope, 3);
+        int count = getParaToInt(1, scope, 3);
 
         List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, count);
 

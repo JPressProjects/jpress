@@ -49,7 +49,7 @@ public class CommentPageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         int page = controller.getParaToInt(1, 1);
-        int pageSize = getPara("pageSize", scope, 10);
+        int pageSize = getParaToInt("pageSize", scope, 10);
 
         Article article = controller.getAttr("article");
 

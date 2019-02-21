@@ -4,14 +4,19 @@ package io.jpress.addon.articlemeta.web;
 import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import io.jboot.utils.StrUtil;
 import io.jpress.addon.articlemeta.model.ArticleMetaInfo;
 import io.jpress.addon.articlemeta.model.ArticleMetaRecord;
 import io.jpress.addon.articlemeta.service.ArticleMetaInfoService;
 import io.jpress.addon.articlemeta.service.ArticleMetaRecordService;
+import io.jpress.core.ext.field.SmartField;
 import io.jpress.module.article.model.Article;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MetaInterceptor implements Interceptor {
@@ -36,29 +41,30 @@ public class MetaInterceptor implements Interceptor {
 
     private void doSaveMetaInfos(Invocation inv) {
 
-        Article article = inv.getController().getModel(Article.class, "article");
-
-        Map<String, String[]> paraMap = inv.getController().getParaMap();
+        Controller ctr = inv.getController();
+        List<ArticleMetaInfo> infs = metaInfoService.findAll();
+        if (infs == null || infs.size() == 0) {
+            return;
+        }
+        Article article = ctr.getAttr("article");
+        if (article == null || article.getId() == null) {
+            return;
+        }
         List<ArticleMetaRecord> records = new ArrayList<>();
-        for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
-            String key = entry.getKey();
-            if (!key.startsWith("articleMeta.")) {
-                continue;
-            }
-            String[] values = entry.getValue();
-            String value = getValue(values);
+        for (ArticleMetaInfo inf : infs) {
+            String key = ArticleMetaInfo.buildFieldName(inf);
+            String value = SmartField.TYPE_CHECKBOX.equals(inf.getType())
+                    ? getValue(ctr.getParaValues(key))
+                    : ctr.getPara(key);
 
             ArticleMetaRecord record = new ArticleMetaRecord();
             record.setArticleId(article.getId());
-            record.setFieldName(key.split("\\.")[1]);
+            record.setFieldName(inf.getFieldName());
             record.setValue(value);
-
             records.add(record);
         }
 
-        if (records.size() > 0) {
-            metaRecordService.batchSaveOrUpdate(records);
-        }
+        metaRecordService.batchSaveOrUpdate(records);
     }
 
     private static String getValue(String[] values) {

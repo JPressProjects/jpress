@@ -14,6 +14,7 @@ public class ArticleMetaInfo extends BaseArticleMetaInfo<ArticleMetaInfo> {
      * 默认的排序值
      */
     private static final int DEFAULT_ORDER_NUMBER = 100;
+    private static final String FIELD_NAME_PREFIX = "articleMeta.";
 
     public SmartField toSmartField() {
         SmartField smartField = new SmartField();
@@ -21,13 +22,17 @@ public class ArticleMetaInfo extends BaseArticleMetaInfo<ArticleMetaInfo> {
         smartField.setAttrs(getAttrs());
         smartField.setHelpText(getHelpText());
         smartField.setId(getFieldId());
-        smartField.setName("articleMeta." + getFieldName());
+        smartField.setName(buildFieldName(this));
         smartField.setLabel(getLabel());
         smartField.setPlaceholder(getPlaceholder());
         smartField.setType(getType());
         smartField.setValue(getValue());
         smartField.setValueText(getValueText());
         return smartField;
+    }
+
+    public static String buildFieldName(ArticleMetaInfo info) {
+        return FIELD_NAME_PREFIX + info.getFieldName();
     }
 
 

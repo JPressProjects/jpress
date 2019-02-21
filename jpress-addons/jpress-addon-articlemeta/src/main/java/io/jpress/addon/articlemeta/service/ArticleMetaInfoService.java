@@ -1,12 +1,11 @@
 package io.jpress.addon.articlemeta.service;
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.addon.articlemeta.model.ArticleMetaInfo;
 
 import java.util.List;
 
-public interface ArticleMetaInfoService  {
+public interface ArticleMetaInfoService {
 
     /**
      * find model by primary key
@@ -47,7 +46,7 @@ public interface ArticleMetaInfoService  {
      * save model to database
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
     public Object save(ArticleMetaInfo model);
 

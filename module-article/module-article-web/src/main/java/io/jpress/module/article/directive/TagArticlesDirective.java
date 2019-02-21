@@ -54,9 +54,9 @@ public class TagArticlesDirective extends JbootDirectiveBase {
         }
 
 
-        Boolean hasThumbnail = getPara("hasThumbnail", scope);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
         if (category == null) {

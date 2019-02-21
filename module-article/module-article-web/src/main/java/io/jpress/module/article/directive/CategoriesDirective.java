@@ -49,7 +49,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
         String flag = getPara("flag", scope);
         String pflag = getPara("parentFlag", scope);
-        boolean asTree = getPara("asTree", scope, Boolean.FALSE);
+        boolean asTree = getParaToBool("asTree", scope, Boolean.FALSE);
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         if (categories == null || categories.isEmpty()) {

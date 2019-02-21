@@ -50,7 +50,7 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
             return;
         }
         int page = controller.getAttr("page");
-        int pageSize = getPara("pageSize", scope, 10);
+        int pageSize = getParaToInt("pageSize", scope, 10);
 
         Page<Article> dataPage = articleService.search(keyword, page, pageSize);
 

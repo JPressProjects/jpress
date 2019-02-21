@@ -178,6 +178,9 @@ public class _ArticleController extends AdminControllerBase {
         long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);
 
+        setAttr("articleId",id);
+        setAttr("article",article);
+
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
 

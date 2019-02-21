@@ -58,7 +58,7 @@ public class AddonControllerManager {
         if (value == null) return;
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
-        if (StrUtil.isBlank(viewPath)) {
+        if (StrUtil.isBlank(viewPath) || "/".equals(viewPath)) {
             routes.add(value, c, "addons/" + addonId);
         } else {
             routes.add(value, c, viewPath);
@@ -158,7 +158,7 @@ public class AddonControllerManager {
         @Override
         public void intercept(Invocation inv) {
             String addonId = controllerAddonMapping.get(inv.getController().getClass());
-            inv.getController().set("APATH","addons/"+addonId+"/");
+            inv.getController().set("APATH", "addons/" + addonId + "/");
             inv.invoke();
         }
     }

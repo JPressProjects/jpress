@@ -1,8 +1,0 @@
-id=io.jpress.addon.articlemeta
-title=文章自定义元数据
-description=JPress 官方开发的文章模块字段扩展功能
-author=海哥
-authorWebsite=
-version=
-versionCode=1
-updateUrl=

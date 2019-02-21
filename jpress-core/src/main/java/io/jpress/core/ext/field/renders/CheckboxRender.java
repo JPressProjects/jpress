@@ -15,8 +15,11 @@
  */
 package io.jpress.core.ext.field.renders;
 
+import io.jboot.utils.StrUtil;
 import io.jpress.core.ext.field.SmartField;
 import io.jpress.core.ext.field.SmartFieldRender;
+
+import java.util.Objects;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -24,9 +27,54 @@ import io.jpress.core.ext.field.SmartFieldRender;
  * @Title: Textarea 的渲染器
  */
 public class CheckboxRender implements SmartFieldRender {
-    
+
+    protected static String template1 = "" +
+            "<div class=\"form-group\">\n" +
+            "    <label class=\"col-sm-2 control-label\">{label}</label>";
+
+
+    protected static String template_item = "" +
+            "   <div class=\"{offset} col-sm-10\">\n" +
+            "        <div class=\"checkbox\">\n" +
+            "            <label>\n" +
+            "                <input type=\"checkbox\" value=\"{value}\" {checked}> {text}\n" +
+            "            </label>\n" +
+            "        </div>\n" +
+            "    </div>";
+
+
+    protected static String template2 = "</div>";
+
     @Override
     public String onRender(SmartField field, Object value) {
-        return null;
+        if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
+            return null;
+        }
+        String[] values = field.getValue().split(",");
+        String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
+
+        int index = 0;
+        StringBuilder items = new StringBuilder();
+        for (String v : values) {
+            String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
+                    .replace("{text}", getText(texts, index, v))
+                    .replace("{checked}", getCheckedText(v, value))
+                    .replace("{value}",v);
+            items.append(item);
+        }
+
+        return RenderKit.replace(template1, "{label}", field.getLabel()) +
+                items.toString() + template2;
+    }
+
+    private String getCheckedText(String v, Object value) {
+        return Objects.equals(v, value) ? "checked" : "";
+    }
+
+    private String getText(String[] texts, int i, String v) {
+        if (texts != null && texts.length > i) {
+            return texts[i];
+        }
+        return v;
     }
 }

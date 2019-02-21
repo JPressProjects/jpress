@@ -21,26 +21,14 @@ import io.jpress.core.ext.field.SmartFieldRender;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Input 输入框的渲染器
+ * @Title: Datetime 时间选择器的渲染器
  */
 public class DatetimeRender implements SmartFieldRender {
 
-    protected static String template = "" +
-            "<div class=\"form-group\">\n" +
-            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
-            "    <div class=\"col-sm-6\">\n" +
-            "        <input type=\"text\" class=\"form-control datepicker\"\n" +
-            "               id=\"{id}\"\n" +
-            "               name=\"{name}\"\n" +
-            "               data-date-format=\"yyyy-mm-dd\"\n" +
-            "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
-            "        <p class=\"help-block\">{helpText}</p>\n" +
-            "    </div>\n" +
-            "</div>";
 
     @Override
     public String onRender(SmartField field, Object value) {
-        return RenderKit.render(template, field, value);
+        throw new IllegalStateException("DatetimeRender not finished.");
     }
 
 }

@@ -25,21 +25,10 @@ import io.jpress.core.ext.field.SmartFieldRender;
  */
 public class ImageRender implements SmartFieldRender {
 
-    protected static String template = "" +
-            "<div class=\"form-group\">\n" +
-            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
-            "    <div class=\"col-sm-6\">\n" +
-            "        <input type=\"text\" class=\"form-control\"\n" +
-            "               id=\"{id}\"\n" +
-            "               name=\"{name}\"\n" +
-            "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
-            "        <p class=\"help-block\">{helpText}</p>\n" +
-            "    </div>\n" +
-            "</div>";
 
     @Override
     public String onRender(SmartField field, Object value) {
-        return RenderKit.render(template, field, value);
+        throw new IllegalStateException("ImageRender not finished.");
     }
 
 }

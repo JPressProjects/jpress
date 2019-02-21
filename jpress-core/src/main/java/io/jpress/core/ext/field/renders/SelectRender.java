@@ -44,7 +44,7 @@ public class SelectRender implements SmartFieldRender {
     @Override
     public String onRender(SmartField field, Object value) {
         if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
-            return "";
+            return null;
         }
         String[] values = field.getValue().split(",");
         String[] texts = field.getValueText() == null ? null : field.getValue().split(",");

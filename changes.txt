@@ -1,22 +1,24 @@
 jpress v2.0-rc.3:
 新增：SmartField 功能，可以通过插件对表进行扩展
-新增：通过Lucene搜索文章的时候，支持关键字高亮的功能，感谢 @ZJWave https://gitee.com/zjwave
-新增：Module代码生成器可以直接生产 ModuleListener 的功能，感谢 @java中国 https://gitee.com/eam
+新增：通过Lucene搜索文章的时候，支持关键字高亮的功能，感谢 [@ZJWave](https://gitee.com/zjwave)
+新增：Module代码生成器可以直接生产 ModuleListener 的功能，感谢 [@java中国](https://gitee.com/eam)
 新增：新增 文章元信息 自定义插件，通过该插件可以对文章添加任何字段的功能。
+优化：优化指令的参数传递，当需要传true 和 int 时，传入 "true" 或 "1" 会出错的问题
 优化：当直接把JPress导入到idea开发工具，没有进行编译直接运行的时候给出优雅的错误提示
-优化：当安装JPress的时候，在填写数据库的时候给出更加相信的提示信息，感谢 @jiangzeyin  https://gitee.com/jiangzeyin
+优化：当安装JPress的时候，在填写数据库的时候给出更加相信的提示信息，感谢 [@jiangzeyin](https://gitee.com/jiangzeyin)
 优化：更新JPress的安装文档为最新的JPress v2.0 版本
-优化：统一 JPress 项目编码设置，放在只window系统下部分机器会出现乱码的问题， 感谢 @java中国 https://gitee.com/eam
+优化：统一 JPress 项目编码设置，放在只window系统下部分机器会出现乱码的问题， 感谢 [@java中国](https://gitee.com/eam)
 优化：通知 JPress 版本为 2.0 版本，防止独立编译子项目的时候出错的问题
 优化：#CategoriesDirective 指令新增 parentFlag 参数的支持，用于读取某个分类的所有子分类
 优化：由于内置了 ElasticSearch 支持后，出现 log4j-api 警告提示的问题
 优化：JPress的Dockerfile编译过慢的问题，添加了阿里云maven源配置的支持
 优化：当阿里云和腾讯云的短信发送功能发送失败的时候，给出具体的错误log的提示
+优化：升级 JPress 的核心框架 Jboot 到最新版本 Jboot-rc.9 版本
 修复：搜索页面使用 #ArticleSearchPageDirective 指令的时候出现空指针异常的问题
 修复：Lucene和ElasticSearch搜索文章的时候可能会出现搜索出草稿箱文章的问题
 修复：JPress安装的时候，写入的JPress开发模式错误的问题
 修复：JPress第一次安装的时候，通过微信小程序对接JPress会出现Jwt创建token出错的问题
-修复：JPress的Dockerfile生产的docker无法后台运行的问题，感谢 @chencan_it https://gitee.com/chencan_it
+修复：JPress的Dockerfile生产的docker无法后台运行的问题，感谢 [@chencan_it](https://gitee.com/chencan_it)
 文档：修复 #categoryArticles 实例代码错误的问题
 文档：修复 #categories 参数描述错误的问题
 

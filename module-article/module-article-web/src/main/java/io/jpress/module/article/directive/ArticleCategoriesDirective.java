@@ -40,7 +40,7 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        Long id = getParaToLang(0, scope);
+        Long id = getParaToLong(0, scope);
         String type = getPara(1, scope);
 
         if (id == null || type == null) {

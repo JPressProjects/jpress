@@ -53,7 +53,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         int pageSize = getParaToInt("pageSize", scope, 10);
 
         // 可以指定当前的分类ID
-        Long categoryId = getParaToLang("categoryId", scope, 0L);
+        Long categoryId = getParaToLong("categoryId", scope, 0L);
         ArticleCategory category = controller.getAttr("category");
 
         if (categoryId == 0 && category != null) {

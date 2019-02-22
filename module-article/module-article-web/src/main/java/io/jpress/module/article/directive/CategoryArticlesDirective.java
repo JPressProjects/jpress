@@ -47,7 +47,7 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long categoryId = getParaToLang("categoryId", scope);
+        Long categoryId = getParaToLong("categoryId", scope);
         String flag = getPara("categoryFlag", scope);
 
         if (StrUtil.isBlank(flag) && categoryId == null) {

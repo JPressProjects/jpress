@@ -19,7 +19,6 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import org.apache.lucene.analysis.Analyzer;
@@ -99,6 +98,8 @@ public class LuceneSearcher implements ArticleSearcher {
     public Page<Article> search(String keyword, int pageNum, int pageSize) {
         IndexReader indexReader = null;
         try {
+            //Bug fix ,查询关键字使用一下 QueryParser.escape(keyword),例如：keyword=I/O,否则buildQuery时会出现异常
+            keyword = QueryParser.escape(keyword);
             indexReader = DirectoryReader.open(directory);
             IndexSearcher indexSearcher = new IndexSearcher(indexReader);
             Query query = buildQuery(keyword);
@@ -106,11 +107,11 @@ public class LuceneSearcher implements ArticleSearcher {
             ScoreDoc lastScoreDoc = getLastScoreDoc(pageNum, pageSize, query, indexSearcher);
             TopDocs topDocs = indexSearcher.searchAfter(lastScoreDoc, query, pageSize);
 
-            SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font class=\""+ HIGH_LIGHT_CLASS +"\">", "</font>");
-            Highlighter highlighter=new Highlighter(formatter, new QueryScorer(query));
+            SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font class=\"" + HIGH_LIGHT_CLASS + "\">", "</font>");
+            Highlighter highlighter = new Highlighter(formatter, new QueryScorer(query));
             highlighter.setTextFragmenter(new SimpleFragmenter(100));
 
-            List<Article> articles = toArticleList(indexSearcher, topDocs,highlighter,keyword);
+            List<Article> articles = toArticleList(indexSearcher, topDocs, highlighter, keyword);
             int totalRow = getTotalRow(indexSearcher, query);
             return newPage(pageNum, pageSize, totalRow, articles);
         } catch (IOException e) {
@@ -124,7 +125,7 @@ public class LuceneSearcher implements ArticleSearcher {
 
     private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query,
                                             IndexSearcher indexSearcher) throws IOException {
-        if (pageIndex == 1){
+        if (pageIndex == 1) {
             return null; // 如果是第一页返回空
         }
         int num = pageSize * (pageIndex - 1); // 获取上一页的数量
@@ -199,7 +200,7 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
 
-    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs,Highlighter highlighter,String keyword) throws IOException {
+    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws IOException {
         List<Article> articles = new ArrayList<>();
         Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
         for (ScoreDoc item : topDocs.scoreDocs) {
@@ -218,7 +219,7 @@ public class LuceneSearcher implements ArticleSearcher {
                 String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
                 article.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
-                logger.error(e.getMessage(),e);
+                logger.error(e.getMessage(), e);
             }
             articles.add(article);
         }

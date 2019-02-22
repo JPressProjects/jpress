@@ -30,21 +30,23 @@ import io.jboot.utils.ArrayUtil;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class AddonClassLoader extends URLClassLoader {
+public class AddonClassLoader {
 
     private static final Log LOG = Log.getLog(AddonClassLoader.class);
 
     private AddonInfo addonInfo;
+    final URLClassLoader parent;
 
     public AddonClassLoader(AddonInfo addonInfo) {
-        super(new URL[]{}, Thread.currentThread().getContextClassLoader());
         this.addonInfo = addonInfo;
+        this.parent = (URLClassLoader) AddonClassLoader.class.getClassLoader();
     }
 
 
@@ -52,7 +54,10 @@ public class AddonClassLoader extends URLClassLoader {
         try {
 
             File jarFile = addonInfo.buildJarFile();
-            addURL(jarFile.toURI().toURL());
+            Method method = URLClassLoader.class.getDeclaredMethod("addURL",URL.class);
+            method.setAccessible(true);
+            method.invoke(parent,jarFile.toURI().toURL());
+
             Enumeration<JarEntry> entries = new JarFile(addonInfo.buildJarFile()).entries();
 
             while (entries.hasMoreElements()) {
@@ -62,8 +67,7 @@ public class AddonClassLoader extends URLClassLoader {
                     String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
 
                     try {
-
-                        Class loadedClass = loadClass(className);
+                        Class loadedClass = parent.loadClass(className);
 
                         Bean bean = (Bean) loadedClass.getDeclaredAnnotation(Bean.class);
                         if (bean != null) {
@@ -83,7 +87,7 @@ public class AddonClassLoader extends URLClassLoader {
                             addonInfo.addHandler(loadedClass);
                         }
                         // models
-                        else if (JbootModel.class.isAssignableFrom(loadedClass)){
+                        else if (JbootModel.class.isAssignableFrom(loadedClass)) {
                             addonInfo.addModel(loadedClass);
                         }
                         // addonClass

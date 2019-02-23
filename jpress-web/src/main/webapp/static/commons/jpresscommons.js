@@ -6,6 +6,7 @@ $(document).ready(function () {
     initDomainSpan();
     initSlugSpan();
     initDatepicker();
+    initAutoAjaxSubmit();
 
 });
 
@@ -103,12 +104,12 @@ function ajaxGet(url, okFunction, failFunction) {
     }
 
     okFunction = okFunction || function (result) {
-            location.reload();
-        };
+        location.reload();
+    };
 
     failFunction = failFunction || function (result) {
-            toastr.error(result.message, '操作失败');
-        };
+        toastr.error(result.message, '操作失败');
+    };
 
     $.get(url, function (result) {
         if (result.state == 'ok') {
@@ -119,21 +120,87 @@ function ajaxGet(url, okFunction, failFunction) {
     });
 }
 
+function initAutoAjaxSubmit() {
+
+    if (typeof (CKEDITOR) != "undefined") {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+
+    $('.autoAjaxSubmit').on('submit', function () {
+        var okFunction = $(this).attr('data-ok-function');
+        var okHref = $(this).attr('data-ok-href');
+        var okMessage = $(this).attr('data-ok-message');
+
+        var failFunction = $(this).attr('data-fail-function');
+        var failMessage = $(this).attr('data-fail-message');
+
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (result) {
+                if (result.state == "ok") {
+                    if (okFunction) {
+                        eval(okFunction)(result);
+                        return;
+                    }
+
+                    if (okHref) {
+                        location.href = okHref;
+                        return
+                    }
+
+                    if (okMessage) {
+                        toastr.success(okMessage);
+                        return
+                    }
+
+                    location.reload();
+
+                }
+                //fail
+                else {
+                    if (failFunction) {
+                        eval(failFunction)(result);
+                        return;
+                    }
+
+                    if (failMessage) {
+                        toastr.error(failMessage, '操作失败');
+                        return
+                    }
+
+                    if (result.message) {
+                        toastr.error(result.message, '操作失败');
+                    } else {
+                        toastr.error('操作失败');
+                    }
+                }
+            },
+            error: function () {
+                toastr.error('网络错误，请稍后重试。', '操作失败');
+            }
+        });
+
+        return false;
+    });
+}
+
 function ajaxSubmit(form, okFunction, failFunction) {
 
-    if (typeof(CKEDITOR) != "undefined") {
+    if (typeof (CKEDITOR) != "undefined") {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
     }
 
     okFunction = okFunction || function (result) {
-            location.reload();
-        };
+        location.reload();
+    };
 
     failFunction = failFunction || function (result) {
-            toastr.error(result.message, '操作失败');
-        };
+        toastr.error(result.message, '操作失败');
+    };
 
     $(form).ajaxSubmit({
         type: "post",

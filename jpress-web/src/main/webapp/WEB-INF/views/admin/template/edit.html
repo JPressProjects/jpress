@@ -59,19 +59,8 @@
 
     function doSubmit() {
         $("#fileContent").attr("value", editor.getSession().getValue());
-        $("#form").ajaxSubmit({
-            type: "post",
-            dataType: "json",
-            success: function (data) {
-                if (data.state == "ok") {
-                    toastr.success('保存成功！');
-                } else {
-                    toastr.error(data.message, '操作失败');
-                }
-            },
-            error: function () {
-                alert("信息提交错误");
-            }
+        ajaxSubmit("#form",function () {
+            toastr.success('保存成功！');
         });
         return false;
     }

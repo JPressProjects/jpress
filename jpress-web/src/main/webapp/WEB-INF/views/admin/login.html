@@ -27,8 +27,6 @@
         .form-group {
             text-align: left;
         }
-
-
     </style>
 </head>
 <body class="hold-transition login-page">
@@ -36,7 +34,7 @@
 <div class="row">
     <div class="login-box text-center">
         <div class="login-box-body">
-            <form action="#(CPATH)/admin/doLogin" method="post" id="form" >
+            <form action="#(CPATH)/admin/doLogin" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin" >
                 <div class="form-group">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
@@ -59,27 +57,7 @@
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
-<script>
-
-    $('#form').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    location.href = "#(CPATH)/admin";
-                } else {
-                    alert(data.message);
-                }
-            },
-            error: function () {
-                alert("网络错误，请稍后重试");
-            }
-        });
-
-        return false;
-    });
-
-</script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 
 </body>
 </html>

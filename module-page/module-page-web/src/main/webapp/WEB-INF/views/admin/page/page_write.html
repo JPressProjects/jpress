@@ -9,25 +9,13 @@
 
 <script>
 
-    function doSubmit(status) {
-        $("#pageStatus").val(status);
+    $(".submitBtn").on("click", function () {
+        $("#pageStatus").val($(this).attr("data-status"));
         ajaxSubmit("#form", function (data) {
-            $("#articleId").attr("value", data.id);
+            $("#pageId").attr("value", data.id);
             toastr.success('内容保存成功。');
         })
-    }
-
-    $("#submit").on("click", function () {
-        doSubmit("normal");
-    })
-
-    $("#draft").on("click", function () {
-        doSubmit("draft");
-    })
-
-    $("#trash").on("click", function () {
-        doSubmit("trash");
-    })
+    });
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -199,10 +187,9 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="box-body ">
-                            <button type="button" id="submit" class="btn btn-primary btn-sm ">发布</button>
-                            <button type="button" id="draft" class="btn btn-default btn-sm ">草稿</button>
-
-                            <a href="javascript:;" id="trash" class="pull-right" style="padding-top: 5px;">移至垃圾箱</a>
+                            <button type="button" data-status="noraml" class="btn btn-primary btn-sm submitBtn ">发布</button>
+                            <button type="button" data-status="draft"  class="btn btn-default btn-sm submitBtn">草稿</button>
+                            <a href="javascript:;" data-status="trash" class="pull-right submitBtn" style="padding-top: 5px;">移至垃圾箱</a>
                         </div>
                     </div>
 

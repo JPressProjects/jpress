@@ -41,16 +41,12 @@
         $('#h').val(c.h);
     }
 
-    $('#avatarForm').on('submit', function () {
-        ajaxSubmit('#avatarForm', function () {
-            toastr.options.onHidden = function () {
-                location.reload();
-            }
-            toastr.success('头像修改成功，2s后自动刷新...');
-        });
-
-        return false;
-    });
+    function submitSuccess() {
+        toastr.options.onHidden = function () {
+            location.reload();
+        }
+        toastr.success('头像修改成功，2s后自动刷新...');
+    }
 </script>
 #end
 
@@ -60,8 +56,9 @@
 #end
 
 #define detail()
-<form class="form-horizontal" autocomplete="off" action="#(CPATH)/admin/user/doSaveAvatar" method="post"
-      id="avatarForm">
+<form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/admin/user/doSaveAvatar"
+      method="post"
+      data-ok-function="submitSuccess">
     <input type="hidden" name="path" id="path">
     <input type="hidden" name="x" id="x">
     <input type="hidden" name="y" id="y">

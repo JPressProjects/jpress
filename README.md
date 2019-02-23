@@ -52,6 +52,15 @@
 - 微信浏览时，通过微信授权自动获取用户信息
 
 
+#### 角色和权限
+
+- 角色管理
+- 全自动、免维护的权限字典（自动发现后台路由、插件安装卸载自动分配对应）
+- 角色和权限的分配
+- 用户多角色功能
+- 超级管理员
+
+
 #### 微信
 
 - 微信公众号对接
@@ -84,13 +93,21 @@
 - Bug反馈：[issues](./issues)
 - 意见建议：[issues](./issues)
 
-## 相关链接
+## 帮助文档
 
-- [快速开始](./doc/readme.md)
-- [二次开发](./doc/readme.md)
-- [帮助文档](./doc/readme.md)
+- [了解JPress](./doc/about_jpress.md)
+- [快速开始](./doc/quick_start.md)
+- [安装](./doc/install.md)
+- [使用](./doc/manual.md)
+- [开发准备](./doc/dev.md)
+- [模板开发](./doc/template_dev.md)
+- [插件开发](./doc/addon_dev.md)
+- [模块开发](./doc/module_dev.md)
+- [微信运营插件开发](./doc/wechat_dev.md)
+- [微信小程序开发](./doc/wechat_miniprogram_dev.md)
 - [视频教程](./doc/videos.md)
-- [常见问题](./doc/readme.md)
+- [常见问题](./doc/faq.md)
+- [JPressSchool-VIP会员](./doc/vip.md)
 
 ## 微信交流群
 

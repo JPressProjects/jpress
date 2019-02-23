@@ -122,13 +122,14 @@ function ajaxGet(url, okFunction, failFunction) {
 
 function initAutoAjaxSubmit() {
 
-    if (typeof (CKEDITOR) != "undefined") {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].updateElement();
-        }
-    }
-
     $('.autoAjaxSubmit').on('submit', function () {
+
+        if (typeof (CKEDITOR) != "undefined") {
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+        }
+
         var okFunction = $(this).attr('data-ok-function');
         var okHref = $(this).attr('data-ok-href');
         var okMessage = $(this).attr('data-ok-message');

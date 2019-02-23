@@ -43,7 +43,6 @@ public class AddonInfo implements Serializable {
     private String authorWebsite;
     private String version;
     private int versionCode;
-    private String updateUrl;
 
     private Class<? extends Addon> addonClass;
     private int status = STATUS_INIT;
@@ -67,7 +66,6 @@ public class AddonInfo implements Serializable {
         this.authorWebsite = properties.getProperty("authorWebsite");
         this.version = properties.getProperty("version");
         this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
-        this.updateUrl = properties.getProperty("updateUrl");
     }
 
 
@@ -133,14 +131,6 @@ public class AddonInfo implements Serializable {
 
     public void setVersionCode(int versionCode) {
         this.versionCode = versionCode;
-    }
-
-    public String getUpdateUrl() {
-        return updateUrl;
-    }
-
-    public void setUpdateUrl(String updateUrl) {
-        this.updateUrl = updateUrl;
     }
 
     public int getStatus() {

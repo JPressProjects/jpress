@@ -15,6 +15,7 @@ RUN cd /tmp && \
     mvn package -Pci && \
     mv starter/target/starter-2.0/* /opt/jpress/ && \
     cp -f /tmp/docker/build/jpress.sh /opt/jpress/jpress.sh &&  \
+    chmod +x /opt/jpress/jpress.sh &&  \
     cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties && \
     rm -rf /tmp && \
     rm -rf ~/.m2 && \

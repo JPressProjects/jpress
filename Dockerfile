@@ -11,11 +11,11 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone
 
 RUN cd /tmp && \
-    cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml  &&  \
-    mvn package -Pci &&  \
+    cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml && \
+    mvn package -Pci && \
     mv starter/target/starter-2.0/* /opt/jpress/ && \
-    cp -f /tmp/docker/build/jpress.sh /opt/jpress/jpress.sh  &&  \
-    cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties  &&  \
+    cp -f /tmp/docker/build/jpress.sh /opt/jpress/jpress.sh &&  \
+    cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties && \
     rm -rf /tmp && \
     rm -rf ~/.m2 && \
     rm -rf /opt/jpress/jpress.bat && \

@@ -1,18 +1,5 @@
 #@layout()
 
-#define script()
-<script>
-
-    $('#form').on('submit', function () {
-        ajaxSubmit('#form', function () {
-            location.href = "#(CPATH)/admin/user"
-        });
-        return false;
-    });
-
-</script>
-#end
-
 #define content()
 <div class="content-wrapper">
 
@@ -33,7 +20,9 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" id="form" method="post"
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
+                          method="post"
+                          data-ok-href="#(CPATH)/admin/user"
                           action="#(CPATH)/admin/user/doAdd">
                         <div class="box-body ">
                             <div class="form-group">

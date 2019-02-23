@@ -9,24 +9,19 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id,  function () {
+        ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id, function () {
             location.href = "#(CPATH)/admin/article/comment";
-        },function (result) {
+        }, function (result) {
             alert(result.message);
         })
     }
 
-    $('#form1').on('submit', function () {
-        ajaxSubmit("#form1",
-            function () {
-                toastr.options.onHidden = function () {
-                    location.href = "#(CPATH)/admin/article/comment";
-                }
-                toastr.success('回复成功。');
-            }
-        );
-        return false;
-    });
+    function ok() {
+        toastr.options.onHidden = function () {
+            location.href = "#(CPATH)/admin/article/comment";
+        }
+        toastr.success('回复成功。');
+    }
 
 </script>
 #end
@@ -65,8 +60,8 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
 
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          id="form1"
+                    <form class="form-horizontal form-setting autAjaxSubmit" autocomplete="off"
+                          data-ok-function="ok"
                           method="post"
                           action="#(CPATH)/admin/article/doCommentReply">
 

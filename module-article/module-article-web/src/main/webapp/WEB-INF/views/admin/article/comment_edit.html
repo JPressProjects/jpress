@@ -3,15 +3,6 @@
 <script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
 <script>
     initEditor('editor1', 200);
-
-    $('#from').on('submit', function () {
-        ajaxSubmit('#form',function () {
-            toastr.success('保存成功。');
-        });
-
-        return false;
-    });
-
 </script>
 #end
 #define content()
@@ -34,10 +25,10 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           method="post"
                           action="#(CPATH)/admin/article/doCommentSave"
-                          id="from">
+                          data-ok-message="保存成功">
                         <div class="box-body ">
 
                             <input type="hidden" name="comment.id" value="#(comment.id ??)">

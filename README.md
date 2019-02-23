@@ -88,10 +88,9 @@
 ## 交流
 
 - QQ群：591396171 ，288397536
-- 官网：[www.jpress.io](http://www.jpress.io)
+- 官网：[http://www.jpress.io](http://www.jpress.io)
 - 提问：[https://www.oschina.net/question/tag/jpress](https://www.oschina.net/question/tag/jpress)
-- Bug反馈：[issues](./issues)
-- 意见建议：[issues](./issues)
+
 
 ## 帮助文档
 

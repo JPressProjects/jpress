@@ -11,9 +11,11 @@ $(document).ready(function () {
 });
 
 function initDatepicker() {
-    $('.datepicker').datepicker({
-        language: 'zh-CN'
-    });
+    if ($('').datepicker) {
+        $('.datepicker').datepicker({
+            language: 'zh-CN'
+        });
+    }
 }
 
 function initTableActions() {

@@ -40,7 +40,7 @@ public class TemplateManager {
         return me;
     }
 
-    public void init(){
+    public void init() {
         String templateId = JPressOptions.get("web_template");
         TemplateManager.me().setCurrentTemplate(templateId);
     }
@@ -60,7 +60,6 @@ public class TemplateManager {
         }
         return templatelist;
     }
-
 
 
     private void scanTemplateFloders(File file, List<File> list) {
@@ -83,6 +82,9 @@ public class TemplateManager {
 
     public Template getTemplateById(String id) {
         List<Template> templates = getInstalledTemplates();
+        if (templates == null || templates.isEmpty()) {
+            return null;
+        }
         for (Template template : templates) {
             if (id.equals(template.getId())) return template;
         }
@@ -112,7 +114,7 @@ public class TemplateManager {
     private void initDefaultTemplate() {
         setCurrentTemplate(getTemplateById(JPressConfig.me.getDefaultTemplate()));
     }
-    
+
 
     public void setCurrentTemplate(Template currentTemplate) {
         this.currentTemplate = currentTemplate;

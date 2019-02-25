@@ -113,7 +113,7 @@ public class _AddonController extends AdminControllerBase {
             LOG.error("addon install error : ", e);
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该插件安装失败，错误信息：" + e.getMessage()));
+                    .set("message", "该插件安装失败，请联系管理员。"));
             deleteFileQuietly(ufile.getFile());
             deleteFileQuietly(newAddonFile);
             return;

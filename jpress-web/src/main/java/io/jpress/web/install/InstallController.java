@@ -22,6 +22,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
+import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
@@ -330,6 +331,7 @@ public class InstallController extends JbootController {
 
         DataSourceConfig config = InstallUtils.getDataSourceConfig();
         config.setName(DataSourceConfig.NAME_DEFAULT);
+        DataSourceConfigManager.me().addConfig(config);
 
         ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);
         activeRecordPlugin.start();

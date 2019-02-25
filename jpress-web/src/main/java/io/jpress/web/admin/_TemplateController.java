@@ -200,6 +200,10 @@ public class _TemplateController extends AdminControllerBase {
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 88)
     public void setting() {
         Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            render("template/setting.html");
+            return;
+        }
         setAttr("template", template);
 
         String view = template.matchTemplateFile("setting.html", false);
@@ -234,6 +238,9 @@ public class _TemplateController extends AdminControllerBase {
 
 
         Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            return;
+        }
         setAttr("template", template);
 
         File basePath = StrUtil.isNotBlank(dirName)
@@ -336,8 +343,14 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            renderJson(Ret.fail().set("message", "当前模板无法编辑"));
+            return;
+        }
 
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
+
+        File pathFile = new File(template.getAbsolutePath());
 
         if (StrUtil.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
@@ -427,7 +440,13 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), dirName);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            renderError(404);
+            return;
+        }
+
+        File pathFile = new File(template.getAbsolutePath(), dirName);
 
         try {
             org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
@@ -452,7 +471,13 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        File delFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
+        Template template  = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            renderError(404);
+            return;
+        }
+
+        File delFile = new File(template.getAbsolutePath(), path);
 
         if (delFile.isDirectory() || delFile.delete() == false) {
             renderJson(Ret.fail());

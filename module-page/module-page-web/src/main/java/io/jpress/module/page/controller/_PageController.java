@@ -25,6 +25,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
@@ -76,9 +77,12 @@ public class _PageController extends AdminControllerBase {
         SinglePage page = pageId > 0 ? sps.findById(pageId) : null;
         setAttr("page", page);
 
-        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles("page_");
-        if (ArrayUtil.isNotEmpty(styles)) {
-            setAttr("styles", styles);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template != null){
+            List<String> styles = template.getSupportStyles("page_");
+            if (ArrayUtil.isNotEmpty(styles)) {
+                setAttr("styles", styles);
+            }
         }
 
         String editMode = page == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : page.getEditMode();

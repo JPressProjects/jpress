@@ -26,6 +26,7 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.model.User;
@@ -131,7 +132,11 @@ public class _ArticleController extends AdminControllerBase {
     }
 
     private void initStylesAttr(String prefix) {
-        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles(prefix);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            return;
+        }
+        List<String> styles = template.getSupportStyles(prefix);
         if (styles != null && !styles.isEmpty()) {
             setAttr("styles", styles);
         }

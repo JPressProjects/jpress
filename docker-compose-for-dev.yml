@@ -30,8 +30,11 @@ services:
       JPRESS_DB_NAME: jpress
       JPRESS_DB_USER: jpress
       JPRESS_DB_PASSWORD: jpress
+      JBOOT_APP_MODE: dev
+      UNDERTOW_HOTSWAPCLASSPREFIX: io.jpress
     volumes:
       - "./attachment:/opt/jpress/webapp/attachment"
       - "./addons:/opt/jpress/webapp/addons"
       - "./addonjars:/opt/jpress/webapp/WEB-INF/addons"
       - "./wp-content:/opt/jpress/webapp/wp-content"
+      - "./templates:/opt/jpress/webapp/templates"

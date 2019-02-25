@@ -40,6 +40,15 @@ Docker 安装完毕后，下载文件 https://gitee.com/fuhai/jpress/raw/v2.0/do
 
 同时，在 `docker-compose.yml` 所在的同级目录下会出现一个 `templates` 等目录，我们开发自己模板的时候，需要把自己的模板放到`templates` 目录，然后开始开发。
 
+**Docker小知识**
+>1、通过 Docker Compose 命令启动 JPress 后如何停止？
+>答：通过shell进入 docker-compose.yml 所在的目录，然后执行：`docker-compose down` 命令
+>
+>2、如何查看 JPress 运行的日志信息？
+>答：先通过 `docker ps` 命令查看 JPress 的 container id，然后执行命令：`docker logs -f 查看到的container-id`
+
+
+
 ## 模板的组成
 
 一个完整的模板，文件内容如下：

@@ -16,6 +16,7 @@
 package io.jpress.web.admin;
 
 import com.jfinal.kit.Ret;
+import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
@@ -26,6 +27,7 @@ import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -37,8 +39,10 @@ import java.util.List;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping(value = "/admin/addon",viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/addon", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AddonController extends AdminControllerBase {
+
+    private static final Log LOG = Log.getLog(_AddonController.class);
 
 
     @AdminMenu(text = "所有插件", groupId = JPressConsts.SYSTEM_MENU_ADDON, order = 0)
@@ -102,14 +106,14 @@ public class _AddonController extends AdminControllerBase {
         }
 
         try {
-            org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), newAddonFile);
+            FileUtils.moveFile(ufile.getFile(), newAddonFile);
             AddonManager.me().install(newAddonFile);
             AddonManager.me().start(addon.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("addon install error : ", e);
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该插件安装失败。"));
+                    .set("message", "该插件安装失败，错误信息：" + e.getMessage()));
             deleteFileQuietly(ufile.getFile());
             deleteFileQuietly(newAddonFile);
             return;
@@ -139,9 +143,9 @@ public class _AddonController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "ID数据不能为空"));
             return;
         }
-        if (AddonManager.me().install(id)){
+        if (AddonManager.me().install(id)) {
             renderJson(Ret.ok());
-        }else {
+        } else {
             renderJson(Ret.fail().set("message", "插件安装失败，请联系插件开发者。"));
         }
     }

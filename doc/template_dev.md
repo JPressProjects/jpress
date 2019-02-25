@@ -12,6 +12,8 @@
 
 ## 模板开发准备
 
+**1、安装Docker**
+
 JPress 模板开发准备，主要是准备 docker 环境，Docker 的安装可以参考一下链接：
 
 * [Mac](https://docs.docker.com/docker-for-mac/install)
@@ -24,17 +26,19 @@ JPress 模板开发准备，主要是准备 docker 环境，Docker 的安装可�
 
 Docker 的安装过程略，一般情况下都是安装比较顺利的，若安装处错自行搜索引擎查询下。
 
-Docker 安装完毕后，下载文件：https://gitee.com/fuhai/jpress/raw/v2.0/docker-compose-for-dev.yml （打开此链接，然后右键另存为... 或者按 `ctrl+s` 保存到本地，mac系统是`command+s`）
+**2、通过Docker运行JPress**
 
-重命名文件 `docker-compose-for-dev.yml` 为 `docker-compose.yml`。
+Docker 安装完毕后，下载文件 https://gitee.com/fuhai/jpress/raw/v2.0/docker-compose-for-dev.yml 到本地。（打开此链接，然后右键另存为... 或者按快捷键 `ctrl+s` 保存到本地，mac系统的快捷键是`command+s`）
 
-然后通过 shell （window 的cmd）进入当前目录，执行如下命令：
+下载完毕后，重命名刚刚下载文件 `docker-compose-for-dev.yml` 为 `docker-compose.yml`。
+
+然后通过 shell （ window系统是cmd ）进入当前目录，执行如下命令：
 
 `docker-compose up -d`
 
-稍等片刻，命令执行完毕后就可以通过 `http://127.0.0.1:8080` 进行访问 JPress了，此时会出现 JPress 安装向导，一路 next 下去就行。
+稍等片刻，命令执行完毕后，就可以通过 `http://127.0.0.1:8080` 进行访问 JPress了，此时浏览器会出现 JPress 安装向导，一路 `下一步` 就可以。
 
-同时，在 `docker-compose.yml` 所在的同级目录下会出现一个 `templates` 的目录，我们开发自己模板的时候，需要把自己的模板放到`templates` 去。
+同时，在 `docker-compose.yml` 所在的同级目录下会出现一个 `templates` 等目录，我们开发自己模板的时候，需要把自己的模板放到`templates` 目录，然后开始开发。
 
 ## 模板的组成
 

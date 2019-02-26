@@ -190,6 +190,33 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
+    public List<ArticleCategory> doNewOrFindByCategoryString(String[] categories) {
+        if (categories == null || categories.length == 0) {
+            return null;
+        }
+
+        List<ArticleCategory> articleCategories = new ArrayList<>();
+        for (String category : categories) {
+            Columns columns = Columns.create("type", ArticleCategory.TYPE_CATEGORY);
+            columns.add(Column.create("slug", category));
+
+            ArticleCategory articleCategory = DAO.findFirstByColumns(columns);
+
+            if (articleCategory == null) {
+                articleCategory = new ArticleCategory();
+                articleCategory.setTitle(category);
+                articleCategory.setSlug(category);
+                articleCategory.setType(ArticleCategory.TYPE_CATEGORY);
+                articleCategory.save();
+            }
+
+            articleCategories.add(articleCategory);
+        }
+
+        return articleCategories;
+    }
+
+    @Override
     public Long[] findCategoryIdsByArticleId(long articleId) {
         List<Record> records = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (records == null || records.isEmpty())

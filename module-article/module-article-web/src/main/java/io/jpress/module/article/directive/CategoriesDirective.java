@@ -23,7 +23,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressConsts;
+import io.jpress.JPressActiveKit;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -57,6 +57,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
         }
 
         SortKit.toLayer(categories);
+        SortKit.fillParentAndChild(categories);
 
 
         if (StrUtil.isNotBlank(pflag)) {
@@ -104,12 +105,14 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<ArticleCategory> activeCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
-        if (activeCategories != null && activeCategories.size() > 0) {
-            for (ArticleCategory activeCategory : activeCategories) {
-                doFlagByCurrentCategory(categories, activeCategory);
-            }
-        }
+        doFlagByCurrentCategory(categories, currentCategory);
+
+//        List<ArticleCategory> activeCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
+//        if (activeCategories != null && activeCategories.size() > 0) {
+//            for (ArticleCategory activeCategory : activeCategories) {
+//                doFlagByCurrentCategory(categories, activeCategory);
+//            }
+//        }
 
     }
 
@@ -127,7 +130,8 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(currentArticle.getId());
+//        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(currentArticle.getId());
+        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(currentArticle.getId());//.findListByArticleId(currentArticle.getId(),ArticleCategory.TYPE_CATEGORY);
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }
@@ -141,7 +145,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
     private void doFlagByCurrentCategory(List<ArticleCategory> categories, ArticleCategory currentCategory) {
         for (ArticleCategory category : categories) {
             if (currentCategory.getId().equals(category.getId())) {
-                JPressConsts.doFlagModelActive(category);
+                JPressActiveKit.makeItActive(category);
             }
         }
     }

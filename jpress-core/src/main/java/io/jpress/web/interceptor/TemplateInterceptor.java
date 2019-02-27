@@ -15,10 +15,10 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.Jboot;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
@@ -81,7 +81,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
 
-        MenuService menuService = Jboot.bean(MenuService.class);
+        MenuService menuService = Aop.get(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
         SortKit.toTree(menus);
         controller.setAttr(JPressConsts.ATTR_MENUS, menus);

@@ -128,7 +128,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
-        List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
+        List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);//.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
         setAttr("tags", tags);
 
         Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);

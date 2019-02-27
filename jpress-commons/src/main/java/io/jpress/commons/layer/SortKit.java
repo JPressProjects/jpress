@@ -26,8 +26,29 @@ import java.util.List;
  */
 public class SortKit {
 
+    public static <M extends SortModel> void fillParentAndChild(List<M> models) {
+        for (M m : models) {
+            M parent = getParent(models, m);
+            if (parent != null) {
+                m.setParent(m);
+                if (parent.getChilds() == null || !parent.getChilds().contains(m)) {
+                    parent.addChild(m);
+                }
+            }
+        }
+    }
+
+    private static <M extends SortModel> M getParent(List<M> models, M sm) {
+        for (M m : models) {
+            if (sm.getParentId() != null && sm.getParentId().equals(m.getId())) {
+                return m;
+            }
+        }
+        return null;
+    }
+
     public static <M extends SortModel> void toLayer(List<M> models) {
-        if (models == null || models.isEmpty()){
+        if (models == null || models.isEmpty()) {
             return;
         }
         toTree(models);
@@ -50,7 +71,7 @@ public class SortKit {
 
 
     public static <M extends SortModel> void toTree(List<M> models) {
-        if (models == null || models.isEmpty()){
+        if (models == null || models.isEmpty()) {
             return;
         }
         List<M> temp = new ArrayList<>(models);

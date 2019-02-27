@@ -15,8 +15,6 @@
  */
 package io.jpress;
 
-import com.jfinal.plugin.activerecord.Model;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -124,21 +122,6 @@ public class JPressConsts {
 
 
     public static final String JWT_USERID = "userId";
-
-
-    /**
-     * 用于标识当前 是否选中
-     */
-    public static final String IS_ACTIVE = "isActive";
-
-    /**
-     * 标识当前对象（一般情况下是分类、菜单等）
-     *
-     * @param model
-     */
-    public static void doFlagModelActive(Model model) {
-        model.put(IS_ACTIVE, true);
-    }
 
 
     public static final String DEFAULT_ADMIN_VIEW = "/WEB-INF/views/admin/";

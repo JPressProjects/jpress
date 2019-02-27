@@ -40,6 +40,7 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
+
         Long id = getParaToLong(0, scope);
         String type = getPara(1, scope);
 
@@ -52,6 +53,7 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
         if (categories == null || categories.isEmpty()) {
             return;
         }
+
         scope.setLocal("categories", categories);
         renderBody(env, scope, writer);
     }

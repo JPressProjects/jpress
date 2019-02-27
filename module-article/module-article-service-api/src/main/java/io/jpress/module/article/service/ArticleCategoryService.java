@@ -92,11 +92,17 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByArticleId(long articleId);
 
+    public List<ArticleCategory> findCategoryListByArticleId(long articleId);
+
+    public List<ArticleCategory> findTagListByArticleId(long articleId);
+
     public List<ArticleCategory> findListByArticleId(long articleId, String type);
 
     public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
     public Long[] findCategoryIdsByArticleId(long articleId);
+
+    public Long[] findCategoryIdsByParentId(long parentId);
 
     public ArticleCategory findFirstByTypeAndSlug(String type, String slug);
 
@@ -104,9 +110,9 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByFlag(String flag);
 
-    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId);
+//    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId);
 
-    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);
+//    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);
 
     public void updateCount(long categoryId);
 

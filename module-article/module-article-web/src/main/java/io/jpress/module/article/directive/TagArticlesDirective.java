@@ -63,11 +63,15 @@ public class TagArticlesDirective extends JbootDirectiveBase {
             return;
         }
 
+        scope.setLocal("tag", category);
+
         List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
 
         if (articles == null || articles.isEmpty()) {
             return;
         }
+
+        ActiveKit.setActiveFlagByCurrentArticle(articles);
 
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);

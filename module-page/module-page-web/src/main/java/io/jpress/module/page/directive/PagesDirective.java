@@ -23,7 +23,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressConsts;
+import io.jpress.JPressActiveKit;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
@@ -77,7 +77,7 @@ public class PagesDirective extends JbootDirectiveBase {
 
         for (SinglePage page : pages) {
             if (page.equals(currentPage)) {
-                JPressConsts.doFlagModelActive(page);
+                JPressActiveKit.makeItActive(page);
             }
         }
     }

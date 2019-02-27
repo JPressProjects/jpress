@@ -28,80 +28,83 @@ import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class AddonClassLoader {
+public class AddonClassLoader extends URLClassLoader {
 
     private static final Log LOG = Log.getLog(AddonClassLoader.class);
 
     private AddonInfo addonInfo;
-    final URLClassLoader parent;
+    private List<String> classNameList;
 
-    public AddonClassLoader(AddonInfo addonInfo) {
+    public AddonClassLoader(AddonInfo addonInfo) throws IOException {
+        super(new URL[] {}, Thread.currentThread().getContextClassLoader());
+        this.addURL(addonInfo.buildJarFile().toURI().toURL());
         this.addonInfo = addonInfo;
-        this.parent = (URLClassLoader) AddonClassLoader.class.getClassLoader();
+        this.classNameList = new ArrayList<>();
+        this.initClassNameList();
+    }
+
+    public List<String> getClassNameList() {
+        return classNameList;
+    }
+
+    private void initClassNameList() throws IOException {
+        Enumeration<JarEntry> entries = new JarFile(addonInfo.buildJarFile()).entries();
+        while (entries.hasMoreElements()) {
+            JarEntry jarEntry = entries.nextElement();
+            String entryName = jarEntry.getName();
+            if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
+                String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
+                classNameList.add(className);
+            }
+        }
     }
 
 
     public void load() {
-        try {
+        for (String className : classNameList) {
+            try {
 
-            File jarFile = addonInfo.buildJarFile();
-            Method method = URLClassLoader.class.getDeclaredMethod("addURL",URL.class);
-            method.setAccessible(true);
-            method.invoke(parent,jarFile.toURI().toURL());
+                Class loadedClass = loadClass(className);
 
-            Enumeration<JarEntry> entries = new JarFile(addonInfo.buildJarFile()).entries();
-
-            while (entries.hasMoreElements()) {
-                JarEntry jarEntry = entries.nextElement();
-                String entryName = jarEntry.getName();
-                if (!jarEntry.isDirectory() && entryName.endsWith(".class")) {
-                    String className = entryName.replace("/", ".").substring(0, entryName.length() - 6);
-
-                    try {
-                        Class loadedClass = parent.loadClass(className);
-
-                        Bean bean = (Bean) loadedClass.getDeclaredAnnotation(Bean.class);
-                        if (bean != null) {
-                            initBeanMapping(loadedClass);
-                        }
-
-                        // controllers
-                        if (Controller.class.isAssignableFrom(loadedClass)) {
-                            addonInfo.addController(loadedClass);
-                        }
-                        // interceptors
-                        else if (Interceptor.class.isAssignableFrom(loadedClass)) {
-                            addonInfo.addInterceptor(loadedClass);
-                        }
-                        // handlers
-                        else if (Handler.class.isAssignableFrom(loadedClass)) {
-                            addonInfo.addHandler(loadedClass);
-                        }
-                        // models
-                        else if (JbootModel.class.isAssignableFrom(loadedClass)) {
-                            addonInfo.addModel(loadedClass);
-                        }
-                        // addonClass
-                        else if (Addon.class.isAssignableFrom(loadedClass)) {
-                            addonInfo.setAddonClass(loadedClass);
-                        }
-
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                Bean bean = (Bean) loadedClass.getDeclaredAnnotation(Bean.class);
+                if (bean != null) {
+                    initBeanMapping(loadedClass);
                 }
+
+                // controllers
+                if (Controller.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addController(loadedClass);
+                }
+                // interceptors
+                else if (Interceptor.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addInterceptor(loadedClass);
+                }
+                // handlers
+                else if (Handler.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addHandler(loadedClass);
+                }
+                // models
+                else if (JbootModel.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addModel(loadedClass);
+                }
+                // addonClass
+                else if (Addon.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.setAddonClass(loadedClass);
+                }
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            LOG.error(e.toString(), e);
         }
     }
 

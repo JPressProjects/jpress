@@ -24,6 +24,7 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.core.support.EhcacheSupporter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
@@ -127,12 +128,28 @@ public class AddonUtil {
     private static Map<String, AddonInfo> addonInfoCache = new ConcurrentHashMap<>();
 
 
+    public static void clearAddonInfoCache(File addonFile) {
+        addonInfoCache.remove(addonFile.getAbsolutePath());
+    }
+
     public static AddonInfo readAddonInfo(File addonFile) {
         AddonInfo addonInfo = addonInfoCache.get(addonFile.getAbsolutePath());
         if (addonInfo == null) {
             addonInfo = readSimpleAddonInfo(addonFile);
             if (addonInfo == null) return null;
-            new AddonClassLoader(addonInfo).load();
+            try {
+                AddonClassLoader classLoader = new AddonClassLoader(addonInfo);
+
+                List<String> classNameList = classLoader.getClassNameList();
+                for (String className : classNameList) {
+                    EhcacheSupporter.addMapping(className, classLoader);
+                }
+
+                classLoader.load();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
         }
         return addonInfo;
@@ -242,7 +259,7 @@ public class AddonUtil {
     private static DataSourceConfig getDatasourceConfig(AddonInfo addonInfo) {
 
         Map<String, String> config = addonInfo.getConfig();
-        if (config == null || config.isEmpty()){
+        if (config == null || config.isEmpty()) {
             return DataSourceConfigManager.me().getMainDatasourceConfig();
         }
 

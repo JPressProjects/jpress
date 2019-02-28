@@ -193,5 +193,9 @@ public class Article extends BaseArticle<Article> {
         return super.update();
     }
 
-
+    @Override
+    public Long getOrderNumber() {
+        Long order = super.getOrderNumber();
+        return order == null ? 0 : order;
+    }
 }

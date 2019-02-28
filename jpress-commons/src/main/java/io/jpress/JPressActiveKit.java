@@ -36,7 +36,9 @@ public class JPressActiveKit {
 
         if (model instanceof SortModel) {
             SortModel parent = ((SortModel) model).getParent();
-            if (parent != null) makeItActive((Model) parent);
+            //理论上，parent == model 这种情况不可能存在，
+            //目前只是为了防止万一哪个兔崽子的代码有问题，从而会出现死循环
+            if (parent != null && parent != model) makeItActive((Model) parent);
         }
     }
 

@@ -27,20 +27,21 @@ import java.util.List;
 public class SortKit {
 
     public static <M extends SortModel> void fillParentAndChild(List<M> models) {
-        for (M m : models) {
-            M parent = getParent(models, m);
+        if (models == null || models.size() == 0) return;
+        for (M child : models) {
+            M parent = getParent(models, child);
             if (parent != null) {
-                m.setParent(m);
-                if (parent.getChilds() == null || !parent.getChilds().contains(m)) {
-                    parent.addChild(m);
+                child.setParent(parent);
+                if (parent.getChilds() == null || !parent.getChilds().contains(child)) {
+                    parent.addChild(child);
                 }
             }
         }
     }
 
-    private static <M extends SortModel> M getParent(List<M> models, M sm) {
+    private static <M extends SortModel> M getParent(List<M> models, M child) {
         for (M m : models) {
-            if (sm.getParentId() != null && sm.getParentId().equals(m.getId())) {
+            if (child.getParentId() != null && child.getParentId().equals(m.getId())) {
                 return m;
             }
         }

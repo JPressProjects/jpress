@@ -15,6 +15,7 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
@@ -146,9 +147,10 @@ public class AddonUtil {
                 }
 
                 classLoader.load();
+                classLoader.close();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LogKit.error(e.toString(), e);
             }
             addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
         }

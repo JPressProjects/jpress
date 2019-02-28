@@ -46,7 +46,7 @@ public class AddonClassLoader extends URLClassLoader {
     private List<String> classNameList;
 
     public AddonClassLoader(AddonInfo addonInfo) throws IOException {
-        super(new URL[] {}, Thread.currentThread().getContextClassLoader());
+        super(new URL[]{}, Thread.currentThread().getContextClassLoader());
         this.addURL(addonInfo.buildJarFile().toURI().toURL());
         this.addonInfo = addonInfo;
         this.classNameList = new ArrayList<>();
@@ -103,7 +103,7 @@ public class AddonClassLoader extends URLClassLoader {
                 }
 
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.error(e.toString(), e);
             }
         }
     }

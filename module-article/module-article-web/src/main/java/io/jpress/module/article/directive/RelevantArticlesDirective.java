@@ -46,7 +46,7 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
         Article article = getPara(0, scope);
         if (article == null) {
-            throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
+            throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty." + getLocation());
         }
 
         //默认值 3

@@ -16,6 +16,7 @@
 package io.jpress.module.article.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -165,7 +166,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
         columns.add("a.status", status);
-        columns.likeAppendPercent("a.title",title);
+        columns.likeAppendPercent("a.title", title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
         sqlBuilder.append(" order by id desc ");
@@ -275,9 +276,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> search(String queryString, int pageNum, int pageSize) {
-        ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
-        return searcher.search(queryString, pageNum, pageSize);
-
+        try {
+            ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
+            return searcher.search(queryString, pageNum, pageSize);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
+        }
+        return null;
     }
 
     @Override

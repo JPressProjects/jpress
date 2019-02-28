@@ -27,7 +27,9 @@ import java.util.List;
 public class SortKit {
 
     public static <M extends SortModel> void fillParentAndChild(List<M> models) {
-        if (models == null || models.size() == 0) return;
+        if (models == null || models.size() == 0) {
+            return;
+        }
         for (M child : models) {
             M parent = getParent(models, child);
             if (parent != null) {

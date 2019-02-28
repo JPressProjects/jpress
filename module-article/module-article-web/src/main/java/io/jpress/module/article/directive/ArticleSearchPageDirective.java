@@ -53,9 +53,10 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
         int pageSize = getParaToInt("pageSize", scope, 10);
 
         Page<Article> dataPage = articleService.search(keyword, page, pageSize);
-
-        scope.setGlobal("articlePage", dataPage);
-        renderBody(env, scope, writer);
+        if (dataPage != null) {
+            scope.setGlobal("articlePage", dataPage);
+            renderBody(env, scope, writer);
+        }
     }
 
     @Override
@@ -66,7 +67,6 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
 
     @JFinalDirective("articleSearchPaginate")
     public static class SearchPaginateDirective extends JbootPaginateDirective {
-
         @Override
         protected Page<?> getPage(Env env, Scope scope, Writer writer) {
             return (Page<?>) scope.get("articlePage");

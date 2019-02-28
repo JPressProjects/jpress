@@ -48,7 +48,7 @@ public class UserArticlesDirective extends JbootDirectiveBase {
         User user = JbootControllerContext.get().getAttr("user");
 
         if (userId == null && user == null) {
-            throw new RuntimeException("#userArticles() args is error,userId must not be null");
+            throw new RuntimeException("#userArticles() args is error,userId must not be null." + getLocation());
         }
 
         if (userId == null) userId = user.getId();

@@ -45,7 +45,7 @@ public class ArticleCategoriesDirective extends JbootDirectiveBase {
         String type = getPara(1, scope);
 
         if (id == null || type == null) {
-            throw new IllegalArgumentException("articleCategory error");
+            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
         }
 
 

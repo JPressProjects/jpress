@@ -18,5 +18,5 @@ logs
 *.patch
 ~$*
 */*.jar
-pom.properties
+**/NewJPress/
 

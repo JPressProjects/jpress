@@ -24,6 +24,7 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.Copyer;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -50,10 +51,15 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    @Cacheable(name = "articleCategory", key = "type:#(type)")
     public List<ArticleCategory> findListByType(String type) {
+        return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Cacheable(name = "articleCategory", key = "type:#(type)")
+    public List<ArticleCategory> findListByTypeInDb(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
+
 
     @Override
     public List<ArticleCategory> findTagList(String orderBy, int count) {

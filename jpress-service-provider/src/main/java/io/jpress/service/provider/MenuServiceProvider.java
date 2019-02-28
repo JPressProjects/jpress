@@ -15,15 +15,15 @@
  */
 package io.jpress.service.provider;
 
-import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.Copyer;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Bean
@@ -63,17 +63,11 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     public List<Menu> findListByType(String type) {
-        List<Menu> menus = Jboot.getCache().get("menu",
-                "type:" + type,
-                () -> DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc"));
+        return Copyer.copy(findListByTypeInDb(type));
+    }
 
-        if (menus == null || menus.isEmpty()) {
-            return null;
-        }
-        List<Menu> newList = new ArrayList<>();
-        for (Menu menu : menus) {
-            newList.add(menu.copy());
-        }
-        return newList;
+    @Cacheable(name = "menu", key = "type:#(type)")
+    public List<Menu> findListByTypeInDb(String type) {
+        return DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc");
     }
 }

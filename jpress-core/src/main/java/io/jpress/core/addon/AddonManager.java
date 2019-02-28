@@ -206,6 +206,8 @@ public class AddonManager implements JbootEventListener {
      */
     public boolean uninstall(AddonInfo addonInfo) {
 
+        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
+
         Addon addon = Aop.get(addonInfo.getAddonClass());
         if (addon != null) addon.onUninstall(addonInfo);
 

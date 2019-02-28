@@ -154,8 +154,12 @@ function initAutoAjaxSubmit() {
                     }
 
                     if (okMessage) {
-                        toastr.success(okMessage);
-                        return
+                        if (typeof toastr != "undefined") {
+                            toastr.success(okMessage);
+                        } else {
+                            alert(okMessage);
+                        }
+                        return;
                     }
 
                     location.reload();
@@ -169,24 +173,32 @@ function initAutoAjaxSubmit() {
                     }
 
                     if (failMessage) {
-                        toastr.error(failMessage, '操作失败');
+                        showErrorMessage(failMessage);
                         return
                     }
 
                     if (result.message) {
-                        toastr.error(result.message, '操作失败');
+                        showErrorMessage(result.message);
                     } else {
-                        toastr.error('操作失败');
+                        showErrorMessage('操作失败。')
                     }
                 }
             },
             error: function () {
-                toastr.error('网络错误，请稍后重试。', '操作失败');
+                showErrorMessage('网络错误，请稍后重试。');
             }
         });
 
         return false;
     });
+}
+
+function showErrorMessage(msg) {
+    if (typeof toastr != "undefined") {
+        toastr.error(msg, '操作失败');
+    } else {
+        alert(msg);
+    }
 }
 
 function ajaxSubmit(form, okFunction, failFunction) {

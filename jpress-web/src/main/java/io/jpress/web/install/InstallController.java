@@ -20,6 +20,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.DbKit;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
@@ -330,7 +331,16 @@ public class InstallController extends JbootController {
 
 
         DataSourceConfig config = InstallUtils.getDataSourceConfig();
-        config.setName(DataSourceConfig.NAME_DEFAULT);
+
+        // 在只有 jboot.properties 但是没有 install.lock 的情况下
+        // jboot启动的时候会出初始化 jboot.properties 里配置的插件
+        // 此时，会出现 Config already exist 的异常
+        if (DbKit.getConfig(DataSourceConfig.NAME_DEFAULT) == null){
+            config.setName(DataSourceConfig.NAME_DEFAULT);
+        }else {
+            config.setName(StrUtil.uuid());
+        }
+
         DataSourceConfigManager.me().addConfig(config);
 
         ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);

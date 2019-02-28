@@ -30,11 +30,16 @@ Docker 的安装过程略，一般情况下都是安装比较顺利的，若安�
 
 Docker 安装完毕后，下载文件 https://gitee.com/fuhai/jpress/raw/v2.0/docker-compose-for-dev.yml 到本地。（打开此链接，然后右键另存为... 或者按快捷键 `ctrl+s` 保存到本地，mac系统的快捷键是`command+s`）
 
-下载完毕后，重命名刚刚下载文件 `docker-compose-for-dev.yml` 为 `docker-compose.yml`。
+下载完毕后，重命名刚刚下载文件 `docker-compose-for-dev.yml` 为 `docker-compose.yml` ，并把 `docker-compose.yml` 放入提前建好的文件夹中。
 
-然后通过 shell （ window系统是cmd ）进入当前目录，执行如下命令：
+然后通过 shell （ window系统是cmd ）进入该文件夹，执行如下命令：
 
 `docker-compose up -d`
+
+**Shell小知识**
+>如何用命令进入某个文件夹？
+>答：进入文件夹的命令是： `cd 文件夹的路径`
+
 
 稍等片刻，命令执行完毕后，就可以通过 `http://127.0.0.1:8080` 进行访问 JPress了，此时浏览器会出现 JPress 安装向导，一路 `下一步` 就可以。
 

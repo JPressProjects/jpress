@@ -114,7 +114,7 @@ public class _ArticleController extends AdminControllerBase {
             }
             setAttr("article", article);
 
-            List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
+            List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);
             setAttr("tags", tags);
 
             Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);

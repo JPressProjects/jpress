@@ -19,6 +19,8 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.web.fixedinterceptor.FixedInterceptors;
@@ -29,6 +31,7 @@ import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.addon.interceptor.AddonInterceptorProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
+import io.jpress.core.support.EhcacheSupporter;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.JPressHandler;
@@ -53,9 +56,15 @@ public class JPressInitializer extends JbootAppListenerBase {
             if (resourceUrl != null) {
                 PathKit.setWebRootPath(resourceUrl.toURI().getPath());
             }
+            EhcacheSupporter.init();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onEngineConfig(Engine engine) {
+        Engine.addExtensionMethod(Model.class, JPressActiveKit.class);
     }
 
     @Override
@@ -80,7 +89,7 @@ public class JPressInitializer extends JbootAppListenerBase {
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
-        handlers.add( new InstallHandler());
+        handlers.add(new InstallHandler());
         handlers.add(new JPressHandler());
         handlers.add(new AddonHandlerProcesser());
 

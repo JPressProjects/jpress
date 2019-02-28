@@ -34,7 +34,7 @@ import java.util.List;
 public class WechatAddonManager implements JbootEventListener {
 
     private static WechatAddonManager me = new WechatAddonManager();
-    private static final String OPTION_PREFIX = "wechat_addon_enable_for_";
+    private static final String OPTION_PREFIX = "wechat_addon_enable:";
 
     private WechatAddonManager() {
     }
@@ -88,8 +88,7 @@ public class WechatAddonManager implements JbootEventListener {
 
         for (WechatAddonInfo addon : allWechatAddons) {
             Boolean enable = JPressOptions.getAsBool(OPTION_PREFIX + addon.getId());
-//            Boolean enable = optionService.findAsBoolByKey(OPTION_PREFIX + addon.getId());
-            if (enable != null && enable == true) {
+            if (enable) {
                 enableWechatAddons.add(addon);
             }
         }

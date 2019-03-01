@@ -19,6 +19,8 @@ RUN cd /tmp && \
     cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties && \
     rm -rf /tmp && \
     rm -rf ~/.m2 && \
+    rm -rf /opt/jpress/webapp/templates/NewJPress && \
+    rm -rf /opt/jpress/webapp/templates/BewTo && \
     rm -rf /opt/jpress/jpress.bat && \
     rm -rf /opt/jpress/config/undertow.txt && \
     rm -rf /opt/jpress/config/install.lock

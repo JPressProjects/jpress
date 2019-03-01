@@ -147,6 +147,9 @@ public class AddonUtil {
                 }
 
                 classLoader.load();
+
+                //必须关闭，在Windows下才能卸载插件的时候删除jar包
+                //否则一旦被 AddonClassLoader load之后，无法被删除
                 classLoader.close();
 
             } catch (IOException e) {

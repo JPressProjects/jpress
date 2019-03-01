@@ -51,9 +51,9 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         String flag = getPara("categoryFlag", scope);
 
         if (StrUtil.isBlank(flag) && categoryId == null) {
-            throw new RuntimeException("#categoryArticles(categoryFlag=xxx，categoryId=xxx) is error, categoryFlag or categoryId must not be empty");
+            throw new IllegalArgumentException("#categoryArticles(categoryFlag=xxx，categoryId=xxx) is error, " +
+                    "categoryFlag or categoryId must not be empty. " + getLocation());
         }
-
 
         Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
@@ -77,9 +77,6 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }
-
-
-
 
 
     @Override

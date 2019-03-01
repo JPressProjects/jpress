@@ -19,44 +19,43 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.model.ArticleComment;
+import io.jpress.module.article.service.ArticleCommentService;
 
 import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章分类：分类、专题、标签等
- * @Package io.jpress.module.article.directives
+ * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("articleCategories")
-public class ArticleCategoriesDirective extends JbootDirectiveBase {
+@JFinalDirective("comments")
+public class CommentsDirective extends JbootDirectiveBase {
 
     @Inject
-    private ArticleCategoryService categoryService;
+    private ArticleCommentService service;
+
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long id = getParaToLong(0, scope);
-        String type = getPara(1, scope);
+        String orderBy = getPara("orderBy", scope, "id desc");
+        int count = getParaToInt("count", scope, 10);
 
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
-        }
+        Columns columns = Columns.create("status", ArticleComment.STATUS_NORMAL);
+        List<ArticleComment> comments = service.findListByColumns(columns, orderBy, count);
 
-
-        List<ArticleCategory> categories = categoryService.findListByArticleId(id, type);
-        if (categories == null || categories.isEmpty()) {
+        if (comments == null || comments.isEmpty()) {
             return;
         }
 
-        scope.setLocal("categories", categories);
+        scope.setLocal("comments", comments);
         renderBody(env, scope, writer);
     }
+
 
     @Override
     public boolean hasEnd() {

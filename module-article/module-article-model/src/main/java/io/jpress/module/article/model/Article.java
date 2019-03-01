@@ -25,6 +25,7 @@ import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.base.BaseArticle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,13 +110,54 @@ public class Article extends BaseArticle<Article> {
     }
 
 
+    /**
+     * 获取文章的所有图片
+     *
+     * @return
+     */
     public List<String> getImages() {
         return JsoupUtils.getImageSrcs(getContent());
     }
 
+    /**
+     * 获取前面几张图片
+     *
+     * @param count
+     * @return
+     */
+    public List<String> getImages(int count) {
+        List<String> list = getImages();
+        if (list == null || list.size() <= count) {
+            return list;
+        }
+
+        List<String> newList = new ArrayList<>();
+        for (int i = 0; 0 < count; i++) newList.add(list.get(i));
+        return newList;
+    }
+
+    public boolean hasImage() {
+        return getFirstImage() != null;
+    }
+
+    public boolean hasVideo() {
+        return getFirstVideo() != null;
+    }
+
+    public boolean hasAudio() {
+        return getFirstAudio() != null;
+    }
 
     public String getFirstImage() {
         return JsoupUtils.getFirstImageSrc(getContent());
+    }
+
+    public String getFirstVideo() {
+        return JsoupUtils.getFirstVideoSrc(getContent());
+    }
+
+    public String getFirstAudio() {
+        return JsoupUtils.getFirstAudioSrc(getContent());
     }
 
     public String getShowImage() {
@@ -128,7 +170,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public void setHighlightContent(String highlightContent) {
-        put("highlightContent",highlightContent);
+        put("highlightContent", highlightContent);
     }
 
     public String getHighlightTitle() {
@@ -136,7 +178,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public void setHighlightTitle(String highlightTitle) {
-        put("highlightTitle",highlightTitle);
+        put("highlightTitle", highlightTitle);
     }
 
     @Override
@@ -151,5 +193,9 @@ public class Article extends BaseArticle<Article> {
         return super.update();
     }
 
-
+    @Override
+    public Long getOrderNumber() {
+        Long order = super.getOrderNumber();
+        return order == null ? 0 : order;
+    }
 }

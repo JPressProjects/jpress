@@ -30,10 +30,22 @@ public class JsoupUtils {
 
 
     public static String getFirstImageSrc(String html) {
+        return getFirstQuerySrc(html, "img");
+    }
+
+    public static String getFirstVideoSrc(String html) {
+        return getFirstQuerySrc(html, "video");
+    }
+
+    public static String getFirstAudioSrc(String html) {
+        return getFirstQuerySrc(html, "audio");
+    }
+
+    public static String getFirstQuerySrc(String html, String query) {
         if (StrUtil.isBlank(html))
             return null;
 
-        Elements es = Jsoup.parseBodyFragment(html).select("img");
+        Elements es = Jsoup.parseBodyFragment(html).select(query);
         if (es != null && es.size() > 0) {
             String src = es.first().attr("src");
             return StrUtil.isBlank(src) ? null : src;
@@ -41,6 +53,7 @@ public class JsoupUtils {
 
         return null;
     }
+
 
     public static List<String> getImageSrcs(String html) {
         if (StrUtil.isBlank(html)) {

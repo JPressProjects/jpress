@@ -50,7 +50,7 @@ public class TagArticlesDirective extends JbootDirectiveBase {
         String tag = getPara("tag", scope);
 
         if (StrUtil.isBlank(tag)) {
-            throw new RuntimeException("#tagArticles(tag=xxx) is error, tag must not be empty");
+            throw new IllegalArgumentException("#tagArticles() args is error, tag must not be empty." + getLocation());
         }
 
 

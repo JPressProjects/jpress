@@ -19,44 +19,58 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.model.User;
+import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
 
 import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章分类：分类、专题、标签等
- * @Package io.jpress.module.article.directives
+ * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("articleCategories")
-public class ArticleCategoriesDirective extends JbootDirectiveBase {
+@JFinalDirective("userArticles")
+public class UserArticlesDirective extends JbootDirectiveBase {
 
     @Inject
-    private ArticleCategoryService categoryService;
+    private ArticleService service;
+
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long id = getParaToLong(0, scope);
-        String type = getPara(1, scope);
+        Long userId = getParaToLong("userId", scope);
+        User user = JbootControllerContext.get().getAttr("user");
 
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
+        if (userId == null && user == null) {
+            throw new RuntimeException("#userArticles() args is error,userId must not be null." + getLocation());
         }
 
+        if (userId == null) userId = user.getId();
 
-        List<ArticleCategory> categories = categoryService.findListByArticleId(id, type);
-        if (categories == null || categories.isEmpty()) {
+        String orderBy = getPara("orderBy", scope, "id desc");
+        String status = getPara("status", scope, Article.STATUS_NORMAL);
+        int count = getParaToInt("count", scope, 10);
+
+
+        Columns columns = Columns.create("user_id", userId);
+        columns.add("status", status);
+
+        List<Article> articles = service.findListByColumns(columns, orderBy, count);
+
+        if (articles == null || articles.isEmpty()) {
             return;
         }
 
-        scope.setLocal("categories", categories);
+        scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }
+
 
     @Override
     public boolean hasEnd() {

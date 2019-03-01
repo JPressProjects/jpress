@@ -16,6 +16,8 @@
 package io.jpress.core.support;
 
 
+import io.jboot.app.config.JbootConfigManager;
+import io.jboot.utils.StrUtil;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.Configuration;
@@ -46,9 +48,12 @@ public class EhcacheSupporter {
 
         Configuration config = ConfigurationFactory.parseConfiguration();
         config.setClassLoader(ehcacheClassloader);
-//        config.setMaxBytesLocalHeap("1G");
-//        config.setMaxBytesLocalOffHeap("2G");
-        config.setMaxBytesLocalDisk("5G");
+
+        String maxBytesLocalHeap = JbootConfigManager.me().getConfigValue("jpress.ehcache.maxBytesLocalHeap");
+        config.setMaxBytesLocalHeap(StrUtil.obtainDefaultIfBlank(maxBytesLocalHeap, "500M"));
+
+        String maxBytesLocalDisk = JbootConfigManager.me().getConfigValue("jpress.ehcache.maxBytesLocalDisk");
+        config.setMaxBytesLocalDisk(StrUtil.obtainDefaultIfBlank(maxBytesLocalDisk, "5G"));
 
         CacheConfiguration cacheConfiguration = new CacheConfiguration();
         cacheConfiguration.setClassLoader(ehcacheClassloader);
@@ -69,7 +74,7 @@ public class EhcacheSupporter {
 
 
         public synchronized void addMapping(String className, ClassLoader classLoader) {
-            if (classLoaderCache == null){
+            if (classLoaderCache == null) {
                 classLoaderCache = new ConcurrentHashMap<>();
             }
             classLoaderCache.put(className, classLoader);
@@ -78,7 +83,7 @@ public class EhcacheSupporter {
 
         @Override
         public Class<?> loadClass(String name) throws ClassNotFoundException {
-            if (classLoaderCache == null || classLoaderCache.isEmpty()){
+            if (classLoaderCache == null || classLoaderCache.isEmpty()) {
                 return parent.loadClass(name);
             }
             ClassLoader c = classLoaderCache.get(name);

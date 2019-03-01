@@ -23,12 +23,14 @@ import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
+import io.jpress.codegen.generator.UIGenerator;
 import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.BaseModelGenerator;
 import io.jpress.codegen.generator.ModelGenerator;
 import io.jpress.codegen.generator.ServiceApiGenerator;
 import io.jpress.codegen.generator.ServiceProviderGenerator;
-
+import com.jfinal.plugin.activerecord.generator.ColumnMeta;
+import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,7 +54,7 @@ public class ModuleGenerator {
 
     private String basePath;
 
-
+    private boolean isGenUI=false;
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
         this.moduleName = moduleName;
         this.dbUrl = dbUrl;
@@ -63,14 +65,17 @@ public class ModuleGenerator {
         this.servicePackage = servicePackage;
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
+	
+	public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage,boolean isGenUI) {
+        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        this.isGenUI=isGenUI;
+    }
 
     public void gen() {
 
         genModule();
         genPomXml();
         genCode();
-        genModuleListener();
-
     }
 
     private void genModule() {
@@ -153,7 +158,9 @@ public class ModuleGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
+        MetaBuilder mb=CodeGenHelpler.createMetaBuilder();
+        mb.setGenerateRemarks(true);
+        List<TableMeta> tableMetaList = mb.build();
         if (StrUtil.isNotBlank(dbTables)) {
             List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
             Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
@@ -175,69 +182,8 @@ public class ModuleGenerator {
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
-
+	  if(isGenUI)
+			 new UIGenerator(moduleName, modelPackage,tableMetaList).genListener().genControllers().genEdit().genList();
     }
-
-    private void genModuleListener() {
-        List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
-        if (StrUtil.isNotBlank(dbTables)) {
-            List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-            for (TableMeta tableMeta : tableMetaList) {
-                if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                    newTableMetaList.add(tableMeta);
-                }
-            }
-            tableMetaList.clear();
-            tableMetaList.addAll(newTableMetaList);
-        }
-
-
-        System.out.println("Generate  module listener ...");
-        System.out.println("Module listener Output Dir: ");
-
-        Engine engine = Engine.create("forModuleListener");
-        engine.setSourceFactory(new ClassPathSourceFactory());
-        engine.addSharedMethod(new StrKit());
-
-
-        Kv data = Kv.by("forModuleListener", moduleName);
-
-        String upcasedModuleName = (new StringBuilder()).append(Character.toUpperCase(moduleName.charAt(0))).append(moduleName.substring(1)).toString();
-        data.set("moduleName", moduleName);
-        data.set("upcasedModuleName", upcasedModuleName);
-        data.set("modelPackage", modelPackage);
-        String template = "/io/jpress/codegen/templates/module_listener_template.jf";
-        String moduleListenerContent = engine.getTemplate(template).renderToString(data);
-
-
-        String webPath = basePath + "/module-" + moduleName + "-web";
-        String moduleListenerPakcage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
-        String path = webPath + "/src/main/java/" + moduleListenerPakcage.replace(".", "/");
-
-
-        System.out.println("Generate  module listener for " + path);
-
-        File dir = new File(path);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
-        String target = path + File.separator + upcasedModuleName + "ModuleListener" + ".java";
-
-        File targetFile = new File(target);
-        if (targetFile.exists()) {
-            return;
-        }
-        try {
-            FileWriter fw = new FileWriter(target);
-            try {
-                fw.write(moduleListenerContent);
-            } finally {
-                fw.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	
 }

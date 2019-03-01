@@ -46,7 +46,7 @@ public class EhcacheSupporter {
 
         Configuration config = ConfigurationFactory.parseConfiguration();
         config.setClassLoader(ehcacheClassloader);
-        config.setMaxBytesLocalHeap("1G");
+//        config.setMaxBytesLocalHeap("1G");
 //        config.setMaxBytesLocalOffHeap("2G");
         config.setMaxBytesLocalDisk("5G");
 

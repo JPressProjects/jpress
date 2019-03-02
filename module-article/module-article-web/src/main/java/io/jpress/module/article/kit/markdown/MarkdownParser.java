@@ -69,6 +69,22 @@ public class MarkdownParser {
         return article;
     }
 
+    public String[] getCategories() throws ParseException {
+        String[] resp = null;
+        for (String key : datas.keySet()) {
+            elementValue = datas.get(key);
+            for (String ele : elementValue) {
+                if ("categories".equals(key)) {
+                    ele = ele.replaceAll("\\[","");
+                    ele = ele.replaceAll("\\]","");
+                    ele = ele.replaceAll("\"","");
+                    resp = ele.split(",");
+                }
+            }
+        }
+        return resp;
+    }
+
     /**
      * 解析markdown文档
      *

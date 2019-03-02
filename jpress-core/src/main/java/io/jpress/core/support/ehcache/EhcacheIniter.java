@@ -27,9 +27,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 为什么需要 EhcacheSupporter ?
+ * 为什么需要 EhcacheIniter ?
  * <p>
- * EhcacheSupporter 的主要作用是用于初始化 EhCache 的 CacheManager
+ * EhcacheIniter 的主要作用是用于初始化 EhCache 的 CacheManager
  * 默认情况下，Ehcache 是通过 默认的 Classloader 加载数据的
  * 但是由于 JPress 内置了插件机制，所有的插件都是通过插件自己的 Classloader 进行加载
  * 这样会导致 EhCache 和 插件的 Classloader 不是通过一个 Classloader，当插件使用ehcache缓存的时候，
@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 另外：对于插件来说，每个插件必须使用自己的 Classloader，才能保证 插件在后台进行 安装、卸载、停止、启用的正常工作
  * 否则当用户卸载插件后重新安装，无法加载到新的Class（之前的Class还在内存里）
  */
-public class EhcacheSupporter {
+public class EhcacheIniter {
 
     private static EhcacheClassloader ehcacheClassloader = new EhcacheClassloader();
 

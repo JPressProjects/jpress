@@ -22,6 +22,7 @@ import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
@@ -36,6 +37,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -290,6 +292,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
+
         if (addon != null) addon.onStart(addonInfo);
 
         AddonControllerManager.buildActionMapping();
@@ -304,7 +307,6 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean stop(AddonInfo addonInfo) {
-
 
         OptionService optionService = Aop.get(OptionService.class);
         optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
@@ -328,8 +330,15 @@ public class AddonManager implements JbootEventListener {
                 AddonInterceptorManager.deleteInterceptor(c);
         }
 
-        if (addonInfo.getArp() != null) {
-            addonInfo.getArp().stop();
+        ActiveRecordPlugin arp = addonInfo.getArp();
+        if (arp != null) {
+            arp.stop();
+            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
+            if (tableList != null) {
+                tableList.forEach(table -> {
+                    Jboot.getCache().removeAll(table.getName());
+                });
+            }
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
@@ -340,7 +349,18 @@ public class AddonManager implements JbootEventListener {
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         return true;
+    }
 
+
+    private static List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
+        try {
+            Field field = ActiveRecordPlugin.class.getDeclaredField("tableList");
+            field.setAccessible(true);
+            return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

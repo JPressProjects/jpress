@@ -25,7 +25,7 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.core.support.EhcacheSupporter;
+import io.jpress.core.support.ehcache.EhcacheSupporter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;

@@ -16,7 +16,7 @@
 package io.jpress.module.article;
 
 import io.jboot.utils.StrUtil;
-import io.jpress.core.ext.field.SmartField;
+import io.jpress.core.support.smartfield.SmartField;
 
 import java.util.ArrayList;
 import java.util.Comparator;

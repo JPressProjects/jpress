@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.support;
+package io.jpress.core.support.ehcache;
 
 
 import io.jboot.app.config.JbootConfigManager;

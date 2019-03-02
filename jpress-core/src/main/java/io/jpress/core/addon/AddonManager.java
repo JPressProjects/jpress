@@ -20,8 +20,11 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.SyncWriteMap;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.template.expr.ast.FieldKit;
+import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
@@ -343,6 +346,23 @@ public class AddonManager implements JbootEventListener {
                     Jboot.getCache().removeAll(table.getName());
                 });
             }
+        }
+
+        // 清除模板引擎的 field 缓存
+        // 否则可能会出现  object is not an instance of declaring class 的异常
+        // https://gitee.com/fuhai/jpress/issues/IS5YQ
+        try {
+            Field fieldGetterCacheField = FieldKit.class.getDeclaredField("fieldGetterCache");
+            fieldGetterCacheField.setAccessible(true);
+            SyncWriteMap fieldGetterCacheMap = (SyncWriteMap) fieldGetterCacheField.get(null);
+            fieldGetterCacheMap.clear();
+
+            Field methodCacheField =MethodKit.class.getDeclaredField("methodCache");
+            methodCacheField.setAccessible(true);
+            SyncWriteMap methodCacheMap = (SyncWriteMap) methodCacheField.get(null);
+            methodCacheMap.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());

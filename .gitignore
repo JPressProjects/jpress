@@ -1,6 +1,7 @@
 **/target/
 */jpress-addon-club/
 */jpress-addon-articlemeta/
+*/jpress-addon-spider/
 starter-dev/
 .idea
 *.iml

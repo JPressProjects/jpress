@@ -27,20 +27,20 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 为什么需要 EhcacheIniter ?
+ * 为什么需要 EhcacheManager ?
  * <p>
- * EhcacheIniter 的主要作用是用于初始化 EhCache 的 CacheManager
- * 默认情况下，Ehcache 是通过 默认的 Classloader 加载数据的
- * 但是由于 JPress 内置了插件机制，所有的插件都是通过插件自己的 Classloader 进行加载
- * 这样会导致 EhCache 和 插件的 Classloader 不是通过一个 Classloader，当插件使用ehcache缓存的时候，
+ * EhcacheManager 的主要作用是用于初始化 EhCache 的 CacheManager
+ * 默认情况下，Ehcache 是通过 默认的（系统的） Classloader 加载数据的
+ * 但是由于 JPress 内置了插件机制，插件的所有class都是通过插件自己的 Classloader 进行加载
+ * 这样就会导致 EhCache 和 插件的 Classloader 不是通过一个 Classloader，当插件使用ehcache缓存的时候，
  * 就会导致 ClassNotFound 的异常出现
  * <p>
- * 所以，此类的主要作用，是保证 EhCache 用于加载缓存的 Classloader 能够找到 插件加载进来的 Class
+ * 所以，此类的主要作用，是对 EhCache Classloader 进行配置，保证能够加载到 插件自己的 Class
  * <p>
  * 另外：对于插件来说，每个插件必须使用自己的 Classloader，才能保证 插件在后台进行 安装、卸载、停止、启用的正常工作
  * 否则当用户卸载插件后重新安装，无法加载到新的Class（之前的Class还在内存里）
  */
-public class EhcacheIniter {
+public class EhcacheManager {
 
     private static EhcacheClassloader ehcacheClassloader = new EhcacheClassloader();
 
@@ -50,7 +50,7 @@ public class EhcacheIniter {
         config.setClassLoader(ehcacheClassloader);
 
         String maxBytesLocalHeap = JbootConfigManager.me().getConfigValue("jpress.ehcache.maxBytesLocalHeap");
-        config.setMaxBytesLocalHeap(StrUtil.obtainDefaultIfBlank(maxBytesLocalHeap, "500M"));
+        config.setMaxBytesLocalHeap(StrUtil.obtainDefaultIfBlank(maxBytesLocalHeap, "100M"));
 
         String maxBytesLocalDisk = JbootConfigManager.me().getConfigValue("jpress.ehcache.maxBytesLocalDisk");
         config.setMaxBytesLocalDisk(StrUtil.obtainDefaultIfBlank(maxBytesLocalDisk, "5G"));

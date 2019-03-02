@@ -336,6 +336,10 @@ public class AddonManager implements JbootEventListener {
             List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
             if (tableList != null) {
                 tableList.forEach(table -> {
+                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
+                    // 缓存里的可能还存在数据，而且是内存缓存
+                    // 这样可能导致Class转化异常的问题
+                    // PS：每次新安装的插件，都是一个新的Classloader
                     Jboot.getCache().removeAll(table.getName());
                 });
             }

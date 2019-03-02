@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field;
+package io.jpress.core.support.smartfield;
 
 
-import io.jpress.core.ext.field.renders.*;
+import io.jpress.core.support.smartfield.renders.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -25,7 +25,7 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.core.support.ehcache.EhcacheSupporter;
+import io.jpress.core.support.ehcache.EhcacheIniter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
@@ -143,7 +143,7 @@ public class AddonUtil {
 
                 List<String> classNameList = classLoader.getClassNameList();
                 for (String className : classNameList) {
-                    EhcacheSupporter.addMapping(className, classLoader);
+                    EhcacheIniter.addMapping(className, classLoader);
                 }
 
                 classLoader.load();

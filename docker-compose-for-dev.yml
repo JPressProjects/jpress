@@ -30,7 +30,6 @@ services:
       JPRESS_DB_NAME: jpress
       JPRESS_DB_USER: jpress
       JPRESS_DB_PASSWORD: jpress
-      JPRESS_EHCACHE_MAXBYTESLOCALHEAP: 100M
       JBOOT_APP_MODE: dev
       UNDERTOW_HOTSWAPCLASSPREFIX: io.jpress
     volumes:

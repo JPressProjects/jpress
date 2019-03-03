@@ -55,10 +55,21 @@ public class ModuleManager {
             return;
         }
 
-        for (Class<ModuleListener> jPressAppListenerClass : classes) {
-            moduleListeners.add(ClassUtil.newInstance(jPressAppListenerClass));
+        for (Class<ModuleListener> moduleListenerClass : classes) {
+            addListener(ClassUtil.newInstance(moduleListenerClass));
         }
     }
 
+    public void addListener(ModuleListener listener){
+        moduleListeners.add(listener);
+    }
+
+    public void removeListener(ModuleListener listener){
+        moduleListeners.remove(listener);
+    }
+
+    public void removeListener(Class<? extends ModuleListener> clazz){
+        moduleListeners.removeIf(listener -> listener.getClass() == clazz);
+    }
 
 }

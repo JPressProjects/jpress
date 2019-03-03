@@ -9,7 +9,9 @@
     })
 
     $(".addon-unisntall").on("click", function () {
-        ajaxGet("#(CPATH)/admin/addon/doUninstall?id=" + $(this).attr("data-id"))
+        if (confirm('确定要卸载该插件吗？卸载后该插件的所有数据将被删除，不可恢复。')) {
+            ajaxGet("#(CPATH)/admin/addon/doUninstall?id=" + $(this).attr("data-id"))
+        }
     })
 
     $(".addon-install").on("click", function () {

@@ -24,6 +24,7 @@ import com.jfinal.kit.SyncWriteMap;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.render.RenderManager;
 import com.jfinal.template.expr.ast.FieldKit;
 import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
@@ -348,6 +349,8 @@ public class AddonManager implements JbootEventListener {
         // 否则可能会出现  object is not an instance of declaring class 的异常
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
         try {
+            RenderManager.me().getEngine().removeAllTemplateCache();
+
             Field fieldGetterCacheField = FieldKit.class.getDeclaredField("fieldGetterCache");
             fieldGetterCacheField.setAccessible(true);
             SyncWriteMap fieldGetterCacheMap = (SyncWriteMap) fieldGetterCacheField.get(null);

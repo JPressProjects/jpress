@@ -56,7 +56,7 @@ public class PageApiController extends ApiControllerBase {
     public void list() {
         String flag = getPara("flag");
         List<SinglePage> pages = service.findListByFlag(flag);
-        renderOk("pages", pages);
+        renderOkJson("pages", pages);
     }
 
 

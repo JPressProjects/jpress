@@ -73,6 +73,6 @@ public class UserApiController extends ApiControllerBase {
         user.keepUpdateSafe();
         userService.saveOrUpdate(user);
 
-        renderOk();
+        renderOkJson();
     }
 }

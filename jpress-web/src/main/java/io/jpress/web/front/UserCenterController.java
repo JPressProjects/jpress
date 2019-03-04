@@ -71,7 +71,7 @@ public class UserCenterController extends UcenterControllerBase {
         }
 
         userService.saveOrUpdate(user);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -122,7 +122,7 @@ public class UserCenterController extends UcenterControllerBase {
         user.setPassword(hashedPass);
         userService.update(user);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -151,7 +151,7 @@ public class UserCenterController extends UcenterControllerBase {
         User loginedUser = getLoginedUser();
         loginedUser.setAvatar(newPath);
         userService.saveOrUpdate(loginedUser);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     /**

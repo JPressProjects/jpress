@@ -150,7 +150,7 @@ public class ArticleController extends TemplateControllerBase {
         String qq = getPara("qq");
 
         if (articleId == null || articleId <= 0) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -173,7 +173,7 @@ public class ArticleController extends TemplateControllerBase {
 
         Article article = articleService.findById(articleId);
         if (article == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 

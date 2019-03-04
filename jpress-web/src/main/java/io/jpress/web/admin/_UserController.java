@@ -156,7 +156,7 @@ public class _UserController extends AdminControllerBase {
 
         userService.save(user);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
@@ -231,7 +231,7 @@ public class _UserController extends AdminControllerBase {
      */
     public void doRoleDel() {
         roleService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -241,13 +241,13 @@ public class _UserController extends AdminControllerBase {
     public void doRoleDelByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(roleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
@@ -256,13 +256,13 @@ public class _UserController extends AdminControllerBase {
 
     public void doDelRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     public void doAddRolePermission(long roleId, long permissionId) {
         roleService.addPermission(roleId, permissionId);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -327,7 +327,7 @@ public class _UserController extends AdminControllerBase {
         }
 
         userService.saveOrUpdate(user);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -342,7 +342,7 @@ public class _UserController extends AdminControllerBase {
 
         Long[] roleIds = getParaValuesToLong("roleId");
         roleService.doResetUserRoles(userId, roleIds);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -375,7 +375,7 @@ public class _UserController extends AdminControllerBase {
         user.setPassword(hashedPass);
         userService.update(user);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @EmptyValidate({
@@ -384,7 +384,7 @@ public class _UserController extends AdminControllerBase {
     public void doSaveAvatar(String path, Long uid, int x, int y, int w, int h) {
         User user = userService.findById(uid);
         if (user == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -407,7 +407,7 @@ public class _UserController extends AdminControllerBase {
 
         user.setAvatar(newPath);
         userService.saveOrUpdate(user);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -420,7 +420,7 @@ public class _UserController extends AdminControllerBase {
             return;
         }
         userService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     /**
@@ -429,13 +429,13 @@ public class _UserController extends AdminControllerBase {
     public void doUserDelByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -454,18 +454,18 @@ public class _UserController extends AdminControllerBase {
     public void doChangeRoleByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         Long roleId = getParaToLong("roleId");
         if (roleId == null || roleId <= 0) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? Ret.ok() : Ret.fail());

@@ -269,7 +269,7 @@ public class _ArticleController extends AdminControllerBase {
         MenuService menuService = Jboot.bean(MenuService.class);
         menuService.saveOrUpdate(menu);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -286,7 +286,7 @@ public class _ArticleController extends AdminControllerBase {
 
         categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @EmptyValidate({
@@ -303,12 +303,12 @@ public class _ArticleController extends AdminControllerBase {
 
         categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCategoryDel() {
         categoryService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -362,7 +362,7 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
         commentService.saveOrUpdate(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -380,7 +380,7 @@ public class _ArticleController extends AdminControllerBase {
         comment.setPid(pid);
 
         commentService.save(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -390,7 +390,7 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentDel() {
         Long id = getParaToLong("id");
         commentService.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -400,13 +400,13 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentDelByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(commentService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
@@ -419,13 +419,13 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentAuditByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? Ret.ok() : Ret.fail());
@@ -453,13 +453,13 @@ public class _ArticleController extends AdminControllerBase {
     public void doDelByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(articleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());

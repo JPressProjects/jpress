@@ -125,13 +125,13 @@ public class _PageController extends AdminControllerBase {
     public void doDelByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(sps.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());

@@ -134,7 +134,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         AddonManager.me().uninstall(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doInstall() {
@@ -144,7 +144,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         if (AddonManager.me().install(id)) {
-            renderJson(Ret.ok());
+            renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "插件安装失败，请联系插件开发者。"));
         }
@@ -157,7 +157,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         AddonManager.me().uninstall(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doStart() {
@@ -167,7 +167,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         AddonManager.me().start(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doStop() {
@@ -177,7 +177,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         AddonManager.me().stop(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

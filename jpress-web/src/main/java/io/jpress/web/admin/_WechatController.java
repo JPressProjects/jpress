@@ -111,19 +111,19 @@ public class _WechatController extends AdminControllerBase {
     public void doDelReply() {
         Long id = getIdPara();
         replyService.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doDelReplyByIds() {
         String ids = getPara("ids");
         if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Set<String> idsSet = StrUtil.splitToSet(ids, ",");
         if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
         render(replyService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
@@ -132,12 +132,12 @@ public class _WechatController extends AdminControllerBase {
 
     public void doEnableAddon(String id) {
         WechatAddonManager.me().doEnableAddon(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCloseAddon(String id) {
         WechatAddonManager.me().doCloseAddon(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -164,7 +164,7 @@ public class _WechatController extends AdminControllerBase {
 
     public void doMenuDel() {
         wechatMenuService.deleteById(getParaToLong());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     /**

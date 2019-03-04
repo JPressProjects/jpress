@@ -26,7 +26,6 @@ import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.core.install.InstallUtils;
@@ -35,6 +34,7 @@ import io.jpress.model.User;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
+import io.jpress.web.base.ControllerBase;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +49,7 @@ import java.util.List;
  */
 @RequestMapping("/install")
 @Before(InstallInterceptor.class)
-public class InstallController extends JbootController {
+public class InstallController extends ControllerBase {
 
     @Inject
     private UserService userService;
@@ -137,7 +137,7 @@ public class InstallController extends JbootController {
                     && tables.contains("utm")) {
 
                 InstallUtils.setInitBefore(true);
-                renderJson(Ret.ok());
+                renderOkJson();
                 return;
             }
 
@@ -149,11 +149,11 @@ public class InstallController extends JbootController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -221,7 +221,7 @@ public class InstallController extends JbootController {
 
 
         if (doCreatedInstallLockFiles()) {
-            renderJson(Ret.ok());
+            renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
         }
@@ -278,7 +278,7 @@ public class InstallController extends JbootController {
             InstallUtils.tryInitJPressTables();
         } catch (SQLException e) {
             e.printStackTrace();
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -319,7 +319,7 @@ public class InstallController extends JbootController {
         roleService.initWebRole();
 
         if (doCreatedInstallLockFiles()) {
-            renderJson(Ret.ok());
+            renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
         }

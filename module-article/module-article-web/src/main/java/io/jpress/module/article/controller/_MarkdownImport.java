@@ -97,6 +97,6 @@ public class _MarkdownImport extends AdminControllerBase {
             articleService.doUpdateCategorys(article.getId(), allIds);
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 }

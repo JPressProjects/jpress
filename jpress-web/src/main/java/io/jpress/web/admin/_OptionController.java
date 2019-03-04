@@ -69,7 +69,7 @@ public class _OptionController extends AdminControllerBase {
             JPressOptions.set(entry.getKey(), entry.getValue());
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

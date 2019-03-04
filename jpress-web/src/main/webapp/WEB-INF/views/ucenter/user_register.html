@@ -61,7 +61,7 @@
 <div class="row">
     <div class="login-box text-center">
         <div class="login-box-body">
-            <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="okFunction">
+            <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
                 <div class="form-group">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号" name="username">
@@ -118,7 +118,7 @@
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 <script>
-    function okFunction(){
+    function ok(){
         alert("注册成功，点击确定进行登录。")
         location.href = "#(CPATH)/user/login";
     }

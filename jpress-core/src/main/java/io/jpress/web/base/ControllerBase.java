@@ -16,6 +16,7 @@
 package io.jpress.web.base;
 
 import com.jfinal.core.NotAction;
+import com.jfinal.kit.Ret;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.CommonsUtils;
@@ -67,6 +68,19 @@ public abstract class ControllerBase extends JbootController {
             return null;
         }
         return CommonsUtils.escapeHtml(value);
+    }
+
+    private static final Ret OK = Ret.ok();
+    private static final Ret FAIL = Ret.fail();
+
+    @NotAction
+    public void renderOkJson() {
+        renderJson(OK);
+    }
+
+    @NotAction
+    public void renderFailJson() {
+        renderJson(FAIL);
     }
 
 }

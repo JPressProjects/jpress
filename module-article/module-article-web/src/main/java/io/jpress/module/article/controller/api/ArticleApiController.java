@@ -193,7 +193,7 @@ public class ArticleApiController extends ApiControllerBase {
         int count = getParaToInt("count", 3);
 
         List<Article> relevantArticles = articleService.findRelevantListByArticleId(id, Article.STATUS_NORMAL, count);
-        renderOk("articles", relevantArticles);
+        renderOkJson("articles", relevantArticles);
     }
 
 

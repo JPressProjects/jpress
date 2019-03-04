@@ -60,7 +60,7 @@ public class OptionApiController extends ApiControllerBase {
 
         Set<String> keys = StrUtil.splitToSet(keyPara, ",");
         if (keys != null || keys.size() == 1) {
-            renderOk("value", optionService.findByKey(keyPara));
+            renderOkJson("value", optionService.findByKey(keyPara));
             return;
         }
 

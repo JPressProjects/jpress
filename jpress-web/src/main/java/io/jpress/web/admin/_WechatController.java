@@ -21,8 +21,9 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.weixin.sdk.api.ApiResult;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jboot.wechat.WechatApis;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
@@ -114,19 +115,10 @@ public class _WechatController extends AdminControllerBase {
         renderOkJson();
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelReplyByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderFailJson();
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderFailJson();
-            return;
-        }
-        render(replyService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(replyService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 

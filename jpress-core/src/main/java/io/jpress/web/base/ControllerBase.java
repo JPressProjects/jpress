@@ -17,10 +17,13 @@ package io.jpress.web.base;
 
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
+
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -57,6 +60,15 @@ public abstract class ControllerBase extends JbootController {
         return "".equals(value) ? null : value;
     }
 
+    public Set<String> getParaSet(String name) {
+        String ids = getPara(name);
+        if (StrUtil.isBlank(ids)) {
+            return null;
+        }
+
+        return StrUtil.splitToSet(ids, ",");
+    }
+
 
     protected User getLoginedUser() {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
@@ -70,16 +82,16 @@ public abstract class ControllerBase extends JbootController {
         return CommonsUtils.escapeHtml(value);
     }
 
-    private static final Ret OK = Ret.ok();
-    private static final Ret FAIL = Ret.fail();
+    protected static final Ret OK = Ret.ok();
+    protected static final Ret FAIL = Ret.fail();
 
     @NotAction
-    public void renderOkJson() {
+    protected void renderOkJson() {
         renderJson(OK);
     }
 
     @NotAction
-    public void renderFailJson() {
+    protected void renderFailJson() {
         renderJson(FAIL);
     }
 

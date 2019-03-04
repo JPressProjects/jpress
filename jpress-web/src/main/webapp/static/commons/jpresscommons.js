@@ -13,7 +13,9 @@ $(document).ready(function () {
 function initDatepicker() {
     if ($('').datepicker) {
         $('.datepicker').datepicker({
-            language: 'zh-CN'
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true
         });
     }
 }

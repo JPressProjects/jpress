@@ -76,7 +76,7 @@ public class _WordpressImport extends AdminControllerBase {
         }
 
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

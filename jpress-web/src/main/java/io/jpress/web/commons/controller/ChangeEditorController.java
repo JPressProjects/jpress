@@ -15,11 +15,11 @@
  */
 package io.jpress.web.commons.controller;
 
-import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.web.base.ControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -28,17 +28,17 @@ import io.jpress.JPressConsts;
  * @Package io.jpress.web.admin
  */
 @RequestMapping("/commons/changeEditor")
-public class ChangeEditorController extends Controller {
+public class ChangeEditorController extends ControllerBase {
 
 
     public void index() {
         String para = getPara();
         if (StrUtil.isBlank(para)) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         setCookie(JPressConsts.COOKIE_EDIT_MODE, para, Integer.MAX_VALUE);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 }

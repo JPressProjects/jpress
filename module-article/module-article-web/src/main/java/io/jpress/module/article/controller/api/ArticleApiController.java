@@ -200,7 +200,7 @@ public class ArticleApiController extends ApiControllerBase {
     public void save() {
         Article article = getRawObject(Article.class);
         articleService.saveOrUpdate(article);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -222,7 +222,7 @@ public class ArticleApiController extends ApiControllerBase {
         String content = getRawData();
 
         if (articleId == null || articleId <= 0) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -236,7 +236,7 @@ public class ArticleApiController extends ApiControllerBase {
 
         Article article = articleService.findById(articleId);
         if (article == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 

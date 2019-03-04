@@ -107,14 +107,14 @@ public class _AttachmentController extends AdminControllerBase {
             return;
         }
         as.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     public void doUpdate() {
         Attachment attachment = getBean(Attachment.class);
         as.saveOrUpdate(attachment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

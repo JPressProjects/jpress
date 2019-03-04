@@ -238,19 +238,10 @@ public class _UserController extends AdminControllerBase {
     /**
      * 批量删除角色
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doRoleDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderFailJson();
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderFailJson();
-            return;
-        }
-        render(roleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(roleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -426,49 +417,29 @@ public class _UserController extends AdminControllerBase {
     /**
      * 删除用户
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doUserDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderFailJson();
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderFailJson();
-            return;
-        }
-
+        Set<String> idsSet = getParaSet("ids");
         if (idsSet.contains(getLoginedUser().getId().toString())) {
             renderJson(Ret.fail().set("message", "删除的用户不能包含自己"));
             return;
         }
-
-        render(userService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        render(userService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     /**
      * 删除角色
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doChangeRoleByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderFailJson();
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderFailJson();
-            return;
-        }
+        Set<String> idsSet = getParaSet("ids");
         Long roleId = getParaToLong("roleId");
         if (roleId == null || roleId <= 0) {
             renderFailJson();
             return;
         }
-        render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -480,7 +451,7 @@ public class _UserController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "不能修改自己的状态"));
             return;
         }
-        render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
+        render(userService.doChangeStatus(id, status) ? OK : FAIL);
     }
 
     public void doAddGroupRolePermission(long roleId, String groupId) {

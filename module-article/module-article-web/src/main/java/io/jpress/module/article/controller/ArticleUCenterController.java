@@ -86,7 +86,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(articleService.deleteById(id) ? OK : FAIL);
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
@@ -280,7 +280,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(commentService.deleteById(id) ? OK : FAIL);
     }
 
 }

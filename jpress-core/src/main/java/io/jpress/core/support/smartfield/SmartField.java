@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field;
+package io.jpress.core.support.smartfield;
 
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;

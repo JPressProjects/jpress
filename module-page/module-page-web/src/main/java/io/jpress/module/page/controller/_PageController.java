@@ -78,7 +78,7 @@ public class _PageController extends AdminControllerBase {
         setAttr("page", page);
 
         Template template = TemplateManager.me().getCurrentTemplate();
-        if (template != null){
+        if (template != null) {
             List<String> styles = template.getSupportStyles("page_");
             if (ArrayUtil.isNotEmpty(styles)) {
                 setAttr("styles", styles);
@@ -119,37 +119,28 @@ public class _PageController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(sps.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(sps.deleteById(id) ? OK : FAIL);
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(sps.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(sps.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doTrash() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? OK : FAIL);
     }
 
     public void doDraft() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? OK : FAIL);
     }
 
     public void doNormal() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? OK : FAIL);
     }
 }

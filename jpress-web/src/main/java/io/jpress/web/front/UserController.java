@@ -285,7 +285,7 @@ public class UserController extends TemplateControllerBase {
             UserEmailSender.sendEmailForUserRegisterActivate(user);
         }
 
-        renderJson(user != null ? Ret.ok() : Ret.fail());
+        renderJson(user != null ? OK : FAIL);
     }
 
 

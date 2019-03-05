@@ -100,6 +100,8 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
+    List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
+
     public Long[] findCategoryIdsByArticleId(long articleId);
 
     public Long[] findCategoryIdsByParentId(long parentId);

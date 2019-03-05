@@ -25,7 +25,7 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.core.support.EhcacheSupporter;
+import io.jpress.core.support.ehcache.EhcacheManager;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
@@ -143,10 +143,13 @@ public class AddonUtil {
 
                 List<String> classNameList = classLoader.getClassNameList();
                 for (String className : classNameList) {
-                    EhcacheSupporter.addMapping(className, classLoader);
+                    EhcacheManager.addMapping(className, classLoader);
                 }
 
                 classLoader.load();
+
+                //必须关闭，在Windows下才能卸载插件的时候删除jar包
+                //否则一旦被 AddonClassLoader load之后，无法被删除
                 classLoader.close();
 
             } catch (IOException e) {

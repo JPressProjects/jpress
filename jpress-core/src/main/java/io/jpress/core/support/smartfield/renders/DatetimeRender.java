@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field.renders;
+package io.jpress.core.support.smartfield.renders;
 
-import io.jpress.core.ext.field.SmartField;
-import io.jpress.core.ext.field.SmartFieldRender;
+import io.jpress.core.support.smartfield.SmartField;
+import io.jpress.core.support.smartfield.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Input 输入框的渲染器
+ * @Title: Datetime 时间选择器的渲染器
  */
-public class FileRender implements SmartFieldRender {
+public class DatetimeRender implements SmartFieldRender {
+
 
     @Override
     public String onRender(SmartField field, Object value) {
-        throw new IllegalStateException("FileRender not finished.");
+        throw new IllegalStateException("DatetimeRender not finished.");
     }
 
 }

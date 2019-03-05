@@ -13,7 +13,9 @@ $(document).ready(function () {
 function initDatepicker() {
     if ($('').datepicker) {
         $('.datepicker').datepicker({
-            language: 'zh-CN'
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true
         });
     }
 }
@@ -185,7 +187,7 @@ function initAutoAjaxSubmit() {
                 }
             },
             error: function () {
-                showErrorMessage('网络错误，请稍后重试。');
+                showErrorMessage('系统错误，请稍后重试。');
             }
         });
 
@@ -227,7 +229,7 @@ function ajaxSubmit(form, okFunction, failFunction) {
             }
         },
         error: function () {
-            toastr.error('网络错误，请稍后重试。', '操作失败');
+            toastr.error('系统错误，请稍后重试。', '操作失败');
         }
     });
 }

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field.renders;
+package io.jpress.core.support.smartfield.renders;
 
-import io.jpress.core.ext.field.SmartField;
-import io.jpress.core.ext.field.SmartFieldRender;
+import io.jpress.core.support.smartfield.SmartField;
+import io.jpress.core.support.smartfield.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field.renders;
+package io.jpress.core.support.smartfield.renders;
 
 import io.jboot.utils.StrUtil;
-import io.jpress.core.ext.field.SmartField;
-import io.jpress.core.ext.field.SmartFieldRender;
+import io.jpress.core.support.smartfield.SmartField;
+import io.jpress.core.support.smartfield.SmartFieldRender;
 
 import java.util.Objects;
 

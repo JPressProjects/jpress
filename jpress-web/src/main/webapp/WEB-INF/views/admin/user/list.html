@@ -8,7 +8,9 @@
     }
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/user/doUserDel/" + id)
+        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/user/doUserDel/" + id)
+        }
     }
 
     $("#batchDel").click(function () {
@@ -17,7 +19,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
+        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
+        }
     })
 
 
@@ -121,6 +125,7 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
+                                <th style="width: 40px">ID</th>
                                 <th style="width: 20%">登录名</th>
                                 <th>昵称</th>
                                 <th>邮箱</th>
@@ -134,11 +139,12 @@
                                     <input class="dataItem" type="checkbox" value="#(user.id)"
                                            onchange="dataItemChange(this)"/>
                                 </td>
+                                <td>#(user.id)</td>
                                 <td>
                                     <strong>
                                         #if(user.username)
                                         <a href="#(CPATH)/admin/user/detail/#(user.id)">
-                                            #(user.username ??)
+                                            #(user.username)
                                         </a>
                                         #else
                                         无用户名

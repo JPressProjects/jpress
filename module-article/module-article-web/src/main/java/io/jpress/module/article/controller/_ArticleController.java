@@ -269,7 +269,7 @@ public class _ArticleController extends AdminControllerBase {
         MenuService menuService = Jboot.bean(MenuService.class);
         menuService.saveOrUpdate(menu);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -286,7 +286,7 @@ public class _ArticleController extends AdminControllerBase {
 
         categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @EmptyValidate({
@@ -303,12 +303,12 @@ public class _ArticleController extends AdminControllerBase {
 
         categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCategoryDel() {
         categoryService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -362,7 +362,7 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
         commentService.saveOrUpdate(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -380,7 +380,7 @@ public class _ArticleController extends AdminControllerBase {
         comment.setPid(pid);
 
         commentService.save(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -390,45 +390,27 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentDel() {
         Long id = getParaToLong("id");
         commentService.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     /**
      * 批量删除评论
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doCommentDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(commentService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     /**
      * 批量审核评论
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doCommentAuditByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -436,7 +418,7 @@ public class _ArticleController extends AdminControllerBase {
      * 修改评论状态
      */
     public void doCommentStatusChange(Long id, String status) {
-        render(commentService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
+        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
     }
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)
@@ -447,38 +429,29 @@ public class _ArticleController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(articleService.deleteById(id) ? OK : FAIL);
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtil.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtil.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(articleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(articleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doTrash() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_TRASH) ? OK : FAIL);
     }
 
     public void doDraft() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_DRAFT) ? OK : FAIL);
     }
 
     public void doNormal() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_NORMAL) ? OK : FAIL);
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
@@ -24,10 +25,14 @@ import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.module.article.kit.markdown.MarkdownParser;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.io.File;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * @author Ryan Wang（i@ryanc.cc）
@@ -36,6 +41,10 @@ import java.text.ParseException;
  */
 @RequestMapping(value = "/admin/setting/tools/markdown", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _MarkdownImport extends AdminControllerBase {
+    @Inject
+    private ArticleService articleService;
+    @Inject
+    private ArticleCategoryService articleCategoryService;
 
     public void index() {
         render("article/markdown.html");
@@ -62,9 +71,11 @@ public class _MarkdownImport extends AdminControllerBase {
         markdownParser.parse(mdFile);
 
         Article article = null;
+        String[] categoryNames = null;
 
         try {
             article = markdownParser.getArticle();
+            categoryNames = markdownParser.getCategories();
         } catch (ParseException e) {
             LogKit.error(e.toString(), e);
             renderJson(Ret.fail("message", "导入失败，可能markdown文件格式错误"));
@@ -77,6 +88,15 @@ public class _MarkdownImport extends AdminControllerBase {
             article.save();
         }
 
-        renderJson(Ret.ok());
+        if (null != article && null != categoryNames && categoryNames.length > 0) {
+            List<ArticleCategory> categoryList = articleCategoryService.doNewOrFindByCategoryString(categoryNames);
+            Long[] allIds = new Long[categoryList.size()];
+            for (int i = 0; i < allIds.length; i++) {
+                allIds[i] = categoryList.get(i).getId();
+            }
+            articleService.doUpdateCategorys(article.getId(), allIds);
+        }
+
+        renderOkJson();
     }
 }

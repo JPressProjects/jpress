@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.ext.field;
+package io.jpress.core.support.smartfield.renders;
+
+import io.jpress.core.support.smartfield.SmartField;
+import io.jpress.core.support.smartfield.SmartFieldRender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Field 渲染器，目的是生成 html 的内容
+ * @Title: Input 输入框的渲染器
  */
-public interface SmartFieldRender {
+public class ImageRender implements SmartFieldRender {
 
-    public String onRender(SmartField field, Object value);
+
+    @Override
+    public String onRender(SmartField field, Object value) {
+        throw new IllegalStateException("ImageRender not finished.");
+    }
+
 }

@@ -71,13 +71,13 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         Long id = getIdPara();
         if (id == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Article article = articleService.findById(id);
         if (article == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -86,7 +86,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(articleService.deleteById(id) ? OK : FAIL);
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
@@ -261,7 +261,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         comment.setUserId(getLoginedUser().getId());
         commentService.saveOrUpdate(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCommentDel() {
@@ -270,7 +270,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         ArticleComment comment = commentService.findById(id);
         if (comment == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -280,7 +280,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(commentService.deleteById(id) ? OK : FAIL);
     }
 
 }

@@ -20,8 +20,14 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.SyncWriteMap;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.expr.ast.FieldKit;
+import com.jfinal.template.expr.ast.MethodKit;
+import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
@@ -35,7 +41,7 @@ import io.jpress.service.OptionService;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +77,8 @@ import java.util.Set;
  * 2、插件的作者可以在 onUninstall() 进行数据库表删除和其他资源删除等工作
  */
 public class AddonManager implements JbootEventListener {
+
+    private static final Log LOG = Log.getLog(AddonManager.class);
 
     private static final String ADDON_INSTALL_PREFFIX = "addon-install:";
     private static final String ADDON_START_PREFFIX = "addon-start:";
@@ -164,30 +172,25 @@ public class AddonManager implements JbootEventListener {
      */
 
     public boolean install(File jarFile) {
-
-        AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-        addonInfoList.add(addonInfo);
-
-        Addon addon = Aop.get(addonInfo.getAddonClass());
-
         try {
+            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+            addonInfoList.add(addonInfo);
+            Addon addon = Aop.get(addonInfo.getAddonClass());
             AddonUtil.unzipResources(addonInfo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if (addon != null) {
+                addon.onInstall(addonInfo);
+            }
 
-        try {
-            if (addon != null) addon.onInstall(addonInfo);
+            addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+            OptionService optionService = Aop.get(OptionService.class);
+
+            return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
+            LOG.error(ex.toString(), ex);
         }
 
-        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+        return false;
 
-        OptionService optionService = Aop.get(OptionService.class);
-
-        return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null;
     }
 
 
@@ -290,6 +293,7 @@ public class AddonManager implements JbootEventListener {
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
+
         if (addon != null) addon.onStart(addonInfo);
 
         AddonControllerManager.buildActionMapping();
@@ -304,7 +308,6 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean stop(AddonInfo addonInfo) {
-
 
         OptionService optionService = Aop.get(OptionService.class);
         optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
@@ -328,8 +331,38 @@ public class AddonManager implements JbootEventListener {
                 AddonInterceptorManager.deleteInterceptor(c);
         }
 
-        if (addonInfo.getArp() != null) {
-            addonInfo.getArp().stop();
+        ActiveRecordPlugin arp = addonInfo.getArp();
+        if (arp != null) {
+            arp.stop();
+            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
+            if (tableList != null) {
+                tableList.forEach(table -> {
+                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
+                    // 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
+                    // PS：每次新安装的插件，都是一个新的 Classloader
+                    Jboot.getCache().removeAll(table.getName());
+                });
+            }
+        }
+
+        // 清除模板引擎的 field 和 method 缓存
+        // 否则可能会出现  object is not an instance of declaring class 的异常
+        // https://gitee.com/fuhai/jpress/issues/IS5YQ
+        try {
+            RenderManager.me().getEngine().removeAllTemplateCache();
+
+            Field fieldGetterCacheField = FieldKit.class.getDeclaredField("fieldGetterCache");
+            fieldGetterCacheField.setAccessible(true);
+            SyncWriteMap fieldGetterCacheMap = (SyncWriteMap) fieldGetterCacheField.get(null);
+            fieldGetterCacheMap.clear();
+
+            Field methodCacheField = MethodKit.class.getDeclaredField("methodCache");
+            methodCacheField.setAccessible(true);
+            SyncWriteMap methodCacheMap = (SyncWriteMap) methodCacheField.get(null);
+            methodCacheMap.clear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
@@ -340,7 +373,18 @@ public class AddonManager implements JbootEventListener {
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         return true;
+    }
 
+
+    private static List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
+        try {
+            Field field = ActiveRecordPlugin.class.getDeclaredField("tableList");
+            field.setAccessible(true);
+            return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

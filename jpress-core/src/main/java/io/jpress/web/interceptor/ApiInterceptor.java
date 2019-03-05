@@ -66,16 +66,20 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        // 服务器的 API Secret 为空
+        if (StrUtil.isBlank(apiAppId)) {
+            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 APP ID 不能为空，请先进入后台的接口管理进行配置。"));
+            return;
+        }
+
         if (StrUtil.isBlank(apiSecret)) {
-            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 API 密钥不能为空"));
+            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 API 密钥不能为空，请先进入后台的接口管理进行配置。"));
             return;
         }
 
         JbootController controller = (JbootController) inv.getController();
         String appId = controller.getPara("appId");
         if (StrUtil.isBlank(appId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 APP ID 不能为空"));
+            inv.getController().renderJson(Ret.fail().set("message", "在Url中获取到appId内容，请注意Url是否正确。"));
             return;
         }
 

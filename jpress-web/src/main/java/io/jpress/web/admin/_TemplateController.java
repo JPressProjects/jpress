@@ -179,7 +179,7 @@ public class _TemplateController extends AdminControllerBase {
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -193,7 +193,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         template.uninstall();
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -368,7 +368,7 @@ public class _TemplateController extends AdminControllerBase {
 
         RenderManager.me().getEngine().removeAllTemplateCache();
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -404,7 +404,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         ms.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public static class FileInfo {
@@ -452,13 +452,13 @@ public class _TemplateController extends AdminControllerBase {
             org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
         } catch (Exception e) {
             e.printStackTrace();
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         } finally {
             deleteFileQuietly(uploadFile.getFile());
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -480,9 +480,9 @@ public class _TemplateController extends AdminControllerBase {
         File delFile = new File(template.getAbsolutePath(), path);
 
         if (delFile.isDirectory() || delFile.delete() == false) {
-            renderJson(Ret.fail());
+            renderFailJson();
         } else {
-            renderJson(Ret.ok());
+            renderOkJson();
         }
     }
 

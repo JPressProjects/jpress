@@ -23,6 +23,8 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
+import io.jboot.web.directive.annotation.JFinalDirective;
+import io.jboot.web.directive.base.JbootDirectiveBase;
 
 import java.io.File;
 import java.io.Serializable;
@@ -51,6 +53,7 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends Interceptor>> interceptors;
     private List<Class<? extends Handler>> handlers;
     private List<Class<? extends JbootModel>> models;
+    private List<Class<? extends JbootDirectiveBase>> directives;
     private ActiveRecordPlugin arp;
     private Map<String, String> config;
 
@@ -230,6 +233,26 @@ public class AddonInfo implements Serializable {
 
     public void setModels(List<Class<? extends JbootModel>> models) {
         this.models = models;
+    }
+
+
+    public void addDirective(Class<? extends JbootDirectiveBase> clazz) {
+        JFinalDirective directive = clazz.getAnnotation(JFinalDirective.class);
+        if (directive == null) {
+            return;
+        }
+        if (directives == null) {
+            directives = new ArrayList<>();
+        }
+        directives.add(clazz);
+    }
+
+    public List<Class<? extends JbootDirectiveBase>> getDirectives() {
+        return directives;
+    }
+
+    public void setDirectives(List<Class<? extends JbootDirectiveBase>> directives) {
+        this.directives = directives;
     }
 
     public ActiveRecordPlugin getArp() {

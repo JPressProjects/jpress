@@ -33,6 +33,8 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.web.directive.annotation.JFinalDirective;
+import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
@@ -272,6 +274,14 @@ public class AddonManager implements JbootEventListener {
                 AddonHandlerManager.addHandler(c);
         }
 
+        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        if (directives != null){
+            for (Class<? extends JbootDirectiveBase> c : directives){
+                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
+                RenderManager.me().getEngine().addDirective(AnnotationUtil.get(ann.value()),c);
+            }
+        }
+
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
             for (Class<? extends Interceptor> c : interceptorClasses)
@@ -323,6 +333,14 @@ public class AddonManager implements JbootEventListener {
         if (handlerClasses != null) {
             for (Class<? extends Handler> c : handlerClasses)
                 AddonHandlerManager.deleteHandler(c);
+        }
+
+        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        if (directives != null){
+            for (Class<? extends JbootDirectiveBase> c : directives){
+                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
+                RenderManager.me().getEngine().removeDirective(AnnotationUtil.get(ann.value()));
+            }
         }
 
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();

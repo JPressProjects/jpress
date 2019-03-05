@@ -75,7 +75,6 @@ public class AliyunOpenSearcher implements ArticleSearcher {
         try {
             String json = Action.addAction(article).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +86,6 @@ public class AliyunOpenSearcher implements ArticleSearcher {
         try {
             String json = Action.delAction(id).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,8 +109,8 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
         SearchParams searchParams = new SearchParams(config);
 
-        //query 组合搜索的文档：https://help.aliyun.com/document_detail/29191.html
-//        String query = "title:'"+keyword+"' OR content:'"+keyword+"'";
+        // query 组合搜索的文档：https://help.aliyun.com/document_detail/29191.html
+//      // String query = "title:'"+keyword+"' OR content:'"+keyword+"'";
         String query = "default:'" + keyword + "'";
         searchParams.setQuery(query);
         try {

@@ -27,6 +27,7 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
+import io.jboot.web.directive.base.JbootDirectiveBase;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -97,10 +98,16 @@ public class AddonClassLoader extends URLClassLoader {
                 else if (JbootModel.class.isAssignableFrom(loadedClass)) {
                     addonInfo.addModel(loadedClass);
                 }
+                // directives
+                else if (JbootDirectiveBase.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addDirective(loadedClass);
+                }
                 // addonClass
                 else if (Addon.class.isAssignableFrom(loadedClass)) {
                     addonInfo.setAddonClass(loadedClass);
                 }
+
+
 
             } catch (ClassNotFoundException e) {
                 LOG.error(e.toString(), e);

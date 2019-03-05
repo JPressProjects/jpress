@@ -52,19 +52,18 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     @CacheEvict(name = "menu", key = "*")
-    public Object saveOrUpdate(Menu model) {
-        return super.saveOrUpdate(model);
-    }
-
-    @Override
-    @CacheEvict(name = "menu", key = "*")
-    public boolean deleteById(Object id) {
-        return super.deleteById(id);
+    public void shouldUpdateCache(int action, Object data) {
+        super.shouldUpdateCache(action, data);
     }
 
     @Override
     public List<Menu> findListByType(String type) {
         return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Override
+    public List<Menu> findListByParentId(Object id) {
+        return DAO.findListByColumn(Column.create("pid", id), "order_number asc, id desc");
     }
 
     @Override

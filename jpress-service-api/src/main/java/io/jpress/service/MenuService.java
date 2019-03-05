@@ -86,5 +86,7 @@ public interface MenuService {
 
     public List<Menu> findListByType(String type);
 
+    public List<Menu> findListByParentId(Object id);
+
     public List<Menu> findListByRelatives(String table,Object id);
 }

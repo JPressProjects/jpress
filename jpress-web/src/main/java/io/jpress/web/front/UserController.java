@@ -190,42 +190,40 @@ public class UserController extends TemplateControllerBase {
 
 
     public void doRegister() {
-
-
         String username = getPara("username");
         String email = getPara("email");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
         if (StrUtil.isBlank(username)) {
-            renderJson(Ret.fail().set("message", "username must not be empty").set("errorCode", 1));
+            renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 1));
             return;
         }
 
         if (StrUtil.isBlank(email)) {
-            renderJson(Ret.fail().set("message", "email must not be empty").set("errorCode", 2));
+            renderJson(Ret.fail().set("message", "邮箱不能为空").set("errorCode", 2));
             return;
         } else {
             email = email.toLowerCase();
         }
 
         if (StrUtil.isBlank(pwd)) {
-            renderJson(Ret.fail().set("message", "password must not be empty").set("errorCode", 3));
+            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
         if (StrUtil.isBlank(confirmPwd)) {
-            renderJson(Ret.fail().set("message", "confirm password must not be empty").set("errorCode", 4));
+            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
 
         if (pwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "confirm password must equals password").set("errorCode", 5));
+            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
             return;
         }
 
         if (validateCaptcha("captcha") == false) {
-            renderJson(Ret.fail().set("message", "captcha is error").set("errorCode", 6));
+            renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
             return;
         }
 
@@ -236,20 +234,20 @@ public class UserController extends TemplateControllerBase {
         if (smsValidate == true) {
             String paraCode = getPara("sms_code");
             if (SmsKit.validateCode(phoneNumber, paraCode) == false) {
-                renderJson(Ret.fail().set("message", "sms code is error").set("errorCode", 7));
+                renderJson(Ret.fail().set("message", "短信验证码输入错误").set("errorCode", 7));
                 return;
             }
         }
 
         User user = userService.findFistByUsername(username);
         if (user != null) {
-            renderJson(Ret.fail().set("message", "username exist").set("errorCode", 10));
+            renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
             return;
         }
 
         user = userService.findFistByEmail(email);
         if (user != null) {
-            renderJson(Ret.fail().set("message", "email exist").set("errorCode", 11));
+            renderJson(Ret.fail().set("message", "该邮箱已经存在").set("errorCode", 11));
             return;
         }
 

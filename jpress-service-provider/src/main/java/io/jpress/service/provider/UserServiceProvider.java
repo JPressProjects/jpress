@@ -135,7 +135,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         return user.save() ? user.getId() : null;
     }
 
-    private static final String[] defaultJoinAttrs = new String[]{"nickname", "avatar", "created", "signature", "id"};
+    private static final String[] defaultJoinAttrs = new String[]{"id", "username", "nickname", "avatar", "created", "signature"};
 
     @Override
     public <M extends Model> M join(M model, String joinOnField) {

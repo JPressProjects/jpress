@@ -18,7 +18,6 @@ package io.jpress.module.article.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.Jboot;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -59,6 +58,8 @@ public class _ArticleController extends AdminControllerBase {
     private ArticleCategoryService categoryService;
     @Inject
     private ArticleCommentService commentService;
+    @Inject
+    private MenuService menuService;
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
@@ -266,7 +267,6 @@ public class _ArticleController extends AdminControllerBase {
         menu.setRelativeId(id);
         menu.setOrderNumber(9);
 
-        MenuService menuService = Jboot.bean(MenuService.class);
         menuService.saveOrUpdate(menu);
 
         renderOkJson();
@@ -284,8 +284,18 @@ public class _ArticleController extends AdminControllerBase {
             return;
         }
 
-        categoryService.saveOrUpdate(category);
+        Object id = categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
+
+        List<Menu> menus = menuService.findListByRelatives("article_category",id);
+        if (menus != null) {
+            for (Menu menu : menus) {
+                menu.setUrl(category.getUrl());
+                menu.setText(category.getTitle());
+                menuService.update(menu);
+            }
+        }
+
         renderOkJson();
     }
 

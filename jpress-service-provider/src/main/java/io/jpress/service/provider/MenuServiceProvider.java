@@ -19,6 +19,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.Copyer;
 import io.jpress.model.Menu;
@@ -64,6 +65,12 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
     @Override
     public List<Menu> findListByType(String type) {
         return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Override
+    public List<Menu> findListByRelatives(String table, Object id) {
+        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        return DAO.findListByColumns(columns);
     }
 
     @Cacheable(name = "menu", key = "type:#(type)")

@@ -57,6 +57,10 @@ public class AddonControllerManager {
         String value = AnnotationUtil.get(mapping.value());
         if (value == null) return;
 
+        //尝试去清空Controller
+        //虽然插件在 stop() 的时候会去清除，但是存在由于某些原因清除失败的情况
+        deleteController(c);
+
         String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath) || "/".equals(viewPath)) {
             routes.add(value, c, "addons/" + addonId);

@@ -32,6 +32,7 @@ import io.jboot.utils.StrUtil;
  */
 public class CSRFInterceptor implements Interceptor {
 
+    private static final String CSRF_ATTR_KEY = "CSRF_TOKEN";
     private static final String CSRF_KEY = "csrf_token";
 
 
@@ -73,14 +74,12 @@ public class CSRFInterceptor implements Interceptor {
 
 
     private void renderNormal(Invocation inv) {
-
-
         // 不是 ajax 请求，才需要重置本地 的token
         // ajax 请求，需要保证之前的token可以继续使用
         if (RequestUtil.isAjaxRequest(inv.getController().getRequest()) == false) {
             String uuid = StrUtil.uuid();
             inv.getController().setCookie(CSRF_KEY, uuid, -1);
-            inv.getController().setAttr(CSRF_KEY, uuid);
+            inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
         }
 
         inv.invoke();

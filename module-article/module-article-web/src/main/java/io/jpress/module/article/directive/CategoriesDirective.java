@@ -107,13 +107,6 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
         doFlagByCurrentCategory(categories, currentCategory);
 
-//        List<ArticleCategory> activeCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
-//        if (activeCategories != null && activeCategories.size() > 0) {
-//            for (ArticleCategory activeCategory : activeCategories) {
-//                doFlagByCurrentCategory(categories, activeCategory);
-//            }
-//        }
-
     }
 
 
@@ -130,8 +123,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-//        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(currentArticle.getId());
-        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(currentArticle.getId());//.findListByArticleId(currentArticle.getId(),ArticleCategory.TYPE_CATEGORY);
+        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(currentArticle.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }

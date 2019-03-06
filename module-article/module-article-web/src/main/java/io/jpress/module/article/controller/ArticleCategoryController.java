@@ -59,16 +59,12 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
         //文章首页高亮
         if (currentCategory == null) {
-            setMenuActive(menu -> {
-                String url = CommonsUtils.removeSuffix(menu.getUrl());
-                return url.equals("/article/category")
-                        || url.equals("/article/category/")
-                        || url.equals("/article/category/index");
-            });
+            setMenuActive(menu -> menu.isUrlEquals("/article/category")
+                    || menu.isUrlEquals("/article/category/")
+                    || menu.isUrlEquals("/article/category/index"));
         } else {
             setMenuActive(menu -> {
-                if (CommonsUtils.removeSuffix(menu.getUrl())
-                        .equals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
+                if (menu.isUrlEquals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
                     return true;
                 }
 

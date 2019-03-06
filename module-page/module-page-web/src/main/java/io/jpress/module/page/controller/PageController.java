@@ -56,7 +56,7 @@ public class PageController extends TemplateControllerBase {
         setSeoInfos(page);
 
         //设置菜单高亮
-        setMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.getUrl().startsWith(target));
+        setMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.isUrlStartWidth(target));
 
         setAttr("page", page);
 

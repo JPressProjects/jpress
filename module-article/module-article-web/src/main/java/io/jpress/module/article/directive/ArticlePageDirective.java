@@ -101,7 +101,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
                 url = contextPath + "/article/category/index"
                         + JPressOptions.getAppUrlSuffix();
             }
-            return Kits.doReplacePageNumber(url, pageNumber);
+            return DirectveKit.replacePageNumber(url, pageNumber);
         }
 
         @Override

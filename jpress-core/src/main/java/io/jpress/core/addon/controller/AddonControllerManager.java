@@ -38,17 +38,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
 
-    private static Routes routes = new Routes() {
+    private static Routes addonRoutes = new Routes() {
         @Override
-        public void config() {
-            this.setClearAfterMapping(false);
-        }
+        public void config() {}
     };
 
 
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
-    private static AddonActionMapping actionMapping = new AddonActionMapping(routes);
+    private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     public static void addController(Class<? extends Controller> c, String addonId) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
@@ -57,15 +55,15 @@ public class AddonControllerManager {
         String value = AnnotationUtil.get(mapping.value());
         if (value == null) return;
 
-        //尝试去清空Controller
-        //虽然插件在 stop() 的时候会去清除，但是存在由于某些原因清除失败的情况
+        // 尝试去清除 Controller 以保障绝对安全, 虽然插件在 stop() 的时候会去清除
+        // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
         deleteController(c);
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath) || "/".equals(viewPath)) {
-            routes.add(value, c, "addons/" + addonId);
+            addonRoutes.add(value, c, "addons/" + addonId);
         } else {
-            routes.add(value, c, viewPath);
+            addonRoutes.add(value, c, viewPath);
         }
         controllerAddonMapping.put(c, addonId);
     }
@@ -77,7 +75,7 @@ public class AddonControllerManager {
         String value = AnnotationUtil.get(mapping.value());
         if (value == null) return;
 
-        routes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
+        addonRoutes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
         Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
         controllerAddonMapping.remove(c);
     }
@@ -158,21 +156,35 @@ public class AddonControllerManager {
     }
 
 
+    /**
+     * 此拦截器是作用于所有的插件加载进来的 Controller
+     * 设置了 APATH 这个常量，方便插件自己的 Controller 去渲染自己目录下的静态资源文件，例如：css、js等
+     * 例如，在html引入自己插件下的css内容，可以这么写
+     * <link rel="stylesheet" href="#(CPATH)#(APATH)/css/myaddon.css">
+     */
     public static class AddonControllerInterceptor implements Interceptor {
         @Override
         public void intercept(Invocation inv) {
             String addonId = controllerAddonMapping.get(inv.getController().getClass());
-            inv.getController().set("APATH", "addons/" + addonId + "/");
+            inv.getController().set("APATH", "/addons/" + addonId + "/");
             inv.invoke();
         }
     }
 
 
+    /**
+     * 自定义自己的ActionMapping的原因主要有以下几点
+     *
+     * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题
+     * 2、需要把 buildActionMapping() 方法给公布出来，才能在对 mapping 进行操作的时候重新构建 actionKey->Controller 的映射关系
+     * 3、需要给 所有的插件的 Controller 添加一个全局的拦截器 AddonControllerInterceptor，通过拦截器设置每个插件自己的资源路径
+     * 4、需要配置 Routes.setClearAfterMapping(false) 不让 AddonActionMapping 在构建完毕后对 Routes 进行清除的工作
+     */
     public static class AddonActionMapping extends ActionMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);
-            routes.config();
+            routes.setClearAfterMapping(false);
             routes.addInterceptor(new AddonControllerInterceptor());
             this.mapping = new ConcurrentHashMap<>();
         }

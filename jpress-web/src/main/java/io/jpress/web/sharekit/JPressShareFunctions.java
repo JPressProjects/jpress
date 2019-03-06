@@ -30,7 +30,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.core.web.sharekit
  */
-public class MainKits {
+public class JPressShareFunctions {
 
     public static String blankCount(Integer count) {
         if (count == null || count == 0) {
@@ -57,6 +57,21 @@ public class MainKits {
             return true;
         }
 
+        if ("false".equalsIgnoreCase(value)) {
+            return false;
+        }
+        return value;
+    }
+
+
+    public static Object option(String key,String defaulValue) {
+        String value = JPressOptions.get(key);
+        if (StrUtil.isBlank(value) && StrUtil.isNotBlank(defaulValue)){
+            value = defaulValue;
+        }
+        if ("true".equalsIgnoreCase(value)) {
+            return true;
+        }
         if ("false".equalsIgnoreCase(value)) {
             return false;
         }

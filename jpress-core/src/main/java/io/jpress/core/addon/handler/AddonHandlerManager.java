@@ -20,7 +20,9 @@ import com.jfinal.handler.Handler;
 import com.jfinal.handler.HandlerFactory;
 import io.jboot.utils.ClassUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AddonHandlerManager {
 
@@ -28,10 +30,14 @@ public class AddonHandlerManager {
     private static List<Handler> handlers = Collections.synchronizedList(new ArrayList<>());
 
     public static Handler getProcessHandler(Handler originHandler) {
-        if (processHandler == null) {
-            processHandler = buildHandler(originHandler);
-        }
 
+        if (processHandler == null) {
+            synchronized (AddonHandlerManager.class){
+                if (processHandler == null){
+                    processHandler = buildHandler(originHandler);
+                }
+            }
+        }
         return processHandler;
     }
 
@@ -40,12 +46,16 @@ public class AddonHandlerManager {
             return processHandler;
         }
 
-        if (handlers.isEmpty()) return originHandler;
+        // 当没有插件的 handler 的时候，返回原始的 handler
+        if (handlers.isEmpty()) {
+            return originHandler;
+        }
 
         return HandlerFactory.getHandler(handlers, originHandler);
     }
 
     public static void addHandler(Class<? extends Handler> c) {
+        handlers.removeIf(handler -> ClassUtil.getUsefulClass(handler.getClass()).getName().equals(c.getName()));
         handlers.add(ClassUtil.newInstance(c));
         resetProcessHandler();
     }
@@ -55,7 +65,7 @@ public class AddonHandlerManager {
         resetProcessHandler();
     }
 
-    private static void resetProcessHandler(){
+    private static void resetProcessHandler() {
         processHandler = null;
     }
 }

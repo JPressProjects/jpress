@@ -7,6 +7,9 @@ ADD . /tmp
 
 ENV TZ=Asia/Shanghai
 
+# 验证码图片渲染需要ttf的支持
+RUN apk add --update ttf-dejavu
+
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone
 

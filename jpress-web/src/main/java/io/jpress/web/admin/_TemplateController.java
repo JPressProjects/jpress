@@ -403,6 +403,14 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
+        List<Menu> childMenus = ms.findListByParentId(id);
+        if (childMenus != null){
+            for (Menu menu : childMenus){
+                menu.setPid(0l);
+                ms.update(menu);
+            }
+        }
+
         ms.deleteById(id);
         renderOkJson();
     }

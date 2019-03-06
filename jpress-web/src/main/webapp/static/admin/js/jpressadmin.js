@@ -140,6 +140,8 @@ function initCkEdtior(editor, height) {
         showCharCount: true,
     };
 
+    CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
+
 
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,

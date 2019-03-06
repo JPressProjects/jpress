@@ -71,6 +71,8 @@ function initCkEdtior(editor, height) {
             ['Maximize', 'Source']
         ];
 
+    CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
+
     return CKEDITOR.replace(editor, {
         autoUpdateElement: true,
         removePlugins: 'easyimage,cloudservices',

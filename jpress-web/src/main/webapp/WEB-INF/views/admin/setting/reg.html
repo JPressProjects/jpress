@@ -93,6 +93,16 @@
                             <h4 class="page-header">用户注册</h4>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">开启注册功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="reg_enable"
+                                           #checkedIf(option("reg_enable","true"))>
+                                    <input type="hidden" id="reg_enable"
+                                           name="reg_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_email_validate_enable"

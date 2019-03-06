@@ -190,6 +190,13 @@ public class UserController extends TemplateControllerBase {
 
 
     public void doRegister() {
+
+        String regEnableString = JPressOptions.get("reg_enable");
+        if ("false".equals(regEnableString)){
+            renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
+            return;
+        }
+
         String username = getPara("username");
         String email = getPara("email");
         String pwd = getPara("pwd");

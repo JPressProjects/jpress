@@ -37,7 +37,7 @@ import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.web.sharekit.MainKits;
+import io.jpress.web.sharekit.JPressShareFunctions;
 
 import java.io.File;
 import java.io.IOException;
@@ -251,7 +251,7 @@ public class _TemplateController extends AdminControllerBase {
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
                 || file.getName().endsWith(".js")
-                || MainKits.isImage(file.getName())
+                || JPressShareFunctions.isImage(file.getName())
                 || file.isDirectory());
 
         List srcFiles = new ArrayList<String>();

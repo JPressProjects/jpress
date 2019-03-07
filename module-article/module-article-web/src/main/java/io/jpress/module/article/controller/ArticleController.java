@@ -113,11 +113,9 @@ public class ArticleController extends TemplateControllerBase {
 
     private void doFlagMenuActive(Article article) {
 
-        setMenuActive(menu -> menu.getUrl().startsWith(article.getUrl()));
+        setMenuActive(menu -> menu.isUrlStartWidth(article.getUrl()));
 
-
-//        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(article.getId());
-        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(article.getId());//.findListByArticleId(article.getId(), ArticleCategory.TYPE_CATEGORY);
+        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(article.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }
@@ -248,9 +246,13 @@ public class ArticleController extends TemplateControllerBase {
             ret.put("user", user.keepSafe());
         }
 
-        renderJson(ret);
-
         ArticleKit.doNotifyAdministrator(article, comment);
+
+        if (isAjaxRequest()){
+            renderJson(ret);
+        }else {
+            redirect(getReferer());
+        }
     }
 
 

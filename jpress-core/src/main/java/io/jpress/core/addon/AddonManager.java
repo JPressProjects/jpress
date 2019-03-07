@@ -214,7 +214,9 @@ public class AddonManager implements JbootEventListener {
         AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
-        if (addon != null) addon.onUninstall(addonInfo);
+        if (addon != null) {
+            addon.onUninstall(addonInfo);
+        }
 
         //删除jar包
         addonInfo.buildJarFile().delete();
@@ -304,7 +306,9 @@ public class AddonManager implements JbootEventListener {
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
 
-        if (addon != null) addon.onStart(addonInfo);
+        if (addon != null) {
+            addon.onStart(addonInfo);
+        }
 
         AddonControllerManager.buildActionMapping();
 
@@ -380,7 +384,7 @@ public class AddonManager implements JbootEventListener {
             methodCacheMap.clear();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(),e);
         }
 
         Addon addon = Aop.get(addonInfo.getAddonClass());
@@ -400,7 +404,7 @@ public class AddonManager implements JbootEventListener {
             field.setAccessible(true);
             return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(),e);
         }
         return null;
     }

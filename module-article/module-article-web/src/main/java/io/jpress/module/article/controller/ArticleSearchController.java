@@ -55,7 +55,7 @@ public class ArticleSearchController extends TemplateControllerBase {
         setAttr("keyword", keyword);
         setAttr("page", page);
 
-        setMenuActive(menu -> menu.getUrl().startsWith("/article/search"));
+        setMenuActive(menu -> menu.isUrlStartWidth("/article/search"));
 
         render("artsearch.html");
     }

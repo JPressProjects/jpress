@@ -71,7 +71,7 @@ public class CommentPageDirective extends JbootDirectiveBase {
         @Override
         protected String getUrl(int pageNumber) {
             HttpServletRequest request = JbootControllerContext.get().getRequest();
-            String url = Kits.doReplacePageNumber(request.getRequestURI(), pageNumber);
+            String url = DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
             return StrUtil.isBlank(getAnchor()) ? url : url + "#" + getAnchor();
         }
 

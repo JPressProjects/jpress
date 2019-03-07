@@ -56,7 +56,7 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         }
 
         Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
+        String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
         int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryId != null

@@ -55,7 +55,7 @@ public class TagArticlesDirective extends JbootDirectiveBase {
 
 
         Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
+        String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
         int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
@@ -71,7 +71,7 @@ public class TagArticlesDirective extends JbootDirectiveBase {
             return;
         }
 
-        ActiveKit.setActiveFlagByCurrentArticle(articles);
+        DirectveKit.setActiveFlagByCurrentArticle(articles);
 
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);

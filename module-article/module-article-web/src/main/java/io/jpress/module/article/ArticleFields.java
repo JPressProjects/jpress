@@ -78,6 +78,17 @@ public class ArticleFields {
                 null,
                 40));
 
+        fields.add(new SmartField("order_number",
+                "排序序号",
+                "article.order_number",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "文章列表会根据这个数值进行排序，越大越靠前。",
+                50));
+
+
         fields.add(new SmartField("link_to",
                 "外链",
                 "article.link_to",
@@ -86,7 +97,8 @@ public class ArticleFields {
                 null,
                 null,
                 "填写外链后，浏览文章将会跳转到此链接。",
-                50));
+                60));
+
 
         fields.add(new SmartField("comment_status",
                 "允许评论",
@@ -96,7 +108,7 @@ public class ArticleFields {
                 "true",
                 null,
                 null,
-                60));
+                70));
 
 
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));

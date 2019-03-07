@@ -169,7 +169,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.likeAppendPercent("a.title", title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
-        sqlBuilder.append(" order by id desc ");
+        sqlBuilder.append(" order by order_number desc,id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -191,7 +191,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         SqlUtils.likeAppend(columns, "a.title", title);
 
         SqlUtils.appendWhereByColumns(columns, sqlBuilder);
-        sqlBuilder.append(" order by id desc ");
+        sqlBuilder.append(" order by order_number desc,id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -199,7 +199,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "id desc");
+        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "order_number desc,id desc");
     }
 
     @Override
@@ -208,7 +208,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = new Columns();
         columns.add("status", Article.STATUS_NORMAL);
 
-        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "id desc");
+        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "order_number desc,id desc");
         return joinUserPage(dataPage);
     }
 
@@ -216,7 +216,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
 
         if (StrUtil.isBlank(orderBy)) {
-            orderBy = "id desc";
+            orderBy = "order_number desc,id desc";
         }
 
         Columns columns = new Columns();
@@ -289,7 +289,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> searchIndb(String queryString, int pageNum, int pageSize) {
         Columns columns = Columns.create("status", Article.STATUS_NORMAL)
                 .likeAppendPercent("title", queryString);
-        return joinUserPage(paginateByColumns(pageNum, pageSize, columns, "id desc"));
+        return joinUserPage(paginateByColumns(pageNum, pageSize, columns, "order_number desc,id desc"));
     }
 
 
@@ -416,7 +416,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     private static void buildOrderBySQL(StringBuilder sqlBuilder, String orderBy) {
 
         if (StrUtil.isBlank(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.id DESC");
+            sqlBuilder.append(" ORDER BY a.order_number desc,a.id DESC");
             return;
         }
 
@@ -425,7 +425,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         //不合法的orderby
         if (orderbyInfo.length < 1 || orderbyInfo.length > 2) {
-            sqlBuilder.append(" ORDER BY a.id DESC");
+            sqlBuilder.append(" ORDER BY a.order_number desc,a.id DESC");
             return;
         }
 

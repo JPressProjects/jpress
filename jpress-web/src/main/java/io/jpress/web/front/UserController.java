@@ -100,12 +100,16 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        Ret ret = StrUtil.isEmail(user)
-                ? userService.loginByEmail(user.toLowerCase(), pwd)
-                : userService.loginByUsername(user, pwd);
+        User loginUser = userService.findByUsernameOrEmail(user);
+        if (loginUser == null) {
+            renderJson(Ret.fail("message", "用户名不正确。"));
+            return;
+        }
+
+        Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
-            CookieUtil.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
         renderJson(ret);
@@ -192,7 +196,7 @@ public class UserController extends TemplateControllerBase {
     public void doRegister() {
 
         String regEnableString = JPressOptions.get("reg_enable");
-        if ("false".equals(regEnableString)){
+        if ("false".equals(regEnableString)) {
             renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
             return;
         }

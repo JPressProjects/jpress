@@ -89,9 +89,7 @@ public interface UserService extends JbootServiceJoiner{
 
     public Page<User> _paginate(int page, int pagesize, String username, String email, String status);
 
-    public Ret loginByUsername(String username, String pwd);
-
-    public Ret loginByEmail(String email, String pwd);
+    public User findByUsernameOrEmail(String usernameOrEmail);
 
     public Ret doValidateUserPwd(User user, String pwd);
 

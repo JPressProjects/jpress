@@ -154,7 +154,12 @@ public class AddonManager implements JbootEventListener {
         for (File jarFile : addonJars) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             if (addonInfo != null && optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
-                doStart(addonInfo);
+                try {
+                    doStart(addonInfo);
+                } catch (Exception ex) {
+                    LOG.error(ex.toString(), ex);
+                    stop(addonInfo);
+                }
             }
         }
     }
@@ -257,39 +262,60 @@ public class AddonManager implements JbootEventListener {
         OptionService optionService = Aop.get(OptionService.class);
         optionService.saveOrUpdate(ADDON_START_PREFFIX + addonInfo.getId(), "true");
 
-        doStart(addonInfo);
-
-        return true;
+        try {
+            doStart(addonInfo);
+            return true;
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+            stop(addonInfo);
+        }
+        return false;
     }
 
     private void doStart(AddonInfo addonInfo) {
-        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
-        if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
-                AddonControllerManager.addController(c, addonInfo.getId());
+
+        //添加插件的 Controllers
+        addControllers(addonInfo);
+
+        //添加插件的 Handlers
+        addHandlers(addonInfo);
+
+        //添加插件的 指令
+        addDirectives(addonInfo);
+
+        //添加插件的拦截器
+        addInterceptors(addonInfo);
+
+        //启动插件的数据库连接插件
+        startActiveRecordPlugin(addonInfo);
+
+        //执行插件 onStart() 方法
+        invokeStartMethod(addonInfo);
+
+        //构建 JPress 应用的 url 映射
+        buildApplicationActionMapping();
+
+        //设置插件的状态
+        setAddonStatus(addonInfo);
+
+    }
+
+    private void setAddonStatus(AddonInfo addonInfo) {
+        addonInfo.setStatus(AddonInfo.STATUS_START);
+    }
+
+    private void buildApplicationActionMapping() {
+        AddonControllerManager.buildActionMapping();
+    }
+
+    private void invokeStartMethod(AddonInfo addonInfo) {
+        Addon addon = Aop.get(addonInfo.getAddonClass());
+        if (addon != null) {
+            addon.onStart(addonInfo);
         }
+    }
 
-
-        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
-        if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
-                AddonHandlerManager.addHandler(c);
-        }
-
-        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
-        if (directives != null){
-            for (Class<? extends JbootDirectiveBase> c : directives){
-                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
-                RenderManager.me().getEngine().addDirective(AnnotationUtil.get(ann.value()),c);
-            }
-        }
-
-        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
-        if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
-                AddonInterceptorManager.addInterceptor(c);
-        }
-
+    private void startActiveRecordPlugin(AddonInfo addonInfo) {
         List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
         if (modelClasses != null && !modelClasses.isEmpty()) {
 
@@ -303,16 +329,40 @@ public class AddonManager implements JbootEventListener {
             addonInfo.setArp(arp);
             arp.start();
         }
+    }
 
-        Addon addon = Aop.get(addonInfo.getAddonClass());
-
-        if (addon != null) {
-            addon.onStart(addonInfo);
+    private void addInterceptors(AddonInfo addonInfo) {
+        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
+        if (interceptorClasses != null) {
+            for (Class<? extends Interceptor> c : interceptorClasses)
+                AddonInterceptorManager.addInterceptor(c);
         }
+    }
 
-        AddonControllerManager.buildActionMapping();
+    private void addDirectives(AddonInfo addonInfo) {
+        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        if (directives != null) {
+            for (Class<? extends JbootDirectiveBase> c : directives) {
+                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
+                RenderManager.me().getEngine().addDirective(AnnotationUtil.get(ann.value()), c);
+            }
+        }
+    }
 
-        addonInfo.setStatus(AddonInfo.STATUS_START);
+    private void addHandlers(AddonInfo addonInfo) {
+        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
+        if (handlerClasses != null) {
+            for (Class<? extends Handler> c : handlerClasses)
+                AddonHandlerManager.addHandler(c);
+        }
+    }
+
+    private void addControllers(AddonInfo addonInfo) {
+        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
+        if (controllerClasses != null) {
+            for (Class<? extends Controller> c : controllerClasses)
+                AddonControllerManager.addController(c, addonInfo.getId());
+        }
     }
 
 
@@ -323,50 +373,93 @@ public class AddonManager implements JbootEventListener {
 
     public boolean stop(AddonInfo addonInfo) {
 
-        OptionService optionService = Aop.get(OptionService.class);
-        optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
-
-        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
-        if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
-                AddonControllerManager.deleteController(c);
+        //删除插件启动标识
+        try {
+            deleteStartedFlag(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
-
-        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
-        if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
-                AddonHandlerManager.deleteHandler(c);
+        //删除插件的所有Controller
+        try {
+            deleteControllers(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
-        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
-        if (directives != null){
-            for (Class<? extends JbootDirectiveBase> c : directives){
-                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
-                RenderManager.me().getEngine().removeDirective(AnnotationUtil.get(ann.value()));
-            }
+        //删除插件的所有handler
+        try {
+            deleteHandlers(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
-        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
-        if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
-                AddonInterceptorManager.deleteInterceptor(c);
+        //删除插件的所有指令
+        try {
+            deleteDirectives(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
-        ActiveRecordPlugin arp = addonInfo.getArp();
-        if (arp != null) {
-            arp.stop();
-            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
-            if (tableList != null) {
-                tableList.forEach(table -> {
-                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
-                    // 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
-                    // PS：每次新安装的插件，都是一个新的 Classloader
-                    Jboot.getCache().removeAll(table.getName());
-                });
-            }
+        //删除插件的所有拦截器
+        try {
+            deleteInteceptors(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
+        //停止插件的数据库访问
+        try {
+            stopActiveRecordPlugin(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //移除插件的模板缓存
+        try {
+            removeTemplateCache(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //调用插件的 stop() 方法
+        try {
+            invokeAddonStopMethod(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //重建整个JPress应用的ActionMapping映射
+        try {
+            rebuildApplicationActionMapping();
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //清除插件的状态，防止被重用
+        try {
+            clearAddonStatus(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        return true;
+    }
+
+    private void clearAddonStatus(AddonInfo addonInfo) {
+        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+    }
+
+    private void rebuildApplicationActionMapping() {
+        AddonControllerManager.buildActionMapping();
+    }
+
+    private void invokeAddonStopMethod(AddonInfo addonInfo) {
+        Addon addon = Aop.get(addonInfo.getAddonClass());
+        if (addon != null) addon.onStop(addonInfo);
+    }
+
+    private void removeTemplateCache(AddonInfo addonInfo) {
         // 清除模板引擎的 field 和 method 缓存
         // 否则可能会出现  object is not an instance of declaring class 的异常
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
@@ -384,17 +477,63 @@ public class AddonManager implements JbootEventListener {
             methodCacheMap.clear();
 
         } catch (Exception e) {
-            LOG.error(e.toString(),e);
+            LOG.error(e.toString(), e);
         }
+    }
 
-        Addon addon = Aop.get(addonInfo.getAddonClass());
-        if (addon != null) addon.onStop(addonInfo);
+    private void stopActiveRecordPlugin(AddonInfo addonInfo) {
+        ActiveRecordPlugin arp = addonInfo.getArp();
+        if (arp != null) {
+            arp.stop();
+            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
+            if (tableList != null) {
+                tableList.forEach(table -> {
+                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
+                    // 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
+                    // PS：每次新安装的插件，都是一个新的 Classloader
+                    Jboot.getCache().removeAll(table.getName());
+                });
+            }
+        }
+    }
 
-        AddonControllerManager.buildActionMapping();
+    private void deleteInteceptors(AddonInfo addonInfo) {
+        List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
+        if (interceptorClasses != null) {
+            for (Class<? extends Interceptor> c : interceptorClasses)
+                AddonInterceptorManager.deleteInterceptor(c);
+        }
+    }
 
-        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+    private void deleteDirectives(AddonInfo addonInfo) {
+        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        if (directives != null) {
+            for (Class<? extends JbootDirectiveBase> c : directives) {
+                JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
+                RenderManager.me().getEngine().removeDirective(AnnotationUtil.get(ann.value()));
+            }
+        }
+    }
 
-        return true;
+    private void deleteHandlers(AddonInfo addonInfo) {
+        List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
+        if (handlerClasses != null) {
+            for (Class<? extends Handler> c : handlerClasses)
+                AddonHandlerManager.deleteHandler(c);
+        }
+    }
+
+    private void deleteControllers(AddonInfo addonInfo) {
+        List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
+        if (controllerClasses != null) {
+            for (Class<? extends Controller> c : controllerClasses)
+                AddonControllerManager.deleteController(c);
+        }
+    }
+
+    private void deleteStartedFlag(AddonInfo addonInfo) {
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
     }
 
 
@@ -404,7 +543,7 @@ public class AddonManager implements JbootEventListener {
             field.setAccessible(true);
             return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
         } catch (Exception e) {
-            LOG.error(e.toString(),e);
+            LOG.error(e.toString(), e);
         }
         return null;
     }

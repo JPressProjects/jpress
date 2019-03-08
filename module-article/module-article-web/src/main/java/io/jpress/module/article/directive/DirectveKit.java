@@ -16,28 +16,8 @@
 package io.jpress.module.article.directive;
 
 
-import io.jboot.web.controller.JbootControllerContext;
-import io.jpress.JPressActiveKit;
-import io.jpress.module.article.model.Article;
-
-import java.util.List;
-
 public class DirectveKit {
 
-    public static void setActiveFlagByCurrentArticle(List<Article> articles) {
-        Article currentArticle = JbootControllerContext.get().getAttr("article");
-
-        //当前页面并不是文章详情页面
-        if (currentArticle == null) {
-            return;
-        }
-
-        for (Article article : articles) {
-            if (article.getId() != null && article.getId().equals(currentArticle.getId())) {
-                JPressActiveKit.makeItActive(article);
-            }
-        }
-    }
 
     public static String replacePageNumber(String url, int pageNumber) {
 

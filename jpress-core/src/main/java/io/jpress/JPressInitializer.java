@@ -19,8 +19,6 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
 import com.jfinal.kit.PathKit;
-import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.web.fixedinterceptor.FixedInterceptors;
@@ -63,10 +61,6 @@ public class JPressInitializer extends JbootAppListenerBase {
         }
     }
 
-    @Override
-    public void onEngineConfig(Engine engine) {
-        Engine.addExtensionMethod(Model.class, JPressActiveKit.class);
-    }
 
     @Override
     public void onConstantConfig(Constants constants) {

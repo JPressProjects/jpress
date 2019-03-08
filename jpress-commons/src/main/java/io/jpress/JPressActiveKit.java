@@ -42,16 +42,4 @@ public class JPressActiveKit {
         }
     }
 
-    /**
-     * Model Extension Method
-     * 用于增强 Model 的方法，使其在模板里可以调用 model.isActive() 方法进行判断
-     *
-     * @param self
-     * @return
-     */
-    public boolean isActive(Model self) {
-        Boolean active = (Boolean) self.get(ACTIVE_FLAG);
-        return active != null && active;
-    }
-
 }

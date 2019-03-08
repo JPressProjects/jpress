@@ -71,8 +71,6 @@ public class TagArticlesDirective extends JbootDirectiveBase {
             return;
         }
 
-        DirectveKit.setActiveFlagByCurrentArticle(articles);
-
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }

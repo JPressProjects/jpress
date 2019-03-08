@@ -73,7 +73,6 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
             return;
         }
 
-
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);
     }

@@ -109,34 +109,33 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
 
-
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        if (categoryId != null) {
-            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        }
-
-        Columns columns = new Columns();
-        columns.add("m.category_id", categoryId);
-        columns.add("a.status", status);
-        columns.likeAppendPercent("a.title", title);
-
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
-        sqlBuilder.append(" order by order_number desc,id desc ");
-
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
-        return joinUserPage(dataPage);
+        return _paginateByBaseColumns(page
+                ,pagesize
+                ,title
+                ,categoryId
+                ,Columns.create("a.status", status));
     }
 
     @Override
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
 
+        return _paginateByBaseColumns(page
+                ,pagesize
+                ,title
+                ,categoryId
+                ,Columns.create().ne("a.status", Article.STATUS_TRASH));
+    }
+
+
+    public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId,Columns baseColumns) {
+
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
         if (categoryId != null) {
             sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
         }
 
-        Columns columns = new Columns();
+        Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
         columns.ne("a.status", Article.STATUS_TRASH);
         columns.likeAppendPercent("a.title",title);

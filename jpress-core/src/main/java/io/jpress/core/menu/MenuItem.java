@@ -33,6 +33,7 @@ public class MenuItem {
     private String groupId;
     private String url;
     private int order = 100;
+    private String target;
 
     public MenuItem() {
     }
@@ -43,6 +44,7 @@ public class MenuItem {
         this.setGroupId(uCenterMenu.groupId());
         this.setUrl(actionKey);
         this.setOrder(uCenterMenu.order());
+        this.setTarget(uCenterMenu.target());
     }
 
     public MenuItem(AdminMenu adminMenu, String actionKey) {
@@ -51,6 +53,7 @@ public class MenuItem {
         this.setGroupId(adminMenu.groupId());
         this.setUrl(actionKey);
         this.setOrder(adminMenu.order());
+        this.setTarget(adminMenu.target());
     }
 
     public String getId() {
@@ -103,6 +106,14 @@ public class MenuItem {
 
     public String getPermission() {
         return groupId + ":" + url;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     @Override

@@ -18,7 +18,7 @@
                     <ul class="treeview-menu">
                         #for(item : group.items)
                             #hasPermission(item.permission)
-                            <li><a href="#(item.url ??)" #if(item.target !="") target="#(item.target)" #end>#(item.text ??)</a></li>
+                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
                             #end
                         #end
                     </ul>
@@ -35,7 +35,7 @@
                     <ul class="treeview-menu">
                         #for(item : group.items)
                             #hasPermission(item.permission)
-                            <li><a href="#(item.url ??)" #if(item.target !="") target="#(item.target)" #end>#(item.text ??)</a></li>
+                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
                             #end
                         #end
                     </ul>

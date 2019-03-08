@@ -27,6 +27,7 @@ import io.jpress.core.menu.MenuManager;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
+import io.jpress.web.handler.JPressHandler;
 
 import java.util.List;
 
@@ -51,15 +52,13 @@ public class AdminInterceptor implements Interceptor {
 
     public void intercept(Invocation inv) {
 
-        if (inv.getActionKey().equals(config.getAdminLoginPage())) {
+        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginPage())) {
             inv.getController().forwardAction("/admin/login");
-            inv.invoke();
             return;
         }
 
-        if (inv.getActionKey().equals(config.getAdminLoginAction())) {
+        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginAction())) {
             inv.getController().forwardAction("/admin/doLogin");
-            inv.invoke();
             return;
         }
 
@@ -91,5 +90,6 @@ public class AdminInterceptor implements Interceptor {
 
         inv.invoke();
     }
+
 
 }

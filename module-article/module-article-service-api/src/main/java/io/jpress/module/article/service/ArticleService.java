@@ -103,42 +103,31 @@ public interface ArticleService extends JbootServiceJoiner {
 
     public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds);
 
-
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
-
 
     public void doUpdateCommentCount(long articleId);
 
-
     public boolean doChangeStatus(long id, String status);
-
 
     public int findCountByStatus(String status);
 
-
     public Article findFirstBySlug(String slug);
-
 
     public Article findNextById(long id);
 
-
     public Article findPreviousById(long id);
-
 
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
 
-
     public List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
-
 
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
 
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
-
 
     public Page<Article> paginateInNormal(int page, int pagesize);
 

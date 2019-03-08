@@ -18,6 +18,7 @@ package io.jpress.module.article.model;
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.CommonsUtils;
@@ -55,6 +56,20 @@ public class Article extends BaseArticle<Article> {
         return StrUtil.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
     }
 
+    /**
+     * 用于渲染html模板，是否高亮
+     * @return
+     */
+    public boolean isActive() {
+        Article currentArticle = JbootControllerContext.get().getAttr("article");
+
+        //当前页面并不是文章详情页面
+        if (currentArticle == null || currentArticle.getId() == null) {
+            return false;
+        }
+
+        return currentArticle.getId().equals(getId());
+    }
 
     public String getUrl() {
         String link = getLinkTo();

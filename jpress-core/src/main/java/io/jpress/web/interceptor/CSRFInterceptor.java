@@ -32,8 +32,8 @@ import io.jboot.utils.StrUtil;
  */
 public class CSRFInterceptor implements Interceptor {
 
-    private static final String CSRF_ATTR_KEY = "CSRF_TOKEN";
-    private static final String CSRF_KEY = "csrf_token";
+    public static final String CSRF_ATTR_KEY = "CSRF_TOKEN";
+    public static final String CSRF_KEY = "csrf_token";
 
 
     public void intercept(Invocation inv) {

@@ -97,11 +97,6 @@ public interface ArticleService extends JbootServiceJoiner {
      */
     public boolean update(Article model);
 
-    public Page<Article> paginate(int page, int pagesize);
-
-    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId);
-
-    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds);
 
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
 

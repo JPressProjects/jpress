@@ -54,6 +54,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Inject
     private ArticleCommentService commentService;
 
+    private static final String DEFAULT_ORDER_BY = "order_number desc,id desc";
+
     @Override
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
@@ -61,37 +63,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
         return true;
     }
-
-    @Override
-    public Page<Article> paginate(int page, int pagesize) {
-        Page<Article> articlePage = DAO.paginate(page, pagesize, "id desc");
-        userService.join(articlePage, "user_id");
-
-        return articlePage;
-    }
-
-
-    @Override
-    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId) {
-        String select = "select * ";
-        StringBuilder from = new StringBuilder("from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where a.status = ? and m.category_id = ? ");
-
-        return DAO.paginate(page, pagesize, select, from.toString(), Article.STATUS_NORMAL, categoryId);
-    }
-
-    @Override
-    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds) {
-        String select = "select * ";
-        StringBuilder from = new StringBuilder("from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(SqlUtils.toWhereSql(Columns.create().in(" m.category_id",categoryIds)));
-        return DAO.paginate(page, pagesize, select, from.toString());
-    }
-
-
-
 
 
     @Override
@@ -137,11 +108,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
-        columns.ne("a.status", Article.STATUS_TRASH);
         columns.likeAppendPercent("a.title",title);
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
-        sqlBuilder.append(" order by order_number desc,id desc ");
+        sqlBuilder.append(" order by ").append(DEFAULT_ORDER_BY);
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -149,31 +119,21 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "order_number desc,id desc");
+        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), DEFAULT_ORDER_BY);
     }
 
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize) {
-
-        Columns columns = new Columns();
-        columns.add("status", Article.STATUS_NORMAL);
-
-        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "order_number desc,id desc");
-        return joinUserPage(dataPage);
+        return paginateInNormal(page,pagesize,null);
     }
 
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
-
-        if (StrUtil.isBlank(orderBy)) {
-            orderBy = "order_number desc,id desc";
-        }
-
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
         Columns columns = new Columns();
         columns.add("status", Article.STATUS_NORMAL);
-
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
         return joinUserPage(dataPage);
     }
@@ -192,7 +152,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
-        buildOrderBySQL(sqlBuilder, orderBy);
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        sqlBuilder.append(" ORDER BY ").append(orderBy);
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -310,7 +271,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             }
         }
 
-
         from.append(" group by a.id ");
 
         if (orderBy != null) {
@@ -355,21 +315,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return DAO.find(from.toString(), columns.getValueArray());
     }
 
-
-    /**
-     * 此方法的主要作用是限制 用户传其他orderby的字段，
-     * 同时因为orderby是前端传入的数据，防止sql注入
-     *
-     * @param sqlBuilder
-     * @param orderBy
-     */
-    private static void buildOrderBySQL(StringBuilder sqlBuilder, String orderBy) {
-        if (StrUtil.isBlank(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.order_number desc,a.id DESC");
-        }else {
-            sqlBuilder.append(" ORDER BY " + orderBy);
-        }
-    }
 
     @Override
     @CacheEvict(name = "articles",key = "*")

@@ -58,6 +58,7 @@ public class _AdminController extends AdminControllerBase {
            return;
         }
 
+        setAttr("action",config.getAdminLoginAction());
         render("login.html");
     }
 

@@ -15,12 +15,11 @@
  */
 package io.jpress.commons.utils;
 
-import io.jboot.db.model.Column;
+import io.jboot.db.dialect.DialectKit;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -29,33 +28,14 @@ import java.util.List;
  */
 public class SqlUtils {
 
-    public static void appendWhereByColumns(Columns columns, StringBuilder sqlBuilder) {
-        appendWhereByColumns(columns.getList(), sqlBuilder);
-    }
-
-    public static void appendWhereByColumns(List<Column> columns, StringBuilder sqlBuilder) {
-        if (ArrayUtil.isNotEmpty(columns)) {
-            sqlBuilder.append(" WHERE ");
-
-            int index = 0;
-            for (Column column : columns) {
-                if (column.isMustNeedValue()) {
-                    sqlBuilder.append(String.format(" %s %s ? ", column.getName(), column.getLogic()));
-                } else {
-                    sqlBuilder.append(String.format(" %s %s ", column.getName(), column.getLogic()));
-                }
-                if (index != columns.size() - 1) {
-                    sqlBuilder.append(" AND ");
-                }
-                index++;
-            }
+    public static String toWhereSql(Columns columns) {
+        if (columns == null || columns.isEmpty()){
+            return "";
         }
-    }
 
-    public static void likeAppend(Columns columns, String column, Object value) {
-        if (StrUtil.isNotBlank(value)) {
-            columns.like(column, "%" + value + "%");
-        }
+        StringBuilder sql = new StringBuilder();
+        DialectKit.appIfNotEmpty(columns.getList(),sql,' ');
+        return sql.toString();
     }
 
     public static String buildInSqlPara(Object... ids) {
@@ -73,6 +53,21 @@ public class SqlUtils {
             b.append(", ");
         }
     }
+
+
+    public static void main(String[] args){
+        Columns columns = Columns.create();
+        columns.eq("a.id",1);
+        System.out.println(toWhereSql(columns));
+
+        columns.in("c.id",1,2,4,5);
+        System.out.println(toWhereSql(columns));
+
+        columns.or();
+        columns.between("created",new Date(),new Date());
+        System.out.println(toWhereSql(columns));
+    }
+
 
 
 }

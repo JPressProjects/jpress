@@ -36,9 +36,8 @@ public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> im
     @Override
     public Page<WechatReply> _paginate(int page, int pageSize, String keyword, String content) {
         Columns columns = new Columns();
-        SqlUtils.likeAppend(columns, "keyword", keyword);
-        SqlUtils.likeAppend(columns, "content", content);
-
+        columns.likeAppendPercent("keyword",keyword);
+        columns.likeAppendPercent("content",content);
         return DAO.paginateByColumns(page, pageSize, columns, "id desc");
     }
 

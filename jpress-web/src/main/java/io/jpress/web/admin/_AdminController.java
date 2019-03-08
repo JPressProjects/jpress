@@ -23,6 +23,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressApplicationConfig;
 import io.jpress.JPressConsts;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
@@ -43,10 +44,19 @@ import java.util.List;
 public class _AdminController extends AdminControllerBase {
 
     @Inject
-    private UserService us;
+    private UserService userService;
+
+    @Inject
+    private JPressApplicationConfig config;
 
     @Clear
     public void login() {
+
+        if (!config.getAdminLoginPage().equals(getControllerKey())){
+            renderError(404);
+           return;
+        }
+
         render("login.html");
     }
 
@@ -58,13 +68,18 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
+        if (!config.getAdminLoginAction().equals(getControllerKey())){
+            renderError(404);
+            return;
+        }
+
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             throw new RuntimeException("你当前的编辑器（idea 或者 eclipse）可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
         }
 
         Ret ret = StrUtil.isEmail(user)
-                ? us.loginByEmail(user.toLowerCase(), pwd)
-                : us.loginByUsername(user, pwd);
+                ? userService.loginByEmail(user.toLowerCase(), pwd)
+                : userService.loginByUsername(user, pwd);
 
         if (ret.isOk()) {
             CookieUtil.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));

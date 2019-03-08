@@ -108,7 +108,6 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
                     break;
                 }
             }
-
             if (!hasRole) {
                 return false;
             }

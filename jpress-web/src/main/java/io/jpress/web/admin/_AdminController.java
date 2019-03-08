@@ -29,6 +29,7 @@ import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.PermissionInterceptor;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class _AdminController extends AdminControllerBase {
     @Clear
     public void login() {
 
-        if (!config.getAdminLoginPage().equals(getControllerKey())){
+        if (!JPressHandler.getCurrentTarget().equals(config.getAdminLoginPage())){
             renderError(404);
            return;
         }
@@ -68,7 +69,7 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
-        if (!config.getAdminLoginAction().equals(getControllerKey())){
+        if (!JPressHandler.getCurrentTarget().equals(config.getAdminLoginAction())){
             renderError(404);
             return;
         }

@@ -1,0 +1,8 @@
+id=io.jpress.addon.articlemeta
+title=文章元数据设置
+description=用于完善文章发布
+author=eric
+authorWebsite=http://www.ninemm.cn
+version=1.0
+versionCode=1
+updateUrl=

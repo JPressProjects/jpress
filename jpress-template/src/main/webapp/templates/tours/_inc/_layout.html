@@ -1,0 +1,58 @@
+#define layout()
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  	<title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+	<meta name="keywords" content="#(SEO_KEYWORDS)">
+	<meta name="description" content="#(SEO_DESCRIPTION)">
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  	<meta name="renderer" content="webkit">
+  	
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content="#(WEB_TITLE??WEB_NAME??)"/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content="#(WEB_TITLE ?? WEB_NAME ??)"/>
+	<meta property="og:description" content="#(SEO_DESCRIPTION ??)"/>
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link type='text/css' rel="stylesheet" href="css/weui.min.css">
+	<link type='text/css' rel="stylesheet" href="css/jquery-weui.css">
+	<link type='text/css' rel="stylesheet" href="css/icomoon.css">
+	<link type='text/css' rel="stylesheet" href="css/toastr.min.css">
+	<link type='text/css' rel="stylesheet" href="css/style.css">
+	#@css?()
+
+</head>
+
+<body ontouchstart>
+
+	#@content()
+	
+	<div style="display: none;">
+	</div>
+	
+    <!-- jQuery -->
+	<script type='text/javascript' src="js/jquery-2.1.4.js"></script>
+	<!--<script type='text/javascript' src="static/plugins/jquery/jquery.form.min.js"></script>-->
+	<script type='text/javascript' src="js/fastclick.js"></script>
+	<script type='text/javascript' src="js/weui/jquery-weui.min.js"></script>
+	<!--<script type='text/javascript' src="js/historyUtils.js"></script>-->
+	<script type='text/javascript' src="js/toastr.min.js"></script>
+	<script type='text/javascript' src="js/common.js"></script>
+	<script type="text/javascript">
+	    $(function() {
+			Utils.context = '#(CPATH)';
+        	FastClick.attach(document.body);
+		});
+	</script>
+	#@script?()
+</body>
+</html>
+#end

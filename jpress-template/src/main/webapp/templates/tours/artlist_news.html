@@ -1,0 +1,20 @@
+#include("_inc/_layout.html")
+#@layout()
+
+#define content()
+<!-- 新闻列表 -->
+<div class="weui-content">
+	<div class="weui-cells wy-news-list">
+		#categoryArticles(categoryFlag='news', orderBy='created desc')
+		#for(article : articles)
+		<a href="#(article.url ??)" class="weui-cell weui-cell_access">
+			<div class="weui-cell__bd">
+				<p>#(article.title ??)</p>
+			</div>
+			<div class="weui-cell__ft"></div>
+		</a>
+		#end
+		#end
+	</div>
+</div>
+#end

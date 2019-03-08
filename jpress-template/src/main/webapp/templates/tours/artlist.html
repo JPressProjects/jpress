@@ -1,0 +1,164 @@
+#include("_inc/_layout.html")
+#@layout()
+#define css()
+<link rel="stylesheet" type="text/css" href="css/find.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+<link rel="stylesheet" type="text/css" href="js/layer_mobile/need/layer.css" />
+<style>
+	.fall-box {
+		margin: .5rem .4rem .4rem;
+	}
+
+	.fall-box .item{
+		margin-bottom: .5rem;
+	}
+
+	.item .price-p{
+		margin-top: .0rem;
+		color: #444;
+		font-size: .7rem;
+		padding-bottom: 0rem;
+	}
+
+	.item .date-p {
+		/*color: #444;*/
+		font-size: .8rem;
+	}
+
+	.item .title-p{
+		color: #000;
+		font-size: .8rem;
+		margin-bottom: .5rem;
+	}
+
+	.fall-box .section-p{
+		background: white;
+		padding: .5rem;
+		/*padding-left: 5%;*/
+	}
+</style>
+#end
+#define script()
+<script type='text/javascript' src="js/weui/swiper.min.js"></script>
+<script type='text/javascript' src="js/layer_mobile/layer.js"></script>
+<script type='text/javascript' src="js/jquery/masonry.pkgd.min.js"></script>
+<script type='text/javascript' src="js/jquery/imagesloaded.pkgd.min.js"></script>
+<script>
+
+    var photoBrowser = null;
+    var categoryId = '#(category.id ?? 10)';
+
+    $(function() {
+        /*顶部nav*/
+        var swiper = new Swiper('.nav-container', {
+            slidesPerView: 'auto',
+            paginationClickable: true
+        });
+
+        $(".nav-ul .swiper-slide").click(function() {
+            pageNum = 1;
+            $(this).addClass("active-li")
+				.siblings()
+				.removeClass("active-li");
+
+            $('.fall-box').empty();
+            categoryId = $(this).attr("category");
+            items.splice(0, items.length);
+
+            if (photoBrowser) {
+                photoBrowser.close();
+            }
+
+            loadRoute();
+        });
+
+        /*瀑布流初始化设置*/
+        var $grid = $('.grid').masonry({
+            itemSelector : '.grid-item',
+            gutter:10
+        });
+
+        // layout Masonry after each image loads
+        $grid.imagesLoaded().done( function() {
+            $grid.masonry('layout');
+        });
+
+        loadRoute();
+
+        $(document).on('click', '.item-img', function(index) {
+            var index = $('.item-img').index(this);
+            photoBrowser = $.photoBrowser({items: items, initIndex: index});
+            if (photoBrowser != null)
+                photoBrowser.open();
+        });
+
+        var pageNum = 1 ; var dataFall = [];
+        var totalItem = 10;
+        var isAppended = true;
+        var items = new Array();
+
+        $(window).scroll(function(){
+            $grid.masonry('layout');
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if(scrollTop + windowHeight == scrollHeight) {
+                loadRoute();
+            }
+        });
+
+        function loadRoute() {
+            $.ajax({
+                method: 'post',
+                url: '#(CPATH)/articles/paginate',
+                data: { page: pageNum, pageSize: 10, categoryId: categoryId, orderBy: 'created' },
+                dataType: 'json',
+                beforeSend: function() {
+                    Utils.openLoadingWin('加载中..');
+                },
+                success: function(res) {
+                    dataFall = res.page.list;
+                    setTimeout(function(){
+                        items = Utils.appendFall($grid, dataFall);
+                        Utils.closeLoadingWin();
+                        pageNum ++ ;
+                        isAppended = false;
+                    },500);
+                },
+                error: function(res) {
+                    Utils.closeLoadingWin();
+                }
+            });
+        }
+    })
+</script>
+#end
+
+#define content()
+<!-- 内容 -->
+<div class="weui-content">
+	<div class="container">
+		<nav class="swiper-container nav-container">
+			<ul class="swiper-wrapper nav-ul">
+				<li class="swiper-slide #(category ??'active-li')" category="10">
+					<a href="javascript:;" class="slide-a">全部</a>
+				</li>
+				#categories(flag='nav')
+				#for(ct : categories)
+				<li class="swiper-slide #if(ct.id == (category.id ??)) active-li #end" category="#(ct.id)">
+					<a href="javascript:;" class="slide-a">#(ct.title)</a>
+				</li>
+				#end
+				#end
+			</ul>
+		</nav>
+
+		<!-- routes container -->
+		<aside class="fall-box grid">
+		</aside>
+	</div>
+</div>
+<div class="foot-black"></div>
+
+#include("_inc/_footer_nav.html")
+#end

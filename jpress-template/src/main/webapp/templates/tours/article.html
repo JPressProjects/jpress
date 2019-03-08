@@ -1,0 +1,321 @@
+#include("_inc/_layout.html")
+#@layout()
+
+#define css()
+<link href="css/swiper.min.css" rel="stylesheet" type="text/css" />
+<link href="css/find.css" type="text/css" rel="stylesheet" />
+<style>
+	.wy-Module-con {
+		background: none;
+	}
+
+	.fall-box {
+		margin: 0 .4rem;
+	}
+
+	.fall-box .item{
+		width: calc(100% - 14px);
+		margin-bottom: .5rem;
+	}
+
+	.item .price-p{
+		margin-top: .0rem;
+		color: #444;
+		font-size: .8rem;
+		padding-bottom: 0rem;
+	}
+
+	.item .date-p {
+		font-size: .8rem;
+	}
+
+	.item .title-p{
+		color: #000;
+		font-size: 1rem;
+		margin-bottom: .5rem;
+	}
+
+	.fall-box .section-p{
+		background: white;
+		padding: .5rem;
+		/*padding-left: 5%;*/
+	}
+</style>
+#end
+#define script()
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script>
+    $(function() {
+        initTopHoverTree("gotop", 30, 10, 50);
+
+        // 轮播图
+        var banner = new Swiper('.swiper-banner', {
+            loop: true,
+            autoplay: 3000
+        });
+        // 公告
+        var news = new Swiper('.swiper-news', {
+            loop: true,
+            direction: 'vertical',
+            paginationHide :true,
+            autoplay: 30000
+        });
+
+        //$(".swiper-jingxuan").swiper({
+        //	pagination: '.swiper-pagination',
+        //	loop: true,
+        //	paginationType:'fraction',
+        //    slidesPerView:3,
+        //    paginationClickable: true,
+        //    spaceBetween: 2
+        //});
+        // 往期回顾
+        var review = new Swiper('.swiper-review', {
+            pagination: '.swiper-pagination',
+            /*loop: true,*/
+            /*paginationType:'fraction',*/
+            slidesPerView: 3,
+            paginationClickable: true,
+            spaceBetween: 0
+        });
+
+        /*瀑布流初始化设置*/
+        var $grid = $('.grid').masonry({
+            itemSelector : '.grid-item',
+            gutter:10
+        });
+
+        // layout Masonry after each image loads
+        $grid.imagesLoaded().done( function() {
+            $grid.masonry('layout');
+        });
+
+        function category(url, title) {
+            location.href = url + '?title=' + title;
+        }
+    })
+</script>
+#end
+
+#define content()
+	<!-- 内容 -->
+	<div class="weui-content">
+		<!-- 轮播图 -->
+	    <div class="swiper-container swiper-banner">
+	        <div class="swiper-wrapper">
+        		<div class="swiper-slide">
+	                <a href="#"><img src="#(CPATH)/attachment/20190228/9c41961b68b440bc8ddac5bc5c2653cb.jpg" /></a>
+	            </div>
+				<div class="swiper-slide">
+					<a href="#"><img src="#(CPATH)/attachment/20190228/d3a969ec19b446a49e8ab810bef9cf74.jpg" /></a>
+				</div>
+	        </div>
+	    </div>
+	    <a href="#(CPATH)/s">
+		    <div class="search">
+	            <i class="icon-search"></i>
+	        </div>
+        </a>
+	
+		<!-- 分类图标 -->
+	    <div class="weui-flex wy-iconlist-box">
+	        <div class="weui-flex__item">
+	            <a href="#" class="wy-links-iconlist">
+	                <div class="img"><img src="images/icon-link5.png"></div>
+	                <p>国内有</p>
+	            </a>
+	        </div>
+			<div class="weui-flex__item">
+				<a href="#" class="wy-links-iconlist">
+					<div class="img"><img src="images/icon-link6.png"></div>
+					<p>国内有</p>
+				</a>
+			</div>
+			<div class="weui-flex__item">
+				<a href="#" class="wy-links-iconlist">
+					<div class="img"><img src="images/icon-link7.png"></div>
+					<p>国内有</p>
+				</a>
+			</div>
+	    </div>
+	    
+	    <!-- 新闻切换
+	    <div class="wy-ind-news">
+	        <i class="news-icon-laba"></i>
+	        <div class="swiper-container swiper-news">
+	            <div class="swiper-wrapper">
+	            	<@jp.contents module="article" count="5" orderBy="created" typeSlug="notice">
+					<#list contents as content>
+					<div class="swiper-slide">
+	                	<a href="${(content.url)!}">${(content.title)!}</a>
+	                </div>
+					</#list>
+					</@jp.contents>
+	                <div class="swiper-pagination"></div>
+	            </div>
+	        </div>
+	        <a href="${CPATH}/article-notice-1.html" class="newsmore"><i class="news-icon-more"></i></a>
+	    </div>-->
+	    
+	    <div class="wy-Module">
+	    	<div class="wy-Module-tit-line"><span>主题活动</span></div>
+	    	<div class="wy-Module-con">
+	    		<div class="weui-flex">
+				    <div class="weui-flex__item">
+				    	<div class="placeholder">
+	                        <a href="#">
+								<div class="tour-activity" style="width: 50%">
+									<div class="img-bg img-border-right img-border-bottom"></div>
+									<img src="images/001.jpg">
+									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
+										<div class="line-name">测试线路</div>
+									</div>
+								</div>
+	                        </a>
+							<a href="#">
+								<div class="tour-activity" style="width: 50%">
+									<div class="img-bg img-border-bottom"></div>
+									<img src="images/002.jpg">
+									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
+										<div class="line-name">测试线路</div>
+									</div>
+								</div>
+							</a>
+							<a href="#">
+								<div class="tour-activity" style="width: 50%">
+									<div class="img-bg img-border-bottom"></div>
+									<img src="images/003.jpg">
+									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
+										<div class="line-name">测试线路</div>
+									</div>
+								</div>
+							</a>
+							<a href="#">
+								<div class="tour-activity" style="width: 60%">
+									<div class="img-bg img-border-right img-border-bottom"></div>
+									<img src="images/004.jpg">
+									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
+										<div class="line-name">测试线路</div>
+									</div>
+								</div>
+							</a>
+							<a href="#">
+								<div class="tour-activity" style="width: 40%">
+									<div class="img-bg"></div>
+									<img src="images/005.jpg">
+									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
+										<div class="line-name">测试线路</div>
+									</div>
+								</div>
+							</a>
+				    	</div>
+				    </div>
+				</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="wy-Module">
+        <div class="wy-Module-tit-line"><span>推荐线路</span></div>
+        <div class="wy-Module-con">
+            <aside class="fall-box grid">
+                <div class="grid-item item">
+                    <img src="#(CPATH)/attachment/20190228/e8e3a0276ae44a8dbf8833354870c7e6.jpg" class="item-img" />
+                    <a href="#">
+	                    <section class="section-p">
+	                        <p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+	                        <p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+	                        <p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+	                    </section>
+                    </a>
+                </div>
+				<div class="grid-item item">
+					<img src="#(CPATH)/attachment/20190228/74989fd019cc48bf96fcdfd0623608e6.jpg" class="item-img" />
+					<a href="#">
+						<section class="section-p">
+							<p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+							<p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+							<p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+						</section>
+					</a>
+				</div>
+				<div class="grid-item item">
+					<img src="#(CPATH)/attachment/20190228/e8e3a0276ae44a8dbf8833354870c7e6.jpg" class="item-img" />
+					<a href="#">
+						<section class="section-p">
+							<p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+							<p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+							<p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+						</section>
+					</a>
+				</div>
+				<div class="grid-item item">
+					<img src="#(CPATH)/attachment/20190228/e8e3a0276ae44a8dbf8833354870c7e6.jpg" class="item-img" />
+					<a href="#">
+						<section class="section-p">
+							<p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+							<p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+							<p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+						</section>
+					</a>
+				</div>
+				<div class="grid-item item">
+					<img src="#(CPATH)/attachment/20190228/e8e3a0276ae44a8dbf8833354870c7e6.jpg" class="item-img" />
+					<a href="#">
+						<section class="section-p">
+							<p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+							<p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+							<p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+						</section>
+					</a>
+				</div>
+				<div class="grid-item item">
+					<img src="#(CPATH)/attachment/20190228/e8e3a0276ae44a8dbf8833354870c7e6.jpg" class="item-img" />
+					<a href="#">
+						<section class="section-p">
+							<p class="title-p">800102 湖北荆门油菜花+襄阳古隆中+莫愁村二日游</p>
+							<p class="date-p txt-color-green">出发日期： 2019-02-28</p>
+							<p class="price-p">起售价格：<span class="txt-color-red">￥1000</span></p>
+						</section>
+					</a>
+				</div>
+            </aside>
+        	<div class="morelinks"><a href="#(CPATH)/category">查看更多 >></a></div>
+        </div>
+        
+        <!-- 往期回顾
+	    <div class="wy-Module">
+	        <div class="wy-Module-tit-line"><span>线路回顾</span></div> 
+	        <div class="wy-Module-con">
+	            <div class="swiper-container swiper-review" style="padding-top:.25rem;">
+	                <div class="swiper-wrapper">
+	                	<@jp.wechatSetting type='recommend'>
+	        			<#list wechatSetting as bean>
+	                    <div class="swiper-slide">
+	                    	<div class="swiper-content">
+		                        <a href="${(bean.url)!}">
+		                        	<img src="${(bean.imagePath)!}" />
+		                        </a>
+		                        <div class="swiper-review-title">${(bean.title)!}</div>
+	                        </div>
+	                    </div>
+	                    </#list>
+	        			</@jp.wechatSetting>
+	                </div>
+	                <div class="swiper-pagination jingxuan-pagination"></div>
+	            </div>
+	        </div>
+	    </div>-->
+    </div>
+    </div>
+    
+    <div class="weui-footer">
+		<div class="footer-wrapper">
+	    	<p class="weui-footer__text">#(WEB_COPYRIGHT ?? 'Copyright © 2016-2019 ninemm.cn')</p>
+	    </div>
+	</div>
+	<div class="foot-black"></div>
+	#include("_inc/_footer_nav.html")
+	<span id="gotop" title="返回顶部"></span>
+#end

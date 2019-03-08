@@ -1,0 +1,26 @@
+#include("_inc/_layout.html")
+#@layout()
+#define css()
+<style>
+	.weui-content {
+		background-color: #fff;
+	}
+
+	.weui-article h1, .weui-article h3 {
+		text-align: center;
+	}
+</style>
+#end
+
+#define content()
+<!-- 新闻内容 -->
+<div class="weui-content">
+	<article class="weui-article">
+		<h1>#(article.title ??)</h1>
+		<h3 class="wy-news-time">#date(article.created)</h3>
+		<section class="wy-news-info">
+			<p>#(article.content ??)</p>
+		</section>
+	</article>
+</div>
+#end

@@ -1,0 +1,8 @@
+<div class="weui-tabbar wy-foot-menu">
+    #for(menu : MENUS)
+    <a href="#(CPATH)#(menu.url ??)" class="weui-tabbar__item #(menu.isActive ? 'weui-bar__item--on' : '')">
+        <div class="weui-tabbar__icon #(menu.icon ??)"></div>
+        <p class="weui-tabbar__label">#(menu.text ??)</p>
+    </a>
+    #end
+</div>

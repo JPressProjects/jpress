@@ -1,0 +1,119 @@
+#include("_inc/_layout.html")
+#@layout()
+#define css()
+<style>
+	.weui-content {
+		/*padding-bottom: 2.2rem;*/
+	}
+	.weui-content ul {
+		background-color: #fff;
+	}
+	.content {
+		position: relative;
+		height: 10rem;
+		overflow: hidden;
+	}
+	.content-bg a {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
+
+	.content img {
+		width: 100%;
+		height: auto;
+	}
+	.bg-mask {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.content-desc {
+		position: relative;
+		padding: 0 .5rem;
+		padding-bottom: .2rem;
+		border-bottom: .5rem solid #f6f6f6;
+	}
+	.content-title {
+		padding: .2rem 0;
+		font-size: 1rem;
+		font-weight: 600;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.route-group-info {
+		clear: both;
+		color: #999;
+		line-height: 1.5rem;
+		height: 2rem;
+		padding-top: .25rem;
+		font-size: .7rem;
+		/*margin-bottom: 1rem;*/
+	}
+
+	.content-desc p {padding-top: .25rem;}
+	.group-start {
+		text-align: center;
+		font-weight: 700;
+		font-size: .8rem;
+		line-height: 1.5rem;
+		height: 1.5rem;
+		width: 4rem;
+		background-color: #1aad19;
+	}
+	.group-start a {
+		color: #fff;
+	}
+</style>
+#end
+
+#define content()
+<!-- 团购线路介绍 -->
+<div class="weui-content">
+	<ul>
+		#articles(style='group', hasThumbnail=true, count=20, orderBy='created desc')
+		#for(article : articles)
+		<li>
+			<div class="content">
+				<div class="content-bg">
+					<img src="#(CPATH)#(article.thumbnail)">
+					<div class="bg-mask"></div>
+				</div>
+			</div>
+			<div class="content-desc">
+				<div class="content-title">
+					#(article.title ??)
+				</div>
+				<p class="txt-color-green">#articleMeta(articleId=article.id, fieldName='startDate')出发</p>
+				<div class="route-group-info">
+					<div class="group-num fl mg-r-10">
+						<span>#(article.minJoinNum ?? 2)人团</span>
+					</div>
+					<div class="group-price fl txt-color-red mg-r-10">
+						<span class="font-b font-16">￥ #articleMeta(articleId=article.id, fieldName='price')</span> 拼团
+					</div>
+					<div class="route-price fl mg-r-10">
+						<span style="text-decoration:line-through;">单购价：￥#articleMeta(articleId=article.id, fieldName='price')</span>
+					</div>
+					<div class="group-start fl">
+						<a href="#">去开团</a>
+					</div>
+				</div>
+			</div>
+		</li>
+		#end
+		#end
+	</ul>
+</div>
+#include("_inc/_footer_nav.html")
+#end

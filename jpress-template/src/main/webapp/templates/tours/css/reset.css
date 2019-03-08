@@ -1,0 +1,97 @@
+/* ====clear float====== */
+html {
+    width: 100%;
+    font-size: 62.5%;
+}
+* {
+    box-sizing: border-box;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clear:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+@font-face {
+    font-family: firstfont;
+    src: url('../font/myfont.ttf');
+}
+.firstfont {
+    font-family: firstfont;
+}
+
+/* reset */
+i,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+br,
+em,
+dl,
+dd,
+li,
+ul,
+ol,
+td,
+th,
+pre,
+form,
+body,
+input,
+strong,
+textarea,
+select,figcaption,figure {
+    margin: 0;
+    padding: 0;
+}
+
+em {
+    font-style: normal
+}
+
+li {
+    list-style: none
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    border: none;
+    vertical-align: top;
+}
+
+table {
+    border-collapse: collapse;
+}
+a,button{cursor:pointer;} 
+textarea {
+    resize: none;
+    overflow: auto;
+}
+a,button,input,optgroup,select,textarea{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.img-full {
+    width: 100%;
+    border: none;
+    vertical-align: bottom;
+    max-width: 64rem;
+    margin: 0 auto;
+    display: block;
+}

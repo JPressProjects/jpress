@@ -23,7 +23,6 @@
         <module>jpress-addon-helloworld</module>
         <!--<module>jpress-addon-articlemeta</module>-->
         <!--<module>jpress-addon-club</module>-->
-        <!--<module>jpress-addon-spider</module>-->
     </modules>
 
     <build>

@@ -33,6 +33,7 @@ import io.jpress.service.RoleService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
@@ -168,6 +169,23 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
     @Override
+    public boolean hasAnyRole(long userId) {
+        List<Record> records = findAllUserRoleMapping();
+        if (records == null || records.isEmpty()) {
+            return false;
+        }
+
+        for (Record record : records){
+            Long uid = record.getLong("user_id");
+            if (uid != null && uid.equals(userId)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     @CacheEvict(name = "user_permission", key = "*")
     public boolean addPermission(long roleId, long permissionId) {
         Record rolePermission = new Record().set("role_id", roleId).set("permission_id", permissionId);
@@ -228,11 +246,17 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Cacheable(name = "user_role", key = "user_roles:#(userId)", nullCacheEnable = true)
     public List<Role> findRoleListByUserId(long userId) {
-        String sql = "select * from user_role_mapping where user_id = ?";
-        List<Record> records = Db.find(sql, userId);
+        List<Record> records = findAllUserRoleMapping();
         if (records == null || records.isEmpty()) {
             return null;
         }
+
+        records = records.stream()
+                .filter(record -> {
+                    Long uid = record.getLong("user_id");
+                    return uid != null && uid.equals(userId);
+                })
+                .collect(Collectors.toList());
 
         List<Role> roles = new ArrayList<>();
         for (Record record : records) {
@@ -240,6 +264,11 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             if (role != null) roles.add(role);
         }
         return roles;
+    }
+
+    @Cacheable(name = "user_role", key = "all", nullCacheEnable = true)
+    public List<Record> findAllUserRoleMapping() {
+        return Db.findAll("user_role_mapping");
     }
 
 

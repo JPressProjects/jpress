@@ -24,6 +24,7 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.model.User;
+import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 
 import java.util.List;
@@ -38,7 +39,10 @@ public class AdminInterceptor implements Interceptor {
 
 
     @Inject
-    private UserService us;
+    private UserService userService;
+
+    @Inject
+    private RoleService roleService;
 
 
     public void intercept(Invocation inv) {
@@ -50,9 +54,15 @@ public class AdminInterceptor implements Interceptor {
             return;
         }
 
-        User user = us.findById(uid);
+        User user = userService.findById(uid);
         if (user == null || !user.isStatusOk()) {
             inv.getController().redirect("/admin/login");
+            return;
+        }
+
+        //不允许没有任何权限的用户访问后台
+        if (!roleService.hasAnyRole(user.getId())) {
+            inv.getController().renderError(404);
             return;
         }
 

@@ -151,18 +151,6 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
             }
         }
 
-//        sql = "select * from user_permission where user_id = ?";
-//        List<Record> userPermissionList = Db.find(sql, userId);
-//        if (userPermissionList != null) {
-//            for (Record userPermission : userPermissionList) {
-//                if (userPermission.getInt("own") > 0) {
-//                    permissions.add(findById(userPermission.getLong("permission_id")));
-//                } else {
-//                    permissions.remove(findById(userPermission.getLong("permission_id")));
-//                }
-//            }
-//        }
-
         return new ArrayList<>(permissions);
     }
 

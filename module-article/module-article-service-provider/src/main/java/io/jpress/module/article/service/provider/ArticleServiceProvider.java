@@ -86,8 +86,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         String select = "select * ";
         StringBuilder from = new StringBuilder("from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(categoryIds));
-
+        from.append(SqlUtils.toWhereSql(Columns.create().in(" m.category_id",categoryIds)));
         return DAO.paginate(page, pagesize, select, from.toString());
     }
 
@@ -121,7 +120,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.add("a.status", status);
         columns.likeAppendPercent("a.title", title);
 
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by order_number desc,id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
@@ -140,10 +139,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
         columns.ne("a.status", Article.STATUS_TRASH);
+        columns.likeAppendPercent("a.title",title);
 
-        SqlUtils.likeAppend(columns, "a.title", title);
-
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by order_number desc,id desc ");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
@@ -193,7 +191,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.add("m.category_id", categoryId);
         columns.add("a.status", Article.STATUS_NORMAL);
 
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
         buildOrderBySQL(sqlBuilder, orderBy);
 
@@ -341,28 +339,21 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             tagIds.add(category.getId());
         }
 
+        Columns columns = Columns.create();
+        columns.in("m.category_id",tagIds.toArray());
+        columns.ne("a.id",articleId);
+        columns.eq("status",status);
 
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(tagIds.toArray()));
-        from.append(" and a.id != ? ");
-
-
-        List<Object> paras = new ArrayList<>();
-        paras.add(articleId);
-
-        if (status != null) {
-            from.append(" and status = ? ");
-            paras.add(status);
-        }
-
+        from.append(SqlUtils.toWhereSql(columns));
         from.append(" group by a.id");
 
         if (count != null) {
             from.append(" limit " + count);
         }
 
-        return DAO.find(from.toString(), paras.toArray());
+        return DAO.find(from.toString(), columns.getValueArray());
     }
 
 
@@ -374,74 +365,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
      * @param orderBy
      */
     private static void buildOrderBySQL(StringBuilder sqlBuilder, String orderBy) {
-
         if (StrUtil.isBlank(orderBy)) {
             sqlBuilder.append(" ORDER BY a.order_number desc,a.id DESC");
-            return;
+        }else {
+            sqlBuilder.append(" ORDER BY " + orderBy);
         }
-
-        // maybe orderby == "view_count desc";
-        String orderbyInfo[] = orderBy.trim().split("\\s+");
-
-        //不合法的orderby
-        if (orderbyInfo.length < 1 || orderbyInfo.length > 2) {
-            sqlBuilder.append(" ORDER BY a.order_number desc,a.id DESC");
-            return;
-        }
-
-        orderBy = orderbyInfo[0];
-
-        /**
-         * 根据ID排序
-         */
-        if ("id".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.id ");
-        }
-        /**
-         * 根据浏览量排序
-         */
-        else if ("view_count".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.view_count ");
-        }
-        /**
-         * 根据评论量排序
-         */
-        else if ("comment_count".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.comment_count ");
-        }
-        /**
-         * 根据文章的更新时间排序
-         */
-        else if ("modified".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.modified ");
-        }
-
-        /**
-         * 根据后台排序数字进行排序
-         */
-        else if ("order_number".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.order_number ");
-        }
-        /**
-         * 根据最后评论时间排序
-         */
-        else if ("comment_time".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.comment_time ");
-        }
-
-        /**
-         * 根据创建时间排序
-         */
-        else {
-            sqlBuilder.append(" ORDER BY a.created ");
-        }
-
-        if (orderbyInfo.length == 1) {
-            sqlBuilder.append(" DESC ");
-        } else {
-            sqlBuilder.append(orderbyInfo[1]);
-        }
-
     }
 
     @Override

@@ -261,6 +261,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     public Long[] findCategoryIdsByParentId(long parentId) {
         List<ArticleCategory> categories = findAll();
         List<ArticleCategory> findedList = new ArrayList<>();
+        findedList.add(findById(parentId));
         findChild(parentId, categories, findedList);
         return ArrayUtils.toObject(findedList.stream().mapToLong(category -> category.getId()).toArray());
     }

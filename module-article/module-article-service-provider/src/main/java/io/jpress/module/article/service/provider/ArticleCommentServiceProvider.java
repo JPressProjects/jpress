@@ -22,6 +22,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ArrayUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -78,7 +79,11 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public boolean batchChangeStatusByIds(String status, Object... ids) {
-        return Db.update("update article_comment SET `status` = ? where id in  " + SqlUtils.buildInSqlPara(ids), status) > 0;
+
+        Columns c = Columns.create().in("id", ids);
+        Object[] paras = ArrayUtil.concat(new Object[]{status}, c.getValueArray());
+
+        return Db.update("update article_comment SET `status` = ? " + SqlUtils.toWhereSql(c), paras) > 0;
     }
 
     @Override

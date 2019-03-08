@@ -42,10 +42,8 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public Page<User> _paginate(int page, int pagesize, String username, String email, String status) {
 
         Columns columns = Columns.create("status", status);
-
-        SqlUtils.likeAppend(columns, "username", username);
-        SqlUtils.likeAppend(columns, "email", email);
-
+        columns.likeAppendPercent("username",username);
+        columns.likeAppendPercent("email",email);
         return DAO.paginateByColumns(page, pagesize, columns, "id desc");
     }
 

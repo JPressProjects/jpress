@@ -20,6 +20,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressApplicationConfig;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
@@ -44,19 +45,33 @@ public class AdminInterceptor implements Interceptor {
     @Inject
     private RoleService roleService;
 
+    @Inject
+    private JPressApplicationConfig config;
+
 
     public void intercept(Invocation inv) {
 
+        if (inv.getActionKey().equals(config.getAdminLoginPage())) {
+            inv.getController().forwardAction("/admin/login");
+            inv.invoke();
+            return;
+        }
+
+        if (inv.getActionKey().equals(config.getAdminLoginAction())) {
+            inv.getController().forwardAction("/admin/doLogin");
+            inv.invoke();
+            return;
+        }
 
         String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
         if (StrUtil.isBlank(uid)) {
-            inv.getController().redirect("/admin/login");
+            inv.getController().renderError(404);
             return;
         }
 
         User user = userService.findById(uid);
         if (user == null || !user.isStatusOk()) {
-            inv.getController().redirect("/admin/login");
+            inv.getController().renderError(404);
             return;
         }
 

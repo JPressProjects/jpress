@@ -259,9 +259,6 @@ public class AddonManager implements JbootEventListener {
      * @return
      */
     public boolean start(AddonInfo addonInfo) {
-        OptionService optionService = Aop.get(OptionService.class);
-        optionService.saveOrUpdate(ADDON_START_PREFFIX + addonInfo.getId(), "true");
-
         try {
             doStart(addonInfo);
             return true;
@@ -302,6 +299,9 @@ public class AddonManager implements JbootEventListener {
 
     private void setAddonStatus(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_START);
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.saveOrUpdate(ADDON_START_PREFFIX + addonInfo.getId(), "true");
+
     }
 
     private void buildApplicationActionMapping() {
@@ -373,13 +373,6 @@ public class AddonManager implements JbootEventListener {
 
     public boolean stop(AddonInfo addonInfo) {
 
-        //删除插件启动标识
-        try {
-            deleteStartedFlag(addonInfo);
-        } catch (Exception ex) {
-            LOG.error(ex.toString(), ex);
-        }
-
         //删除插件的所有Controller
         try {
             deleteControllers(addonInfo);
@@ -438,7 +431,7 @@ public class AddonManager implements JbootEventListener {
 
         //清除插件的状态，防止被重用
         try {
-            clearAddonStatus(addonInfo);
+            deleteStartedFlag(addonInfo);
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
@@ -446,8 +439,10 @@ public class AddonManager implements JbootEventListener {
         return true;
     }
 
-    private void clearAddonStatus(AddonInfo addonInfo) {
+    private void deleteStartedFlag(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
     }
 
     private void rebuildApplicationActionMapping() {
@@ -529,11 +524,6 @@ public class AddonManager implements JbootEventListener {
             for (Class<? extends Controller> c : controllerClasses)
                 AddonControllerManager.deleteController(c);
         }
-    }
-
-    private void deleteStartedFlag(AddonInfo addonInfo) {
-        OptionService optionService = Aop.get(OptionService.class);
-        optionService.deleteByKey(ADDON_START_PREFFIX + addonInfo.getId());
     }
 
 

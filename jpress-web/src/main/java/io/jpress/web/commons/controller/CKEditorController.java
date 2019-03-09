@@ -60,12 +60,19 @@ public class CKEditorController extends UserControllerBase {
         }
 
 
+        File file = uploadFile.getFile();
+        if (AttachmentUtils.isUnSafe(file)){
+            file.delete();
+            renderJson(Ret.create("error", Ret.create("message", "不支持此类文件上传")));
+            return;
+        }
+
+
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
         Integer maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
         Integer maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
-        File file = uploadFile.getFile();
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
         if (fileSize > maxSize * 1024) {
             file.delete();

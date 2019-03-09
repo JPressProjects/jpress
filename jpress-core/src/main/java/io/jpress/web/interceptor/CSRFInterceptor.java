@@ -53,10 +53,6 @@ public class CSRFInterceptor implements Interceptor {
             return;
         }
 
-        if (RequestUtil.isMultipartRequest(inv.getController().getRequest())) {
-            inv.getController().getFile();
-        }
-
         //url参数里的csrf_token
         String paraToken = inv.getController().getPara(CSRF_KEY);
         if (StrUtil.isBlank(paraToken)) {

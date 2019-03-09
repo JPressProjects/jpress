@@ -93,6 +93,11 @@ public class JPressOptions {
         return Boolean.parseBoolean(store.get(key));
     }
 
+    public static boolean isTrueOrNull(String key){
+        String data = get(key);
+        return data == null || "true".equals(data);
+    }
+
     public static int getAsInt(String key, int defaultValue) {
         String value = get(key);
         if (StrUtil.isBlank(value)) {

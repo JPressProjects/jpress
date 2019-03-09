@@ -110,6 +110,30 @@ public class AttachmentUtils {
         return false;
     }
 
+    static List<String> unSafeFilesSuffix = new ArrayList<String>();
+
+    static {
+        unSafeFilesSuffix.add(".jsp");
+        unSafeFilesSuffix.add(".jspx");
+        unSafeFilesSuffix.add(".php");
+        unSafeFilesSuffix.add(".html");
+        unSafeFilesSuffix.add(".htm");
+        unSafeFilesSuffix.add(".css");
+        unSafeFilesSuffix.add(".js");
+        unSafeFilesSuffix.add(".exe");
+        unSafeFilesSuffix.add(".sh");
+        unSafeFilesSuffix.add(".bat");
+        unSafeFilesSuffix.add(".jar");
+        unSafeFilesSuffix.add(".war");
+    }
+
+    public static boolean isUnSafe(File file){
+        String sufffix = FileUtil.getSuffix(file.getName());
+        if (StrUtil.isNotBlank(sufffix))
+            return unSafeFilesSuffix.contains(sufffix.toLowerCase());
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println(FileUtil.getSuffix("xxx.jpg"));
     }

@@ -21,7 +21,7 @@ fi
 
 # Java 命令行参数，根据需要开启下面的配置，改成自己需要的，注意等号前后不能有空格
 # JAVA_OPTS="-Xms256m -Xmx1024m -Dundertow.port=80 -Dundertow.host=0.0.0.0"
-JAVA_OPTS="-Dundertow.port=80 -Dundertow.host=0.0.0.0 -Dundertow.devMode=false"
+# JAVA_OPTS="-Dundertow.port=80 -Dundertow.host=0.0.0.0 -Dundertow.devMode=false"
 
 # 生成 class path 值
 APP_BASE_PATH=$(cd `dirname $0`; pwd)

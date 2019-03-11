@@ -1,0 +1,81 @@
+<div class="col-md-12">
+	<!-- general form elements -->
+	<div class="form-group">
+		<label class="col-sm-2 control-label">线路编号</label>
+		<div class="col-sm-6">
+			<input type="hidden" name="route.code" value="#(route.code ??)">
+			<dt><p class="form-control-static text-light-blue">#(route.code ??)</p></dt>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">行程天数</label>
+		<div class="col-sm-6">
+			<input type="input" name="route.total_days" class="form-control input-sm" value="#(route.totalDays ??)" placeholder="请输入行程天数">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">过期时间</label>
+		<div class="col-sm-6">
+			<input type="input" hint="date" class="form-control input-sm" placeholder="点击选择"
+				   name="route.expire_date" value="#date(route.expire_date ?? now,'yyyy-MM-dd')" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">外链</label>
+		<div class="col-sm-6">
+			<input type="input" name="route.link_to" class="form-control input-sm" value="#(route.linkTo ??)" placeholder="请输入外链">
+			<p class="help-block">填写外链后，浏览文章将会跳转到此链接</p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">是否推荐</label>
+		<div class="col-sm-6">
+			<input type="checkbox" name="route.is_top" data-for="is_top" class="switchery"
+				   value="#(route.is_top ??)" placeholder="">
+			<input type="hidden" id="is_top" name="route.is_top" value="#(route.is_top ??)">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">是否评论</label>
+		<div class="col-sm-6">
+			<input type="checkbox" name="route.comment_status" data-for="comment_status" class="switchery"
+				   value="#(route.comment_status ??)" placeholder="">
+			<input type="hidden" id="comment_status" name="route.comment_status" value="#(route.comment_status ??)">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">序号</label>
+		<div class="col-sm-6">
+			<input type="input" name="route.order_list" class="form-control input-sm" value="#(route.order_list ?? 10)"
+				   placeholder="请输入排序序号">
+			<p class="help-block">线路列表会根据这个数值进行排序，越大越靠前</p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">备注</label>
+		<div class="col-sm-6">
+			<textarea name="route.remarks" class="form-control input-sm" placeholder="请输入...">#(route.remarks ??)</textarea>
+		</div>
+	</div>
+
+	<h4 class="page-header">旅游线路SEO</h4>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">SEO关键字</label>
+		<div class="col-sm-6">
+			<textarea name="route.meta_keywords" class="form-control input-sm" placeholder="请输入...">#(route.meta_keywords ??)</textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">SEO描述信息</label>
+		<div class="col-sm-6">
+			<textarea name="route.meta_description" class="form-control input-sm" placeholder="请输入...">#(route.meta_description ??)</textarea>
+		</div>
+	</div>
+</div>

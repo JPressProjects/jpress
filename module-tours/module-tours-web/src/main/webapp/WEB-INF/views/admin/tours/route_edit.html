@@ -1,0 +1,233 @@
+#@layout()
+#define css()
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<style>
+	.nav-tabs-custom {
+		border-bottom: none;
+	}
+
+	.nav-tabs-custom>.tab-content {
+		padding: 0px;
+	}
+
+	.popover-content {
+		padding: 9px 14px;
+		margin: 0 10px;
+	}
+
+	#slug {
+		cursor: pointer;
+	}
+
+	#group {
+		padding-top: 7px;
+	}
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+
+<script>
+	$("input[hint='date']").datepicker({
+		format: 'yyyy-mm-dd',
+		language: 'zh-CN'
+	});
+
+  	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+            $("#routeStatus").val($(this).attr("data-status"));
+			$("#routeId").attr("value", data.id);
+			toastr.success('线路保存成功。');
+		})
+  	}
+
+	$(".submitBtn").on("click", function () {
+		doSubmit();
+	})
+
+    var editMode = "#(editMode ?? 'html')";
+
+    function doChangeEditor() {
+        if ("html" == editMode) {
+            ajaxGet('#(CPATH)/commons/changeEditor/markdown');
+        } else {
+            ajaxGet('#(CPATH)/commons/changeEditor/html');
+        }
+    }
+
+    initEditor('editor1', 400, editMode);
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            添加线路
+            <small>Add Route</small>
+        </h1>
+    </section>
+
+    <section class="content">
+		<form action="/admin/tours/route/doSave" method="post" id="form">
+			<input type="hidden" id="routeStatus" name="route.status" value='#(route.status ?? "normal")'>
+			<input type="hidden" id="routeId" name="route.id" value="#(route.id ??)">
+			<input type="hidden" name="route.user_id" value="#(route.user_id ?? USER.id)">
+			<input type="hidden" id="editModeId" name="route.edit_mode" value="#(editMode ??)">
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<div class="col-sm-12">
+								<input type="input" class="form-control input-md" name="route.title" placeholder="请输入线路标题"
+									   id="route-title" value="#(route.title ??)">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12" style="padding-bottom: 2px">
+								网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/route/<span id="slug" class="slugSpan" for-input="route-slug" >#(route.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+								#if(route && route.isNormal())
+								（<a href="#(route.url)" target="_blank">访问</a>）
+								#end
+								<input type="hidden" id="route-slug" name="route.slug">
+								#if(!route)
+								<a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+								#end
+							</div>
+							<div class="col-sm-12" style="z-index: 9999;">
+								<textarea id="editor1" name="route.content" style="height: 467px;width: 100%;background-color: white">#(route._getEditContent() ??)</textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="box box-solid">
+									<div class="box-header with-border">
+										<h3 class="box-title">线路属性设置</h3>
+										<div class="box-tools">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body no-padding">
+										<div class="nav-tabs-custom">
+											<ul class="nav nav-tabs">
+												<li class="active">
+													<a href="#tab_base" data-toggle="tab">1. 线路信息</a>
+												</li>
+												<li>
+													<a href="#tab_group" data-toggle="tab">2. 线路团期</a>
+												</li>
+											</ul>
+
+											<div class="tab-content">
+												<div class="tab-pane active form-horizontal" id="tab_base">
+													<div class="box-body">
+														#include("_route_base_box.html")
+													</div>
+												</div>
+												<div class="tab-pane form-horizontal" id="tab_group">
+													<div class="box-body">
+														#include("_route_group_box.html")
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="box box-solid">
+						<div class="box-body ">
+							<button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布</button>
+							<button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿</button>
+							<a href="#" data-status="trash" class="pull-right submitBtn" style="padding-top: 5px;">移至垃圾箱</a>
+						</div>
+					</div>
+
+
+					#if(styles)
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">模板样式</h3>
+						</div>
+						<div class="box-body ">
+							<div class="form-group">
+								<select class="form-control" name="route.style">
+									<option value="">默认样式</option>
+									#for(style : styles)
+									<option value="#(style)" #selectedIf(route && route.style==style)>
+										#(style)
+									</option>
+									#end
+								</select>
+
+							</div>
+						</div>
+					</div>
+					#end
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">分类</h3>
+						</div>
+						<div class="box-body ">
+							<div class="form-group">
+								#for(category : categories)
+								<div class="checkbox">
+									<label>
+										#for(i = 0; i < category.layerNumber; i++)
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										#end
+
+										#if(category.isCheck)
+										<input type="checkbox" name="category" value="#(category.id)" checked/>
+										#else
+										<input type="checkbox" name="category" value="#(category.id)"/>
+										#end
+
+										#(category.title ??)
+									</label>
+								</div>
+								#end
+							</div>
+						</div>
+					</div>
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">缩略图</h3>
+						</div>
+						<div class="box-body no-padding">
+							<img src="#(CPATH)#(route.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+								 style="width: 100%;height: 200px"
+								 id="thumbnail">
+							<input type="hidden" value="#(route.thumbnail ??)" name="route.thumbnail"
+								   id="articleThumbnail">
+						</div>
+						<div class="box-footer">
+							<button type="button" class="jp-image-browser btn btn-default btn-sm "
+									for-src="thumbnail"
+									for-input="articleThumbnail">选择图片
+							</button>
+							<a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+    </section>
+
+</div>
+#end

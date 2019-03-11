@@ -1,0 +1,88 @@
+#@layout()
+#define css()
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+
+<script>
+    $("input[hint='date']").datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
+    function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+    }
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+
+    var editMode = "#(editMode ?? 'html')";
+
+    function doChangeEditor() {
+        if ("html" == editMode) {
+            ajaxGet('#(CPATH)/commons/changeEditor/markdown');
+        } else {
+            ajaxGet('#(CPATH)/commons/changeEditor/html');
+        }
+    }
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+	<section class="content-header">
+		<h1>
+			线路信息
+			<small>Item</small>
+		</h1>
+	</section>
+
+	<section class="content">
+		<form action="/admin/route/doSave" method="POST" id="form" role="form">
+			<input type="hidden" id="routeStatus" name="route.status" value='#(route.status ?? "normal")'>
+			<input type="hidden" id="routeId" name="route.id" value="#(route.id ??)">
+			<input type="hidden" name="route.user_id" value="#(route.user_id ?? USER.id)">
+			<input type="hidden" id="editModeId" name="route.edit_mode" value="#(editMode ??)">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-solid">
+
+						<!-- /.box-header -->
+						<div class="box-body no-padding">
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#tab_base" data-toggle="tab">线路信息</a></li>
+									<li><a href="#tab_group" data-toggle="tab">线路团期</a></li>
+								</ul>
+
+								<div class="tab-content">
+									<div class="tab-pane active form-horizontal" id="tab_base">
+										1
+									</div>
+									<div class="tab-pane form-horizontal" id="tab_group">
+										2
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+
+</div>
+#end

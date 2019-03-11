@@ -1,0 +1,85 @@
+<div class="col-md-12">
+	<!-- general form elements -->
+	<div class="form-group validata-box">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">成行人数</label>
+			<div class="input-group col-sm-8 ">
+				<input type="text" id="_group_num" name="route.group_num" class="form-control input-sm" style="width: 200px;" value="#(route.groupNum ??)" placeholder="请输入成团最少人数">
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group validata-box">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">市场价</label>
+			<div class="input-group col-sm-8">
+				<input type="text" class="custom-input form-control input-sm" id="_market_price" name="route.market_price" value="#(route.marketPrice ??)" placeholder="请输入市场价">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">成本价</label>
+			<div class="input-group col-sm-8">
+				<input type="text" class="custom-input form-control input-sm" id="_cost" name="route.cost" value="#(route.cost ??)" placeholder="请输入成本价">
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group validata-box">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">成人价</label>
+			<div class="input-group col-sm-8">
+				<input type="text" class="custom-input form-control input-sm" id="_price" name="route.price" value="#(route.price ??)" placeholder="请输入成人价">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">儿童价</label>
+			<div class="input-group col-sm-8">
+				<input type="text" class="custom-input form-control input-sm" id="_child_price" name="route.child_price" value="#(route.childPrice ??)" placeholder="请输入儿童价">
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-10 validata-box">
+		<label for="_group_cycle" class="col-sm-2 control-label">团期</label>
+		<div class="input-group col-sm-10" id="group">
+			<input type="hidden" id="_group_cycle" name="route.group_id" value="#(route.groupId ??)">
+			<label class="text-red"><input type="checkbox" name="group" class="minimal-red" value="0"> 天天发团</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="1" > 星期一</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="2" > 星期二</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="3" > 星期三</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="4" > 星期四</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="5" > 星期五</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="6" > 星期六</label> &nbsp;
+			<label><input type="checkbox" name="group" class="minimal-red "value="7" > 星期天</label>
+			<!--<div style="float: right;">
+				<button type="button" class="btn btn-sm btn-primary" id="batchAdd"><i class="fa fa-angle-down"></i> 批量添加</button>
+			</div>-->
+			<p class="help-block">天天开团，系统会生成一个月的线路，一个月之后，请重新上架线路</p>
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-10">
+		<label for="calendar" class="col-sm-2 control-label">日历团期</label>
+		<div class="input-group col-sm-10">
+			<div id="calendar"></div>
+		</div>
+	</div>
+</div>
+
+<div class="col-md-10" style="display:none; padding-top: 20px;" id="_reserver_box">
+	<form action="" class="form-horizontal">
+		<input type="hidden" name="event_id">
+		<div class="form-group">
+			<label for="_price" class="col-md-6 control-label">价格(成人):</label>
+			<div class="input-group col-md-6 ">
+				<input type="text" id="_add_price" name="price" class="form-control input-sm">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="_child_price" class="col-md-6 control-label">价格(儿童):</label>
+			<div class="input-group col-md-6 ">
+				<input type="text" id="_add_child_price" name="childPrice" class="form-control input-sm">
+			</div>
+		</div>
+	</form>
+</div>

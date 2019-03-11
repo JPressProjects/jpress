@@ -1,0 +1,124 @@
+  #@layout()
+	
+	#define script()
+	<script>
+	
+	    function doDel(id) {
+	        ajaxGet("/admin/t_group/doDel/" + id);
+	    }
+	
+	    $("#batchDel").click(function () {
+	        var ids = getSelectedIds();
+	        if (ids == "") {
+	            alert('您未选择任何条目');
+	            return
+	        }
+	        ajaxGet("/admin/t_group/doDelByIds?ids=" + ids);
+	    })
+	
+	
+	</script>
+	#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            管理
+            <small>Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="group/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+	                                </th>
+	                                <th>行号</th>
+	                                <th>旅游线路ID</th>
+	                                <th>出发日期</th>
+	                                <th>截至时间</th>
+	                                <th>成人人数</th>
+	                                <th>儿童人数</th>
+	                                <th>成入价</th>
+	                                <th>儿童价</th>
+	                                <th>状态 报名中，已成行，已满员</th>
+	                                <th>是否日期团期 0:否 1:是</th>
+	                                <th>创建时间</th>
+	                                <th>更新时间</th>
+	                                <th>成本价</th>
+	                                <th>市场价</th>
+                                
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/tours/t_group/edit/#(entry.id)"> #(entry.id ??) </a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/tours/t_group/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                    
+	                                <td>#(entry.route_id)</td>
+	                                <td>#(entry.leave_date)</td>
+	                                <td>#(entry.deadline_date)</td>
+	                                <td>#(entry.adult_num)</td>
+	                                <td>#(entry.child_num)</td>
+	                                <td>#(entry.price)</td>
+	                                <td>#(entry.child_price)</td>
+	                                <td>#(entry.status)</td>
+	                                <td>#(entry.is_calendar)</td>
+	                                <td>#(entry.created)</td>
+	                                <td>#(entry.modified)</td>
+	                                <td>#(entry.cost)</td>
+	                                <td>#(entry.market_price)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

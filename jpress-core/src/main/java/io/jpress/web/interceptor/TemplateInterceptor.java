@@ -19,6 +19,7 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
@@ -80,6 +81,11 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
+
+        //添加CSRF的配置，方便在前台进行退出等操作
+        String uuid = StrUtil.uuid();
+        inv.getController().setCookie(CSRFInterceptor.CSRF_KEY, uuid, -1);
+        inv.getController().setAttr(CSRFInterceptor.CSRF_ATTR_KEY, uuid);
 
         MenuService menuService = Aop.get(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);

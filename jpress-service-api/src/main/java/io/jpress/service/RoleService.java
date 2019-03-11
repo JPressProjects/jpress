@@ -15,6 +15,7 @@
  */
 package io.jpress.service;
 
+import com.jfinal.plugin.activerecord.Record;
 import io.jpress.model.Role;
 
 import java.util.List;
@@ -99,6 +100,8 @@ public interface RoleService {
 
     public boolean hasAnyRole(long userId, String... roles);
 
+    public boolean hasAnyRole(long userId);
+
     public boolean addPermission(long roleId, long permissionId);
 
     public boolean delPermission(long roleId, long permissionId);
@@ -110,5 +113,9 @@ public interface RoleService {
     public boolean doChangeRoleByIds(Long roleId, Object... ids);
 
     public void initWebRole();
+
+    public List<Role> findRoleListByUserId(long userId);
+
+    public List<Record> findAllUserRoleMapping();
 
 }

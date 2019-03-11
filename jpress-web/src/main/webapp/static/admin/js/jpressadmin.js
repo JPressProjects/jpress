@@ -157,6 +157,17 @@ function initCkEdtior(editor, height) {
     });
 
 
+    ed.on('instanceReady',function () {
+        ed.setKeystroke( CKEDITOR.CTRL + 83, 'save' ); //  Ctrl+s
+        // 扩展CKEditor的 ctrl + s 保存命令,方便全屏编辑时快捷保存
+        ed.addCommand('save', {
+            exec: function() {
+                var ds = window.doSubmit;
+                ds && ds();
+            }
+        });
+    });
+
     ed.on("dialogShow", function (event) {
 
         // 方便调试

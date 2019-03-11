@@ -23,6 +23,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 
@@ -67,7 +68,7 @@ public class AddonInfo implements Serializable {
         this.description = properties.getProperty("description");
         this.author = properties.getProperty("author");
         this.authorWebsite = properties.getProperty("authorWebsite");
-        this.version = properties.getProperty("version");
+        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"),"v1.0.0");
         this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
     }
 

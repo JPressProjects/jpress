@@ -33,7 +33,6 @@ import io.jpress.core.support.ehcache.EhcacheManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.JPressHandler;
-import io.jpress.web.interceptor.CSRFInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
 
@@ -94,7 +93,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onInterceptorConfig(Interceptors interceptors) {
         interceptors.add(new UTMInterceptor());
-        interceptors.add(new CSRFInterceptor());
+//        interceptors.add(new CSRFInterceptor());
     }
 
     @Override

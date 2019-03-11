@@ -23,11 +23,15 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressApplicationConfig;
 import io.jpress.JPressConsts;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
+import io.jpress.model.User;
+import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.PermissionInterceptor;
 
 import java.util.ArrayList;
@@ -43,10 +47,23 @@ import java.util.List;
 public class _AdminController extends AdminControllerBase {
 
     @Inject
-    private UserService us;
+    private UserService userService;
+
+    @Inject
+    private RoleService roleService;
+
+    @Inject
+    private JPressApplicationConfig config;
 
     @Clear
     public void login() {
+
+        if (!JPressHandler.getCurrentTarget().equals(config.getAdminLoginPage())) {
+            renderError(404);
+            return;
+        }
+
+        setAttr("action", config.getAdminLoginAction());
         render("login.html");
     }
 
@@ -58,16 +75,30 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
+        if (!JPressHandler.getCurrentTarget().equals(config.getAdminLoginAction())) {
+            renderError(404);
+            return;
+        }
+
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             throw new RuntimeException("你当前的编辑器（idea 或者 eclipse）可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
         }
 
-        Ret ret = StrUtil.isEmail(user)
-                ? us.loginByEmail(user.toLowerCase(), pwd)
-                : us.loginByUsername(user, pwd);
+        User loginUser = userService.findByUsernameOrEmail(user);
+        if (loginUser == null) {
+            renderJson(Ret.fail("message", "用户名不正确。"));
+            return;
+        }
+
+        if (!roleService.hasAnyRole(loginUser.getId())) {
+            renderJson(Ret.fail("message", "您没有登录的权限。"));
+            return;
+        }
+
+        Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
-            CookieUtil.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
         renderJson(ret);

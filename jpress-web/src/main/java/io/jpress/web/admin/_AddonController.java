@@ -107,8 +107,18 @@ public class _AddonController extends AdminControllerBase {
 
         try {
             FileUtils.moveFile(ufile.getFile(), newAddonFile);
-            AddonManager.me().install(newAddonFile);
-            AddonManager.me().start(addon.getId());
+            if (!AddonManager.me().install(newAddonFile)) {
+                renderJson(Ret.fail()
+                        .set("success", false)
+                        .set("message", "该插件安装失败，请联系管理员。"));
+                return;
+            }
+            if (!AddonManager.me().start(addon.getId())) {
+                renderJson(Ret.fail()
+                        .set("success", false)
+                        .set("message", "该插件启动失败，请联系管理员。"));
+                return;
+            }
         } catch (Exception e) {
             LOG.error("addon install error : ", e);
             renderJson(Ret.fail()
@@ -166,8 +176,13 @@ public class _AddonController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "ID数据不能为空"));
             return;
         }
-        AddonManager.me().start(id);
-        renderOkJson();
+
+        if (AddonManager.me().start(id)){
+            renderOkJson();
+        }else {
+            renderJson(Ret.fail().set("message","该插件启动时出现异常，启动失败。"));
+        }
+
     }
 
     public void doStop() {

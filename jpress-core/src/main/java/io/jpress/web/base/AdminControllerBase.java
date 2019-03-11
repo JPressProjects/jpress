@@ -21,6 +21,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import io.jpress.web.interceptor.AdminInterceptor;
+import io.jpress.web.interceptor.CSRFInterceptor;
 import io.jpress.web.interceptor.PermissionInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
 
@@ -30,6 +31,7 @@ import io.jpress.web.interceptor.UserInterceptor;
  * @Package io.jpress.web
  */
 @Before({
+        CSRFInterceptor.class,
         AdminInterceptor.class,
         UserInterceptor.class,
         PermissionInterceptor.class

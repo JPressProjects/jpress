@@ -23,6 +23,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
@@ -42,24 +43,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public Page<User> _paginate(int page, int pagesize, String username, String email, String status) {
 
         Columns columns = Columns.create("status", status);
-
-        SqlUtils.likeAppend(columns, "username", username);
-        SqlUtils.likeAppend(columns, "email", email);
-
+        columns.likeAppendPercent("username", username);
+        columns.likeAppendPercent("email", email);
         return DAO.paginateByColumns(page, pagesize, columns, "id desc");
     }
 
-
     @Override
-    public Ret loginByUsername(String username, String pwd) {
-        User user = DAO.findFirstByColumn("username", username.trim().toLowerCase());
-        return doValidateUserPwd(user, pwd);
-    }
-
-    @Override
-    public Ret loginByEmail(String email, String pwd) {
-        User user = DAO.findFirstByColumn("email", email.trim().toLowerCase());
-        return doValidateUserPwd(user, pwd);
+    public User findByUsernameOrEmail(String usernameOrEmail) {
+        return StrUtil.isEmail(usernameOrEmail)
+                ? DAO.findFirstByColumn("email", usernameOrEmail.trim().toLowerCase())
+                : DAO.findFirstByColumn("username", usernameOrEmail.trim().toLowerCase());
     }
 
 

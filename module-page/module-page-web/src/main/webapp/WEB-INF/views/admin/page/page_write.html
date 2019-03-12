@@ -11,11 +11,16 @@
 
     $(".submitBtn").on("click", function () {
         $("#pageStatus").val($(this).attr("data-status"));
+        doSubmit();
+    });
+
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+    window.doSubmit = function(){
         ajaxSubmit("#form", function (data) {
             $("#pageId").attr("value", data.id);
             toastr.success('内容保存成功。');
-        })
-    });
+        });
+    }
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");

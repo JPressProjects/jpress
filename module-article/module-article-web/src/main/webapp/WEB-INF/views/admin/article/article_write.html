@@ -33,11 +33,16 @@
 
     $(".submitBtn").on("click", function () {
         $("#articleStatus").val($(this).attr("data-status"));
+        doSubmit();
+    });
+
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+    window.doSubmit = function(){
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
-        })
-    });
+        });
+    }
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -55,6 +60,8 @@
     }
 
     initEditor('editor1', 467, editMode);
+
+    doListenerCtrlsAndCommands(doSubmit);
 
 
 </script>
@@ -113,7 +120,7 @@
                                 #if(article && article.isNormal())
                                 （<a href="#(article.url)" target="_blank">访问</a>）
                                 #end
-                                <input type="hidden" id="article-slug" name="article.slug">
+                                <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
                                 #if(!article)
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
                                 #end

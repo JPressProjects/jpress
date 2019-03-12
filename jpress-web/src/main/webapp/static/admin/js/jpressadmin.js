@@ -113,11 +113,34 @@ function initEditor(editor, height, type) {
 
     if (type == 'html') {
         return initCkEdtior(editor, height);
-    }
-
-    else if (type == 'markdown') {
+    } else if (type == 'markdown') {
         return initMarkdownEditor(editor, height);
     }
+}
+
+var commandkeydown = false;
+
+function doListenerCtrlsAndCommands(func) {
+    $(document).keydown(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = true;
+        }
+        if (commandkeydown && e.keyCode == 83) {
+            commandkeydown = false;
+            func();
+            return false;
+        }
+        if (e.ctrlKey == true && e.keyCode == 83) {
+            console.log('ctrl+s');
+            func();
+            return false;
+        }
+    });
+    $(document).keyup(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = false;
+        }
+    });
 }
 
 function initCkEdtior(editor, height) {
@@ -156,9 +179,19 @@ function initCkEdtior(editor, height) {
         language: 'zh-cn'
     });
 
+    ed.on('instanceReady', function () {
+        ed.setKeystroke(CKEDITOR.ALT.CTRL + 83, 'save'); //  Ctrl+s
+        ed.setKeystroke(1114195, 'save'); // mac command +s
+        // 扩展CKEditor的 ctrl + s 保存命令,方便全屏编辑时快捷保存
+        ed.addCommand('save', {
+            exec: function () {
+                var ds = window.doSubmit;
+                ds && ds();
+            }
+        });
+    });
 
     ed.on("dialogShow", function (event) {
-
         // 方便调试
         _dialogShowEvent = event;
 

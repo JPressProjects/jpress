@@ -104,11 +104,12 @@ public class _AdminController extends AdminControllerBase {
         renderJson(ret);
     }
 
-    //清除PermissionInterceptor，防止在没有授权的情况下，用户无法退出的问题
+    // 必须清除PermissionInterceptor，
+    // 防止在没有授权的情况下，用户无法退出的问题
     @Clear(PermissionInterceptor.class)
     public void doLogout() {
         CookieUtil.remove(this, JPressConsts.COOKIE_UID);
-        redirect("/admin/login");
+        redirect("/");
     }
 
 

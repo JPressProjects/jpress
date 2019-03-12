@@ -91,5 +91,11 @@ public interface TGroupService  {
      */
     public Page<TGroup> paginate(int page, int pageSize);
 
-
+    /**
+     * find current groupId in route
+     *
+     * @param routeId
+     * @return
+     */
+    public Long findCurGroupByRouteId(Long routeId);
 }

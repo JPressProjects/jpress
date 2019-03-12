@@ -43,27 +43,22 @@
 		<label for="_group_cycle" class="col-sm-2 control-label">团期</label>
 		<div class="input-group col-sm-10" id="group">
 			<input type="hidden" id="_group_cycle" name="route.group_id" value="#(route.groupId ??)">
-			<label class="text-red"><input type="checkbox" name="group" class="minimal-red" value="0"> 天天发团</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="1" > 星期一</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="2" > 星期二</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="3" > 星期三</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="4" > 星期四</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="5" > 星期五</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="6" > 星期六</label> &nbsp;
-			<label><input type="checkbox" name="group" class="minimal-red "value="7" > 星期天</label>
+			#routeGroupOptions(groupCycle = route.groupCycle)
+				#(routeGroupOptionsHtml ??)
+			#end
 			<!--<div style="float: right;">
 				<button type="button" class="btn btn-sm btn-primary" id="batchAdd"><i class="fa fa-angle-down"></i> 批量添加</button>
 			</div>-->
-			<p class="help-block">天天开团，系统会生成一个月的线路，一个月之后，请重新上架线路</p>
+			<p class="help-block">系统默认会生成一个月的团期线路，一个月之后，请重新上架线路</p>
 		</div>
 	</div>
 	
-	<div class="form-group col-sm-10">
+	<!--<div class="form-group col-sm-10">
 		<label for="calendar" class="col-sm-2 control-label">日历团期</label>
 		<div class="input-group col-sm-10">
 			<div id="calendar"></div>
 		</div>
-	</div>
+	</div>-->
 </div>
 
 <div class="col-md-10" style="display:none; padding-top: 20px;" id="_reserver_box">

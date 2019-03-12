@@ -15,7 +15,9 @@
  */
 package io.jpress.module.route.controller;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.ArrayUtil;
@@ -33,8 +35,11 @@ import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.route.model.TRoute;
 import io.jpress.module.route.service.TGroupService;
+import io.jpress.module.route.service.TRouteCategoryService;
 import io.jpress.module.route.service.TRouteService;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -46,7 +51,7 @@ import java.util.Set;
  * @version V1.0
  * @Package io.jpress.module.page.controller.admin
  */
-@RequestMapping(value = "/admin/tours/route", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/route", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _TRouteController extends AdminControllerBase {//
 
     @Inject
@@ -55,18 +60,21 @@ public class _TRouteController extends AdminControllerBase {//
     private TGroupService groupService;
     @Inject
     private ArticleCategoryService categoryService;
+    @Inject
+    private TRouteCategoryService routeCategoryService;
 
     @AdminMenu(text = "线路列表", groupId = "tours", order = 10)
     public void index() {
 
         String status = getPara("status");
         String title = getPara("title");
+        String code = getPara("code");
         Long categoryId = getParaToLong("categoryId");
 
         Page<TRoute> page =
                 StringUtils.isBlank(status)
-                        ? routeService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
-                        : routeService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
+                        ? routeService._paginateWithoutTrash(getPagePara(), 10, title, code, categoryId)
+                        : routeService._paginateByStatus(getPagePara(), 10, title, code, categoryId, status);
 
         setAttr("page", page);
 
@@ -103,7 +111,7 @@ public class _TRouteController extends AdminControllerBase {//
                 return;
             }
 
-            Long[] categoryIds = categoryService.findCategoryIdsByArticleId(routeId);
+            Long[] categoryIds = routeCategoryService.findCategoryIdsByRouteId(routeId);
             flagCheck(categories, categoryIds);
         } else {
             route = new TRoute();
@@ -137,9 +145,22 @@ public class _TRouteController extends AdminControllerBase {//
             }
         }
 
+        // 线路团期
+        Integer[] groups = getParaValuesToInt("group");
+        String groupCycle = StringUtils.join(groups, ",");
+        route.setGroupCycle(groupCycle);
+
+        // 线路积分
+        Integer rate = Aop.get(OptionService.class).findAsIntegerByKey("route_price_score_rate");
+        if (rate == null) {
+            rate = 1;
+        }
+        route.setScore(route.getPrice() * rate);
+
+        // TODO 生成线路二维码
+
         long id = (long) routeService.saveOrUpdate(route);
         setAttr("routeId",id);
-        setAttr("route", route);
 
         Long[] categoryIds = getParaValuesToLong("category");
         routeService.doUpdateCategorys(id, categoryIds);
@@ -149,12 +170,13 @@ public class _TRouteController extends AdminControllerBase {//
             }
         }
 
-        Integer[] groups = getParaValuesToInt("group");
         String calendarStr = getPara("calendarStr");
         groupService.doUpdateGroups(route, groups, calendarStr);
+        Long curGroupId = groupService.findCurGroupByRouteId(id);
+        route.setGroupId(curGroupId);
 
-        // TODO 生成线路二维码
-
+        route.saveOrUpdate();
+        setAttr("route", route);
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
@@ -164,6 +186,33 @@ public class _TRouteController extends AdminControllerBase {//
     public void doDel() {
         Long id = getIdPara();
         render(routeService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(routeService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+    }
+
+    public void copy() {
+        Long id = getIdPara();
+        // setFlashAttr("id", id);
+        redirect("/admin/route/edit/" + id);
+    }
+
+    public void doTrash() {
+        Long id = getIdPara();
+        render(routeService.doChangeStatus(id, TRoute.STATUS_TRASH) ? OK : FAIL);
+    }
+
+    public void doDraft() {
+        Long id = getIdPara();
+        render(routeService.doChangeStatus(id, TRoute.STATUS_DRAFT) ? OK : FAIL);
+    }
+
+    public void doNormal() {
+        Long id = getIdPara();
+        render(routeService.doChangeStatus(id, TRoute.STATUS_NORMAL) ? OK : FAIL);
     }
 
     private void initStylesAttr(String prefix) {

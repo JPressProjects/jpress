@@ -84,6 +84,15 @@ public interface TRouteService  {
 
     public void doUpdateCategorys(long routeId, Long[] categoryIds);
 
+    /**
+     * change the route status
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    public boolean doChangeStatus(long id, String status);
+
     public int findCountByStatus(String status);
 
     public TRoute findFirstBySlug(String slug);
@@ -97,7 +106,7 @@ public interface TRouteService  {
      */
     public Page<TRoute> paginate(int page, int pageSize);
 
-    public Page<TRoute> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
+    public Page<TRoute> _paginateByStatus(int page, int pagesize, String title, String code, Long categoryId, String status);
 
-    public Page<TRoute> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
+    public Page<TRoute> _paginateWithoutTrash(int page, int pagesize, String title, String code, Long categoryId);
 }

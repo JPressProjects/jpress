@@ -17,6 +17,10 @@
 		margin: 0 10px;
 	}
 
+	#datepicker {
+		z-index: 9999;
+	}
+
 	#slug {
 		cursor: pointer;
 	}
@@ -35,7 +39,9 @@
 <script>
 	$("input[hint='date']").datepicker({
 		format: 'yyyy-mm-dd',
-		language: 'zh-CN'
+		language: 'zh-CN',
+        zIndexOffset: 9999,
+		autoclose: true
 	});
 
   	function doSubmit() {
@@ -69,13 +75,12 @@
 
     <section class="content-header">
         <h1>
-            添加线路
-            <small>Add Route</small>
+            添加线路 <small>Add Route</small>
         </h1>
     </section>
 
     <section class="content">
-		<form action="/admin/tours/route/doSave" method="post" id="form">
+		<form action="/admin/route/doSave" method="post" id="form">
 			<input type="hidden" id="routeStatus" name="route.status" value='#(route.status ?? "normal")'>
 			<input type="hidden" id="routeId" name="route.id" value="#(route.id ??)">
 			<input type="hidden" name="route.user_id" value="#(route.user_id ?? USER.id)">
@@ -172,7 +177,6 @@
 									</option>
 									#end
 								</select>
-
 							</div>
 						</div>
 					</div>

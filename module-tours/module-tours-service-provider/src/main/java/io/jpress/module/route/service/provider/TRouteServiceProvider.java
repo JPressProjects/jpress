@@ -4,14 +4,15 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jpress.commons.utils.SqlUtils;
-import io.jpress.module.route.service.TRouteService;
-import io.jpress.module.route.model.TRoute;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.utils.SqlUtils;
+import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TRouteService;
 import io.jpress.service.UserService;
 
 import java.util.ArrayList;
@@ -34,27 +35,36 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
     }
 
     @Override
-    public Page<TRoute> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
+    public boolean deleteById(Object id) {
+        Jboot.getCache().remove("routeCategory", "categoryList:" + id);
+        Jboot.getCache().remove("routeCategory", "categoryIds:" + id);
+        return super.deleteById(id);
+    }
+
+    @Override
+    public Page<TRoute> _paginateByStatus(int page, int pagesize, String title, String code, Long categoryId, String status) {
 
         return _paginateByBaseColumns(page
                 ,pagesize
                 ,title
+                ,code
                 ,categoryId
                 ,Columns.create("r.status", status));
 
     }
 
     @Override
-    public Page<TRoute> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
+    public Page<TRoute> _paginateWithoutTrash(int page, int pagesize, String title, String code, Long categoryId) {
 
         return _paginateByBaseColumns(page
                 ,pagesize
                 ,title
+                ,code
                 ,categoryId
                 ,Columns.create().ne("r.status", TRoute.STATUS_TRASH));
     }
 
-    public Page<TRoute> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId,Columns baseColumns) {
+    public Page<TRoute> _paginateByBaseColumns(int page, int pagesize, String title, String code, Long categoryId, Columns baseColumns) {
 
 
         StringBuilder sqlBuilder = new StringBuilder("from t_route r ");
@@ -63,8 +73,9 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
         }
 
         Columns columns = baseColumns;
+        columns.add("r.code", code);
         columns.add("m.category_id", categoryId);
-        columns.likeAppendPercent("r.title",title);
+        columns.likeAppendPercent("r.title", title);
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by ").append(DEFAULT_ORDER_BY);
@@ -79,7 +90,7 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
         if (code == null) {
             return 80000001L;
         }
-        return code;
+        return code + 1L;
     }
 
     @Override
@@ -117,6 +128,13 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
 
             return true;
         });
+    }
+
+    @Override
+    public boolean doChangeStatus(long id, String status) {
+        TRoute route = findById(id);
+        route.setStatus(status);
+        return route.update();
     }
 
 }

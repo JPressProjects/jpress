@@ -4,20 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.db.model.Column;
+import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.DateUtils;
+import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
 import io.jpress.module.route.model.vo.CalendarVO;
 import io.jpress.module.route.service.TGroupService;
-import io.jpress.module.route.model.TGroup;
-import io.jboot.service.JbootServiceBase;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,8 +83,15 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
         });
     }
 
-
-
+    @Override
+    public Long findCurGroupByRouteId(Long routeId) {
+        Column column = Column.create("route_id", routeId);
+        TGroup group = DAO.findFirstByColumn(column, "id ");
+        if (group == null) {
+            return null;
+        }
+        return group.getId();
+    }
 
 
 }

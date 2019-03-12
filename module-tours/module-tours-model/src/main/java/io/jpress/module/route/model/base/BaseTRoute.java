@@ -233,6 +233,14 @@ public abstract class BaseTRoute<M extends BaseTRoute<M>> extends JbootModel<M> 
 		return getLong("group_id");
 	}
 
+	public void setGroupCycle(java.lang.String groupCycle) {
+		set("group_cycle", groupCycle);
+	}
+
+	public java.lang.String getGroupCycle() {
+		return getStr("group_cycle");
+	}
+
 	public void setCommentStatus(java.lang.Boolean commentStatus) {
 		set("comment_status", commentStatus);
 	}

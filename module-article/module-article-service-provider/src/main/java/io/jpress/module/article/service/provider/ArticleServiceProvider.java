@@ -111,7 +111,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.likeAppendPercent("a.title",title);
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
-        sqlBuilder.append(" order by ").append(DEFAULT_ORDER_BY);
+
+        // 前台走默认排序，但是后台必须走 id 排序，
+        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
+        sqlBuilder.append(" order by id desc");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);

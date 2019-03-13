@@ -218,7 +218,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @CachesEvict({
-            @CacheEvict(name = "user_role", key = "user_roles:#(userId)"),
+            @CacheEvict(name = "user_role", key = "*"),
             @CacheEvict(name = "user_permission", key = "*")
     })
     public boolean doResetUserRoles(long userId, Long... RoleIds) {

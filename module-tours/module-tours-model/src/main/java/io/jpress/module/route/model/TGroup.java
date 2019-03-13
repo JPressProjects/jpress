@@ -9,6 +9,10 @@ import io.jpress.module.route.model.base.BaseTGroup;
 @Table(tableName = "t_group", primaryKey = "id")
 public class TGroup extends BaseTGroup<TGroup> {
 
-    public static final Integer DEFAULT_STATUS = 1;
+    public static final Integer UNSTART_STATUS = 0;
+    public static final Integer ENROLLING_STATUS = 1;
+    public static final Integer RUNNING_STATUS = 2;
+    public static final Integer FULL_STATUS = 3;
+    public static final Integer EXPIRED_STATUS = 4;
 
 }

@@ -1,11 +1,12 @@
 package io.jpress.module.route.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.route.model.TViewRecord;
 
 import java.util.List;
 
-public interface TViewRecordService  {
+public interface TViewRecordService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

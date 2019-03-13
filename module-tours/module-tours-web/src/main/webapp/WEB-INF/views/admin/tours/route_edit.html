@@ -46,13 +46,13 @@
 
   	function doSubmit() {
 		ajaxSubmit("#form", function (data) {
-            $("#routeStatus").val($(this).attr("data-status"));
 			$("#routeId").attr("value", data.id);
-			toastr.success('线路保存成功。');
+			toastr.success('线路保存成功!');
 		})
   	}
 
 	$(".submitBtn").on("click", function () {
+        $("#routeStatus").val($(this).attr("data-status"));
 		doSubmit();
 	})
 
@@ -211,7 +211,7 @@
 
 					<div class="box box-solid">
 						<div class="box-header with-border ">
-							<h3 class="box-title">缩略图</h3>
+							<h3 class="box-title">线路海报</h3>
 						</div>
 						<div class="box-body no-padding">
 							<img src="#(CPATH)#(route.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"

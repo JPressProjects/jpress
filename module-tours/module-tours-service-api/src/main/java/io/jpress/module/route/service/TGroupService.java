@@ -24,6 +24,14 @@ public interface TGroupService  {
      */
     public List<TGroup> findAll();
 
+    /**
+     * find next model by preGroupId
+     *
+     * @param id
+     * @return
+     */
+    public TGroup findNextById(Long id);
+
 
     /**
      * delete model by primary key
@@ -97,5 +105,5 @@ public interface TGroupService  {
      * @param routeId
      * @return
      */
-    public Long findCurGroupByRouteId(Long routeId);
+    public TGroup findFirstGroupByRouteId(Long routeId);
 }

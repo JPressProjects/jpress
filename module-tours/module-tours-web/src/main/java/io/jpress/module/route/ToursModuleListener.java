@@ -16,7 +16,9 @@
 package io.jpress.module.route;
 
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.cron4j.Cron4jPlugin;
 import io.jboot.Jboot;
+import io.jboot.aop.jfinal.JfinalPlugins;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
@@ -28,7 +30,7 @@ import java.util.List;
  * @version V1.0
  * @Title: Module 监听器
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
- * @Package io.jpress.module.tours
+ * @Package io.jpress.module.route
  */
 public class ToursModuleListener extends JbootAppListenerBase implements ModuleListener {
 
@@ -48,7 +50,7 @@ public class ToursModuleListener extends JbootAppListenerBase implements ModuleL
 		MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("tours");
         menuGroup.setText("旅游");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
+        menuGroup.setIcon("<i class=\"fa fa-cloud\"></i>");
         menuGroup.setOrder(1);
         adminMenus.add(menuGroup);
     }
@@ -59,5 +61,8 @@ public class ToursModuleListener extends JbootAppListenerBase implements ModuleL
       
     }
 
-
+    @Override
+    public void onPluginConfig(JfinalPlugins plugins) {
+        plugins.add(new Cron4jPlugin());
+    }
 }

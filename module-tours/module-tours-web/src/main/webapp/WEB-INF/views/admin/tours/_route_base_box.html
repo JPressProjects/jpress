@@ -25,7 +25,7 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">外链</label>
+		<label class="col-sm-2 control-label">外链URL</label>
 		<div class="col-sm-6">
 			<input type="input" name="route.link_to" class="form-control input-sm" value="#(route.linkTo ??)" placeholder="请输入外链">
 			<p class="help-block">填写外链后，浏览文章将会跳转到此链接</p>
@@ -35,18 +35,24 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">是否推荐</label>
 		<div class="col-sm-6">
-			<input type="checkbox" name="route.is_top" data-for="is_top" class="switchery"
-				   value="#(route.is_top ??)" placeholder="">
-			<input type="hidden" id="is_top" name="route.is_top" value="#(route.is_top ??)">
+			#if(route.isTopEnable())
+			<input type="checkbox" data-for="is_top" class="switchery" checked value="#(route.isTop ??)">
+			#else
+			<input type="checkbox" data-for="is_top" class="switchery" value="#(route.isTop ??)">
+			#end
+			<input type="hidden" id="is_top" name="route.is_top">
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">是否评论</label>
 		<div class="col-sm-6">
-			<input type="checkbox" name="route.comment_status" data-for="comment_status" class="switchery"
-				   value="#(route.comment_status ??)" placeholder="">
-			<input type="hidden" id="comment_status" name="route.comment_status" value="#(route.comment_status ??)">
+			#if(route.isCommentEnable())
+			<input type="checkbox" data-for="comment_status" class="switchery" checked value="#(route.commentStatus ??)">
+			#else
+			<input type="checkbox" data-for="comment_status" class="switchery" value="#(route.commentStatus ??)">
+			#end
+			<input type="hidden" id="comment_status" name="route.comment_status">
 		</div>
 	</div>
 

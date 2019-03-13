@@ -19,11 +19,13 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.route.service.TRouteCategoryService;
+import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TRouteService;
 
 import java.util.List;
 
@@ -32,31 +34,48 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.module.route.directive
  */
-@JFinalDirective("routeCategories")
-public class RouteCategoriesDirective extends JbootDirectiveBase {
+@JFinalDirective("routes")
+public class RoutesDirective extends JbootDirectiveBase {
 
     @Inject
-    private TRouteCategoryService categoryService;
+    private TRouteService service;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long id = getParaToLong(0, scope);
-        String type = getPara(1, scope);
+        String code = getPara("code", scope);
+        String style = getPara("style", scope);
+        String title = getPara("title", scope);
+        String isTop = getPara("isTop", scope);
 
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
+        String orderBy = getPara("orderBy", scope, "id desc");
+        int count = getParaToInt("count", scope, 10);
+
+        Columns columns = Columns.create("code", code);
+        columns.add("style", style);
+        columns.add("is_top", isTop);
+        columns.likeAppendPercent("title", title);
+        columns.add("status", TRoute.STATUS_NORMAL);
+
+        if (hasThumbnail != null) {
+            if (hasThumbnail) {
+                columns.is_not_null("thumbnail");
+            } else {
+                columns.is_null("thumbnail");
+            }
         }
 
+        List<TRoute> routes = service.findListByColumns(columns, orderBy, count);
 
-        List<ArticleCategory> categories = categoryService.findListByRouteId(id, type);
-        if (categories == null || categories.isEmpty()) {
+        if (routes == null || routes.isEmpty()) {
             return;
         }
 
-        scope.setLocal("categories", categories);
+        scope.setLocal("routes", routes);
         renderBody(env, scope, writer);
     }
+
 
     @Override
     public boolean hasEnd() {

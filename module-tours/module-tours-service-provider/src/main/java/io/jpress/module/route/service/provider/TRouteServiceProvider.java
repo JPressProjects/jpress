@@ -1,5 +1,6 @@
 package io.jpress.module.route.service.provider;
 
+import com.google.common.collect.Lists;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -7,15 +8,22 @@ import com.jfinal.plugin.activerecord.Record;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.utils.DateUtils;
 import io.jpress.commons.utils.SqlUtils;
+import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TGroupService;
 import io.jpress.module.route.service.TRouteService;
+import io.jpress.module.route.service.task.RouteViewsCountUpdateTask;
 import io.jpress.service.UserService;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Bean
@@ -23,6 +31,8 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
 
     @Inject
     private UserService userService;
+    @Inject
+    private TGroupService groupService;
 
     private static final String DEFAULT_ORDER_BY = "order_list desc,id desc";
 
@@ -131,10 +141,100 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
     }
 
     @Override
+    @CacheEvict(name = "routes",key = "*")
+    public void doUpdateExpiredRouteStatus() {
+
+        Columns columns = Columns.create();
+        columns.add("status", TRoute.STATUS_NORMAL);
+        String now = DateTime.now().toString("yyyy-MM-dd");
+        columns.lt("departure_date", now);
+
+        List<TRoute> expiredList = DAO.findListByColumns(columns);
+        Db.tx(() -> {
+            List<TRoute> list = Lists.newArrayList();
+            for (TRoute route : expiredList) {
+                if (route.getGroupId() != null && route.getGroupId() > 0) {
+                    // update current group status
+                    TGroup curGroup = groupService.findById(route.getGroupId());
+                    curGroup.setStatus(TGroup.EXPIRED_STATUS);
+                    curGroup.update();
+
+                    TGroup nextGroup = groupService.findNextById(route.getGroupId());
+                    if (nextGroup != null) {
+                        route.setModified(new Date());
+                        route.setGroupId(nextGroup.getId());
+                        route.setDepartureDate(nextGroup.getLeaveDate());
+                        list.add(route);
+
+                        nextGroup.setStatus(TGroup.ENROLLING_STATUS);
+                        nextGroup.update();
+                        continue;
+                    }
+                }
+
+                route.setModified(new Date());
+                route.setStatus(TRoute.STATUS_TRASH);
+                list.add(route);
+            }
+
+            Db.batchUpdate(list, list.size());
+            return true;
+        });
+    }
+
+    @Override
     public boolean doChangeStatus(long id, String status) {
         TRoute route = findById(id);
         route.setStatus(status);
         return route.update();
+    }
+
+    @Override
+    @CacheEvict(name = "routes",key = "*")
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
+    }
+
+    @Override
+    public void doIncRouteViewCount(long routeId) {
+        RouteViewsCountUpdateTask.recordCount(routeId);
+    }
+
+    @Override
+    @Cacheable(name = "routes",key = "#(columns.cacheKey)-#(orderBy)-#(count)")
+    public List<TRoute> findListByColumns(Columns columns, String orderBy, Integer count) {
+        return DAO.findListByColumns(columns, orderBy, count);
+    }
+
+    @Override
+    @Cacheable(name = "routes",key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)")
+    public List<TRoute> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
+
+        StringBuilder from = new StringBuilder("select * from t_route r ");
+        from.append(" left join t_route_category_mapping m on r.id = m.`article_id` ");
+        from.append(" where m.category_id = ? ");
+        from.append(" and r.status = ? ");
+
+
+        if (hasThumbnail != null) {
+            if (hasThumbnail == true) {
+                from.append(" and r.thumbnail is not null");
+            } else {
+                from.append(" and r.thumbnail is null");
+            }
+        }
+
+        from.append(" group by r.id ");
+
+        if (orderBy != null) {
+            from.append(" order by " + orderBy);
+        }
+
+        if (count != null) {
+            from.append(" limit " + count);
+        }
+
+        return DAO.find(from.toString(), categoryId, TRoute.STATUS_NORMAL);
     }
 
 }

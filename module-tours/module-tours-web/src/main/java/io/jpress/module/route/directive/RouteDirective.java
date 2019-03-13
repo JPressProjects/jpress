@@ -19,44 +19,45 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.route.service.TRouteCategoryService;
+import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TRouteService;
 
-import java.util.List;
 
 /**
  * @author Eric Huang 黄鑫 （ninemm@126.com）
  * @version V1.0
  * @Package io.jpress.module.route.directive
  */
-@JFinalDirective("routeCategories")
-public class RouteCategoriesDirective extends JbootDirectiveBase {
+@JFinalDirective("route")
+public class RouteDirective extends JbootDirectiveBase {
 
     @Inject
-    private TRouteCategoryService categoryService;
+    private TRouteService service;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
+        String idOrSlug = getPara(0, scope);
+        TRoute route = getRoute(idOrSlug);
 
-        Long id = getParaToLong(0, scope);
-        String type = getPara(1, scope);
-
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
-        }
-
-
-        List<ArticleCategory> categories = categoryService.findListByRouteId(id, type);
-        if (categories == null || categories.isEmpty()) {
+        if (route == null) {
             return;
         }
 
-        scope.setLocal("categories", categories);
+        scope.setLocal("route", route);
         renderBody(env, scope, writer);
     }
+
+    private TRoute getRoute(String idOrSlug) {
+        return StrUtil.isNumeric(idOrSlug)
+                ? service.findById(idOrSlug)
+                : service.findFirstBySlug(idOrSlug);
+    }
+
 
     @Override
     public boolean hasEnd() {

@@ -38,7 +38,7 @@ import java.util.Set;
  * @version V1.0
  * @Package io.jpress.module.page.controller.admin
  */
-@RequestMapping(value = "/admin/tours/view_record", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/viewRecord", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _TViewRecordController extends AdminControllerBase {//
 
     @Inject

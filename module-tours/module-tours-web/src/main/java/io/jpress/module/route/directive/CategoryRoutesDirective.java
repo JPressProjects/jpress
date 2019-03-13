@@ -19,11 +19,15 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.route.service.TRouteCategoryService;
+import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TRouteService;
 
 import java.util.List;
 
@@ -32,29 +36,46 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.module.route.directive
  */
-@JFinalDirective("routeCategories")
-public class RouteCategoriesDirective extends JbootDirectiveBase {
+@JFinalDirective("categoryRoutes")
+public class CategoryRoutesDirective extends JbootDirectiveBase {
 
     @Inject
-    private TRouteCategoryService categoryService;
+    private TRouteService service;
+
+    @Inject
+    private ArticleCategoryService categoryService;
+
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long id = getParaToLong(0, scope);
-        String type = getPara(1, scope);
+        Long categoryId = getParaToLong("categoryId", scope);
+        String flag = getPara("categoryFlag", scope);
 
-        if (id == null || type == null) {
-            throw new IllegalArgumentException("#articleCategories() args error. id or type must not be null." + getLocation());
+        if (StrUtil.isBlank(flag) && categoryId == null) {
+            throw new IllegalArgumentException("#categoryRoutes(categoryFlag=xxx，categoryId=xxx) is error, " +
+                    "categoryFlag or categoryId must not be empty. " + getLocation());
         }
 
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
+        String orderBy = getPara("orderBy", scope, "order_list desc,id desc");
+        int count = getParaToInt("count", scope, 10);
 
-        List<ArticleCategory> categories = categoryService.findListByRouteId(id, type);
-        if (categories == null || categories.isEmpty()) {
+        ArticleCategory category = categoryId != null
+                ? categoryService.findById(categoryId)
+                : categoryService.findFirstByFlag(flag);
+        if (category == null) {
             return;
         }
 
-        scope.setLocal("categories", categories);
+        scope.setLocal("category", category);
+
+        List<TRoute> routes = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
+        if (routes == null || routes.isEmpty()) {
+            return;
+        }
+
+        scope.setLocal("routes", routes);
         renderBody(env, scope, writer);
     }
 

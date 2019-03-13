@@ -4,7 +4,7 @@
 	<script>
 	
 	    function doDel(id) {
-	        ajaxGet("/admin/t_view_record/doDel/" + id);
+	        ajaxGet("/admin/viewRecord/doDel/" + id);
 	    }
 	
 	    $("#batchDel").click(function () {
@@ -13,7 +13,7 @@
 	            alert('您未选择任何条目');
 	            return
 	        }
-	        ajaxGet("/admin/t_view_record/doDelByIds?ids=" + ids);
+	        ajaxGet("/admin/viewRecord/doDelByIds?ids=" + ids);
 	    })
 	
 	
@@ -24,8 +24,8 @@
 
     <section class="content-header">
         <h1>
-            管理
-            <small>Items</small>
+            线路浏览记录
+            <small>Route View Records</small>
         </h1>
     </section>
 
@@ -34,8 +34,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
-                    <div class="box-header with-border">
-
+                    <!--<div class="box-header with-border">
                         <div class="row actionPanel">
                             <div class="col-xs-12">
                                 <a href="t_view_record/edit" class="btn btn-primary ">
@@ -44,45 +43,35 @@
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
-
-                    </div>
+                    </div>-->
                     <!-- /.box-header -->
                     <div class="box-body ">
-
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-	                                </th>
-	                                <th>行号</th>
-	                                <th>用户ID</th>
-	                                <th>线路ID</th>
-	                                <th>创建时间</th>
-	                                <th>更新时间</th>
-                                
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th>线路名称</th>
+                                <th>用户昵称</th>
+                                <th>浏览时间</th>
                             </tr>
                             #for(entry : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
-                                </td>
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/></td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/tours/t_view_record/edit/#(entry.id)"> #(entry.id ??) </a>
+                                        <a href="#(CPATH)/admin/route/edit/#(entry.route_id)"> #(entry.route.title ??) </a>
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/tours/t_view_record/edit/#(entry.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(entry.id)')">删除</a>
+                                            <!--<a href="/admin/viewRecord/edit/#(entry.id)">编辑</a> |-->
+                                            <a href="javascript:;" class="red-action" onclick="doDel('#(entry.id)')">删除</a>
                                         </div>
                                     </div>
                                 </td>
-                                    
-	                                <td>#(entry.user_id)</td>
-	                                <td>#(entry.route_id)</td>
-	                                <td>#(entry.created)</td>
-	                                <td>#(entry.modified)</td>
+                                <td>#(entry.user.nickname ??)</td>
+                                <td>#(entry.created)</td>
                             </tr>
                             #end
                             </tbody>

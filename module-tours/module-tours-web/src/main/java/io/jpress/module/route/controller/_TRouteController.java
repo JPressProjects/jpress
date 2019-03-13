@@ -17,10 +17,8 @@ package io.jpress.module.route.controller;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -30,16 +28,15 @@ import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
 import io.jpress.module.route.service.TGroupService;
 import io.jpress.module.route.service.TRouteCategoryService;
 import io.jpress.module.route.service.TRouteService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -172,9 +169,11 @@ public class _TRouteController extends AdminControllerBase {//
 
         String calendarStr = getPara("calendarStr");
         groupService.doUpdateGroups(route, groups, calendarStr);
-        Long curGroupId = groupService.findCurGroupByRouteId(id);
-        route.setGroupId(curGroupId);
+        TGroup group = groupService.findFirstGroupByRouteId(id);
 
+
+        route.setGroupId(group.getId());
+        route.setDepartureDate(group.getLeaveDate());
         route.saveOrUpdate();
         setAttr("route", route);
 

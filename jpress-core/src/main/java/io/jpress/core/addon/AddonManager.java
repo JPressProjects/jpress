@@ -570,7 +570,7 @@ public class AddonManager implements JbootEventListener {
             doUpgradeRollback(addon, oldAddon);
         }
 
-        return failRet("升级失败：系统错误，请联系管理员。");
+        return failRet("插件升级失败，请联系管理员。");
     }
 
     /**

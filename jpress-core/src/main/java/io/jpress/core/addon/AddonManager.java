@@ -186,7 +186,7 @@ public class AddonManager implements JbootEventListener {
     public boolean install(File jarFile) {
         try {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            addonsCache.put(addonInfo.getId(),addonInfo);
+            addonsCache.put(addonInfo.getId(), addonInfo);
             Addon addon = Aop.get(addonInfo.getAddonClass());
             AddonUtil.unzipResources(addonInfo);
             if (addon != null) {
@@ -581,7 +581,7 @@ public class AddonManager implements JbootEventListener {
      */
     private void doUpgrade(File newAddonFile, AddonInfo newAddon, AddonInfo oldAddon) throws IOException {
 
-        //进行插件备份
+        //对已经安装的插件进行备份
         doBackupOldAddon(oldAddon);
 
         //解压缩新的资源文件
@@ -617,8 +617,7 @@ public class AddonManager implements JbootEventListener {
             upgrader.onUpgrade(oldAddon, addon);
         }
 
-
-        addonsCache.put(addon.getId(),addon);
+        addonsCache.put(addon.getId(), addon);
     }
 
     private void doUnzipNewAddon(File newAddonFile, AddonInfo newAddon) throws IOException {
@@ -667,11 +666,35 @@ public class AddonManager implements JbootEventListener {
     private void doUpgradeRollback(AddonInfo addon, AddonInfo oldAddon) {
 
         //删除刚刚升级安装的插件信息
-        doDeleteNewAddon(addon);
+        try {
+            doDeleteNewAddon(addon);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
 
         //恢复已经备份的插件信息
-        doRollBackBackups(addon);
+        try {
+            doRollBackBackups(addon);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
 
+
+        //重置插件信息
+        try {
+            doRestAddonInfo(oldAddon);
+            doSetAddonStatus(oldAddon.getId());
+        }catch (Exception ex){
+            LOG.error(ex.toString(),ex);
+        }
+
+    }
+
+    private void doRestAddonInfo(AddonInfo addonInfo) {
+        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
+        AddonInfo addon = AddonUtil.readAddonInfo(addonInfo.buildJarFile());
+        addonsCache.put(addon.getId(), addon);
     }
 
     private void doRollBackBackups(AddonInfo addon) {

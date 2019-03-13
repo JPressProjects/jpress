@@ -20,6 +20,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.Ret;
 import com.jfinal.kit.SyncWriteMap;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -33,6 +34,7 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.core.addon.controller.AddonControllerManager;
@@ -43,11 +45,12 @@ import io.jpress.service.OptionService;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 插件管理器：安装、卸载、启用、停用
@@ -91,7 +94,7 @@ public class AddonManager implements JbootEventListener {
         return me;
     }
 
-    private Set<AddonInfo> addonInfoList = new HashSet<>();
+    private Map<String, AddonInfo> addonsCache = new ConcurrentHashMap<>();
 
     public void init() {
 
@@ -117,7 +120,9 @@ public class AddonManager implements JbootEventListener {
 
         for (File jarFile : addonJarFiles) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            if (addonInfo != null) addonInfoList.add(addonInfo);
+            if (addonInfo != null && StrUtil.isNotBlank(addonInfo.getId())) {
+                addonsCache.put(addonInfo.getId(), addonInfo);
+            }
         }
 
         installInit(addonJarFiles);
@@ -125,15 +130,15 @@ public class AddonManager implements JbootEventListener {
     }
 
     public AddonInfo getAddonInfo(String id) {
-        for (AddonInfo addonInfo : addonInfoList) {
-            if (id.equals(addonInfo.getId())) return addonInfo;
+        if (StrUtil.isBlank(id)) {
+            return null;
         }
 
-        return null;
+        return addonsCache.get(id);
     }
 
     public List<AddonInfo> getAllAddonInfos() {
-        return new ArrayList<>(addonInfoList);
+        return new ArrayList<>(addonsCache.values());
     }
 
 
@@ -181,7 +186,7 @@ public class AddonManager implements JbootEventListener {
     public boolean install(File jarFile) {
         try {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            addonInfoList.add(addonInfo);
+            addonsCache.put(addonInfo.getId(),addonInfo);
             Addon addon = Aop.get(addonInfo.getAddonClass());
             AddonUtil.unzipResources(addonInfo);
             if (addon != null) {
@@ -232,7 +237,7 @@ public class AddonManager implements JbootEventListener {
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
 
         //删除插件列表缓存
-        addonInfoList.remove(addonInfo);
+        addonsCache.remove(addonInfo);
 
         OptionService optionService = Aop.get(OptionService.class);
         return optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
@@ -536,6 +541,183 @@ public class AddonManager implements JbootEventListener {
             LOG.error(e.toString(), e);
         }
         return null;
+    }
+
+    public Ret upgrade(File newAddonFile, String oldAddonId) {
+        AddonInfo oldAddon = AddonManager.me().getAddonInfo(oldAddonId);
+        if (oldAddon == null) {
+            return failRet("升级失败：无法读取旧的插件信息，可能该插件不存在。");
+        }
+
+        AddonInfo addon = AddonUtil.readSimpleAddonInfo(newAddonFile);
+        if (addon == null || StrUtil.isBlank(addon.getId())) {
+            return failRet("升级失败：无法读取新插件配置文件。");
+        }
+
+        if (!addon.getId().equals(oldAddonId)) {
+            return failRet("升级失败：新插件的ID和旧插件不一致。");
+        }
+
+        if (addon.getVersionCode() <= oldAddon.getVersionCode()) {
+            return failRet("升级失败：新插件的版本号必须大于已安装插件的版本号。");
+        }
+
+        try {
+            doUpgrade(newAddonFile, addon, oldAddon);
+            return Ret.ok();
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+            doUpgradeRollback(addon, oldAddon);
+        }
+
+        return failRet("升级失败：系统错误，请联系管理员。");
+    }
+
+    /**
+     * 开始升级
+     *
+     * @param newAddon
+     * @param oldAddon
+     */
+    private void doUpgrade(File newAddonFile, AddonInfo newAddon, AddonInfo oldAddon) throws IOException {
+
+        //进行插件备份
+        doBackupOldAddon(oldAddon);
+
+        //解压缩新的资源文件
+        doUnzipNewAddon(newAddonFile, newAddon);
+
+        //获得已经进行 classloader 加载的 addon
+        doInvokeAddonUpgradeMethod(newAddon, oldAddon);
+
+        //设置该插件的状态为已经安装的状态
+        doSetAddonStatus(newAddon.getId());
+
+        //启动插件
+//        start(newAddon.getId());
+    }
+
+    private void doSetAddonStatus(String id) {
+
+        AddonInfo addonInfo = addonsCache.get(id);
+        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + id, "true");
+    }
+
+    private void doInvokeAddonUpgradeMethod(AddonInfo newAddon, AddonInfo oldAddon) {
+
+        AddonUtil.clearAddonInfoCache(newAddon.buildJarFile());
+        AddonInfo addon = AddonUtil.readAddonInfo(newAddon.buildJarFile());
+
+        AddonUpgrader upgrader = Aop.get(addon.getUpgraderClass());
+
+        if (upgrader != null) {
+            upgrader.onUpgrade(oldAddon, addon);
+        }
+
+
+        addonsCache.put(addon.getId(),addon);
+    }
+
+    private void doUnzipNewAddon(File newAddonFile, AddonInfo newAddon) throws IOException {
+        File destAddonFile = newAddon.buildJarFile();
+        FileUtils.moveFile(newAddonFile, destAddonFile);
+        AddonUtil.unzipResources(newAddon);
+    }
+
+    private void doBackupOldAddon(AddonInfo oldAddon) throws IOException {
+
+        //备份 资源文件
+        String resPath = PathKit.getWebRootPath()
+                + File.separator
+                + "addons"
+                + File.separator
+                + oldAddon.getId();
+
+        String resBakPath = resPath + "_bak";
+
+        //清空之前的备份文件
+        File resBakPathDir = new File(resBakPath);
+        if (resBakPathDir.exists()) {
+            FileUtils.deleteDirectory(resBakPathDir);
+        }
+
+        //备份资源文件
+        FileUtils.moveDirectory(new File(resPath), resBakPathDir);
+
+        File jarFile = oldAddon.buildJarFile();
+
+        File bakJarFile = new File(jarFile.getAbsolutePath() + "_bak");
+        if (bakJarFile.exists()) {
+            FileUtils.deleteQuietly(bakJarFile);
+        }
+
+        //备份jar文件
+        FileUtils.moveFile(jarFile, bakJarFile);
+    }
+
+    /**
+     * 升级回滚
+     *
+     * @param addon
+     * @param oldAddon
+     */
+    private void doUpgradeRollback(AddonInfo addon, AddonInfo oldAddon) {
+
+        //删除刚刚升级安装的插件信息
+        doDeleteNewAddon(addon);
+
+        //恢复已经备份的插件信息
+        doRollBackBackups(addon);
+
+    }
+
+    private void doRollBackBackups(AddonInfo addon) {
+        //备份 资源文件
+        String resPath = PathKit.getWebRootPath()
+                + File.separator
+                + "addons"
+                + File.separator
+                + addon.getId();
+
+        String resBakPath = resPath + "_bak";
+
+        //恢复备份的资源文件
+        try {
+            FileUtils.moveDirectory(new File(resBakPath), new File(resPath));
+        } catch (IOException e) {
+            LOG.error(e.toString(), e);
+        }
+
+        //恢复备份的jar文件
+        try {
+            File bakJarFile = new File(addon.buildJarFile() + "_bak");
+            FileUtils.moveFile(bakJarFile, addon.buildJarFile());
+        } catch (IOException e) {
+            LOG.error(e.toString(), e);
+        }
+
+    }
+
+    private void doDeleteNewAddon(AddonInfo addon) {
+        AddonUtil.clearAddonInfoCache(addon.buildJarFile());
+
+        //删除jar包
+        addon.buildJarFile().delete();
+
+        //删除已解压缩的资源文件
+        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addon.getId()));
+
+        //删除插件列表缓存
+        addonsCache.remove(addon);
+    }
+
+    private Ret failRet(String msg) {
+        return Ret.fail()
+                .set("success", false)
+                .setIfNotBlank("message", msg);
     }
 
     @Override

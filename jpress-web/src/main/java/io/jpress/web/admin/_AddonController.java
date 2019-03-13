@@ -132,8 +132,78 @@ public class _AddonController extends AdminControllerBase {
         renderJson(Ret.ok().set("success", true));
     }
 
+
+    public void upgrade() {
+
+        String id = getPara("id");
+
+        if (StrUtil.isBlank(id)) {
+            renderError(404);
+            return;
+        }
+
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
+        if (addonInfo == null) {
+            renderError(404);
+            return;
+        }
+
+        setAttr("addon", addonInfo);
+        render("addon/upgrade.html");
+    }
+
+    /**
+     * 进行插件安装
+     */
+    public void doUploadAndUpgrade() {
+        if (!isMultipartRequest()) {
+            renderError(404);
+            return;
+        }
+
+        UploadFile ufile = getFile();
+        if (ufile == null) {
+            renderFail(null);
+            return;
+        }
+
+        String oldAddonId = getPara("id");
+        AddonInfo oldAddon = AddonManager.me().getAddonInfo(oldAddonId);
+        if (oldAddon == null) {
+            renderFail("无法读取旧的插件信息，可能已经被卸载。", ufile);
+            return;
+        }
+
+        if (!StringUtils.equalsAnyIgnoreCase(FileUtil.getSuffix(ufile.getFileName()), ".zip", ".jar")) {
+            renderFail("只支持 .zip 或 .jar 的插件文件", ufile);
+            return;
+        }
+
+        try {
+            Ret ret = AddonManager.me().upgrade(ufile.getFile(),oldAddonId);
+            render(ret);
+            return;
+        }catch (Exception ex){
+            LOG.error(ex.toString(),ex);
+            renderFail("插件升级失败，请联系管理员",ufile);
+            return;
+        }finally {
+            deleteFileQuietly(ufile.getFile());
+        }
+    }
+
     private void deleteFileQuietly(File file) {
         org.apache.commons.io.FileUtils.deleteQuietly(file);
+    }
+
+    private void renderFail(String msg, UploadFile... uploadFiles) {
+        renderJson(Ret.fail()
+                .set("success", false)
+                .setIfNotBlank("message", msg));
+
+        for (UploadFile ufile : uploadFiles) {
+            deleteFileQuietly(ufile.getFile());
+        }
     }
 
 
@@ -177,10 +247,10 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
 
-        if (AddonManager.me().start(id)){
+        if (AddonManager.me().start(id)) {
             renderOkJson();
-        }else {
-            renderJson(Ret.fail().set("message","该插件启动时出现异常，启动失败。"));
+        } else {
+            renderJson(Ret.fail().set("message", "该插件启动时出现异常，启动失败。"));
         }
 
     }

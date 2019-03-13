@@ -277,22 +277,6 @@ public class AddonInfo implements Serializable {
         this.arp = arp;
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null)
-//            return false;
-//
-//        if (!(obj instanceof AddonInfo)) {
-//            return false;
-//        }
-//
-//        AddonInfo addon = (AddonInfo) obj;
-//        if (addon.getId() == null) {
-//            return false;
-//        }
-//
-//        return addon.getId().equals(getId());
-//    }
 
 
     public File buildJarFile() {

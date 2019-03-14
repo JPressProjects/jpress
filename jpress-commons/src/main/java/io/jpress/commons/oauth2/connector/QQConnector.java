@@ -17,7 +17,7 @@ package io.jpress.commons.oauth2.connector;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
 
@@ -54,7 +54,7 @@ public class QQConnector extends OauthConnector {
 		String httpString = httpGet(sb.toString());
 		// access_token=2D6FE76*****24AB&expires_in=7776000&refresh_token=7CD56****218
 
-		if (StrUtils.isBlank(httpString)) {
+		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
 
@@ -71,7 +71,7 @@ public class QQConnector extends OauthConnector {
 		// {"client_id":"10***65","openid":"F8D32108D*****D"}
 		// );
 
-		if (StrUtils.isBlank(httpString)) {
+		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
 		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\""));
@@ -80,11 +80,11 @@ public class QQConnector extends OauthConnector {
 	@Override
 	protected OauthUser getOauthUser(String code) {
 		String accessToken = getAccessToken(code);
-		if (StrUtils.isBlank(accessToken)) {
+		if (StrUtil.isBlank(accessToken)) {
 			return null;
 		}
 		String openId = getOpenId(accessToken, code);
-		if (StrUtils.isBlank(openId)) {
+		if (StrUtil.isBlank(openId)) {
 			return null;
 		}
 
@@ -96,7 +96,7 @@ public class QQConnector extends OauthConnector {
 
 		String httpString = httpGet(sb.toString());
 		
-		if (StrUtils.isBlank(httpString)) {
+		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
 

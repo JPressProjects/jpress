@@ -15,10 +15,11 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
@@ -26,7 +27,6 @@ import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -49,19 +49,21 @@ public class TagArticlesDirective extends JbootDirectiveBase {
 
         String tag = getPara("tag", scope);
 
-        if (StrUtils.isBlank(tag)) {
-            throw new RuntimeException("#tagArticles(tag=xxx) is error, tag must not be empty");
+        if (StrUtil.isBlank(tag)) {
+            throw new IllegalArgumentException("#tagArticles() args is error, tag must not be empty." + getLocation());
         }
 
 
-        Boolean hasThumbnail = getPara("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
+        String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
+        int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
         if (category == null) {
             return;
         }
+
+        scope.setLocal("tag", category);
 
         List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
 

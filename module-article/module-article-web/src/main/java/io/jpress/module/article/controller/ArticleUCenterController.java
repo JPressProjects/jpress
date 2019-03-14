@@ -15,13 +15,14 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
@@ -36,7 +37,6 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.UcenterControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -71,13 +71,13 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         Long id = getIdPara();
         if (id == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
         Article article = articleService.findById(id);
         if (article == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -86,7 +86,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(articleService.deleteById(id) ? OK : FAIL);
     }
 
     @UCenterMenu(text = "投稿", groupId = "article", order = 1)
@@ -128,7 +128,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
-        List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
+        List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);//.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
         setAttr("tags", tags);
 
         Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
@@ -172,7 +172,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(article.getSlug())) {
+        if (StrUtil.isNotBlank(article.getSlug())) {
             Article slugArticle = articleService.findFirstBySlug(article.getSlug());
             if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
@@ -189,7 +189,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         article.setUserId(getLoginedUser().getId());
         article.setStatus(Article.STATUS_DRAFT);
-        long id = articleService.doGetIdBySaveOrUpdateAction(article);
+        long id = (long) articleService.saveOrUpdate(article);
 
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
@@ -262,7 +262,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         comment.setUserId(getLoginedUser().getId());
         commentService.saveOrUpdate(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCommentDel() {
@@ -271,7 +271,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         ArticleComment comment = commentService.findById(id);
         if (comment == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
@@ -281,7 +281,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        renderJson(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
+        renderJson(commentService.deleteById(id) ? OK : FAIL);
     }
 
 }

@@ -20,15 +20,12 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jpress.commons.utils.SqlUtils;
-import io.jpress.service.WechatReplyService;
-import io.jpress.model.WechatReply;
 import io.jboot.service.JbootServiceBase;
-
-import javax.inject.Singleton;
+import io.jpress.commons.utils.SqlUtils;
+import io.jpress.model.WechatReply;
+import io.jpress.service.WechatReplyService;
 
 @Bean
-@Singleton
 public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> implements WechatReplyService {
 
     @Override
@@ -39,14 +36,13 @@ public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> im
     @Override
     public Page<WechatReply> _paginate(int page, int pageSize, String keyword, String content) {
         Columns columns = new Columns();
-        SqlUtils.likeAppend(columns, "keyword", keyword);
-        SqlUtils.likeAppend(columns, "content", content);
-
+        columns.likeAppendPercent("keyword",keyword);
+        columns.likeAppendPercent("content",content);
         return DAO.paginateByColumns(page, pageSize, columns, "id desc");
     }
 
     @Override
     public WechatReply findByKey(String keyword) {
-        return DAO.findFirstByColumn(Column.create("keyword",keyword));
+        return DAO.findFirstByColumn(Column.create("keyword", keyword));
     }
 }

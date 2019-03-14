@@ -1,70 +1,33 @@
-FROM centos:7.6.1810
+FROM maven:3.6-jdk-8-alpine
+LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
-USER root
+WORKDIR /opt/jpress
 
-#安装必须软件
-RUN	yum install -y wget && \
-yum install -y tar && \
-yum install -y git && \
-yum install -y unzip
+ADD . /tmp
 
+ENV TZ=Asia/Shanghai
 
-#JAVA 版本
-ENV JAVA_VERSION 1.8.0
+# 验证码图片渲染需要ttf的支持
+RUN apk add --update ttf-dejavu
 
-#安装Java
-RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo ${TZ} > /etc/timezone
 
-#设置 Java Home
-ENV JAVA_HOME /usr/lib/jvm/java
-
-
-#安装Tomcat
-ENV TOMCAT_MAJOR_VERSION 8
-ENV TOMCAT_MINOR_VERSION 8.5.37
-
-
-RUN wget -q http://mirror.bit.edu.cn/apache/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
-wget -qO- https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.sha512 | sha512sum -c - && \
-tar zxf apache-tomcat-*.tar.gz && \
-mkdir /usr/local/tomcat && \
-mv apache-tomcat-${TOMCAT_MINOR_VERSION}/* /usr/local/tomcat && \
-rm -rf /usr/local/tomcat/webapps/* && \
-rm -rf apache-tomcat-*
-
-
-#安装Maven
-ENV MAVEN_VERSION_MAJOR 3
-ENV MAVEN_VERSION_MINOR 6.0
-
-RUN wget -q http://mirror.bit.edu.cn/apache/maven/maven-$MAVEN_VERSION_MAJOR/$MAVEN_VERSION_MAJOR.$MAVEN_VERSION_MINOR/binaries/apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz  && \
-tar xvf apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz && \
-rm apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz && \
-mkdir /usr/local/maven && \
-mv apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}/* /usr/local/maven
-
-ENV M2_HOME=/usr/local/maven
-ENV M2=$M2_HOME/bin
-
-ENV PATH=$M2:$PATH
-
-
-#安装编译jpress
-RUN git clone https://github.com/JpressProjects/jpress.git && \
-cd jpress && \
-mvn clean install && \
-cp -rf ./starter-tomcat/target/starter-tomcat-1.0.war /usr/local/tomcat/webapps/ROOT.war && \
-unzip -oq /usr/local/tomcat/webapps/ROOT.war -d /usr/local/tomcat/webapps/ROOT
-
-
-RUN cd .. && \
-rm -rf jpress && \
-rm -rf /usr/local/tomcat/webapps/ROOT.war && \
-rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/install.lock  && \
-rm -rf /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/jboot.properties && \
-rm -rf /usr/local/maven
-
+RUN cd /tmp && \
+    cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml && \
+    mvn package -Pci && \
+    mv starter/target/starter-2.0/* /opt/jpress/ && \
+    cp -f /tmp/docker/build/jpress.sh /opt/jpress/jpress.sh &&  \
+    chmod +x /opt/jpress/jpress.sh &&  \
+    cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties && \
+    rm -rf /tmp && \
+    rm -rf ~/.m2 && \
+    rm -rf /opt/jpress/webapp/templates/NewJPress && \
+    rm -rf /opt/jpress/webapp/templates/BewTo && \
+    rm -rf /opt/jpress/jpress.bat && \
+    rm -rf /opt/jpress/config/undertow.txt && \
+    rm -rf /opt/jpress/config/install.lock
 
 EXPOSE 8080
 
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
+CMD ["/opt/jpress/jpress.sh", "start"]

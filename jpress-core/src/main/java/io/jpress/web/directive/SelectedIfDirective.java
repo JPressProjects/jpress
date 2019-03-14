@@ -43,6 +43,7 @@ public class SelectedIfDirective extends JbootDirectiveBase {
                 throw new TemplateException(e.getMessage(), location, e);
             }
         }
+
     }
 }
 

@@ -15,13 +15,14 @@
  */
 package io.jpress.web.wechat;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.kit.ParaMap;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -29,7 +30,6 @@ import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ControllerBase;
 
-import javax.inject.Inject;
 import java.util.Date;
 
 /**
@@ -73,26 +73,26 @@ public class WechatAuthorizationController extends ControllerBase {
         String gotoUrl = getPara("goto");
 
 
-        String uid = EncryptCookieUtils.get(this, JPressConsts.COOKIE_UID);
+        String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
 
         //说明当前用户已经登录
-        if (StrUtils.isNotBlank(uid)) {
-            redirect(StrUtils.urlDecode(gotoUrl));
+        if (StrUtil.isNotBlank(uid)) {
+            redirect(StrUtil.urlDecode(gotoUrl));
             return;
         }
 
         String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);
-        if (StrUtils.isBlank(appId)) {
+        if (StrUtil.isBlank(appId)) {
             renderText("管理员的微信APPID配置错误，请联系管理在后台 -> 微信 -> 基础设置 配置正确的APPID。");
             return;
         }
 
         String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
-        if (StrUtils.isBlank(domain)) {
+        if (StrUtil.isBlank(domain)) {
             domain = getRequest().getScheme() + "://" + getRequest().getServerName();
         }
 
-        if (StrUtils.isNotBlank(JFinal.me().getContextPath())) {
+        if (StrUtil.isNotBlank(JFinal.me().getContextPath())) {
             domain = domain + JFinal.me().getContextPath();
         }
 
@@ -114,7 +114,7 @@ public class WechatAuthorizationController extends ControllerBase {
         String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);
         String appSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPSECRET);
 
-        if (StrUtils.isBlank(appId) || StrUtils.isBlank(appSecret)) {
+        if (StrUtil.isBlank(appId) || StrUtil.isBlank(appSecret)) {
             renderText("管理员的微信AppId或AppSecret配置错误，请联系管理在后台 -> 微信 -> 基础设置 配置正确。");
             return;
         }
@@ -129,7 +129,7 @@ public class WechatAuthorizationController extends ControllerBase {
         //一般情况下是code有问题
         //重复发起刚才的过程
         if (result.isSucceed() == false) {
-            redirect(StrUtils.urlDecode(gotoUrl));
+            redirect(StrUtil.urlDecode(gotoUrl));
             return;
         }
 
@@ -146,8 +146,8 @@ public class WechatAuthorizationController extends ControllerBase {
             return;
         }
 
-        EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, userId);
-        redirect(StrUtils.urlDecode(gotoUrl));
+        CookieUtil.put(this, JPressConsts.COOKIE_UID, userId);
+        redirect(StrUtil.urlDecode(gotoUrl));
     }
 
 
@@ -206,13 +206,13 @@ public class WechatAuthorizationController extends ControllerBase {
         User user = null;
 
         //优先根据 unioinId 进行查询
-        if (StrUtils.isNotBlank(unionId)) {
+        if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
             if (user != null) return user.getId();
         }
 
         //之后根据 openId 进行查询
-        if (StrUtils.isNotBlank(openId)) {
+        if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
             if (user != null) return user.getId();
         }
@@ -235,7 +235,7 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setLogged(new Date());
         user.setCreateSource(User.SOURCE_WECHAT_WEB);
         user.setStatus(User.STATUS_OK);
-        user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
+        user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
 
 
         return userService.saveAndGetId(user);

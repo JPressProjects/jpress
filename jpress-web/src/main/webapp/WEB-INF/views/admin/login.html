@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录JPress</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/respond/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .login-page {
+            background-image: url("#(CPATH)/static/commons/img/loginbg.png");
+            background-size: cover;
+        }
+
+        .login-box {
+            padding-top: 100px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="hold-transition login-page">
+
+<div class="row">
+    <div class="login-box text-center">
+        <div class="login-box-body">
+            <form action="#(CPATH)#(action)" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin" >
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" class="form-control" placeholder="及密码..." name="pwd">
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12" style="padding-top: 15px">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
+
+</body>
+</html>

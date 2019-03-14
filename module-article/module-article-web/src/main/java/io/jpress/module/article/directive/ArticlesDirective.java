@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
@@ -24,7 +25,6 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -44,9 +44,9 @@ public class ArticlesDirective extends JbootDirectiveBase {
 
         String flag = getPara("flag", scope);
         String style = getPara("style", scope);
-        Boolean hasThumbnail = getPara("hasThumbnail", scope);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        int count = getParaToInt("count", scope, 10);
 
 
         Columns columns = Columns.create("flag", flag);

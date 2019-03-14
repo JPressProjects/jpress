@@ -1,0 +1,118 @@
+#@layout()
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script>
+    initEditor('editor1', 200);
+</script>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            评论编辑
+            <small>Comment Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                          method="post"
+                          action="#(CPATH)/admin/article/doCommentSave"
+                          data-ok-message="保存成功">
+                        <div class="box-body ">
+
+                            <input type="hidden" name="comment.id" value="#(comment.id ??)">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+
+                                <div class="col-sm-8">
+                                     <textarea id="editor1" name="comment.content"
+                                               style="height: 200px;width: 100%;background-color: white">#(comment.content ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户昵称</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="用户昵称..."
+                                           name="comment.author" value="#(comment.author ??)">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态</label>
+
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="comment.status">
+                                        <option value="normal" #selectedIf(comment.status==
+                                        'normal')>正常</option>
+                                        <option value="unaudited" #selectedIf(comment.status==
+                                        'unaudited')>冻结</option>
+                                        <option value="trash" #selectedIf(comment.status==
+                                        'trash')>垃圾箱</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">"顶" 数量</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="comment.vote_up" value="#(comment.vote_up ??)">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">"踩" 数量</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="comment.vote_down" value="#(comment.vote_down ??)">
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论时间</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder=""
+                                           name="web_ipc_no" value="#(comment.created ??)">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

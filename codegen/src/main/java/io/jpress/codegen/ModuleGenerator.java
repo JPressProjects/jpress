@@ -15,19 +15,25 @@
  */
 package io.jpress.codegen;
 
+import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
-import io.jboot.Jboot;
+import com.jfinal.template.source.ClassPathSourceFactory;
+import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
-import io.jboot.utils.StrUtils;
+import io.jpress.codegen.generator.UIGenerator;
+import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.BaseModelGenerator;
 import io.jpress.codegen.generator.ModelGenerator;
 import io.jpress.codegen.generator.ServiceApiGenerator;
 import io.jpress.codegen.generator.ServiceProviderGenerator;
-
+import com.jfinal.plugin.activerecord.generator.ColumnMeta;
+import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -48,7 +54,7 @@ public class ModuleGenerator {
 
     private String basePath;
 
-
+    private boolean isGenUI=false;
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
         this.moduleName = moduleName;
         this.dbUrl = dbUrl;
@@ -59,13 +65,17 @@ public class ModuleGenerator {
         this.servicePackage = servicePackage;
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
+	
+	public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage,boolean isGenUI) {
+        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        this.isGenUI=isGenUI;
+    }
 
     public void gen() {
 
         genModule();
         genPomXml();
         genCode();
-
     }
 
     private void genModule() {
@@ -137,9 +147,9 @@ public class ModuleGenerator {
         String serviceApiModuleName = "/module-" + moduleName + "-service-api";
         String serviceProviderModuleName = "/module-" + moduleName + "-service-provider";
 
-        Jboot.setBootArg("jboot.datasource.url", dbUrl);
-        Jboot.setBootArg("jboot.datasource.user", dbUser);
-        Jboot.setBootArg("jboot.datasource.password", dbPassword);
+        JbootApplication.setBootArg("jboot.datasource.url", dbUrl);
+        JbootApplication.setBootArg("jboot.datasource.user", dbUser);
+        JbootApplication.setBootArg("jboot.datasource.password", dbPassword);
 
         String baseModelPackage = modelPackage + ".base";
 
@@ -148,10 +158,12 @@ public class ModuleGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
-        if (StrUtils.isNotBlank(dbTables)) {
+        MetaBuilder mb=CodeGenHelpler.createMetaBuilder();
+        mb.setGenerateRemarks(true);
+        List<TableMeta> tableMetaList = mb.build();
+        if (StrUtil.isNotBlank(dbTables)) {
             List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtils.splitToSet(dbTables, ",");
+            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
             for (TableMeta tableMeta : tableMetaList) {
                 if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
                     newTableMetaList.add(tableMeta);
@@ -170,6 +182,8 @@ public class ModuleGenerator {
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
-
+	  if(isGenUI)
+			 new UIGenerator(moduleName, modelPackage,tableMetaList).genListener().genControllers().genEdit().genList();
     }
+	
 }

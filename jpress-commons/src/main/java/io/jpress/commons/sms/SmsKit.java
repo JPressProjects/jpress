@@ -62,7 +62,7 @@ public class SmsKit {
 
         if (sms.send()) {
             //有效期，2个小时
-            Jboot.me().getCache().put(CACHE_NAME, mobile, code, 60 * 60 * 2);
+            Jboot.getCache().put(CACHE_NAME, mobile, code, 60 * 60 * 2);
             return true;
         }
         return false;
@@ -76,7 +76,7 @@ public class SmsKit {
      * @return
      */
     public static boolean validateCode(String mobile, String code) {
-        String cacheCode = Jboot.me().getCache().get(CACHE_NAME, mobile);
+        String cacheCode = Jboot.getCache().get(CACHE_NAME, mobile);
         return cacheCode != null && cacheCode.equals(code);
     }
 

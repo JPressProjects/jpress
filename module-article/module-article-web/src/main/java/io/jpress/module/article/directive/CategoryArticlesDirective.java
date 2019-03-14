@@ -15,10 +15,11 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
@@ -26,7 +27,6 @@ import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -47,17 +47,17 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long categoryId = getPara("categoryId", scope);
+        Long categoryId = getParaToLong("categoryId", scope);
         String flag = getPara("categoryFlag", scope);
 
-        if (StrUtils.isBlank(flag) && categoryId == null) {
-            throw new RuntimeException("#categoryArticles(categoryFlag=xxx，categoryId=xxx) is error, categoryFlag or categoryId must not be empty");
+        if (StrUtil.isBlank(flag) && categoryId == null) {
+            throw new IllegalArgumentException("#categoryArticles(categoryFlag=xxx，categoryId=xxx) is error, " +
+                    "categoryFlag or categoryId must not be empty. " + getLocation());
         }
 
-
-        Boolean hasThumbnail = getPara("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
+        String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
+        int count = getParaToInt("count", scope, 10);
 
         ArticleCategory category = categoryId != null
                 ? categoryService.findById(categoryId)
@@ -72,7 +72,6 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         if (articles == null || articles.isEmpty()) {
             return;
         }
-
 
         scope.setLocal("articles", articles);
         renderBody(env, scope, writer);

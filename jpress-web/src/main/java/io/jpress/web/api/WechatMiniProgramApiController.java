@@ -18,12 +18,13 @@ package io.jpress.web.api;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.cache.IAccessTokenCache;
 import com.jfinal.wxaapp.api.WxaUserApi;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
@@ -31,7 +32,6 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 import io.jpress.web.interceptor.ApiInterceptor;
 
-import javax.inject.Inject;
 import java.util.Date;
 
 /**
@@ -63,7 +63,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
     public void code2session() {
 
         String code = getPara("code");
-        if (StrUtils.isBlank(code)) {
+        if (StrUtil.isBlank(code)) {
             renderFailJson(105, "code is blank");
             return;
         }
@@ -79,7 +79,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
 
         String sessionKey = apiResult.getStr("session_key");
-        String sessionId = StrUtils.uuid();
+        String sessionId = StrUtil.uuid();
 
         //把sessionKey存储起来，接下来用户解密要用到这个sessionKey
         IAccessTokenCache accessTokenCache = ApiConfigKit.getAccessTokenCache();
@@ -100,7 +100,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
 
         String postData = getRawData();
-        if (StrUtils.isBlank(postData)) {
+        if (StrUtil.isBlank(postData)) {
             renderFailJson(107, "can not get data");
             return;
         }
@@ -112,7 +112,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
         IAccessTokenCache accessTokenCache = ApiConfigKit.getAccessTokenCache();
         String sessionKey = accessTokenCache.get("wxa:session:" + sessionId);
-        if (StrUtils.isBlank(sessionKey)) {
+        if (StrUtil.isBlank(sessionKey)) {
             renderFailJson(107, "session id is error.");
             return;
         }
@@ -190,13 +190,13 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         User user = null;
 
         //优先根据 unioinId 进行查询
-        if (StrUtils.isNotBlank(unionId)) {
+        if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
             if (user != null) return user.getId();
         }
 
         //之后根据 openId 进行查询
-        if (StrUtils.isNotBlank(openId)) {
+        if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
             if (user != null) return user.getId();
         }

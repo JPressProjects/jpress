@@ -1,0 +1,189 @@
+#@layout()
+
+#define script()
+<script>
+    function del(id) {
+        ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id);
+    }
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            菜单管理
+            <small>Web Menu Management</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="#(CPATH)/admin/template/doMenuSave"
+                          method="post" id="form">
+                        <input type="hidden" name="menu.id" value="#(menu.id ??)">
+                        <input type="hidden" name="menu.type" value="main">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="请输入菜单名称"
+                                           value="#(menu.text ??)" name="menu.text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">URL</label>
+
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="以及菜单对应的连接地址..."
+                                           value="#(menu.url ??)" name="menu.url">
+                                    <p class="help-block">首页链接为：/ ，文章列表页：/article/category </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">父级</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="menu.pid">
+                                        #if(menu && menu.pid == 0)
+                                        <option value="0" selected>顶级</option>
+                                        #else
+                                        <option value="0">顶级</option>
+                                        #end
+
+                                        #for(m : menus)
+                                        #if(menu && menu.pid == m.id)
+                                        <option value="#(m.id)" selected>#(m.layerString)#(m.text)</option>
+                                        #elseif(menu && (menu.id == m.id || menu.isMyChild(m.id)))
+                                        <option value="#(m.id)" disabled>#(m.layerString)#(m.text)</option>
+                                        #else
+                                        <option value="#(m.id)">#(m.layerString)#(m.text)</option>
+                                        #end
+                                        #end
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="此菜单排序的序号"
+                                           name="menu.order_number"
+                                           value="#(menu.order_number ??)">
+                                    <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">图标</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="以及图标"
+                                           value="#(menu.icon ??)" name="menu.icon">
+                                    <p class="help-block">
+                                        图标只用于前台显示，是否显示决定于模板。支持 font-awesome 的所有图标，填写其样式名称即可。亦或者填写模板需要的图片路径或内容。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">目标</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="menu.target">
+                                        #if(menu)
+                                        <option value="_self"  #selectedIf(menu.target == '_self')>当前页</option>
+                                        <option value="_blank" #selectedIf(menu.target == '_blank')>新窗口</option>
+                                        #else
+                                        <option value="_self" selected>当前页</option>
+                                        <option value="_blank">新窗口</option>
+                                        #end
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="box box-primary">
+
+                    <div class="box-header with-border">
+
+                    </div>
+
+                    <div class="box-body no-padding ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 50%">文本</th>
+                                <th>URL</th>
+                                <th>排序</th>
+                            </tr>
+                            #for(menu : menus)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <strong>
+                                        <a href="#(menu.url ??)" target="_blank">
+                                            #(menu.layerString)#(menu.text ??)
+                                        </a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="del('#(menu.id??)')" style="color: #a00">删除</a> |
+                                            <a href="#(menu.url ??)" target="_blank" style="color: #a00">查看</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(menu.url ??)</td>
+                                <td>#(menu.order_number ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

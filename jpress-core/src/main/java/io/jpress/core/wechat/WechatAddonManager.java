@@ -15,12 +15,12 @@
  */
 package io.jpress.core.wechat;
 
-import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
+import com.jfinal.aop.Aop;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.service.OptionService;
 
 import java.util.ArrayList;
@@ -31,10 +31,10 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddonManager implements JbootEventListener{
+public class WechatAddonManager implements JbootEventListener {
 
     private static WechatAddonManager me = new WechatAddonManager();
-    private static final String OPTION_PREFIX = "wechat_addon_enable_for_";
+    private static final String OPTION_PREFIX = "wechat_addon_enable:";
 
     private WechatAddonManager() {
     }
@@ -64,12 +64,12 @@ public class WechatAddonManager implements JbootEventListener{
      */
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false){
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 
-        optionService = Jboot.bean(OptionService.class);
+        optionService = Aop.get(OptionService.class);
 
         List<Class<WechatAddon>> classes = ClassScanner.scanSubClass(WechatAddon.class, true);
         if (classes == null || classes.isEmpty()) {
@@ -87,14 +87,14 @@ public class WechatAddonManager implements JbootEventListener{
         }
 
         for (WechatAddonInfo addon : allWechatAddons) {
-            Boolean enable = optionService.findAsBoolByKey(OPTION_PREFIX + addon.getId());
-            if (enable != null && enable == true) {
+            Boolean enable = JPressOptions.getAsBool(OPTION_PREFIX + addon.getId());
+            if (enable) {
                 enableWechatAddons.add(addon);
             }
         }
     }
 
-    private WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
+    public WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
 
         WechatAddonInfo wechatAddon = new WechatAddonInfo();
         wechatAddon.setId(config.id());
@@ -107,7 +107,7 @@ public class WechatAddonManager implements JbootEventListener{
         wechatAddon.setVersion(config.version());
         wechatAddon.setVersionCode(config.versionCode());
 
-        Jboot.injectMembers(wechatAddon);
+        Aop.inject(wechatAddon);
         return wechatAddon;
     }
 
@@ -133,7 +133,7 @@ public class WechatAddonManager implements JbootEventListener{
     public void doEnableAddon(String id) {
         optionService.saveOrUpdate(OPTION_PREFIX + id, "true");
         JPressOptions.set(OPTION_PREFIX + id, "true");
-        
+
         for (WechatAddonInfo addon : enableWechatAddons) {
             if (addon.getId().equals(id)) {
                 return;

@@ -15,16 +15,17 @@
  */
 package io.jpress.module.page.controller;
 
-import com.google.inject.Inject;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
@@ -38,7 +39,7 @@ import java.util.Set;
  * @version V1.0
  * @Package io.jpress.module.page.controller.admin
  */
-@RequestMapping("/admin/page")
+@RequestMapping(value = "/admin/page", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _PageController extends AdminControllerBase {
 
     @Inject
@@ -51,7 +52,7 @@ public class _PageController extends AdminControllerBase {
         String title = getPara("title");
 
         Page<SinglePage> page =
-                StrUtils.isBlank(status)
+                StrUtil.isBlank(status)
                         ? sps._paginateWithoutTrash(getPagePara(), 10, title)
                         : sps._paginateByStatus(getPagePara(), 10, title, status);
 
@@ -76,13 +77,16 @@ public class _PageController extends AdminControllerBase {
         SinglePage page = pageId > 0 ? sps.findById(pageId) : null;
         setAttr("page", page);
 
-        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles("page_");
-        if (ArrayUtils.isNotEmpty(styles)) {
-            setAttr("styles", styles);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template != null) {
+            List<String> styles = template.getSupportStyles("page_");
+            if (ArrayUtil.isNotEmpty(styles)) {
+                setAttr("styles", styles);
+            }
         }
 
         String editMode = page == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : page.getEditMode();
-        setAttr("editMode", StrUtils.isBlank(editMode) ? "html" : editMode);
+        setAttr("editMode", StrUtil.isBlank(editMode) ? "html" : editMode);
 
         render("page/page_write.html");
     }
@@ -100,7 +104,7 @@ public class _PageController extends AdminControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(page.getSlug())) {
+        if (StrUtil.isNotBlank(page.getSlug())) {
             SinglePage bySlug = sps.findFirstBySlug(page.getSlug());
             if (bySlug != null && bySlug.getId().equals(page.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
@@ -115,37 +119,28 @@ public class _PageController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(sps.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(sps.deleteById(id) ? OK : FAIL);
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(sps.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(sps.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doTrash() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_TRASH) ? OK : FAIL);
     }
 
     public void doDraft() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_DRAFT) ? OK : FAIL);
     }
 
     public void doNormal() {
         Long id = getIdPara();
-        render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
+        render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? OK : FAIL);
     }
 }

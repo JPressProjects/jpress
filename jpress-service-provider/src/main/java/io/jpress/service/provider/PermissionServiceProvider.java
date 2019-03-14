@@ -15,26 +15,27 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.model.*;
-import io.jpress.service.*;
+import io.jpress.model.Permission;
+import io.jpress.model.User;
+import io.jpress.service.PermissionService;
+import io.jpress.service.RoleService;
+import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Bean
-@Singleton
 public class PermissionServiceProvider extends JbootServiceBase<Permission> implements PermissionService {
 
     @Inject
@@ -149,18 +150,6 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
                 }
             }
         }
-
-//        sql = "select * from user_permission where user_id = ?";
-//        List<Record> userPermissionList = Db.find(sql, userId);
-//        if (userPermissionList != null) {
-//            for (Record userPermission : userPermissionList) {
-//                if (userPermission.getInt("own") > 0) {
-//                    permissions.add(findById(userPermission.getLong("permission_id")));
-//                } else {
-//                    permissions.remove(findById(userPermission.getLong("permission_id")));
-//                }
-//            }
-//        }
 
         return new ArrayList<>(permissions);
     }

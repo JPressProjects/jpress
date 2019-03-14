@@ -15,31 +15,34 @@
  */
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.service.search.ArticleSearcher;
+import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
 @Bean
-@Singleton
 public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
 
     @Inject
@@ -51,6 +54,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Inject
     private ArticleCommentService commentService;
 
+    private static final String DEFAULT_ORDER_BY = "order_number desc,id desc";
+
     @Override
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
@@ -59,84 +64,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return true;
     }
 
-    @Override
-    public Page<Article> paginate(int page, int pagesize) {
-        Page<Article> articlePage = DAO.paginate(page, pagesize, "id desc");
-        userService.join(articlePage, "user_id");
-
-        return articlePage;
-    }
-
-
-    @Override
-    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId) {
-        String select = "select * ";
-        StringBuilder from = new StringBuilder("from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where a.status = ? and m.category_id = ? ");
-
-        return DAO.paginate(page, pagesize, select, from.toString(), Article.STATUS_NORMAL, categoryId);
-    }
-
-    @Override
-    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds) {
-        String select = "select * ";
-        StringBuilder from = new StringBuilder("from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(categoryIds));
-
-        return DAO.paginate(page, pagesize, select, from.toString());
-    }
-
-    @Override
-    public boolean deleteById(Object id) {
-        return Db.tx(() -> {
-            boolean delOk = ArticleServiceProvider.super.deleteById(id);
-            if (delOk == false) {
-                return false;
-            }
-
-            List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
-            if (records == null || records.isEmpty()) {
-                return true;
-            }
-
-            Db.update("delete from article_category_mapping where article_id = ?", id);
-
-            records.stream().forEach(record -> {
-                categoryService.updateCount(record.get("category_id"));
-            });
-
-            return true;
-        });
-    }
-
-    @Override
-    public long doGetIdBySaveOrUpdateAction(Article article) {
-        boolean saveOrUpdateSucess = saveOrUpdate(article);
-        return saveOrUpdateSucess ? article.getId() : 0;
-    }
-
-    @Override
-    public void doUpdateCategorys(long articleId, Long[] categoryIds) {
-
-        Db.tx(() -> {
-            Db.update("delete from article_category_mapping where article_id = ?", articleId);
-
-            if (categoryIds != null && categoryIds.length > 0) {
-                List<Record> records = new ArrayList<>();
-                for (long categoryId : categoryIds) {
-                    Record record = new Record();
-                    record.set("article_id", articleId);
-                    record.set("category_id", categoryId);
-                    records.add(record);
-                }
-                Db.batchSave("article_category_mapping", records, records.size());
-            }
-
-            return true;
-        });
-    }
 
     @Override
     public void doUpdateCommentCount(long articleId) {
@@ -153,41 +80,41 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
 
-
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        if (categoryId != null) {
-            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        }
-
-        Columns columns = new Columns();
-        columns.add("m.category_id", categoryId);
-        columns.add("a.status", status);
-        SqlUtils.likeAppend(columns, "a.title", title);
-
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
-        sqlBuilder.append(" order by id desc ");
-
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
-        return joinUserPage(dataPage);
+        return _paginateByBaseColumns(page
+                ,pagesize
+                ,title
+                ,categoryId
+                ,Columns.create("a.status", status));
     }
 
     @Override
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
 
+        return _paginateByBaseColumns(page
+                ,pagesize
+                ,title
+                ,categoryId
+                ,Columns.create().ne("a.status", Article.STATUS_TRASH));
+    }
+
+
+    public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId,Columns baseColumns) {
+
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
         if (categoryId != null) {
             sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
         }
 
-        Columns columns = new Columns();
+        Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
-        columns.ne("a.status", Article.STATUS_TRASH);
+        columns.likeAppendPercent("a.title",title);
 
-        SqlUtils.likeAppend(columns, "a.title", title);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
-        sqlBuilder.append(" order by id desc ");
+        // 前台走默认排序，但是后台必须走 id 排序，
+        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
+        sqlBuilder.append(" order by id desc");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -195,35 +122,28 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId) {
-        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "id desc");
+        return DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), DEFAULT_ORDER_BY);
     }
 
     @Override
+    @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize) {
-
-        Columns columns = new Columns();
-        columns.add("status", Article.STATUS_NORMAL);
-
-        Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, "id desc");
-        return joinUserPage(dataPage);
+        return paginateInNormal(page,pagesize,null);
     }
 
     @Override
+    @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
-
-        if (StrUtils.isBlank(orderBy)) {
-            orderBy = "id desc";
-        }
-
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
         Columns columns = new Columns();
         columns.add("status", Article.STATUS_NORMAL);
-
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
         return joinUserPage(dataPage);
     }
 
 
     @Override
+    @Cacheable(name = "articles")
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
@@ -233,9 +153,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.add("m.category_id", categoryId);
         columns.add("a.status", Article.STATUS_NORMAL);
 
-        SqlUtils.appendWhereByColumns(columns, sqlBuilder);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
-        buildOrderBySQL(sqlBuilder, orderBy);
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        sqlBuilder.append(" ORDER BY ").append(orderBy);
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -268,6 +189,25 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
 
         return article.getUserId().equals(userId);
+    }
+
+    @Override
+    public Page<Article> search(String queryString, int pageNum, int pageSize) {
+        try {
+            ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
+            return searcher.search(queryString, pageNum, pageSize);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
+        }
+        return null;
+    }
+
+    @Override
+    @Cacheable(name = "articles")
+    public Page<Article> searchIndb(String queryString, int pageNum, int pageSize) {
+        Columns columns = Columns.create("status", Article.STATUS_NORMAL)
+                .likeAppendPercent("title", queryString);
+        return joinUserPage(paginateByColumns(pageNum, pageSize, columns, "order_number desc,id desc"));
     }
 
 
@@ -311,11 +251,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    @Cacheable(name = "articles",key = "#(columns.cacheKey)-#(orderBy)-#(count)")
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count) {
         return DAO.findListByColumns(columns, orderBy, count);
     }
 
     @Override
+    @Cacheable(name = "articles",key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)")
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         StringBuilder from = new StringBuilder("select * from article a ");
@@ -332,7 +274,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             }
         }
 
-
         from.append(" group by a.id ");
 
         if (orderBy != null) {
@@ -347,6 +288,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    @Cacheable(name = "articles")
     public List<Article> findRelevantListByArticleId(long articleId, String status, Integer count) {
 
         List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
@@ -359,107 +301,113 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             tagIds.add(category.getId());
         }
 
+        Columns columns = Columns.create();
+        columns.in("m.category_id",tagIds.toArray());
+        columns.ne("a.id",articleId);
+        columns.eq("status",status);
 
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id in ").append(SqlUtils.buildInSqlPara(tagIds.toArray()));
-        from.append(" and a.id != ? ");
-
-
-        List<Object> paras = new ArrayList<>();
-        paras.add(articleId);
-
-        if (status != null) {
-            from.append(" and status = ? ");
-            paras.add(status);
-        }
-
+        from.append(SqlUtils.toWhereSql(columns));
         from.append(" group by a.id");
 
         if (count != null) {
             from.append(" limit " + count);
         }
 
-        return DAO.find(from.toString(), paras.toArray());
+        return DAO.find(from.toString(), columns.getValueArray());
     }
 
 
-    /**
-     * 此方法的主要作用是限制 用户传其他orderby的字段，
-     * 同时因为orderby是前端传入的数据，防止sql注入
-     *
-     * @param sqlBuilder
-     * @param orderBy
-     */
-    private static void buildOrderBySQL(StringBuilder sqlBuilder, String orderBy) {
-
-        if (StrUtils.isBlank(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.id DESC");
-            return;
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public Object save(Article model) {
+        Object id = super.save(model);
+        if (id != null && model.isNormal()) {
+            ArticleSearcherFactory.getSearcher().addArticle(model);
         }
-
-        // maybe orderby == "view_count desc";
-        String orderbyInfo[] = orderBy.trim().split("\\s+");
-
-        //不合法的orderby
-        if (orderbyInfo.length < 1 || orderbyInfo.length > 2) {
-            sqlBuilder.append(" ORDER BY a.id DESC");
-            return;
-        }
-
-        orderBy = orderbyInfo[0];
-
-        /**
-         * 根据ID排序
-         */
-        if ("id".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.id ");
-        }
-        /**
-         * 根据浏览量排序
-         */
-        else if ("view_count".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.view_count ");
-        }
-        /**
-         * 根据评论量排序
-         */
-        else if ("comment_count".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.comment_count ");
-        }
-        /**
-         * 根据文章的更新时间排序
-         */
-        else if ("modified".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.modified ");
-        }
-
-        /**
-         * 根据后台排序数字进行排序
-         */
-        else if ("order_number".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.order_number ");
-        }
-        /**
-         * 根据最后评论时间排序
-         */
-        else if ("comment_time".equals(orderBy)) {
-            sqlBuilder.append(" ORDER BY a.comment_time ");
-        }
-
-        /**
-         * 根据创建时间排序
-         */
-        else {
-            sqlBuilder.append(" ORDER BY a.created ");
-        }
-
-        if (orderbyInfo.length == 1) {
-            sqlBuilder.append(" DESC ");
-        } else {
-            sqlBuilder.append(orderbyInfo[1]);
-        }
-
+        return id;
     }
+
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public boolean update(Article model) {
+        boolean success = super.update(model);
+        if (success) {
+            if (model.isNormal()) {
+                ArticleSearcherFactory.getSearcher().updateArticle(model);
+            } else {
+                ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+            }
+        }
+        return success;
+    }
+
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public boolean delete(Article model) {
+        boolean success = super.delete(model);
+        if (success) {
+            ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+        }
+        return success;
+    }
+
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
+    }
+
+
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public void doUpdateCategorys(long articleId, Long[] categoryIds) {
+
+        Db.tx(() -> {
+            Db.update("delete from article_category_mapping where article_id = ?", articleId);
+
+            if (categoryIds != null && categoryIds.length > 0) {
+                List<Record> records = new ArrayList<>();
+                for (long categoryId : categoryIds) {
+                    Record record = new Record();
+                    record.set("article_id", articleId);
+                    record.set("category_id", categoryId);
+                    records.add(record);
+                }
+                Db.batchSave("article_category_mapping", records, records.size());
+            }
+
+            return true;
+        });
+    }
+
+    @Override
+    @CacheEvict(name = "articles",key = "*")
+    public boolean deleteById(Object id) {
+
+        ArticleSearcherFactory.getSearcher().deleteArticle(id);
+
+        return Db.tx(() -> {
+            boolean delOk = ArticleServiceProvider.super.deleteById(id);
+            if (delOk == false) {
+                return false;
+            }
+
+            List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
+            if (records == null || records.isEmpty()) {
+                return true;
+            }
+
+            Db.update("delete from article_category_mapping where article_id = ?", id);
+
+            records.stream().forEach(record -> {
+                categoryService.updateCount(record.get("category_id"));
+            });
+
+            return true;
+        });
+    }
+
 
 }

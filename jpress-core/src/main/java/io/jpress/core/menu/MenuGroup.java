@@ -79,8 +79,33 @@ public class MenuGroup {
         if (items == null) {
             items = new ArrayList<>();
         }
+
+        if (items.contains(item)) {
+            return;
+        }
+
         items.add(item);
         items.sort(Comparator.comparingInt(MenuItem::getOrder));
+    }
+
+    public void removeItem(MenuItem item) {
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+
+        items.removeIf(menuitem -> item.equals(menuitem));
+    }
+
+    public boolean contains(MenuItem item) {
+        if (items == null || items.isEmpty()) {
+            return false;
+        }
+        for (MenuItem i : items) {
+            if (i.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isEmpty() {
@@ -90,6 +115,16 @@ public class MenuGroup {
     public String getPermission() {
         return id;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj instanceof MenuItem == false) {
+            return false;
+        }
+        return ((MenuItem) obj).getId().equals(id);
+    }
+
 
     @Override
     public String toString() {

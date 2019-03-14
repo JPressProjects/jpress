@@ -17,11 +17,13 @@ package io.jpress.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.weixin.sdk.api.ApiResult;
-import io.jboot.utils.StrUtils;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jboot.wechat.WechatApis;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
@@ -35,7 +37,6 @@ import io.jpress.service.WechatMenuService;
 import io.jpress.service.WechatReplyService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ import java.util.Set;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/wechat")
+@RequestMapping(value = "/admin/wechat", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _WechatController extends AdminControllerBase {
 
     @Inject
@@ -111,33 +112,24 @@ public class _WechatController extends AdminControllerBase {
     public void doDelReply() {
         Long id = getIdPara();
         replyService.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelReplyByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(replyService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(replyService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doEnableAddon(String id) {
         WechatAddonManager.me().doEnableAddon(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCloseAddon(String id) {
         WechatAddonManager.me().doCloseAddon(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -164,7 +156,7 @@ public class _WechatController extends AdminControllerBase {
 
     public void doMenuDel() {
         wechatMenuService.deleteById(getParaToLong());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     /**

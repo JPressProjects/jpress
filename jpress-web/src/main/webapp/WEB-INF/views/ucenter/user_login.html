@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录到用户中心</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/components/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/adminlte/css/AdminLTE.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/html5shiv/html5shiv.min.js"></script>
+    <script src="/static/respond/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .login-page {
+            background-image: url("#(CPATH)/static/commons/img/loginbg.png");
+            background-size: cover;
+        }
+
+        .login-box {
+            padding-top: 100px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body class="hold-transition login-page">
+
+<div class="row">
+    <div class="login-box text-center">
+        <div class="login-box-body">
+            <form action="#(CPATH)/user/doLogin" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/ucenter">
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" class="form-control" placeholder="及密码..." name="pwd">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="padding-top: 15px">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
+                        <p class="help-block" style="float: left;"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a> 注册。
+                        </p>
+                    </div>
+                </div>
+                #if(option('login_qq_enable') || option('login_wechat_enable'))
+                <div class="form-group">
+                    快速登录：
+
+                    #if(option('login_wechat_enable'))
+                    <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
+                    #end
+
+                    #if(option('login_qq_enable'))
+                    <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
+                    #end
+                </div>
+                #end
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
+
+</body>
+</html>

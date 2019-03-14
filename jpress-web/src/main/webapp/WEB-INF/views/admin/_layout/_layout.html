@@ -1,0 +1,68 @@
+#define layout()
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
+    <title>JPress后台</title>
+    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/switchery/switchery.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/admin/css/jpressadmin.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/components/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+        var jpress = {
+            cpath: '#(CPATH)'
+        }
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?bfe2407e37bbaa8dc195c5db42daf96a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    #@css?()
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    #include("./_header.html")
+    #include("./_left_menu.html")
+    #@content()
+    #include("./_footer.html")
+
+</div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
+<script src="#(CPATH)/static/components/layer/layer.js"></script>
+<script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
+<script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
+<script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
+<script src="#(CPATH)/static/commons/jpresscsrf.js"></script>
+
+#@script?()
+</body>
+</html>
+#end

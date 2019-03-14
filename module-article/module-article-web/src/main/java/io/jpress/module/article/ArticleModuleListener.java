@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
@@ -40,7 +41,7 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
 
     @Override
     public String onRenderDashboardBox(Controller controller) {
-        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
+        List<Article> articles = Aop.get(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articles", articles);
 
         ArticleCommentService commentService = Jboot.bean(ArticleCommentService.class);

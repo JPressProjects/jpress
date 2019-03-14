@@ -562,15 +562,19 @@ public class AddonManager implements JbootEventListener {
             return failRet("升级失败：新插件的版本号必须大于已安装插件的版本号。");
         }
 
+        boolean upgradeSuccess = false;
         try {
-            doUpgrade(newAddonFile, addon, oldAddon);
-            return Ret.ok();
+            upgradeSuccess = doUpgrade(newAddonFile, addon, oldAddon);
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
-            doUpgradeRollback(addon, oldAddon);
+            upgradeSuccess = false;
+        } finally {
+            if (!upgradeSuccess) {
+                doUpgradeRollback(addon, oldAddon);
+            }
         }
 
-        return failRet("插件升级失败，请联系管理员。");
+        return upgradeSuccess ? Ret.ok() : failRet("插件升级失败，请联系管理员。");
     }
 
     /**
@@ -579,7 +583,7 @@ public class AddonManager implements JbootEventListener {
      * @param newAddon
      * @param oldAddon
      */
-    private void doUpgrade(File newAddonFile, AddonInfo newAddon, AddonInfo oldAddon) throws IOException {
+    private boolean doUpgrade(File newAddonFile, AddonInfo newAddon, AddonInfo oldAddon) throws IOException {
 
         //对已经安装的插件进行备份
         doBackupOldAddon(oldAddon);
@@ -588,25 +592,31 @@ public class AddonManager implements JbootEventListener {
         doUnzipNewAddon(newAddonFile, newAddon);
 
         //获得已经进行 classloader 加载的 addon
-        doInvokeAddonUpgradeMethod(newAddon, oldAddon);
+        if (!doInvokeAddonUpgradeMethod(newAddon, oldAddon)) {
+            return false;
+        }
 
         //设置该插件的状态为已经安装的状态
-        doSetAddonStatus(newAddon.getId());
+        if (!doSetAddonStatus(newAddon.getId())) {
+            return false;
+        }
 
         //启动插件
 //        start(newAddon.getId());
+
+        return true;
     }
 
-    private void doSetAddonStatus(String id) {
+    private boolean doSetAddonStatus(String id) {
 
         AddonInfo addonInfo = addonsCache.get(id);
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         OptionService optionService = Aop.get(OptionService.class);
-        optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + id, "true");
+        return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + id, "true") != null;
     }
 
-    private void doInvokeAddonUpgradeMethod(AddonInfo newAddon, AddonInfo oldAddon) {
+    private boolean doInvokeAddonUpgradeMethod(AddonInfo newAddon, AddonInfo oldAddon) {
 
         AddonUtil.clearAddonInfoCache(newAddon.buildJarFile());
         AddonInfo addon = AddonUtil.readAddonInfo(newAddon.buildJarFile());
@@ -614,10 +624,19 @@ public class AddonManager implements JbootEventListener {
         AddonUpgrader upgrader = Aop.get(addon.getUpgraderClass());
 
         if (upgrader != null) {
-            upgrader.onUpgrade(oldAddon, addon);
+            boolean success = false;
+            try {
+                success = upgrader.onUpgrade(oldAddon, addon);
+            } finally {
+                if (!success) {
+                    upgrader.onRollback(oldAddon, addon);
+                    return false;
+                }
+            }
         }
 
         addonsCache.put(addon.getId(), addon);
+        return true;
     }
 
     private void doUnzipNewAddon(File newAddonFile, AddonInfo newAddon) throws IOException {
@@ -685,8 +704,8 @@ public class AddonManager implements JbootEventListener {
         try {
             doRestAddonInfo(oldAddon);
             doSetAddonStatus(oldAddon.getId());
-        }catch (Exception ex){
-            LOG.error(ex.toString(),ex);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
         }
 
     }

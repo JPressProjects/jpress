@@ -6,7 +6,13 @@ import io.jpress.core.addon.AddonUpgrader;
 
 public class HelloWorldUpgrader implements AddonUpgrader {
     @Override
-    public void onUpgrade(AddonInfo oldAddon, AddonInfo thisAddon) {
+    public boolean onUpgrade(AddonInfo oldAddon, AddonInfo thisAddon) {
         System.out.println("HelloWorldUpgrader.onUpgrade()");
+        return true;
+    }
+
+    @Override
+    public void onRollback(AddonInfo oldAddon, AddonInfo thisAddon) {
+        System.out.println("HelloWorldUpgrader.onRollback()");
     }
 }

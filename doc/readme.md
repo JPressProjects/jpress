@@ -63,25 +63,14 @@ JPress可以编译成war包和可执行程序，war需要在tomcat等web容器�
 mvn package
 ```
 
-稍等片刻，待命令执行完毕之后，即可在 `starter-tomcat/target` 目录下生成 `starter-tomcat-1.0.war` 的war包，在 `starter/target/generated-resources/appassembler/jsw/` 目录下生成 jpress 的文件夹，jpress 文件夹的目录如下：
+稍等片刻，待命令执行完毕之后，即可在 `starter-tomcat/target` 目录下生成 `starter-tomcat-2.0.war` 的war包，在 `starter/target/` 目录下生成 starter-2.0 的文件夹，starter-2.0 文件夹的目录如下：
 
 ```
-├── bin
-│   ├── jpress
-│   ├── jpress.bat
-│   ├── wrapper-linux-x86-32
-│   ├── wrapper-linux-x86-64
-│   ├── wrapper-macosx-universal-32
-│   ├── wrapper-macosx-universal-64
-│   ├── wrapper-windows-x86-32.exe
-│   └── wrapper-windows-x86-64.exe
+├── config
 ├── lib
-├── logs
-├── tmp
-└── webRoot
-    ├── jboot.properties
-    ├── logback.xml
-    └── wrapper.conf
+├── webapp
+├── jpress.sh
+└── jpress.bat
 ```
 
  若编译不通过注意事项：
@@ -109,20 +98,19 @@ mvn package
 
 拷贝`starter-tomcat/target` 目录下的 `starter-tomcat-1.0.war` war包，放到tomcat的webapp目录下，手动解压缩。
 
-启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-1.0` 即可访问。
+启动tomcat（运行 `tomcat/bin/startup.sh`），浏览器输入 `http://127.0.0.1:8080/starter-tomcat-2.0` 即可访问。
 
-若把 `tomcat/webapp/starter-tomcat-1.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
+若把 `tomcat/webapp/starter-tomcat-2.0` 里面的文件拷贝到 `tomcat/webapp/ROOT`，访问`http://127.0.0.1:8080`即可。
 
 
 ##### 启动 jpress 可执行程序
 
 
-拷贝`starter/target/generated-resources/appassembler/jsw/` 的 `jpress` 目录，放到 Linux 上。 
+拷贝`starter/target/` 的 `starter-2.0` 目录，放到 Linux 上。
 
 
-执行 `./bin/jpress start` 脚本也可以启动jpress项目（window系统下先执行  `./bin/jpress.bat install`， 再执行 `./bin/jpress.bat start`）。
+执行 `./jpress.sh start` 脚本也可以启动jpress项目（window系统下执行  `./jpress.bat`）。
 
-需要注意的是，在 Linux 下，需要给与 `jpress`，`wrapper-linux-x86-32` 和 `wrapper-linux-x86-64` 可执行权限。
 
 
 ## 模板制作
@@ -146,7 +134,9 @@ JPress模板主要是由html、css、js和JPress标签组成，JPress标签的�
 | user_register.html | 用注册页面| 用法通 user_login.html |
 
 
-备注：所有的模板文件都可以扩展出专门用于渲染手机浏览器的模板。例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
+备注：所有的模板文件都可以扩展出专门用于渲染手机浏览器的模板。
+
+例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
 
 template.properties 文件配置如下
   
@@ -376,7 +366,7 @@ screenshot = screenshot.png
 此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
 ```html
-#articles(categoryFlag="",hasThumbnail="",orderBy="",count="")
+#categoryArticles(categoryFlag="",hasThumbnail="",orderBy="",count="")
     #for(article : articles)
         <a href="#(article.url)">#(article.title)</a>
     #end
@@ -510,7 +500,8 @@ screenshot = screenshot.png
 
 **指令#categories()的参数有**
 
-* type ：类型，默认是category，值有：category 和 tag ，分表代表的是要获取的是文章的分类还是标签。
+* flag ：读取哪些flag的分类列表。
+* parentFlag ：读取父级必须是该flag的分类列表。
 * asTree ：是否以树状的数据进行返回，默认是false，返回全部分类。
 
 ##### #articleCategories() 指令的用法
@@ -527,7 +518,7 @@ screenshot = screenshot.png
 #end
 ```
 
-如下代码是用于读取文章的标签：
+如下代码是用于读取谋一篇文章的标签（一般用在文章列表循环里）：
 
 ```html
 #articleCategories(article.id,"tag")
@@ -537,9 +528,26 @@ screenshot = screenshot.png
 #end
 ```
 
+
 **指令#articleCategories()的参数有**
 
 * articleCategories的使用必须传入两个值，顺序不能相反。第一个是文章的id，第二个是指定要获取文章分类的类型。
+
+
+##### #tags() 指令的用法
+```html
+#tags()
+    #for(tag : tags)
+        <li><a href="#(tag.url)">#(tag.title)</a></li>
+    #end
+#end
+```
+
+**指令#tags() 的参数有**
+
+* orderBy : 排序方式
+* count : 数量
+
 
 
 ##### #page() 指令的用法
@@ -776,7 +784,7 @@ public class _ClubController extends AdminControllerBase {
 <parent>
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </parent>
 ```
 maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找不到这个 module 就会出现 maven编译错误。
@@ -809,44 +817,55 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 <dependency>
     <groupId>io.jpress</groupId>
     <artifactId>module-club-web</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </dependency>
 
 <dependency>
     <groupId>io.jpress</groupId>
     <artifactId>module-club-service-provider</artifactId>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 </dependency>
 ```
 
 
-同时，为了让 maven 编译的时候，把 `club` 中的资源拷贝到 starter 里阿里。我们需要修改starter模块下的 pom.xml 的`maven-remote-resources-plugin`插件配置为如下：
+同时，为了让 maven 编译的时候，把 `club` 中的资源拷贝到 starter 里阿里。我们需要修改starter模块下的 pom.xml 的`maven-resources-plugin`插件配置为如下：
 
 ```xml
 <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-remote-resources-plugin</artifactId>
-    <version>1.5</version>
-    <configuration>
-        <resourceBundles>
-            
-            <resourceBundle>io.jpress:jpress-web:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:jpress-template:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:module-page-web:${project.version}</resourceBundle>
-            <resourceBundle>io.jpress:module-article-web:${project.version}</resourceBundle>
-            
-            <!-- 添加这一行代码-->
-            <resourceBundle>io.jpress:module-club-web:${project.version}</resourceBundle>
-        </resourceBundles>
-    </configuration>
+    <artifactId>maven-resources-plugin</artifactId>
     <executions>
         <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
             <goals>
-                <goal>process</goal>
+                <goal>copy-resources</goal>
             </goals>
+            <configuration>
+                <outputDirectory>${basedir}/target/classes/webapp</outputDirectory>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/../jpress-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../jpress-template/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
+                    </resource>
+
+                    <!-- 添加如下代码-->
+                    <resource>
+                        <directory>${basedir}/../module-club/module-club-web/src/main/webapp</directory>
+                    </resource>
+                </resources>
+            </configuration>
         </execution>
     </executions>
 </plugin>
+
 ```
 
 此时，进行 `mvn clean install` 完毕之后，就可以正常运行了。

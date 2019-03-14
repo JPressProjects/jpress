@@ -15,7 +15,8 @@
  */
 package io.jpress.core.wechat;
 
-import io.jboot.utils.ClassKits;
+
+import io.jboot.utils.ClassUtil;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -118,7 +119,7 @@ public class WechatAddonInfo {
 
     public WechatAddon getAddon() {
         if (addon == null) {
-            addon = ClassKits.newInstance(addonClazz);
+            addon = ClassUtil.newInstance(addonClazz);
         }
         return addon;
     }

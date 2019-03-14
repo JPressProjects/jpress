@@ -15,6 +15,7 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
@@ -28,7 +29,6 @@ import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 
 /**
@@ -37,7 +37,7 @@ import java.io.File;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/attachment")
+@RequestMapping(value = "/admin/attachment", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AttachmentController extends AdminControllerBase {
 
     private static final Log LOG = Log.getLog(_AttachmentController.class);
@@ -107,14 +107,14 @@ public class _AttachmentController extends AdminControllerBase {
             return;
         }
         as.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     public void doUpdate() {
         Attachment attachment = getBean(Attachment.class);
         as.saveOrUpdate(attachment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

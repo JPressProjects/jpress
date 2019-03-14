@@ -1,0 +1,69 @@
+#define _ucenter_layout()
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>用户中心</title>
+    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/switchery/switchery.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-black-light.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/ucenter/jpressucenter.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/components/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+        var jpress = {
+            cpath: '#(CPATH)'
+        }
+    </script>
+    #@css?()
+
+</head>
+<body class="sidebar-mini wysihtml5-supported skin-black-light layout-boxed">
+<div class="wrapper">
+
+    #include("./_header.html")
+    #include("./_left_menu.html")
+    #@content()
+    #include("./_footer.html")
+
+</div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
+<script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
+<script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
+<script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
+<script src="#(CPATH)/static/ucenter/jpressucenter.js"></script>
+<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
+<script src="#(CPATH)/static/commons/jpresscsrf.js"></script>
+
+<script>
+    $('#form').on('submit', function () {
+
+        ajaxSubmit('#form',function () {
+            toastr.success('修改成功');
+        });
+
+        return false;
+    });
+</script>
+
+#@script?()
+</body>
+</html>
+#end

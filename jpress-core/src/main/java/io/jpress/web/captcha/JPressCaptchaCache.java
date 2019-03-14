@@ -18,7 +18,7 @@ package io.jpress.web.captcha;
 import com.jfinal.captcha.Captcha;
 import com.jfinal.captcha.ICaptchaCache;
 import io.jboot.Jboot;
-import io.jboot.core.cache.JbootCache;
+import io.jboot.components.cache.JbootCache;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -34,7 +34,7 @@ public class JPressCaptchaCache implements ICaptchaCache {
 
 
     public JPressCaptchaCache() {
-        cache = Jboot.me().getCache();
+        cache = Jboot.getCache();
     }
 
     @Override

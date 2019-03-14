@@ -17,7 +17,7 @@ package io.jpress.module.article.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortModel;
 import io.jpress.module.article.model.base.BaseArticleCategory;
@@ -168,7 +168,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
 
 
     public String getHtmlView() {
-        return StrUtils.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
+        return StrUtil.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
     }
 
 }

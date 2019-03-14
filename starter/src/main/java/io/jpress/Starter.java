@@ -15,7 +15,7 @@
  */
 package io.jpress;
 
-import io.jboot.Jboot;
+import io.jboot.app.JbootApplication;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -25,8 +25,7 @@ import io.jboot.Jboot;
 public class Starter {
 
     public static void main(String[] args) {
-        Jboot.run(args);
+        JbootApplication.run(args);
     }
-
 
 }

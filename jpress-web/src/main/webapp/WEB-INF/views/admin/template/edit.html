@@ -1,0 +1,231 @@
+#@layout()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<style>
+    #editor {
+        height: 500px;
+    }
+
+    .table > tbody > tr > th {
+        border-top: 1px solid #f4f4f4;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: normal;
+    }
+
+    .table > tbody > tr > th {
+        padding: 5px 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+    }
+
+    .ace-eclipse .ace_gutter {
+        background: #f7f7f7;
+        border-right: 1px solid rgb(159, 159, 159);
+        color: rgb(82, 82, 82);
+    }
+
+    .ace-eclipse .ace_gutter-active-line {
+        background-color: #b3b3b3;
+    }
+
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/ace/ace.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+#if(!isImage(f))
+<script>
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/eclipse");
+
+    var editFileName = $("#editor").attr("for-filename");// "index.html";
+    var model = "ace/mode/html";
+
+    if (editFileName.indexOf(".css") != -1) {
+        model = "ace/mode/css";
+    } else if (editFileName.indexOf(".js") != -1) {
+        model = "ace/mode/javascript";
+    } else if (editFileName.indexOf(".xml") != -1) {
+        model = "ace/mode/xml";
+    }
+    editor.session.setMode(model);
+
+    function doSubmit() {
+        $("#fileContent").attr("value", editor.getSession().getValue());
+        ajaxSubmit("#form",function () {
+            toastr.success('保存成功！');
+        });
+        return false;
+    }
+
+    doListenerCtrlsAndCommands(doSubmit);
+
+</script>
+#end
+
+
+<script>
+    $(".delBtn").on("click", function () {
+        var path = $(this).attr('data-path');//"#(d ??)/#(f ??)";
+        if (confirm("确定要删除文件 " + path + " 吗？删除后不可恢复。")) {
+            ajaxGet("#(CPATH)/admin/template/doDelFile?path=" + path);
+        }
+    })
+
+    function compareFile(uploadFile) {
+        var upFile = uploadFile[0]["name"];
+        var srcFile = "#(srcFiles ??)";
+        if (srcFile.indexOf(upFile) == -1) {
+            return true;
+        }
+        return confirm(upFile + " 文件已经存在，确定覆盖吗？");
+    }
+
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/admin/template/doUploadFile?d=#(d ?? '/')',
+        sequentialUploads: true,
+        add: function (e, data) {
+            if (compareFile(data.files)) {
+                data.submit();
+            }
+        },
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                toastr.options.onHidden = function () {
+                    location.reload();
+                }
+                toastr.success("文件上传成功...")
+            }
+        }
+    });
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            模板编辑
+            <small>Template Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+        <form id="form" action="#(CPATH)/admin/template/doEditSave" method="post">
+            <input type="hidden" name="fileContent" id="fileContent">
+            <input type="hidden" name="d" value="#(d ??)">
+            <input type="hidden" name="f" value="#(f ??)">
+            <input type="hidden" name="srcFile" value="#(srcFiles ??)">
+        </form>
+
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="box box-primary">
+                    <form class="form-horizontal" autocomplete="off">
+                        #if(f)
+                        #if(isImage(f))
+                        <div class="text-center">
+                            <img src="#(CPATH+prefixPath)/#(d ??)/#(f ??)" style="width: 50%">
+                        </div>
+                        #else
+                        <div class="box-body no-padding">
+                            <div id="editor" for-filename="#(f ??)">#(editFileContent ??)</div>
+                        </div>
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="button" onclick="doSubmit()" class="btn btn-primary">更新文件</button>
+                                    提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                        #end
+                        #end
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title">当前目录：/#(d ??)</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" autocomplete="off">
+                        <div class="box-body no-padding">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+
+                                    <table class="table table-striped" style="margin-bottom: 0px">
+                                        <tbody>
+                                        #if(parentDir != null)
+                                        <tr>
+                                            <th>
+                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. </a>（上级目录）
+                                            </th>
+                                        </tr>
+                                        #end
+
+                                        #for(file : files)
+                                        <tr>
+                                            <th>
+                                                #if(file.isDir())
+                                                #if(d != null)
+                                                <a href="#(CPATH)/admin/template/edit?d=#(d)/#(file.name ??)">
+                                                    #(file.name ??)
+                                                </a>
+                                                #else
+                                                <a href="#(CPATH)/admin/template/edit?d=#(file.name ??)">
+                                                    #(file.name ??)
+                                                </a>
+                                                #end
+                                                [目录]
+                                                #else
+                                                <a href="#(CPATH)/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
+                                                    #(file.name ??)
+                                                </a>
+                                                #if(file.name == f)
+                                                （#(isImage(f) ? '预览中...' : '编辑中...')）
+                                                #end
+                                                <a href="javascript:;" class="pull-right delBtn"
+                                                   data-path="#(d ??)/#(file.name ??)">[删除]</a>
+                                                #end
+                                            </th>
+                                        </tr>
+                                        #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="uploader">
+                                <span class="btn btn-block  btn-flat btn-primary fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>上传模板文件...</span>
+                                    <input id="cfile" type="file" multiple>
+                                </span>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

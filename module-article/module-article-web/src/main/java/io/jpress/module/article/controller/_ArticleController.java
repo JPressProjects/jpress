@@ -15,19 +15,21 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.Jboot;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.model.User;
+import io.jpress.module.article.ArticleFields;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -39,7 +41,6 @@ import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +49,7 @@ import java.util.Set;
  * @version V1.0
  * @Package io.jpress.module.article.admin
  */
-@RequestMapping("/admin/article")
+@RequestMapping(value = "/admin/article", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _ArticleController extends AdminControllerBase {
 
     @Inject
@@ -57,6 +58,8 @@ public class _ArticleController extends AdminControllerBase {
     private ArticleCategoryService categoryService;
     @Inject
     private ArticleCommentService commentService;
+    @Inject
+    private MenuService menuService;
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void index() {
@@ -98,6 +101,8 @@ public class _ArticleController extends AdminControllerBase {
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
+        setAttr("fields", ArticleFields.me());
+
 
         int articleId = getParaToInt(0, 0);
 
@@ -110,7 +115,7 @@ public class _ArticleController extends AdminControllerBase {
             }
             setAttr("article", article);
 
-            List<ArticleCategory> tags = categoryService.findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
+            List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);
             setAttr("tags", tags);
 
             Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
@@ -128,7 +133,11 @@ public class _ArticleController extends AdminControllerBase {
     }
 
     private void initStylesAttr(String prefix) {
-        List<String> styles = TemplateManager.me().getCurrentTemplate().getSupportStyles(prefix);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            return;
+        }
+        List<String> styles = template.getSupportStyles(prefix);
         if (styles != null && !styles.isEmpty()) {
             setAttr("styles", styles);
         }
@@ -164,7 +173,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
 
-        if (StrUtils.isNotBlank(article.getSlug())) {
+        if (StrUtil.isNotBlank(article.getSlug())) {
             Article slugArticle = articleService.findFirstBySlug(article.getSlug());
             if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
@@ -172,8 +181,11 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
-        long id = articleService.doGetIdBySaveOrUpdateAction(article);
+        long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);
+
+        setAttr("articleId",id);
+        setAttr("article",article);
 
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
@@ -255,10 +267,9 @@ public class _ArticleController extends AdminControllerBase {
         menu.setRelativeId(id);
         menu.setOrderNumber(9);
 
-        MenuService menuService = Jboot.bean(MenuService.class);
         menuService.saveOrUpdate(menu);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -273,9 +284,19 @@ public class _ArticleController extends AdminControllerBase {
             return;
         }
 
-        categoryService.saveOrUpdate(category);
+        Object id = categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+
+        List<Menu> menus = menuService.findListByRelatives("article_category",id);
+        if (menus != null) {
+            for (Menu menu : menus) {
+                menu.setUrl(category.getUrl());
+                menu.setText(category.getTitle());
+                menuService.update(menu);
+            }
+        }
+
+        renderOkJson();
     }
 
     @EmptyValidate({
@@ -292,12 +313,12 @@ public class _ArticleController extends AdminControllerBase {
 
         categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public void doCategoryDel() {
         categoryService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -309,7 +330,7 @@ public class _ArticleController extends AdminControllerBase {
         Long articleId = getParaToLong("articleId");
 
         Page<ArticleComment> page =
-                StrUtils.isBlank(status)
+                StrUtil.isBlank(status)
                         ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
                         : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
 
@@ -351,7 +372,7 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
         commentService.saveOrUpdate(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -369,7 +390,7 @@ public class _ArticleController extends AdminControllerBase {
         comment.setPid(pid);
 
         commentService.save(comment);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -379,45 +400,27 @@ public class _ArticleController extends AdminControllerBase {
     public void doCommentDel() {
         Long id = getParaToLong("id");
         commentService.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     /**
      * 批量删除评论
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doCommentDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(commentService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     /**
      * 批量审核评论
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doCommentAuditByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -425,7 +428,7 @@ public class _ArticleController extends AdminControllerBase {
      * 修改评论状态
      */
     public void doCommentStatusChange(Long id, String status) {
-        render(commentService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
+        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
     }
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)
@@ -436,38 +439,29 @@ public class _ArticleController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(articleService.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(articleService.deleteById(id) ? OK : FAIL);
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(articleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(articleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doTrash() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_TRASH) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_TRASH) ? OK : FAIL);
     }
 
     public void doDraft() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_DRAFT) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_DRAFT) ? OK : FAIL);
     }
 
     public void doNormal() {
         Long id = getIdPara();
-        render(articleService.doChangeStatus(id, Article.STATUS_NORMAL) ? Ret.ok() : Ret.fail());
+        render(articleService.doChangeStatus(id, Article.STATUS_NORMAL) ? OK : FAIL);
     }
 
 }

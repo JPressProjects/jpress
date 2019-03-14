@@ -16,7 +16,7 @@
 package io.jpress.commons.oauth2.connector;
 
 import com.alibaba.fastjson.JSONObject;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
 
@@ -68,7 +68,7 @@ public class OSChinaConnector extends OauthConnector {
 		// "token_type":"bearer",
 		// "expires_in":604799}
 
-		if (StrUtils.isBlank(httpString)) {
+		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
 

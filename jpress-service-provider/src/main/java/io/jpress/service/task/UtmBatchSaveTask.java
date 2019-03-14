@@ -16,7 +16,7 @@
 package io.jpress.service.task;
 
 import com.jfinal.plugin.activerecord.Db;
-import io.jboot.schedule.annotation.FixedRate;
+import io.jboot.components.schedule.annotation.FixedRate;
 import io.jpress.model.Utm;
 
 import java.util.ArrayList;

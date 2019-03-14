@@ -1,0 +1,120 @@
+#@_ucenter_layout()
+
+#define script()
+<script src="#(CPATH)/static/components/jcrop/js/jquery.jcrop.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+
+    var jcrop_api;
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/commons/attachment/upload',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                if (jcrop_api) {
+                    jcrop_api.destroy()
+                }
+                var src = data.result.src;
+                $("#path").val(src);
+                $("#avatarimg").attr("src", "#(CPATH)" + src);
+                $('#avatarimg').Jcrop({
+                    setSelect: [30, 30, 250, 250],
+                    minSize: [50, 50],
+                    aspectRatio: 1,
+                    onSelect: updateSelect,
+                    onChange: updateSelect
+                }, function () {
+                    jcrop_api = this;
+                });
+            }
+        }
+    });
+
+    function updateSelect(c) {
+        $('#x').val(c.x);
+        $('#y').val(c.y);
+        $('#w').val(c.w);
+        $('#h').val(c.h);
+    }
+
+    function submitSuccess() {
+        toastr.options.onHidden = function () {
+            location.reload();
+        }
+        toastr.success('头像修改成功，2s后自动刷新...');
+    }
+
+</script>
+#end
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jcrop/css/jquery.jcrop.min.css" rel="stylesheet">
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+
+<style>
+
+</style>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            我的头像
+            <small>My Avatar</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/doSaveAvatar"
+                          method="post"
+                          data-ok-function="submitSuccess"
+                          >
+                        <input type="hidden" name="path" id="path">
+                        <input type="hidden" name="x" id="x">
+                        <input type="hidden" name="y" id="y">
+                        <input type="hidden" name="w" id="w">
+                        <input type="hidden" name="h" id="h">
+                        <input type="hidden" name="uid" value="#(user.id)">
+                        <div class="box-body ">
+                            <div id="uploader">
+                                <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>选择图片...</span>
+                                    <input id="cfile" type="file" name="files[]" multiple>
+                                </span>
+                            </div>
+                            <div class="text-center" style="margin-bottom: 20px">
+                                <div style="max-width:500px;margin: auto">
+                                    <img src="#(CPATH)/static/commons/img/avatar.png" style="width: 100%;height: 100%"
+                                         id="avatarimg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary"> 保存选择区域</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+#end

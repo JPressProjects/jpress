@@ -16,7 +16,7 @@
 package io.jpress.module.article.kit;
 
 import com.jfinal.template.Engine;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
 import io.jpress.commons.sms.SmsKit;
@@ -54,7 +54,7 @@ public class ArticleKit {
         String template = JPressOptions.get("article_comment_sms_notify_template");
         String sign = JPressOptions.get("article_comment_sms_notify_sign");
 
-        if (StrUtils.isBlank(mobile) || StrUtils.isBlank(template) || StrUtils.isBlank(sign)) {
+        if (StrUtil.isBlank(mobile) || StrUtil.isBlank(template) || StrUtil.isBlank(sign)) {
             return;
         }
 

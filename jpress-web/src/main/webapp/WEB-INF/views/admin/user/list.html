@@ -1,0 +1,206 @@
+#@layout()
+
+#define script()
+<script>
+
+    function doChangeStatus(id, status) {
+        ajaxGet("#(CPATH)/admin/user/doUserStatusChange?id=" + id + "&status=" + status)
+    }
+
+    function doDel(id) {
+        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/user/doUserDel/" + id)
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
+        }
+    })
+
+
+    $(".changeRoleAction").click(function () {
+        var ids = getSelectedIds();
+        var roleId = $(this).attr("data-rid");
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        ajaxGet("#(CPATH)/admin/user/doChangeRoleByIds?ids=" + ids + "&roleId=" + roleId)
+    })
+
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            用户管理
+            <small>User Management</small>
+        </h1>
+    </section>
+
+    <section class="content-header text-tap">
+        <a href="#(CPATH)/admin/user">全部 (#(totalCount ?? 0))</a> |
+        <a href="?status=ok">正常 (#(okCount ?? 0))</a> |
+        <a href="?status=registered" style="color: #a00">未激活 (#(regCount ?? 0))</a> |
+        <a href="?status=locked" style="color: #a00">冻结 (#(lockedCount ?? 0))</a>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/user" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">用户名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="username" value="#para('username')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">邮箱</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="email" value="#para('email')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary ">查询</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
+                                        class="fa fa-fw fa-plus"></i> 新建</a>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                                <div class="btn-group checkAction">
+                                    <button type="button" class="btn btn-default">将角色修改为</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">将角色修改为</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        #for(role : roles)
+                                        <li>
+                                            <a data-rid="#(role.id)"
+                                               href="javascript:;"
+                                               class="changeRoleAction">
+                                                #(role.name??)
+                                            </a>
+                                        </li>
+                                        #end
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th style="width: 40px">ID</th>
+                                <th style="width: 20%">登录名</th>
+                                <th>昵称</th>
+                                <th>邮箱</th>
+                                <th>手机</th>
+                                <th style="width: 100px">来源</th>
+                            </tr>
+
+                            #for(user : page.list )
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <input class="dataItem" type="checkbox" value="#(user.id)"
+                                           onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>#(user.id)</td>
+                                <td>
+                                    <strong>
+                                        #if(user.username)
+                                        <a href="#(CPATH)/admin/user/detail/#(user.id)">
+                                            #(user.username)
+                                        </a>
+                                        #else
+                                        无用户名
+                                        #end
+                                        #if(user.isStatusReg()) （未激活） #end
+                                        #if(user.isStatusLocked()) （已冻结） #end
+                                    </strong>
+
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/user/detail/#(user.id)"
+                                               style="color: #006505">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/permissions/#(user.id)"
+                                               onclick="draft('#(user.id??)')">权限</a> |
+                                            #if(user.isStatusOk() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','ok')">激活正常</a>
+                                            |
+                                            #end
+                                            #if(user.isStatusReg() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','registered')"
+                                               style="color: #a00">未激活</a> |
+                                            #end
+                                            #if(user.isStatusLocked() == false)
+                                            <a href="javascript:;" onclick="doChangeStatus('#(user.id)','locked')"
+                                               style="color: #a00">冻结</a> |
+                                            #end
+                                            <a href="javascript:;" onclick="doDel('#(user.id)')"
+                                               style="color: #a00">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(user.nickname ??)</td>
+                                <td>#(user.email ??)</td>
+                                <td>#(user.mobile ??)</td>
+                                <td>#(user.sourceString ??)</td>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

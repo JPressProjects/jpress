@@ -15,8 +15,10 @@
  */
 package io.jpress.module.article.service.task;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Db;
-import io.jboot.schedule.annotation.FixedRate;
+import io.jboot.components.schedule.annotation.FixedRate;
+import io.jpress.module.article.service.ArticleCommentService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +31,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @Title: 用于更新评论的 被回复 数量
  * @Package io.jpress.module.article.task
  */
-@FixedRate(period = 5, initialDelay = 5)
+@FixedRate(period = 60, initialDelay = 60)
 public class CommentReplyCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();
@@ -57,6 +59,7 @@ public class CommentReplyCountUpdateTask implements Runnable {
             Db.update("update article_comment set reply_count = reply_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
+            Aop.get(ArticleCommentService.class).deleteCacheById(entry.getKey());
         }
     }
 }

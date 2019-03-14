@@ -15,14 +15,14 @@
  */
 package io.jpress.module.article.controller;
 
-import io.jboot.utils.StrUtils;
+import com.jfinal.aop.Inject;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.base.TemplateControllerBase;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -39,7 +39,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
     public void index() {
 
-        if (StrUtils.isBlank(getPara())) {
+        if (StrUtil.isBlank(getPara())) {
             redirect("/article/category/index");
             return;
         }
@@ -57,22 +57,24 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
     private void doFlagMenuActive(ArticleCategory currentCategory) {
 
+        //文章首页高亮
         if (currentCategory == null) {
-            return;
+            setMenuActive(menu -> menu.isUrlEquals("/article/category")
+                    || menu.isUrlEquals("/article/category/")
+                    || menu.isUrlEquals("/article/category/index"));
+        } else {
+            setMenuActive(menu -> {
+                if (menu.isUrlEquals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
+                    return true;
+                }
+
+                if ("article_category".equals(menu.getRelativeTable())
+                        && currentCategory.getId().equals(menu.getRelativeId())) {
+                    return true;
+                }
+                return false;
+            });
         }
-
-        setMenuActive(menu -> {
-            if (CommonsUtils.removeSuffix(menu.getUrl())
-                    .equals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
-                return true;
-            }
-
-            if ("article_category".equals(menu.getRelativeTable())
-                    && currentCategory.getId().equals(menu.getRelativeId())) {
-                return true;
-            }
-            return false;
-        });
 
     }
 
@@ -83,7 +85,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
         setSeoTitle(category.getTitle());
         setSeoKeywords(category.getMetaKeywords());
-        setSeoDescription(StrUtils.isBlank(category.getMetaDescription())
+        setSeoDescription(StrUtil.isBlank(category.getMetaDescription())
                 ? CommonsUtils.maxLength(category.getContent(), 100)
                 : category.getMetaDescription());
     }
@@ -92,13 +94,13 @@ public class ArticleCategoryController extends TemplateControllerBase {
     private ArticleCategory getCategory() {
         String idOrSlug = getPara(0);
 
-        if (StrUtils.isBlank(idOrSlug)) {
+        if (StrUtil.isBlank(idOrSlug)) {
             return null;
         }
 
-        ArticleCategory category = StrUtils.isNumeric(idOrSlug)
+        ArticleCategory category = StrUtil.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, StrUtils.urlDecode(idOrSlug));
+                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, StrUtil.urlDecode(idOrSlug));
 
         //当 slug 不为空，但是查询出来的category却是null的时候
         //应该404显示

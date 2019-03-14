@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:5.6
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: jpress
+      MYSQL_DATABASE: jpress
+      MYSQL_USER: jpress
+      MYSQL_PASSWORD: jpress
+    volumes:
+      - "./mysql:/var/lib/mysql"
+
+  jpress:
+    depends_on:
+      - db
+    links:
+      - db
+    image: fuhai/jpress:v2.0-rc.5
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      JPRESS_DB_HOST: db
+      JPRESS_DB_PORT: 3306
+      JPRESS_DB_NAME: jpress
+      JPRESS_DB_USER: jpress
+      JPRESS_DB_PASSWORD: jpress
+    volumes:
+      - "./attachment:/opt/jpress/webapp/attachment"
+      - "./addons:/opt/jpress/webapp/addons"
+      - "./addonjars:/opt/jpress/webapp/WEB-INF/addons"
+      - "./wp-content:/opt/jpress/webapp/wp-content"

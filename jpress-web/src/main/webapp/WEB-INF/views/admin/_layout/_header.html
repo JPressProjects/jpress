@@ -1,0 +1,40 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a href="#(CPATH)/" target="_blank" class="logo">
+        <span class="logo-mini"><b>JPr</b></span>
+        <span class="logo-lg"><b>JPress</b></span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">切换</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="#(USER.avatar ??)" class="user-image">
+                        <span class="hidden-xs">您好 #(USER.nickname ??) , 欢迎回来</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="#(USER.avatar ??)" class="img-circle">
+                            <p>
+                                #(USER.nickname ??) - #(USER.identity ??)
+                                <small>#(USER.created ??)</small>
+                            </p>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#(CPATH)/admin/user/me" class="btn btn-default btn-flat">我的资料</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#(CPATH)/admin/doLogout?csrf_token=#(CSRF_TOKEN)" class="btn btn-default btn-flat">退出</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

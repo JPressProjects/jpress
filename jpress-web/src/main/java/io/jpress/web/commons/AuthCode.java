@@ -16,7 +16,7 @@
 package io.jpress.web.commons;
 
 
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 
 import java.io.Serializable;
@@ -54,7 +54,7 @@ public class AuthCode implements Serializable {
     public static AuthCode newCode(long userId) {
         AuthCode authCode = new AuthCode();
 
-        authCode.setId(StrUtils.uuid());
+        authCode.setId(StrUtil.uuid());
         authCode.setCode(CommonsUtils.generateCode());
         authCode.setUserId(userId);
 

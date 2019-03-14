@@ -15,14 +15,14 @@
  */
 package io.jpress.module.article.service;
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.article.model.Article;
 
 import java.util.List;
 
-public interface ArticleService {
+public interface ArticleService extends JbootServiceJoiner {
 
     /**
      * find model by primary key
@@ -50,6 +50,9 @@ public interface ArticleService {
     public boolean deleteById(Object id);
 
 
+    public void deleteCacheById(Object id);
+
+
     /**
      * 删除多个id
      *
@@ -74,7 +77,7 @@ public interface ArticleService {
      * @param model
      * @return
      */
-    public boolean save(Article model);
+    public Object save(Article model);
 
 
     /**
@@ -83,7 +86,7 @@ public interface ArticleService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(Article model);
+    public Object saveOrUpdate(Article model);
 
 
     /**
@@ -95,79 +98,31 @@ public interface ArticleService {
     public boolean update(Article model);
 
 
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
-
-
-    public Page<Article> paginate(int page, int pagesize);
-
-    public Page<Article> paginateByCategoryId(int page, int pagesize, long categoryId);
-
-    public Page<Article> paginateByCategoryIds(int page, int pagesize, Long[] categoryIds);
-
-    public long doGetIdBySaveOrUpdateAction(Article article);
-
-
     public void doUpdateCategorys(long articleId, Long[] categoryIds);
-
 
     public void doUpdateCommentCount(long articleId);
 
-
     public boolean doChangeStatus(long id, String status);
-
 
     public int findCountByStatus(String status);
 
-
     public Article findFirstBySlug(String slug);
-
 
     public Article findNextById(long id);
 
-
     public Article findPreviousById(long id);
-
 
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
 
-
     public List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
-
 
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
 
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
     public Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
-
 
     public Page<Article> paginateInNormal(int page, int pagesize);
 
@@ -180,6 +135,10 @@ public interface ArticleService {
     public void doIncArticleCommentCount(long articleId);
 
     public boolean isOwn(Article article, long userId);
+
+    public Page<Article> search(String queryString, int pageNum, int pageSize);
+
+    public Page<Article> searchIndb(String queryString, int pageNum, int pageSize);
 
 
 }

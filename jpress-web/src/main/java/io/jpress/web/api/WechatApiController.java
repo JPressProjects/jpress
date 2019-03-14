@@ -15,12 +15,12 @@
  */
 package io.jpress.web.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.wxaapp.api.WxaUserApi;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 
-import javax.inject.Inject;
 
 /**
  * 微信公众号相关的API

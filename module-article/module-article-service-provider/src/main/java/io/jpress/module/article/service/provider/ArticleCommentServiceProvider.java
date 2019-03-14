@@ -15,12 +15,14 @@
  */
 package io.jpress.module.article.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ArrayUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -28,12 +30,9 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.task.CommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
 @Bean
-@Singleton
 public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComment> implements ArticleCommentService {
 
     @Inject
@@ -74,8 +73,17 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     }
 
     @Override
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
+    }
+
+    @Override
     public boolean batchChangeStatusByIds(String status, Object... ids) {
-        return Db.update("update article_comment SET `status` = ? where id in  " + SqlUtils.buildInSqlPara(ids), status) > 0;
+
+        Columns c = Columns.create().in("id", ids);
+        Object[] paras = ArrayUtil.concat(new Object[]{status}, c.getValueArray());
+
+        return Db.update("update article_comment SET `status` = ? " + SqlUtils.toWhereSql(c), paras) > 0;
     }
 
     @Override

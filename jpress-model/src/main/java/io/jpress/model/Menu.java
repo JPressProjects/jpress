@@ -15,8 +15,10 @@
  */
 package io.jpress.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jpress.commons.layer.SortModel;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseMenu;
 
 import java.util.ArrayList;
@@ -130,6 +132,25 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
             }
         }
         return false;
+    }
+
+    private String baseUrl;
+
+    private String getBaseUrl() {
+        if (baseUrl == null){
+            baseUrl = CommonsUtils.removeSuffix(getUrl());
+        }
+        return baseUrl;
+    }
+
+    private static String cp = JFinal.me().getContextPath();
+
+    public boolean isUrlStartWidth(String url){
+        return getBaseUrl() != null && getBaseUrl().startsWith(cp+url);
+    }
+
+    public boolean isUrlEquals(String url){
+        return getBaseUrl() != null && getBaseUrl().equals(cp+url);
     }
 
 

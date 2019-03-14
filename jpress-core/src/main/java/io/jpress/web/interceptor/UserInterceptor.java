@@ -15,17 +15,17 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StrUtils;
-import io.jboot.web.JbootControllerContext;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -54,8 +54,8 @@ public class UserInterceptor implements Interceptor {
         }
 
 
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConsts.COOKIE_UID);
-        if (StrUtils.isBlank(uid)) {
+        String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+        if (StrUtil.isBlank(uid)) {
             inv.invoke();
             return;
         }

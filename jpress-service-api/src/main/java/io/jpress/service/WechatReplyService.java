@@ -64,7 +64,7 @@ public interface WechatReplyService {
      * @param model
      * @return
      */
-    public boolean save(WechatReply model);
+    public Object save(WechatReply model);
 
 
     /**
@@ -73,7 +73,7 @@ public interface WechatReplyService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(WechatReply model);
+    public Object saveOrUpdate(WechatReply model);
 
 
     /**
@@ -94,34 +94,6 @@ public interface WechatReplyService {
      */
     public Page<? extends Model> paginate(int page, int pageSize);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 
     public boolean deleteByIds(Object... ids);
 

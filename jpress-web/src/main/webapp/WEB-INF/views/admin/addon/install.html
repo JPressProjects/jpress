@@ -1,0 +1,78 @@
+#@layout()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<style>
+    #uploader {
+        height: 230px;
+    }
+
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+    $('#cfile').fileupload({
+        dropZone: $('#uploader'),
+        url: '#(CPATH)/admin/addon/doUploadAndInstall',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                toastr.options.onHidden = function () {
+                    location.href = "#(CPATH)/admin/addon";
+                }
+                toastr.success(" 插件安装成功 ")
+            } else {
+                toastr.error(data.result.message)
+            }
+        }
+    });
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            安装插件
+            <small>Addon Install</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div id="uploader">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 140px">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>选择插件文件...</span>
+                                <input id="cfile" type="file" name="files[]" multiple>
+                            </span>
+
+                            <div class="myPanel">
+                                或者拖动插件文件到这里进行安装...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

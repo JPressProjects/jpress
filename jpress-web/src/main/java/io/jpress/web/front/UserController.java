@@ -16,14 +16,15 @@
 package io.jpress.web.front;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.sms.SmsKit;
@@ -34,7 +35,6 @@ import io.jpress.web.commons.AuthCode;
 import io.jpress.web.commons.AuthCodeKit;
 import io.jpress.web.commons.UserEmailSender;
 
-import javax.inject.Inject;
 import java.util.Date;
 
 /**
@@ -95,17 +95,21 @@ public class UserController extends TemplateControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
-        if (StrUtils.isBlank(user) || StrUtils.isBlank(pwd)) {
+        if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             LogKit.error("你当前的 idea 或者 eclipse 可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
             return;
         }
 
-        Ret ret = StrUtils.isEmail(user)
-                ? userService.loginByEmail(user.toLowerCase(), pwd)
-                : userService.loginByUsername(user, pwd);
+        User loginUser = userService.findByUsernameOrEmail(user);
+        if (loginUser == null) {
+            renderJson(Ret.fail("message", "用户名不正确。"));
+            return;
+        }
+
+        Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
-            EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, ret.getLong("user_id"));
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
         renderJson(ret);
@@ -124,7 +128,7 @@ public class UserController extends TemplateControllerBase {
      */
     public void activate() {
         String id = getPara("id");
-        if (StrUtils.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             renderError(404);
             return;
         }
@@ -159,7 +163,7 @@ public class UserController extends TemplateControllerBase {
      */
     public void emailactivate() {
         String id = getPara("id");
-        if (StrUtils.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             renderError(404);
             return;
         }
@@ -191,41 +195,46 @@ public class UserController extends TemplateControllerBase {
 
     public void doRegister() {
 
+        String regEnableString = JPressOptions.get("reg_enable");
+        if ("false".equals(regEnableString)) {
+            renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
+            return;
+        }
 
         String username = getPara("username");
         String email = getPara("email");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-        if (StrUtils.isBlank(username)) {
-            renderJson(Ret.fail().set("message", "username must not be empty").set("errorCode", 1));
+        if (StrUtil.isBlank(username)) {
+            renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 1));
             return;
         }
 
-        if (StrUtils.isBlank(email)) {
-            renderJson(Ret.fail().set("message", "email must not be empty").set("errorCode", 2));
+        if (StrUtil.isBlank(email)) {
+            renderJson(Ret.fail().set("message", "邮箱不能为空").set("errorCode", 2));
             return;
         } else {
             email = email.toLowerCase();
         }
 
-        if (StrUtils.isBlank(pwd)) {
-            renderJson(Ret.fail().set("message", "password must not be empty").set("errorCode", 3));
+        if (StrUtil.isBlank(pwd)) {
+            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
-        if (StrUtils.isBlank(confirmPwd)) {
-            renderJson(Ret.fail().set("message", "confirm password must not be empty").set("errorCode", 4));
+        if (StrUtil.isBlank(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
 
         if (pwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "confirm password must equals password").set("errorCode", 5));
+            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
             return;
         }
 
         if (validateCaptcha("captcha") == false) {
-            renderJson(Ret.fail().set("message", "captcha is error").set("errorCode", 6));
+            renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
             return;
         }
 
@@ -236,20 +245,20 @@ public class UserController extends TemplateControllerBase {
         if (smsValidate == true) {
             String paraCode = getPara("sms_code");
             if (SmsKit.validateCode(phoneNumber, paraCode) == false) {
-                renderJson(Ret.fail().set("message", "sms code is error").set("errorCode", 7));
+                renderJson(Ret.fail().set("message", "短信验证码输入错误").set("errorCode", 7));
                 return;
             }
         }
 
         User user = userService.findFistByUsername(username);
         if (user != null) {
-            renderJson(Ret.fail().set("message", "username exist").set("errorCode", 10));
+            renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
             return;
         }
 
         user = userService.findFistByEmail(email);
         if (user != null) {
-            renderJson(Ret.fail().set("message", "email exist").set("errorCode", 11));
+            renderJson(Ret.fail().set("message", "该邮箱已经存在").set("errorCode", 11));
             return;
         }
 
@@ -269,7 +278,7 @@ public class UserController extends TemplateControllerBase {
         user.setMobileStatus(smsValidate ? "ok" : null); // 如果 smsValidate == true，并走到此处，说明验证码已经验证通过了
 
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
-        user.setAnonym(EncryptCookieUtils.get(this, JPressConsts.COOKIE_ANONYM));
+        user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
 
         // 是否启用邮件验证
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
@@ -279,13 +288,13 @@ public class UserController extends TemplateControllerBase {
             user.setStatus(User.STATUS_OK);
         }
 
-        boolean saveOk = userService.save(user);
+        Object userId = userService.save(user);
 
-        if (saveOk && emailValidate) {
+        if (userId != null && emailValidate) {
             UserEmailSender.sendEmailForUserRegisterActivate(user);
         }
 
-        renderJson(saveOk ? Ret.ok() : Ret.fail());
+        renderJson(user != null ? OK : FAIL);
     }
 
 

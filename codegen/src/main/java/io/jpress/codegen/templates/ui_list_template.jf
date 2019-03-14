@@ -1,0 +1,106 @@
+  #('#')@layout()
+	
+	#('#')define script()
+	<script>
+	
+	    function doDel(id) {
+	        ajaxGet("#(CPATH)/admin/#(tableMeta.name)/doDel/" + id);
+	    }
+	
+	    $("#('#')batchDel").click(function () {
+	        var ids = getSelectedIds();
+	        if (ids == "") {
+	            alert('您未选择任何条目');
+	            return
+	        }
+	        ajaxGet("#(CPATH)/admin/#(tableMeta.name)/doDelByIds?ids=" + ids);
+	    })
+	
+	
+	</script>
+	#('#')end
+#('#')define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            #(tableMeta.remarks)管理
+            <small>Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="#(tableMeta.name)/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+	                                </th>
+                                #for(cm : tableMeta.columnMetas)
+	                                <th>#(cm.remarks)</th>
+                                #end
+                                
+                            </tr>
+                            #('#')for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#('#')(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#('#')(CPATH)/admin/#(moduleName)/#(tableMeta.name)/edit/#('#')(entry.id)"> #('#')(entry.id ??) </a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/edit/#('#')(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#("#")(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                 #for(cm : tableMeta.columnMetas)
+                                    #if(cm.name=="id")
+                                    
+                                    #else
+	                                <td>#('#')(entry.#(cm.name))</td>
+	                                #end
+                                #end
+                            </tr>
+                            #('#')end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #('#')@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#('#')end

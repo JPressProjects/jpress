@@ -26,12 +26,12 @@ public class AuthCodeKit implements Serializable {
 
     public static void save(AuthCode authCode) {
         //有效期24小时
-        Jboot.me().getCache().put(CACHE_NAME, authCode.getId(), authCode, 60 * 60 * 24);
+        Jboot.getCache().put(CACHE_NAME, authCode.getId(), authCode, 60 * 60 * 24);
 
     }
 
 
     public static AuthCode get(String id) {
-        return Jboot.me().getCache().get(CACHE_NAME, id);
+        return Jboot.getCache().get(CACHE_NAME, id);
     }
 }

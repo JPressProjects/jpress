@@ -15,17 +15,17 @@
  */
 package io.jpress.web;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
-import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.utils.StrUtils;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -55,12 +55,12 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
 
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 
-        OptionService service = Jboot.bean(OptionService.class);
+        OptionService service = Aop.get(OptionService.class);
 
         List<Option> options = service.findAll();
         for (Option option : options) {
@@ -96,7 +96,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String appSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPSECRET);
         String token = JPressOptions.get(JPressConsts.OPTION_WECHAT_TOKEN);
 
-        if (StrUtils.areNotEmpty(appId, appSecret, token)) {
+        if (StrUtil.areNotEmpty(appId, appSecret, token)) {
             // 配置微信 API 相关参数
             ApiConfig ac = new ApiConfig();
             ac.setAppId(appId);
@@ -117,7 +117,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
 //        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
+        if (StrUtil.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);

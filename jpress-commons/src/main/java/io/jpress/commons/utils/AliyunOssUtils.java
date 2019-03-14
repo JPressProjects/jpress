@@ -20,7 +20,7 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.GetObjectRequest;
 import com.jfinal.kit.LogKit;
 import com.jfinal.log.Log;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.io.File;
@@ -66,7 +66,7 @@ public class AliyunOssUtils {
 
         boolean enable = JPressOptions.getAsBool(KEY_ENABLE);
 
-        if (enable == false || StrUtils.isBlank(path)) {
+        if (!enable || StrUtil.isBlank(path)) {
             return false;
         }
 
@@ -112,7 +112,7 @@ public class AliyunOssUtils {
     public static boolean download(String path, File toFile) {
         boolean enable = JPressOptions.getAsBool(KEY_ENABLE);
 
-        if (enable == false || StrUtils.isBlank(path)) {
+        if (!enable || StrUtil.isBlank(path)) {
             return false;
         }
 

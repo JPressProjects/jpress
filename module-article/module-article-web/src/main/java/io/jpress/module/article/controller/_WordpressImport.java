@@ -17,12 +17,13 @@ package io.jpress.module.article.controller;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
-import io.jpress.model.Attachment;
 import io.jpress.core.attachment.AttachmentDownloader;
+import io.jpress.model.Attachment;
 import io.jpress.module.article.kit.wordpress.WordPressXmlParser;
 import io.jpress.module.article.model.Article;
 import io.jpress.web.base.AdminControllerBase;
@@ -36,7 +37,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.module.article.controller
  */
-@RequestMapping("/admin/setting/tools/wordpress")
+@RequestMapping(value = "/admin/setting/tools/wordpress", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _WordpressImport extends AdminControllerBase {
 
     public void index() {
@@ -52,7 +53,7 @@ public class _WordpressImport extends AdminControllerBase {
             return;
         }
 
-        if (!".xml".equals(FileUtils.getSuffix(ufile.getFileName()))) {
+        if (!".xml".equals(FileUtil.getSuffix(ufile.getFileName()))) {
             renderJson(Ret.fail("message", "请选择从WordPress导出的XML文件"));
             return;
         }
@@ -65,17 +66,17 @@ public class _WordpressImport extends AdminControllerBase {
 
 
         List<Article> contents = wordPressXmlParser.getArticles();
-        if (ArrayUtils.isNotEmpty(contents)) {
+        if (ArrayUtil.isNotEmpty(contents)) {
             doSaveArticles(contents);
         }
 
         List<Attachment> attachments = wordPressXmlParser.getAttachments();
-        if (ArrayUtils.isNotEmpty(attachments)) {
+        if (ArrayUtil.isNotEmpty(attachments)) {
             doSaveAttachements(attachments);
         }
 
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 

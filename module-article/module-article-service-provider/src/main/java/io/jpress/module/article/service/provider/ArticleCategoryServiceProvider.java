@@ -15,32 +15,51 @@
  */
 package io.jpress.module.article.service.provider;
 
-import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.commons.layer.SortKit;
+import io.jpress.commons.Copyer;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
 
-import javax.inject.Singleton;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Bean
-@Singleton
 public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCategory> implements ArticleCategoryService {
 
 
     @Override
+    @Cacheable(name = "articleCategory")
+    public List<ArticleCategory> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @CacheEvict(name = "articleCategory", key = "*")
+    public void shouldUpdateCache(int action, Object data) {
+        super.shouldUpdateCache(action, data);
+    }
+
+    @Override
     public List<ArticleCategory> findListByType(String type) {
+        return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Cacheable(name = "articleCategory", key = "type:#(type)")
+    public List<ArticleCategory> findListByTypeInDb(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
+
 
     @Override
     public List<ArticleCategory> findTagList(String orderBy, int count) {
@@ -62,9 +81,19 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         return mappings
                 .stream()
-                .map(record -> DAO.findById((long) record.get("category_id")))
+                .map(record -> DAO.findById(record.get("category_id")))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArticleCategory> findCategoryListByArticleId(long articleId) {
+        return findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
+    }
+
+    @Override
+    public List<ArticleCategory> findTagListByArticleId(long articleId) {
+        return findListByArticleId(articleId, ArticleCategory.TYPE_TAG);
     }
 
     @Override
@@ -79,27 +108,29 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId) {
-
-        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
-        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
-            return null;
-        }
-
-
-        List<ArticleCategory> articleCategories = findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
-        if (articleCategories == null || articleCategories.isEmpty()) {
-            return null;
-        }
-
-        SortKit.toTree(allArticleCategories);
-
-        Set<ArticleCategory> activeCategories = new HashSet<>();
-        findActiveCategories(allArticleCategories, articleCategories, activeCategories);
-
-        return new ArrayList<>(activeCategories);
-    }
+//    @Override
+//    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId) {
+//
+//        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
+//        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
+//            return null;
+//        }
+//
+//
+//        List<ArticleCategory> articleCategories = findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
+//        if (articleCategories == null || articleCategories.isEmpty()) {
+//            return null;
+//        }
+//
+//
+//
+//        SortKit.toTree(allArticleCategories);
+//
+//        Set<ArticleCategory> activeCategories = new HashSet<>();
+//        findActiveCategories(allArticleCategories, articleCategories, activeCategories);
+//
+//        return new ArrayList<>(activeCategories);
+//    }
 
 
     @Override
@@ -108,20 +139,20 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return super.deleteById(id);
     }
 
-    @Override
-    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId) {
-        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
-        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
-            return null;
-        }
-
-        SortKit.toTree(allArticleCategories);
-
-        Set<ArticleCategory> activeCategories = new HashSet<>();
-        findActiveCategories(allArticleCategories, Lists.newArrayList(findById(categoryId)), activeCategories);
-
-        return new ArrayList<>(activeCategories);
-    }
+//    @Override
+//    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId) {
+//        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
+//        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
+//            return null;
+//        }
+//
+//        SortKit.toTree(allArticleCategories);
+//
+//        Set<ArticleCategory> activeCategories = new HashSet<>();
+//        findActiveCategories(allArticleCategories, Lists.newArrayList(findById(categoryId)), activeCategories);
+//
+//        return new ArrayList<>(activeCategories);
+//    }
 
     @Override
     public void updateCount(long categoryId) {
@@ -133,35 +164,34 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         }
     }
 
-    private void findActiveCategories(List<ArticleCategory> allArticleCategories
-            , List<ArticleCategory> articleCategories
-            , Set<ArticleCategory> activeCategories) {
-
-        for (ArticleCategory articleCategory : allArticleCategories) {
-            if (articleCategories.contains(articleCategory)) {
-//                activeCategories.add(articleCategory);
-                addCategories(activeCategories, articleCategory);
-            }
-
-            if (articleCategory.hasChild()) {
-                findActiveCategories(articleCategory.getChilds(), articleCategories, activeCategories);
-            }
-        }
-    }
-
-    private void addCategories(Set<ArticleCategory> activeCategories, ArticleCategory articleCategory) {
-        activeCategories.add(articleCategory);
-        if (articleCategory.getParent() != null)
-            addCategories(activeCategories, (ArticleCategory) articleCategory.getParent());
-    }
-
-    private void doAddActiveCategory(ArticleCategory category, Set<ArticleCategory> activeCategories) {
-        if (category == null) {
-            return;
-        }
-        activeCategories.add(category);
-        doAddActiveCategory((ArticleCategory) category.getParent(), activeCategories);
-    }
+//    private void findActiveCategories(List<ArticleCategory> allArticleCategories
+//            , List<ArticleCategory> articleCategories
+//            , Set<ArticleCategory> activeCategories) {
+//
+//        for (ArticleCategory articleCategory : allArticleCategories) {
+//            if (articleCategories.contains(articleCategory)) {
+//                addCategories(activeCategories, articleCategory);
+//            }
+//
+//            if (articleCategory.hasChild()) {
+//                findActiveCategories(articleCategory.getChilds(), articleCategories, activeCategories);
+//            }
+//        }
+//    }
+//
+//    private void addCategories(Set<ArticleCategory> activeCategories, ArticleCategory articleCategory) {
+//        activeCategories.add(articleCategory);
+//        if (articleCategory.getParent() != null)
+//            addCategories(activeCategories, (ArticleCategory) articleCategory.getParent());
+//    }
+//
+//    private void doAddActiveCategory(ArticleCategory category, Set<ArticleCategory> activeCategories) {
+//        if (category == null) {
+//            return;
+//        }
+//        activeCategories.add(category);
+//        doAddActiveCategory((ArticleCategory) category.getParent(), activeCategories);
+//    }
 
 
     @Override
@@ -192,12 +222,57 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
+    public List<ArticleCategory> doNewOrFindByCategoryString(String[] categories) {
+        if (categories == null || categories.length == 0) {
+            return null;
+        }
+
+        List<ArticleCategory> articleCategories = new ArrayList<>();
+        for (String category : categories) {
+            Columns columns = Columns.create("type", ArticleCategory.TYPE_CATEGORY);
+            columns.add(Column.create("slug", category));
+
+            ArticleCategory articleCategory = DAO.findFirstByColumns(columns);
+
+            if (articleCategory == null) {
+                articleCategory = new ArticleCategory();
+                articleCategory.setTitle(category);
+                articleCategory.setSlug(category);
+                articleCategory.setType(ArticleCategory.TYPE_CATEGORY);
+                articleCategory.save();
+            }
+
+            articleCategories.add(articleCategory);
+        }
+
+        return articleCategories;
+    }
+
+    @Override
     public Long[] findCategoryIdsByArticleId(long articleId) {
         List<Record> records = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (records == null || records.isEmpty())
             return null;
 
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
+    }
+
+    @Override
+    public Long[] findCategoryIdsByParentId(long parentId) {
+        List<ArticleCategory> categories = findAll();
+        List<ArticleCategory> findedList = new ArrayList<>();
+        findedList.add(findById(parentId));
+        findChild(parentId, categories, findedList);
+        return ArrayUtils.toObject(findedList.stream().mapToLong(category -> category.getId()).toArray());
+    }
+
+    public void findChild(Long parentId, List<ArticleCategory> from, List<ArticleCategory> to) {
+        for (ArticleCategory category : from) {
+            if (parentId.equals(category.getParentId())) {
+                to.add(category);
+                findChild(category.getId(), from, to);
+            }
+        }
     }
 
 

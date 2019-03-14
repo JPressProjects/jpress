@@ -19,7 +19,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.TemplateException;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.commons.utils.CommonsUtils;
@@ -37,7 +37,7 @@ public class MaxLengthDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String content = getPara(0, scope);
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return;
         }
 

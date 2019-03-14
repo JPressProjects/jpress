@@ -15,7 +15,6 @@
  */
 package io.jpress.module.article.service;
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jpress.module.article.model.ArticleComment;
@@ -48,6 +47,12 @@ public interface ArticleCommentService {
      * @return success
      */
     public boolean deleteById(Object id);
+
+
+    public void deleteCacheById(Object id);
+
+
+
 
 
     /**
@@ -84,7 +89,7 @@ public interface ArticleCommentService {
      * @param model
      * @return
      */
-    public boolean save(ArticleComment model);
+    public Object save(ArticleComment model);
 
 
     /**
@@ -93,7 +98,7 @@ public interface ArticleCommentService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(ArticleComment model);
+    public Object saveOrUpdate(ArticleComment model);
 
 
     /**
@@ -103,35 +108,6 @@ public interface ArticleCommentService {
      * @return
      */
     public boolean update(ArticleComment model);
-
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 
     public Page<ArticleComment> paginate(int page, int pagesieze);
 

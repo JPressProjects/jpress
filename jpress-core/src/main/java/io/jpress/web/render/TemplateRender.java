@@ -19,7 +19,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.render.RenderHelpler;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
@@ -75,7 +75,7 @@ public class TemplateRender extends Render {
         String html = getEngine().getTemplate(view).renderToString(data);
         html = replaceSrcTemplateSrcPath(html);
 
-        RenderHelpler.actionCacheExec(html, contentType);
+//        RenderHelpler.actionCacheExec(html, contentType);
         RenderHelpler.renderHtml(response, html, contentType);
 
     }
@@ -87,7 +87,7 @@ public class TemplateRender extends Render {
 
 
     public String replaceSrcTemplateSrcPath(String content) {
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -110,12 +110,15 @@ public class TemplateRender extends Render {
     private void replace(Elements elements, String attrName) {
         Iterator<Element> iterator = elements.iterator();
         Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null){
+            return;
+        }
         while (iterator.hasNext()) {
 
             Element element = iterator.next();
             String url = element.attr(attrName);
 
-            if (StrUtils.isBlank(url)
+            if (StrUtil.isBlank(url)
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")
                     || (attrName.equals("src") && url.startsWith("data:image/"))

@@ -15,7 +15,7 @@
  */
 package io.jpress.commons.oauth2;
 
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 
 import java.util.UUID;
@@ -27,7 +27,7 @@ public abstract class Oauth2Controller extends JbootController {
     public void index() {
 
         String para = getPara();
-        if (StrUtils.isBlank(para)) {
+        if (StrUtil.isBlank(para)) {
             renderError(404);
             return;
         }

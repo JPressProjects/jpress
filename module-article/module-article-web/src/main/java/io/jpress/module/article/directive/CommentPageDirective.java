@@ -15,14 +15,14 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
-import io.jboot.web.JbootControllerContext;
-import io.jboot.web.JbootRequestContext;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
@@ -30,7 +30,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -50,7 +49,7 @@ public class CommentPageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         int page = controller.getParaToInt(1, 1);
-        int pageSize = getPara("pageSize", scope, 10);
+        int pageSize = getParaToInt("pageSize", scope, 10);
 
         Article article = controller.getAttr("article");
 
@@ -71,9 +70,9 @@ public class CommentPageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber) {
-            HttpServletRequest request = JbootRequestContext.getRequest();
-            String url = Kits.doReplacePageNumber(request.getRequestURI(), pageNumber);
-            return StrUtils.isBlank(getAnchor()) ? url : url + "#" + getAnchor();
+            HttpServletRequest request = JbootControllerContext.get().getRequest();
+            String url = DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
+            return StrUtil.isBlank(getAnchor()) ? url : url + "#" + getAnchor();
         }
 
         @Override

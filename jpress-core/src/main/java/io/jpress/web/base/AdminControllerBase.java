@@ -19,7 +19,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.web.interceptor.AdminInterceptor;
 import io.jpress.web.interceptor.CSRFInterceptor;
 import io.jpress.web.interceptor.PermissionInterceptor;
@@ -38,15 +38,15 @@ import io.jpress.web.interceptor.UserInterceptor;
 })
 public abstract class AdminControllerBase extends ControllerBase {
 
-    @Override
-    @NotAction
-    public void render(String view) {
-        if (view.startsWith("/")) {
-            super.render(view);
-        } else {
-            super.render("/WEB-INF/views/admin/" + view);
-        }
-    }
+//    @Override
+//    @NotAction
+//    public void render(String view) {
+//        if (view.startsWith("/")) {
+//            super.render(view);
+//        } else {
+//            super.render("/WEB-INF/views/admin/" + view);
+//        }
+//    }
 
     @NotAction
     public void render(Ret ret) {
@@ -66,7 +66,7 @@ public abstract class AdminControllerBase extends ControllerBase {
 
     protected boolean validateSlug(Model model) {
         String slug = (String) model.get("slug");
-        return slug == null ? true : !slug.contains("-") && !StrUtils.isNumeric(slug);
+        return slug == null ? true : !slug.contains("-") && !StrUtil.isNumeric(slug);
     }
 
 

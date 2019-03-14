@@ -17,7 +17,7 @@ package io.jpress.web.commons.controller;
 
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.commons.sms.SmsKit;
@@ -38,12 +38,12 @@ public class SendSmsCodeController extends Controller {
         }
 
         String phone = getPara("phone");
-        if (StrUtils.isBlank(phone)) {
+        if (StrUtil.isBlank(phone)) {
             renderJson(Ret.fail().set("message", "手机号不能为空..."));
             return;
         }
 
-        if (StrUtils.isMobileNumber(phone) == false) {
+        if (StrUtil.isMobileNumber(phone) == false) {
             renderJson(Ret.fail().set("message", "你输入的手机号码不正确"));
             return;
         }

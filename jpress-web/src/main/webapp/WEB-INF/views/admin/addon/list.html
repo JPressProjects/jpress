@@ -1,0 +1,125 @@
+#@layout()
+
+#define script()
+<script>
+
+
+    $(".addon-del").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doDel?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-unisntall").on("click", function () {
+        if (confirm('确定要卸载该插件吗？卸载后该插件的所有数据将被删除，不可恢复。')) {
+            ajaxGet("#(CPATH)/admin/addon/doUninstall?id=" + $(this).attr("data-id"))
+        }
+    })
+
+    $(".addon-install").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doInstall?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-start").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doStart?id=" + $(this).attr("data-id"))
+    })
+
+    $(".addon-stop").on("click", function () {
+        ajaxGet("#(CPATH)/admin/addon/doStop?id=" + $(this).attr("data-id"))
+    })
+
+
+</script>
+
+#end
+
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            插件列表
+            <small>Addons List</small>
+        </h1>
+    </section>
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 250px">名称</th>
+                                <th>描述</th>
+                                <th style="width: 100px">作者</th>
+                                <th style="width: 100px">版本</th>
+                            </tr>
+
+                            #for(addon : addons)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <strong>
+                                        <a href="#">#(addon.title ??)</a>
+                                        #if(!addon.isInstall()) （未安装）
+                                        #elseif(!addon.isStart()) (未启用)
+                                        #end
+                                    </strong>
+
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            #if(addon.isInstall())
+                                            #if(addon.isStart())
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-stop">停用</a> |
+                                            #else
+                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
+                                               class="addon-start">启用</a> |
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-unisntall">卸载</a> |
+                                            <a href="#(CPATH)/admin/addon/upgrade?id=#(addon.id)" style="color: #a00"
+                                               class="addon-upgrade">升级</a> |
+                                            #end
+                                            #else
+                                            <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
+                                               class="addon-del">删除</a> |
+                                            <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
+                                               class="addon-install">安装</a> |
+                                            #end
+                                            <a href="javascript:;" style="color: #006505">查看</a>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>#(addon.description ??)</td>
+                                <td>#(addon.author ??)</td>
+                                <td>#(addon.version ??)（#(addon.versionCode ?? 1)）</td>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
@@ -24,7 +25,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -46,11 +46,11 @@ public class RelevantArticlesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
         Article article = getPara(0, scope);
         if (article == null) {
-            throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty");
+            throw new IllegalArgumentException("#relevantArticles(...) argument must not be null or empty." + getLocation());
         }
 
         //默认值 3
-        int count = getPara(1, scope, 3);
+        int count = getParaToInt(1, scope, 3);
 
         List<Article> relevantArticles = service.findRelevantListByArticleId(article.getId(), Article.STATUS_NORMAL, count);
 

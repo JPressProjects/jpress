@@ -15,8 +15,6 @@
  */
 package io.jpress;
 
-import com.jfinal.plugin.activerecord.Model;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -25,7 +23,7 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v1.0.5";
+    public static final String VERSION = "v2.0-rc.5";
 
     /**
      * 后台系统菜单的 ID
@@ -33,6 +31,7 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_USER = "user";
     public static final String SYSTEM_MENU_ATTACHMENT = "attachment";
     public static final String SYSTEM_MENU_TEMPLATE = "template";
+    public static final String SYSTEM_MENU_ADDON = "addon";
     public static final String SYSTEM_MENU_SYSTEM = "system";
     //    public static final String SYSTEM_MENU_APPEARANCE = "appearance";
 //    public static final String SYSTEM_MENU_STATISTICS = "statistics";
@@ -125,17 +124,5 @@ public class JPressConsts {
     public static final String JWT_USERID = "userId";
 
 
-    /**
-     * 用于标识当前 是否选中
-     */
-    public static final String IS_ACTIVE = "isActive";
-
-    /**
-     * 标识当前对象（一般情况下是分类、菜单等）
-     *
-     * @param model
-     */
-    public static void doFlagModelActive(Model model) {
-        model.put(IS_ACTIVE, true);
-    }
+    public static final String DEFAULT_ADMIN_VIEW = "/WEB-INF/views/admin/";
 }

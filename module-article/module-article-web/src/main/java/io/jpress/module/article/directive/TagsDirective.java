@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
@@ -23,7 +24,6 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -43,7 +43,7 @@ public class TagsDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getPara("count", scope, 10);
+        int count = getParaToInt("count", scope, 10);
 
         List<ArticleCategory> categories = categoryService.findTagList(orderBy, count);
         if (categories == null || categories.isEmpty()) {

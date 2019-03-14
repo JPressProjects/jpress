@@ -18,9 +18,9 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.RequestUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -71,13 +71,13 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
         }
 
 
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConsts.COOKIE_UID);
-        if (StrUtils.isNotBlank(uid)) {
+        String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+        if (StrUtil.isNotBlank(uid)) {
             inv.invoke();
             return;
         }
 
-        if (RequestUtils.isWechatBrowser(inv.getController().getRequest()) == false) {
+        if (RequestUtil.isWechatBrowser(inv.getController().getRequest()) == false) {
             inv.invoke();
             return;
         }
@@ -101,10 +101,10 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
 
         // 被拦截前的请求URL
         String url = req.getScheme() + "://" + req.getServerName() + req.getRequestURI();
-        if (StrUtils.isNotBlank(queryString)) {
+        if (StrUtil.isNotBlank(queryString)) {
             url = url.concat("?").concat(queryString);
         }
 
-        return StrUtils.urlEncode(url);
+        return StrUtil.urlEncode(url);
     }
 }

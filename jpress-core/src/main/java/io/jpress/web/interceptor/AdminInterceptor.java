@@ -15,17 +15,20 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import io.jboot.utils.EncryptCookieUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.CookieUtil;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressApplicationConfig;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.menu.SystemMenuManager;
+import io.jpress.core.menu.MenuManager;
 import io.jpress.model.User;
+import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
+import io.jpress.web.handler.JPressHandler;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -38,26 +41,47 @@ public class AdminInterceptor implements Interceptor {
 
 
     @Inject
-    private UserService us;
+    private UserService userService;
+
+    @Inject
+    private RoleService roleService;
+
+    @Inject
+    private JPressApplicationConfig config;
 
 
     public void intercept(Invocation inv) {
 
-
-        String uid = EncryptCookieUtils.get(inv.getController(), JPressConsts.COOKIE_UID);
-        if (StrUtils.isBlank(uid)) {
-            inv.getController().redirect("/admin/login");
+        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginPage())) {
+            inv.getController().forwardAction("/admin/login");
             return;
         }
 
-        User user = us.findById(uid);
+        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginAction())) {
+            inv.getController().forwardAction("/admin/doLogin");
+            return;
+        }
+
+        String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+        if (StrUtil.isBlank(uid)) {
+            inv.getController().renderError(404);
+            return;
+        }
+
+        User user = userService.findById(uid);
         if (user == null || !user.isStatusOk()) {
-            inv.getController().redirect("/admin/login");
+            inv.getController().renderError(404);
             return;
         }
 
-        List<MenuGroup> systemMenuGroups = SystemMenuManager.me().getSystemMenus();
-        List<MenuGroup> moduleMenuGroups = SystemMenuManager.me().getModuleMenus();
+        //不允许没有任何权限的用户访问后台
+        if (!roleService.hasAnyRole(user.getId())) {
+            inv.getController().renderError(404);
+            return;
+        }
+
+        List<MenuGroup> systemMenuGroups = MenuManager.me().getSystemMenus();
+        List<MenuGroup> moduleMenuGroups = MenuManager.me().getModuleMenus();
 
         inv.getController().setAttr("systemMenuGroups", systemMenuGroups);
         inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);
@@ -66,5 +90,6 @@ public class AdminInterceptor implements Interceptor {
 
         inv.invoke();
     }
+
 
 }

@@ -16,13 +16,13 @@
 package io.jpress.service;
 
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends JbootServiceJoiner{
 
     /**
      * find model by primary key
@@ -67,7 +67,7 @@ public interface UserService {
      * @param model
      * @return
      */
-    public boolean save(User model);
+    public Object save(User model);
 
 
     /**
@@ -76,7 +76,7 @@ public interface UserService {
      * @param model
      * @return if save or update success
      */
-    public boolean saveOrUpdate(User model);
+    public Object saveOrUpdate(User model);
 
 
     /**
@@ -87,40 +87,9 @@ public interface UserService {
      */
     public boolean update(User model);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
-
     public Page<User> _paginate(int page, int pagesize, String username, String email, String status);
 
-    public Ret loginByUsername(String username, String pwd);
-
-    public Ret loginByEmail(String email, String pwd);
+    public User findByUsernameOrEmail(String usernameOrEmail);
 
     public Ret doValidateUserPwd(User user, String pwd);
 

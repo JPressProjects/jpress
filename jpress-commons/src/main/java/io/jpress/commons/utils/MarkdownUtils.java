@@ -15,7 +15,7 @@
  */
 package io.jpress.commons.utils;
 
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import org.commonmark.Extension;
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
@@ -73,7 +73,7 @@ public class MarkdownUtils {
      * @return html文本
      */
     public static String toHtml(String markdown) {
-        if (StrUtils.isBlank(markdown)) return markdown;
+        if (StrUtil.isBlank(markdown)) return markdown;
         Node document = PARSER.parse(markdown);
         return RENDERER.render(document);
     }

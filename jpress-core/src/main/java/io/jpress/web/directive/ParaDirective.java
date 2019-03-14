@@ -15,17 +15,17 @@
  */
 package io.jpress.web.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
-import io.jboot.web.JbootControllerContext;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.service.RoleService;
 
-import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -48,13 +48,13 @@ public class ParaDirective extends JbootDirectiveBase {
         String key = getPara(0, scope);
         String defaultValue = getPara(1, scope);
 
-        if (StrUtils.isBlank(key)) {
+        if (StrUtil.isBlank(key)) {
             throw new IllegalArgumentException("#para(...) argument must not be empty");
         }
 
         String value = controller.getPara(key);
-        if (StrUtils.isBlank(value)) {
-            value = StrUtils.isNotBlank(defaultValue) ? defaultValue : "";
+        if (StrUtil.isBlank(value)) {
+            value = StrUtil.isNotBlank(defaultValue) ? defaultValue : "";
         }
 
 

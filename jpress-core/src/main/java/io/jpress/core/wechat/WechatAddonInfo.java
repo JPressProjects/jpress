@@ -15,7 +15,8 @@
  */
 package io.jpress.core.wechat;
 
-import io.jboot.utils.ClassKits;
+
+import io.jboot.utils.ClassUtil;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -30,7 +31,6 @@ public class WechatAddonInfo {
     private String author;
     private String authorWebsite;
     private String version;
-    private String updateUrl;
     private String addonClazz;
 
     private int versionCode;
@@ -90,14 +90,6 @@ public class WechatAddonInfo {
         this.version = version;
     }
 
-    public String getUpdateUrl() {
-        return updateUrl;
-    }
-
-    public void setUpdateUrl(String updateUrl) {
-        this.updateUrl = updateUrl;
-    }
-
     public String getAddonClazz() {
         return addonClazz;
     }
@@ -118,7 +110,7 @@ public class WechatAddonInfo {
 
     public WechatAddon getAddon() {
         if (addon == null) {
-            addon = ClassKits.newInstance(addonClazz);
+            addon = ClassUtil.newInstance(addonClazz);
         }
         return addon;
     }
@@ -138,6 +130,6 @@ public class WechatAddonInfo {
     }
 
     public boolean isEnable() {
-        return WechatAddonManager.me().isEnable(this);
+        return WechatAddonManager.me().isEnable(getId());
     }
 }

@@ -15,10 +15,11 @@
  */
 package io.jpress.web.commons.controller;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
@@ -27,7 +28,6 @@ import io.jpress.model.Attachment;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,12 +60,19 @@ public class CKEditorController extends UserControllerBase {
         }
 
 
+        File file = uploadFile.getFile();
+        if (AttachmentUtils.isUnSafe(file)){
+            file.delete();
+            renderJson(Ret.create("error", Ret.create("message", "不支持此类文件上传")));
+            return;
+        }
+
+
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
         Integer maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
         Integer maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
-        File file = uploadFile.getFile();
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
         if (fileSize > maxSize * 1024) {
             file.delete();
@@ -81,7 +88,7 @@ public class CKEditorController extends UserControllerBase {
         attachment.setUserId(getLoginedUser().getId());
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
-        attachment.setSuffix(FileUtils.getSuffix(uploadFile.getFileName()));
+        attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(mineType);
 
         if (attachment.save()) {

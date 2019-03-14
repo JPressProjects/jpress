@@ -1,4 +1,8 @@
-*/target/
+**/target/
+*/jpress-addon-club/
+*/jpress-addon-articlemeta/
+*/jpress-addon-spider/
+starter-dev/
 .idea
 *.iml
 .project
@@ -15,4 +19,6 @@ logs
 *.patch
 ~$*
 */*.jar
-pom.properties
+**/NewJPress/
+**/BewTo/
+

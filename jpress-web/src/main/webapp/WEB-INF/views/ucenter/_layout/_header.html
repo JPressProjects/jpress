@@ -1,0 +1,29 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a href="#(CPATH)/" target="_blank" class="logo">
+        <span class="logo-mini"><b>JPr</b></span>
+        <span class="logo-lg"><b>#option('web_name','JPress')</b></span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">切换</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#">
+                        <img src="#(USER.avatar ??)" class="user-image">
+                        <span class="hidden-xs">您好 #(user.nickname ??) , 欢迎回来</span>
+                    </a>
+                </li>
+
+                <li style="border-left: 1px solid #ccc;">
+                    <a href="#(CPATH)/ucenter/doLogout?csrf_token=#(CSRF_TOKEN)">
+                        <i class="fa fa-fw fa-circle-o-notch"></i>退出
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

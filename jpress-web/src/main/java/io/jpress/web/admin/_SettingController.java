@@ -31,7 +31,7 @@ import java.util.List;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/setting")
+@RequestMapping(value = "/admin/setting", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _SettingController extends AdminControllerBase {
 
 

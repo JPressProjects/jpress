@@ -17,7 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -63,7 +63,7 @@ public class Template {
 
 
         String vcode = prop.get("versionCode");
-        this.versionCode = StrUtils.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
+        this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
         this.screenshot = getWebAbsolutePath() + "/screenshot.png";
 
         String[] files = propertiesFile

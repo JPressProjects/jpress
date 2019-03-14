@@ -19,8 +19,8 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.TextRender;
-import io.jboot.utils.RequestUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.RequestUtil;
+import io.jboot.utils.StrUtil;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -32,7 +32,8 @@ import io.jboot.utils.StrUtils;
  */
 public class CSRFInterceptor implements Interceptor {
 
-    private static final String CSRF_KEY = "csrf_token";
+    public static final String CSRF_ATTR_KEY = "CSRF_TOKEN";
+    public static final String CSRF_KEY = "csrf_token";
 
 
     public void intercept(Invocation inv) {
@@ -47,18 +48,14 @@ public class CSRFInterceptor implements Interceptor {
         //从cookie中读取token，因为 第三方网站 无法修改 和 获得 cookie
         //所以从cookie获取存储的token是安全的
         String cookieToken = inv.getController().getCookie(CSRF_KEY);
-        if (StrUtils.isBlank(cookieToken)) {
+        if (StrUtil.isBlank(cookieToken)) {
             renderBad(inv);
             return;
         }
 
-        if (RequestUtils.isMultipartRequest(inv.getController().getRequest())) {
-            inv.getController().getFile();
-        }
-
         //url参数里的csrf_token
         String paraToken = inv.getController().getPara(CSRF_KEY);
-        if (StrUtils.isBlank(paraToken)) {
+        if (StrUtil.isBlank(paraToken)) {
             renderBad(inv);
             return;
         }
@@ -73,14 +70,12 @@ public class CSRFInterceptor implements Interceptor {
 
 
     private void renderNormal(Invocation inv) {
-
-
         // 不是 ajax 请求，才需要重置本地 的token
         // ajax 请求，需要保证之前的token可以继续使用
-        if (RequestUtils.isAjaxRequest(inv.getController().getRequest()) == false) {
-            String uuid = StrUtils.uuid();
+        if (RequestUtil.isAjaxRequest(inv.getController().getRequest()) == false) {
+            String uuid = StrUtil.uuid();
             inv.getController().setCookie(CSRF_KEY, uuid, -1);
-            inv.getController().setAttr(CSRF_KEY, uuid);
+            inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
         }
 
         inv.invoke();
@@ -88,7 +83,7 @@ public class CSRFInterceptor implements Interceptor {
 
 
     private void renderBad(Invocation inv) {
-        if (RequestUtils.isAjaxRequest(inv.getController().getRequest())) {
+        if (RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
             inv.getController().renderJson(Ret.fail().set("message", "bad or mission token!"));
         } else {
             inv.getController().renderError(403, new TextRender("bad or missing token!"));

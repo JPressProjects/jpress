@@ -26,7 +26,7 @@ public class InstallHandler extends Handler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-        if (JPressInstaller.isInstalled()) {
+        if (Installer.isInstalled()) {
             next.handle(target, request, response, isHandled);
             return;
         }

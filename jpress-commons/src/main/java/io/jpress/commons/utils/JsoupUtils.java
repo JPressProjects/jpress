@@ -108,7 +108,6 @@ public class JsoupUtils {
         return Jsoup.parse(html).text();
     }
 
-
     public static void clean(Model model, String... attrs) {
         if (attrs != null && attrs.length == 0) return;
 

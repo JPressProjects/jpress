@@ -26,6 +26,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.render.RenderManager;
+import com.jfinal.template.Directive;
 import com.jfinal.template.expr.ast.FieldKit;
 import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
@@ -36,7 +37,6 @@ import io.jboot.db.model.JbootModel;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
-import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
@@ -345,9 +345,9 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void addDirectives(AddonInfo addonInfo) {
-        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        List<Class<? extends Directive>> directives = addonInfo.getDirectives();
         if (directives != null) {
-            for (Class<? extends JbootDirectiveBase> c : directives) {
+            for (Class<? extends Directive> c : directives) {
                 JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
                 RenderManager.me().getEngine().addDirective(AnnotationUtil.get(ann.value()), c);
             }
@@ -506,9 +506,9 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void deleteDirectives(AddonInfo addonInfo) {
-        List<Class<? extends JbootDirectiveBase>> directives = addonInfo.getDirectives();
+        List<Class<? extends Directive>> directives = addonInfo.getDirectives();
         if (directives != null) {
-            for (Class<? extends JbootDirectiveBase> c : directives) {
+            for (Class<? extends Directive> c : directives) {
                 JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
                 RenderManager.me().getEngine().removeDirective(AnnotationUtil.get(ann.value()));
             }

@@ -32,7 +32,7 @@ import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplyService;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -150,7 +150,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
 
     protected WechatAddonInfo doMathingAddon() {
-        List<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
+        Collection<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
         if (enableAddons == null || enableAddons.isEmpty()) {
             return null;
         }

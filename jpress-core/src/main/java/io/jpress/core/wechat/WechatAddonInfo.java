@@ -31,7 +31,6 @@ public class WechatAddonInfo {
     private String author;
     private String authorWebsite;
     private String version;
-    private String updateUrl;
     private String addonClazz;
 
     private int versionCode;
@@ -91,14 +90,6 @@ public class WechatAddonInfo {
         this.version = version;
     }
 
-    public String getUpdateUrl() {
-        return updateUrl;
-    }
-
-    public void setUpdateUrl(String updateUrl) {
-        this.updateUrl = updateUrl;
-    }
-
     public String getAddonClazz() {
         return addonClazz;
     }
@@ -139,6 +130,6 @@ public class WechatAddonInfo {
     }
 
     public boolean isEnable() {
-        return WechatAddonManager.me().isEnable(this);
+        return WechatAddonManager.me().isEnable(getId());
     }
 }

@@ -41,6 +41,10 @@ import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
 import io.jpress.core.install.Installer;
+import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonConfig;
+import io.jpress.core.wechat.WechatAddonInfo;
+import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.service.OptionService;
 import org.apache.commons.io.FileUtils;
 
@@ -288,6 +292,9 @@ public class AddonManager implements JbootEventListener {
         //添加插件的拦截器
         addInterceptors(addonInfo);
 
+        //添加微信消息插件
+        addWechatAddons(addonInfo);
+
         //启动插件的数据库连接插件
         startActiveRecordPlugin(addonInfo);
 
@@ -301,6 +308,8 @@ public class AddonManager implements JbootEventListener {
         setAddonStatus(addonInfo);
 
     }
+
+
 
     private void setAddonStatus(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_START);
@@ -333,6 +342,17 @@ public class AddonManager implements JbootEventListener {
 
             addonInfo.setArp(arp);
             arp.start();
+        }
+    }
+
+    private void addWechatAddons(AddonInfo addonInfo) {
+        List<Class<? extends WechatAddon>> wechatAddons = addonInfo.getWechatAddons();
+        if (wechatAddons != null) {
+            for (Class<? extends WechatAddon> c : wechatAddons) {
+                WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
+                WechatAddonInfo wechatAddon = WechatAddonManager.me().createWechatAddon(config,c);
+                WechatAddonManager.me().addWechatAddon(wechatAddon);
+            }
         }
     }
 
@@ -406,6 +426,13 @@ public class AddonManager implements JbootEventListener {
             LOG.error(ex.toString(), ex);
         }
 
+        //移除所有的微信插件
+        try {
+            deleteWechatAddons(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
         //停止插件的数据库访问
         try {
             stopActiveRecordPlugin(addonInfo);
@@ -419,6 +446,7 @@ public class AddonManager implements JbootEventListener {
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
+
 
         //调用插件的 stop() 方法
         try {
@@ -493,6 +521,16 @@ public class AddonManager implements JbootEventListener {
                     // PS：每次新安装的插件，都是一个新的 Classloader
                     Jboot.getCache().removeAll(table.getName());
                 });
+            }
+        }
+    }
+
+    private void deleteWechatAddons(AddonInfo addonInfo) {
+        List<Class<? extends WechatAddon>> wechatAddons = addonInfo.getWechatAddons();
+        if (wechatAddons != null) {
+            for (Class<? extends WechatAddon> c : wechatAddons) {
+                WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
+                WechatAddonManager.me().deleteWechatAddon(AnnotationUtil.get(config.id()));
             }
         }
     }

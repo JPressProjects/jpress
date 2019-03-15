@@ -25,6 +25,8 @@ import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
+import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonConfig;
 
 import java.io.File;
 import java.io.Serializable;
@@ -53,6 +55,7 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends Handler>> handlers;
     private List<Class<? extends JbootModel>> models;
     private List<Class<? extends Directive>> directives;
+    private List<Class<? extends WechatAddon>> wechatAddons;
     private ActiveRecordPlugin arp;
     private Map<String, String> config;
 
@@ -260,6 +263,26 @@ public class AddonInfo implements Serializable {
 
     public void setDirectives(List<Class<? extends Directive>> directives) {
         this.directives = directives;
+    }
+
+    public void addWechatAddon(Class<? extends WechatAddon> clazz) {
+        WechatAddonConfig directive = clazz.getAnnotation(WechatAddonConfig.class);
+        if (directive == null) {
+            return;
+        }
+        if (wechatAddons == null) {
+            wechatAddons = new ArrayList<>();
+        }
+        wechatAddons.add(clazz);
+    }
+
+
+    public List<Class<? extends WechatAddon>> getWechatAddons() {
+        return wechatAddons;
+    }
+
+    public void setWechatAddons(List<Class<? extends WechatAddon>> wechatAddons) {
+        this.wechatAddons = wechatAddons;
     }
 
     public ActiveRecordPlugin getArp() {

@@ -18,6 +18,7 @@ package io.jpress.core.wechat;
 import com.jfinal.aop.Aop;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
+import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.ClassScanner;
 import io.jpress.JPressOptions;
 import io.jpress.core.install.Installer;
@@ -101,16 +102,16 @@ public class WechatAddonManager implements JbootEventListener {
         }
     }
 
-    public WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
+    public WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<? extends WechatAddon> addonClass) {
 
         WechatAddonInfo wechatAddon = new WechatAddonInfo();
-        wechatAddon.setId(config.id());
-        wechatAddon.setAuthor(config.author());
-        wechatAddon.setAuthorWebsite(config.authorWebsite());
-        wechatAddon.setDescription(config.description());
+        wechatAddon.setId(AnnotationUtil.get(config.id()));
+        wechatAddon.setAuthor(AnnotationUtil.get(config.author()));
+        wechatAddon.setAuthorWebsite(AnnotationUtil.get(config.authorWebsite()));
+        wechatAddon.setDescription(AnnotationUtil.get(config.description()));
         wechatAddon.setAddonClazz(addonClass.getCanonicalName());
-        wechatAddon.setTitle(config.title());
-        wechatAddon.setVersion(config.version());
+        wechatAddon.setTitle(AnnotationUtil.get(config.title()));
+        wechatAddon.setVersion(AnnotationUtil.get(config.version()));
         wechatAddon.setVersionCode(config.versionCode());
 
         Aop.inject(wechatAddon);
@@ -120,6 +121,11 @@ public class WechatAddonManager implements JbootEventListener {
 
     public void addWechatAddon(WechatAddonInfo wechatAddon) {
         allWechatAddons.put(wechatAddon.getId(), wechatAddon);
+    }
+
+    public void deleteWechatAddon(String id){
+        allWechatAddons.remove(id);
+        enableWechatAddons.remove(id);
     }
 
     public List<WechatAddonInfo> getWechatAddons() {

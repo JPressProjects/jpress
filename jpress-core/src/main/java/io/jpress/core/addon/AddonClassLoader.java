@@ -28,6 +28,7 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
+import io.jpress.core.wechat.WechatAddon;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -100,6 +101,10 @@ public class AddonClassLoader extends URLClassLoader {
                 }
                 // directives
                 else if (Directive.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addDirective(loadedClass);
+                }
+                // wechatAddons
+                else if (WechatAddon.class.isAssignableFrom(loadedClass)) {
                     addonInfo.addDirective(loadedClass);
                 }
                 // addonClass

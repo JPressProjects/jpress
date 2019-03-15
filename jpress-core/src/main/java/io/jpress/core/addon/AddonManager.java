@@ -350,7 +350,7 @@ public class AddonManager implements JbootEventListener {
         if (wechatAddons != null) {
             for (Class<? extends WechatAddon> c : wechatAddons) {
                 WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
-                WechatAddonInfo wechatAddon = WechatAddonManager.me().createWechatAddon(config,c);
+                WechatAddonInfo wechatAddon = new WechatAddonInfo(config,c);
                 WechatAddonManager.me().addWechatAddon(wechatAddon);
             }
         }

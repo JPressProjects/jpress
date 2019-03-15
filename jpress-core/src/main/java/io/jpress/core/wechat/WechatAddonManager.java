@@ -85,7 +85,7 @@ public class WechatAddonManager implements JbootEventListener {
                 continue;
             }
 
-            WechatAddonInfo addon = createWechatAddon(wechatAddonConfig, addonClass);
+            WechatAddonInfo addon = new WechatAddonInfo(wechatAddonConfig, addonClass);
             addWechatAddon(addon);
         }
 
@@ -101,25 +101,14 @@ public class WechatAddonManager implements JbootEventListener {
         }
     }
 
-    public WechatAddonInfo createWechatAddon(WechatAddonConfig config, Class<WechatAddon> addonClass) {
-
-        WechatAddonInfo wechatAddon = new WechatAddonInfo();
-        wechatAddon.setId(config.id());
-        wechatAddon.setAuthor(config.author());
-        wechatAddon.setAuthorWebsite(config.authorWebsite());
-        wechatAddon.setDescription(config.description());
-        wechatAddon.setAddonClazz(addonClass.getCanonicalName());
-        wechatAddon.setTitle(config.title());
-        wechatAddon.setVersion(config.version());
-        wechatAddon.setVersionCode(config.versionCode());
-
-        Aop.inject(wechatAddon);
-        return wechatAddon;
-    }
-
 
     public void addWechatAddon(WechatAddonInfo wechatAddon) {
         allWechatAddons.put(wechatAddon.getId(), wechatAddon);
+    }
+
+    public void deleteWechatAddon(String id){
+        allWechatAddons.remove(id);
+        enableWechatAddons.remove(id);
     }
 
     public List<WechatAddonInfo> getWechatAddons() {

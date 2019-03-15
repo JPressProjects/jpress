@@ -16,14 +16,17 @@
 package io.jpress.core.wechat;
 
 
+import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.ClassUtil;
+
+import java.io.Serializable;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddonInfo {
+public class WechatAddonInfo implements Serializable {
 
     private String id;
     private String title;
@@ -36,6 +39,17 @@ public class WechatAddonInfo {
     private int versionCode;
 
     public WechatAddonInfo() {
+    }
+
+    public WechatAddonInfo(WechatAddonConfig config, Class<? extends WechatAddon> addonClass) {
+        this.id = AnnotationUtil.get(config.id());
+        this.author = AnnotationUtil.get(config.author());
+        this.authorWebsite = AnnotationUtil.get(config.authorWebsite());
+        this.description = AnnotationUtil.get(config.description());
+        this.addonClazz = addonClass.getCanonicalName();
+        this.title = AnnotationUtil.get(config.title());
+        this.version = AnnotationUtil.get(config.version());
+        this.versionCode = config.versionCode();
     }
 
     public WechatAddonInfo(String id) {
@@ -110,23 +124,13 @@ public class WechatAddonInfo {
 
     public WechatAddon getAddon() {
         if (addon == null) {
-            addon = ClassUtil.newInstance(addonClazz);
+            synchronized (this) {
+                if (addon == null) {
+                    addon = ClassUtil.newInstance(addonClazz);
+                }
+            }
         }
         return addon;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof WechatAddonInfo)) {
-            return false;
-        }
-
-        WechatAddonInfo addon = (WechatAddonInfo) obj;
-        if (addon == null || addon.getId() == null) {
-            return false;
-        }
-
-        return addon.getId().equals(getId());
     }
 
     public boolean isEnable() {

@@ -19,12 +19,14 @@ package io.jpress.core.wechat;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.ClassUtil;
 
+import java.io.Serializable;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.core.wechat
  */
-public class WechatAddonInfo {
+public class WechatAddonInfo implements Serializable {
 
     private String id;
     private String title;

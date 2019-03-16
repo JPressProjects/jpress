@@ -48,7 +48,7 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
     @Override
     public Object save(Attachment model) {
         tryToProcessWatermark(model);
-        return super.save(model) ;
+        return super.save(model);
     }
 
 
@@ -69,6 +69,11 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
         }
 
         String waterImage = JPressOptions.get("attachment_watermark_img");
+        if (StrUtil.isBlank(waterImage)) {
+            LOG.warn("水印功能已经启用，但是水印图片未配置。");
+            return;
+        }
+
         File waterImageFile = new File(PathKit.getWebRootPath(), waterImage);
         if (!waterImageFile.exists()) {
             LOG.warn("水印功能已经启用，但是水印图片不存在。");
@@ -81,7 +86,6 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
         //透明度
         float alpha = JPressOptions.getAsFloat("attachment_watermark_transparency", 0.2f);
 
-
         try {
             ImageUtils.pressImage(waterImageFile.getAbsolutePath(),
                     PathKit.getWebRootPath() + model.getPath(),
@@ -89,7 +93,8 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
                     waterMarkPosition,
                     alpha);
         } catch (Exception ex) {
-            LOG.warn("水印处理失败：" + model.getPath());
+            LOG.error("水印处理失败：" + model.getPath());
+            LOG.error(ex.toString(), ex);
         }
     }
 }

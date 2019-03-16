@@ -12,7 +12,6 @@ goto error
 
 :error
 echo ./jpress.bat {start stop restart}
-exit
 goto :eof
 
 
@@ -34,7 +33,7 @@ goto :eof
 :stop
 set "PATH=%JAVA_HOME%\bin;%PATH%"
 echo killing jpress application
-for /f "tokens=1" %%i in ('jps -l ^| find %MAIN_CLASS%') do ( taskkill /F /PID %%i )
+for /f "tokens=1" %%i in ('jps -l ^| find "%MAIN_CLASS%"') do ( taskkill /F /PID %%i )
 echo Done!
 goto :eof
 
@@ -46,6 +45,3 @@ goto :eof
 
 endlocal & popd
 pause
-
-
-

@@ -1,3 +1,14 @@
+jpress v2.0-rc.6:
+新增：新增插件升级功能，升级的时候不会调用插件的 onInstall 和 onUninstall
+新增：文章和页面编写功能，支持 Ctrl + s（mac下的command+s）保存功能，感谢 [@ZJWave](https://gitee.com/zjwave)
+新增：可以通过 JPress 插件的方式自动发现 微信运营插件 的功能
+新增：jpress.bat ，通过 jpress.bat {start stop restart} 可以对 jpress 进行启动和重启等功能
+优化：修改后台的文章列表不走 order_number 默认排序，否则新发布的文章需要翻页到后面才能看到的问题
+修复：当文章插入有html代码块的时候，模板通过 text 属性获取的内容可能导致模板标签错乱的问题
+修复：当启动附件的图片水印功能，但是没有设置水印图片的，在上传图片时会出现空指针异常的问题
+
+
+
 jpress v2.0-rc.5:
 新增：代码生成器新增直接生成后台html代码的功能，感谢 [@java中国](https://gitee.com/eam)
 新增：共享方法 option() ，新增默认参数的指定功能

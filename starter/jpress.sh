@@ -9,7 +9,7 @@
 # ----------------------------------------------------------------------
 
 # 启动入口类，该脚本文件用于别的项目时要改这里
-MAIN_CLASS=io.jboot.app.JbootApplication
+MAIN_CLASS=io.jpress.Starter
 COMMAND="$1"
 
 if [[ "$COMMAND" != "start" ]] && [[ "$COMMAND" != "stop" ]] && [[ "$COMMAND" != "restart" ]]; then

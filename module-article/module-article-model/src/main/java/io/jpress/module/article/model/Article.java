@@ -90,7 +90,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getText() {
-        return JsoupUtils.getText(getContent());
+        return CommonsUtils.escapeHtml(JsoupUtils.getText(getContent()));
     }
 
     @Override

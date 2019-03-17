@@ -122,6 +122,7 @@ public class _ArticleController extends AdminControllerBase {
             flagCheck(categories, categoryIds);
         }
 
+
         String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
         setAttr("editMode", JPressConsts.EDIT_MODE_MARKDOWN.equals(editMode)
                 ? JPressConsts.EDIT_MODE_MARKDOWN
@@ -136,12 +137,12 @@ public class _ArticleController extends AdminControllerBase {
             @Form(name = "id", message = "文章ID不能为空"),
             @Form(name = "mode", message = "文章编辑模式不能为空")
     })
-    public void doChangeEditMode(){
+    public void doChangeEditMode() {
         Long id = getParaToLong("id");
         String mode = getPara("mode");
 
         Article article = articleService.findById(id);
-        if (article == null){
+        if (article == null) {
             renderFailJson();
             return;
         }
@@ -153,13 +154,12 @@ public class _ArticleController extends AdminControllerBase {
 
     private void initStylesAttr(String prefix) {
         Template template = TemplateManager.me().getCurrentTemplate();
-        if (template == null){
+        if (template == null) {
             return;
         }
+        setAttr("flags", template.getFlags());
         List<String> styles = template.getSupportStyles(prefix);
-        if (styles != null && !styles.isEmpty()) {
-            setAttr("styles", styles);
-        }
+        setAttr("styles", styles);
     }
 
     private void flagCheck(List<ArticleCategory> categories, Long... checkIds) {
@@ -203,8 +203,8 @@ public class _ArticleController extends AdminControllerBase {
         long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);
 
-        setAttr("articleId",id);
-        setAttr("article",article);
+        setAttr("articleId", id);
+        setAttr("article", article);
 
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
@@ -306,7 +306,7 @@ public class _ArticleController extends AdminControllerBase {
         Object id = categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
 
-        List<Menu> menus = menuService.findListByRelatives("article_category",id);
+        List<Menu> menus = menuService.findListByRelatives("article_category", id);
         if (menus != null) {
             for (Menu menu : menus) {
                 menu.setUrl(category.getUrl());

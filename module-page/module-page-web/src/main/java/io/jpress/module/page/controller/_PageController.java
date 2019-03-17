@@ -18,7 +18,6 @@ package io.jpress.module.page.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -80,9 +79,8 @@ public class _PageController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template != null) {
             List<String> styles = template.getSupportStyles("page_");
-            if (ArrayUtil.isNotEmpty(styles)) {
-                setAttr("styles", styles);
-            }
+            setAttr("styles", styles);
+            setAttr("flags", template.getFlags());
         }
 
         String editMode = page == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : page.getEditMode();
@@ -95,12 +93,12 @@ public class _PageController extends AdminControllerBase {
             @Form(name = "id", message = "页面ID不能为空"),
             @Form(name = "mode", message = "页面编辑模式不能为空")
     })
-    public void doChangeEditMode(){
+    public void doChangeEditMode() {
         Long id = getParaToLong("id");
         String mode = getPara("mode");
 
         SinglePage page = sps.findById(id);
-        if (page == null){
+        if (page == null) {
             renderFailJson();
             return;
         }

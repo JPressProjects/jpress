@@ -14,8 +14,14 @@
         doSubmit();
     });
 
+    $(".tflag").each(function () {
+        $(this).on('click', function () {
+            $("#flag").val($(this).text());
+        })
+    });
+
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
-    window.doSubmit = function(){
+    window.doSubmit = function () {
         ajaxSubmit("#form", function (data) {
             $("#pageId").attr("value", data.id);
             toastr.success('内容保存成功。');
@@ -27,7 +33,9 @@
         $("#articleThumbnail").val("");
     })
 
+
     var editMode = "#(editMode ?? 'html')";
+
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
             var changeMode = editMode == "html" ? "markdown" : "html";
@@ -104,7 +112,8 @@
                                 （<a href="#(page.url)" target="_blank">访问</a>）
                                 #end
                                 <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(page.id ?? 0)')">切换编辑器</a>
+                                <a href="javascript:;" style="float: right;padding: 5px 0"
+                                   onclick="doChangeEditor('#(page.id ?? 0)')">切换编辑器</a>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="page.content"
@@ -130,32 +139,6 @@
                                         <form class="form-horizontal" autocomplete="off">
                                             <div class="box-body ">
 
-                                                #if(styles)
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">样式</label>
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control" name="page.style">
-                                                            <option value="">默认</option>
-                                                            #for(style : styles)
-                                                            <option value="#(style)" #selectedIf(page && page.style == style)>
-                                                                #(style)
-                                                            </option>
-                                                            #end
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                #end
-
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">页面标识</label>
-
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control" name="page.flag"
-                                                               placeholder="请输入" value="#(page.flag ??)"/>
-                                                    </div>
-                                                </div>
-
-
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">SEO关键字</label>
 
@@ -175,7 +158,6 @@
                                                     </div>
                                                 </div>
 
-
                                             </div>
 
                                         </form>
@@ -190,13 +172,48 @@
 
                 <div class="col-lg-3">
                     <div class="box box-solid">
-
-                        <!-- /.box-header -->
-                        <!-- form start -->
                         <div class="box-body ">
-                            <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn ">发布</button>
-                            <button type="button" data-status="draft"  class="btn btn-default btn-sm submitBtn">草稿</button>
-                            <a href="javascript:;" data-status="trash" class="pull-right submitBtn" style="padding-top: 5px;">移至垃圾箱</a>
+                            <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn ">发布
+                            </button>
+                            <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
+                            </button>
+                            <a href="javascript:;" data-status="trash" class="pull-right submitBtn"
+                               style="padding-top: 5px;">移至垃圾箱</a>
+                        </div>
+                    </div>
+
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">模板样式</h3>
+                        </div>
+                        <div class="box-body ">
+                            #if(styles && styles.size() > 0 )
+                            <div class="form-group">
+                                <select class="form-control" name="page.style">
+                                    <option value="">默认样式</option>
+                                    #for(style : styles)
+                                    <option value="#(style)" #selectedIf(page && page.style== style)>
+                                        #(style)
+                                    </option>
+                                    #end
+                                </select>
+                            </div>
+                            #end
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="page.flag"
+                                       placeholder="展示标识" value="#(page.flag ??)" id="flag"/>
+                                #if(flags && flags.size() > 0)
+                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <div class="tags">
+                                    #for(flag : flags ??)
+                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                    #end
+                                </div>
+                                #end
+                            </div>
+
                         </div>
                     </div>
 

@@ -149,6 +149,12 @@ public class MenuManager implements JbootEventListener {
         }
     }
 
+    public void deleteMenuGroup(String id) {
+        systemMenus.removeIf(group -> id.equals(group.getId()));
+        moduleMenus.removeIf(group -> id.equals(group.getId()));
+        ucenterMenus.removeIf(group -> id.equals(group.getId()));
+    }
+
     public void addMenuItems(List<MenuItem> items) {
         if (items == null) {
             return;

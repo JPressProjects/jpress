@@ -28,7 +28,14 @@
         $(this).on('click', function () {
             selectize.createItem($(this).text());
         })
-    })
+    });
+
+
+    $(".tflag").each(function () {
+        $(this).on('click', function () {
+            $("#flag").val($(this).text());
+        })
+    });
 
 
     $(".submitBtn").on("click", function () {
@@ -163,6 +170,7 @@
                 <div class="col-lg-3">
                     <div class="box box-solid">
                         <div class="box-body ">
+
                             <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
                             </button>
                             <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
@@ -172,13 +180,13 @@
                         </div>
                     </div>
 
-
-                    #if(styles)
                     <div class="box box-solid">
                         <div class="box-header with-border ">
                             <h3 class="box-title">模板样式</h3>
                         </div>
                         <div class="box-body ">
+
+                            #if(styles && styles.size() > 0 )
                             <div class="form-group">
                                 <select class="form-control" name="article.style">
                                     <option value="">默认样式</option>
@@ -188,11 +196,26 @@
                                     </option>
                                     #end
                                 </select>
+                            </div>
+                            #end
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="article.flag"
+                                       placeholder="展示标识" value="#(article.flag ??)" id="flag"/>
+
+                                #if(flags && flags.size() > 0)
+                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <div class="tags">
+                                    #for(flag : flags ??)
+                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                    #end
+                                </div>
+                                #end
 
                             </div>
                         </div>
                     </div>
-                    #end
+
 
                     <div class="box box-solid">
                         <div class="box-header with-border ">

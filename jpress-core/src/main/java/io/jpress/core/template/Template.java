@@ -41,6 +41,7 @@ public class Template {
     private String screenshot;
 
     private List<String> htmls = new ArrayList<>();
+    private List<String> flags = new ArrayList<>();
 
     public Template() {
 
@@ -70,7 +71,13 @@ public class Template {
                 .getParentFile()
                 .list((dir, name) -> name.endsWith(".html"));
 
-        htmls.addAll(Arrays.asList(files));
+        if (files != null && files.length > 0) {
+            this.htmls.addAll(Arrays.asList(files));
+        }
+        String flagStrings = prop.get("flags");
+        if (StrUtil.isNotBlank(flagStrings)) {
+            this.flags.addAll(StrUtil.splitToSet(flagStrings, ","));
+        }
     }
 
 
@@ -223,6 +230,13 @@ public class Template {
         this.screenshot = screenshot;
     }
 
+    public List<String> getFlags() {
+        return flags;
+    }
+
+    public void setFlags(List<String> flags) {
+        this.flags = flags;
+    }
 
     public String getAbsolutePath() {
         return PathKit.getWebRootPath() + "/templates/" + folder;
@@ -256,7 +270,7 @@ public class Template {
         return styles;
     }
 
-    public void uninstall(){
+    public void uninstall() {
         try {
             FileUtils.deleteDirectory(new File(getAbsolutePath()));
         } catch (IOException e) {

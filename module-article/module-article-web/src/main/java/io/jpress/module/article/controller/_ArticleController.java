@@ -132,6 +132,25 @@ public class _ArticleController extends AdminControllerBase {
         render("article/article_write.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "id", message = "文章ID不能为空"),
+            @Form(name = "mode", message = "文章编辑模式不能为空")
+    })
+    public void doChangeEditMode(){
+        Long id = getParaToLong("id");
+        String mode = getPara("mode");
+
+        Article article = articleService.findById(id);
+        if (article == null){
+            renderFailJson();
+            return;
+        }
+
+        article.setEditMode(mode);
+        articleService.update(article);
+        renderOkJson();
+    }
+
     private void initStylesAttr(String prefix) {
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null){

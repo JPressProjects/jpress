@@ -17,6 +17,7 @@ package io.jpress.core.addon;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceBuilder;
@@ -43,6 +44,7 @@ import java.util.zip.ZipFile;
  */
 public class AddonUtil {
 
+    private static final Log LOG = Log.getLog(AddonUtil.class);
     private static List<String> resourceSuffix = new ArrayList<String>();
 
     static {
@@ -215,7 +217,16 @@ public class AddonUtil {
      * @throws SQLException
      */
     public static void execSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
-        String sql = FileUtil.readString(resourceFile(addonInfo, sqlFilePath));
+        File file = resourceFile(addonInfo, sqlFilePath);
+        if (!file.exists()) {
+            LOG.warn("file not exists : " + file);
+            return;
+        }
+        String sql = FileUtil.readString(file);
+        if (StrUtil.isBlank(sql)) {
+            LOG.warn("can not read sql in : " + file);
+            return;
+        }
         execSql(addonInfo, sql);
     }
 
@@ -338,6 +349,37 @@ public class AddonUtil {
         }
 
         return dsc;
+    }
+
+    /**
+     * 在windows系统下，当去上传刚刚 stop 的插件的时候，可能被占用无法删除
+     * 但是过 "一段时间" 后，又可以删除了
+     * <p>
+     * 原因是：Classloader 进行 close() 的时候，无法及时释放资源造成的
+     *
+     * @param file
+     * @return
+     */
+    public static boolean forceDelete(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+
+        boolean result = file.delete();
+        if (result ) {
+            return true;
+        }
+        int tryCount = 0;
+        while (!result && tryCount++ < 10) {
+            System.gc();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result = file.delete();
+        }
+        return result;
     }
 
 }

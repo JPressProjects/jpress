@@ -34,6 +34,7 @@ import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
+import io.jboot.db.model.JbootModelConfig;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -211,6 +212,9 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean uninstall(String id) {
+        if (StrUtil.isBlank(id)) {
+            return false;
+        }
         return uninstall(getAddonInfo(id));
     }
 
@@ -224,28 +228,62 @@ public class AddonManager implements JbootEventListener {
      * @return
      */
     public boolean uninstall(AddonInfo addonInfo) {
+        if (addonInfo == null) {
+            return false;
+        }
 
-        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
+        //执行插件的 uninstall 方法
+        try {
+            invokeAddonUnisntallMethod(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
 
+        //删除所有插件文件
+        try {
+            clearAddonFiles(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //删除插件对应的数据库记录
+        try {
+            deleteDbRecord(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //清除插件的缓存信息
+        try {
+            clearAddonCache(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        return true;
+    }
+
+    private void deleteDbRecord(AddonInfo addonInfo) {
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
+    }
+
+    private void clearAddonFiles(AddonInfo addonInfo) {
+        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
+        AddonUtil.forceDelete(addonInfo.buildJarFile());
+    }
+
+    private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
         Addon addon = Aop.get(addonInfo.getAddonClass());
         if (addon != null) {
             addon.onUninstall(addonInfo);
         }
+    }
 
-        //删除jar包
-        addonInfo.buildJarFile().delete();
-
-        //删除已解压缩的资源文件
-        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
-
+    private void clearAddonCache(AddonInfo addonInfo) {
+        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
-
-        //删除插件列表缓存
-        addonsCache.remove(addonInfo);
-
-        OptionService optionService = Aop.get(OptionService.class);
-        return optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
-
+        addonsCache.remove(addonInfo.getId());
     }
 
 
@@ -310,7 +348,6 @@ public class AddonManager implements JbootEventListener {
     }
 
 
-
     private void setAddonStatus(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_START);
         OptionService optionService = Aop.get(OptionService.class);
@@ -350,7 +387,7 @@ public class AddonManager implements JbootEventListener {
         if (wechatAddons != null) {
             for (Class<? extends WechatAddon> c : wechatAddons) {
                 WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
-                WechatAddonInfo wechatAddon = new WechatAddonInfo(config,c);
+                WechatAddonInfo wechatAddon = new WechatAddonInfo(config, c);
                 WechatAddonManager.me().addWechatAddon(wechatAddon);
             }
         }
@@ -440,13 +477,19 @@ public class AddonManager implements JbootEventListener {
             LOG.error(ex.toString(), ex);
         }
 
+        //移除所有的table数据
+        try {
+            removeModelsCache(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
         //移除插件的模板缓存
         try {
             removeTemplateCache(addonInfo);
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
-
 
         //调用插件的 stop() 方法
         try {
@@ -513,15 +556,25 @@ public class AddonManager implements JbootEventListener {
         ActiveRecordPlugin arp = addonInfo.getArp();
         if (arp != null) {
             arp.stop();
-            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
-            if (tableList != null) {
-                tableList.forEach(table -> {
-                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
-                    // 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
-                    // PS：每次新安装的插件，都是一个新的 Classloader
-                    Jboot.getCache().removeAll(table.getName());
-                });
-            }
+        }
+    }
+
+    /**
+     * 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
+     * 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
+     * PS：每次新安装的插件，都是一个新的 Classloader
+     *
+     * @param addonInfo
+     */
+    private void removeModelsCache(AddonInfo addonInfo) {
+        List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
+        if (modelClasses != null) {
+            modelClasses.forEach(aClass -> {
+                Table table = aClass.getAnnotation(Table.class);
+                String tableName = AnnotationUtil.get(table.tableName());
+                JbootModelConfig.getConfig().getCache().removeAll(tableName);
+                Jboot.getCache().removeAll(tableName);
+            });
         }
     }
 
@@ -569,17 +622,6 @@ public class AddonManager implements JbootEventListener {
         }
     }
 
-
-    private static List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
-        try {
-            Field field = ActiveRecordPlugin.class.getDeclaredField("tableList");
-            field.setAccessible(true);
-            return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
-        } catch (Exception e) {
-            LOG.error(e.toString(), e);
-        }
-        return null;
-    }
 
     public Ret upgrade(File newAddonFile, String oldAddonId) {
         AddonInfo oldAddon = AddonManager.me().getAddonInfo(oldAddonId);
@@ -784,14 +826,14 @@ public class AddonManager implements JbootEventListener {
     private void doDeleteNewAddon(AddonInfo addon) {
         AddonUtil.clearAddonInfoCache(addon.buildJarFile());
 
-        //删除jar包
-        addon.buildJarFile().delete();
-
         //删除已解压缩的资源文件
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addon.getId()));
 
+        //删除jar包
+        AddonUtil.forceDelete(addon.buildJarFile());
+
         //删除插件列表缓存
-        addonsCache.remove(addon);
+        addonsCache.remove(addon.getId());
     }
 
     private Ret failRet(String msg) {

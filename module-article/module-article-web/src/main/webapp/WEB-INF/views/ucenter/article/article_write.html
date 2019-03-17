@@ -56,6 +56,7 @@
 
 
     var editMode = "#(editMode ?? 'html')";
+
     function doChangeEditor() {
         if ("html" == editMode) {
             ajaxGet('#(CPATH)/commons/changeEditor/markdown');
@@ -123,7 +124,7 @@
                                                                                                        class="slugSpan"
                                                                                                        for-input="article-slug"
                                                                                                        for-listener="article-title">#(article.slug ??)</span>
-                                #if(option("web_fake_static_enable"))  #option('web_fake_static_suffix') #end
+                                #if(option("web_fake_static_enable")) #option('web_fake_static_suffix') #end
                                 <input type="hidden" id="article-slug" name="article.slug">
                                 #if(!article)
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>

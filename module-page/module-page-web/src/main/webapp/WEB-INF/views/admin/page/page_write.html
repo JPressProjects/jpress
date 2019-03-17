@@ -28,12 +28,16 @@
     })
 
     var editMode = "#(editMode ?? 'html')";
-    function doChangeEditor() {
-        if ("html" == editMode) {
-            ajaxGet('#(CPATH)/commons/changeEditor/markdown');
-        } else {
-            ajaxGet('#(CPATH)/commons/changeEditor/html');
+    function doChangeEditor(id) {
+        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
+            var changeMode = editMode == "html" ? "markdown" : "html";
+            if (id != '0') {
+                ajaxGet('#(CPATH)/admin/page/doChangeEditMode?id=' + id + "&mode=" + changeMode);
+            } else {
+                ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
+            }
         }
+
     }
 
     initEditor('editor1', 467, editMode);
@@ -100,9 +104,7 @@
                                 （<a href="#(page.url)" target="_blank">访问</a>）
                                 #end
                                 <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
-                                #if(!page)
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
-                                #end
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(page.id ?? 0)')">切换编辑器</a>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="page.content"

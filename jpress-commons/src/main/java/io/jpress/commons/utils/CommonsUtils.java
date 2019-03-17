@@ -18,6 +18,7 @@ package io.jpress.commons.utils;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
 
@@ -111,25 +112,16 @@ public class CommonsUtils {
         }
     }
 
+    private static final String[] htmlChars = {"&", "<", ">", "'", "\""};
+    private static final String[] escapeChars = {"&amp;", "&lt;", "&gt;", "&#39;", "&quot;"};
+
     public static String escapeHtml(String content) {
 
         if (StrUtil.isBlank(content)) {
             return content;
         }
 
-        /**
-         "&lt;" represents the < sign.
-         "&gt;" represents the > sign.
-         "&amp;" represents the & sign.
-         "&quot; represents the " mark.
-         */
-
-        return unEscapeHtml(content)
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("'", "&#39;")
-                .replace("\"", "&quot;");
+        return StringUtils.replaceEach(unEscapeHtml(content), htmlChars, escapeChars);
     }
 
     public static String unEscapeHtml(String content) {
@@ -138,17 +130,17 @@ public class CommonsUtils {
             return content;
         }
 
-        return content
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&#39;", "'")
-                .replace("&quot;", "\"")
-                .replace("&amp;", "&");
+        return StringUtils.replaceEach(content, escapeChars, htmlChars);
     }
 
 
     public static void main(String[] args) {
         String script = "<script>alert(\"abc\");</script>";
+        long c = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
+            escapeHtml(script);
+        }
+        System.out.println("time : " + (System.currentTimeMillis() - c));
         System.out.println(escapeHtml(script));
         System.out.println(escapeHtml(escapeHtml(script)));
         System.out.println(unEscapeHtml(escapeHtml(script)));

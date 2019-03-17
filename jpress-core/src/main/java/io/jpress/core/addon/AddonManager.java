@@ -34,6 +34,7 @@ import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
+import io.jboot.db.model.JbootModelConfig;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -211,7 +212,7 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean uninstall(String id) {
-        if (StrUtil.isBlank(id)){
+        if (StrUtil.isBlank(id)) {
             return false;
         }
         return uninstall(getAddonInfo(id));
@@ -227,7 +228,7 @@ public class AddonManager implements JbootEventListener {
      * @return
      */
     public boolean uninstall(AddonInfo addonInfo) {
-        if (addonInfo == null){
+        if (addonInfo == null) {
             return false;
         }
 
@@ -479,13 +480,19 @@ public class AddonManager implements JbootEventListener {
             LOG.error(ex.toString(), ex);
         }
 
+        //移除所有的table数据
+        try {
+            removeModelsCache(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
         //移除插件的模板缓存
         try {
             removeTemplateCache(addonInfo);
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
-
 
         //调用插件的 stop() 方法
         try {
@@ -552,15 +559,25 @@ public class AddonManager implements JbootEventListener {
         ActiveRecordPlugin arp = addonInfo.getArp();
         if (arp != null) {
             arp.stop();
-            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
-            if (tableList != null) {
-                tableList.forEach(table -> {
-                    // 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
-                    // 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
-                    // PS：每次新安装的插件，都是一个新的 Classloader
-                    Jboot.getCache().removeAll(table.getName());
-                });
-            }
+        }
+    }
+
+    /**
+     * 必须要移除所有的缓存，否则当插件卸载重新安装的时候，
+     * 缓存里的可能还存在数据，由于可能是内存缓存，所有可能导致Class转化异常的问题
+     * PS：每次新安装的插件，都是一个新的 Classloader
+     *
+     * @param addonInfo
+     */
+    private void removeModelsCache(AddonInfo addonInfo) {
+        List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
+        if (modelClasses != null) {
+            modelClasses.forEach(aClass -> {
+                Table table = aClass.getAnnotation(Table.class);
+                String tableName = AnnotationUtil.get(table.tableName());
+                JbootModelConfig.getConfig().getCache().removeAll(tableName);
+                Jboot.getCache().removeAll(tableName);
+            });
         }
     }
 
@@ -608,17 +625,6 @@ public class AddonManager implements JbootEventListener {
         }
     }
 
-
-    private static List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
-        try {
-            Field field = ActiveRecordPlugin.class.getDeclaredField("tableList");
-            field.setAccessible(true);
-            return (List<com.jfinal.plugin.activerecord.Table>) field.get(arp);
-        } catch (Exception e) {
-            LOG.error(e.toString(), e);
-        }
-        return null;
-    }
 
     public Ret upgrade(File newAddonFile, String oldAddonId) {
         AddonInfo oldAddon = AddonManager.me().getAddonInfo(oldAddonId);

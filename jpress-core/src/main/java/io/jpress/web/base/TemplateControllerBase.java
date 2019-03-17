@@ -49,12 +49,17 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     @NotAction
     public void render(String view, String defaultView) {
-
         //如果是 / 开头的文件，就不通过模板文件去渲染。而是去根目录去查找。
         if (view != null && view.startsWith("/")) {
             super.render(view);
             return;
         }
+
+        String paraView = getPara("v");
+        doRender(StrUtil.isBlank(paraView) ? view : paraView, defaultView);
+    }
+
+    private void doRender(String view, String defaultView) {
 
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {

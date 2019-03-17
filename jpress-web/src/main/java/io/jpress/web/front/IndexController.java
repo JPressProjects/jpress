@@ -48,7 +48,6 @@ public class IndexController extends TemplateControllerBase {
 
         //渲染 模板下的 index.html
         render(indexView);
-
     }
 
 }

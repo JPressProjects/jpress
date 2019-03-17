@@ -62,6 +62,7 @@ public class CommonsUtils {
 
     }
 
+
     public static String maxLength(String content, int maxLength, String suffix) {
         if (StrUtil.isBlank(suffix)) {
             return maxLength(content, maxLength);

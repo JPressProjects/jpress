@@ -211,6 +211,9 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean uninstall(String id) {
+        if (StrUtil.isBlank(id)){
+            return false;
+        }
         return uninstall(getAddonInfo(id));
     }
 
@@ -224,28 +227,65 @@ public class AddonManager implements JbootEventListener {
      * @return
      */
     public boolean uninstall(AddonInfo addonInfo) {
+        if (addonInfo == null){
+            return false;
+        }
 
-        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
+        //执行插件的 uninstall 方法
+        try {
+            invokeAddonUnisntallMethod(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
 
+        //删除所有插件文件
+        try {
+            clearAddonFiles(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //删除插件对应的数据库记录
+        try {
+            deleteDbRecord(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //清除插件的缓存信息
+        try {
+            clearAddonCache(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        return true;
+    }
+
+    private void deleteDbRecord(AddonInfo addonInfo) {
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
+    }
+
+    private void clearAddonFiles(AddonInfo addonInfo) {
+        //删除jar包
+        addonInfo.buildJarFile().delete();
+        //删除已解压缩的资源文件
+        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
+
+    }
+
+    private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
         Addon addon = Aop.get(addonInfo.getAddonClass());
         if (addon != null) {
             addon.onUninstall(addonInfo);
         }
+    }
 
-        //删除jar包
-        addonInfo.buildJarFile().delete();
-
-        //删除已解压缩的资源文件
-        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
-
+    private void clearAddonCache(AddonInfo addonInfo) {
+        AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
-
-        //删除插件列表缓存
         addonsCache.remove(addonInfo);
-
-        OptionService optionService = Aop.get(OptionService.class);
-        return optionService.deleteByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId());
-
     }
 
 
@@ -310,7 +350,6 @@ public class AddonManager implements JbootEventListener {
     }
 
 
-
     private void setAddonStatus(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_START);
         OptionService optionService = Aop.get(OptionService.class);
@@ -350,7 +389,7 @@ public class AddonManager implements JbootEventListener {
         if (wechatAddons != null) {
             for (Class<? extends WechatAddon> c : wechatAddons) {
                 WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
-                WechatAddonInfo wechatAddon = new WechatAddonInfo(config,c);
+                WechatAddonInfo wechatAddon = new WechatAddonInfo(config, c);
                 WechatAddonManager.me().addWechatAddon(wechatAddon);
             }
         }

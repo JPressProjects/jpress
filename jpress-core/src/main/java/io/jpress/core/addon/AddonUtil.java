@@ -17,6 +17,7 @@ package io.jpress.core.addon;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.JbootDbManager;
 import io.jboot.db.datasource.DataSourceBuilder;
@@ -43,6 +44,7 @@ import java.util.zip.ZipFile;
  */
 public class AddonUtil {
 
+    private static final Log LOG = Log.getLog(AddonUtil.class);
     private static List<String> resourceSuffix = new ArrayList<String>();
 
     static {
@@ -215,7 +217,16 @@ public class AddonUtil {
      * @throws SQLException
      */
     public static void execSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
-        String sql = FileUtil.readString(resourceFile(addonInfo, sqlFilePath));
+        File file = resourceFile(addonInfo, sqlFilePath);
+        if (!file.exists()) {
+            LOG.warn("file not exists : " + file);
+            return;
+        }
+        String sql = FileUtil.readString(file);
+        if (StrUtil.isBlank(sql)) {
+            LOG.warn("can not read sql in : " + file);
+            return;
+        }
         execSql(addonInfo, sql);
     }
 

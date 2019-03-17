@@ -75,30 +75,37 @@ public class _AddonController extends AdminControllerBase {
         }
 
         if (!StringUtils.equalsAnyIgnoreCase(FileUtil.getSuffix(ufile.getFileName()), ".zip", ".jar")) {
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "只支持 .zip 或 .jar 的插件文件"));
-            deleteFileQuietly(ufile.getFile());
+            renderFail("只支持 .zip 或 .jar 的插件文件",ufile);
             return;
         }
 
         AddonInfo addon = AddonUtil.readSimpleAddonInfo(ufile.getFile());
         if (addon == null || StrUtil.isBlank(addon.getId())) {
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "无法读取插件配置信息。"));
-            deleteFileQuietly(ufile.getFile());
+            renderFail("无法读取插件配置信息。",ufile);
             return;
         }
 
         File newAddonFile = addon.buildJarFile();
 
+        //当插件文件存在的时候，有两种可能
+        // 1、该插件确实存在，此时不能再次安装
+        // 2、该插件可能没有被卸载干净，此时需要尝试清除之前已经被卸载的插件
         if (newAddonFile.exists()) {
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "该插件已经存在。"));
-            deleteFileQuietly(ufile.getFile());
-            return;
+
+            //说明该插件已经被安装了
+            if (AddonManager.me().getAddonInfo(addon.getId()) != null) {
+                renderFail("该插件已经存在。",ufile);
+                return;
+            }
+            //该插件之前已经被卸载了
+            else {
+
+                //尝试再次去清除jar包，若还是无法删除，则无法安装
+                if (!AddonUtil.forceDelete(newAddonFile)) {
+                    renderFail("该插件已经存在。",ufile);
+                    return;
+                }
+            }
         }
 
         if (!newAddonFile.getParentFile().exists()) {
@@ -108,23 +115,16 @@ public class _AddonController extends AdminControllerBase {
         try {
             FileUtils.moveFile(ufile.getFile(), newAddonFile);
             if (!AddonManager.me().install(newAddonFile)) {
-                renderJson(Ret.fail()
-                        .set("success", false)
-                        .set("message", "该插件安装失败，请联系管理员。"));
+                renderFail("该插件安装失败，请联系管理员。",ufile);
                 return;
             }
             if (!AddonManager.me().start(addon.getId())) {
-                renderJson(Ret.fail()
-                        .set("success", false)
-                        .set("message", "该插件启动失败，请联系管理员。"));
+                renderFail("该插件安装失败，请联系管理员。",ufile);
                 return;
             }
         } catch (Exception e) {
             LOG.error("addon install error : ", e);
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "该插件安装失败，请联系管理员。"));
-            deleteFileQuietly(ufile.getFile());
+            renderFail("该插件安装失败，请联系管理员。",ufile);
             deleteFileQuietly(newAddonFile);
             return;
         }

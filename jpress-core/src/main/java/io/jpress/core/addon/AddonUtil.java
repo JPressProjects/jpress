@@ -351,4 +351,35 @@ public class AddonUtil {
         return dsc;
     }
 
+    /**
+     * 在windows系统下，当去上传刚刚 stop 的插件的时候，可能被占用无法删除
+     * 但是过 "一段时间" 后，又可以删除了
+     * <p>
+     * 原因是：Classloader 进行 close() 的时候，无法及时释放资源造成的
+     *
+     * @param file
+     * @return
+     */
+    public static boolean forceDelete(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+
+        boolean result = file.delete();
+        if (result ) {
+            return true;
+        }
+        int tryCount = 0;
+        while (!result && tryCount++ < 10) {
+            System.gc();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result = file.delete();
+        }
+        return result;
+    }
+
 }

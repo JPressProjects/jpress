@@ -286,7 +286,7 @@ public class AddonManager implements JbootEventListener {
     private void clearAddonCache(AddonInfo addonInfo) {
         AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
-        addonsCache.remove(addonInfo);
+        addonsCache.remove(addonInfo.getId());
     }
 
 
@@ -836,7 +836,7 @@ public class AddonManager implements JbootEventListener {
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addon.getId()));
 
         //删除插件列表缓存
-        addonsCache.remove(addon);
+        addonsCache.remove(addon.getId());
     }
 
     private Ret failRet(String msg) {

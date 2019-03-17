@@ -91,6 +91,25 @@ public class _PageController extends AdminControllerBase {
         render("page/page_write.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "id", message = "页面ID不能为空"),
+            @Form(name = "mode", message = "页面编辑模式不能为空")
+    })
+    public void doChangeEditMode(){
+        Long id = getParaToLong("id");
+        String mode = getPara("mode");
+
+        SinglePage page = sps.findById(id);
+        if (page == null){
+            renderFailJson();
+            return;
+        }
+
+        page.setEditMode(mode);
+        sps.update(page);
+        renderOkJson();
+    }
+
 
     @EmptyValidate({
             @Form(name = "page.title", message = "标题不能为空"),

@@ -180,14 +180,14 @@ public class _AddonController extends AdminControllerBase {
         }
 
         try {
-            Ret ret = AddonManager.me().upgrade(ufile.getFile(),oldAddonId);
+            Ret ret = AddonManager.me().upgrade(ufile.getFile(), oldAddonId);
             render(ret);
             return;
-        }catch (Exception ex){
-            LOG.error(ex.toString(),ex);
-            renderFail("插件升级失败，请联系管理员",ufile);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+            renderFail("插件升级失败，请联系管理员", ufile);
             return;
-        }finally {
+        } finally {
             deleteFileQuietly(ufile.getFile());
         }
     }
@@ -208,13 +208,7 @@ public class _AddonController extends AdminControllerBase {
 
 
     public void doDel() {
-        String id = getPara("id");
-        if (StrUtil.isBlank(id)) {
-            renderJson(Ret.fail().set("message", "ID数据不能为空"));
-            return;
-        }
-        AddonManager.me().uninstall(id);
-        renderOkJson();
+        doUninstall();
     }
 
     public void doInstall() {
@@ -237,7 +231,11 @@ public class _AddonController extends AdminControllerBase {
             return;
         }
         AddonManager.me().uninstall(id);
-        renderOkJson();
+        if (AddonManager.me().uninstall(id)) {
+            renderOkJson();
+        } else {
+            renderFailJson();
+        }
     }
 
     public void doStart() {

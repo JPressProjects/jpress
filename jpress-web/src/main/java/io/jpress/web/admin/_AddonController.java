@@ -230,7 +230,6 @@ public class _AddonController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "ID数据不能为空"));
             return;
         }
-        AddonManager.me().uninstall(id);
         if (AddonManager.me().uninstall(id)) {
             renderOkJson();
         } else {

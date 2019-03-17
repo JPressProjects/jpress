@@ -269,11 +269,8 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void clearAddonFiles(AddonInfo addonInfo) {
-        //删除jar包
-        addonInfo.buildJarFile().delete();
-        //删除已解压缩的资源文件
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
-
+        AddonUtil.forceDelete(addonInfo.buildJarFile());
     }
 
     private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
@@ -829,11 +826,11 @@ public class AddonManager implements JbootEventListener {
     private void doDeleteNewAddon(AddonInfo addon) {
         AddonUtil.clearAddonInfoCache(addon.buildJarFile());
 
-        //删除jar包
-        addon.buildJarFile().delete();
-
         //删除已解压缩的资源文件
         FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addon.getId()));
+
+        //删除jar包
+        AddonUtil.forceDelete(addon.buildJarFile());
 
         //删除插件列表缓存
         addonsCache.remove(addon.getId());

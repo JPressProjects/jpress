@@ -18,7 +18,6 @@ package io.jpress.commons.utils;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
 
@@ -108,43 +107,13 @@ public class CommonsUtils {
             Object value = model.get(attr);
 
             if (value != null && value instanceof String) {
-                model.set(attr, escapeHtml(value.toString()));
+                model.set(attr, StrUtil.escapeHtml(value.toString()));
             }
         }
     }
 
-    private static final String[] htmlChars = {"&", "<", ">", "'", "\""};
-    private static final String[] escapeChars = {"&amp;", "&lt;", "&gt;", "&#39;", "&quot;"};
-
-    public static String escapeHtml(String content) {
-
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        return StringUtils.replaceEach(unEscapeHtml(content), htmlChars, escapeChars);
-    }
-
-    public static String unEscapeHtml(String content) {
-
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        return StringUtils.replaceEach(content, escapeChars, htmlChars);
-    }
-
 
     public static void main(String[] args) {
-        String script = "<script>alert(\"abc\");</script>";
-        long c = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
-            escapeHtml(script);
-        }
-        System.out.println("time : " + (System.currentTimeMillis() - c));
-        System.out.println(escapeHtml(script));
-        System.out.println(escapeHtml(escapeHtml(script)));
-        System.out.println(unEscapeHtml(escapeHtml(script)));
         System.out.println(generateCode());
     }
 }

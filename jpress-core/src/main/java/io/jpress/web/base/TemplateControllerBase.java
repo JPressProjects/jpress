@@ -68,7 +68,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
 
         //matchTemplateFile：匹配到可以用的view
-        view = template.matchTemplateFile(view, isMoblieBrowser());
+        view = template.matchTemplateFile(view, isMobileBrowser());
         if (view == null) {
             renderDefault(defaultView);
             return;
@@ -86,7 +86,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return false;
         }
 
-        return template.matchTemplateFile(view, isMoblieBrowser()) != null;
+        return template.matchTemplateFile(view, isMobileBrowser()) != null;
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
-import com.jfinal.kit.SyncWriteMap;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
@@ -51,7 +50,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -534,22 +532,9 @@ public class AddonManager implements JbootEventListener {
         // 清除模板引擎的 field 和 method 缓存
         // 否则可能会出现  object is not an instance of declaring class 的异常
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
-        try {
-            RenderManager.me().getEngine().removeAllTemplateCache();
-
-            Field fieldGetterCacheField = FieldKit.class.getDeclaredField("fieldGetterCache");
-            fieldGetterCacheField.setAccessible(true);
-            SyncWriteMap fieldGetterCacheMap = (SyncWriteMap) fieldGetterCacheField.get(null);
-            fieldGetterCacheMap.clear();
-
-            Field methodCacheField = MethodKit.class.getDeclaredField("methodCache");
-            methodCacheField.setAccessible(true);
-            SyncWriteMap methodCacheMap = (SyncWriteMap) methodCacheField.get(null);
-            methodCacheMap.clear();
-
-        } catch (Exception e) {
-            LOG.error(e.toString(), e);
-        }
+        FieldKit.clearCache();
+        MethodKit.clearCache();
+        RenderManager.me().getEngine().removeAllTemplateCache();
     }
 
     private void stopActiveRecordPlugin(AddonInfo addonInfo) {

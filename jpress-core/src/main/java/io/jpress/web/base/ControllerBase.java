@@ -20,7 +20,6 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 
 import java.util.Set;
@@ -79,7 +78,7 @@ public abstract class ControllerBase extends JbootController {
         if (value == null || "".equals(value)) {
             return null;
         }
-        return CommonsUtils.escapeHtml(value);
+        return StrUtil.escapeHtml(value);
     }
 
     protected static final Ret OK = Ret.ok();

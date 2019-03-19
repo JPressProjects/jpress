@@ -27,7 +27,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -273,7 +272,7 @@ public class _TemplateController extends AdminControllerBase {
         File editFile = StrUtil.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
         setAttr("f", editFile.getName());
-        setAttr("editFileContent", CommonsUtils.escapeHtml(FileUtil.readString(editFile)));
+        setAttr("editFileContent", StrUtil.escapeHtml(FileUtil.readString(editFile)));
 
     }
 

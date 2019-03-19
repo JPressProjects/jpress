@@ -22,7 +22,6 @@ import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.layer.SortKit;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleKit;
 import io.jpress.module.article.model.Article;
@@ -230,7 +229,7 @@ public class ArticleApiController extends ApiControllerBase {
             renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {
-            content = CommonsUtils.escapeHtml(content);
+            content = StrUtil.escapeHtml(content);
         }
 
 

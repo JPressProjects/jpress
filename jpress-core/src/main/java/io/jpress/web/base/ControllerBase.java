@@ -59,6 +59,7 @@ public abstract class ControllerBase extends JbootController {
         return "".equals(value) ? null : value;
     }
 
+    @NotAction
     public Set<String> getParaSet(String name) {
         String ids = getPara(name);
         if (StrUtil.isBlank(ids)) {
@@ -73,6 +74,7 @@ public abstract class ControllerBase extends JbootController {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
 
+    @NotAction
     public String getEscapeHtmlPara(String name) {
         String value = super.getPara(name);
         if (value == null || "".equals(value)) {

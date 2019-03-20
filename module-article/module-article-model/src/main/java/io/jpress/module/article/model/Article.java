@@ -90,7 +90,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getText() {
-        return CommonsUtils.escapeHtml(JsoupUtils.getText(getContent()));
+        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
     }
 
     @Override
@@ -209,8 +209,8 @@ public class Article extends BaseArticle<Article> {
     }
 
     @Override
-    public Long getOrderNumber() {
-        Long order = super.getOrderNumber();
+    public Integer getOrderNumber() {
+        Integer order = super.getOrderNumber();
         return order == null ? 0 : order;
     }
 }

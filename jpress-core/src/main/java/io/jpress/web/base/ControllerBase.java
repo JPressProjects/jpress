@@ -20,7 +20,6 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 
 import java.util.Set;
@@ -60,6 +59,7 @@ public abstract class ControllerBase extends JbootController {
         return "".equals(value) ? null : value;
     }
 
+    @NotAction
     public Set<String> getParaSet(String name) {
         String ids = getPara(name);
         if (StrUtil.isBlank(ids)) {
@@ -74,12 +74,13 @@ public abstract class ControllerBase extends JbootController {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
 
+    @NotAction
     public String getEscapeHtmlPara(String name) {
         String value = super.getPara(name);
         if (value == null || "".equals(value)) {
             return null;
         }
-        return CommonsUtils.escapeHtml(value);
+        return StrUtil.escapeHtml(value);
     }
 
     protected static final Ret OK = Ret.ok();

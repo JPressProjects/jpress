@@ -20,7 +20,6 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
-import io.jpress.commons.utils.CommonsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class JPressShareFunctions {
         if (html == null || html.trim().length() == 0) {
             return "";
         }
-        return CommonsUtils.escapeHtml(html);
+        return StrUtil.escapeHtml(html);
     }
 
 

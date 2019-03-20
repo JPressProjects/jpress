@@ -108,30 +108,6 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId) {
-//
-//        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
-//        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
-//            return null;
-//        }
-//
-//
-//        List<ArticleCategory> articleCategories = findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
-//        if (articleCategories == null || articleCategories.isEmpty()) {
-//            return null;
-//        }
-//
-//
-//
-//        SortKit.toTree(allArticleCategories);
-//
-//        Set<ArticleCategory> activeCategories = new HashSet<>();
-//        findActiveCategories(allArticleCategories, articleCategories, activeCategories);
-//
-//        return new ArrayList<>(activeCategories);
-//    }
-
 
     @Override
     public boolean deleteById(Object id) {
@@ -139,20 +115,6 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         return super.deleteById(id);
     }
 
-//    @Override
-//    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId) {
-//        List<ArticleCategory> allArticleCategories = findListByType(ArticleCategory.TYPE_CATEGORY);
-//        if (allArticleCategories == null || allArticleCategories.isEmpty()) {
-//            return null;
-//        }
-//
-//        SortKit.toTree(allArticleCategories);
-//
-//        Set<ArticleCategory> activeCategories = new HashSet<>();
-//        findActiveCategories(allArticleCategories, Lists.newArrayList(findById(categoryId)), activeCategories);
-//
-//        return new ArrayList<>(activeCategories);
-//    }
 
     @Override
     public void updateCount(long categoryId) {
@@ -163,35 +125,6 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
             category.update();
         }
     }
-
-//    private void findActiveCategories(List<ArticleCategory> allArticleCategories
-//            , List<ArticleCategory> articleCategories
-//            , Set<ArticleCategory> activeCategories) {
-//
-//        for (ArticleCategory articleCategory : allArticleCategories) {
-//            if (articleCategories.contains(articleCategory)) {
-//                addCategories(activeCategories, articleCategory);
-//            }
-//
-//            if (articleCategory.hasChild()) {
-//                findActiveCategories(articleCategory.getChilds(), articleCategories, activeCategories);
-//            }
-//        }
-//    }
-//
-//    private void addCategories(Set<ArticleCategory> activeCategories, ArticleCategory articleCategory) {
-//        activeCategories.add(articleCategory);
-//        if (articleCategory.getParent() != null)
-//            addCategories(activeCategories, (ArticleCategory) articleCategory.getParent());
-//    }
-//
-//    private void doAddActiveCategory(ArticleCategory category, Set<ArticleCategory> activeCategories) {
-//        if (category == null) {
-//            return;
-//        }
-//        activeCategories.add(category);
-//        doAddActiveCategory((ArticleCategory) category.getParent(), activeCategories);
-//    }
 
 
     @Override

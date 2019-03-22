@@ -71,14 +71,17 @@ public class AddonUtil {
         return suffix != null && resourceSuffix.contains(suffix.toLowerCase());
     }
 
-    public static File resourceFile(AddonInfo addonInfo, String path) {
-        String basePath = PathKit.getWebRootPath()
-                + File.separator
-                + "addons"
-                + File.separator
-                + addonInfo.getId();
+    public static File resourceFile(String addonId, String path) {
+        return new File(getAddonBasePath(addonId), path);
+    }
 
-        return new File(basePath, path);
+    public static String getAddonBasePath(String addonId) {
+        StringBuilder basePath = new StringBuilder(PathKit.getWebRootPath());
+        basePath.append(File.separator)
+                .append("addons")
+                .append(File.separator)
+                .append(addonId);
+        return basePath.toString();
     }
 
     /**
@@ -89,12 +92,7 @@ public class AddonUtil {
      */
 
     public static void unzipResources(AddonInfo addonInfo) throws IOException {
-        String basePath = PathKit.getWebRootPath()
-                + File.separator
-                + "addons"
-                + File.separator
-                + addonInfo.getId();
-
+        String basePath = getAddonBasePath(addonInfo.getId());
         ZipFile zipFile = new ZipFile(addonInfo.buildJarFile());
         try {
             Enumeration<?> entryEnum = zipFile.entries();
@@ -217,7 +215,7 @@ public class AddonUtil {
      * @throws SQLException
      */
     public static void execSqlFile(AddonInfo addonInfo, String sqlFilePath) throws SQLException {
-        File file = resourceFile(addonInfo, sqlFilePath);
+        File file = resourceFile(addonInfo.getId(), sqlFilePath);
         if (!file.exists()) {
             LOG.warn("file not exists : " + file);
             return;
@@ -352,7 +350,7 @@ public class AddonUtil {
     }
 
     /**
-     * 在windows系统下，当去上传刚刚 stop 的插件的时候，可能被占用无法删除
+     * 在windows系统下，当删除传刚刚 stop 的插件的时候，可能被占用无法删除
      * 但是过 "一段时间" 后，又可以删除了
      * <p>
      * 原因是：Classloader 进行 close() 的时候，无法及时释放资源造成的
@@ -366,7 +364,7 @@ public class AddonUtil {
         }
 
         boolean result = file.delete();
-        if (result ) {
+        if (result) {
             return true;
         }
         int tryCount = 0;

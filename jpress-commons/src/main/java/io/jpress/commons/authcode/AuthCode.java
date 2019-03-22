@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons;
+package io.jpress.commons.authcode;
 
 
 import io.jboot.utils.StrUtil;
@@ -60,6 +60,14 @@ public class AuthCode implements Serializable {
 
         return authCode;
     }
+
+    public static AuthCode newCode() {
+        AuthCode authCode = new AuthCode();
+        authCode.setId(StrUtil.uuid());
+        authCode.setCode(CommonsUtils.generateCode());
+        return authCode;
+    }
+
 
     public static void save(AuthCode authCode){
 

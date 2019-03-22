@@ -31,8 +31,8 @@ import io.jpress.commons.sms.SmsKit;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.web.commons.AuthCode;
-import io.jpress.web.commons.AuthCodeKit;
+import io.jpress.commons.authcode.AuthCode;
+import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.web.commons.UserEmailSender;
 
 import java.util.Date;

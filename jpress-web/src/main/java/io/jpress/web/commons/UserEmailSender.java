@@ -19,6 +19,8 @@ import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.authcode.AuthCode;
+import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.commons.email.Email;
 import io.jpress.model.User;
 

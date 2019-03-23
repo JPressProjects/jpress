@@ -3,15 +3,17 @@
 #define script()
 <script>
     $('#form').on('submit', function () {
-        ajaxSubmit('#form',function () {
+        ajaxSubmit('#form', function () {
             location.href = "#(CPATH)/admin/article/tag";
         });
         return false;
     });
 
     $('.del-action').on('click', function () {
-        var id = $(this).attr("data-id");
-        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
+        if (confirm('确定要删除该标签吗？删除后不可恢复')) {
+            var id = $(this).attr("data-id");
+            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
+        }
     });
 
 
@@ -72,7 +74,6 @@
                             </div>
 
 
-
                             #if(styles && styles.size() > 0 )
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">样式</label>
@@ -80,7 +81,9 @@
                                     <select class="form-control" name="category.style">
                                         <option value="">默认</option>
                                         #for(style : styles)
-                                        <option value="#(style)" #selectedIf(category && category.style == style)>#(style)</option>
+                                        <option value="#(style)" #selectedIf(category && category.style== style)>
+                                            #(style)
+                                        </option>
                                         #end
                                     </select>
                                 </div>
@@ -90,7 +93,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">显示到菜单</label>
                                 <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" data-for="displayInMenu" #checkedIf(isDisplayInMenu)>
+                                    <input type="checkbox" class="switchery" data-for="displayInMenu"
+                                           #checkedIf(isDisplayInMenu)>
                                     <input type="hidden" id="displayInMenu" name="displayInMenu" value="false">
                                 </div>
                             </div>

@@ -250,6 +250,8 @@ public class _ArticleController extends AdminControllerBase {
             for (ArticleCategory category : categories) {
                 if (category.getId() == id) {
                     setAttr("category", category);
+                    List<Menu> menus = menuService.findListByRelatives("article_category", id);
+                    setAttr("isDisplayInMenu", menus.size() > 0);
                 }
             }
         }
@@ -273,6 +275,7 @@ public class _ArticleController extends AdminControllerBase {
         render("article/tag_list.html");
     }
 
+    // category添加到menu中
     public void doAddCategoryToMenu() {
 
         Long id = getIdPara();
@@ -280,6 +283,11 @@ public class _ArticleController extends AdminControllerBase {
         ArticleCategory category = categoryService.findById(id);
         if (category == null) {
             renderJson(Ret.fail().set("message", "该数据已经被删除"));
+            return;
+        }
+        List<Menu> menus = menuService.findListByRelatives("article_category", id);
+        if (menus.size() > 0) {
+            renderJson(Ret.fail().set("message", "已添加至菜单,请勿重复添加！"));
             return;
         }
 
@@ -294,6 +302,14 @@ public class _ArticleController extends AdminControllerBase {
 
         menuService.saveOrUpdate(menu);
 
+        renderOkJson();
+    }
+    // 从menu中删除category
+    public void doRemoveCategoryFromMenu() {
+        List<Menu> menus = menuService.findListByRelatives("article_category", getIdPara());
+        if (menus.get(0) != null) {
+            menuService.delete(menus.get(0));
+        }
         renderOkJson();
     }
 

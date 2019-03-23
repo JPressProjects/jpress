@@ -88,7 +88,7 @@ public class OauthController extends Oauth2Controller {
         CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
 
         //跳转到用户中心
-        redirect("/user");
+        redirect("/ucenter");
     }
 
 

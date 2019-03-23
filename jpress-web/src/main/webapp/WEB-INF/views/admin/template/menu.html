@@ -3,7 +3,9 @@
 #define script()
 <script>
     function del(id) {
-        ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id);
+        if (confirm('确定要删除该菜单吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id);
+        }
     }
 </script>
 #end
@@ -107,8 +109,10 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.target">
                                         #if(menu)
-                                        <option value="_self"  #selectedIf(menu.target == '_self')>当前页</option>
-                                        <option value="_blank" #selectedIf(menu.target == '_blank')>新窗口</option>
+                                        <option value="_self" #selectedIf(menu.target==
+                                        '_self')>当前页</option>
+                                        <option value="_blank" #selectedIf(menu.target==
+                                        '_blank')>新窗口</option>
                                         #else
                                         <option value="_self" selected>当前页</option>
                                         <option value="_blank">新窗口</option>
@@ -157,8 +161,10 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)" style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="del('#(menu.id??)')" style="color: #a00">删除</a> |
+                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)"
+                                               style="color: #006505">编辑</a> |
+                                            <a href="javascript:;" onclick="del('#(menu.id??)')"
+                                               style="color: #a00">删除</a> |
                                             <a href="#(menu.url ??)" target="_blank" style="color: #a00">查看</a>
                                         </div>
                                     </div>

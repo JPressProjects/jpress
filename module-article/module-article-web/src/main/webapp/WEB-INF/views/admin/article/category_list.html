@@ -2,15 +2,17 @@
 #define script()
 <script>
     $('#form').on('submit', function () {
-        ajaxSubmit('#form',function () {
+        ajaxSubmit('#form', function () {
             location.href = "#(CPATH)/admin/article/category";
         })
         return false;
     });
 
     $('.del-action').on('click', function () {
-        var id = $(this).attr("data-id");
-        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
+        if (confirm('确定要删除该分类吗？删除后不可恢复')) {
+            var id = $(this).attr("data-id");
+            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
+        }
     });
 
     $(".tflag").each(function () {
@@ -135,7 +137,6 @@
                             </div>
 
 
-
                             #if(styles && styles.size() > 0)
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">样式</label>
@@ -143,7 +144,9 @@
                                     <select class="form-control" name="category.style">
                                         <option value="">默认</option>
                                         #for(style : styles)
-                                        <option value="#(style)" #selectedIf(category && category.style == style)>#(style)</option>
+                                        <option value="#(style)" #selectedIf(category && category.style== style)>
+                                            #(style)
+                                        </option>
                                         #end
                                     </select>
                                 </div>
@@ -153,7 +156,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">显示到菜单</label>
                                 <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" data-for="displayInMenu" #checkedIf(isDisplayInMenu)>
+                                    <input type="checkbox" class="switchery" data-for="displayInMenu"
+                                           #checkedIf(isDisplayInMenu)>
                                     <input type="hidden" id="displayInMenu" name="displayInMenu" value="false">
                                 </div>
                             </div>
@@ -220,8 +224,9 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/category/#(category.id)" >编辑</a> |
-                                            <a href="javascript:;" class="del-action red-action" data-id="#(category.id)" >删除</a> |
+                                            <a href="#(CPATH)/admin/article/category/#(category.id)">编辑</a> |
+                                            <a href="javascript:;" class="del-action red-action"
+                                               data-id="#(category.id)">删除</a> |
                                             <a href="#(category.url ??)" target="_blank" class="red-action">查看</a>
                                         </div>
                                     </div>

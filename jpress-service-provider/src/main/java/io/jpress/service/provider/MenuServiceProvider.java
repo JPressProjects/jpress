@@ -72,6 +72,12 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
         return DAO.findListByColumns(columns);
     }
 
+    @Override
+    public Menu findFirstByRelatives(String table, Object id) {
+        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        return DAO.findFirstByColumns(columns);
+    }
+
     @Cacheable(name = "menu", key = "type:#(type)")
     public List<Menu> findListByTypeInDb(String type) {
         return DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc");

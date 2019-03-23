@@ -19,34 +19,33 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.web.fixedinterceptor.FixedInterceptor;
-import io.jboot.web.fixedinterceptor.FixedInvocation;
 
 import java.lang.reflect.Method;
 
 public class AddonInterceptorProcesser implements FixedInterceptor {
 
     @Override
-    public void intercept(FixedInvocation fixedInvocation) {
+    public void intercept(Invocation invocation) {
 
         Interceptor[] interceptors = AddonInterceptorManager.getInterceptors();
 
         if (interceptors == null || interceptors.length == 0) {
-            fixedInvocation.invoke();
+            invocation.invoke();
         } else {
-            new AddonInvocation(fixedInvocation, interceptors).invoke();
+            new AddonInvocation(invocation, interceptors).invoke();
         }
     }
 
 
     public class AddonInvocation extends Invocation {
 
-        private FixedInvocation invocation;
+        private Invocation invocation;
         private Interceptor[] inters;
 
         private int index = 0;
 
 
-        public AddonInvocation(FixedInvocation invocation, Interceptor[] interceptors) {
+        public AddonInvocation(Invocation invocation, Interceptor[] interceptors) {
             this.invocation = invocation;
             this.inters = interceptors;
         }
@@ -83,7 +82,7 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
 
         @Override
         public String getViewPath() {
-            return invocation.getInvocation().getViewPath();
+            return invocation.getViewPath();
         }
     }
 

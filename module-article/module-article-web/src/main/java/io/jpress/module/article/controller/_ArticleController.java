@@ -200,7 +200,7 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
-        if (article.getOrderNumber() == null){
+        if (article.getOrderNumber() == null) {
             article.setOrderNumber(0);
         }
 
@@ -209,7 +209,6 @@ public class _ArticleController extends AdminControllerBase {
 
         setAttr("articleId", id);
         setAttr("article", article);
-
 
 
         Long[] categoryIds = getParaValuesToLong("category");
@@ -250,8 +249,7 @@ public class _ArticleController extends AdminControllerBase {
             for (ArticleCategory category : categories) {
                 if (category.getId() == id) {
                     setAttr("category", category);
-                    List<Menu> menus = menuService.findListByRelatives("article_category", id);
-                    setAttr("isDisplayInMenu", menus.size() > 0);
+                    setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
                 }
             }
         }
@@ -268,7 +266,7 @@ public class _ArticleController extends AdminControllerBase {
         int id = getParaToInt(0, 0);
         if (id > 0) {
             setAttr("category", categoryService.findById(id));
-
+            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
         }
 
         initStylesAttr("artlist_");
@@ -276,42 +274,42 @@ public class _ArticleController extends AdminControllerBase {
     }
 
     // category添加到menu中
-    public void doAddCategoryToMenu() {
-
-        Long id = getIdPara();
-
-        ArticleCategory category = categoryService.findById(id);
-        if (category == null) {
-            renderJson(Ret.fail().set("message", "该数据已经被删除"));
-            return;
-        }
-        List<Menu> menus = menuService.findListByRelatives("article_category", id);
-        if (menus.size() > 0) {
-            renderJson(Ret.fail().set("message", "已添加至菜单,请勿重复添加！"));
-            return;
-        }
-
-        Menu menu = new Menu();
-        menu.setPid(0l);
-        menu.setUrl(category.getUrl());
-        menu.setText(category.getTitle());
-        menu.setType(io.jpress.model.Menu.TYPE_MAIN);
-        menu.setRelativeTable("article_category");
-        menu.setRelativeId(id);
-        menu.setOrderNumber(9);
-
-        menuService.saveOrUpdate(menu);
-
-        renderOkJson();
-    }
+//    public void doAddCategoryToMenu() {
+//
+//        Long id = getIdPara();
+//
+//        ArticleCategory category = categoryService.findById(id);
+//        if (category == null) {
+//            renderJson(Ret.fail().set("message", "该数据已经被删除"));
+//            return;
+//        }
+//        List<Menu> menus = menuService.findListByRelatives("article_category", id);
+//        if (menus.size() > 0) {
+//            renderJson(Ret.fail().set("message", "已添加至菜单,请勿重复添加！"));
+//            return;
+//        }
+//
+//        Menu menu = new Menu();
+//        menu.setPid(0l);
+//        menu.setUrl(category.getUrl());
+//        menu.setText(category.getTitle());
+//        menu.setType(io.jpress.model.Menu.TYPE_MAIN);
+//        menu.setRelativeTable("article_category");
+//        menu.setRelativeId(id);
+//        menu.setOrderNumber(9);
+//
+//        menuService.saveOrUpdate(menu);
+//
+//        renderOkJson();
+//    }
     // 从menu中删除category
-    public void doRemoveCategoryFromMenu() {
-        List<Menu> menus = menuService.findListByRelatives("article_category", getIdPara());
-        if (menus.get(0) != null) {
-            menuService.delete(menus.get(0));
-        }
-        renderOkJson();
-    }
+//    public void doRemoveCategoryFromMenu() {
+//        List<Menu> menus = menuService.findListByRelatives("article_category", getIdPara());
+//        if (menus.get(0) != null) {
+//            menuService.delete(menus.get(0));
+//        }
+//        renderOkJson();
+//    }
 
 
     @EmptyValidate({
@@ -328,33 +326,42 @@ public class _ArticleController extends AdminControllerBase {
         Object id = categoryService.saveOrUpdate(category);
         categoryService.updateCount(category.getId());
 
-        List<Menu> menus = menuService.findListByRelatives("article_category", id);
-        if (menus != null) {
-            for (Menu menu : menus) {
-                menu.setUrl(category.getUrl());
-                menu.setText(category.getTitle());
-                menuService.update(menu);
+        Menu displayMenu = menuService.findFirstByRelatives("article_category", id);
+
+        Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
+        if (isDisplayInMenu != null && isDisplayInMenu) {
+            if (displayMenu == null) {
+                displayMenu = new Menu();
             }
+
+            displayMenu.setUrl(category.getUrl());
+            displayMenu.setText(category.getTitle());
+            displayMenu.setType(Menu.TYPE_MAIN);
+            displayMenu.setRelativeTable("article_category");
+            displayMenu.setRelativeId((Long) id);
+
+            if (displayMenu.getPid() == null) {
+                displayMenu.setPid(0l);
+            }
+
+            if (displayMenu.getOrderNumber() == null) {
+                displayMenu.setOrderNumber(99);
+            }
+
+            menuService.saveOrUpdate(displayMenu);
+        } else if (displayMenu != null) {
+            menuService.delete(displayMenu);
         }
 
         renderOkJson();
     }
 
+
     @EmptyValidate({
             @Form(name = "category.title", message = "标签名称不能为空"),
     })
     public void doTagSave() {
-        ArticleCategory category = getModel(ArticleCategory.class, "category");
-        //标签管理页面添加的标签没有slug，无法显示对应标签下的文章列表 wanghui 2018.11.7
-        category.setSlug(category.getTitle());
-        if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
-            return;
-        }
-
-        categoryService.saveOrUpdate(category);
-        categoryService.updateCount(category.getId());
-        renderOkJson();
+        doCategorySave();
     }
 
     public void doCategoryDel() {

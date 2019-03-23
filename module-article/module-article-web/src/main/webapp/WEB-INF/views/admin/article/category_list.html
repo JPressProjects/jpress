@@ -13,19 +13,6 @@
         ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
     });
 
-    $('#isDisplayInMenu').on('change', function () {
-        var id = $(this).attr("data-id");
-        if (this.checked) {
-            ajaxGet("#(CPATH)/admin/article/doAddCategoryToMenu/" + id,function () {
-                toastr.success("显示到菜单成功")
-            })
-        } else {
-            ajaxGet("#(CPATH)/admin/article/doRemoveCategoryFromMenu/" + id,function () {
-                toastr.success("从菜单移除成功")
-            })
-        }
-    });
-
     $(".tflag").each(function () {
         $(this).on('click', function () {
             $("#flag").val($(this).text());
@@ -147,13 +134,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">显示到菜单</label>
-                                <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" id="isDisplayInMenu" data-id="#(category.id ??)"
-                                           #checkedIf(isDisplayInMenu)>
-                                </div>
-                            </div>
+
 
                             #if(styles && styles.size() > 0)
                             <div class="form-group">
@@ -168,6 +149,14 @@
                                 </div>
                             </div>
                             #end
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示到菜单</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" class="switchery" data-for="displayInMenu" #checkedIf(isDisplayInMenu)>
+                                    <input type="hidden" id="displayInMenu" name="displayInMenu" value="false">
+                                </div>
+                            </div>
 
 
                             <h4 class="page-header">SEO</h4>

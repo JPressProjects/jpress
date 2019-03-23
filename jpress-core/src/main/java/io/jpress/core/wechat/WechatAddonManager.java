@@ -122,7 +122,7 @@ public class WechatAddonManager implements JbootEventListener {
     public void doCloseAddon(String id) {
         optionService.saveOrUpdate(OPTION_PREFIX + id, "false");
         JPressOptions.set(OPTION_PREFIX + id, "false");
-        enableWechatAddons.remove(new WechatAddonInfo(id));
+        enableWechatAddons.remove(id);
     }
 
     public void doEnableAddon(String id) {

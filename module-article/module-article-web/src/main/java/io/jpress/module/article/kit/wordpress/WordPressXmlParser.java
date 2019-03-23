@@ -20,6 +20,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.model.Attachment;
 import io.jpress.module.article.model.Article;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -40,7 +41,7 @@ public class WordPressXmlParser extends DefaultHandler {
     private List<Attachment> attachments = new ArrayList<>();
 
     //单个节点的值
-    private String elementValue = null;
+    private StringBuilder elementValue = null;
 
     private String title;
     private String post_type;
@@ -69,23 +70,27 @@ public class WordPressXmlParser extends DefaultHandler {
 
     }
 
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        elementValue = new StringBuilder();
+        super.startElement(uri, localName, qName, attributes);
+    }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-
         if ("item".equalsIgnoreCase(qName)) {
             addContent();
             clear();
         } else if ("title".equalsIgnoreCase(qName)) {
-            title = elementValue;
+            title = elementValue.toString();
         } else if ("wp:post_type".equalsIgnoreCase(qName)) {
-            post_type = elementValue;
+            post_type = elementValue.toString();
         } else if ("content:encoded".equalsIgnoreCase(qName)) {
-            content_encoded = elementValue;
+            content_encoded = elementValue.toString();
         } else if ("wp:status".equalsIgnoreCase(qName)) {
-            status = elementValue;
+            status = elementValue.toString();
         } else if ("wp:attachment_url".equalsIgnoreCase(qName)) {
-            attachment_url = elementValue;
+            attachment_url = elementValue.toString();
         }
 
     }
@@ -143,10 +148,11 @@ public class WordPressXmlParser extends DefaultHandler {
         this.attachment_url = null;
         this.content_encoded = null;
         this.status = null;
+        this.elementValue = new StringBuilder();
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        elementValue = new String(ch, start, length);
+        elementValue.append(new String(ch, start, length).trim());
     }
 }

@@ -62,7 +62,7 @@ public interface MenuService {
      * @param model
      * @return
      */
-    public  Object  save(Menu model);
+    public Object save(Menu model);
 
 
     /**
@@ -71,7 +71,7 @@ public interface MenuService {
      * @param model
      * @return if save or update success
      */
-    public  Object  saveOrUpdate(Menu model);
+    public Object saveOrUpdate(Menu model);
 
 
     /**
@@ -88,5 +88,7 @@ public interface MenuService {
 
     public List<Menu> findListByParentId(Object id);
 
-    public List<Menu> findListByRelatives(String table,Object id);
+    public List<Menu> findListByRelatives(String table, Object id);
+
+    public Menu findFirstByRelatives(String table, Object id);
 }

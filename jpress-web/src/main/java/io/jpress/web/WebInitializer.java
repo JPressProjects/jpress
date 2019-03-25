@@ -42,6 +42,7 @@ public class WebInitializer extends JbootAppListenerBase {
             engine.addSharedStaticMethod(PermissionKits.class);
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             printErrorInfoAndExit();
         }
     }

@@ -89,11 +89,17 @@ public class JPressOptions {
         return store.get(key);
     }
 
+
+    public static String get(String key, String defaultvalue) {
+        String v = get(key);
+        return StrUtil.isBlank(v) ? defaultvalue : v;
+    }
+
     public static boolean getAsBool(String key) {
         return Boolean.parseBoolean(store.get(key));
     }
 
-    public static boolean isTrueOrNull(String key){
+    public static boolean isTrueOrNull(String key) {
         String data = get(key);
         return data == null || "true".equals(data);
     }

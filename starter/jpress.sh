@@ -52,7 +52,7 @@ function stop()
     kill `pgrep -f ${APP_BASE_PATH}` 2>/dev/null
 
     # 以下代码与上述代码等价
-    # kill $(pgrep -f ${MAIN_CLASS}) 2>/dev/null
+    # kill $(pgrep -f ${APP_BASE_PATH}) 2>/dev/null
 
 }
 

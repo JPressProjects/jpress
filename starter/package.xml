@@ -36,10 +36,10 @@
             <outputDirectory>webapp</outputDirectory>
         </fileSet>
 
-        <!--<fileSet>-->
-            <!--<directory>${basedir}/src/main/webapp</directory>-->
-            <!--<outputDirectory>webapp</outputDirectory>-->
-        <!--</fileSet>-->
+        <fileSet>
+            <directory>${basedir}/src/main/webapp</directory>
+            <outputDirectory>webapp</outputDirectory>
+        </fileSet>
 
         <!-- 项目根下面的脚本文件 copy 到根目录下 -->
         <fileSet>

@@ -36,6 +36,7 @@ import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
+import io.jpress.web.sitemap.SitemapHandler;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -85,6 +86,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
         handlers.add(new InstallHandler());
+        handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
         handlers.add(new AddonHandlerProcesser());
 

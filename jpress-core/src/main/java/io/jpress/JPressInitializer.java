@@ -37,6 +37,7 @@ import io.jpress.web.interceptor.JPressInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
 import io.jpress.web.sitemap.SitemapHandler;
+import io.jpress.web.sitemap.SitemapManager;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -102,6 +103,7 @@ public class JPressInitializer extends JbootAppListenerBase {
     @Override
     public void onStart() {
 
+        SitemapManager.me().init();
         MenuManager.me().init();
         WechatAddonManager.me().init();
         AddonManager.me().init();

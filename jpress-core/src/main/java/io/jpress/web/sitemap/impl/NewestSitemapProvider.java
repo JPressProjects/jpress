@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sitemap;
+package io.jpress.web.sitemap.impl;
 
 
-import com.jfinal.core.Controller;
+import io.jpress.web.sitemap.Sitemap;
 
-import java.util.Date;
 import java.util.List;
 
-public interface SitemapRender {
+public interface NewestSitemapProvider {
 
-    public Date getLastmod();
-
-    public List<Sitemap> onGetSitemaps(Controller controller);
+    public List<Sitemap> getSitemaps();
 }

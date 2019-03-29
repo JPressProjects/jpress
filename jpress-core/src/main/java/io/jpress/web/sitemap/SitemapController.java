@@ -27,20 +27,23 @@ public class SitemapController extends JbootController {
 
     private static final String contentType = "text/xml; charset=utf-8";
 
-//    SimpleDateFormat datefmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:ss:mm'Z'");
-
     public void index() {
-        StringBuilder xmlBuilder = new StringBuilder();
+
         String para = getPara(0);
+        StringBuilder xmlBuilder = new StringBuilder();
+
         if (StrUtil.isBlank(para)) {
-            doRenderIndexSitemap(xmlBuilder);
+            buildIndexHeader(xmlBuilder);
+            List<Sitemap> sitemaps = SitemapManager.me().getIndexSitemapList();
+            sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toXml()));
+            buildIndexFooter(xmlBuilder);
         } else {
-            SitemapRender render = SitemapManager.me().getSitemapRender(para);
-            if (render == null) {
+            SitemapProvider provider = SitemapManager.me().getProvider(para);
+            if (provider == null) {
                 renderError(404);
                 return;
             }
-            List<Sitemap> sitemaps = render.onGetSitemaps(this);
+            List<Sitemap> sitemaps = provider.getSitemaps();
             buildUrlsetHeader(xmlBuilder);
             if (sitemaps != null) sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toUrlXml()));
             buildUrlsetFooter(xmlBuilder);
@@ -49,17 +52,6 @@ public class SitemapController extends JbootController {
         renderText(xmlBuilder.toString(), contentType);
     }
 
-    private void doRenderIndexSitemap(StringBuilder xmlBuilder) {
-
-        try {
-            buildIndexHeader(xmlBuilder);
-            List<Sitemap> sitemaps = SitemapManager.me().getIndexSitemapList();
-            sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toXml()));
-        } finally {
-            buildIndexFooter(xmlBuilder);
-        }
-
-    }
 
     private void buildUrlsetHeader(StringBuilder xmlBuilder) {
         buildHeader(xmlBuilder);

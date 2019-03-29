@@ -16,43 +16,74 @@
 package io.jpress.web.sitemap;
 
 
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.utils.ClassScanner;
+import io.jboot.utils.ClassUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.core.install.Installer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SitemapManager {
+public class SitemapManager implements JbootEventListener {
+
+    public static final String SITEMAP_UPDATE_DATE = "sitemap_update_date";
 
     private static SitemapManager me = new SitemapManager();
 
     private SitemapManager() {
-        addRender("new",new NewestSitemapRender());
     }
 
     public static SitemapManager me() {
         return me;
     }
 
-    private Map<String,SitemapRender> renderMap = new ConcurrentHashMap<>();
+    private Map<String, SitemapProvider> providers = new ConcurrentHashMap<>();
 
 
-    public void addRender(String key,SitemapRender render){
-        renderMap.put(key,render);
+    public void init() {
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
+            return;
+        }
+
+        List<Class<SitemapProvider>> cls = ClassScanner.scanSubClass(SitemapProvider.class,true);
+        if (cls != null && cls.size() > 0) {
+            cls.forEach(c -> {
+                SitemapProvider provider = ClassUtil.newInstance(c);
+                providers.put(provider.getName(), provider);
+            });
+        }
     }
 
-    public List<Sitemap> getIndexSitemapList(){
+    @Override
+    public void onEvent(JbootEvent event) {
+        init();
+    }
+
+    public void addProvider(String name, SitemapProvider provider) {
+        providers.put(name, provider);
+    }
+
+    public SitemapProvider getProvider(String name) {
+        return providers.get(name);
+    }
+
+    public Map<String, SitemapProvider> getProviders() {
+        return providers;
+    }
+
+    public List<Sitemap> getIndexSitemapList() {
         List<Sitemap> sitemaps = new ArrayList<>();
-        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN,"");
-        String prefix = domain+"/sitemap/";
-        renderMap.forEach((s, render) -> sitemaps.add(new Sitemap(prefix+s+".xml",render.getLastmod())));
+        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, "");
+        String prefix = domain + "/sitemap/";
+        providers.forEach((s, render) -> sitemaps.add(new Sitemap(prefix + s + ".xml", render.getLastmod())));
         return sitemaps;
     }
 
-    public SitemapRender getSitemapRender(String key){
-        return renderMap.get(key);
-    }
 
 }

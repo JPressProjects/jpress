@@ -17,14 +17,19 @@ package io.jpress.web.sitemap;
 
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Sitemap implements Serializable {
+
+    public static final String CHANGEFREQ_DAILY = "daily";
+    public static final String CHANGEFREQ_WEEKLY = "weekly";
+    public static final String CHANGEFREQ_MONTHLY = "monthly";
+    public static final String CHANGEFREQ_ALWAYS = "always";
+
     private String loc;
-    private String lastmod;
+    private Date lastmod;
     private String changefreq;
-    private String priority;
+    private Float priority;
 
     public Sitemap() {
 
@@ -32,15 +37,22 @@ public class Sitemap implements Serializable {
 
     public Sitemap(String loc, String lastmod) {
         this.loc = loc;
-        this.lastmod = lastmod;
+        this.lastmod = SitemapUtil.str2date(lastmod);
     }
 
     public Sitemap(String loc, Date lastmod) {
         this.loc = loc;
-        this.lastmod = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(lastmod);
+        this.lastmod = lastmod;
     }
 
-    public Sitemap(String loc, String lastmod, String changefreq, String priority) {
+    public Sitemap(String loc, String lastmod, String changefreq, Float priority) {
+        this.loc = loc;
+        this.lastmod = SitemapUtil.str2date(lastmod);
+        this.changefreq = changefreq;
+        this.priority = priority;
+    }
+
+    public Sitemap(String loc, Date lastmod, String changefreq, Float priority) {
         this.loc = loc;
         this.lastmod = lastmod;
         this.changefreq = changefreq;
@@ -55,11 +67,11 @@ public class Sitemap implements Serializable {
         this.loc = loc;
     }
 
-    public String getLastmod() {
+    public Date getLastmod() {
         return lastmod;
     }
 
-    public void setLastmod(String lastmod) {
+    public void setLastmod(Date lastmod) {
         this.lastmod = lastmod;
     }
 
@@ -71,11 +83,11 @@ public class Sitemap implements Serializable {
         this.changefreq = changefreq;
     }
 
-    public String getPriority() {
+    public Float getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Float priority) {
         this.priority = priority;
     }
 
@@ -83,7 +95,7 @@ public class Sitemap implements Serializable {
         StringBuilder xmlBuilder = new StringBuilder();
         xmlBuilder.append("<sitemap>");
         xmlBuilder.append("<loc>" + loc + "</loc>");
-        xmlBuilder.append("<lastmod>" + lastmod + "</lastmod>");
+        xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");
         xmlBuilder.append("</sitemap>");
         return xmlBuilder.toString();
     }
@@ -92,9 +104,9 @@ public class Sitemap implements Serializable {
         StringBuilder xmlBuilder = new StringBuilder();
         xmlBuilder.append("<url>");
         xmlBuilder.append("<loc>" + loc + "</loc>");
-        xmlBuilder.append("<lastmod>" + lastmod + "</lastmod>");
+        xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");
         xmlBuilder.append("<changefreq>" + changefreq + "</changefreq>");
-        xmlBuilder.append("<priority>" + priority + "</priority>");
+        xmlBuilder.append("<priority>" + (priority == 1 ? "1" : priority) + "</priority>");
         xmlBuilder.append("</url>");
         return xmlBuilder.toString();
     }

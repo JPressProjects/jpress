@@ -15,22 +15,31 @@
  */
 package io.jpress.web.sitemap;
 
-import com.jfinal.core.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
+public class SitemapUtil {
 
-public class NewestSitemapRender implements SitemapRender {
+    private static ThreadLocal<SimpleDateFormat> formats =ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:ss:mm'Z'"));
 
-    @Override
-    public Date getLastmod() {
-        return new Date();
+    public static final String date2str(Date date){
+        return formats.get().format(date);
     }
 
-    @Override
-    public List<Sitemap> onGetSitemaps(Controller controller) {
+    public static final Date str2date(String str){
+        try {
+            return formats.get().parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
+    }
+
+
+    public static final String nowStr(){
+        return formats.get().format(new Date());
     }
 
 

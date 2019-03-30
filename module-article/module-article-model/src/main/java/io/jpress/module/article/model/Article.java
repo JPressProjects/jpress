@@ -208,9 +208,9 @@ public class Article extends BaseArticle<Article> {
         return super.update();
     }
 
-    @Override
-    public Integer getOrderNumber() {
-        Integer order = super.getOrderNumber();
-        return order == null ? 0 : order;
-    }
+//    @Override
+//    public Integer getOrderNumber() {
+//        Integer order = super.getOrderNumber();
+//        return order == null ? 0 : order;
+//    }
 }

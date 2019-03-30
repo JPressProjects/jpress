@@ -23,10 +23,21 @@
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
                         <div class="box-body ">
 
-                            <h4 class="page-first-header">微信登录支持</h4>
+
+                            <h4 class="page-first-header">用户登录</h4>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">启用</label>
+                                <label class="col-sm-2 control-label">登录成功跳转地址</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：/ucenter"
+                                           name="login_goto_url"
+                                           value="#option('login_goto_url')">
+                                    <p class="help-block"> 不填写时，当用户登录成功后会跳转到用户中心 <a href="/ucenter" target="_blank">/ucenter</a> 。</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用微信登录功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="login_wechat_enable"
                                            #checkedIf(option("login_wechat_enable"))>
@@ -35,7 +46,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">AppKey</label>
+                                <label class="col-sm-2 control-label">微信 AppKey</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -44,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">AppSecret</label>
+                                <label class="col-sm-2 control-label">微信 AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -57,10 +68,10 @@
                             </div>
 
 
-                            <h4 class="page-header">QQ登录支持</h4>
+                            <!--<h4 class="page-header">QQ登录支持</h4>-->
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">启用</label>
+                                <label class="col-sm-2 control-label">启用QQ登录功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="login_qq_enable"
                                            #checkedIf(option("login_qq_enable"))>
@@ -69,7 +80,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">AppKey </label>
+                                <label class="col-sm-2 control-label">QQ AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -78,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">AppSecret</label>
+                                <label class="col-sm-2 control-label">QQ AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""

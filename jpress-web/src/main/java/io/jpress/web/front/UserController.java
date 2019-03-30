@@ -112,6 +112,9 @@ public class UserController extends TemplateControllerBase {
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
+        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        ret.set("gotoUrl",gotoUrl);
+
         renderJson(ret);
     }
 

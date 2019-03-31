@@ -68,6 +68,9 @@ public class Sitemap implements Serializable {
     }
 
     public Date getLastmod() {
+        if (lastmod == null){
+            lastmod = new Date();
+        }
         return lastmod;
     }
 

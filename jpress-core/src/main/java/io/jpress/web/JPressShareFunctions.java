@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sharekit;
+package io.jpress.web;
 
 import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.core.addon.AddonInfo;
+import io.jpress.core.addon.AddonManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +33,6 @@ import java.util.List;
  */
 public class JPressShareFunctions {
 
-    public static String blankCount(Integer count) {
-        if (count == null || count == 0) {
-            return "";
-        }
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < count; i++) {
-            sb.append("&nbsp;");
-        }
-        return sb.toString();
-    }
-
     public static String escape(String html) {
         if (html == null || html.trim().length() == 0) {
             return "";
@@ -49,6 +40,10 @@ public class JPressShareFunctions {
         return StrUtil.escapeHtml(html);
     }
 
+    public static boolean hasAddon(String id) {
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
+        return addonInfo != null && addonInfo.isStarted();
+    }
 
     public static Object option(String key) {
         String value = JPressOptions.get(key);
@@ -63,9 +58,9 @@ public class JPressShareFunctions {
     }
 
 
-    public static Object option(String key,String defaulValue) {
+    public static Object option(String key, String defaulValue) {
         String value = JPressOptions.get(key);
-        if (StrUtil.isBlank(value) && StrUtil.isNotBlank(defaulValue)){
+        if (StrUtil.isBlank(value) && StrUtil.isNotBlank(defaulValue)) {
             value = defaulValue;
         }
         if ("true".equalsIgnoreCase(value)) {

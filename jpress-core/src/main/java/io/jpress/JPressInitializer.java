@@ -19,6 +19,7 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
 import com.jfinal.kit.PathKit;
+import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.web.fixedinterceptor.FixedInterceptors;
@@ -31,6 +32,7 @@ import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.support.ehcache.EhcacheManager;
 import io.jpress.core.wechat.WechatAddonManager;
+import io.jpress.web.JPressShareFunctions;
 import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
@@ -92,6 +94,11 @@ public class JPressInitializer extends JbootAppListenerBase {
         handlers.add(new AddonHandlerProcesser());
 
         handlers.setActionHandler(new AddonControllerProcesser());
+    }
+
+    @Override
+    public void onEngineConfig(Engine engine) {
+        engine.addSharedStaticMethod(JPressShareFunctions.class);
     }
 
     @Override

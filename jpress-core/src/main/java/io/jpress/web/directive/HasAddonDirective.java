@@ -35,13 +35,13 @@ public class HasAddonDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String key = getPara(0, scope);
+        String id = getPara(0, scope);
 
-        if (StrUtil.isBlank(key)) {
+        if (StrUtil.isBlank(id)) {
             throw new IllegalArgumentException("#hasAddon(...) argument must not be empty" + getLocation());
         }
 
-        AddonInfo addonInfo = AddonManager.me().getAddonInfo(key);
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
         if (addonInfo != null && addonInfo.isStarted()){
             renderBody(env,scope,writer);
         }

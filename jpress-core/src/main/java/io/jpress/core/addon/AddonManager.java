@@ -341,13 +341,13 @@ public class AddonManager implements JbootEventListener {
         //构建 JPress 应用的 url 映射
         buildApplicationActionMapping();
 
-        //设置插件的状态
-        setAddonStatus(addonInfo);
+        //设置插件的启动标识（状态）
+        setAddonStartedFalg(addonInfo);
 
     }
 
 
-    private void setAddonStatus(AddonInfo addonInfo) {
+    private void setAddonStartedFalg(AddonInfo addonInfo) {
         addonInfo.setStatus(AddonInfo.STATUS_START);
         OptionService optionService = Aop.get(OptionService.class);
         optionService.saveOrUpdate(ADDON_START_PREFFIX + addonInfo.getId(), "true");

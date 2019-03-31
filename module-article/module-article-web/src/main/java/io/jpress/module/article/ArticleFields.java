@@ -68,23 +68,14 @@ public class ArticleFields {
                 null,
                 30).addAttr("rows", 2));
 
-//        fields.add(new SmartField("flag",
-//                "标识",
-//                "article.flag",
-//                "请输入",
-//                SmartField.TYPE_INPUT,
-//                null,
-//                null,
-//                null,
-//                40));
 
         fields.add(new SmartField("order_number",
                 "排序序号",
                 "article.order_number",
                 "请输入",
                 SmartField.TYPE_INPUT,
-                0,
-                0,
+                null,
+                null,
                 "文章列表会根据这个数值进行排序，越大越靠前。",
                 50));
 

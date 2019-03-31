@@ -83,8 +83,8 @@ public class ArticleFields {
                 "article.order_number",
                 "请输入",
                 SmartField.TYPE_INPUT,
-                null,
-                null,
+                0,
+                0,
                 "文章列表会根据这个数值进行排序，越大越靠前。",
                 50));
 

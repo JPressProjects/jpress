@@ -133,7 +133,7 @@ public class ModuleGenerator {
             engine.getTemplate("io/jpress/codegen/templates/pom_service_api_template.jf").render(map, serviceApiPomXmlFile);
         }
 
-        File serviceProviderPomXmlFile = new File(serviceApiFile, "pom.xml");
+        File serviceProviderPomXmlFile = new File(serviceProviderFile, "pom.xml");
         if (!serviceProviderPomXmlFile.exists()) {
             engine.getTemplate("io/jpress/codegen/templates/pom_service_provider_template.jf").render(map, serviceProviderPomXmlFile);
         }

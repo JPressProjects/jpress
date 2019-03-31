@@ -15,48 +15,41 @@
  */
 package io.jpress.web.directive;
 
-import com.jfinal.core.Controller;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-
-import java.io.IOException;
+import io.jpress.core.addon.AddonInfo;
+import io.jpress.core.addon.AddonManager;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.core.directives
  */
-@JFinalDirective("para")
-public class ParaDirective extends JbootDirectiveBase {
-
+@JFinalDirective("hasAddon")
+public class HasAddonDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Controller controller = JbootControllerContext.get();
+        String id = getPara(0, scope);
 
-        String key = getPara(0, scope);
-        String defaultValue = getPara(1, scope);
-
-        if (StrUtil.isBlank(key)) {
-            throw new IllegalArgumentException("#para(...) argument must not be empty" + getLocation());
+        if (StrUtil.isBlank(id)) {
+            throw new IllegalArgumentException("#hasAddon(...) argument must not be empty" + getLocation());
         }
 
-        String value = controller.getPara(key);
-        if (StrUtil.isBlank(value)) {
-            value = StrUtil.isNotBlank(defaultValue) ? defaultValue : "";
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
+        if (addonInfo != null && addonInfo.isStarted()){
+            renderBody(env,scope,writer);
         }
+    }
 
-        try {
-            writer.write(value);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public boolean hasEnd() {
+        return true;
     }
 }
 

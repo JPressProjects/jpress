@@ -26,6 +26,7 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.sitemap.ArticleSitemapProviderBuilder;
 
 import java.util.List;
 
@@ -88,4 +89,8 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
     }
 
 
+    @Override
+    public void onStart() {
+        ArticleSitemapProviderBuilder.me().init();
+    }
 }

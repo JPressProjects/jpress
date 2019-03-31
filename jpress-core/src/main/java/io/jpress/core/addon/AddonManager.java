@@ -106,14 +106,14 @@ public class AddonManager implements JbootEventListener {
             return;
         }
 
-        doInitInstalledAddons();
+        doInitAddons();
     }
 
     /**
      * 启动的时候，加载所有插件
      * 备注：插件可能是复制到插件目录下，而非通过后台进行 "安装"
      */
-    private void doInitInstalledAddons() {
+    private void doInitAddons() {
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
         if (!addonDir.exists()) return;
@@ -121,47 +121,36 @@ public class AddonManager implements JbootEventListener {
         File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
         if (addonJarFiles == null || addonJarFiles.length == 0) return;
 
+        doInitAddonsCacheInApplicationStarted(addonJarFiles);
+        doInstallAddonsInApplicationStarted();
+        doStartAddonInApplicationStarted();
+    }
+
+    private void doInitAddonsCacheInApplicationStarted(File[] addonJarFiles) {
         for (File jarFile : addonJarFiles) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             if (addonInfo != null && StrUtil.isNotBlank(addonInfo.getId())) {
                 addonsCache.put(addonInfo.getId(), addonInfo);
             }
         }
-
-        installInit(addonJarFiles);
-        startInit(addonJarFiles);
-    }
-
-    public AddonInfo getAddonInfo(String id) {
-        if (StrUtil.isBlank(id)) {
-            return null;
-        }
-
-        return addonsCache.get(id);
-    }
-
-    public List<AddonInfo> getAllAddonInfos() {
-        return new ArrayList<>(addonsCache.values());
     }
 
 
-    private void installInit(File[] addonJars) {
+
+    private void doInstallAddonsInApplicationStarted() {
 
         OptionService optionService = Aop.get(OptionService.class);
-
-        for (File jarFile : addonJars) {
-            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            if (addonInfo != null && optionService.findByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId()) != null) {
+        for (AddonInfo addonInfo : addonsCache.values()) {
+            if (optionService.findByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId()) != null) {
                 addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
             }
         }
     }
 
-    private void startInit(File[] addonJars) {
+    private void doStartAddonInApplicationStarted() {
         OptionService optionService = Aop.get(OptionService.class);
-        for (File jarFile : addonJars) {
-            AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            if (addonInfo != null && optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
+        for (AddonInfo addonInfo : addonsCache.values()) {
+            if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
                 try {
                     doStart(addonInfo);
                 } catch (Exception ex) {
@@ -171,6 +160,18 @@ public class AddonManager implements JbootEventListener {
             }
         }
     }
+
+    public AddonInfo getAddonInfo(String id) {
+        if (StrUtil.isBlank(id)) {
+            return null;
+        }
+        return addonsCache.get(id);
+    }
+
+    public List<AddonInfo> getAllAddonInfos() {
+        return new ArrayList<>(addonsCache.values());
+    }
+
 
     public boolean install(String id) {
         return install(getAddonInfo(id).buildJarFile());

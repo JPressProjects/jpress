@@ -68,14 +68,14 @@
                                     <strong>
                                         <a href="#">#(addon.title ??)</a>
                                         #if(!addon.isInstall()) （未安装）
-                                        #elseif(!addon.isStart()) (未启用)
+                                        #elseif(!addon.isStarted()) (未启用)
                                         #end
                                     </strong>
 
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             #if(addon.isInstall())
-                                            #if(addon.isStart())
+                                            #if(addon.isStarted())
                                             <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
                                                class="addon-stop">停用</a> |
                                             #else

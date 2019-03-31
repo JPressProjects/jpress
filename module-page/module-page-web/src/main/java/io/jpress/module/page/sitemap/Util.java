@@ -25,7 +25,7 @@ class Util {
         Sitemap sitemap = new Sitemap();
         sitemap.setChangefreq(Sitemap.CHANGEFREQ_WEEKLY);
         sitemap.setLoc(page.getUrl());
-        sitemap.setLastmod(page.getModified());
+        sitemap.setLastmod(page.getModified() != null ? page.getModified() : page.getCreated());
         sitemap.setPriority(0.5f);
         return sitemap;
     }

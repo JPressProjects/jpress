@@ -16,6 +16,8 @@
 package io.jpress.core.module;
 
 import com.jfinal.core.Controller;
+import io.jboot.core.listener.JbootAppListener;
+import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
 
 import java.util.List;
@@ -26,8 +28,7 @@ import java.util.List;
  * @Title: JPress 监听器
  * @Package io.jpress
  */
-@Deprecated
-public class ModuleListenerBase implements ModuleListener {
+public class ModuleBase extends JbootAppListenerBase implements ModuleListener, JbootAppListener {
 
 
     @Override

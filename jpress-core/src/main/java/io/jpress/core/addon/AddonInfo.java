@@ -175,7 +175,7 @@ public class AddonInfo implements Serializable {
         return status > STATUS_INIT;
     }
 
-    public boolean isStart() {
+    public boolean isStarted() {
         return status > STATUS_INSTALL;
     }
 

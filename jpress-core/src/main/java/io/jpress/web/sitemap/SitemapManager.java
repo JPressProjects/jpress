@@ -20,8 +20,7 @@ import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jboot.utils.ClassUtil;
-import io.jpress.JPressConsts;
-import io.jpress.JPressOptions;
+import io.jboot.utils.StrUtil;
 import io.jpress.core.install.Installer;
 
 import java.util.ArrayList;
@@ -51,11 +50,13 @@ public class SitemapManager implements JbootEventListener {
             return;
         }
 
-        List<Class<SitemapProvider>> cls = ClassScanner.scanSubClass(SitemapProvider.class,true);
+        List<Class<SitemapProvider>> cls = ClassScanner.scanSubClass(SitemapProvider.class, true);
         if (cls != null && cls.size() > 0) {
             cls.forEach(c -> {
                 SitemapProvider provider = ClassUtil.newInstance(c);
-                providers.put(provider.getName(), provider);
+                if (provider != null && StrUtil.isNotBlank(provider.getName())) {
+                    providers.put(provider.getName(), provider);
+                }
             });
         }
     }
@@ -69,6 +70,10 @@ public class SitemapManager implements JbootEventListener {
         providers.put(name, provider);
     }
 
+    public void addProvider(SitemapProvider provider) {
+        providers.put(provider.getName(), provider);
+    }
+
     public SitemapProvider getProvider(String name) {
         return providers.get(name);
     }
@@ -79,9 +84,7 @@ public class SitemapManager implements JbootEventListener {
 
     public List<Sitemap> getIndexSitemapList() {
         List<Sitemap> sitemaps = new ArrayList<>();
-        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, "");
-        String prefix = domain + "/sitemap/";
-        providers.forEach((s, render) -> sitemaps.add(new Sitemap(prefix + s + ".xml", render.getLastmod())));
+        providers.forEach((s, render) -> sitemaps.add(new Sitemap("/sitemap/" + s + ".xml", render.getLastmod())));
         return sitemaps;
     }
 

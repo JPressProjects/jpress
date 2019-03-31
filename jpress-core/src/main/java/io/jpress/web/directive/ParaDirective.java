@@ -15,7 +15,6 @@
  */
 package io.jpress.web.directive;
 
-import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -24,7 +23,6 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.service.RoleService;
 
 import java.io.IOException;
 
@@ -36,27 +34,23 @@ import java.io.IOException;
 @JFinalDirective("para")
 public class ParaDirective extends JbootDirectiveBase {
 
-    @Inject
-    private RoleService roleService;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
         Controller controller = JbootControllerContext.get();
 
-
         String key = getPara(0, scope);
         String defaultValue = getPara(1, scope);
 
         if (StrUtil.isBlank(key)) {
-            throw new IllegalArgumentException("#para(...) argument must not be empty");
+            throw new IllegalArgumentException("#para(...) argument must not be empty" + getLocation());
         }
 
         String value = controller.getPara(key);
         if (StrUtil.isBlank(value)) {
             value = StrUtil.isNotBlank(defaultValue) ? defaultValue : "";
         }
-
 
         try {
             writer.write(value);

@@ -178,6 +178,8 @@ public class _TemplateController extends AdminControllerBase {
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
 
+        RenderManager.me().getEngine().removeAllTemplateCache();
+
         renderOkJson();
     }
 

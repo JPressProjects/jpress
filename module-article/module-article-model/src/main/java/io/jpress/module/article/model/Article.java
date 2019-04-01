@@ -25,6 +25,7 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.base.BaseArticle;
+import io.jpress.web.seoping.PingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,6 +207,10 @@ public class Article extends BaseArticle<Article> {
     public boolean update() {
         CommonsUtils.escapeHtmlForAllAttrs(this, "content");
         return super.update();
+    }
+
+    public PingData toPingData(){
+        return PingData.create(getTitle(),getUrl());
     }
 
 //    @Override

@@ -25,7 +25,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
-import io.jpress.web.seoping.PingManager;
+import io.jpress.web.seoping.SeoManager;
 
 import java.util.List;
 
@@ -74,13 +74,14 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     public boolean doChangeStatus(long id, String status) {
         SinglePage page = findById(id);
         page.setStatus(status);
-        return page.update();
+        return update(page);
     }
 
     @Override
     public boolean update(SinglePage model) {
         if (model.isNormal()) {
-            PingManager.me().ping(model.toPingData());
+            SeoManager.me().ping(model.toPingData());
+            SeoManager.me().baiduUpdate(model.getUrl());
         }
         return super.update(model);
     }
@@ -88,7 +89,8 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     @Override
     public Object save(SinglePage model) {
         if (model.isNormal()) {
-            PingManager.me().ping(model.toPingData());
+            SeoManager.me().ping(model.toPingData());
+            SeoManager.me().baiduPush(model.getUrl());
         }
         return super.save(model);
     }

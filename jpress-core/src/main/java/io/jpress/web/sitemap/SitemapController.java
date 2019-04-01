@@ -18,6 +18,7 @@ package io.jpress.web.sitemap;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class SitemapController extends JbootController {
     private static final String contentType = "text/xml; charset=utf-8";
 
     public void index() {
+
+        boolean siteMapEnable = JPressOptions.getAsBool("seo_sitemap_enable");
+        if (!siteMapEnable) {
+            renderError(404);
+            return;
+        }
 
         String para = getPara(0);
         StringBuilder xmlBuilder = new StringBuilder();

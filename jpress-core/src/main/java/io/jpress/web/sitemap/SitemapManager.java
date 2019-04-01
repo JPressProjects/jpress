@@ -30,8 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SitemapManager implements JbootEventListener {
 
-    public static final String SITEMAP_UPDATE_DATE = "sitemap_update_date";
-
     private static SitemapManager me = new SitemapManager();
 
     private SitemapManager() {

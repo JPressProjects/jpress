@@ -12,7 +12,7 @@ jpress v2.0-rc.7:
 优化：删除 ControllerBase 中的 getParaSet 等无用的 Action
 优化：Utm 存储任务 UtmBatchSaveTask 修改为 1分钟已提交一次，同时修复可能存在的线程安全问题
 优化：对 AddonUtil 进行重构，使之更加简单合理
-优化：调整 调整 分类、标签 显示到菜单的交互逻辑，使之更加直观。感谢 [@喜欢吃豆包](https://gitee.com/litongclub)
+优化：调整 分类、标签 显示到菜单的交互逻辑，使之更加直观。感谢 [@喜欢吃豆包](https://gitee.com/litongclub)
 优化：当对网站菜单进行删除的时候，弹出提示框，防止误删的问题
 优化：JPressOptions 的 get() 方法添加返回默认值的支持
 优化：当微信小程序等客户端通过 api 读取文章时，无法获取文章作者的问题。感谢 [@喜欢吃豆包](https://gitee.com/litongclub)
@@ -21,7 +21,7 @@ jpress v2.0-rc.7:
 优化：修改 AddonInfo 的 isStart() 方法为 isStarted()
 修复：当在同一个机器上部署多个 JPress，通过 jpress.sh 去关闭 jpress 时，会导致多个 JPress 应用同时关闭的问题。感谢 [@900](https://gitee.com/upwind)
 修复：菜单 填写 html 的 icon 时，可能出现错误的问题
-修复：WordPress 文章导入时，可能存在数据丢失的问题。感谢 感谢 [@xiyoufang](https://gitee.com/xiyoufang)
+修复：WordPress 文章导入时，可能存在数据丢失的问题。感谢 [@xiyoufang](https://gitee.com/xiyoufang)
 修复：通过 微信、QQ 等进行 Oauth 登录成功之后，跳转的路径错误的问题
 修复：用户中心的登录页面，在二级目录下会出现部分css无法正确显示的问题
 修复：微信运营插件 启用后，无法对其进行关闭的问题

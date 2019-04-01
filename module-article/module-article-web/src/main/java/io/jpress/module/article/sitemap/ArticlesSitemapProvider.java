@@ -23,9 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 备注：ArticlesSitemapProvider 必须为抽象类，否则会被自动加载
- */
+
 public class ArticlesSitemapProvider implements SitemapProvider {
 
     private String name;

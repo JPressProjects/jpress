@@ -1,5 +1,7 @@
 package io.jpress.web.seoping;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.jboot.utils.HttpUtil;
 
 /**
@@ -10,16 +12,16 @@ public class BaiduSeoProcesser {
     private static final String pushUrl = "http://data.zz.baidu.com/urls?site={site}&token={token}";
     private static final String updateUrl = "http://data.zz.baidu.com/update?site={site}&token={token}";
 
-    public static void push(String site, String token, String... urls) {
-        process(pushUrl, site, token, urls);
+    public static boolean push(String site, String token, String... urls) {
+        return process(pushUrl, site, token, urls);
     }
 
-    public static void update(String site, String token, String... urls) {
-        process(updateUrl, site, token, urls);
+    public static boolean update(String site, String token, String... urls) {
+        return process(updateUrl, site, token, urls);
     }
 
 
-    private static void process(String postUrl, String site, String token, String... urls) {
+    private static boolean process(String postUrl, String site, String token, String... urls) {
         StringBuilder pushData = new StringBuilder();
         for (String url : urls) {
             pushData.append(url).append("\n");
@@ -44,6 +46,21 @@ public class BaiduSeoProcesser {
          * }
          */
 
+        if (response != null) {
+            JSONObject json = JSON.parseObject(response);
+            return json.getInteger("success") != null;
+        }
+
+        return false;
+    }
+
+
+    public static void main(String[] args) {
+        String site = "www.jpress.io";
+        String token = "avsegfd8WTAVOo7Iv";
+
+        boolean success = push(site, token, "http://www.jpress.io/club");
+        System.out.println("success : " + success);
 
     }
 

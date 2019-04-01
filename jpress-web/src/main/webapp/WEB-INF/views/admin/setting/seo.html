@@ -67,6 +67,38 @@
                                 </div>
                             </div>
 
+                            <h4 class="page-header">其他</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用 百度 Ping</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_baidu_ping_enable"
+                                           #checkedIf(option("seo_baidu_ping_enable"))>
+                                    <input type="hidden" id="seo_baidu_ping_enable" name="seo_baidu_ping_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用 Google Ping</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_google_ping_enable"
+                                           #checkedIf(option("seo_google_ping_enable"))>
+                                    <input type="hidden" id="seo_google_ping_enable" name="seo_google_ping_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启 Sitmap 功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_sitemap_enable"
+                                           #checkedIf(option("seo_sitemap_enable"))>
+                                    <input type="hidden" id="seo_sitemap_enable" name="seo_sitemap_enable">
+                                    <p class="help-block"> sitemap 的默认地址是 <a href="/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
+                                </div>
+                            </div>
+
 
                         </div>
                         <!-- /.box-body -->

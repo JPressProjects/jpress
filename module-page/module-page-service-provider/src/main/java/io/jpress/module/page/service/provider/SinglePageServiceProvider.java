@@ -25,6 +25,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
+import io.jpress.web.seoping.PingManager;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
 
     @Override
     public void deleteCacheById(Object id) {
-         DAO.deleteIdCacheById(id);
+        DAO.deleteIdCacheById(id);
     }
 
     @Override
@@ -74,6 +75,22 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
         SinglePage page = findById(id);
         page.setStatus(status);
         return page.update();
+    }
+
+    @Override
+    public boolean update(SinglePage model) {
+        if (model.isNormal()) {
+            PingManager.me().ping(model.toPingData());
+        }
+        return super.update(model);
+    }
+
+    @Override
+    public Object save(SinglePage model) {
+        if (model.isNormal()) {
+            PingManager.me().ping(model.toPingData());
+        }
+        return super.save(model);
     }
 
     @Override

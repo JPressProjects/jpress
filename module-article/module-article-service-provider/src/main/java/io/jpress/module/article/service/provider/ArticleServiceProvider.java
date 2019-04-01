@@ -38,6 +38,7 @@ import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
+import io.jpress.web.seoping.PingManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -330,6 +331,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
+            PingManager.me().ping(model.toPingData());
         }
         return id;
     }
@@ -341,6 +343,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         if (success) {
             if (model.isNormal()) {
                 ArticleSearcherFactory.getSearcher().updateArticle(model);
+                PingManager.me().ping(model.toPingData());
             } else {
                 ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
             }

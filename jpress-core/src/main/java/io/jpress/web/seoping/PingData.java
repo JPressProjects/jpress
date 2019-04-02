@@ -13,40 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.module;
+package io.jpress.web.seoping;
 
-import com.jfinal.core.Controller;
-import io.jpress.core.menu.MenuGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Title: JPress 监听器
- * @Package io.jpress
- */
-@Deprecated
-public class ModuleListenerBase implements ModuleListener {
+public class PingData {
 
+    private List<String> datas;
 
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        return null;
+    public static PingData create() {
+        return new PingData();
     }
 
-    @Override
-    public String onRenderToolsBox(Controller controller) {
-        return null;
+
+    public static PingData create(String... data) {
+        PingData d = create();
+        for (String s : data) d.add(s);
+        return d;
     }
 
-    @Override
-    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 
+    public List<String> getDatas() {
+        return datas;
     }
 
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
+    public void setDatas(List<String> datas) {
+        this.datas = datas;
+    }
 
+    public PingData add(String data) {
+        if (datas == null) {
+            datas = new ArrayList<>();
+        }
+        datas.add(data);
+        return this;
     }
 }

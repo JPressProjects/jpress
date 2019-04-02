@@ -16,6 +16,12 @@
 package io.jpress.web.sitemap;
 
 
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -63,12 +69,34 @@ public class Sitemap implements Serializable {
         return loc;
     }
 
+    public String getLocWithDomain() {
+        if (StrUtil.isBlank(loc) || loc.startsWith("http:") || loc.startsWith("https:")) {
+            return loc;
+        }
+
+        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, "");
+        if (StrUtil.isBlank(domain) && JbootControllerContext.get() != null) {
+            domain = getDefaultDomain(JbootControllerContext.get().getRequest());
+        }
+        return domain + loc;
+    }
+
+    private String getDefaultDomain(HttpServletRequest req) {
+        int port = req.getServerPort();
+        StringBuilder defaultDomain = new StringBuilder(req.getScheme());
+        defaultDomain.append("://")
+                .append(req.getServerName())
+                .append(port == 80 ? "" : ":" + port)
+                .append(req.getContextPath());
+        return defaultDomain.toString();
+    }
+
     public void setLoc(String loc) {
         this.loc = loc;
     }
 
     public Date getLastmod() {
-        if (lastmod == null){
+        if (lastmod == null) {
             lastmod = new Date();
         }
         return lastmod;
@@ -97,7 +125,7 @@ public class Sitemap implements Serializable {
     public String toXml() {
         StringBuilder xmlBuilder = new StringBuilder();
         xmlBuilder.append("<sitemap>");
-        xmlBuilder.append("<loc>" + loc + "</loc>");
+        xmlBuilder.append("<loc>" + getLocWithDomain() + "</loc>");
         xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");
         xmlBuilder.append("</sitemap>");
         return xmlBuilder.toString();
@@ -106,7 +134,7 @@ public class Sitemap implements Serializable {
     public String toUrlXml() {
         StringBuilder xmlBuilder = new StringBuilder();
         xmlBuilder.append("<url>");
-        xmlBuilder.append("<loc>" + loc + "</loc>");
+        xmlBuilder.append("<loc>" + getLocWithDomain() + "</loc>");
         xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");
         xmlBuilder.append("<changefreq>" + changefreq + "</changefreq>");
         xmlBuilder.append("<priority>" + (priority == 1 ? "1" : priority) + "</priority>");

@@ -38,6 +38,7 @@ import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
+import io.jpress.web.seoping.SeoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -330,6 +331,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
+            SeoManager.me().ping(model.toPingData());
+            SeoManager.me().baiduPush(model.getUrl());
         }
         return id;
     }
@@ -341,6 +344,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         if (success) {
             if (model.isNormal()) {
                 ArticleSearcherFactory.getSearcher().updateArticle(model);
+                SeoManager.me().ping(model.toPingData());
+                SeoManager.me().baiduUpdate(model.getUrl());
             } else {
                 ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
             }

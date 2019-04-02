@@ -47,6 +47,71 @@
                                 </div>
                             </div>
 
+                            <h4 class="page-header">百度实时推送</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用百度实时推送</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_baidu_realtime_push_enable"
+                                           #checkedIf(option("seo_baidu_realtime_push_enable"))>
+                                    <input type="hidden" id="seo_baidu_realtime_push_enable" name="seo_baidu_realtime_push_enable">
+                                    <p class="help-block"> 在启用该功能之前，请先去 <a href="https://ziyuan.baidu.com" target="_blank">https://ziyuan.baidu.com</a> 申请链接提交功能 。</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">推送站点</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：www.jpress.io"
+                                           name="seo_baidu_realtime_push_site" value="#option('seo_baidu_realtime_push_site')">
+                                    <p class="help-block"> 例如：www.jpress.io ，<span style="color: red">不要</span>前缀 http:// ，请务必保证和百度申请的填写一致。</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Token</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="..."
+                                           name="seo_baidu_realtime_push_token" value="#option('seo_baidu_realtime_push_token')">
+                                    <p class="help-block"> 请到 <a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">https://ziyuan.baidu.com/linksubmit/index</a> 获取 token 。 </p>
+                                </div>
+                            </div>
+
+
+
+                            <h4 class="page-header">Ping 与 Sitemap</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用 百度 Ping</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_baidu_ping_enable"
+                                           #checkedIf(option("seo_baidu_ping_enable"))>
+                                    <input type="hidden" id="seo_baidu_ping_enable" name="seo_baidu_ping_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">启用 Google Ping</label>
+
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_google_ping_enable"
+                                           #checkedIf(option("seo_google_ping_enable"))>
+                                    <input type="hidden" id="seo_google_ping_enable" name="seo_google_ping_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启 Sitmap 功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="seo_sitemap_enable"
+                                           #checkedIf(option("seo_sitemap_enable"))>
+                                    <input type="hidden" id="seo_sitemap_enable" name="seo_sitemap_enable">
+                                    <p class="help-block"> sitemap 的默认地址是 <a href="/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
+                                </div>
+                            </div>
+
+
                             <h4 class="page-header">伪静态</h4>
 
                             <div class="form-group">

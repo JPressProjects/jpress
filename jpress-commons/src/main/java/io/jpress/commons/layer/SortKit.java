@@ -93,7 +93,9 @@ public class SortKit {
             if (parent.getId().equals(model.getParentId())) {
                 model.setParent(parent);
                 model.setLayerNumber(parent.getLayerNumber() + 1);
-                parent.addChild(model);
+                if (parent.getChilds() == null || !parent.getChilds().contains(model)) {
+                    parent.addChild(model);
+                }
                 fillChild(model, models);
             }
         }

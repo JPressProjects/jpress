@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.page.sitemap;
+package io.jpress.web.seoping;
 
-
-import io.jpress.module.page.model.SinglePage;
-import io.jpress.web.sitemap.Sitemap;
 
 class Util {
 
-    public static Sitemap toSitemap(SinglePage page) {
-        Sitemap sitemap = new Sitemap();
-        sitemap.setChangefreq(Sitemap.CHANGEFREQ_WEEKLY);
-        sitemap.setLoc(page.getUrl());
-        sitemap.setLastmod(page.getModified() != null ? page.getModified() : page.getCreated());
-        sitemap.setPriority(0.5f);
-        return sitemap;
+    public static String replace(String xml,String template,PingData data){
+        StringBuilder tbuilder = new StringBuilder();
+        for (String s : data.getDatas()){
+            tbuilder.append(template.replace("{data}",s));
+        }
+        return xml.replace("{template}", tbuilder.toString());
     }
 }

@@ -190,7 +190,7 @@ public class AddonManager implements JbootEventListener {
         try {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             addonsCache.put(addonInfo.getId(), addonInfo);
-            Addon addon = Aop.get(addonInfo.getAddonClass());
+            Addon addon = addonInfo.getAddon();
             AddonUtil.unzipResources(addonInfo);
             if (addon != null) {
                 addon.onInstall(addonInfo);
@@ -272,7 +272,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
-        Addon addon = Aop.get(addonInfo.getAddonClass());
+        Addon addon = addonInfo.getAddon();
         if (addon != null) {
             addon.onUninstall(addonInfo);
         }
@@ -358,7 +358,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void invokeStartMethod(AddonInfo addonInfo) {
-        Addon addon = Aop.get(addonInfo.getAddonClass());
+        Addon addon = addonInfo.getAddon();
         if (addon != null) {
             addon.onStart(addonInfo);
         }
@@ -524,7 +524,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void invokeAddonStopMethod(AddonInfo addonInfo) {
-        Addon addon = Aop.get(addonInfo.getAddonClass());
+        Addon addon = addonInfo.getAddon();
         if (addon != null) addon.onStop(addonInfo);
     }
 
@@ -682,9 +682,8 @@ public class AddonManager implements JbootEventListener {
 
         AddonUtil.clearAddonInfoCache(newAddon.buildJarFile());
         AddonInfo addon = AddonUtil.readAddonInfo(newAddon.buildJarFile());
-
-        if (addon.getUpgraderClass() != null) {
-            AddonUpgrader upgrader = Aop.get(addon.getUpgraderClass());
+        AddonUpgrader upgrader = addon.getAddonUpgrader();
+        if (upgrader != null) {
             boolean success = false;
             try {
                 success = upgrader.onUpgrade(oldAddon, addon);

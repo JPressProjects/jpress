@@ -16,12 +16,12 @@
 package io.jpress.web.sitemap;
 
 
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -76,19 +76,9 @@ public class Sitemap implements Serializable {
 
         String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, "");
         if (StrUtil.isBlank(domain) && JbootControllerContext.get() != null) {
-            domain = getDefaultDomain(JbootControllerContext.get().getRequest());
+            domain = RequestUtil.getBaseUrl(JbootControllerContext.get().getRequest());
         }
         return domain + loc;
-    }
-
-    private String getDefaultDomain(HttpServletRequest req) {
-        int port = req.getServerPort();
-        StringBuilder defaultDomain = new StringBuilder(req.getScheme());
-        defaultDomain.append("://")
-                .append(req.getServerName())
-                .append(port == 80 ? "" : ":" + port)
-                .append(req.getContextPath());
-        return defaultDomain.toString();
     }
 
     public void setLoc(String loc) {

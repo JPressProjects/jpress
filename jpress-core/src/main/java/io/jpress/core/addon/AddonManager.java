@@ -136,7 +136,6 @@ public class AddonManager implements JbootEventListener {
     }
 
 
-
     private void doInstallAddonsInApplicationStarted() {
 
         OptionService optionService = Aop.get(OptionService.class);
@@ -667,9 +666,6 @@ public class AddonManager implements JbootEventListener {
             return false;
         }
 
-        //启动插件
-//        start(newAddon.getId());
-
         return true;
     }
 
@@ -687,9 +683,8 @@ public class AddonManager implements JbootEventListener {
         AddonUtil.clearAddonInfoCache(newAddon.buildJarFile());
         AddonInfo addon = AddonUtil.readAddonInfo(newAddon.buildJarFile());
 
-        AddonUpgrader upgrader = Aop.get(addon.getUpgraderClass());
-
-        if (upgrader != null) {
+        if (addon.getUpgraderClass() != null) {
+            AddonUpgrader upgrader = Aop.get(addon.getUpgraderClass());
             boolean success = false;
             try {
                 success = upgrader.onUpgrade(oldAddon, addon);
@@ -700,6 +695,7 @@ public class AddonManager implements JbootEventListener {
                 }
             }
         }
+
 
         addonsCache.put(addon.getId(), addon);
         return true;

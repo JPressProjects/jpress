@@ -106,8 +106,10 @@ public class AddonClassLoader extends URLClassLoader {
                 else if (Addon.class.isAssignableFrom(loadedClass)) {
                     addonInfo.setAddonClass(loadedClass);
                 }
-
-
+                // upgraderClass
+                else if (AddonUpgrader.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.setUpgraderClass(loadedClass);
+                }
 
             } catch (ClassNotFoundException e) {
                 LOG.error(e.toString(), e);

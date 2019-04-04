@@ -19,7 +19,6 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
-import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
@@ -37,8 +36,6 @@ public class AddonInfo implements Serializable {
     public static final int STATUS_INSTALL = 1;
     public static final int STATUS_START = 2;
 
-    private static final Log log = Log.getLog(AddonInfo.class);
-
     private String id;
     private String title;
     private String description;
@@ -48,6 +45,7 @@ public class AddonInfo implements Serializable {
     private int versionCode;
 
     private Class<? extends Addon> addonClass;
+    private Class<? extends AddonUpgrader> upgraderClass;
     private int status = STATUS_INIT;
 
     private List<Class<? extends Controller>> controllers;
@@ -87,6 +85,14 @@ public class AddonInfo implements Serializable {
 
     public void setAddonClass(Class<? extends Addon> addonClass) {
         this.addonClass = addonClass;
+    }
+
+    public Class<? extends AddonUpgrader> getUpgraderClass() {
+        return upgraderClass;
+    }
+
+    public void setUpgraderClass(Class<? extends AddonUpgrader> upgraderClass) {
+        this.upgraderClass = upgraderClass;
     }
 
     public String getTitle() {
@@ -271,22 +277,6 @@ public class AddonInfo implements Serializable {
         this.arp = arp;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-
-        if (!(obj instanceof AddonInfo)) {
-            return false;
-        }
-
-        AddonInfo addon = (AddonInfo) obj;
-        if (addon.getId() == null) {
-            return false;
-        }
-
-        return addon.getId().equals(getId());
-    }
 
 
     public File buildJarFile() {

@@ -15,6 +15,7 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
@@ -69,7 +70,7 @@ public class AddonInfo implements Serializable {
         this.description = properties.getProperty("description");
         this.author = properties.getProperty("author");
         this.authorWebsite = properties.getProperty("authorWebsite");
-        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"),"v1.0.0");
+        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"), "v1.0.0");
         this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
     }
 
@@ -301,7 +302,6 @@ public class AddonInfo implements Serializable {
     }
 
 
-
     public File buildJarFile() {
 
         String webRoot = PathKit.getWebRootPath();
@@ -316,6 +316,14 @@ public class AddonInfo implements Serializable {
         fileName.append(".jar");
 
         return new File(fileName.toString());
+    }
+
+    public Addon getAddon() {
+        return addonClass == null ? null : Aop.get(addonClass);
+    }
+
+    public AddonUpgrader getAddonUpgrader() {
+        return upgraderClass == null ? null : Aop.get(upgraderClass);
     }
 
 

@@ -106,7 +106,7 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
     @Override
     public TGroup findFirstGroupByRouteId(Long routeId) {
         Columns columns = Columns.create("route_id", routeId);
-        columns.add("status", 0);
+        columns.add("status", TGroup.ENROLLING_STATUS);
         TGroup group = DAO.findFirstByColumns(columns, "id ");
         if (group == null) {
             return null;

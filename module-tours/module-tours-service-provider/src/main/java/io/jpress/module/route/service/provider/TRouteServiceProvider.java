@@ -2,6 +2,7 @@ package io.jpress.module.route.service.provider;
 
 import com.google.common.collect.Lists;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
@@ -12,8 +13,11 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.commons.utils.DateUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
+import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.search.ArticleSearcher;
+import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
 import io.jpress.module.route.service.TGroupService;
@@ -76,7 +80,6 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
 
     public Page<TRoute> _paginateByBaseColumns(int page, int pagesize, String title, String code, Long categoryId, Columns baseColumns) {
 
-
         StringBuilder sqlBuilder = new StringBuilder("from t_route r ");
         if (categoryId != null) {
             sqlBuilder.append(" left join t_route_category_mapping m on r.id = m.`route_id` ");
@@ -89,6 +92,43 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by ").append(DEFAULT_ORDER_BY);
+
+        Page<TRoute> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        return joinUserPage(dataPage);
+    }
+
+    @Override
+    @Cacheable(name = "routes")
+    public Page<TRoute> paginateInNormal(int page, int pagesize) {
+        return paginateInNormal(page, pagesize,null);
+    }
+
+    @Override
+    @Cacheable(name = "routes")
+    public Page<TRoute> paginateInNormal(int page, int pagesize, String orderBy) {
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        Columns columns = new Columns();
+        columns.add("status", TRoute.STATUS_NORMAL);
+        Page<TRoute> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
+        return joinUserPage(dataPage);
+    }
+
+
+    @Override
+    @Cacheable(name = "routes")
+    public Page<TRoute> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
+
+        StringBuilder sqlBuilder = new StringBuilder("from t_route r ");
+        sqlBuilder.append(" left join t_route_category_mapping m on r.id = m.`route_id` ");
+
+        Columns columns = new Columns();
+        columns.add("m.category_id", categoryId);
+        columns.add("r.status", TRoute.STATUS_NORMAL);
+
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        sqlBuilder.append(" ORDER BY ").append(orderBy);
 
         Page<TRoute> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserPage(dataPage);
@@ -211,7 +251,7 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
     public List<TRoute> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         StringBuilder from = new StringBuilder("select * from t_route r ");
-        from.append(" left join t_route_category_mapping m on r.id = m.`article_id` ");
+        from.append(" left join t_route_category_mapping m on r.id = m.`route_id` ");
         from.append(" where m.category_id = ? ");
         from.append(" and r.status = ? ");
 
@@ -235,6 +275,16 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
         }
 
         return DAO.find(from.toString(), categoryId, TRoute.STATUS_NORMAL);
+    }
+
+    @Override
+    public Page<TRoute> search(String keyword, String code, Long categoryId, int page, int pagesize) {
+        return _paginateByBaseColumns(page
+                ,pagesize
+                ,keyword
+                ,code
+                ,categoryId
+                ,Columns.create().ne("r.status", TRoute.STATUS_TRASH));
     }
 
 }

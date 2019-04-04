@@ -136,6 +136,48 @@ public interface TRouteService extends JbootServiceJoiner {
     public Page<TRoute> _paginateWithoutTrash(int page, int pagesize, String title, String code, Long categoryId);
 
     /**
+     * paginate query
+     *
+     * @param page
+     * @param pagesize
+     * @return
+     */
+    public Page<TRoute> paginateInNormal(int page, int pagesize);
+
+    /**
+     * paginate query with order params
+     *
+     * @param page
+     * @param pageSize
+     * @param orderBy
+     * @return
+     */
+    public Page<TRoute> paginateInNormal(int page, int pagesize, String orderBy);
+
+    /**
+     * paginate query with order and category params
+     *
+     * @param page
+     * @param pageSize
+     * @param categoryId
+     * @param orderBy
+     * @return
+     */
+    public Page<TRoute> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
+
+    /**
+     * search
+     *
+     * @param keyword
+     * @param code
+     * @param categoryId
+     * @param page
+     * @param pagesize
+     * @return
+     */
+    public Page<TRoute> search(String keyword, String code, Long categoryId, int page, int pagesize);
+
+    /**
      * find routes by conditions
      *
      * @param columns

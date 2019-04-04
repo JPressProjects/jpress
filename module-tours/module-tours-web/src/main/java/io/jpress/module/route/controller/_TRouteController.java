@@ -125,7 +125,16 @@ public class _TRouteController extends AdminControllerBase {//
         initStylesAttr("route_");
         render("tours/route_edit.html");
     }
-   
+
+    @EmptyValidate({
+        @Form(name = "route.code", message = "线路编码不能为空"),
+        @Form(name = "route.title", message = "线路标题不能为空"),
+        @Form(name = "route.total_days", message = "线程天数不能为空"),
+        @Form(name = "route.expire_date", message = "过期日期不能为空"),
+        @Form(name = "route.child_price", message = "儿童价格不能为空"),
+        @Form(name = "route.market_price", message = "市场价格不能为空"),
+        @Form(name = "route.price", message = "成人价格不能为空")
+    })
     public void doSave() {
         TRoute route = getModel(TRoute.class,"route");
 
@@ -170,13 +179,13 @@ public class _TRouteController extends AdminControllerBase {//
         String calendarStr = getPara("calendarStr");
         groupService.doUpdateGroups(route, groups, calendarStr);
         TGroup group = groupService.findFirstGroupByRouteId(id);
+        if (group != null) {
+            route.setGroupId(group.getId());
+            route.setDepartureDate(group.getLeaveDate());
+        }
 
-
-        route.setGroupId(group.getId());
-        route.setDepartureDate(group.getLeaveDate());
         route.saveOrUpdate();
         setAttr("route", route);
-
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }

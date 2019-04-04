@@ -15,9 +15,15 @@
  */
 package io.jpress.module.route.controller;
 
+import com.jfinal.aop.Aop;
+import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.module.route.model.TRoute;
+import io.jpress.module.route.service.TRouteService;
 import io.jpress.web.base.TemplateControllerBase;
+import org.elasticsearch.common.inject.Inject;
 
 /**
  * @author Eric.Huang 黄鑫（ninemm@126.com）
@@ -27,14 +33,16 @@ import io.jpress.web.base.TemplateControllerBase;
 @RequestMapping("/route/search")
 public class RouteSearchController extends TemplateControllerBase {
 
+    @Inject
+    TRouteService routeService;
 
     public void index() {
 
         String keyword = getEscapeHtmlPara("keyword");
-        if (StrUtil.isBlank(keyword)) {
+/*        if (StrUtil.isBlank(keyword)) {
             renderError(404);
             return;
-        }
+        }*/
 
         /**
          * 不让页面大于100，我认为：
@@ -47,17 +55,33 @@ public class RouteSearchController extends TemplateControllerBase {
             return;
         }
 
+        String code = getPara("code");
+        Long categoryId = getParaToLong("categoryId");
+
 //        for test only
 //        ArticleService articleService = Aop.get(ArticleService.class);
 //        articleService.search(keyword,1,10);
 
         setAttr("keyword", keyword);
-        setAttr("page", page);
+        setAttr("code", code);
+        setAttr("categoryId", categoryId);
+        // setAttr("page", page);
 
         setMenuActive(menu -> menu.isUrlStartWidth("/route/search"));
 
         render("artsearch.html");
     }
 
+    public void paginate() {
+
+        String keyword = getPara("keyword");
+        String code = getPara("code");
+        long categoryId = getParaToLong("categoryId", 10L);
+        int page = getParaToInt("pageNum", 1);
+        int pageSize = getParaToInt("pageSize", 10);
+
+        Page<TRoute> dataPage = Aop.get(TRouteService.class).search(keyword, code, categoryId, page, pageSize);
+        renderJson(Ret.ok().set("page", dataPage));
+    }
 
 }

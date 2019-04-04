@@ -3,6 +3,7 @@
 <link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/bootstrapvalidator/bootstrapValidator.css" rel="stylesheet">
 <style>
 	.nav-tabs-custom {
 		border-bottom: none;
@@ -35,6 +36,7 @@
 <script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrapvalidator/bootstrapValidator.js"></script>
 
 <script>
 	$("input[hint='date']").datepicker({
@@ -44,20 +46,106 @@
 		autoclose: true
 	});
 
-  	function doSubmit() {
-		ajaxSubmit("#form", function (data) {
-			$("#routeId").attr("value", data.id);
-			toastr.success('线路保存成功!');
-		})
-  	}
-
-	$(".submitBtn").on("click", function () {
+  	$(".submitBtn").on("click", function () {
         $("#routeStatus").val($(this).attr("data-status"));
-		doSubmit();
+        var formValidator = $form.data('bootstrapValidator');
+        formValidator.validate();
+        if (formValidator.isValid()) {
+            doSubmit();
+		}
 	})
 
-    var editMode = "#(editMode ?? 'html')";
+    function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#routeId").attr("value", data.id);
+            toastr.success('线路保存成功!');
+        })
+    }
 
+    var $form = $("#form");
+  	function initValidator() {
+  	    $form.bootstrapValidator({
+            excluded: [':disabled'],
+            group: '.validata-box',
+            message: '请输入正确的值',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                'route.title': {
+                    validators: {
+                        notEmpty: { message: '线路名称不能为空' },
+                        stringLength: { max: 120, message: '线路名称最大长度是120字符，请重新输入' }
+                    }
+                },
+                'route.total_days': {
+                    validators: {
+                        notEmpty: { message: '行程天数不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                },
+                'route.group_num': {
+                    validators: {
+                        notEmpty: { message: '成行人数不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                },
+                'route.market_price': {
+                    validators: {
+                        notEmpty: { message: '市场价格不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                },
+                'route.cost': {
+                    validators: {
+                        notEmpty: { message: '内部价格不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                },
+                "route.price": {
+                    validators: {
+                        notEmpty: { message: '成人价格不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                },
+                "route.child_price": {
+                    validators: {
+                        notEmpty: { message: '儿童价格不能为空' },
+                        integer: { message: '请输入有效的整数' },
+                        greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
+                    }
+                }
+			}
+		}).on('status.field.bv', function(e, data) {
+            var validator = $form.data('bootstrapValidator'),
+                $tabPane  = data.element.parents('.tab-pane'),
+                tabId     = $tabPane.attr('id');
+
+            if (tabId) {
+                var $icon = $('a[href="#' + tabId + '"][data-toggle="tab"]').parent().find('i');
+
+                // Add custom class to tab containing the field
+                if (data.status == validator.STATUS_INVALID) {
+                    $icon.removeClass('fa-check').addClass('fa-times');
+                } else if (data.status == validator.STATUS_VALID) {
+                    var isValidTab = validator.isValidContainer($tabPane);
+                    $icon.removeClass('fa-check fa-times')
+                        .addClass(isValidTab ? 'fa-check' : 'fa-times');
+                }
+            }
+        }).on('success.form.bv', function (e) {
+            e.preventDefault();
+        });
+	}
+
+    var editMode = "#(editMode ?? 'html')";
     function doChangeEditor() {
         if ("html" == editMode) {
             ajaxGet('#(CPATH)/commons/changeEditor/markdown');
@@ -67,6 +155,7 @@
     }
 
     initEditor('editor1', 400, editMode);
+    initValidator();
 </script>
 #end
 
@@ -88,7 +177,7 @@
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="form-horizontal">
-						<div class="form-group">
+						<div class="form-group validata-box">
 							<div class="col-sm-12">
 								<input type="input" class="form-control input-md" name="route.title" placeholder="请输入线路标题"
 									   id="route-title" value="#(route.title ??)">

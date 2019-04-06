@@ -34,7 +34,6 @@ public class ServiceProviderGenerator extends BaseModelGenerator {
 
     public ServiceProviderGenerator(String basePackage, String modelPackage, String baseModelOutputDir) {
         super(basePackage + ".provider", baseModelOutputDir);
-//        super(basePackage + ".provider", );
 
         this.basePackage = basePackage;
         this.modelPackage = modelPackage;

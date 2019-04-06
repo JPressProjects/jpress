@@ -17,15 +17,14 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
+import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Template {
 
@@ -47,12 +46,12 @@ public class Template {
 
     }
 
-    public Template(String propertiesFilePath) {
+    public Template(String propPath) {
 
-        File propertiesFile = new File(propertiesFilePath);
-        Prop prop = new Prop(propertiesFile, "utf-8");
+        File propFile = new File(propPath);
+        Prop prop = new Prop(propFile, "utf-8");
 
-        this.folder = propertiesFile.getParentFile().getName();
+        this.folder = buildFolder(propPath);
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -67,17 +66,31 @@ public class Template {
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
         this.screenshot = getWebAbsolutePath() + "/screenshot.png";
 
-        String[] files = propertiesFile
+        String[] files = propFile
                 .getParentFile()
                 .list((dir, name) -> name.endsWith(".html"));
 
         if (files != null && files.length > 0) {
             this.htmls.addAll(Arrays.asList(files));
         }
+
         String flagStrings = prop.get("flags");
         if (StrUtil.isNotBlank(flagStrings)) {
-            this.flags.addAll(StrUtil.splitToSet(flagStrings, ","));
+            String[] strings = flagStrings.split(",");
+            for (String s : strings) {
+                if (StrUtil.isBlank(s)) {
+                    continue;
+                }
+                this.flags.add(s.trim());
+            }
         }
+    }
+
+    private static String buildFolder(String propPath) {
+        String basePath = PathKit.getWebRootPath() + "/templates/";
+        String propName = "/template.properties";
+        String abs = FileUtil.removePrefix(propPath, basePath);
+        return abs.substring(0, abs.length() - propName.length());
     }
 
 

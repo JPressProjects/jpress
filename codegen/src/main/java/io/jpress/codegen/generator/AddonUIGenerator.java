@@ -16,7 +16,6 @@
 package io.jpress.codegen.generator;
 
 import com.jfinal.kit.Kv;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
@@ -27,34 +26,36 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class UIGenerator {
+public class AddonUIGenerator {
 
-    private String moduleName;//product
+        private String moduleName;//product
     private String modulePackage;//io.jpress.module.product
 
     private String modelPackage;//io.jpress.module.product.model
 
 
-    private String basePath;
-    private String webPath;
+    //    private String basePath;
+//    private String webPath;
     private String templatesDir = "io/jpress/codegen/templates/";
 
     private Kv data;
-    private String[] templates = {"ui_listener_template.jf", "ui_controller_template.jf", "ui_edit_template.jf", "ui_list_template.jf"};
-    public static final int UI_MODULELISTENER = 0;
+    private String[] templates = {"ui_listener_template.jf", "ui_controller_template_for_addon.jf", "ui_edit_template.jf", "ui_list_template.jf"};
+    //    public static final int UI_MODULELISTENER = 0;
     public static final int UI_CONTROLLER = 1;
     public static final int UI_EDIT = 2;
     public static final int UI_LIST = 3;
 
 
-    private String moduleListenerOutputDir;
+    //    private String moduleListenerOutputDir;
     private String controllerOutputDir;
     private String htmlOutputDir;
 
     private String targetTemplate;
     private String targetOutputDirFile;
 
-    List<TableMeta> tableMetaList;
+    private List<TableMeta> tableMetaList;
+
+    private String basePath;
 
     private Engine engine = Engine.create("forUI");
 
@@ -62,28 +63,27 @@ public class UIGenerator {
 
     }
 
-    public UIGenerator(String moduleName, String modelPackage, List<TableMeta> tableMetaList) {
+    public AddonUIGenerator(String basePath, String moduleName, String modelPackage, List<TableMeta> tableMetaList) {
+
+        this.basePath = basePath;
 
         this.tableMetaList = tableMetaList;
         this.moduleName = moduleName;
         this.modelPackage = modelPackage;
+        this.modulePackage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
+
         modulePackage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
-
-        basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
-        webPath = basePath + "/module-" + moduleName + "-web";
-
-        String upcasedModuleName = toUpperCaseFirstOne(moduleName);
 
         String moduleListenerPakcage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
         String controllerPackage = modelPackage.substring(0, modelPackage.lastIndexOf(".")) + ".controller";
 
 
-        moduleListenerOutputDir = webPath + "/src/main/java/" + moduleListenerPakcage.replace(".", "/");
-        controllerOutputDir = webPath + "/src/main/java/" + controllerPackage.replace(".", "/");
-        htmlOutputDir = webPath + "/src/main/webapp/WEB-INF/views/admin/" + moduleName;
+//        moduleListenerOutputDir = webPath + "/src/main/java/" + moduleListenerPakcage.replace(".", "/");
+        controllerOutputDir = basePath + "/src/main/java/" + controllerPackage.replace(".", "/");
+        htmlOutputDir = basePath + "/src/main/webapp/views/";
 
         data = Kv.by("moduleName", moduleName);//product
-        data.set("upcasedModuleName", upcasedModuleName);//Product
+        data.set("upcasedModuleName", toUpperCaseFirstOne(moduleName));//Product
         data.set("modulePackage", modulePackage);//io.jpress.module.product
         data.set("modelPackage", modelPackage);//io.jpress.module.product.model
         data.set("moduleListenerPakcage", moduleListenerPakcage);//io.jpress.module.product
@@ -94,52 +94,52 @@ public class UIGenerator {
 
     }
 
-    public UIGenerator genListener() {
-        generate(UIGenerator.UI_MODULELISTENER);
+//    public AddonUIGenerator genListener() {
+//        generate(AddonUIGenerator.UI_MODULELISTENER);
+//        return this;
+//    }
+
+    public AddonUIGenerator genControllers() {
+        generate(AddonUIGenerator.UI_CONTROLLER);
         return this;
     }
 
-    public UIGenerator genControllers() {
-        generate(UIGenerator.UI_CONTROLLER);
+    public AddonUIGenerator genEdit() {
+        generate(AddonUIGenerator.UI_EDIT);
         return this;
     }
 
-    public UIGenerator genEdit() {
-        generate(UIGenerator.UI_EDIT);
-        return this;
-    }
-
-    public UIGenerator genList() {
-        generate(UIGenerator.UI_LIST);
+    public AddonUIGenerator genList() {
+        generate(AddonUIGenerator.UI_LIST);
         return this;
     }
 
     public void generate(int genType) {
 
         String targetOutputDir = "";
-        if (UIGenerator.UI_MODULELISTENER == genType) {
-            targetTemplate = templatesDir + templates[0];
-            targetOutputDir = moduleListenerOutputDir;
-            targetOutputDirFile = targetOutputDir + File.separator + toUpperCaseFirstOne(moduleName) + "ModuleListener" + ".java";
-        }
+//        if (AddonUIGenerator.UI_MODULELISTENER == genType) {
+//            targetTemplate = templatesDir + templates[0];
+//            targetOutputDir = moduleListenerOutputDir;
+//            targetOutputDirFile = targetOutputDir + File.separator + toUpperCaseFirstOne(moduleName) + "ModuleListener" + ".java";
+//        }
 
         for (TableMeta tableMeta : tableMetaList) {
             data.set("tableMeta", tableMeta);
             String lowerCaseModelName = toLowerCaseFirstOne(tableMeta.modelName);
             data.set("lowerCaseModelName", lowerCaseModelName);
 
-            if (UIGenerator.UI_CONTROLLER == genType) {
+            if (AddonUIGenerator.UI_CONTROLLER == genType) {
                 targetTemplate = templatesDir + templates[1];
                 targetOutputDir = controllerOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + "_" + tableMeta.modelName + "Controller" + ".java";
             }
 
-            if (UIGenerator.UI_EDIT == genType) {
+            if (AddonUIGenerator.UI_EDIT == genType) {
                 targetTemplate = templatesDir + templates[2];
                 targetOutputDir = htmlOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + tableMeta.name + "_edit.html";
             }
-            if (UIGenerator.UI_LIST == genType) {
+            if (AddonUIGenerator.UI_LIST == genType) {
                 targetTemplate = templatesDir + templates[3];
                 targetOutputDir = htmlOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + tableMeta.name + "_list.html";

@@ -28,7 +28,7 @@ import java.util.Date;
 
 
 @RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = "/")
-public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
+public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
 
     @Inject
     private #(tableMeta.modelName)Service service;
@@ -50,7 +50,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
     }
    
     public void doSave() {
-         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
+        #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

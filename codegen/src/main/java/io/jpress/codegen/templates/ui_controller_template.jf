@@ -28,7 +28,7 @@ import java.util.Date;
 
 
 @RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
+public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
 
     @Inject
     private #(tableMeta.modelName)Service service;

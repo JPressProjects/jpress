@@ -72,7 +72,7 @@ public class ModuleUIGenerator {
         basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
         webPath = basePath + "/module-" + moduleName + "-web";
 
-        String upcasedModuleName = toUpperCaseFirstOne(moduleName);
+        String upcasedModuleName = StrKit.firstCharToUpperCase(moduleName);
 
         String moduleListenerPakcage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
         String controllerPackage = modelPackage.substring(0, modelPackage.lastIndexOf(".")) + ".controller";
@@ -120,12 +120,12 @@ public class ModuleUIGenerator {
         if (ModuleUIGenerator.UI_MODULELISTENER == genType) {
             targetTemplate = templatesDir + templates[0];
             targetOutputDir = moduleListenerOutputDir;
-            targetOutputDirFile = targetOutputDir + File.separator + toUpperCaseFirstOne(moduleName) + "ModuleListener" + ".java";
+            targetOutputDirFile = targetOutputDir + File.separator + StrKit.firstCharToUpperCase(moduleName) + "ModuleListener" + ".java";
         }
 
         for (TableMeta tableMeta : tableMetaList) {
             data.set("tableMeta", tableMeta);
-            String lowerCaseModelName = toLowerCaseFirstOne(tableMeta.modelName);
+            String lowerCaseModelName = StrKit.firstCharToLowerCase(tableMeta.modelName);
             data.set("lowerCaseModelName", lowerCaseModelName);
 
             if (ModuleUIGenerator.UI_CONTROLLER == genType) {
@@ -168,21 +168,6 @@ public class ModuleUIGenerator {
             }
             //
         }
-    }
-
-
-    public String toLowerCaseFirstOne(String s) {
-        if (Character.isLowerCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
-    }
-
-    public String toUpperCaseFirstOne(String s) {
-        if (Character.isUpperCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
     }
 
 

@@ -39,7 +39,7 @@ public class AddonUIGenerator {
     private String templatesDir = "io/jpress/codegen/templates/";
 
     private Kv data;
-    private String[] templates = {"ui_listener_template.jf", "ui_controller_template_for_addon.jf", "ui_edit_template.jf", "ui_list_template.jf"};
+    private String[] templates = { "ui_controller_template_for_addon.jf", "ui_edit_template.jf", "ui_list_template.jf"};
     //    public static final int UI_MODULELISTENER = 0;
     public static final int UI_CONTROLLER = 1;
     public static final int UI_EDIT = 2;
@@ -83,7 +83,7 @@ public class AddonUIGenerator {
         htmlOutputDir = basePath + "/src/main/webapp/views/";
 
         data = Kv.by("moduleName", moduleName);//product
-        data.set("upcasedModuleName", toUpperCaseFirstOne(moduleName));//Product
+        data.set("upcasedModuleName", StrKit.firstCharToUpperCase(moduleName));//Product
         data.set("modulePackage", modulePackage);//io.jpress.module.product
         data.set("modelPackage", modelPackage);//io.jpress.module.product.model
         data.set("moduleListenerPakcage", moduleListenerPakcage);//io.jpress.module.product
@@ -94,10 +94,6 @@ public class AddonUIGenerator {
 
     }
 
-//    public AddonUIGenerator genListener() {
-//        generate(AddonUIGenerator.UI_MODULELISTENER);
-//        return this;
-//    }
 
     public AddonUIGenerator genControllers() {
         generate(AddonUIGenerator.UI_CONTROLLER);
@@ -117,30 +113,25 @@ public class AddonUIGenerator {
     public void generate(int genType) {
 
         String targetOutputDir = "";
-//        if (AddonUIGenerator.UI_MODULELISTENER == genType) {
-//            targetTemplate = templatesDir + templates[0];
-//            targetOutputDir = moduleListenerOutputDir;
-//            targetOutputDirFile = targetOutputDir + File.separator + toUpperCaseFirstOne(moduleName) + "ModuleListener" + ".java";
-//        }
 
         for (TableMeta tableMeta : tableMetaList) {
             data.set("tableMeta", tableMeta);
-            String lowerCaseModelName = toLowerCaseFirstOne(tableMeta.modelName);
+            String lowerCaseModelName = StrKit.firstCharToLowerCase(tableMeta.modelName);
             data.set("lowerCaseModelName", lowerCaseModelName);
 
             if (AddonUIGenerator.UI_CONTROLLER == genType) {
-                targetTemplate = templatesDir + templates[1];
+                targetTemplate = templatesDir + templates[0];
                 targetOutputDir = controllerOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + "_" + tableMeta.modelName + "Controller" + ".java";
             }
 
             if (AddonUIGenerator.UI_EDIT == genType) {
-                targetTemplate = templatesDir + templates[2];
+                targetTemplate = templatesDir + templates[1];
                 targetOutputDir = htmlOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + tableMeta.name + "_edit.html";
             }
             if (AddonUIGenerator.UI_LIST == genType) {
-                targetTemplate = templatesDir + templates[3];
+                targetTemplate = templatesDir + templates[2];
                 targetOutputDir = htmlOutputDir;
                 targetOutputDirFile = targetOutputDir + File.separator + tableMeta.name + "_list.html";
             }
@@ -168,21 +159,6 @@ public class AddonUIGenerator {
             }
             //
         }
-    }
-
-
-    public String toLowerCaseFirstOne(String s) {
-        if (Character.isLowerCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
-    }
-
-    public String toUpperCaseFirstOne(String s) {
-        if (Character.isUpperCase(s.charAt(0)))
-            return s;
-        else
-            return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
     }
 
 

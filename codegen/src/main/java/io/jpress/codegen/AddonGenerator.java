@@ -108,7 +108,10 @@ public class AddonGenerator {
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
 
         if (genUI) {
-            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetaList).genControllers().genEdit().genList();
+            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetaList)
+                    .genControllers()
+                    .genEdit()
+                    .genList();
         }
     }
 }

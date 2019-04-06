@@ -35,4 +35,4 @@ services:
       - "./addons:/opt/jpress/webapp/addons"
       - "./addonjars:/opt/jpress/webapp/WEB-INF/addons"
       - "./wp-content:/opt/jpress/webapp/wp-content"
-      - "./templates:/opt/jpress/webapp/templates"
+      - "./templates:/opt/jpress/webapp/templates/others"

@@ -194,7 +194,7 @@ public class ModuleGenerator {
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
         if (genUI) {
-            new UIGenerator(moduleName, modelPackage, tableMetaList).genListener().genControllers().genEdit().genList();
+            new ModuleUIGenerator(moduleName, modelPackage, tableMetaList).genListener().genControllers().genEdit().genList();
         }
     }
 

@@ -27,7 +27,7 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = "/")
 public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
 
     @Inject
@@ -37,21 +37,20 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
     public void index() {
         Page<#(tableMeta.modelName)> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
-        render("#(moduleName)/#(tableMeta.name)_list.html");
+        render("views/#(tableMeta.name)_list.html");
     }
 
    
     public void edit() {
         int entryId = getParaToInt(0, 0);
-
         #(tableMeta.modelName) entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("#(lowerCaseModelName)", entry);
         set("now",new Date());
-        render("#(moduleName)/#(tableMeta.name)_edit.html");
+        render("views/#(tableMeta.name)_edit.html");
     }
    
     public void doSave() {
-        #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
+         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

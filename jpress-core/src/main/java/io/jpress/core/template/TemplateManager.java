@@ -55,7 +55,7 @@ public class TemplateManager {
         if (templateFolderList.size() > 0) {
             templatelist = new ArrayList<>();
             for (File templateFolder : templateFolderList) {
-                templatelist.add(new Template(templateFolder + "/template.properties"));
+                templatelist.add(new Template(templateFolder));
             }
         }
         return templatelist;

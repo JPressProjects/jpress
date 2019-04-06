@@ -46,12 +46,12 @@ public class Template {
 
     }
 
-    public Template(String propPath) {
+    public Template(File templateFolder) {
 
-        File propFile = new File(propPath);
+        File propFile = new File(templateFolder,"template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.folder = buildFolder(propPath);
+        this.folder = buildFolder(templateFolder);
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -86,11 +86,9 @@ public class Template {
         }
     }
 
-    private static String buildFolder(String propPath) {
+    private static String buildFolder(File templateFolder) {
         String basePath = PathKit.getWebRootPath() + "/templates/";
-        String propName = "/template.properties";
-        String abs = FileUtil.removePrefix(propPath, basePath);
-        return abs.substring(0, abs.length() - propName.length());
+        return FileUtil.removePrefix(templateFolder.getAbsolutePath(), basePath);
     }
 
 

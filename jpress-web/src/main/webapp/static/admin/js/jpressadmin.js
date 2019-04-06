@@ -220,7 +220,7 @@ function initCkEdtior(editor, height) {
 }
 
 function initMarkdownEditor(editor, height) {
-    return new SimpleMDE({
+    var simpleMDE = new SimpleMDE({
         element: $(editor)[0],
         autoDownloadFontAwesome: false,
         spellChecker: false,
@@ -245,6 +245,11 @@ function initMarkdownEditor(editor, height) {
         ]
 
     });
+    // 设置markdown编辑器滚动条高度
+    $('.CodeMirror-scroll').css({
+        "min-height": height
+    });
+    return simpleMDE;
 }
 
 function openlayerfForSimplemde(editor) {

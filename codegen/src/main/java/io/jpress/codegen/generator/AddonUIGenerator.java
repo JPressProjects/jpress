@@ -34,19 +34,15 @@ public class AddonUIGenerator {
     private String modelPackage;//io.jpress.module.product.model
 
 
-    //    private String basePath;
-//    private String webPath;
     private String templatesDir = "io/jpress/codegen/templates/";
 
     private Kv data;
     private String[] templates = { "ui_controller_template_for_addon.jf", "ui_edit_template.jf", "ui_list_template.jf"};
-    //    public static final int UI_MODULELISTENER = 0;
     public static final int UI_CONTROLLER = 1;
     public static final int UI_EDIT = 2;
     public static final int UI_LIST = 3;
 
 
-    //    private String moduleListenerOutputDir;
     private String controllerOutputDir;
     private String htmlOutputDir;
 
@@ -78,7 +74,6 @@ public class AddonUIGenerator {
         String controllerPackage = modelPackage.substring(0, modelPackage.lastIndexOf(".")) + ".controller";
 
 
-//        moduleListenerOutputDir = webPath + "/src/main/java/" + moduleListenerPakcage.replace(".", "/");
         controllerOutputDir = basePath + "/src/main/java/" + controllerPackage.replace(".", "/");
         htmlOutputDir = basePath + "/src/main/webapp/views/";
 
@@ -157,7 +152,6 @@ public class AddonUIGenerator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //
         }
     }
 

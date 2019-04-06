@@ -166,7 +166,6 @@ public class ModuleUIGenerator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //
         }
     }
 

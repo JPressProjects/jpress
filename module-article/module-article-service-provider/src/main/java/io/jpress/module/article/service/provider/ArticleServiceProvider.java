@@ -221,7 +221,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public boolean doChangeStatus(long id, String status) {
         Article article = findById(id);
         article.setStatus(status);
-        return article.update();
+        return update(article);
     }
 
     @Override

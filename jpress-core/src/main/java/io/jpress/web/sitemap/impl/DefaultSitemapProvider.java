@@ -20,7 +20,7 @@ public class DefaultSitemapProvider implements SitemapProvider {
     private List<NewestSitemapProvider> newestSitemapProviders = new ArrayList<>();
 
     public DefaultSitemapProvider() {
-        List<Class<NewestSitemapProvider>> cls = ClassScanner.scanSubClass(NewestSitemapProvider.class,true);
+        List<Class<NewestSitemapProvider>> cls = ClassScanner.scanSubClass(NewestSitemapProvider.class, true);
         if (cls != null && cls.size() > 0) {
             cls.forEach(c -> newestSitemapProviders.add(ClassUtil.newInstance(c)));
         }
@@ -39,11 +39,14 @@ public class DefaultSitemapProvider implements SitemapProvider {
     @Override
     public List<Sitemap> getSitemaps() {
         List<Sitemap> list = new ArrayList<>();
-        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN,"");
-        String webIndex = domain+"/";
-        Sitemap indexSitemap = new Sitemap(webIndex,new Date(),Sitemap.CHANGEFREQ_ALWAYS,1f);
+        String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, "");
+        String webIndex = domain + "/";
+        Sitemap indexSitemap = new Sitemap(webIndex, new Date(), Sitemap.CHANGEFREQ_ALWAYS, 1f);
         list.add(indexSitemap);
-        newestSitemapProviders.forEach(provider -> list.addAll(provider.getSitemaps()));
+        newestSitemapProviders.forEach(provider -> {
+            List<Sitemap> sitemaps = provider.getSitemaps();
+            if (sitemaps != null) list.addAll(provider.getSitemaps());
+        });
         list.sort(Comparator.comparing(Sitemap::getLastmod));
         return list;
     }

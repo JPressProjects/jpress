@@ -22,7 +22,12 @@ public class DefaultSitemapProvider implements SitemapProvider {
     public DefaultSitemapProvider() {
         List<Class<NewestSitemapProvider>> cls = ClassScanner.scanSubClass(NewestSitemapProvider.class, true);
         if (cls != null && cls.size() > 0) {
-            cls.forEach(c -> newestSitemapProviders.add(ClassUtil.newInstance(c)));
+            cls.forEach(c -> {
+                NewestSitemapProvider provider = ClassUtil.newInstance(c);
+                if (provider != null) {
+                    newestSitemapProviders.add(provider);
+                }
+            });
         }
     }
 

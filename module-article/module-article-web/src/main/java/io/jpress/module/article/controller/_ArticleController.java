@@ -273,43 +273,6 @@ public class _ArticleController extends AdminControllerBase {
         render("article/tag_list.html");
     }
 
-    // category添加到menu中
-//    public void doAddCategoryToMenu() {
-//
-//        Long id = getIdPara();
-//
-//        ArticleCategory category = categoryService.findById(id);
-//        if (category == null) {
-//            renderJson(Ret.fail().set("message", "该数据已经被删除"));
-//            return;
-//        }
-//        List<Menu> menus = menuService.findListByRelatives("article_category", id);
-//        if (menus.size() > 0) {
-//            renderJson(Ret.fail().set("message", "已添加至菜单,请勿重复添加！"));
-//            return;
-//        }
-//
-//        Menu menu = new Menu();
-//        menu.setPid(0l);
-//        menu.setUrl(category.getUrl());
-//        menu.setText(category.getTitle());
-//        menu.setType(io.jpress.model.Menu.TYPE_MAIN);
-//        menu.setRelativeTable("article_category");
-//        menu.setRelativeId(id);
-//        menu.setOrderNumber(9);
-//
-//        menuService.saveOrUpdate(menu);
-//
-//        renderOkJson();
-//    }
-    // 从menu中删除category
-//    public void doRemoveCategoryFromMenu() {
-//        List<Menu> menus = menuService.findListByRelatives("article_category", getIdPara());
-//        if (menus.get(0) != null) {
-//            menuService.delete(menus.get(0));
-//        }
-//        renderOkJson();
-//    }
 
 
     @EmptyValidate({

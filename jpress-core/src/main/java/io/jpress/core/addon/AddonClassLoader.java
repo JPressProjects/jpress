@@ -16,7 +16,7 @@
 package io.jpress.core.addon;
 
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.AopManager;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
@@ -140,7 +140,7 @@ public class AddonClassLoader extends URLClassLoader {
 
         for (Class interfaceClass : interfaceClasses) {
             if (inExcludes(interfaceClass, excludes) == false) {
-                Aop.getAopFactory().addMapping(interfaceClass, implClass);
+                AopManager.me().addMapping(interfaceClass, implClass);
             }
         }
     }

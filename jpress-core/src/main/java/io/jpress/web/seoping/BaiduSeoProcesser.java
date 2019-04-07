@@ -2,6 +2,7 @@ package io.jpress.web.seoping;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.kit.LogKit;
 import io.jboot.utils.HttpUtil;
 
 /**
@@ -48,7 +49,11 @@ public class BaiduSeoProcesser {
 
         if (response != null) {
             JSONObject json = JSON.parseObject(response);
-            return json.getInteger("success") != null;
+            Integer successCount = json.getInteger("success");
+            if (successCount != null && successCount > 0) {
+                return true;
+            }
+            LogKit.error("push or update is error : " + response);
         }
 
         return false;

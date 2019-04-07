@@ -17,7 +17,9 @@ package io.jpress.web.seoping;
 
 
 import com.jfinal.kit.LogKit;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
 import java.util.concurrent.ExecutorService;
@@ -59,26 +61,22 @@ public class SeoManager {
 
 
     public void baiduPush(String... urls) {
-        boolean baiduRealPushTimeEnable = JPressOptions.getAsBool("seo_baidu_realtime_push_enable");
-        if (!baiduRealPushTimeEnable) {
-            return;
-        }
-
-        String site = JPressOptions.get("seo_baidu_realtime_push_site");
-        String token = JPressOptions.get("seo_baidu_realtime_push_token");
-        if (!StrUtil.areNotEmpty(site, token)) {
-            LogKit.error("site or token is empty , can not push to baidu");
-            return;
-        }
-
-        fixedThreadPool.execute(() -> {
-            BaiduSeoProcesser.push(site, token, urls);
-        });
+        doPushOrUpdate(true, urls);
     }
 
+
     public void baiduUpdate(String... urls) {
-        boolean baiduRealTimeEnable = JPressOptions.getAsBool("seo_baidu_realtime_push_enable");
-        if (!baiduRealTimeEnable) {
+        doPushOrUpdate(false, urls);
+    }
+
+
+    private void doPushOrUpdate(boolean pushAction, String... urls) {
+        if (urls == null || urls.length == 0) {
+            return;
+        }
+
+        boolean baiduRealTimePushEnable = JPressOptions.getAsBool("seo_baidu_realtime_push_enable");
+        if (!baiduRealTimePushEnable) {
             return;
         }
 
@@ -89,9 +87,26 @@ public class SeoManager {
             return;
         }
 
-        fixedThreadPool.execute(() -> {
-            BaiduSeoProcesser.update(site, token, urls);
-        });
+        String[] newUrls = appendDomainIfNecessary(urls);
+        if (pushAction) {
+            fixedThreadPool.execute(() -> BaiduSeoProcesser.push(site, token, newUrls));
+        } else {
+            fixedThreadPool.execute(() -> BaiduSeoProcesser.update(site, token, newUrls));
+        }
+    }
+
+
+    private String[] appendDomainIfNecessary(String[] urls) {
+        String[] newUrls = new String[urls.length];
+        for (int i = 0; i < urls.length; i++) {
+            String url = urls[i];
+            if (!url.startsWith("http")) {
+                String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN, RequestUtil.getBaseUrl());
+                newUrls[i] = domain + url;
+            }
+        }
+
+        return newUrls;
     }
 
 

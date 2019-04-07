@@ -36,6 +36,8 @@ public class SitemapController extends JbootController {
             return;
         }
 
+        SitemapManager.me().build();
+        
         String para = getPara(0);
         StringBuilder xmlBuilder = new StringBuilder();
 

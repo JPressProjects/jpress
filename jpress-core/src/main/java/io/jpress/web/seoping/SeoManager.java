@@ -59,8 +59,8 @@ public class SeoManager {
 
 
     public void baiduPush(String... urls) {
-        boolean baiduRealTimeEnable = JPressOptions.getAsBool("seo_baidu_realtime_push_enable");
-        if (!baiduRealTimeEnable) {
+        boolean baiduRealPushTimeEnable = JPressOptions.getAsBool("seo_baidu_realtime_push_enable");
+        if (!baiduRealPushTimeEnable) {
             return;
         }
 

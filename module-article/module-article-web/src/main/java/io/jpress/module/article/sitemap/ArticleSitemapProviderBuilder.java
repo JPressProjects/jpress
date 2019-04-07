@@ -28,7 +28,7 @@ public class ArticleSitemapProviderBuilder implements JbootEventListener {
             return;
         }
 
-        doInit();
+        SitemapManager.me().addBuilder(() -> ArticleSitemapProviderBuilder.this.build());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ArticleSitemapProviderBuilder implements JbootEventListener {
         init();
     }
 
-    private void doInit() {
+    public void build() {
 
         int pageSize = 100;
 

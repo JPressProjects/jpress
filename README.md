@@ -26,6 +26,7 @@
 - 完善的模板开发文档
 - 极致的模板开发体验
 
+
 #### 插件
 
 - 插件在线安装、卸载
@@ -71,40 +72,50 @@
 - 微信小程序对接、和配置
 
 
+#### SEO
+
+- 每篇文章和页面独立的SEO设置
+- Baidu API 的实时推送
+- Baidu 和 Google 的自动 Ping 提交
+- Sitemap 自动生成、后台支持自定义的开启和关闭
+- robots.txt 爬虫蜘蛛的支持
+- 整站伪静态支持，支持自定义开后缀
+
+
 #### 其他
 
 - WordPress、Hexo、Jekyll 文章一键导入
-- 编写文章随意切换Ckeditor和Markdown编辑
+- 编写文章随意切换CKeditor和Markdown编辑
 - 最大化、沉侵式的文章编写体验
 - Docker 一键部署
 - 阿里云、腾讯云CDN在线配置
 - 阿里云、腾讯云短信验证（用户注册手机验证）
 - 附件自动可配置自动同步阿里云OSS
 - 完善的API接口配置管理
-- 文章和页面独立的SEO配置
 - ... （更多等你发现）
 
 
 ## 交流
 
-- QQ群：591396171 ，288397536
 - 官网：[http://www.jpress.io](http://www.jpress.io)
-- 提问：[https://www.oschina.net/question/tag/jpress](https://www.oschina.net/question/tag/jpress)
+- 论坛社区：[点击这里](http://www.jpress.io/club)
+- 插件列表：[点击这里](http://www.jpress.io/article/category/plugin)
+- 模板列表：[点击这里](http://www.jpress.io/article/category/template)
+- QQ群：591396171 ，288397536
 
 
 ## 帮助文档
 
-- [了解JPress](./doc/about_jpress.md)
-- [快速开始](./doc/quick_start.md)
-- [安装](./doc/install.md)
+- [了解JPress](http://www.jpress.io)
+- [快速开始](http://www.jpress.io/article/34)
+- [安装](http://www.jpress.io/article/34)
 - [使用](./doc/manual.md)
-- [开发准备](./doc/dev.md)
-- [模板开发](./doc/template_dev.md)
-- [插件开发](./doc/addon_dev.md)
-- [模块开发](./doc/module_dev.md)
-- [微信运营插件开发](./doc/wechat_dev.md)
-- [微信小程序开发](./doc/wechat_miniprogram_dev.md)
-- [视频教程](./doc/videos.md)
+- [模板开发](http://www.jpress.io/article/39)
+- [二次开发](http://www.jpress.io/article/68)
+- [插件开发](http://www.jpress.io/article/54)
+- [微信运营插件开发](http://www.jpress.io/article/65)
+- [微信小程序开发](http://www.jpress.io/article/67)
+- [视频教程](http://www.jpress.io/article/category/course)
 - [常见问题](./doc/faq.md)
 - [JPressSchool-VIP会员](./doc/vip.md)
 

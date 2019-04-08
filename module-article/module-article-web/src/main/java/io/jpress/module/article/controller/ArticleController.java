@@ -156,7 +156,7 @@ public class ArticleController extends TemplateControllerBase {
             renderJson(Ret.fail().set("message", "评论内容不能为空"));
             return;
         } else {
-            content = CommonsUtils.escapeHtml(content);
+            content = StrUtil.escapeHtml(content);
         }
 
         //是否对用户输入验证码进行验证

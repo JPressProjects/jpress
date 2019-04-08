@@ -20,6 +20,18 @@ package io.jpress.core.addon;
  */
 public interface AddonUpgrader {
 
-    public void onUpgrade(AddonInfo oldAddon,AddonInfo thisAddon);
+    /**
+     * 进行升级操作
+     * @param oldAddon
+     * @param thisAddon
+     */
+    public boolean onUpgrade(AddonInfo oldAddon,AddonInfo thisAddon);
+
+    /**
+     * 升级失败的时候进行回滚
+     * @param oldAddon
+     * @param thisAddon
+     */
+    public void onRollback(AddonInfo oldAddon,AddonInfo thisAddon);
 
 }

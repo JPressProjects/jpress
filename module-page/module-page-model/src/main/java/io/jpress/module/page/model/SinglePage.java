@@ -23,6 +23,7 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
+import io.jpress.web.seoping.PingData;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
 
     public String getText() {
-        return JsoupUtils.getText(getContent());
+        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
     }
 
     @Override
@@ -106,4 +107,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
 
+    public PingData toPingData(){
+        return PingData.create(getTitle(),getUrl());
+    }
 }

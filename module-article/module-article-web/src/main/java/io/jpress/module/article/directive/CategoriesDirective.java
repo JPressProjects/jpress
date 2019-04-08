@@ -49,6 +49,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
 
         String flag = getPara("flag", scope);
         String pflag = getPara("parentFlag", scope);
+        Long pId = getParaToLong("parentId", scope);
         boolean asTree = getParaToBool("asTree", scope, Boolean.FALSE);
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
@@ -64,6 +65,13 @@ public class CategoriesDirective extends JbootDirectiveBase {
             categories = categories.stream().filter(category -> {
                 ArticleCategory parent = (ArticleCategory) category.getParent();
                 return parent != null && pflag.equals(parent.getFlag());
+            }).collect(Collectors.toList());
+        }
+
+        if (pId != null) {
+            categories = categories.stream().filter(category -> {
+                ArticleCategory parent = (ArticleCategory) category.getParent();
+                return parent != null && pId.equals(parent.getId());
             }).collect(Collectors.toList());
         }
 

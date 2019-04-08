@@ -2,21 +2,22 @@
 #define script()
 <script>
     $('#form').on('submit', function () {
-        ajaxSubmit('#form',function () {
+        ajaxSubmit('#form', function () {
             location.href = "#(CPATH)/admin/article/category";
         })
         return false;
     });
 
     $('.del-action').on('click', function () {
-        var id = $(this).attr("data-id");
-        ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
+        if (confirm('确定要删除该分类吗？删除后不可恢复')) {
+            var id = $(this).attr("data-id");
+            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id);
+        }
     });
 
-    $('.addtomenu-action').on('click', function () {
-        var id = $(this).attr("data-id");
-        ajaxGet("#(CPATH)/admin/article/doAddCategoryToMenu/" + id,function () {
-            toastr.success("添加到菜单成功")
+    $(".tflag").each(function () {
+        $(this).on('click', function () {
+            $("#flag").val($(this).text());
         })
     });
 
@@ -100,15 +101,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">标识</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="给该分类独立的标识"
-                                           value="#(category.flag ??)" name="category.flag">
-                                    <p class="help-block"> 给与特殊标识，一般用于模板读取。 </p>
-                                </div>
-                            </div>
-
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">内容</label>
@@ -128,19 +120,47 @@
                                 </div>
                             </div>
 
-                            #if(styles)
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">标识</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="展示标识"
+                                           value="#(category.flag ??)" name="category.flag" id="flag">
+                                    #if(flags && flags.size() > 0)
+                                    <p class="help-block">当前模板支持的展示标识有：
+                                        #for(flag : flags ??)
+                                        <a href="javascript:;" class="tflag">#(flag)</a>
+                                        #end
+                                    </p>
+                                    #end
+                                </div>
+                            </div>
+
+
+                            #if(styles && styles.size() > 0)
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">样式</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.style">
                                         <option value="">默认</option>
                                         #for(style : styles)
-                                        <option value="#(style)" #selectedIf(category && category.style == style)>#(style)</option>
+                                        <option value="#(style)" #selectedIf(category && category.style== style)>
+                                            #(style)
+                                        </option>
                                         #end
                                     </select>
                                 </div>
                             </div>
                             #end
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示到菜单</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" class="switchery" data-for="displayInMenu"
+                                           #checkedIf(isDisplayInMenu)>
+                                    <input type="hidden" id="displayInMenu" name="displayInMenu" value="false">
+                                </div>
+                            </div>
 
 
                             <h4 class="page-header">SEO</h4>
@@ -204,9 +224,9 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/category/#(category.id)" >编辑</a> |
-                                            <a href="javascript:;" class="addtomenu-action" data-id="#(category.id)" >添加到菜单</a> |
-                                            <a href="javascript:;" class="del-action red-action" data-id="#(category.id)" >删除</a> |
+                                            <a href="#(CPATH)/admin/article/category/#(category.id)">编辑</a> |
+                                            <a href="javascript:;" class="del-action red-action"
+                                               data-id="#(category.id)">删除</a> |
                                             <a href="#(category.url ??)" target="_blank" class="red-action">查看</a>
                                         </div>
                                     </div>

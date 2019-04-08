@@ -31,7 +31,7 @@ public @interface WechatAddonConfig {
 
     String title();
 
-    String description();
+    String description() default "";
 
     String author() default "";
 
@@ -39,8 +39,6 @@ public @interface WechatAddonConfig {
 
     String version() default "v1.0.0";
 
-    String updateUrl() default "";
-
-    int versionCode() default 0;
+    int versionCode() default 1;
 
 }

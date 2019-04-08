@@ -23,7 +23,6 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
@@ -71,13 +70,13 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, CommonsUtils.escapeHtml(webTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, CommonsUtils.escapeHtml(webSubTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_NAME, CommonsUtils.escapeHtml(webName));
-        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, CommonsUtils.escapeHtml(webIpcNo));
-        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, CommonsUtils.escapeHtml(seoTitle));
-        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, CommonsUtils.escapeHtml(seoKeyword));
-        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, CommonsUtils.escapeHtml(seoDescription));
+        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, StrUtil.escapeHtml(webTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, StrUtil.escapeHtml(webSubTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_NAME, StrUtil.escapeHtml(webName));
+        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, StrUtil.escapeHtml(webIpcNo));
+        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, StrUtil.escapeHtml(seoTitle));
+        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, StrUtil.escapeHtml(seoKeyword));
+        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, StrUtil.escapeHtml(seoDescription));
 
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);

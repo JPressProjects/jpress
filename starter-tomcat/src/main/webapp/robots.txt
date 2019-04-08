@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /admin/
+Disallow: /ucenter/
+Disallow: /templates/
+Disallow: /addons/
+Disallow: /WEB-INF/
+Sitemap: /sitemap.xml

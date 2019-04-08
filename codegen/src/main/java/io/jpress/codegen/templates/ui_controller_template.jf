@@ -18,28 +18,17 @@ package #(controllerPackage);
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.ArrayUtil;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.EmptyValidate;
-import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.TemplateManager;
 import #(modelPackage).#(tableMeta.modelName);
 import #(modulePackage).service.#(tableMeta.modelName)Service;
 import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
-/**
- * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Package io.jpress.module.page.controller.admin
- */
+
 @RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
+public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
 
     @Inject
     private #(tableMeta.modelName)Service service;
@@ -62,7 +51,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {//
     }
    
     public void doSave() {
-         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(tableMeta.name)");
+        #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

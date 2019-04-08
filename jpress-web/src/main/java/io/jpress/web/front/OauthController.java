@@ -87,8 +87,9 @@ public class OauthController extends Oauth2Controller {
 
         CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
 
-        //跳转到用户中心
-        redirect("/user");
+
+        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        redirect(gotoUrl);
     }
 
 

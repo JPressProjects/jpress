@@ -16,18 +16,19 @@
 package io.jpress.core.addon;
 
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.AopManager;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
+import com.jfinal.template.Directive;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.aop.annotation.BeanExclude;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
-import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.core.wechat.WechatAddon;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -99,15 +100,21 @@ public class AddonClassLoader extends URLClassLoader {
                     addonInfo.addModel(loadedClass);
                 }
                 // directives
-                else if (JbootDirectiveBase.class.isAssignableFrom(loadedClass)) {
+                else if (Directive.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.addDirective(loadedClass);
+                }
+                // wechatAddons
+                else if (WechatAddon.class.isAssignableFrom(loadedClass)) {
                     addonInfo.addDirective(loadedClass);
                 }
                 // addonClass
                 else if (Addon.class.isAssignableFrom(loadedClass)) {
                     addonInfo.setAddonClass(loadedClass);
                 }
-
-
+                // upgraderClass
+                else if (AddonUpgrader.class.isAssignableFrom(loadedClass)) {
+                    addonInfo.setUpgraderClass(loadedClass);
+                }
 
             } catch (ClassNotFoundException e) {
                 LOG.error(e.toString(), e);
@@ -133,7 +140,7 @@ public class AddonClassLoader extends URLClassLoader {
 
         for (Class interfaceClass : interfaceClasses) {
             if (inExcludes(interfaceClass, excludes) == false) {
-                Aop.getAopFactory().addMapping(interfaceClass, implClass);
+                AopManager.me().addMapping(interfaceClass, implClass);
             }
         }
     }

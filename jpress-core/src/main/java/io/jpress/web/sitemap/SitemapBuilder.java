@@ -13,25 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons;
+package io.jpress.web.sitemap;
 
+/**
+ * 当 sitemap Controller 接收请求的时候
+ * 会执行 此接口下的所有实现类的 build 方法，用于 对 sitemap 就行构建
+ */
+public interface SitemapBuilder {
 
-import io.jboot.Jboot;
-
-import java.io.Serializable;
-
-public class AuthCodeKit implements Serializable {
-
-    private static final String CACHE_NAME = "authCode";
-
-    public static void save(AuthCode authCode) {
-        //有效期24小时
-        Jboot.getCache().put(CACHE_NAME, authCode.getId(), authCode, 60 * 60 * 24);
-
-    }
-
-
-    public static AuthCode get(String id) {
-        return Jboot.getCache().get(CACHE_NAME, id);
-    }
+    public void build();
 }

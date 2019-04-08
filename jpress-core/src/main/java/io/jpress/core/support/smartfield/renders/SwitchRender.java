@@ -42,7 +42,7 @@ public class SwitchRender implements SmartFieldRender {
     public String onRender(SmartField field, Object value) {
         String checked = (value == null && "true".equals(field.getValue()))
                 ? "checked"
-                : (Objects.equals("true", value) ? "checked" : "");
+                : (Objects.equals("true", String.valueOf(value)) ? "checked" : "");
         return RenderKit.render(template, field, value).replace("{checked}", checked);
     }
 }

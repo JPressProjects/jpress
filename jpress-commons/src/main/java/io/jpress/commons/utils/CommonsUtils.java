@@ -61,6 +61,7 @@ public class CommonsUtils {
 
     }
 
+
     public static String maxLength(String content, int maxLength, String suffix) {
         if (StrUtil.isBlank(suffix)) {
             return maxLength(content, maxLength);
@@ -106,52 +107,13 @@ public class CommonsUtils {
             Object value = model.get(attr);
 
             if (value != null && value instanceof String) {
-                model.set(attr, escapeHtml(value.toString()));
+                model.set(attr, StrUtil.escapeHtml(value.toString()));
             }
         }
     }
 
-    public static String escapeHtml(String content) {
-
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        /**
-         "&lt;" represents the < sign.
-         "&gt;" represents the > sign.
-         "&amp;" represents the & sign.
-         "&quot; represents the " mark.
-         */
-
-        return unEscapeHtml(content)
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("'", "&#39;")
-                .replace("\"", "&quot;");
-    }
-
-    public static String unEscapeHtml(String content) {
-
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        return content
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&#39;", "'")
-                .replace("&quot;", "\"")
-                .replace("&amp;", "&");
-    }
-
 
     public static void main(String[] args) {
-        String script = "<script>alert(\"abc\");</script>";
-        System.out.println(escapeHtml(script));
-        System.out.println(escapeHtml(escapeHtml(script)));
-        System.out.println(unEscapeHtml(escapeHtml(script)));
         System.out.println(generateCode());
     }
 }

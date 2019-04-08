@@ -15,25 +15,17 @@
  */
 package io.jpress.codegen;
 
-import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
-import com.jfinal.template.source.ClassPathSourceFactory;
 import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
-import io.jpress.codegen.generator.UIGenerator;
 import io.jboot.utils.StrUtil;
-import io.jpress.codegen.generator.BaseModelGenerator;
-import io.jpress.codegen.generator.ModelGenerator;
-import io.jpress.codegen.generator.ServiceApiGenerator;
-import io.jpress.codegen.generator.ServiceProviderGenerator;
-import com.jfinal.plugin.activerecord.generator.ColumnMeta;
-import com.jfinal.plugin.activerecord.generator.MetaBuilder;
+import io.jpress.codegen.generator.*;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -54,7 +46,8 @@ public class ModuleGenerator {
 
     private String basePath;
 
-    private boolean isGenUI=false;
+    private boolean genUI = false;
+
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
         this.moduleName = moduleName;
         this.dbUrl = dbUrl;
@@ -65,10 +58,10 @@ public class ModuleGenerator {
         this.servicePackage = servicePackage;
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
-	
-	public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage,boolean isGenUI) {
+
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
         this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-        this.isGenUI=isGenUI;
+        this.genUI = genUI;
     }
 
     public void gen() {
@@ -120,12 +113,30 @@ public class ModuleGenerator {
         engine.setToClassPathSourceFactory();    // 从 class path 内读模板文件
         engine.addSharedMethod(new StrKit());
 
-        engine.getTemplate("io/jpress/codegen/templates/pom_module_template.jf").render(map, new File(modulePath, "pom.xml"));
-        engine.getTemplate("io/jpress/codegen/templates/pom_model_template.jf").render(map, new File(modelFile, "pom.xml"));
-        engine.getTemplate("io/jpress/codegen/templates/pom_web_template.jf").render(map, new File(webFile, "pom.xml"));
-        engine.getTemplate("io/jpress/codegen/templates/pom_service_api_template.jf").render(map, new File(serviceApiFile, "pom.xml"));
-        engine.getTemplate("io/jpress/codegen/templates/pom_service_provider_template.jf").render(map, new File(serviceProviderFile, "pom.xml"));
+        File modulePomXmlFile = new File(modulePath, "pom.xml");
+        if (!modulePomXmlFile.exists()) {
+            engine.getTemplate("io/jpress/codegen/templates/pom_module_template.jf").render(map, modulePomXmlFile);
+        }
 
+        File modelPomXmlFile = new File(modelFile, "pom.xml");
+        if (!modelPomXmlFile.exists()) {
+            engine.getTemplate("io/jpress/codegen/templates/pom_model_template.jf").render(map, modelPomXmlFile);
+        }
+
+        File webPomXmlFile = new File(webFile, "pom.xml");
+        if (!webPomXmlFile.exists()) {
+            engine.getTemplate("io/jpress/codegen/templates/pom_web_template.jf").render(map, webPomXmlFile);
+        }
+
+        File serviceApiPomXmlFile = new File(serviceApiFile, "pom.xml");
+        if (!serviceApiPomXmlFile.exists()) {
+            engine.getTemplate("io/jpress/codegen/templates/pom_service_api_template.jf").render(map, serviceApiPomXmlFile);
+        }
+
+        File serviceProviderPomXmlFile = new File(serviceProviderFile, "pom.xml");
+        if (!serviceProviderPomXmlFile.exists()) {
+            engine.getTemplate("io/jpress/codegen/templates/pom_service_provider_template.jf").render(map, serviceProviderPomXmlFile);
+        }
 
     }
 
@@ -158,7 +169,7 @@ public class ModuleGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        MetaBuilder mb=CodeGenHelpler.createMetaBuilder();
+        MetaBuilder mb = CodeGenHelpler.createMetaBuilder();
         mb.setGenerateRemarks(true);
         List<TableMeta> tableMetaList = mb.build();
         if (StrUtil.isNotBlank(dbTables)) {
@@ -182,8 +193,9 @@ public class ModuleGenerator {
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
-	  if(isGenUI)
-			 new UIGenerator(moduleName, modelPackage,tableMetaList).genListener().genControllers().genEdit().genList();
+        if (genUI) {
+            new ModuleUIGenerator(moduleName, modelPackage, tableMetaList).genListener().genControllers().genEdit().genList();
+        }
     }
-	
+
 }

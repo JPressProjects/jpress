@@ -20,10 +20,7 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
 import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.StrUtil;
-import io.jpress.codegen.generator.BaseModelGenerator;
-import io.jpress.codegen.generator.ModelGenerator;
-import io.jpress.codegen.generator.ServiceApiGenerator;
-import io.jpress.codegen.generator.ServiceProviderGenerator;
+import io.jpress.codegen.generator.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +32,7 @@ import java.util.Set;
  * @Title: 根据数据库信息，生成 maven module
  * @Package io.jpress.core.code
  */
-public class AddonModuleGenerator {
+public class AddonGenerator {
 
     private String addonName;
     private String dbUrl;
@@ -47,8 +44,10 @@ public class AddonModuleGenerator {
 
     private String basePath;
 
+    private boolean genUI = false;
 
-    public AddonModuleGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
+
+    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
         this.addonName = addonName;
         this.dbUrl = dbUrl;
         this.dbUser = dbUser;
@@ -59,12 +58,16 @@ public class AddonModuleGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../jpress-addon-" + addonName;
     }
 
+    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
+        this(addonName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        this.genUI = genUI;
+    }
+
     public void gen() {
 
         genCode();
 
     }
-
 
 
     private void genCode() {
@@ -76,8 +79,8 @@ public class AddonModuleGenerator {
 
         String baseModelPackage = modelPackage + ".base";
 
-        String modelDir = basePath  + "/src/main/java/" + modelPackage.replace(".", "/");
-        String baseModelDir = basePath  + "/src/main/java/" + baseModelPackage.replace(".", "/");
+        String modelDir = basePath + "/src/main/java/" + modelPackage.replace(".", "/");
+        String baseModelDir = basePath + "/src/main/java/" + baseModelPackage.replace(".", "/");
 
         System.out.println("start generate... dir:" + modelDir);
 
@@ -98,11 +101,17 @@ public class AddonModuleGenerator {
         new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
         new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
 
-        String apiPath = basePath  + "/src/main/java/" + servicePackage.replace(".", "/");
-        String providerPath = basePath  + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
+        String apiPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/");
+        String providerPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
 
+        if (genUI) {
+            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetaList)
+                    .genControllers()
+                    .genEdit()
+                    .genList();
+        }
     }
 }

@@ -16,6 +16,8 @@
 package io.jpress.commons.email;
 
 import com.jfinal.log.Log;
+import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -85,7 +87,19 @@ public class Email {
     }
 
     public static void main(String[] args) {
-        Email.create().subject("这是邮件标题").content("这是邮件内容~~~~~~").to("1506615067@qq.com").send();
+
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_EMAIL_ENABLE, "true");
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_EMAIL_SMTP, "smtp.qq.com");
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_EMAIL_ACCOUNT, "noreply@jeepress.com");
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_EMAIL_PASSWORD, "****");
+        JPressOptions.set(JPressConsts.OPTION_CONNECTION_EMAIL_SSL_ENABLE, "true");
+
+
+        Email.create()
+                .subject("这是邮件标题")
+                .content("这是邮件内容~~~~~~")
+                .to("1506615067@qq.com")
+                .send();
     }
 }
 

@@ -338,7 +338,6 @@ public class _UserController extends AdminControllerBase {
 
 
     @EmptyValidate({
-            @Form(name = "oldPwd", message = "旧不能为空"),
             @Form(name = "newPwd", message = "新密码不能为空"),
             @Form(name = "confirmPwd", message = "确认密码不能为空")
     })
@@ -350,10 +349,19 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
-            renderJson(Ret.fail().set("message", "密码错误"));
-            return;
+        //超级管理员可以修改任何人的密码
+        if (!roleService.isSupperAdmin(getLoginedUser().getId())) {
+            if (StrUtil.isBlank(oldPwd)) {
+                renderJson(Ret.fail().set("message", "旧密码不能为空"));
+                return;
+            }
+
+            if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
+                renderJson(Ret.fail().set("message", "密码错误"));
+                return;
+            }
         }
+
 
         if (newPwd.equals(confirmPwd) == false) {
             renderJson(Ret.fail().set("message", "两次出入密码不一致"));

@@ -153,6 +153,10 @@
                 <includes>
                     <include>**/*.*</include>
                 </includes>
+                <excludes>
+                    <exclude>jboot.properties</exclude>
+                    <exclude>install.lock</exclude>
+                </excludes>
             </resource>
         </resources>
 
@@ -208,10 +212,6 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
-                    <packagingExcludes>
-                        WEB-INF/classes/jboot.properties,
-                        WEB-INF/classes/install.lock
-                    </packagingExcludes>
                 </configuration>
             </plugin>
 

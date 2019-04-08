@@ -38,6 +38,7 @@ import io.jpress.module.article.service.search.ArticleSearcherFactory;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
+import io.jpress.web.seoping.SeoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,24 +82,24 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
 
         return _paginateByBaseColumns(page
-                ,pagesize
-                ,title
-                ,categoryId
-                ,Columns.create("a.status", status));
+                , pagesize
+                , title
+                , categoryId
+                , Columns.create("a.status", status));
     }
 
     @Override
     public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
 
         return _paginateByBaseColumns(page
-                ,pagesize
-                ,title
-                ,categoryId
-                ,Columns.create().ne("a.status", Article.STATUS_TRASH));
+                , pagesize
+                , title
+                , categoryId
+                , Columns.create().ne("a.status", Article.STATUS_TRASH));
     }
 
 
-    public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId,Columns baseColumns) {
+    public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId, Columns baseColumns) {
 
 
         StringBuilder sqlBuilder = new StringBuilder("from article a ");
@@ -108,7 +109,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
-        columns.likeAppendPercent("a.title",title);
+        columns.likeAppendPercent("a.title", title);
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
@@ -128,13 +129,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize) {
-        return paginateInNormal(page,pagesize,null);
+        return paginateInNormal(page, pagesize, null);
     }
 
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
         columns.add("status", Article.STATUS_NORMAL);
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
@@ -155,7 +156,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy,DEFAULT_ORDER_BY);
+        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
         sqlBuilder.append(" ORDER BY ").append(orderBy);
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
@@ -220,7 +221,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public boolean doChangeStatus(long id, String status) {
         Article article = findById(id);
         article.setStatus(status);
-        return article.update();
+        return update(article);
     }
 
     @Override
@@ -229,8 +230,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    public Article findById(Object id) {
+        return userService.join(super.findById(id),"user_id");
+    }
+
+    @Override
     public Article findFirstBySlug(String slug) {
-        return DAO.findFirstByColumn(Column.create("slug", slug));
+        return userService.join(DAO.findFirstByColumn(Column.create("slug", slug)),"user_id");
     }
 
 
@@ -251,13 +257,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @Cacheable(name = "articles",key = "#(columns.cacheKey)-#(orderBy)-#(count)")
+    @Cacheable(name = "articles", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count) {
         return DAO.findListByColumns(columns, orderBy, count);
     }
 
     @Override
-    @Cacheable(name = "articles",key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)")
+    @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         StringBuilder from = new StringBuilder("select * from article a ");
@@ -302,9 +308,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         }
 
         Columns columns = Columns.create();
-        columns.in("m.category_id",tagIds.toArray());
-        columns.ne("a.id",articleId);
-        columns.eq("status",status);
+        columns.in("m.category_id", tagIds.toArray());
+        columns.ne("a.id", articleId);
+        columns.eq("status", status);
 
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
@@ -320,22 +326,26 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public Object save(Article model) {
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
+            SeoManager.me().ping(model.toPingData());
+            SeoManager.me().baiduPush(model.getUrl());
         }
         return id;
     }
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
             if (model.isNormal()) {
                 ArticleSearcherFactory.getSearcher().updateArticle(model);
+                SeoManager.me().ping(model.toPingData());
+                SeoManager.me().baiduUpdate(model.getUrl());
             } else {
                 ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
             }
@@ -344,7 +354,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public boolean delete(Article model) {
         boolean success = super.delete(model);
         if (success) {
@@ -354,14 +364,14 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public void deleteCacheById(Object id) {
         DAO.deleteIdCacheById(id);
     }
 
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {
 
         Db.tx(() -> {
@@ -383,7 +393,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles",key = "*")
+    @CacheEvict(name = "articles", key = "*")
     public boolean deleteById(Object id) {
 
         ArticleSearcherFactory.getSearcher().deleteArticle(id);
@@ -401,9 +411,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
             Db.update("delete from article_category_mapping where article_id = ?", id);
 
-            records.stream().forEach(record -> {
-                categoryService.updateCount(record.get("category_id"));
-            });
+            records.forEach(record -> categoryService.updateCount(record.get("category_id")));
 
             return true;
         });

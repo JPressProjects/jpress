@@ -25,6 +25,7 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.base.BaseArticle;
+import io.jpress.web.seoping.PingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getText() {
-        return JsoupUtils.getText(getContent());
+        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
     }
 
     @Override
@@ -208,9 +209,13 @@ public class Article extends BaseArticle<Article> {
         return super.update();
     }
 
-    @Override
-    public Long getOrderNumber() {
-        Long order = super.getOrderNumber();
-        return order == null ? 0 : order;
+    public PingData toPingData(){
+        return PingData.create(getTitle(),getUrl());
     }
+
+//    @Override
+//    public Integer getOrderNumber() {
+//        Integer order = super.getOrderNumber();
+//        return order == null ? 0 : order;
+//    }
 }

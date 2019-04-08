@@ -15,17 +15,19 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
-import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.template.Directive;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
-import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.core.wechat.WechatAddon;
+import io.jpress.core.wechat.WechatAddonConfig;
 
 import java.io.File;
 import java.io.Serializable;
@@ -37,8 +39,6 @@ public class AddonInfo implements Serializable {
     public static final int STATUS_INSTALL = 1;
     public static final int STATUS_START = 2;
 
-    private static final Log log = Log.getLog(AddonInfo.class);
-
     private String id;
     private String title;
     private String description;
@@ -48,13 +48,15 @@ public class AddonInfo implements Serializable {
     private int versionCode;
 
     private Class<? extends Addon> addonClass;
+    private Class<? extends AddonUpgrader> upgraderClass;
     private int status = STATUS_INIT;
 
     private List<Class<? extends Controller>> controllers;
     private List<Class<? extends Interceptor>> interceptors;
     private List<Class<? extends Handler>> handlers;
     private List<Class<? extends JbootModel>> models;
-    private List<Class<? extends JbootDirectiveBase>> directives;
+    private List<Class<? extends Directive>> directives;
+    private List<Class<? extends WechatAddon>> wechatAddons;
     private ActiveRecordPlugin arp;
     private Map<String, String> config;
 
@@ -68,7 +70,7 @@ public class AddonInfo implements Serializable {
         this.description = properties.getProperty("description");
         this.author = properties.getProperty("author");
         this.authorWebsite = properties.getProperty("authorWebsite");
-        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"),"v1.0.0");
+        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"), "v1.0.0");
         this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
     }
 
@@ -87,6 +89,14 @@ public class AddonInfo implements Serializable {
 
     public void setAddonClass(Class<? extends Addon> addonClass) {
         this.addonClass = addonClass;
+    }
+
+    public Class<? extends AddonUpgrader> getUpgraderClass() {
+        return upgraderClass;
+    }
+
+    public void setUpgraderClass(Class<? extends AddonUpgrader> upgraderClass) {
+        this.upgraderClass = upgraderClass;
     }
 
     public String getTitle() {
@@ -166,7 +176,7 @@ public class AddonInfo implements Serializable {
         return status > STATUS_INIT;
     }
 
-    public boolean isStart() {
+    public boolean isStarted() {
         return status > STATUS_INSTALL;
     }
 
@@ -237,7 +247,7 @@ public class AddonInfo implements Serializable {
     }
 
 
-    public void addDirective(Class<? extends JbootDirectiveBase> clazz) {
+    public void addDirective(Class<? extends Directive> clazz) {
         JFinalDirective directive = clazz.getAnnotation(JFinalDirective.class);
         if (directive == null) {
             return;
@@ -248,12 +258,32 @@ public class AddonInfo implements Serializable {
         directives.add(clazz);
     }
 
-    public List<Class<? extends JbootDirectiveBase>> getDirectives() {
+    public List<Class<? extends Directive>> getDirectives() {
         return directives;
     }
 
-    public void setDirectives(List<Class<? extends JbootDirectiveBase>> directives) {
+    public void setDirectives(List<Class<? extends Directive>> directives) {
         this.directives = directives;
+    }
+
+    public void addWechatAddon(Class<? extends WechatAddon> clazz) {
+        WechatAddonConfig directive = clazz.getAnnotation(WechatAddonConfig.class);
+        if (directive == null) {
+            return;
+        }
+        if (wechatAddons == null) {
+            wechatAddons = new ArrayList<>();
+        }
+        wechatAddons.add(clazz);
+    }
+
+
+    public List<Class<? extends WechatAddon>> getWechatAddons() {
+        return wechatAddons;
+    }
+
+    public void setWechatAddons(List<Class<? extends WechatAddon>> wechatAddons) {
+        this.wechatAddons = wechatAddons;
     }
 
     public ActiveRecordPlugin getArp() {
@@ -271,23 +301,6 @@ public class AddonInfo implements Serializable {
         this.arp = arp;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-
-        if (!(obj instanceof AddonInfo)) {
-            return false;
-        }
-
-        AddonInfo addon = (AddonInfo) obj;
-        if (addon.getId() == null) {
-            return false;
-        }
-
-        return addon.getId().equals(getId());
-    }
-
 
     public File buildJarFile() {
 
@@ -303,6 +316,14 @@ public class AddonInfo implements Serializable {
         fileName.append(".jar");
 
         return new File(fileName.toString());
+    }
+
+    public Addon getAddon() {
+        return addonClass == null ? null : Aop.get(addonClass);
+    }
+
+    public AddonUpgrader getAddonUpgrader() {
+        return upgraderClass == null ? null : Aop.get(upgraderClass);
     }
 
 

@@ -21,6 +21,8 @@
 
     <modules>
         <module>jpress-addon-helloworld</module>
+        <!--<module>jpress-addon-wechattask</module>-->
+        <!--<module>jpress-addon-wechatlogin</module>-->
         <!--<module>jpress-addon-articlemeta</module>-->
         <!--<module>jpress-addon-club</module>-->
         <module>jpress-addon-article-metadata</module>

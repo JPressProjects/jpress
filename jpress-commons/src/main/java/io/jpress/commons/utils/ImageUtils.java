@@ -102,7 +102,7 @@ public class ImageUtils {
      */
     public static String scale(String src, int w, int h) throws IOException {
         int inserTo = src.lastIndexOf(".");
-        String dest = src.substring(0, inserTo) + String.format("_%sx%s", w, h) + src.substring(inserTo, src.length());
+        String dest = src.substring(0, inserTo) + String.format("_%sx%s", w, h) + src.substring(inserTo);
         scale(src, dest, w, h);
         return dest;
     }

@@ -15,7 +15,7 @@ CREATE TABLE `article` (
   `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
-  `order_number` int(11) unsigned DEFAULT '0' COMMENT '排序编号',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序编号',
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
@@ -31,7 +31,8 @@ CREATE TABLE `article` (
   UNIQUE KEY `slug` (`slug`),
   KEY `user_id` (`user_id`),
   KEY `created` (`created`),
-  KEY `view_count` (`view_count`)
+  KEY `view_count` (`view_count`),
+  KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
 
 
@@ -44,7 +45,7 @@ DROP TABLE IF EXISTS `article_category`;
 CREATE TABLE `article_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
-  `user_id` int(11) DEFAULT NULL COMMENT '分类创建的用户ID',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '分类创建的用户ID',
   `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
   `title` varchar(512) DEFAULT NULL COMMENT '标题',
   `content` text COMMENT '内容描述',
@@ -95,7 +96,7 @@ CREATE TABLE `article_comment` (
   `qq` varchar(32) DEFAULT NULL COMMENT 'qq号',
   `content` text COMMENT '评论的内容',
   `reply_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
-  `order_number` int(11) unsigned DEFAULT '0' COMMENT '排序编号，常用语置顶等',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序编号，常用语置顶等',
   `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
   `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
   `status` varchar(32) DEFAULT NULL COMMENT '评论的状态',
@@ -122,7 +123,7 @@ CREATE TABLE `attachment` (
   `suffix` varchar(32) DEFAULT NULL COMMENT '附件的后缀',
   `type` varchar(32) DEFAULT NULL COMMENT '类型',
   `flag` varchar(256) DEFAULT NULL COMMENT '标示',
-  `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序字段',
   `accessible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否可以被访问',
   `created` datetime DEFAULT NULL COMMENT '上传时间',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
@@ -296,8 +297,8 @@ CREATE TABLE `single_page` (
   `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-  `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
-  `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
+  `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
+  `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
@@ -312,7 +313,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `username` varchar(128) DEFAULT NULL COMMENT '登陆名',
+  `username` varchar(128) DEFAULT NULL COMMENT '登录名',
   `nickname` varchar(128) DEFAULT NULL COMMENT '昵称',
   `realname` varchar(128) DEFAULT NULL COMMENT '实名',
   `identity` varchar(128) DEFAULT NULL COMMENT '身份',
@@ -343,7 +344,7 @@ CREATE TABLE `user` (
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `create_source` varchar(128) DEFAULT NULL COMMENT '用户来源（可能来之oauth第三方）',
-  `logged` datetime DEFAULT NULL COMMENT '最后的登陆时间',
+  `logged` datetime DEFAULT NULL COMMENT '最后的登录时间',
   `activated` datetime DEFAULT NULL COMMENT '激活时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
@@ -416,7 +417,7 @@ CREATE TABLE `wechat_menu` (
   `text` varchar(512) DEFAULT NULL COMMENT '文本内容',
   `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
   `type` varchar(32) DEFAULT '' COMMENT '菜单类型',
-  `order_number` int(11) DEFAULT NULL COMMENT '排序字段',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序字段',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)

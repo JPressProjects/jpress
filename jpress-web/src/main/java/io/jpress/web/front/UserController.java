@@ -31,8 +31,8 @@ import io.jpress.commons.sms.SmsKit;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.web.commons.AuthCode;
-import io.jpress.web.commons.AuthCodeKit;
+import io.jpress.commons.authcode.AuthCode;
+import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.web.commons.UserEmailSender;
 
 import java.util.Date;
@@ -111,6 +111,9 @@ public class UserController extends TemplateControllerBase {
         if (ret.isOk()) {
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
+
+        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        ret.set("gotoUrl",gotoUrl);
 
         renderJson(ret);
     }

@@ -26,6 +26,7 @@ import java.util.List;
  * @Title: JPress 监听器
  * @Package io.jpress
  */
+@Deprecated
 public class ModuleListenerBase implements ModuleListener {
 
 

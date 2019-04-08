@@ -328,7 +328,7 @@ Utils = {
     },
     appendFall: function($grid, dataFall) {
     	var items = new Array();
-    	$.each(dataFall, function(index, article) {
+    	$.each(dataFall, function(index, route) {
 
             $grid.imagesLoaded().done( function() {
                 $grid.masonry('layout');
@@ -337,9 +337,9 @@ Utils = {
             var obj = {};
             var $griDiv = $('<div class="grid-item item">');
             var $img = $("<img class='item-img'>");
-            $img.attr('src', Utils.context + article.showImage).appendTo($griDiv);
+            $img.attr('src', Utils.context + route.showImage).appendTo($griDiv);
             
-            var url = Utils.context + '/article/' + article.id;
+            var url = Utils.context + '/route/' + route.id;
             var $a = $("<a>");
             $a.attr('href', url);
             
@@ -347,15 +347,15 @@ Utils = {
             $section.appendTo($a);
             
             var $p1 = $("<p class='title-p'>");
-            // $p1.html(value.route_code + " " + value.title).appendTo($section);
-            $p1.html(article.title).appendTo($section);
+            $p1.html(route.code + " " + route.title).appendTo($section);
+            // $p1.html(route.title).appendTo($section);
 
-            /*var $p2 = $("<p class='date-p txt-color-green'>");
-            $p2.html("#articleMeta(articleId=" + article.id + ", fieldName='startDate') 出发").appendTo($section);
+            /** var $p2 = $("<p class='date-p txt-color-green'>");
+            $p2.html("#date(route.departure_date, 'yyyy-MM-dd') 出发").appendTo($section);
             var $p3 = $("<p class='price-p'>");
             $p3.html("起售价：").appendTo($section);
             var $span = $("<span class='txt-color-red'>");
-            $span.html("￥ #articleMeta(articleId=" + article.id + ", fieldName='price')").appendTo($p3);*/
+            $span.html(route.price + " 元起").appendTo($p3);*/
             
             $a.appendTo($griDiv);
             
@@ -366,8 +366,8 @@ Utils = {
                 $grid.masonry('reloadItems');
             });
 
-            obj.image = Utils.context + article.showImage;
-            obj.caption = article.title;
+            obj.image = Utils.context + route.showImage;
+            obj.caption = route.title;
             
             items.push(obj);
     	});

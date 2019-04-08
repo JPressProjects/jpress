@@ -1,0 +1,8 @@
+id=io.jpress.addon.wechat
+title=微信管理
+description=用于管理微信的功能
+author=eric
+authorWebsite=http://www.ninemm.cn
+version=1.0
+versionCode=1
+updateUrl=

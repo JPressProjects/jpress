@@ -110,7 +110,7 @@
         function loadRoute() {
             $.ajax({
                 method: 'post',
-                url: '#(CPATH)/articles/paginate',
+                url: '#(CPATH)/routes/paginate',
                 data: { page: pageNum, pageSize: 10, categoryId: categoryId, orderBy: 'created' },
                 dataType: 'json',
                 beforeSend: function() {
@@ -154,8 +154,7 @@
 		</nav>
 
 		<!-- routes container -->
-		<aside class="fall-box grid">
-		</aside>
+		<aside class="fall-box grid"></aside>
 	</div>
 </div>
 <div class="foot-black"></div>

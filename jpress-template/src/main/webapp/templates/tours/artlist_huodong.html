@@ -1,0 +1,135 @@
+#include("_inc/_layout.html")
+#@layout()
+
+#define css()
+<style>
+	.weui-content ul {
+		background-color: #fff;
+	}
+	li {
+		/*color: #fff;*/
+		height: 13rem;
+		/*margin-bottom: .5rem;*/
+	}
+	.content {
+		position: relative;
+		height: 8rem;
+		overflow: hidden;
+	}
+	.content-bg a {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		/*z-index: 1;*/
+		position: absolute;
+	}
+
+	.content img {
+		width: 100%;
+		height: auto;
+	}
+	.bg-mask {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+	.content .content-view {
+		position: absolute;
+		text-align: center;
+		line-height: 1.5rem;
+		height: 1.5rem;
+		bottom: 0;
+		top: 40%;
+		width: 30%;
+		left: 35%;
+		overflow: hidden;
+		color: #fff;
+		font-size: .6rem;
+		background-color: rgba(76, 76, 76, 0.4);
+	}
+	.content-desc {
+		position: relative;
+		padding: 0 .5rem;
+		padding-bottom: .8rem;
+		border-bottom: .5rem solid #f6f6f6;
+	}
+	.content-title {
+		padding: .2rem 0;
+		font-size: .7rem;
+		font-weight: 700;
+		text-align: center;
+	}
+	.content-summary {
+		padding: .2rem 1rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.gohome {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background: rgba(0,0,0,0.4);
+		text-align: center;
+	}
+
+	.gohome i {
+		line-height: 1.6rem;
+		font-size: 1.2rem;
+		color: #fff;
+	}
+</style>
+#end
+
+#define content()
+<!-- 休闲线路列表 -->
+<div class="weui-content">
+	<ul>
+	#categoryArticles(categoryId=category.id,orderBy='created')
+		#if(articles?? && articles.size() > 0)
+			#for(article : articles)
+			<li>
+				<div class="content">
+					<div class="content-bg">
+						<img src="#(article.showImage ??)">
+						<div class="bg-mask"></div>
+						#if(for.first)
+						<a href="#(CPATH)/article/#(article.id)">
+							<div class="gohome">
+								<i class="icon-home"></i>
+							</div>
+						</a>
+						#end
+					</div>
+					<a href="#(article.url ??)">
+						<div class="content-view">
+							<i class="icon-eye"></i> 查看详情
+						</div>
+					</a>
+				</div>
+				<div class="content-desc">
+					<div class="content-title txt-color-green">
+						#(article.title ??)
+					</div>
+					<div class="content-summary font-12">
+						#(article.meta_description ??)
+					</div>
+				</div>
+			</li>
+			#end
+		#else
+			<article>无记录！</article>
+		#end
+	#end
+	</ul>
+</div>
+#end

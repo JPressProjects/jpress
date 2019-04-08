@@ -1,0 +1,91 @@
+#include("_inc/_layout.html")
+#@layout()
+#define css()
+<style>
+	.weui-content {
+		background-color: #fff;
+	}
+	.content {
+		position: relative;
+		height: 8rem;
+	}
+	.content-img {
+		height: auto;
+		position: relative;
+		overflow: hidden;
+	}
+	.content-img img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.content-date {
+		margin-left: .5rem;
+	}
+	.content .content-info {
+		position: absolute;
+		line-height: 2rem;
+		height: 2rem;
+		bottom: 0;
+		width: 100%;
+		left: 0;
+		overflow: hidden;
+		color: #fff;
+		font-size: .6rem;
+		background-color: rgba(76, 76, 76, 0.4);
+	}
+	.content-info .content-view {
+		margin-right: 1rem;
+	}
+
+	.content-title {
+		height: 2rem;
+		line-height: 2rem;
+		font-size: .8rem;
+		padding-left: .5rem;
+		font-weight: 700;
+		border-bottom: .5rem solid #f6f6f6;
+	}
+
+	.wy-news-info p {
+		line-height: 1.5rem;
+	}
+</style>
+#end
+#define script()
+<script>
+    $(function() {
+        initTopHoverTree("gotop", 30, 10, 50);
+    })
+</script>
+#end
+
+#define content()
+<!-- 内容 -->
+<div class="weui-content">
+	<div class="content" style="height: auto;">
+		<div class="content-img">
+			<img src="#(article.showImage ??)">
+		</div>
+		<div class="content-info">
+			<span class="content-date">#date(article.created,'yyyy-MM-dd')</span>
+			<div class="content-view fr">
+				<i class="icon-eye"></i> 阅读(#(article.viewCount ?? "0"))
+			</div>
+		</div>
+	</div>
+	<div class="content-title txt-color-green">
+		<span>#(article.title ??)</span>
+	</div>
+	<div class="content-desc">
+
+	</div>
+	<article class="weui-article">
+		<section class="wy-news-info">
+			#(article.content ??)
+		</section>
+	</article>
+</div>
+<!--<span id="gotop" title="返回顶部"></span>-->
+<div id="gohome" title="返回首页"><i class="icon-home"></i></div>
+#end

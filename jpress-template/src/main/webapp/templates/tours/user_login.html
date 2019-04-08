@@ -1,0 +1,27 @@
+#include("_inc/_layout.html")
+#@layout()
+#define content()
+
+<!-- 用户中心 -->
+<div class="weui-content">
+
+
+	<div class="weui-panel">
+		<div class="weui-panel__bd">
+			<div class="weui-media-box weui-media-box_small-appmsg">
+				<div class="weui-cells">
+					<a class="weui-cell weui-cell_access" href="#(CPATH)/user/promoter">
+						<div class="weui-cell__hd"><img src="images/center-icon-tgy.png" alt="" class="center-list-icon"></div>
+						<div class="weui-cell__bd weui-cell_primary">
+							<p class="center-list-txt">申请推广员</p>
+						</div>
+						<!--<span class="weui-cell__ft">${tips!}</span>-->
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="foot-black"></div>
+#include("_inc/_footer_nav.html")
+#end

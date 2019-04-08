@@ -47,7 +47,7 @@
 <script src="js/jquery/imagesloaded.pkgd.min.js"></script>
 <script>
     $(function() {
-        initTopHoverTree("gotop", 30, 10, 50);
+            initTopHoverTree("gotop", 30, 10, 50);
 
         // 轮播图
         var banner = new Swiper('.swiper-banner', {
@@ -104,7 +104,7 @@
 				#end
 	        </div>
 	    </div>
-	    <a href="#(CPATH)/s">
+	    <a href="#(CPATH)/page/search">
 		    <div class="search">
 	            <i class="icon-search"></i>
 	        </div>
@@ -151,7 +151,7 @@
 				    	<div class="placeholder">
                             #categories(flag='huodong')
                             #for(category : categories)
-	                        <a href="#">
+	                        <a href="#(CPATH)/article/category/#(category.id)">
 								<div class="tour-activity" style="width: #if(for.index == 3) 60% #elseif(for.index == 4) 40% #else 50% #end">
 									<div class="img-bg #if(for.index == 0 || for.index == 3) img-border-right img-border-bottom #else img-border-bottom #end"></div>
 									<img src="#(CPATH)#(category.icon)">
@@ -162,42 +162,6 @@
 	                        </a>
                             #end
                             #end
-							<!--<a href="#">
-								<div class="tour-activity" style="width: 50%">
-									<div class="img-bg img-border-bottom"></div>
-									<img src="images/002.jpg">
-									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
-										<div class="line-name">测试线路</div>
-									</div>
-								</div>
-							</a>
-							<a href="#">
-								<div class="tour-activity" style="width: 50%">
-									<div class="img-bg img-border-bottom"></div>
-									<img src="images/003.jpg">
-									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
-										<div class="line-name">测试线路</div>
-									</div>
-								</div>
-							</a>
-							<a href="#">
-								<div class="tour-activity" style="width: 60%">
-									<div class="img-bg img-border-right img-border-bottom"></div>
-									<img src="images/004.jpg">
-									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
-										<div class="line-name">测试线路</div>
-									</div>
-								</div>
-							</a>
-							<a href="#">
-								<div class="tour-activity" style="width: 40%">
-									<div class="img-bg"></div>
-									<img src="images/005.jpg">
-									<div class="img-show-info" style="margin: -8% 0 0 -50%;">
-										<div class="line-name">测试线路</div>
-									</div>
-								</div>
-							</a>-->
 				    	</div>
 				    </div>
 				</div>
@@ -205,27 +169,29 @@
 	    </div>
 	    
 	    <div class="wy-Module">
-        <div class="wy-Module-tit-line"><span>推荐线路</span></div>
-        <div class="wy-Module-con">
-            <aside class="fall-box grid">
-				#categoryArticles(categoryFlag='routes', hasThumbnail=true,count=5,orderBy='created desc')
-				#for(article : articles)
-                <div class="grid-item item">
-                    <img src="#(CPATH)#(article.thumbnail)" class="item-img" />
-                    <a href="#">
-	                    <section class="section-p">
-	                        <p class="title-p">800102 #(article.title)</p>
-	                        <p class="date-p txt-color-green">出发日期： #articleMeta(articleId=article.id, fieldName='startDate')</p>
-	                        <p class="price-p">起售价格：<span class="txt-color-red">￥#articleMeta(articleId=article.id, fieldName='price')</span></p>
-	                    </section>
-                    </a>
-                </div>
-				#end
-				#end
-            </aside>
-        	<div class="morelinks"><a href="#(CPATH)/article/category">查看更多 >></a></div>
+            <div class="wy-Module-tit-line"><span>推荐线路</span></div>
+            <div class="wy-Module-con">
+                <aside class="fall-box grid">
+                    #categoryRoutes(categoryFlag='routes', hasThumbnail=true,count=5,orderBy='created desc')
+                    #for(route : routes)
+                    <div class="grid-item item">
+                        <img src="#(CPATH)#(route.thumbnail)" class="item-img" />
+                        <section class="section-p">
+                            <a href="#(route.url)">
+                                <p class="title-p"><span class="txt-color-red">#(route.code ??)</span> #(route.title ??)</p>
+                            </a>
+                            <p class="date-p">
+                                <span class="txt-color-green">团期： #(route.departure_date ??)</span>
+                                <span class="fr"><span class="txt-color-red">#(route.price ?? 0)</span> 元起</span>
+                            </p>
+                        </section>
+                    </div>
+                    #end
+                    #end
+                </aside>
+                <div class="morelinks"><a href="#(CPATH)/article/category">查看更多 >></a></div>
+            </div>
         </div>
-        
         <!-- 往期回顾
 	    <div class="wy-Module">
 	        <div class="wy-Module-tit-line"><span>线路回顾</span></div> 
@@ -249,7 +215,6 @@
 	            </div>
 	        </div>
 	    </div>-->
-    </div>
     </div>
     
     <div class="weui-footer">

@@ -17,7 +17,7 @@ import io.jpress.web.base.TemplateControllerBase;
  * @package io.jpress.web.front
  **/
 
-@RequestMapping("/uh5center")
+@RequestMapping("/user/center")
 public class UserCenterMobileController extends TemplateControllerBase {
 
     @Inject
@@ -29,7 +29,7 @@ public class UserCenterMobileController extends TemplateControllerBase {
     public void index() {
 
         //不支持渲染用户详情
-        if (hasTemplate("user_detail_h5.html") == false) {
+        if (hasTemplate("user_center.html") == false) {
             renderError(404);
             return;
         }
@@ -46,17 +46,17 @@ public class UserCenterMobileController extends TemplateControllerBase {
 
         User user = userService.findById(id);
         if (user == null) {
-            renderError(404);
+            redirect("/user/login");
             return;
         }
 
         doFlagMenuActive();
 
         setAttr("user", user.keepSafe());
-        render("user_detail_h5.html");
+        render("user_center.html");
     }
 
     private void doFlagMenuActive() {
-        setMenuActive(menu -> menu.getUrl().contains("uh5center"));
+        setMenuActive(menu -> menu.getUrl().contains("user/center"));
     }
 }

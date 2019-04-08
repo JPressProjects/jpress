@@ -10,7 +10,7 @@
 				<img class="weui-media-box__thumb radius" src="#(user.avater ??'images/headimg.jpg')" alt="">
 			</div>
 			<div class="weui-media-box__bd">
-				<h4 class="weui-media-box__title user-name">#(user.nickname ?? user.username)</h4>
+				<h4 class="weui-media-box__title user-name">#(user.nickname ?? user.username ??)</h4>
 				<p class="user-grade">等级：普通会员</p>
 				<p class="user-integral">待返还金额：<em class="num">500.0</em>元</p>
 			</div>
@@ -25,7 +25,7 @@
 						<div class="weui-cell__bd weui-cell_primary">
 							<p class="center-list-txt">我的优惠券</p>
 						</div>
-						<span class="weui-cell__ft">#couponCount!0}张 优惠券</span>
+						<span class="weui-cell__ft">#(couponCount ?? 0) 张优惠券</span>
 					</a>
 					<a class="weui-cell weui-cell_access" href="#(CPATH)/user/browse">
 						<div class="weui-cell__hd"><img src="images/center-icon-zj.png" alt="" class="center-list-icon"></div>

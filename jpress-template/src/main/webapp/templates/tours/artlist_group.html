@@ -94,18 +94,18 @@
 				<div class="content-title">
 					#(article.title ??)
 				</div>
-				<p class="txt-color-green">#articleMeta(articleId=article.id, fieldName='startDate')出发</p>
+				<p class="txt-color-green">#(article.departure_date ??)出发</p>
 				<div class="route-group-info">
 					<div class="group-num fl mg-r-10">
 						<span>#(article.minJoinNum ?? 2)人团</span>
 					</div>
 					<div class="group-price fl txt-color-red mg-r-10">
-						<span class="font-b font-16">￥ #articleMeta(articleId=article.id, fieldName='price')</span> 拼团
+						<span class="font-b font-16">￥ #(article.price ??)</span> 拼团
 					</div>
 					<div class="route-price fl mg-r-10">
-						<span style="text-decoration:line-through;">单购价：￥#articleMeta(articleId=article.id, fieldName='price')</span>
+						<span style="text-decoration:line-through;">单购价：￥#(article.market_price ??)</span>
 					</div>
-					<div class="group-start fl">
+					<div class="group-start fr">
 						<a href="#">去开团</a>
 					</div>
 				</div>

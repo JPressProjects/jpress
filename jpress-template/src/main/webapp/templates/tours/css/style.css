@@ -102,7 +102,7 @@ header, .weui-navbar{
 }
 
 /*底部导航*/
-.foot-black{height:48px; clear:both; bottom: 0; position: fixed}
+.foot-black{height:48px; clear:both; bottom: 0}
 .weui-tabbar.wy-foot-menu{position:fixed; border-top: 1px solid #f5f5f5;}
 /* .weui-tabbar__item.weui-bar__item--on .weui-tabbar__label{color:#1aad19;} */
 .weui-tabbar__label{color:#666;}
@@ -117,8 +117,10 @@ header, .weui-navbar{
 .weui-tabbar__item.weui-bar__item--on .foot-menu-group{background:url(../images/discount-active.png) no-repeat; background-size:22px;}
 .weui-tabbar__item .foot-menu-member{background:url(../images/my.png) no-repeat; background-size:22px;}
 .weui-tabbar__item.weui-bar__item--on .foot-menu-member{background:url(../images/my-active.png) no-repeat; background-size:22px;}
+.weui-tabbar__item .foot-menu-search{background:url(../images/search.png) no-repeat; background-size:22px;}
+.weui-tabbar__item.weui-bar__item--on .foot-menu-search{background:url(../images/search-active.png) no-repeat; background-size:22px;}
 /*首页轮播*/
-.swiper-container {width: 100%;} 
+.swiper-container {width: 100%;}
 .swiper-container img {display: block;width: 100%;}
 /*首页图标链接*/
 .wy-iconlist-box {background:#fff; padding:0 10px;}
@@ -253,7 +255,7 @@ header, .weui-navbar{
 .weui-media-box__desc{color:#454545;}
 .wy-pro-pri em{font-weight:bold; margin-left:2px;}
 .weui-media-box__info.prolist-ul{margin-top:5px;}
-.weui-media-box_appmsg .weui-media-box__hd{width:82px; height:82px; margin-right:10px;}
+.weui-media-box_appmsg .weui-media-box__hd{width:82px; height:82px;     margin: 1rem 0 .5rem 0;}
 .weui-media-box__desc{line-height:1.4;}
 
 .swiper-group {
@@ -337,12 +339,8 @@ header, .weui-navbar{
     background-color: #fff;
 }
 
-.route_detail_wrapper .main {
-    background: url("../images/line-bg.png") repeat-y 100px 0;
-}
-
 .route_detail_wrapper .main .list{
-    margin: 10px 0;
+    margin: 10px;
     position:relative;
     overflow:hidden;
     -webkit-transition:height 1s cubic-bezier(0.025,0.025,0.000,1.115),opacity 1s;
@@ -547,7 +545,8 @@ header, .weui-navbar{
 .wy-dele{width:20px; height:20px; float:right; background:url(../images/icon-dele.png) no-repeat; display:block; background-size:20px;}
 .weui-cell.allsec-well{padding:0 10px;}
 /*--我的---*/
-.wy-center-top{width:100%; overflow:hidden; background:url(../images/center-top-bj.jpg) no-repeat; background-size:cover;}
+/*.wy-center-top{width:100%; overflow:hidden; background:url(../images/center-top-bj.jpg) no-repeat; background-size:cover;}*/
+.wy-center-top{width:100%; overflow:hidden; background:#b7e8b7; background-size:cover;}
 .wy-center-top .userinfo{padding:0}
 .wy-center-top .xx-menu{height:44px; background:rgba(0,0,0,.3);}
 .user-name{color:#fff; font-weight:600; font-size:16px;}

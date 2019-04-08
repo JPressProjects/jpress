@@ -1,0 +1,263 @@
+#include("_inc/_layout.html")
+#@layout()
+
+#define css()
+<link href="css/icomoon.css" rel="stylesheet" type="text/css" />
+<style>
+	.weui-cells {
+		font-size: .7rem;
+	}
+	.swiper-join .swiper-content {
+		line-height: 4rem;
+		height: 4rem;
+		text-align: center;
+	}
+
+	.join-wrapper {
+		position: relative;
+		height: auto;
+		border-radius: 50%;
+	}
+
+	.join-wrapper .join-avatar {
+		height: auto;
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.join-avatar img {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		margin: 0 auto;
+	}
+	.swiper-content .swiper-join-title {
+		/*text-align: center; */
+		line-height: 1.1rem;
+		padding-top: .2rem;
+		font-size: .6rem;
+	}
+
+	.weui-media-box__desc {
+		-webkit-line-clamp: 20;
+	}
+
+	.gohome {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background: rgba(0,0,0,0.4);
+		text-align: center;
+	}
+
+	.gohome i {
+		line-height: 1.6rem;
+		font-size: 1.2rem;
+		color: #fff;
+	}
+</style>
+#end
+#define script()
+<script src="js/weui/swiper.min.js"></script>
+<script>
+    $(function() {
+        $(".main .list").each(function (e, target) {
+            var $target=  $(target),
+                $ul = $target.find("ul");
+            $target.height($ul.outerHeight()), $ul.css("position", "absolute");
+        });
+
+        $(document).on("open", ".weui-popup__modal", function() {
+            console.log("open popup");
+        }).on("close", ".weui-popup__modal", function() {
+            console.log("close popup");
+        });
+    })
+</script>
+#end
+
+#define content()
+	<!-- 内容 -->
+<div class="weui-content">
+	<div class="weui-flex">
+		<div class="route_img_wrapper">
+			<div class="route_img">
+				<img src="#(route.showImage ??)">
+			</div>
+			<div class="gohome">
+				<i class="icon-home"></i>
+			</div>
+			<div class="route_title">
+				<span>#(route.title ??)</span>
+			</div>
+		</div>
+	</div>
+
+	<section>
+		<div class="weui-cells">
+			<div class="weui-cell">
+				<div class="weui-cell__hd"><i class="icon-calendar" style="margin-right: .2rem"></i> </div>
+				<div class="weui-cell__bd">
+					<p>日程天数：#(route.group_num ?? 0)天</p>
+				</div>
+				<div class="weui-cell__ft txt-color-green font-b">需提前1天预订</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd"><i class="icon-clock-o" style="margin-right: .2rem"></i></div>
+				<div class="weui-cell__bd">
+					<p>团期：#(route.departure_date ??)</p>
+				</div>
+				<div class="weui-cell__ft">报名截至：08/25 12:00</div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__hd"><i class="icon-cc-visa" style="margin-right: .2rem"></i></div>
+				<div class="weui-cell__bd">
+					<p>报名费用：<span class="font-b txt-color-red">￥#(route.price ?? 0)</span></p>
+				</div>
+				<div class="weui-cell__ft">原价：<span style="text-decoration:line-through;">￥#(route.market_price ?? 0)</span></div>
+			</div>
+			<div class="weui-cell">
+				<div class="weui-cell__bd">
+					<span style="line-height: .9rem"><i class="icon-star" style="margin-right: .2rem"></i> #(route.meta_description ??)</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="weui-tab">
+		<div class="weui-navbar" style="left:0; right:0; height:44px;">
+			<a class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">行程描述</a>
+			<a class="weui-navbar__item proinfo-tab-tit" href="#tab2">费用说明</a>
+			<a class="weui-navbar__item proinfo-tab-tit" href="#tab3">预订须知</a>
+			<a class="weui-navbar__item proinfo-tab-tit" href="#tab4">评价</a>
+		</div>
+		<div class="weui-tab__bd proinfo-tab-con">
+			<div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+				<div class="route_detail_wrapper">
+					<div class="main">
+						<div class="list">
+							#(route.content ??)
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tab2" class="weui-tab__bd-item ">
+				<div class="weui-panel">
+					<div class="weui-panel__bd">
+						<div class="weui-media-box weui-media-box_text">
+							<h4 class="weui-media-box__title txt-color-red font-b">费用包含</h4>
+							<p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+						</div>
+						<div class="weui-media-box weui-media-box_text">
+							<h4 class="weui-media-box__title txt-color-red font-b">费用不含</h4>
+							<p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tab3" class="weui-tab__bd-item ">
+				<div class="weui-panel">
+					<div class="weui-panel__bd">
+						<div class="weui-media-box weui-media-box_text">
+							<h4 class="weui-media-box__title txt-color-red font-b">预订须知</h4>
+							<p class="weui-media-box__desc">该产品由具备相关法律资质的第三方旅游商家售卖，我们仅提供产品信息呈现及预订服务。当您有投诉及售后问题时，17998平台会第一时间协助您解决。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tab4" class="weui-tab__bd-item ">
+				<!--评价-->
+				<div class="weui-panel__bd">
+					<div class="wy-media-box weui-media-box_text">
+						<div class="weui-cell nopd weui-cell_access">
+							<div class="weui-cell__hd">
+								<img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+							</div>
+							<div class="weui-cell__bd weui-cell_primary">
+								<p>飞翔的小土豆</p>
+							</div>
+							<span class="weui-cell__time">2017-02-06</span>
+						</div>
+						<div class="comment-item-star">
+							<span class="real-star comment-stars-width5"></span>
+						</div>
+						<p class="weui-media-box__desc">面料不错，码数也正常  男朋友穿的很合适。</p>
+					</div>
+				</div>
+				<div class="weui-panel__bd">
+					<div class="wy-media-box weui-media-box_text">
+						<div class="weui-cell nopd weui-cell_access">
+							<div class="weui-cell__hd">
+								<img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block">
+							</div>
+							<div class="weui-cell__bd weui-cell_primary">
+								<p>飞翔的小土豆</p>
+							</div>
+							<span class="weui-cell__time">2017-02-06</span>
+						</div>
+						<div class="comment-item-star">
+							<span class="real-star comment-stars-width3"></span>
+						</div>
+						<p class="weui-media-box__desc">面料不错，码数也正常  男朋友穿的很合适。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="weui-footer">
+		<div class="footer-wrapper">
+			<p class="weui-footer__text">Copyright &copy; 2016-2017 9mm.tech</p>
+		</div>
+	</div>
+	<div class="foot-black"></div>
+</div>
+
+<span id="gotop" title="返回顶部"></span>
+<!--底部导航-->
+
+<div class="weui-tabbar wy-foot-menu">
+	<a href="javascript:;" class="promotion-foot-menu-items">
+		<div class="weui-tabbar__icon promotion-foot-menu-kefu"></div>
+		<p class="weui-tabbar__label">咨询</p>
+	</a>
+	<a href="javascript:;" id='show-toast' class="promotion-foot-menu-items">
+		<div class="weui-tabbar__icon promotion-foot-menu-collection"></div>
+		<p class="weui-tabbar__label">领取优惠券</p>
+	</a>
+	<a href="javascript:;" class="weui-tabbar__item green-color open-popup" data-target="#wechat-group">
+		<p class="promotion-foot-menu-label">加入微信群</p>
+	</a>
+	<a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
+		<p class="promotion-foot-menu-label">立即报名</p>
+	</a>
+</div>
+
+<div id="wechat-group" class='weui-popup__container popup-bottom' style="z-index:600;">
+	<div class="weui-popup__overlay" style="opacity:1;"></div>
+	<div class="weui-popup__modal">
+		<div class="toolbar">
+			<div class="toolbar-inner">
+				<a href="javascript:;" class="picker-button close-popup">关闭</a>
+				<h1 class="title">关注微信群</h1>
+			</div>
+		</div>
+		<div class="modal-content">
+			<div class="weui-msg" style="padding-top:0;">
+				<div class="wy-media-box2 weui-media-box_text" style="margin:0;">
+					<div class="weui-msg__text-area">
+						<p class="weui-msg__desc">
+							<img src="upload/qrcode.png">
+						<p>长按二维码识别加入微信群</p>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+#end

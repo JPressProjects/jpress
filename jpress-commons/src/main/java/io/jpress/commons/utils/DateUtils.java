@@ -3,9 +3,11 @@ package io.jpress.commons.utils;
 import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtil;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.List;
 
@@ -168,5 +170,23 @@ public class DateUtils {
         }
 
         return result;
+    }
+
+    /**
+     * 功能描述：计算两个日期之间的天数
+     * 输入参数：
+     * @param startDate
+     * @param endDate
+     * @return
+     * 返回类型：int
+     * 创建人：eric
+     * 日期：2017年6月10日
+     */
+    public static int getDaysBetweenDays(Date startDate, Date endDate) {
+        if (startDate == null || endDate == null) {
+            throw new InvalidParameterException("startDate and endDate cannot be null!");
+        }
+
+        return Days.daysBetween(new DateTime(startDate), new DateTime(endDate)).getDays();
     }
 }

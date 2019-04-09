@@ -145,7 +145,7 @@ public class SmartField {
     }
 
     public SmartField addAttr(String key, Object value) {
-        StringBuilder s = new StringBuilder(" )
+        StringBuilder s = new StringBuilder()
                 .append(key)
                 .append("=\"")
                 .append(value.toString())

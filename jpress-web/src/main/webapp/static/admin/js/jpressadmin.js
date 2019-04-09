@@ -164,7 +164,7 @@ function initCkEdtior(editor, height) {
     };
 
     CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
-
+    CKEDITOR.addCss('.cke_editable img{max-width: 95%;}');
 
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,
@@ -179,6 +179,7 @@ function initCkEdtior(editor, height) {
         language: 'zh-cn'
     });
 
+
     ed.on('instanceReady', function () {
         ed.setKeystroke(CKEDITOR.ALT.CTRL + 83, 'save'); //  Ctrl+s
         ed.setKeystroke(1114195, 'save'); // mac command +s
@@ -190,6 +191,8 @@ function initCkEdtior(editor, height) {
             }
         });
     });
+
+
 
     ed.on("dialogShow", function (event) {
         // 方便调试

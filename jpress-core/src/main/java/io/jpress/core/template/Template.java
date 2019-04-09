@@ -87,7 +87,10 @@ public class Template {
     }
 
     private static String buildFolder(File templateFolder) {
-        String basePath = PathKit.getWebRootPath() + "/templates/";
+        String basePath = PathKit.getWebRootPath()
+                .concat(File.separator)
+                .concat("templates")
+                .concat(File.separator);
         return FileUtil.removePrefix(templateFolder.getAbsolutePath(), basePath);
     }
 

@@ -72,6 +72,7 @@ function initCkEdtior(editor, height) {
         ];
 
     CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
+    CKEDITOR.addCss('.cke_editable img{max-width: 95%;}');
 
     return CKEDITOR.replace(editor, {
         autoUpdateElement: true,

@@ -401,7 +401,8 @@ public class _UserController extends AdminControllerBase {
         String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        String newPath = FileUtil.removePrefix(newAvatarPath, attachmentRoot);
+        String newPath = FileUtil.removePrefix(newAvatarPath, attachmentRoot).replace("\\", "/");
+
         AliyunOssUtils.upload(newPath, new File(newAvatarPath));
 
         user.setAvatar(newPath);

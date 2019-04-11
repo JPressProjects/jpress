@@ -112,7 +112,7 @@ public class _PermissionController extends AdminControllerBase {
                 itemPermission.setType(Permission.TYPE_MENU);
                 itemPermission.setText(item.getText());
                 itemPermission.setNode(item.getGroupId());
-                itemPermission.setActionKey(item.getGroupId() + ":" + item.getUrl());
+                itemPermission.setActionKey(item.getPermission());
                 permissions.add(itemPermission);
             }
         }

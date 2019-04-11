@@ -23,6 +23,8 @@ import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
+import io.jpress.module.route.sitemap.RouteSitemapProviderBuilder;
+
 import java.util.List;
 
 /**
@@ -58,11 +60,15 @@ public class ToursModuleListener extends JbootAppListenerBase implements ModuleL
     @Override
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
 
-      
     }
 
     @Override
     public void onPluginConfig(JfinalPlugins plugins) {
         plugins.add(new Cron4jPlugin());
+    }
+
+    @Override
+    public void onStart() {
+        RouteSitemapProviderBuilder.me().init();
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * @package io.jpress.web.front
  **/
 
-@RequestMapping("/sitemap")
+@RequestMapping("/sitemap1")
 public class SitemapController extends TemplateControllerBase {
 
     @Inject

@@ -9,6 +9,7 @@ jpress v2.0-rc.8:
 优化：优化docker-compose启动JPress的时候，当配置模板映射时无法使用系统内置的模板的问题
 优化：升级内核JFinal到3.8和Jboot到2.0.6 最新版本
 优化：优化 Ckeditor 插入图片时，当图片过大会导致文字被挤压没有良好文字编写体验的问题
+优化：优化 window 下的JPress启动文件 jpress.bat 的提示文字错误的问题
 修复：修复在JPress后台升级插件在某些情况下无法正确升级的问题
 修复：修复ModuleUIGenerator用于生成UI代码时，会导致部分数据无法正确提交的问题
 修复：修复模板在templates的多级目录下，无法正常加载的问题

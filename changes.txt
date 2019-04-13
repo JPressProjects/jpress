@@ -18,6 +18,7 @@ jpress v2.0-rc.8:
 修复：修复解决SmartField addAttr属性不生效的问题，感谢 [@ZJWave](https://gitee.com/zjwave)
 修复：在window下，当用户通过个人中心上传头像后，无法在前台渲染的问题
 修复：自定义ContextPath场景下，后台菜单权限逻辑错误问题
+修复：通过后台的标签模块新增标签的时候，可以新增重复标签的问题
 
 
 jpress v2.0-rc.7:

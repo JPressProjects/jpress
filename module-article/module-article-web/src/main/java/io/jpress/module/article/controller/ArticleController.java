@@ -61,13 +61,10 @@ public class ArticleController extends TemplateControllerBase {
 
     public void index() {
         Article article = getArticle();
-        assertNotNull(article);
 
         //当文章处于审核中、草稿等的时候，显示404
-        if (!article.isNormal()) {
-            renderError(404);
-            return;
-        }
+        render404If(article == null || !article.isNormal());
+
 
         if (StrUtil.isNotBlank(article.getLinkTo())) {
             redirect(article.getLinkTo());

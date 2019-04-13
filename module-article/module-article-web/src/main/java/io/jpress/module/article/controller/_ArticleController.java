@@ -274,13 +274,16 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-
     @EmptyValidate({
             @Form(name = "category.title", message = "分类名称不能为空"),
             @Form(name = "category.slug", message = "slug 不能为空")
     })
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");
+        saveCategory(category);
+    }
+
+    private void saveCategory(ArticleCategory category) {
         if (!validateSlug(category)) {
             renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
             return;
@@ -290,7 +293,6 @@ public class _ArticleController extends AdminControllerBase {
         categoryService.updateCount(category.getId());
 
         Menu displayMenu = menuService.findFirstByRelatives("article_category", id);
-
         Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
         if (isDisplayInMenu != null && isDisplayInMenu) {
             if (displayMenu == null) {
@@ -324,7 +326,20 @@ public class _ArticleController extends AdminControllerBase {
             @Form(name = "category.title", message = "标签名称不能为空"),
     })
     public void doTagSave() {
-        doCategorySave();
+
+        ArticleCategory tag = getModel(ArticleCategory.class, "category");
+
+        //新增 tag
+        if (tag.getId() == null) {
+            ArticleCategory indbTag = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag.getTitle());
+            if (indbTag != null) {
+                renderJson(Ret.fail().set("message", "该标签已经存在，不能新增。"));
+                return;
+            }
+        }
+
+        tag.setSlug(tag.getTitle());
+        saveCategory(tag);
     }
 
     public void doCategoryDel() {

@@ -35,11 +35,10 @@ import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
-import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.JPressShareFunctions;
+import io.jpress.web.base.AdminControllerBase;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +77,6 @@ public class _TemplateController extends AdminControllerBase {
                     searchTemplate.add(template);
                 }
             }
-
             setAttr("templates", searchTemplate);
         } else {
             setAttr("templates", templates);
@@ -132,7 +130,7 @@ public class _TemplateController extends AdminControllerBase {
         if (new File(templatePath).exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该模板已经安装"));
+                    .set("message", "该模板可能已经存在，无法进行安装。"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
@@ -146,7 +144,7 @@ public class _TemplateController extends AdminControllerBase {
             org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), templateZipFile);
             FileUtil.unzip(templateZipFile.getAbsolutePath(),
                     templateZipFile.getParentFile().getAbsolutePath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "模板文件解压缩失败"));
@@ -177,7 +175,6 @@ public class _TemplateController extends AdminControllerBase {
         JPressOptions.set("web_template", template.getId());
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
-
         RenderManager.me().getEngine().removeAllTemplateCache();
 
         renderOkJson();
@@ -261,7 +258,7 @@ public class _TemplateController extends AdminControllerBase {
                 srcFiles.add(file.getName());
         }
         setAttr("srcFiles", srcFiles);
-        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("/templates/")));
+        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf(File.separator.concat("templates"))));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);

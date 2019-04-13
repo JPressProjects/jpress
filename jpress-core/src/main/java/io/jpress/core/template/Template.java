@@ -23,8 +23,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Template {
 
@@ -48,7 +49,7 @@ public class Template {
 
     public Template(File templateFolder) {
 
-        File propFile = new File(templateFolder,"template.properties");
+        File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
         this.folder = buildFolder(templateFolder);
@@ -253,7 +254,12 @@ public class Template {
     }
 
     public String getAbsolutePath() {
-        return PathKit.getWebRootPath() + "/templates/" + folder;
+        StringBuilder path = new StringBuilder(PathKit.getWebRootPath())
+                .append(File.separator)
+                .append("templates")
+                .append(File.separator)
+                .append(folder);
+        return path.toString();
     }
 
     public String getWebAbsolutePath() {
@@ -285,10 +291,6 @@ public class Template {
     }
 
     public void uninstall() {
-        try {
-            FileUtils.deleteDirectory(new File(getAbsolutePath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtils.deleteQuietly(new File(getAbsolutePath()));
     }
 }

@@ -21,6 +21,7 @@ jpress v2.0-rc.8:
 修复：通过后台的标签模块新增标签的时候，可以新增重复标签的问题
 
 
+
 jpress v2.0-rc.7:
 新增：robots.txt 的支持
 新增：sitemap 功能

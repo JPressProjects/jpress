@@ -11,7 +11,7 @@ goto error
 
 
 :error
-echo ./jpress.bat {start stop restart}
+echo Usage: jpress.bat {start stop restart}
 goto :eof
 
 

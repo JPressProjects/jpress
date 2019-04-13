@@ -45,10 +45,7 @@ public class PageController extends TemplateControllerBase {
                 ? pageService.findById(slugOrId)
                 : pageService.findFirstBySlug(slugOrId);
 
-        if (page == null || !page.isNormal()) {
-            renderError(404);
-            return;
-        }
+        render404If(page == null || !page.isNormal());
 
         pageService.doIncViewCount(page.getId());
 

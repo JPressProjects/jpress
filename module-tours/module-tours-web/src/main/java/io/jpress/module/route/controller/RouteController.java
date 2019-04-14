@@ -64,7 +64,7 @@ public class RouteController extends TemplateControllerBase {
 
     public void index() {
         TRoute route = getRoute();
-        assertNotNull(route);
+        render404If(route == null);
 
         //当文章处于审核中、草稿等的时候，显示404
         if (!route.isNormal()) {

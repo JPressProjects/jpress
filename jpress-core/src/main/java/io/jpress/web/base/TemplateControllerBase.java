@@ -98,12 +98,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
-    protected void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
-        }
-    }
-
     private void renderDefault(String defaultView) {
         if (defaultView == null) {
             renderText("can not match template view to render");

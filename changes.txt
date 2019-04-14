@@ -1,3 +1,29 @@
+jpress v2.0-rc.8:
+新增：新增插件代码生成直接生成后台UI的功能
+新增：超级管理员可以在后台修改任何人的密码的功能，用于帮助用户人工的方式找回密码
+新增：在ControllerBase里新增render404If方法，是代码更加简洁
+优化：优化 ImageUtils 的部分代码
+优化：优化插件 AddonManager 的部分逻辑代码，更加易于理解和阅读
+优化：优化Sitemap的代码逻辑
+优化：完善markdown编辑器滚动条默认位置设置，感谢 [@whoismy8023](https://gitee.com/whoismy8023)
+优化：优化docker-compose启动JPress的时候，当配置模板映射时无法使用系统内置的模板的问题
+优化：升级内核JFinal到3.8和Jboot到2.0.6 最新版本
+优化：优化 Ckeditor 插入图片时，当图片过大会导致文字被挤压没有良好文字编写体验的问题
+优化：优化 window 下的JPress启动文件 jpress.bat 的提示文字错误的问题
+修复：修复在JPress后台升级插件在某些情况下无法正确升级的问题
+修复：修复ModuleUIGenerator用于生成UI代码时，会导致部分数据无法正确提交的问题
+修复：修复模板在templates的多级目录下，无法正常加载的问题
+修复：修复文章更新状态的时候，前台由于缓存的原因无法及时更新的问题
+修复：修复Sitemap只有重启JPress才生效，重启后新增文章Sitemap无法及时更新的问题
+修复：修复Seo的百度实时提交不带域名导致提交的URL错误的问题
+修复：修复子目录的sitmap渲染可能出现空指针异常的问题
+修复：修复解决SmartField addAttr属性不生效的问题，感谢 [@ZJWave](https://gitee.com/zjwave)
+修复：在window下，当用户通过个人中心上传头像后，无法在前台渲染的问题
+修复：自定义ContextPath场景下，后台菜单权限逻辑错误问题
+修复：通过后台的标签模块新增标签的时候，可以新增重复标签的问题
+
+
+
 jpress v2.0-rc.7:
 新增：robots.txt 的支持
 新增：sitemap 功能

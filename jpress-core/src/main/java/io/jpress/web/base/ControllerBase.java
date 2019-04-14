@@ -45,10 +45,8 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
-    protected void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
-        }
+    protected void render404If(boolean condition){
+        if (condition) renderError(404);
     }
 
 
@@ -73,6 +71,8 @@ public abstract class ControllerBase extends JbootController {
     protected User getLoginedUser() {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
+
+
 
     @NotAction
     public String getEscapeHtmlPara(String name) {

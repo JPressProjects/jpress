@@ -8,12 +8,11 @@
 # use : ./jpress.sh {start, stop, restart}
 # ----------------------------------------------------------------------
 
-# 启动入口类，该脚本文件用于别的项目时要改这里
 MAIN_CLASS=io.jpress.Starter
 COMMAND="$1"
 
 if [[ "$COMMAND" != "start" ]] && [[ "$COMMAND" != "stop" ]] && [[ "$COMMAND" != "restart" ]]; then
-	echo "./jpress.sh {start, stop, restart}"
+	echo "Usage:  ./jpress.sh {start, stop, restart}"
 	exit 0
 fi
 
@@ -50,10 +49,6 @@ function start()
 function stop()
 {
     kill `pgrep -f ${APP_BASE_PATH}` 2>/dev/null
-
-    # 以下代码与上述代码等价
-    # kill $(pgrep -f ${APP_BASE_PATH}) 2>/dev/null
-
 }
 
 if [[ "$COMMAND" == "start" ]]; then

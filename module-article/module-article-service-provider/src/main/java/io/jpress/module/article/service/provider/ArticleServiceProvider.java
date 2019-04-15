@@ -42,6 +42,7 @@ import io.jpress.web.seoping.SeoManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
@@ -302,10 +303,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             return null;
         }
 
-        List<Long> tagIds = new ArrayList<>();
-        for (ArticleCategory category : tags) {
-            tagIds.add(category.getId());
-        }
+        List<Long> tagIds = tags.stream().map(category -> category.getId()).collect(Collectors.toList());
 
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());

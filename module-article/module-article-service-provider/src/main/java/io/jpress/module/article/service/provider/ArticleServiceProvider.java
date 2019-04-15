@@ -310,12 +310,12 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());
         columns.ne("a.id", articleId);
-        columns.eq("status", status);
+        columns.eq("a.status", status);
 
         StringBuilder from = new StringBuilder("select * from article a ");
         from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
         from.append(SqlUtils.toWhereSql(columns));
-        from.append(" group by a.id");
+        // from.append(" group by a.id");
 
         if (count != null) {
             from.append(" limit " + count);

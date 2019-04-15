@@ -287,4 +287,27 @@ public class TRouteServiceProvider extends JbootServiceBase<TRoute> implements T
                 ,Columns.create().ne("r.status", TRoute.STATUS_TRASH));
     }
 
+    @Override
+    public List<TRoute> searchByTitleInWechat(String keyword, Integer count) {
+
+        if (StrUtil.isBlank(keyword)) {
+            return null;
+        }
+        keyword = "%" + keyword + "%";
+
+        if (count == null) {
+            count = 8;
+        }
+
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT * FROM `t_route` AS t1");
+        sqlBuilder.append(" JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM `t_route`)) AS id ) AS t2");
+        sqlBuilder.append(" WHERE t1.id >= t2.id AND t1.status = ? AND t1.title LIKE ?");
+        sqlBuilder.append(" ORDER BY t1.id ASC LIMIT ?");
+
+        String sql = "SELECT * FROM `t_route` WHERE status = ? AND title LIKE ? ORDER BY id DESC LIMIT ?";
+
+        return DAO.find(sql, TRoute.STATUS_NORMAL, keyword, count);
+    }
+
 }

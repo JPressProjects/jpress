@@ -178,6 +178,16 @@ public interface TRouteService extends JbootServiceJoiner {
     public Page<TRoute> search(String keyword, String code, Long categoryId, int page, int pagesize);
 
     /**
+     * search route in wechat
+     * @author  
+     * @date  2019-04-14 16:01
+     * @param keyword
+     * @param count
+     * @return java.util.List<io.jpress.module.route.model.TRoute>
+     */
+    public List<TRoute> searchByTitleInWechat(String keyword, Integer count);
+
+    /**
      * find routes by conditions
      *
      * @param columns

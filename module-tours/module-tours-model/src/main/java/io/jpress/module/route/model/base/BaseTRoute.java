@@ -161,6 +161,14 @@ public abstract class BaseTRoute<M extends BaseTRoute<M>> extends JbootModel<M> 
 		return getStr("thumbnail");
 	}
 
+	public void setWechatThumbnail(java.lang.String wechatThumbnail) {
+		set("wechat_thumbnail", wechatThumbnail);
+	}
+
+	public java.lang.String getWechatThumbnail() {
+		return getStr("wechat_thumbnail");
+	}
+
 	public void setThumbnailListStore(java.lang.String thumbnailListStore) {
 		set("thumbnail_list_store", thumbnailListStore);
 	}

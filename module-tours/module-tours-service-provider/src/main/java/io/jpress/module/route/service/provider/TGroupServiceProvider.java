@@ -10,6 +10,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.DateUtils;
 import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
@@ -37,6 +38,10 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
     @Override
     @CacheEvict(name = "routes",key = "*")
     public void doUpdateGroups(TRoute route, Integer[] groups, String calendarStr) {
+
+        if (groups == null) {
+            return ;
+        }
 
         Db.tx(() -> {
             Db.update("delete from t_group where route_id = ?", route.getId());

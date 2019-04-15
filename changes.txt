@@ -8,7 +8,7 @@ jpress v2.0-rc.8:
 优化：完善markdown编辑器滚动条默认位置设置，感谢 [@whoismy8023](https://gitee.com/whoismy8023)
 优化：优化docker-compose启动JPress的时候，当配置模板映射时无法使用系统内置的模板的问题
 优化：升级内核JFinal到3.8和Jboot到2.0.6 最新版本
-优化：优化 Ckeditor 插入图片时，当图片过大会导致文字被挤压没有良好文字编写体验的问题
+优化：优化 CKeditor 插入图片时，当图片过大会导致文字被挤压没有良好文字编写体验的问题
 优化：优化 window 下的JPress启动文件 jpress.bat 的提示文字错误的问题
 修复：修复在JPress后台升级插件在某些情况下无法正确升级的问题
 修复：修复ModuleUIGenerator用于生成UI代码时，会导致部分数据无法正确提交的问题
@@ -21,6 +21,7 @@ jpress v2.0-rc.8:
 修复：在window下，当用户通过个人中心上传头像后，无法在前台渲染的问题
 修复：自定义ContextPath场景下，后台菜单权限逻辑错误问题
 修复：通过后台的标签模块新增标签的时候，可以新增重复标签的问题
+修复：当文章有多个标签的时候，查询相关文章sql出错的问题，感谢 [@ZJWave](https://gitee.com/zjwave)
 
 
 

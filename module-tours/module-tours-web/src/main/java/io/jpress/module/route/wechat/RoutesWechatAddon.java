@@ -29,7 +29,7 @@ import java.util.List;
 @WechatAddonConfig(
     id = "ip.press.routes",
     title = "线路搜索",
-    description = "输入 [线路关键词] 返回线路列表",
+    description = "输入 线路关键词 返回线路列表",
     author = "Eric")
 public class RoutesWechatAddon implements WechatAddon {
 
@@ -47,7 +47,13 @@ public class RoutesWechatAddon implements WechatAddon {
      */
     @Override
     public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
-        return true;
+        if (!(inMsg instanceof InTextMsg)) {
+            return false;
+        }
+
+        InTextMsg inTextMsg = (InTextMsg) inMsg;
+        String content = inTextMsg.getContent();
+        return content != null;
     }
 
     /**
@@ -61,6 +67,7 @@ public class RoutesWechatAddon implements WechatAddon {
 
         InTextMsg inTextMsg = (InTextMsg) inMsg;
         String content = inTextMsg.getContent();
+        // content = content.substring(6);
 
         String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
         if (StrUtil.isBlank(webDomain)) {
@@ -89,7 +96,7 @@ public class RoutesWechatAddon implements WechatAddon {
             } else {
                 news.setUrl(webDomain + route.getUrl());
             }
-            System.err.println(route.getUrl());
+            // System.err.println(route.getUrl());
             out.addNews(news);
         }
         msgController.render(out);

@@ -50,17 +50,18 @@ public class DateUtils {
 
     }
 
-    public static List<DateTime> getAllDaysBeforeExpireDate(Date expireDate) {
+    /** 获取指定日期之前的所有天数 */
+    public static List<DateTime> getAllDaysBeforeDate(Date expireDate) {
         if (expireDate == null) {
             return null;
         }
 
         List<DateTime> result = Lists.newArrayList();
-        DateTime endDateTime = new DateTime(expireDate);
-        List<DateTime> list = getAllDaysInMonth();
+        DateTime expiredDateTime = new DateTime(expireDate);
+        List<DateTime> list = getSurplusDaysAfterNowInMonth();
 
         for (DateTime dateTime : list) {
-            if (dateTime.isBefore(endDateTime)) {
+            if (dateTime.isBefore(expiredDateTime)) {
                 result.add(dateTime);
             }
         }
@@ -69,7 +70,7 @@ public class DateUtils {
     }
 
     /** 获取当前月的剩余天数 */
-    public static List<DateTime> getAllDaysInMonth() {
+    public static List<DateTime> getSurplusDaysAfterNowInMonth() {
 
         DateTime now = DateTime.now();
         int curDay = now.getDayOfMonth();
@@ -77,13 +78,13 @@ public class DateUtils {
         List<DateTime> result = Lists.newArrayList();
 
         for (int i = curDay + 1; i <= maxDay; i++) {
-            result.add(now.withDayOfYear(i));
+            result.add(now.withDayOfMonth(i));
         }
         return result;
     }
 
     /** 获取一年中的剩余天数 */
-    public static List<DateTime> getAllDaysInYear() {
+    public static List<DateTime> getSurplusDaysAfterNowInYear() {
 
         DateTime now = DateTime.now();
         int curDay = now.getDayOfYear();
@@ -98,12 +99,9 @@ public class DateUtils {
 
     /**
      * 功能描述：获取当前时间之后的所有周几日期，如每周二
-     * 输入参数：
      * @param weekNo	周几，如周一，周二
-     * @return
-     * 返回类型：List<DateTime>
-     * 创建人：eric
-     * 日期：2017年6月13日
+     * @return List<DateTime>
+     * @author：eric
      */
     public static List<DateTime> dayOfWeek(int weekNo) {
 
@@ -134,10 +132,8 @@ public class DateUtils {
      * 功能描述：给指定日期添加天数
      * @param date	日期
      * @param day	天数
-     * @return
-     * 返回类型：Date
-     * 创建人：eric
-     * 日期：2017年6月10日
+     * @return：Date
+     * @author：eric
      */
     public static Date plusDays(Date date, int day) {
         DateTime dateTime = new DateTime(date);
@@ -148,12 +144,10 @@ public class DateUtils {
      * 功能描述：获取当前时间之后，指定时间之前的所有周几日期，如每周二
      * @param weekNo		周几，如周一，周二
      * @param endDate		截至日期
-     * @return
-     * 返回类型：List<DateTime>
-     * 创建人：eric
-     * 日期：2017年6月19日
+     * @return：List<DateTime>
+     * @author：eric
      */
-    public static List<DateTime> dayOfWeek(int weekNo, Date endDate) {
+    public static List<DateTime> getDayOfWeek(int weekNo, Date endDate) {
 
         if (endDate == null) {
             return null;

@@ -90,10 +90,9 @@ public class TRoute extends BaseTRoute<TRoute> {
     @Override
     public String getContent() {
         String content = super.getContent();
-//        if (_isMarkdownMode()) {
-//            content = MarkdownUtils.toHtml(content);
-//            content = JsoupUtils.clean(content);
-//        }
+        if (StrUtil.isBlank(content)) {
+            return null;
+        }
         return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
     }
 

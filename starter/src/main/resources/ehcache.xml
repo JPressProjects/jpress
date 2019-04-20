@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false">
+    <!--
+        dynamicConfig：boolean类型。默认为true。当为false的时，我们在运行期通过CacheManager的Configuration来改变配置信息时将不会发生作用
+        maxBytesLocalDisk：在CacheManager级别指定能够使用的本地磁盘的最大容量。当指定了该属性后隐式的使所有Cache的overflowToDisk变为true，
+            如需关闭则需要在对应的Cache上设置overflowToDisk为false
+        maxBytesLocalHeap：在CacheManager级别指定能够使用的堆内存的最大容量
+    -->
+    <diskStore path="user.dir/cache"/>
+	<!--
+	属性简介：
+		maxElementsInMemory：缓存最大个数
+		eternal：对象是否永久有效，一但设置了，timeout将不起作用
+		timeToIdleSeconds：设置对象在失效前的允许闲置时间（单位：秒）
+		timeToLiveSeconds：设置对象在失效前允许存活时间（单位：秒）
+		maxElementsOnDisk：硬盘上最大缓存个数
+		overflowToDisk：当内存中对象数量达到maxElementsInMemory时，Ehcache将会对象写到磁盘中
+		diskPersistent：是否缓存虚拟机重启期数据
+		diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认是120秒
+		memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存；
+		    默认策略是LRU（最近最少使用），你可以设置为FIFO（先进先出）或是LFU（较少使用）
+		clearOnFlush：内存数量最大时是否清除
+	-->
+    <cache name="jpress"
+       eternal="false"
+       timeToIdleSeconds="3600"
+       timeToLiveSeconds="0"
+       overflowToDisk="true"
+    />
+
+    <cache name="session"
+       eternal="false"
+       timeToIdleSeconds="3600"
+       timeToLiveSeconds="0"
+       overflowToDisk="true"
+       diskPersistent="true"
+    />
+
+    <cache name="__jboot_wechat_access_tokens"
+       eternal="false"
+       timeToIdleSeconds="3600"
+       timeToLiveSeconds="0"
+       overflowToDisk="true"
+       diskPersistent="true"
+    />
+
+    <cache name="user"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="user_role"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="role"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="articleCategory"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="routeCategory"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="article_category"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="option"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="user_permission"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="menu"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="articles"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="routes"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="t_route"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="t_group"
+       eternal="false"
+       overflowToDisk="true"
+       diskSpoolBufferSizeMB="20"
+       timeToIdleSeconds="300"
+       timeToLiveSeconds="600"
+       memoryStoreEvictionPolicy="LFU"
+    />
+</ehcache>

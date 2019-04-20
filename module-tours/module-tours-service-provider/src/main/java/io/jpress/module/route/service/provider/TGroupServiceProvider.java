@@ -36,10 +36,10 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
     }
 
     @Override
-    @CacheEvict(name = "routes",key = "*")
-    public void doUpdateGroups(TRoute route, Integer[] groups, String calendarStr) {
+    @CacheEvict(name = "routes", key = "*")
+    public void doUpdateGroups(TRoute route, Integer[] groupTypes, String calendarStr) {
 
-        if (groups == null) {
+        if (groupTypes == null) {
             return ;
         }
 
@@ -47,36 +47,36 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
             Db.update("delete from t_group where route_id = ?", route.getId());
             Date created = new Date();
             List<TGroup> groupList = Lists.newArrayList();
-            if (groups != null && groups.length > 0) {
+            if (groupTypes != null && groupTypes.length > 0) {
 
                 List<DateTime> list = null;
-                for (Integer group : groups) {
+                for (Integer groupType : groupTypes) {
                     // 天天出团
-                    if (group == 0) {
-                        list = DateUtils.getAllDaysBeforeExpireDate(route.getExpireDate());
+                    if (groupType == 0) {
+                        list = DateUtils.getAllDaysBeforeDate(route.getExpireDate());
                     } else {
-                        list = DateUtils.dayOfWeek(group, route.getExpireDate());
+                        list = DateUtils.getDayOfWeek(groupType, route.getExpireDate());
                     }
 
                     int size = list.size();
                     for (int i = 0; i < size; i++) {
 
-                        TGroup tgroup = new TGroup();
-                        tgroup.setRouteId(route.getId());
-                        tgroup.setLeaveDate(list.get(i).toDate());
-                        tgroup.setDeadlineDate(DateUtils.plusDays(list.get(i).toDate(), route.getTotalDays()));
+                        TGroup group = new TGroup();
+                        group.setRouteId(route.getId());
+                        group.setLeaveDate(list.get(i).toDate());
+                        group.setDeadlineDate(DateUtils.plusDays(list.get(i).toDate(), route.getTotalDays()));
 
-                        tgroup.setCost(route.getCost());
-                        tgroup.setPrice(route.getPrice());
-                        tgroup.setChildPrice(route.getChildPrice());
-                        tgroup.setMarketPrice(route.getMarketPrice());
+                        group.setCost(route.getCost());
+                        group.setPrice(route.getPrice());
+                        group.setChildPrice(route.getChildPrice());
+                        group.setMarketPrice(route.getMarketPrice());
 
-                        tgroup.setIsCalendar(0);
-                        tgroup.setCreated(created);
+                        group.setIsCalendar(0);
+                        group.setCreated(created);
                         int status = i == 0 ? TGroup.ENROLLING_STATUS : TGroup.UNSTART_STATUS;
-                        tgroup.setStatus(status);
+                        group.setStatus(status);
 
-                        groupList.add(tgroup);
+                        groupList.add(group);
                     }
                 }
             } else {

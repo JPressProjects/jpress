@@ -94,17 +94,17 @@
 	<!-- 内容 -->
 	<div class="weui-content">
 		<!-- 轮播图 -->
-		#if(option('calmlog_slides'))
+		#if(option('tours_slides'))
 	    <div class="swiper-container swiper-banner">
 	        <div class="swiper-wrapper">
-				#for(slide : linesOption('calmlog_slides'))
+				#for(slide : linesOption('tours_slides'))
         		<div class="swiper-slide">
 	                <a href="#"><img src="#(CPATH)#(slide)" /></a>
 	            </div>
 				#end
 	        </div>
 	    </div>
-	    <a href="#(CPATH)/page/search">
+	    <a href="#(CPATH)/search">
 		    <div class="search">
 	            <i class="icon-search"></i>
 	        </div>
@@ -181,8 +181,8 @@
                                 <p class="title-p"><span class="txt-color-red">#(route.code ??)</span> #(route.title ??)</p>
                             </a>
                             <p class="date-p">
-                                <span class="txt-color-green">团期： #(route.departure_date ??)</span>
-                                <span class="fr"><span class="txt-color-red">#(route.price ?? 0)</span> 元起</span>
+                                <span class="txt-color-green">出发日期： #(route.departure_date ??)</span>
+                                <span class="fr"><span class="txt-color-red">价格：#(route.price ?? 0)</span> 元/人起</span>
                             </p>
                         </section>
                     </div>

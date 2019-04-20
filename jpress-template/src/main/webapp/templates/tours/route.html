@@ -89,7 +89,7 @@
 				<img src="#(route.showImage ??)">
 			</div>
 			<div class="gohome">
-				<i class="icon-home"></i>
+				<a href="#(CPATH)/"><i class="icon-home"></i></a>
 			</div>
 			<div class="route_title">
 				<span>#(route.title ??)</span>
@@ -109,9 +109,9 @@
 			<div class="weui-cell">
 				<div class="weui-cell__hd"><i class="icon-clock-o" style="margin-right: .2rem"></i></div>
 				<div class="weui-cell__bd">
-					<p>团期：#(route.departure_date ??)</p>
+					<p>出发日期：#(route.departure_date ??)</p>
 				</div>
-				<div class="weui-cell__ft">报名截至：08/25 12:00</div>
+				<!--<div class="weui-cell__ft">报名截至：08/25 12:00</div>-->
 			</div>
 			<div class="weui-cell">
 				<div class="weui-cell__hd"><i class="icon-cc-visa" style="margin-right: .2rem"></i></div>
@@ -131,9 +131,7 @@
 	<div class="weui-tab">
 		<div class="weui-navbar" style="left:0; right:0; height:44px;">
 			<a class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">行程描述</a>
-			<a class="weui-navbar__item proinfo-tab-tit" href="#tab2">费用说明</a>
-			<a class="weui-navbar__item proinfo-tab-tit" href="#tab3">预订须知</a>
-			<a class="weui-navbar__item proinfo-tab-tit" href="#tab4">评价</a>
+			<a class="weui-navbar__item proinfo-tab-tit" href="#tab2">评价</a>
 		</div>
 		<div class="weui-tab__bd proinfo-tab-con">
 			<div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
@@ -145,49 +143,9 @@
 					</div>
 				</div>
 			</div>
+
 			<div id="tab2" class="weui-tab__bd-item ">
-				<div class="weui-panel">
-					<div class="weui-panel__bd">
-						<div class="weui-media-box weui-media-box_text">
-							<h4 class="weui-media-box__title txt-color-red font-b">费用包含</h4>
-							<p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
-						</div>
-						<div class="weui-media-box weui-media-box_text">
-							<h4 class="weui-media-box__title txt-color-red font-b">费用不含</h4>
-							<p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div id="tab3" class="weui-tab__bd-item ">
-				<div class="weui-panel">
-					<div class="weui-panel__bd">
-						<div class="weui-media-box weui-media-box_text">
-							<h4 class="weui-media-box__title txt-color-red font-b">预订须知</h4>
-							<p class="weui-media-box__desc">该产品由具备相关法律资质的第三方旅游商家售卖，我们仅提供产品信息呈现及预订服务。当您有投诉及售后问题时，17998平台会第一时间协助您解决。</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div id="tab4" class="weui-tab__bd-item ">
 				<!--评价-->
-				<div class="weui-panel__bd">
-					<div class="wy-media-box weui-media-box_text">
-						<div class="weui-cell nopd weui-cell_access">
-							<div class="weui-cell__hd">
-								<img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block">
-							</div>
-							<div class="weui-cell__bd weui-cell_primary">
-								<p>飞翔的小土豆</p>
-							</div>
-							<span class="weui-cell__time">2017-02-06</span>
-						</div>
-						<div class="comment-item-star">
-							<span class="real-star comment-stars-width5"></span>
-						</div>
-						<p class="weui-media-box__desc">面料不错，码数也正常  男朋友穿的很合适。</p>
-					</div>
-				</div>
 				<div class="weui-panel__bd">
 					<div class="wy-media-box weui-media-box_text">
 						<div class="weui-cell nopd weui-cell_access">
@@ -221,14 +179,14 @@
 <!--底部导航-->
 
 <div class="weui-tabbar wy-foot-menu">
-	<a href="javascript:;" class="promotion-foot-menu-items">
+	<a href="tel:#option('tours_mobile')" class="promotion-foot-menu-items">
 		<div class="weui-tabbar__icon promotion-foot-menu-kefu"></div>
 		<p class="weui-tabbar__label">咨询</p>
 	</a>
-	<a href="javascript:;" id='show-toast' class="promotion-foot-menu-items">
+	<!--<a href="javascript:;" id='show-toast' class="promotion-foot-menu-items">
 		<div class="weui-tabbar__icon promotion-foot-menu-collection"></div>
 		<p class="weui-tabbar__label">领取优惠券</p>
-	</a>
+	</a>-->
 	<a href="javascript:;" class="weui-tabbar__item green-color open-popup" data-target="#wechat-group">
 		<p class="promotion-foot-menu-label">加入微信群</p>
 	</a>
@@ -251,7 +209,7 @@
 				<div class="wy-media-box2 weui-media-box_text" style="margin:0;">
 					<div class="weui-msg__text-area">
 						<p class="weui-msg__desc">
-							<img src="upload/qrcode.png">
+							<img src="#(CPATH)#option('tours_qrcode', '/templates/tours/images/qrcode.jpg')">
 						<p>长按二维码识别加入微信群</p>
 						</p>
 					</div>

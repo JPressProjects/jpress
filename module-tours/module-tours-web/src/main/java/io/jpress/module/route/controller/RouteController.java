@@ -107,7 +107,10 @@ public class RouteController extends TemplateControllerBase {
 
 
     private TRoute getRoute() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getPara("routeId");
+        if (StrUtil.isBlank(idOrSlug)) {
+            idOrSlug = getPara(0);
+        }
         return StrUtil.isNumeric(idOrSlug)
                 ? routeService.findById(idOrSlug)
                 : routeService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));

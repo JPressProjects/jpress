@@ -19,12 +19,10 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.JPressConsts;
-import io.jpress.core.menu.annotation.AdminMenu;
 import #(modelPackage).#(tableMeta.modelName);
 import #(modulePackage).service.#(tableMeta.modelName)Service;
+import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.web.base.AdminControllerBase;
-import java.util.Date;
 
 
 @RequestMapping(value = "/admin/#(moduleName)/#(tableMeta.name)", viewPath = "/")
@@ -45,7 +43,6 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         int entryId = getParaToInt(0, 0);
         #(tableMeta.modelName) entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("#(lowerCaseModelName)", entry);
-        set("now",new Date());
         render("views/#(tableMeta.name)_edit.html");
     }
    

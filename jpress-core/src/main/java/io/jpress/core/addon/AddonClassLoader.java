@@ -31,14 +31,17 @@ import io.jboot.utils.ArrayUtil;
 import io.jpress.core.wechat.WechatAddon;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class AddonClassLoader extends URLClassLoader {
 
@@ -70,7 +73,6 @@ public class AddonClassLoader extends URLClassLoader {
             }
         }
     }
-
 
     public void load() {
         for (String className : classNameList) {
@@ -162,4 +164,27 @@ public class AddonClassLoader extends URLClassLoader {
         }
         return false;
     }
+
+    @Override
+    public InputStream getResourceAsStream(String name) {
+        InputStream superIs = super.getResourceAsStream(name);
+        int dotIdx = name.lastIndexOf(".");
+        if (dotIdx > -1) {
+            String suffix = name.substring(dotIdx);
+            // 需要的话, 可以继续开放
+            final String[] supportSuffix = {".so", ".dylib", ".dll"};
+            boolean isSupport = Arrays.asList(supportSuffix).contains(suffix);
+            if (superIs == null && isSupport) {
+                try {
+                    ZipEntry zipEntry = new ZipEntry(name);
+                    return new JarFile(addonInfo.buildJarFile()).getInputStream(zipEntry);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        return superIs;
+    }
+
 }

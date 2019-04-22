@@ -106,14 +106,12 @@
                 },
                 'route.market_price': {
                     validators: {
-                        notEmpty: { message: '市场价格不能为空' },
                         integer: { message: '请输入有效的整数' },
                         greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
                     }
                 },
                 'route.cost': {
                     validators: {
-                        notEmpty: { message: '内部价格不能为空' },
                         integer: { message: '请输入有效的整数' },
                         greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
                     }
@@ -127,7 +125,6 @@
                 },
                 "route.child_price": {
                     validators: {
-                        notEmpty: { message: '儿童价格不能为空' },
                         integer: { message: '请输入有效的整数' },
                         greaterThan: { value: 0, inclusive: false, message: '请输入有效的整数' }
                     }
@@ -328,7 +325,7 @@
 
 					<div class="box box-solid">
 						<div class="box-header with-border ">
-							<h3 class="box-title">线路海报(微信)</h3>
+							<h3 class="box-title">微信线路海报</h3>
 						</div>
 						<div class="box-body no-padding">
 							<img src="#(CPATH)#(route.wechat_thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
@@ -341,6 +338,7 @@
 									for-src="wechat_thumbnail" for-input="wechatThumbnail">选择图片
 							</button>
 							<a href="javascript:;" style="padding-left: 15px" id="removeWechatThumbnail">移除</a>
+							<p>图片尺寸：大图(360*200) 小图(200*200)</p>
 						</div>
 					</div>
 				</div>

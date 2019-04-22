@@ -102,7 +102,7 @@
 			<div class="weui-cell">
 				<div class="weui-cell__hd"><i class="icon-calendar" style="margin-right: .2rem"></i> </div>
 				<div class="weui-cell__bd">
-					<p>日程天数：#(route.group_num ?? 0)天</p>
+					<p>行程天数：#(route.group_num ?? 0)天</p>
 				</div>
 				<div class="weui-cell__ft txt-color-green font-b">需提前1天预订</div>
 			</div>
@@ -111,14 +111,14 @@
 				<div class="weui-cell__bd">
 					<p>出发日期：#(route.departure_date ??)</p>
 				</div>
-				<!--<div class="weui-cell__ft">报名截至：08/25 12:00</div>-->
+				<div class="weui-cell__ft">报名截至：出发前一天</div>
 			</div>
 			<div class="weui-cell">
 				<div class="weui-cell__hd"><i class="icon-cc-visa" style="margin-right: .2rem"></i></div>
 				<div class="weui-cell__bd">
-					<p>报名费用：<span class="font-b txt-color-red">￥#(route.price ?? 0)</span></p>
+					<p>成人价：<span class="font-b txt-color-red">￥#(route.price ?? 0)</span></p>
 				</div>
-				<div class="weui-cell__ft">原价：<span style="text-decoration:line-through;">￥#(route.market_price ?? 0)</span></div>
+				#if(route.child_price)<div class="weui-cell__ft">儿童价：￥#(route.child_price ?? 0)</div>#end
 			</div>
 			<div class="weui-cell">
 				<div class="weui-cell__bd">
@@ -190,8 +190,8 @@
 	<a href="javascript:;" class="weui-tabbar__item green-color open-popup" data-target="#wechat-group">
 		<p class="promotion-foot-menu-label">加入微信群</p>
 	</a>
-	<a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
-		<p class="promotion-foot-menu-label">立即报名</p>
+	<a href="http://wpa.qq.com/msgrd?v=3&uin=81889166&site=qq&menu=yes" class="weui-tabbar__item red-color open-popup">
+		<p class="promotion-foot-menu-label">QQ咨询</p>
 	</a>
 </div>
 
@@ -210,8 +210,8 @@
 					<div class="weui-msg__text-area">
 						<p class="weui-msg__desc">
 							<img src="#(CPATH)#option('tours_qrcode', '/templates/tours/images/qrcode.jpg')">
-						<p>长按二维码识别加入微信群</p>
 						</p>
+                        <p>长按二维码识别加入微信群</p>
 					</div>
 				</div>
 			</div>

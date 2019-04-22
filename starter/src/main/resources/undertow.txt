@@ -1,11 +1,11 @@
 # 配置 undertow
 
-#undertow.devMode=true
-#undertow.host=localhost
-#undertow.port=8080
+undertow.devMode=true
+undertow.host=localhost
+undertow.port=80
 
 # 开启 gzip 压缩
-#undertow.gzip.enable=true
+undertow.gzip.enable=true
 # 配置压缩级别，默认值 -1。 可配置 1 到 9。 1 拥有最快压缩速度，9 拥有最高压缩率
 #undertow.gzip.level=-1
 # 触发压缩的最小内容长度

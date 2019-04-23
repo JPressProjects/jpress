@@ -50,9 +50,9 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -274,7 +274,38 @@ public class AddonManager implements JbootEventListener {
     private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
         Addon addon = addonInfo.getAddon();
         if (addon != null) {
+            unloadNativeLibs(addon);
             addon.onUninstall(addonInfo);
+        }
+    }
+
+    /**
+     * 卸载插件中的native library
+     *
+     * @param addon
+     */
+    private synchronized void unloadNativeLibs(Addon addon) {
+        try {
+            ClassLoader classLoader = addon.getClass().getClassLoader();
+            Field field = ClassLoader.class.getDeclaredField("nativeLibraries");
+            field.setAccessible(true);
+            // NativeLibrary
+            Vector<Object> libs = (Vector<Object>) field.get(classLoader);
+            Iterator<Object> it = libs.iterator();
+            Object o;
+            while (it.hasNext()) {
+                o = it.next();
+                Field[] fs = o.getClass().getDeclaredFields();
+                Method finalize = o.getClass().getDeclaredMethod(
+                        "finalize", new Class[0]);
+                finalize.setAccessible(true);
+                finalize.invoke(o, new Object[0]);
+                it.remove();
+                libs.remove(o);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

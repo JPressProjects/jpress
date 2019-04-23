@@ -237,6 +237,13 @@ public class AddonManager implements JbootEventListener {
             LOG.error(ex.toString(), ex);
         }
 
+        //卸载插件可能自带的 本地库
+        try {
+            unloadNativeLibs(addonInfo.getAddon());
+        }catch (Exception ex){
+            LOG.error(ex.toString(), ex);
+        }
+
         //删除所有插件文件
         try {
             clearAddonFiles(addonInfo);
@@ -274,7 +281,6 @@ public class AddonManager implements JbootEventListener {
     private void invokeAddonUnisntallMethod(AddonInfo addonInfo) {
         Addon addon = addonInfo.getAddon();
         if (addon != null) {
-            unloadNativeLibs(addon);
             addon.onUninstall(addonInfo);
         }
     }
@@ -285,25 +291,24 @@ public class AddonManager implements JbootEventListener {
      * @param addon
      */
     private synchronized void unloadNativeLibs(Addon addon) {
+        if (addon == null){
+            return;
+        }
         try {
             ClassLoader classLoader = addon.getClass().getClassLoader();
             Field field = ClassLoader.class.getDeclaredField("nativeLibraries");
             field.setAccessible(true);
-            // NativeLibrary
             Vector<Object> libs = (Vector<Object>) field.get(classLoader);
             Iterator<Object> it = libs.iterator();
             Object o;
             while (it.hasNext()) {
                 o = it.next();
-                Field[] fs = o.getClass().getDeclaredFields();
-                Method finalize = o.getClass().getDeclaredMethod(
-                        "finalize", new Class[0]);
+                Method finalize = o.getClass().getDeclaredMethod("finalize", new Class[0]);
                 finalize.setAccessible(true);
                 finalize.invoke(o, new Object[0]);
                 it.remove();
                 libs.remove(o);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

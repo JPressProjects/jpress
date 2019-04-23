@@ -16,6 +16,7 @@
 package io.jpress.core.addon;
 
 
+import com.google.common.collect.Lists;
 import com.jfinal.aop.AopManager;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
@@ -36,7 +37,6 @@ import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -165,16 +165,16 @@ public class AddonClassLoader extends URLClassLoader {
         return false;
     }
 
+    static final List supportNativeSuffixes = Lists.newArrayList(".so", ".dylib", ".dll");
+
     @Override
     public InputStream getResourceAsStream(String name) {
-        InputStream superIs = super.getResourceAsStream(name);
-        int dotIdx = name.lastIndexOf(".");
-        if (dotIdx > -1) {
-            String suffix = name.substring(dotIdx);
-            // 需要的话, 可以继续开放
-            final String[] supportSuffix = {".so", ".dylib", ".dll"};
-            boolean isSupport = Arrays.asList(supportSuffix).contains(suffix);
-            if (superIs == null && isSupport) {
+        InputStream superStream = super.getResourceAsStream(name);
+        int dotLastIndex = name.lastIndexOf(".");
+        if (dotLastIndex > -1) {
+            String suffix = name.substring(dotLastIndex);
+            boolean isSupport = supportNativeSuffixes.contains(suffix);
+            if (superStream == null && isSupport) {
                 try {
                     ZipEntry zipEntry = new ZipEntry(name);
                     return new JarFile(addonInfo.buildJarFile()).getInputStream(zipEntry);
@@ -184,7 +184,7 @@ public class AddonClassLoader extends URLClassLoader {
                 }
             }
         }
-        return superIs;
+        return superStream;
     }
 
 }

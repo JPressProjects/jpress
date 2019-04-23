@@ -17,7 +17,6 @@ package io.jpress.core.addon.handler;
 
 
 import com.jfinal.handler.Handler;
-import com.jfinal.kit.HandlerKit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,14 +27,6 @@ public class AddonHandlerProcesser extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-
-        //不让访问 插件目录 下的 .html 和 .sql 文件
-        if (target.startsWith("/addons")) {
-            if (target.endsWith(".html") || target.endsWith(".sql")) {
-                HandlerKit.renderError404(request, response, isHandled);
-                return;
-            }
-        }
 
         AddonHandlerManager.getProcessHandler(originHandler)
                 .handle(target, request, response, isHandled);

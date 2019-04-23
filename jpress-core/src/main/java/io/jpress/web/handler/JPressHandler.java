@@ -17,6 +17,7 @@ package io.jpress.web.handler;
 
 
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.HandlerKit;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -39,9 +40,23 @@ public class JPressHandler extends Handler {
         return threadLocal.get();
     }
 
+    private static final String addonTargetPrefix = "/addons";
+
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+
+
+        //不让访问 插件目录 下的 .html 和 .sql 文件
+        if (target.startsWith(addonTargetPrefix)) {
+            if (target.endsWith(".html")
+                    || target.endsWith(".sql")
+                    || target.contains("WEB-INF")) {
+                HandlerKit.renderError404(request, response, isHandled);
+                return;
+            }
+        }
+
 
         String suffix = JPressOptions.getAppUrlSuffix();
 

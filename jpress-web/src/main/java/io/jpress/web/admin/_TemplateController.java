@@ -347,8 +347,12 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         File file = new File(pathFile, fileName);
-        FileUtil.writeString(file, fileContent);
+        if (!file.canWrite()){
+            renderJson(Ret.fail().set("message", "当前文件没有写入权限"));
+            return;
+        }
 
+        FileUtil.writeString(file, fileContent);
         RenderManager.me().getEngine().removeAllTemplateCache();
 
         renderOkJson();

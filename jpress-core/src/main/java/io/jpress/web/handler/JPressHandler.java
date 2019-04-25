@@ -40,15 +40,15 @@ public class JPressHandler extends Handler {
         return threadLocal.get();
     }
 
-    private static final String addonTargetPrefix = "/addons";
+    private static final String ADDON_TARGET_PREFIX = "/addons";
+    private static final String TEMPLATES_TARGET_PREFIX = "/templates";
 
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-
-        //不让访问 插件目录 下的 .html 和 .sql 文件
-        if (target.startsWith(addonTargetPrefix)) {
+        //不让访问 插件目录 下的 .html、 .sql 文件 和 WEB-INF 目录下的任何文件
+        if (target.startsWith(ADDON_TARGET_PREFIX)) {
             if (target.endsWith(".html")
                     || target.endsWith(".sql")
                     || target.contains("WEB-INF")) {
@@ -57,10 +57,19 @@ public class JPressHandler extends Handler {
             }
         }
 
+        //不让访问 模板目录 下的 .html 文件
+        if (target.startsWith(TEMPLATES_TARGET_PREFIX)) {
+            if (target.endsWith(".html")) {
+                HandlerKit.renderError404(request, response, isHandled);
+                return;
+            }
+        }
+
 
         String suffix = JPressOptions.getAppUrlSuffix();
-
-        if (StrUtil.isBlank(suffix) && target.indexOf('.') != -1) {
+        if (StrUtil.isBlank(suffix)  // 不启用伪静态
+                && target.indexOf('.') != -1) {
+            //return 表示让服务器自己去处理
             return;
         }
 
@@ -68,7 +77,6 @@ public class JPressHandler extends Handler {
         if (StrUtil.isNotBlank(suffix) && target.endsWith(suffix)) {
             target = target.substring(0, target.length() - suffix.length());
         }
-
 
         try {
             threadLocal.set(target);

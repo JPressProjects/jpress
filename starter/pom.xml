@@ -106,6 +106,18 @@
             <version>2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-tours-web</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-tours-service-provider</artifactId>
+            <version>2.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.jpress</groupId>
@@ -177,6 +189,9 @@
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-tours/module-tours-web/src/main/webapp</directory>
                                 </resource>
                             </resources>
                         </configuration>

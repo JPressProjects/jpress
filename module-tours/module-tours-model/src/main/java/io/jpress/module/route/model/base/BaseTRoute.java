@@ -217,6 +217,14 @@ public abstract class BaseTRoute<M extends BaseTRoute<M>> extends JbootModel<M> 
 		return getInt("child_price");
 	}
 
+	public void setPriceDesc(java.lang.String priceDesc) {
+		set("price_desc", priceDesc);
+	}
+
+	public java.lang.String getPriceDesc() {
+		return getStr("price_desc");
+	}
+
 	public void setScore(java.lang.Integer score) {
 		set("score", score);
 	}

@@ -166,6 +166,9 @@ function initCkEdtior(editor, height) {
     CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
     CKEDITOR.addCss('.cke_editable img{max-width: 95%;}');
 
+    CKEDITOR.config.pasteFromWordRemoveStyles = true;
+    CKEDITOR.config.forcePasteAsPlainText = true;
+
     var ed = CKEDITOR.replace(editor, {
         autoUpdateElement: true,
         removePlugins: 'easyimage,cloudservices',

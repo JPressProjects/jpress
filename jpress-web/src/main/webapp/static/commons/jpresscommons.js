@@ -5,17 +5,28 @@ $(document).ready(function () {
     initSwitchery();
     initDomainSpan();
     initSlugSpan();
-    initDatepicker();
+    initDatePicker();
+    initDatetimePicker();
     initAutoAjaxSubmit();
 
 });
 
-function initDatepicker() {
+function initDatePicker() {
     if ($('').datepicker) {
         $('.datepicker').datepicker({
             language: 'zh-CN',
             format: 'yyyy-mm-dd',
             autoclose: true
+        });
+    }
+}
+
+function initDatetimePicker() {
+    if ($('').datetimepicker) {
+        $('.datetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD hh:mm:ss',
+            useCurrent:true,
+            locale:'zh-cn'
         });
     }
 }

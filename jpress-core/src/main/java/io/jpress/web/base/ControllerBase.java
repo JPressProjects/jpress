@@ -22,6 +22,9 @@ import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,10 +43,23 @@ public abstract class ControllerBase extends JbootController {
             //renderError 会直接抛出异常，阻止程序往下执行
             renderError(404);
         }
-
         return id;
     }
 
+
+    @NotAction
+    public Map<String, String> getParas(){
+        Map<String, String> map = null;
+        Enumeration<String> names = getParaNames();
+        if (names != null){
+            map = new HashMap<>();
+            while (names.hasMoreElements()){
+                String name = names.nextElement();
+                map.put(name,getPara(name));
+            }
+        }
+        return map;
+    }
 
     protected void render404If(boolean condition){
         if (condition) renderError(404);

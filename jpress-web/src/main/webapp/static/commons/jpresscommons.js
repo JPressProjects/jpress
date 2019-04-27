@@ -167,11 +167,7 @@ function initAutoAjaxSubmit() {
                     }
 
                     if (okMessage) {
-                        if (typeof toastr != "undefined") {
-                            toastr.success(okMessage);
-                        } else {
-                            alert(okMessage);
-                        }
+                        showMessage(okMessage);
                         return;
                     }
 
@@ -204,6 +200,14 @@ function initAutoAjaxSubmit() {
 
         return false;
     });
+}
+
+function showMessage(msg) {
+    if (typeof toastr != "undefined") {
+        toastr.success(msg);
+    } else {
+        alert(msg);
+    }
 }
 
 function showErrorMessage(msg) {

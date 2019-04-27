@@ -33,7 +33,9 @@ import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -78,9 +80,12 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         ApiInterceptor.init();
 
 
-        initWechatOption();// 初始化 微信公众号 的配置
+        // 初始化 微信公众号 的配置
+        initWechatOption();
 
-        initWechatMiniProgramOption();// 初始化 微信小程序 的配置
+        // 初始化 微信小程序 的配置
+        initWechatMiniProgramOption();
+
 
         JPressOptions.addListener(this);
 
@@ -103,6 +108,14 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
             ac.setAppSecret(appSecret);
             ac.setToken(token);
             ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
+
+            //重新设置后，需要清空之前的配置。
+            try {
+                Field mapField =  ApiConfigKit.class.getDeclaredField("CFG_MAP");
+                mapField.setAccessible(true);
+                Map map = (Map) mapField.get(null);
+                map.clear();
+            } catch (Exception e) {}
 
             ApiConfigKit.putApiConfig(ac);
         }

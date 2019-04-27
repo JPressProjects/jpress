@@ -75,7 +75,6 @@ public class _WordpressImport extends AdminControllerBase {
             doSaveAttachements(attachments);
         }
 
-
         renderOkJson();
     }
 

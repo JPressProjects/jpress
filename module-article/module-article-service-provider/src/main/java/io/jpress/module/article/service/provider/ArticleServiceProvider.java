@@ -236,6 +236,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    public Article findByTitle(String title) {
+        return userService.join(DAO.findFirstByColumn(Column.create("title",title)),"user_id");
+    }
+
+    @Override
     public Article findFirstBySlug(String slug) {
         return userService.join(DAO.findFirstByColumn(Column.create("slug", slug)),"user_id");
     }

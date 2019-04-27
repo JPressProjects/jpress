@@ -17,6 +17,7 @@ package io.jpress.module.article.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Aop;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -31,6 +32,7 @@ import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.AdminControllerBase;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -132,6 +134,8 @@ public class _WechatArticleImport extends AdminControllerBase {
 
     private void doSaveArticles(List<Article> articles) {
 
+        ArticleService service = Aop.get(ArticleService.class);
+
         for (Article article : articles) {
 
             if (article.getCreated() == null) {
@@ -139,7 +143,9 @@ public class _WechatArticleImport extends AdminControllerBase {
                 article.setModified(new Date());
             }
 
-            article.save();
+            if (service.findByTitle(article.getTitle()) == null){
+                service.save(article);
+            }
         }
     }
 
@@ -165,6 +171,9 @@ public class _WechatArticleImport extends AdminControllerBase {
 
             String path = url;
             File downloadToFile = AttachmentUtils.file(path);
+            if (downloadToFile.exists() && downloadToFile.length() > 0){
+                return;
+            }
 
             JbootHttpRequest request = JbootHttpRequest.create(remoteUrl);
             request.setDownloadFile(downloadToFile);

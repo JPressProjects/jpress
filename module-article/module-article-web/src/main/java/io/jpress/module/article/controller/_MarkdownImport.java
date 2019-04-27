@@ -85,7 +85,7 @@ public class _MarkdownImport extends AdminControllerBase {
 
         if (null != article) {
             article.setUserId(getLoginedUser().getId());
-            article.save();
+            articleService.save(article);
         }
 
         if (null != article && null != categoryNames && categoryNames.length > 0) {

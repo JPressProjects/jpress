@@ -12,7 +12,7 @@ CREATE TABLE `article` (
   `edit_mode` varchar(32) DEFAULT 'html' COMMENT '编辑模式，默认为html，其他可选项包括html，markdown ..',
   `summary` text COMMENT '摘要',
   `link_to` varchar(512) DEFAULT NULL COMMENT '连接到(常用于谋文章只是一个连接)',
-  `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
+  `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
   `order_number` int(11) DEFAULT '0' COMMENT '排序编号',

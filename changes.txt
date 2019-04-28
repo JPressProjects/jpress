@@ -12,6 +12,7 @@ jpress v2.0-rc.9:
 优化：MaxLengthDirective 指令，当出现错误是给出错误行号，方便排查
 优化：在某些情况下通过后台登录后，会显示404，需要刷新下才行的问题
 优化：当在后台编辑模板文件，但是没有写入权限时，给出具体的错误信息
+优化：Article表下的缩略图字段thumbnail长度调整为512
 修复：AddonHandlerProcesser 对读取 html 拦截失效的问题
 修复：JPressRenderFactory 在某些极端情况先会出现空指针的问题
 修复：当附件在没有设置 suffix 字段时，无法正确识别文件类型的问题

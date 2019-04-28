@@ -6,6 +6,7 @@ jpress v2.0-rc.9:
 新增：SmartField 新增对 datetimepicker 渲染的支持，方便对时间的选择
 新增：ControllerBase 新增 Map<String, String> getParas() 方法，用于读取参数列表
 新增：后台 OptionController 新增直接删除某个key和更新某个key的方法
+新增：#articlePage 指令新增 orderBy 参数的支持
 优化：从 WordPress 导入的文章，会实时提交百度搜索引擎
 优化：CheckedIfDirective 和 SelectedIfDirective 指令
 优化：MaxLengthDirective 指令，当出现错误是给出错误行号，方便排查

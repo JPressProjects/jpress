@@ -72,5 +72,28 @@ public class _OptionController extends AdminControllerBase {
         renderOkJson();
     }
 
+    /**
+     * 通过key值删除数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void deleteByKey(String key){
+        if(os.deleteByKey(key)){
+            renderOkJson();
+        }else{
+            renderFailJson();
+        }
+    }
+
+    /**
+     * 通过key保存或更新数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void saveOrUpdate(String key,String value){
+        os.saveOrUpdate(key,value);
+        JPressOptions.set(key,value);
+        renderOkJson();
+    }
 
 }

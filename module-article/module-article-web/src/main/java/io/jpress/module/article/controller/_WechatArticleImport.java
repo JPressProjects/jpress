@@ -40,6 +40,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -64,18 +65,18 @@ public class _WechatArticleImport extends AdminControllerBase {
 
         ApiResult apiResult = MediaApi.getMaterialCount();
         if (!apiResult.isSucceed()) {
-            renderJson(Ret.fail().set("message","无法获取公众号文章信息，请查看公众号配置是否正确。"));
+            renderJson(Ret.fail().set("message", "无法获取公众号文章信息，请查看公众号配置是否正确。"));
             return;
         }
 
         int articleCount = apiResult.getInt("news_count");
         doSyncArticles(articleCount);
 
-        renderJson(Ret.ok().set("message","后台正在为您同步 " + articleCount+" 篇文章及其附件，请稍后查看。"));
+        renderJson(Ret.ok().set("message", "后台正在为您同步 " + articleCount + " 篇文章及其附件，请稍后查看。"));
     }
 
 
-    private void doSyncArticles(final int articleCount){
+    private void doSyncArticles(final int articleCount) {
         new Thread(() -> {
             int times = articleCount <= 20 ? 1 : articleCount / 20;
 
@@ -94,19 +95,7 @@ public class _WechatArticleImport extends AdminControllerBase {
                             String summary = articleObject.getString("digest");
 
                             if (StrUtil.isNotBlank(content)) {
-                                content = content.replace("data-src=\"https://", "src=\"/attachment/")
-                                        .replace("/640?wx_fmt=",".");
-                            }
-
-                            Document doc = Jsoup.parse(content);
-                            Elements imgElements = doc.select("img");
-                            if (imgElements != null) {
-                                Iterator<Element> iterator = imgElements.iterator();
-                                while (iterator.hasNext()) {
-                                    Element element = iterator.next();
-                                    String url = element.attr("src");
-                                    images.add(url);
-                                }
+                                content = processContentImages(content, images);
                             }
 
                             Article article = new Article();
@@ -129,7 +118,38 @@ public class _WechatArticleImport extends AdminControllerBase {
         }).start();
     }
 
+    private String processContentImages(String content, List<String> imageUrls) {
 
+        Document doc = Jsoup.parse(content);
+        Elements imgElements = doc.select("img");
+        if (imgElements != null) {
+            Iterator<Element> iterator = imgElements.iterator();
+            while (iterator.hasNext()) {
+                Element element = iterator.next();
+
+                String imageUrl = element.hasAttr("src")
+                        ? element.attr("src")
+                        : element.attr("data-src");
+
+//http://mmbiz.qpic.cn/mmbiz/4gZTdZfnQeDvQqCZFuVvYv8scGS7sEQTRETgISib1blz5iclAtnsccaJhaugmKc
+// hhm8mFOtjnicibibumazy8wPS6Xg/640?tp=webp&wxfrom=5&wx_lazy=1&wx_co=1
+
+                imageUrl = replaceLast(imageUrl, "/", "__");
+                imageUrl = imageUrl.startsWith("http://")
+                        ? imageUrl.replace("http://", "/attachment/")
+                        : imageUrl.replace("https://", "/attachment/s");
+
+                imageUrl = imageUrl.replace("?",".png?");
+
+                element.removeAttr("data-src");
+                element.attr("src",imageUrl);
+
+                imageUrls.add(imageUrl);
+            }
+        }
+
+        return doc.toString();
+    }
 
 
     private void doSaveArticles(List<Article> articles) {
@@ -143,7 +163,7 @@ public class _WechatArticleImport extends AdminControllerBase {
                 article.setModified(new Date());
             }
 
-            if (service.findByTitle(article.getTitle()) == null){
+            if (service.findByTitle(article.getTitle()) == null) {
                 service.save(article);
             }
         }
@@ -152,6 +172,17 @@ public class _WechatArticleImport extends AdminControllerBase {
     private void doDownloadImages(List<String> urls) {
         for (String url : urls) {
             WechatArticleImageDownloader.download(url);
+        }
+    }
+
+    public static String replaceLast(String string, String toReplace, String replacement) {
+        int pos = string.lastIndexOf(toReplace);
+        if (pos > -1) {
+            return string.substring(0, pos)
+                    + replacement
+                    + string.substring(pos + toReplace.length());
+        } else {
+            return string;
         }
     }
 
@@ -166,12 +197,16 @@ public class _WechatArticleImport extends AdminControllerBase {
 
         private static void doDownload(String url) {
 
-            String remoteUrl =url.replace("/attachment/","https://");
-            remoteUrl = replaceLast(remoteUrl,".","/640?wx_fmt=");
+            String remoteUrl = url.startsWith("/attachment/s")
+                    ?url.replace("/attachment/s","https://")
+                    :url.replace("/attachment/", "http://");
 
-            String path = url;
+            remoteUrl = replaceLast(remoteUrl, "__", "/")
+                    .replace(".png?","?");
+
+            String path = URI.create(url).getPath();
             File downloadToFile = AttachmentUtils.file(path);
-            if (downloadToFile.exists() && downloadToFile.length() > 0){
+            if (downloadToFile.exists() && downloadToFile.length() > 0) {
                 return;
             }
 
@@ -191,18 +226,6 @@ public class _WechatArticleImport extends AdminControllerBase {
             attachment.setTitle(downloadToFile.getName());
             attachment.save();
         }
-
-        public static String replaceLast(String string, String toReplace, String replacement) {
-            int pos = string.lastIndexOf(toReplace);
-            if (pos > -1) {
-                return string.substring(0, pos)
-                        + replacement
-                        + string.substring(pos + toReplace.length());
-            } else {
-                return string;
-            }
-        }
-
 
     }
 

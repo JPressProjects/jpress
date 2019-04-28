@@ -38,7 +38,7 @@ public class _OptionController extends AdminControllerBase {
 
 
     @Inject
-    private OptionService os;
+    private OptionService service;
 
     public void doSave() {
 
@@ -65,7 +65,7 @@ public class _OptionController extends AdminControllerBase {
 
 
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            os.saveOrUpdate(entry.getKey(), entry.getValue());
+            service.saveOrUpdate(entry.getKey(), entry.getValue());
             JPressOptions.set(entry.getKey(), entry.getValue());
         }
 
@@ -77,8 +77,8 @@ public class _OptionController extends AdminControllerBase {
      * @Author          Mr.xu
      * @CreateDate:     2019/4/28
      */
-    public void deleteByKey(String key){
-        if(os.deleteByKey(key)){
+    public void doDeleteByKey(String key){
+        if(service.deleteByKey(key)){
             renderOkJson();
         }else{
             renderFailJson();
@@ -90,8 +90,8 @@ public class _OptionController extends AdminControllerBase {
      * @Author          Mr.xu
      * @CreateDate:     2019/4/28
      */
-    public void saveOrUpdate(String key,String value){
-        os.saveOrUpdate(key,value);
+    public void doSaveOrUpdate(String key,String value){
+        service.saveOrUpdate(key,value);
         JPressOptions.set(key,value);
         renderOkJson();
     }

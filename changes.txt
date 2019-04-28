@@ -1,3 +1,24 @@
+jpress v2.0-rc.9:
+新增：微信公众号文章导入功能，支持公众号图片附件直接本地化
+新增：后台登录新增需要输入验证码的功能，防止暴力密码猜解
+新增：插件的安装和卸载、支持插件调用动态库 .dll 和 .so 文件，支持动态库的卸载功能
+新增：插件支持 WEB-INF 目录，放在 WEB-INF 的内容禁止访问
+新增：SmartField 新增对 datetimepicker 渲染的支持，方便对时间的选择
+新增：ControllerBase 新增 Map<String, String> getParas() 方法，用于读取参数列表
+新增：后台 OptionController 新增直接删除某个key和更新某个key的方法
+优化：从 WordPress 导入的文章，会实时提交百度搜索引擎
+优化：CheckedIfDirective 和 SelectedIfDirective 指令
+优化：MaxLengthDirective 指令，当出现错误是给出错误行号，方便排查
+优化：在某些情况下通过后台登录后，会显示404，需要刷新下才行的问题
+优化：当在后台编辑模板文件，但是没有写入权限时，给出具体的错误信息
+修复：AddonHandlerProcesser 对读取 html 拦截失效的问题
+修复：JPressRenderFactory 在某些极端情况先会出现空指针的问题
+修复：当附件在没有设置 suffix 字段时，无法正确识别文件类型的问题
+修复：当在后台配置微信公众号信息，再次修改后由于缓存原因修改失效的问题
+修复：在二级目录下，datepicker无法使用的问题
+
+
+
 jpress v2.0-rc.8:
 新增：新增插件代码生成直接生成后台UI的功能
 新增：超级管理员可以在后台修改任何人的密码的功能，用于帮助用户人工的方式找回密码

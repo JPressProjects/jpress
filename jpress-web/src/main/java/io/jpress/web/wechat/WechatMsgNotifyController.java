@@ -17,6 +17,7 @@ package io.jpress.web.wechat;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
+import com.jfinal.log.Log;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
@@ -32,7 +33,9 @@ import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplyService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -41,6 +44,8 @@ import java.util.Collection;
  */
 @RequestMapping("/wechat/msg")
 public class WechatMsgNotifyController extends MsgControllerAdapter {
+
+    private static final Log LOG = Log.getLog(WechatMsgNotifyController.class);
 
     @Inject
     private OptionService optionService;
@@ -53,20 +58,28 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     public void index() {
 
         //找到可以接收该消息的微信插件
-        WechatAddonInfo addonInfo = doMathingAddon();
-        if (addonInfo == null) {
+        List<WechatAddonInfo> addons = doMathingAddon();
+        if (addons == null || addons.isEmpty()) {
             //找不到，走默认流程
             super.index();
             return;
         }
 
-        //让该插件去处理该消息
-        boolean success = addonInfo.getAddon().onRenderMessage(getInMsg(), this);
-        if (success == false) {
-            //如果处理不成功，
-            //或者插件本身不做处理，走默认流程
-            super.index();
+        for (WechatAddonInfo addon : addons){
+            try {
+                //只要有一个插件成功处理，则不再让下一个插件去处理
+                //但是处理不成功，下个插件继续处理该消息
+                if (addon.getAddon().onMatchingMessage(getInMsg(),this)){
+                    return;
+                }
+            }catch (Exception ex){
+                LOG.warn(ex.toString(),ex);
+            }
         }
+
+        //如果所有插件都 处理不成功
+        //或者插件本身不做处理，走默认流程
+        super.index();
     }
 
     /**
@@ -149,18 +162,19 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     }
 
 
-    protected WechatAddonInfo doMathingAddon() {
+    protected List<WechatAddonInfo> doMathingAddon() {
         Collection<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
         if (enableAddons == null || enableAddons.isEmpty()) {
             return null;
         }
 
+        List<WechatAddonInfo> list = new ArrayList<>();
         for (WechatAddonInfo addonInfo : enableAddons) {
             if (addonInfo.getAddon().onMatchingMessage(getInMsg(), this)) {
-                return addonInfo;
+                list.add(addonInfo);
             }
         }
 
-        return null;
+        return list;
     }
 }

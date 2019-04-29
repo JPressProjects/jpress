@@ -4,7 +4,6 @@ jpress v2.0-rc.9:
 新增：插件的安装和卸载、支持插件调用动态库 .dll 和 .so 文件，支持动态库的卸载功能
 新增：插件支持 WEB-INF 目录，放在 WEB-INF 的内容禁止访问
 新增：SmartField 新增对 datetimepicker 渲染的支持，方便对时间的选择
-新增：ControllerBase 新增 Map<String, String> getParas() 方法，用于读取参数列表
 新增：后台 OptionController 新增直接删除某个key和更新某个key的方法
 新增：#articlePage 指令新增 orderBy 参数的支持
 优化：从 WordPress 导入的文章，会实时提交百度搜索引擎
@@ -13,6 +12,7 @@ jpress v2.0-rc.9:
 优化：在某些情况下通过后台登录后，会显示404，需要刷新下才行的问题
 优化：当在后台编辑模板文件，但是没有写入权限时，给出具体的错误信息
 优化：Article表下的缩略图字段thumbnail长度调整为512
+优化：升级 Jboot 到最新版本 v2.0.8
 修复：AddonHandlerProcesser 对读取 html 拦截失效的问题
 修复：JPressRenderFactory 在某些极端情况先会出现空指针的问题
 修复：当附件在没有设置 suffix 字段时，无法正确识别文件类型的问题

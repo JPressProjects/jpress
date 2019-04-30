@@ -20,7 +20,5 @@ logs
 *.patch
 ~$*
 */*.jar
-**/NewJPress/
-**/BewTo/
 dbuild.sh
 

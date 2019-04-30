@@ -119,7 +119,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         sqlBuilder.append(" order by id desc");
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
-        return joinUserPage(dataPage);
+        return joinUserInfo(dataPage);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = new Columns();
         columns.add("status", Article.STATUS_NORMAL);
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
-        return joinUserPage(dataPage);
+        return joinUserInfo(dataPage);
     }
 
 
@@ -161,7 +161,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         sqlBuilder.append(" ORDER BY ").append(orderBy);
 
         Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
-        return joinUserPage(dataPage);
+        return joinUserInfo(dataPage);
     }
 
     @Override
@@ -209,13 +209,23 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> searchIndb(String queryString, int pageNum, int pageSize) {
         Columns columns = Columns.create("status", Article.STATUS_NORMAL)
                 .likeAppendPercent("title", queryString);
-        return joinUserPage(paginateByColumns(pageNum, pageSize, columns, "order_number desc,id desc"));
+        return joinUserInfo(paginateByColumns(pageNum, pageSize, columns, "order_number desc,id desc"));
     }
 
 
-    private Page<Article> joinUserPage(Page<Article> page) {
+    private Page<Article> joinUserInfo(Page<Article> page) {
         userService.join(page, "user_id");
         return page;
+    }
+
+    private List<Article> joinUserInfo(List<Article> list) {
+        userService.join(list, "user_id");
+        return list;
+    }
+
+    private Article joinUserInfo(Article article) {
+        userService.join(article, "user_id");
+        return article;
     }
 
     @Override
@@ -232,17 +242,17 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Article findById(Object id) {
-        return userService.join(super.findById(id),"user_id");
+        return joinUserInfo(super.findById(id));
     }
 
     @Override
     public Article findByTitle(String title) {
-        return userService.join(DAO.findFirstByColumn(Column.create("title",title)),"user_id");
+        return joinUserInfo(DAO.findFirstByColumn(Column.create("title",title)));
     }
 
     @Override
     public Article findFirstBySlug(String slug) {
-        return userService.join(DAO.findFirstByColumn(Column.create("slug", slug)),"user_id");
+        return joinUserInfo(DAO.findFirstByColumn(Column.create("slug", slug)));
     }
 
 
@@ -251,7 +261,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = Columns.create();
         columns.add(Column.create("id", id, Column.LOGIC_GT));
         columns.add(Column.create("status", Article.STATUS_NORMAL));
-        return DAO.findFirstByColumns(columns);
+        return joinUserInfo(DAO.findFirstByColumns(columns));
     }
 
     @Override
@@ -259,13 +269,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Columns columns = Columns.create();
         columns.add(Column.create("id", id, Column.LOGIC_LT));
         columns.add(Column.create("status", Article.STATUS_NORMAL));
-        return DAO.findFirstByColumns(columns, "id desc");
+        return joinUserInfo(DAO.findFirstByColumns(columns, "id desc"));
     }
 
     @Override
     @Cacheable(name = "articles", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count) {
-        return DAO.findListByColumns(columns, orderBy, count);
+        return joinUserInfo(DAO.findListByColumns(columns, orderBy, count));
     }
 
     @Override
@@ -296,7 +306,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             from.append(" limit " + count);
         }
 
-        return DAO.find(from.toString(), categoryId, Article.STATUS_NORMAL);
+        return joinUserInfo(DAO.find(from.toString(), categoryId, Article.STATUS_NORMAL));
     }
 
     @Override
@@ -324,7 +334,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
             from.append(" limit " + count);
         }
 
-        return DAO.find(from.toString(), columns.getValueArray());
+        return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
     }
 
 

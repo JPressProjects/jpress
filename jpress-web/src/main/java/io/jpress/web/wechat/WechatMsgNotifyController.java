@@ -69,7 +69,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             try {
                 //只要有一个插件成功处理，则不再让下一个插件去处理
                 //但是处理不成功，下个插件继续处理该消息
-                if (addon.getAddon().onMatchingMessage(getInMsg(),this)){
+                if (addon.getAddon().onRenderMessage(getInMsg(),this)){
                     return;
                 }
             }catch (Exception ex){

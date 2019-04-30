@@ -58,7 +58,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     public void index() {
 
         //找到可以接收该消息的微信插件
-        List<WechatAddonInfo> addons = doMathingAddon();
+        List<WechatAddonInfo> addons = getMathingAddon();
         if (addons == null || addons.isEmpty()) {
             //找不到，走默认流程
             super.index();
@@ -162,7 +162,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     }
 
 
-    protected List<WechatAddonInfo> doMathingAddon() {
+    protected List<WechatAddonInfo> getMathingAddon() {
         Collection<WechatAddonInfo> enableAddons = WechatAddonManager.me().getEnableWechatAddons();
         if (enableAddons == null || enableAddons.isEmpty()) {
             return null;

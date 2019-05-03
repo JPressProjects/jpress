@@ -82,6 +82,10 @@ public class User extends BaseUser<User> {
                 (StrUtil.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
+    public String getOriginalAvatar() {
+        return super.getAvatar();
+    }
+
     public User keepSafe() {
 
         //在读取用户资料进行输出的时候

@@ -73,7 +73,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
                     return;
                 }
             }catch (Exception ex){
-                LOG.warn(ex.toString(),ex);
+                LOG.error(ex.toString(),ex);
             }
         }
 

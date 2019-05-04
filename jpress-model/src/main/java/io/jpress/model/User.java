@@ -33,7 +33,7 @@ public class User extends BaseUser<User> {
     public static final String SOURCE_WECHAT_MESSAGE = "wechat_message";//来至微信关注或者微信发送消息等
     public static final String SOURCE_WECHAT_MINIPROGRAM = "wechat_miniprogram";//来至微信小程序
     public static final String SOURCE_WEB_REGISTER = "web_register";//来至网页注册
-    public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至网页注册
+    public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至管理员的后台创建
 
     public static final Map<String, String> sourceMap = new HashMap<>();
 

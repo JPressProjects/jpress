@@ -30,6 +30,7 @@ import java.util.Map;
 public class User extends BaseUser<User> {
 
     public static final String SOURCE_WECHAT_WEB = "wechat_web";//来至微信网页授权
+    public static final String SOURCE_WECHAT_MESSAGE = "wechat_message";//来至微信关注或者微信发送消息等
     public static final String SOURCE_WECHAT_MINIPROGRAM = "wechat_miniprogram";//来至微信小程序
     public static final String SOURCE_WEB_REGISTER = "web_register";//来至网页注册
     public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至网页注册
@@ -38,6 +39,7 @@ public class User extends BaseUser<User> {
 
     static {
         sourceMap.put(SOURCE_WECHAT_WEB, "微信网页授权");
+        sourceMap.put(SOURCE_WECHAT_MESSAGE, "微信公众号");
         sourceMap.put(SOURCE_WECHAT_MINIPROGRAM, "微信小程序");
         sourceMap.put(SOURCE_WEB_REGISTER, "网页注册");
         sourceMap.put(SOURCE_ADMIN_CREATE, "后台创建");

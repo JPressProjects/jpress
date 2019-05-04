@@ -25,6 +25,7 @@ import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.in.event.EventInMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
+import com.jfinal.weixin.sdk.msg.in.event.InQrCodeEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -90,7 +91,23 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
      */
     @Override
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
-        renderOptionValue("wechat_reply_user_subscribe", "");
+        if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
+            renderOptionValue("wechat_reply_user_subscribe", "");
+        }
+    }
+
+    /**
+     * 用户扫码了带参数二维码，但是没有任何插件去处理的时候
+     * 关注事件等同于关注公众号了
+     * @param inQrCodeEvent
+     */
+    @Override
+    protected void processInQrCodeEvent(InQrCodeEvent inQrCodeEvent) {
+        if (InQrCodeEvent.EVENT_INQRCODE_SUBSCRIBE.equals(inQrCodeEvent.getEvent())){
+            renderOptionValue("wechat_reply_user_subscribe", "");
+        }else {
+            super.processInQrCodeEvent(inQrCodeEvent);
+        }
     }
 
     /**

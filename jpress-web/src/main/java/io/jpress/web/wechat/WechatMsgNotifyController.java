@@ -22,6 +22,7 @@ import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
 import com.jfinal.weixin.sdk.msg.in.InTextMsg;
+import com.jfinal.weixin.sdk.msg.in.event.EventInMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
@@ -144,7 +145,12 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
     @Override
     protected void renderDefault() {
-        renderOptionValue("wechat_reply_unknow", "");
+        //不处理事件消息，否则可能会出现用户进行扫描带参数二维码等回复此内容
+        if (getInMsg() instanceof EventInMsg){
+            renderNull();
+        }else {
+            renderOptionValue("wechat_reply_unknow", "");
+        }
     }
 
     private void renderOptionValue(String optionKey, String defaultText) {

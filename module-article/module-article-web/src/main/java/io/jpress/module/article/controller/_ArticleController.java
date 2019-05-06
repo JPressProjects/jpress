@@ -329,16 +329,20 @@ public class _ArticleController extends AdminControllerBase {
 
         ArticleCategory tag = getModel(ArticleCategory.class, "category");
 
+        String slug = tag.getTitle().contains(".")
+                ? tag.getTitle().replace(".", "_")
+                : tag.getTitle();
+
         //新增 tag
         if (tag.getId() == null) {
-            ArticleCategory indbTag = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag.getTitle());
+            ArticleCategory indbTag = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, slug);
             if (indbTag != null) {
                 renderJson(Ret.fail().set("message", "该标签已经存在，不能新增。"));
                 return;
             }
         }
 
-        tag.setSlug(tag.getTitle());
+        tag.setSlug(slug);
         saveCategory(tag);
     }
 

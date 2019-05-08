@@ -277,7 +277,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
         for (Object id : ids) {
             //删除role缓存
-            Jboot.getCache().remove("role", "user_roles:" + id);
+            Jboot.getCache().remove("user_role", "user_roles:" + id);
         }
 
         return Db.tx(() -> {

@@ -38,7 +38,9 @@
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.6</commons-io.version>
         <commonmark.version>0.12.1</commonmark.version>
-        <aliyunoss.version>3.4.0</aliyunoss.version>
+        <aliyunoss.version>3.4.2</aliyunoss.version>
+        <httpclient.version>4.5.3</httpclient.version>
+        <commons-codec.version>1.10</commons-codec.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -151,6 +153,30 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyunoss.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
             </dependency>
 
         </dependencies>

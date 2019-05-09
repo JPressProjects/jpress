@@ -22,5 +22,6 @@ logs
 */*.jar
 **/NewJPress/
 **/BewTo/
+cache
 dbuild.sh
 

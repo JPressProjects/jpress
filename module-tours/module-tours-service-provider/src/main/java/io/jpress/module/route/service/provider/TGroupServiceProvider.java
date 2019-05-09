@@ -10,7 +10,6 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.DateUtils;
 import io.jpress.module.route.model.TGroup;
 import io.jpress.module.route.model.TRoute;
@@ -51,8 +50,28 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
 
                 List<DateTime> list = null;
                 for (Integer groupType : groupTypes) {
-                    // 天天出团
-                    if (groupType == 0) {
+
+                    if (groupType == -1) {
+
+                        TGroup group = new TGroup();
+                        group.setRouteId(route.getId());
+                        group.setLeaveDate(route.getExpireDate());
+                        group.setDeadlineDate(route.getExpireDate());
+
+                        group.setCost(route.getCost());
+                        group.setPrice(route.getPrice());
+                        group.setChildPrice(route.getChildPrice());
+                        group.setMarketPrice(route.getMarketPrice());
+
+                        group.setIsCalendar(0);
+                        group.setCreated(created);
+                        group.setStatus(TGroup.ENROLLING_STATUS);
+
+                        group.save();
+                        return true;
+
+                        // 天天出团
+                    } else if (groupType == 0) {
                         list = DateUtils.getAllDaysBeforeDate(route.getExpireDate());
                     } else {
                         list = DateUtils.getDayOfWeek(groupType, route.getExpireDate());
@@ -117,6 +136,36 @@ public class TGroupServiceProvider extends JbootServiceBase<TGroup> implements T
             return null;
         }
         return group;
+    }
+
+    @Override
+    // @Cacheable(name = "routeCategory", key = "categoryIds:#(routeId)")
+    public List<TGroup> findGroupsByRouteId(Long routeId) {
+
+        Columns columns = Columns.create();
+        columns.eq("route_id", routeId);
+        columns.eq("status", TGroup.UNSTART_STATUS);
+        return DAO.findListByColumns(columns, "id asc");
+    }
+
+    @Override
+    public void doAddGroups(Long routeId, List<TGroup> list) {
+
+        if (list != null && list.size() > 0) {
+
+            final Date created = new Date();
+            for (int i = 0; i < list.size(); i++) {
+                TGroup group = list.get(i);
+                group.setId(null);
+                group.setCreated(created);
+                group.setRouteId(routeId);
+
+                if (i == 0) {
+                    group.setStatus(TGroup.ENROLLING_STATUS);
+                }
+            }
+            Db.batchSave(list, list.size());
+        }
     }
 
     @Override

@@ -112,7 +112,9 @@ public class _TRouteController extends AdminControllerBase {//
             flagCheck(categories, categoryIds);
         } else {
             route = new TRoute();
-            route.setCode(routeService.findMaxRouteCode());
+            Long code = routeService.findMaxRouteCode();
+            route.setCode(code);
+            route.setSlug(code.toString());
         }
         setAttr("route", route);
 
@@ -165,7 +167,7 @@ public class _TRouteController extends AdminControllerBase {//
 
         // TODO 生成线路二维码
 
-        long id = (long) routeService.saveOrUpdate(route);
+        Long id = (Long) routeService.saveOrUpdate(route);
         setAttr("routeId",id);
 
         Long[] categoryIds = getParaValuesToLong("category");
@@ -176,8 +178,8 @@ public class _TRouteController extends AdminControllerBase {//
             }
         }
 
-        String calendarStr = getPara("calendarStr");
-        groupService.doUpdateGroups(route, groups, calendarStr);
+        // String calendarStr = getPara("calendarStr");
+        groupService.doUpdateGroups(route, groups, null);
         TGroup group = groupService.findFirstGroupByRouteId(id);
         if (group != null) {
             route.setGroupId(group.getId());
@@ -204,8 +206,29 @@ public class _TRouteController extends AdminControllerBase {//
 
     public void copy() {
         Long id = getIdPara();
-        // setFlashAttr("id", id);
-        redirect("/admin/route/edit/" + id);
+
+        TRoute route = routeService.findById(id);
+        route.setId(null);
+
+        Long maxCode = routeService.findMaxRouteCode();
+        route.setCode(maxCode);
+        route.setSlug(maxCode.toString());
+        route.setCreated(new Date());
+
+        Long newId = (Long) routeService.save(route);
+        Long[] categoryIds = routeCategoryService.findCategoryIdsByRouteId(id);
+        routeService.doUpdateCategorys(newId, categoryIds);
+
+        List<TGroup> list = groupService.findGroupsByRouteId(id);
+        groupService.doAddGroups(newId, list);
+
+        if (list != null && list.size() > 0) {
+            route.setGroupId(list.get(0).getId());
+            route.setDepartureDate(list.get(0).getLeaveDate());
+        }
+        route.saveOrUpdate();
+
+        redirect("/admin/route/");
     }
 
     public void doTrash() {

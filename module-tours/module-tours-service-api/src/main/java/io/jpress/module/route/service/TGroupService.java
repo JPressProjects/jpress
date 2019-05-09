@@ -32,6 +32,13 @@ public interface TGroupService  {
      */
     public TGroup findNextById(Long id);
 
+    /**
+     * find groups by routeId
+     *
+     * @param routeId
+     * @return
+     */
+    public List<TGroup> findGroupsByRouteId(Long routeId);
 
     /**
      * delete model by primary key
@@ -89,6 +96,18 @@ public interface TGroupService  {
      * @desc    
      */
     public void doUpdateGroups(TRoute route, Integer[] groups, String calendarStr);
+
+    /**
+     * add route group
+     *
+     * @author Eric
+     * @date  2019-03-10 11:06
+     * @param routeId         线路
+     * @param list        团期信息
+     * @return void
+     * @desc
+     */
+    public void doAddGroups(Long routeId, List<TGroup> list);
 
     /**
      * paginate query

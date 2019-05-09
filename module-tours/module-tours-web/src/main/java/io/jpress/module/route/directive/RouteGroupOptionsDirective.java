@@ -29,6 +29,7 @@ public class RouteGroupOptionsDirective extends JbootDirectiveBase {
     static Map<Integer, String> map = new TreeMap<Integer, String>();
 
     static {
+        map.put(-1, "单次");
         map.put(0, "天天发团");
         map.put(1, "星期一");
         map.put(2, "星期二");
@@ -59,7 +60,7 @@ public class RouteGroupOptionsDirective extends JbootDirectiveBase {
                 }
             }
 
-            if (k.intValue() == 0) {
+            if (k.intValue() == 0 || k.intValue() == -1) {
                 htmlBuilder.append("<label class=\"text-red\">");
             } else {
                 htmlBuilder.append("<label>");

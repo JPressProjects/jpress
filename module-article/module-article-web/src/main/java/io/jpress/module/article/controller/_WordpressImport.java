@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.controller;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.ArrayUtil;
@@ -26,6 +27,7 @@ import io.jpress.core.attachment.AttachmentDownloader;
 import io.jpress.model.Attachment;
 import io.jpress.module.article.kit.wordpress.WordPressXmlParser;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.io.File;
@@ -75,12 +77,13 @@ public class _WordpressImport extends AdminControllerBase {
             doSaveAttachements(attachments);
         }
 
-
         renderOkJson();
     }
 
 
     private void doSaveArticles(List<Article> articles) {
+
+        ArticleService service = Aop.get(ArticleService.class);
 
         for (Article article : articles) {
 
@@ -90,7 +93,7 @@ public class _WordpressImport extends AdminControllerBase {
             }
 
             article.setUserId(getLoginedUser().getId());
-            article.save();
+            service.save(article);
         }
     }
 

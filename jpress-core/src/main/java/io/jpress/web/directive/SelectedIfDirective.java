@@ -16,13 +16,10 @@
 package io.jpress.web.directive;
 
 import com.jfinal.template.Env;
-import com.jfinal.template.TemplateException;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-
-import java.io.IOException;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,14 +33,14 @@ public class SelectedIfDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         Object param = getPara(0, scope);
-        if ("true".equalsIgnoreCase(String.valueOf(param))) {
-            try {
-                writer.write("selected");
-            } catch (IOException e) {
-                throw new TemplateException(e.getMessage(), location, e);
+        if (param instanceof Boolean) {
+            if ((Boolean) param) {
+                renderText(writer, "selected");
             }
+        } else if ("true".equalsIgnoreCase(String.valueOf(param))) {
+            renderText(writer, "selected");
         }
-
     }
+
 }
 

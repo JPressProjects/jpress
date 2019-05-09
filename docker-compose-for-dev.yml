@@ -19,7 +19,7 @@ services:
       - db
     links:
       - db
-    image: fuhai/jpress:v2.0-rc.7
+    image: fuhai/jpress:v2.0
     ports:
       - "8080:8080"
     restart: always
@@ -37,4 +37,4 @@ services:
       - "./addons:/opt/jpress/webapp/addons"
       - "./addonjars:/opt/jpress/webapp/WEB-INF/addons"
       - "./wp-content:/opt/jpress/webapp/wp-content"
-      - "./templates:/opt/jpress/webapp/templates/others"
+      - "./templates:/opt/jpress/webapp/templates/dockers"

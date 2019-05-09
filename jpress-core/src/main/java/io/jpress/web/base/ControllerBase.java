@@ -40,7 +40,6 @@ public abstract class ControllerBase extends JbootController {
             //renderError 会直接抛出异常，阻止程序往下执行
             renderError(404);
         }
-
         return id;
     }
 

@@ -38,7 +38,7 @@ public class _OptionController extends AdminControllerBase {
 
 
     @Inject
-    private OptionService os;
+    private OptionService service;
 
     public void doSave() {
 
@@ -65,12 +65,35 @@ public class _OptionController extends AdminControllerBase {
 
 
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            os.saveOrUpdate(entry.getKey(), entry.getValue());
+            service.saveOrUpdate(entry.getKey(), entry.getValue());
             JPressOptions.set(entry.getKey(), entry.getValue());
         }
 
         renderOkJson();
     }
 
+    /**
+     * 通过key值删除数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void doDeleteByKey(String key){
+        if(service.deleteByKey(key)){
+            renderOkJson();
+        }else{
+            renderFailJson();
+        }
+    }
+
+    /**
+     * 通过key保存或更新数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void doSaveOrUpdate(String key,String value){
+        service.saveOrUpdate(key,value);
+        JPressOptions.set(key,value);
+        renderOkJson();
+    }
 
 }

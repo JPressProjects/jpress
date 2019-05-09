@@ -25,10 +25,23 @@ import io.jpress.core.support.smartfield.SmartFieldRender;
  */
 public class DatetimeRender implements SmartFieldRender {
 
+    protected static String template = "" +
+            "<div class=\"form-group\">\n" +
+            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "    <div class=\"col-sm-6\">\n" +
+            "        <input type=\"text\" class=\"form-control datetimepicker\"\n" +
+            "               id=\"{id}\"\n" +
+            "               name=\"{name}\"\n" +
+            "               data-date-format=\"yyyy-mm-dd\"\n" +
+            "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
+            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "    </div>\n" +
+            "</div>";
 
     @Override
     public String onRender(SmartField field, Object value) {
-        throw new IllegalStateException("DatetimeRender not finished.");
+        return RenderKit.render(template, field, value);
     }
+
 
 }

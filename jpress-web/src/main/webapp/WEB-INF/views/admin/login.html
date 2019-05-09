@@ -34,14 +34,23 @@
 <div class="row">
     <div class="login-box text-center">
         <div class="login-box-body">
-            <form action="#(CPATH)#(action)" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin" >
+            <form action="#(CPATH)#(action)" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" >
+
                 <div class="form-group">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" value="test">
                 </div>
+
                 <div class="form-group">
                     <label>密码</label>
                     <input type="password" class="form-control" placeholder="及密码..." name="pwd" value="123456">
+                </div>
+
+                <div class="form-group">
+                    <label>验证码</label>
+                    <input type="text" class="form-control" placeholder="请输入验证码" name="captcha" id="captcha">
+                    <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"
+                         cdn-exclude id="captchaimg">
                 </div>
 
                 <div class="row">
@@ -58,6 +67,5 @@
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
-
 </body>
 </html>

@@ -5,17 +5,28 @@ $(document).ready(function () {
     initSwitchery();
     initDomainSpan();
     initSlugSpan();
-    initDatepicker();
+    initDatePicker();
+    initDatetimePicker();
     initAutoAjaxSubmit();
 
 });
 
-function initDatepicker() {
+function initDatePicker() {
     if ($('').datepicker) {
         $('.datepicker').datepicker({
             language: 'zh-CN',
             format: 'yyyy-mm-dd',
             autoclose: true
+        });
+    }
+}
+
+function initDatetimePicker() {
+    if ($('').datetimepicker) {
+        $('.datetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent:true,
+            locale:'zh-cn'
         });
     }
 }
@@ -156,11 +167,7 @@ function initAutoAjaxSubmit() {
                     }
 
                     if (okMessage) {
-                        if (typeof toastr != "undefined") {
-                            toastr.success(okMessage);
-                        } else {
-                            alert(okMessage);
-                        }
+                        showMessage(okMessage);
                         return;
                     }
 
@@ -193,6 +200,14 @@ function initAutoAjaxSubmit() {
 
         return false;
     });
+}
+
+function showMessage(msg) {
+    if (typeof toastr != "undefined") {
+        toastr.success(msg);
+    } else {
+        alert(msg);
+    }
 }
 
 function showErrorMessage(msg) {

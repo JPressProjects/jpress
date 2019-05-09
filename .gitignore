@@ -2,7 +2,7 @@
 */jpress-addon-club/
 */jpress-addon-articlemeta/
 */jpress-addon-wechatlogin/
-*/jpress-addon-wechattask/
+*/jpress-addon-wtask/
 starter-dev/
 .idea
 *.iml
@@ -20,7 +20,5 @@ logs
 *.patch
 ~$*
 */*.jar
-**/NewJPress/
-**/BewTo/
 dbuild.sh
 

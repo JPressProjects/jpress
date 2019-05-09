@@ -16,6 +16,7 @@
 package io.jpress.core.addon;
 
 
+import com.google.common.collect.Lists;
 import com.jfinal.aop.AopManager;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
@@ -31,6 +32,7 @@ import io.jboot.utils.ArrayUtil;
 import io.jpress.core.wechat.WechatAddon;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -39,6 +41,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class AddonClassLoader extends URLClassLoader {
 
@@ -70,7 +73,6 @@ public class AddonClassLoader extends URLClassLoader {
             }
         }
     }
-
 
     public void load() {
         for (String className : classNameList) {
@@ -162,4 +164,27 @@ public class AddonClassLoader extends URLClassLoader {
         }
         return false;
     }
+
+    static final List supportNativeSuffixes = Lists.newArrayList(".so", ".dylib", ".dll");
+
+    @Override
+    public InputStream getResourceAsStream(String name) {
+        InputStream superStream = super.getResourceAsStream(name);
+        int dotLastIndex = name.lastIndexOf(".");
+        if (dotLastIndex > -1) {
+            String suffix = name.substring(dotLastIndex);
+            boolean isSupport = supportNativeSuffixes.contains(suffix);
+            if (superStream == null && isSupport) {
+                try {
+                    ZipEntry zipEntry = new ZipEntry(name);
+                    return new JarFile(addonInfo.buildJarFile()).getInputStream(zipEntry);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        }
+        return superStream;
+    }
+
 }

@@ -121,10 +121,17 @@ public class _TemplateController extends AdminControllerBase {
         newFileName.append(File.separator);
         newFileName.append("templates");
         newFileName.append(File.separator);
-        newFileName.append(ufile.getOriginalFileName());
+        newFileName.append("dockers"); // 优先安装在docker的映射目录下
 
+        File templateRootPath  = new File(newFileName.toString());
+        if (!templateRootPath.exists() || !templateRootPath.isDirectory()){
+            templateRootPath = templateRootPath.getParentFile();
+        }
 
-        String templatePath = newFileName.substring(0, newFileName.length() - 4);
+        File templateZipFile = new File(templateRootPath,ufile.getOriginalFileName());
+        String templatePath = templateZipFile.getAbsolutePath()
+                .substring(0, templateZipFile.getAbsolutePath().length() - 4);
+
         if (new File(templatePath).exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
@@ -133,7 +140,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        File templateZipFile = new File(newFileName.toString());
+
         if (!templateZipFile.getParentFile().exists()) {
             templateZipFile.getParentFile().mkdirs();
         }
@@ -347,8 +354,12 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         File file = new File(pathFile, fileName);
-        FileUtil.writeString(file, fileContent);
+        if (!file.canWrite()){
+            renderJson(Ret.fail().set("message", "当前文件没有写入权限"));
+            return;
+        }
 
+        FileUtil.writeString(file, fileContent);
         RenderManager.me().getEngine().removeAllTemplateCache();
 
         renderOkJson();

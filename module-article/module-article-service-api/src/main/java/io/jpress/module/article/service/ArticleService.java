@@ -32,6 +32,8 @@ public interface ArticleService extends JbootServiceJoiner {
      */
     public Article findById(Object id);
 
+    public Article findByTitle(String title);
+
 
     /**
      * find all model

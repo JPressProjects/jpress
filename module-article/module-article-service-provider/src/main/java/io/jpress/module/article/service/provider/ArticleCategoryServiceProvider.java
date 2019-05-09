@@ -24,6 +24,7 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.Copyer;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -135,15 +136,25 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
         List<ArticleCategory> articleCategories = new ArrayList<>();
         for (String tag : tags) {
+
+            if (StrUtil.isBlank(tag)) {
+                continue;
+            }
+
+            //slug不能包含字符串点 " . "，否则url不能被访问
+            String slug = tag.contains(".")
+                    ? tag.replace(".", "_")
+                    : tag;
+
             Columns columns = Columns.create("type", ArticleCategory.TYPE_TAG);
-            columns.add(Column.create("slug", tag));
+            columns.add(Column.create("slug", slug));
 
             ArticleCategory articleCategory = DAO.findFirstByColumns(columns);
 
             if (articleCategory == null) {
                 articleCategory = new ArticleCategory();
                 articleCategory.setTitle(tag);
-                articleCategory.setSlug(tag);
+                articleCategory.setSlug(slug);
                 articleCategory.setType(ArticleCategory.TYPE_TAG);
                 articleCategory.save();
             }

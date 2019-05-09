@@ -15,13 +15,13 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.service.RoleService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -29,7 +29,7 @@ import javax.inject.Inject;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/finance")
+@RequestMapping(value = "/admin/finance", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FinanceController extends AdminControllerBase {
 
     @Inject

@@ -15,14 +15,14 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.Jboot;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
@@ -70,18 +70,23 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, CommonsUtils.escapeHtml(webTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, CommonsUtils.escapeHtml(webSubTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_NAME, CommonsUtils.escapeHtml(webName));
-        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, CommonsUtils.escapeHtml(webIpcNo));
-        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, CommonsUtils.escapeHtml(seoTitle));
-        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, CommonsUtils.escapeHtml(seoKeyword));
-        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, CommonsUtils.escapeHtml(seoDescription));
+        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, StrUtil.escapeHtml(webTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, StrUtil.escapeHtml(webSubTitle));
+        controller.setAttr(JPressConsts.ATTR_WEB_NAME, StrUtil.escapeHtml(webName));
+        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, StrUtil.escapeHtml(webIpcNo));
+        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, StrUtil.escapeHtml(seoTitle));
+        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, StrUtil.escapeHtml(seoKeyword));
+        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, StrUtil.escapeHtml(seoDescription));
 
         controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
 
-        MenuService menuService = Jboot.bean(MenuService.class);
+        //添加CSRF的配置，方便在前台进行退出等操作
+        String uuid = StrUtil.uuid();
+        inv.getController().setCookie(CSRFInterceptor.CSRF_KEY, uuid, -1);
+        inv.getController().setAttr(CSRFInterceptor.CSRF_ATTR_KEY, uuid);
+
+        MenuService menuService = Aop.get(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
         SortKit.toTree(menus);
         controller.setAttr(JPressConsts.ATTR_MENUS, menus);

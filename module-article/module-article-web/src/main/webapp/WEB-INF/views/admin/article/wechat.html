@@ -1,0 +1,71 @@
+#@layout()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<style>
+    #uploader {
+        height: 230px;
+    }
+
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+</style>
+#end
+
+#define script()
+
+<script>
+    $('.fileinput-button').click(function () {
+        ajaxGet("#(CPATH)/admin/setting/tools/wechat/doImport",
+        function (result) {
+            showMessage(result.message);
+        },
+        function (result) {
+            showErrorMessage(result.message);
+        })
+    });
+</script>
+
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            微信公众号文章导入
+            <small>Wechat Articles Import</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div id="uploader">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 220px">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>开始导入</span>
+                                <!--<input id="cfile" type="file" name="files[]" multiple>-->
+                            </span>
+
+                            <div class="myPanel">
+                                在导入之前，请务必先在 微信>基础设置 里配置正确...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -1,0 +1,49 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar" >
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
+            <li class="block"></li>
+            <li class="link">
+                <a href="#(CPATH)/admin/index"><i class="fa fa-dashboard"></i> <span>面板</span></a>
+            </li>
+
+            <li class="block"></li>
+            #for(group : moduleMenuGroups)
+                #hasPermission(group.permission)
+                <li class="treeview">
+                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        #for(item : group.items)
+                            #hasPermission(item.permission)
+                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
+                            #end
+                        #end
+                    </ul>
+                </li>
+                #end
+            #end
+            <li class="header">基础</li>
+            #for(group : systemMenuGroups)
+                #hasPermission(group.permission)
+                <li class="treeview">
+                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        #for(item : group.items)
+                            #hasPermission(item.permission)
+                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
+                            #end
+                        #end
+                    </ul>
+                </li>
+                #end
+            #end
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

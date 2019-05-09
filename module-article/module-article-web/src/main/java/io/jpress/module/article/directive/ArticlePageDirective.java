@@ -15,14 +15,14 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.web.JbootControllerContext;
-import io.jboot.web.JbootRequestContext;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
@@ -31,7 +31,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleService;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -51,10 +50,11 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         int page = controller.getParaToInt(1, 1);
-        int pageSize = getPara("pageSize", scope, 10);
+        int pageSize = getParaToInt("pageSize", scope, 10);
+        String orderBy = getPara("orderBy", scope, "id desc");
 
         // 可以指定当前的分类ID
-        Long categoryId = getPara("categoryId", scope, 0L);
+        Long categoryId = getParaToLong("categoryId", scope, 0L);
         ArticleCategory category = controller.getAttr("category");
 
         if (categoryId == 0 && category != null) {
@@ -62,8 +62,8 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         }
 
         Page<Article> articlePage = categoryId == 0
-                ? service.paginateInNormal(page, pageSize)
-                : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, null);
+                ? service.paginateInNormal(page, pageSize, orderBy)
+                : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, orderBy);
 
         scope.setGlobal("articlePage", articlePage);
         renderBody(env, scope, writer);
@@ -88,7 +88,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber) {
-            HttpServletRequest request = JbootRequestContext.getRequest();
+            HttpServletRequest request = JbootControllerContext.get().getRequest();
             String url = request.getRequestURI();
             String contextPath = JFinal.me().getContextPath();
 
@@ -102,7 +102,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
                 url = contextPath + "/article/category/index"
                         + JPressOptions.getAppUrlSuffix();
             }
-            return Kits.doReplacePageNumber(url, pageNumber);
+            return DirectveKit.replacePageNumber(url, pageNumber);
         }
 
         @Override

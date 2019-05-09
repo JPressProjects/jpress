@@ -16,17 +16,18 @@
 package io.jpress.service.task;
 
 import com.jfinal.plugin.activerecord.Db;
-import io.jboot.schedule.annotation.FixedRate;
+import io.jboot.components.schedule.annotation.FixedRate;
 import io.jpress.model.Utm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-//5分支执行一次
-@FixedRate(period = 300, initialDelay = 300)
+//1分钟执行一次
+@FixedRate(period = 60, initialDelay = 60)
 public class UtmBatchSaveTask implements Runnable {
 
-    private static List<Utm> utmList = new ArrayList<>();
+    private static List<Utm> utmList = Collections.synchronizedList(new ArrayList<>());
 
     public static void record(Utm utm) {
         utmList.add(utm);

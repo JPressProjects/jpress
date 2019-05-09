@@ -15,14 +15,15 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +33,12 @@ import java.util.Map;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/option")
+@RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
 
     @Inject
-    private OptionService os;
+    private OptionService service;
 
     public void doSave() {
 
@@ -53,7 +54,7 @@ public class _OptionController extends AdminControllerBase {
             if (entry.getValue() != null && entry.getValue().length > 0) {
                 String value = null;
                 for (String v : entry.getValue()) {
-                    if (StrUtils.isNotEmpty(v)) {
+                    if (StrUtil.isNotEmpty(v)) {
                         value = v;
                         break;
                     }
@@ -64,12 +65,35 @@ public class _OptionController extends AdminControllerBase {
 
 
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            os.saveOrUpdate(entry.getKey(), entry.getValue());
+            service.saveOrUpdate(entry.getKey(), entry.getValue());
             JPressOptions.set(entry.getKey(), entry.getValue());
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
+    /**
+     * 通过key值删除数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void doDeleteByKey(String key){
+        if(service.deleteByKey(key)){
+            renderOkJson();
+        }else{
+            renderFailJson();
+        }
+    }
+
+    /**
+     * 通过key保存或更新数据
+     * @Author          Mr.xu
+     * @CreateDate:     2019/4/28
+     */
+    public void doSaveOrUpdate(String key,String value){
+        service.saveOrUpdate(key,value);
+        JPressOptions.set(key,value);
+        renderOkJson();
+    }
 
 }

@@ -15,13 +15,14 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.RenderManager;
 import com.jfinal.upload.UploadFile;
-import io.jboot.utils.ArrayUtils;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -34,13 +35,11 @@ import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
+import io.jpress.web.JPressShareFunctions;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.web.sharekit.MainKits;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.io.FileUtils;
 
-import javax.inject.Inject;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +49,7 @@ import java.util.List;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/template")
+@RequestMapping(value = "/admin/template", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _TemplateController extends AdminControllerBase {
 
     @Inject
@@ -71,7 +70,7 @@ public class _TemplateController extends AdminControllerBase {
         String title = getPara("title");
         List<Template> templates = TemplateManager.me().getInstalledTemplates();
 
-        if (StrUtils.isNotBlank(title)) {
+        if (StrUtil.isNotBlank(title)) {
             List<Template> searchTemplate = new ArrayList<>();
             for (Template template : templates) {
                 if (template.getTitle() != null &&
@@ -79,7 +78,6 @@ public class _TemplateController extends AdminControllerBase {
                     searchTemplate.add(template);
                 }
             }
-
             setAttr("templates", searchTemplate);
         } else {
             setAttr("templates", templates);
@@ -101,10 +99,7 @@ public class _TemplateController extends AdminControllerBase {
      */
     public void doInstall() {
 
-        if (!isMultipartRequest()) {
-            renderError(404);
-            return;
-        }
+        render404If(!isMultipartRequest());
 
         UploadFile ufile = getFile();
         if (ufile == null) {
@@ -112,7 +107,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        if (!".zip".equals(FileUtils.getSuffix(ufile.getFileName()))) {
+        if (!".zip".equals(FileUtil.getSuffix(ufile.getFileName()))) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "只支持 .zip 的压缩模板文件"));
@@ -126,28 +121,35 @@ public class _TemplateController extends AdminControllerBase {
         newFileName.append(File.separator);
         newFileName.append("templates");
         newFileName.append(File.separator);
-        newFileName.append(ufile.getOriginalFileName());
+        newFileName.append("dockers"); // 优先安装在docker的映射目录下
 
+        File templateRootPath  = new File(newFileName.toString());
+        if (!templateRootPath.exists() || !templateRootPath.isDirectory()){
+            templateRootPath = templateRootPath.getParentFile();
+        }
 
-        String templatePath = newFileName.substring(0, newFileName.length() - 4);
+        File templateZipFile = new File(templateRootPath,ufile.getOriginalFileName());
+        String templatePath = templateZipFile.getAbsolutePath()
+                .substring(0, templateZipFile.getAbsolutePath().length() - 4);
+
         if (new File(templatePath).exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
-                    .set("message", "该模板已经安装"));
+                    .set("message", "该模板可能已经存在，无法进行安装。"));
             deleteFileQuietly(ufile.getFile());
             return;
         }
 
-        File templateZipFile = new File(newFileName.toString());
+
         if (!templateZipFile.getParentFile().exists()) {
             templateZipFile.getParentFile().mkdirs();
         }
 
         try {
-            org.apache.commons.io.FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtils.unzip(templateZipFile.getAbsolutePath(),
+            FileUtils.moveFile(ufile.getFile(), templateZipFile);
+            FileUtil.unzip(templateZipFile.getAbsolutePath(),
                     templateZipFile.getParentFile().getAbsolutePath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "模板文件解压缩失败"));
@@ -178,8 +180,9 @@ public class _TemplateController extends AdminControllerBase {
         JPressOptions.set("web_template", template.getId());
         optionService.saveOrUpdate("web_template", template.getId());
         TemplateManager.me().setCurrentTemplate(template);
+        RenderManager.me().getEngine().removeAllTemplateCache();
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -193,13 +196,17 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         template.uninstall();
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 88)
     public void setting() {
         Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            render("template/setting.html");
+            return;
+        }
         setAttr("template", template);
 
         String view = template.matchTemplateFile("setting.html", false);
@@ -216,27 +223,23 @@ public class _TemplateController extends AdminControllerBase {
 
         String dirName = getPara("d");
         //防止浏览非模板目录之外的其他目录
-        if (dirName != null && dirName.contains("..")) {
-            renderError(404);
-            return;
-        } else {
-            setParentDirAttr(dirName);
-        }
+        render404If(dirName != null && dirName.contains(".."));
+        setParentDirAttr(dirName);
 
         String editFileName = getPara("f", "index.html");
-        if (editFileName.contains("/") || editFileName.contains("..")) {
-            renderError(404);
-            return;
-        }
+        render404If(editFileName.contains("/") || editFileName.contains(".."));
 
 
         render("template/edit.html");
 
 
         Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            return;
+        }
         setAttr("template", template);
 
-        File basePath = StrUtils.isNotBlank(dirName)
+        File basePath = StrUtil.isNotBlank(dirName)
                 ? new File(template.getAbsolutePath(), dirName)
                 : new File(template.getAbsolutePath());
 
@@ -244,7 +247,7 @@ public class _TemplateController extends AdminControllerBase {
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
                 || file.getName().endsWith(".css")
                 || file.getName().endsWith(".js")
-                || MainKits.isImage(file.getName())
+                || JPressShareFunctions.isImage(file.getName())
                 || file.isDirectory());
 
         List srcFiles = new ArrayList<String>();
@@ -253,26 +256,25 @@ public class _TemplateController extends AdminControllerBase {
                 srcFiles.add(file.getName());
         }
         setAttr("srcFiles", srcFiles);
-        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf("/templates/")));
+        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf(File.separator.concat("templates"))));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);
 
-        if (ArrayUtils.isNullOrEmpty(files)) {
+        if (ArrayUtil.isNullOrEmpty(files)) {
             return;
         }
 
 
-        File editFile = StrUtils.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
+        File editFile = StrUtil.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
         setAttr("f", editFile.getName());
-        setAttr("editFileContent", StringEscapeUtils.escapeHtml(FileUtils.readString(editFile)));
-
+        setAttr("editFileContent", StrUtil.escapeHtml(FileUtil.readString(editFile)));
 
     }
 
     private void setParentDirAttr(String dirName) {
-        if (StrUtils.isBlank(dirName)
+        if (StrUtil.isBlank(dirName)
                 || "/".equals(dirName)
                 || "./".equals(dirName)) {
             return;
@@ -327,36 +329,40 @@ public class _TemplateController extends AdminControllerBase {
         String fileName = getPara("f");
 
         //防止浏览非模板目录之外的其他目录
-        if (dirName != null && dirName.contains("..")) {
-            renderError(404);
+        render404If(dirName != null && dirName.contains(".."));
+        render404If(fileName.contains("/") || fileName.contains(".."));
+
+
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            renderJson(Ret.fail().set("message", "当前模板无法编辑"));
             return;
         }
 
-        if (fileName.contains("/") || fileName.contains("..")) {
-            renderError(404);
-            return;
-        }
 
+        File pathFile = new File(template.getAbsolutePath());
 
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath());
-
-        if (StrUtils.isNotBlank(dirName)) {
+        if (StrUtil.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
         }
 
 
         String fileContent = getPara("fileContent");
-        if (StrUtils.isBlank(fileContent)) {
+        if (StrUtil.isBlank(fileContent)) {
             renderJson(Ret.fail().set("message", "不能存储空内容"));
             return;
         }
 
         File file = new File(pathFile, fileName);
-        FileUtils.writeString(file, fileContent);
+        if (!file.canWrite()){
+            renderJson(Ret.fail().set("message", "当前文件没有写入权限"));
+            return;
+        }
 
+        FileUtil.writeString(file, fileContent);
         RenderManager.me().getEngine().removeAllTemplateCache();
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -386,13 +392,18 @@ public class _TemplateController extends AdminControllerBase {
 
     public void doMenuDel() {
         int id = getParaToInt(0, 0);
-        if (id == 0) {
-            renderError(404);
-            return;
+        render404If(id <= 0);
+
+        List<Menu> childMenus = ms.findListByParentId(id);
+        if (childMenus != null) {
+            for (Menu menu : childMenus) {
+                menu.setPid(0l);
+                ms.update(menu);
+            }
         }
 
         ms.deleteById(id);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     public static class FileInfo {
@@ -418,29 +429,25 @@ public class _TemplateController extends AdminControllerBase {
         String dirName = getPara("d").trim();
 
         //防止浏览非模板目录之外的其他目录
-        if (dirName != null && dirName.contains("..")) {
-            renderError(404);
-            return;
-        }
+        render404If(dirName != null && dirName.contains(".."));
+        render404If(fileName.contains("/") || fileName.contains(".."));
 
-        if (fileName.contains("/") || fileName.contains("..")) {
-            renderError(404);
-            return;
-        }
+        Template template = TemplateManager.me().getCurrentTemplate();
+        render404If(template == null);
 
-        File pathFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), dirName);
+        File pathFile = new File(template.getAbsolutePath(), dirName);
 
         try {
-            org.apache.commons.io.FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
+           FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
         } catch (Exception e) {
             e.printStackTrace();
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         } finally {
             deleteFileQuietly(uploadFile.getFile());
         }
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -448,17 +455,16 @@ public class _TemplateController extends AdminControllerBase {
         String path = getPara("path");
 
         //防止删除非模板目录之外的其他目录文件
-        if (path != null && path.contains("..")) {
-            renderError(404);
-            return;
-        }
+        render404If(path != null && path.contains(".."));
 
-        File delFile = new File(TemplateManager.me().getCurrentTemplate().getAbsolutePath(), path);
+        Template template = TemplateManager.me().getCurrentTemplate();
+        render404If(template == null);
 
+        File delFile = new File(template.getAbsolutePath(), path);
         if (delFile.isDirectory() || delFile.delete() == false) {
-            renderJson(Ret.fail());
+            renderFailJson();
         } else {
-            renderJson(Ret.ok());
+            renderOkJson();
         }
     }
 

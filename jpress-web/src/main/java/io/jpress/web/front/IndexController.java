@@ -15,7 +15,7 @@
  */
 package io.jpress.web.front;
 
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.web.base.TemplateControllerBase;
@@ -41,14 +41,13 @@ public class IndexController extends TemplateControllerBase {
         //设置菜单高亮
         setMenuActive(menu -> "/".equals(menu.getUrl()));
 
-        String indexView = StrUtils.isBlank(JPressOptions.getIndexStyle())
+        String indexView = StrUtil.isBlank(JPressOptions.getIndexStyle())
                 ? "index.html"
                 : "index_" + JPressOptions.getIndexStyle() + ".html";
 
 
         //渲染 模板下的 index.html
         render(indexView);
-
     }
 
 }

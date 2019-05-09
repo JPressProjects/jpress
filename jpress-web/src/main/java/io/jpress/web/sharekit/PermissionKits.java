@@ -15,6 +15,7 @@
  */
 package io.jpress.web.sharekit;
 
+import com.jfinal.aop.Aop;
 import io.jboot.Jboot;
 import io.jpress.model.Role;
 import io.jpress.model.User;
@@ -42,30 +43,30 @@ public class PermissionKits {
 
 
     public static final boolean hasRole(long userId, long roleId) {
-        RoleService roleService = Jboot.bean(RoleService.class);
+        RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(userId, roleId);
     }
 
     public static final boolean hasRole(long roleId) {
         User user = UserInterceptor.getThreadLocalUser();
-        RoleService roleService = Jboot.bean(RoleService.class);
+        RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(user.getId(), roleId);
     }
 
     public static final boolean hasRole(String roleFlag) {
         User user = UserInterceptor.getThreadLocalUser();
-        RoleService roleService = Jboot.bean(RoleService.class);
+        RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(user.getId(), roleFlag);
     }
 
     public static final boolean hasRole(long userId, String roleFlag) {
-        RoleService roleService = Jboot.bean(RoleService.class);
+        RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(userId, roleFlag);
     }
 
     public static final boolean isSupperAdmin() {
         User user = UserInterceptor.getThreadLocalUser();
-        RoleService roleService = Jboot.bean(RoleService.class);
+        RoleService roleService = Aop.get(RoleService.class);
         return roleService.isSupperAdmin(user.getId());
     }
 }

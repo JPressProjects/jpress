@@ -15,20 +15,20 @@
  */
 package io.jpress.module.article.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
-import io.jboot.web.JbootControllerContext;
+import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressConsts;
+import io.jpress.JPressActiveKit;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,12 +48,33 @@ public class CategoriesDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String flag = getPara("flag", scope);
-        boolean asTree = getPara("asTree", scope, Boolean.FALSE);
+        String pflag = getPara("parentFlag", scope);
+        Long pId = getParaToLong("parentId", scope);
+        boolean asTree = getParaToBool("asTree", scope, Boolean.FALSE);
 
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         if (categories == null || categories.isEmpty()) {
             return;
         }
+
+        SortKit.toLayer(categories);
+        SortKit.fillParentAndChild(categories);
+
+
+        if (StrUtil.isNotBlank(pflag)) {
+            categories = categories.stream().filter(category -> {
+                ArticleCategory parent = (ArticleCategory) category.getParent();
+                return parent != null && pflag.equals(parent.getFlag());
+            }).collect(Collectors.toList());
+        }
+
+        if (pId != null) {
+            categories = categories.stream().filter(category -> {
+                ArticleCategory parent = (ArticleCategory) category.getParent();
+                return parent != null && pId.equals(parent.getId());
+            }).collect(Collectors.toList());
+        }
+
 
         setActiveFlagByCurrentCategory(categories);
         setActiveFlagByCurrentArticle(categories);
@@ -62,7 +83,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
             SortKit.toTree(categories);
         }
 
-        if (StrUtils.isNotBlank(flag)) {
+        if (StrUtil.isNotBlank(flag)) {
             categories = categories
                     .stream()
                     .filter(category -> flag.equals(category.getFlag()))
@@ -92,12 +113,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<ArticleCategory> activeCategories = categoryService.findActiveCategoryListByCategoryId(currentCategory.getId());
-        if (activeCategories != null && activeCategories.size() > 0) {
-            for (ArticleCategory activeCategory : activeCategories) {
-                doFlagByCurrentCategory(categories, activeCategory);
-            }
-        }
+        doFlagByCurrentCategory(categories, currentCategory);
 
     }
 
@@ -115,7 +131,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<ArticleCategory> articleCategories = categoryService.findActiveCategoryListByArticleId(currentArticle.getId());
+        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(currentArticle.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }
@@ -129,7 +145,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
     private void doFlagByCurrentCategory(List<ArticleCategory> categories, ArticleCategory currentCategory) {
         for (ArticleCategory category : categories) {
             if (currentCategory.getId().equals(category.getId())) {
-                JPressConsts.doFlagModelActive(category);
+                JPressActiveKit.makeItActive(category);
             }
         }
     }

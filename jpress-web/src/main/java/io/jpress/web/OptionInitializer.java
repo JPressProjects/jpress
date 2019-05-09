@@ -15,17 +15,17 @@
  */
 package io.jpress.web;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
 import com.jfinal.wxaapp.WxaConfigKit;
-import io.jboot.Jboot;
-import io.jboot.event.JbootEvent;
-import io.jboot.event.JbootEventListener;
-import io.jboot.utils.StrUtils;
+import io.jboot.components.event.JbootEvent;
+import io.jboot.components.event.JbootEventListener;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.JPressInstaller;
+import io.jpress.core.install.Installer;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
@@ -33,7 +33,9 @@ import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -55,12 +57,12 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
 
     public void init() {
 
-        if (JPressInstaller.isInstalled() == false) {
-            JPressInstaller.addListener(this);
+        if (Installer.notInstall()) {
+            Installer.addListener(this);
             return;
         }
 
-        OptionService service = Jboot.bean(OptionService.class);
+        OptionService service = Aop.get(OptionService.class);
 
         List<Option> options = service.findAll();
         for (Option option : options) {
@@ -78,9 +80,12 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         ApiInterceptor.init();
 
 
-        initWechatOption();// 初始化 微信公众号 的配置
+        // 初始化 微信公众号 的配置
+        initWechatOption();
 
-        initWechatMiniProgramOption();// 初始化 微信小程序 的配置
+        // 初始化 微信小程序 的配置
+        initWechatMiniProgramOption();
+
 
         JPressOptions.addListener(this);
 
@@ -96,13 +101,21 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String appSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPSECRET);
         String token = JPressOptions.get(JPressConsts.OPTION_WECHAT_TOKEN);
 
-        if (StrUtils.areNotEmpty(appId, appSecret, token)) {
+        if (StrUtil.areNotEmpty(appId, appSecret, token)) {
             // 配置微信 API 相关参数
             ApiConfig ac = new ApiConfig();
             ac.setAppId(appId);
             ac.setAppSecret(appSecret);
             ac.setToken(token);
             ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
+
+            //重新设置后，需要清空之前的配置。
+            try {
+                Field mapField =  ApiConfigKit.class.getDeclaredField("CFG_MAP");
+                mapField.setAccessible(true);
+                Map map = (Map) mapField.get(null);
+                map.clear();
+            } catch (Exception e) {}
 
             ApiConfigKit.putApiConfig(ac);
         }
@@ -117,7 +130,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         String miniProgramAppSecret = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_APPSECRET);
 //        String miniProgramToken = JPressOptions.get(JPressConsts.OPTION_WECHAT_MINIPROGRAM_TOKEN);
 
-        if (StrUtils.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
+        if (StrUtil.areNotEmpty(miniProgramAppId, miniProgramAppSecret)) {
             WxaConfig wxaConfig = new WxaConfig();
             wxaConfig.setAppId(miniProgramAppId);
             wxaConfig.setAppSecret(miniProgramAppSecret);

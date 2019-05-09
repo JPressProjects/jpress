@@ -15,18 +15,18 @@
  */
 package io.jpress.web.interceptor;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -62,50 +62,54 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
         // API 功能未启用
         if (apiEnable == false) {
-            inv.getController().renderJson(Ret.fail().set("message", "api closed."));
+            inv.getController().renderJson(Ret.fail().set("message", "API功能已经关闭，请管理员在后台进行开启"));
             return;
         }
 
-        // 服务器的 API Secret 为空
-        if (StrUtils.isBlank(apiSecret)) {
-            inv.getController().renderJson(Ret.fail().set("message", "config error"));
+        if (StrUtil.isBlank(apiAppId)) {
+            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 APP ID 不能为空，请先进入后台的接口管理进行配置。"));
+            return;
+        }
+
+        if (StrUtil.isBlank(apiSecret)) {
+            inv.getController().renderJson(Ret.fail().set("message", "后台配置的 API 密钥不能为空，请先进入后台的接口管理进行配置。"));
             return;
         }
 
         JbootController controller = (JbootController) inv.getController();
         String appId = controller.getPara("appId");
-        if (StrUtils.isBlank(appId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
+        if (StrUtil.isBlank(appId)) {
+            inv.getController().renderJson(Ret.fail().set("message", "在Url中获取到appId内容，请注意Url是否正确。"));
             return;
         }
 
 
         if (!appId.equals(apiAppId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "apiId is error"));
+            inv.getController().renderJson(Ret.fail().set("message", "客户端配置的AppId和服务端配置的不一致。"));
             return;
         }
 
         String sign = controller.getPara("sign");
-        if (StrUtils.isBlank(sign)) {
-            controller.renderJson(Ret.fail("message", "sign is blank"));
+        if (StrUtil.isBlank(sign)) {
+            controller.renderJson(Ret.fail("message", "签名数据不能为空，请提交 sign 数据。"));
             return;
         }
 
         Long time = controller.getParaToLong("t");
         if (time == null) {
-            controller.renderJson(Ret.fail("message", "time is blank"));
+            controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 t 参数数据。"));
             return;
         }
 
         // 时间验证，可以防止重放攻击
         if (Math.abs(System.currentTimeMillis() - time) > timeout) {
-            controller.renderJson(Ret.fail("message", "timeout"));
+            controller.renderJson(Ret.fail("message", "请求超时，请重新请求。"));
             return;
         }
 
         String localSign = createLocalSign(controller);
         if (sign.equals(localSign) == false) {
-            inv.getController().renderJson(Ret.fail().set("message", "sign error"));
+            inv.getController().renderJson(Ret.fail().set("message", "数据签名错误。"));
             return;
         }
 

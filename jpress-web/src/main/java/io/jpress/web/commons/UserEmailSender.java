@@ -16,9 +16,11 @@
 package io.jpress.web.commons;
 
 import com.jfinal.template.Engine;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.authcode.AuthCode;
+import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.commons.email.Email;
 import io.jpress.model.User;
 
@@ -42,7 +44,7 @@ public class UserEmailSender {
         if (emailValidate == false)
             return;
 
-        if (StrUtils.isBlank(user.getEmail()))
+        if (StrUtil.isBlank(user.getEmail()))
             return;
 
         AuthCode authCode = AuthCode.newCode(user.getId());

@@ -1,6 +1,5 @@
 package #(basePackage);
 
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import #(modelPacket).#(tableMeta.modelName);
 
@@ -47,18 +46,18 @@ public interface #(tableMeta.modelName)Service  {
      * save model to database
      *
      * @param model
-     * @return
+     * @return  id value if save success
      */
-    public boolean save(#(tableMeta.modelName) model);
+    public Object save(#(tableMeta.modelName) model);
 
 
     /**
      * save or update model
      *
      * @param model
-     * @return if save or update success
+     * @return id value if saveOrUpdate success
      */
-    public boolean saveOrUpdate(#(tableMeta.modelName) model);
+    public Object saveOrUpdate(#(tableMeta.modelName) model);
 
 
     /**
@@ -71,41 +70,13 @@ public interface #(tableMeta.modelName)Service  {
 
 
     /**
-     * 分页
+     * paginate query
      *
      * @param page
      * @param pageSize
      * @return
      */
-    public Page<? extends Model> paginate(int page, int pageSize);
+    public Page<#(tableMeta.modelName)> paginate(int page, int pageSize);
 
-
-    public void join(Page<? extends Model> page, String joinOnField);
-
-    public void join(Page<? extends Model> page, String joinOnField, String[] attrs);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName);
-
-    public void join(Page<? extends Model> page, String joinOnField, String joinName, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField);
-
-    public void join(List<? extends Model> models, String joinOnField, String[] attrs);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName);
-
-    public void join(List<? extends Model> models, String joinOnField, String joinName, String[] attrs);
-
-    public void join(Model model, String joinOnField);
-
-    public void join(Model model, String joinOnField, String[] attrs);
-
-    public void join(Model model, String joinOnField, String joinName);
-
-    public void join(Model model, String joinOnField, String joinName, String[] attrs);
-
-    public void keep(Model model, String... attrs);
-
-    public void keep(List<? extends Model> models, String... attrs);
 
 }

@@ -15,6 +15,7 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Action;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
@@ -23,14 +24,13 @@ import io.jpress.JPressConsts;
 import io.jpress.core.annotation.AdminPermission;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuItem;
-import io.jpress.core.menu.SystemMenuManager;
+import io.jpress.core.menu.MenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Permission;
 import io.jpress.service.PermissionService;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +43,7 @@ import java.util.Set;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/permission")
+@RequestMapping(value = "/admin/permission", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _PermissionController extends AdminControllerBase {
 
     @Inject
@@ -89,8 +89,8 @@ public class _PermissionController extends AdminControllerBase {
     private List<Permission> buildMenuPermissions() {
 
         List<MenuGroup> adminMenuGroups = new ArrayList<>();
-        adminMenuGroups.addAll(SystemMenuManager.me().getSystemMenus());
-        adminMenuGroups.addAll(SystemMenuManager.me().getModuleMenus());
+        adminMenuGroups.addAll(MenuManager.me().getSystemMenus());
+        adminMenuGroups.addAll(MenuManager.me().getModuleMenus());
 
         List<Permission> permissions = new ArrayList<>();
         for (MenuGroup menuGroup : adminMenuGroups) {
@@ -112,7 +112,7 @@ public class _PermissionController extends AdminControllerBase {
                 itemPermission.setType(Permission.TYPE_MENU);
                 itemPermission.setText(item.getText());
                 itemPermission.setNode(item.getGroupId());
-                itemPermission.setActionKey(item.getGroupId() + ":" + item.getUrl());
+                itemPermission.setActionKey(item.getPermission());
                 permissions.add(itemPermission);
             }
         }

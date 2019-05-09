@@ -15,13 +15,14 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
-import io.jboot.core.cache.annotation.Cacheable;
-import io.jboot.core.cache.annotation.CachesEvict;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.Permission;
@@ -29,14 +30,12 @@ import io.jpress.model.Role;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
-@Singleton
 public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
 
     @Inject
@@ -71,7 +70,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @CacheEvict(name = "user_role", key = "*")
-    public boolean saveOrUpdate(Role model) {
+    public Object saveOrUpdate(Role model) {
         return super.saveOrUpdate(model);
     }
 
@@ -110,7 +109,6 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
                     break;
                 }
             }
-
             if (!hasRole) {
                 return false;
             }
@@ -171,6 +169,23 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
     @Override
+    public boolean hasAnyRole(long userId) {
+        List<Record> records = findAllUserRoleMapping();
+        if (records == null || records.isEmpty()) {
+            return false;
+        }
+
+        for (Record record : records){
+            Long uid = record.getLong("user_id");
+            if (uid != null && uid.equals(userId)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     @CacheEvict(name = "user_permission", key = "*")
     public boolean addPermission(long roleId, long permissionId) {
         Record rolePermission = new Record().set("role_id", roleId).set("permission_id", permissionId);
@@ -203,7 +218,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @CachesEvict({
-            @CacheEvict(name = "user_role", key = "user_roles:#(userId)"),
+            @CacheEvict(name = "user_role", key = "*"),
             @CacheEvict(name = "user_permission", key = "*")
     })
     public boolean doResetUserRoles(long userId, Long... RoleIds) {
@@ -231,11 +246,17 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Cacheable(name = "user_role", key = "user_roles:#(userId)", nullCacheEnable = true)
     public List<Role> findRoleListByUserId(long userId) {
-        String sql = "select * from user_role_mapping where user_id = ?";
-        List<Record> records = Db.find(sql, userId);
+        List<Record> records = findAllUserRoleMapping();
         if (records == null || records.isEmpty()) {
             return null;
         }
+
+        records = records.stream()
+                .filter(record -> {
+                    Long uid = record.getLong("user_id");
+                    return uid != null && uid.equals(userId);
+                })
+                .collect(Collectors.toList());
 
         List<Role> roles = new ArrayList<>();
         for (Record record : records) {
@@ -245,13 +266,18 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         return roles;
     }
 
+    @Cacheable(name = "user_role", key = "all", nullCacheEnable = true)
+    public List<Record> findAllUserRoleMapping() {
+        return Db.findAll("user_role_mapping");
+    }
+
 
     @Override
     public boolean doChangeRoleByIds(Long roleId, Object... ids) {
 
         for (Object id : ids) {
             //删除role缓存
-            Jboot.me().getCache().remove("role", "user_roles:" + id);
+            Jboot.getCache().remove("user_role", "user_roles:" + id);
         }
 
         return Db.tx(() -> {

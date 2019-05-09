@@ -1,0 +1,7 @@
+id=io.jpress.addon.helloworld
+title=hello world
+description=这只是一个插件demo，方便开发者参考开发2222
+author=海哥
+authorWebsite=
+version=1.0.2
+versionCode=2

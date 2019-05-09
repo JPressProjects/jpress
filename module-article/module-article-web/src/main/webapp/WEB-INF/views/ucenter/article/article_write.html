@@ -1,0 +1,255 @@
+#@_ucenter_layout()
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
+<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+<script>
+
+    $('#cfile').fileupload({
+        url: '#(CPATH)/commons/attachment/upload',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                var src = data.result.src;
+                $("#thumbnail").attr("src", '#(CPATH)' + src);
+                $("#articleThumbnail").val(src);
+            }
+        }
+    });
+
+
+    $('.article-tags').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        addPrecedence: true,
+        create: true,
+        render: {
+            option_create: function (data, escape) {
+                return '<div class="create" style="padding-left: 5px"> 使用标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+            }
+        }
+    });
+
+    function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#articleId").attr("value", data.id);
+            toastr.success('文章保存成功。');
+        })
+    }
+
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+
+
+    $("#removeThumbnail").on("click", function () {
+        $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
+        $("#articleThumbnail").val("");
+    })
+
+
+    var editMode = "#(editMode ?? 'html')";
+
+    function doChangeEditor() {
+        if ("html" == editMode) {
+            ajaxGet('#(CPATH)/commons/changeEditor/markdown');
+        } else {
+            ajaxGet('#(CPATH)/commons/changeEditor/html');
+        }
+    }
+
+    initEditor('editor1', 467, editMode);
+
+
+</script>
+#end
+#define css()
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<style>
+    .popover-content {
+        padding: 9px 14px;
+        margin: 0 10px;
+    }
+
+    #slug {
+        cursor: pointer;
+    }
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            写文章
+        </h1>
+    </section>
+
+    <section class="content">
+        <form action="#(CPATH)/ucenter/article/doWriteSave" method="post" id="form">
+            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+            <input type="hidden" name="article.user_id" value="#(USER.id)">
+            <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
+            <div class="row">
+                <div class="col-xs-9">
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="input" class="form-control input-lg" name="article.title"
+                                       placeholder="请输入标题"
+                                       id="article-title"
+                                       value="#(article.title ??)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12" style="padding-bottom: 2px">
+                                网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
+                                                                                                       class="slugSpan"
+                                                                                                       for-input="article-slug"
+                                                                                                       for-listener="article-title">#(article.slug ??)</span>
+                                #if(option("web_fake_static_enable")) #option('web_fake_static_suffix') #end
+                                <input type="hidden" id="article-slug" name="article.slug">
+                                #if(!article)
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+                                #end
+                            </div>
+                            <div class="col-sm-12" style="z-index: 9999;">
+                                <textarea id="editor1" name="article.content"
+                                          style="height: 467px;width: 100%;background-color: white">#(article._getEditContent() ??)</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">属性设置</h3>
+
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body ">
+                                        <div class="box-body ">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO关键字</label>
+
+                                                <div class="col-sm-8">
+                                                    <textarea rows="3" class="form-control" name="article.meta_keywords"
+                                                              placeholder="请输入">#(article.meta_keywords ??)</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">SEO描述</label>
+
+                                                <div class="col-sm-8">
+                                                    <textarea rows="3" class="form-control"
+                                                              name="article.meta_description"
+                                                              placeholder="请输入">#(article.meta_description ??)</textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="box box-solid">
+                        <div class="box-body ">
+                            <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">分类</h3>
+                        </div>
+                        <div class="box-body ">
+                            <div class="form-group">
+                                #for(category : categories)
+                                <div class="checkbox">
+                                    <label>
+                                        #for(i = 0; i < category.layerNumber; i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        #end
+
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+
+                                        #(category.title ??)
+                                    </label>
+                                </div>
+                                #end
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">标签</h3>
+                        </div>
+                        <div class="box-body">
+                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                                #for(tag : tags)
+                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                #end
+                            </select>
+                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                        </div>
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">缩略图</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <img src="#(CPATH)#(article.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
+                                 style="width: 100%;height: 150px"
+                                 id="thumbnail">
+                            <input type="hidden" value="#(article.thumbnail ??)"
+                                   name="article.thumbnail"
+                                   id="articleThumbnail">
+                        </div>
+                        <div class="box-footer">
+                            <span class="btn  btn-default btn-sm fileinput-button">
+                                <span>选择图片</span>
+                                <input id="cfile" type="file" name="files[]" multiple>
+                            </span>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+</div>
+#end

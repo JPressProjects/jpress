@@ -17,7 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 
@@ -40,7 +40,7 @@ public class TemplateManager {
         return me;
     }
 
-    public void init(){
+    public void init() {
         String templateId = JPressOptions.get("web_template");
         TemplateManager.me().setCurrentTemplate(templateId);
     }
@@ -55,12 +55,11 @@ public class TemplateManager {
         if (templateFolderList.size() > 0) {
             templatelist = new ArrayList<>();
             for (File templateFolder : templateFolderList) {
-                templatelist.add(new Template(templateFolder + "/template.properties"));
+                templatelist.add(new Template(templateFolder));
             }
         }
         return templatelist;
     }
-
 
 
     private void scanTemplateFloders(File file, List<File> list) {
@@ -83,6 +82,9 @@ public class TemplateManager {
 
     public Template getTemplateById(String id) {
         List<Template> templates = getInstalledTemplates();
+        if (templates == null || templates.isEmpty()) {
+            return null;
+        }
         for (Template template : templates) {
             if (id.equals(template.getId())) return template;
         }
@@ -94,7 +96,7 @@ public class TemplateManager {
     }
 
     public void setCurrentTemplate(String templateId) {
-        if (StrUtils.isBlank(templateId)) {
+        if (StrUtil.isBlank(templateId)) {
             initDefaultTemplate();
             return;
         }
@@ -112,7 +114,7 @@ public class TemplateManager {
     private void initDefaultTemplate() {
         setCurrentTemplate(getTemplateById(JPressConfig.me.getDefaultTemplate()));
     }
-    
+
 
     public void setCurrentTemplate(Template currentTemplate) {
         this.currentTemplate = currentTemplate;

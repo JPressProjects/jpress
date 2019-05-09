@@ -15,16 +15,16 @@
  */
 package io.jpress.module.page.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 
-import javax.inject.Inject;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -41,7 +41,7 @@ public class PageDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String slug = getPara("slug", scope);
-        if (StrUtils.isBlank(slug)) {
+        if (StrUtil.isBlank(slug)) {
             throw new IllegalArgumentException("#page(slug = ...) argument must not be empty ");
         }
 

@@ -97,12 +97,12 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getLong("user_id");
 	}
 
-	public void setOrderNumber(java.lang.Long orderNumber) {
+	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
 	
-	public java.lang.Long getOrderNumber() {
-		return getLong("order_number");
+	public java.lang.Integer getOrderNumber() {
+		return getInt("order_number");
 	}
 
 	public void setStatus(java.lang.String status) {

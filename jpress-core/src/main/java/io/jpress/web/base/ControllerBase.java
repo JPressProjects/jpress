@@ -16,10 +16,13 @@
 package io.jpress.web.base;
 
 import com.jfinal.core.NotAction;
+import com.jfinal.kit.Ret;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
+
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -37,15 +40,12 @@ public abstract class ControllerBase extends JbootController {
             //renderError 会直接抛出异常，阻止程序往下执行
             renderError(404);
         }
-
         return id;
     }
 
 
-    protected void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
-        }
+    protected void render404If(boolean condition){
+        if (condition) renderError(404);
     }
 
 
@@ -56,17 +56,43 @@ public abstract class ControllerBase extends JbootController {
         return "".equals(value) ? null : value;
     }
 
+    @NotAction
+    public Set<String> getParaSet(String name) {
+        String ids = getPara(name);
+        if (StrUtil.isBlank(ids)) {
+            return null;
+        }
+
+        return StrUtil.splitToSet(ids, ",");
+    }
+
 
     protected User getLoginedUser() {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
 
+
+
+    @NotAction
     public String getEscapeHtmlPara(String name) {
         String value = super.getPara(name);
         if (value == null || "".equals(value)) {
             return null;
         }
-        return CommonsUtils.escapeHtml(value);
+        return StrUtil.escapeHtml(value);
+    }
+
+    protected static final Ret OK = Ret.ok();
+    protected static final Ret FAIL = Ret.fail();
+
+    @NotAction
+    protected void renderOkJson() {
+        renderJson(OK);
+    }
+
+    @NotAction
+    protected void renderFailJson() {
+        renderJson(FAIL);
     }
 
 }

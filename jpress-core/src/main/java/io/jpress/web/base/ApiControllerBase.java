@@ -28,11 +28,6 @@ import io.jpress.web.interceptor.UserInterceptor;
 @Before({ApiInterceptor.class, UserInterceptor.class})
 public abstract class ApiControllerBase extends ControllerBase {
 
-    protected void renderFailJson() {
-        renderJson(Ret.fail());
-    }
-
-
     protected void renderFailJson(String message) {
         renderJson(Ret.fail("message", message));
     }
@@ -41,11 +36,7 @@ public abstract class ApiControllerBase extends ControllerBase {
         renderJson(Ret.fail("code", code).set("message", message));
     }
 
-    protected void renderOk() {
-        renderJson(Ret.ok());
-    }
-
-    protected void renderOk(String attr, Object value) {
+    protected void renderOkJson(String attr, Object value) {
         renderJson(Ret.ok(attr, value));
     }
 

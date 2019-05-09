@@ -25,12 +25,12 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getLong("pid");
 	}
 
-	public void setUserId(java.lang.Integer userId) {
+	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
 	
-	public java.lang.Integer getUserId() {
-		return getInt("user_id");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
 	public void setSlug(java.lang.String slug) {

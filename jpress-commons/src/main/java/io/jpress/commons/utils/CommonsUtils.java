@@ -16,7 +16,7 @@
 package io.jpress.commons.utils;
 
 import com.jfinal.plugin.activerecord.Model;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
@@ -34,9 +34,21 @@ public class CommonsUtils {
         return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);
     }
 
+    public static void quietlyClose(AutoCloseable... autoCloseables) {
+        for (AutoCloseable closeable : autoCloseables) {
+            if (closeable != null) {
+                try {
+                    closeable.close();
+                } catch (Exception e) {
+                    // do nothing
+                }
+            }
+        }
+    }
+
 
     public static String maxLength(String content, int maxLength) {
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -49,12 +61,13 @@ public class CommonsUtils {
 
     }
 
+
     public static String maxLength(String content, int maxLength, String suffix) {
-        if (StrUtils.isBlank(suffix)) {
+        if (StrUtil.isBlank(suffix)) {
             return maxLength(content, maxLength);
         }
 
-        if (StrUtils.isBlank(content)) {
+        if (StrUtil.isBlank(content)) {
             return content;
         }
 
@@ -94,52 +107,13 @@ public class CommonsUtils {
             Object value = model.get(attr);
 
             if (value != null && value instanceof String) {
-                model.set(attr, escapeHtml(value.toString()));
+                model.set(attr, StrUtil.escapeHtml(value.toString()));
             }
         }
     }
 
-    public static String escapeHtml(String content) {
-
-        if (StrUtils.isBlank(content)) {
-            return content;
-        }
-
-        /**
-         "&lt;" represents the < sign.
-         "&gt;" represents the > sign.
-         "&amp;" represents the & sign.
-         "&quot; represents the " mark.
-         */
-
-        return unEscapeHtml(content)
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("'", "&#39;")
-                .replace("\"", "&quot;");
-    }
-
-    public static String unEscapeHtml(String content) {
-
-        if (StrUtils.isBlank(content)) {
-            return content;
-        }
-
-        return content
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&#39;", "'")
-                .replace("&quot;", "\"")
-                .replace("&amp;", "&");
-    }
-
 
     public static void main(String[] args) {
-        String script = "<script>alert(\"abc\");</script>";
-        System.out.println(escapeHtml(script));
-        System.out.println(escapeHtml(escapeHtml(script)));
-        System.out.println(unEscapeHtml(escapeHtml(script)));
         System.out.println(generateCode());
     }
 }

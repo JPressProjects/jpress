@@ -15,13 +15,12 @@
  */
 package io.jpress.web.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
-
-import javax.inject.Inject;
 
 /**
  * 用户相关的API
@@ -74,6 +73,6 @@ public class UserApiController extends ApiControllerBase {
         user.keepUpdateSafe();
         userService.saveOrUpdate(user);
 
-        renderOk();
+        renderOkJson();
     }
 }

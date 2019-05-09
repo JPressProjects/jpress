@@ -15,8 +15,9 @@
  */
 package io.jpress.web.front;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
-import io.jboot.utils.EncryptCookieUtils;
+import io.jboot.utils.CookieUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -28,7 +29,6 @@ import io.jpress.commons.oauth2.connector.WechatConnector;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
-import javax.inject.Inject;
 import java.util.Date;
 
 /**
@@ -85,10 +85,11 @@ public class OauthController extends Oauth2Controller {
             userService.save(dbUser);
         }
 
-        EncryptCookieUtils.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
+        CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
 
-        //跳转到用户中心
-        redirect("/user");
+
+        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        redirect(gotoUrl);
     }
 
 

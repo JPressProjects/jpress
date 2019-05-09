@@ -7,11 +7,12 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>${jpress.version}</version>
+    <version>2.0</version>
 
     <modules>
         <module>codegen</module>
 
+        <module>jpress-addons</module>
         <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
@@ -25,12 +26,13 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
+        <!--<module>starter-dev</module>-->
+
     </modules>
 
     <properties>
-        <jpress.version>1.0</jpress.version>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>1.7.5</jboot.version>
+        <jboot.version>2.0.9</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -40,6 +42,8 @@
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 
@@ -57,6 +61,8 @@
                 <artifactId>commonmark-ext-gfm-tables</artifactId>
                 <version>${commonmark.version}</version>
             </dependency>
+
+
             <dependency>
                 <groupId>com.atlassian.commonmark</groupId>
                 <artifactId>commonmark-ext-yaml-front-matter</artifactId>
@@ -90,37 +96,37 @@
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-api</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>${jpress.version}</version>
+                <version>2.0</version>
             </dependency>
 
             <dependency>
@@ -183,10 +189,22 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
+
+            <!-- mvn -N versions:update-child-modules  -->
+            <!-- mvn versions:set -DnewVersion=2.0 -DprocessAllModules=true -DallowSnapshots=true -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 

@@ -15,16 +15,17 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.controller.validate.EmptyValidate;
-import io.jboot.web.controller.validate.Form;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
@@ -42,7 +43,6 @@ import io.jpress.service.UtmService;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.util.*;
 
@@ -52,7 +52,7 @@ import java.util.*;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping("/admin/user")
+@RequestMapping(value = "/admin/user", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _UserController extends AdminControllerBase {
 
     private static final String USER_ROLE_EDIT_ACTION = "/admin/user/roleEdit";
@@ -116,12 +116,12 @@ public class _UserController extends AdminControllerBase {
         String confirmPwd = getPara("confirmPwd");
         User user = getBean(User.class);
 
-        if (StrUtils.isBlank(pwd)) {
+        if (StrUtil.isBlank(pwd)) {
             renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
             return;
         }
 
-        if (StrUtils.isBlank(confirmPwd)) {
+        if (StrUtil.isBlank(confirmPwd)) {
             renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
             return;
         }
@@ -137,7 +137,7 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        if (StrUtils.isNotBlank(user.getEmail())) {
+        if (StrUtil.isNotBlank(user.getEmail())) {
             dbUser = userService.findFistByEmail(user.getEmail());
             if (dbUser != null) {
                 renderJson(Ret.fail().set("message", "邮箱已经存在了").set("errorCode", 11));
@@ -156,7 +156,7 @@ public class _UserController extends AdminControllerBase {
 
         userService.save(user);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
@@ -231,38 +231,29 @@ public class _UserController extends AdminControllerBase {
      */
     public void doRoleDel() {
         roleService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     /**
      * 批量删除角色
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doRoleDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-        render(roleService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        Set<String> idsSet = getParaSet("ids");
+        render(roleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     public void doDelRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     public void doAddRolePermission(long roleId, long permissionId) {
         roleService.addPermission(roleId, permissionId);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -327,7 +318,7 @@ public class _UserController extends AdminControllerBase {
         }
 
         userService.saveOrUpdate(user);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -342,12 +333,11 @@ public class _UserController extends AdminControllerBase {
 
         Long[] roleIds = getParaValuesToLong("roleId");
         roleService.doResetUserRoles(userId, roleIds);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
     @EmptyValidate({
-            @Form(name = "oldPwd", message = "旧不能为空"),
             @Form(name = "newPwd", message = "新密码不能为空"),
             @Form(name = "confirmPwd", message = "确认密码不能为空")
     })
@@ -359,10 +349,19 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
-            renderJson(Ret.fail().set("message", "密码错误"));
-            return;
+        //超级管理员可以修改任何人的密码
+        if (!roleService.isSupperAdmin(getLoginedUser().getId())) {
+            if (StrUtil.isBlank(oldPwd)) {
+                renderJson(Ret.fail().set("message", "旧密码不能为空"));
+                return;
+            }
+
+            if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
+                renderJson(Ret.fail().set("message", "密码错误"));
+                return;
+            }
         }
+
 
         if (newPwd.equals(confirmPwd) == false) {
             renderJson(Ret.fail().set("message", "两次出入密码不一致"));
@@ -375,7 +374,7 @@ public class _UserController extends AdminControllerBase {
         user.setPassword(hashedPass);
         userService.update(user);
 
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     @EmptyValidate({
@@ -384,30 +383,31 @@ public class _UserController extends AdminControllerBase {
     public void doSaveAvatar(String path, Long uid, int x, int y, int w, int h) {
         User user = userService.findById(uid);
         if (user == null) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
 
-        String attachmentRoot = StrUtils.isNotBlank(JPressConfig.me.getAttachmentRoot())
+        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
                 ? JPressConfig.me.getAttachmentRoot()
                 : PathKit.getWebRootPath();
 
         String oldPath = attachmentRoot + path;
 
         //先进行图片缩放，保证图片和html的图片显示大小一致
-        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String zoomPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.zoom(500, oldPath, zoomPath); //500的值必须和 html图片的max-width值一样
 
         //进行剪切
-        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtils.getSuffix(path)).getAbsolutePath();
+        String newAvatarPath = AttachmentUtils.newAttachemnetFile(FileUtil.getSuffix(path)).getAbsolutePath();
         ImageUtils.crop(zoomPath, newAvatarPath, x, y, w, h);
 
-        String newPath = FileUtils.removePrefix(newAvatarPath, attachmentRoot);
+        String newPath = FileUtil.removePrefix(newAvatarPath, attachmentRoot).replace("\\", "/");
+
         AliyunOssUtils.upload(newPath, new File(newAvatarPath));
 
         user.setAvatar(newPath);
         userService.saveOrUpdate(user);
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
 
@@ -420,55 +420,35 @@ public class _UserController extends AdminControllerBase {
             return;
         }
         userService.deleteById(getIdPara());
-        renderJson(Ret.ok());
+        renderOkJson();
     }
 
     /**
-     * 批量删除用户
+     * 删除用户
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doUserDelByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
-
+        Set<String> idsSet = getParaSet("ids");
         if (idsSet.contains(getLoginedUser().getId().toString())) {
             renderJson(Ret.fail().set("message", "删除的用户不能包含自己"));
             return;
         }
-
-        render(userService.deleteByIds(idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        render(userService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
     /**
-     * 批量删除角色
+     * 删除角色
      */
+    @EmptyValidate(@Form(name = "ids"))
     public void doChangeRoleByIds() {
-        String ids = getPara("ids");
-        if (StrUtils.isBlank(ids)) {
-            renderJson(Ret.fail());
-            return;
-        }
-
-        Set<String> idsSet = StrUtils.splitToSet(ids, ",");
-        if (idsSet == null || idsSet.isEmpty()) {
-            renderJson(Ret.fail());
-            return;
-        }
+        Set<String> idsSet = getParaSet("ids");
         Long roleId = getParaToLong("roleId");
         if (roleId == null || roleId <= 0) {
-            renderJson(Ret.fail());
+            renderFailJson();
             return;
         }
-        render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? Ret.ok() : Ret.fail());
+        render(roleService.doChangeRoleByIds(roleId, idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -480,7 +460,7 @@ public class _UserController extends AdminControllerBase {
             renderJson(Ret.fail().set("message", "不能修改自己的状态"));
             return;
         }
-        render(userService.doChangeStatus(id, status) ? Ret.ok() : Ret.fail());
+        render(userService.doChangeStatus(id, status) ? OK : FAIL);
     }
 
     public void doAddGroupRolePermission(long roleId, String groupId) {

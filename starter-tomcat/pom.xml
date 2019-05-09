@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>${jpress.version}</version>
+        <version>2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,6 +22,11 @@
                 <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>com.jfinal</groupId>
+                    <artifactId>jfinal-undertow</artifactId>
                 </exclusion>
 
                 <exclusion>
@@ -42,16 +47,6 @@
                 <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>javax.servlet-api</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-metrics-event-stream</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-codahale-metrics-publisher</artifactId>
                 </exclusion>
 
                 <exclusion>
@@ -83,19 +78,20 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
+
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-template</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
@@ -106,25 +102,25 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-provider</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-service-provider</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
@@ -134,6 +130,17 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
     </dependencies>
 
@@ -146,6 +153,10 @@
                 <includes>
                     <include>**/*.*</include>
                 </includes>
+                <excludes>
+                    <exclude>jboot.properties</exclude>
+                    <exclude>install.lock</exclude>
+                </excludes>
             </resource>
         </resources>
 
@@ -158,51 +169,37 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>1.5</version>
-                <configuration>
-                    <resourceBundles>
-                        <!-- 使用jpress-web下的resource文件-->
-                        <resourceBundle>io.jpress:jpress-web:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:jpress-template:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:module-page-web:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:module-article-web:${project.version}</resourceBundle>
-                    </resourceBundles>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
+                <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <tasks>
-                                <move file="${project.build.directory}/classes/static"
-                                      tofile="${project.build.directory}/${project.build.finalName}/static"/>
-                                <move file="${project.build.directory}/classes/templates"
-                                      tofile="${project.build.directory}/${project.build.finalName}/templates"/>
-                                <move file="${project.build.directory}/classes/WEB-INF"
-                                      tofile="${project.build.directory}/${project.build.finalName}/WEB-INF"/>
-                            </tasks>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../jpress-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../jpress-template/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-article/module-article-web/src/main/webapp
+                                    </directory>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
@@ -215,10 +212,6 @@
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
-                    <packagingExcludes>
-                        WEB-INF/classes/jboot.properties,
-                        WEB-INF/classes/install.lock
-                    </packagingExcludes>
                 </configuration>
             </plugin>
 

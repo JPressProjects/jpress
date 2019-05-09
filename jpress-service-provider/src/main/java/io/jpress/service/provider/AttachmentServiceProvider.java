@@ -21,17 +21,15 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 
-import javax.inject.Singleton;
 import java.io.File;
 
 @Bean
-@Singleton
 public class AttachmentServiceProvider extends JbootServiceBase<Attachment> implements AttachmentService {
 
     private static final Log LOG = Log.getLog(AttachmentServiceProvider.class);
@@ -39,7 +37,7 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
     @Override
     public Page _paginate(int page, int pagesieze, String title) {
         Columns columns = Columns.create();
-        if (StrUtils.isNotBlank(title)) {
+        if (StrUtil.isNotBlank(title)) {
             columns.like("title", "%" + title + "%");
         }
 
@@ -48,11 +46,11 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
 
 
     @Override
-    public boolean save(Attachment model) {
-
+    public Object save(Attachment model) {
         tryToProcessWatermark(model);
         return super.save(model);
     }
+
 
     /**
      * 处理水印的问题
@@ -71,6 +69,11 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
         }
 
         String waterImage = JPressOptions.get("attachment_watermark_img");
+        if (StrUtil.isBlank(waterImage)) {
+            LOG.warn("水印功能已经启用，但是水印图片未配置。");
+            return;
+        }
+
         File waterImageFile = new File(PathKit.getWebRootPath(), waterImage);
         if (!waterImageFile.exists()) {
             LOG.warn("水印功能已经启用，但是水印图片不存在。");
@@ -83,7 +86,6 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
         //透明度
         float alpha = JPressOptions.getAsFloat("attachment_watermark_transparency", 0.2f);
 
-
         try {
             ImageUtils.pressImage(waterImageFile.getAbsolutePath(),
                     PathKit.getWebRootPath() + model.getPath(),
@@ -91,7 +93,8 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
                     waterMarkPosition,
                     alpha);
         } catch (Exception ex) {
-            LOG.warn("水印处理失败：" + model.getPath());
+            LOG.error("水印处理失败：" + model.getPath());
+            LOG.error(ex.toString(), ex);
         }
     }
 }

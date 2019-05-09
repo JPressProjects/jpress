@@ -17,7 +17,8 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressActiveKit;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
@@ -48,12 +49,17 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     @NotAction
     public void render(String view, String defaultView) {
-
         //如果是 / 开头的文件，就不通过模板文件去渲染。而是去根目录去查找。
         if (view != null && view.startsWith("/")) {
             super.render(view);
             return;
         }
+
+        String paraView = getPara("v");
+        doRender(StrUtil.isBlank(paraView) ? view : paraView + ".html", StrUtil.isBlank(defaultView) ? view : defaultView);
+    }
+
+    private void doRender(String view, String defaultView) {
 
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {
@@ -62,7 +68,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
 
         //matchTemplateFile：匹配到可以用的view
-        view = template.matchTemplateFile(view, isMoblieBrowser());
+        view = template.matchTemplateFile(view, isMobileBrowser());
         if (view == null) {
             renderDefault(defaultView);
             return;
@@ -80,7 +86,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return false;
         }
 
-        return template.matchTemplateFile(view, isMoblieBrowser()) != null;
+        return template.matchTemplateFile(view, isMobileBrowser()) != null;
     }
 
     @Override
@@ -89,12 +95,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
             super.redirect(url);
         } else {
             super.redirect(url + JPressOptions.getAppUrlSuffix());
-        }
-    }
-
-    protected void assertNotNull(Object object) {
-        if (object == null) {
-            renderError(404);
         }
     }
 
@@ -145,21 +145,14 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     private void setMenuActive(MenuActiveChecker checker, List<Menu> menus) {
         for (Menu menu : menus) {
-            if (StrUtils.isNotBlank(menu.getUrl())) {
+            if (StrUtil.isNotBlank(menu.getUrl())) {
                 if (checker.isActive(menu)) {
-                    doSetMenuActive(menu);
+                    JPressActiveKit.makeItActive(menu);
                 }
             }
             if (menu.hasChild()) {
                 setMenuActive(checker, menu.getChilds());
             }
-        }
-    }
-
-    private void doSetMenuActive(Menu menu) {
-        JPressConsts.doFlagModelActive(menu);
-        if (menu.getParent() != null) {
-            doSetMenuActive((Menu) menu.getParent());
         }
     }
 

@@ -15,20 +15,19 @@
  */
 package io.jpress.service.provider;
 
-import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.Copyer;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
-import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
 
 @Bean
-@Singleton
 public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuService {
 
     @Override
@@ -53,29 +52,34 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     @CacheEvict(name = "menu", key = "*")
-    public boolean saveOrUpdate(Menu model) {
-        return super.saveOrUpdate(model);
-    }
-
-    @Override
-    @CacheEvict(name = "menu", key = "*")
-    public boolean deleteById(Object id) {
-        return super.deleteById(id);
+    public void shouldUpdateCache(int action, Object data) {
+        super.shouldUpdateCache(action, data);
     }
 
     @Override
     public List<Menu> findListByType(String type) {
-        List<Menu> menus = Jboot.me().getCache().get("menu",
-                "type:" + type,
-                () -> DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc"));
+        return Copyer.copy(findListByTypeInDb(type));
+    }
 
-        if (menus == null || menus.isEmpty()) {
-            return null;
-        }
-        List<Menu> newList = new ArrayList<>();
-        for (Menu menu : menus) {
-            newList.add(menu.copy());
-        }
-        return newList;
+    @Override
+    public List<Menu> findListByParentId(Object id) {
+        return DAO.findListByColumn(Column.create("pid", id), "order_number asc, id desc");
+    }
+
+    @Override
+    public List<Menu> findListByRelatives(String table, Object id) {
+        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        return DAO.findListByColumns(columns);
+    }
+
+    @Override
+    public Menu findFirstByRelatives(String table, Object id) {
+        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        return DAO.findFirstByColumns(columns);
+    }
+
+    @Cacheable(name = "menu", key = "type:#(type)")
+    public List<Menu> findListByTypeInDb(String type) {
+        return DAO.findListByColumn(Column.create("type", type), "order_number asc, id desc");
     }
 }

@@ -1,7 +1,22 @@
+/**
+ * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * <p>
+ * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.gnu.org/licenses/lgpl-3.0.txt
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.jpress.module.article.kit.markdown;
 
 import com.jfinal.log.Log;
-import io.jboot.utils.FileUtils;
+import io.jboot.utils.FileUtil;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.article.model.Article;
@@ -69,6 +84,22 @@ public class MarkdownParser {
         return article;
     }
 
+    public String[] getCategories() throws ParseException {
+        String[] resp = null;
+        for (String key : datas.keySet()) {
+            elementValue = datas.get(key);
+            for (String ele : elementValue) {
+                if ("categories".equals(key)) {
+                    ele = ele.replaceAll("\\[","");
+                    ele = ele.replaceAll("\\]","");
+                    ele = ele.replaceAll("\"","");
+                    resp = ele.split(",");
+                }
+            }
+        }
+        return resp;
+    }
+
     /**
      * 解析markdown文档
      *
@@ -76,7 +107,7 @@ public class MarkdownParser {
      */
     public void parse(File mdFile) {
         try {
-            markdown = FileUtils.readString(mdFile);
+            markdown = FileUtil.readString(mdFile);
             datas = MarkdownUtils.getFrontMatter(markdown);
         } catch (Exception e) {
             log.warn("ConfigParser parser exception", e);

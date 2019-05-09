@@ -17,8 +17,8 @@ package io.jpress.model;
 
 import com.google.common.collect.Lists;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.FileUtils;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jpress.model.base.BaseAttachment;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class Attachment extends BaseAttachment<Attachment> {
     }
 
     private boolean suffixIn(List<String> suffixList) {
-        String suffix = getSuffix();
+        String suffix = StrUtil.obtainDefaultIfBlank(getSuffix(),FileUtil.getSuffix(getPath()));
         return suffix != null && suffixList.contains(suffix.toLowerCase());
     }
 
@@ -95,12 +95,12 @@ public class Attachment extends BaseAttachment<Attachment> {
     }
 
     public Attachment(String domainOrPath) {
-        if (StrUtils.isBlank(domainOrPath)) {
+        if (StrUtil.isBlank(domainOrPath)) {
             return;
         }
         setPath(domainOrPath);
         setTitle(domainOrPath.substring(domainOrPath.lastIndexOf("/") + 1));
-        setSuffix(FileUtils.getSuffix(domainOrPath));
+        setSuffix(FileUtil.getSuffix(domainOrPath));
     }
 
     /**

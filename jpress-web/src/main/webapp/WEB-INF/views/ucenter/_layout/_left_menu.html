@@ -1,0 +1,46 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
+            <li class="block"></li>
+            <li class="link">
+                <a href="#(CPATH)/ucenter/index"><i class="fa fa-fw fa-home"></i> <span>首页</span></a>
+            </li>
+
+            <li class="header">我的内容</li>
+            #for(group : ucenterMenus)
+            <li class="treeview">
+                <a href="#">
+                    #(group.icon ??) <span>#(group.text)</span>
+                    <span class="pull-right-container">
+                       <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    #for(item : group.items)
+                    <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
+                    #end
+                </ul>
+            </li>
+            #end
+
+            <li class="header">我的信息</li>
+            <li class="link">
+                <a href="#(CPATH)/ucenter/info"><i class="fa fa-fw fa-user"></i> <span>基本信息</span></a>
+            </li>
+            <li class="link">
+                <a href="#(CPATH)/ucenter/signature"><i class="fa fa-fw fa-bars"></i> <span>个人签名</span></a>
+            </li>
+            <li class="link">
+                <a href="#(CPATH)/ucenter/avatar"><i class="fa fa-fw fa-black-tie"></i> <span>头像设置</span></a>
+            </li>
+            <li class="link">
+                <a href="#(CPATH)/ucenter/pwd"> <i class="fa fa-fw fa-key"></i> <span>账号密码</span></a>
+            </li>
+
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

@@ -15,8 +15,10 @@
  */
 package io.jpress.module.article;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
+import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
@@ -24,6 +26,7 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.article.sitemap.ArticleSitemapProviderBuilder;
 
 import java.util.List;
 
@@ -34,12 +37,12 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleListener implements ModuleListener {
+public class ArticleModuleListener extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override
     public String onRenderDashboardBox(Controller controller) {
-        List<Article> articles = Jboot.bean(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
+        List<Article> articles = Aop.get(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articles", articles);
 
         ArticleCommentService commentService = Jboot.bean(ArticleCommentService.class);
@@ -83,5 +86,11 @@ public class ArticleModuleListener implements ModuleListener {
         commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
         commentMenuGroup.setOrder(2);
         ucenterMenus.add(commentMenuGroup);
+    }
+
+
+    @Override
+    public void onStart() {
+        ArticleSitemapProviderBuilder.me().init();
     }
 }

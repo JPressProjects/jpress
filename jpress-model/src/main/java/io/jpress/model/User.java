@@ -17,7 +17,8 @@ package io.jpress.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUser;
 
@@ -29,14 +30,16 @@ import java.util.Map;
 public class User extends BaseUser<User> {
 
     public static final String SOURCE_WECHAT_WEB = "wechat_web";//来至微信网页授权
+    public static final String SOURCE_WECHAT_MESSAGE = "wechat_message";//来至微信关注或者微信发送消息等
     public static final String SOURCE_WECHAT_MINIPROGRAM = "wechat_miniprogram";//来至微信小程序
     public static final String SOURCE_WEB_REGISTER = "web_register";//来至网页注册
-    public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至网页注册
+    public static final String SOURCE_ADMIN_CREATE = "admin_create";//来至管理员的后台创建
 
     public static final Map<String, String> sourceMap = new HashMap<>();
 
     static {
         sourceMap.put(SOURCE_WECHAT_WEB, "微信网页授权");
+        sourceMap.put(SOURCE_WECHAT_MESSAGE, "微信公众号");
         sourceMap.put(SOURCE_WECHAT_MINIPROGRAM, "微信小程序");
         sourceMap.put(SOURCE_WEB_REGISTER, "网页注册");
         sourceMap.put(SOURCE_ADMIN_CREATE, "后台创建");
@@ -44,7 +47,7 @@ public class User extends BaseUser<User> {
 
     public String getSourceString() {
         String text = sourceMap.get(getCreateSource());
-        return StrUtils.isBlank(text) ? "" : text;
+        return StrUtil.isBlank(text) ? "" : text;
     }
 
 
@@ -78,7 +81,11 @@ public class User extends BaseUser<User> {
         }
 
         return JFinal.me().getContextPath() +
-                (StrUtils.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
+                (StrUtil.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
+    }
+
+    public String getOriginalAvatar() {
+        return super.getAvatar();
     }
 
     public User keepSafe() {
@@ -133,6 +140,10 @@ public class User extends BaseUser<User> {
 
     public User getUser() {
         return get("user");
+    }
+
+    public String getUrl() {
+        return JFinal.me().getContextPath() + "/user/" + getId() + JPressOptions.getAppUrlSuffix();
     }
 
 }

@@ -17,12 +17,13 @@ package io.jpress.module.page.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
+import io.jpress.web.seoping.PingData;
 
 import java.util.List;
 
@@ -51,12 +52,12 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
 
     public String getHtmlView() {
-        return StrUtils.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
+        return StrUtil.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 
     public String getUrl() {
 
-        if (StrUtils.isBlank(getSlug())) {
+        if (StrUtil.isBlank(getSlug())) {
             return JFinal.me().getContextPath() + "/" + getId() + JPressOptions.getAppUrlSuffix();
         } else {
             return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();
@@ -65,7 +66,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
 
     public String getText() {
-        return JsoupUtils.getText(getContent());
+        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
     }
 
     @Override
@@ -77,26 +78,24 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
     }
 
-
     public boolean _isMarkdownMode() {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
 
-    public String _getOriginalContent() {
+    public String _getEditContent() {
         String originalContent = super.getContent();
-        if (StrUtils.isBlank(originalContent) || _isMarkdownMode()) {
+        if (StrUtil.isBlank(originalContent) || _isMarkdownMode()) {
             return originalContent;
         }
 
         //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
-        //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;"
+        //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;" 和 把 "&gt;" 替换为 "&amp;gt;"
         //方案：http://komlenic.com/246/encoding-entities-to-work-with-ckeditor-3/
-
         return originalContent.replace("&lt;", "&amp;lt;")
                 .replace("&gt;", "&amp;gt;");
-
     }
+
 
     public List<String> getImages() {
         return JsoupUtils.getImageSrcs(getContent());
@@ -108,4 +107,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
 
+    public PingData toPingData(){
+        return PingData.create(getTitle(),getUrl());
+    }
 }

@@ -5,17 +5,13 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>${jpress.version}</version>
+        <version>2.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
     <artifactId>starter</artifactId>
-
-    <properties>
-        <wrapper.tray.port.value>15002</wrapper.tray.port.value>
-    </properties>
 
 
     <dependencies>
@@ -51,11 +47,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>io.opentracing.brave</groupId>
-                    <artifactId>brave-opentracing</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.zipkin.reporter2</groupId>
                     <artifactId>zipkin-sender-urlconnection</artifactId>
                 </exclusion>
@@ -64,58 +55,75 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
+
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-framework</artifactId>
+                </exclusion>
+
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-template</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-service-provider</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-service-provider</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-provider</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>codegen</artifactId>
-            <version>${jpress.version}</version>
+            <version>2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
     </dependencies>
 
@@ -141,156 +149,83 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <!--必须添加compilerArgument配置，才能使用JFinal的Controller方法带参数的功能-->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
 
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>1.5</version>
-                <configuration>
-                    <resourceBundles>
-                        <!-- 使用jpress-web下的resource文件-->
-                        <resourceBundle>io.jpress:jpress-web:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:jpress-template:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:module-page-web:${project.version}</resourceBundle>
-                        <resourceBundle>io.jpress:module-article-web:${project.version}</resourceBundle>
-                    </resourceBundles>
-                </configuration>
+                <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>run</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <tasks>
-                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/static">
-                                    <fileset dir="${project.build.directory}/classes/static"/>
-                                </copy>
-                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/templates">
-                                    <fileset dir="${project.build.directory}/classes/templates"/>
-                                </copy>
-                                <copy todir="${project.build.directory}/generated-resources/appassembler/jsw/jpress/webRoot/WEB-INF">
-                                    <fileset dir="${project.build.directory}/classes/WEB-INF"/>
-                                </copy>
-                            </tasks>
+                            <outputDirectory>${basedir}/target/classes/webapp</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../jpress-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../jpress-template/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.10</version>
-
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>package</id>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>generate-daemons</goal>
+                            <goal>single</goal>
                         </goals>
+
+                        <configuration>
+                            <!-- 打包生成的文件名 -->
+                            <!--<finalName>${project.artifactId}</finalName>-->
+                            <!-- jar 等压缩文件在被打包进入 zip、tar.gz 时是否压缩，设置为 false 可加快打包速度 -->
+                            <recompressZippedFiles>false</recompressZippedFiles>
+                            <!-- 打包生成的文件是否要追加 release.xml 中定义的 id 值 -->
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <!-- 指向打包描述文件 package.xml -->
+                            <descriptors>
+                                <descriptor>package.xml</descriptor>
+                            </descriptors>
+                            <!-- 打包结果输出的基础目录 -->
+                            <outputDirectory>${project.build.directory}/</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.1</version>
                 <configuration>
-
-                    <assembleDirectory>${project.build.directory}/app</assembleDirectory>
-                    <repositoryName>lib</repositoryName>
-                    <binFolder>bin</binFolder>
-                    <configurationDirectory>webRoot</configurationDirectory>
-                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
-                    <repositoryLayout>flat</repositoryLayout>
-                    <encoding>UTF-8</encoding>
-                    <logsDirectory>logs</logsDirectory>
-                    <tempDirectory>tmp</tempDirectory>
-
-                    <programs>
-                        <!--程序打包 mvn clean package appassembler:assemble -->
-                        <program>
-                            <mainClass>io.jboot.Jboot</mainClass>
-                            <id>jpress</id>
-                            <platforms>
-                                <platform>windows</platform>
-                                <platform>unix</platform>
-                            </platforms>
-                        </program>
-                    </programs>
-
-                    <daemons>
-                        <!-- 后台程序打包：mvn clean package appassembler:generate-daemons -->
-                        <daemon>
-                            <mainClass>io.jboot.Jboot</mainClass>
-                            <id>jpress</id>
-                            <platforms>
-                                <platform>jsw</platform>
-                            </platforms>
-                            <generatorConfigurations>
-                                <generatorConfiguration>
-                                    <generator>jsw</generator>
-                                    <includes>
-                                        <include>linux-x86-32</include>
-                                        <include>linux-x86-64</include>
-                                        <include>macosx-universal-32</include>
-                                        <include>macosx-universal-64</include>
-                                        <include>windows-x86-32</include>
-                                        <include>windows-x86-64</include>
-                                    </includes>
-                                    <configuration>
-                                        <property>
-                                            <name>configuration.directory.in.classpath.first</name>
-                                            <value>webRoot</value>
-                                        </property>
-                                        <property>
-                                            <name>wrapper.ping.timeout</name>
-                                            <value>120</value>
-                                        </property>
-                                        <property>
-                                            <name>set.default.REPO_DIR</name>
-                                            <value>lib</value>
-                                        </property>
-                                        <property>
-                                            <name>wrapper.logfile</name>
-                                            <value>logs/wrapper.log</value>
-                                        </property>
-                                        <property>
-                                            <name>wrapper.tray</name>
-                                            <value>true</value>
-                                        </property>
-                                        <property>
-                                            <name>wrapper.tray.port</name>
-                                            <value>${wrapper.tray.port.value}</value>
-                                        </property>
-                                    </configuration>
-                                </generatorConfiguration>
-                            </generatorConfigurations>
-                        </daemon>
-                    </daemons>
-
+                    <includes>
+                        <include>/io/**</include>
+                    </includes>
                 </configuration>
             </plugin>
 
         </plugins>
-
 
     </build>
 

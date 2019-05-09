@@ -17,12 +17,12 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,17 +41,18 @@ public class Template {
     private String screenshot;
 
     private List<String> htmls = new ArrayList<>();
+    private List<String> flags = new ArrayList<>();
 
     public Template() {
 
     }
 
-    public Template(String propertiesFilePath) {
+    public Template(File templateFolder) {
 
-        File propertiesFile = new File(propertiesFilePath);
-        Prop prop = new Prop(propertiesFile, "utf-8");
+        File propFile = new File(templateFolder, "template.properties");
+        Prop prop = new Prop(propFile, "utf-8");
 
-        this.folder = propertiesFile.getParentFile().getName();
+        this.folder = buildFolder(templateFolder);
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -63,14 +64,35 @@ public class Template {
 
 
         String vcode = prop.get("versionCode");
-        this.versionCode = StrUtils.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
+        this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
         this.screenshot = getWebAbsolutePath() + "/screenshot.png";
 
-        String[] files = propertiesFile
+        String[] files = propFile
                 .getParentFile()
                 .list((dir, name) -> name.endsWith(".html"));
 
-        htmls.addAll(Arrays.asList(files));
+        if (files != null && files.length > 0) {
+            this.htmls.addAll(Arrays.asList(files));
+        }
+
+        String flagStrings = prop.get("flags");
+        if (StrUtil.isNotBlank(flagStrings)) {
+            String[] strings = flagStrings.split(",");
+            for (String s : strings) {
+                if (StrUtil.isBlank(s)) {
+                    continue;
+                }
+                this.flags.add(s.trim());
+            }
+        }
+    }
+
+    private static String buildFolder(File templateFolder) {
+        String basePath = PathKit.getWebRootPath()
+                .concat(File.separator)
+                .concat("templates")
+                .concat(File.separator);
+        return FileUtil.removePrefix(templateFolder.getAbsolutePath(), basePath);
     }
 
 
@@ -223,9 +245,21 @@ public class Template {
         this.screenshot = screenshot;
     }
 
+    public List<String> getFlags() {
+        return flags;
+    }
+
+    public void setFlags(List<String> flags) {
+        this.flags = flags;
+    }
 
     public String getAbsolutePath() {
-        return PathKit.getWebRootPath() + "/templates/" + folder;
+        StringBuilder path = new StringBuilder(PathKit.getWebRootPath())
+                .append(File.separator)
+                .append("templates")
+                .append(File.separator)
+                .append(folder);
+        return path.toString();
     }
 
     public String getWebAbsolutePath() {
@@ -256,11 +290,7 @@ public class Template {
         return styles;
     }
 
-    public void uninstall(){
-        try {
-            FileUtils.deleteDirectory(new File(getAbsolutePath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void uninstall() {
+        FileUtils.deleteQuietly(new File(getAbsolutePath()));
     }
 }

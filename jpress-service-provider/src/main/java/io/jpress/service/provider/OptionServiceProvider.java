@@ -16,16 +16,14 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jboot.core.cache.annotation.CacheEvict;
-import io.jboot.core.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 
-import javax.inject.Singleton;
 
 @Bean
-@Singleton
 public class OptionServiceProvider extends JbootServiceBase<Option> implements OptionService {
 
     @Override
@@ -55,7 +53,7 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
 
     @Override
     @CacheEvict(name = "option", key = "#(key)")
-    public boolean saveOrUpdate(String key, String value) {
+    public Object saveOrUpdate(String key, String value) {
         Option option = DAO.findFirstByColumn("key", key);
 
         if (option == null) {
@@ -73,6 +71,14 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
         Option option = findById(id);
         if (option == null) return true;
         return delete(option);
+    }
+
+    @Override
+    public boolean deleteByKey(String key) {
+        Option option = DAO.findFirstByColumn("key", key);
+        if (option == null) return true;
+
+        return deleteById(option.getId());
     }
 
     @Override

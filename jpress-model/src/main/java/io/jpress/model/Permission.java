@@ -16,7 +16,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jpress.model.base.BasePermission;
 
 /**
@@ -42,7 +42,7 @@ public class Permission extends BasePermission<Permission> {
 
     public String getShortNode() {
         String node = getNode();
-        if (StrUtils.isBlank(node)) {
+        if (StrUtil.isBlank(node)) {
             return node;
         }
 

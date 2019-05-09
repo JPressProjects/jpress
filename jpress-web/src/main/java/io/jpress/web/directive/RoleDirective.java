@@ -15,17 +15,17 @@
  */
 package io.jpress.web.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtils;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.web.interceptor.UserInterceptor;
 
-import javax.inject.Inject;
 import java.util.Set;
 
 /**
@@ -48,7 +48,7 @@ public class RoleDirective extends JbootDirectiveBase {
         }
 
 
-        Set<String> roles = StrUtils.splitToSet(getPara(0, scope), ",");
+        Set<String> roles = StrUtil.splitToSet(getPara(0, scope), ",");
         if (roles == null || roles.size() == 0) {
             throw new IllegalArgumentException("#role(...) argument must not be empty");
         }

@@ -1,0 +1,25 @@
+db.type = mysql
+db.url
+db.user
+db.password
+db.driverClassName = "com.mysql.jdbc.Driver"
+db.connectionInitSql
+db.poolName
+db.cachePrepStmts = true
+db.prepStmtCacheSize = 500
+db.prepStmtCacheSqlLimit = 2048
+db.maximumPoolSize = 10
+db.maxLifetime
+db.idleTimeout
+db.minimumIdle = 0
+db.sqlTemplatePath
+db.sqlTemplate
+db.factory
+db.shardingConfigYaml
+db.dbProFactory
+db.containerFactory
+db.transactionLevel
+db.table #此数据源包含哪些表，这个配置会覆盖@Table注解的配置
+db.exTable #该数据源排除哪些表，这个配置会修改掉@Table上的配置
+db.dialectClass
+db.activeRecordPluginClass

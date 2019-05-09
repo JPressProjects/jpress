@@ -1,0 +1,8 @@
+id=cn.ninemm.addon.crawler
+title=爬虫
+description=用于文章数据抓取
+author=eric
+authorWebsite=http://www.ninemm.cn
+version=1.0
+versionCode=1
+updateUrl=

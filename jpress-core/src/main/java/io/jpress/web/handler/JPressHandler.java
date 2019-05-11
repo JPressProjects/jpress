@@ -43,7 +43,7 @@ public class JPressHandler extends Handler {
 
     private static final String ADDON_TARGET_PREFIX = "/addons";
     private static final String TEMPLATES_TARGET_PREFIX = "/templates";
-    private static final String WECHAT_VERIFY_PREFIX = "MP_verify_";
+    private static final String WECHAT_VERIFY_PREFIX = "/MP_verify_";
 
 
     @Override

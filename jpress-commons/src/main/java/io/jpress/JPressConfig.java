@@ -55,12 +55,14 @@ import io.jboot.utils.StrUtil;
  * @Title: JPress 环境配置
  * @Package io.jpress
  */
-@ConfigModel(prefix = "io.jpress")
+@ConfigModel(prefix = "jpress")
 public class JPressConfig {
 
     private String indexAction = "/page";
     private String defaultTemplate = "cn.jeanstudio.bonhumeur";
     private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
+    private String adminLoginPage = "/admin/login";         //登录的页面
+    private String adminLoginAction = "/admin/doLogin";     //登录的方法
 
 
     public String getIndexAction() {
@@ -86,6 +88,22 @@ public class JPressConfig {
 
     public void setAttachmentRoot(String attachmentRoot) {
         this.attachmentRoot = attachmentRoot;
+    }
+
+    public String getAdminLoginPage() {
+        return adminLoginPage;
+    }
+
+    public void setAdminLoginPage(String adminLoginPage) {
+        this.adminLoginPage = adminLoginPage;
+    }
+
+    public String getAdminLoginAction() {
+        return adminLoginAction;
+    }
+
+    public void setAdminLoginAction(String adminLoginAction) {
+        this.adminLoginAction = adminLoginAction;
     }
 
     public String getAttachmentRootOrWebRoot() {

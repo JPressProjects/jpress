@@ -43,6 +43,7 @@ public class JPressHandler extends Handler {
 
     private static final String ADDON_TARGET_PREFIX = "/addons";
     private static final String TEMPLATES_TARGET_PREFIX = "/templates";
+    private static final String ATTACHMENT_TARGET_PREFIX = "/attachment";
     private static final String WECHAT_VERIFY_PREFIX = "/MP_verify_";
 
 
@@ -73,6 +74,12 @@ public class JPressHandler extends Handler {
                 renderWechatVerify(target, request, response, isHandled);
                 return;
             }
+        }
+
+        //附件目录
+        if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
+            AttachmentHandlerKit.handle(target,request,response,isHandled);
+            return;
         }
 
 

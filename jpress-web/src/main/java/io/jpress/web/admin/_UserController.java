@@ -18,7 +18,6 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.FileUtil;
@@ -387,9 +386,7 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
-                ? JPressConfig.me.getAttachmentRoot()
-                : PathKit.getWebRootPath();
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
 
         String oldPath = attachmentRoot + path;
 

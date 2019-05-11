@@ -44,8 +44,10 @@
  */
 package io.jpress;
 
+import com.jfinal.kit.PathKit;
 import io.jboot.Jboot;
 import io.jboot.app.config.annotation.ConfigModel;
+import io.jboot.utils.StrUtil;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -58,7 +60,7 @@ public class JPressConfig {
 
     private String indexAction = "/page";
     private String defaultTemplate = "cn.jeanstudio.bonhumeur";
-    private String attachmentRoot; // attachment 目录，只在tomcat下有用
+    private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
 
 
     public String getIndexAction() {
@@ -77,12 +79,19 @@ public class JPressConfig {
         this.defaultTemplate = defaultTemplate;
     }
 
+
     public String getAttachmentRoot() {
         return attachmentRoot;
     }
 
     public void setAttachmentRoot(String attachmentRoot) {
         this.attachmentRoot = attachmentRoot;
+    }
+
+    public String getAttachmentRootOrWebRoot() {
+        return  StrUtil.isNotBlank(attachmentRoot)
+                ? attachmentRoot
+                : PathKit.getWebRootPath();
     }
 
     public static final JPressConfig me = Jboot.config(JPressConfig.class);

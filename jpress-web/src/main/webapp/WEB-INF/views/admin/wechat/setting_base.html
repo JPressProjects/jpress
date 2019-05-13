@@ -62,10 +62,10 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">授权方式</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control">
-                                        <option value="1">静默授权</option>
-                                        <option value="2">正常授权</option>
-                                        <option value="3">静默优先</option>
+                                    <select class="form-control" name="wechat_web_authorize_type">
+                                        <option value="1" #selectedIf(option("wechat_web_authorize_type") == "1")>静默授权</option>
+                                        <option value="2" #selectedIf(option("wechat_web_authorize_type") == "2")>正常授权</option>
+                                        <option value="3" #selectedIf(option("wechat_web_authorize_type") == "3")>静默优先</option>
                                     </select>
                                     <p class="help-block">
                                         1、静默授权：只能得到用户ID，分析该用户行为<br/>

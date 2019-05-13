@@ -34,7 +34,7 @@ public class WechatAddonInfo implements Serializable {
     private String author;
     private String authorWebsite;
     private String version;
-    private String addonClazz;
+    private Class<? extends WechatAddon> addonClazz;
 
     private int versionCode;
 
@@ -46,7 +46,7 @@ public class WechatAddonInfo implements Serializable {
         this.author = AnnotationUtil.get(config.author());
         this.authorWebsite = AnnotationUtil.get(config.authorWebsite());
         this.description = AnnotationUtil.get(config.description());
-        this.addonClazz = addonClass.getCanonicalName();
+        this.addonClazz = addonClass;
         this.title = AnnotationUtil.get(config.title());
         this.version = AnnotationUtil.get(config.version());
         this.versionCode = config.versionCode();
@@ -104,11 +104,11 @@ public class WechatAddonInfo implements Serializable {
         this.version = version;
     }
 
-    public String getAddonClazz() {
+    public Class<? extends WechatAddon> getAddonClazz() {
         return addonClazz;
     }
 
-    public void setAddonClazz(String addonClazz) {
+    public void setAddonClazz(Class<? extends WechatAddon> addonClazz) {
         this.addonClazz = addonClazz;
     }
 

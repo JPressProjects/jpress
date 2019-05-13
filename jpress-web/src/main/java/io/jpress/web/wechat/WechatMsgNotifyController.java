@@ -29,6 +29,7 @@ import com.jfinal.weixin.sdk.msg.in.event.InQrCodeEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.model.WechatReply;
@@ -67,15 +68,15 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        for (WechatAddonInfo addon : addons){
+        for (WechatAddonInfo addon : addons) {
             try {
                 //只要有一个插件成功处理，则不再让下一个插件去处理
                 //但是处理不成功，下个插件继续处理该消息
-                if (addon.getAddon().onRenderMessage(getInMsg(),this)){
+                if (addon.getAddon().onRenderMessage(getInMsg(), this)) {
                     return;
                 }
-            }catch (Exception ex){
-                LOG.error(ex.toString(),ex);
+            } catch (Exception ex) {
+                LOG.error(ex.toString(), ex);
             }
         }
 
@@ -99,13 +100,14 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     /**
      * 用户扫码了带参数二维码，但是没有任何插件去处理的时候
      * 关注事件等同于关注公众号了
+     *
      * @param inQrCodeEvent
      */
     @Override
     protected void processInQrCodeEvent(InQrCodeEvent inQrCodeEvent) {
-        if (InQrCodeEvent.EVENT_INQRCODE_SUBSCRIBE.equals(inQrCodeEvent.getEvent())){
+        if (InQrCodeEvent.EVENT_INQRCODE_SUBSCRIBE.equals(inQrCodeEvent.getEvent())) {
             renderOptionValue("wechat_reply_user_subscribe", "");
-        }else {
+        } else {
             super.processInQrCodeEvent(inQrCodeEvent);
         }
     }
@@ -163,9 +165,9 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void renderDefault() {
         //不处理事件消息，否则可能会出现用户进行扫描带参数二维码等回复此内容
-        if (getInMsg() instanceof EventInMsg){
+        if (getInMsg() instanceof EventInMsg) {
             renderNull();
-        }else {
+        } else {
             renderOptionValue("wechat_reply_unknow", "");
         }
     }
@@ -193,7 +195,8 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
         List<WechatAddonInfo> list = new ArrayList<>();
         for (WechatAddonInfo addonInfo : enableAddons) {
-            if (addonInfo.getAddon().onMatchingMessage(getInMsg(), this)) {
+            WechatAddon addon = addonInfo.getAddon();
+            if (addon != null && addon.onMatchingMessage(getInMsg(), this)) {
                 list.add(addonInfo);
             }
         }

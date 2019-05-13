@@ -120,6 +120,11 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
         String key = inTextMsg.getContent();
+        renderTextMsg(inTextMsg, key);
+
+    }
+
+    private void renderTextMsg(InMsg inMsg, String key) {
         if (StrUtil.isBlank(key)) {
             renderDefault();
             return;
@@ -131,10 +136,9 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        OutTextMsg outTextMsg = new OutTextMsg(inTextMsg);
+        OutTextMsg outTextMsg = new OutTextMsg(inMsg);
         outTextMsg.setContent(wechatReply.getContent());
         render(outTextMsg);
-
     }
 
     /**
@@ -145,20 +149,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInMenuEvent(InMenuEvent inMenuEvent) {
         String key = inMenuEvent.getEventKey();
-        if (StrUtil.isBlank(key)) {
-            renderDefault();
-            return;
-        }
-
-        WechatReply wechatReply = wechatReplyService.findByKey(key);
-        if (wechatReply == null || StrUtil.isBlank(wechatReply.getContent())) {
-            renderDefault();
-            return;
-        }
-
-        OutTextMsg outTextMsg = new OutTextMsg(inMenuEvent);
-        outTextMsg.setContent(wechatReply.getContent());
-        render(outTextMsg);
+        renderTextMsg(inMenuEvent,key);
     }
 
 

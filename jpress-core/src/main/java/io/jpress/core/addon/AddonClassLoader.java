@@ -107,7 +107,7 @@ public class AddonClassLoader extends URLClassLoader {
                 }
                 // wechatAddons
                 else if (WechatAddon.class.isAssignableFrom(loadedClass)) {
-                    addonInfo.addDirective(loadedClass);
+                    addonInfo.addWechatAddon(loadedClass);
                 }
                 // addonClass
                 else if (Addon.class.isAssignableFrom(loadedClass)) {

@@ -1,0 +1,19 @@
+#@layer()
+
+#define css()
+<style>
+    .content{
+        padding: 20px;
+    }
+</style>
+#end
+
+
+#define content()
+
+<div class="row">
+    <div class="col-xs-12 content">
+        #(content ?? ' 没有更新日志信息 ')
+    </div>
+</div>
+#end

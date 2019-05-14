@@ -26,6 +26,34 @@
         ajaxGet("#(CPATH)/admin/addon/doStop?id=" + $(this).attr("data-id"))
     })
 
+    $(".readme-browser").on("click", function () {
+        var id = $(this).attr("data-id");
+        var title = $(this).attr("data-title");
+        layer.open({
+            type: 2,
+            title: '【' + title+'】详情',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/addon/readme?id='+id,
+        });
+    })
+
+    $(".changelog-browser").on("click", function () {
+        var id = $(this).attr("data-id");
+        var title = $(this).attr("data-title");
+        layer.open({
+            type: 2,
+            title: '【' + title+'】更新日志',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/addon/changelog?id='+id,
+        });
+    })
+
 
 </script>
 
@@ -92,7 +120,8 @@
                                             <a href="javascript:;" style="color: #006505" data-id="#(addon.id)"
                                                class="addon-install">安装</a> |
                                             #end
-                                            <a href="javascript:;" style="color: #006505">查看</a>
+                                            <a href="javascript:;" class="readme-browser" data-id="#(addon.id)"  data-title="#(addon.title ??)" style="color: #006505">详情</a> |
+                                            <a href="javascript:;" class="changelog-browser" data-id="#(addon.id)" data-title="#(addon.title ??)"style="color: #006505">更新日志</a>
                                         </div>
                                     </div>
 

@@ -47,15 +47,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>验证码</label>
-                    <input type="text" class="form-control" placeholder="请输入验证码" name="captcha" id="captcha">
-                    <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"
-                         cdn-exclude id="captchaimg">
+                    <label style="display: block;">验证码</label>
+                        <input type="text" class="form-control " style="float: left;width: 70%;" placeholder="请输入验证码" name="captcha">
+                        <img src="#(CPATH)/commons/captcha" style="float: right;height: 34px;" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+
                 </div>
 
-                <div class="row">
+                <div class="row" style="padding-top: 30px;">
                     <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录 </button>
                     </div>
                 </div>
             </form>

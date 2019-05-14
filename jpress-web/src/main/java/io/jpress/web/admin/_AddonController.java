@@ -22,6 +22,7 @@ import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.AddonUtil;
@@ -260,6 +261,25 @@ public class _AddonController extends AdminControllerBase {
         }
         AddonManager.me().stop(id);
         renderOkJson();
+    }
+
+
+    public void readme(){
+        String id = getPara("id");
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
+        if (addonInfo.getReadmeText() != null){
+            setAttr("content",MarkdownUtils.toHtml(addonInfo.getReadmeText()));
+        }
+        render("addon/readme.html");
+    }
+
+    public void changelog(){
+        String id = getPara("id");
+        AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);
+        if (addonInfo.getChangeLogText() != null){
+            setAttr("content",MarkdownUtils.toHtml(addonInfo.getChangeLogText()));
+        }
+        render("addon/changelog.html");
     }
 
 

@@ -80,11 +80,10 @@ public class AttachmentUtils {
 
     public static File file(String path) {
         String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
-
         return new File(attachmentRoot, path);
     }
 
-    static List<String> imageSuffix = new ArrayList<String>();
+    static List<String> imageSuffix = new ArrayList<>();
 
     static {
         imageSuffix.add(".jpg");
@@ -102,7 +101,7 @@ public class AttachmentUtils {
         return false;
     }
 
-    static List<String> unSafeFilesSuffix = new ArrayList<String>();
+    static List<String> unSafeFilesSuffix = new ArrayList<>();
 
     static {
         unSafeFilesSuffix.add(".jsp");

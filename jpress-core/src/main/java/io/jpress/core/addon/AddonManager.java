@@ -423,6 +423,7 @@ public class AddonManager implements JbootEventListener {
                 WechatAddonConfig config = c.getAnnotation(WechatAddonConfig.class);
                 WechatAddonInfo wechatAddon = new WechatAddonInfo(config, c);
                 WechatAddonManager.me().addWechatAddon(wechatAddon);
+                WechatAddonManager.me().doEnableAddon(config.id());
             }
         }
     }

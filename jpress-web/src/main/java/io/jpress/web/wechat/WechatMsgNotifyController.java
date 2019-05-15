@@ -94,6 +94,8 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
         if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
             renderOptionValue("wechat_reply_user_subscribe", "");
+        }else {
+            renderNull();
         }
     }
 

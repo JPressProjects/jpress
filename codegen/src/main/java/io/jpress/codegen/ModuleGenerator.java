@@ -47,6 +47,8 @@ public class ModuleGenerator {
     private String basePath;
 
     private boolean genUI = false;
+    private String tablePrefix;
+    private String excludeTables;
 
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage) {
         this.moduleName = moduleName;
@@ -62,6 +64,19 @@ public class ModuleGenerator {
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
         this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
         this.genUI = genUI;
+    }
+
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, String tablePrefix, boolean genUI) {
+        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        this.genUI = genUI;
+        this.tablePrefix = tablePrefix;
+    }
+
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, String tablePrefix, String excludeTables, boolean genUI) {
+        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        this.genUI = genUI;
+        this.tablePrefix = tablePrefix;
+        this.excludeTables = excludeTables;
     }
 
     public void gen() {
@@ -171,6 +186,15 @@ public class ModuleGenerator {
 
         MetaBuilder mb = CodeGenHelpler.createMetaBuilder();
         mb.setGenerateRemarks(true);
+
+        if (StrUtil.notBlank(tablePrefix)) {
+            mb.setRemovedTableNamePrefixes(tablePrefix);
+        }
+
+        if (StrUtil.notBlank(excludeTables)) {
+            mb.addExcludedTable(excludeTables);
+        }
+
         List<TableMeta> tableMetaList = mb.build();
         if (StrUtil.isNotBlank(dbTables)) {
             List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();

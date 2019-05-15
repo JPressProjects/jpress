@@ -1,0 +1,80 @@
+#@layout()
+
+#define script()
+#@layout_script?()
+<script>
+  	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+			$("#entryId").attr("value", data.id);
+			toastr.success('内容保存成功。');
+		})
+  	}
+
+	$("#submit").on("click", function () {
+		doSubmit();
+	})
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            #if(keywordCategory.id ??) 新增 #else 编辑 #end 关键词类型
+            <small>Keyword Category Item</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/crawler/keyword/category/doSave" method="POST" id="form">
+                        
+                        <div class="box-body ">
+							<input type="hidden" id="entryId" name="keywordCategory.id" value="#(keywordCategory.id ??)">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">名称</label>
+								<div class="col-sm-6">
+								   <input type="input" name="keywordCategory.name" class="form-control" value="#(keywordCategory.name ??)"
+										   placeholder="请输入类别名称...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">编码</label>
+								<div class="col-sm-6">
+								   <input type="input" name="keywordCategory.code" class="form-control" value="#(keywordCategory.code ??)"
+										   placeholder="请输入编码...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">状态</label>
+								<div class="col-sm-6">
+									<select class="form-control" name="keywordCategory.status">
+										<option value="">--请选择--</option>
+										#dict('status', 'select', '#(keywordCategory.status ??)')
+									</select>
+								</div>
+							</div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-default" onclick="window.history.back(); return false;">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+#end

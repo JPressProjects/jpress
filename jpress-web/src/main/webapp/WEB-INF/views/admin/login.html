@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>登录JPress</title>
+    <title>登录</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
@@ -21,46 +21,93 @@
         }
 
         .login-box {
-            padding-top: 100px;
+            padding-top: 10px;
         }
 
         .form-group {
             text-align: left;
+        }
+
+        .input-lg {
+            font-size: 14px;
+        }
+
+        .footer {
+            bottom: 0;
+            width: 100%;
+            text-align:center;
+            position: relative;
+            padding-bottom: 20px;
         }
     </style>
 </head>
 <body class="hold-transition login-page">
 
 <div class="row">
-    <div class="login-box text-center">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>Crawler</b></a>
+        </div>
+
         <div class="login-box-body">
+            <p class="login-box-msg">输入一个词，连接全世界</p>
             <form action="#(CPATH)#(action)" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" >
 
-                <div class="form-group">
-                    <label>账号</label>
-                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" value="test">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control input-lg" placeholder="请输入账号或邮箱" name="user">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
 
-                <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" class="form-control" placeholder="及密码..." name="pwd" value="123456">
-                </div>
-
-                <div class="form-group">
-                    <label>验证码</label>
-                    <input type="text" class="form-control" placeholder="请输入验证码" name="captcha" id="captcha">
-                    <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"
-                         cdn-exclude id="captchaimg">
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control input-lg" placeholder="及密码..." name="pwd">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">提 交</button>
+                    <div class="form-group col-xs-8">
+                        <input type="text" class="form-control input-lg" placeholder="请输入验证码" name="captcha" id="captcha" autocomplete="off">
+                    </div>
+                    <div class="form-group col-xs-4" style="padding-left: 0; margin-top: 2px;">
+                        <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"
+                             cdn-exclude id="captchaimg">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="form-group checkbox">
+                            <label>
+                                <input type="checkbox"> 记住我
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <div class="form-group checkbox">
+                            <label>
+                                <a href="#">忘记密码</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary btn-block">登 录</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-xs-12">
+                        其他登录方式：<i class="fa fa-wechat text-green"></i> <i class="fa fa-qq text-orange"></i>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <!--<div class="footer">
+        <p>武汉珞究科技有限公司 Copyright &copy; 2019 <a href="http://diaoyan.ejuster.cn" target="_blank">ejuster.com</a>. All rights
+            reserved.</p>
+    </div>-->
 </div>
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>

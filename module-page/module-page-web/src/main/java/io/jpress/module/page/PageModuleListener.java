@@ -36,7 +36,7 @@ public class PageModuleListener extends ModuleListenerBase {
         menuGroup.setId("page");
         menuGroup.setText("页面");
         menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
-        menuGroup.setOrder(2);
+        menuGroup.setOrder(0);
 
         adminMenus.add(menuGroup);
 

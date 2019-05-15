@@ -1,0 +1,70 @@
+<div class="col-md-12">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">网站名称</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.site_name" class="form-control" value="#(spider.site_name ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">域名</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.domain" class="form-control" value="#(spider.domain ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">起始链接</label>
+		<div class="col-sm-6">
+			<textarea name="spider.start_url" class="form-control" placeholder="">#(spider.start_url ??)</textarea>
+			<p class="help-block"> 注意：微信小程序必须开启API才能正常使用 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">线程数</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.thread" class="form-control" value="#(spider.thread ??)"
+				   placeholder="请输入抓取线程数...">
+			<p class="help-block"> 数量太大,可能会触发反爬虫策略 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">重试次数</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.retry" class="form-control" value="#(spider.retry ??)"
+				   placeholder="请输入HTTP失败后，重试次数...">
+			<p class="help-block"> 数量太大,可能会触发反爬虫策略 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Sleep Time</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.sleep" class="form-control" value="#(spider.sleep ??)"
+				   placeholder="抓取每个网页睡眠时间">
+			<p class="help-block"> 数量太大,可能会触发反爬虫策略 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">抓取网页数量</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.max_page_gather" class="form-control" value="#(spider.max_page_gather ??)"
+				   placeholder="请输入最多抓取网页数量,0代表不限制">
+			<p class="help-block"> 最多抓取网页数量,0代表不限制 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">超时时间</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.timeout" class="form-control" value="#(spider.timeout ??)"
+				   placeholder="HTTP链接超时时间">
+			<p class="help-block"> HTTP请求的最长等待时间 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">自动探测发布时间</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.is_auto_detect_push_date" class="form-control" value="#(spider.is_auto_detect_push_date ??)"
+				   placeholder="">
+		</div>
+	</div>
+</div> 

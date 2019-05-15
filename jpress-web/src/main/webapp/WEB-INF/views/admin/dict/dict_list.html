@@ -1,0 +1,103 @@
+#@layout()
+	
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("/admin/dict/doDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何条目');
+            return
+        }
+        ajaxGet("/admin/dict/doDelByIds?ids=" + ids);
+    })
+
+</script>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            字典管理
+            <small>Dict Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="#(CPATH)/admin/dict/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th>字典类型</th>
+                                <th>Key名称</th>
+                                <!--<th>Key</th>-->
+                                <th>Value</th>
+                                <th>字典图标</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/dict/edit/#(entry.id)"> #(entry.type ??) </a>
+                                    </strong>
+                                </td>
+                                <td>#(entry.name)</td>
+                                <!--<td>#(entry.key)</td>-->
+                                <td>#(entry.value)</td>
+                                <td>#(entry.icon)</td>
+                                <td>#date(entry.create_date, 'yyyy-MM-dd HH:mm')</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/dict/edit/#(entry.id)" class="btn btn-xs bg-olive">编辑</a>
+                                    <a href="javascript:;" class="btn btn-xs btn-danger" onclick="doDel('#(entry.id)')">删除</a>
+                                </td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

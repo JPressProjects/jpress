@@ -1,0 +1,82 @@
+#@layout()
+
+#define css()
+#@layout_css?()
+#end
+
+#define script()
+#@layout_script?()
+<script>
+
+	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+			$("#entryId").attr("value", data.id);
+			toastr.success('内容保存成功。');
+		})
+	}
+
+	$("#submit").on("click", function () {
+		doSubmit();
+	})
+	</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            采集模板
+            <small>Spider Template Item</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/spider/doSave" method="POST" id="form">
+						<input type="hidden" id="entryId" name="spider.id" value="#(spider.id ??)">
+                        <div class="box-body no-padding">
+
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs" id="tourTabs">
+									<li class="active">
+										<a href="#tab_base" data-toggle="tab">1.基础信息</a>
+									</li>
+									<li>
+										<a href="#tab_advance" data-toggle="tab">2.高级配置</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active form-horizontal" id="tab_base">
+                                        #include("./_spider_basic_box.html")
+									</div>
+									<div class="tab-pane form-horizontal" id="tab_advance">
+                                        #include("./_spider_advance_box.html")
+									</div>
+								</div>
+							</div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-default">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+#end

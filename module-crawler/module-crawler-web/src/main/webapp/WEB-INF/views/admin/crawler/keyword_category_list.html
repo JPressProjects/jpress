@@ -1,0 +1,106 @@
+#@layout()
+	
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("/admin/keyword/category/doDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何条目');
+            return
+        }
+        ajaxGet("/admin/keyword/category/doDelByIds?ids=" + ids);
+    })
+
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            关键词分类管理
+            <small>Keyword Category Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="#(CPATH)/admin/crawler/keyword/category/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th>名称</th>
+                                <th>编码</th>
+                                <th>状态</th>
+                                <th>总数</th>
+                                <th>操作</th>
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/crawler/keyword/category/edit/#(entry.id)"> #(entry.name ??) </a>
+                                    </strong>
+                                </td>
+                                <td>#(entry.code)</td>
+                                <td>
+                                    #if(entry.status == 0)
+                                    <span class="label label-warning">删除</span>
+                                    #else
+                                    <span class="label label-success">启用</span>
+                                    #end
+                                </td>
+                                <td>#(entry.total_num)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/crawler/keyword/category/edit/#(entry.id)" class="btn btn-xs btn-primary">编辑</a>
+                                    <a href="javascript:;" class="btn btn-xs btn-danger" onclick="doDel('#(entry.id)')">删除</a>
+                                </td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

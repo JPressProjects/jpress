@@ -1,0 +1,282 @@
+<div class="col-md-12">
+
+	<div class="form-group col-sm-10">
+		<label class="col-sm-2 control-label">User Agent</label>
+		<div class="input-group col-sm-8">
+			<input type="input" name="spider.user_agent" class="form-control" value="#(spider.user_agent ??)" placeholder="请输入User Agent">
+			<p class="help-block"> 爬虫对自身的描述，可以将自己描述为一个普通的浏览器以防止被原网站封杀 </p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">回调URL</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.callback_url" class="form-control" value="#(spider.callback_url ??)"
+				   placeholder="请输入回调URL">
+			<p class="help-block"> 爬虫执行完成之后通知哪些HTTP接口 </p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">网站权重</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.priority" class="form-control" value="#(spider.priority ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">正文正则表达式</label>
+		<div class="col-sm-6">
+			<input type="input" name="spider.content_reg" class="form-control" value="#(spider.content_reg ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">正文XPATH</label>
+		<div class="col-sm-6">
+
+			<input type="input" name="spider.content_xpath" class="form-control" value="#(spider.content_xpath ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">标题正则式</label>
+		<div class="col-sm-6">
+
+			<input type="input" name="spider.title_reg" class="form-control" value="#(spider.title_reg ??)"
+				   placeholder="">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">标题XPATH</label>
+		<div class="col-sm-6">
+
+			<input type="input" name="spider.title_xpath" class="form-control" value="#(spider.title_xpath ??)"
+				   placeholder="">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">分类正则式</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.category_reg" class="form-control" value="#(spider.category_reg ??)" placeholder="">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">分类xpath</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.category_xpath" class="form-control" value="#(spider.category_xpath ??)" placeholder="">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">URL正则式</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.url_reg" class="form-control" value="#(spider.url_reg ??)" placeholder="">
+		</div>
+	</div>
+
+	<!-- general form elements -->
+
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">发布时间模板</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.publish_time_format" class="form-control" value="#(spider.publish_time_format ??)"
+				   placeholder="">
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">发布时间xpath</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.publish_time_xpath" class="form-control" value="#(spider.publish_time_xpath ??)" placeholder="">
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-10 validata-box">
+		<label  class="col-sm-2 control-label">发布时间正则式</label>
+		<div class="input-group col-sm-10 ">
+			<input type="input" name="spider.publish_time_reg" class="form-control" value="#(spider.publish_time_reg ??)" placeholder="">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">编码</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.charset" class="form-control" value="#(spider.charset ??)"
+					   placeholder="请输入HTTP请求的编码，如UTF-8、GBK">
+				<p class="help-block"> HTTP请求编码，以免出现乱码 </p>
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">语言</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.lang" class="form-control" value="#(spider.lang ??)"
+					   placeholder="请输入语言...">
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">国家</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.country" class="form-control" value="#(spider.country ??)"
+					   placeholder="">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">默认分类</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.default_category" class="form-control" value="#(spider.default_category ??)"
+					   placeholder="">
+			</div>
+		</div>
+	</div>
+	<!-- /.input group -->
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">是否NLP</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_ajax_site ?? false)
+				<input type="checkbox" data-for="do_nlp" class="switchery" checked value="#(spider.is_do_nlp ??)">
+				#else
+				<input type="checkbox" data-for="do_nlp" class="switchery" value="#(spider.is_do_nlp ??)">
+				#end
+				<input type="hidden" id="do_nlp" name="spider.is_do_nlp">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">只抓取首页</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_ajax_site ?? false)
+				<input type="checkbox" data-for="gather_index" class="switchery" checked value="#(spider.is_gather_index ??)">
+				#else
+				<input type="checkbox" data-for="gather_index" class="switchery" value="#(spider.is_gather_index ??)">
+				#end
+				<input type="hidden" id="gather_index" name="spider.is_gather_index">
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">是否ajax网站</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_ajax_site ?? false)
+				<input type="checkbox" data-for="ajax_site" class="switchery" checked value="#(spider.is_ajax_site ??)">
+				#else
+				<input type="checkbox" data-for="ajax_site" class="switchery" value="#(spider.is_ajax_site ??)">
+				#end
+				<input type="hidden" id="ajax_site" name="spider.is_ajax_site">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">是否下载图片</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_ajax_site ?? false)
+				<input type="checkbox" data-for="download_image" class="switchery" checked value="#(spider.is_download_image ??)">
+				#else
+				<input type="checkbox" data-for="download_image" class="switchery" value="#(spider.is_download_image ??)">
+				#end
+				<input type="hidden" id="download_image" name="spider.is_download_image">
+			</div>
+		</div>
+	</div>
+
+	<!-- /.input group -->
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">是否保存网页快照</label>
+			<div class="input-group">
+				#if(spider.is_ajax_site ?? false)
+				<input type="checkbox" data-for="save_capture" class="switchery" checked value="#(spider.is_save_capture ??)">
+				#else
+				<input type="checkbox" data-for="save_capture" class="switchery" value="#(spider.is_save_capture ??)">
+				#end
+				<input type="hidden" id="save_capture" name="spider.is_save_capture">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">必须有发布时间</label>
+			<div class="input-group">
+				#if(spider.is_required_publish_time ?? false)
+				<input type="checkbox" data-for="required_publish_time" class="switchery" checked value="#(spider.is_required_publish_time ??)">
+				#else
+				<input type="checkbox" data-for="required_publish_time" class="switchery" value="#(spider.is_required_publish_time ??)">
+				#end
+				<input type="hidden" id="required_publish_time" name="spider.is_required_publish_time">
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">必须有正文:</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_required_publish_time ?? false)
+				<input type="checkbox" data-for="required_content" class="switchery" checked value="#(spider.is_required_content ??)">
+				#else
+				<input type="checkbox" data-for="required_content" class="switchery" value="#(spider.is_required_content ??)">
+				#end
+				<input type="hidden" id="required_content" name="spider.is_required_content">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">必须有标题</label>
+			<div class="input-group col-sm-8">
+				#if(spider.is_required_publish_time ?? false)
+				<input type="checkbox" data-for="required_title" class="switchery" checked value="#(spider.is_required_title ??)">
+				#else
+				<input type="checkbox" data-for="required_title" class="switchery" value="#(spider.is_required_title ??)">
+				#end
+				<input type="hidden" id="required_title" name="spider.is_required_title">
+			</div>
+		</div>
+	</div>
+	
+	<!-- /.input group -->
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label class="col-sm-4 control-label">代理Host</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.proxy_host" class="form-control" value="#(spider.proxy_host ??)"
+					   placeholder="请输入IP代理Host">
+			</div>
+		</div>
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">代理端口</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.proxy_port" class="form-control" value="#(spider.proxy_port ??)"
+					   placeholder="请输入IP代理端口号">
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">代理用户名</label>
+			<div class="input-group">
+				<input type="input" name="spider.proxy_username" class="form-control" value="#(spider.proxy_username ??)"
+					   placeholder="">
+			</div>
+		</div>
+
+		<div class="col-sm-5 validata-box">
+			<label  class="col-sm-4 control-label">代理密码</label>
+			<div class="input-group col-sm-8">
+				<input type="input" name="spider.proxy_password" class="form-control" value="#(spider.proxy_password ??)"
+					   placeholder="">
+			</div>
+		</div>
+	</div>
+	
+
+	<div class="form-group col-sm-10 validata-box">
+		<label for="_reserve_notice" class="col-sm-2 control-label">预订须知:</label>
+		<div class="input-group col-sm-10">
+			<textarea class="form-control" rows="5" name="tourRoute.reserve_notice" id="_reserve_notice" placeholder="预订须知">${(tourRoute.reserveNotice)!}</textarea>
+		</div>
+	</div>
+</div> 

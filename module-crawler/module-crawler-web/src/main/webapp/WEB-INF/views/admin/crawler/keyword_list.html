@@ -1,0 +1,221 @@
+#@layout()
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/select2/css/select2.css">
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/select2/js/select2.full.min.js"></script>
+
+<script>
+
+    $('#category').select2({
+        placeholder: '请选择 最多5个',
+        maximumSelectionLength: 5,
+        allowClear: true
+    });
+
+    function doDel(id) {
+        ajaxGet("/admin/keyword/doDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何条目');
+            return
+        }
+        ajaxGet("/admin/keyword/doDelByIds?ids=" + ids);
+    })
+
+    $('#form').slimScroll({
+        height: '100%',
+        postion: 'right'
+    })
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            关键词管理
+            <small>Keyword Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <i class="fa fa-wrench"></i> 搜索条件
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body ">
+                        <form class="form-horizontal" autocomplete="off" action="/admin/keyword/doSave" method="POST" id="form" style="height: 100%;">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" placeholder="请输入关键词(一行一个)" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select id="category" class="form-control" multiple="multiple">
+                                        <option>Alabama</option>
+                                        <option>Alaska</option>
+                                        <option>California</option>
+                                        <option>Delaware</option>
+                                        <option>Tennessee</option>
+                                        <option>Texas</option>
+                                        <option>Washington</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select id="order" class="form-control">
+                                        <option>请选择排序字段</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select id="order" class="form-control" data-placeholder="请选择搜索引擎[正常]">
+                                        <option>请选择搜索引擎[正常]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <select id="order" class="form-control">
+                                        <option>请选择搜索引擎[屏蔽]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="" placeholder="最小长度">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="" placeholder="最大长度">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="" placeholder="最少个数">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="" placeholder="最多个数">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="submit" id="batchDel" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                                    <a href="keyword/edit" class="btn btn-success">
+                                        <i class="fa fa-download"></i> 导出
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <p><i class="fa fa-warning text-orange"></i> 功能说明：</p>
+                                    <p>正常：检核之后关键词可用</p>
+                                    <p>屏蔽：检核之后关键词被屏蔽</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="keyword/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <a href="keyword/edit" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i> 删除
+                                </a>
+                                <a href="keyword/edit" class="btn btn-success">
+                                    <i class="fa fa-upload"></i> 导入
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th>关键词</th>
+                                <th>类别</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <!--<th>百度是否有效</th>
+                                <th>搜狗是否有效</th>
+                                <th>360是否有效</th>
+                                <th>神马是否有限 0：否 1：是</th>
+                                <th>百度是否检查 0：否 1：是</th>
+                                <th>搜狗是否检查 0：否 1：是</th>
+                                <th>360是否检查 0：否 1：是</th>
+                                <th>神马是否检查 0：否 1：是</th>-->
+                                <th>操作</th>
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/crawler/keyword/edit/#(entry.id)"> #(entry.title ??) </a>
+                                    </strong>
+                                </td>
+                                <td>#(entry.category_id)</td>
+                                <td>#(entry.status)</td>
+                                <td>#date(entry.created, 'yyyy-MM-dd HH:mm')</td>
+                                <!--<td>#(entry.is_baidu_enabled)</td>
+                                <td>#(entry.is_sogo_enabled)</td>
+                                <td>#(entry.is_soso_enabled)</td>
+                                <td>#(entry.is_shenma_enabled)</td>
+                                <td>#(entry.is_baidu_checked)</td>
+                                <td>#(entry.is_sogo_checked)</td>
+                                <td>#(entry.is_soso_checked)</td>
+                                <td>#(entry.is_shenma_checked)</td>-->
+                                <td>
+                                    <a href="#(CPATH)/admin/crawler/keyword/edit/#(entry.id)" class="btn btn-xs btn-primary">编辑</a>
+                                    <a href="javascript:;" class="btn btn-xs btn-danger" onclick="doDel('#(entry.id)')">删除</a>
+                                </td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="#(CPATH)/static/components/switchery/switchery.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-blue-light.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/admin/css/jpressadmin.css">
 
     <!--[if lt IE 9]>
@@ -39,7 +39,7 @@
     #@css?()
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="skin-blue-light fixed sidebar-mini wysihtml5-supported">
 <div class="wrapper">
 
     #include("./_header.html")
@@ -65,7 +65,15 @@
 <script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 <script src="#(CPATH)/static/commons/jpresscsrf.js"></script>
-
+<script src="#(CPATH)/static/components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script>
+    $(function () {
+        // 给导航菜单添加上下滚动条
+        $('.sidebar').slimScroll({
+            postion: 'right'
+        })
+    });
+</script>
 #@script?()
 </body>
 </html>

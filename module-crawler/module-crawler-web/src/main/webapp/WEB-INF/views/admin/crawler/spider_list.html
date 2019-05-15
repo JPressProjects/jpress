@@ -1,0 +1,112 @@
+  #@layout()
+	
+#define script()
+<script>
+
+	function doDel(id) {
+		ajaxGet("/admin/spider/doDel/" + id);
+	}
+
+	$("#batchDel").click(function () {
+		var ids = getSelectedIds();
+		if (ids == "") {
+			alert('您未选择任何条目');
+			return
+		}
+		ajaxGet("/admin/spider/doDelByIds?ids=" + ids);
+	})
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            采集模板管理
+            <small>Spider Tempalte Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="spider/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+									<input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+								</th>
+								<th>网站名称</th>
+								<th>域名</th>
+								<th>线程数</th>
+								<th>重试次数</th>
+								<th>Sleep Time</th>
+								<th title="最多抓取网页数量,0代表不限制">抓取网页数量</th>
+								<th>HTTP超时时间</th>
+								<th>操作</th>
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/crawler/spider/edit/#(entry.id)"> #(entry.site_name ??) </a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/crawler/spider/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action" onclick="doDel('#(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                    
+								<td>#(entry.domain)</td>
+								<td>#(entry.thread)</td>
+								<td>#(entry.retry)</td>
+								<td>#(entry.sleep)</td>
+								<td>#(entry.max_page_gather)</td>
+								<td>#(entry.timeout)</td>
+								<td>
+									<button class="btn btn-xs btn-primary">定时任务</button>
+								</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

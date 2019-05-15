@@ -1,0 +1,102 @@
+#@layout()
+
+#define css()
+#@layout_css?()
+#end
+
+#define script()
+#@layout_script?()
+<script>
+    function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+    }
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+			#if(dict.id ??) 编辑 #else 新增 #end 关键词
+            <small>Dict Item</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/dict/doSave" method="POST" id="form">
+                        <div class="box-body ">
+							<input type="hidden" id="entryId" name="dict.id" value="#(dict.id ??)">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">字典类型</label>
+								<div class="col-sm-6">
+									<select class="form-control" name="dict.type">
+										<option value="">--请选择--</option>
+										#for(type : typeList)
+										<option value="#(type.code ??)" #if(type.code == dict.type??)selected#end>#(type.name ??)</option>
+										#end
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Key名称</label>
+								<div class="col-sm-6">
+								   <input type="input" name="dict.name" class="form-control" value="#(dict.name ??)"
+										   placeholder="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Key</label>
+								<div class="col-sm-6">
+								   <input type="input" name="dict.key" class="form-control" value="#(dict.key ??)"
+										   placeholder="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Value</label>
+								<div class="col-sm-6">
+								   <input type="input" name="dict.value" class="form-control" value="#(dict.value ??)"
+										   placeholder="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">字典图标</label>
+								<div class="col-sm-6">
+								   <input type="input" name="dict.icon" class="form-control" value="#(dict.icon ??)"
+										   placeholder="">
+								</div>
+							</div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

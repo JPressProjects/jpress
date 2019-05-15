@@ -23,10 +23,12 @@
 
         <module>module-article</module>
         <module>module-page</module>
+        <module>module-tours</module>
 
         <module>starter</module>
-        <module>starter-tomcat</module>
-        <!--<module>starter-dev</module>-->
+        <module>module-crawler</module>
+        <!-- <module>starter-tomcat</module>
+         <module>starter-dev</module>-->
 
     </modules>
 
@@ -39,6 +41,8 @@
         <commons-io.version>2.6</commons-io.version>
         <commonmark.version>0.12.1</commonmark.version>
         <aliyunoss.version>3.4.0</aliyunoss.version>
+        <webcollector.version>2.73-alpha</webcollector.version>
+        <hanlp.version>portable-1.7.3</hanlp.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -151,6 +155,18 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyunoss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.edu.hfut.dmic.webcollector</groupId>
+                <artifactId>WebCollector</artifactId>
+                <version>${webcollector.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hankcs</groupId>
+                <artifactId>hanlp</artifactId>
+                <version>${hanlp.version}</version>
             </dependency>
 
         </dependencies>

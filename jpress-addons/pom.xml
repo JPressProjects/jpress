@@ -26,6 +26,7 @@
         <!--<module>jpress-addon-articlemeta</module>-->
         <!--<module>jpress-addon-club</module>-->
         <module>jpress-addon-article-metadata</module>
+        <module>jpress-addon-crawler</module>
         <module>jpress-addon-wechat</module>
     </modules>
 

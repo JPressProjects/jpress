@@ -107,5 +107,4 @@ public interface UserService extends JbootServiceJoiner{
 
     public User findFistByQQOpenid(String openId);
 
-    public Long saveAndGetId(User user);
 }

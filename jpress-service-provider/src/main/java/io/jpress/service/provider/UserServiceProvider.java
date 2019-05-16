@@ -22,11 +22,10 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -37,9 +36,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        boolean success = Db.update("delete from user where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
-        if (success) shouldUpdateCache(0, null);
-        return success;
+        for (Object id : ids){
+            User user = findById(id);
+            if (user != null) delete(user); //必须通过  delete(user) 才能清除缓存
+        }
+        return true;
     }
 
 
@@ -118,7 +119,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
-    @CacheEvict(name = "userOpenIds", key = "#(openId)")
+    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
         return DAO.findFirstByColumn("wx_openid", openId);
     }
@@ -135,10 +136,6 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             if (user.getWxOpenid() != null) {
                 Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
             }
-        }
-
-        if (action == 0) {
-            Jboot.getCache().removeAll("userOpenIds");
         }
     }
 

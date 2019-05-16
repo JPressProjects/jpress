@@ -20,7 +20,9 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
@@ -35,7 +37,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from user where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        boolean success = Db.update("delete from user where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        if (success) shouldUpdateCache(0, null);
+        return success;
     }
 
 
@@ -95,7 +99,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public boolean doChangeStatus(long id, String status) {
         User user = findById(id);
         user.setStatus(status);
-        return user.update();
+        return update(user);
     }
 
     @Override
@@ -114,6 +118,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
+    @CacheEvict(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
         return DAO.findFirstByColumn("wx_openid", openId);
     }
@@ -124,8 +129,17 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
-    public Long saveAndGetId(User user) {
-        return user.save() ? user.getId() : null;
+    public void shouldUpdateCache(int action, Object data) {
+        if (data instanceof User) {
+            User user = (User) data;
+            if (user.getWxOpenid() != null) {
+                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
+            }
+        }
+
+        if (action == 0) {
+            Jboot.getCache().removeAll("userOpenIds");
+        }
     }
 
     private static final String[] defaultJoinAttrs = new String[]{"id", "username", "nickname", "avatar", "created", "signature"};

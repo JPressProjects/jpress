@@ -4,6 +4,7 @@
 	#@layout_css?()
 	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
 	#end
+
 	#define script()
 	#@layout_script?()
 	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
@@ -14,12 +15,12 @@
 	        language: 'zh-CN'
 	    });
 	    
-	  function doSubmit() {
-        ajaxSubmit("#form", function (data) {
-            $("#entryId").attr("value", data.id);
-            toastr.success('内容保存成功。');
-        })
-      }  
+	    function doSubmit() {
+            ajaxSubmit("#form", function (data) {
+                $("#entryId").attr("value", data.id);
+                toastr.success('内容保存成功。');
+            })
+        }
     
 	    $("#submit").on("click", function () {
 	        doSubmit();

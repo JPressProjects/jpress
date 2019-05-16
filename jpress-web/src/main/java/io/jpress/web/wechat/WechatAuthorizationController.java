@@ -238,7 +238,7 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
 
 
-        return userService.saveAndGetId(user);
+        return (Long) userService.save(user);
     }
 
 }

@@ -221,7 +221,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user.setStatus(User.STATUS_OK);
 
 
-        return userService.saveAndGetId(user);
+        return (Long) userService.save(user);
     }
 
 }

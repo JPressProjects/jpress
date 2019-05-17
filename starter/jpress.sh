@@ -29,21 +29,21 @@ CP=${APP_BASE_PATH}/config:${APP_BASE_PATH}/lib/*
 function start()
 {
     # 运行为后台进程，并在控制台输出信息
-    java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} &
+    java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} &
 
 
     # 运行为后台进程，并且不在控制台输出信息
-    # nohup java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} >/dev/null 2>&1 &
+    # nohup java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} >/dev/null 2>&1 &
 
     # 运行为后台进程，并且将信息输出到 output.log 文件
-    #nohup java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} > output.log &
+    #nohup java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} > output.log &
     #tail -f /dev/null
 
     # 运行为非后台进程，多用于开发阶段，快捷键 ctrl + c 可停止服务
     # 当以此方式在Docker下启动时，由于是后台进程，无前台进程，Docker容器启动后会马上退出，
     # 需加命令tail -f /dev/null，就可以保持你的容器一直在前台运行
     # 或者使用以下的非后台进程运行
-    #java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS}
+    #java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS}
 }
 
 function stop()

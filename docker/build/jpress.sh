@@ -27,7 +27,7 @@ CP=${APP_BASE_PATH}/config:${APP_BASE_PATH}/lib/*
 
 function start()
 {
-    java -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS}
+    java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS}
 }
 
 function stop()

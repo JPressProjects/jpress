@@ -36,15 +36,15 @@ import io.jpress.web.interceptor.UserMustLoginedInterceptor;
 public abstract class UcenterControllerBase extends ControllerBase {
 
 
-    @Override
-    @NotAction
-    public void render(String view) {
-        if (view.startsWith("/")) {
-            super.render(view);
-        } else {
-            super.render("/WEB-INF/views/ucenter/" + view);
-        }
-    }
+//    @Override
+//    @NotAction
+//    public void render(String view) {
+//        if (view.startsWith("/")) {
+//            super.render(view);
+//        } else {
+//            super.render("/WEB-INF/views/ucenter/" + view);
+//        }
+//    }
 
     @NotAction
     public int getPagePara() {

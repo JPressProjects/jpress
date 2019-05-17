@@ -11,6 +11,7 @@ jpress v2.0.1:
 优化：在JPress指定 httpclient 版本，防止依赖的时候不同 sdk 的版本冲突问题。
 优化：优化 WechatMsgNotifyController 代码，使之逻辑更加简单明了。
 优化：优化 UserService，删除 saveAndGetId 方法。
+修复：通过 jpress.sh 启动jpress，可能出现无法渲染验证码的问题。
 修复：当用户取消关注的时候，会出现 renderError 的问题。
 修复：修复 SmartField 中的 DatetimeRender 无法正确渲染空间的问题。
 修复：后台选择微信公众号授权方式无法正确保存的问题。

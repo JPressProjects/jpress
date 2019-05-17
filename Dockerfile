@@ -12,7 +12,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
 RUN apk add --update ttf-dejavu
 
 RUN cd /tmp && \
-    cp -f /tmp/docker/build/SourceHanSans.ttc /usr/share/fonts/SourceHanSans.ttc && \
+    cp -f /tmp/docker/build/SourceHanSansSC /usr/share/fonts/SourceHanSansSC && \
     cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml && \
     mvn package -Pci && \
     mv starter/target/starter-2.0/* /opt/jpress/ && \

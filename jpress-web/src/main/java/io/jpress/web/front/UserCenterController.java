@@ -39,7 +39,7 @@ import java.io.File;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping("/ucenter")
+@RequestMapping(value = "/ucenter",viewPath = "/WEB-INF/views/ucenter/")
 public class UserCenterController extends UcenterControllerBase {
 
     @Inject

@@ -1,3 +1,26 @@
+jpress v2.0.1:
+新增：插件新增 详情 和 changelog 配置的功能。
+新增：新增附件目录目录的功能支持功能。
+新增：微信共中央配置验证的时候，无需上传MP_verify_xxx.txt文件自动验证的功能。
+新增：文章分类添加自定义图标、缩略图的支持的功能。
+优化：UserService.findFistByWxOpenid 新增缓存的支持，使之更加高效。
+优化：优化JPress后台登录的验证码位置，防止输入的时候验证码被盖住，用户体验不好的问题。
+优化：TemplateControllerBase 的 doRender 方法修改为 protected。
+优化：插件在启动的时候，也会自动启动插件所带的微信运营插件功能。
+优化：JPressApplicationConfig 和 JPressConfig 合并，统一前缀为 JPress。
+优化：在JPress指定 httpclient 版本，防止依赖的时候不同 sdk 的版本冲突问题。
+优化：优化 WechatMsgNotifyController 代码，使之逻辑更加简单明了。
+优化：优化 UserService，删除 saveAndGetId 方法。
+修复：当用户取消关注的时候，会出现 renderError 的问题。
+修复：修复 SmartField 中的 DatetimeRender 无法正确渲染空间的问题。
+修复：后台选择微信公众号授权方式无法正确保存的问题。
+修复：用户通过微信公众号扫描带参数二维码进入公众号时，无法触发关注公众号文字配置的问题。
+修复：修复JPress插件在某些情况下无法加载指定的微信插件功能。
+修复：当插件被卸载后，插件在用户中心创建的菜单无法被删除的问题。感谢 @朱哲
+修复：用户角色当更新的时候，无法正确更新缓存的问题。
+修复：当更新用户状态的时候，无法正确更新缓存的问题。
+
+
 jpress v2.0:
 新增：#articles() 等指令，在读取文章列表的时候增加文章作者的相关属性支持
 新增：用户类 User.class 新增 `getOriginalAvatar()` 方法的支持，用于读取数据配置的头像信息

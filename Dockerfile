@@ -1,18 +1,10 @@
-FROM maven:3.6-jdk-8-alpine
+FROM fuhai/jpress-base:v1.1
 LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress
 ADD . /tmp
 
-ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo ${TZ} > /etc/timezone
-
-# 验证码图片渲染需要ttf的支持
-RUN apk add --update ttf-dejavu
-
 RUN cd /tmp && \
-    cp -f /tmp/docker/build/SourceHanSansSC /usr/share/fonts/SourceHanSansSC && \
     cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml && \
     mvn package -Pci && \
     mv starter/target/starter-2.0/* /opt/jpress/ && \

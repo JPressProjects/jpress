@@ -1,1 +1,1 @@
-docker build . -t  fuhai/jpress-base:v1.2  -f  ./Dockerfile.base
+docker build . -t  fuhai/jpress-base:v1.3  -f  ./Dockerfile.base

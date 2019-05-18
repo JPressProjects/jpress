@@ -1,9 +1,9 @@
-FROM fuhai/jpress-base:v1.2
+FROM fuhai/jpress-base:v1.3
 LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress
 
-COPY ./starter/target/starter-2.0/* /opt/jpress/
+COPY ./starter/target/starter-2.0/ /opt/jpress/
 COPY ./docker/files/jpress.sh /opt/jpress/jpress.sh
 COPY ./docker/files/jboot.properties /opt/jpress/config/jboot.properties
 

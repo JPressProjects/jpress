@@ -1,20 +1,14 @@
-FROM fuhai/jpress-base:v1.1
+FROM fuhai/jpress-base:v1.2
 LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress
-ADD . /tmp
 
-RUN cd /tmp && \
-    cp -f /tmp/docker/build/settings.xml /usr/share/maven/conf/settings.xml && \
-    mvn package -Pci && \
-    mv starter/target/starter-2.0/* /opt/jpress/ && \
-    cp -f /tmp/docker/build/jpress.sh /opt/jpress/jpress.sh &&  \
-    chmod +x /opt/jpress/jpress.sh &&  \
-    cp -f /tmp/docker/build/jboot.properties /opt/jpress/config/jboot.properties && \
-    rm -rf /tmp && \
-    rm -rf ~/.m2 && \
+COPY ./starter/target/starter-2.0/* /opt/jpress/
+
+RUN chmod +x /opt/jpress/jpress.sh &&  \
     rm -rf /opt/jpress/jpress.bat && \
     rm -rf /opt/jpress/config/undertow.txt && \
+    rm -rf /opt/jpress/config/jboot.properties && \
     rm -rf /opt/jpress/config/install.lock
 
 EXPOSE 8080

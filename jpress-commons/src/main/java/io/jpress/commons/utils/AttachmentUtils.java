@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import com.google.common.collect.Lists;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
@@ -133,6 +134,21 @@ public class AttachmentUtils {
             return unSafeFilesSuffix.contains(sufffix.toLowerCase());
         return false;
     }
+
+    static List<String> safeFileSuffix = Lists.newArrayList();
+
+    static {
+        safeFileSuffix.add(".txt");
+        safeFileSuffix.add(".zip");
+    }
+    public static boolean isSafe(File file){
+        String sufffix = FileUtil.getSuffix(file.getName());
+        if (StrUtil.isNotBlank(sufffix)) {
+            return safeFileSuffix.contains(sufffix.toLowerCase());
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(FileUtil.getSuffix("xxx.jpg"));

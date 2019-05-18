@@ -8,7 +8,7 @@ starter-dev/
 *.iml
 .project
 .settings
-jboot.properties
+starter/**/jboot.properties
 install.lock
 *.jar
 *.log

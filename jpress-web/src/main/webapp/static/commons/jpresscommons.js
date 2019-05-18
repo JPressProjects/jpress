@@ -76,7 +76,6 @@ function initDomainSpan() {
     })
 }
 
-
 function initSlugSpan() {
 
     $(".slugSpan").each(function () {
@@ -246,5 +245,114 @@ function ajaxSubmit(form, okFunction, failFunction) {
         error: function () {
             toastr.error('系统错误，请稍后重试。', '操作失败');
         }
+    });
+}
+
+function openWindow(options) {
+
+    if (typeof options.content == "undefined") {
+        toastr.error('内容不能为空');
+        return ;
+    }
+
+    options.title = options.title || '信息';
+    options.type = options.type || 2;
+    options.offset = options.offset || 'auto';
+    options.anim = options.anim || 5;
+    options.shadeClose = true;
+    options.area = options.area || ['580px', '530px'];
+    options.fixed = options.fixed || false;
+
+    layer.open(options);
+}
+
+function initParentTable (tableId, url, queryParams, fields, subUrl) {
+    tableId = tableId || "_table";
+
+    $(tableId).bootstrapTable({
+        url: url,
+        method: 'get',
+        editable: false,                //开启编辑模式
+        clickToSelect: true,
+        uniqueId: 'id',
+        striped: true,
+        detailView: true,//父子表
+        classes: 'table-no-bordered',
+        cache: false,					// 是否使用缓存
+        pagination: true,				// 是否显示分页
+        queryParams: queryParams,		// 传递参数
+        sidePagination: 'server', 		//分页方式：client客户端分页，server服务端分页（*）
+        paginationLoop: false,
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        pageNumber: 1,
+        pageSize: 10,
+        smartDisplay: false,
+        undefinedText: '',
+        columns: fields,
+        onExpandRow: function (index, row, $detail) {
+            initSubTable(index, row, $detail, fields, url);
+        }
+    });
+}
+
+function initSubTable (index, row, $detail, fields, url) {
+    var parentId = row.id;
+    var sub_table = $detail.html('<table></table>').find('table');
+    $(sub_table).bootstrapTable({
+        url: url,
+        method: 'get',
+        clickToSelect: true,
+        uniqueId: 'id',
+        striped: true,
+        detailView: true,                                   //父子表
+        //classes: 'table-no-bordered',
+        cache: false,                                       // 是否使用缓存
+        queryParams: {parentId: parentId, size:100},        // 传递参数
+        sidePagination: 'server',                           //分页方式：client客户端分页，server服务端分页（*）
+        undefinedText: '',
+        columns: fields,
+        onExpandRow: function (index, row, $detail) {
+            initSubTable(index, row, $detail, fields, url);
+        }
+    });
+}
+
+function initEditTable (options) {
+
+    let url = options.url;
+    if (url == null || url == '') {
+        toastr.error('URL不能为空');
+        return ;
+    }
+
+    let fields = options.fields || [];
+    let tableId = options.tableId || "_table";
+    let queryParams = options.queryParams || {};
+    let editSaveFunc = options.editSaveFunc || function () {};
+    let clickCellFunc = options.clickCellFunc || function () {};
+
+    $(tableId).bootstrapTable({
+        url: url,
+        method: 'get',
+        editable: true,//开启编辑模式
+        clickToSelect: true,
+        uniqueId: 'id',
+        striped: true,
+        classes: 'table-no-bordered',
+        cache: false,					// 是否使用缓存
+        pagination: true,				// 是否显示分页
+        queryParams: queryParams,		// 传递参数
+        sidePagination: 'server', 		//分页方式：client客户端分页，server服务端分页（*）
+        paginationLoop: false,
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
+        pageNumber: 1,
+        pageSize: 10,
+        smartDisplay: false,
+        undefinedText: '',
+        columns: fields,
+        onEditableSave: editSaveFunc,
+        onClickCell: clickCellFunc
     });
 }

@@ -63,6 +63,15 @@ public abstract class AdminControllerBase extends ControllerBase {
         return getParaToInt("page", 1);
     }
 
+    /**
+     * 获得每页行数
+     *
+     * @return
+     */
+    @NotAction
+    public int getPageSizePara() {
+        return getParaToInt("size", 10);
+    }
 
     protected boolean validateSlug(Model model) {
         String slug = (String) model.get("slug");

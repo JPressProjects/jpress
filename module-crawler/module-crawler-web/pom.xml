@@ -15,6 +15,17 @@
     <dependencies>
 
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.1.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>hanlp</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
         </dependency>

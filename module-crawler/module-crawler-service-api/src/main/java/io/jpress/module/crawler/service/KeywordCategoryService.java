@@ -1,11 +1,12 @@
 package io.jpress.module.crawler.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.crawler.model.KeywordCategory;
 
 import java.util.List;
 
-public interface KeywordCategoryService  {
+public interface KeywordCategoryService extends JbootServiceJoiner {
 
     /**
      * find model by primary key
@@ -22,6 +23,13 @@ public interface KeywordCategoryService  {
      * @return all <KeywordCategory
      */
     public List<KeywordCategory> findAll();
+
+    /**
+     * find model by name
+     * @param name
+     * @return KeywordCategory
+     */
+    public KeywordCategory findByName(String name);
 
 
     /**

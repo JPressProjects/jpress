@@ -1,0 +1,76 @@
+#@layer()
+#define css()
+#@layout_css?()
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+#define script()
+#@layout_script?()
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script>
+
+  	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+			$("#entryId").attr("value", data.id);
+			toastr.success('内容保存成功。');
+		})
+  	}
+
+	$("#submit").on("click", function () {
+		doSubmit();
+	})
+	</script>
+	#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+			关键词 - 相关词汇
+            <small>Item</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="#(CPATH)/admin/crawler/keyword/doSave" method="POST" id="form">
+                        
+                        <div class="box-body no-padding">
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs" id="tourTabs">
+									<li class="active">
+										<a href="#tab_base" data-toggle="tab">相关词树</a>
+									</li>
+									<li>
+										<a href="#tab_advance" data-toggle="tab">相关词云</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active form-horizontal" id="tab_base">
+										<div class="row">
+											<div class="col-sm-12" id="tree"></div>
+										</div>
+									</div>
+									<div class="tab-pane form-horizontal" id="tab_advance">
+										相关词云
+									</div>
+								</div>
+							</div>
+						</div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

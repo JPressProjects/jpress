@@ -25,6 +25,14 @@ public abstract class BaseKeyword<M extends BaseKeyword<M>> extends JbootModel<M
 		return getInt("category_id");
 	}
 
+	public void setCategoryName(java.lang.String categoryName) {
+		set("category_name", categoryName);
+	}
+
+	public java.lang.String getCategoryName() {
+		return getStr("category_name");
+	}
+
 	public void setParentId(java.lang.Integer parentId) {
 		set("parent_id", parentId);
 	}
@@ -49,10 +57,18 @@ public abstract class BaseKeyword<M extends BaseKeyword<M>> extends JbootModel<M
 		return getStr("title");
 	}
 
+	public void setLevel(java.lang.Integer level) {
+		set("level", level);
+	}
+	
+	public java.lang.Integer getLevel() {
+		return getInt("level");
+	}
+
 	public void setNum(java.lang.Integer num) {
 		set("num", num);
 	}
-	
+
 	public java.lang.Integer getNum() {
 		return getInt("num");
 	}
@@ -65,76 +81,76 @@ public abstract class BaseKeyword<M extends BaseKeyword<M>> extends JbootModel<M
 		return getStr("pinyin");
 	}
 
-	public void setStatus(java.lang.Integer status) {
+	public void setStatus(java.lang.Boolean status) {
 		set("status", status);
 	}
 	
-	public java.lang.Integer getStatus() {
-		return getInt("status");
+	public java.lang.Boolean getStatus() {
+		return getBoolean("status");
 	}
 
 	public void setIsBaiduEnabled(java.lang.Integer isBaiduEnabled) {
 		set("is_baidu_enabled", isBaiduEnabled);
 	}
 	
-	public java.lang.Integer getIsBaiduEnabled() {
-		return getInt("is_baidu_enabled");
+	public java.lang.Boolean getIsBaiduEnabled() {
+		return getBoolean("is_baidu_enabled");
 	}
 
-	public void setIsSogoEnabled(java.lang.Integer isSogoEnabled) {
+	public void setIsSogoEnabled(java.lang.Boolean isSogoEnabled) {
 		set("is_sogo_enabled", isSogoEnabled);
 	}
 	
-	public java.lang.Integer getIsSogoEnabled() {
-		return getInt("is_sogo_enabled");
+	public java.lang.Boolean getIsSogoEnabled() {
+		return getBoolean("is_sogo_enabled");
 	}
 
-	public void setIsSosoEnabled(java.lang.Integer isSosoEnabled) {
+	public void setIsSosoEnabled(java.lang.Boolean isSosoEnabled) {
 		set("is_soso_enabled", isSosoEnabled);
 	}
 	
-	public java.lang.Integer getIsSosoEnabled() {
-		return getInt("is_soso_enabled");
+	public java.lang.Boolean getIsSosoEnabled() {
+		return getBoolean("is_soso_enabled");
 	}
 
-	public void setIsShenmaEnabled(java.lang.Integer isShenmaEnabled) {
+	public void setIsShenmaEnabled(java.lang.Boolean isShenmaEnabled) {
 		set("is_shenma_enabled", isShenmaEnabled);
 	}
 	
-	public java.lang.Integer getIsShenmaEnabled() {
-		return getInt("is_shenma_enabled");
+	public java.lang.Boolean getIsShenmaEnabled() {
+		return getBoolean("is_shenma_enabled");
 	}
 
-	public void setIsBaiduChecked(java.lang.Integer isBaiduChecked) {
+	public void setIsBaiduChecked(java.lang.Boolean isBaiduChecked) {
 		set("is_baidu_checked", isBaiduChecked);
 	}
 	
-	public java.lang.Integer getIsBaiduChecked() {
-		return getInt("is_baidu_checked");
+	public java.lang.Boolean getIsBaiduChecked() {
+		return getBoolean("is_baidu_checked");
 	}
 
-	public void setIsSogoChecked(java.lang.Integer isSogoChecked) {
+	public void setIsSogoChecked(java.lang.Boolean isSogoChecked) {
 		set("is_sogo_checked", isSogoChecked);
 	}
 	
-	public java.lang.Integer getIsSogoChecked() {
-		return getInt("is_sogo_checked");
+	public java.lang.Boolean getIsSogoChecked() {
+		return getBoolean("is_sogo_checked");
 	}
 
-	public void setIsSosoChecked(java.lang.Integer isSosoChecked) {
+	public void setIsSosoChecked(java.lang.Boolean isSosoChecked) {
 		set("is_soso_checked", isSosoChecked);
 	}
 	
-	public java.lang.Integer getIsSosoChecked() {
-		return getInt("is_soso_checked");
+	public java.lang.Boolean getIsSosoChecked() {
+		return getBoolean("is_soso_checked");
 	}
 
-	public void setIsShenmaChecked(java.lang.Integer isShenmaChecked) {
+	public void setIsShenmaChecked(java.lang.Boolean isShenmaChecked) {
 		set("is_shenma_checked", isShenmaChecked);
 	}
 	
-	public java.lang.Integer getIsShenmaChecked() {
-		return getInt("is_shenma_checked");
+	public java.lang.Boolean getIsShenmaChecked() {
+		return getBoolean("is_shenma_checked");
 	}
 
 	public void setCreated(java.util.Date created) {

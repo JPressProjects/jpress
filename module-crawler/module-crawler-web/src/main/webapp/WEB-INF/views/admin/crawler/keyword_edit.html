@@ -1,38 +1,32 @@
+#@layout()
+#define css()
+#@layout_css?()
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+#define script()
+#@layout_script?()
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script>
 
-	#@layout()
-	#define css()
-	#@layout_css?()
-	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+  	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+			$("#entryId").attr("value", data.id);
+			toastr.success('内容保存成功。');
+		})
+  	}
+
+	$("#submit").on("click", function () {
+		doSubmit();
+	})
+	</script>
 	#end
-	#define script()
-	#@layout_script?()
-	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-	<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
-	<script>
-		$("input[hint='date']").datepicker({
-	        format: 'yyyy-mm-dd',
-	        language: 'zh-CN'
-	    });
-	    
-	  function doSubmit() {
-        ajaxSubmit("#form", function (data) {
-            $("#entryId").attr("value", data.id);
-            toastr.success('内容保存成功。');
-        })
-      }  
-    
-	    $("#submit").on("click", function () {
-	        doSubmit();
-	    }) 
-	    </script>
-		#end
 
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-                        条目
+			#if(keyword.id ??) 新增 #else 编辑 #end关键词
             <small>Item</small>
         </h1>
     </section>
@@ -46,154 +40,66 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/keyword/doSave"
-                          method="POST" id="form">
+                          action="#(CPATH)/admin/crawler/keyword/doSave" method="POST" id="form">
                         
                         <div class="box-body ">
-	                                <input type="hidden" id="entryId" name="keyword.id" value="#(keyword.id ??)">
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">类别ID</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.category_id" class="form-control" value="#(keyword.category_id ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">父ID</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.parent_id" class="form-control" value="#(keyword.parent_id ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">文章ID</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.webpage_id" class="form-control" value="#(keyword.webpage_id ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">关键词</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.title" class="form-control" value="#(keyword.title ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">长度</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.num" class="form-control" value="#(keyword.num ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">拼音</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.pinyin" class="form-control" value="#(keyword.pinyin ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">状态</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.status" class="form-control" value="#(keyword.status ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">百度是否有效 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_baidu_enabled" class="form-control" value="#(keyword.is_baidu_enabled ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">搜狗是否有效 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_sogo_enabled" class="form-control" value="#(keyword.is_sogo_enabled ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">360是否有效 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_soso_enabled" class="form-control" value="#(keyword.is_soso_enabled ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">神马是否有限 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_shenma_enabled" class="form-control" value="#(keyword.is_shenma_enabled ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">百度是否检查 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_baidu_checked" class="form-control" value="#(keyword.is_baidu_checked ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">搜狗是否检查 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_sogo_checked" class="form-control" value="#(keyword.is_sogo_checked ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">360是否检查 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_soso_checked" class="form-control" value="#(keyword.is_soso_checked ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">神马是否检查 0：否 1：是</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="keyword.is_shenma_checked" class="form-control" value="#(keyword.is_shenma_checked ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">创建时间</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" hint="date" class="form-control" placeholder="点击选择"
-		                       						name="keyword.created" value="#date(keyword.created ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">更新时间</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" hint="date" class="form-control" placeholder="点击选择"
-		                       						name="keyword.modified" value="#date(keyword.modified ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
+							<input type="hidden" id="entryId" name="keyword.id" value="#(keyword.id ??)">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">类别</label>
+								<div class="col-sm-6">
+									<select name="keyword.category_id" class="form-control">
+										<option value="">--请选择--</option>
+										#for(category : categoryList)
+										<option value="#(category.id)" #if(category.id == keyword.category_id ??)selected#end>#(category.name)</option>
+										#end
+									</select>
+								</div>
+							</div>
+							#if(keyword.parent_id ??)
+							<div class="form-group">
+								<label class="col-sm-2 control-label">父层级</label>
+								<div class="col-sm-6">
+								   <input type="input" name="keyword.parent_id" class="form-control" value="#(keyword.parent_id ??)"
+										   placeholder="">
+								</div>
+							</div>
+							#end
 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">关键词</label>
+								<div class="col-sm-6">
+								   <input type="input" name="keyword.title" class="form-control" value="#(keyword.title ??)"
+										   placeholder="请输入...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">长度</label>
+								<div class="col-sm-6">
+								   <input type="number" min="1" name="keyword.num" class="form-control" value="#(keyword.num ??)"
+										   placeholder="请输入...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">拼音</label>
+								<div class="col-sm-6">
+								   <input type="input" name="keyword.pinyin" class="form-control" value="#(keyword.pinyin ??)"
+										   placeholder="请输入...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">是否启用</label>
+								<div class="col-sm-6">
+									<input type="checkbox" data-for="status" class="switchery" #checkedIf(keyword.getStatus()) value="#(keyword.status ??)">
+									<input type="hidden" id="status" name="keyword.status">
+								</div>
+							</div>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
                                     <button id="submit" type="button" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-default" onclick="window.history.back(-1);">返回</button>
                                 </div>
                             </div>
                         </div>

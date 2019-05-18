@@ -33,12 +33,12 @@ public abstract class BaseKeywordCategory<M extends BaseKeywordCategory<M>> exte
 		return getStr("code");
 	}
 
-	public void setStatus(java.lang.Integer status) {
+	public void setStatus(java.lang.Boolean status) {
 		set("status", status);
 	}
 	
-	public java.lang.Integer getStatus() {
-		return getInt("status");
+	public java.lang.Boolean getStatus() {
+		return getBoolean("status");
 	}
 
 	public void setTotalNum(java.lang.Integer totalNum) {
@@ -47,6 +47,14 @@ public abstract class BaseKeywordCategory<M extends BaseKeywordCategory<M>> exte
 	
 	public java.lang.Integer getTotalNum() {
 		return getInt("total_num");
+	}
+
+	public void setOrderList(java.lang.Integer orderList) {
+		set("order_list", orderList);
+	}
+
+	public java.lang.Integer getOrderList() {
+		return getInt("order_list");
 	}
 
 	public void setCreated(java.util.Date created) {

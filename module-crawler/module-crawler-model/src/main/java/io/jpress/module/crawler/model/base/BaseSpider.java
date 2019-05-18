@@ -217,76 +217,76 @@ public abstract class BaseSpider<M extends BaseSpider<M>> extends JbootModel<M> 
 		return getStr("publish_time_format");
 	}
 
-	public void setIsGatherIndex(java.lang.Integer isGatherIndex) {
+	public void setIsGatherIndex(java.lang.Boolean isGatherIndex) {
 		set("is_gather_index", isGatherIndex);
 	}
 	
-	public java.lang.Integer getIsGatherIndex() {
-		return getInt("is_gather_index");
+	public java.lang.Boolean getIsGatherIndex() {
+		return getBoolean("is_gather_index");
 	}
 
-	public void setIsDoNlp(java.lang.Integer isDoNlp) {
+	public void setIsDoNlp(java.lang.Boolean isDoNlp) {
 		set("is_do_nlp", isDoNlp);
 	}
 	
-	public java.lang.Integer getIsDoNlp() {
-		return getInt("is_do_nlp");
+	public java.lang.Boolean getIsDoNlp() {
+		return getBoolean("is_do_nlp");
 	}
 
-	public void setIsRequiredTitle(java.lang.Integer isRequiredTitle) {
+	public void setIsRequiredTitle(java.lang.Boolean isRequiredTitle) {
 		set("is_required_title", isRequiredTitle);
 	}
 	
-	public java.lang.Integer getIsRequiredTitle() {
-		return getInt("is_required_title");
+	public java.lang.Boolean getIsRequiredTitle() {
+		return getBoolean("is_required_title");
 	}
 
-	public void setIsRequiredContent(java.lang.Integer isRequiredContent) {
+	public void setIsRequiredContent(java.lang.Boolean isRequiredContent) {
 		set("is_required_content", isRequiredContent);
 	}
 	
-	public java.lang.Integer getIsRequiredContent() {
-		return getInt("is_required_content");
+	public java.lang.Boolean getIsRequiredContent() {
+		return getBoolean("is_required_content");
 	}
 
-	public void setIsRequiredPublishTime(java.lang.Integer isRequiredPublishTime) {
+	public void setIsRequiredPublishTime(java.lang.Boolean isRequiredPublishTime) {
 		set("is_required_publish_time", isRequiredPublishTime);
 	}
 	
-	public java.lang.Integer getIsRequiredPublishTime() {
-		return getInt("is_required_publish_time");
+	public java.lang.Boolean getIsRequiredPublishTime() {
+		return getBoolean("is_required_publish_time");
 	}
 
-	public void setIsSaveCapture(java.lang.Integer isSaveCapture) {
+	public void setIsSaveCapture(java.lang.Boolean isSaveCapture) {
 		set("is_save_capture", isSaveCapture);
 	}
 	
-	public java.lang.Integer getIsSaveCapture() {
-		return getInt("is_save_capture");
+	public java.lang.Boolean getIsSaveCapture() {
+		return getBoolean("is_save_capture");
 	}
 
-	public void setIsDownloadImage(java.lang.Integer isDownloadImage) {
+	public void setIsDownloadImage(java.lang.Boolean isDownloadImage) {
 		set("is_download_image", isDownloadImage);
 	}
 	
-	public java.lang.Integer getIsDownloadImage() {
-		return getInt("is_download_image");
+	public java.lang.Boolean getIsDownloadImage() {
+		return getBoolean("is_download_image");
 	}
 
-	public void setIsAjaxSite(java.lang.Integer isAjaxSite) {
+	public void setIsAjaxSite(java.lang.Boolean isAjaxSite) {
 		set("is_ajax_site", isAjaxSite);
 	}
 	
-	public java.lang.Integer getIsAjaxSite() {
-		return getInt("is_ajax_site");
+	public java.lang.Boolean getIsAjaxSite() {
+		return getBoolean("is_ajax_site");
 	}
 
-	public void setIsAutoDetectPushDate(java.lang.Integer isAutoDetectPushDate) {
+	public void setIsAutoDetectPushDate(java.lang.Boolean isAutoDetectPushDate) {
 		set("is_auto_detect_push_date", isAutoDetectPushDate);
 	}
 	
-	public java.lang.Integer getIsAutoDetectPushDate() {
-		return getInt("is_auto_detect_push_date");
+	public java.lang.Boolean getIsAutoDetectPushDate() {
+		return getBoolean("is_auto_detect_push_date");
 	}
 
 	public void setProxyHost(java.lang.String proxyHost) {

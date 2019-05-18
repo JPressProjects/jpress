@@ -23,6 +23,33 @@ public interface KeywordService  {
      */
     public List<Keyword> findAll();
 
+    /**
+     * 分页查询数据(海量数据)
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<String> findListByPage(int pageNum, int pageSize);
+
+    /**
+     * 按条件查询待导出数据
+     *
+     * @date  2019-05-17 15:52
+     * @param inputKeywords         输入关键词
+     * @param categoryIds           关键词分类
+     * @param validSearchTypes      有效关键词(搜索引擎)
+     * @param checkedSearchTypes    已检核(搜索引擎)
+     * @param minLength             最小长度
+     * @param maxLength             最大长度
+     * @param minNum                关键词最少个数
+     * @param maxNum                关键词最多个数
+     * @param orderBy
+     * @return java.util.List<java.lang.String>
+     */
+    public List<String> findListByParams(String inputKeywords, String categoryIds, String validSearchTypes,
+           String checkedSearchTypes, Integer minLength, Integer maxLength, Integer minNum, Integer maxNum, String orderBy);
+
 
     /**
      * delete model by primary key
@@ -32,6 +59,22 @@ public interface KeywordService  {
      */
     public boolean deleteById(Object id);
 
+    /**
+     * delete models by categoryId
+     *
+     * @param categoryId
+     * @return success
+     */
+    public boolean deleteByCategoryId(Object categoryId);
+
+    /**
+     * 批量删除关键词
+     *
+     * @date  2019-05-17 16:34
+     * @param ids
+     * @return boolean
+     */
+    public boolean deleteByIds(Object... ids);
 
     /**
      * delete model
@@ -41,7 +84,6 @@ public interface KeywordService  {
      */
     public boolean delete(Keyword model);
 
-
     /**
      * save model to database
      *
@@ -50,6 +92,15 @@ public interface KeywordService  {
      */
     public Object save(Keyword model);
 
+    /**
+     * batch save model to database
+     *
+     * @param keywordList
+     * @param categoryId
+     * @param categoryName
+     * @return  boolean
+     */
+    public boolean batchSave(List<String> keywordList, Object categoryId, String categoryName);
 
     /**
      * save or update model
@@ -77,6 +128,26 @@ public interface KeywordService  {
      * @return
      */
     public Page<Keyword> paginate(int page, int pageSize);
+
+    /**
+     * 关键词分页查询
+     *
+     * @date  2019-05-17 15:52
+     * @param page
+     * @param pageSize
+     * @param inputKeywords         输入关键词
+     * @param categoryIds           关键词分类
+     * @param validSearchTypes      有效关键词(搜索引擎)
+     * @param checkedSearchTypes    已检核(搜索引擎)
+     * @param minLength             最小长度
+     * @param maxLength             最大长度
+     * @param minNum                关键词最少个数
+     * @param maxNum                关键词最多个数
+     * @param orderBy
+     * @return java.util.List<java.lang.String>
+     */
+    public Page<Keyword> paginate(int pageNum, int pageSize, String inputKeywords, String categoryIds, String validSearchTypes,
+         String checkedSearchTypes, Integer minLength, Integer maxLength, Integer minNum, Integer maxNum, String orderBy);
 
 
 }

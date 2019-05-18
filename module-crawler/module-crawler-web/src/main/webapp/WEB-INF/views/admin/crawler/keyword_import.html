@@ -1,0 +1,61 @@
+#@layer()
+
+#define script()
+<script>
+
+  	function doSubmit() {
+		ajaxSubmit("#form", function (data) {
+			//
+			parent.callback();
+		})
+  	}
+
+	$("#submit").on("click", function () {
+		doSubmit();
+	})
+</script>
+#end
+
+#define content()
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<form class="form-horizontal" autocomplete="off"
+				action="#(CPATH)/admin/crawler/keyword/doImport" method="POST" id="form" enctype="multipart/form-data">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="col-xs-2 control-label">类别</label>
+						<div class="col-xs-6">
+							<select name="categoryId" class="form-control input-sm">
+								<option value="">--请选择--</option>
+								#for(category : categoryList)
+								<option value="#(category.id)">#(category.name)</option>
+								#end
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">选择文件</label>
+						<div class="col-xs-6">
+							<input type="file" name="file">
+							<p class="help-block"><i class="fa fa-volume-up text-orange"></i> 可上传文件类型如下：txt,zip</p>
+						</div>
+					</div>
+					<blockquote>
+						<small>txt文件：请不要在文件中留空行.</small>
+						<small>压缩文件：zip压缩包.</small>
+					</blockquote>
+				</div>
+				<div class="box-footer">
+					<div class="col-xs-offset-2 col-xs-10 submit-block">
+						<div class="box-submit">
+							<button id="submit" type="button" class="btn btn-primary">上传</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-footer -->
+			</form>
+		</div>
+	</div>
+</section>
+#end

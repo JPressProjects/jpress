@@ -86,7 +86,8 @@ public abstract class BaseKeyword<M extends BaseKeyword<M>> extends JbootModel<M
 	}
 	
 	public java.lang.Boolean getStatus() {
-		return getBoolean("status");
+		Boolean status = getBoolean("status");
+		return status != null && status == true;
 	}
 
 	public void setIsBaiduEnabled(java.lang.Integer isBaiduEnabled) {

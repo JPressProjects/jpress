@@ -2,19 +2,24 @@ package io.jpress.module.crawler.service.provider;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.py.Pinyin;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.DateUtils;
 import io.jpress.model.Columns;
 import io.jpress.module.crawler.model.KeywordCategory;
+import io.jpress.module.crawler.model.util.CrawlerConsts;
 import io.jpress.module.crawler.model.vo.SearchEngineVO;
 import io.jpress.module.crawler.service.KeywordCategoryService;
 import io.jpress.module.crawler.service.KeywordService;
@@ -37,6 +42,12 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
     KeywordCategoryService categoryService;
 
     @Override
+    public Page<Keyword> paginate(int pageNum, int pageSize, Object categoryId) {
+        Column column = Column.create("category_id", categoryId);
+        return DAO.paginateByColumn(pageNum, pageSize, column, "title asc");
+    }
+
+    @Override
     public Page<Keyword> paginate(int pageNum, int pageSize, String inputKeywords, String categoryIds, String validSearchTypes,
           String checkedSearchTypes, Integer minLength, Integer maxLength,  Integer minNum, Integer maxNum,String orderBy) {
 
@@ -44,7 +55,8 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
 
         if (StrUtil.notBlank(categoryIds)) {
             if (categoryIds.contains(",")) {
-                columns.in("category_id", categoryIds);
+                Object[] categorys = Splitter.on(",").splitToList(categoryIds).toArray();
+                columns.in("category_id", categorys);
             } else {
                 columns.eq("category_id", categoryIds);
             }
@@ -62,14 +74,10 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
             columns.regexp("title", inputKeywords);
         }
 
-        isSearchEngineValid(columns, validSearchTypes, checkedSearchTypes);
-
-        if (StrUtil.isBlank(orderBy)) {
-            orderBy = "title asc";
-        }
+        searchEngineParams(columns, validSearchTypes, checkedSearchTypes);
+        orderBy = buildOrderBy(orderBy);
 
         return DAO.paginateByColumns(pageNum, pageSize, columns, orderBy);
-
     }
 
     @Override
@@ -115,7 +123,7 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
             columns.regexp("title", inputKeywords);
         }
 
-        isSearchEngineValid(columns, validSearchTypes, checkedSearchTypes);
+        searchEngineParams(columns, validSearchTypes, checkedSearchTypes);
 
         if (StrUtil.isBlank(orderBy)) {
             orderBy = "title asc";
@@ -124,16 +132,10 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
         return Db.query(columns.toMysqlSql() + " order by " + orderBy);
     }
 
-    private List<String> findRandomListByRandom(Integer randomNum) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT name FROM c_keyword WHERE id >= ((SELECT MAX(id) FROM c_keyword)-(SELECT MIN(id) FROM c_keyword)) * RAND() + (SELECT MIN(id) FROM c_keyword)");
-        sql.append(" LIMIT ?");
-        return Db.query(sql.toString(), randomNum);
-    }
-
-    public List<Record> findKeywordCountByCategoryId() {
-        String sql = "select category_id, count(category_id) as totalNum from c_keyword group by category_id";
-        return Db.find(sql);
+    @Override
+    public List<Keyword> findListByCategoryId(Object categoryId) {
+        Column column = Column.create("category_id", categoryId);
+        return DAO.findListByColumn(column, "title asc");
     }
 
     @Override
@@ -144,11 +146,14 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
             public boolean run() throws SQLException {
 
                 Object tmpCategoryId = null;
+                KeywordCategory category = null;
+
                 if (categoryId == null) {
-                    // 创建新分类
-                    KeywordCategory category = categoryService.findByName(categoryName);
+                    /** 创建新分类 */
+                    category = categoryService.findByName(categoryName);
                     if (category == null) {
-                        tmpCategoryId = categoryService.save(createKeywordCategory(categoryName));
+                        category = createKeywordCategory(categoryName);
+                        tmpCategoryId = categoryService.save(category);
                     }
                 } else {
                     tmpCategoryId = categoryId;
@@ -164,7 +169,57 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
                     }
                 }
 
-                Db.batch(sqlList, 10000);
+                int[] keywordArray = Db.batch(sqlList, sqlList.size());
+                int length = keywordArray.length;
+                if (length > 0) {
+                    /** 更新关键词数量 */
+                    sendEvent(CrawlerConsts.ADD, length, categoryId, CrawlerConsts.PLUS_KEYWORD_NUM_EVENT_NAME);
+                }
+
+                return true;
+            }
+        });
+        return result;
+    }
+
+    @Override
+    public boolean batchSave(List<Map<String, List<String>>> keywordList, List<String> categoryList) {
+        boolean result = Db.tx(new IAtom() {
+            @Override
+            public boolean run() throws SQLException {
+
+                Map<String, Object> categoryMap = Maps.newHashMap();
+
+                /** 所有关键词分类 */
+                categoryList.stream().forEach(name -> {
+                    KeywordCategory category = categoryService.findByName(name);
+                    if (category == null) {
+                        category = createKeywordCategory(name);
+                        categoryService.save(category);
+                    }
+                    categoryMap.put(name, category.getId());
+                });
+
+                List<String> sqlList = Lists.newArrayList();
+                String createDate = DateTime.now().toString(DateUtils.DEFAULT_FORMATTER);
+
+                keywordList.stream().forEach(kMap -> {
+                    kMap.forEach((categoryName, kList) -> {
+                        Object categoryId = categoryMap.get(categoryName);
+                        /** 过滤空关键词 */
+                        kList.stream().filter(title -> StrKit.notBlank(title.trim())).forEach(title -> {
+                            if (StrKit.notBlank(title)) {
+                                sqlList.add(getDistinctInsertSQL(title.trim(), categoryId, categoryName, createDate));
+                            }
+                        });
+
+                        int[] keywordArray = Db.batch(sqlList, sqlList.size());
+                        int length = keywordArray.length;
+                        if (length > 0) {
+                            sendEvent(CrawlerConsts.ADD, length, categoryId, CrawlerConsts.PLUS_KEYWORD_NUM_EVENT_NAME);
+                        }
+                    });
+                });
                 return true;
             }
         });
@@ -174,10 +229,7 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
     @Override
     public boolean deleteByCategoryId(Object categoryId) {
         int totalNum = Db.delete("delete from c_keyword where category_id = ?", categoryId);
-        if (totalNum > 0) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     @Override
@@ -185,27 +237,46 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
         return DAO.deleteByIds(ids);
     }
 
+    @Override
+    public List<Record> findAllCountByCategoryId() {
+        String sql = "select category_id, count(category_id) as total_num from c_keyword group by category_id";
+        return Db.find(sql);
+    }
+
+    @Override
+    public Record findCountByCategoryId(Object categoryId) {
+        String sql = "select category_id, count(category_id) as total_num from c_keyword where category_id = ? group by category_id";
+        return Db.findFirst(sql, categoryId);
+    }
+
+    private List<String> findRandomListByRandom(Integer randomNum) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT name FROM c_keyword WHERE id >= ((SELECT MAX(id) FROM c_keyword)-(SELECT MIN(id) FROM c_keyword)) * RAND() + (SELECT MIN(id) FROM c_keyword)");
+        sql.append(" LIMIT ?");
+        return Db.query(sql.toString(), randomNum);
+    }
+
     private String getDistinctInsertSQL(String title, Object categoryId, String categoryName, String createDate) {
 
         StringBuilder sqlBuilder = new StringBuilder("insert ignore into c_keyword(`title`, `category_id`, `category_name`, `num`, `pinyin`, `level`, `created`) values(");
+
         sqlBuilder.append("'").append(title).append("'").append(", ");
         sqlBuilder.append(categoryId).append(", ");
-         sqlBuilder.append("'").append(categoryName).append("'").append(", ");
+        sqlBuilder.append("'").append(categoryName).append("'").append(", ");
+        sqlBuilder.append(title.length()).append(", ");
 
         List<Pinyin> list = HanLP.convertToPinyinList(title);
         String head = list.get(0).getHeadString();
         String pinyin = "none".equals(head) ? "-" : head;
         sqlBuilder.append("'").append(pinyin).append("'").append(", ");
 
-        sqlBuilder.append(title.length()).append(", ");
         sqlBuilder.append(1).append(", ");
         sqlBuilder.append("'").append(createDate).append("'");
         sqlBuilder.append(")");
-
         return sqlBuilder.toString();
     }
 
-    private void isSearchEngineValid(Columns columns, Object searchEngineTypes, Object disabledSearchEngineTypes) {
+    private void searchEngineParams(Columns columns, Object searchEngineTypes, Object disabledSearchEngineTypes) {
 
         if (searchEngineTypes != null) {
             List<String> list = Splitter.on(",").splitToList(searchEngineTypes.toString());
@@ -261,4 +332,26 @@ public class KeywordServiceProvider extends JbootServiceBase<Keyword> implements
         return String.copyValueOf(carr).trim();
     }
 
+    private void sendEvent(String type, Integer totalNum, Object categoryId, String eventName) {
+        Ret params = Ret.create();
+        params.put("num", totalNum);
+        params.put("type", type);
+        params.put("categoryId", categoryId);
+
+        Jboot.sendEvent(eventName, params);
+    }
+
+    private String buildOrderBy(String orderBy) {
+
+        String orderByString = null;
+
+        if (StrUtil.isBlank(orderBy)) {
+            orderByString = " title asc";
+        } else if ("random".equals(orderBy)) {
+            orderByString = " RAND()";
+        } else {
+            orderByString = orderBy;
+        }
+        return orderByString;
+    }
 }

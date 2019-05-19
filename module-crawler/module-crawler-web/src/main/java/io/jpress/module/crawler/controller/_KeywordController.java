@@ -16,6 +16,7 @@
 package io.jpress.module.crawler.controller;
 
 import cn.hutool.core.io.file.FileReader;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
@@ -23,14 +24,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
-import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import io.jboot.exception.JbootException;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -42,6 +42,7 @@ import io.jpress.module.crawler.model.KeywordCategory;
 import io.jpress.module.crawler.service.KeywordCategoryService;
 import io.jpress.module.crawler.service.KeywordService;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -87,34 +88,33 @@ public class _KeywordController extends AdminControllerBase {
         Integer maxLength = getParaToInt("maxLength");
 
         /** 在搜索引擎中有效 */
-        String validSearchTypes = getPara("validSearchTypes");
+        String searchTypes = getPara("searchTypes");
         /** 在搜索引擎是否检查 */
-        String checkedSearchTypes = getPara("checkedSearchTypes");
+        String disableSearchTypes = getPara("disableSearchTypes");
 
         /** 选中的关键词 */
         String selectedKeywords = getPara("selectedKeywords");
         String orderBy = getPara("orderBy");
 
-        Page<Keyword> page = service.paginate(getPagePara(), getPageSizePara(), inputKeywords, categoryIds, validSearchTypes,
-                checkedSearchTypes, minLength, maxLength, minNum, maxNum, orderBy);
-        categoryService.join(page, "category_id", "category");
+        Page<Keyword> page = service.paginate(getPagePara(), getPageSizePara(), inputKeywords, categoryIds, searchTypes,
+                disableSearchTypes, minLength, maxLength, minNum, maxNum, orderBy);
         Map<String, Object> map = ImmutableMap.of("total", page.getTotalRow(), "rows", page.getList());
         renderJson(map);
     }
 
     public void edit() {
-        int entryId = getParaToInt(0, 0);
-        Keyword entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("keyword", entry);
-
+        int id = getParaToInt(0, 0);
+        Keyword keyword = id > 0 ? service.findById(id) : new Keyword();
+        setAttr("keyword", keyword);
         List<KeywordCategory> list = categoryService.findAll();
-        set("categoryList", list);
 
+        set("categoryList", list);
         render("crawler/keyword_edit.html");
     }
    
     public void doSave() {
         Keyword entry = getModel(Keyword.class,"keyword");
+
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
@@ -236,17 +236,17 @@ public class _KeywordController extends AdminControllerBase {
      * 导出关键词到TXT
      * @date  2019-05-17 00:28
      * @param filePath          文件路径
-     * @param searchList        按条件搜索关键词
+     * @param selectedList        按条件搜索关键词
      * @param inputKeywordList  输入关键词
      * @return void
      */
-    private void exportToTxt(String filePath, List<String> searchList, List<String> inputKeywordList) {
+    private void exportToTxt(String filePath, List<String> selectedList, List<String> inputKeywordList) {
         File file = new File(filePath);
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(filePath, true);
-            if (searchList != null) {
-                for (String keyword : searchList) {
+            if (selectedList != null) {
+                for (String keyword : selectedList) {
                     fileWriter.write(keyword + "\r\n");
                 }
             }
@@ -331,7 +331,10 @@ public class _KeywordController extends AdminControllerBase {
     private void uploadZip(File file) {
 
         boolean isCreated = true;
-        String outputPath = PathKit.getWebRootPath() + JFinal.me().getConstants().getBaseUploadPath();
+        String fileName = file.getName();
+        String suffix = FileUtil.getSuffix(fileName);
+        String outputPath = PathKit.getWebRootPath() + "/" + JFinal.me().getConstants().getBaseUploadPath() + "/" + fileName.replace(suffix, "");
+
         File outputFile = new File(outputPath);
 
         try {
@@ -343,6 +346,8 @@ public class _KeywordController extends AdminControllerBase {
                 _LOG.error(this.getClass().getName() + "解压文件夹错误!");
                 if (isAjaxRequest()) {
                     renderJson(Ret.fail().set("msg", "创建解压文件夹错误"));
+                } else {
+                    new JbootException("解压文件夹错误");
                 }
                 return;
             }
@@ -350,7 +355,7 @@ public class _KeywordController extends AdminControllerBase {
             long startTime = System.currentTimeMillis();
             List<File> files = Lists.newArrayList();
             List<String> categoryList = Lists.newArrayList();
-            ZipUtil.unzip(file, outputFile);
+            ZipUtil.unzip(file, outputFile, CharsetUtil.CHARSET_GBK);
 
             recursive(outputFile, files);
             List<Map<String, List<String>>> keywordsList = Lists.newArrayList();
@@ -362,7 +367,7 @@ public class _KeywordController extends AdminControllerBase {
                 String typeName = tmpFileName.replaceAll(tmpSuffix, "");
 
                 categoryList.add(typeName);
-                FileReader fileReader = new FileReader(tmpFile, "GBK");
+                FileReader fileReader = new FileReader(tmpFile, CharsetUtil.CHARSET_UTF_8);
                 List<String> keywordList = fileReader.readLines();
                 keywordList.stream().distinct().collect(Collectors.toList());
 
@@ -373,20 +378,23 @@ public class _KeywordController extends AdminControllerBase {
             });
 
             categoryList.stream().distinct().collect(Collectors.toList());
-            // service.batchImportBySQL(keywordsList, categoryList);
+            service.batchSave(keywordsList, categoryList);
             long endTime = System.currentTimeMillis();
             _LOG.info("批量导入关键词耗时：" + (endTime - startTime) + "毫秒");
 
             if (outputFile.isDirectory()) {
                 File[] tmpFiles = outputFile.listFiles();
                 Arrays.stream(tmpFiles).forEach(tmpFile -> {
-                    tmpFile.delete();
+                    FileUtils.deleteQuietly(tmpFile);
                 });
             }
         } catch (Exception e) {
-            _LOG.error(this.getClass().getName() + "解压文件夹错误!");
+            FileUtils.deleteQuietly(file);
+            _LOG.error(this.getClass().getName() + "解压文件夹错误!", e);
             if (isAjaxRequest()) {
                 renderJson(Ret.fail().set("msg", "创建解压文件夹错误"));
+            } else {
+                new JbootException("解压Zip压缩文件错误", e);
             }
             return;
         }
@@ -402,7 +410,6 @@ public class _KeywordController extends AdminControllerBase {
         File[] files = file.listFiles();
         if (file != null) {
             _LOG.info("压缩包中文件总个数 = " + files.length);
-
             Arrays.stream(files).forEach(tmp -> {
                 if (tmp.isDirectory()) {
                     recursive(tmp, list);
@@ -416,7 +423,7 @@ public class _KeywordController extends AdminControllerBase {
     /** 用户输入的关键词 */
     private String getInputKeyword() {
 
-        String inputKeywords = getPara("input_keywords", "");
+        String inputKeywords = getPara("inputKeywords", "");
         List<String> list = Splitter.on(",").splitToList(inputKeywords);
         StringBuilder keywordsText = new StringBuilder();
 

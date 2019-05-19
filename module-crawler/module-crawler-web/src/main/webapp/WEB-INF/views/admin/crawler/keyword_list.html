@@ -11,6 +11,14 @@
 <script src="https://cdn.bootcss.com/dayjs/1.8.14/dayjs.min.js"></script>
 <script>
 
+    let $form = $('#form');
+    let $table = $('#_keyword_table');
+
+    let categoryIds = null;
+    let searchTypes = null;
+    let disableSearchTypes = null;
+    let $selectedKeywords = new Array();
+
     $('#category').selectpicker({
         title: '请选择类型(最多5个)',
         liveSearch: true,
@@ -19,19 +27,22 @@
         size: 5, // 显示5个，后面下拉查看
         maxOptionsText: 5
     }).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-
+        categoryIds = $(this).selectpicker('val').join(',');
+        $('#categoryIds').val(categoryIds);
     });
 
-    $('#enableSe').selectpicker({
+    $('#enableSearch').selectpicker({
         title: '请选择搜索引擎[正常]'
     }).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-        console.log($(this).selectpicker('val'));
+        searchTypes = $(this).selectpicker('val').join(',');
+        $('#searchTypes').val(searchTypes);
     });
 
-    $('#disableSe').selectpicker({
+    $('#disableSearch').selectpicker({
         title: '请选择搜索引擎[屏蔽]'
     }).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-
+        disableSearchTypes = $(this).selectpicker('val').join(',');
+        $('#disableSearchTypes').val(disableSearchTypes);
     });
 
     $("#batchDel").click(function () {
@@ -43,15 +54,40 @@
         ajaxGet("/admin/keyword/doDelByIds?ids=" + ids);
     })
 
-    $('#form').slimScroll({
-        height: '100%',
-        postion: 'right'
+    $('#search').click(function (e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        doRefresh();
     });
 
+    $('#export').click(function (e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        doExport();
+    });
+
+    /*$('#form').slimScroll({
+        height: '100%',
+        postion: 'right'
+    });*/
+
     var initParams = function (params) {
+
         var param = {
             size: params.limit,
-            page: params.offset / params.limit + 1
+            page: params.offset / params.limit + 1,
+            orderBy: $('#orderBy').val(),
+            minNum: $('#minNum').val(),
+            maxNum: $('#maxNum').val(),
+            minLength: $('#minLength').val(),
+            maxLength: $('#maxLength').val(),
+            inputKeywords: unescapeKeyword(),
+            categoryIds: categoryIds,
+            searchTypes: searchTypes,
+            disableSearchTypes: disableSearchTypes,
+            selectedKeywords: $selectedKeywords.join(',')
         };
         return param;
     };
@@ -59,41 +95,43 @@
     var initFields = function () {
         var fields =
             [
-                {field: "checkbox", checkbox: true},
+                {field: "checkbox", checkbox: true,
+                    formatter: function (i, row) {
+                        // 每次加载 checkbox 时判断当前 row 的 id 是否已经存在全局Array里
+                        if ($.inArray(row.title, $selectedKeywords) != -1) {
+                            return { checked : true }
+                        }
+                    }
+                },
                 {field: "id", title: "ID", width: '5%', edit: false},
                 {field: "title", title: "关键词",
                     formatter: function (value, row, rowIndex) {
-                        let title = row.title;
-                        
+                        value = "<strong><a href='#' title='点击查看相关词云'>" + value + "</a></strong>";
+
                         if (row.is_baidu_enabled) {
-                            title += ' <small class="label label-warning" title="关键字在百度有效">百</small>';
+                            value += ' <small class="label label-warning" title="关键字在百度有效">百</small>';
                         }
 
                         if (row.is_sogo_enabled) {
-                            title += ' <small class="label label-primary" title="关键字在搜狗有效">搜</small>';
+                            value += ' <small class="label label-primary" title="关键字在搜狗有效">搜</small>';
                         }
 
                         if (row.is_baidu_enabled) {
-                            title += ' <small class="label label-info" title="关键字在360有效">360</small>';
+                            value += ' <small class="label label-info" title="关键字在360有效">360</small>';
                         }
 
                         if (row.is_baidu_enabled) {
-                            title += ' <small class="label label-success" title="关键字在神马有效">神</small>';
+                            value += ' <small class="label label-success" title="关键字在神马有效">神</small>';
                         }
 
-                        return title;
+                        return value;
                     },
                     edit: false
                 },
-                {
-                    field: "category_name", title: "类别", align: "center", width: '12%',
-                    formatter: function (value, row, rowIndex) {
-                        return row.category.name;
-                    },
-                    edit: false
-                },
+                {field: "category_name", title: "类别", align: "center", width: '12%', edit: false},
                 {field: "level", title: "层级", width: '5%', edit: false},
                 {field: "num", title: "长度", width: '5%', edit: false},
+                {field: "pinyin", title: "拼音", width: '5%', edit: false},
                 {
                     field: "is_parent", title: "检核状态", align: "center", width: '16%',
                     formatter: function (value, row, rowIndex) {
@@ -126,12 +164,13 @@
                     edit: false
                 },*/
                 {
-                    field: "action", title: "操作", width: '16%',
+                    field: "action", title: "操作", width: '12%',
                     formatter: function (value, row, rowIndex) {
                         var url = '#(CPATH)/admin/crawler/keyword/edit/' + row.id;
-                        var strHtml = '<a href="' + url + '" class="btn btn-xs bg-primary">编辑</a> '
-                            + '<a href="javascript:void(0);" class="btn btn-xs btn-warning" onclick="doReview(\'' + row.id + '\')">相关词云</a> '
-                            + '<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="doDel(\'' + row.id + '\')">删除</a>';
+                        var strHtml = '<a href="' + url + '" class="btn btn-xs text-green" title="编辑"><i class="fa fa-edit"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-orange" title="停用" onclick="doReview(\'' + row.id + '\')"><i class="fa fa-stop"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-aqua" title="相关词云" onclick="doReview(\'' + row.id + '\')"><i class="fa fa-cloud"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-red" title="删除" onclick="doDel(\'' + row.id + '\')"><i class="fa fa-trash"></i></a>';
                         return strHtml;
                     },
                     edit: false
@@ -149,6 +188,13 @@
 
     initEditTable(options);
 
+    /** 初始化选中、取消事件 */
+    $table.on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table', function (e, rows) {
+        // 点击时获取选中的行或取消选中的行
+        let data = $.isArray(rows) ? rows : [rows];
+        updateCheckedRows(e.type, data);
+    });
+
     function doDel(id) {
         ajaxGet("/admin/keyword/doDel/" + id);
     }
@@ -161,16 +207,59 @@
         openWindow(options);
     }
 
+    function doExport() {
+        layer.confirm('确定导出吗？', {
+            btn: ['确定','取消'], //按钮
+            shade: false //不显示遮罩
+        }, function(index) {
+            var param = $form.serialize();
+            param = param + "&selectedKeywords=" + $selectedKeywords.join(',');
+            let url = "#(CPATH)/admin/crawler/keyword/export?" + param;
+            window.location.href = url;
+
+            layer.close(index);
+        }, function(index) {
+            layer.close(index);
+        });
+    }
+
     function doReview(id) {
         let options = {
             title: '相关词'
         };
     }
 
+    function doRefresh() {
+        $table.bootstrapTable('refresh', options);
+    }
+
+    /** 转换转逗号 */
+    function unescapeKeyword() {
+        let inputKeywords = $('#inputKeywords').val()
+        if (inputKeywords) {
+            inputKeywords = unescape(inputKeywords.replace(/\n/g,','));
+        }
+        return inputKeywords;
+    }
+
+    function updateCheckedRows(type, data) {
+        if (type.indexOf('uncheck') == -1) {
+            $.each(data, function (i, v) {
+                // 添加时，判断一行或多行的 id 是否已经在数组里 不存则添加
+                $selectedKeywords.indexOf(v.title) == -1 ? $selectedKeywords.push(v.title) : -1;
+            });
+        } else {
+            $.each(data, function (i, v) {
+                // 删除取消选中行
+                $selectedKeywords.splice($selectedKeywords.indexOf(v.title), 1);
+            });
+        }
+    }
+
     function callback() {
         layer.closeAll();
         toastr.success('关键词导入成功!');
-        $("#_keyword_table").bootstrapTable('refresh', options);
+        doRefresh();
     }
 </script>
 #end
@@ -201,7 +290,7 @@
                         <form class="form-horizontal" autocomplete="off" action="/admin/keyword/doSave" method="POST" id="form">
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <textarea class="form-control" placeholder="请输入关键词(一行一个)" rows="3"></textarea>
+                                    <textarea id="inputKeywords" class="form-control" placeholder="请输入关键词(一行一个)" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -211,31 +300,34 @@
                                         <option value="#(category.id)" #if(category.id == keyword.category_id ??)selected#end>#(category.name)</option>
                                         #end
                                     </select>
+                                    <input type="hidden" id="categoryIds" name="categoryIds">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <select id="enableSe" class="form-control" multiple>
+                                    <select id="enableSearch" class="form-control" multiple>
                                         <option value="baidu">百度</option>
                                         <option value="sogo">搜狗</option>
                                         <option value="soso">360</option>
                                         <option value="shenma">神马</option>
                                     </select>
+                                    <input type="hidden" id="searchTypes" name="searchTypes">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <select id="disableSe" class="form-control" multiple>
+                                    <select id="disableSearch" class="form-control" multiple>
                                         <option value="baidu">百度</option>
                                         <option value="sogo">搜狗</option>
                                         <option value="soso">360</option>
                                         <option value="shenma">神马</option>
                                     </select>
+                                    <input type="hidden" id="disableSearchTypes" name="disableSearchTypes">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <select id="order" class="form-control">
+                                    <select id="orderBy" name="orderBy" class="form-control">
                                         <option value="">--请选择排序字段--</option>
                                         <option value="created">时间</option>
                                         <option value="pinyin">首字母</option>
@@ -247,26 +339,24 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-6">
-                                    <input class="form-control" name="" placeholder="最小长度">
+                                    <input class="form-control" id="minLength" name="minLength" placeholder="最小长度">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input class="form-control" name="" placeholder="最大长度">
+                                    <input class="form-control" id="maxLength" name="maxLength" placeholder="最大长度">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-6">
-                                    <input class="form-control" name="" placeholder="最少个数">
+                                    <input class="form-control" id="minNum" name="minNum" placeholder="最少个数">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input class="form-control" name="" placeholder="最多个数">
+                                    <input class="form-control" id="maxNum" name="maxNum" placeholder="最多个数">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <button type="submit" id="batchDel" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
-                                    <a href="keyword/edit" class="btn btn-success">
-                                        <i class="fa fa-download"></i> 导出
-                                    </a>
+                                    <button type="button" id="search" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                                    <button type="button" id="export" class="btn btn-success"><i class="glyphicon glyphicon-export"></i> 导出</button>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -274,7 +364,7 @@
                                     <p><i class="fa fa-volume-up text-orange"></i> 功能说明：</p>
                                     <h6 class="text-muted">正常：检核之后关键词可用</h6>
                                     <h6 class="text-muted">屏蔽：检核之后关键词被屏蔽</h6>
-                                    <h6 class="text-muted">个数：区间内随机导出关键词数量</h6>
+                                    <h6 class="text-muted">个数：区间内随机导出关键词数量(不参与搜索)</h6>
                                 </div>
                             </div>
                         </form>
@@ -291,9 +381,10 @@
                                     <i class="fa fa-fw fa-plus"></i> 新建
                                 </a>
                                 <a href="javascript:void(0);" class="btn btn-success" onclick="doImport();">
-                                    <i class="fa fa-upload"></i> 导入
+                                    <i class="glyphicon glyphicon-import"></i> 导入
                                 </a>
-                                <button type="submit" id="batchDel" class="btn btn-danger checkAction"><i class="fa fa-trash"></i>  批量删除</button>
+                                <button type="button" id="batchDel" class="btn btn-danger"><i class="fa fa-trash"></i>  批量删除</button>
+                                <button type="button" class="btn btn-default" onclick="doRefresh();"><i class="fa fa-refresh"></i>  刷新</button>
                             </div>
                         </div>
                     </div>

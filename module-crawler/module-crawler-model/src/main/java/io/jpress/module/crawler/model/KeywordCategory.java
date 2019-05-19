@@ -8,5 +8,6 @@ import io.jpress.module.crawler.model.base.BaseKeywordCategory;
  */
 @Table(tableName = "c_keyword_category", primaryKey = "id")
 public class KeywordCategory extends BaseKeywordCategory<KeywordCategory> {
-	
+
+    public static final String CACHE_NAME = "c_keyword_category";
 }

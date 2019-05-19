@@ -5,12 +5,17 @@
 
   	function doSubmit() {
 		ajaxSubmit("#form", function (data) {
-			//
+			layer.close(layer.index);
 			parent.callback();
 		})
   	}
 
 	$("#submit").on("click", function () {
+        layer.msg('关键词导入中...', {
+            icon: 16,
+			offset: '120px',
+            shade: 0.3
+        });
 		doSubmit();
 	})
 </script>
@@ -53,7 +58,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- /.box-footer -->
 			</form>
 		</div>
 	</div>

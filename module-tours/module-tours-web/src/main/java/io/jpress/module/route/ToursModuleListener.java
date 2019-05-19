@@ -53,7 +53,7 @@ public class ToursModuleListener extends JbootAppListenerBase implements ModuleL
         menuGroup.setId("tours");
         menuGroup.setText("旅游");
         menuGroup.setIcon("<i class=\"fa fa-cloud\"></i>");
-        menuGroup.setOrder(1);
+        menuGroup.setOrder(3);
         adminMenus.add(menuGroup);
     }
 

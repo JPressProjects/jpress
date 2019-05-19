@@ -38,7 +38,8 @@ public abstract class BaseKeywordCategory<M extends BaseKeywordCategory<M>> exte
 	}
 	
 	public java.lang.Boolean getStatus() {
-		return getBoolean("status");
+		Boolean status = getBoolean("status");
+		return status != null && status == true;
 	}
 
 	public void setTotalNum(java.lang.Integer totalNum) {

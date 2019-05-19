@@ -1,9 +1,11 @@
 package io.jpress.module.crawler.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import io.jpress.module.crawler.model.Keyword;
 
 import java.util.List;
+import java.util.Map;
 
 public interface KeywordService  {
 
@@ -50,6 +52,13 @@ public interface KeywordService  {
     public List<String> findListByParams(String inputKeywords, String categoryIds, String validSearchTypes,
            String checkedSearchTypes, Integer minLength, Integer maxLength, Integer minNum, Integer maxNum, String orderBy);
 
+    /**
+     * 按分类查询关键词
+     *
+     * @param categoryId
+     * @return
+     */
+    public List<Keyword> findListByCategoryId(Object categoryId);
 
     /**
      * delete model by primary key
@@ -103,6 +112,15 @@ public interface KeywordService  {
     public boolean batchSave(List<String> keywordList, Object categoryId, String categoryName);
 
     /**
+     * batch save model to database
+     *
+     * @param keywordList
+     * @param categoryList
+     * @return  boolean
+     */
+    public boolean batchSave(List<Map<String, List<String>>> keywordList, List<String> categoryList);
+
+    /**
      * save or update model
      *
      * @param model
@@ -130,6 +148,16 @@ public interface KeywordService  {
     public Page<Keyword> paginate(int page, int pageSize);
 
     /**
+     * 按分类查询关键词
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param categoryId
+     * @return
+     */
+    public Page<Keyword> paginate(int pageNum, int pageSize, Object categoryId);
+
+    /**
      * 关键词分页查询
      *
      * @date  2019-05-17 15:52
@@ -148,6 +176,25 @@ public interface KeywordService  {
      */
     public Page<Keyword> paginate(int pageNum, int pageSize, String inputKeywords, String categoryIds, String validSearchTypes,
          String checkedSearchTypes, Integer minLength, Integer maxLength, Integer minNum, Integer maxNum, String orderBy);
+
+    /**
+     * 汇总所有分类关键词总数
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public List<Record> findAllCountByCategoryId();
+
+    /**
+     * 汇总单个分类关键词总数
+     *
+     * @param categoryId
+     * @return
+     */
+    public Record findCountByCategoryId(Object categoryId);
+
+
 
 
 }

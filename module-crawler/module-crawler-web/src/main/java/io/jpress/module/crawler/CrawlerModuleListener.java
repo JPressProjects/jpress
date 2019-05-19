@@ -47,9 +47,9 @@ public class CrawlerModuleListener extends JbootAppListenerBase implements Modul
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 		MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("crawler");
-        menuGroup.setText("crawler");
+        menuGroup.setText("采集");
         menuGroup.setIcon("<i class=\"fa fa-bug\"></i>");
-        menuGroup.setOrder(0);
+        menuGroup.setOrder(2);
         adminMenus.add(menuGroup);
     }
 

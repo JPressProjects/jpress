@@ -336,22 +336,25 @@ function initEditTable (options) {
         url: url,
         method: 'get',
         editable: true,//开启编辑模式
-        clickToSelect: true,
+        clickToSelect: false,
         uniqueId: 'id',
         striped: true,
+        silent: true,                   // 静默加载
         classes: 'table-no-bordered',
         cache: false,					// 是否使用缓存
         pagination: true,				// 是否显示分页
         queryParams: queryParams,		// 传递参数
-        sidePagination: 'server', 		//分页方式：client客户端分页，server服务端分页（*）
+        sidePagination: 'server', 		// 分页方式：client客户端分页，server服务端分页（*）
         paginationLoop: false,
         paginationPreText: '上一页',
         paginationNextText: '下一页',
         pageNumber: 1,
         pageSize: 10,
+        pageList: [10, 30, 50, 100],
         smartDisplay: false,
-        undefinedText: '',
+        undefinedText: '-',
         columns: fields,
+        maintainSelected: true,
         onEditableSave: editSaveFunc,
         onClickCell: clickCellFunc
     });

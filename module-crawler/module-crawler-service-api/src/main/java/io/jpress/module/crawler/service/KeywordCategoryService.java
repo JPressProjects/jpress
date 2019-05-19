@@ -31,7 +31,6 @@ public interface KeywordCategoryService extends JbootServiceJoiner {
      */
     public KeywordCategory findByName(String name);
 
-
     /**
      * delete model by primary key
      *
@@ -40,6 +39,13 @@ public interface KeywordCategoryService extends JbootServiceJoiner {
      */
     public boolean deleteById(Object id);
 
+    /**
+     * delete model cache by primary key
+     *
+     * @param id
+     * @return success
+     */
+    public void deleteCacheById(Object id);
 
     /**
      * delete model
@@ -76,6 +82,21 @@ public interface KeywordCategoryService extends JbootServiceJoiner {
      */
     public boolean update(KeywordCategory model);
 
+    /**
+     * 汇总单个分类关键词总数量
+     *
+     * @param id
+     * @return
+     */
+    public boolean countById(Object id);
+
+    /**
+     * 汇总所有分类关键词总数量
+     *
+     * @param id
+     * @return
+     */
+    public boolean countAll();
 
     /**
      * paginate query
@@ -86,5 +107,13 @@ public interface KeywordCategoryService extends JbootServiceJoiner {
      */
     public Page<KeywordCategory> paginate(int page, int pageSize);
 
-
+    /**
+     * paginate query
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    public Page<KeywordCategory> paginate(int pageNum, int pageSize, String name);
 }

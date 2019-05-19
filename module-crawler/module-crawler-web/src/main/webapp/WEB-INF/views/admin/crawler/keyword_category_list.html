@@ -1,10 +1,19 @@
 #@layout()
-	
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-table/bootstrap-table.css">
+#end
+
 #define script()
+<script src="#(CPATH)/static/components/bootstrap-table/bootstrap-table.js"></script>
+<script src="#(CPATH)/static/components/bootstrap-table/bootstrap-table-zh-CN.js"></script>
 <script>
 
+    let $selectedRows = new Array();
+    let $table = $('#_category_table');
+
     function doDel(id) {
-        ajaxGet("/admin/keyword/category/doDel/" + id);
+        ajaxGet("#(CPATH)/admin/crawler/keyword/category/doDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -13,9 +22,160 @@
             alert('您未选择任何条目');
             return
         }
-        ajaxGet("/admin/keyword/category/doDelByIds?ids=" + ids);
-    })
+        ajaxGet("#(CPATH)/admin/crawler/keyword/category/doDelByIds?ids=" + ids);
+    });
 
+    $('#search').click(function (e) {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        doRefresh();
+    });
+
+    var initParams = function (params) {
+        var param = {
+            size: params.limit,
+            page: params.offset / params.limit + 1,
+            categoryName: $('#categoryName').val()
+        };
+        return param;
+    };
+
+    var initFields = function () {
+        var fields =
+            [
+                {
+                    field: "checkbox", checkbox: true,
+                    formatter: function (i, row) {
+                        // 每次加载 checkbox 时判断当前 row 的 id 是否已经存在全局Array里
+                        if ($.inArray(row.id, $selectedRows) != -1) {
+                            return {checked: true}
+                        }
+                    }
+                },
+                {field: "name", title: "分类", edit: false},
+                {field: "code", title: "编码", align: "center", edit: false},
+                {field: "total_num", title: "总数", edit: false},
+                {field: "order_list", title: "排序", edit: false},
+                {
+                    field: "status", title: "状态", align: "center",
+                    formatter: function (value, row, rowIndex) {
+                        if (value == 1) {
+                            return '<small class="label label-success">启用</small>';
+                        } else {
+                            return ' <small class="label label-warning"">删除</small>';
+                        }
+                    },
+                    edit: false
+                },
+                {
+                    field: "action", title: "操作",
+                    formatter: function (value, row, rowIndex) {
+                        var url = '#(CPATH)/admin/crawler/keyword/category/edit/' + row.id;
+                        var strHtml = '<a href="' + url + '" class="btn btn-xs text-green" title="编辑"><i class="fa fa-edit"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-orange" title="更新关键词总数" onclick="doCountById(\'' + row.id + '\')"><i class="fa fa-refresh"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-light-blue" title="查看关键词" onclick="doView(\'' + row.id + '\', \'' + row.name + '\')"><i class="fa fa-eye"></i></a> '
+                            + '<a href="javascript:void(0);" class="btn btn-xs text-red" title="删除" onclick="doDel(\'' + row.id + '\')"><i class="fa fa-trash"></i></a>';
+                        return strHtml;
+                    },
+                    edit: false
+                }
+            ];
+        return fields;
+    }
+
+    let options = {
+        tableId: '#_category_table',
+        url: '#(CPATH)/admin/crawler/keyword/category/paginate',
+        fields: initFields(),
+        queryParams: initParams
+    };
+
+    initEditTable(options);
+
+    /** 初始化选中、取消事件 */
+    $table.on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table', function (e, rows) {
+        // 点击时获取选中的行或取消选中的行
+        let data = $.isArray(rows) ? rows : [rows];
+        updateCheckedRows(e.type, data);
+    });
+    
+    function doView(id, name) {
+        let viewUrl = '#(CPATH)/admin/crawler/keyword/category/view?categoryId=' + id;
+        let options = {
+            content: viewUrl,
+            title: name + '分类下，关键词列表',
+            offset: '120px',
+            area: ['1000px', '600px']
+        };
+        openWindow(options);
+    }
+
+    function doRefresh() {
+        $table.bootstrapTable('refresh', options);
+    }
+
+    function doCountById(id) {
+        layer.confirm('确定进行分类汇总吗？', {
+            btn: ['确定','取消'], //按钮
+            shade: false //不显示遮罩
+        }, function(index) {
+            layer.close(index);
+            ajaxGet("#(CPATH)/admin/crawler/keyword/category/doCountById/" +id, okFunction);
+        }, function(index) {
+            layer.close(index);
+        });
+    }
+    
+    function doCountAll() {
+        layer.confirm('确定进行所有分类汇总吗？', {
+            btn: ['确定','取消'], //按钮
+            shade: false //不显示遮罩
+        }, function(index) {
+            layer.close(index);
+            ajaxGet("#(CPATH)/admin/crawler/keyword/category/doCountAll", okFunction);
+        }, function(index) {
+            layer.close(index);
+        });
+    }
+    
+    function doBackup() {
+        if ($selectedRows.length == 0) {
+            toastr.warning('请选择分类!');
+            return ;
+        }
+
+        layer.confirm('确定备份吗？', {
+            btn: ['确定','取消'], //按钮
+            shade: false //不显示遮罩
+        }, function(index) {
+            let ids = $selectedRows.join(',');
+            let url = "#(CPATH)/admin/crawler/keyword/category/backup/" + ids;
+            window.location.href = url;
+            layer.close(index);
+        }, function(index) {
+            layer.close(index);
+        });
+    }
+    
+    function okFunction() {
+        toastr.success('汇总成功');
+        location.reload();
+    }
+
+    function updateCheckedRows(type, data) {
+        if (type.indexOf('uncheck') == -1) {
+            $.each(data, function (i, v) {
+                // 添加时，判断一行或多行的 id 是否已经在数组里 不存则添加
+                $selectedRows.indexOf(v.id) == -1 ? $selectedRows.push(v.id) : -1;
+            });
+        } else {
+            $.each(data, function (i, v) {
+                // 删除取消选中行
+                $selectedRows.splice($selectedRows.indexOf(v.id), 1);
+            });
+        }
+    }
 
 </script>
 #end
@@ -36,65 +196,35 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/crawler/keyword/category/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                        <form class="form-horizontal" action="#(CPATH)/admin/crawler/keyword/category">
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <a href="#(CPATH)/admin/crawler/keyword/category/edit" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-plus"></i> 新增
+                                    </a>
+                                    <a href="javascipt:void(0);" onclick="doCountAll()" class="btn btn-sm btn-success">
+                                        <i class="fa fa-refresh"></i> 批量汇总
+                                    </a>
+                                    <a href="javascipt:void(0);" onclick="doBackup()" class="btn btn-sm btn-warning">
+                                        <i class="fa fa-download"></i> 备份
+                                    </a>
+                                    <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                                </div>
+                                <div class="col-xs-4">
+                                    <label class="control-label col-xs-4">名称:</label>
+                                    <div class="col-xs-8 input-group input-group-sm">
+                                        <input class="form-control" type="search" id="categoryName" placeholder="请输入分类名称...">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="button" id="search" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                                </div>
                             </div>
-                        </div>
-
+                        </form>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body ">
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-                                <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-                                </th>
-                                <th>名称</th>
-                                <th>编码</th>
-                                <th>状态</th>
-                                <th>总数</th>
-                                <th>操作</th>
-                            </tr>
-                            #for(entry : page.list)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" onchange="dataItemChange(this)"/>
-                                </td>
-                                <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/crawler/keyword/category/edit/#(entry.id)"> #(entry.name ??) </a>
-                                    </strong>
-                                </td>
-                                <td>#(entry.code)</td>
-                                <td>
-                                    #if(entry.status == 0)
-                                    <span class="label label-warning">删除</span>
-                                    #else
-                                    <span class="label label-success">启用</span>
-                                    #end
-                                </td>
-                                <td>#(entry.total_num)</td>
-                                <td>
-                                    <a href="#(CPATH)/admin/crawler/keyword/category/edit/#(entry.id)" class="btn btn-xs btn-primary">编辑</a>
-                                    <a href="javascript:;" class="btn btn-xs btn-danger" onclick="doDel('#(entry.id)')">删除</a>
-                                </td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                            	 #@_paginate()
-                            </div>
-                        </div>
+                        <table class="table table-striped table-hover table-condensed" id="_category_table"></table>
                     </div>
                 </div>
                 <!-- /.box -->

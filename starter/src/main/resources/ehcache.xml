@@ -190,4 +190,22 @@
        memoryStoreEvictionPolicy="LFU"
     />
 
+    <cache name="c_keyword_category"
+           eternal="false"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+    />
+
+    <cache name="c_keyword"
+           eternal="false"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+    />
+
 </ehcache>

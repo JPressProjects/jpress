@@ -9,6 +9,8 @@ import io.jpress.module.crawler.model.base.BaseKeyword;
 @Table(tableName = "c_keyword", primaryKey = "id")
 public class Keyword extends BaseKeyword<Keyword> {
 
+    public static final String CACHE_NAME = "c_keyword";
+
     public boolean baiduEnabled() {
         Boolean baiduEnabled = getIsBaiduEnabled();
         return baiduEnabled != null && baiduEnabled == true;

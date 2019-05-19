@@ -53,14 +53,17 @@
 										   placeholder="请输入编码...">
 								</div>
 							</div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">序号</label>
+                                <div class="col-sm-6">
+                                    <input type="number" min="1" name="keywordCategory.order_list" class="form-control" value="#(keywordCategory.order_list ?? 10)"
+                                           placeholder="请输入序号...">
+                                </div>
+                            </div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">是否启用</label>
 								<div class="col-sm-6">
-                                    #if(keywordCategory.status ?? false)
-                                    <input type="checkbox" data-for="status" class="switchery" checked value="#(keywordCategory.status ??)">
-                                    #else
-                                    <input type="checkbox" data-for="status" class="switchery" value="#(keywordCategory.status ??)">
-                                    #end
+                                    <input type="checkbox" data-for="status" class="switchery" #checkedIf(keywordCategory.getStatus())>
                                     <input type="hidden" id="status" name="keywordCategory.status">
 								</div>
 							</div>

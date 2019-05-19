@@ -1,11 +1,6 @@
 #@layout()
-#define css()
-#@layout_css?()
-<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-#end
+
 #define script()
-#@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script>
 
   	function doSubmit() {
@@ -18,8 +13,13 @@
 	$("#submit").on("click", function () {
 		doSubmit();
 	})
-	</script>
-	#end
+
+	function doChange(obj) {
+		let text = $(obj).find('option:checked').text();
+		$('#categoryName').val(text);
+	}
+</script>
+#end
 
 #define content()
 <div class="content-wrapper">
@@ -47,12 +47,13 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">类别</label>
 								<div class="col-sm-6">
-									<select name="keyword.category_id" class="form-control">
+									<select name="keyword.category_id" class="form-control" onchange="doChange(this);">
 										<option value="">--请选择--</option>
 										#for(category : categoryList)
 										<option value="#(category.id)" #if(category.id == keyword.category_id ??)selected#end>#(category.name)</option>
 										#end
 									</select>
+									<input type="hidden" id="categoryName" name="keyword.category_name" value="#(keyword.category_name ??)">
 								</div>
 							</div>
 							#if(keyword.parent_id ??)
@@ -76,20 +77,20 @@
 								<label class="col-sm-2 control-label">长度</label>
 								<div class="col-sm-6">
 								   <input type="number" min="1" name="keyword.num" class="form-control" value="#(keyword.num ??)"
-										   placeholder="请输入...">
+										   placeholder="请输入关键词长度...">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">拼音</label>
 								<div class="col-sm-6">
 								   <input type="input" name="keyword.pinyin" class="form-control" value="#(keyword.pinyin ??)"
-										   placeholder="请输入...">
+										   placeholder="请输入拼音首字母...">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">是否启用</label>
 								<div class="col-sm-6">
-									<input type="checkbox" data-for="status" class="switchery" #checkedIf(keyword.getStatus()) value="#(keyword.status ??)">
+									<input type="checkbox" data-for="status" class="switchery" #checkedIf(keyword.getStatus())>
 									<input type="hidden" id="status" name="keyword.status">
 								</div>
 							</div>

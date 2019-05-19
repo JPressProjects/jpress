@@ -1,0 +1,102 @@
+#@layer()
+
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-table/bootstrap-table.css">
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/bootstrap-table/bootstrap-table.js"></script>
+<script src="#(CPATH)/static/components/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script>
+
+    var initParams = function (params) {
+        var param = {
+            size: params.limit,
+            page: params.offset / params.limit + 1,
+            categoryId: '#(categoryId ??)'
+        };
+        return param;
+    };
+
+    var initFields = function () {
+        var fields =
+            [
+                {field: "id", title: "ID", width: '5%', edit: false},
+                {field: "title", title: "关键词",
+                    formatter: function (value, row, rowIndex) {
+
+                        if (row.is_baidu_enabled) {
+                            value += ' <small class="label label-warning" title="关键字在百度有效">百</small>';
+                        }
+
+                        if (row.is_sogo_enabled) {
+                            value += ' <small class="label label-primary" title="关键字在搜狗有效">搜</small>';
+                        }
+
+                        if (row.is_baidu_enabled) {
+                            value += ' <small class="label label-info" title="关键字在360有效">360</small>';
+                        }
+
+                        if (row.is_baidu_enabled) {
+                            value += ' <small class="label label-success" title="关键字在神马有效">神</small>';
+                        }
+                        return value;
+                    },
+                    edit: false
+                },
+                {field: "category_name", title: "类别", align: "center", width: '12%', edit: false},
+                {field: "level", title: "层级", width: '5%', edit: false},
+                {field: "num", title: "长度", width: '5%', edit: false},
+                {field: "pinyin", title: "拼音", width: '5%', edit: false},
+                {
+                    field: "is_parent", title: "检核状态", align: "center", width: '20%',
+                    formatter: function (value, row, rowIndex) {
+                        let checked_tips = "";
+
+                        if (row.is_baidu_checked) {
+                            checked_tips += ' <small class="label label-warning" title="关键字在百度已检查">百</small>';
+                        }
+
+                        if (row.is_sogo_checked) {
+                            checked_tips += ' <small class="label label-primary" title="关键字在搜狗已检查">搜</small>';
+                        }
+
+                        if (row.is_baidu_checked) {
+                            checked_tips += ' <small class="label label-info" title="关键字在360已检查">360</small>';
+                        }
+
+                        if (row.is_baidu_checked) {
+                            checked_tips += ' <small class="label label-success" title="关键字在神马已检查">神</small>';
+                        }
+
+                        return checked_tips.length == 0 ? '-' : checked_tips;
+                    },
+                    edit: false
+                }
+            ];
+        return fields;
+    }
+
+    let options = {
+        tableId: '#_keyword_table',
+        url: '#(CPATH)/admin/crawler/keyword/category/loadKeywordData',
+        fields: initFields(),
+        queryParams: initParams
+    };
+
+    initEditTable(options);
+
+</script>
+#end
+
+#define content()
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box-body">
+				<table class="table table-striped table-hover table-condensed" id="_keyword_table"></table>
+			</div>
+		</div>
+	</div>
+</section>
+#end

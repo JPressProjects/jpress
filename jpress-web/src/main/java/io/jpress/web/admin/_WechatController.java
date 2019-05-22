@@ -206,12 +206,20 @@ public class _WechatController extends AdminControllerBase {
         jsonObject.put("type", content.getType());
         jsonObject.put("name", content.getText());
 
+        //跳转网页
         if ("view".equals(content.getType())) {
             jsonObject.put("url", content.getKeyword());
-        } else {
+        }
+        //跳转微信小程序
+        else if ("miniprogram".equals(content.getText())) {
+            String[] appIdAndPage = content.getKeyword().split(":");
+            jsonObject.put("appid", appIdAndPage[0]);
+            jsonObject.put("pagepath", appIdAndPage[1]);
+        }
+        //其他
+        else {
             jsonObject.put("key", content.getKeyword());
         }
-
         button.add(jsonObject);
     }
 

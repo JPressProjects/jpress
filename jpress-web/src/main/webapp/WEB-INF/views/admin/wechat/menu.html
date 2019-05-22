@@ -61,33 +61,15 @@
 
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.type">
-                                        #if(menu == null)
-                                        <option value="click">点击推事件</option>
-                                        <option value="view">跳转URL</option>
-                                        <option value="scancode_push">扫码推事件</option>
-                                        <option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
-                                        <option value="pic_sysphoto">弹出系统拍照发图</option>
-                                        <option value="pic_photo_or_album">弹出拍照或者相册发图</option>
-                                        <option value="pic_weixin">弹出微信相册发图器</option>
-                                        <option value="location_select">弹出地理位置选择器</option>
-                                        #else
-                                        <option value="click" #selectedIf(
-                                        'click' == menu.type)>点击推事件</option>
-                                        <option value="view" #selectedIf(
-                                        'view' == menu.type)>跳转URL</option>
-                                        <option value="scancode_push" #selectedIf(
-                                        'scancode_push' == menu.type)>扫码推事件</option>
-                                        <option value="scancode_waitmsg" #selectedIf(
-                                        'scancode_waitmsg' == menu.type)>扫码推事件且弹出“消息接收中”提示框</option>
-                                        <option value="pic_sysphoto" #selectedIf(
-                                        'pic_sysphoto' == menu.type)>弹出系统拍照发图</option>
-                                        <option value="pic_photo_or_album" #selectedIf(
-                                        'pic_photo_or_album' == menu.type)>弹出拍照或者相册发图</option>
-                                        <option value="pic_weixin" #selectedIf(
-                                        'pic_weixin' == menu.type)>弹出微信相册发图器</option>
-                                        <option value="location_select" #selectedIf(
-                                        'location_select' == menu.type)>弹出地理位置选择器</option>
-                                        #end
+                                        <option value="click" #selectedIf(menu && 'click' == menu.type)>点击推事件</option>
+                                        <option value="view" #selectedIf(menu && 'view' == menu.type)>跳转URL</option>
+                                        <option value="miniprogram" #selectedIf(menu && 'miniprogram' == menu.type)>跳转微信小程序</option>
+                                        <option value="scancode_push" #selectedIf(menu && 'scancode_push' == menu.type)>扫码推事件</option>
+                                        <option value="scancode_waitmsg" #selectedIf(menu && 'scancode_waitmsg' == menu.type)>扫码推事件且弹出“消息接收中”提示框</option>
+                                        <option value="pic_sysphoto" #selectedIf(menu && 'pic_sysphoto' == menu.type)>弹出系统拍照发图</option>
+                                        <option value="pic_photo_or_album" #selectedIf(menu && 'pic_photo_or_album' == menu.type)>弹出拍照或者相册发图</option>
+                                        <option value="pic_weixin" #selectedIf(menu && 'pic_weixin' == menu.type)>弹出微信相册发图器</option>
+                                        <option value="location_select" #selectedIf(menu && 'location_select' == menu.type)>弹出地理位置选择器</option>
                                     </select>
                                 </div>
                             </div>
@@ -99,7 +81,7 @@
                                     <input type="input" class="form-control" placeholder="..."
                                            value="#(menu.keyword ??)" name="menu.keyword">
                                     <p class="help-block">
-                                        填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址。
+                                        填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址，跳转微信小程序填写格式为 appId:page 。
                                     </p>
                                 </div>
                             </div>

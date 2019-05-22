@@ -34,6 +34,7 @@ public class WebInitializer extends JbootAppListenerBase {
         try {
             engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
             engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
+            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
             engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
             engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
             engine.addSharedStaticMethod(PermissionKits.class);

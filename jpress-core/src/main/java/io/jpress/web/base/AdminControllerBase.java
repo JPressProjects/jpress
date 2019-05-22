@@ -81,5 +81,14 @@ public abstract class AdminControllerBase extends ControllerBase {
         }
     }
 
+    @Override
+    public void renderError(int errorCode) {
+        if (errorCode == 404) {
+            renderError(errorCode, "/WEB-INF/views/admin/error/404.html");
+        } else {
+            renderError(errorCode, "/WEB-INF/views/admin/error/500.html");
+        }
+    }
+
 
 }

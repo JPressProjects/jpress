@@ -37,6 +37,14 @@ public class JPressRenderFactory extends JbootRenderFactory {
     @Override
     public Render getErrorRender(int errorCode) {
 
+        if (JPressHandler.getCurrentTarget().startsWith("/admin/")) {
+            if (errorCode == 404) {
+                return getErrorRender(errorCode, "/WEB-INF/views/admin/error/404.html");
+            } else {
+                return getErrorRender(errorCode, "/WEB-INF/views/admin/error/500.html");
+            }
+        }
+
         Controller currentController = JbootControllerContext.get();
 
         if (currentController == null) {

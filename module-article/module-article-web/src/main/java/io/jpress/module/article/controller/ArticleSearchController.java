@@ -15,7 +15,6 @@
  */
 package io.jpress.module.article.controller;
 
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -31,12 +30,6 @@ public class ArticleSearchController extends TemplateControllerBase {
 
     public void index() {
 
-        String keyword = getEscapeHtmlPara("keyword");
-        if (StrUtil.isBlank(keyword)) {
-            renderError(404);
-            return;
-        }
-
         /**
          * 不让页面大于100，我认为：
          * 1、当一个真实用户在搜索某个关键字的内容，通过翻页去找对应数据，不可能翻到100页以上。
@@ -48,15 +41,10 @@ public class ArticleSearchController extends TemplateControllerBase {
             return;
         }
 
-//        for test only
-//        ArticleService articleService = Aop.get(ArticleService.class);
-//        articleService.search(keyword,1,10);
-
-        setAttr("keyword", keyword);
+        setAttr("keyword", getEscapeHtmlPara("keyword"));
         setAttr("page", page);
 
         setMenuActive(menu -> menu.isUrlStartWidth("/article/search"));
-
         render("artsearch.html");
     }
 

@@ -46,17 +46,19 @@ public class ArticleSearchPageDirective extends JbootDirectiveBase {
         Controller controller = JbootControllerContext.get();
 
         String keyword = controller.getAttr("keyword");
-        if (StrUtil.isBlank(keyword)) {
-            return;
-        }
         int page = controller.getAttr("page");
         int pageSize = getParaToInt("pageSize", scope, 10);
 
-        Page<Article> dataPage = articleService.search(keyword, page, pageSize);
+        Page<Article> dataPage = StrUtil.isNotBlank(keyword)
+                ? articleService.search(keyword, page, pageSize)
+                : null;
+
         if (dataPage != null) {
             scope.setGlobal("articlePage", dataPage);
-            renderBody(env, scope, writer);
         }
+
+        //需要页面自行判断 articlePage 是否为空
+        renderBody(env, scope, writer);
     }
 
     @Override

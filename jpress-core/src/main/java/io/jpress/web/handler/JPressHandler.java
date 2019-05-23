@@ -35,10 +35,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class JPressHandler extends Handler {
 
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> targetContext = new ThreadLocal<>();
+    private static final ThreadLocal<HttpServletRequest> requestContext = new ThreadLocal<>();
 
     public static String getCurrentTarget() {
-        return threadLocal.get();
+        return targetContext.get();
+    }
+
+    public static HttpServletRequest getCurrentRequest() {
+        return requestContext.get();
     }
 
     private static final String ADDON_TARGET_PREFIX = "/addons";
@@ -96,12 +101,14 @@ public class JPressHandler extends Handler {
         }
 
         try {
-            threadLocal.set(target);
+            targetContext.set(target);
+            requestContext.set(request);
             request.setAttribute("VERSION", JPressConsts.VERSION);
             request.setAttribute("CPATH", request.getContextPath());
             next.handle(target, request, response, isHandled);
         } finally {
-            threadLocal.remove();
+            targetContext.remove();
+            requestContext.remove();
         }
     }
 

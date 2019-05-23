@@ -15,16 +15,11 @@
  */
 package io.jpress.web.render;
 
-import com.jfinal.core.Controller;
 import com.jfinal.render.Render;
 import io.jboot.utils.RequestUtil;
-import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.render.JbootRenderFactory;
-import io.jpress.core.install.Installer;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.handler.JPressHandler;
 
 /**
@@ -45,31 +40,9 @@ public class JPressRenderFactory extends JbootRenderFactory {
             }
         }
 
-        Controller currentController = JbootControllerContext.get();
-
-        if (currentController == null) {
-            return super.getErrorRender(errorCode);
-        }
-
-        if (currentController instanceof TemplateControllerBase) {
-            return getTemplateRender(errorCode);
-        }
-
-        String currentTarget = JPressHandler.getCurrentTarget();
-
-        // 有可能不是通过action调用，而是通过 Handler 直接调用，此时 currentTarget 为空
-        if (StrUtil.isBlank(currentTarget)) {
-            return super.getErrorRender(errorCode);
-        }
-
-        if (currentTarget.startsWith("/install")
-                && Installer.isInstalled()) {
-            return getTemplateRender(errorCode);
-        }
-
-        return super.getErrorRender(errorCode);
-
+        return getTemplateRender(errorCode);
     }
+
 
     private Render getTemplateRender(int errorCode) {
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -78,13 +51,13 @@ public class JPressRenderFactory extends JbootRenderFactory {
         }
 
         String view = template.matchTemplateFile("error_" + errorCode + ".html",
-                RequestUtil.isMobileBrowser(JbootControllerContext.get().getRequest()));
+                RequestUtil.isMobileBrowser(JPressHandler.getCurrentRequest()));
         if (view == null) {
             return super.getErrorRender(errorCode);
         }
 
         view = "/templates/" + template.getFolder() + "/" + view;
-        return new TemplateRender(view);
+        return new TemplateRender(view,errorCode);
     }
 
 

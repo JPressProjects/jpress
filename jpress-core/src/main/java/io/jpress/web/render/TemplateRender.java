@@ -75,7 +75,7 @@ public class TemplateRender extends Render {
             response.setStatus(errorCode);
         }
 
-        Map<Object, Object> data = new HashMap<Object, Object>();
+        Map<Object, Object> data = new HashMap<>();
         for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements(); ) {
             String attrName = attrs.nextElement();
             data.put(attrName, request.getAttribute(attrName));
@@ -84,7 +84,6 @@ public class TemplateRender extends Render {
         String html = getEngine().getTemplate(view).renderToString(data);
         html = replaceSrcTemplateSrcPath(html);
 
-//        RenderHelpler.actionCacheExec(html, contentType);
         RenderHelpler.renderHtml(response, html, contentType);
 
     }

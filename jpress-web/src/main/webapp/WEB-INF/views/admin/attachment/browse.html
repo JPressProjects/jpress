@@ -61,6 +61,10 @@
 <script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
+
+    //clear layer.data
+    parent.layer.data = {};
+
     $('#cfile').fileupload({
         dropZone: $('#uploader'),
         url: '#(CPATH)/commons/attachment/upload',

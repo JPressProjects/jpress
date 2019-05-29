@@ -97,15 +97,43 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
         return StrUtil.isNotBlank(text) ? text : "文字";
     }
 
+    public String getMiniprogramTitle(){
+        return getOption("miniprogram_title");
+    }
+
+    public String getMiniprogramAppId(){
+        return getOption("miniprogram_appid");
+    }
+
+    public String getMiniprogramPage(){
+        return getOption("miniprogram_page");
+    }
+
+    public String getMiniprogramCover(){
+        return getOption("miniprogram_cover");
+    }
+
+    public boolean isTextType(){
+        return "text".equals(getReplyType());
+    }
+
+    public boolean isImageType(){
+        return "image".equals(getReplyType());
+    }
+
+    public boolean isMiniprogramType(){
+        return "miniprogram".equals(getReplyType());
+    }
+
     public String getShowContent(){
         if (!isJson()) return getContent();
 
-        if ("text".equals(getReplyType())){
+        if (isTextType()){
             return getText();
-        }else if ("image".equals(getReplyType())){
+        }else if (isImageType()){
             return  getImage();
-        }else if ("miniprogram".equals(getReplyType())){
-            return getOption("miniprogram_title");
+        }else if (isMiniprogramType()){
+            return getMiniprogramTitle();
         }
 
         return getContent();

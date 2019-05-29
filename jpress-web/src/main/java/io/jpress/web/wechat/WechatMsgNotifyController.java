@@ -18,6 +18,8 @@ package io.jpress.web.wechat;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.MediaApi;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
@@ -26,9 +28,11 @@ import com.jfinal.weixin.sdk.msg.in.event.EventInMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InQrCodeEvent;
+import com.jfinal.weixin.sdk.msg.out.OutImageMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
@@ -36,6 +40,7 @@ import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplyService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -94,7 +99,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
         if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
             renderOptionValue("wechat_reply_user_subscribe", "");
-        }else {
+        } else {
             renderNull();
         }
     }
@@ -138,9 +143,66 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        OutTextMsg outTextMsg = new OutTextMsg(inMsg);
-        outTextMsg.setContent(wechatReply.getContent());
-        render(outTextMsg);
+        if (!wechatReply.isJson()) {
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getContent());
+            render(outTextMsg);
+        }
+
+        /**
+         * 发送文本
+         */
+        else if (wechatReply.isTextType()) {
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getText());
+            render(outTextMsg);
+        }
+
+        /**
+         * 发送图片
+         */
+        else if (wechatReply.isImageType()) {
+
+            File imageFile = AttachmentUtils.file(wechatReply.getImage());
+
+            /**
+             * 上传临时素材
+             * {"type":"TYPE","media_id":"MEDIA_ID","created_at":123456789}
+             */
+            ApiResult apiResult = MediaApi.uploadMedia(MediaApi.MediaType.IMAGE, imageFile);
+            if (!apiResult.isSucceed()) {
+                LOG.error("MediaApi.uploadMedia..." + imageFile + " \n" + apiResult.toString());
+                renderNull();
+            }
+
+            String mediaId = apiResult.get("media_id");
+            OutImageMsg outImageMsg = new OutImageMsg(inMsg);
+            outImageMsg.setMediaId(mediaId);
+            render(outImageMsg);
+        }
+
+        /**
+         * 发送微信小程序
+         */
+        else if (wechatReply.isMiniprogramType()) {
+
+            WechatMsgUtil.sendMiniprogram(
+                    inMsg.getFromUserName()
+                    , wechatReply.getMiniprogramTitle()
+                    , wechatReply.getMiniprogramAppId()
+                    , wechatReply.getMiniprogramPage()
+                    , AttachmentUtils.file(wechatReply.getMiniprogramCover())
+            );
+
+            renderNull();
+        }
+
+        /**
+         * 其他情况
+         */
+        else {
+            renderDefault();
+        }
     }
 
     /**
@@ -151,7 +213,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInMenuEvent(InMenuEvent inMenuEvent) {
         String key = inMenuEvent.getEventKey();
-        renderTextMsg(inMenuEvent,key);
+        renderTextMsg(inMenuEvent, key);
     }
 
 

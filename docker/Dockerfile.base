@@ -5,4 +5,6 @@ ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone
 
-RUN apk add --no-cache curl tar bash procps font-adobe-100dpi ttf-dejavu
+COPY ./files/wqy-zenhei.ttc  /usr/lib/jvm/java-1.8-openjdk/jre/lib/fonts/wqy-zenhei.ttc
+
+RUN apk add --no-cache curl tar bash procps ttf-dejavu

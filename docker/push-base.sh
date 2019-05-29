@@ -1,2 +1,2 @@
 docker login
-docker push fuhai/jpress-base:v1.3
+docker push fuhai/jpress-base:v1.4

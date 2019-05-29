@@ -1,5 +1,13 @@
 #@layout()
 
+#define css()
+<style>
+    .nav-tabs {
+        border: 1px solid #fafafa;
+    }
+</style>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -20,8 +28,8 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/wechat/doReplySave" method="post">
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/admin/wechat/doReplySave" method="post" data-ok-message="保存成功">
                         <input type="hidden" name="id" value="#(reply.id ??)">
                         <div class="box-body ">
                             <div class="form-group">
@@ -35,11 +43,111 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">回复内容</label>
+                                <label class="col-sm-2 control-label">回复类型</label>
 
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" name="content"
-                                              placeholder="请输入回复内容...">#(reply.content ??)</textarea>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="option.rtype" value="text" #checkedIf(option.rtype ??== "text")>
+                                            文字
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="option.rtype" value="image" #checkedIf(option.rtype ??== "image")>
+                                            图片
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="option.rtype"  value="miniprogram" #checkedIf(option.rtype ??== "miniprogram")>
+                                            微信小程序
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容配置</label>
+                                <div class="col-sm-6">
+
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab_1" data-toggle="tab">文字</a></li>
+                                            <li><a href="#tab_2" data-toggle="tab">图片</a></li>
+                                            <li><a href="#tab_3" data-toggle="tab">微信小程序</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_1">
+                                                <textarea rows="5" class="form-control" name="option.text"
+                                                          placeholder="请输入回复内容...">#(option.text ??)</textarea>
+                                                <p class="help-block"> 超链接格式为：&lt;a href=&quot;链接地址&quot;&gt;链接文字&lt;/a&gt; </p>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="tab_2">
+                                                <button type="button"
+                                                        for-src="img"
+                                                        for-input="imginput"
+                                                        class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                                    <i class="fa fa-fw fa-image"></i> 选择图片
+                                                </button>
+                                                <br/>
+                                                <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')"
+                                                     id="img">
+                                                <input type="hidden" id="imginput" name="option.image"
+                                                       value="#(option.image ??)">
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <div class="tab-pane" id="tab_3">
+                                                <div class="box-body form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">标题</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" name="option.miniprogram_title"
+                                                                   placeholder="小程序标题..." value="#(option.miniprogram_title ??)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">AppId</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" name="option.miniprogram_appid"
+                                                                   placeholder="微信小程序的AppId..." value="#(option.miniprogram_appid ??)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">跳转页面</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" name="option.miniprogram_page"
+                                                                   placeholder="用户点击小程序时跳转的页面" value="#(option.miniprogram_page ??)">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label  class="col-sm-2 control-label">封面图</label>
+                                                        <div class="col-sm-10">
+                                                            <button type="button"
+                                                                    for-src="coverimg"
+                                                                    for-input="coverimginput"
+                                                                    class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                                                <i class="fa fa-fw fa-image"></i> 选择图片
+                                                            </button>
+                                                            <br/>
+                                                            <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')"
+                                                                 id="coverimg">
+                                                            <input type="hidden" id="coverimginput" name="option.miniproram_cover"
+                                                                   value="#(option.miniproram_cover ??)">
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

@@ -37,7 +37,9 @@ import io.jpress.service.WechatMenuService;
 import io.jpress.service.WechatReplyService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -133,19 +135,32 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    public void replyWrite() {
+    public void keywordWrite() {
         int id = getParaToInt(0, 0);
-        if (id > 0) {
-            WechatReply wechatReply = replyService.findById(id);
-            setAttr("reply", wechatReply);
-        }
+
+        WechatReply wechatReply = id > 0 ? replyService.findById(id) : null;
+        setAttr("reply", wechatReply);
+
+        Map map = wechatReply == null ? new HashMap<>() : wechatReply.getOptionMap();
+        setAttr("option", map);
+
         render("wechat/reply_write.html");
     }
 
     public void doReplySave() {
         WechatReply reply = getBean(WechatReply.class, "");
+        Map<String, String> map = getParas();
+        if (map != null) {
+            for (Map.Entry<String, String> e : map.entrySet()) {
+                if (e.getKey() != null && e.getKey().startsWith("option.")) {
+                    reply.putOption(e.getKey().substring(7), e.getValue());
+                }
+            }
+        }
+
         replyService.saveOrUpdate(reply);
-        redirect("/admin/wechat/keyword");
+        renderOkJson();
+//        redirect("/admin/wechat/keyword");
     }
 
     public void doMenuSave() {

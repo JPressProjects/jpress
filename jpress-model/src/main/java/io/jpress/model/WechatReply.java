@@ -33,6 +33,7 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
     static {
         rtypeStrings.put("text", "文字");
         rtypeStrings.put("image", "图片");
+        rtypeStrings.put("textAndImage", "文字和图片");
         rtypeStrings.put("miniprogram", "微信小程序");
     }
 
@@ -121,9 +122,15 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
         return "image".equals(getReplyType());
     }
 
+    public boolean isTextAndImageType(){
+        return "textAndImage".equals(getReplyType());
+    }
+
     public boolean isMiniprogramType(){
         return "miniprogram".equals(getReplyType());
     }
+
+
 
     public String getShowContent(){
         if (!isJson()) return getContent();
@@ -134,6 +141,8 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
             return  getImage();
         }else if (isMiniprogramType()){
             return getMiniprogramTitle();
+        }else if (isTextAndImageType()){
+            return getText();
         }
 
         return getContent();

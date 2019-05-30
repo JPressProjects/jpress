@@ -182,6 +182,18 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         }
 
         /**
+         * 发送文字 + 图片
+         */
+        else if (wechatReply.isTextAndImageType()){
+
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getText());
+            render(outTextMsg);
+
+            WechatMsgUtil.sendImageAsync(inMsg.getFromUserName(),wechatReply.getImage());
+        }
+
+        /**
          * 发送微信小程序
          */
         else if (wechatReply.isMiniprogramType()) {

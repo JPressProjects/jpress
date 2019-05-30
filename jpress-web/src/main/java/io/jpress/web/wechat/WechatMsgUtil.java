@@ -27,11 +27,28 @@ import io.jpress.commons.utils.AttachmentUtils;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class WechatMsgUtil {
 
     private static final Log LOG = Log.getLog(WechatMsgUtil.class);
+    private static ExecutorService pool = Executors.newFixedThreadPool(5);
+
+    public static void sendImageAsync(String openId, String imageFilePath) {
+        pool.submit(() -> {
+            sendImage(openId,imageFilePath);
+        });
+    }
+
+    public static void sendImageAsync(String openId, File imageFile) {
+        pool.submit(() -> {
+            sendImage(openId,imageFile);
+        });
+    }
+
+
 
     public static boolean sendImage(String openId, String imageFilePath) {
         return sendImage(openId, AttachmentUtils.file(imageFilePath));

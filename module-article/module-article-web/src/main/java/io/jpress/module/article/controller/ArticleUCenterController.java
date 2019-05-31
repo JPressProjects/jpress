@@ -45,7 +45,7 @@ import java.util.List;
  * @Title: 文章前台页面Controller
  * @Package io.jpress.module.article.admin
  */
-@RequestMapping("/ucenter/article")
+@RequestMapping(value = "/ucenter/article",viewPath = "/WEB-INF/views/ucenter/")
 public class ArticleUCenterController extends UcenterControllerBase {
 
     @Inject

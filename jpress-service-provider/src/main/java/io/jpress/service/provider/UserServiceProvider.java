@@ -20,11 +20,12 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -35,7 +36,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        return Db.update("delete from user where id in  " + SqlUtils.buildInSqlPara(ids)) > 0;
+        for (Object id : ids){
+            User user = findById(id);
+            if (user != null) delete(user); //必须通过  delete(user) 才能清除缓存
+        }
+        return true;
     }
 
 
@@ -95,7 +100,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public boolean doChangeStatus(long id, String status) {
         User user = findById(id);
         user.setStatus(status);
-        return user.update();
+        return update(user);
     }
 
     @Override
@@ -114,6 +119,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
+    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
         return DAO.findFirstByColumn("wx_openid", openId);
     }
@@ -124,8 +130,13 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
-    public Long saveAndGetId(User user) {
-        return user.save() ? user.getId() : null;
+    public void shouldUpdateCache(int action, Object data) {
+        if (data instanceof User) {
+            User user = (User) data;
+            if (user.getWxOpenid() != null) {
+                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
+            }
+        }
     }
 
     private static final String[] defaultJoinAttrs = new String[]{"id", "username", "nickname", "avatar", "created", "signature"};

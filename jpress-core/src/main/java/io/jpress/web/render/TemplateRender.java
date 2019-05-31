@@ -44,6 +44,7 @@ public class TemplateRender extends Render {
     private static Engine engine;
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
+    private int errorCode = 0;
 
     private Engine getEngine() {
         if (engine == null) {
@@ -58,6 +59,11 @@ public class TemplateRender extends Render {
         this.view = view;
     }
 
+    public TemplateRender(String view,int code) {
+        this.view = view;
+        this.errorCode = code;
+    }
+
     public String getContentType() {
         return contentType;
     }
@@ -65,8 +71,11 @@ public class TemplateRender extends Render {
     @Override
     public void render() {
         response.setContentType(getContentType());
+        if (errorCode > 0){
+            response.setStatus(errorCode);
+        }
 
-        Map<Object, Object> data = new HashMap<Object, Object>();
+        Map<Object, Object> data = new HashMap<>();
         for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements(); ) {
             String attrName = attrs.nextElement();
             data.put(attrName, request.getAttribute(attrName));
@@ -75,7 +84,6 @@ public class TemplateRender extends Render {
         String html = getEngine().getTemplate(view).renderToString(data);
         html = replaceSrcTemplateSrcPath(html);
 
-//        RenderHelpler.actionCacheExec(html, contentType);
         RenderHelpler.renderHtml(response, html, contentType);
 
     }

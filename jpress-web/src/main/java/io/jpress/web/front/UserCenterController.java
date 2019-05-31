@@ -17,11 +17,9 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.FileUtil;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -41,7 +39,7 @@ import java.io.File;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping("/ucenter")
+@RequestMapping(value = "/ucenter",viewPath = "/WEB-INF/views/ucenter/")
 public class UserCenterController extends UcenterControllerBase {
 
     @Inject
@@ -131,9 +129,7 @@ public class UserCenterController extends UcenterControllerBase {
     })
     public void doSaveAvatar(String path, int x, int y, int w, int h) {
 
-        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
-                ? JPressConfig.me.getAttachmentRoot()
-                : PathKit.getWebRootPath();
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
 
         String oldPath = attachmentRoot + path;
 

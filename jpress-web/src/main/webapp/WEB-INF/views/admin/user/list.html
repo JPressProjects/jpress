@@ -130,7 +130,7 @@
                                 <th>昵称</th>
                                 <th>邮箱</th>
                                 <th>手机</th>
-                                <th style="width: 100px">来源</th>
+                                <th style="width: 130px">来源</th>
                             </tr>
 
                             #for(user : page.list )
@@ -179,7 +179,10 @@
                                 <td>#(user.nickname ??)</td>
                                 <td>#(user.email ??)</td>
                                 <td>#(user.mobile ??)</td>
-                                <td>#(user.sourceString ??)</td>
+                                <td>
+                                    #(user.sourceString ??)<br />
+                                    #date(user.created)
+                                </td>
                             </tr>
                             #end
 

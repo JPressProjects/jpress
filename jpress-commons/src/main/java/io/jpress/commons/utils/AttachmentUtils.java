@@ -15,7 +15,6 @@
  */
 package io.jpress.commons.utils;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
@@ -59,19 +58,14 @@ public class AttachmentUtils {
             LOG.error(e.toString(), e);
         }
 
-        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
-                ? JPressConfig.me.getAttachmentRoot()
-                : PathKit.getWebRootPath();
-
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
 
         return FileUtil.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 
     public static File newAttachemnetFile(String suffix) {
 
-        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
-                ? JPressConfig.me.getAttachmentRoot()
-                : PathKit.getWebRootPath();
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
 
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
@@ -85,14 +79,11 @@ public class AttachmentUtils {
     }
 
     public static File file(String path) {
-        String attachmentRoot = StrUtil.isNotBlank(JPressConfig.me.getAttachmentRoot())
-                ? JPressConfig.me.getAttachmentRoot()
-                : PathKit.getWebRootPath();
-
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
         return new File(attachmentRoot, path);
     }
 
-    static List<String> imageSuffix = new ArrayList<String>();
+    static List<String> imageSuffix = new ArrayList<>();
 
     static {
         imageSuffix.add(".jpg");
@@ -110,7 +101,7 @@ public class AttachmentUtils {
         return false;
     }
 
-    static List<String> unSafeFilesSuffix = new ArrayList<String>();
+    static List<String> unSafeFilesSuffix = new ArrayList<>();
 
     static {
         unSafeFilesSuffix.add(".jsp");

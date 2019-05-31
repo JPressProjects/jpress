@@ -57,8 +57,12 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends JbootModel>> models;
     private List<Class<? extends Directive>> directives;
     private List<Class<? extends WechatAddon>> wechatAddons;
+
     private ActiveRecordPlugin arp;
     private Map<String, String> config;
+
+    private String readmeText;
+    private String changeLogText;
 
     public AddonInfo() {
 
@@ -301,6 +305,22 @@ public class AddonInfo implements Serializable {
         this.arp = arp;
     }
 
+
+    public String getReadmeText() {
+        return readmeText;
+    }
+
+    public void setReadmeText(String readmeText) {
+        this.readmeText = readmeText;
+    }
+
+    public String getChangeLogText() {
+        return changeLogText;
+    }
+
+    public void setChangeLogText(String changeLogText) {
+        this.changeLogText = changeLogText;
+    }
 
     public File buildJarFile() {
 

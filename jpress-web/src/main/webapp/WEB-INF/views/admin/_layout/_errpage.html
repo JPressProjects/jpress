@@ -1,0 +1,61 @@
+#define errpage()
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>发生错误了...</title>
+    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-blue.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/components/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+        var jpress = {
+            cpath: '#(CPATH)'
+        }
+    </script>
+
+    <style>
+        .error-page > .error-content {
+            margin-left: 0;
+            display: block;
+            text-align: center;
+        }
+
+        .error-title {
+            font-size: 100px;
+            text-align: center;
+        }
+
+        .error-content > p {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+
+    #@css?()
+
+</head>
+<body class="hold-transition ">
+<div class="wrapper">
+
+    #@content()
+
+</div>
+<!-- ./wrapper -->
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
+<script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
+#@script?()
+</body>
+</html>
+#end

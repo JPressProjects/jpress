@@ -18,6 +18,7 @@ package io.jpress.web.handler;
 
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
+import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -34,14 +35,21 @@ import javax.servlet.http.HttpServletResponse;
 
 public class JPressHandler extends Handler {
 
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> targetContext = new ThreadLocal<>();
+    private static final ThreadLocal<HttpServletRequest> requestContext = new ThreadLocal<>();
 
     public static String getCurrentTarget() {
-        return threadLocal.get();
+        return targetContext.get();
+    }
+
+    public static HttpServletRequest getCurrentRequest() {
+        return requestContext.get();
     }
 
     private static final String ADDON_TARGET_PREFIX = "/addons";
     private static final String TEMPLATES_TARGET_PREFIX = "/templates";
+    private static final String ATTACHMENT_TARGET_PREFIX = "/attachment";
+    private static final String WECHAT_VERIFY_PREFIX = "/MP_verify_";
 
 
     @Override
@@ -65,6 +73,20 @@ public class JPressHandler extends Handler {
             }
         }
 
+        //微信公众号验证
+        if (target.startsWith(WECHAT_VERIFY_PREFIX)) {
+            if (target.endsWith(".txt")) {
+                renderWechatVerify(target, request, response, isHandled);
+                return;
+            }
+        }
+
+        //附件目录
+        if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
+            AttachmentHandlerKit.handle(target,request,response,isHandled);
+            return;
+        }
+
 
         String suffix = JPressOptions.getAppUrlSuffix();
         if (StrUtil.isBlank(suffix)  // 不启用伪静态
@@ -79,13 +101,23 @@ public class JPressHandler extends Handler {
         }
 
         try {
-            threadLocal.set(target);
+            targetContext.set(target);
+            requestContext.set(request);
             request.setAttribute("VERSION", JPressConsts.VERSION);
             request.setAttribute("CPATH", request.getContextPath());
             next.handle(target, request, response, isHandled);
         } finally {
-            threadLocal.remove();
+            targetContext.remove();
+            requestContext.remove();
         }
+    }
+
+    private void renderWechatVerify(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+        isHandled[0] = true;
+        RenderManager.me().getRenderFactory()
+                .getTextRender(target.substring(WECHAT_VERIFY_PREFIX.length(), target.length() - 4), "text/plain")
+                .setContext(request, response)
+                .render();
     }
 
 

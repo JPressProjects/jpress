@@ -158,10 +158,13 @@ public class JsoupUtils {
 
             addAttributes(":all", "class", "style", "height", "width", "type", "id", "name");
 
-            addProtocols("a", "href", "ftp", "http", "https", "mailto", "tel");
+//
             addProtocols("blockquote", "cite", "http", "https");
             addProtocols("cite", "cite", "http", "https");
             addProtocols("q", "cite", "http", "https");
+
+            //如果添加以下的协议，那么href 必须是http、 https 等开头，相对路径则被过滤掉了
+            //addProtocols("a", "href", "ftp", "http", "https", "mailto", "tel");
 
             //如果添加以下的协议，那么src必须是http 或者 https 开头，相对路径则被过滤掉了，
             //所以必须注释掉，运行相对路径的图片资源

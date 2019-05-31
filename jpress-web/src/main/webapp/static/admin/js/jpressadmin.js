@@ -29,7 +29,9 @@ function initImageBrowserButton() {
                     var img = imgBrowserBtn.attr("for-src");
                     var input = imgBrowserBtn.attr("for-input");
                     $("#" + img).attr("src", jpress.cpath + layer.data.src);
+                    $("#" + img).trigger("srcChanged",jpress.cpath + layer.data.src);
                     $("#" + input).val(layer.data.src);
+                    $("#" + input).trigger("valChanged",layer.data.src);
                 }
             }
         });

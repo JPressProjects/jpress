@@ -15,6 +15,7 @@
  */
 package io.jpress.core.addon;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
@@ -165,6 +166,10 @@ public class AddonUtil {
         ZipFile zipFile = null;
         Properties addonProp = null;
         Properties addonConfigProp = null;
+
+        String readmeText = null;
+        String changeLogText = null;
+
         try {
             zipFile = new ZipFile(addonFile);
             Enumeration<?> entryEnum = zipFile.entries();
@@ -177,10 +182,28 @@ public class AddonUtil {
                             is = zipFile.getInputStream(zipEntry);
                             addonProp = new Properties();
                             addonProp.load(new InputStreamReader(is, "utf-8"));
-                        } else if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "config.txt", "config.properties")) {
+                        }
+                        /**
+                         * 独立的 config 配置信息
+                         */
+                        else if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "config.txt", "config.properties")) {
                             is = zipFile.getInputStream(zipEntry);
                             addonConfigProp = new Properties();
                             addonConfigProp.load(new InputStreamReader(is, "utf-8"));
+                        }
+                        /**
+                         * readme
+                         */
+                        else if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "readme.txt")) {
+                            is = zipFile.getInputStream(zipEntry);
+                            readmeText = readString(is);
+                        }
+                        /**
+                         * changeLog
+                         */
+                        else if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "changelog.txt")) {
+                            is = zipFile.getInputStream(zipEntry);
+                            changeLogText = readString(is);
                         }
                     } finally {
                         CommonsUtils.quietlyClose(is);
@@ -204,7 +227,32 @@ public class AddonUtil {
             });
         }
 
+        if (readmeText != null) {
+            addonInfo.setReadmeText(readmeText);
+        }
+
+        if (changeLogText != null) {
+            addonInfo.setChangeLogText(changeLogText);
+        }
+
         return addonInfo;
+    }
+
+
+    private static String readString(InputStream stream) {
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for (int len = 0; (len = stream.read(buffer)) > 0; ) {
+                baos.write(buffer, 0, len);
+            }
+            return new String(baos.toByteArray(), JFinal.me().getConstants().getEncoding());
+        } catch (Exception e) {
+        } finally {
+            CommonsUtils.quietlyClose(baos);
+        }
+        return null;
     }
 
     /**

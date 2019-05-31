@@ -20,7 +20,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressApplicationConfig;
+import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
@@ -46,18 +46,15 @@ public class AdminInterceptor implements Interceptor {
     @Inject
     private RoleService roleService;
 
-    @Inject
-    private JPressApplicationConfig config;
-
 
     public void intercept(Invocation inv) {
 
-        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginPage())) {
+        if (JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginPage())) {
             inv.getController().forwardAction("/admin/login");
             return;
         }
 
-        if (JPressHandler.getCurrentTarget().equals(config.getAdminLoginAction())) {
+        if (JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginAction())) {
             inv.getController().forwardAction("/admin/doLogin");
             return;
         }

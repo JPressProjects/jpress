@@ -1,40 +1,14 @@
-#@layout()
-#define css()
-<style>
-    .switchery-small {
-        margin-top: 0px;
-    }
-</style>
-#end
-
+#@errpage()
 #define content()
-<div class="content-wrapper">
-    <section class="content">
-        <div class="error-page">
-            <h2 class="headline text-yellow"> 404</h2>
+<div class="error-page">
+    <div class="error-content">
 
-            <div class="error-content">
-                <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+        <h2 class="error-title text-yellow"> 404</h2>
+        <h3><i class="fa fa-warning text-yellow"></i> 诶呀! 页面找不到啦。</h3>
 
-                <p>
-                    We could not find the page you were looking for.
-                    Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search form.
-                </p>
-
-                <form class="search-form">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search">
-
-                        <div class="input-group-btn">
-                            <button type="submit" name="submit" class="btn btn-warning btn-flat"><i
-                                    class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
+        <p>
+            我们找不到您要查找的页面，您可以访问 <a href="http://www.jpress.io" target="_blank">JPress</a> 获得帮助。
+        </p>
+    </div>
 </div>
 #end

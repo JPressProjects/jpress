@@ -18,6 +18,8 @@ package io.jpress.web.wechat;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.MediaApi;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 import com.jfinal.weixin.sdk.msg.in.InMsg;
@@ -26,15 +28,19 @@ import com.jfinal.weixin.sdk.msg.in.event.EventInMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InQrCodeEvent;
+import com.jfinal.weixin.sdk.msg.out.OutImageMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.model.WechatReply;
 import io.jpress.service.OptionService;
 import io.jpress.service.WechatReplyService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,15 +73,15 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        for (WechatAddonInfo addon : addons){
+        for (WechatAddonInfo addon : addons) {
             try {
                 //只要有一个插件成功处理，则不再让下一个插件去处理
                 //但是处理不成功，下个插件继续处理该消息
-                if (addon.getAddon().onRenderMessage(getInMsg(),this)){
+                if (addon.getAddon().onRenderMessage(getInMsg(), this)) {
                     return;
                 }
-            }catch (Exception ex){
-                LOG.error(ex.toString(),ex);
+            } catch (Exception ex) {
+                LOG.error(ex.toString(), ex);
             }
         }
 
@@ -93,19 +99,22 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
         if (InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())) {
             renderOptionValue("wechat_reply_user_subscribe", "");
+        } else {
+            renderNull();
         }
     }
 
     /**
      * 用户扫码了带参数二维码，但是没有任何插件去处理的时候
      * 关注事件等同于关注公众号了
+     *
      * @param inQrCodeEvent
      */
     @Override
     protected void processInQrCodeEvent(InQrCodeEvent inQrCodeEvent) {
-        if (InQrCodeEvent.EVENT_INQRCODE_SUBSCRIBE.equals(inQrCodeEvent.getEvent())){
+        if (InQrCodeEvent.EVENT_INQRCODE_SUBSCRIBE.equals(inQrCodeEvent.getEvent())) {
             renderOptionValue("wechat_reply_user_subscribe", "");
-        }else {
+        } else {
             super.processInQrCodeEvent(inQrCodeEvent);
         }
     }
@@ -118,6 +127,11 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
         String key = inTextMsg.getContent();
+        renderTextMsg(inTextMsg, key);
+
+    }
+
+    private void renderTextMsg(InMsg inMsg, String key) {
         if (StrUtil.isBlank(key)) {
             renderDefault();
             return;
@@ -129,10 +143,78 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        OutTextMsg outTextMsg = new OutTextMsg(inTextMsg);
-        outTextMsg.setContent(wechatReply.getContent());
-        render(outTextMsg);
+        if (!wechatReply.isJson()) {
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getContent());
+            render(outTextMsg);
+        }
 
+        /**
+         * 发送文本
+         */
+        else if (wechatReply.isTextType()) {
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getText());
+            render(outTextMsg);
+        }
+
+        /**
+         * 发送图片
+         */
+        else if (wechatReply.isImageType()) {
+
+            File imageFile = AttachmentUtils.file(wechatReply.getImage());
+
+            /**
+             * 上传临时素材
+             * {"type":"TYPE","media_id":"MEDIA_ID","created_at":123456789}
+             */
+            ApiResult apiResult = MediaApi.uploadMedia(MediaApi.MediaType.IMAGE, imageFile);
+            if (!apiResult.isSucceed()) {
+                LOG.error("MediaApi.uploadMedia..." + imageFile + " \n" + apiResult.toString());
+                renderNull();
+            }
+
+            String mediaId = apiResult.get("media_id");
+            OutImageMsg outImageMsg = new OutImageMsg(inMsg);
+            outImageMsg.setMediaId(mediaId);
+            render(outImageMsg);
+        }
+
+        /**
+         * 发送文字 + 图片
+         */
+        else if (wechatReply.isTextAndImageType()){
+
+            OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+            outTextMsg.setContent(wechatReply.getText());
+            render(outTextMsg);
+
+            WechatMsgUtil.sendImageAsync(inMsg.getFromUserName(),wechatReply.getImage());
+        }
+
+        /**
+         * 发送微信小程序
+         */
+        else if (wechatReply.isMiniprogramType()) {
+
+            WechatMsgUtil.sendMiniprogram(
+                    inMsg.getFromUserName()
+                    , wechatReply.getMiniprogramTitle()
+                    , wechatReply.getMiniprogramAppId()
+                    , wechatReply.getMiniprogramPage()
+                    , AttachmentUtils.file(wechatReply.getMiniprogramCover())
+            );
+
+            renderNull();
+        }
+
+        /**
+         * 其他情况
+         */
+        else {
+            renderDefault();
+        }
     }
 
     /**
@@ -143,29 +225,16 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
     @Override
     protected void processInMenuEvent(InMenuEvent inMenuEvent) {
         String key = inMenuEvent.getEventKey();
-        if (StrUtil.isBlank(key)) {
-            renderDefault();
-            return;
-        }
-
-        WechatReply wechatReply = wechatReplyService.findByKey(key);
-        if (wechatReply == null || StrUtil.isBlank(wechatReply.getContent())) {
-            renderDefault();
-            return;
-        }
-
-        OutTextMsg outTextMsg = new OutTextMsg(inMenuEvent);
-        outTextMsg.setContent(wechatReply.getContent());
-        render(outTextMsg);
+        renderTextMsg(inMenuEvent, key);
     }
 
 
     @Override
     protected void renderDefault() {
         //不处理事件消息，否则可能会出现用户进行扫描带参数二维码等回复此内容
-        if (getInMsg() instanceof EventInMsg){
+        if (getInMsg() instanceof EventInMsg) {
             renderNull();
-        }else {
+        } else {
             renderOptionValue("wechat_reply_unknow", "");
         }
     }
@@ -193,7 +262,8 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
         List<WechatAddonInfo> list = new ArrayList<>();
         for (WechatAddonInfo addonInfo : enableAddons) {
-            if (addonInfo.getAddon().onMatchingMessage(getInMsg(), this)) {
+            WechatAddon addon = addonInfo.getAddon();
+            if (addon != null && addon.onMatchingMessage(getInMsg(), this)) {
                 list.add(addonInfo);
             }
         }

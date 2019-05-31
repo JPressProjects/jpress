@@ -64,7 +64,7 @@ public class AliyunSmsSender implements ISmsSender {
         params.put("TemplateCode", sms.getTemplate());
 
         if (StrUtil.isNotBlank(sms.getCode())) {
-            params.put("TemplateParam", "{\"code\":" + sms.getCode() + "}");
+            params.put("TemplateParam", "{\"code\":\"" + sms.getCode() + "\"}");
         }
 
         try {

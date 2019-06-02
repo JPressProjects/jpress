@@ -29,6 +29,7 @@ import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
+import io.jpress.web.interceptor.JPressInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,7 @@ public class AddonControllerManager {
         @Override
         public void intercept(Invocation inv) {
             String addonId = controllerAddonMapping.get(inv.getController().getClass());
-            inv.getController().set("APATH", "/addons/" + addonId + "/");
+            inv.getController().set(JPressInterceptor.ADDON_PATH_KEY, "/addons/" + addonId + "/");
             inv.invoke();
         }
     }

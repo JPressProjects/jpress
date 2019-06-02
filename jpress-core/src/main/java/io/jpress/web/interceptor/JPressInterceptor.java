@@ -27,6 +27,8 @@ import com.jfinal.core.Controller;
  */
 public class JPressInterceptor implements Interceptor {
 
+    public static final String ADDON_PATH_KEY = "APATH";
+    private static final String ADDON_PATH_VALUE = "";
 
     public void intercept(Invocation inv) {
 
@@ -34,6 +36,7 @@ public class JPressInterceptor implements Interceptor {
 
         //方便模板开发者直接在模板里接收参数
         controller.setAttr("C", controller);
+        controller.setAttr(ADDON_PATH_KEY, ADDON_PATH_VALUE);
         inv.invoke();
     }
 

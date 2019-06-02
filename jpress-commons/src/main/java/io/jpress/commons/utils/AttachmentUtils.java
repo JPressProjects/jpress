@@ -83,6 +83,13 @@ public class AttachmentUtils {
         return new File(attachmentRoot, path);
     }
 
+    public static String getAttachmentPath(String path) {
+        String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
+        return path != null && path.startsWith(attachmentRoot)
+                ? path.substring(attachmentRoot.length())
+                : path;
+    }
+
     static List<String> imageSuffix = new ArrayList<>();
 
     static {
@@ -118,7 +125,7 @@ public class AttachmentUtils {
         unSafeFilesSuffix.add(".war");
     }
 
-    public static boolean isUnSafe(File file){
+    public static boolean isUnSafe(File file) {
         String sufffix = FileUtil.getSuffix(file.getName());
         if (StrUtil.isNotBlank(sufffix))
             return unSafeFilesSuffix.contains(sufffix.toLowerCase());

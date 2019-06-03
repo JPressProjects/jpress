@@ -26,6 +26,7 @@ if [ ! -f "$oldPath/WEB-INF/classes/jboot-simple.properties" ];then
     echo "$oldPath is not a jpress path"
 fi
 
+
 # 备份旧的JPress
 echo "backup old jpress..."
 cp -rf ${oldPath} ${oldPath}_bak

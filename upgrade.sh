@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : yum install -y wget && wget https://gitee.com/fuhai/jpress/raw/master/update.sh && bash update.sh newPath oldPath
+# use : yum install -y wget && wget https://gitee.com/fuhai/jpress/raw/master/upgrade.sh && bash upgrade.sh newPath oldPath
 # ----------------------------------------------------------------------
 
 newPath="$1"
@@ -39,15 +39,17 @@ rm -rf ${oldPath}/WEB-INF/install
 rm -rf ${oldPath}/WEB-INF/views
 rm -rf ${oldPath}/static
 
+
+echo "start upgrade ..."
+
 # 拷贝新的jpress
-echo "copy new jpress files..."
 cp -rf ${newPath}/WEB-INF/lib  ${oldPath}/WEB-INF/lib
 cp -rf ${newPath}/WEB-INF/install  ${oldPath}/WEB-INF/install
 cp -rf ${newPath}/WEB-INF/views  ${oldPath}/WEB-INF/views
 cp -rf ${newPath}/static  ${oldPath}/static
 cp -rf ${newPath}/robots.txt  ${oldPath}/robots.txt
 
-echo "update finished, please restart tomcat..."
+echo "upgrade finished, please restart tomcat..."
 
 
 

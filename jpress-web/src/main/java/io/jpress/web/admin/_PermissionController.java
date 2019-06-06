@@ -21,6 +21,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.annotation.AdminPermission;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuItem;
@@ -140,14 +141,23 @@ public class _PermissionController extends AdminControllerBase {
      */
     private static List<Permission> buildActionPermissions() {
         List<Permission> permissions = new ArrayList<>();
-        List<String> allActionKeys = JFinal.me().getAllActionKeys();
+
+        List<String> allActionKeys = AddonControllerManager.getAllActionKeys();
+        allActionKeys.addAll(JFinal.me().getAllActionKeys());
 
         String[] urlPara = new String[1];
+
         for (String actionKey : allActionKeys) {
             // 只处理后台的权限 和 API的权限
             if (actionKey.startsWith("/admin") || actionKey.startsWith("/api")) {
 
                 Action action = JFinal.me().getAction(actionKey, urlPara);
+
+                //去获取 插件的 Action
+                if (action == null){
+                    action = AddonControllerManager.getAction(actionKey,urlPara);
+                }
+
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {
                     continue;
                 }

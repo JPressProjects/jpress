@@ -69,6 +69,11 @@ public class AddonControllerManager {
         controllerAddonMapping.put(c, addonId);
     }
 
+    public static List<String> getAllActionKeys() {
+        return actionMapping.getAllActionKeys();
+    }
+
+
     public static void deleteController(Class<? extends Controller> c) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
         if (mapping == null) return;

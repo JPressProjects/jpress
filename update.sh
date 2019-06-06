@@ -15,6 +15,7 @@ fi
 
 if [ ! -f "$newPath/robots.txt" ];then
     echo "$newPath is not a jpress path"
+    exit 0
 fi
 
 if [[ "$oldPath" == "" ]]; then
@@ -24,6 +25,7 @@ fi
 
 if [ ! -f "$oldPath/WEB-INF/classes/jboot-simple.properties" ];then
     echo "$oldPath is not a jpress path"
+    exit 0
 fi
 
 

@@ -37,6 +37,7 @@ cp -rf ${oldPath} ${oldPath}_bak
 rm -rf ${oldPath}/WEB-INF/lib
 rm -rf ${oldPath}/WEB-INF/install
 rm -rf ${oldPath}/WEB-INF/views
+rm -rf ${oldPath}/WEB-INF/web.xml
 rm -rf ${oldPath}/static
 
 
@@ -46,6 +47,7 @@ echo "start upgrade ..."
 cp -rf ${newPath}/WEB-INF/lib  ${oldPath}/WEB-INF/lib
 cp -rf ${newPath}/WEB-INF/install  ${oldPath}/WEB-INF/install
 cp -rf ${newPath}/WEB-INF/views  ${oldPath}/WEB-INF/views
+cp -rf ${newPath}/WEB-INF/web.xml  ${oldPath}/WEB-INF/web.xml
 cp -rf ${newPath}/static  ${oldPath}/static
 cp -rf ${newPath}/robots.txt  ${oldPath}/robots.txt
 

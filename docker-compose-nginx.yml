@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:5.6
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: jpress
+      MYSQL_DATABASE: jpress
+      MYSQL_USER: jpress
+      MYSQL_PASSWORD: jpress
+    volumes:
+      - "./docker_volumes/mysql:/var/lib/mysql"
+
+  jpress:
+    depends_on:
+      - db
+    links:
+      - db
+    image: fuhai/jpress:v2.0.2
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      JPRESS_DB_HOST: db
+      JPRESS_DB_PORT: 3306
+      JPRESS_DB_NAME: jpress
+      JPRESS_DB_USER: jpress
+      JPRESS_DB_PASSWORD: jpress
+    volumes:
+      - "./docker_volumes/webapp/attachment:/opt/jpress/webapp/attachment"
+      - "./docker_volumes/webapp/addons:/opt/jpress/webapp/addons"
+      - "./docker_volumes/webapp/WEB-INF/addons:/opt/jpress/webapp/WEB-INF/addons"
+      - "./docker_volumes/webapp/wp-content:/opt/jpress/webapp/wp-content"
+      - "./docker_volumes/webapp/templates/dockers:/opt/jpress/webapp/templates/dockers"
+
+  nginx:
+    depends_on:
+      - jpress
+    links:
+      - jpress
+    image: nginx:1.17
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./nginx/cert:/etc/nginx/cert"
+      - "./docker_volumes/webapp/attachment:/etc/nginx/statics/attachment"
+    ports:
+      - "80:80"
+    restart: always
+

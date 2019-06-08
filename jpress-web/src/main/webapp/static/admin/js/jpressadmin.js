@@ -10,6 +10,8 @@ $(document).ready(function () {
 
     initImageBrowserButton();
 
+    initListDataItemEvents();
+
 });
 
 
@@ -77,13 +79,22 @@ function initMenu() {
 function checkAll(checkbox) {
     $(".dataItem").each(function () {
         $(this).prop('checked', checkbox.checked);
-    })
-    dataItemChange(checkbox);
+    });
+
+    dataItemChange();
 }
 
-function dataItemChange(checkbox) {
+function dataItemChange() {
     $(".checkAction").each(function () {
-        checkbox.checked ? $(this).show().css("display", "inline-block") : $(this).hide();
+        getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
+    })
+}
+
+function initListDataItemEvents() {
+    $(":checkbox.dataItem").on('change',function () {
+        $(".checkAction").each(function () {
+            getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
+        })
     })
 }
 

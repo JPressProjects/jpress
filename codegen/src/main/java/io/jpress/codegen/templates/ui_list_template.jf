@@ -62,7 +62,7 @@
                             </tr>
                             #('#')for(entry : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#('#')(entry.id)" onchange="dataItemChange(this)"/>
+                                <td><input class="dataItem" type="checkbox" value="#('#')(entry.id)" />
                                 </td>
                                 <td>
                                     <strong>

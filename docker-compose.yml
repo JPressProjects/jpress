@@ -12,7 +12,7 @@ services:
       MYSQL_USER: jpress
       MYSQL_PASSWORD: jpress
     volumes:
-      - "./mysql:/var/lib/mysql"
+      - "./docker_volumes/mysql:/var/lib/mysql"
 
   jpress:
     depends_on:
@@ -31,8 +31,8 @@ services:
       JPRESS_DB_USER: jpress
       JPRESS_DB_PASSWORD: jpress
     volumes:
-      - "./attachment:/opt/jpress/webapp/attachment"
-      - "./addons:/opt/jpress/webapp/addons"
-      - "./addonjars:/opt/jpress/webapp/WEB-INF/addons"
-      - "./wp-content:/opt/jpress/webapp/wp-content"
-      - "./templates:/opt/jpress/webapp/templates/dockers"
+      - "./docker_volumes/webapp/attachment:/opt/jpress/webapp/attachment"
+      - "./docker_volumes/webapp/addons:/opt/jpress/webapp/addons"
+      - "./docker_volumes/webapp/WEB-INF/addons:/opt/jpress/webapp/WEB-INF/addons"
+      - "./docker_volumes/webapp/wp-content:/opt/jpress/webapp/wp-content"
+      - "./docker_volumes/webapp/templates/dockers:/opt/jpress/webapp/templates/dockers"

@@ -29,11 +29,11 @@ services:
       JPRESS_DB_USER: jpress
       JPRESS_DB_PASSWORD: jpress
     volumes:
-      - "./docker_volumes/jpress/attachment:/opt/jpress/webapp/attachment"
-      - "./docker_volumes/jpress/addons:/opt/jpress/webapp/addons"
-      - "./docker_volumes/jpress/WEB-INF/addons:/opt/jpress/webapp/WEB-INF/addons"
-      - "./docker_volumes/jpress/wp-content:/opt/jpress/webapp/wp-content"
-      - "./docker_volumes/jpress/templates/dockers:/opt/jpress/webapp/templates/dockers"
+      - "./docker_volumes/webapp/attachment:/opt/jpress/webapp/attachment"
+      - "./docker_volumes/webapp/addons:/opt/jpress/webapp/addons"
+      - "./docker_volumes/webapp/WEB-INF/addons:/opt/jpress/webapp/WEB-INF/addons"
+      - "./docker_volumes/webapp/wp-content:/opt/jpress/webapp/wp-content"
+      - "./docker_volumes/webapp/templates/dockers:/opt/jpress/webapp/templates/dockers"
 
   nginx:
     depends_on:
@@ -46,11 +46,11 @@ services:
       - "./nginx/cert:/etc/nginx/cert"
       - "./starter/target/starter-2.0/webapp/templates:/etc/nginx/statics/templates"
       - "./starter/target/starter-2.0/webapp/static:/etc/nginx/statics/static"
-      - "./docker_volumes/jpress/attachment:/etc/nginx/statics/attachment" # 用户上传的数据
-      - "./docker_volumes/jpress/addons:/etc/nginx/statics/addons"
-      - "./docker_volumes/jpress/WEB-INF/addons:/etc/nginx/statics/WEB-INF/addons"
-      - "./docker_volumes/jpress/wp-content:/etc/nginx/statics/wp-content"
-      - "./docker_volumes/jpress/templates/dockers:/etc/nginx/statics/templates/dockers"
+      - "./docker_volumes/webapp/attachment:/etc/nginx/statics/attachment" # 下面几行为用户上传的数据
+      - "./docker_volumes/webapp/addons:/etc/nginx/statics/addons"
+      - "./docker_volumes/webapp/WEB-INF/addons:/etc/nginx/statics/WEB-INF/addons"
+      - "./docker_volumes/webapp/wp-content:/etc/nginx/statics/wp-content"
+      - "./docker_volumes/webapp/templates/dockers:/etc/nginx/statics/templates/dockers"
     ports:
       - "80:80"
     restart: always

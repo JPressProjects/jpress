@@ -32,8 +32,8 @@
 
     <section class="content-header">
         <h1>
-                        条目
-            <small>Item</small>
+                        编辑/新增
+            <small>Edit</small>
         </h1>
     </section>
 
@@ -57,11 +57,11 @@
 	                                <input type="hidden" id="entryId" name="#(modelAttrName)" value="#('#(')#(modelAttrName) ??)">
 	                             #else
 		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">#(cm.remarks)</label>
+		                                <label class="col-sm-2 control-label">#(cm.remarks?? "列名称")</label>
 		                                <div class="col-sm-6">
 		                                 
 		                                #if("java.util.Date"==cm.javaType)
-										    <input type="input" hint="date" class="form-control" placeholder="点击选择"
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
 		                       						name="#(modelAttrName)" value="#('#date(')#(modelAttrName) ?? now,'yyyy-MM-dd')" >
 										 #elseif("java.lang.Boolean"==cm.javaType)
 										   <input type="checkbox" class="switchery" data-for="#(modelAttrName_)" #('#')checkedIf(#(modelAttrName) ??)>

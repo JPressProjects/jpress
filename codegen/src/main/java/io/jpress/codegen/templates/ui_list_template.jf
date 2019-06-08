@@ -56,7 +56,7 @@
 	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
 	                                </th>
                                 #for(cm : tableMeta.columnMetas)
-	                                <th>#(cm.remarks)</th>
+	                                <th>#(cm.remarks?? "列名称")</th>
                                 #end
                                 
                             </tr>

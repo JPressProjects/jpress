@@ -63,6 +63,15 @@ public class AddonGenerator {
         this.genUI = genUI;
     }
 
+    public boolean isGenUI() {
+        return genUI;
+    }
+
+    public AddonGenerator setGenUI(boolean genUI) {
+        this.genUI = genUI;
+        return this;
+    }
+
     public void gen() {
 
         genCode();

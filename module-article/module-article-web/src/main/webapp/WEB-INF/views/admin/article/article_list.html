@@ -16,7 +16,9 @@
     }
 
     function del(id) {
-        ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+        }
     }
 
     $("#batchDel").click(function () {
@@ -25,7 +27,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+        }
     })
 </script>
 

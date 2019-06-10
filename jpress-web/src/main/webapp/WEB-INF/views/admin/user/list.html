@@ -22,7 +22,7 @@
         if (confirm('确定要删除该用户吗？删除后不可恢复')) {
             ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
         }
-    })
+    });
 
 
     $(".changeRoleAction").click(function () {

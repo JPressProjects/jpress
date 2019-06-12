@@ -441,7 +441,11 @@ public class AddonManager implements JbootEventListener {
         if (directives != null) {
             for (Class<? extends Directive> c : directives) {
                 JFinalDirective ann = c.getAnnotation(JFinalDirective.class);
-                RenderManager.me().getEngine().addDirective(AnnotationUtil.get(ann.value()), c);
+                String directiveName = AnnotationUtil.get(ann.value());
+                // 先移除，后添加，若有相同指令的情况下，
+                // 后安装的插件会替换掉已经存在的指令
+                RenderManager.me().getEngine().removeDirective(directiveName);
+                RenderManager.me().getEngine().addDirective(directiveName, c);
             }
         }
     }

@@ -230,6 +230,7 @@ public class _WechatController extends AdminControllerBase {
             String[] appIdAndPage = content.getKeyword().split(":");
             jsonObject.put("appid", appIdAndPage[0]);
             jsonObject.put("pagepath", appIdAndPage[1]);
+            jsonObject.put("url", getBaseUrl());
         }
         //其他
         else {

@@ -99,9 +99,14 @@ public class JPressOptions {
         return Boolean.parseBoolean(store.get(key));
     }
 
+    @Deprecated
     public static boolean isTrueOrNull(String key) {
-        String data = get(key);
-        return data == null || "true".equals(data);
+        return isTrueOrEmpty(key);
+    }
+
+    public static boolean isTrueOrEmpty(String key) {
+        String value = get(key);
+        return StrUtil.isBlank(value) || "true".equals(value);
     }
 
     public static int getAsInt(String key, int defaultValue) {

@@ -29,7 +29,7 @@ public class ArticleSearcherFactory {
 
     public static ArticleSearcher getSearcher() {
 
-        boolean searchEnable = JPressOptions.isTrueOrNull("article_search_enable");
+        boolean searchEnable = JPressOptions.isTrueOrEmpty("article_search_enable");
         if (!searchEnable) {
             return new NoneSearcher();
         }

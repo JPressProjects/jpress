@@ -58,10 +58,10 @@ public class JPressShareFunctions {
     }
 
 
-    public static Object option(String key, String defaulValue) {
+    public static Object option(String key, Object defaulValue) {
         String value = JPressOptions.get(key);
-        if (StrUtil.isBlank(value) && StrUtil.isNotBlank(defaulValue)) {
-            value = defaulValue;
+        if (StrUtil.isBlank(value) && defaulValue != null) {
+            value = defaulValue.toString();
         }
         if ("true".equalsIgnoreCase(value)) {
             return true;

@@ -40,7 +40,7 @@ public class OptionDirective extends JbootDirectiveBase {
 
         String key = getPara(0, scope);
         if (StrUtil.isBlank(key)) {
-            throw new IllegalArgumentException("#option(...) argument must not be empty");
+            throw new IllegalArgumentException("#option(...) argument must not be empty " + getLocation());
         }
 
         String defaultValue = getPara(1, scope, "");

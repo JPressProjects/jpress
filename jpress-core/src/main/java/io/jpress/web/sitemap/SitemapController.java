@@ -30,7 +30,7 @@ public class SitemapController extends JbootController {
 
     public void index() {
 
-        boolean siteMapEnable = JPressOptions.getAsBool("seo_sitemap_enable");
+        boolean siteMapEnable = JPressOptions.isTrueOrEmpty("seo_sitemap_enable");
         if (!siteMapEnable) {
             renderError(404);
             return;

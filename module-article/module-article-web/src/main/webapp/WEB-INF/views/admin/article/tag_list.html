@@ -73,6 +73,15 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="此标签排序的序号"
+                                           value="#(category.order_number ??)"
+                                           name="category.order_number">
+                                    <p class="help-block"> 其显示方式决定在模板的读取方式。 </p>
+                                </div>
+                            </div>
 
                             #if(styles && styles.size() > 0 )
                             <div class="form-group">
@@ -144,7 +153,7 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 40%">标题</th>
+                                <th style="width: 40%">名称</th>
                                 <th>描述</th>
                                 <th>排序</th>
                             </tr>

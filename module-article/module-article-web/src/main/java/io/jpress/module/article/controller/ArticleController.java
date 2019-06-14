@@ -243,11 +243,11 @@ public class ArticleController extends TemplateControllerBase {
             ret.put("user", user.keepSafe());
         }
 
-        ArticleKit.doNotifyAdministrator(article, comment);
+        ArticleKit.doNotifyAdministrator(article, comment, user);
 
-        if (isAjaxRequest()){
+        if (isAjaxRequest()) {
             renderJson(ret);
-        }else {
+        } else {
             redirect(getReferer());
         }
     }

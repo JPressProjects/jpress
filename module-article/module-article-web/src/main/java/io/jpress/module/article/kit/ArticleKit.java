@@ -20,6 +20,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
 import io.jpress.commons.sms.SmsKit;
+import io.jpress.model.User;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 
@@ -32,8 +33,8 @@ public class ArticleKit {
 
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
-    public static void doNotifyAdministrator(Article article, ArticleComment comment) {
-        doNotifyAdministratorByEmail(article, comment);
+    public static void doNotifyAdministrator(Article article, ArticleComment comment, User user) {
+        doNotifyAdministratorByEmail(article, comment, user);
         doNotifyAdministratorBySms(article, comment);
     }
 
@@ -62,13 +63,13 @@ public class ArticleKit {
     }
 
 
-    public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment) {
+    public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment, User user) {
         boolean enable = JPressOptions.getAsBool("article_comment_email_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendEmail(article, comment));
+        if (enable) fixedThreadPool.execute(() -> doSendEmail(article, comment, user));
     }
 
 
-    private static void doSendEmail(Article article, ArticleComment comment) {
+    private static void doSendEmail(Article article, ArticleComment comment, User user) {
 
         String emailTemplate = JPressOptions.get("article_comment_email_notify_template");
         String sendTo = JPressOptions.get("article_comment_email_notify_address");
@@ -76,6 +77,7 @@ public class ArticleKit {
         Map<String, Object> paras = new HashMap();
         paras.put("article", article);
         paras.put("comment", comment);
+        paras.put("user", user);
 
         String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
         Email email = Email.create();

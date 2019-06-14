@@ -253,7 +253,7 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         User user = getLoginedUser();
-        if (user == null){
+        if (user == null) {
             renderJson(Ret.fail().set("message", "用户未登录"));
             return;
         }
@@ -300,7 +300,7 @@ public class ArticleApiController extends ApiControllerBase {
 
         renderJson(ret);
 
-        ArticleKit.doNotifyAdministrator(article, comment);
+        ArticleKit.doNotifyAdministrator(article, comment, user);
     }
 
 

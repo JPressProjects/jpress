@@ -98,50 +98,53 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
         return StrUtil.isNotBlank(text) ? text : "文字";
     }
 
-    public String getMiniprogramTitle(){
+    public String getMiniprogramTitle() {
         return getOption("miniprogram_title");
     }
 
-    public String getMiniprogramAppId(){
+    public String getMiniprogramAppId() {
         return getOption("miniprogram_appid");
     }
 
-    public String getMiniprogramPage(){
+    public String getMiniprogramPage() {
         return getOption("miniprogram_page");
     }
 
-    public String getMiniprogramCover(){
+    public String getMiniprogramCover() {
         return getOption("miniprogram_cover");
     }
 
-    public boolean isTextType(){
+    public boolean isTextType() {
         return "text".equals(getReplyType());
     }
 
-    public boolean isImageType(){
+    public boolean isImageType() {
         return "image".equals(getReplyType());
     }
 
-    public boolean isTextAndImageType(){
+    public boolean isTextAndImageType() {
         return "textAndImage".equals(getReplyType());
     }
 
-    public boolean isMiniprogramType(){
+    public boolean isMiniprogramType() {
         return "miniprogram".equals(getReplyType());
     }
 
+    public boolean isConfigMiniprogramOk() {
+        return StrUtil.areNotEmpty(getMiniprogramAppId(), getMiniprogramTitle(), getMiniprogramPage(), getMiniprogramCover());
+    }
 
 
-    public String getShowContent(){
+    public String getShowContent() {
         if (!isJson()) return getContent();
 
-        if (isTextType()){
+        if (isTextType()) {
             return getText();
-        }else if (isImageType()){
-            return  getImage();
-        }else if (isMiniprogramType()){
+        } else if (isImageType()) {
+            return getImage();
+        } else if (isMiniprogramType()) {
             return getMiniprogramTitle();
-        }else if (isTextAndImageType()){
+        } else if (isTextAndImageType()) {
             return getText();
         }
 

@@ -50,7 +50,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
 
     public static void init() {
-        apiEnable = JPressOptions.isTrueOrEmpty(JPressConsts.OPTION_API_ENABLE);
+        apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
         apiAppId = JPressOptions.get(JPressConsts.OPTION_API_APPID);
         apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
     }
@@ -75,6 +75,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             inv.getController().renderJson(Ret.fail().set("message", "后台配置的 API 密钥不能为空，请先进入后台的接口管理进行配置。"));
             return;
         }
+
 
         JbootController controller = (JbootController) inv.getController();
         String appId = controller.getPara("appId");
@@ -152,7 +153,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
         switch (key) {
             case JPressConsts.OPTION_API_ENABLE:
-                apiEnable = JPressOptions.isTrueOrEmpty(JPressConsts.OPTION_API_ENABLE);
+                apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
                 break;
             case JPressConsts.OPTION_API_APPID:
                 apiAppId = newValue;

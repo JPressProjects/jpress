@@ -50,7 +50,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
 
     public static void init() {
-        apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
+        apiEnable = JPressOptions.isTrueOrEmpty(JPressConsts.OPTION_API_ENABLE);
         apiAppId = JPressOptions.get(JPressConsts.OPTION_API_APPID);
         apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
     }
@@ -152,7 +152,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
         switch (key) {
             case JPressConsts.OPTION_API_ENABLE:
-                apiEnable = Boolean.parseBoolean(newValue);
+                apiEnable = JPressOptions.isTrueOrEmpty(JPressConsts.OPTION_API_ENABLE);
                 break;
             case JPressConsts.OPTION_API_APPID:
                 apiAppId = newValue;

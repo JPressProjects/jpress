@@ -305,14 +305,20 @@ public class _ArticleController extends AdminControllerBase {
             displayMenu.setRelativeTable("article_category");
             displayMenu.setRelativeId((Long) id);
 
-            if (displayMenu.getPid() == null) {
+            //修复分类管理和标签管理中选择显示到菜单后，菜单的层级结构和排序不正确的bug   wanghui@自知小舍 2019.6.25 begin
+            if (category.getPid() == null) {
                 displayMenu.setPid(0l);
+            } else {
+                displayMenu.setPid(category.getPid());
             }
 
-            if (displayMenu.getOrderNumber() == null) {
+            if (category.getOrderNumber() == null) {
                 displayMenu.setOrderNumber(99);
+            } else {
+                displayMenu.setOrderNumber(category.getOrderNumber());
             }
-
+            displayMenu.setIcon(category.getIcon());
+            //修复分类管理和标签管理中选择显示到菜单后，菜单的层级结构和排序不正确的bug   wanghui@自知小舍 2019.6.25 end
             menuService.saveOrUpdate(displayMenu);
         } else if (displayMenu != null) {
             menuService.delete(displayMenu);

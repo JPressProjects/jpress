@@ -137,6 +137,9 @@ public class WechatMenu extends BaseWechatMenu<WechatMenu> implements SortModel 
     }
 
     public String getTypeStr(){
+        if (hasChild()){
+            return "一级菜单";
+        }
         String str = typeStrs.get(getType());
         return str != null ? str : "未知类型";
     }

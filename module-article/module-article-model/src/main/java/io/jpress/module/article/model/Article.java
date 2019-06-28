@@ -59,6 +59,7 @@ public class Article extends BaseArticle<Article> {
 
     /**
      * 用于渲染html模板，是否高亮
+     *
      * @return
      */
     public boolean isActive() {
@@ -199,18 +200,18 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content", "summary");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content", "summary");
         return super.update();
     }
 
-    public PingData toPingData(){
-        return PingData.create(getTitle(),getUrl());
+    public PingData toPingData() {
+        return PingData.create(getTitle(), getUrl());
     }
 
 //    @Override

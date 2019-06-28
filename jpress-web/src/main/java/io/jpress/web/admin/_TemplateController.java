@@ -39,9 +39,12 @@ import io.jpress.web.JPressShareFunctions;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -123,12 +126,12 @@ public class _TemplateController extends AdminControllerBase {
         newFileName.append(File.separator);
         newFileName.append("dockers"); // 优先安装在docker的映射目录下
 
-        File templateRootPath  = new File(newFileName.toString());
-        if (!templateRootPath.exists() || !templateRootPath.isDirectory()){
+        File templateRootPath = new File(newFileName.toString());
+        if (!templateRootPath.exists() || !templateRootPath.isDirectory()) {
             templateRootPath = templateRootPath.getParentFile();
         }
 
-        File templateZipFile = new File(templateRootPath,ufile.getOriginalFileName());
+        File templateZipFile = new File(templateRootPath, ufile.getOriginalFileName());
         String templatePath = templateZipFile.getAbsolutePath()
                 .substring(0, templateZipFile.getAbsolutePath().length() - 4);
 
@@ -147,7 +150,7 @@ public class _TemplateController extends AdminControllerBase {
 
         try {
             FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtil.unzip(templateZipFile.getAbsolutePath(),
+            unzip(templateZipFile.getAbsolutePath(),
                     templateZipFile.getParentFile().getAbsolutePath());
         } catch (Exception e) {
             renderJson(Ret.fail()
@@ -161,6 +164,43 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         renderJson(Ret.ok().set("success", true));
+    }
+
+
+    public static void unzip(String zipFilePath, String targetPath) throws IOException {
+        ZipFile zipFile = new ZipFile(zipFilePath);
+        try {
+            Enumeration<?> entryEnum = zipFile.entries();
+            if (null != entryEnum) {
+                while (entryEnum.hasMoreElements()) {
+                    OutputStream os = null;
+                    InputStream is = null;
+                    try {
+                        ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
+                        if (!zipEntry.isDirectory() && !zipEntry.getName().contains("..")) {
+                            File targetFile = new File(targetPath + File.separator + zipEntry.getName());
+                            if (!targetFile.getParentFile().exists()) {
+                                targetFile.getParentFile().mkdirs();
+                            }
+                            os = new BufferedOutputStream(new FileOutputStream(targetFile));
+                            is = zipFile.getInputStream(zipEntry);
+                            byte[] buffer = new byte[4096];
+                            int readLen = 0;
+                            while ((readLen = is.read(buffer, 0, 4096)) > 0) {
+                                os.write(buffer, 0, readLen);
+                            }
+                        }
+                    } finally {
+                        if (is != null)
+                            is.close();
+                        if (os != null)
+                            os.close();
+                    }
+                }
+            }
+        } finally {
+            zipFile.close();
+        }
     }
 
     private void deleteFileQuietly(File file) {
@@ -354,7 +394,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         File file = new File(pathFile, fileName);
-        if (!file.canWrite()){
+        if (!file.canWrite()) {
             renderJson(Ret.fail().set("message", "当前文件没有写入权限"));
             return;
         }
@@ -438,7 +478,7 @@ public class _TemplateController extends AdminControllerBase {
         File pathFile = new File(template.getAbsolutePath(), dirName);
 
         try {
-           FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
+            FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
         } catch (Exception e) {
             e.printStackTrace();
             renderFailJson();

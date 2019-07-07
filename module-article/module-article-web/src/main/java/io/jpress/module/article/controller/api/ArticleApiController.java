@@ -152,7 +152,25 @@ public class ArticleApiController extends ApiControllerBase {
                 : articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);
 
         renderJson(Ret.ok().set("page", page));
+    }
 
+
+    public void tag(){
+        String tag = getPara("tag");
+        int count = getParaToInt("count",10);
+        if (StrUtil.isBlank(tag)){
+            renderFailJson();
+            return;
+        }
+
+        ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
+        if (category == null){
+            renderFailJson();
+            return;
+        }
+
+        List<Article> articles = articleService.findListByCategoryId(category.getId(),null,"id desc",count);
+        renderJson(Ret.ok().set("articles",articles));
     }
 
 

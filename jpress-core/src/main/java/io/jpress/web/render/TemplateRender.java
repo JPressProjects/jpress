@@ -82,7 +82,7 @@ public class TemplateRender extends Render {
         }
 
         String html = getEngine().getTemplate(view).renderToString(data);
-        html = replaceSrcTemplateSrcPath(html);
+        html = replaceSrcPath(html);
 
         RenderHelpler.renderHtml(response, html, contentType);
 
@@ -94,13 +94,15 @@ public class TemplateRender extends Render {
     }
 
 
-    public String replaceSrcTemplateSrcPath(String content) {
+    public String replaceSrcPath(String content) {
         if (StrUtil.isBlank(content)) {
             return content;
         }
 
 
         Document doc = Jsoup.parse(content);
+        doc.outputSettings().prettyPrint(false);
+        doc.outputSettings().outline(false);
 
         Elements jsElements = doc.select("script[src]");
         replace(jsElements, "src");

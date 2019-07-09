@@ -214,9 +214,5 @@ public class Article extends BaseArticle<Article> {
         return PingData.create(getTitle(), getUrl());
     }
 
-//    @Override
-//    public Integer getOrderNumber() {
-//        Integer order = super.getOrderNumber();
-//        return order == null ? 0 : order;
-//    }
+
 }

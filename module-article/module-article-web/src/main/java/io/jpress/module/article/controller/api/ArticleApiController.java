@@ -35,6 +35,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -98,8 +99,17 @@ public class ArticleApiController extends ApiControllerBase {
             return;
         }
 
+        Long pid = getLong("pid");
         List<ArticleCategory> categories = categoryService.findListByType(type);
-        SortKit.toTree(categories);
+
+        if (pid != null) {
+            categories = categories.stream()
+                    .filter(category -> pid.equals(category.getPid()))
+                    .collect(Collectors.toList());
+        }else {
+            SortKit.toTree(categories);
+        }
+
         renderJson(Ret.ok("categories", categories));
     }
 
@@ -145,7 +155,7 @@ public class ArticleApiController extends ApiControllerBase {
     public void paginate() {
         Long categoryId = getParaToLong("categoryId");
         String orderBy = getPara("orderBy");
-        int pageNumber = getParaToInt("page", 1);
+        int pageNumber = getParaToInt("pageNumber", 1);
 
         Page<Article> page = categoryId == null
                 ? articleService.paginateInNormal(pageNumber, 10, orderBy)
@@ -155,22 +165,22 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-    public void tag(){
+    public void tagArticles() {
         String tag = getPara("tag");
-        int count = getParaToInt("count",10);
-        if (StrUtil.isBlank(tag)){
+        int count = getParaToInt("count", 10);
+        if (StrUtil.isBlank(tag)) {
             renderFailJson();
             return;
         }
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
-        if (category == null){
+        if (category == null) {
             renderFailJson();
             return;
         }
 
-        List<Article> articles = articleService.findListByCategoryId(category.getId(),null,"id desc",count);
-        renderJson(Ret.ok().set("articles",articles));
+        List<Article> articles = articleService.findListByCategoryId(category.getId(), null, "id desc", count);
+        renderJson(Ret.ok().set("articles", articles));
     }
 
 

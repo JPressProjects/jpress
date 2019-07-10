@@ -174,7 +174,7 @@ public class AddonControllerManager {
         @Override
         public void intercept(Invocation inv) {
             String addonId = controllerAddonMapping.get(inv.getController().getClass());
-            inv.getController().set(JPressInterceptor.ADDON_PATH_KEY, "/addons/" + addonId + "/");
+            inv.getController().set(JPressInterceptor.ADDON_PATH_KEY, "/addons/" + addonId);
             inv.invoke();
         }
     }

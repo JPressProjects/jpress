@@ -71,20 +71,18 @@ public class ArticleApiController extends ApiControllerBase {
      */
     public void index() {
         Long id = getParaToLong("id");
-        if (id != null) {
-            Article article = articleService.findById(id);
-            renderJson(Ret.ok("article", article));
-            return;
-        }
-
         String slug = getPara("slug");
-        if (slug != null) {
-            Article article = articleService.findFirstBySlug(slug);
-            renderJson(Ret.ok("article", article));
+
+        Article article = id != null ? articleService.findById(id)
+                : (StrUtil.isNotBlank(slug) ? articleService.findFirstBySlug(slug) : null);
+
+        if (article == null || !article.isNormal()) {
+            renderFailJson();
             return;
         }
 
-        renderFailJson();
+        articleService.doIncArticleViewCount(article.getId());
+        renderJson(Ret.ok("article", article));
     }
 
     /**
@@ -106,7 +104,7 @@ public class ArticleApiController extends ApiControllerBase {
             categories = categories.stream()
                     .filter(category -> pid.equals(category.getPid()))
                     .collect(Collectors.toList());
-        }else {
+        } else {
             SortKit.toTree(categories);
         }
 

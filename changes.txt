@@ -1,3 +1,18 @@
+jpress v2.0.4:
+新增：文章 API 添加通过 tag 获取文章列表的功能
+新增：文章 API 获取文章分类时，可以通过传入 pid 获取所有的子类别功能
+优化：优化 CDN 设置页面的文字提示，使之更加清晰明了
+优化：优化 微信 自定义回复的代码逻辑
+优化：CentOS 下一键自动安装 JPress 的脚本逻辑
+优化：ArticlesDirective 新增支持多个样式的参数支持
+优化：优化微信菜单设置页面的列名名称
+优化：优化对文章摘要的的html支持
+优化：优化jsoup 对 html 输出时，关闭 prettyPrint 的功能
+优化：优化 文章 API 分页时，page参数修改为 pageNumber
+修复：模板安装时，可能出现的安全问题
+修复：修复 #(APATH) 显示的路径错误的问题
+
+
 jpress v2.0.3:
 新增：在全新的Centos下，一键安装JPress的脚本 install-all.sh
 新增：upgrade.sh脚本，用于在tomcat部署的情况下，一键升级jpress到最新版本

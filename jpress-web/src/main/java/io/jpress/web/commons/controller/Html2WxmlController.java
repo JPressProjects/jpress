@@ -16,7 +16,9 @@
 package io.jpress.web.commons.controller;
 
 import com.jfinal.kit.StrKit;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.web.base.ApiControllerBase;
 import io.jpress.web.commons.controller.html2wxml.HtmlToJson;
 import io.jpress.web.commons.controller.html2wxml.Params;
@@ -57,7 +59,7 @@ public class Html2WxmlController extends ApiControllerBase {
         //是否开启pre代码行号 默认开启
         Boolean linenums = getParaToBoolean("linenums", true);
         //获取a和img静态资源的根路径URL
-        String baseUri = getPara("host", getPara("imghost"));
+        String baseUri = StrUtil.obtainDefaultIfBlank(JPressOptions.getCDNDomain(),getBaseUrl());
 
         Params params = new Params();
         params.setHighlight(highlight);

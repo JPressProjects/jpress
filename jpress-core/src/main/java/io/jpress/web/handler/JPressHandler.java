@@ -18,7 +18,6 @@ package io.jpress.web.handler;
 
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
-import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -49,7 +48,6 @@ public class JPressHandler extends Handler {
     private static final String ADDON_TARGET_PREFIX = "/addons";
     private static final String TEMPLATES_TARGET_PREFIX = "/templates";
     private static final String ATTACHMENT_TARGET_PREFIX = "/attachment";
-    private static final String WECHAT_VERIFY_PREFIX = "/MP_verify_";
 
 
     @Override
@@ -69,14 +67,6 @@ public class JPressHandler extends Handler {
         if (target.startsWith(TEMPLATES_TARGET_PREFIX)) {
             if (target.endsWith(".html")) {
                 HandlerKit.renderError404(request, response, isHandled);
-                return;
-            }
-        }
-
-        //微信公众号验证
-        if (target.startsWith(WECHAT_VERIFY_PREFIX)) {
-            if (target.endsWith(".txt")) {
-                renderWechatVerify(target, request, response, isHandled);
                 return;
             }
         }
@@ -110,14 +100,6 @@ public class JPressHandler extends Handler {
             targetContext.remove();
             requestContext.remove();
         }
-    }
-
-    private void renderWechatVerify(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        isHandled[0] = true;
-        RenderManager.me().getRenderFactory()
-                .getTextRender(target.substring(WECHAT_VERIFY_PREFIX.length(), target.length() - 4), "text/plain")
-                .setContext(request, response)
-                .render();
     }
 
 

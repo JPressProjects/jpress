@@ -1,0 +1,158 @@
+#@layout()
+#define script()
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script>
+
+    $('#cfile').fileupload({
+        url: '#(CPATH)/admin/attachment/doUplaodRootFile',
+        sequentialUploads: true,
+        done: function (e, data) {
+            if (data.result.state == "ok") {
+                toastr.options.onHidden = function () {
+                    location.reload(true);
+                }
+                toastr.success('上传成功。');
+            }else {
+                toastr.error(data.result.message,'上传失败');
+            }
+        }
+    });
+
+    function del(name) {
+        if (confirm('确定要删除文件 '+name+' 吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/attachment/doDelRootFile?name=" + name);
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var names = getSelectedIds();
+        if (names == "") {
+            alert('您未选择任何文件');
+            return
+        }
+        if (confirm('确定要删除文件 '+names+' 吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/attachment/doBatchDelRootFile?names=" + names);
+        }
+    })
+</script>
+
+#end
+
+#define css()
+<link href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            根目录文件管理
+            <small>Root Files Management</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/attachment/root" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="name" value="#para('name')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary ">查询</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <span class="btn  btn-primary fileinput-button">
+                                    <span> <i class="fa fa-fw fa-plus"></i> 上传</span>
+                                    <input id="cfile" type="file" name="files[]" multiple>
+                                </span>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                </th>
+                                <th style="width: 350px">文件名</th>
+                                <th style="width: 100px">大小</th>
+                                <th>修改时间</th>
+                                <th>权限</th>
+                                <th style="width: 90px">所有者</th>
+                            </tr>
+
+                            #for(f : files)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(f.name ??)"/>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/#(f.name)" target="_blank">#(f.name ??)</a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/#(f.name)" target="_blank">查看</a> |
+                                            <a href="javascript:;" onclick="del('#(f.name)')" class="red-action">删除</a>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    #(f.size ??)
+                                </td>
+                                <td>
+                                    #date(f.modifiedDate)
+                                </td>
+                                <td>
+                                    #(f.permission)
+                                </td>
+                                <td>#(f.owner)</td>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

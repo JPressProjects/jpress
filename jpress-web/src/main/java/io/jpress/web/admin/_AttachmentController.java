@@ -16,10 +16,13 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.upload.UploadFile;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -28,8 +31,20 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileOwnerAttributeView;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -47,16 +62,162 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void index() {
-
         Page<Attachment> page = as._paginate(getPagePara(), 15, getPara("title"));
         setAttr("page", page);
         render("attachment/list.html");
-
     }
 
     @AdminMenu(text = "上传", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 1)
     public void upload() {
         render("attachment/upload.html");
+    }
+
+
+    @AdminMenu(text = "根目录", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 99)
+    public void root() {
+        File rootFile = new File(PathKit.getWebRootPath());
+        String name = getPara("name");
+        File[] files = StrUtil.isBlank(name)
+                ? rootFile.listFiles(pathname -> !pathname.isDirectory())
+                : rootFile.listFiles(pathname -> !pathname.isDirectory() && pathname.getName().contains(name));
+
+        setAttr("files", RootFile.toFiles(files));
+        render("attachment/root.html");
+    }
+
+    public void doDelRootFile() {
+        String fileName = getPara("name");
+        if (StrUtil.isBlank(fileName) || fileName.contains("..") || fileName.contains("/") || fileName.contains("\\")) {
+            renderFailJson();
+            return;
+        }
+
+        File file = new File(PathKit.getWebRootPath(), fileName);
+        if (file.delete()) {
+            renderOkJson();
+        } else {
+            renderFailJson();
+        }
+    }
+
+    public void doBatchDelRootFile() {
+        String fileNames = getPara("names");
+        if (StrUtil.isBlank(fileNames) || fileNames.contains("..") || fileNames.contains("/") || fileNames.contains("\\")) {
+            renderFailJson();
+            return;
+        }
+
+        String[] fileNamaArray = fileNames.split(",");
+        for (String fileName : fileNamaArray) {
+            if (StrUtil.isNotBlank(fileName)) {
+                File file = new File(PathKit.getWebRootPath(), fileName.trim());
+                file.delete();
+            }
+        }
+        renderOkJson();
+    }
+
+    public void doUplaodRootFile() {
+        if (!isMultipartRequest()) {
+            renderError(404);
+            return;
+        }
+
+        UploadFile uploadFile = getFile();
+        if (uploadFile == null) {
+            renderJson(Ret.fail().set("message", "请选择要上传的文件"));
+            return;
+        }
+
+        File file = uploadFile.getFile();
+        if (AttachmentUtils.isUnSafe(file)) {
+            file.delete();
+            renderJson(Ret.fail().set("message", "不支持此类文件上传"));
+            return;
+        }
+
+        File rootFile = new File(PathKit.getWebRootPath(), file.getName());
+        if (rootFile.exists()) {
+            file.delete();
+            renderJson(Ret.fail().set("message", "该文件已经存在，请手动删除后再重新上传。"));
+            return;
+        }
+
+        try {
+            FileUtils.moveFile(file, rootFile);
+            renderOkJson();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        renderJson(Ret.fail().set("message", "系统错误。"));
+    }
+
+    public static class RootFile {
+
+        private File file;
+
+        public RootFile(File file) {
+            this.file = file;
+        }
+
+
+        public String getName() {
+            return file.getName();
+        }
+
+        public String getSize() {
+            long fileLen = file.length();
+            String fileLenUnit = " Byte";
+            if (fileLen > 1024) {
+                fileLen = fileLen / 1024;
+                fileLenUnit = " KB";
+            }
+            if (fileLen > 1024) {
+                fileLen = fileLen / 1024;
+                fileLenUnit = " MB";
+            }
+            return fileLen + fileLenUnit;
+        }
+
+        public Date getModifiedDate() {
+            return new Date(file.lastModified());
+        }
+
+        public String getOwner() {
+            try {
+                FileOwnerAttributeView foav = Files.getFileAttributeView(Paths.get(file.toURI()), FileOwnerAttributeView.class);
+                return foav.getOwner().getName();
+            } catch (IOException e) {
+                LogKit.error(e.toString(), e);
+            }
+            return "";
+        }
+
+
+        public String getPermission() {
+            try {
+                PosixFileAttributeView posixView = Files.getFileAttributeView(Paths.get(file.toURI()), PosixFileAttributeView.class);
+                Set<PosixFilePermission> posixFilePermissions = posixView.readAttributes().permissions();
+                return PosixFilePermissions.toString(posixFilePermissions);
+            } catch (IOException e) {
+                LogKit.error(e.toString(), e);
+            }
+            return "";
+        }
+
+
+        public static List<RootFile> toFiles(File[] files) {
+            if (files == null || files.length == 0) {
+                return null;
+            }
+            List<RootFile> rootFiles = new ArrayList<>();
+            for (File file : files) {
+                rootFiles.add(new RootFile(file));
+            }
+            return rootFiles;
+        }
     }
 
 

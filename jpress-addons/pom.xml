@@ -21,7 +21,7 @@
 
     <modules>
         <module>jpress-addon-helloworld</module>
-        <module>jpress-addon-smartprogram</module>
+        <!--<module>jpress-addon-smartprogram</module>-->
         <!--<module>jpress-addon-dcode</module>-->
         <!--<module>jpress-addon-wtask</module>-->
         <!--<module>jpress-addon-wechatlogin</module>-->

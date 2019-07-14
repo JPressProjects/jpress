@@ -54,12 +54,12 @@ public class AttachmentUtils {
 
         try {
             org.apache.commons.io.FileUtils.moveFile(file, newfile);
+            newfile.setReadable(true,false);
         } catch (IOException e) {
             LOG.error(e.toString(), e);
         }
 
         String attachmentRoot = JPressConfig.me.getAttachmentRootOrWebRoot();
-
         return FileUtil.removePrefix(newfile.getAbsolutePath(), attachmentRoot);
     }
 

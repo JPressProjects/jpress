@@ -73,6 +73,12 @@ public class _AttachmentController extends AdminControllerBase {
     }
 
 
+    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 2)
+    public void setting() {
+        render("attachment/setting.html");
+    }
+
+
     @AdminMenu(text = "根目录", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 99)
     public void root() {
         File rootFile = new File(PathKit.getWebRootPath());
@@ -145,6 +151,7 @@ public class _AttachmentController extends AdminControllerBase {
 
         try {
             FileUtils.moveFile(file, rootFile);
+            rootFile.setReadable(true,false);
             renderOkJson();
             return;
         } catch (IOException e) {
@@ -279,9 +286,5 @@ public class _AttachmentController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 2)
-    public void setting() {
-        render("attachment/setting.html");
-    }
 
 }

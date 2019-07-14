@@ -104,9 +104,9 @@ function getSelectedIds() {
         if ($(this).prop('checked')) {
             selectedIds += $(this).val() + ",";
         }
-    })
+    });
 
-    return selectedIds;
+    return selectedIds.substring(0,selectedIds.length - 1);
 }
 
 

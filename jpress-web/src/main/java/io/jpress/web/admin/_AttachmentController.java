@@ -37,14 +37,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileOwnerAttributeView;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -151,7 +147,7 @@ public class _AttachmentController extends AdminControllerBase {
 
         try {
             FileUtils.moveFile(file, rootFile);
-            rootFile.setReadable(true,false);
+            rootFile.setReadable(true, false);
             renderOkJson();
             return;
         } catch (IOException e) {
@@ -195,8 +191,9 @@ public class _AttachmentController extends AdminControllerBase {
         public String getOwner() {
             try {
                 FileOwnerAttributeView foav = Files.getFileAttributeView(Paths.get(file.toURI()), FileOwnerAttributeView.class);
-                return foav.getOwner().getName();
-            } catch (IOException e) {
+                UserPrincipal owner = foav.getOwner();
+                if (owner != null) return owner.getName();
+            } catch (Exception e) {
                 LogKit.error(e.toString(), e);
             }
             return "";
@@ -206,9 +203,9 @@ public class _AttachmentController extends AdminControllerBase {
         public String getPermission() {
             try {
                 PosixFileAttributeView posixView = Files.getFileAttributeView(Paths.get(file.toURI()), PosixFileAttributeView.class);
-                Set<PosixFilePermission> posixFilePermissions = posixView.readAttributes().permissions();
-                return PosixFilePermissions.toString(posixFilePermissions);
-            } catch (IOException e) {
+                PosixFileAttributes attrs = posixView.readAttributes();
+                if (attrs != null) return PosixFilePermissions.toString(attrs.permissions());
+            } catch (Exception e) {
                 LogKit.error(e.toString(), e);
             }
             return "";
@@ -284,7 +281,6 @@ public class _AttachmentController extends AdminControllerBase {
         as.saveOrUpdate(attachment);
         renderOkJson();
     }
-
 
 
 }

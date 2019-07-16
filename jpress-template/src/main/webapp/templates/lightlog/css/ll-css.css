@@ -9,15 +9,65 @@ a:hover{
     color:#3F6600;
     text-decoration: none;
 }
-/*header*/
-.ll-header {
-    border-bottom: 6px solid #3F6600;
-    padding:2rem 0;
+button:focus{
+    outline: none;
 }
-.ll-logo a{
-    display: block;
+
+/*header*/
+
+
+.ll-navbar{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    z-index: 999;
+}
+.ll-nav{
+
+}
+.ll-nav a{
+    color:#999;
+    padding:.2rem .5rem;
+    cursor: pointer;
+
+}
+.ll-header {
+    position: relative;
+    padding:8rem 0;
+    background: url("../img/22.jpg") center no-repeat;
+    background-size: cover;
+    color:#fff;
+    z-index: -2;
+}
+.header-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left:0;
+    bottom:0;
+    background-color: #000;
+    opacity: .6;
+    filter:alpha(opacity=60);
+    z-index: -1;
+}
+.ll-logo{
     text-align: center;
-    color:#3F6600;
+    color:#fff;
+}
+/*.ll-logo a{*/
+    /*display: block;*/
+    /*text-align: center;*/
+    /*color:#fff;*/
+    /*cursor: pointer;*/
+/*}*/
+.ll-logo h1{
+    font-size:4rem;
+    font-weight: 500;
+}
+.ll-logo p{
+    font-size:1rem;
+    font-weight: 300;
 }
 
 /*card*/
@@ -29,6 +79,9 @@ a:hover{
 /*.ll-card:hover{*/
     /*box-shadow:0 10px 30px rgba(0, 0, 0, 0.1)*/
 /*}*/
+.ll-card-image{
+    padding-top:1rem;
+}
 
 .ll-card .ll-card-image a{
     display: inline-block;
@@ -64,6 +117,19 @@ a:hover{
     min-width: 150px;
     vertical-align: top;
 }
+.ll-card-main a{
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    flex-direction: column;
+    width: 100%;
+    height:100%;
+    padding:1rem;
+    box-sizing: border-box;
+
+}
+.ll-card-main a:hover{
+    background-color: #f2f2f2;
+}
 /*.ll-card .ll-card-image img{*/
     /*max-width: 150px;*/
     /*max-height: 150px;*/
@@ -80,17 +146,57 @@ a:hover{
     }
     .ll-card .ll-card-image a{
         width: 100%;
-        height: 18rem;
+        height: 14rem;
         border-radius:4px;
         -webkit-border-radius:4px;
         -moz-border-radius:4px;
     }
+    .ll-comment-from button{
+        float: none;
+        width: 100%;
+    }
+
+
+    .ll-nav .navbar-nav{
+        background-color: #fff;
+        opacity: .9;
+        filter:alpha(opacity=90);
+        margin-top:0.5rem;
+        width: 40%;
+    }
+    .ll-nav .navbar-nav .nav-item{
+        font-size:1rem;
+        padding:0.6rem 0.3rem;
+
+    }
+    .ll-nav .navbar-nav .nav-item a{
+        color:#666;
+    }
+
+    .ll-card-main{
+        padding-left:0;
+        padding-right:0;
+    }
+    .ll-card-main a{
+        padding-left:0;
+        padding-right:0;
+    }
+    .ll-card{
+        margin:0;
+    }
 
 }
+
 .ll-card-tag>div{
     display: inline-block;
     padding-right:1rem;
-    color:#666;
+    color:#999;
+    font-size:1rem;
+    font-weight: 300;
+
+}
+.ll-card-tag>div>i{
+    margin-right:4px;
 }
 .ll-card-tag>div>img{
     width: 30px;
@@ -98,7 +204,9 @@ a:hover{
 }
 .ll-card .ll-card-main-info{
     color:#666;
-    margin-top:1rem;
+    font-size:1.2rem;
+    font-weight: 300;
+    line-height: 1.6rem;
 }
 .ll-card .ll-card-more a{
     color:#3F6600;
@@ -106,6 +214,11 @@ a:hover{
 .ll-card-main-title a:hover,.ll-card .ll-card-more a:hover{
     border-bottom:2px solid #3F6600;
     padding-bottom:2px;
+}
+.ll-card-main-title{
+    font-size:2.2rem;
+    font-weight: 600;
+    color:#333;
 }
 /*page*/
 .pagination .page-item.active .page-link{
@@ -131,48 +244,59 @@ a:hover{
 .ll-footer{
     background-color: #fbfbfb;
     text-align: center;
-    padding:3rem 0;
-    margin:5rem 0 0 0;
+    padding:1rem 0;
+    margin:3rem 0 0 0;
     border-top:1px solid #f1f1f1;
 }
 .ll-footer-link a{
-    font-size:20px;
+    font-size:1rem;
     padding:1rem 0;
-    color:#666;
+    color:#999;
 }
 .ll-copyright{
-    color:#666;
-    font-size:14px;
-    line-height:0.8em;
+    color:#999;
+    font-size:1rem;
+    line-height:1.4rem;
 }
 /*artical*/
 .ll-artical-title{
-    margin:3rem 0 1rem 0;
+    margin:3rem 0 0.5rem 0;
+    font-size: 2.4rem;
+    color: #333;
+    font-weight: 600;
 }
 .ll-artical h1,.ll-artical h2,.ll-artical h3,.ll-artical h4,.ll-artical h5{
     padding:1.5rem 0 0.5rem 0;
+    font-weight: 600;
 }
 .ll-artical h1{
-    font-size:2rem;
+    font-size:2.4rem;
     color:#c7254e;
 }
 .ll-artical h2{
-    font-size:1.75rem;
+    font-size:2.2rem;
 }
 .ll-artical h3{
-    font-size:1.5rem;
+    font-size:2rem;
 }
 .ll-artical h4{
-    font-size:1.25rem;
+    font-size:1.75rem;
 }
 .ll-artical h5{
-    font-size:1rem;
+    font-size:1.5rem;
+}
+.ll-artical h6{
+    font-size:1.2rem;
+}
+.ll-artical ul,.ll-artical ol,.ll-artical li{
+    font-size:1.2rem;
+    color:#666;
 }
 .ll-artical{
     padding:2.5rem 0 0 0;
 }
 .ll-artical blockquote{
-    font-size:18px;
+    font-size:1.2rem;
     padding:2rem 1rem 2rem 2rem;
     border-left:4px solid #3F6600;
     background-color: #f3f3f3;
@@ -198,14 +322,23 @@ a:hover{
     height: auto;
 }
 .ll-artical p{
-    padding:0.5rem 0 0.5rem 0;
+    padding:0.5rem 0;
     line-height: 1.8rem;
-    font-size:18px;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom:1rem;
+    font-weight: 400;
 }
 .ll-content-info{
     color:#999;
 }
+.ll-artical-content{
+
+}
 /*comment panel*/
+.comment{
+
+}
 .comment-panel{
     padding-bottom:0.5rem;
     margin-top:2rem;
@@ -256,22 +389,29 @@ a:hover{
     .ll-panel{
         max-width: 30%;
     }
+
 }
 
 /*comment form*/
 .ll-comment-from{
-    margin:2rem 0;
+    /*margin:2rem 0;*/
+
 }
-.ll-comment-from>div{
-    height: 3rem;
-    border:solid #3F6600;
-    border-width: 0 0 0.2rem 0;
+.comment-content{
+    background-color: #f2f2f2;
+    padding:0.5rem;
+}
+.ll-comment-from .comment-write{
+    height: 6rem;
+    /*border:solid #3F6600;*/
+    /*border-width: 0 0 0.2rem 0;*/
     position: relative;
+    background-color: #fff;
 }
 .ll-comment-from .ll-comment-from-icon{
     position: absolute;
-    top:0;
-    left: 0;
+    top:0.5rem;
+    left: 0.5rem;
     display:block;
     width: 2rem;
     height: 2rem;
@@ -282,20 +422,39 @@ a:hover{
     color:#fff;
 
 }
+.comment-vcode{
+    float: left;
+    font-size:1rem;
+    margin-top:0.5rem;
+}
+.comment-vcode .vcode-img{
+    height: 2.6rem;
+}
+.comment-vcode input{
+    padding:0 0.5rem;
+    height: 2.6rem;
+    border:none;
+    outline: none;
+}
 .ll-comment-from button{
     float: right;
     border:none;
-    color:#3F6600;
-    font-size:20px;
-    padding:1rem 0;
+    color:#fff;
+    font-size:1.2rem;
+    padding:0 1rem;
+    height: 2.6rem;
+    line-height: 2.6rem;
     cursor: pointer;
+    margin-top:0.5rem;
+    background-color:#3F6600 ;
 }
 .ll-comment-from>div>textarea{
-    height: 2rem;
+    height: 6rem;
     border:none;
-    padding:0 0 0 3rem;
+    padding:0.7rem 0.7rem 0.7rem 3rem;
     width: 100%;
-    line-height: 2rem;
+    box-sizing: border-box;
+
 }
 .ll-comment-from>div>textarea:focus{
     outline: none;

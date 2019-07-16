@@ -15,17 +15,36 @@
 </head>
 <body>
 <div class="ll-header container-fluid">
+    <div class="header-bg"></div>
     <div class="ll-logo">
-        <a href="#(CPATH)/">
+        <!--<a href="#(CPATH)/">-->
             <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
-            <p>#option('lightlog_web_desc','一个格子铺....')</p>
-        </a>
+            <p>#option('lightlog_web_desc','这里是网站介绍，请在后台设置')</p>
+        <!--</a>-->
     </div>
+
+</div>
+<div class="ll-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark ll-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                #for(menu : MENUS)
+                <li class="nav-item #(menu.isActive ? 'active' : '')" >
+                    <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>
+                </li>
+                #end
+            </ul>
+        </div>
+    </nav>
 </div>
 #@content()
 <div class="container-fluid ll-footer">
     <div class="container">
-        <p class="ll-footer-link"><a href="#">联系我们</a></p>
+        <!--<p class="ll-footer-link"><a href="#">联系我们</a></p>-->
         <p class="ll-copyright">本设计由简.工作室荣誉出品</p>
         <p class="ll-copyright">#(WEB_COPYRIGHT ?? 'copyright @ 2017~2018 简.工作室（www.jeanstudio.cn）')</p>
     </div>

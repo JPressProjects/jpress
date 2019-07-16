@@ -24,25 +24,26 @@
                     <img src="#option('bonhumeur_web_avatar','img/list-image.jpg')" />
                 </p>
                 <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
-                <p>#option('bonhumeur_web_desc','一个小博客....')</p>
+                <p>#option('bonhumeur_web_desc','请在后台设置描述')</p>
             </div>
         </div>
         #end
-        <div class="bh-nav-sidebar">
-            <ul>
-                #for(menu : MENUS)
-                <li>
-                    <a href="#(menu.url ??)" class="#(menu.isActive ? 'active' : 'nav-item')" target="#(menu.target ??)">#(menu.text ??)</a>
-                </li>
-                #end
-            </ul>
-        </div>
+        <!--<div class="bh-nav-sidebar">-->
+            <!--<ul>-->
+
+                <!--<li>-->
+                    <!--<a href="/cpath" class="" target="">首页</a>-->
+                <!--</li>-->
+               <!---->
+
+            <!--</ul>-->
+        <!--</div>-->
         <div class="bh-main">
 
             #@content()
 
             <div class="bh-footer">
-                <p class="bh-copyright"><a href="#">联系我们</a> | 本设计由简.工作室荣誉出品</p>
+                <p class="bh-copyright">本设计由简.工作室荣誉出品</p>
                 <p class="bh-copyright">#(WEB_COPYRIGHT ?? 'copyright @ 2017~2018 简.工作室（www.jeanstudio.cn）')</p>
             </div>
         </div>

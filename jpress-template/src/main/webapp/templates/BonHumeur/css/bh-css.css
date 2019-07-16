@@ -17,7 +17,7 @@ a:hover{
     width: 320px;
     position: absolute;
     top:0;
-    left:60px;
+    left:0px;
     background: url(../img/sidebar-image.jpg) no-repeat left top;
 }
 .bh-nav-sidebar{
@@ -49,7 +49,7 @@ a:hover{
     overflow: scroll;
 }
 .bh-main-body{
-    padding:0 200px 0 380px;
+    padding:0 200px 0 320px;
 }
 /*sidebar*/
 .bh-sidebar-main{
@@ -79,27 +79,40 @@ a:hover{
 .bh-card{
     background-color: #fff;
     padding:40px 20px 0 60px;
-    border-bottom:1px dashed #d5d5d5;
+
 }
 .bh-card-tag>div{
     display: inline-block;
     padding-right:1rem;
-    color:#666;
+    color:#999;
+    font-size: 1rem;
+    font-weight: 300;
 }
 .bh-card-tag>div>img{
     width: 30px;
     height: 30px;
 }
+.bh-card-main a{
+    padding:1rem;
+    border-bottom:1px dashed #d5d5d5;
+}
 .bh-card .bh-card-main-info{
     color:#666;
     margin-top:1rem;
+    font-size:1.1rem;
+    font-weight: 300;
 }
-.bh-card .bh-card-more a{
-    color:#3F6600;
+.bh-card a{
+    display: inline-block;
+
 }
-.bh-card-main-title a:hover,.bh-card .bh-card-more a:hover{
-    border-bottom:2px solid #107AB1;;
-    padding-bottom:2px;
+.bh-card a:hover{
+    background-color: #f2f2f2;
+}
+.bh-card-main-title{
+    font-size:1.6rem;
+    font-weight: 600;
+    color:#333;
 }
 .bh-more{
     text-align: center;
@@ -173,25 +186,37 @@ a:hover{
 }
 .bh-artical-title{
     margin:3rem 0 1rem 0;
+    font-size: 2.4rem;
+    color: #333;
+    font-weight: 600;
 }
 .bh-artical h1,.bh-artical h2,.bh-artical h3,.bh-artical h4,.bh-artical h5{
     padding:1.5rem 0 0.5rem 0;
+    font-weight: 600;
 }
+
 .bh-artical h1{
-    font-size:2rem;
+    font-size:2.4rem;
     color:#c7254e;
 }
 .bh-artical h2{
-    font-size:1.75rem;
+    font-size:2.2rem;
 }
 .bh-artical h3{
-    font-size:1.5rem;
+    font-size:2rem;
 }
 .bh-artical h4{
-    font-size:1.25rem;
+    font-size:1.75rem;
 }
 .bh-artical h5{
-    font-size:1rem;
+    font-size:1.5rem;
+}
+.bh-artical h6{
+    font-size:1.2rem;
+}
+.bh-artical ul,.bh-artical ol,.bh-artical li{
+    font-size:1.2rem;
+    color:#666;
 }
 .bh-artical{
     padding:2.5rem 0 0 0;
@@ -199,7 +224,7 @@ a:hover{
 .bh-artical blockquote{
     font-size:18px;
     padding:2rem 1rem 2rem 2rem;
-    border-left:4px solid #3F6600;
+    border-left:4px solid #107AB1;
     background-color: #f3f3f3;
     /*font-style: italic;*/
     font-weight: bold;
@@ -209,7 +234,7 @@ a:hover{
     content: " “ ";
     font-size:60px;
     vertical-align: bottom;
-    color:#3F6600;
+    color:#107AB1;
 }
 
 .bh-artical blockquote span{
@@ -222,12 +247,17 @@ a:hover{
     height: auto;
 }
 .bh-artical p{
-    padding:0.5rem 0 0.5rem 0;
+    padding:0.5rem 0;
     line-height: 1.8rem;
-    font-size:18px;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom:1rem;
+    font-weight: 400;
 }
 .bh-content-info{
     color:#999;
+    font-size: 1rem;
+    font-weight: 300;
 }
 /*comment panel*/
 .comment-panel{
@@ -276,6 +306,7 @@ a:hover{
     margin:0.5rem 0;
     background-color: #fffffb;
 }
+
 @media (min-width: 576px){
     .bh-panel{
         max-width: 30%;
@@ -283,18 +314,25 @@ a:hover{
 }
 /*comment form*/
 .bh-comment-from{
-    margin:2rem 0;
+    /*margin:2rem 0;*/
 }
-.bh-comment-from>div{
-    height: 3rem;
-    border:solid #107AB1;
-    border-width: 0 0 0.2rem 0;
+.bh-comment-from .comment-write{
+    height: 6rem;
     position: relative;
+    background-color: #fff;
 }
+
+
+.comment-content{
+    background-color: #f2f2f2;
+    padding:0.5rem;
+}
+
+
 .bh-comment-from .bh-comment-from-icon{
     position: absolute;
-    top:0;
-    left: 0;
+    top:0.5rem;
+    left: 0.5rem;
     display:block;
     width: 2rem;
     height: 2rem;
@@ -304,22 +342,42 @@ a:hover{
     border-radius: 4px;
     color:#fff;
 
+
+}
+.comment-vcode{
+    float: left;
+    font-size:1rem;
+    margin-top:0.5rem;
+}
+.comment-vcode .vcode-img{
+    height: 2.6rem;
+}
+.comment-vcode input{
+    padding:0 0.5rem;
+    height: 2.6rem;
+    border:none;
+    outline: none;
 }
 .bh-comment-from button{
     float: right;
     border:none;
-    color:#107AB1;
-    font-size:20px;
-    padding:1rem 0;
+    color:#fff;
+    font-size:1.2rem;
+    padding:0 1rem;
+    height: 2.6rem;
+    line-height: 2.6rem;
     cursor: pointer;
-    background: none;
+    margin-top:0.5rem;
+    background-color:#107AB1 ;
+    outline: none;
 }
 .bh-comment-from>div>textarea{
-    height: 2rem;
+
+    height: 6rem;
     border:none;
-    padding:0 0 0 3rem;
+    padding:0.7rem 0.7rem 0.7rem 3rem;
     width: 100%;
-    line-height: 2rem;
+    box-sizing: border-box;
 }
 .bh-comment-from>div>textarea:focus{
     outline: none;

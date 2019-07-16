@@ -90,10 +90,10 @@
             #(article.title ??)
         </h2>
         <div class="bh-card-tag">
-            <div class="">
-                <img src="#(article.user.avatar ??)" class="img-fluid rounded-circle" alt="#(article.user.nickname ??)">
-                <span class="text-success">#(article.user.nickname ??)</span>
-            </div>
+            <!--<div class="">-->
+                <!--<img src="#(article.user.avatar ??)" class="img-fluid rounded-circle" alt="#(article.user.nickname ??)">-->
+                <!--<span class="text-success">#(article.user.nickname ??)</span>-->
+            <!--</div>-->
             <div><i class="fa fa-clock-o"></i> #date(article.created)</div>
             <div><i class="fa fa-eye"></i> #(article.view_count)</div>
             <div><i class="fa fa-commenting-o"></i> #(article.comment_count)</div>
@@ -124,23 +124,24 @@
         #end
         <div class="comment" id="comments">
             <h4 class="bh-title">发表评论</h4>
-
-            <form class="bh-comment-from" id="commentForm" action="#(CPATH)/article/postComment" method="post">
-                <input type="hidden" name="articleId" value="#(article.id)">
-                <input type="hidden" name="pid" id="pid">
-                <div>
-                    <span class="bh-comment-from-icon"><i class="fa fa-pencil"></i></span>
-                    <textarea placeholder="想说就说吧..." rows="1" name="content" id="content"></textarea>
-                </div>
-                #if(option('article_comment_vcode_enable'))
-                验证码：
-                <input placeholder="请输入验证码" style="margin: 1rem 0" name="captcha">
-                <img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
-                #end
-                <button type="submit">发射</button>
-                <span class="clearfix"></span>
-            </form>
-
+            <div class="comment-content">
+                <form class="bh-comment-from" id="commentForm" action="#(CPATH)/article/postComment" method="post">
+                    <input type="hidden" name="articleId" value="#(article.id)">
+                    <input type="hidden" name="pid" id="pid">
+                    <div class="comment-write">
+                        <span class="bh-comment-from-icon"><i class="fa fa-pencil"></i></span>
+                        <textarea placeholder="想说就说吧..." rows="1" name="content" id="content"></textarea>
+                    </div>
+                    <div class="comment-vcode">
+                        #if(option('article_comment_vcode_enable'))
+                        <input placeholder="请输入验证码" name="captcha">
+                        <img class="vcode-img" src="/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
+                        #end
+                    </div>
+                    <button type="submit">发射</button>
+                    <span class="clearfix"></span>
+                </form>
+            </div>
 
             #commentPage()
             #for(comment : commentPage.list)

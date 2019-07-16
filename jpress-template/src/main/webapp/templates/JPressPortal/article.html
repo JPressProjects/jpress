@@ -85,12 +85,14 @@
             <h3 class="bl-artical-title">
                 #(article.title ??)
             </h3>
-            <div class="bl-label">
-                <div class="bl-label-item">
+
+            <div class="bl-artical-label">
+                <div class="artical-label-item">
                     <img src="#(article.user.avatar ??)" class="img-fluid rounded-circle bl-img-size" alt="">
-                    <span class="text-success">#(article.user.nickname ??)</span>
+                    <span class="text-surmary">#(article.user.nickname ??)</span>
                 </div>
-                <div class="bl-label-item">#date(article.created)</div>
+
+                <div class="artical-label-item">#date(article.created)</div>
             </div>
             <div class="bl-artical">
                 #(article.content ??)
@@ -129,11 +131,12 @@
                                   name="content"
                                   rows="5"></textarea>
                     </div>
-                    #if(option('article_comment_vcode_enable'))
-                    验证码：
-                    <input placeholder="请输入验证码" style="margin: 1rem 0" name="captcha">
-                    <img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
-                    #end
+                    <div class="comment-vcode">
+                        #if(option('article_comment_vcode_enable'))
+                        <input placeholder="请输入验证码" name="captcha">
+                        <img class="vcode-img" src="/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
+                        #end
+                    </div>
                     <button type="submit">发布</button>
                     <span class="clearfix"></span>
                 </form>
@@ -222,9 +225,10 @@
                 <div class="card-right-body">
                     <a href="#(article.url ??)">
                         <div>
-                            <img src="#(article.showImage ?? 'img/blog-image.jpg')"
+                            <img src="#(article.showImage ?? 'img/default-img.jpg')"
                                  class="img-fluid"
                                  alt="#(article.title ??)">
+
                         </div>
                         <p>#(article.title ??)</p>
                     </a>

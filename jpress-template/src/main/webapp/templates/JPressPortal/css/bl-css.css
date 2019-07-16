@@ -46,8 +46,8 @@
     border-radius: 10px;
 }
 .bl-img-size{
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
 }
 .bl-portrait-size{
     width: 64px;
@@ -71,47 +71,81 @@
     font-size:16px;
 }
 /*artical list*/
+.bl-card-content{
+    position: relative;
+}
+a.cl-list-item{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    margin-bottom:1rem;
+    padding:1rem;
+    border-bottom:1px solid #f2f2f2;
+}
+a.cl-list-item:hover{
+    box-shadow: 0 0 25px 2px rgba(0,0,0,.2);
+    background: #fff;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+    border-radius: 2px;
+    text-decoration: none;
+
+}
 .list-content{
     padding:2rem 0;
 }
 .bl-list-card{
-    padding:1.5rem 0;
-    border-bottom:1px solid #dee2e6;
+    padding:0;
+    margin:0;
+
 }
 .bl-label{
-    margin:1rem 0 1rem 0;
+
+    display: flex;
+    width: 100%;
+    background-color: #fff;
 }
+.bl-label-position{
+    position: absolute;
+    bottom:10px;
+    left:0;
+}
+
 .bl-tag{
-    margin:0.5rem 0 1rem 0;
+    display: flex;
+    width: 70%;
+
+}
+.bl-label-item{
+    width: 30%;
+    text-align: right;
+    padding-right:20px;
+    box-sizing: border-box;
 }
 .bl-label .bl-label-item,.bl-tag .bl-tag-item{
-    display: inline;
-    padding:0 1rem 0 0;
+    font-weight: 300;
     color:#999;
+}
+.bl-tag-item{
+    margin-left:20px;
 }
 .bl-label-item img{
     border:1px solid #eee;
 }
-.bl-label-item span{
-    color:#154fa1;
-    margin:0 0 0 0.5rem;
-}
-.bl-list-card .bl-content-title a{
+
+.bl-list-card .bl-content-title{
     color:#333;
+    font-size:1.8rem;
+    font-weight: 500;
 }
-.bl-list-card .bl-content-title a:hover{
-    color:#0050B3;
-}
-.bl-list-card a:hover{
-    text-decoration: none;
-}
+
 .bl-card-image{
     overflow: hidden;
     border:1px solid #eee;
-    height: 14rem;
+    height: 10rem;
     margin:0;
     padding:0;
-    line-height: 13rem;
+    line-height: 10rem;
 }
 .bl-card-image img{
     width: 100%;
@@ -155,6 +189,9 @@
     border-bottom:1px solid #dee2e6;
     position: relative;
 }
+.bl-comment-form{
+    margin-bottom:4rem;
+}
 .bl-comment-form button{
     float: right;
     background-color: #154fa1;
@@ -182,19 +219,23 @@
 }
 .comment-panel-content p{
     font-size:16px;
-    margin:0.5rem 0 0 0;
+    margin:0;
 }
 .comment-panel .bl-reply{
     text-align: right;
     color:#154fa1;
+    font-size: 1rem;
+    margin-bottom: 0;
 }
 .comment-panel .comment-panel-content{
-    padding:0 0 0 4rem;
+    padding:0 0 0 3.5rem;
     width: 100%;
 }
 .comment-panel .comment-panel-content .comment-panel-content-item div{
     display: inline;
-    padding:0 1rem 0 0;
+    padding:0 0.5rem 0 0;
+    color:#999;
+    font-size: 0.9rem;
 }
 .comment-panel .comment-panel-secondary{
     border:1px solid #e5e5e5;
@@ -204,6 +245,24 @@
 }
 .comment-panel-secondary span{
     color:#17a2b8;
+}
+.comment-vcode{
+    float: left;
+    font-size:1rem;
+
+}
+.form-group{
+    margin-bottom:0.5rem;
+}
+.comment-vcode .vcode-img{
+    height: 2.3rem;
+    margin-top:-3px;
+}
+.comment-vcode input{
+    padding:0 0.5rem;
+    height: 2.6rem;
+    border:1px solid #dfdfdf;
+    outline: none;
 }
 /*recommend aritical*/
 .recommend-panel-top{
@@ -272,12 +331,39 @@
 .bl-card{
     padding:0;
 }
+.padding-0{
+    padding:0;
+}
+
+.bl-slide{
+    display: inline-block;
+    width: 3rem;
+    height: 0.3rem;
+    background-color: #154fa1;
+}
 
 .bl-title{
     margin:2rem 0 1rem 0;
-    border-left:2px solid #0050B3;
-    padding:0 0 0 1rem;
+    border-left:10px solid #0050B3;
+    padding:0 0 0 0.5rem;
     color:#333;
+    font-size: 1.2rem;
+}
+.bl-card .card{
+    background-color: #f2f2f2;
+}
+.bl-card .card-body{
+    font-size:1.2rem;
+    font-weight: 300;
+    color:#666;
+}
+.bl-card .card-title{
+    font-size: 1rem;
+    margin-bottom:0;
+}
+.bl-card .text-muted{
+    font-size:0.9rem;
+    font-weight: 300;
 }
 .bl-card-title{
     margin:3rem 0;
@@ -286,6 +372,7 @@
 }
 .bl-card-body{
     border:none;
+
 }
 .bl-card-body .card-body-item{
     border:none;
@@ -308,6 +395,7 @@
 .product-box-body{
     margin:2rem 0;
     padding:2rem 0;
+    border-bottom:1px solid #f2f2f2;
 }
 .product-box-body .product-box-image{
     vertical-align: middle;
@@ -321,6 +409,12 @@
 }
 .product-box-content p{
     color:#666;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+.product-box-content .card-title{
+    font-size: 1.4rem;
+    margin-bottom:1rem;
 }
 @media(max-width: 576px) {
     .card-title{
@@ -377,11 +471,14 @@
         margin-bottom:14rem;
     }
     .recommend-panel-top{
-        height: 7rem;
-        line-height: 7rem;
+        height: 9rem;
+        line-height: 9rem;
     }
     .card-right-body div{
         height: 8rem;
+    }
+    .padding-0{
+        padding:0;
     }
 }
 @media(max-width: 768px) {
@@ -396,12 +493,14 @@
 }
 /*footer*/
 .bl-footer{
-    padding:2.5rem;
+    padding:1rem;
     margin:2.5rem 0 0 0;
-    background-color:#0050B3;
+    background-color:#f2f2f2;
 }
 .bl-footer a,.bl-footer .copyright{
-    color:#fff;
+    color:#999;
+    font-size:1rem;
+    font-weight: 300;
 }
 .bl-footer .copyright{
     text-align: center;
@@ -409,6 +508,7 @@
 .bl-footer .bl-footer-list{
     text-align: center;
     padding:0;
+    margin-bottom:0.5rem;
 }
 .bl-footer-list .bl-footer-item{
     display: inline-block;
@@ -417,7 +517,6 @@
 /*header*/
 .bl-header{
     background-color: #154fa1;
-    padding:1rem 0;
 }
 .icon-item a{
     display: inline-block;
@@ -443,7 +542,7 @@ a.nav-prand:hover{
     color:#fff;
 }
 .bl-nav .nav-item a{
-    padding:0 2rem;
+    padding:0 1rem;
     color:#b2c8e5;
 }
 .bl-nav .nav-item a:hover{
@@ -502,6 +601,19 @@ a.nav-prand:hover{
 /*artical*/
 .bl-artical-title{
     margin:3rem 0 0 0;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #333;
+}
+.artical-label-item{
+    color:#999;
+    margin-right:20px;
+    margin-top:10px;
+    font-weight: 300;
+    margin-left:5px;
+}
+.bl-artical-label{
+    display: flex;
 }
 .bl-artical h1,.bl-artical h2,.bl-artical h3,.bl-artical h4,.bl-artical h5{
     padding:1.5rem 0 0.5rem 0;
@@ -544,9 +656,15 @@ a.nav-prand:hover{
 .bl-artical p{
     padding:0.5rem 0 0.5rem 0;
     line-height: 1.8rem;
+    font-weight: 400;
+    color:#666;
+    font-size: 1rem;
 }
 .bl-content-info{
-    color:#999;
+    color:#666;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    font-weight: 300;
 }
 /*animation*/
 

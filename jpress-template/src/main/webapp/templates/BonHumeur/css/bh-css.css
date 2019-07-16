@@ -80,6 +80,7 @@ a:hover{
     background-color: #fff;
     padding:40px 20px 0 60px;
 
+
 }
 .bh-card-tag>div{
     display: inline-block;
@@ -93,6 +94,9 @@ a:hover{
     height: 30px;
 }
 .bh-card-main a{
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
     padding:1rem;
     border-bottom:1px dashed #d5d5d5;
 }

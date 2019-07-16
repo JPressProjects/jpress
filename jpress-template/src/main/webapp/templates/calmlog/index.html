@@ -9,16 +9,18 @@
 
         #if(option('calmlog_slides'))
         <div class="recommend-top">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel slide" >
+            <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">-->
                 <ol class="carousel-indicators">
                     #for(slide : linesOption('calmlog_slides'))
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="#(for.index == 0 ? 'active' : '')"></li>
                     #end
                 </ol>
                 <div class="carousel-inner">
-                    #for(slide : linesOption('calmlog_slides'))
+                    #for(slide : linesOption('calmlog_slides','\|'))
                     <div class="carousel-item #(for.index == 0 ? 'active' : '')">
-                        <img class="d-block w-100" src="#(slide)" alt="First slide">
+                        <a href="#(slide[1])"><img class="d-block w-100" src="#(slide[0])" alt="First slide"></a>
+                        <p class="cl-inner-footer">#(slide[2])</p>
                     </div>
                     #end
                 </div>
@@ -40,8 +42,9 @@
             #for(article : articles)
             <div class="recommend-item">
                 <a href="#(article.url)">
-                    <img src="#(article.showImage)" class="img-fluid" alt="">
+                    <img src="#(article.showImage ?? 'img/default-img.jpg')" class="img-fluid" alt="">
                 </a>
+                <p class="recommend-item-bottom">#(article.title)</p>
             </div>
             #end
             #end
@@ -52,21 +55,24 @@
     #articlePage()
     #for(article : articlePage.list)
     <div class="cl-card">
+        <a class="card-link" href="#(article.url)">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <a href="#(article.url)">
-                    <img src="#(article.showImage ? article.showImage  : 'img/default-img.png')" class="img-fluid" alt="">
-                </a>
-            </div>
 
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    <a href="#(article.url)">#(article.title)</a>
-                </h3>
-                <p class="cl-card-main-info">#maxLength(article.text,100)</p>
-                <p class="cl-card-more"><a href="#(article.url)">阅读更多...</a></p>
-            </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
+                    <img src="#(article.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+                    <h3 class="cl-card-main-title">
+                        #(article.title)
+                    </h3>
+                    <p class="cl-card-main-info">#maxLength(article.text,100)</p>
+                    <p class="cl-card-more">阅读更多...</p>
+                </div>
+
         </div>
+        </a>
+
     </div>
     #end
 

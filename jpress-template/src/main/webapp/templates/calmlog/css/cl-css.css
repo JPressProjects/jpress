@@ -63,7 +63,32 @@ a:hover{
     margin-bottom:20px;
 }
 
+.carousel-inner{
+    height: 20rem;
+}
 
+.cl-inner-footer{
+    width: 100%;
+    color:#fff;
+    font-size: 1.2rem;
+    padding:0 1rem;
+    box-sizing: border-box;
+    position: absolute;
+    left:0;
+    top: 16rem;
+    height: 4rem;
+    line-height: 4rem;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(97%,rgba(0,0,0,.65)));
+    background-image: linear-gradient(-180deg,transparent,rgba(0,0,0,.65) 97%);
+}
+.recommend-item a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.carousel-indicators{
+    bottom: -5px;
+}
 /*left*/
 .cl-left{
     margin:20px 0;
@@ -79,10 +104,24 @@ a:hover{
 }
 .recommend-item{
     width: 49%;
-    /*height: 170px;*/
+    height: 170px;
     overflow: hidden;
+    position: relative;
 }
+.recommend-item-bottom{
+    position: absolute;
+    top:130px;
+    height: 40px;
+    line-height: 40px;
+    padding:0 10px;
+    overflow: hidden;
+    left:0;
+    width: 100%;
 
+    color:#fff;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(97%,rgba(0,0,0,.65)));
+    background-image: linear-gradient(-180deg,transparent,rgba(0,0,0,.65) 97%);
+}
 .cl-artical-content,.recommend-panel,.comment{
     background-color: #fff;
     padding:0 20px 20px 20px;
@@ -91,7 +130,6 @@ a:hover{
 /*card*/
 .cl-card{
     background-color: #fff;
-    padding:1rem 1rem 0 1rem;
     margin:0 0 20px 0;
 }
 
@@ -105,33 +143,45 @@ a:hover{
 .cl-card .cl-card-image img{
     width: 100%;
     max-width: 100%;
+    min-height: 150px;
 }
-.cl-card .cl-card-more a{
-    color:#FF9400;
+.cl-card .cl-card-more{
+    margin:0;
 }
-.cl-card-main-title a:hover,.cl-card .cl-card-more a:hover{
-    border-bottom:2px solid #FF9400;
-    padding-bottom:2px;
+.cl-card .cl-card-more{
+    font-size: 1rem;
+    font-weight: 300;
+    opacity: 0.8;
 }
+
 .cl-card-main-title{
-    height: 2rem;
+    height: 1.6rem;
     overflow: hidden;
+    font-size:1.4rem;
+    font-weight: 500;
 
 }
-.cl-card-main-title a{
-    font-size:1.4rem;
-    color:#333;
-    font-weight: normal;
+.card-link .row{
+    padding:0;
+    margin:0;
 }
-.cl-card-main-title a:hover{
-    text-decoration: underline;
+a.card-link{
+    display: inline-block;
+    padding:1rem;
+
 }
+a.card-link:hover{
+    background-color: #FF9400;
+    color:#fff;
+}
+
 .cl-card-main-info{
     font-size:1rem;
-    color:#999;
+    opacity: 0.8;
     height: 3rem;
     overflow: hidden;
     margin:0.5rem 0 2rem 0;
+    font-weight: 300;
 }
 /*page*/
 .pagination .page-item.active .page-link{
@@ -166,10 +216,10 @@ a:hover{
     padding:0 0 10px 0;
 }
 .right-card-title{
-    font-size:1.2rem;
-    color:#666;
-    font-weight: bold;
-    padding:20px 0 10px 10px;
+    font-size:1rem;
+    color:#333;
+    font-weight: 500;
+    padding:10px 0 5px 10px;
 }
 .cl-code p{
     color:#999;
@@ -199,6 +249,7 @@ a:hover{
     height: 40px;
     line-height:40px;
     overflow: hidden;
+    font-weight: 300;
 }
 /*label*/
 .label{
@@ -214,6 +265,7 @@ a:hover{
     padding:2px 10px;
     margin:0 8px 8px 0;
     color:#666;
+    font-weight: 300;
 }
 .label li a:hover{
     background-color: #FF9400;
@@ -229,6 +281,8 @@ a:hover{
     padding:2rem 0 1rem 0;
     margin:1rem 0 0 0;
     border-top:1px solid #f1f1f1;
+    font-weight: 300;
+    color:#999;
 }
 .cl-footer-link a{
     font-size:20px;
@@ -242,11 +296,15 @@ a:hover{
 }
 /*artical*/
 .cl-artical-title{
-    padding:20px 0 10px 0;
+    padding:20px 0 0 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+
 }
 .cl-card-tag{
     color:#999;
-    font-size:1rem;
+    font-size:0.9rem;
+    font-weight: 300;
 }
 .cl-artical h1,.cl-artical h2,.cl-artical h3,.cl-artical h4,.cl-artical h5{
     padding:1.5rem 0 0.5rem 0;
@@ -273,7 +331,7 @@ a:hover{
 .cl-artical blockquote{
     font-size:18px;
     padding:2rem 1rem 2rem 2rem;
-    border-left:4px solid #3F6600;
+    border-left:4px solid #FF9400;
     background-color: #f3f3f3;
     /*font-style: italic;*/
     font-weight: bold;
@@ -283,9 +341,12 @@ a:hover{
     content: " “ ";
     font-size:60px;
     vertical-align: bottom;
-    color:#3F6600;
+    color:#FF9400;
 }
-
+.cl-artical ul,.cl-artical ol,.cl-artical li{
+    font-size:1rem;
+    color:#666;
+}
 .cl-artical blockquote span{
     font-size:36px
 }
@@ -297,9 +358,12 @@ a:hover{
     height: auto;
 }
 .cl-artical p{
-    padding:0.5rem 0 0.5rem 0;
+    padding:0.5rem 0;
     line-height: 1.8rem;
-    font-size:18px;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom:1rem;
+    font-weight: 400;
 }
 .cl-content-info{
     color:#999;
@@ -383,8 +447,8 @@ a:hover{
     padding:20px 0 0 0;
     margin:20px 0;
 }
-.cl-comment-from div{
-    height: 3rem;
+.cl-comment-from .cl-textarea{
+    /*height: 3rem;*/
     border:1px solid #dfdfdf;
 }
 
@@ -410,6 +474,22 @@ a:hover{
     box-sizing: border-box;
 }
 .cl-comment-from>div>textarea:focus,.cl-comment-from button:focus{
+    outline: none;
+}
+
+.comment-vcode{
+    float: left;
+    font-size:1rem;
+    margin-top:0.5rem;
+}
+.comment-vcode .vcode-img{
+    height: 2.3rem;
+    margin-top:-3px;
+}
+.comment-vcode input{
+    padding:0 0.5rem;
+    height: 2.6rem;
+    border:1px solid #dfdfdf;
     outline: none;
 }
 /*recommend aritical*/
@@ -445,6 +525,36 @@ a:hover{
     -webkit-transform: scale(1.1, 1.1);
     -o-transform: scale(1.1, 1.1);
     -moz-transform: scale(1.1, 1.1);
+}
+@media (max-width: 576px){
+    .cl-card-main{
+        padding-left:0;
+        padding-right:0;
+        margin-top:1rem;
+    }
+    .cl-card .cl-card-image{
+        height: 200px;
+    }
+    .carousel-inner{
+        height:16rem;
+
+    }
+    .carousel-inner image{
+        min-height: 16rem;
+    }
+    .cl-inner-footer{
+        top:12rem;
+    }
+    .recommend-item{
+        height: 120px;
+    }
+    .recommend-item image{
+        min-height: 120px;
+    }
+    .recommend-item-bottom{
+        top:80px;
+    }
+
 }
 
 

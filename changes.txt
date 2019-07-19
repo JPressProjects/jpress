@@ -1,3 +1,16 @@
+jpress v2.0.5:
+新增：根目录文件管理功能，方便在某些时候上传文件到根目录
+优化：html2wxml 接口不再接受 imghost 参数，默认自动把图片替换为JPress的CDN地址
+优化：后台查看附件列表在某些极端情况下会显示错处的问题
+优化：优化后台的 jpressadmin.getSeletedIds() 方法返回结果多一个逗号的问题
+优化：删除微信公众号的自动域名验证功能，用户自己在根目录管理里上传验证文件
+优化：修改JPress上传文件自动把文件设置为可读模式，方便nginx代理时在某些情况下出现的不可读问题
+优化：优化jpress内置模板 lightlog 的样式
+优化：优化jpress内置模板 PressPortal 的样式
+优化：优化jpress内置模板 calmlog 的样式
+优化：优化jpress内置模板 bonhumeur 的样式
+
+
 jpress v2.0.4:
 新增：文章 API 添加通过 tag 获取文章列表的功能
 新增：文章 API 获取文章分类时，可以通过传入 pid 获取所有的子类别功能

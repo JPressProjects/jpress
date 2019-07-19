@@ -28,10 +28,17 @@ if [ ! -f "$oldPath/WEB-INF/classes/jboot-simple.properties" ];then
     exit 0
 fi
 
+bakpath=""
+if [[ $oldPath == */ ]]; then
+backpath=${oldPath:0-0:${#oldPath}-1}_bak
+else
+bakpath=${oldPath}_bak
+fi
+
 
 # 备份旧的JPress
 echo "backup old jpress..."
-cp -rf ${oldPath} ${oldPath}_bak
+cp -rf ${oldPath} ${bakpath}
 
 # 删除对于的数据
 rm -rf ${oldPath}/WEB-INF/lib

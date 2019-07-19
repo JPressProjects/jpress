@@ -37,7 +37,7 @@ fi
 
 
 # 备份旧的JPress
-echo "backup old jpress..."
+echo "backup old jpress to $bakpath"
 cp -rf ${oldPath} ${bakpath}
 
 # 删除对于的数据

@@ -5,11 +5,11 @@
     <table class="table table-striped">
         <tbody>
         <tr>
-            <th style="width: 45%">路径</th>
-            <th style="width: 25%">查询</th>
+            <th style="width: 40%">路径</th>
+            <th style="">查询</th>
             <th style="width: 10%">渠道</th>
             <th style="width: 10%">媒介</th>
-            <th style="width: 180px">时间</th>
+            <th style="width: 150px">时间</th>
         </tr>
 
         #for(utm : page.list)
@@ -26,7 +26,7 @@
             <td>#(utm.action_query ??)</td>
             <td>#(utm.source ??)</td>
             <td>#(utm.medium ??)</td>
-            <td>#(utm.created ??)</td>
+            <td>#date(utm.created,'yyyy-MM-dd HH:mm:ss')</td>
         </tr>
         #end
 

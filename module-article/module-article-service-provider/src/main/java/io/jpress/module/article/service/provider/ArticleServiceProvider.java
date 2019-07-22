@@ -197,11 +197,12 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> search(String queryString, int pageNum, int pageSize) {
         try {
             ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
-            return searcher.search(queryString, pageNum, pageSize);
+            Page<Article> page = searcher.search(queryString, pageNum, pageSize);
+            if (page != null) return page;
         } catch (Exception ex) {
             LogKit.error(ex.toString(), ex);
         }
-        return null;
+        return new Page<>(new ArrayList<>(), pageNum, pageSize, 0, 0);
     }
 
     @Override
@@ -247,7 +248,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Article findByTitle(String title) {
-        return joinUserInfo(DAO.findFirstByColumn(Column.create("title",title)));
+        return joinUserInfo(DAO.findFirstByColumn(Column.create("title", title)));
     }
 
     @Override

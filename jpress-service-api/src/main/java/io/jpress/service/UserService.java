@@ -17,6 +17,7 @@ package io.jpress.service;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.User;
 
@@ -87,7 +88,7 @@ public interface UserService extends JbootServiceJoiner{
      */
     public boolean update(User model);
 
-    public Page<User> _paginate(int page, int pagesize, String username, String email, String status);
+    public Page<User> _paginate(int page, int pagesize, Columns columns);
 
     public User findByUsernameOrEmail(String usernameOrEmail);
 

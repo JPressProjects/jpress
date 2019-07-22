@@ -45,11 +45,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, String username, String email, String status) {
-
-        Columns columns = Columns.create("status", status);
-        columns.likeAppendPercent("username", username);
-        columns.likeAppendPercent("email", email);
+    public Page<User> _paginate(int page, int pagesize, Columns columns) {
         return DAO.paginateByColumns(page, pagesize, columns, "id desc");
     }
 

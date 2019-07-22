@@ -65,18 +65,49 @@
                         <form class="form-horizontal actionPanel" action="#(CPATH)/admin/user" method="get">
                             <input type="hidden" name="status" value="#para('status')">
                             <div class="row">
+
                                 <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">用户名</label>
+                                    <label class="col-sm-3 control-label">登录名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="username" value="#para('username')">
                                     </div>
                                 </div>
+
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">昵称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="nickname" value="#para('nickname')">
+                                    </div>
+                                </div>
+
                                 <div class="form-group col-lg-4">
                                     <label class="col-sm-3 control-label">邮箱</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="email" value="#para('email')">
                                     </div>
                                 </div>
+
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">手机号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="mobile" value="#para('mobile')">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">来源</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="create_source">
+                                            <option value="">全部</option>
+                                            <option value="wechat_web" #selectedIf(para("create_source") == "wechat_web")>微信网页授权</option>
+                                            <option value="wechat_message" #selectedIf(para("create_source") == "wechat_message") >微信公众号</option>
+                                            <option value="wechat_miniprogram" #selectedIf(para("create_source") == "wechat_miniprogram")>微信小程序</option>
+                                            <option value="web_register" #selectedIf(para("create_source") == "web_register")>网页注册</option>
+                                            <option value="admin_create" #selectedIf(para("create_source") == "admin_create")>后台创建</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group col-lg-4">
                                     <div class="col-sm-12">
                                         <button type="submit" class="btn btn-primary ">查询</button>
@@ -84,6 +115,7 @@
                                         <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
                                     </div>
                                 </div>
+
                             </div>
                             <!-- /.box-body -->
                         </form>
@@ -146,7 +178,7 @@
                                             #(user.username)
                                         </a>
                                         #else
-                                        无用户名
+                                        无登录名
                                         #end
                                         #if(user.isStatusReg()) （未激活） #end
                                         #if(user.isStatusLocked()) （已冻结） #end

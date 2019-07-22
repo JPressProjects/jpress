@@ -20,6 +20,7 @@ import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -71,10 +72,14 @@ public class _UserController extends AdminControllerBase {
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
-        Page<User> page = userService._paginate(getPagePara(), 10,
-                getPara("username"),
-                getPara("email"),
-                getPara("status"));
+        Columns columns = Columns.create("status", getPara("status"));
+        columns.likeAppendPercent("username", getPara("username"));
+        columns.likeAppendPercent("nickname", getPara("nickname"));
+        columns.likeAppendPercent("email", getPara("email"));
+        columns.likeAppendPercent("mobile", getPara("mobile"));
+        columns.eq("create_source", getPara("create_source"));
+
+        Page<User> page = userService._paginate(getPagePara(), 10,columns);
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);

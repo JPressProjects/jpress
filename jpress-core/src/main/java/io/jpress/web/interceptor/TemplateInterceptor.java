@@ -23,6 +23,8 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
@@ -90,6 +92,10 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
         SortKit.toTree(menus);
         controller.setAttr(JPressConsts.ATTR_MENUS, menus);
+
+
+        Template template = TemplateManager.me().getCurrentTemplate();
+        controller.setAttr("TPATH", template == null ? "" : template.getWebAbsolutePath());
 
         inv.invoke();
     }

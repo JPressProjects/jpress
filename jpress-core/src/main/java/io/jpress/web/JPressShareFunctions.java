@@ -17,6 +17,7 @@ package io.jpress.web;
 
 import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -110,6 +111,15 @@ public class JPressShareFunctions {
 
     public static boolean isImage(String path) {
         return StrUtil.isNotBlank(path) && (AttachmentUtils.isImage(path) || path.toLowerCase().endsWith(".ico"));
+    }
+
+
+    public static String para(String key) {
+        return para(key, null);
+    }
+
+    public static String para(String key, String defaultValue) {
+        return JbootControllerContext.get().get(key, defaultValue);
     }
 
 

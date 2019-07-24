@@ -15,6 +15,7 @@
  */
 package io.jpress.web.front;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import io.jboot.utils.CookieUtil;
@@ -28,6 +29,7 @@ import io.jpress.commons.oauth2.connector.QQConnector;
 import io.jpress.commons.oauth2.connector.WechatConnector;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
+import io.jpress.web.interceptor.UserInterceptor;
 
 import java.util.Date;
 
@@ -41,6 +43,7 @@ import java.util.Date;
  */
 
 @RequestMapping("/oauth")
+@Before(UserInterceptor.class)
 public class OauthController extends Oauth2Controller {
 
     @Inject
@@ -67,6 +70,20 @@ public class OauthController extends Oauth2Controller {
                 return;
         }
 
+        if (dbUser == null){
+            dbUser = UserInterceptor.getThreadLocalUser();
+            if (dbUser != null){
+                dbUser.setAvatar(ouser.getAvatar());
+                dbUser.setNickname(ouser.getNickname());
+                if ("qq".equals(ouser.getSource())) {
+                    dbUser.setQqOpenid(ouser.getOpenId());
+                } else {
+                    dbUser.setWxOpenid(ouser.getOpenId());
+                }
+                userService.update(dbUser);
+            }
+        }
+
         if (dbUser == null) {
             dbUser = new User();
             dbUser.setAvatar(ouser.getAvatar());
@@ -86,8 +103,6 @@ public class OauthController extends Oauth2Controller {
         }
 
         CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
-
-
         String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
         redirect(gotoUrl);
     }

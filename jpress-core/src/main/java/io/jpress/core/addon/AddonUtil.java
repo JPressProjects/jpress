@@ -364,7 +364,11 @@ public class AddonUtil {
         }
 
         if (StrUtil.isNotBlank(prepStmtCacheSize)) {
-            dsc.setPrepStmtCacheSize(Integer.valueOf(cachePrepStmts));
+            /**
+             *  modify by lixin 07.31
+             * 	dsc.setPrepStmtCacheSize(Integer.valueOf(cachePrepStmts));
+             */	 
+        	dsc.setPrepStmtCacheSize(Integer.valueOf(prepStmtCacheSize));
         }
 
         if (StrUtil.isNotBlank(prepStmtCacheSqlLimit)) {
@@ -383,8 +387,14 @@ public class AddonUtil {
             dsc.setMinimumIdle(Integer.valueOf(minimumIdle));
         }
 
-        String type = config.get("type");
-        String driverClassName = config.get("driverClassName");
+        /**
+         *  modify by lixin 07.31
+         * 	String type = config.get("type");
+         *  String driverClassName = config.get("driverClassName");
+         */	 
+
+        String type = config.get("db.type");
+        String driverClassName = config.get("db.driverClassName");
 
         if (StrUtil.isNotBlank(type)) {
             dsc.setType(type);

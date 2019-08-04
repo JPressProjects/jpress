@@ -25,6 +25,7 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
+import io.jpress.service.AttachmentService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
@@ -39,7 +40,10 @@ import java.util.Map;
 public class CKEditorController extends UserControllerBase {
 
     @Inject
-    OptionService optionService;
+    private OptionService optionService;
+
+    @Inject
+    private AttachmentService attachmentService;
 
     public void index() {
         renderError(404);
@@ -91,7 +95,7 @@ public class CKEditorController extends UserControllerBase {
         attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(mineType);
 
-        if (attachment.save()) {
+        if (attachmentService.save(attachment) != null) {
 
             /**
              * {"fileName":"1.jpg","uploaded":1,"url":"\/userfiles\/images\/1.jpg"}

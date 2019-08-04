@@ -53,23 +53,23 @@ public class OptionApiController extends ApiControllerBase {
         String keyPara = getPara("key");
 
         if (StrUtil.isBlank(keyPara)) {
-            renderFailJson("key must not be empty");
+            renderFailJson("key must not empty");
             return;
         }
 
+        if (keyPara.contains(",")) {
+            Set<String> keys = StrUtil.splitToSet(keyPara, ",");
+            Map<String, String> data = new HashMap<>();
+            for (String key : keys) {
+                if (StrUtil.isNotBlank(key)) {
+                    data.put(key, optionService.findByKey(key));
+                }
+            }
+            renderJson(Ret.ok().set("values", data));
+        } else {
 
-        Set<String> keys = StrUtil.splitToSet(keyPara, ",");
-        if (keys != null || keys.size() == 1) {
             renderOkJson("value", optionService.findByKey(keyPara));
-            return;
         }
 
-
-        Map<String, String> data = new HashMap<>();
-        for (String key : keys) {
-            data.put(key, optionService.findByKey(key));
-        }
-
-        renderJson(Ret.ok().set("values", data));
     }
 }

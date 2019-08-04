@@ -61,7 +61,7 @@ public class AdminInterceptor implements Interceptor {
 
         String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
         if (StrUtil.isBlank(uid)) {
-            inv.getController().renderError(404);
+            inv.getController().redirect("/admin/login");
             return;
         }
 

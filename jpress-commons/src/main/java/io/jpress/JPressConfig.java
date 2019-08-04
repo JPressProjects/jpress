@@ -26,6 +26,34 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * <p>
+ * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * <p>
+ * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.gnu.org/licenses/lgpl-3.0.txt
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * <p>
+ * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.gnu.org/licenses/lgpl-3.0.txt
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 /**
  * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
@@ -58,10 +86,12 @@ import io.jboot.utils.StrUtil;
 @ConfigModel(prefix = "jpress")
 public class JPressConfig {
 
+    public static final String DEFAULT_LOGIN_PAGE = "/admin/login";
+
     private String indexAction = "/page";
     private String defaultTemplate = "cn.jeanstudio.bonhumeur";
     private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
-    private String adminLoginPage = "/admin/login";         //登录的页面
+    private String adminLoginPage = DEFAULT_LOGIN_PAGE;         //登录的页面
     private String adminLoginAction = "/admin/doLogin";     //登录的方法
 
 
@@ -107,7 +137,7 @@ public class JPressConfig {
     }
 
     public String getAttachmentRootOrWebRoot() {
-        return  StrUtil.isNotBlank(attachmentRoot)
+        return StrUtil.isNotBlank(attachmentRoot)
                 ? attachmentRoot
                 : PathKit.getWebRootPath();
     }

@@ -9,8 +9,7 @@
 
         #if(option('calmlog_slides'))
         <div class="recommend-top">
-            <div class="carousel slide" >
-            <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">-->
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     #for(slide : linesOption('calmlog_slides'))
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="#(for.index == 0 ? 'active' : '')"></li>

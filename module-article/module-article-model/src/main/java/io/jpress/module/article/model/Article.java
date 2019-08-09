@@ -102,7 +102,7 @@ public class Article extends BaseArticle<Article> {
             content = MarkdownUtils.toHtml(content);
             content = JsoupUtils.clean(content);
         }
-        return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
+        return content;
     }
 
 

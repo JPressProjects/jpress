@@ -159,7 +159,7 @@ public class TemplateRender extends Render {
                 url = contextPath + template.getWebAbsolutePath() + "/" + url;
             }
 
-            if (cdnDomain != null) {
+            if (StrUtil.isNotBlank(cdnDomain)) {
                 url = cdnDomain + url;
             }
 

@@ -75,7 +75,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         if (JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode())) {
             content = MarkdownUtils.toHtml(content);
         }
-        return JsoupUtils.makeImageSrcToAbsolutePath(content, JPressOptions.getResDomain());
+        return content;
     }
 
     public boolean _isMarkdownMode() {
@@ -107,7 +107,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
 
-    public PingData toPingData(){
-        return PingData.create(getTitle(),getUrl());
+    public PingData toPingData() {
+        return PingData.create(getTitle(), getUrl());
     }
 }

@@ -74,33 +74,6 @@ public class JsoupUtils {
     }
 
 
-    /**
-     * 让html的图片变成绝对路径，这在api请求文章数据的时候，方便客户端直接浏览
-     *
-     * @param html
-     * @param domain
-     * @return
-     */
-    public static String makeImageSrcToAbsolutePath(String html, String domain) {
-
-        if (StrUtil.isBlank(domain)) {
-            return html;
-        }
-
-        Document doc = Jsoup.parse(html);
-        Elements es = doc.select("img");
-        if (es != null && es.size() > 0) {
-            for (Element e : es) {
-                String src = e.attr("src");
-                if (StrUtil.isNotBlank(src) && src.startsWith("/")) {
-                    src = domain + src;
-                    e.attr("src", src);
-                }
-            }
-        }
-        return doc.body().children().toString();
-    }
-
     public static String getText(String html) {
         if (StrUtil.isBlank(html)) {
             return html;

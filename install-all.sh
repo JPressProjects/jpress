@@ -29,6 +29,8 @@ docker-compose -version
 wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 
+rm -f install.sh
+
 
 
 

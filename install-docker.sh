@@ -29,6 +29,7 @@ else
 fi
 
 docker-compose -version
+rm -f install.sh
 
 
 

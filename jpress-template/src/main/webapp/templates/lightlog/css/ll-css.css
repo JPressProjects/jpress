@@ -12,6 +12,10 @@ a:hover{
 button:focus{
     outline: none;
 }
+body{
+    position:relative;
+    z-index:-200;
+}
 
 /*header*/
 

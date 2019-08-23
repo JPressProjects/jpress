@@ -12,7 +12,7 @@
     <jmxConfigurator/>
 
     <!-- 定义日志文件 输出位置 -->
-    <property name="log_dir" value=".logs"/>
+    <property name="log_dir" value="logs"/>
 
     <!-- 日志最大的历史 30天 -->
     <property name="maxHistory" value="30"/>
@@ -136,7 +136,7 @@
     <!-- root级别   DEBUG -->
     <root>
         <!-- 打印debug级别日志及以上级别日志 -->
-        <level value="info"/>
+        <level value="WARN"/>
         <!-- 控制台输出 -->
         <appender-ref ref="console"/>
         <!-- 文件输出 -->

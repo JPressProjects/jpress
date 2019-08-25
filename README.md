@@ -119,6 +119,12 @@
 - [常见问题](./doc/faq.md)
 - [JPressSchool-VIP会员](./doc/vip.md)
 
+## 运行JPress
+
+```
+wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
+```
+
 ## 微信交流群
 
 ![](./doc/images/jpress-wechat-group.png)

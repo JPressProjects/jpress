@@ -302,6 +302,7 @@ public class _ArticleController extends AdminControllerBase {
             displayMenu.setUrl(category.getUrl());
             displayMenu.setText(category.getTitle());
             displayMenu.setType(Menu.TYPE_MAIN);
+            displayMenu.setOrderNumber(category.getOrderNumber());
             displayMenu.setRelativeTable("article_category");
             displayMenu.setRelativeId((Long) id);
 

@@ -11,11 +11,10 @@
     <h4 class="page-header" style="margin-top: 20px"></h4>
     <div class="form-group">
         <label class="col-sm-2 control-label">数据库名</label>
-
         <div class="col-sm-9">
-            <input type="input" class="form-control" placeholder="您要将JPress安装到的数据库名称"
+            <input type="input" class="form-control" placeholder="您要将JPress安装到哪个数据库？"
                    name="dbName" value="#(JPRESS_DB_NAME ??)">
-            <p class="help-block" style="color: red"> 注意：如果 Mysql 服务器没有该库，JPress会自动为您创建 。 </p>
+            <p class="help-block"> 注意：目前暂时只支持 mysql 5.6 或 5.7 版本。 </p>
         </div>
     </div>
     <div class="form-group">
@@ -35,6 +34,18 @@
                    name="dbPwd" value="#(JPRESS_DB_PASSWORD ??)">
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="dbAutoCreate" value="true"> 当数据库不存在时，自动为我创建。
+                </label>
+            </div>
+        </div>
+    </div>
+
+
 
     <h4 class="page-header">主机信息</h4>
 

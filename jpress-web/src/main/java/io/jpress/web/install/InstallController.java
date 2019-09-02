@@ -125,15 +125,17 @@ public class InstallController extends ControllerBase {
             return;
         }
 
-
-        boolean success = createDatabaseIfNeecessary(dbName, dbUser, dbPwd, dbHost, dbPort);
-        if (!success) {
-            renderJson(Ret.fail().set("message", "该数据库不存在，且无法创建，可能是用户名密码错误，或没有权限。").set("errorCode", 5));
-            return;
+        boolean dbAutoCreate = getParaToBoolean("dbAutoCreate", false);
+        if (dbAutoCreate) {
+            if (!createDatabaseIfNeecessary(dbName, dbUser, dbPwd, dbHost, dbPort)) {
+                renderJson(Ret.fail().set("message", "无法自动创建数据库，可能是用户名密码错误，或没有权限").set("errorCode", 5));
+                return;
+            }
         }
 
 
         try {
+
             installUtil.init(dbName, dbUser, dbPwd, dbHost, dbPort);
 
             if (installUtil.isInitBefore()) {
@@ -158,9 +160,21 @@ public class InstallController extends ControllerBase {
 
     private boolean createDatabaseIfNeecessary(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
 
-        DbUtil dbTool = new DbUtil("information_schema", dbUser, dbPwd, dbHost, dbPort);
+        DbUtil dbUtil = null;
         try {
-            List<String> dbs = dbTool.query("select SCHEMA_NAME from `SCHEMATA`");
+            dbUtil = new DbUtil("information_schema", dbUser, dbPwd, dbHost, dbPort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //可能是该用户没有 information_schema 的权限
+        if (dbUtil == null) {
+            return false;
+        }
+
+
+        try {
+            List<String> dbs = dbUtil.query("select SCHEMA_NAME from `SCHEMATA`");
             if (dbs != null && dbs.contains(dbName)) {
                 return true;
             }
@@ -169,7 +183,7 @@ public class InstallController extends ControllerBase {
         }
 
         try {
-            dbTool.executeSql("CREATE DATABASE " + dbName);
+            dbUtil.executeSql("CREATE DATABASE IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

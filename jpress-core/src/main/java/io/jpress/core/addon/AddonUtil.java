@@ -303,8 +303,11 @@ public class AddonUtil {
             } else {
                 pst.addBatch(sql);
             }
-        } finally {
+            // add by lixin 08.23
             pst.executeBatch();
+        } finally {
+            // remove by lixin 08.23 sql 执行失败时导致连接不释放
+            // pst.executeBatch(); 
             CommonsUtils.quietlyClose(pst, conn);
         }
     }

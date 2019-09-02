@@ -182,7 +182,7 @@ CREATE TABLE `option` (
 DROP TABLE IF EXISTS `payment_record`;
 
 CREATE TABLE `payment_record` (
-  `id` int(11) unsigned NOT NULL COMMENT 'id',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `product_id` int(11) unsigned DEFAULT NULL,
   `product_name` text COMMENT '商品名称',
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',

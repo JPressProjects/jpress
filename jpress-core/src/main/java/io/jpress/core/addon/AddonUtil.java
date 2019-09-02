@@ -287,7 +287,6 @@ public class AddonUtil {
     public static void execSql(AddonInfo addonInfo, String sql) throws SQLException {
         DataSourceConfig dataSourceConfig = getDatasourceConfig(addonInfo);
         DataSource dataSource = new DataSourceBuilder(dataSourceConfig).build();
-
         Connection conn = dataSource.getConnection();
         Statement pst = null;
         try {

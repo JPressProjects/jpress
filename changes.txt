@@ -1,3 +1,14 @@
+jpress v2.0.8:
+新增：新增 Jpress 安装时，当填写一个不存在的数据库时，JPress自动为其建立数据库的功能
+修复：插件安装的时候进行执行Sql失败时，导致连接未释放。感谢 @新龙客栈
+修复：修复文档上的docker-compose.yml地址错误的问题
+优化：优化内置模板 lightlog 点击 logo 无法返回首页的问题
+优化：优化logback输入的日志信息放在 .log 下，很多用户无法找到的问题
+优化：当 install.sh 执行安装 jpress 结束时，自动删除 install.sh 脚本
+优化：优化 install-all.sh 脚本在腾讯云的某些服务器上无法安装的问题
+优化：完善分类同步到菜单时，分类顺序同步到菜单顺序，感谢 @pauli
+
+
 jpress v2.0.7:
 修复：修复 JPress 后台配置水印后，在编辑文章时，复制的图片不能正确添加水印的问题
 修复：修复 插件无法配置 type 和 driverClassName 导致不能连接 Oracle 数据库的问题 （感谢 @pauli ）

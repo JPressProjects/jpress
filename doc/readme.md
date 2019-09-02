@@ -17,14 +17,14 @@
 Linux :
 
 ```
-wget https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 
 Mac OS :
 
 ```
-curl -O https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 

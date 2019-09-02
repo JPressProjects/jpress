@@ -80,14 +80,14 @@ mvn clean install
 #### 在 Linux 上安装 JPress :
 
 ```
-wget https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 
 #### 在 Mac OS（苹果电脑）上安装 JPress :
 
 ```
-curl -O https://gitee.com/fuhai/jpress/raw/master/docker/docker-compose.yml
+curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 

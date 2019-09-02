@@ -40,7 +40,7 @@ public class Installer {
     }
 
     private static void init() {
-        File lockFile = InstallUtils.lockFile();
+        File lockFile = new File(PathKit.getRootClassPath(), "install.lock");
         boolean lockFileOk = lockFile.exists() && lockFile.isFile();
 
         File propertieFile = new File(PathKit.getRootClassPath(), "jboot.properties");

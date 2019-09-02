@@ -37,25 +37,25 @@ public class InstallUtil {
 
     private static final Log log = Log.getLog(InstallUtil.class);
 
-    private  String dbName;
-    private  String dbUser;
-    private  String dbPassword;
+    private String dbName;
+    private String dbUser;
+    private String dbPassword;
 
-    private  boolean initBefore = false;
+    private boolean initBefore = false;
     private boolean jpressDb = false;
 
-    private  DbUtil dbUtil;
-    private  String jdbcUrl;
+    private DbUtil dbUtil;
+    private String jdbcUrl;
 
 
-    public  void init(
+    public void init(
             String db_name,
             String db_user,
             String db_password,
             String db_host,
             String db_host_port) {
 
-        dbUtil = new DbUtil(db_name,db_user,db_password,db_host,db_host_port);
+        dbUtil = new DbUtil(db_name, db_user, db_password, db_host, db_host_port);
 
         dbName = db_name;
         dbUser = db_user;
@@ -70,8 +70,10 @@ public class InstallUtil {
 
         List<String> tables = getTableList();
 
-        if (ArrayUtil.isNotEmpty(tables)
-                && tables.contains("attachment")
+        if (ArrayUtil.isNullOrEmpty(tables)) {
+            setInitBefore(false);
+            setJpressDb(true);
+        } else if (tables.contains("attachment")
                 && tables.contains("option")
                 && tables.contains("menu")
                 && tables.contains("permission")
@@ -81,18 +83,18 @@ public class InstallUtil {
 
             setInitBefore(true);
             setJpressDb(true);
-        }else  if (ArrayUtil.isNotEmpty(tables)){
+        } else {
             setJpressDb(false);
         }
 
     }
 
-    public  File getLockFile() {
+    public File getLockFile() {
         return new File(PathKit.getRootClassPath(), "install.lock");
     }
 
 
-    public  boolean initJpressProperties() {
+    public boolean initJpressProperties() {
 
         File propertieFile = new File(PathKit.getRootClassPath(), "jboot.properties");
 
@@ -128,7 +130,7 @@ public class InstallUtil {
         return savePropertie(p, propertieFile);
     }
 
-    private  boolean putPropertie(Properties p, String key, String value) {
+    private boolean putPropertie(Properties p, String key, String value) {
         Object v = p.get(key);
         if (v == null) {
             p.put(key, value);
@@ -139,7 +141,7 @@ public class InstallUtil {
     }
 
 
-    private  boolean savePropertie(Properties p, File pFile) {
+    private boolean savePropertie(Properties p, File pFile) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(pFile);
@@ -154,7 +156,7 @@ public class InstallUtil {
     }
 
 
-    public  List<String> getTableList()  {
+    public List<String> getTableList() {
         try {
             return dbUtil.query("show tables;");
         } catch (SQLException e) {
@@ -164,22 +166,22 @@ public class InstallUtil {
     }
 
 
-    public  void initJPressTables() throws SQLException {
+    public void initJPressTables() throws SQLException {
         String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
         String installSql = FileUtil.readString(new File(SqlFilePath));
         dbUtil.executeSql(installSql);
     }
 
 
-    public  DataSourceConfig getDataSourceConfig() {
+    public DataSourceConfig getDataSourceConfig() {
         return dbUtil.getDataSourceConfig();
     }
 
-    public  void setInitBefore(boolean initBefore) {
+    public void setInitBefore(boolean initBefore) {
         this.initBefore = initBefore;
     }
 
-    public  boolean isInitBefore() {
+    public boolean isInitBefore() {
         return initBefore;
     }
 

@@ -158,7 +158,7 @@ public class InstallController extends ControllerBase {
 
     private boolean createDatabaseIfNeecessary(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
 
-        DbUtil dbTool = new DbUtil("information_schema", dbUser, dbPwd, dbHost, dbHost);
+        DbUtil dbTool = new DbUtil("information_schema", dbUser, dbPwd, dbHost, dbPort);
         try {
             List<String> dbs = dbTool.query("select SCHEMA_NAME from `SCHEMATA`");
             if (dbs != null && dbs.contains(dbName)) {

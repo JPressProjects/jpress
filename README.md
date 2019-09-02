@@ -121,8 +121,16 @@
 
 ## 运行JPress
 
+**Linux**
+
 ```
 wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
+```
+
+**Mac**
+
+```
+curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
 ## 微信交流群

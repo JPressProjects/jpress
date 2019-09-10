@@ -45,6 +45,7 @@ public class TemplateRender extends Render {
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
     private int errorCode = 0;
+    private String cdnDomain = JPressOptions.getCDNDomain();
 
     private Engine getEngine() {
         if (engine == null) {
@@ -53,7 +54,6 @@ public class TemplateRender extends Render {
         return engine;
     }
 
-    private String cdnDomain = JPressOptions.getCDNDomain();
 
     public TemplateRender(String view) {
         this.view = view;

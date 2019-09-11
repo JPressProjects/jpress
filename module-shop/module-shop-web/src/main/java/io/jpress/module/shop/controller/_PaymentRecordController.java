@@ -20,10 +20,10 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.shop.model.PaymentRecord;
 import io.jpress.module.shop.service.PaymentRecordService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.Date;
 
 
@@ -33,7 +33,6 @@ public class _PaymentRecordController extends AdminControllerBase {
     @Inject
     private PaymentRecordService service;
 
-    @AdminMenu(text = "管理", groupId = "shop")
     public void index() {
         Page<PaymentRecord> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

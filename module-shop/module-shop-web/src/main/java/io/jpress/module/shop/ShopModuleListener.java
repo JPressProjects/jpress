@@ -45,9 +45,9 @@ public class ShopModuleListener extends JbootAppListenerBase implements ModuleLi
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 		MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("shop");
-        menuGroup.setText("shop");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
-        menuGroup.setOrder(1);
+        menuGroup.setText("店铺");
+        menuGroup.setIcon("<i class=\"fa fa-fw fa-money\"></i>");
+        menuGroup.setOrder(99);
         adminMenus.add(menuGroup);
     }
 

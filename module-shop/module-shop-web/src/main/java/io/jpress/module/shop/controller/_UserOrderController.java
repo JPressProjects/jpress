@@ -33,7 +33,7 @@ public class _UserOrderController extends AdminControllerBase {
     @Inject
     private UserOrderService service;
 
-    @AdminMenu(text = "管理", groupId = "shop")
+    @AdminMenu(text = "订单", groupId = "shop",order = 10)
     public void index() {
         Page<UserOrder> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

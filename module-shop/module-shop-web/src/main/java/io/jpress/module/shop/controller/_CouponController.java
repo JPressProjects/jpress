@@ -33,7 +33,7 @@ public class _CouponController extends AdminControllerBase {
     @Inject
     private CouponService service;
 
-    @AdminMenu(text = "管理", groupId = "shop")
+    @AdminMenu(text = "优惠券", groupId = "shop",order = 100)
     public void index() {
         Page<Coupon> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

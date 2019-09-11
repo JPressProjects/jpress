@@ -33,7 +33,7 @@ public class _ProductCategoryController extends AdminControllerBase {
     @Inject
     private ProductCategoryService service;
 
-    @AdminMenu(text = "管理", groupId = "shop")
+    @AdminMenu(text = "分类", groupId = "shop",order = 5)
     public void index() {
         Page<ProductCategory> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

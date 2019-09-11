@@ -20,37 +20,39 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.module.shop.model.CouponCode;
-import io.jpress.module.shop.service.CouponCodeService;
+import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.module.shop.model.Coupon;
+import io.jpress.module.shop.service.CouponService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/shop/coupon_code", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _CouponCodeController extends AdminControllerBase {
+@RequestMapping(value = "/admin/shop", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+public class _ShopController extends AdminControllerBase {
 
     @Inject
-    private CouponCodeService service;
+    private CouponService service;
 
+    @AdminMenu(text = "概况", groupId = "shop",order = 0)
     public void index() {
-        Page<CouponCode> entries=service.paginate(getPagePara(), 10);
+        Page<Coupon> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
-        render("shop/coupon_code_list.html");
+        render("shop/coupon_list.html");
     }
 
    
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        CouponCode entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("couponCode", entry);
+        Coupon entry = entryId > 0 ? service.findById(entryId) : null;
+        setAttr("coupon", entry);
         set("now",new Date());
-        render("shop/coupon_code_edit.html");
+        render("shop/coupon_edit.html");
     }
    
     public void doSave() {
-        CouponCode entry = getModel(CouponCode.class,"couponCode");
+        Coupon entry = getModel(Coupon.class,"coupon");
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

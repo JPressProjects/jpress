@@ -190,6 +190,9 @@
                                 <resource>
                                     <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
                                 </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-shop/module-shop-web/src/main/webapp</directory>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>

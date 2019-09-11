@@ -16,15 +16,13 @@
 package io.jpress.module.shop;
 
 import com.jfinal.core.Controller;
-import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
+
 import java.util.List;
 
 /**
- * @author Gavin lau 刘洪义 （logicbiz@qq.com）
  * @version V1.0
  * @Title: Module 监听器
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等

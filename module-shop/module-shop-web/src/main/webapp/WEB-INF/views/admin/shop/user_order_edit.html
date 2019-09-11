@@ -1,0 +1,233 @@
+
+	#@layout()
+	#define css()
+	#@layout_css?()
+	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+	#end
+	#define script()
+	#@layout_script?()
+	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script>
+		$("input[hint='date']").datepicker({
+	        format: 'yyyy-mm-dd',
+	        language: 'zh-CN'
+	    });
+	    
+	  function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+      }  
+    
+	    $("#submit").on("click", function () {
+	        doSubmit();
+	    }) 
+	    </script>
+		#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/user_order/doSave"
+                          method="POST" id="form">
+                        
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="userOrder.id" value="#(userOrder.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">订单号</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.ns" class="form-control" value="#(userOrder.ns ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">购买人</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.buyer_id" class="form-control" value="#(userOrder.buyer_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.trade_status" class="form-control" value="#(userOrder.trade_status ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.pay_status" class="form-control" value="#(userOrder.pay_status ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">分销员</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.dist_id" class="form-control" value="#(userOrder.dist_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">分销金额</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.dist_amount" class="form-control" value="#(userOrder.dist_amount ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">订单金额</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.order_amount" class="form-control" value="#(userOrder.order_amount ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠码</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.coupon_no" class="form-control" value="#(userOrder.coupon_no ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠金额</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.coupon_amount" class="form-control" value="#(userOrder.coupon_amount ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.pay_amount" class="form-control" value="#(userOrder.pay_amount ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userOrder.pay_time" value="#date(userOrder.pay_time ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.payment_id" class="form-control" value="#(userOrder.payment_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">第三方订单号</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.payment_outer_no" class="form-control" value="#(userOrder.payment_outer_no ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userOrder.created" value="#date(userOrder.created ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userOrder.modified" value="#date(userOrder.modified ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">配送方式 1快递    2自己送     3无需配送（虚拟商品）</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.delivery_type" class="form-control" value="#(userOrder.delivery_type ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.delivery_company" class="form-control" value="#(userOrder.delivery_company ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userOrder.delivery_no" class="form-control" value="#(userOrder.delivery_no ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userOrder.delivery_start_time" value="#date(userOrder.delivery_start_time ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userOrder.delivery_finish_time" value="#date(userOrder.delivery_finish_time ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -1,0 +1,201 @@
+
+	#@layout()
+	#define css()
+	#@layout_css?()
+	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+	#end
+	#define script()
+	#@layout_script?()
+	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script>
+		$("input[hint='date']").datepicker({
+	        format: 'yyyy-mm-dd',
+	        language: 'zh-CN'
+	    });
+	    
+	  function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+      }  
+    
+	    $("#submit").on("click", function () {
+	        doSubmit();
+	    }) 
+	    </script>
+		#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/product_category/doSave"
+                          method="POST" id="form">
+                        
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="productCategory.id" value="#(productCategory.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">父级分类的ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.pid" class="form-control" value="#(productCategory.pid ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">分类创建的用户ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.user_id" class="form-control" value="#(productCategory.user_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">slug</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.slug" class="form-control" value="#(productCategory.slug ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">标题</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.title" class="form-control" value="#(productCategory.title ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">内容描述</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.content" class="form-control" value="#(productCategory.content ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">摘要</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.summary" class="form-control" value="#(productCategory.summary ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">模板样式</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.style" class="form-control" value="#(productCategory.style ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">类型，比如：分类、tag、专题</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.type" class="form-control" value="#(productCategory.type ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">图标</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.icon" class="form-control" value="#(productCategory.icon ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">该分类的内容数量</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.count" class="form-control" value="#(productCategory.count ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">排序编码</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.order_number" class="form-control" value="#(productCategory.order_number ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">标识</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.flag" class="form-control" value="#(productCategory.flag ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">SEO关键字</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.meta_keywords" class="form-control" value="#(productCategory.meta_keywords ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">SEO描述内容</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="productCategory.meta_description" class="form-control" value="#(productCategory.meta_description ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">创建日期</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="productCategory.created" value="#date(productCategory.created ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">修改日期</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="productCategory.modified" value="#date(productCategory.modified ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -1,0 +1,145 @@
+
+	#@layout()
+	#define css()
+	#@layout_css?()
+	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+	#end
+	#define script()
+	#@layout_script?()
+	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script>
+		$("input[hint='date']").datepicker({
+	        format: 'yyyy-mm-dd',
+	        language: 'zh-CN'
+	    });
+	    
+	  function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+      }  
+    
+	    $("#submit").on("click", function () {
+	        doSubmit();
+	    }) 
+	    </script>
+		#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/coupon_used_record/doSave"
+                          method="POST" id="form">
+                        
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="couponUsedRecord.id" value="#(couponUsedRecord.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">使用优惠码的用户</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.used_user_id" class="form-control" value="#(couponUsedRecord.used_user_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">使用优惠码的用户ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.used_user_nickname" class="form-control" value="#(couponUsedRecord.used_user_nickname ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">订单ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.used_order_id" class="form-control" value="#(couponUsedRecord.used_order_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">支付的ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.user_payment_id" class="form-control" value="#(couponUsedRecord.user_payment_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠码ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.code_id" class="form-control" value="#(couponUsedRecord.code_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠码名称</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.code" class="form-control" value="#(couponUsedRecord.code ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠券归属的用户ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.code_user_id" class="form-control" value="#(couponUsedRecord.code_user_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">优惠券归属的用户昵称</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="couponUsedRecord.code_user_nickname" class="form-control" value="#(couponUsedRecord.code_user_nickname ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">使用时间</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="couponUsedRecord.created" value="#date(couponUsedRecord.created ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -1,0 +1,169 @@
+
+	#@layout()
+	#define css()
+	#@layout_css?()
+	<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+	#end
+	#define script()
+	#@layout_script?()
+	<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script>
+		$("input[hint='date']").datepicker({
+	        format: 'yyyy-mm-dd',
+	        language: 'zh-CN'
+	    });
+	    
+	  function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+      }  
+    
+	    $("#submit").on("click", function () {
+	        doSubmit();
+	    }) 
+	    </script>
+		#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/user_cart/doSave"
+                          method="POST" id="form">
+                        
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="userCart.id" value="#(userCart.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">购买的用户</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.user_id" class="form-control" value="#(userCart.user_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">商品的所属用户</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.seller_id" class="form-control" value="#(userCart.seller_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">分销用户</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.dist_id" class="form-control" value="#(userCart.dist_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_type" class="form-control" value="#(userCart.product_type ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_id" class="form-control" value="#(userCart.product_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_title" class="form-control" value="#(userCart.product_title ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_thumbnail" class="form-control" value="#(userCart.product_thumbnail ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_price" class="form-control" value="#(userCart.product_price ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.product_count" class="form-control" value="#(userCart.product_count ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">查看的网址路径，访问时时，会添加orderid</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.view_path" class="form-control" value="#(userCart.view_path ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">查看的文章内容，比如：查看、下载</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="userCart.view_text" class="form-control" value="#(userCart.view_text ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label"></label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="userCart.created" value="#date(userCart.created ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

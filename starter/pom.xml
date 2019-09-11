@@ -106,6 +106,18 @@
             <version>2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-shop-web</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-shop-service-provider</artifactId>
+            <version>2.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.jpress</groupId>

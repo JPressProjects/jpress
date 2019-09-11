@@ -37,7 +37,7 @@ public class ShopModuleGenerator {
 
     public static void main(String[] args) {
 
-        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage,true);
         moduleGenerator.gen();
 
     }

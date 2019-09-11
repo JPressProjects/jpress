@@ -1,24 +1,25 @@
-  #@layout()
+#@layout()
 	
-	#define script()
-	<script>
-	
-	    function doDel(id) {
-	        ajaxGet("/admin/product/doDel/" + id);
-	    }
-	
-	    $("#batchDel").click(function () {
-	        var ids = getSelectedIds();
-	        if (ids == "") {
-	            alert('您未选择任何条目');
-	            return
-	        }
-	        ajaxGet("/admin/product/doDelByIds?ids=" + ids);
-	    })
-	
-	
-	</script>
-	#end
+#define script()
+<script>
+
+	function doDel(id) {
+		ajaxGet("/admin/product/doDel/" + id);
+	}
+
+	$("#batchDel").click(function () {
+		var ids = getSelectedIds();
+		if (ids == "") {
+			alert('您未选择任何条目');
+			return
+		}
+		ajaxGet("/admin/product/doDelByIds?ids=" + ids);
+	})
+
+
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 

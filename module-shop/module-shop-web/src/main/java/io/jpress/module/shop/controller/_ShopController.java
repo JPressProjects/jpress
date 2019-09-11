@@ -16,16 +16,11 @@
 package io.jpress.module.shop.controller;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.module.shop.model.Coupon;
 import io.jpress.module.shop.service.CouponService;
 import io.jpress.web.base.AdminControllerBase;
-
-import java.util.Date;
 
 
 @RequestMapping(value = "/admin/shop", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -36,30 +31,9 @@ public class _ShopController extends AdminControllerBase {
 
     @AdminMenu(text = "概况", groupId = "shop",order = 0)
     public void index() {
-        Page<Coupon> entries=service.paginate(getPagePara(), 10);
-        setAttr("page", entries);
-        render("shop/coupon_list.html");
+        render("shop/index.html");
     }
 
    
-    public void edit() {
-        int entryId = getParaToInt(0, 0);
 
-        Coupon entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("coupon", entry);
-        set("now",new Date());
-        render("shop/coupon_edit.html");
-    }
-   
-    public void doSave() {
-        Coupon entry = getModel(Coupon.class,"coupon");
-        service.saveOrUpdate(entry);
-        renderJson(Ret.ok().set("id", entry.getId()));
-    }
-
-
-    public void doDel() {
-        Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
-    }
 }

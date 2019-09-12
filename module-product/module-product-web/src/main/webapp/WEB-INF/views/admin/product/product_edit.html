@@ -1,0 +1,298 @@
+
+#@layout()
+#define css()
+#@layout_css?()
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+#define script()
+#@layout_script?()
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script>
+    $("input[hint='date']").datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
+  function doSubmit() {
+    ajaxSubmit("#form", function (data) {
+        $("#entryId").attr("value", data.id);
+        toastr.success('内容保存成功。');
+    })
+  }
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+    </script>
+#end
+
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/product/doSave"
+                          method="POST" id="form">
+                        
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="product.id" value="#(product.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">slug</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.slug" class="form-control" value="#(product.slug ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">标题</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.title" class="form-control" value="#(product.title ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">内容</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.content" class="form-control" value="#(product.content ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">摘要</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.summary" class="form-control" value="#(product.summary ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">缩略图</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.thumbnail" class="form-control" value="#(product.thumbnail ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">视频</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.video" class="form-control" value="#(product.video ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">样式</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.style" class="form-control" value="#(product.style ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">排序编号</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.order_number" class="form-control" value="#(product.order_number ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">商品的用户ID</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.user_id" class="form-control" value="#(product.user_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">商品的销售分成类型：0平台所有，1用户所有，2按比例分成</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.user_divide_type" class="form-control" value="#(product.user_divide_type ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">用户分成比例</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.user_divide_ratio" class="form-control" value="#(product.user_divide_ratio ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">商品价格</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.price" class="form-control" value="#(product.price ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">原始价格</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.origin_price" class="form-control" value="#(product.origin_price ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">限时优惠价（早鸟价）</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.limited_price" class="form-control" value="#(product.limited_price ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">限时优惠截止时间</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="product.limited_time" value="#date(product.limited_time ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">是否启用分销</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="checkbox" class="switchery" data-for="product_dist_enable" #checkedIf(product.dist_enable ??)>
+                                           <input type="hidden" id="product_dist_enable" name="product.dist_enable">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">分销金额</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.dist_price" class="form-control" value="#(product.dist_price ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">状态</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.status" class="form-control" value="#(product.status ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">评论状态，默认允许评论</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="checkbox" class="switchery" data-for="product_comment_status" #checkedIf(product.comment_status ??)>
+                                           <input type="hidden" id="product_comment_status" name="product.comment_status">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">评论总数</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.comment_count" class="form-control" value="#(product.comment_count ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">最后评论时间</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="product.comment_time" value="#date(product.comment_time ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">访问量</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.view_count" class="form-control" value="#(product.view_count ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">创建日期</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="product.created" value="#date(product.created ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">最后更新日期</label>
+		                                <div class="col-sm-6">
+		                                 
+										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+		                       						name="product.modified" value="#date(product.modified ?? now,'yyyy-MM-dd')" >
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">标识，通常用于对某几篇文章进行标识，从而实现单独查询</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.flag" class="form-control" value="#(product.flag ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">SEO关键字</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.meta_keywords" class="form-control" value="#(product.meta_keywords ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">SEO描述信息</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.meta_description" class="form-control" value="#(product.meta_description ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">备注信息</label>
+		                                <div class="col-sm-6">
+		                                 
+										   <input type="input" name="product.remarks" class="form-control" value="#(product.remarks ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

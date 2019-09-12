@@ -1,0 +1,131 @@
+#@layout()
+	
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("/admin/product_category/doDel/" + id);
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何条目');
+            return
+        }
+        ajaxGet("/admin/product_category/doDelByIds?ids=" + ids);
+    })
+
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            管理
+            <small>Items</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+                        <div class="row actionPanel">
+                            <div class="col-xs-12">
+                                <a href="product_category/edit" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                </a>
+                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+	                                </th>
+	                                <th>主键ID</th>
+	                                <th>父级分类的ID</th>
+	                                <th>分类创建的用户ID</th>
+	                                <th>slug</th>
+	                                <th>标题</th>
+	                                <th>内容描述</th>
+	                                <th>摘要</th>
+	                                <th>模板样式</th>
+	                                <th>类型，比如：分类、tag、专题</th>
+	                                <th>图标</th>
+	                                <th>该分类的内容数量</th>
+	                                <th>排序编码</th>
+	                                <th>标识</th>
+	                                <th>SEO关键字</th>
+	                                <th>SEO描述内容</th>
+	                                <th>创建日期</th>
+	                                <th>修改日期</th>
+                                
+                            </tr>
+                            #for(entry : page.list)
+                            <tr class="jp-actiontr">
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" />
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/product/product_category/edit/#(entry.id)"> #(entry.id ??) </a>
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/product/product_category/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                    
+	                                <td>#(entry.pid)</td>
+	                                <td>#(entry.user_id)</td>
+	                                <td>#(entry.slug)</td>
+	                                <td>#(entry.title)</td>
+	                                <td>#(entry.content)</td>
+	                                <td>#(entry.summary)</td>
+	                                <td>#(entry.style)</td>
+	                                <td>#(entry.type)</td>
+	                                <td>#(entry.icon)</td>
+	                                <td>#(entry.count)</td>
+	                                <td>#(entry.order_number)</td>
+	                                <td>#(entry.flag)</td>
+	                                <td>#(entry.meta_keywords)</td>
+	                                <td>#(entry.meta_description)</td>
+	                                <td>#(entry.created)</td>
+	                                <td>#(entry.modified)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

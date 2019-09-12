@@ -34,7 +34,7 @@ public class _ProductController extends AdminControllerBase {
     @Inject
     private ProductService service;
 
-    @AdminMenu(text = "管理", groupId = "product")
+    @AdminMenu(text = "商品列表", groupId = "product",order = 1)
     public void index() {
         Page<Product> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

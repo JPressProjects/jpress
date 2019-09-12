@@ -34,7 +34,7 @@ public class _ProductCommentController extends AdminControllerBase {
     @Inject
     private ProductCommentService service;
 
-    @AdminMenu(text = "管理", groupId = "product")
+    @AdminMenu(text = "评论", groupId = "product",order = 99)
     public void index() {
         Page<ProductComment> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

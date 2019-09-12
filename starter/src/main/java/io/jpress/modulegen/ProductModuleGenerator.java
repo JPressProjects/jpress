@@ -22,17 +22,17 @@ import io.jpress.codegen.ModuleGenerator;
  * @version V1.0
  * @Package io.jboot.codegen
  */
-public class ShopModuleGenerator {
+public class ProductModuleGenerator {
 
 
     private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3";
     private static String dbUser = "root";
     private static String dbPassword = "123456";
 
-    private static String moduleName = "shop";
+    private static String moduleName = "product";
     private static String dbTables = "product,product_category,product_comment";
-    private static String modelPackage = "io.jpress.module.shop.model";
-    private static String servicePackage = "io.jpress.module.shop.service";
+    private static String modelPackage = "io.jpress.module.product.model";
+    private static String servicePackage = "io.jpress.module.product.service";
 
 
     public static void main(String[] args) {

@@ -39,7 +39,7 @@ public class SystemGenerator {
 
     public static void main(String[] args) {
 
-        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,wechat_menu,wechat_reply,member,member_user,user_address,user_amount,user_amount_statement";
+        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,wechat_menu,wechat_reply,member,member_user,user_address,user_amount,user_amount_statement,coupon,coupon_code,coupon_used_record,user_cart,user_order,user_order_item,payment_record";
 
         JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
         JbootApplication.setBootArg("jboot.datasource.user", "root");

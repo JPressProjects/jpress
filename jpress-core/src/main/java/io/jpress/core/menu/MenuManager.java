@@ -77,6 +77,12 @@ public class MenuManager implements JbootEventListener {
      */
     private void initAdminSystemMenuGroup() {
 
+        MenuGroup orderMenuGroup = new MenuGroup();
+        orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
+        orderMenuGroup.setText("订单");
+        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-random\"></i>");
+        systemMenus.add(orderMenuGroup);
+
 
         MenuGroup userMenuGroup = new MenuGroup();
         userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);

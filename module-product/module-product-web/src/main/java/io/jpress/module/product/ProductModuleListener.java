@@ -16,11 +16,10 @@
 package io.jpress.module.product;
 
 import com.jfinal.core.Controller;
-import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
+
 import java.util.List;
 
 /**

@@ -1,0 +1,67 @@
+#@layout()
+
+#define script()
+<script>
+    var date = getPara("date");
+    if ("today" == date) {
+        $("#group-today").addClass("active");
+    } else if ("yesterday" == date) {
+        $("#group-yesterday").addClass("active");
+    } else if ("7d" == date) {
+        $("#group-7d").addClass("active");
+    } else if ("14d" == date) {
+        $("#group-14d").addClass("active");
+    } else if ("28d" == date) {
+        $("#group-28d").addClass("active");
+    } else {
+        $("#group-today").addClass("active");
+    }
+</script>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            面板
+            <small>Dashboard Panel</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <div class="box-header  ">
+                        <div class="actionPanel">
+                            <div class="col-xs-12">
+                                <div class="btn-group ">
+                                    <a id="group-today" href="#(CPATH)/admin/index" class="btn btn-default">今天</a>
+                                    <a id="group-yesterday" href="#(CPATH)/admin/index?date=yesterday"
+                                       class="btn btn-default">昨天</a>
+                                    <a id="group-7d" href="#(CPATH)/admin/index?date=7d" class="btn btn-default">7天</a>
+                                    <a id="group-14d" href="#(CPATH)/admin/index?date=14d" class="btn btn-default">14天</a>
+                                    <a id="group-28d" href="#(CPATH)/admin/index?date=28d" class="btn btn-default">28天</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        #for(moduleHtml : moduleIncludes)
+                        #render(moduleHtml)
+                        #end
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+#end

@@ -15,10 +15,14 @@
  */
 package io.jpress.web.admin;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.UserOrder;
+import io.jpress.service.UserOrderService;
 import io.jpress.web.base.AdminControllerBase;
 
 /**
@@ -32,22 +36,27 @@ public class _OrderController extends AdminControllerBase {
 
     private static final Log LOG = Log.getLog(_OrderController.class);
 
+    @Inject
+    private UserOrderService orderService;
+
 
     @AdminMenu(text = "概况", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 0)
     public void index() {
-        renderText("概况");
+        render("order/index.html");
     }
 
 
     @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void list() {
-        renderText("概况");
+        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10);
+        setAttr("userOrderPage",userOrderPage);
+        render("order/list.html");
     }
 
 
     @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 2)
     public void coupon() {
-        renderText("概况");
+        render("order/coupon.html");
     }
 
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)

@@ -45,9 +45,9 @@ public class ProductModuleListener extends JbootAppListenerBase implements Modul
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 		MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("product");
-        menuGroup.setText("product");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
-        menuGroup.setOrder(1);
+        menuGroup.setText("商品");
+        menuGroup.setIcon("<i class=\"fa fa-fw fa-tags\"></i>");
+        menuGroup.setOrder(99);
         adminMenus.add(menuGroup);
     }
 

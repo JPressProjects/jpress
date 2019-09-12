@@ -29,6 +29,21 @@
             <artifactId>jpress-service-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-ali</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-paypal</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>

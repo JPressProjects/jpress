@@ -89,5 +89,9 @@ public class _SettingController extends AdminControllerBase {
         render("setting/tools.html");
     }
 
+    //@AdminMenu(text = "图标", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 223)
+    public void icons() {
+        render("setting/icons.html");
+    }
 
 }

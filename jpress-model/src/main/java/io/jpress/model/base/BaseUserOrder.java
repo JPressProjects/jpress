@@ -27,12 +27,28 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends JbootMod
 		return getInt("ns");
 	}
 
+	public void setTitle(java.lang.String title) {
+		set("title", title);
+	}
+	
+	public java.lang.String getTitle() {
+		return getStr("title");
+	}
+
 	public void setBuyerId(java.lang.Long buyerId) {
 		set("buyer_id", buyerId);
 	}
 	
 	public java.lang.Long getBuyerId() {
 		return getLong("buyer_id");
+	}
+
+	public void setBuyerNickname(java.lang.String buyerNickname) {
+		set("buyer_nickname", buyerNickname);
+	}
+	
+	public java.lang.String getBuyerNickname() {
+		return getStr("buyer_nickname");
 	}
 
 	public void setTradeStatus(java.lang.Integer tradeStatus) {

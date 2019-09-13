@@ -43,6 +43,14 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getLong("buyer_id");
 	}
 
+	public void setBuyerNickname(java.lang.String buyerNickname) {
+		set("buyer_nickname", buyerNickname);
+	}
+	
+	public java.lang.String getBuyerNickname() {
+		return getStr("buyer_nickname");
+	}
+
 	public void setBuyerRemarks(java.lang.String buyerRemarks) {
 		set("buyer_remarks", buyerRemarks);
 	}

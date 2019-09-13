@@ -28,7 +28,7 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/product/product_comment", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/product/comment", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _ProductCommentController extends AdminControllerBase {
 
     @Inject

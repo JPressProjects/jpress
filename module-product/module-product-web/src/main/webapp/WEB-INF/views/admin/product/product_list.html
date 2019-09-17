@@ -93,7 +93,7 @@
 
 						<div class="row actionPanel">
 							<div class="col-xs-12">
-								<a href="#(CPATH)/admin/article/write" class="btn btn-primary "> <i
+								<a href="#(CPATH)/admin/product/edit" class="btn btn-primary "> <i
 										class="fa fa-fw fa-plus"></i> 新建</a>
 								<button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
 							</div>
@@ -118,50 +118,50 @@
 								<th style="width: 90px">发布时间</th>
 							</tr>
 
-							#for(article : page.list)
+							#for(product : page.list)
 							<tr class="jp-actiontr">
-								<td><input class="dataItem" type="checkbox" value="#(article.id)"/>
+								<td><input class="dataItem" type="checkbox" value="#(product.id)"/>
 								</td>
 								<td>
 									<strong>
-										<a href="#(CPATH)/admin/article/write/#(article.id)">#(article.title ??)</a>
-										#if(article.isDraft())
+										<a href="#(CPATH)/admin/article/write/#(product.id)">#(product.title ??)</a>
+										#if(product.isDraft())
 										（草稿）
 										#end
 									</strong>
 									<div class="jp-actionblock">
-										#if(article.isNormal())
+										#if(product.isNormal())
 										<div class="jp-actionitem">
-											<a href="#(CPATH)/admin/article/write/#(article.id)">编辑</a> |
-											<a href="javascript:;" onclick="draft('#(article.id??)')">草稿</a>
+											<a href="#(CPATH)/admin/article/write/#(product.id)">编辑</a> |
+											<a href="javascript:;" onclick="draft('#(product.id??)')">草稿</a>
 											|
-											<a href="javascript:;" onclick="trash('#(article.id??)')"
+											<a href="javascript:;" onclick="trash('#(product.id??)')"
 											   class="red-action">垃圾箱</a>|
-											<a href="#(article.url ??)" target="_blank" class="red-action">查看</a>
+											<a href="#(product.url ??)" target="_blank" class="red-action">查看</a>
 										</div>
-										#elseif(article.isDraft())
+										#elseif(product.isDraft())
 										<div class="jp-actionitem">
-											<a href="#(CPATH)/admin/article/write/#(article.id)">编辑</a> |
-											<a href="javascript:;" onclick="trash('#(article.id??)')"
+											<a href="#(CPATH)/admin/article/write/#(product.id)">编辑</a> |
+											<a href="javascript:;" onclick="trash('#(product.id??)')"
 											   class="red-action">垃圾箱</a>
 										</div>
 										#else
 										<div class="jp-actionitem">
-											<a href="javascript:;" onclick="draft('#(article.id??)')">还原</a>
+											<a href="javascript:;" onclick="draft('#(product.id??)')">还原</a>
 											|
-											<a href="javascript:;" onclick="del('#(article.id??)')" class="red-action">永久删除</a>
+											<a href="javascript:;" onclick="del('#(product.id??)')" class="red-action">永久删除</a>
 										</div>
 										#end
 									</div>
 
 								</td>
 								<td>
-									<a href="#(article.user.detailUrl ??)">
-										#(article.user.nickname ??)
+									<a href="#(product.user.detailUrl ??)">
+										#(product.user.nickname ??)
 									</a>
 								</td>
 								<td>
-									#articleCategories(article.id,"category")
+									#productCategories(product.id,"category")
 									#for(category : categories)
 									<a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
 									#if(!for.last) , #end
@@ -169,7 +169,7 @@
 									#end
 								</td>
 								<td>
-									#articleCategories(article.id,"tag")
+									#productCategories(product.id,"tag")
 									#for(category : categories)
 									<a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
 									#if(!for.last) , #end
@@ -177,11 +177,11 @@
 									#end
 								</td>
 								<td>
-									<a href="#(CPATH)/admin/article/comment?articleId=#(article.id)">
-										#(article.comment_count ??)
+									<a href="#(CPATH)/admin/article/comment?articleId=#(product.id)">
+										#(product.comment_count ??)
 									</a>
 								</td>
-								<td>#date(article.created)</td>
+								<td>#date(product.created)</td>
 							</tr>
 							#end
 

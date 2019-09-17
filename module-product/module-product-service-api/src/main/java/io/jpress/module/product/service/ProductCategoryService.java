@@ -79,4 +79,11 @@ public interface ProductCategoryService  {
     public Page<ProductCategory> paginate(int page, int pageSize);
 
 
+
+
+
+    public List<ProductCategory> findListByArticleId(long articleId);
+    public List<ProductCategory> findListByProductId(long articleId, String type);
+
+
 }

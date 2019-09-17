@@ -140,20 +140,27 @@ public class JsoupUtils {
             //addProtocols("a", "href", "ftp", "http", "https", "mailto", "tel");
 
             //如果添加以下的协议，那么src必须是http 或者 https 开头，相对路径则被过滤掉了，
-            //所以必须注释掉，运行相对路径的图片资源
+            //所以必须注释掉，允许相对路径的图片资源
             //addProtocols("img", "src", "http", "https");
         }
 
         @Override
         protected boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
+
+            //不允许 javascript 开头的 src
             if ("src".equalsIgnoreCase(attr.getKey())) {
                 String src = attr.getValue();
                 if (StrUtil.isNotBlank(src) && src.toLowerCase().startsWith("javascript")) {
                     return false;
                 }
             }
-            return ("img".equals(tagName) && "src".equals(attr.getKey()) && attr.getValue().startsWith("data:;base64"))
-                    || super.isSafeAttribute(tagName, el, attr);
+
+            //允许 base64 的图片内容
+            if ("img".equals(tagName) && "src".equals(attr.getKey()) && attr.getValue().startsWith("data:;base64")){
+                return true;
+            }
+
+            return super.isSafeAttribute(tagName, el, attr);
         }
     }
 

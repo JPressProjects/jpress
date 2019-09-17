@@ -1,36 +1,33 @@
 #@layout()
+
 #define script()
 <script>
     $('#form').on('submit', function () {
         ajaxSubmit('#form', function () {
-            location.href = "#(CPATH)/admin/product/category";
-        })
+            location.href = "#(CPATH)/admin/article/tag";
+        });
         return false;
     });
 
     $('.del-action').on('click', function () {
-        if (confirm('确定要删除该分类吗？删除后不可恢复')) {
+        if (confirm('确定要删除该标签吗？删除后不可恢复')) {
             var id = $(this).attr("data-id");
-            ajaxGet("#(CPATH)/admin/product/doCategoryDel/" + id);
+            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
         }
-    });
-
-    $(".tflag").each(function () {
-        $(this).on('click', function () {
-            $("#flag").val($(this).text());
-        })
     });
 
 
 </script>
+
 #end
+
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-            分类管理
-            <small>Product Category</small>
+            标签管理
+            <small>Tag Management</small>
         </h1>
     </section>
 
@@ -45,11 +42,11 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/article/doCategorySave"
+                          action="#(CPATH)/admin/article/doTagSave"
                           id="form"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
-                        <input type="hidden" name="category.type" value="category">
+                        <input type="hidden" name="category.type" value="tag">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名称</label>
@@ -59,54 +56,11 @@
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">父级</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="category.pid">
-                                        #if(category && category.pid == 0)
-                                        <option value="0" selected>顶级</option>
-                                        #else
-                                        <option value="0">顶级</option>
-                                        #end
-
-                                        #for(c : categories)
-                                        #if(category && category.pid == c.id)
-                                        <option value="#(c.id)" selected>#(c.layerString)#(c.title)</option>
-                                        #elseif(category && (category.id == c.id || category.isMyChild(c.id)))
-                                        <option value="#(c.id)" disabled>#(c.layerString)#(c.title)</option>
-                                        #else
-                                        <option value="#(c.id)">#(c.layerString)#(c.title)</option>
-                                        #end
-                                        #end
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">slug</label>
-
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="slug会显示在网址上..."
-                                           value="#(category.slug ??)" name="category.slug">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">排序</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
-                                           value="#(category.order_number ??)"
-                                           name="category.order_number">
-                                    <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
-                                </div>
-                            </div>
-
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">内容</label>
                                 <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control"
-                                              placeholder="..."
+                                    <textarea rows="3" class="form-control" placeholder="..."
                                               name="category.content">#(category.content ??)</textarea>
                                 </div>
                             </div>
@@ -114,40 +68,22 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">摘要</label>
                                 <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control"
-                                              placeholder="..."
+                                    <textarea rows="3" class="form-control" placeholder="..."
                                               name="category.summary">#(category.summary ??)</textarea>
                                 </div>
                             </div>
 
-
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">图标</label>
+                                <label class="col-sm-2 control-label">排序</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="给该分类设置图标"
-                                           value="#(category.icon ??)" name="category.icon">
-                                    <p class="help-block"> 图标只用于前台显示，是否显示决定于模板。<a target="_blank" href="#(CPATH)/admin/setting/icons">获取</a> </p>
+                                    <input type="input" class="form-control" placeholder="此标签排序的序号"
+                                           value="#(category.order_number ??)"
+                                           name="category.order_number">
+                                    <p class="help-block"> 其显示方式决定在模板的读取方式。 </p>
                                 </div>
                             </div>
 
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">标识</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="展示标识"
-                                           value="#(category.flag ??)" name="category.flag" id="flag">
-                                    #if(flags && flags.size() > 0)
-                                    <p class="help-block">当前模板支持的展示标识有：
-                                        #for(flag : flags ??)
-                                        <a href="javascript:;" class="tflag">#(flag)</a>
-                                        #end
-                                    </p>
-                                    #end
-                                </div>
-                            </div>
-
-
-                            #if(styles && styles.size() > 0)
+                            #if(styles && styles.size() > 0 )
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">样式</label>
                                 <div class="col-sm-9">
@@ -189,8 +125,7 @@
                                 <label class="col-sm-2 control-label">关键字</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
-                                           name="category.meta_keywords"
-                                           value="#(category.meta_keywords ??)">
+                                           name="category.meta_keywords" value="#(category.meta_keywords ??)">
                                 </div>
                             </div>
                         </div>
@@ -218,30 +153,28 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 40%">标题</th>
-                                <th>Slug</th>
+                                <th style="width: 40%">名称</th>
                                 <th>描述</th>
                                 <th>排序</th>
                             </tr>
-                            #for(category : categories)
+                            #for(category : page.list)
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
                                         <a href="#(category.url ??)" target="_blank">
-                                            #(category.layerString)#(category.title)
+                                            #(category.title)
                                         </a>
                                         （#(category.count ?? 0)）
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/category/#(category.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/article/tag/#(category.id)">编辑</a> |
                                             <a href="javascript:;" class="del-action red-action"
                                                data-id="#(category.id)">删除</a> |
-                                            <a href="#(category.url ??)" target="_blank" class="red-action">查看</a>
+                                            <a href="#(category.url ??)" class="red-action" target="_blank">查看</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(category.slug ??)</td>
                                 <td>#(category.content ??)</td>
                                 <td>#(category.order_number ??)</td>
                             </tr>
@@ -253,6 +186,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

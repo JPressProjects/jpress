@@ -8,4 +8,10 @@ import io.jpress.module.product.service.ProductService;
 @Bean
 public class ProductServiceProvider extends JbootServiceBase<Product> implements ProductService {
 
+    @Override
+    public boolean doChangeStatus(long id, String status) {
+        Product product = findById(id);
+        product.setStatus(status);
+        return update(product);
+    }
 }

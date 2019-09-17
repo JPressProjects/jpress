@@ -79,4 +79,7 @@ public interface ProductService  {
     public Page<Product> paginate(int page, int pageSize);
 
 
+    public boolean doChangeStatus(long id, String status);
+
+
 }

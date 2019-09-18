@@ -245,7 +245,7 @@ public class _ArticleController extends AdminControllerBase {
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
-        if (id > 0) {
+        if (id > 0 && categories != null) {
             for (ArticleCategory category : categories) {
                 if (category.getId() == id) {
                     setAttr("category", category);

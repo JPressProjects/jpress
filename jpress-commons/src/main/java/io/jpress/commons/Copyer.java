@@ -33,7 +33,7 @@ public class Copyer {
         }
 
         List<M> rlist = new ArrayList<>(list.size());
-        list.forEach(m -> list.add((M) m.copy()));
+        list.forEach(m -> rlist.add((M) m.copy()));
         return rlist;
     }
 }

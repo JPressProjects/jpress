@@ -18,12 +18,12 @@ package io.jpress.commons;
 
 import io.jboot.db.model.JbootModel;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 由于 ehcache 缓存有这么一个特征：从缓存读取出来的缓存数据不能被再次修改，否则会出错
- * 因此，在某些场景下，我们读取的数据需要再次被修改，需要从缓存读取数据后 copy 一份新的返回
+ * 因此，在某些场景下，我们读取的数据需要再次被修改，需要从缓存读取数据后 copy一份新的返回
  */
 public class Copyer {
 
@@ -31,8 +31,9 @@ public class Copyer {
         if (list == null || list.isEmpty()) {
             return null;
         }
-        return (List<M>) list.stream()
-                .map(m -> m.copy())
-                .collect(Collectors.toList());
+
+        List<M> rlist = new ArrayList<>(list.size());
+        list.forEach(m -> list.add((M) m.copy()));
+        return rlist;
     }
 }

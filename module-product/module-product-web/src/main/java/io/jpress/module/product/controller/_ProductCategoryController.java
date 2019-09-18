@@ -29,7 +29,6 @@ import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -37,18 +36,18 @@ import java.util.List;
 public class _ProductCategoryController extends AdminControllerBase {
 
     @Inject
-    private ProductCategoryService service;
+    private ProductCategoryService productCategoryService;
 
     @Inject
     private MenuService menuService;
 
-    @AdminMenu(text = "分类", groupId = "product",order = 2)
+    @AdminMenu(text = "分类", groupId = "product", order = 2)
     public void index() {
-        List<ProductCategory> categories = service.findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
-        if (id > 0) {
+        if (id > 0 && categories != null) {
             for (ProductCategory category : categories) {
                 if (category.getId() == id) {
                     setAttr("category", category);
@@ -72,27 +71,13 @@ public class _ProductCategoryController extends AdminControllerBase {
     }
 
 
-   
-    public void edit() {
-        int entryId = getParaToInt(0, 0);
 
-        ProductCategory entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("productCategory", entry);
-        set("now",new Date());
-        render("product/product_category_edit.html");
-    }
-   
     public void doSave() {
-        ProductCategory entry = getModel(ProductCategory.class,"category");
+        ProductCategory entry = getModel(ProductCategory.class, "category");
         saveCategory(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
-
-//    public void doCategorySave() {
-//        ArticleCategory category = getModel(ArticleCategory.class, "category");
-//        saveCategory(category);
-//    }
 
     private void saveCategory(ProductCategory category) {
         if (!validateSlug(category)) {
@@ -100,8 +85,8 @@ public class _ProductCategoryController extends AdminControllerBase {
             return;
         }
 
-        Object id = service.saveOrUpdate(category);
-//        service.updateCount(category.getId());
+        Object id = productCategoryService.saveOrUpdate(category);
+//        productCategoryService.updateCount(category.getId());
 
         Menu displayMenu = menuService.findFirstByRelatives("product_category", id);
         Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
@@ -137,6 +122,6 @@ public class _ProductCategoryController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(productCategoryService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 }

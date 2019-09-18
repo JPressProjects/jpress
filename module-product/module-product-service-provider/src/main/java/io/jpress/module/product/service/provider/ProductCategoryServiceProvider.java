@@ -3,6 +3,7 @@ package io.jpress.module.product.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -51,5 +52,11 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     @Cacheable(name = "productCategory", key = "type:#(type)")
     public List<ProductCategory> findListByTypeInDb(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
+    }
+
+    @Override
+    @CacheEvict(name = "productCategory", key = "*")
+    public void shouldUpdateCache(int action, Object data) {
+        super.shouldUpdateCache(action, data);
     }
 }

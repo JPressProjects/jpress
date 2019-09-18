@@ -3,7 +3,10 @@ package io.jpress.module.product.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.Copyer;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 
@@ -38,5 +41,15 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
                     .stream()
                     .filter(category -> type.equals(category.getType()))
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductCategory> findListByType(String type) {
+        return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Cacheable(name = "productCategory", key = "type:#(type)")
+    public List<ProductCategory> findListByTypeInDb(String type) {
+        return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 }

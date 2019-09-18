@@ -85,5 +85,7 @@ public interface ProductCategoryService  {
     public List<ProductCategory> findListByArticleId(long articleId);
     public List<ProductCategory> findListByProductId(long articleId, String type);
 
+    public List<ProductCategory> findListByType(String type);
+
 
 }

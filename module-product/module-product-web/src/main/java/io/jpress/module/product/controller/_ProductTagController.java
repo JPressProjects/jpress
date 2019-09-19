@@ -17,49 +17,110 @@ package io.jpress.module.product.controller;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
+import io.jpress.model.Menu;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
+import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.Date;
+import java.util.List;
 
 
 @RequestMapping(value = "/admin/product/tag", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _ProductTagController extends AdminControllerBase {
 
     @Inject
-    private ProductCategoryService service;
+    private ProductCategoryService productCategoryService;
 
-    @AdminMenu(text = "标签", groupId = "product",order = 3)
+    @Inject
+    private MenuService menuService;
+
+    @AdminMenu(text = "标签", groupId = "product", order = 3)
     public void index() {
-        Page<ProductCategory> entries=service.paginate(getPagePara(), 10);
-        setAttr("page", entries);
-        render("product/product_tag_list.html");
+        List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_TAG);
+        SortKit.toLayer(categories);
+        setAttr("categories", categories);
+        int id = getParaToInt(0, 0);
+        if (id > 0 && categories != null) {
+            for (ProductCategory category : categories) {
+                if (category.getId() == id) {
+                    setAttr("category", category);
+                    setAttr("isDisplayInMenu", menuService.findFirstByRelatives("product_category", id) != null);
+                }
+            }
+        }
+        initStylesAttr("prolist_");
+        render("product/product_category_list.html");
     }
 
-   
-    public void edit() {
-        int entryId = getParaToInt(0, 0);
 
-        ProductCategory entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("productCategory", entry);
-        set("now",new Date());
-        render("product/product_tag_edit.html");
+    private void initStylesAttr(String prefix) {
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            return;
+        }
+        setAttr("flags", template.getFlags());
+        List<String> styles = template.getSupportStyles(prefix);
+        setAttr("styles", styles);
     }
-   
+
+
     public void doSave() {
-        ProductCategory entry = getModel(ProductCategory.class,"productCategory");
-        service.saveOrUpdate(entry);
+        ProductCategory entry = getModel(ProductCategory.class, "category");
+        saveCategory(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
+    }
+
+
+    private void saveCategory(ProductCategory category) {
+        if (!validateSlug(category)) {
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            return;
+        }
+
+        Object id = productCategoryService.saveOrUpdate(category);
+//        productCategoryService.updateCount(category.getId());
+
+        Menu displayMenu = menuService.findFirstByRelatives("product_category", id);
+        Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
+        if (isDisplayInMenu != null && isDisplayInMenu) {
+            if (displayMenu == null) {
+                displayMenu = new Menu();
+            }
+
+            displayMenu.setUrl(category.getUrl());
+            displayMenu.setText(category.getTitle());
+            displayMenu.setType(Menu.TYPE_MAIN);
+            displayMenu.setOrderNumber(category.getOrderNumber());
+            displayMenu.setRelativeTable("product_category");
+            displayMenu.setRelativeId((Long) id);
+
+            if (displayMenu.getPid() == null) {
+                displayMenu.setPid(0l);
+            }
+
+            if (displayMenu.getOrderNumber() == null) {
+                displayMenu.setOrderNumber(99);
+            }
+
+            menuService.saveOrUpdate(displayMenu);
+
+        } else if (displayMenu != null) {
+            menuService.delete(displayMenu);
+        }
+
+        renderOkJson();
     }
 
 
     public void doDel() {
         Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(productCategoryService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 }

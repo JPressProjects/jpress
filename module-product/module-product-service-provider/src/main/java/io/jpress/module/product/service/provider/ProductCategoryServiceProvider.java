@@ -1,10 +1,12 @@
 package io.jpress.module.product.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.Copyer;
@@ -17,6 +19,12 @@ import java.util.stream.Collectors;
 
 @Bean
 public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCategory> implements ProductCategoryService {
+
+
+    @Override
+    public Page<ProductCategory> paginateByType(int page, int pagesize, String type) {
+        return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "order_number asc,id desc");
+    }
 
     @Override
     public List<ProductCategory> findListByArticleId(long articleId) {
@@ -53,6 +61,12 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     public List<ProductCategory> findListByTypeInDb(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
+
+    @Override
+    public ProductCategory findFirstByTypeAndSlug(String type, String slug) {
+        return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
+    }
+
 
     @Override
     @CacheEvict(name = "productCategory", key = "*")

@@ -17,9 +17,9 @@ package io.jpress.module.product.controller;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -43,20 +43,17 @@ public class _ProductTagController extends AdminControllerBase {
 
     @AdminMenu(text = "标签", groupId = "product", order = 3)
     public void index() {
-        List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_TAG);
-        SortKit.toLayer(categories);
-        setAttr("categories", categories);
+        Page<ProductCategory> page = productCategoryService.paginateByType(getPagePara(), 10, ProductCategory.TYPE_TAG);
+        setAttr("page", page);
+
         int id = getParaToInt(0, 0);
-        if (id > 0 && categories != null) {
-            for (ProductCategory category : categories) {
-                if (category.getId() == id) {
-                    setAttr("category", category);
-                    setAttr("isDisplayInMenu", menuService.findFirstByRelatives("product_category", id) != null);
-                }
-            }
+        if (id > 0) {
+            setAttr("category", productCategoryService.findById(id));
+            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
         }
+
         initStylesAttr("prolist_");
-        render("product/product_category_list.html");
+        render("product/product_tag_list.html");
     }
 
 
@@ -72,9 +69,24 @@ public class _ProductTagController extends AdminControllerBase {
 
 
     public void doSave() {
-        ProductCategory entry = getModel(ProductCategory.class, "category");
-        saveCategory(entry);
-        renderJson(Ret.ok().set("id", entry.getId()));
+
+        ProductCategory tag = getModel(ProductCategory.class, "category");
+
+        String slug = tag.getTitle().contains(".")
+                ? tag.getTitle().replace(".", "_")
+                : tag.getTitle();
+
+        //新增 tag
+        if (tag.getId() == null) {
+            ProductCategory indbTag = productCategoryService.findFirstByTypeAndSlug(ProductCategory.TYPE_TAG, slug);
+            if (indbTag != null) {
+                renderJson(Ret.fail().set("message", "该标签已经存在，不能新增。"));
+                return;
+            }
+        }
+
+        tag.setSlug(slug);
+        saveCategory(tag);
     }
 
 

@@ -79,13 +79,15 @@ public interface ProductCategoryService  {
     public Page<ProductCategory> paginate(int page, int pageSize);
 
 
-
+    public Page<ProductCategory> paginateByType(int page, int pagesize, String type);
 
 
     public List<ProductCategory> findListByArticleId(long articleId);
     public List<ProductCategory> findListByProductId(long articleId, String type);
-
     public List<ProductCategory> findListByType(String type);
+
+
+    public ProductCategory findFirstByTypeAndSlug(String type, String slug);
 
 
 }

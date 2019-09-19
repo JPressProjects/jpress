@@ -25,9 +25,16 @@
 
     <section class="content-header">
         <h1>
-            管理
-            <small>Items</small>
+            评论管理
+            <small>Comment Management</small>
         </h1>
+    </section>
+
+    <section class="content-header text-tap">
+        <a href="#(CPATH)/admin/product/comment">全部 (#(totalCount ?? 0))</a> |
+        <a href="?status=normal">已发布 (#(normalCount ?? 0))</a> |
+        <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
+        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -37,14 +44,33 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
 
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/product/comment" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">关键字</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="keyword" value="#para('keyword')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-8">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary ">搜索</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="product_comment/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                                <button type="button" id="batchAudit" class="btn btn-primary checkAction"> 批量审核</button>
+                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
+
 
                     </div>
                     <!-- /.box-header -->
@@ -56,14 +82,18 @@
                                 <th style="width: 10px">
 	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
 	                                </th>
+<!--
 	                                <th>主键ID</th>
 	                                <th>回复的评论ID</th>
 	                                <th>评论的内容ID</th>
 	                                <th>评论的用户ID</th>
+-->
 	                                <th>评论的作者</th>
 	                                <th>评论的内容</th>
 	                                <th>评论的回复数量</th>
+<!--
 	                                <th>排序编号，常用语置顶等</th>
+-->
 	                                <th>“顶”的数量</th>
 	                                <th>“踩”的数量</th>
 	                                <th>评论的状态</th>
@@ -76,24 +106,28 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/product/product_comment/edit/#(entry.id)"> #(entry.id ??) </a>
+                                        <a href="#(CPATH)/admin/product/comment/edit/#(entry.id)"> #(entry.id ??) </a>
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/product/product_comment/edit/#(entry.id)">编辑</a> |
+                                            <a href="/admin/product/comment/edit/#(entry.id)">编辑</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(entry.id)')">删除</a>
                                         </div>
                                     </div>
                                 </td>
                                     
+<!--
 	                                <td>#(entry.pid)</td>
 	                                <td>#(entry.product_id)</td>
 	                                <td>#(entry.user_id)</td>
 	                                <td>#(entry.author)</td>
+-->
 	                                <td>#(entry.content)</td>
 	                                <td>#(entry.reply_count)</td>
+<!--
 	                                <td>#(entry.order_number)</td>
+-->
 	                                <td>#(entry.vote_up)</td>
 	                                <td>#(entry.vote_down)</td>
 	                                <td>#(entry.status)</td>

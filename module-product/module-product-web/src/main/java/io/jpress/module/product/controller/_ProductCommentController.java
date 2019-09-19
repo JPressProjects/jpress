@@ -32,34 +32,34 @@ import java.util.Date;
 public class _ProductCommentController extends AdminControllerBase {
 
     @Inject
-    private ProductCommentService service;
+    private ProductCommentService productCommentService;
 
-    @AdminMenu(text = "评论", groupId = "product",order = 99)
+    @AdminMenu(text = "评论", groupId = "product", order = 99)
     public void index() {
-        Page<ProductComment> entries=service.paginate(getPagePara(), 10);
+        Page<ProductComment> entries = productCommentService.paginate(getPagePara(), 10);
         setAttr("page", entries);
-        render("product/product_comment_list.html");
+        render("product/comment_list.html");
     }
 
-   
+
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        ProductComment entry = entryId > 0 ? service.findById(entryId) : null;
+        ProductComment entry = entryId > 0 ? productCommentService.findById(entryId) : null;
         setAttr("productComment", entry);
-        set("now",new Date());
-        render("product/product_comment_edit.html");
+        set("now", new Date());
+        render("product/comment_edit.html");
     }
-   
+
     public void doSave() {
-        ProductComment entry = getModel(ProductComment.class,"productComment");
-        service.saveOrUpdate(entry);
+        ProductComment entry = getModel(ProductComment.class, "productComment");
+        productCommentService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
 
     public void doDel() {
         Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(productCommentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 }

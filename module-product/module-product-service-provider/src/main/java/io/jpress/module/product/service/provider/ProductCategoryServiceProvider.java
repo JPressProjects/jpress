@@ -12,6 +12,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jpress.commons.Copyer;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public List<ProductCategory> findListByArticleId(long articleId) {
+    public List<ProductCategory> findListByProductId(long articleId) {
         List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {
             return null;
@@ -41,8 +42,18 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public List<ProductCategory> findListByProductId(long articleId, String type) {
-            List<ProductCategory> categoryList = findListByArticleId(articleId);
+    public List<ProductCategory> findCategoryListByProductId(long productId) {
+        return findListByProductId(productId,ProductCategory.TYPE_CATEGORY);
+    }
+
+    @Override
+    public List<ProductCategory> findTagListByProductId(long productId) {
+        return findListByProductId(productId,ProductCategory.TYPE_TAG);
+    }
+
+    @Override
+    public List<ProductCategory> findListByProductId(long productId, String type) {
+            List<ProductCategory> categoryList = findListByProductId(productId);
             if (categoryList == null || categoryList.isEmpty()) {
                 return null;
             }
@@ -57,6 +68,8 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return Copyer.copy(findListByTypeInDb(type));
     }
 
+
+
     @Cacheable(name = "productCategory", key = "type:#(type)")
     public List<ProductCategory> findListByTypeInDb(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
@@ -66,6 +79,16 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     public ProductCategory findFirstByTypeAndSlug(String type, String slug) {
         return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
     }
+
+    @Override
+    public Long[] findCategoryIdsByArticleId(long articleId) {
+        List<Record> records = Db.find("select * from product_category_mapping where product_id = ?", articleId);
+        if (records == null || records.isEmpty())
+            return null;
+
+        return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
+    }
+
 
 
     @Override

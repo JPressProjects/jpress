@@ -32,10 +32,7 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.Permission;
-import io.jpress.model.Role;
-import io.jpress.model.User;
-import io.jpress.model.Utm;
+import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
@@ -182,33 +179,25 @@ public class _UserController extends AdminControllerBase {
     }
 
     public void doMemberSave() {
-        Role role = getBean(Role.class);
-        if (getParaToBoolean("issuper", false)) {
-            role.setFlag(Role.ADMIN_FLAG);
-        } else {
-            role.setFlag(null);
-        }
-
-        roleService.saveOrUpdate(role);
+        Member member = getBean(Member.class);
+        memberService.saveOrUpdate(member);
         redirect("/admin/user/member");
     }
 
-    /**
-     * 删除角色
-     */
     public void doMemberDel() {
-        roleService.deleteById(getIdPara());
+        memberService.deleteById(getIdPara());
         renderOkJson();
     }
 
 
-    /**
-     * 批量删除角色
-     */
     @EmptyValidate(@Form(name = "ids"))
     public void doMemberDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        render(roleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        for (String id : idsSet){
+            memberService.deleteById(id);
+        }
+
+        renderOkJson();
     }
 
 
@@ -221,6 +210,39 @@ public class _UserController extends AdminControllerBase {
     public void mgroup(){
         render("user/mgroup.html");
     }
+
+    public void mgroupEdit() {
+        Long id = getParaToLong();
+        if (id != null) {
+            setAttr("mgroup", memberGroupService.findById(id));
+        }
+        render("user/mgroup_edit.html");
+    }
+
+    public void doMgroupSave() {
+        MemberGroup memberGroup = getBean(MemberGroup.class);
+        memberGroupService.saveOrUpdate(memberGroup);
+        redirect("/admin/user/mgroup");
+    }
+
+    public void doMgroupDel() {
+        memberGroupService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doMgroupDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        for (String id : idsSet){
+            memberGroupService.deleteById(id);
+        }
+
+        renderOkJson();
+    }
+
+
+
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void role() {

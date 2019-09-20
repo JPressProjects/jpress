@@ -79,4 +79,5 @@ public interface MemberService  {
     public Page<Member> paginate(int page, int pageSize);
 
 
+
 }

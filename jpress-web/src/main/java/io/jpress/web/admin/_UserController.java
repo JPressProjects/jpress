@@ -163,6 +163,19 @@ public class _UserController extends AdminControllerBase {
         renderOkJson();
     }
 
+
+
+    @AdminMenu(text = "会员", groupId = JPressConsts.SYSTEM_MENU_USER, order = 3)
+    public void member(){
+        render("user/member.html");
+    }
+
+
+    @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
+    public void mgroup(){
+        render("user/mgroup.html");
+    }
+
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void role() {
         List<Role> roles = roleService.findAll();

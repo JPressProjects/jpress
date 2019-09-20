@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install-all.sh && bash install.sh
+# use : yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
 # ----------------------------------------------------------------------
 
 

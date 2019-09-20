@@ -36,10 +36,7 @@ import io.jpress.model.Permission;
 import io.jpress.model.Role;
 import io.jpress.model.User;
 import io.jpress.model.Utm;
-import io.jpress.service.PermissionService;
-import io.jpress.service.RoleService;
-import io.jpress.service.UserService;
-import io.jpress.service.UtmService;
+import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -68,6 +65,12 @@ public class _UserController extends AdminControllerBase {
 
     @Inject
     private UtmService utmService;
+
+    @Inject
+    private MemberService memberService;
+
+    @Inject
+    private MemberGroupService memberGroupService;
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
@@ -169,6 +172,49 @@ public class _UserController extends AdminControllerBase {
     public void member(){
         render("user/member.html");
     }
+
+    public void memberEdit() {
+        Long id = getParaToLong();
+        if (id != null) {
+            setAttr("member", memberService.findById(id));
+        }
+        render("user/member_edit.html");
+    }
+
+    public void doMemberSave() {
+        Role role = getBean(Role.class);
+        if (getParaToBoolean("issuper", false)) {
+            role.setFlag(Role.ADMIN_FLAG);
+        } else {
+            role.setFlag(null);
+        }
+
+        roleService.saveOrUpdate(role);
+        redirect("/admin/user/member");
+    }
+
+    /**
+     * 删除角色
+     */
+    public void doMemberDel() {
+        roleService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
+
+    /**
+     * 批量删除角色
+     */
+    @EmptyValidate(@Form(name = "ids"))
+    public void doMemberDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(roleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+    }
+
+
+
+
+
 
 
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)

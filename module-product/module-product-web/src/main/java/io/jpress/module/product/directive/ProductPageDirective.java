@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.directive;
+package io.jpress.module.product.directive;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
@@ -28,9 +28,9 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
 import io.jpress.JPressOptions;
 import io.jpress.commons.directive.DirectveKit;
-import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.model.ProductCategory;
+import io.jpress.module.product.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,11 +39,11 @@ import javax.servlet.http.HttpServletRequest;
  * @version V1.0
  * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("articlePage")
-public class ArticlePageDirective extends JbootDirectiveBase {
+@JFinalDirective("productPage")
+public class ProductPageDirective extends JbootDirectiveBase {
 
     @Inject
-    private ArticleService service;
+    private ProductService service;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
@@ -56,17 +56,17 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         // 可以指定当前的分类ID
         Long categoryId = getParaToLong("categoryId", scope, 0L);
-        ArticleCategory category = controller.getAttr("category");
+        ProductCategory category = controller.getAttr("category");
 
         if (categoryId == 0 && category != null) {
             categoryId = category.getId();
         }
 
-        Page<Article> articlePage = categoryId == 0
+        Page<Product> productPage = categoryId == 0
                 ? service.paginateInNormal(page, pageSize, orderBy)
                 : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, orderBy);
 
-        scope.setGlobal("articlePage", articlePage);
+        scope.setGlobal("productPage", productPage);
         renderBody(env, scope, writer);
     }
 
@@ -76,7 +76,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     }
 
 
-    @JFinalDirective("articlePaginate")
+    @JFinalDirective("productPaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
         private boolean firstGotoIndex = false;
@@ -100,7 +100,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             // 如果当前页面是首页的话
             // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
             if (url.equals(contextPath + "/")) {
-                url = contextPath + "/article/category/index"
+                url = contextPath + "/product/category/index"
                         + JPressOptions.getAppUrlSuffix();
             }
             return DirectveKit.replacePageNumber(url, pageNumber);
@@ -108,7 +108,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         @Override
         protected Page<?> getPage(Env env, Scope scope, Writer writer) {
-            return (Page<?>) scope.get("articlePage");
+            return (Page<?>) scope.get("productPage");
         }
 
     }

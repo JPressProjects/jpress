@@ -1,298 +1,456 @@
-
 #@layout()
-#define css()
-#@layout_css?()
-<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-#end
 #define script()
-#@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
+<script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
+<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+
+
 <script>
-    $("input[hint='date']").datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
-    });
 
-  function doSubmit() {
-    ajaxSubmit("#form", function (data) {
-        $("#entryId").attr("value", data.id);
-        toastr.success('内容保存成功。');
-    })
-  }
+	var $select = $('.article-tags').selectize({
+		plugins: ['remove_button'],
+		delimiter: ',',
+		persist: false,
+		addPrecedence: true,
+		create: true,
+		render: {
+			option_create: function (data, escape) {
+				return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+			}
+		}
+	});
 
-    $("#submit").on("click", function () {
-        doSubmit();
-    })
-    </script>
+	var selectize = $select[0].selectize;
+
+	$(".newTag").each(function () {
+		$(this).on('click', function () {
+			selectize.createItem($(this).text());
+		})
+	});
+
+
+	$(".tflag").each(function () {
+		$(this).on('click', function () {
+			$("#flag").val($(this).text());
+		})
+	});
+
+
+	$(".submitBtn").on("click", function () {
+		$("#articleStatus").val($(this).attr("data-status"));
+		doSubmit();
+	});
+
+	// 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+	window.doSubmit = function () {
+		ajaxSubmit("#form", function (data) {
+			$("#articleId").attr("value", data.id);
+			toastr.success('文章保存成功。');
+		});
+	}
+
+	$("#removeThumbnail").on("click", function () {
+		$("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
+		$("#articleThumbnail").val("");
+	})
+
+	var editMode = "#(editMode ?? 'html')";
+
+	function doChangeEditor(id) {
+		if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
+			var changeMode = editMode == "html" ? "markdown" : "html";
+			if (id != '0') {
+				ajaxGet('#(CPATH)/admin/article/doChangeEditMode?id=' + id + "&mode=" + changeMode);
+			} else {
+				ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
+			}
+		}
+	}
+
+	initEditor('editor1', 467, editMode);
+
+	doListenerCtrlsAndCommands(doSubmit);
+
+
+</script>
 #end
+#define css()
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<style>
+	.popover-content {
+		padding: 9px 14px;
+		margin: 0 10px;
+	}
 
+	#slug {
+		cursor: pointer;
+	}
+</style>
+#end
 
 #define content()
 <div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-                        编辑/新增
-            <small>Edit</small>
-        </h1>
-    </section>
+	<section class="content-header">
+		<h1>
+			产品编辑
+		</h1>
+	</section>
 
-    <section class="content">
+	<section class="content">
+		<form action="#(CPATH)/admin/product/doSave" method="post" id="form">
+			<input type="hidden" id="articleStatus" name="product.status" value='#(product.status ?? "normal")'>
+			<input type="hidden" id="articleId" name="product.id" value="#(product.id ??)">
+			<input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">
+			<input type="hidden" id="editModeId" name="product.edit_mode" value="#(editMode ??)">
+			<div class="row">
+				<div class="col-lg-9">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          action="/admin/product/doSave"
-                          method="POST" id="form">
-                        
-                        <div class="box-body ">
-	                                <input type="hidden" id="entryId" name="product.id" value="#(product.id ??)">
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">slug</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.slug" class="form-control" value="#(product.slug ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">标题</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.title" class="form-control" value="#(product.title ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">内容</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.content" class="form-control" value="#(product.content ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">摘要</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.summary" class="form-control" value="#(product.summary ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">缩略图</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.thumbnail" class="form-control" value="#(product.thumbnail ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">视频</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.video" class="form-control" value="#(product.video ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">样式</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.style" class="form-control" value="#(product.style ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">排序编号</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.order_number" class="form-control" value="#(product.order_number ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">商品的用户ID</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.user_id" class="form-control" value="#(product.user_id ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">商品的销售分成类型：0平台所有，1用户所有，2按比例分成</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.user_divide_type" class="form-control" value="#(product.user_divide_type ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">用户分成比例</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.user_divide_ratio" class="form-control" value="#(product.user_divide_ratio ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">商品价格</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.price" class="form-control" value="#(product.price ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">原始价格</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.origin_price" class="form-control" value="#(product.origin_price ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">限时优惠价（早鸟价）</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.limited_price" class="form-control" value="#(product.limited_price ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">限时优惠截止时间</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
-		                       						name="product.limited_time" value="#date(product.limited_time ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">是否启用分销</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="checkbox" class="switchery" data-for="product_dist_enable" #checkedIf(product.dist_enable ??)>
-                                           <input type="hidden" id="product_dist_enable" name="product.dist_enable">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">分销金额</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.dist_price" class="form-control" value="#(product.dist_price ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">状态</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.status" class="form-control" value="#(product.status ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论状态，默认允许评论</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="checkbox" class="switchery" data-for="product_comment_status" #checkedIf(product.comment_status ??)>
-                                           <input type="hidden" id="product_comment_status" name="product.comment_status">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论总数</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.comment_count" class="form-control" value="#(product.comment_count ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">最后评论时间</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
-		                       						name="product.comment_time" value="#date(product.comment_time ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">访问量</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.view_count" class="form-control" value="#(product.view_count ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">创建日期</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
-		                       						name="product.created" value="#date(product.created ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">最后更新日期</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
-		                       						name="product.modified" value="#date(product.modified ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">标识，通常用于对某几篇文章进行标识，从而实现单独查询</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.flag" class="form-control" value="#(product.flag ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">SEO关键字</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.meta_keywords" class="form-control" value="#(product.meta_keywords ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">SEO描述信息</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.meta_description" class="form-control" value="#(product.meta_description ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">备注信息</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="product.remarks" class="form-control" value="#(product.remarks ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
+					<!-- /.box-header -->
+					<!-- form start -->
+					<div class="form-horizontal">
+						<div class="form-group">
+							<div class="col-sm-12">
+								<input type="input" class="form-control input-lg" name="product.title"
+									   placeholder="请输入标题"
+									   id="article-title"
+									   value="#(product.title ??)">
+							</div>
+						</div>
 
-                        </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.box-footer -->
-                    </form>
-                </div>
-            </div>
-        </div>
 
-    </section>
+						<div class="form-group">
+							<div class="col-sm-12" style="padding-bottom: 2px">
+								网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
+																											   class="slugSpan"
+																											   for-input="article-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+								#if(product && product.isNormal())
+								（<a href="#(article.url)" target="_blank">访问</a>）
+								#end
+								<input type="hidden" id="article-slug" name="article.slug" value="#(product.slug ??)">
+								<a href="javascript:;" style="float: right;padding: 5px 0"
+								   onclick="doChangeEditor('#(product.id ?? 0)')">切换编辑器</a>
+							</div>
+							<div class="col-sm-12" style="z-index: 9999;">
+                                <textarea id="editor1" name="product.content"
+										  style="height: 467px;width: 100%;background-color: white">#(product._getEditContent() ??)</textarea>
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="box box-solid">
+									<div class="box-header with-border">
+										<h3 class="box-title">产品缩略图</h3>
+										<div class="box-tools">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body ">
+										<div class="box-body ">
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="box box-solid">
+									<div class="box-header with-border">
+										<h3 class="box-title">价格</h3>
+
+										<div class="box-tools">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body ">
+										<div class="box-body ">
+											<div class="form-group">
+												<label class="col-sm-2 control-label">销售价格</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="order_number"
+														   name="article.order_number" placeholder="请输入" value="">
+													<p class="help-block">文章列表会根据这个数值进行排序，越大越靠前。</p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">原价</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="link_to"
+														   name="article.link_to" placeholder="请输入" value="">
+													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">限时价格</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="link_to"
+														   name="article.link_to" placeholder="请输入" value="">
+													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">限时时间</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="link_to"
+														   name="article.link_to" placeholder="请输入" value="">
+													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">启用分销功能</label>
+												<div class="col-sm-6">
+													<input type="checkbox" checked class="switchery" data-for="comment_status" value="true">
+													<p class="help-block"></p>
+													<input type="hidden" id="comment_status" name="article.comment_status">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">分销价格</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="link_to"
+														   name="article.link_to" placeholder="请输入" value="">
+													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="box box-solid">
+									<div class="box-header with-border">
+										<h3 class="box-title">其他</h3>
+
+										<div class="box-tools">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body ">
+										<div class="box-body ">
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">摘要</label>
+												<div class="col-sm-6">
+                                                    <textarea class="form-control" id="summary" name="article.summary"
+															  placeholder="请输入" rows="4"></textarea>
+													<p class="help-block"></p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">SEO关键字</label>
+												<div class="col-sm-6">
+                                                    <textarea class="form-control" id="meta_keywords"
+															  name="article.meta_keywords" placeholder="请输入"
+															  rows="2"></textarea>
+													<p class="help-block"></p>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label">SEO描述</label>
+												<div class="col-sm-6">
+                                                    <textarea class="form-control" id="meta_description"
+															  name="article.meta_description" placeholder="请输入"
+															  rows="2"></textarea>
+													<p class="help-block"></p>
+												</div>
+											</div>
+
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">允许评论</label>
+												<div class="col-sm-6">
+													<input type="checkbox" checked="" class="switchery"
+														   data-for="comment_status" value="true" data-switchery="true"
+													>
+													<p class="help-block"></p>
+													<input type="hidden" id="comment_status"
+														   name="article.comment_status" value="true">
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+
+				</div>
+
+				<div class="col-lg-3">
+					<div class="box box-solid">
+						<div class="box-body ">
+
+							<button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
+							</button>
+							<button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
+							</button>
+							<a href="#" data-status="trash" class="pull-right submitBtn"
+							   style="padding-top: 5px;">移至垃圾箱</a>
+						</div>
+					</div>
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">模板样式</h3>
+						</div>
+						<div class="box-body ">
+
+							#if(styles && styles.size() > 0 )
+							<div class="form-group">
+								<select class="form-control" name="article.style">
+									<option value="">默认样式</option>
+									#for(style : styles)
+									<option value="#(style)" #selectedIf(product && product.style==style)>
+										#(style)
+									</option>
+									#end
+								</select>
+							</div>
+							#end
+
+							<div class="form-group">
+								<input type="text" class="form-control" name="product.flag"
+									   placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
+
+								#if(flags && flags.size() > 0)
+								<p class="help-block">当前模板支持的展示标识有：</p>
+								<div class="tags">
+									#for(flag : flags ??)
+									<a href="javascript:;" class="tflag">#(flag)</a>
+									#end
+								</div>
+								#end
+
+							</div>
+						</div>
+					</div>
+
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">分类</h3>
+						</div>
+						<div class="box-body ">
+							<div class="form-group">
+								#for(category : categories)
+								<div class="checkbox">
+									<label>
+										#for(i = 0; i < category.layerNumber; i++)
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										#end
+
+										#if(category.isCheck)
+										<input type="checkbox" name="category" value="#(category.id)" checked/>
+										#else
+										<input type="checkbox" name="category" value="#(category.id)"/>
+										#end
+
+
+										#(category.title ??)
+									</label>
+								</div>
+								#end
+							</div>
+						</div>
+					</div>
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">标签</h3>
+						</div>
+						<div class="box-body">
+							<select class="form-control article-tags" multiple="multiple" name="tag">
+								#for(tag : tags)
+								<option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+								#end
+							</select>
+							<p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+							<div class="tags">
+								#tags(count = 20)
+								#for(tag : tags)
+								<a href="javascript:;" class="newTag">#(tag.title)</a>
+								#end
+								#end
+							</div>
+						</div>
+					</div>
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">产品主图</h3>
+						</div>
+						<div class="box-body no-padding">
+							<img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+								 style="width: 100%;height: 200px"
+								 id="thumbnail">
+							<input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
+								   id="articleThumbnail">
+						</div>
+						<div class="box-footer">
+							<button type="button" class="jp-image-browser btn btn-default btn-sm "
+									for-src="thumbnail"
+									for-input="articleThumbnail">选择图片
+							</button>
+							<a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+						</div>
+					</div>
+
+					<div class="box box-solid">
+						<div class="box-header with-border ">
+							<h3 class="box-title">产品视频</h3>
+						</div>
+						<div class="box-body no-padding">
+							<img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+								 style="width: 100%;height: 200px"
+								 id="thumbnail">
+							<input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
+								   id="articleThumbnail">
+						</div>
+						<div class="box-footer">
+							<button type="button" class="jp-image-browser btn btn-default btn-sm "
+									for-src="thumbnail"
+									for-input="articleThumbnail">选择图片
+							</button>
+							<a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</section>
 
 </div>
 #end

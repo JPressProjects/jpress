@@ -40,7 +40,7 @@ LOCK TABLES `article` WRITE;
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
 VALUES
-	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,1,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
+	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,2,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -437,7 +437,6 @@ CREATE TABLE `permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
 
 
-
 # Dump of table product
 # ------------------------------------------------------------
 
@@ -480,6 +479,7 @@ CREATE TABLE `product` (
   KEY `view_count` (`view_count`),
   KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
+
 
 
 
@@ -786,7 +786,9 @@ DROP TABLE IF EXISTS `user_order`;
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ns` int(11) NOT NULL COMMENT '订单号',
+  `title` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '一般情况下商品的名称',
   `buyer_id` int(10) unsigned DEFAULT NULL COMMENT '购买人',
+  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成',
   `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款',
   `dist_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
@@ -820,6 +822,7 @@ CREATE TABLE `user_order_item` (
   `order_id` int(11) unsigned NOT NULL,
   `order_ns` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单号',
   `buyer_id` int(11) unsigned NOT NULL,
+  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `buyer_remarks` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户订单备注',
   `seller_id` int(11) unsigned DEFAULT NULL,
   `dist_id` int(10) unsigned DEFAULT NULL COMMENT '分销员',

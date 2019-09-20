@@ -1,6 +1,7 @@
 package io.jpress.module.product.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.module.product.model.Product;
 
 import java.util.List;
@@ -79,4 +80,16 @@ public interface ProductService  {
     public Page<Product> paginate(int page, int pageSize);
 
 
+    public boolean doChangeStatus(long id, String status);
+
+
+    public Page<Product> paginateInNormal(int page, int pagesize);
+
+    public Page<Product> paginateInNormal(int page, int pagesize, String orderBy);
+
+    public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
+
+    public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
+
+    public Product findFirstBySlug(String slug);
 }

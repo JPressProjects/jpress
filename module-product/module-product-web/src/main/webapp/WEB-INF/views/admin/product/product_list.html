@@ -1,155 +1,208 @@
 #@layout()
-	
 #define script()
 <script>
 
-    function doDel(id) {
-        ajaxGet("/admin/product/doDel/" + id);
-    }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何条目');
-            return
-        }
-        ajaxGet("/admin/product/doDelByIds?ids=" + ids);
-    })
+	function trash(id) {
+		ajaxGet("#(CPATH)/admin/product/doTrash/" + id);
+	}
 
 
+	function draft(id) {
+		ajaxGet("#(CPATH)/admin/product/doDraft/" + id);
+	}
+
+	function normal(id) {
+		ajaxGet("#(CPATH)/admin/product/doNormal/" + id);
+	}
+
+	function del(id) {
+		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
+			ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+		}
+	}
+
+	$("#batchDel").click(function () {
+		var ids = getSelectedIds();
+		if (ids == "") {
+			alert('您未选择任何内容');
+			return
+		}
+		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
+			ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+		}
+	})
 </script>
+
 #end
 
 #define content()
 <div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-            管理
-            <small>Items</small>
-        </h1>
-    </section>
+	<section class="content-header">
+		<h1>
+			产品管理
+			<small>Product Management</small>
+		</h1>
+	</section>
 
-    <section class="content">
+	<section class="content-header text-tap">
+		<a href="#(CPATH)/admin/article">全部 (#(totalCount ?? 0))</a> |
+		<a href="?status=normal">已上架 (#(normalCount ?? 0))</a> |
+		<a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+		<a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+	</section>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+	<section class="content">
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="product/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<form class="form-horizontal actionPanel" action="#(CPATH)/admin/article" method="get">
+							<input type="hidden" name="status" value="#para('status')">
+							<div class="row">
+								<div class="form-group col-lg-4">
+									<label class="col-sm-3 control-label">标题</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="title" value="#para('title')">
+									</div>
+								</div>
+								<div class="form-group col-lg-4">
+									<label class="col-sm-3 control-label">分类</label>
+									<div class="col-sm-9">
+										<select class="form-control" name="categoryId">
+											<option value="">全部分类</option>
+											#for(category : categories)
+											<option value="#(category.id ??)" #selectedIf(category.isCheck)>
+												#(category.layerString)#(category.title ??)
+											</option>
+											#end
+										</select>
+									</div>
+								</div>
+								<div class="form-group col-lg-4">
+									<div class="col-sm-12">
+										<button type="submit" class="btn btn-primary ">查询</button>
+										<button type="reset" class="btn btn-default">重置</button>
+										<a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+						</form>
 
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+						<div class="row actionPanel">
+							<div class="col-xs-12">
+								<a href="#(CPATH)/admin/product/edit" class="btn btn-primary "> <i
+										class="fa fa-fw fa-plus"></i> 新建</a>
+								<button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+							</div>
+						</div>
 
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-	                                </th>
-	                                <th>主键ID</th>
-	                                <th>slug</th>
-	                                <th>标题</th>
-	                                <th>内容</th>
-	                                <th>摘要</th>
-	                                <th>缩略图</th>
-	                                <th>视频</th>
-	                                <th>样式</th>
-	                                <th>排序编号</th>
-	                                <th>商品的用户ID</th>
-	                                <th>商品的销售分成类型：0平台所有，1用户所有，2按比例分成</th>
-	                                <th>用户分成比例</th>
-	                                <th>商品价格</th>
-	                                <th>原始价格</th>
-	                                <th>限时优惠价（早鸟价）</th>
-	                                <th>限时优惠截止时间</th>
-	                                <th>是否启用分销</th>
-	                                <th>分销金额</th>
-	                                <th>状态</th>
-	                                <th>评论状态，默认允许评论</th>
-	                                <th>评论总数</th>
-	                                <th>最后评论时间</th>
-	                                <th>访问量</th>
-	                                <th>创建日期</th>
-	                                <th>最后更新日期</th>
-	                                <th>标识，通常用于对某几篇文章进行标识，从而实现单独查询</th>
-	                                <th>SEO关键字</th>
-	                                <th>SEO描述信息</th>
-	                                <th>备注信息</th>
-                                
-                            </tr>
-                            #for(entry : page.list)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" />
-                                </td>
-                                <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/product/product/edit/#(entry.id)"> #(entry.id ??) </a>
-                                    </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="/admin/product/product/edit/#(entry.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(entry.id)')">删除</a>
-                                        </div>
-                                    </div>
-                                </td>
-                                    
-	                                <td>#(entry.slug)</td>
-	                                <td>#(entry.title)</td>
-	                                <td>#(entry.content)</td>
-	                                <td>#(entry.summary)</td>
-	                                <td>#(entry.thumbnail)</td>
-	                                <td>#(entry.video)</td>
-	                                <td>#(entry.style)</td>
-	                                <td>#(entry.order_number)</td>
-	                                <td>#(entry.user_id)</td>
-	                                <td>#(entry.user_divide_type)</td>
-	                                <td>#(entry.user_divide_ratio)</td>
-	                                <td>#(entry.price)</td>
-	                                <td>#(entry.origin_price)</td>
-	                                <td>#(entry.limited_price)</td>
-	                                <td>#(entry.limited_time)</td>
-	                                <td>#(entry.dist_enable)</td>
-	                                <td>#(entry.dist_price)</td>
-	                                <td>#(entry.status)</td>
-	                                <td>#(entry.comment_status)</td>
-	                                <td>#(entry.comment_count)</td>
-	                                <td>#(entry.comment_time)</td>
-	                                <td>#(entry.view_count)</td>
-	                                <td>#(entry.created)</td>
-	                                <td>#(entry.modified)</td>
-	                                <td>#(entry.flag)</td>
-	                                <td>#(entry.meta_keywords)</td>
-	                                <td>#(entry.meta_description)</td>
-	                                <td>#(entry.remarks)</td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                            	 #@_paginate()
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box -->
-            </div>
-        </div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body ">
 
-    </section>
+						<table class="table table-striped">
+							<tbody>
+							<tr>
+								<th style="width: 10px">
+									<input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+								</th>
+								<th style="width: 350px">标题</th>
+								<th style="width: 50px">价格</th>
+								<th style="width: 50px">销量</th>
+								<th>分类</th>
+								<th>标签</th>
+								<th style="width: 50px"><i class="fa fa-commenting"></i></th>
+								<th style="width: 90px">发布时间</th>
+							</tr>
+
+							#for(product : page.list)
+							<tr class="jp-actiontr">
+								<td><input class="dataItem" type="checkbox" value="#(product.id)"/>
+								</td>
+								<td>
+									<strong>
+										<a href="#(CPATH)/admin/product/edit/#(product.id)">#(product.title ??)</a>
+										#if(product.isDraft())
+										（草稿）
+										#end
+									</strong>
+									<div class="jp-actionblock">
+										#if(product.isNormal())
+										<div class="jp-actionitem">
+											<a href="#(CPATH)/admin/product/edit/#(product.id)">编辑</a> |
+											<a href="javascript:;" onclick="draft('#(product.id??)')">草稿</a>
+											|
+											<a href="javascript:;" onclick="trash('#(product.id??)')"
+											   class="red-action">垃圾箱</a>|
+											<a href="#(product.url ??)" target="_blank" class="red-action">查看</a>
+										</div>
+										#elseif(product.isDraft())
+										<div class="jp-actionitem">
+											<a href="#(CPATH)/admin/article/write/#(product.id)">编辑</a> |
+											<a href="javascript:;" onclick="trash('#(product.id??)')"
+											   class="red-action">垃圾箱</a>
+										</div>
+										#else
+										<div class="jp-actionitem">
+											<a href="javascript:;" onclick="draft('#(product.id??)')">还原</a>
+											|
+											<a href="javascript:;" onclick="del('#(product.id??)')" class="red-action">永久删除</a>
+										</div>
+										#end
+									</div>
+
+								</td>
+								<td>
+									<a href="#(product.user.detailUrl ??)">
+										#(product.user.nickname ??)
+									</a>
+								</td>
+								<td>
+									#productCategories(product.id,"category")
+									#for(category : categories)
+									<a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
+									#if(!for.last) , #end
+									#end
+									#end
+								</td>
+								<td>
+									#productCategories(product.id,"tag")
+									#for(category : categories)
+									<a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
+									#if(!for.last) , #end
+									#end
+									#end
+								</td>
+								<td>
+									<a href="#(CPATH)/admin/article/comment?articleId=#(product.id)">
+										#(product.comment_count ??)
+									</a>
+								</td>
+								<td>#date(product.created)</td>
+							</tr>
+							#end
+
+							</tbody>
+						</table>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<div class="row">
+							<div class="col-sm-12">
+								#@_paginate()
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box -->
+			</div>
+		</div>
+
+	</section>
+
+
 </div>
 #end

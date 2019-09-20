@@ -4,7 +4,7 @@
 <script>
     $('#form').on('submit', function () {
         ajaxSubmit('#form', function () {
-            location.href = "#(CPATH)/admin/article/tag";
+            location.href = "#(CPATH)/admin/product/tag";
         });
         return false;
     });
@@ -12,7 +12,7 @@
     $('.del-action').on('click', function () {
         if (confirm('确定要删除该标签吗？删除后不可恢复')) {
             var id = $(this).attr("data-id");
-            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
+            ajaxGet("#(CPATH)/admin/product/doCategoryDel/" + id)
         }
     });
 
@@ -32,7 +32,6 @@
     </section>
 
     <section class="content">
-
         <div class="row">
             <div class="col-lg-5">
                 <div class="box box-primary">
@@ -42,7 +41,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/article/doTagSave"
+                          action="#(CPATH)/admin/product/tag/doSave"
                           id="form"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
@@ -157,7 +156,7 @@
                                 <th>描述</th>
                                 <th>排序</th>
                             </tr>
-                            #for(category : page.list)
+                            #for(category : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
@@ -168,7 +167,7 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/tag/#(category.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/product/tag/#(category.id)">编辑</a> |
                                             <a href="javascript:;" class="del-action red-action"
                                                data-id="#(category.id)">删除</a> |
                                             <a href="#(category.url ??)" class="red-action" target="_blank">查看</a>

@@ -32,34 +32,49 @@ import java.util.Date;
 public class _ProductController extends AdminControllerBase {
 
     @Inject
-    private ProductService service;
+    private ProductService productService;
 
-    @AdminMenu(text = "商品列表", groupId = "product",order = 1)
+    @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
-        Page<Product> entries=service.paginate(getPagePara(), 10);
+        Page<Product> entries = productService.paginate(getPagePara(), 10);
         setAttr("page", entries);
         render("product/product_list.html");
     }
 
-   
+
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        Product entry = entryId > 0 ? service.findById(entryId) : null;
+        Product entry = entryId > 0 ? productService.findById(entryId) : null;
         setAttr("product", entry);
-        set("now",new Date());
+        set("now", new Date());
         render("product/product_edit.html");
     }
-   
+
     public void doSave() {
-        Product entry = getModel(Product.class,"product");
-        service.saveOrUpdate(entry);
+        Product entry = getModel(Product.class, "product");
+        productService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
 
     public void doDel() {
         Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(productService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doTrash() {
+        Long id = getIdPara();
+        render(productService.doChangeStatus(id, Product.STATUS_TRASH) ? OK : FAIL);
+    }
+
+    public void doDraft() {
+        Long id = getIdPara();
+        render(productService.doChangeStatus(id, Product.STATUS_DRAFT) ? OK : FAIL);
+    }
+
+    public void doNormal() {
+        Long id = getIdPara();
+        render(productService.doChangeStatus(id, Product.STATUS_NORMAL) ? OK : FAIL);
     }
 }

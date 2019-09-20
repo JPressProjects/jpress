@@ -19,124 +19,20 @@ public abstract class BaseMember<M extends BaseMember<M>> extends JbootModel<M> 
 		return getLong("id");
 	}
 
-	public void setIcon(java.lang.String icon) {
-		set("icon", icon);
+	public void setGroupId(java.lang.Long groupId) {
+		set("group_id", groupId);
 	}
 	
-	public java.lang.String getIcon() {
-		return getStr("icon");
+	public java.lang.Long getGroupId() {
+		return getLong("group_id");
 	}
 
-	public void setName(java.lang.String name) {
-		set("name", name);
+	public void setUserId(java.lang.Long userId) {
+		set("user_id", userId);
 	}
 	
-	public java.lang.String getName() {
-		return getStr("name");
-	}
-
-	public void setContent(java.lang.String content) {
-		set("content", content);
-	}
-	
-	public java.lang.String getContent() {
-		return getStr("content");
-	}
-
-	public void setSummary(java.lang.String summary) {
-		set("summary", summary);
-	}
-	
-	public java.lang.String getSummary() {
-		return getStr("summary");
-	}
-
-	public void setThumbnail(java.lang.String thumbnail) {
-		set("thumbnail", thumbnail);
-	}
-	
-	public java.lang.String getThumbnail() {
-		return getStr("thumbnail");
-	}
-
-	public void setVideo(java.lang.String video) {
-		set("video", video);
-	}
-	
-	public java.lang.String getVideo() {
-		return getStr("video");
-	}
-
-	public void setOrderNumber(java.lang.Integer orderNumber) {
-		set("order_number", orderNumber);
-	}
-	
-	public java.lang.Integer getOrderNumber() {
-		return getInt("order_number");
-	}
-
-	public void setPrice(java.math.BigDecimal price) {
-		set("price", price);
-	}
-	
-	public java.math.BigDecimal getPrice() {
-		return get("price");
-	}
-
-	public void setLimitedPrice(java.math.BigDecimal limitedPrice) {
-		set("limited_price", limitedPrice);
-	}
-	
-	public java.math.BigDecimal getLimitedPrice() {
-		return get("limited_price");
-	}
-
-	public void setLimitedTime(java.util.Date limitedTime) {
-		set("limited_time", limitedTime);
-	}
-	
-	public java.util.Date getLimitedTime() {
-		return get("limited_time");
-	}
-
-	public void setDistPrice(java.math.BigDecimal distPrice) {
-		set("dist_price", distPrice);
-	}
-	
-	public java.math.BigDecimal getDistPrice() {
-		return get("dist_price");
-	}
-
-	public void setDistEnable(java.lang.Boolean distEnable) {
-		set("dist_enable", distEnable);
-	}
-	
-	public java.lang.Boolean getDistEnable() {
-		return get("dist_enable");
-	}
-
-	public void setTermOfValidity(java.lang.Integer termOfValidity) {
-		set("term_of_validity", termOfValidity);
-	}
-	
-	public java.lang.Integer getTermOfValidity() {
-		return getInt("term_of_validity");
-	}
-
-	public void setFlag(java.lang.String flag) {
-		set("flag", flag);
-	}
-	
-	public java.lang.String getFlag() {
-		return getStr("flag");
-	}
-
-	public void setStatus(java.lang.Integer status) {
-		set("status", status);
-	}
-	
-	public java.lang.Integer getStatus() {
-		return getInt("status");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -147,12 +43,28 @@ public abstract class BaseMember<M extends BaseMember<M>> extends JbootModel<M> 
 		return get("created");
 	}
 
-	public void setModified(java.util.Date modified) {
-		set("modified", modified);
+	public void setCreateSource(java.lang.String createSource) {
+		set("create_source", createSource);
 	}
 	
-	public java.util.Date getModified() {
-		return get("modified");
+	public java.lang.String getCreateSource() {
+		return getStr("create_source");
+	}
+
+	public void setDuetime(java.util.Date duetime) {
+		set("duetime", duetime);
+	}
+	
+	public java.util.Date getDuetime() {
+		return get("duetime");
+	}
+
+	public void setRemark(java.lang.String remark) {
+		set("remark", remark);
+	}
+	
+	public java.lang.String getRemark() {
+		return getStr("remark");
 	}
 
 }

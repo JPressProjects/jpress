@@ -100,7 +100,7 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
-    List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
+    public List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
 
     public Long[] findCategoryIdsByArticleId(long articleId);
 
@@ -112,10 +112,6 @@ public interface ArticleCategoryService {
 
     public List<ArticleCategory> findListByFlag(String flag);
 
-//    public List<ArticleCategory> findActiveCategoryListByArticleId(long articleId);
-
-//    public List<ArticleCategory> findActiveCategoryListByCategoryId(long categoryId);
-
-    public void updateCount(long categoryId);
+    public void doUpdateArticleCount(long categoryId);
 
 }

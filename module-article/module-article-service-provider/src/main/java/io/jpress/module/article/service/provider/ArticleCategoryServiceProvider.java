@@ -118,7 +118,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
 
     @Override
-    public void updateCount(long categoryId) {
+    public void doUpdateArticleCount(long categoryId) {
         long articleCount = Db.queryLong("select count(*) from article_category_mapping where category_id = ? ", categoryId);
         ArticleCategory category = findById(categoryId);
         if (category != null) {

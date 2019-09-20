@@ -220,7 +220,7 @@ public class _ArticleController extends AdminControllerBase {
 
         if (allIds != null && allIds.length > 0) {
             for (Long categoryId : allIds) {
-                categoryService.updateCount(categoryId);
+                categoryService.doUpdateArticleCount(categoryId);
             }
         }
 
@@ -290,7 +290,7 @@ public class _ArticleController extends AdminControllerBase {
         }
 
         Object id = categoryService.saveOrUpdate(category);
-        categoryService.updateCount(category.getId());
+        categoryService.doUpdateArticleCount(category.getId());
 
         Menu displayMenu = menuService.findFirstByRelatives("article_category", id);
         Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");

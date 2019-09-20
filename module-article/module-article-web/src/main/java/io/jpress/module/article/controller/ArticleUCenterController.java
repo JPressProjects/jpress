@@ -198,7 +198,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         if (allIds != null && allIds.length > 0) {
             for (Long categoryId : allIds) {
-                categoryService.updateCount(categoryId);
+                categoryService.doUpdateArticleCount(categoryId);
             }
         }
 

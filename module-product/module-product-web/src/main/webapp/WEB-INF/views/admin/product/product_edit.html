@@ -106,10 +106,9 @@
 
 	<section class="content">
 		<form action="#(CPATH)/admin/product/doSave" method="post" id="form">
-			<input type="hidden" id="articleStatus" name="product.status" value='#(product.status ?? "normal")'>
-			<input type="hidden" id="articleId" name="product.id" value="#(product.id ??)">
+			<input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "normal")'>
+			<input type="hidden" id="productId" name="product.id" value="#(product.id ??)">
 			<input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">
-			<input type="hidden" id="editModeId" name="product.edit_mode" value="#(editMode ??)">
 			<div class="row">
 				<div class="col-lg-9">
 
@@ -135,8 +134,6 @@
 								（<a href="#(product.url)" target="_blank">访问</a>）
 								#end
 								<input type="hidden" id="article-slug" name="product.slug" value="#(product.slug ??)">
-								<a href="javascript:;" style="float: right;padding: 5px 0"
-								   onclick="doChangeEditor('#(product.id ?? 0)')">切换编辑器</a>
 							</div>
 							<div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="product.content"
@@ -156,7 +153,6 @@
 											</button>
 										</div>
 									</div>
-									<!-- /.box-header -->
 									<div class="box-body ">
 										<div class="box-body ">
 
@@ -188,49 +184,49 @@
 											<div class="form-group">
 												<label class="col-sm-2 control-label">销售价格</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="order_number"
-														   name="product.order_number" placeholder="请输入" value="">
-													<p class="help-block">文章列表会根据这个数值进行排序，越大越靠前。</p>
+													<input type="text" class="form-control" id="price"
+														   name="product.price" placeholder="请输入" value="">
+													<p class="help-block">产品的实际销售价格。</p>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">原价</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="link_to"
-														   name="product.link_to" placeholder="请输入" value="">
-													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+													<input type="text" class="form-control" id="origin_price"
+														   name="product.origin_price" placeholder="请输入" value="">
+													<p class="help-block">产品的原始价格，页面会使用删除线进行显示。</p>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">限时价格</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="link_to"
-														   name="product.link_to" placeholder="请输入" value="">
-													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+													<input type="text" class="form-control" id="limited_price"
+														   name="product.limited_price" placeholder="请输入" value="">
+													<p class="help-block">限时价格（早鸟价）。</p>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">限时时间</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="link_to"
-														   name="product.link_to" placeholder="请输入" value="">
-													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+													<input type="text" class="form-control" id="limited_time"
+														   name="product.limited_time" placeholder="请输入" value="">
+													<p class="help-block">到该时间后，限时价格会自动恢复到原始价格。</p>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">启用分销功能</label>
 												<div class="col-sm-6">
-													<input type="checkbox" checked class="switchery" data-for="comment_status" value="true">
+													<input type="checkbox" checked class="switchery" data-for="dist_enable" value="true">
 													<p class="help-block"></p>
-													<input type="hidden" id="comment_status" name="product.comment_status">
+													<input type="hidden" id="dist_enable" name="product.dist_enable">
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">分销价格</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="link_to"
-														   name="product.link_to" placeholder="请输入" value="">
-													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
+													<input type="text" class="form-control" id="dist_price"
+														   name="product.dist_price" placeholder="请输入" value="">
+													<p class="help-block">当用户分析产品分销了解产品付费后，用户将获得的分成。</p>
 												</div>
 											</div>
 										</div>
@@ -301,9 +297,6 @@
 								</div>
 							</div>
 						</div>
-
-
-
 					</div>
 
 				</div>
@@ -432,16 +425,15 @@
 						<div class="box-body no-padding">
 							<img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
 								 style="width: 100%;height: 200px"
-								 id="thumbnail">
-							<input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
-								   id="articleThumbnail">
+								 id="videoimg">
+							<input type="hidden" value="#(product.video ??)" name="product.video" id="videoinput">
 						</div>
 						<div class="box-footer">
 							<button type="button" class="jp-image-browser btn btn-default btn-sm "
-									for-src="thumbnail"
-									for-input="articleThumbnail">选择图片
+									for-src="videoimg"
+									for-input="videoinput">选择图片
 							</button>
-							<a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+							<a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
 						</div>
 					</div>
 

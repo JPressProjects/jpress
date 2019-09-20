@@ -133,8 +133,8 @@ public class _ProductController extends AdminControllerBase {
         long id = (long) productService.saveOrUpdate(product);
         productService.doUpdateCommentCount(id);
 
-        setAttr("articleId", id);
-        setAttr("article", product);
+        setAttr("productId", id);
+        setAttr("product", product);
 
 
         Long[] categoryIds = getParaValuesToLong("category");

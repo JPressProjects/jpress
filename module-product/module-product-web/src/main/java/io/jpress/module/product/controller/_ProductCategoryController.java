@@ -86,7 +86,7 @@ public class _ProductCategoryController extends AdminControllerBase {
         }
 
         Object id = productCategoryService.saveOrUpdate(category);
-//        productCategoryService.updateCount(category.getId());
+        productCategoryService.doUpdateProductCount(category.getId());
 
         Menu displayMenu = menuService.findFirstByRelatives("product_category", id);
         Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");

@@ -1,5 +1,6 @@
 package io.jpress.module.product.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.module.product.model.ProductComment;
@@ -8,4 +9,8 @@ import io.jpress.module.product.service.ProductCommentService;
 @Bean
 public class ProductCommentServiceProvider extends JbootServiceBase<ProductComment> implements ProductCommentService {
 
+    @Override
+    public long findCountByProductId(Long productId) {
+        return Db.queryLong("select count(*) from product_comment where product_id = ?", productId);
+    }
 }

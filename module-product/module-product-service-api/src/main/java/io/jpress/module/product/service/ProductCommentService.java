@@ -79,4 +79,7 @@ public interface ProductCommentService  {
     public Page<ProductComment> paginate(int page, int pageSize);
 
 
+    public long findCountByProductId(Long productId);
+
+
 }

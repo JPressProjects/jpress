@@ -90,12 +90,17 @@ public interface ProductCategoryService  {
 
     public List<ProductCategory> findListByType(String type);
 
+    public List<ProductCategory> findOrCreateByTagString(String[] tags);
+
 
     public ProductCategory findFirstByTypeAndSlug(String type, String slug);
 
 
 
     public Long[] findCategoryIdsByArticleId(long articleId);
+
+
+    public void doUpdateProductCount(long categoryId);
 
 
 }

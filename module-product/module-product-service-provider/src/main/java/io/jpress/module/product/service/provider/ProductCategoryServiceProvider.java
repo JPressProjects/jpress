@@ -9,11 +9,13 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.Copyer;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,6 +70,42 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return Copyer.copy(findListByTypeInDb(type));
     }
 
+    @Override
+    public List<ProductCategory> findOrCreateByTagString(String[] tags) {
+        if (tags == null || tags.length == 0) {
+            return null;
+        }
+
+        List<ProductCategory> productCategories = new ArrayList<>();
+        for (String tag : tags) {
+
+            if (StrUtil.isBlank(tag)) {
+                continue;
+            }
+
+            //slug不能包含字符串点 " . "，否则url不能被访问
+            String slug = tag.contains(".")
+                    ? tag.replace(".", "_")
+                    : tag;
+
+            Columns columns = Columns.create("type", ProductCategory.TYPE_TAG);
+            columns.add(Column.create("slug", slug));
+
+            ProductCategory productCategory = DAO.findFirstByColumns(columns);
+
+            if (productCategory == null) {
+                productCategory = new ProductCategory();
+                productCategory.setTitle(tag);
+                productCategory.setSlug(slug);
+                productCategory.setType(ProductCategory.TYPE_TAG);
+                productCategory.save();
+            }
+
+            productCategories.add(productCategory);
+        }
+
+        return productCategories;
+    }
 
 
     @Cacheable(name = "productCategory", key = "type:#(type)")
@@ -89,6 +127,15 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }
 
+    @Override
+    public void doUpdateProductCount(long categoryId) {
+        long articleCount = Db.queryLong("select count(*) from product_category_mapping where category_id = ? ", categoryId);
+        ProductCategory category = findById(categoryId);
+        if (category != null) {
+            category.setCount(articleCount);
+            category.update();
+        }
+    }
 
 
     @Override

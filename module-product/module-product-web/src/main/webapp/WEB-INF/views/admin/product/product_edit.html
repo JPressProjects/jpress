@@ -132,9 +132,9 @@
 																											   class="slugSpan"
 																											   for-input="article-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
 								#if(product && product.isNormal())
-								（<a href="#(article.url)" target="_blank">访问</a>）
+								（<a href="#(product.url)" target="_blank">访问</a>）
 								#end
-								<input type="hidden" id="article-slug" name="article.slug" value="#(product.slug ??)">
+								<input type="hidden" id="article-slug" name="product.slug" value="#(product.slug ??)">
 								<a href="javascript:;" style="float: right;padding: 5px 0"
 								   onclick="doChangeEditor('#(product.id ?? 0)')">切换编辑器</a>
 							</div>
@@ -189,7 +189,7 @@
 												<label class="col-sm-2 control-label">销售价格</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" id="order_number"
-														   name="article.order_number" placeholder="请输入" value="">
+														   name="product.order_number" placeholder="请输入" value="">
 													<p class="help-block">文章列表会根据这个数值进行排序，越大越靠前。</p>
 												</div>
 											</div>
@@ -197,7 +197,7 @@
 												<label class="col-sm-2 control-label">原价</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" id="link_to"
-														   name="article.link_to" placeholder="请输入" value="">
+														   name="product.link_to" placeholder="请输入" value="">
 													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
 												</div>
 											</div>
@@ -205,7 +205,7 @@
 												<label class="col-sm-2 control-label">限时价格</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" id="link_to"
-														   name="article.link_to" placeholder="请输入" value="">
+														   name="product.link_to" placeholder="请输入" value="">
 													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
 												</div>
 											</div>
@@ -213,7 +213,7 @@
 												<label class="col-sm-2 control-label">限时时间</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" id="link_to"
-														   name="article.link_to" placeholder="请输入" value="">
+														   name="product.link_to" placeholder="请输入" value="">
 													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
 												</div>
 											</div>
@@ -222,14 +222,14 @@
 												<div class="col-sm-6">
 													<input type="checkbox" checked class="switchery" data-for="comment_status" value="true">
 													<p class="help-block"></p>
-													<input type="hidden" id="comment_status" name="article.comment_status">
+													<input type="hidden" id="comment_status" name="product.comment_status">
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">分销价格</label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" id="link_to"
-														   name="article.link_to" placeholder="请输入" value="">
+														   name="product.link_to" placeholder="请输入" value="">
 													<p class="help-block">填写外链后，浏览文章将会跳转到此链接。</p>
 												</div>
 											</div>
@@ -259,7 +259,7 @@
 											<div class="form-group">
 												<label class="col-sm-2 control-label">摘要</label>
 												<div class="col-sm-6">
-                                                    <textarea class="form-control" id="summary" name="article.summary"
+                                                    <textarea class="form-control" id="summary" name="product.summary"
 															  placeholder="请输入" rows="4"></textarea>
 													<p class="help-block"></p>
 												</div>
@@ -268,7 +268,7 @@
 												<label class="col-sm-2 control-label">SEO关键字</label>
 												<div class="col-sm-6">
                                                     <textarea class="form-control" id="meta_keywords"
-															  name="article.meta_keywords" placeholder="请输入"
+															  name="product.meta_keywords" placeholder="请输入"
 															  rows="2"></textarea>
 													<p class="help-block"></p>
 												</div>
@@ -277,7 +277,7 @@
 												<label class="col-sm-2 control-label">SEO描述</label>
 												<div class="col-sm-6">
                                                     <textarea class="form-control" id="meta_description"
-															  name="article.meta_description" placeholder="请输入"
+															  name="product.meta_description" placeholder="请输入"
 															  rows="2"></textarea>
 													<p class="help-block"></p>
 												</div>
@@ -292,7 +292,7 @@
 													>
 													<p class="help-block"></p>
 													<input type="hidden" id="comment_status"
-														   name="article.comment_status" value="true">
+														   name="product.comment_status" value="true">
 												</div>
 											</div>
 
@@ -311,13 +311,11 @@
 				<div class="col-lg-3">
 					<div class="box box-solid">
 						<div class="box-body ">
-
 							<button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">上架
 							</button>
 							<button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
 							</button>
-							<a href="#" data-status="trash" class="pull-right submitBtn"
-							   style="padding-top: 5px;">移至垃圾箱</a>
+							<a href="#" data-status="trash" class="pull-right submitBtn" style="padding-top: 5px;">移至垃圾箱</a>
 						</div>
 					</div>
 
@@ -329,7 +327,7 @@
 
 							#if(styles && styles.size() > 0 )
 							<div class="form-group">
-								<select class="form-control" name="article.style">
+								<select class="form-control" name="product.style">
 									<option value="">默认样式</option>
 									#for(style : styles)
 									<option value="#(style)" #selectedIf(product && product.style==style)>
@@ -412,7 +410,7 @@
 							<h3 class="box-title">产品主图</h3>
 						</div>
 						<div class="box-body no-padding">
-							<img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+							<img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
 								 style="width: 100%;height: 200px"
 								 id="thumbnail">
 							<input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
@@ -432,7 +430,7 @@
 							<h3 class="box-title">产品视频</h3>
 						</div>
 						<div class="box-body no-padding">
-							<img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+							<img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
 								 style="width: 100%;height: 200px"
 								 id="thumbnail">
 							<input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"

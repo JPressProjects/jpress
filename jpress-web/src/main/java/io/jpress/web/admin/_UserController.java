@@ -164,50 +164,10 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-
-    @AdminMenu(text = "会员", groupId = JPressConsts.SYSTEM_MENU_USER, order = 3)
-    public void member(){
-        render("user/member.html");
-    }
-
-    public void memberEdit() {
-        Long id = getParaToLong();
-        if (id != null) {
-            setAttr("member", memberService.findById(id));
-        }
-        render("user/member_edit.html");
-    }
-
-    public void doMemberSave() {
-        Member member = getBean(Member.class);
-        memberService.saveOrUpdate(member);
-        redirect("/admin/user/member");
-    }
-
-    public void doMemberDel() {
-        memberService.deleteById(getIdPara());
-        renderOkJson();
-    }
-
-
-    @EmptyValidate(@Form(name = "ids"))
-    public void doMemberDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        for (String id : idsSet){
-            memberService.deleteById(id);
-        }
-
-        renderOkJson();
-    }
-
-
-
-
-
-
-
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
     public void mgroup(){
+        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        setAttr("memberGroups", memberGroups);
         render("user/mgroup.html");
     }
 

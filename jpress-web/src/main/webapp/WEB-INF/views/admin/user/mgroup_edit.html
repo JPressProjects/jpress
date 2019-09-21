@@ -4,8 +4,8 @@
 
     <section class="content-header">
         <h1>
-            角色设置
-            <small>Role Setting</small>
+            会员组编辑
+            <small>Member Group Edit</small>
         </h1>
     </section>
 
@@ -18,39 +18,151 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/user/doRoleSave"
+                          action="#(CPATH)/admin/user/doMgroupSave"
                           method="POST"
                     >
-                        <input type="hidden" name="role.id" value="#(role.id ??)">
+                        <input type="hidden" name="group.id" value="#(group.id ??)">
                         <div class="box-body ">
+
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">名称</label>
+                                <label class="col-sm-2 control-label">会员名称</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" name="role.name" class="form-control" value="#(role.name ??)"
+                                    <input type="input" name="group.name" class="form-control" value="#(group.name ??)"
                                            placeholder="建议设置一个直观的、不需要解释的名称">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">超级管理员</label>
+                                <label class="col-sm-2 control-label">会员icon</label>
                                 <div class="col-sm-6">
-                                    #if(role)
-                                    <input type="checkbox" class="switchery" name="issuper" value="true"
-                                           #checkedIf(role.isSuperAdmin())>
-                                    #else
-                                    <input type="checkbox" class="switchery" name="issuper" value="true">
-                                    #end
+                                    <input type="input" name="group.icon" class="form-control" value="#(group.icon ??)"
+                                           placeholder="用于在帖子用户属性位置进行显示，可以是某个图片附件的路径，也可以是某个class样式。">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" name="role.description" class="form-control"
-                                              placeholder="该角色的一些描述 或 备注">#(role.description ??)</textarea>
+                                    <textarea rows="5" name="group.content" class="form-control"
+                                              placeholder="会员描述，包括会员的权益、福利等">#(group.content ??)</textarea>
                                 </div>
                             </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">摘要</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="5" name="group.summary" class="form-control"
+                                              placeholder="该角色的一些摘要描述">#(group.summary ??)</textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">缩略图</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.thumbnail" class="form-control" value="#(group.thumbnail ??)"
+                                           placeholder="">
+                                    <p class="help-block">请填写该会员介绍的缩略图地址。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">视频介绍</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.video" class="form-control" value="#(group.video ??)"
+                                           placeholder="">
+                                    <p class="help-block">请填写该会员介绍的视频地址。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">加入所需费用</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.price" class="form-control" value="#(group.price ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：元。 加入该会员的价格。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">限时价格</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.limited_price" class="form-control" value="#(group.limited_price ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：元。在限时时间内，该会员的销售价格是限时价格。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">限时时间</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.limited_time" class="form-control datetimepicker" value="#(group.limited_time ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否启用分销功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="dist_enable" #checkedIf(group && group.dist_enable)>
+                                    <input type="hidden" id="dist_enable" name="group.dist_enable">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">分销的分成</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.dist_price" class="form-control" value="#(group.dist_price ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：元。用户参与分销后，该推广用户所获得的金额。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">购买有效期</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.term_of_validity" class="form-control" value="#(group.term_of_validity ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：天。用户购买会员后，会员的有效时间延长的天数。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">标识</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.flag" class="form-control" value="#(group.flag ??)"
+                                           placeholder="">
+                                    <p class="help-block"> 设立标识后，前台可以通过 <span style="color: red"> #('#')if(hasMember("标识的名称")) </span>来判断当前登录用户是否是该会员组成员。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="categoryId">
+                                        <option value="1">
+                                            启用
+                                        </option>
+                                        <option value="2">
+                                            不启用
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+
 
                         </div>
                         <!-- /.box-body -->

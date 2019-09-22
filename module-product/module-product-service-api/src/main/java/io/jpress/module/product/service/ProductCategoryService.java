@@ -82,12 +82,25 @@ public interface ProductCategoryService  {
     public Page<ProductCategory> paginateByType(int page, int pagesize, String type);
 
 
-    public List<ProductCategory> findListByArticleId(long articleId);
-    public List<ProductCategory> findListByProductId(long articleId, String type);
+    public List<ProductCategory> findListByProductId(long productId);
+
+    public List<ProductCategory> findCategoryListByProductId(long productId);
+    public List<ProductCategory> findTagListByProductId(long productId);
+    public List<ProductCategory> findListByProductId(long productId, String type);
+
     public List<ProductCategory> findListByType(String type);
+
+    public List<ProductCategory> findOrCreateByTagString(String[] tags);
 
 
     public ProductCategory findFirstByTypeAndSlug(String type, String slug);
+
+
+
+    public Long[] findCategoryIdsByArticleId(long articleId);
+
+
+    public void doUpdateProductCount(long categoryId);
 
 
 }

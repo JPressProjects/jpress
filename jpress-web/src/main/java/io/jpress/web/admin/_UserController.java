@@ -32,14 +32,8 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.Permission;
-import io.jpress.model.Role;
-import io.jpress.model.User;
-import io.jpress.model.Utm;
-import io.jpress.service.PermissionService;
-import io.jpress.service.RoleService;
-import io.jpress.service.UserService;
-import io.jpress.service.UtmService;
+import io.jpress.model.*;
+import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -68,6 +62,12 @@ public class _UserController extends AdminControllerBase {
 
     @Inject
     private UtmService utmService;
+
+    @Inject
+    private MemberService memberService;
+
+    @Inject
+    private MemberGroupService memberGroupService;
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
@@ -162,6 +162,47 @@ public class _UserController extends AdminControllerBase {
 
         renderOkJson();
     }
+
+
+    @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
+    public void mgroup(){
+        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        setAttr("memberGroups", memberGroups);
+        render("user/mgroup.html");
+    }
+
+    public void mgroupEdit() {
+        Long id = getParaToLong();
+        if (id != null) {
+            setAttr("mgroup", memberGroupService.findById(id));
+        }
+        render("user/mgroup_edit.html");
+    }
+
+    public void doMgroupSave() {
+        MemberGroup memberGroup = getBean(MemberGroup.class);
+        memberGroupService.saveOrUpdate(memberGroup);
+        redirect("/admin/user/mgroup");
+    }
+
+    public void doMgroupDel() {
+        memberGroupService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doMgroupDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        for (String id : idsSet){
+            memberGroupService.deleteById(id);
+        }
+
+        renderOkJson();
+    }
+
+
+
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void role() {

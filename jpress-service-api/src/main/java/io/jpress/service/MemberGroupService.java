@@ -1,11 +1,11 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.model.MemberUser;
+import io.jpress.model.MemberGroup;
 
 import java.util.List;
 
-public interface MemberUserService  {
+public interface MemberGroupService  {
 
     /**
      * find model by primary key
@@ -13,15 +13,15 @@ public interface MemberUserService  {
      * @param id
      * @return
      */
-    public MemberUser findById(Object id);
+    public MemberGroup findById(Object id);
 
 
     /**
      * find all model
      *
-     * @return all <MemberUser
+     * @return all <MemberGroup
      */
-    public List<MemberUser> findAll();
+    public List<MemberGroup> findAll();
 
 
     /**
@@ -39,7 +39,7 @@ public interface MemberUserService  {
      * @param model
      * @return
      */
-    public boolean delete(MemberUser model);
+    public boolean delete(MemberGroup model);
 
 
     /**
@@ -48,7 +48,7 @@ public interface MemberUserService  {
      * @param model
      * @return  id value if save success
      */
-    public Object save(MemberUser model);
+    public Object save(MemberGroup model);
 
 
     /**
@@ -57,7 +57,7 @@ public interface MemberUserService  {
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(MemberUser model);
+    public Object saveOrUpdate(MemberGroup model);
 
 
     /**
@@ -66,7 +66,7 @@ public interface MemberUserService  {
      * @param model
      * @return
      */
-    public boolean update(MemberUser model);
+    public boolean update(MemberGroup model);
 
 
     /**
@@ -76,7 +76,7 @@ public interface MemberUserService  {
      * @param pageSize
      * @return
      */
-    public Page<MemberUser> paginate(int page, int pageSize);
+    public Page<MemberGroup> paginate(int page, int pageSize);
 
 
 }

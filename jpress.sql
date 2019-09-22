@@ -240,6 +240,41 @@ DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `create_source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `duetime` datetime DEFAULT NULL,
+  `remark` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+# Dump of table member_dist_price
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_dist_price`;
+
+CREATE TABLE `member_dist_price` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) unsigned NOT NULL,
+  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+# Dump of table member_group
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_group`;
+
+CREATE TABLE `member_group` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `icon` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员ICON',
   `name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员名称',
   `content` text COLLATE utf8mb4_unicode_ci COMMENT '会员内容、简介',
@@ -262,23 +297,6 @@ CREATE TABLE `member` (
 
 
 
-# Dump of table member_dist_price
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_dist_price`;
-
-CREATE TABLE `member_dist_price` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) unsigned NOT NULL,
-  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_id` int(11) unsigned NOT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-
 # Dump of table member_price
 # ------------------------------------------------------------
 
@@ -286,29 +304,11 @@ DROP TABLE IF EXISTS `member_price`;
 
 CREATE TABLE `member_price` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) unsigned NOT NULL,
+  `group_id` int(11) unsigned NOT NULL,
   `product_type` int(11) DEFAULT NULL,
   `product_id` int(11) unsigned NOT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-
-# Dump of table member_user
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_user`;
-
-CREATE TABLE `member_user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) unsigned DEFAULT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `create_source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `duetime` datetime DEFAULT NULL,
-  `remark` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -352,17 +352,6 @@ CREATE TABLE `option` (
   UNIQUE KEY `unique_key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置信息表，用来保存网站的所有配置信息。';
 
-LOCK TABLES `option` WRITE;
-/*!40000 ALTER TABLE `option` DISABLE KEYS */;
-
-INSERT INTO `option` (`id`, `key`, `value`)
-VALUES
-	(1,'web_name','jpress'),
-	(2,'web_title','jpress'),
-	(3,'web_subtitle','jpress');
-
-/*!40000 ALTER TABLE `option` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table payment_record
@@ -436,7 +425,6 @@ CREATE TABLE `permission` (
   KEY `node_actionKey` (`node`(191),`action_key`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
 
-
 # Dump of table product
 # ------------------------------------------------------------
 
@@ -450,17 +438,18 @@ CREATE TABLE `product` (
   `summary` text COMMENT '摘要',
   `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
   `video` varchar(512) DEFAULT NULL COMMENT '视频',
+  `video_cover` varchar(512) DEFAULT NULL,
   `style` varchar(32) DEFAULT NULL COMMENT '样式',
   `order_number` int(11) DEFAULT '0' COMMENT '排序编号',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '商品的用户ID',
   `user_divide_type` int(11) DEFAULT NULL COMMENT '商品的销售分成类型：0平台所有，1用户所有，2按比例分成',
   `user_divide_ratio` int(11) DEFAULT NULL COMMENT '用户分成比例',
-  `price` int(11) DEFAULT NULL COMMENT '商品价格',
-  `origin_price` int(11) DEFAULT NULL COMMENT '原始价格',
-  `limited_price` int(11) DEFAULT NULL COMMENT '限时优惠价（早鸟价）',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
+  `origin_price` decimal(10,2) DEFAULT NULL COMMENT '原始价格',
+  `limited_price` decimal(10,2) DEFAULT NULL COMMENT '限时优惠价（早鸟价）',
   `limited_time` datetime DEFAULT NULL COMMENT '限时优惠截止时间',
   `dist_enable` tinyint(1) DEFAULT NULL COMMENT '是否启用分销',
-  `dist_price` int(11) DEFAULT NULL COMMENT '分销金额',
+  `dist_price` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
@@ -479,7 +468,6 @@ CREATE TABLE `product` (
   KEY `view_count` (`view_count`),
   KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
-
 
 
 
@@ -687,7 +675,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `wx_openid`, `wx_unionid`, `qq_openid`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-11 13:00:45','2019-09-02 11:39:29');
+	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-19 11:28:23','2019-09-02 11:39:29');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;

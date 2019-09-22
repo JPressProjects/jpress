@@ -425,7 +425,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
             Db.update("delete from article_category_mapping where article_id = ?", id);
 
-            records.forEach(record -> categoryService.updateCount(record.get("category_id")));
+            records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));
 
             return true;
         });

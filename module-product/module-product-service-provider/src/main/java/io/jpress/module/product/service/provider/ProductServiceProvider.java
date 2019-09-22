@@ -1,7 +1,9 @@
 package io.jpress.module.product.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
@@ -10,9 +12,11 @@ import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.product.model.Product;
+import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Bean
@@ -22,6 +26,41 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private ProductCommentService commentService;
+
+    @Override
+    public void doUpdateCategorys(long productId, Long[] categoryIds) {
+        Db.tx(() -> {
+            Db.update("delete from product_category_mapping where product_id = ?", productId);
+
+            if (categoryIds != null && categoryIds.length > 0) {
+                List<Record> records = new ArrayList<>();
+                for (long categoryId : categoryIds) {
+                    Record record = new Record();
+                    record.set("product_id", productId);
+                    record.set("category_id", categoryId);
+                    records.add(record);
+                }
+                Db.batchSave("product_category_mapping", records, records.size());
+            }
+
+            return true;
+        });
+    }
+
+    @Override
+    public void doUpdateCommentCount(long productId) {
+        Product product = findById(productId);
+        if (product == null) {
+            return;
+        }
+
+        long count = commentService.findCountByProductId(productId);
+        product.setCommentCount(count);
+        product.update();
+    }
 
     @Override
     public boolean doChangeStatus(long id, String status) {

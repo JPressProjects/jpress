@@ -79,6 +79,9 @@ public interface ProductService  {
      */
     public Page<Product> paginate(int page, int pageSize);
 
+    public void doUpdateCategorys(long productId, Long[] categoryIds);
+
+    public void doUpdateCommentCount(long productId);
 
     public boolean doChangeStatus(long id, String status);
 

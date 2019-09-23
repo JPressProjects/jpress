@@ -171,7 +171,7 @@ public class _UserController extends AdminControllerBase {
         render("user/mgroup.html");
     }
 
-    public void mgroupEdit() {
+    public void mgedit() {
         Long id = getParaToLong();
         if (id != null) {
             setAttr("mgroup", memberGroupService.findById(id));

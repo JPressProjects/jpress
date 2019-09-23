@@ -19,20 +19,28 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Jboo
 		return getLong("id");
 	}
 
-	public void setIcon(java.lang.String icon) {
-		set("icon", icon);
-	}
-	
-	public java.lang.String getIcon() {
-		return getStr("icon");
-	}
-
 	public void setName(java.lang.String name) {
 		set("name", name);
 	}
 	
 	public java.lang.String getName() {
 		return getStr("name");
+	}
+
+	public void setTitle(java.lang.String title) {
+		set("title", title);
+	}
+	
+	public java.lang.String getTitle() {
+		return getStr("title");
+	}
+
+	public void setIcon(java.lang.String icon) {
+		set("icon", icon);
+	}
+	
+	public java.lang.String getIcon() {
+		return getStr("icon");
 	}
 
 	public void setContent(java.lang.String content) {

@@ -1,4 +1,11 @@
 #@layout()
+
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script>
+initEditor('contenteditor', 300);
+</script>
+#end
 #define content()
 <div class="content-wrapper">
 
@@ -34,17 +41,20 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">会员icon</label>
+                                <label class="col-sm-2 control-label">会员介绍页标题</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.icon" class="form-control" value="#(group.icon ??)"
-                                           placeholder="用于在帖子用户属性位置进行显示，可以是某个图片附件的路径，也可以是某个class样式。">
+                                    <input type="input" name="group.title" class="form-control" value="#(group.title ??)"
+                                           placeholder="请输入标题内容...">
+                                    <p class="help-block">该内容用于显示会员介绍页的标题上。 </p>
                                 </div>
                             </div>
 
+
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">描述</label>
-                                <div class="col-sm-6">
-                                    <textarea rows="5" name="group.content" class="form-control"
+                                <div class="col-sm-8">
+                                    <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
                                               placeholder="会员描述，包括会员的权益、福利等">#(group.content ??)</textarea>
                                 </div>
                             </div>
@@ -75,6 +85,15 @@
                                     <input type="input" name="group.video" class="form-control" value="#(group.video ??)"
                                            placeholder="">
                                     <p class="help-block">请填写该会员介绍的视频地址。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">会员icon</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="group.icon" class="form-control" value="#(group.icon ??)"
+                                           placeholder="用于在帖子用户属性位置进行显示，可以是某个图片附件的路径，也可以是某个class样式。">
                                 </div>
                             </div>
 

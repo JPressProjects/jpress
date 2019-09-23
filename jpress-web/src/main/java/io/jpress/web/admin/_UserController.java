@@ -174,13 +174,13 @@ public class _UserController extends AdminControllerBase {
     public void mgedit() {
         Long id = getParaToLong();
         if (id != null) {
-            setAttr("mgroup", memberGroupService.findById(id));
+            setAttr("group", memberGroupService.findById(id));
         }
         render("user/mgroup_edit.html");
     }
 
     public void doMgroupSave() {
-        MemberGroup memberGroup = getBean(MemberGroup.class);
+        MemberGroup memberGroup = getBean(MemberGroup.class,"group");
         memberGroupService.saveOrUpdate(memberGroup);
         redirect("/admin/user/mgroup");
     }

@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/product_comment/doDel/" + id);
+        ajaxGet("/admin/product/comment/doDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +13,7 @@
             alert('您未选择任何条目');
             return
         }
-        ajaxGet("/admin/product_comment/doDelByIds?ids=" + ids);
+        ajaxGet("/admin/product/comment/doDelByIds?ids=" + ids);
     })
 
 
@@ -25,8 +25,8 @@
 
     <section class="content-header">
         <h1>
-            评论管理
-            <small>Comment Management</small>
+            产品评论
+            <small>Product Comment</small>
         </h1>
     </section>
 

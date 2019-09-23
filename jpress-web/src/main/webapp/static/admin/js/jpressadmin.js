@@ -12,7 +12,41 @@ $(document).ready(function () {
 
     initListDataItemEvents();
 
+    initComponents();
+
 });
+
+
+function initComponents() {
+    initLayerComponents();
+}
+
+
+
+function initLayerComponents() {
+    $("[data-opentype='layer']").on("click",function (component) {
+
+        var layerOptions = {
+            type: component.delegateTarget.dataset.layerType|| 2,
+            title: component.delegateTarget.dataset.layerTitle || '选择内容',
+            anim: component.delegateTarget.dataset.layerAnim || 2,
+            shadeClose: component.delegateTarget.dataset.layerShadeClose || true,
+            shade: component.delegateTarget.dataset.layerShade || 0.5,
+            area: component.delegateTarget.dataset.layerArea || ['90%', '90%'],
+            content: component.delegateTarget.dataset.layerContent || component.attr('href'),
+            end: function () {
+                var endFunction = component.delegateTarget.dataset.layerEnd;
+                if ("reload" == endFunction) {
+                    location.reload();
+                } else if (endFunction) {
+                    eval(endFunction)(layer);
+                }
+            }
+        };
+
+        layer.open(layerOptions);
+    })
+}
 
 
 function initImageBrowserButton() {
@@ -252,7 +286,7 @@ function initMarkdownEditor(editor, height) {
             , "link", {
                 name: "image",
                 action: function customFunction(editor) {
-                    openlayerfForSimplemde(editor);
+                    openlayerBySimplemde(editor);
                 },
                 className: "fa fa-picture-o",
                 title: "插入图片",
@@ -268,7 +302,7 @@ function initMarkdownEditor(editor, height) {
     return simpleMDE;
 }
 
-function openlayerfForSimplemde(editor) {
+function openlayerBySimplemde(editor) {
     layer.data.src = null;
     layer.open({
         type: 2,

@@ -174,6 +174,12 @@ public class _UserController extends AdminControllerBase {
         render("user/member_edit.html");
     }
 
+    public void doMemberSave(){
+        Member member = getModel(Member.class);
+        memberService.saveOrUpdate(member);
+        renderOkJson();
+    }
+
 
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
     public void mgroup() {
@@ -191,7 +197,7 @@ public class _UserController extends AdminControllerBase {
     }
 
     public void doMgroupSave() {
-        MemberGroup memberGroup = getBean(MemberGroup.class, "group");
+        MemberGroup memberGroup = getModel(MemberGroup.class, "group");
         memberGroupService.saveOrUpdate(memberGroup);
         redirect("/admin/user/mgroup");
     }

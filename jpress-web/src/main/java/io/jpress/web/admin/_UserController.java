@@ -79,7 +79,7 @@ public class _UserController extends AdminControllerBase {
         columns.likeAppendPercent("mobile", getPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
-        Page<User> page = userService._paginate(getPagePara(), 10,columns);
+        Page<User> page = userService._paginate(getPagePara(), 10, columns);
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -164,15 +164,19 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-    public void memberedit(){
+    public void memberedit() {
         List<MemberGroup> groups = memberGroupService.findAll();
-        setAttr("groups",groups);
-       render("user/member_edit.html");
+        setAttr("groups", groups);
+
+        if (getPara() != null) {
+            setAttr("member", memberService.findById(getPara()));
+        }
+        render("user/member_edit.html");
     }
 
 
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
-    public void mgroup(){
+    public void mgroup() {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
         render("user/mgroup.html");
@@ -187,7 +191,7 @@ public class _UserController extends AdminControllerBase {
     }
 
     public void doMgroupSave() {
-        MemberGroup memberGroup = getBean(MemberGroup.class,"group");
+        MemberGroup memberGroup = getBean(MemberGroup.class, "group");
         memberGroupService.saveOrUpdate(memberGroup);
         redirect("/admin/user/mgroup");
     }
@@ -201,14 +205,12 @@ public class _UserController extends AdminControllerBase {
     @EmptyValidate(@Form(name = "ids"))
     public void doMgroupDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        for (String id : idsSet){
+        for (String id : idsSet) {
             memberGroupService.deleteById(id);
         }
 
         renderOkJson();
     }
-
-
 
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
@@ -359,9 +361,9 @@ public class _UserController extends AdminControllerBase {
         }
 
         //会员信息
-        else if ("member".equals(action)){
+        else if ("member".equals(action)) {
             List<Member> members = memberService.findListByUserId(user.getId());
-            setAttr("members",members);
+            setAttr("members", members);
         }
 
         return true;

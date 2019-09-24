@@ -242,10 +242,11 @@ CREATE TABLE `member` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `group_id` int(11) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `create_source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `duetime` datetime DEFAULT NULL,
   `remark` text COLLATE utf8mb4_unicode_ci,
+  `source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -275,8 +276,9 @@ DROP TABLE IF EXISTS `member_group`;
 
 CREATE TABLE `member_group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `icon` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员ICON',
   `name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员名称',
+  `title` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员ICON',
   `content` text COLLATE utf8mb4_unicode_ci COMMENT '会员内容、简介',
   `summary` text COLLATE utf8mb4_unicode_ci COMMENT '摘要',
   `thumbnail` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缩略图',
@@ -424,6 +426,8 @@ CREATE TABLE `permission` (
   PRIMARY KEY (`id`),
   KEY `node_actionKey` (`node`(191),`action_key`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+
+
 
 # Dump of table product
 # ------------------------------------------------------------
@@ -894,6 +898,8 @@ CREATE TABLE `utm` (
   KEY `user_id` (`user_id`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
+
+
 
 # Dump of table wechat_menu
 # ------------------------------------------------------------

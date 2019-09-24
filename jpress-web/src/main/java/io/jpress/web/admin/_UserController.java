@@ -307,23 +307,24 @@ public class _UserController extends AdminControllerBase {
         User user = getLoginedUser().copy();
         setAttr("user", user);
         if (exeOtherAction(user)) {
-            render(getRenderHtml());
+            render(getDetailHtml());
         }
     }
 
 
     public void detail() {
         Long uid = getParaToLong();
+
         User user = userService.findById(uid);
         setAttr("user", user);
-        exeOtherAction(user);
+
         if (exeOtherAction(user)) {
-            render(getRenderHtml());
+            render(getDetailHtml());
         }
     }
 
 
-    private String getRenderHtml() {
+    private String getDetailHtml() {
         String action = getPara("action", "base");
         if ("base".equals(action)) return "user/detail.html";
 
@@ -337,7 +338,8 @@ public class _UserController extends AdminControllerBase {
             setAttr("page", page);
         }
 
-        if ("role".equals(action)) {
+        //角色
+        else if ("role".equals(action)) {
 
             //不是超级管理员，不让修改用户角色
             if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION) == false) {
@@ -347,6 +349,12 @@ public class _UserController extends AdminControllerBase {
 
             List<Role> roles = roleService.findAll();
             setAttr("roles", roles);
+        }
+
+        //会员信息
+        else if ("member".equals(action)){
+            List<Member> members = memberService.findListByUserId(user.getId());
+            setAttr("members",members);
         }
 
         return true;

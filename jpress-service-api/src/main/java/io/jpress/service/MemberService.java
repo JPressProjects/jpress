@@ -79,5 +79,8 @@ public interface MemberService  {
     public Page<Member> paginate(int page, int pageSize);
 
 
+    public List<Member> findListByUserId(long userId);
+
+
 
 }

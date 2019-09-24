@@ -21,7 +21,7 @@ public class MemberServiceProvider extends JbootServiceBase<Member> implements M
     private UserService userService;
 
     @Override
-    public List<Member> findListByUserId(long userId) {
+    public List<Member> findListByUserId(Object userId) {
         List<Member> list = DAO.findListByColumn(Column.create("user_id",userId));
         return userService.join(groupService.join(list,"group_id","group"),"user_id");
     }

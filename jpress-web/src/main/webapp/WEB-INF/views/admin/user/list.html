@@ -115,7 +115,7 @@
                                         <select class="form-control" name="group_id">
                                             <option value="">请选择</option>
                                             #for(group : memberGroups)
-                                            <option value="#(group.id)" #selectedIf(para("group_id") == group.id)>#(group.name ??)</option>
+                                            <option value="#(group.id)" #selectedIf(para("group_id") == group.id.toString()) >#(group.name ??)</option>
                                             #end
                                         </select>
                                     </div>
@@ -175,6 +175,7 @@
                                 <th>昵称</th>
                                 <th>邮箱</th>
                                 <th>手机</th>
+                                <th>会员组</th>
                                 <th style="width: 130px">来源</th>
                             </tr>
 
@@ -223,6 +224,15 @@
                                 <td>#(user.nickname ??)</td>
                                 <td>#(user.email ??)</td>
                                 <td>#(user.mobile ??)</td>
+                                <td>
+                                    #userMembers(userId = user.id)
+                                        #for(m : members)
+                                            #(m.group.name ??)
+                                            #if(!for.last) , #end
+                                        #end
+                                    #end
+
+                                </td>
                                 <td>
                                     #(user.sourceString ??)<br />
                                     #date(user.created)

@@ -52,16 +52,13 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         }
 
         StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
-        sqlBuilder.append(" left join member m on u.id = m.`group_id` ");
+        sqlBuilder.append(" left join member m on u.id = m.user_id ");
 
         columns.add("m.group_id",memberGroupId);
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
-
-        // 前台走默认排序，但是后台必须走 id 排序，
-        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
         sqlBuilder.append(" order by u.id desc");
 
-        return DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        return DAO.paginate(page, pagesize, "select u.* , m.group_id ", sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override

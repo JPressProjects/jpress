@@ -114,11 +114,9 @@
                                     <div class="col-sm-9">
                                         <select class="form-control" name="group_id">
                                             <option value="">请选择</option>
-                                            <option value="wechat_web" #selectedIf(para("create_source") == "wechat_web")>微信网页授权</option>
-                                            <option value="wechat_message" #selectedIf(para("create_source") == "wechat_message") >微信公众号</option>
-                                            <option value="wechat_miniprogram" #selectedIf(para("create_source") == "wechat_miniprogram")>微信小程序</option>
-                                            <option value="web_register" #selectedIf(para("create_source") == "web_register")>网页注册</option>
-                                            <option value="admin_create" #selectedIf(para("create_source") == "admin_create")>后台创建</option>
+                                            #for(group : memberGroups)
+                                            <option value="#(group.id)" #selectedIf(para("group_id") == group.id)>#(group.name ??)</option>
+                                            #end
                                         </select>
                                     </div>
                                 </div>

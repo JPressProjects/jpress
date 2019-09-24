@@ -30,9 +30,9 @@ function initLayerComponents() {
             type: component.delegateTarget.dataset.layerType|| 2,
             title: component.delegateTarget.dataset.layerTitle || '选择内容',
             anim: component.delegateTarget.dataset.layerAnim || 2,
-            shadeClose: component.delegateTarget.dataset.layerShadeClose || true,
+            shadeClose: component.delegateTarget.dataset.layerShadeClose ? (/^true$/i).test(component.delegateTarget.dataset.layerShadeClose) : true,
             shade: component.delegateTarget.dataset.layerShade || 0.5,
-            area: component.delegateTarget.dataset.layerArea || ['90%', '90%'],
+            area: component.delegateTarget.dataset.layerArea ? eval(component.delegateTarget.dataset.layerArea) : ['90%', '90%'],
             content: component.delegateTarget.dataset.layerContent || component.attr('href'),
             end: function () {
                 var endFunction = component.delegateTarget.dataset.layerEnd;

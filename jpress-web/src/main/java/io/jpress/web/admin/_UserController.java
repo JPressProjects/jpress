@@ -164,6 +164,13 @@ public class _UserController extends AdminControllerBase {
     }
 
 
+    public void memberedit(){
+        List<MemberGroup> groups = memberGroupService.findAll();
+        setAttr("groups",groups);
+       render("user/member_edit.html");
+    }
+
+
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
     public void mgroup(){
         List<MemberGroup> memberGroups = memberGroupService.findAll();

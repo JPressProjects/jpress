@@ -79,7 +79,12 @@ public class _UserController extends AdminControllerBase {
         columns.likeAppendPercent("mobile", getPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns);
+
+
+        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        setAttr("memberGroups", memberGroups);
+
+        Page<User> page = userService._paginate(getPagePara(), 10, columns,getParaToLong("group_id"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);

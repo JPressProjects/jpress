@@ -26,6 +26,7 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -45,8 +46,22 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, Columns columns) {
-        return DAO.paginateByColumns(page, pagesize, columns, "id desc");
+    public Page<User> _paginate(int page, int pagesize, Columns columns,Long memberGroupId) {
+        if (memberGroupId == null) {
+            return DAO.paginateByColumns(page, pagesize, columns, "id desc");
+        }
+
+        StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
+        sqlBuilder.append(" left join member m on u.id = m.`group_id` ");
+
+        columns.add("m.group_id",memberGroupId);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+
+        // 前台走默认排序，但是后台必须走 id 排序，
+        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
+        sqlBuilder.append(" order by u.id desc");
+
+        return DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override

@@ -82,4 +82,18 @@ public interface ProductCommentService  {
     public long findCountByProductId(Long productId);
 
 
+    /**
+     * batch del
+     * @param ids
+     * @return
+     */
+    public boolean deleteByIds(Object... ids);
+
+
+    /**
+     * count
+     * @param status
+     * @return
+     */
+    public long findCountByStatus(String status);
 }

@@ -20,7 +20,8 @@ import com.jfinal.log.Log;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.service.UserOrderService;
+import io.jpress.model.Coupon;
+import io.jpress.service.CouponService;
 import io.jpress.web.base.AdminControllerBase;
 
 /**
@@ -35,7 +36,7 @@ public class _ConponController extends AdminControllerBase {
     private static final Log LOG = Log.getLog(_ConponController.class);
 
     @Inject
-    private UserOrderService orderService;
+    private CouponService couponService;
 
 
 
@@ -51,6 +52,9 @@ public class _ConponController extends AdminControllerBase {
 
     public void doSave(){
 
+        Coupon coupon = getModel(Coupon.class);
+        couponService.saveOrUpdate(coupon);
+        renderOkJson();
     }
 
 

@@ -54,7 +54,7 @@ public class _OrderController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
+    @AdminMenu(text = "收款配置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void setting() {
        render("order/setting.html");
     }

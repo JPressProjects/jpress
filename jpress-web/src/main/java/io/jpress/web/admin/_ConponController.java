@@ -49,6 +49,10 @@ public class _ConponController extends AdminControllerBase {
         render("order/coupon_edit.html");
     }
 
+    public void doSave(){
+
+    }
+
 
 
 }

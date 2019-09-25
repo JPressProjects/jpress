@@ -1,0 +1,56 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout()
+#define detail()
+
+<div class="box-header with-border">
+    <div class="row actionPanel">
+        <div class="col-xs-12">
+            <a href="javascript:;" class="btn btn-primary"
+               data-opentype="layer"
+               data-layer-content="#(CPATH)/admin/user/memberedit?userId=#(user.id)"
+               data-layer-title="添加会员"
+               data-layer-area="['60%', '80%']"
+               data-layer-end="reload"
+            >
+                <i class="fa fa-fw fa-plus"></i> 添加会员
+            </a>
+            <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="box-body no-padding">
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th style="width: 40%">会员名称</th>
+            <th style="">到期时间</th>
+            <th style="width: 10%">创建时间</th>
+            <th style="width: 10%">来源</th>
+        </tr>
+
+        #for(member : members ??)
+        <tr class="jp-actiontr">
+            <td>#(member.group.name ??)</td>
+            <td>#date(member.duetime ??)</td>
+            <td>#date(member.created ??)</td>
+            <td>#(member.create_source)</td>
+        </tr>
+        #end
+
+
+        </tbody>
+    </table>
+</div>
+
+<div class="box-footer">
+    <div class="row">
+        <div class="col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+#end
+

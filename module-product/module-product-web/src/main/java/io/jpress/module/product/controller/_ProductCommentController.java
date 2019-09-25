@@ -26,6 +26,7 @@ import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Date;
+import java.util.Set;
 
 
 @RequestMapping(value = "/admin/product/comment", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -36,8 +37,19 @@ public class _ProductCommentController extends AdminControllerBase {
 
     @AdminMenu(text = "评论", groupId = "product", order = 99)
     public void index() {
+        String key = getPara("keyword");
         Page<ProductComment> entries = productCommentService.paginate(getPagePara(), 10);
         setAttr("page", entries);
+
+        long unauditedCount = productCommentService.findCountByStatus(ProductComment.STATUS_UNAUDITED);
+        long trashCount = productCommentService.findCountByStatus(ProductComment.STATUS_TRASH);
+        long normalCount = productCommentService.findCountByStatus(ProductComment.STATUS_NORMAL);
+
+        setAttr("unauditedCount", unauditedCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", unauditedCount + trashCount + normalCount);
+
         render("product/comment_list.html");
     }
 
@@ -61,5 +73,11 @@ public class _ProductCommentController extends AdminControllerBase {
     public void doDel() {
         Long id = getIdPara();
         render(productCommentService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    public void doDelByIds(){
+
+        Set<String> idsSet = getParaSet("ids");
+        render(productCommentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 }

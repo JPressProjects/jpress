@@ -13,4 +13,17 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     public long findCountByProductId(Long productId) {
         return Db.queryLong("select count(*) from product_comment where product_id = ?", productId);
     }
+
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        for (Object id : ids) {
+            deleteById(id);
+        }
+        return true;
+    }
+
+    @Override
+    public long findCountByStatus(String status) {
+        return Db.queryLong("select count(*) from product_comment where status = ?", status);
+    }
 }

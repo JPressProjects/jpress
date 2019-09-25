@@ -79,7 +79,12 @@ public class _UserController extends AdminControllerBase {
         columns.likeAppendPercent("mobile", getPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
-        Page<User> page = userService._paginate(getPagePara(), 10,columns);
+
+
+        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        setAttr("memberGroups", memberGroups);
+
+        Page<User> page = userService._paginate(getPagePara(), 10, columns,getParaToLong("group_id"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -164,23 +169,40 @@ public class _UserController extends AdminControllerBase {
     }
 
 
+    public void memberedit() {
+        List<MemberGroup> groups = memberGroupService.findAll();
+        setAttr("groups", groups);
+
+        if (getPara() != null) {
+            setAttr("member", memberService.findById(getPara()));
+        }
+        render("user/member_edit.html");
+    }
+
+    public void doMemberSave(){
+        Member member = getModel(Member.class);
+        memberService.saveOrUpdate(member);
+        renderOkJson();
+    }
+
+
     @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
-    public void mgroup(){
+    public void mgroup() {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
         render("user/mgroup.html");
     }
 
-    public void mgroupEdit() {
+    public void mgedit() {
         Long id = getParaToLong();
         if (id != null) {
-            setAttr("mgroup", memberGroupService.findById(id));
+            setAttr("group", memberGroupService.findById(id));
         }
         render("user/mgroup_edit.html");
     }
 
     public void doMgroupSave() {
-        MemberGroup memberGroup = getBean(MemberGroup.class);
+        MemberGroup memberGroup = getModel(MemberGroup.class, "group");
         memberGroupService.saveOrUpdate(memberGroup);
         redirect("/admin/user/mgroup");
     }
@@ -194,14 +216,11 @@ public class _UserController extends AdminControllerBase {
     @EmptyValidate(@Form(name = "ids"))
     public void doMgroupDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        for (String id : idsSet){
+        for (String id : idsSet) {
             memberGroupService.deleteById(id);
         }
-
         renderOkJson();
     }
-
-
 
 
     @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
@@ -307,23 +326,24 @@ public class _UserController extends AdminControllerBase {
         User user = getLoginedUser().copy();
         setAttr("user", user);
         if (exeOtherAction(user)) {
-            render(getRenderHtml());
+            render(getDetailHtml());
         }
     }
 
 
     public void detail() {
         Long uid = getParaToLong();
+
         User user = userService.findById(uid);
         setAttr("user", user);
-        exeOtherAction(user);
+
         if (exeOtherAction(user)) {
-            render(getRenderHtml());
+            render(getDetailHtml());
         }
     }
 
 
-    private String getRenderHtml() {
+    private String getDetailHtml() {
         String action = getPara("action", "base");
         if ("base".equals(action)) return "user/detail.html";
 
@@ -337,7 +357,8 @@ public class _UserController extends AdminControllerBase {
             setAttr("page", page);
         }
 
-        if ("role".equals(action)) {
+        //角色
+        else if ("role".equals(action)) {
 
             //不是超级管理员，不让修改用户角色
             if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION) == false) {
@@ -347,6 +368,12 @@ public class _UserController extends AdminControllerBase {
 
             List<Role> roles = roleService.findAll();
             setAttr("roles", roles);
+        }
+
+        //会员信息
+        else if ("member".equals(action)) {
+            List<Member> members = memberService.findListByUserId(user.getId());
+            setAttr("members", members);
         }
 
         return true;

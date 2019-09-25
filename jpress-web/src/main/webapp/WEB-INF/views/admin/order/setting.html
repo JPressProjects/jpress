@@ -24,31 +24,261 @@
                           id="optionForm">
                         <div class="box-body ">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">开启CDN网站加速</label>
+                                <label class="col-sm-2 control-label">开启在线支付功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("cdn_enable"))>
                                     <input type="hidden" id="cdn_enable" name="cdn_enable">
                                 </div>
                             </div>
+
+
+                            <h4 class="page-header">物流设置</h4>
+
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">CDN域名</label>
+                                <label class="col-sm-2 control-label">物流信息API</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请填写CDN域名..."
-                                           name="cdn_domain" value="#option('cdn_domain')">
-                                    <p class="help-block"> 此项请填写阿里云、腾讯云、七牛等CDN加速的绑定域名。<span style="color: red">http://（或https://）开头</span>。 </p>
+                                    <select class="form-control" name="coupon.type">
+                                        <option value="1">
+                                            快递100
+                                        </option>
+                                        <option value="2">
+                                            阿里云物流API
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">排除文件</label>
+                                <label class="col-sm-2 control-label">物流API的AppId</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control"
-                                              placeholder="排除的文件将不采用CDN进行加速..."
-                                              name="cdn_exclude">#option("cdn_exclude")</textarea>
-                                    <p class="help-block"> 此处请填写要排除的文件，填写本地的相对路径。一行一条数据。 </p>
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
                                 </div>
                             </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">物流API的密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">对私收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">个人微信收款</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="pwechat_pay_enable"
+                                           #checkedIf(option("pwechat_pay_enable"))>
+                                    <input type="hidden" id="pwechat_pay_enable" name="pwechat_pay_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信收款二维码</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            for-src="pwechat_pay_qrcode_img"
+                                            for-input="pwechat_pay_qrcode_input"
+                                            class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="pwechat_pay_qrcode_img">
+                                    <input type="hidden" id="pwechat_pay_qrcode_input" name="pwechat_pay_qrcode" value="#option('pwechat_pay_qrcode')">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">个人支付收款</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="pali_pay_enable"
+                                           #checkedIf(option("pali_pay_enable"))>
+                                    <input type="hidden" id="pali_pay_enable" name="pali_pay_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">支付宝收款二维码</label>
+                                <div class="col-sm-6">
+                                    <button type="button"
+                                            for-src="pali_pay_qrcode_img"
+                                            for-input="pali_pay_qrcode_input"
+                                            class="jp-image-browser btn btn-flat btn-default btn-xs">
+                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                    </button>
+                                    <br/>
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="pali_pay_qrcode_img">
+                                    <input type="hidden" id="pali_pay_qrcode_input" name="pali_pay_qrcode" value="#option('pali_pay_qrcode')">
+                                </div>
+                            </div>
+
+
+
+                            <h4 class="page-header">微信对公收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="wechat_pay_enable"
+                                           #checkedIf(option("wechat_pay_enable"))>
+                                    <input type="hidden" id="wechat_pay_enable" name="wechat_pay_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商户号</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">应用ID</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">支付宝对公收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="ali_pay_enable"
+                                           #checkedIf(option("ali_pay_enable"))>
+                                    <input type="hidden" id="ali_pay_enable" name="ali_pay_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商户号</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">应用ID</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">PayPal对公收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="paypal_pay_enable"
+                                           #checkedIf(option("paypal_pay_enable"))>
+                                    <input type="hidden" id="paypal_pay_enable" name="paypal_pay_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商户号</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">应用ID</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">

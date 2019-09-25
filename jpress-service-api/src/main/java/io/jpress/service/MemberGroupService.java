@@ -1,11 +1,12 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.MemberGroup;
 
 import java.util.List;
 
-public interface MemberGroupService  {
+public interface MemberGroupService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

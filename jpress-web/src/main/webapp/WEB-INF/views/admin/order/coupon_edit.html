@@ -1,0 +1,188 @@
+#@layout()
+
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script>
+    initEditor('contenteditor', 300);
+</script>
+#end
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            优惠券编辑
+            <small>Coupon Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/admin/order/coupon/doSave"
+                          method="POST"
+                          data-ok-href="#(CPATH)/admin/order/coupon"
+                    >
+                        <input type="hidden" name="coupon.id" value="#(coupon.id ??)">
+                        <input type="hidden" name="coupon.create_user_id" value="#(coupon.create_user_id ?? USER.id)">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">优惠券名称</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.title" class="form-control" value="#(coupon.title ??)"
+                                           placeholder="例如：无门槛50元优惠券 | 单品最高减2000元">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">类型</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="coupon.type">
+                                        <option value="1">
+                                            满减券
+                                        </option>
+                                        <option value="2">
+                                            叠加满减券
+                                        </option>
+                                        <option value="2">
+                                            无门槛券
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">优惠券金额</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.amount" class="form-control" value="#(coupon.amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：元。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发行量</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.quota" class="form-control" value="#(coupon.quota ??)"
+                                           placeholder="">
+                                    <p class="help-block">一共发布多少个优惠券。 </p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">满多少可用</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否是推广券</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
+                                    <input type="hidden" id="with_award" name="coupon.with_award">
+                                    <p class="help-block">优惠券的用户可以把自己的优惠券给别人用，当优惠券被使用后，优惠券的用户可以获得奖励金额。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">消费后奖励金额</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.award_amount" class="form-control" value="#(coupon.award_amount ??)"
+                                           placeholder="">
+                                    <p class="help-block">启用 [推广券] 后有效，优惠券拥有者获得的奖励。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">验证类型</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="coupon.type">
+                                        <option value="1">
+                                            绝对时效（XXX ~ XXX时间段内有效）
+                                        </option>
+                                        <option value="2">
+                                            相对时效（领取后 X 天有效）
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">绝对时效</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.valid_start_time" class="form-control datetimepicker" value="#(coupon.valid_start_time ??)"
+                                           placeholder="" style="width: 48%;display: initial">
+                                    <div style="float: right;display: contents">
+                                        至
+                                    </div>
+                                    <input type="input" name="coupon.valid_end_time" class="form-control datetimepicker" value="#(coupon.valid_end_time ??)"
+                                           placeholder=""  style="width: 48%;display: initial">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">相对时效</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.valid_days" class="form-control" value="#(coupon.valid_days ??)"
+                                           placeholder="">
+                                    <p class="help-block">单位：天，用户领取优惠券后多少天内有效。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="coupon.status">
+                                        <option value="1">
+                                            正常可用
+                                        </option>
+                                        <option value="2">
+                                            失效
+                                        </option>
+                                    </select>
+                                    <p class="help-block">选择 失效 后，该优惠券下的所有券将会立即失效。 </p>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

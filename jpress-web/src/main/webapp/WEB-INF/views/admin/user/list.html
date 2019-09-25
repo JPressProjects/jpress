@@ -94,16 +94,29 @@
                                     </div>
                                 </div>
 
+                                <!--<div class="form-group col-lg-4">-->
+                                    <!--<label class="col-sm-3 control-label">来源</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<select class="form-control" name="create_source">-->
+                                            <!--<option value="">全部</option>-->
+                                            <!--<option value="wechat_web" #selectedIf(para("create_source") == "wechat_web")>微信网页授权</option>-->
+                                            <!--<option value="wechat_message" #selectedIf(para("create_source") == "wechat_message") >微信公众号</option>-->
+                                            <!--<option value="wechat_miniprogram" #selectedIf(para("create_source") == "wechat_miniprogram")>微信小程序</option>-->
+                                            <!--<option value="web_register" #selectedIf(para("create_source") == "web_register")>网页注册</option>-->
+                                            <!--<option value="admin_create" #selectedIf(para("create_source") == "admin_create")>后台创建</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+
                                 <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">来源</label>
+                                    <label class="col-sm-3 control-label">会员组</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="create_source">
-                                            <option value="">全部</option>
-                                            <option value="wechat_web" #selectedIf(para("create_source") == "wechat_web")>微信网页授权</option>
-                                            <option value="wechat_message" #selectedIf(para("create_source") == "wechat_message") >微信公众号</option>
-                                            <option value="wechat_miniprogram" #selectedIf(para("create_source") == "wechat_miniprogram")>微信小程序</option>
-                                            <option value="web_register" #selectedIf(para("create_source") == "web_register")>网页注册</option>
-                                            <option value="admin_create" #selectedIf(para("create_source") == "admin_create")>后台创建</option>
+                                        <select class="form-control" name="group_id">
+                                            <option value="">请选择</option>
+                                            #for(group : memberGroups)
+                                            <option value="#(group.id)" #selectedIf(para("group_id") == group.id.toString()) >#(group.name ??)</option>
+                                            #end
                                         </select>
                                     </div>
                                 </div>
@@ -162,6 +175,7 @@
                                 <th>昵称</th>
                                 <th>邮箱</th>
                                 <th>手机</th>
+                                <th>会员组</th>
                                 <th style="width: 130px">来源</th>
                             </tr>
 
@@ -210,6 +224,15 @@
                                 <td>#(user.nickname ??)</td>
                                 <td>#(user.email ??)</td>
                                 <td>#(user.mobile ??)</td>
+                                <td>
+                                    #userMembers(userId = user.id)
+                                        #for(m : members)
+                                            #(m.group.name ??)
+                                            #if(!for.last) , #end
+                                        #end
+                                    #end
+
+                                </td>
                                 <td>
                                     #(user.sourceString ??)<br />
                                     #date(user.created)

@@ -107,6 +107,14 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
 		return get("new_amount");
 	}
 
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

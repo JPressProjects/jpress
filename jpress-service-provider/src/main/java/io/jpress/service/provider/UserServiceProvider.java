@@ -26,6 +26,7 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 
@@ -45,8 +46,19 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, Columns columns) {
-        return DAO.paginateByColumns(page, pagesize, columns, "id desc");
+    public Page<User> _paginate(int page, int pagesize, Columns columns,Long memberGroupId) {
+        if (memberGroupId == null) {
+            return DAO.paginateByColumns(page, pagesize, columns, "id desc");
+        }
+
+        StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
+        sqlBuilder.append(" left join member m on u.id = m.user_id ");
+
+        columns.add("m.group_id",memberGroupId);
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+        sqlBuilder.append(" order by u.id desc");
+
+        return DAO.paginate(page, pagesize, "select u.* , m.group_id ", sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override

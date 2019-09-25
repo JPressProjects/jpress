@@ -19,10 +19,12 @@ import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.UserOrder;
-import io.jpress.service.UserOrderService;
+import io.jpress.model.Coupon;
+import io.jpress.service.CouponService;
 import io.jpress.web.base.AdminControllerBase;
 
 /**
@@ -31,33 +33,39 @@ import io.jpress.web.base.AdminControllerBase;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping(value = "/admin/order", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _OrderController extends AdminControllerBase {
+@RequestMapping(value = "/admin/order/coupon", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+public class _ConponController extends AdminControllerBase {
 
-    private static final Log LOG = Log.getLog(_OrderController.class);
+    private static final Log LOG = Log.getLog(_ConponController.class);
 
     @Inject
-    private UserOrderService orderService;
+    private CouponService couponService;
 
 
-    @AdminMenu(text = "概况", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 0)
+    @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 2)
     public void index() {
-        render("order/index.html");
+        Page<Coupon> page = couponService.paginate(getPagePara(),10);
+        setAttr("page",page);
+        render("order/coupon.html");
     }
 
 
-    @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
-    public void list() {
-        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10);
-        setAttr("userOrderPage",userOrderPage);
-        render("order/list.html");
+    public void edit() {
+        Coupon coupon = couponService.findById(getPara());
+        setAttr("coupon",coupon);
+        render("order/coupon_edit.html");
     }
 
-
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
-    public void setting() {
-       render("order/setting.html");
+    @EmptyValidate({
+            @Form(name = "coupon.amount",message = "优惠券金额不能为空"),
+            @Form(name = "coupon.quota",message = "优惠券发行数量不能为空"),
+    })
+    public void doSave(){
+        Coupon coupon = getModel(Coupon.class);
+        couponService.saveOrUpdate(coupon);
+        renderOkJson();
     }
+
 
 
 }

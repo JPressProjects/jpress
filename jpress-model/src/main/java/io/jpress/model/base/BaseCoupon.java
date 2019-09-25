@@ -43,14 +43,6 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends JbootModel<M> 
 		return getInt("type");
 	}
 
-	public void setWithSpecial(java.lang.Boolean withSpecial) {
-		set("with_special", withSpecial);
-	}
-	
-	public java.lang.Boolean getWithSpecial() {
-		return get("with_special");
-	}
-
 	public void setWithAmount(java.math.BigDecimal withAmount) {
 		set("with_amount", withAmount);
 	}
@@ -177,6 +169,14 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends JbootModel<M> 
 	
 	public java.lang.Long getCreateUserId() {
 		return getLong("create_user_id");
+	}
+
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
 	public void setCreated(java.util.Date created) {

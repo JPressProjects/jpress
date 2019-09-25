@@ -35,22 +35,6 @@ public abstract class BaseMember<M extends BaseMember<M>> extends JbootModel<M> 
 		return getLong("user_id");
 	}
 
-	public void setCreated(java.util.Date created) {
-		set("created", created);
-	}
-	
-	public java.util.Date getCreated() {
-		return get("created");
-	}
-
-	public void setCreateSource(java.lang.String createSource) {
-		set("create_source", createSource);
-	}
-	
-	public java.lang.String getCreateSource() {
-		return getStr("create_source");
-	}
-
 	public void setDuetime(java.util.Date duetime) {
 		set("duetime", duetime);
 	}
@@ -65,6 +49,38 @@ public abstract class BaseMember<M extends BaseMember<M>> extends JbootModel<M> 
 	
 	public java.lang.String getRemark() {
 		return getStr("remark");
+	}
+
+	public void setSource(java.lang.String source) {
+		set("source", source);
+	}
+	
+	public java.lang.String getSource() {
+		return getStr("source");
+	}
+
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
+	public void setModified(java.util.Date modified) {
+		set("modified", modified);
+	}
+	
+	public java.util.Date getModified() {
+		return get("modified");
+	}
+
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+	
+	public java.util.Date getCreated() {
+		return get("created");
 	}
 
 }

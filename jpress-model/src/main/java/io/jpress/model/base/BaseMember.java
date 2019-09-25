@@ -59,6 +59,14 @@ public abstract class BaseMember<M extends BaseMember<M>> extends JbootModel<M> 
 		return getStr("source");
 	}
 
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}

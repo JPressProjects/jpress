@@ -139,22 +139,6 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends JbootMod
 		return getStr("payment_outer_no");
 	}
 
-	public void setCreated(java.util.Date created) {
-		set("created", created);
-	}
-	
-	public java.util.Date getCreated() {
-		return get("created");
-	}
-
-	public void setModified(java.util.Date modified) {
-		set("modified", modified);
-	}
-	
-	public java.util.Date getModified() {
-		return get("modified");
-	}
-
 	public void setDeliveryType(java.lang.Integer deliveryType) {
 		set("delivery_type", deliveryType);
 	}
@@ -193,6 +177,30 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends JbootMod
 	
 	public java.util.Date getDeliveryFinishTime() {
 		return get("delivery_finish_time");
+	}
+
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
+	public void setModified(java.util.Date modified) {
+		set("modified", modified);
+	}
+	
+	public java.util.Date getModified() {
+		return get("modified");
+	}
+
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+	
+	public java.util.Date getCreated() {
+		return get("created");
 	}
 
 }

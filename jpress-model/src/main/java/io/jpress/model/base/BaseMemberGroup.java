@@ -147,12 +147,12 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Jboo
 		return getInt("status");
 	}
 
-	public void setCreated(java.util.Date created) {
-		set("created", created);
+	public void setOptions(java.lang.String options) {
+		set("options", options);
 	}
 	
-	public java.util.Date getCreated() {
-		return get("created");
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -161,6 +161,14 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Jboo
 	
 	public java.util.Date getModified() {
 		return get("modified");
+	}
+
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+	
+	public java.util.Date getCreated() {
+		return get("created");
 	}
 
 }

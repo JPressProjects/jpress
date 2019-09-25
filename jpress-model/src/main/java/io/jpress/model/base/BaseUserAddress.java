@@ -91,6 +91,22 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Jboo
 		return get("is_default");
 	}
 
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+	
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
+	public void setModified(java.util.Date modified) {
+		set("modified", modified);
+	}
+	
+	public java.util.Date getModified() {
+		return get("modified");
+	}
+
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

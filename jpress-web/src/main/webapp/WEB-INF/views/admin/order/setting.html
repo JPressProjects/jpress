@@ -31,7 +31,43 @@
                                 </div>
                             </div>
 
-                            <h4 class="page-header">对私支付</h4>
+
+                            <h4 class="page-header">物流设置</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">物流信息API</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="coupon.type">
+                                        <option value="1">
+                                            快递100
+                                        </option>
+                                        <option value="2">
+                                            阿里云物流API
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">物流API的AppId</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">物流API的密钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">对私收款</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">个人微信收款</label>
                                 <div class="col-sm-6">
@@ -85,6 +121,14 @@
 
                             <h4 class="page-header">微信对公收款</h4>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="wechat_pay_enable"
+                                           #checkedIf(option("wechat_pay_enable"))>
+                                    <input type="hidden" id="wechat_pay_enable" name="wechat_pay_enable">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
@@ -125,6 +169,15 @@
 
 
                             <h4 class="page-header">支付宝对公收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="ali_pay_enable"
+                                           #checkedIf(option("ali_pay_enable"))>
+                                    <input type="hidden" id="ali_pay_enable" name="ali_pay_enable">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
@@ -176,6 +229,14 @@
 
 
                             <h4 class="page-header">PayPal对公收款</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="paypal_pay_enable"
+                                           #checkedIf(option("paypal_pay_enable"))>
+                                    <input type="hidden" id="paypal_pay_enable" name="paypal_pay_enable">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">

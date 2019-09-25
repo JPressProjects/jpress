@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否是推广券</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(group && coupon.with_award)>
+                                    <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
                                     <input type="hidden" id="with_award" name="coupon.with_award">
                                     <p class="help-block">优惠券的用户可以把自己的优惠券给别人用，当优惠券被使用后，优惠券的用户可以获得奖励金额。 </p>
                                 </div>

@@ -219,7 +219,6 @@ public class _UserController extends AdminControllerBase {
         for (String id : idsSet) {
             memberGroupService.deleteById(id);
         }
-
         renderOkJson();
     }
 

@@ -17,7 +17,10 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Coupon;
@@ -39,19 +42,25 @@ public class _ConponController extends AdminControllerBase {
     private CouponService couponService;
 
 
-
     @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 2)
     public void index() {
+        Page<Coupon> page = couponService.paginate(getPagePara(),10);
+        setAttr("page",page);
         render("order/coupon.html");
     }
 
 
     public void edit() {
+        Coupon coupon = couponService.findById(getPara());
+        setAttr("coupon",coupon);
         render("order/coupon_edit.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "coupon.amount",message = "优惠券金额不能为空"),
+            @Form(name = "coupon.quota",message = "优惠券发行数量不能为空"),
+    })
     public void doSave(){
-
         Coupon coupon = getModel(Coupon.class);
         couponService.saveOrUpdate(coupon);
         renderOkJson();

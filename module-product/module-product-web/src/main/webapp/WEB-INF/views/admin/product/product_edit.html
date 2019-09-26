@@ -87,7 +87,7 @@
             end: function () {
                 if (layer.data.src != null) {
                     var src = jpress.cpath + layer.data.src;
-                    html = html.replace(/{{src}}/g,src);
+                    html = html.replace(/{{src}}/g, src);
                     $(".choseImage").parent().before(html);
                 }
             }
@@ -96,12 +96,27 @@
 
     $('body').on('click', '.image-reset', function (event) {
         event.currentTarget.parentElement.remove();
-    })
+    });
+
+    function allowDrop(e)
+    {
+        e.preventDefault();
+    }
+
+    var dragdiv = null;
+    function drag(e, dom) {
+        dragdiv = dom;
+    }
+
+    function drop(e, dom) {
+        $(dom).before($(dragdiv).prop("outerHTML"));
+        $(dragdiv).remove();
+    }
 
 </script>
 
 <script id="imageItem" type="text/tmpl">
-	<div class="img-wrapper img-hover">
+	<div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
         <img src="{{src}}">
         <input type="hidden" name="images" value="{{src}}" />
         <i class="fa fa-fw fa-remove image-reset" ></i>
@@ -132,6 +147,7 @@
         height: 160px;
         border: 1px solid #eee;
         display: inline-block;
+        cursor: move;
     }
 
     .img-wrapper img {
@@ -339,9 +355,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 
 
                         <div class="form-group">

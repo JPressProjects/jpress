@@ -40,6 +40,7 @@ public class ModuleGenerator {
     private String dbUrl;
     private String dbUser;
     private String dbPassword;
+    private String optionsTables;
     private String dbTables;
     private String modelPackage;
     private String servicePackage;
@@ -59,10 +60,22 @@ public class ModuleGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
 
-    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
-        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-        this.genUI = genUI;
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
+        this.moduleName = moduleName;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.optionsTables = optionsTables;
+        this.dbTables = dbTables;
+        this.modelPackage = modelPackage;
+        this.servicePackage = servicePackage;
+        this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
+
+//    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
+//        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+//        this.genUI = genUI;
+//    }
 
     public void gen() {
 
@@ -190,6 +203,10 @@ public class ModuleGenerator {
         if (genUI) {
             new ModuleUIGenerator(moduleName, modelPackage, tableMetas).genListener().genControllers().genEdit().genList();
         }
+
+        Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
+        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 
 }

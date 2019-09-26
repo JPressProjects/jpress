@@ -38,6 +38,7 @@ public class AddonGenerator {
     private String dbUser;
     private String dbPassword;
     private String dbTables;
+    private String optionsTables;
     private String modelPackage;
     private String servicePackage;
 
@@ -57,10 +58,19 @@ public class AddonGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../jpress-addon-" + addonName;
     }
 
-    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
-        this(addonName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-        this.genUI = genUI;
+
+    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables,String optionsTables, String modelPackage, String servicePackage) {
+        this.addonName = addonName;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.dbTables = dbTables;
+        this.optionsTables = optionsTables;
+        this.modelPackage = modelPackage;
+        this.servicePackage = servicePackage;
+        this.basePath = PathKit.getWebRootPath() + "/../jpress-addon-" + addonName;
     }
+
 
     public boolean isGenUI() {
         return genUI;
@@ -92,8 +102,9 @@ public class AddonGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
         List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
         tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
@@ -112,5 +123,9 @@ public class AddonGenerator {
                     .genEdit()
                     .genList();
         }
+
+        Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
+        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 }

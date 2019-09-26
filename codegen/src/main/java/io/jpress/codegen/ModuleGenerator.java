@@ -72,10 +72,15 @@ public class ModuleGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
 
-//    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
-//        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-//        this.genUI = genUI;
-//    }
+
+    public boolean isGenUI() {
+        return genUI;
+    }
+
+    public ModuleGenerator setGenUI(boolean genUI) {
+        this.genUI = genUI;
+        return this;
+    }
 
     public void gen() {
 

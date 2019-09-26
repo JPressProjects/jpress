@@ -40,7 +40,7 @@ LOCK TABLES `article` WRITE;
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
 VALUES
-	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,2,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
+	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,3,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -145,6 +145,7 @@ CREATE TABLE `attachment` (
 
 
 
+
 # Dump of table coupon
 # ------------------------------------------------------------
 
@@ -155,15 +156,14 @@ CREATE TABLE `coupon` (
   `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '例如：无门槛50元优惠券 | 单品最高减2000元''',
   `icon` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` tinyint(2) DEFAULT NULL COMMENT '1满减券  2叠加满减券  3无门槛券  ',
-  `with_special` tinyint(1) DEFAULT NULL COMMENT '1可用于特价商品 2不能',
   `with_amount` decimal(10,2) DEFAULT NULL COMMENT '满多少金额',
   `with_member` tinyint(1) DEFAULT NULL COMMENT '会员可用',
   `with_award` tinyint(1) DEFAULT NULL COMMENT '是否是推广奖励券',
-  `amount` decimal(10,2) unsigned NOT NULL COMMENT '优惠券金额',
-  `award_amount` decimal(10,2) unsigned NOT NULL COMMENT '奖励金额，只用在大咖券上，大咖可以使用自己的优惠码推广用户，用户获得优惠，大咖获得奖励金额',
+  `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '优惠券金额',
+  `award_amount` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '奖励金额，只用在大咖券上，大咖可以使用自己的优惠码推广用户，用户获得优惠，大咖获得奖励金额',
   `quota` int(11) unsigned NOT NULL COMMENT '配额：发券数量',
-  `take_count` int(11) unsigned DEFAULT NULL COMMENT '已领取的优惠券数量',
-  `used_count` int(11) unsigned NOT NULL COMMENT '已使用的优惠券数量',
+  `take_count` int(11) unsigned DEFAULT '0' COMMENT '已领取的优惠券数量',
+  `used_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '已使用的优惠券数量',
   `start_time` datetime DEFAULT NULL COMMENT '发放开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '发放结束时间',
   `valid_type` tinyint(2) DEFAULT NULL COMMENT '时效:1绝对时效（领取后XXX-XXX时间段有效）  2相对时效（领取后N天有效）',
@@ -172,10 +172,12 @@ CREATE TABLE `coupon` (
   `valid_days` int(11) DEFAULT NULL COMMENT '自领取之日起有效天数',
   `status` tinyint(2) DEFAULT NULL COMMENT '1生效 2失效 3已结束',
   `create_user_id` int(11) unsigned DEFAULT NULL COMMENT '创建用户',
+  `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 
@@ -245,6 +247,7 @@ CREATE TABLE `member` (
   `duetime` datetime DEFAULT NULL,
   `remark` text COLLATE utf8mb4_unicode_ci,
   `source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -292,8 +295,9 @@ CREATE TABLE `member_group` (
   `term_of_validity` int(11) DEFAULT NULL COMMENT '有效期（单位天）',
   `flag` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标识',
   `status` tinyint(2) DEFAULT NULL COMMENT '状态',
-  `created` datetime DEFAULT NULL,
+  `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -393,17 +397,9 @@ CREATE TABLE `payment_record` (
   `thirdparty_user_openid` varchar(64) DEFAULT NULL,
   `remark` text COMMENT '备注',
   `status` varchar(32) DEFAULT NULL COMMENT '状态(支付中、支持成功、支付失败、退款中、退款成功)',
-  `created` datetime DEFAULT NULL,
+  `options` text,
   `modified` datetime DEFAULT NULL,
-  `field1` varchar(1024) DEFAULT NULL,
-  `field2` varchar(1024) DEFAULT NULL,
-  `field3` varchar(1024) DEFAULT NULL,
-  `field4` varchar(1024) DEFAULT NULL,
-  `field5` varchar(1024) DEFAULT NULL,
-  `field6` varchar(1024) DEFAULT NULL,
-  `field7` varchar(1024) DEFAULT NULL,
-  `field8` varchar(1024) DEFAULT NULL,
-  `field9` varchar(1024) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `trx_no` (`trx_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
@@ -465,6 +461,7 @@ CREATE TABLE `product` (
   `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
+  `options` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
   KEY `user_id` (`user_id`),
@@ -496,6 +493,7 @@ CREATE TABLE `product_category` (
   `flag` varchar(256) DEFAULT NULL COMMENT '标识',
   `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
+  `options` text,
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`id`),
@@ -679,7 +677,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `wx_openid`, `wx_unionid`, `qq_openid`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-19 11:28:23','2019-09-02 11:39:29');
+	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-26 12:49:22','2019-09-02 11:39:29');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -701,6 +699,8 @@ CREATE TABLE `user_address` (
   `county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `district` int(128) DEFAULT NULL,
   `is_default` tinyint(1) DEFAULT NULL,
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -740,6 +740,7 @@ CREATE TABLE `user_amount_statement` (
   `old_amount` decimal(10,2) NOT NULL COMMENT '用户之前的余额',
   `change_amount` decimal(10,2) NOT NULL COMMENT '变动金额',
   `new_amount` decimal(10,2) NOT NULL COMMENT '变动之后的余额',
+  `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -764,6 +765,8 @@ CREATE TABLE `user_cart` (
   `product_count` int(11) DEFAULT NULL,
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -786,19 +789,20 @@ CREATE TABLE `user_order` (
   `dist_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `order_amount` decimal(10,2) DEFAULT NULL COMMENT '订单金额',
-  `coupon_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
+  `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
   `pay_amount` decimal(10,2) DEFAULT NULL,
   `pay_time` datetime DEFAULT NULL,
   `payment_id` int(11) unsigned DEFAULT NULL,
   `payment_outer_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单号',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
   `delivery_type` int(11) DEFAULT NULL COMMENT '配送方式 1快递    2自己送     3无需配送（虚拟商品）',
   `delivery_company` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `delivery_no` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `delivery_start_time` datetime DEFAULT NULL,
   `delivery_finish_time` datetime DEFAULT NULL,
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -837,6 +841,8 @@ CREATE TABLE `user_order_item` (
   `refund_amount` decimal(10,2) DEFAULT NULL,
   `refund_desc` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `refund_time` datetime DEFAULT NULL,
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -898,7 +904,6 @@ CREATE TABLE `utm` (
   KEY `user_id` (`user_id`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
-
 
 
 # Dump of table wechat_menu

@@ -1,6 +1,6 @@
 package #(baseModelPackageName);
 
-import io.jpress.core.model.BaseOptionsModel;
+import io.jpress.base.BaseOptionsModel;
 import com.jfinal.plugin.activerecord.IBean;
 
 /**

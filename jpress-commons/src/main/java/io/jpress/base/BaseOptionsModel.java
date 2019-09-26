@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.model;
+package io.jpress.base;
 
 
 import com.alibaba.fastjson.JSON;

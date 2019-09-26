@@ -169,32 +169,26 @@ public class ModuleGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
+
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+
         MetaBuilder mb = CodeGenHelpler.createMetaBuilder();
         mb.setGenerateRemarks(true);
-        List<TableMeta> tableMetaList = mb.build();
-        if (StrUtil.isNotBlank(dbTables)) {
-            List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-            for (TableMeta tableMeta : tableMetaList) {
-                if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                    newTableMetaList.add(tableMeta);
-                }
-            }
-            tableMetaList.clear();
-            tableMetaList.addAll(newTableMetaList);
-        }
+        List<TableMeta> tableMetas = mb.build();
+
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String apiPath = basePath + serviceApiModuleName + "/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = basePath + serviceProviderModuleName + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
         if (genUI) {
-            new ModuleUIGenerator(moduleName, modelPackage, tableMetaList).genListener().genControllers().genEdit().genList();
+            new ModuleUIGenerator(moduleName, modelPackage, tableMetas).genListener().genControllers().genEdit().genList();
         }
     }
 

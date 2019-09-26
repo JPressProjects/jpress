@@ -22,7 +22,6 @@ import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -93,31 +92,22 @@ public class AddonGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
-        if (StrUtil.isNotBlank(dbTables)) {
-            List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-            for (TableMeta tableMeta : tableMetaList) {
-                if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                    newTableMetaList.add(tableMeta);
-                }
-            }
-            tableMetaList.clear();
-            tableMetaList.addAll(newTableMetaList);
-        }
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String apiPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
 
         if (genUI) {
-            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetaList)
+            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetas)
                     .genControllers()
                     .genEdit()
                     .genList();

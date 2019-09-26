@@ -25,7 +25,6 @@ import io.jpress.codegen.generator.ModelGenerator;
 import io.jpress.codegen.generator.ServiceApiGenerator;
 import io.jpress.codegen.generator.ServiceProviderGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -54,25 +53,22 @@ public class SystemGenerator {
 
         System.out.println("start generate...dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = new ArrayList<>();
-        Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-        for (TableMeta tableMeta : CodeGenHelpler.createMetaBuilder().build()) {
-            if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                tableMetaList.add(tableMeta);
-            }
-        }
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String servicePackage = "io.jpress.service";
         String apiPath = PathKit.getWebRootPath() + "/../jpress-service-api/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = PathKit.getWebRootPath() + "/../jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
 
     }
 

@@ -24,7 +24,11 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Coupon;
+import io.jpress.model.CouponCode;
+import io.jpress.model.CouponUsedRecord;
+import io.jpress.service.CouponCodeService;
 import io.jpress.service.CouponService;
+import io.jpress.service.CouponUsedRecordService;
 import io.jpress.web.base.AdminControllerBase;
 
 /**
@@ -41,40 +45,48 @@ public class _CouponController extends AdminControllerBase {
     @Inject
     private CouponService couponService;
 
+    @Inject
+    private CouponUsedRecordService couponUsedRecordService;
+
+    @Inject
+    private CouponCodeService couponCodeService;
 
     @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 2)
     public void index() {
-        Page<Coupon> page = couponService.paginate(getPagePara(),10);
-        setAttr("page",page);
+        Page<Coupon> page = couponService.paginate(getPagePara(), 10);
+        setAttr("page", page);
         render("order/coupon.html");
     }
 
 
     public void edit() {
         Coupon coupon = couponService.findById(getPara());
-        setAttr("coupon",coupon);
+        setAttr("coupon", coupon);
         render("order/coupon_edit.html");
     }
 
     @EmptyValidate({
-            @Form(name = "coupon.amount",message = "优惠券金额不能为空"),
-            @Form(name = "coupon.quota",message = "优惠券发行数量不能为空"),
+            @Form(name = "coupon.amount", message = "优惠券金额不能为空"),
+            @Form(name = "coupon.quota", message = "优惠券发行数量不能为空"),
     })
-    public void doSave(){
+    public void doSave() {
         Coupon coupon = getModel(Coupon.class);
         couponService.saveOrUpdate(coupon);
         renderOkJson();
     }
 
 
-    public void takes(){
+    public void takes() {
+        Page<CouponCode> page = couponCodeService.paginate(getPagePara(), 10);
+        setAttr("page", page);
         render("order/coupon_takes.html");
     }
 
-    public void useds(){
+    public void useds() {
+        Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10);
+        setAttr("page", page);
         render("order/coupon_useds.html");
     }
-
 
 
 }

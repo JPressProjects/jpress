@@ -83,8 +83,8 @@
                                 <td>#(coupon.type ??)</td>
                                 <td>#(coupon.amount ??)</td>
                                 <td>#(coupon.quota ??)</td>
-                                <td>#(coupon.take_count ??)</td>
-                                <td>#(coupon.used_count ??)</td>
+                                <td><a href="#(CPATH)/admin/order/coupon/takes/#(coupon.id)">#(coupon.take_count ??)</a></td>
+                                <td><a href="#(CPATH)/admin/order/coupon/useds/#(coupon.id)">#(coupon.used_count ??)</a></td>
                                 <td>#(coupon.status ??)</td>
                             </tr>
                             #end

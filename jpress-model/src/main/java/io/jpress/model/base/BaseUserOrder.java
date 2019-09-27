@@ -179,6 +179,62 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return get("delivery_finish_time");
 	}
 
+	public void setInvoiceType(java.lang.String invoiceType) {
+		set("invoice_type", invoiceType);
+	}
+	
+	public java.lang.String getInvoiceType() {
+		return getStr("invoice_type");
+	}
+
+	public void setInvoiceTitle(java.lang.String invoiceTitle) {
+		set("invoice_title", invoiceTitle);
+	}
+	
+	public java.lang.String getInvoiceTitle() {
+		return getStr("invoice_title");
+	}
+
+	public void setInvoiceContent(java.lang.String invoiceContent) {
+		set("invoice_content", invoiceContent);
+	}
+	
+	public java.lang.String getInvoiceContent() {
+		return getStr("invoice_content");
+	}
+
+	public void setInvoiceIdentity(java.lang.String invoiceIdentity) {
+		set("invoice_identity", invoiceIdentity);
+	}
+	
+	public java.lang.String getInvoiceIdentity() {
+		return getStr("invoice_identity");
+	}
+
+	public void setInvoiceName(java.lang.String invoiceName) {
+		set("invoice_name", invoiceName);
+	}
+	
+	public java.lang.String getInvoiceName() {
+		return getStr("invoice_name");
+	}
+
+	public void setInvoiceMobile(java.lang.String invoiceMobile) {
+		set("invoice_mobile", invoiceMobile);
+	}
+	
+	public java.lang.String getInvoiceMobile() {
+		return getStr("invoice_mobile");
+	}
+
+	public void setInvoiceEmail(java.lang.String invoiceEmail) {
+		set("invoice_email", invoiceEmail);
+	}
+	
+	public java.lang.String getInvoiceEmail() {
+		return getStr("invoice_email");
+	}
+
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}

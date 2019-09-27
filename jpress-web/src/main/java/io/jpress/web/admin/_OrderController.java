@@ -39,15 +39,15 @@ public class _OrderController extends AdminControllerBase {
     @Inject
     private UserOrderService orderService;
 
-
-    @AdminMenu(text = "概况", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 0)
-    public void index() {
-        render("order/index.html");
-    }
+//
+//    @AdminMenu(text = "概况", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 0)
+//    public void index() {
+//        render("order/index.html");
+//    }
 
 
     @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
-    public void list() {
+    public void index() {
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10);
         setAttr("userOrderPage",userOrderPage);
         render("order/list.html");

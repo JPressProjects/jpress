@@ -37,8 +37,8 @@ public class ProductModuleGenerator {
 
     public static void main(String[] args) {
 
-        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage,true);
-        moduleGenerator.gen();
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        moduleGenerator.setGenUI(true).gen();
 
     }
 }

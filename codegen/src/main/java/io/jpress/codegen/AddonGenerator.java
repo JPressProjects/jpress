@@ -22,7 +22,6 @@ import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,6 +38,7 @@ public class AddonGenerator {
     private String dbUser;
     private String dbPassword;
     private String dbTables;
+    private String optionsTables;
     private String modelPackage;
     private String servicePackage;
 
@@ -58,10 +58,19 @@ public class AddonGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../jpress-addon-" + addonName;
     }
 
-    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
-        this(addonName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-        this.genUI = genUI;
+
+    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables,String optionsTables, String modelPackage, String servicePackage) {
+        this.addonName = addonName;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.dbTables = dbTables;
+        this.optionsTables = optionsTables;
+        this.modelPackage = modelPackage;
+        this.servicePackage = servicePackage;
+        this.basePath = PathKit.getWebRootPath() + "/../jpress-addon-" + addonName;
     }
+
 
     public boolean isGenUI() {
         return genUI;
@@ -93,34 +102,30 @@ public class AddonGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = CodeGenHelpler.createMetaBuilder().build();
-        if (StrUtil.isNotBlank(dbTables)) {
-            List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-            for (TableMeta tableMeta : tableMetaList) {
-                if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                    newTableMetaList.add(tableMeta);
-                }
-            }
-            tableMetaList.clear();
-            tableMetaList.addAll(newTableMetaList);
-        }
+        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String apiPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = basePath + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
 
         if (genUI) {
-            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetaList)
+            new AddonUIGenerator(basePath, addonName, modelPackage, tableMetas)
                     .genControllers()
                     .genEdit()
                     .genList();
         }
+
+        Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
+        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 }

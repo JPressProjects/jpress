@@ -20,12 +20,8 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
 import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.StrUtil;
-import io.jpress.codegen.generator.BaseModelGenerator;
-import io.jpress.codegen.generator.ModelGenerator;
-import io.jpress.codegen.generator.ServiceApiGenerator;
-import io.jpress.codegen.generator.ServiceProviderGenerator;
+import io.jpress.codegen.generator.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +35,15 @@ public class SystemGenerator {
 
     public static void main(String[] args) {
 
-        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm,wechat_menu,wechat_reply,member,member_group,user_address,user_amount,user_amount_statement,coupon,coupon_code,coupon_used_record,user_cart,user_order,user_order_item,payment_record";
+        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm," +
+                "wechat_menu,wechat_reply," +
+                "member,member_group," +
+                "user_address,user_amount,user_amount_statement," +
+                "coupon,coupon_code,coupon_used_record," +
+                "user_cart,user_order,user_order_item," +
+                "payment_record";
+
+        String optionsTables = "coupon,member,member_group,product,product_category,user_address,user_amount_statement,user_cart,user_order,user_order_item,payment_record";
 
         JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
         JbootApplication.setBootArg("jboot.datasource.user", "root");
@@ -54,26 +58,26 @@ public class SystemGenerator {
 
         System.out.println("start generate...dir:" + modelDir);
 
-        List<TableMeta> tableMetaList = new ArrayList<>();
-        Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-        for (TableMeta tableMeta : CodeGenHelpler.createMetaBuilder().build()) {
-            if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                tableMetaList.add(tableMeta);
-            }
-        }
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String servicePackage = "io.jpress.service";
         String apiPath = PathKit.getWebRootPath() + "/../jpress-service-api/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = PathKit.getWebRootPath() + "/../jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
 
+        Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
+        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 
 }

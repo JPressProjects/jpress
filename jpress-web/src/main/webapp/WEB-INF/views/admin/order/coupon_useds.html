@@ -25,8 +25,8 @@
 
     <section class="content-header">
         <h1>
-            优惠券管理
-            <small>Coupon Management</small>
+            优惠券使用记录
+            <small>Coupon Used Record</small>
         </h1>
     </section>
 
@@ -56,36 +56,28 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-                                <th style="width: 35%">名称</th>
-                                <th style="width: 15%">类型</th>
-                                <th style="width: 10%">金额</th>
-                                <th style="width: 10%">发券量</th>
-                                <th style="width: 10%">领取量</th>
-                                <th style="width: 10%">使用量</th>
-                                <th style="width: 10%">状态</th>
+                                <th style="width: 35%">用户</th>
+                                <th style="width: 15%">优惠券</th>
+                                <th style="width: 10%">优惠码</th>
+                                <th style="width: 10%">订单</th>
+                                <th style="width: 10%">优惠券归属用户</th>
+                                <th style="width: 10%">使用时间</th>
                             </tr>
-                            #for(coupon : page.list ??)
+                            #for( record : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(coupon.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(record.id)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/order/coupon/edit/#(coupon.id)"> #(coupon.title ??) </a>
+                                        #(record.used_user_nickname ??)
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/order/coupon/edit/#(coupon.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(coupon.id)')">删除</a>
-                                        </div>
-                                    </div>
                                 </td>
-                                <td>#(coupon.type ??)</td>
-                                <td>#(coupon.amount ??)</td>
-                                <td>#(coupon.quota ??)</td>
-                                <td><a href="#(CPATH)/admin/order/coupon/takes/#(coupon.id)">#(coupon.take_count ??)</a></td>
-                                <td><a href="#(CPATH)/admin/order/coupon/useds/#(coupon.id)">#(coupon.used_count ??)</a></td>
-                                <td>#(coupon.status ??)</td>
+                                <td>#(record.code.title ??)</td>
+                                <td>#(record.couponCode ??)</td>
+                                <td>#(record.quota ??)</td>
+                                <td>#(record.take_count ??)</td>
+                                <td>#(record.code_user_nickname ??)</td>
+                                <td>#date(record.created ??)</td>
                             </tr>
                             #end
                             </tbody>

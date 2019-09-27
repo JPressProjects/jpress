@@ -13,38 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.commons.scanner;
+package io.jpress.codegen.generator;
 
-import java.io.File;
 
-class TimeSize {
+public class BaseOptionsModelGenerator extends com.jfinal.plugin.activerecord.generator.BaseModelGenerator {
 
-    final long time;
-    final long size;
+    public BaseOptionsModelGenerator(String baseModelPackageName,
+                                     String baseModelOutputDir) {
+        super(baseModelPackageName, baseModelOutputDir);
 
-    public TimeSize(File file) {
-        this.time = file.lastModified();
-        this.size = file.length();
+        this.template = "/io/jpress/codegen/templates/base_options_model_template.jf";
+
+
     }
 
 
-    public int hashCode() {
-        return (int) (time ^ size);
-    }
-
-    public boolean equals(Object o) {
-        if (o instanceof TimeSize) {
-            TimeSize ts = (TimeSize) o;
-            return ts.time == this.time && ts.size == this.size;
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeSize{" +
-                "time=" + time +
-                ", size=" + size +
-                '}';
-    }
 }

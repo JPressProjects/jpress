@@ -40,6 +40,7 @@ public class ModuleGenerator {
     private String dbUrl;
     private String dbUser;
     private String dbPassword;
+    private String optionsTables;
     private String dbTables;
     private String modelPackage;
     private String servicePackage;
@@ -59,9 +60,26 @@ public class ModuleGenerator {
         this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
     }
 
-    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String modelPackage, String servicePackage, boolean genUI) {
-        this(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
+        this.moduleName = moduleName;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.optionsTables = optionsTables;
+        this.dbTables = dbTables;
+        this.modelPackage = modelPackage;
+        this.servicePackage = servicePackage;
+        this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
+    }
+
+
+    public boolean isGenUI() {
+        return genUI;
+    }
+
+    public ModuleGenerator setGenUI(boolean genUI) {
         this.genUI = genUI;
+        return this;
     }
 
     public void gen() {
@@ -169,33 +187,31 @@ public class ModuleGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
+
+        Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
+
         MetaBuilder mb = CodeGenHelpler.createMetaBuilder();
         mb.setGenerateRemarks(true);
-        List<TableMeta> tableMetaList = mb.build();
-        if (StrUtil.isNotBlank(dbTables)) {
-            List<TableMeta> newTableMetaList = new ArrayList<TableMeta>();
-            Set<String> excludeTableSet = StrUtil.splitToSet(dbTables, ",");
-            for (TableMeta tableMeta : tableMetaList) {
-                if (excludeTableSet.contains(tableMeta.name.toLowerCase())) {
-                    newTableMetaList.add(tableMeta);
-                }
-            }
-            tableMetaList.clear();
-            tableMetaList.addAll(newTableMetaList);
-        }
+        List<TableMeta> tableMetas = mb.build();
+
+        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
-        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetaList);
-        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetaList);
+        new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String apiPath = basePath + serviceApiModuleName + "/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = basePath + serviceProviderModuleName + "/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
-        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetaList);
-        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetaList);
+        new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
+        new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
         if (genUI) {
-            new ModuleUIGenerator(moduleName, modelPackage, tableMetaList).genListener().genControllers().genEdit().genList();
+            new ModuleUIGenerator(moduleName, modelPackage, tableMetas).genListener().genControllers().genEdit().genList();
         }
+
+        Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
+        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 
 }

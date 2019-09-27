@@ -235,6 +235,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("invoice_email");
 	}
 
+	public void setRemarks(java.lang.String remarks) {
+		set("remarks", remarks);
+	}
+	
+	public java.lang.String getRemarks() {
+		return getStr("remarks");
+	}
+
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}

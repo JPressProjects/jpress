@@ -34,9 +34,9 @@ import io.jpress.web.base.AdminControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping(value = "/admin/order/coupon", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _ConponController extends AdminControllerBase {
+public class _CouponController extends AdminControllerBase {
 
-    private static final Log LOG = Log.getLog(_ConponController.class);
+    private static final Log LOG = Log.getLog(_CouponController.class);
 
     @Inject
     private CouponService couponService;
@@ -64,6 +64,15 @@ public class _ConponController extends AdminControllerBase {
         Coupon coupon = getModel(Coupon.class);
         couponService.saveOrUpdate(coupon);
         renderOkJson();
+    }
+
+
+    public void takes(){
+        render("order/coupon_takes.html");
+    }
+
+    public void useds(){
+        render("order/coupon_useds.html");
     }
 
 

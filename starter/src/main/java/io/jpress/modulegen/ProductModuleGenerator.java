@@ -31,13 +31,14 @@ public class ProductModuleGenerator {
 
     private static String moduleName = "product";
     private static String dbTables = "product,product_category,product_comment,product_image";
+    private static String optionsTables = "product,product_category";
     private static String modelPackage = "io.jpress.module.product.model";
     private static String servicePackage = "io.jpress.module.product.service";
 
 
     public static void main(String[] args) {
 
-        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, optionsTables, modelPackage, servicePackage);
         moduleGenerator.setGenUI(true).gen();
 
     }

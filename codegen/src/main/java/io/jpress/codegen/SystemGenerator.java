@@ -59,9 +59,8 @@ public class SystemGenerator {
         System.out.println("start generate...dir:" + modelDir);
 
         Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
-        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
-        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
-
+        List<TableMeta> tableMetas = CodeGenHelpler.createMetaBuilder().build();
+        tableMetas.removeIf(tableMeta -> genTableNames != null && !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
         new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
@@ -76,7 +75,7 @@ public class SystemGenerator {
         new ServiceProviderGenerator(servicePackage, modelPackage, providerPath).generate(tableMetas);
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
-        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        tableMetas.removeIf(tableMeta -> optionsTableNames != null && !optionsTableNames.contains(tableMeta.name.toLowerCase()));
         new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 

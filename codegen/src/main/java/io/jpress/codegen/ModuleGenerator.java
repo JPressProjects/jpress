@@ -194,7 +194,7 @@ public class ModuleGenerator {
         mb.setGenerateRemarks(true);
         List<TableMeta> tableMetas = mb.build();
 
-        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
+        tableMetas.removeIf(tableMeta -> genTableNames!=null && !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
         new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
@@ -210,7 +210,7 @@ public class ModuleGenerator {
         }
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
-        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        tableMetas.removeIf(tableMeta -> optionsTableNames != null && !optionsTableNames.contains(tableMeta.name.toLowerCase()));
         new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 

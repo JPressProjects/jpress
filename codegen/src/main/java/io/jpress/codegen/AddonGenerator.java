@@ -59,7 +59,7 @@ public class AddonGenerator {
     }
 
 
-    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables,String optionsTables, String modelPackage, String servicePackage) {
+    public AddonGenerator(String addonName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
         this.addonName = addonName;
         this.dbUrl = dbUrl;
         this.dbUser = dbUser;
@@ -102,10 +102,10 @@ public class AddonGenerator {
 
         System.out.println("start generate... dir:" + modelDir);
 
-        List<TableMeta> tableMetas =  CodeGenHelpler.createMetaBuilder().build();
+        List<TableMeta> tableMetas = CodeGenHelpler.createMetaBuilder().build();
 
         Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
-        tableMetas.removeIf(tableMeta -> !genTableNames.contains(tableMeta.name.toLowerCase()));
+        tableMetas.removeIf(tableMeta -> genTableNames != null && !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 
         new BaseModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
@@ -125,7 +125,7 @@ public class AddonGenerator {
         }
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
-        tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+        tableMetas.removeIf(tableMeta -> optionsTableNames != null && !optionsTableNames.contains(tableMeta.name.toLowerCase()));
         new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
     }
 }

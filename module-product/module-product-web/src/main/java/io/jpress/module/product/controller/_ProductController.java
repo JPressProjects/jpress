@@ -82,7 +82,6 @@ public class _ProductController extends AdminControllerBase {
             flagCheck(categories, categoryIds);
 
             setAttr("images",imageService.findListByProductId(productId));
-
         }
 
         initStylesAttr("product_");

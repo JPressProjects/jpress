@@ -27,12 +27,12 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 		return getLong("product_id");
 	}
 
-	public void setImageSrc(java.lang.String imageSrc) {
-		set("image_src", imageSrc);
+	public void setSrc(java.lang.String src) {
+		set("src", src);
 	}
 	
-	public java.lang.String getImageSrc() {
-		return getStr("image_src");
+	public java.lang.String getSrc() {
+		return getStr("src");
 	}
 
 	public void setOrderNumber(java.lang.Integer orderNumber) {

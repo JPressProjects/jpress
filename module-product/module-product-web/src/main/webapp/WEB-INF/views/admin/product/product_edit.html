@@ -252,11 +252,18 @@
                                     <div class="box-body ">
                                         <div class="box-body ">
 
+                                            #for(image : images)
+                                            <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
+                                                <img src="#(image.src ??)">
+                                                <input type="hidden" name="image.src" value="#(image.src ??)" />
+                                                <input type="hidden" name="image.id" value="#(image.id ??)" />
+                                                <i class="fa fa-fw fa-remove image-reset" ></i>
+                                            </div>
+                                            #end
+
                                             <div class="img-wrapper img-hover" style="cursor: pointer">
                                                 <img src="/static/commons/img/nothumbnail.jpg" class="choseImage">
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>

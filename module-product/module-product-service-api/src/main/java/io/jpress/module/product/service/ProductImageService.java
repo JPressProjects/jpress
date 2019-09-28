@@ -78,5 +78,7 @@ public interface ProductImageService  {
      */
     public Page<ProductImage> paginate(int page, int pageSize);
 
+    public List<ProductImage> findListByProductId(Object productId);
+
 
 }

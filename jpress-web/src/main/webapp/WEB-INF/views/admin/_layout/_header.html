@@ -20,7 +20,7 @@
                         <li class="user-header">
                             <img src="#(USER.avatar ??)" class="img-circle">
                             <p>
-                                #(USER.nickname ??) - #(USER.identity ??)
+                                #(USER.nickname ??) #(USER.identity ? ' - ' : '')  #(USER.identity ??)
                                 <small>#date(USER.created)</small>
                             </p>
                         </li>

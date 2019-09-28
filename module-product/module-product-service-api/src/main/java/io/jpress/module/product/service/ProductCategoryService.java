@@ -97,7 +97,7 @@ public interface ProductCategoryService  {
 
 
 
-    public Long[] findCategoryIdsByArticleId(long articleId);
+    public Long[] findCategoryIdsByProductId(long articleId);
 
 
     public void doUpdateProductCount(long categoryId);

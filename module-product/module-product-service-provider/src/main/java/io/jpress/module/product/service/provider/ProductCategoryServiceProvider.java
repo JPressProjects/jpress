@@ -119,7 +119,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public Long[] findCategoryIdsByArticleId(long articleId) {
+    public Long[] findCategoryIdsByProductId(long articleId) {
         List<Record> records = Db.find("select * from product_category_mapping where product_id = ?", articleId);
         if (records == null || records.isEmpty())
             return null;

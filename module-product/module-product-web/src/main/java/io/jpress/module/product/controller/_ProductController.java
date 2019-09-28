@@ -28,6 +28,7 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
+import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,6 +44,9 @@ public class _ProductController extends AdminControllerBase {
 
     @Inject
     private ProductCategoryService categoryService;
+
+    @Inject
+    private ProductImageService imageService;
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
@@ -60,22 +64,24 @@ public class _ProductController extends AdminControllerBase {
 //        setAttr("fields", ArticleFields.me());
 
 
-        int articleId = getParaToInt(0, 0);
+        int productId = getParaToInt(0, 0);
 
         Product product = null;
-        if (articleId > 0) {
-            product = productService.findById(articleId);
+        if (productId > 0) {
+            product = productService.findById(productId);
             if (product == null) {
                 renderError(404);
                 return;
             }
             setAttr("product", product);
 
-            List<ProductCategory> tags = categoryService.findTagListByProductId(articleId);
+            List<ProductCategory> tags = categoryService.findTagListByProductId(productId);
             setAttr("tags", tags);
 
-            Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
+            Long[] categoryIds = categoryService.findCategoryIdsByProductId(productId);
             flagCheck(categories, categoryIds);
+
+            setAttr("images",imageService.findListByProductId(productId));
         }
 
         initStylesAttr("product_");

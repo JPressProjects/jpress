@@ -30,7 +30,7 @@ public class ProductModuleGenerator {
     private static String dbPassword = "123456";
 
     private static String moduleName = "product";
-    private static String dbTables = "product,product_category,product_comment";
+    private static String dbTables = "product,product_category,product_comment,product_image";
     private static String modelPackage = "io.jpress.module.product.model";
     private static String servicePackage = "io.jpress.module.product.service";
 

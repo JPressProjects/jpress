@@ -125,7 +125,9 @@ public class AddonGenerator {
         }
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
-        tableMetas.removeIf(tableMeta -> optionsTableNames != null && !optionsTableNames.contains(tableMeta.name.toLowerCase()));
-        new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        if (optionsTableNames != null && optionsTableNames.size() > 0) {
+            tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
+            new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+        }
     }
 }

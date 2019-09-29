@@ -81,4 +81,5 @@ public interface ProductImageService  {
     public List<ProductImage> findListByProductId(Object productId);
 
 
+    public void saveOrUpdateByProductId(Long id, String[] imageIds, String[] imageSrcs);
 }

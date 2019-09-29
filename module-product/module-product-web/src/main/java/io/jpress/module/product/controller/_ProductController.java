@@ -156,6 +156,11 @@ public class _ProductController extends AdminControllerBase {
             }
         }
 
+        String[] imageIds = getParaValues("imageIds");
+        String[] imageSrcs = getParaValues("imageSrcs");
+
+        imageService.saveOrUpdateByProductId(product.getId(),imageIds,imageSrcs);
+
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }

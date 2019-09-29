@@ -32,6 +32,7 @@ import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -50,8 +51,16 @@ public class _ProductController extends AdminControllerBase {
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
-        Page<Product> entries = productService.paginate(getPagePara(), 10);
-        setAttr("page", entries);
+        String status = getPara("status");
+        String title = getPara("title");
+        Long categoryId = getParaToLong("categoryId");
+
+        Page<Product> page =
+                StringUtils.isBlank(status)
+                        ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
+                        : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
+
+        setAttr("page", page);
         render("product/product_list.html");
     }
 

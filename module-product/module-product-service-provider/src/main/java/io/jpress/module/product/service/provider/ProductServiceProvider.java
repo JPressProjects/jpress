@@ -159,6 +159,14 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         return Db.queryInt("select count(*) from product where status = ?", status);
     }
 
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        for (Object id : ids) {
+            deleteById(id);
+        }
+        return true;
+    }
+
 
     private Page<Product> joinUserInfo(Page<Product> page) {
         userService.join(page, "user_id");

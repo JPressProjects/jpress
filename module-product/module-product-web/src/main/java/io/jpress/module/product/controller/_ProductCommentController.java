@@ -19,6 +19,8 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.product.model.ProductComment;
@@ -75,8 +77,8 @@ public class _ProductCommentController extends AdminControllerBase {
         render(productCommentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
+    @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds(){
-
         Set<String> idsSet = getParaSet("ids");
         render(productCommentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }

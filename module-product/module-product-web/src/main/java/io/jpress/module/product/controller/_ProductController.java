@@ -55,12 +55,21 @@ public class _ProductController extends AdminControllerBase {
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");
 
-        Page<Product> page =
-                StringUtils.isBlank(status)
+        Page<Product> page = StringUtils.isBlank(status)
                         ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
                         : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
 
         setAttr("page", page);
+
+
+
+        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        SortKit.toLayer(categories);
+        setAttr("categories", categories);
+
+        flagCheck(categories, categoryId);
+
+
         render("product/product_list.html");
     }
 

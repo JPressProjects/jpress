@@ -70,10 +70,32 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
+    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
+
+        return _paginateByBaseColumns(page
+                , pagesize
+                , Columns.create("p.status", status).likeAppendPercent("p.title", title)
+                , categoryId
+                , null);
+    }
+
+    @Override
+    public Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
+
+        return _paginateByBaseColumns(page
+                , pagesize
+                , Columns.create().ne("p.status", Product.STATUS_TRASH).likeAppendPercent("p.title", title)
+                , categoryId
+                , null);
+    }
+
+
+    @Override
     @Cacheable(name = "product")
     public Page<Product> paginateInNormal(int page, int pagesize) {
         return paginateInNormal(page, pagesize, null);
     }
+
 
     @Override
     @Cacheable(name = "product")
@@ -90,21 +112,36 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Cacheable(name = "product")
     public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
         columns.add("a.status", Product.STATUS_NORMAL);
 
+        return _paginateByBaseColumns(page, pagesize, columns, categoryId, orderBy);
+    }
+
+
+    public Page<Product> _paginateByBaseColumns(int page, int pagesize, Columns baseColumns, Long categoryId, String orderBy) {
+
+        StringBuilder sqlBuilder = new StringBuilder("from product p ");
+        if (categoryId != null) {
+            sqlBuilder.append(" left join product_category_mapping m on p.id = m.`product_id` ");
+        }
+
+
+        Columns columns = baseColumns;
+        columns.add("m.category_id", categoryId);
+
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
 
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
-        sqlBuilder.append(" ORDER BY ").append(orderBy);
+        // 前台走默认排序，但是后台必须走 id 排序，
+        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
+        sqlBuilder.append(" ORDER BY " + StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
 
         Page<Product> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserInfo(dataPage);
     }
+
+
 
     @Override
     @Cacheable(name = "product", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)

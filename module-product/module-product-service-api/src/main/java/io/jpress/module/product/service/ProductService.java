@@ -85,6 +85,9 @@ public interface ProductService  {
 
     public boolean doChangeStatus(long id, String status);
 
+    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
+
+    public Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
     public Page<Product> paginateInNormal(int page, int pagesize);
 

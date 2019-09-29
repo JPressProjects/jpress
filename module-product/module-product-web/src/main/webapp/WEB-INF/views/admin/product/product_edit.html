@@ -47,7 +47,7 @@
     window.doSubmit = function () {
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
-            toastr.success('文章保存成功。');
+            toastr.success('内容发布成功。');
         });
     }
 
@@ -58,18 +58,7 @@
 
     var editMode = "#(editMode ?? 'html')";
 
-    function doChangeEditor(id) {
-        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
-            var changeMode = editMode == "html" ? "markdown" : "html";
-            if (id != '0') {
-                ajaxGet('#(CPATH)/admin/article/doChangeEditMode?id=' + id + "&mode=" + changeMode);
-            } else {
-                ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
-            }
-        }
-    }
-
-    initEditor('editor1', 467, editMode);
+    initEditor('contentEditor', 467, editMode);
 
     doListenerCtrlsAndCommands(doSubmit);
 
@@ -233,7 +222,7 @@
                                 <input type="hidden" id="article-slug" name="product.slug" value="#(product.slug ??)">
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
-                                <textarea id="editor1" name="product.content"
+                                <textarea id="contentEditor" name="product.content"
                                           style="height: 467px;width: 100%;background-color: white">#(product._getEditContent() ??)</textarea>
                             </div>
                         </div>

@@ -144,8 +144,6 @@ CREATE TABLE `attachment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件表，用于保存用户上传的附件内容。';
 
 
-
-
 # Dump of table coupon
 # ------------------------------------------------------------
 
@@ -177,8 +175,6 @@ CREATE TABLE `coupon` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
 
 
 # Dump of table coupon_code
@@ -471,7 +467,6 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
 
 
-
 # Dump of table product_category
 # ------------------------------------------------------------
 
@@ -500,7 +495,6 @@ CREATE TABLE `product_category` (
   KEY `typeslug` (`type`,`slug`),
   KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品分类表。标签、专题、类别等都属于category。';
-
 
 
 # Dump of table product_category_mapping
@@ -547,12 +541,13 @@ CREATE TABLE `product_comment` (
 DROP TABLE IF EXISTS `product_image`;
 
 CREATE TABLE `product_image` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `product_id` int(11) unsigned NOT NULL,
-  `image_src` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `src` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `order_number` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 
 # Dump of table role
@@ -677,7 +672,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `wx_openid`, `wx_unionid`, `qq_openid`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-26 12:49:22','2019-09-02 11:39:29');
+	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-28 11:19:52','2019-09-02 11:39:29');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -800,6 +795,14 @@ CREATE TABLE `user_order` (
   `delivery_no` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `delivery_start_time` datetime DEFAULT NULL,
   `delivery_finish_time` datetime DEFAULT NULL,
+  `invoice_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票类型',
+  `invoice_title` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票抬头',
+  `invoice_content` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票内容',
+  `invoice_identity` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '纳税人识别号',
+  `invoice_name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '单位名称',
+  `invoice_mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票收取人手机号',
+  `invoice_email` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票收取人邮箱',
+  `remarks` text COLLATE utf8mb4_unicode_ci,
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -904,6 +907,7 @@ CREATE TABLE `utm` (
   KEY `user_id` (`user_id`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
+
 
 
 # Dump of table wechat_menu

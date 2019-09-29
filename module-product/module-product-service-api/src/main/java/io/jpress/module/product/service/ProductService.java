@@ -100,4 +100,6 @@ public interface ProductService  {
     public Product findFirstBySlug(String slug);
 
     public long findCountByStatus(String status);
+
+    public boolean deleteByIds(Object... ids);
 }

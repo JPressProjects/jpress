@@ -20,6 +20,8 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -35,6 +37,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RequestMapping(value = "/admin/product", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -224,5 +227,11 @@ public class _ProductController extends AdminControllerBase {
     public void doNormal() {
         Long id = getIdPara();
         render(productService.doChangeStatus(id, Product.STATUS_NORMAL) ? OK : FAIL);
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 }

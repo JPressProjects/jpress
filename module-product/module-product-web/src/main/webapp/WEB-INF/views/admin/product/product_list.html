@@ -17,7 +17,7 @@
 
 	function del(id) {
 		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
-			ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+			ajaxGet("#(CPATH)/admin/product/doDel/" + id);
 		}
 	}
 
@@ -28,7 +28,7 @@
 			return
 		}
 		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
-			ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+			ajaxGet("#(CPATH)/admin/product/doDelByIds?ids=" + ids);
 		}
 	})
 </script>

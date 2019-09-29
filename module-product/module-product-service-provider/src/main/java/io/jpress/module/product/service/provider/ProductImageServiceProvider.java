@@ -13,7 +13,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     public List<ProductImage> findListByProductId(Object productId) {
-        return DAO.findListByColumn(Column.create("product_id", productId), "order_number desc");
+        return DAO.findListByColumn(Column.create("product_id", productId), "order_number asc");
     }
 
     @Override

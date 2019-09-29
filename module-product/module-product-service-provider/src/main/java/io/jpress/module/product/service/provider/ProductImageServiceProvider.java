@@ -22,9 +22,15 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     public void saveOrUpdateByProductId(Long productId, String[] imageIds, String[] imageSrcs) {
-        if (imageIds == null || imageIds.length == 0) {
+        if (imageIds == null || imageSrcs == null) {
             return;
         }
+
+        //这种情况应该不可能出现
+        if (imageIds.length != imageIds.length){
+            return;
+        }
+
 
         for (int i = 0; i < imageIds.length; i++) {
             Long imageId = Long.parseLong(imageIds[i]);

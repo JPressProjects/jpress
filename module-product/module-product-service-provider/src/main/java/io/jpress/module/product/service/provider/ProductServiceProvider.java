@@ -154,6 +154,11 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         return joinUserInfo(DAO.findFirstByColumn(Column.create("slug", slug)));
     }
 
+    @Override
+    public long findCountByStatus(String status) {
+        return Db.queryInt("select count(*) from product where status = ?", status);
+    }
+
 
     private Page<Product> joinUserInfo(Page<Product> page) {
         userService.join(page, "user_id");

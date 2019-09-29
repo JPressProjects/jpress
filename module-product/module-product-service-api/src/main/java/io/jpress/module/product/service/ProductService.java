@@ -98,4 +98,6 @@ public interface ProductService  {
     public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
 
     public Product findFirstBySlug(String slug);
+
+    public long findCountByStatus(String status);
 }

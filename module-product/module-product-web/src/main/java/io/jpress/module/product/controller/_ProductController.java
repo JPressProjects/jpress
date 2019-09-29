@@ -66,8 +66,18 @@ public class _ProductController extends AdminControllerBase {
         List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
-
         flagCheck(categories, categoryId);
+
+
+
+        long draftCount = productService.findCountByStatus(Product.STATUS_DRAFT);
+        long trashCount = productService.findCountByStatus(Product.STATUS_TRASH);
+        long normalCount = productService.findCountByStatus(Product.STATUS_NORMAL);
+
+        setAttr("draftCount", draftCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", draftCount + trashCount + normalCount);
 
 
         render("product/product_list.html");

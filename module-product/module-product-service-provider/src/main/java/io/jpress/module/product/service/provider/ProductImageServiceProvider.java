@@ -2,10 +2,12 @@ package io.jpress.module.product.service.provider;
 
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
+import io.jpress.module.product.model.base.BaseProductImage;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.model.ProductImage;
 import io.jboot.service.JbootServiceBase;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Bean
@@ -13,7 +15,9 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     public List<ProductImage> findListByProductId(Object productId) {
-        return DAO.findListByColumn(Column.create("product_id", productId), "order_number asc");
+        List<ProductImage> list = DAO.findListByColumn(Column.create("product_id", productId));
+        if (list != null) list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));
+        return list;
     }
 
     @Override

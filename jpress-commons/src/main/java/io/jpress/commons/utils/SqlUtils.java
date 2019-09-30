@@ -34,7 +34,7 @@ public class SqlUtils {
         }
 
         StringBuilder sql = new StringBuilder();
-        DialectKit.appIfNotEmpty(columns.getList(),sql,' ');
+        DialectKit.buildWhereSql(sql,columns.getList(),' ');
         return sql.toString();
     }
 

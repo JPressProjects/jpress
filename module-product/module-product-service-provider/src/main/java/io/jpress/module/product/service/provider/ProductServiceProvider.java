@@ -156,7 +156,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
     @Override
     public long findCountByStatus(String status) {
-        return Db.queryInt("select count(*) from product where status = ?", status);
+        return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override

@@ -106,7 +106,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     public boolean doChangeStatus(long id, String status);
 
-    public int findCountByStatus(String status);
+    public Long findCountByStatus(String status);
 
     public Article findFirstBySlug(String slug);
 

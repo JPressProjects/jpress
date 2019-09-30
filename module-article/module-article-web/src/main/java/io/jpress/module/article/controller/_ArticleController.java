@@ -75,9 +75,9 @@ public class _ArticleController extends AdminControllerBase {
 
         setAttr("page", page);
 
-        int draftCount = articleService.findCountByStatus(Article.STATUS_DRAFT);
-        int trashCount = articleService.findCountByStatus(Article.STATUS_TRASH);
-        int normalCount = articleService.findCountByStatus(Article.STATUS_NORMAL);
+        Long draftCount = articleService.findCountByStatus(Article.STATUS_DRAFT);
+        Long trashCount = articleService.findCountByStatus(Article.STATUS_TRASH);
+        Long normalCount = articleService.findCountByStatus(Article.STATUS_NORMAL);
         setAttr("draftCount", draftCount);
         setAttr("trashCount", trashCount);
         setAttr("normalCount", normalCount);

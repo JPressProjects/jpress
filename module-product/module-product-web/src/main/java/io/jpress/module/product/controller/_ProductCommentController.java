@@ -18,6 +18,7 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -35,17 +36,25 @@ import java.util.Set;
 public class _ProductCommentController extends AdminControllerBase {
 
     @Inject
-    private ProductCommentService productCommentService;
+    private ProductCommentService commentService;
 
     @AdminMenu(text = "评论", groupId = "product", order = 99)
     public void index() {
+        String status = getPara("status");
         String key = getPara("keyword");
-        Page<ProductComment> entries = productCommentService.paginate(getPagePara(), 10);
-        setAttr("page", entries);
+        Long productId = getParaToLong("productId");
 
-        long unauditedCount = productCommentService.findCountByStatus(ProductComment.STATUS_UNAUDITED);
-        long trashCount = productCommentService.findCountByStatus(ProductComment.STATUS_TRASH);
-        long normalCount = productCommentService.findCountByStatus(ProductComment.STATUS_NORMAL);
+        Page<ProductComment> page =
+                StrUtil.isBlank(status)
+                        ? commentService._paginateWithoutTrash(getPagePara(), 10, productId, key)
+                        : commentService._paginateByStatus(getPagePara(), 10, productId, key, status);
+
+        setAttr("page", page);
+
+
+        long unauditedCount = commentService.findCountByStatus(ProductComment.STATUS_UNAUDITED);
+        long trashCount = commentService.findCountByStatus(ProductComment.STATUS_TRASH);
+        long normalCount = commentService.findCountByStatus(ProductComment.STATUS_NORMAL);
 
         setAttr("unauditedCount", unauditedCount);
         setAttr("trashCount", trashCount);
@@ -59,7 +68,7 @@ public class _ProductCommentController extends AdminControllerBase {
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        ProductComment entry = entryId > 0 ? productCommentService.findById(entryId) : null;
+        ProductComment entry = entryId > 0 ? commentService.findById(entryId) : null;
         setAttr("productComment", entry);
         set("now", new Date());
         render("product/comment_edit.html");
@@ -67,19 +76,19 @@ public class _ProductCommentController extends AdminControllerBase {
 
     public void doSave() {
         ProductComment entry = getModel(ProductComment.class, "productComment");
-        productCommentService.saveOrUpdate(entry);
+        commentService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
 
     public void doDel() {
         Long id = getIdPara();
-        render(productCommentService.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds(){
         Set<String> idsSet = getParaSet("ids");
-        render(productCommentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        render(commentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 }

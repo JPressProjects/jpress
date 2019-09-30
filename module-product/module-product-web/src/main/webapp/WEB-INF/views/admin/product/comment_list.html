@@ -1,5 +1,5 @@
 #@layout()
-	
+
 #define script()
 <script>
 
@@ -80,29 +80,17 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-	                                </th>
-<!--
-	                                <th>主键ID</th>
-	                                <th>回复的评论ID</th>
-	                                <th>评论的内容ID</th>
-	                                <th>评论的用户ID</th>
--->
-	                                <th>评论的作者</th>
-	                                <th>评论的内容</th>
-	                                <th>评论的回复数量</th>
-<!--
-	                                <th>排序编号，常用语置顶等</th>
--->
-	                                <th>“顶”的数量</th>
-	                                <th>“踩”的数量</th>
-	                                <th>评论的状态</th>
-	                                <th>评论的时间</th>
-                                
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                </th>
+                                <th>作者</th>
+                                <th>内容</th>
+                                <th>评论的产品</th>
+                                <th>状态</th>
+                                <th>时间</th>
                             </tr>
                             #for(entry : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(entry.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(entry.id)"/>
                                 </td>
                                 <td>
                                     <strong>
@@ -116,22 +104,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                    
-<!--
-	                                <td>#(entry.pid)</td>
-	                                <td>#(entry.product_id)</td>
-	                                <td>#(entry.user_id)</td>
-	                                <td>#(entry.author)</td>
--->
-	                                <td>#(entry.content)</td>
-	                                <td>#(entry.reply_count)</td>
-<!--
-	                                <td>#(entry.order_number)</td>
--->
-	                                <td>#(entry.vote_up)</td>
-	                                <td>#(entry.vote_down)</td>
-	                                <td>#(entry.status)</td>
-	                                <td>#(entry.created)</td>
+                                <td>#(entry.user.nickname ??)</td>
+                                <td>#(entry.content ??)</td>
+                                <td>#(entry.product.title ??)</td>
+                                <td>#(entry.status ??)</td>
+                                <td>#date(entry.created)</td>
                             </tr>
                             #end
                             </tbody>
@@ -141,7 +118,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
-                            	 #@_paginate()
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

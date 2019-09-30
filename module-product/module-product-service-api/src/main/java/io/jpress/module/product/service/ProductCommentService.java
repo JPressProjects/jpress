@@ -1,14 +1,16 @@
 package io.jpress.module.product.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.module.product.model.ProductComment;
 
 import java.util.List;
 
+
 public interface ProductCommentService  {
 
     /**
-     * find model by primary key
+     * 根据ID查找model
      *
      * @param id
      * @return
@@ -17,24 +19,89 @@ public interface ProductCommentService  {
 
 
     /**
-     * find all model
+     * 根据 Columns 查找单条数据
      *
-     * @return all <ProductComment
+     * @param columns
+     * @return
+     */
+    public ProductComment findFirstByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找单条数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public ProductComment findFirstByColumns(Columns columns, String orderBy);
+
+
+    /**
+     * 查找全部数据
+     *
+     * @return
      */
     public List<ProductComment> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @return
+     */
+    public List<ProductComment> findListByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public List<ProductComment> findListByColumns(Columns columns, String orderBy);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param count
+     * @return
+     */
+    public List<ProductComment> findListByColumns(Columns columns, Integer count);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @param count
+     * @return
+     */
+    public List<ProductComment> findListByColumns(Columns columns, String orderBy, Integer count);
+
+    /**
+     * 根据提交查询数据量
+     *
+     * @param columns
+     * @return
+     */
+    public Long findCountByColumns(Columns columns);
+
+
+    /**
+     * 根据ID 删除model
      *
      * @param id
-     * @return success
+     * @return
      */
     public boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除
      *
      * @param model
      * @return
@@ -43,25 +110,42 @@ public interface ProductCommentService  {
 
 
     /**
-     * save model to database
+     * 根据 多个 id 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public boolean batchDeleteByIds(Object... ids);
+
+
+    /**
+     * 根据条件进行删除
+     *
+     * @param columns
+     * @return
+     */
+    public boolean deleteByColumns(Columns columns);
+
+
+    /**
+     * 保存到数据库
      *
      * @param model
-     * @return  id value if save success
+     * @return id if success
      */
     public Object save(ProductComment model);
 
 
     /**
-     * save or update model
+     * 保存或更新
      *
      * @param model
-     * @return id value if saveOrUpdate success
+     * @return id if success
      */
     public Object saveOrUpdate(ProductComment model);
 
-
     /**
-     * update data model
+     * 更新
      *
      * @param model
      * @return
@@ -70,13 +154,34 @@ public interface ProductCommentService  {
 
 
     /**
-     * paginate query
+     * 分页
      *
      * @param page
      * @param pageSize
      * @return
      */
     public Page<ProductComment> paginate(int page, int pageSize);
+
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns);
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
     public long findCountByProductId(Long productId);

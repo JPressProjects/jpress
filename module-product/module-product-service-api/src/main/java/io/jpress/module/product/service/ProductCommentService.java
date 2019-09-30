@@ -96,4 +96,13 @@ public interface ProductCommentService  {
      * @return
      */
     public long findCountByStatus(String status);
+
+
+    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, String status);
+
+    public Page<ProductComment> _paginateWithoutTrash(int page, int pagesize, Long productId, String keyword);
+
+    public Page<ProductComment> _paginateByUserId(int page, int pagesize, long userId);
+
+    public Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId);
 }

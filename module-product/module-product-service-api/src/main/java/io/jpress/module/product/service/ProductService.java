@@ -2,11 +2,12 @@ package io.jpress.module.product.service;
 
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.product.model.Product;
 
 import java.util.List;
 
-public interface ProductService  {
+public interface ProductService extends JbootServiceJoiner {
 
     /**
      * find model by primary key
@@ -47,7 +48,7 @@ public interface ProductService  {
      * save model to database
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
     public Object save(Product model);
 
@@ -85,6 +86,9 @@ public interface ProductService  {
 
     public boolean doChangeStatus(long id, String status);
 
+    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
+
+    public Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
     public Page<Product> paginateInNormal(int page, int pagesize);
 
@@ -95,4 +99,8 @@ public interface ProductService  {
     public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
 
     public Product findFirstBySlug(String slug);
+
+    public long findCountByStatus(String status);
+
+    public boolean deleteByIds(Object... ids);
 }

@@ -20,6 +20,8 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -32,8 +34,10 @@ import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RequestMapping(value = "/admin/product", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -50,8 +54,35 @@ public class _ProductController extends AdminControllerBase {
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
-        Page<Product> entries = productService.paginate(getPagePara(), 10);
-        setAttr("page", entries);
+        String status = getPara("status");
+        String title = getPara("title");
+        Long categoryId = getParaToLong("categoryId");
+
+        Page<Product> page = StringUtils.isBlank(status)
+                        ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
+                        : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
+
+        setAttr("page", page);
+
+
+
+        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        SortKit.toLayer(categories);
+        setAttr("categories", categories);
+        flagCheck(categories, categoryId);
+
+
+
+        long draftCount = productService.findCountByStatus(Product.STATUS_DRAFT);
+        long trashCount = productService.findCountByStatus(Product.STATUS_TRASH);
+        long normalCount = productService.findCountByStatus(Product.STATUS_NORMAL);
+
+        setAttr("draftCount", draftCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", draftCount + trashCount + normalCount);
+
+
         render("product/product_list.html");
     }
 
@@ -156,6 +187,11 @@ public class _ProductController extends AdminControllerBase {
             }
         }
 
+        String[] imageIds = getParaValues("imageIds");
+        String[] imageSrcs = getParaValues("imageSrcs");
+
+        imageService.saveOrUpdateByProductId(product.getId(),imageIds,imageSrcs);
+
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }
@@ -191,5 +227,11 @@ public class _ProductController extends AdminControllerBase {
     public void doNormal() {
         Long id = getIdPara();
         render(productService.doChangeStatus(id, Product.STATUS_NORMAL) ? OK : FAIL);
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 }

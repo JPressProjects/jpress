@@ -11,12 +11,12 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 
     private static final long serialVersionUID = 1L;
 
-	public void setId(java.lang.Integer id) {
+	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
 	
-	public java.lang.Integer getId() {
-		return getInt("id");
+	public java.lang.Long getId() {
+		return getLong("id");
 	}
 
 	public void setProductId(java.lang.Long productId) {

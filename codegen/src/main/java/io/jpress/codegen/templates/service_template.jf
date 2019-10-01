@@ -2,13 +2,14 @@ package #(basePackage);
 
 import com.jfinal.plugin.activerecord.Page;
 import #(modelPacket).#(tableMeta.modelName);
+import io.jboot.db.model.Columns;
 
 import java.util.List;
 
 public interface #(tableMeta.modelName)Service  {
 
     /**
-     * find model by primary key
+     * 根据主键查找Model
      *
      * @param id
      * @return
@@ -17,24 +18,89 @@ public interface #(tableMeta.modelName)Service  {
 
 
     /**
-     * find all model
+     * 根据 Columns 查找单条数据
      *
-     * @return all <#(tableMeta.modelName)
+     * @param columns
+     * @return
+     */
+    public #(tableMeta.modelName) findFirstByColumns(Columns columns);
+
+    /**
+     * 根据 Columns 查找单条数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public #(tableMeta.modelName) findFirstByColumns(Columns columns, String orderBy);
+
+
+    /**
+     * 查找全部数据
+     *
+     * @return
      */
     public List<#(tableMeta.modelName)> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @return
+     */
+    public List<#(tableMeta.modelName)> findListByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public List<#(tableMeta.modelName)> findListByColumns(Columns columns, String orderBy);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param count
+     * @return
+     */
+    public List<#(tableMeta.modelName)> findListByColumns(Columns columns, Integer count);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @param count
+     * @return
+     */
+    public List<#(tableMeta.modelName)> findListByColumns(Columns columns, String orderBy, Integer count);
+
+
+    /**
+     * 根据提交查询数据量
+     *
+     * @param columns
+     * @return
+     */
+    public Long findCountByColumns(Columns columns);
+
+
+    /**
+     * 根据ID 删除model
      *
      * @param id
-     * @return success
+     * @return
      */
     public boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除
      *
      * @param model
      * @return
@@ -43,25 +109,42 @@ public interface #(tableMeta.modelName)Service  {
 
 
     /**
-     * save model to database
+     * 根据 多个 id 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public boolean batchDeleteByIds(Object... ids);
+
+
+    /**
+     * 根据条件进行删除
+     *
+     * @param columns
+     * @return
+     */
+    public boolean deleteByColumns(Columns columns);
+
+
+    /**
+     * 保存到数据库
      *
      * @param model
-     * @return  id value if save success
+     * @return id if success
      */
     public Object save(#(tableMeta.modelName) model);
 
 
     /**
-     * save or update model
+     * 保存或更新
      *
      * @param model
-     * @return id value if saveOrUpdate success
+     * @return id if success
      */
     public Object saveOrUpdate(#(tableMeta.modelName) model);
 
-
     /**
-     * update data model
+     * 更新
      *
      * @param model
      * @return
@@ -70,13 +153,35 @@ public interface #(tableMeta.modelName)Service  {
 
 
     /**
-     * paginate query
+     * 分页
      *
      * @param page
      * @param pageSize
      * @return
      */
     public Page<#(tableMeta.modelName)> paginate(int page, int pageSize);
+
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Page<#(tableMeta.modelName)> paginateByColumns(int page, int pageSize, Columns columns);
+
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public Page<#(tableMeta.modelName)> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

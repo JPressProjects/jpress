@@ -1,14 +1,15 @@
 package io.jpress.module.product.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.module.product.model.ProductCategory;
 
 import java.util.List;
 
-public interface ProductCategoryService  {
+public interface ProductCategoryService {
 
     /**
-     * find model by primary key
+     * 根据ID查找model
      *
      * @param id
      * @return
@@ -17,24 +18,89 @@ public interface ProductCategoryService  {
 
 
     /**
-     * find all model
+     * 根据 Columns 查找单条数据
      *
-     * @return all <ProductCategory
+     * @param columns
+     * @return
+     */
+    public ProductCategory findFirstByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找单条数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public ProductCategory findFirstByColumns(Columns columns, String orderBy);
+
+
+    /**
+     * 查找全部数据
+     *
+     * @return
      */
     public List<ProductCategory> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @return
+     */
+    public List<ProductCategory> findListByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public List<ProductCategory> findListByColumns(Columns columns, String orderBy);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param count
+     * @return
+     */
+    public List<ProductCategory> findListByColumns(Columns columns, Integer count);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @param count
+     * @return
+     */
+    public List<ProductCategory> findListByColumns(Columns columns, String orderBy, Integer count);
+
+    /**
+     * 根据提交查询数据量
+     *
+     * @param columns
+     * @return
+     */
+    public Long findCountByColumns(Columns columns);
+
+
+    /**
+     * 根据ID 删除model
      *
      * @param id
-     * @return success
+     * @return
      */
     public boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除
      *
      * @param model
      * @return
@@ -43,25 +109,42 @@ public interface ProductCategoryService  {
 
 
     /**
-     * save model to database
+     * 根据 多个 id 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public boolean batchDeleteByIds(Object... ids);
+
+
+    /**
+     * 根据条件进行删除
+     *
+     * @param columns
+     * @return
+     */
+    public boolean deleteByColumns(Columns columns);
+
+
+    /**
+     * 保存到数据库
      *
      * @param model
-     * @return  id value if save success
+     * @return id if success
      */
     public Object save(ProductCategory model);
 
 
     /**
-     * save or update model
+     * 保存或更新
      *
      * @param model
-     * @return id value if saveOrUpdate success
+     * @return id if success
      */
     public Object saveOrUpdate(ProductCategory model);
 
-
     /**
-     * update data model
+     * 更新
      *
      * @param model
      * @return
@@ -70,7 +153,7 @@ public interface ProductCategoryService  {
 
 
     /**
-     * paginate query
+     * 分页
      *
      * @param page
      * @param pageSize
@@ -79,13 +162,36 @@ public interface ProductCategoryService  {
     public Page<ProductCategory> paginate(int page, int pageSize);
 
 
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns);
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+
+
     public Page<ProductCategory> paginateByType(int page, int pagesize, String type);
 
 
     public List<ProductCategory> findListByProductId(long productId);
 
     public List<ProductCategory> findCategoryListByProductId(long productId);
+
     public List<ProductCategory> findTagListByProductId(long productId);
+
     public List<ProductCategory> findListByProductId(long productId, String type);
 
     public List<ProductCategory> findListByType(String type);
@@ -94,7 +200,6 @@ public interface ProductCategoryService  {
 
 
     public ProductCategory findFirstByTypeAndSlug(String type, String slug);
-
 
 
     public Long[] findCategoryIdsByProductId(long articleId);

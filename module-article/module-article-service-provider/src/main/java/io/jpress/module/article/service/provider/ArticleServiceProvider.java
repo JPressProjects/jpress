@@ -237,8 +237,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    public int findCountByStatus(String status) {
-        return Db.queryInt("select count(*) from article where status = ?", status);
+    public Long findCountByStatus(String status) {
+        return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override

@@ -146,7 +146,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Override
     @Cacheable(name = "product", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Product> findListByColumns(Columns columns, String orderBy, Integer count) {
-        return joinUserInfo(DAO.findListByColumns(columns, orderBy, count));
+        return joinUserInfo(super.findListByColumns(columns, orderBy, count));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
     @Override
     public long findCountByStatus(String status) {
-        return Db.queryInt("select count(*) from product where status = ?", status);
+        return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override

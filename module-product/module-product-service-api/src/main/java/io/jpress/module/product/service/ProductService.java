@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProductService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据ID查找model
      *
      * @param id
      * @return
@@ -19,24 +19,89 @@ public interface ProductService extends JbootServiceJoiner {
 
 
     /**
-     * find all model
+     * 根据 Columns 查找单条数据
      *
-     * @return all <Product
+     * @param columns
+     * @return
+     */
+    public Product findFirstByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找单条数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public Product findFirstByColumns(Columns columns, String orderBy);
+
+
+    /**
+     * 查找全部数据
+     *
+     * @return
      */
     public List<Product> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @return
+     */
+    public List<Product> findListByColumns(Columns columns);
+
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public List<Product> findListByColumns(Columns columns, String orderBy);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param count
+     * @return
+     */
+    public List<Product> findListByColumns(Columns columns, Integer count);
+
+    /**
+     * 根据 Columns 查找数据
+     *
+     * @param columns
+     * @param orderBy
+     * @param count
+     * @return
+     */
+    public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
+
+    /**
+     * 根据提交查询数据量
+     *
+     * @param columns
+     * @return
+     */
+    public Long findCountByColumns(Columns columns);
+
+
+    /**
+     * 根据ID 删除model
      *
      * @param id
-     * @return success
+     * @return
      */
     public boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除
      *
      * @param model
      * @return
@@ -45,25 +110,42 @@ public interface ProductService extends JbootServiceJoiner {
 
 
     /**
-     * save model to database
+     * 根据 多个 id 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    public boolean batchDeleteByIds(Object... ids);
+
+
+    /**
+     * 根据条件进行删除
+     *
+     * @param columns
+     * @return
+     */
+    public boolean deleteByColumns(Columns columns);
+
+
+    /**
+     * 保存到数据库
      *
      * @param model
-     * @return id value if save success
+     * @return id if success
      */
     public Object save(Product model);
 
 
     /**
-     * save or update model
+     * 保存或更新
      *
      * @param model
-     * @return id value if saveOrUpdate success
+     * @return id if success
      */
     public Object saveOrUpdate(Product model);
 
-
     /**
-     * update data model
+     * 更新
      *
      * @param model
      * @return
@@ -72,13 +154,34 @@ public interface ProductService extends JbootServiceJoiner {
 
 
     /**
-     * paginate query
+     * 分页
      *
      * @param page
      * @param pageSize
      * @return
      */
     public Page<Product> paginate(int page, int pageSize);
+
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public Page<Product> paginateByColumns(int page, int pageSize, Columns columns);
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @param orderBy
+     * @return
+     */
+    public Page<Product> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
     public void doUpdateCategorys(long productId, Long[] categoryIds);
 
@@ -95,8 +198,6 @@ public interface ProductService extends JbootServiceJoiner {
     public Page<Product> paginateInNormal(int page, int pagesize, String orderBy);
 
     public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
-
-    public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
 
     public Product findFirstBySlug(String slug);
 

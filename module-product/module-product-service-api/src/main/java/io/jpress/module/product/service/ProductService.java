@@ -88,7 +88,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param columns
      * @return
      */
-    public Long findCountByColumns(Columns columns);
+    public long findCountByColumns(Columns columns);
 
 
     /**

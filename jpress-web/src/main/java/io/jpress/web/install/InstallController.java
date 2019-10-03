@@ -21,7 +21,7 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.DbKit;
-import io.jboot.db.JbootDbManager;
+import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.StrUtil;
@@ -380,7 +380,7 @@ public class InstallController extends ControllerBase {
 
         DataSourceConfigManager.me().addConfig(config);
 
-        ActiveRecordPlugin activeRecordPlugin = JbootDbManager.me().createRecordPlugin(config);
+        ActiveRecordPlugin activeRecordPlugin = ArpManager.me().createRecordPlugin(config);
         activeRecordPlugin.start();
     }
 

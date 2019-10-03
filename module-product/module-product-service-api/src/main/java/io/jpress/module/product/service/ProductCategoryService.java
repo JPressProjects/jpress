@@ -87,7 +87,7 @@ public interface ProductCategoryService {
      * @param columns
      * @return
      */
-    public Long findCountByColumns(Columns columns);
+    public long findCountByColumns(Columns columns);
 
 
     /**

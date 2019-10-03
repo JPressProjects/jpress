@@ -2,7 +2,6 @@ package io.jpress.module.product.service;
 
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
-import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductImage;
 
 import java.util.List;
@@ -88,7 +87,7 @@ public interface ProductImageService  {
      * @param columns
      * @return
      */
-    public Long findCountByColumns(Columns columns);
+    public long findCountByColumns(Columns columns);
 
 
     /**
@@ -133,7 +132,7 @@ public interface ProductImageService  {
      * @param model
      * @return id if success
      */
-    public Object save(ProductCategory model);
+    public Object save(ProductImage model);
 
 
     /**

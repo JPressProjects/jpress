@@ -82,9 +82,10 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-                                <th>作者</th>
-                                <th>内容</th>
+
+                                <th style="width: 30%">内容</th>
                                 <th>评论的产品</th>
+                                <th style="width: 30px">作者</th>
                                 <th>状态</th>
                                 <th>时间</th>
                             </tr>
@@ -92,10 +93,10 @@
                             <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="#(entry.id)"/>
                                 </td>
+
                                 <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/product/comment/edit/#(entry.id)"> #(entry.id ??) </a>
-                                    </strong>
+                                    #(entry.content ??)
+
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="/admin/product/comment/edit/#(entry.id)">编辑</a> |
@@ -103,10 +104,14 @@
                                                onclick="doDel('#(entry.id)')">删除</a>
                                         </div>
                                     </div>
+
                                 </td>
-                                <td>#(entry.user.nickname ??)</td>
-                                <td>#(entry.content ??)</td>
+
                                 <td>#(entry.product.title ??)</td>
+                                <td>
+                                        <a href="#(CPATH)/admin/user/detail/#(entry.user.id)"> #(entry.user.nickname ??) </a>
+
+                                </td>
                                 <td>#(entry.status ??)</td>
                                 <td>#date(entry.created)</td>
                             </tr>

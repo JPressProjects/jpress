@@ -11,14 +11,14 @@ public class FinanceController extends UcenterControllerBase {
      * 用户订单
      */
     public void order(){
-
+        render("orders.html");
     }
 
     /**
      * 用户余额信息
      */
     public void amount(){
-
+        render("amount.html");
     }
 
 

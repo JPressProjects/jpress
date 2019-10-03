@@ -369,7 +369,7 @@ CREATE TABLE `payment_record` (
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL,
-  `payer_user_id` varchar(50) DEFAULT NULL COMMENT '付款人编号',
+  `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
   `order_ip` varchar(30) DEFAULT NULL COMMENT '下单ip(客户端ip,从网关中获取)',
@@ -526,13 +526,12 @@ CREATE TABLE `product_comment` (
   `order_number` int(11) DEFAULT '0' COMMENT '排序编号，常用语置顶等',
   `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
   `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
-  `status` tinyint(2) DEFAULT NULL COMMENT '评论的状态',
+  `status` varchar(32) DEFAULT NULL COMMENT '评论的状态',
   `created` datetime DEFAULT NULL COMMENT '评论的时间',
   PRIMARY KEY (`id`),
   KEY `content_id` (`product_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品评论表';
-
 
 
 # Dump of table product_image
@@ -672,7 +671,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `wx_openid`, `wx_unionid`, `qq_openid`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-09-28 11:19:52','2019-09-02 11:39:29');
+	(1,'admin','admin','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-10-03 16:17:43','2019-09-02 11:39:29');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -907,7 +906,6 @@ CREATE TABLE `utm` (
   KEY `user_id` (`user_id`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户行为记录表';
-
 
 
 # Dump of table wechat_menu

@@ -112,12 +112,12 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public long findCountByStatus(String status) {
-        return Db.queryLong("select count(*) from article_comment where status = ?", status);
+        return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override
     public long findCountByArticleId(Long articleId) {
-        return Db.queryLong("select count(*) from article_comment where article_id = ?", articleId);
+        return DAO.findCountByColumn(Column.create("article_id",articleId));
     }
 
 

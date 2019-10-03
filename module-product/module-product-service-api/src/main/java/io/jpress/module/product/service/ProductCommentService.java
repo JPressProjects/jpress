@@ -88,7 +88,7 @@ public interface ProductCommentService  {
      * @param columns
      * @return
      */
-    public Long findCountByColumns(Columns columns);
+    public long findCountByColumns(Columns columns);
 
 
     /**

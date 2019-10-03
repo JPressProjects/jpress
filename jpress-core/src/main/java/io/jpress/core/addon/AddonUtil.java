@@ -20,7 +20,7 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import io.jboot.db.JbootDbManager;
+import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
@@ -316,7 +316,7 @@ public class AddonUtil {
         DataSourceConfig config = getDatasourceConfig(addonInfo);
         config.setName(addonInfo.getId());
         config.setNeedAddMapping(false);
-        return JbootDbManager.me().createRecordPlugin(config);
+        return ArpManager.me().createRecordPlugin(config);
     }
 
 

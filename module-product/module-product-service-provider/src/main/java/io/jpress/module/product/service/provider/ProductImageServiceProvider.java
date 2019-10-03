@@ -6,6 +6,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.model.base.BaseProductImage;
 import io.jpress.module.product.service.ProductImageService;
@@ -18,6 +19,8 @@ import java.util.List;
 public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> implements ProductImageService {
 
     private static final String cacheName = "productimage";
+
+
 
     @Override
     @Cacheable(name = cacheName, key = "productId:#(productId)", nullCacheEnable = true)

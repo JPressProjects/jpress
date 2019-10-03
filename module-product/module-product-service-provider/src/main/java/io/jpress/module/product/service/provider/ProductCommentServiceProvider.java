@@ -36,7 +36,7 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
 
     @Override
     public long findCountByStatus(String status) {
-        return Db.queryLong("select count(*) from product_comment where status = ?", status);
+        return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override
@@ -79,6 +79,7 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     @Override
     public Page<ProductComment> _paginateByUserId(int page, int pagesize, long userId) {
         Page<ProductComment> p = DAO.paginateByColumn(page, pagesize, Column.create("user_id", userId), "id desc");
+        userService.join(p, "user_id");
         productService.join(p, "product_id");
         return p;
     }

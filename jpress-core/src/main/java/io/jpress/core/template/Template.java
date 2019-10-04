@@ -23,9 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Template {
 
@@ -40,7 +38,7 @@ public class Template {
     private String folder;
     private String screenshot;
 
-    private List<String> htmls = new ArrayList<>();
+    private Set<String> htmls = new HashSet<>();
     private List<String> flags = new ArrayList<>();
 
     public Template() {
@@ -302,7 +300,7 @@ public class Template {
         htmls.remove(htmlFileName);
     }
 
-    public List<String> getHtmls() {
+    public Set<String> getHtmls() {
         return htmls;
     }
 }

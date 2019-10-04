@@ -50,42 +50,43 @@
                                 <label class="col-sm-2 control-label">支付类型</label>
 
                                 <div class="col-sm-7">
+
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="paytype"  value="weichat" checked>
+                                            <input type="radio" name="paytype" value="weichat" checked >
+                                            微信转账 （对私转账，相当于线下门店支付）
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="paytype" value="alipay">
+                                            支付宝转账 （对私转账，相当于线下门店支付）
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="paytype" value="weichat" >
                                             微信扫码支付（手机打开微信APP，通过扫码支付）
                                         </label>
                                     </div>
 
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="paytype"  value="alipay" >
+                                            <input type="radio" name="paytype" value="alipay">
                                             支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
                                         </label>
                                     </div>
 
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="paytype"  value="paypal" >
+                                            <input type="radio" name="paytype" value="paypal">
                                             Paypal支付（通过网页进行支付）
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">手机号</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="及手机号"
-                                           name="user.mobile" value="#(user.mobile ??)">
-                                </div>
-                            </div>
-
-
-
-
 
 
                         </div>
@@ -93,7 +94,7 @@
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
+                                    <button type="submit" class="btn btn-primary">下一步</button>
                                 </div>
                             </div>
                         </div>

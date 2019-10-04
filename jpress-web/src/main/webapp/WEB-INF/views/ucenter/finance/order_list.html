@@ -1,76 +1,37 @@
-#@layout()
+#@_ucenter_layout()
 
+#define css()
+<style>
+
+    .box-dashboard {
+        position: relative;
+        border-radius: 3px;
+        background: #ffffff;
+        border: 1px solid #d2d6de;
+        margin-bottom: 20px;
+        width: 100%;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    }
+
+    .box-dashboard .box-header .box-title {
+        display: inline-block;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1;
+    }
+
+</style>
+
+#end
 
 #define content()
 <div class="content-wrapper">
 
     <section class="content-header">
         <h1>
-            订单列表
-            <small>Order List</small>
+            我的订单
+            <small>My Orders</small>
         </h1>
-    </section>
-
-    <section class="content-header text-tap">
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-
-                        <p>本月收入</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>本月增长</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>本月订单</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>3</h3>
-
-                        <p>今日订单</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- ./col -->
-        </div>
-
     </section>
 
     <section class="content">
@@ -102,27 +63,6 @@
                             <!-- /.box-body -->
                         </form>
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <button type="submit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</button>
-                                <button type="submit" class="btn btn-default"> <i class="fa fa-fw fa-refresh"></i> 同步</button>
-                                <button type="submit" class="btn btn-default checkAction"> 批量删除 </button>
-                                <div  class="btn-group checkAction">
-                                    <button type="button" class="btn btn-default">更多</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                     <!-- /.box-header -->
@@ -142,7 +82,7 @@
                                 <td colspan="5" bgcolor="#fff">
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a href="#(CPATH)/admin/order/detail" style="float: right">详情</a>
+                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a href="#(CPATH)/ucenter/finance/order/detail" style="float: right">详情</a>
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body no-padding">

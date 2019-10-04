@@ -293,4 +293,12 @@ public class Template {
     public void uninstall() {
         FileUtils.deleteQuietly(new File(getAbsolutePath()));
     }
+
+    public void addNewHtml(String htmlFileName){
+        htmls.add(htmlFileName);
+    }
+
+    public List<String> getHtmls() {
+        return htmls;
+    }
 }

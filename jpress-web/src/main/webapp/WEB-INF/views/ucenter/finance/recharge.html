@@ -47,18 +47,29 @@
                             <h4 class="page-header">充值方式</h4>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">邮箱</label>
+                                <label class="col-sm-2 control-label">支付类型</label>
 
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="填写邮箱账号"
-                                           name="user.email" value="#(user.email ??)">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="paytype"  value="weichat" checked>
+                                            微信扫码支付（手机打开微信APP，通过扫码支付）
+                                        </label>
+                                    </div>
 
-                                    #if(user.email && !user.isEmailStatusOk())
-                                    <p class="help-block">
-                                        你的邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>进行激活。
-                                    </p>
-                                    #end
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="paytype"  value="alipay" >
+                                            支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
+                                        </label>
+                                    </div>
 
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="paytype"  value="paypal" >
+                                            Paypal支付（通过网页进行支付）
+                                        </label>
+                                    </div>
                                 </div>
 
                             </div>
@@ -72,32 +83,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">地址</label>
 
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="地址"
-                                           name="user.address" value="#(user.address ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮编</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="和邮编"
-                                           name="user.zipcode" value="#(user.zipcode ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人网址</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.site" value="#(user.site ??)">
-                                </div>
-                            </div>
 
 
 

@@ -436,10 +436,6 @@ public class _TemplateController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         render404If(template == null);
 
-        if (fileName.toLowerCase().endsWith(".html")){
-            template.addNewHtml(fileName);
-        }
-
         File pathFile = new File(template.getAbsolutePath(), dirName);
         try {
             FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
@@ -451,7 +447,11 @@ public class _TemplateController extends AdminControllerBase {
             deleteFileQuietly(uploadFile.getFile());
         }
 
-        RenderManager.me().getEngine().removeAllTemplateCache();
+        if (fileName.toLowerCase().endsWith(".html")){
+            template.addNewHtml(fileName);
+            RenderManager.me().getEngine().removeAllTemplateCache();
+        }
+
         renderOkJson();
     }
 

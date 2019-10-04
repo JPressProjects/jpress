@@ -3,6 +3,7 @@ package io.jpress.web.front;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.UserOrder;
 import io.jpress.service.UserOrderService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -27,13 +28,13 @@ public class FinanceController extends UcenterControllerBase {
      */
     @ActionKey("/ucenter/finance/order/detail")
     public void detail(){
-//        UserOrder order = orderService.findById(getIdPara());
-//        if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())){
-//            renderError(404);
-//            return;
-//        }
+        UserOrder order = orderService.findById(getIdPara());
+        if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())){
+            renderError(404);
+            return;
+        }
 
-//        setAttr("order",order);
+        setAttr("order",order);
         render("order_detail.html");
     }
 
@@ -42,6 +43,14 @@ public class FinanceController extends UcenterControllerBase {
      */
     public void amount(){
         render("amount.html");
+    }
+
+
+    /**
+     * 金额充值页面
+     */
+    public void recharge(){
+        render("recharge.html");
     }
 
 

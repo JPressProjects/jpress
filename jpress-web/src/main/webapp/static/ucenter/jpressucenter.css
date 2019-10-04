@@ -62,3 +62,9 @@
 .red-action {
     color: #a00 !important;
 }
+.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a:hover{
+    background-color: #eee;
+}
+.navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a{
+    border-bottom: 1px solid #ccc;
+}

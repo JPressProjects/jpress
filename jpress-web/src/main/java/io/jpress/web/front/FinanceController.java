@@ -1,17 +1,40 @@
 package io.jpress.web.front;
 
+import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.service.UserOrderService;
 import io.jpress.web.base.UcenterControllerBase;
 
 
 @RequestMapping(value = "/ucenter/finance",viewPath = "/WEB-INF/views/ucenter/finance")
 public class FinanceController extends UcenterControllerBase {
 
+    @Inject
+    private UserOrderService orderService;
+
+
     /**
-     * 用户订单
+     * 用户订单列表
      */
     public void order(){
-        render("orders.html");
+        render("order_list.html");
+    }
+
+
+    /**
+     * 订单详情
+     */
+    @ActionKey("/ucenter/finance/order/detail")
+    public void detail(){
+//        UserOrder order = orderService.findById(getIdPara());
+//        if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())){
+//            renderError(404);
+//            return;
+//        }
+
+//        setAttr("order",order);
+        render("order_detail.html");
     }
 
     /**

@@ -67,12 +67,12 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("trx_nonce_str");
 	}
 
-	public void setPayerUserId(java.lang.String payerUserId) {
+	public void setPayerUserId(java.lang.Long payerUserId) {
 		set("payer_user_id", payerUserId);
 	}
 	
-	public java.lang.String getPayerUserId() {
-		return getStr("payer_user_id");
+	public java.lang.Long getPayerUserId() {
+		return getLong("payer_user_id");
 	}
 
 	public void setPayerName(java.lang.String payerName) {

@@ -62,13 +62,5 @@ public class FinanceController extends UcenterControllerBase {
 
     }
 
-    /**
-     * 支付页面
-     */
-    @ActionKey("/ucenter/finance/amount/recharge/pay")
-    public void pay() {
-        render("recharge.html");
-    }
-
 
 }

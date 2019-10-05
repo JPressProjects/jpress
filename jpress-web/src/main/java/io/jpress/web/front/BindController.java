@@ -2,7 +2,6 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -17,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 
-@RequestMapping(value = "/ucenter/address", viewPath = "/WEB-INF/views/ucenter/address")
-public class AddressController extends UcenterControllerBase {
+@RequestMapping(value = "/ucenter/bind", viewPath = "/WEB-INF/views/ucenter")
+public class BindController extends UcenterControllerBase {
 
     @Inject
     private UserAddressService userAddressService;
@@ -27,10 +26,7 @@ public class AddressController extends UcenterControllerBase {
      * 用户地址列表
      */
     public void index() {
-
-        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10);
-        setAttr("page", page);
-        render("address_list.html");
+        render("bind.html");
     }
 
     /**

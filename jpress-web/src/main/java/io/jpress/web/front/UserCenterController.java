@@ -88,11 +88,20 @@ public class UserCenterController extends UcenterControllerBase {
         render("avatar.html");
     }
 
+
     /**
      * 账号密码
      */
     public void pwd() {
         render("pwd.html");
+    }
+
+
+    /**
+     * 购物车
+     */
+    public void cart(){
+        render("cart.html");
     }
 
     @EmptyValidate({

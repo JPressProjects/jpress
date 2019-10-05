@@ -15,6 +15,7 @@
  */
 package io.jpress.web.wechat;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.HttpKit;
@@ -27,6 +28,8 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.model.User;
+import io.jpress.model.UserOpenid;
+import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ControllerBase;
 
@@ -228,8 +231,8 @@ public class WechatAuthorizationController extends ControllerBase {
         user = new User();
         user.setNickname(nickName);
         user.setAddress(country + province + city);
-        user.setWxUnionid(unionId);
-        user.setWxOpenid(openId);
+//        user.setWxUnionid(unionId);
+//        user.setWxOpenid(openId);
         user.setAvatar(avatarUrl);
         user.setCreated(new Date());
         user.setLogged(new Date());
@@ -238,7 +241,15 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
 
 
-        return (Long) userService.save(user);
+        Long userId = (Long) userService.save(user);
+
+        UserOpenidService userOpenidService = Aop.get(UserOpenidService.class);
+        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
+        userOpenidService.saveOrUpdate(userId,UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+
+
+
+        return userId;
     }
 
 }

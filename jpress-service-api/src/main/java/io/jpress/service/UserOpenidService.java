@@ -1,6 +1,7 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jboot.db.model.Columns;
 
@@ -182,6 +183,13 @@ public interface UserOpenidService  {
      * @return
      */
     public Page<UserOpenid> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+
+
+    public User findByTypeAndOpenId(String type,String openId);
+
+    public boolean saveOrUpdate(Object userId,String type,String openId);
+
+    public UserOpenid findByUserIdAndType(Object userId,String type);
 
 
 }

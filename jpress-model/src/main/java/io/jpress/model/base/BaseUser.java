@@ -75,30 +75,6 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
 		return getStr("anonym");
 	}
 
-	public void setWxOpenid(java.lang.String wxOpenid) {
-		set("wx_openid", wxOpenid);
-	}
-	
-	public java.lang.String getWxOpenid() {
-		return getStr("wx_openid");
-	}
-
-	public void setWxUnionid(java.lang.String wxUnionid) {
-		set("wx_unionid", wxUnionid);
-	}
-	
-	public java.lang.String getWxUnionid() {
-		return getStr("wx_unionid");
-	}
-
-	public void setQqOpenid(java.lang.String qqOpenid) {
-		set("qq_openid", qqOpenid);
-	}
-	
-	public java.lang.String getQqOpenid() {
-		return getStr("qq_openid");
-	}
-
 	public void setEmail(java.lang.String email) {
 		set("email", email);
 	}

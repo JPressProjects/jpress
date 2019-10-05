@@ -15,25 +15,29 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
+import io.jpress.model.UserOpenid;
+import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 
 import java.util.Date;
 
 @Bean
 public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
+
+    @Inject
+    private UserOpenidService openidService;
 
     @Override
     public boolean deleteByIds(Object... ids) {
@@ -123,27 +127,30 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public User findFistByWxUnionid(String unioinId) {
-        return DAO.findFirstByColumn("wx_unionid", unioinId);
+//        return DAO.findFirstByColumn("wx_unionid", unioinId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID,unioinId);
     }
 
     @Override
-    @Cacheable(name = "userOpenIds", key = "#(openId)")
+//    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
-        return DAO.findFirstByColumn("wx_openid", openId);
+//        return DAO.findFirstByColumn("wx_openid", openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT,openId);
     }
 
     @Override
     public User findFistByQQOpenid(String openId) {
-        return DAO.findFirstByColumn("qq_openid", openId);
+//        return DAO.findFirstByColumn("qq_openid", openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ,openId);
     }
 
     @Override
     public void shouldUpdateCache(int action, Object data) {
         if (data instanceof User) {
             User user = (User) data;
-            if (user.getWxOpenid() != null) {
-                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
-            }
+//            if (user.getWxOpenid() != null) {
+//                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
+//            }
         }
     }
 

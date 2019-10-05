@@ -28,6 +28,7 @@ import io.jpress.commons.oauth2.OauthUser;
 import io.jpress.commons.oauth2.connector.QQConnector;
 import io.jpress.commons.oauth2.connector.WechatConnector;
 import io.jpress.model.User;
+import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 import io.jpress.web.interceptor.UserInterceptor;
 
@@ -48,6 +49,9 @@ public class OauthController extends Oauth2Controller {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private UserOpenidService openidService;
 
 
     /**
@@ -75,11 +79,7 @@ public class OauthController extends Oauth2Controller {
             if (dbUser != null){
                 dbUser.setAvatar(ouser.getAvatar());
                 dbUser.setNickname(ouser.getNickname());
-                if ("qq".equals(ouser.getSource())) {
-                    dbUser.setQqOpenid(ouser.getOpenId());
-                } else {
-                    dbUser.setWxOpenid(ouser.getOpenId());
-                }
+                openidService.saveOrUpdate(dbUser.getId(),ouser.getSource(),ouser.getOpenId());
                 userService.update(dbUser);
             }
         }
@@ -92,14 +92,9 @@ public class OauthController extends Oauth2Controller {
             dbUser.setCreated(new Date());
             dbUser.setGender(ouser.getGender());
             dbUser.setSalt(HashKit.generateSaltForSha256());
+            Object id = userService.save(dbUser);
+            openidService.saveOrUpdate(id,ouser.getSource(),ouser.getOpenId());
 
-            if ("qq".equals(ouser.getSource())) {
-                dbUser.setQqOpenid(ouser.getOpenId());
-            } else {
-                dbUser.setWxOpenid(ouser.getOpenId());
-            }
-
-            userService.save(dbUser);
         }
 
         CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());

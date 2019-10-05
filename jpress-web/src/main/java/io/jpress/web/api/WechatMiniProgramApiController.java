@@ -17,6 +17,7 @@ package io.jpress.web.api;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
@@ -28,6 +29,8 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
+import io.jpress.model.UserOpenid;
+import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 import io.jpress.web.interceptor.ApiInterceptor;
@@ -212,8 +215,8 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user = new User();
         user.setNickname(nickName);
         user.setAddress(country + province + city);
-        user.setWxUnionid(unionId);
-        user.setWxOpenid(openId);
+//        user.setWxUnionid(unionId);
+//        user.setWxOpenid(openId);
         user.setAvatar(avatarUrl);
         user.setCreated(new Date());
         user.setLogged(new Date());
@@ -221,7 +224,14 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user.setStatus(User.STATUS_OK);
 
 
-        return (Long) userService.save(user);
+        Long userId = (Long) userService.save(user);
+
+        UserOpenidService openidService = Aop.get(UserOpenidService.class);
+        openidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
+        openidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+
+
+        return userId;
     }
 
 }

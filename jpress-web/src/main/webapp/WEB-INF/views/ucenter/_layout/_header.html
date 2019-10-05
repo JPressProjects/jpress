@@ -5,14 +5,16 @@
         <span class="logo-lg"><b>#option('web_name','JPress')</b></span>
     </a>
     <nav class="navbar navbar-static-top">
+        #if(showToggle)
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">切换</span>
         </a>
+        #end
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
-                    <a href="#">
+                    <a href="#(CPATH)/ucenter/index">
                         <img src="#(USER.avatar ??)" class="user-image">
                         <span class="hidden-xs">您好 #(user.nickname ??) , 欢迎回来</span>
                     </a>

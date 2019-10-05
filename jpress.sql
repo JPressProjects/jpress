@@ -679,27 +679,23 @@ UNLOCK TABLES;
 
 # Dump of table user_address
 # ------------------------------------------------------------
-
 DROP TABLE IF EXISTS `user_address`;
-
-CREATE TABLE `user_address` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `username` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `province` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `district` int(128) DEFAULT NULL,
-  `is_default` tinyint(1) DEFAULT NULL,
-  `options` text COLLATE utf8mb4_unicode_ci,
-  `modified` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
+CREATE TABLE `user_address`  (
+       `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+       `user_id` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+       `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '收货人',
+       `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '联系电话',
+       `address` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '详细地址',
+       `province` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '省',
+       `city` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '市',
+       `county` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '区',
+       `district` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '镇',
+       `is_default` tinyint(1) NULL DEFAULT NULL COMMENT '是否默认地址',
+       `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '其他',
+       `modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+       `created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+       PRIMARY KEY (`id`)
+) ENGINE = InnoDB  CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 # Dump of table user_amount
 # ------------------------------------------------------------

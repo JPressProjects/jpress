@@ -1,6 +1,7 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.model.UserAddress;
 
 import java.util.List;
@@ -14,6 +15,14 @@ public interface UserAddressService  {
      * @return
      */
     public UserAddress findById(Object id);
+
+
+    /**
+     * 根据条件查询
+     * @param column
+     * @return
+     */
+    public List<UserAddress> findListByColumns(Columns column);
 
 
     /**
@@ -40,6 +49,14 @@ public interface UserAddressService  {
      * @return
      */
     public boolean delete(UserAddress model);
+
+
+    /**
+     * 根据条件删除
+     * @param columns
+     * @return
+     */
+    public boolean deleteByColumns(Columns columns);
 
 
     /**

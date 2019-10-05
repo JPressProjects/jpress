@@ -14,7 +14,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
@@ -22,7 +22,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
@@ -30,7 +30,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setUsername(java.lang.String username) {
 		set("username", username);
 	}
-	
+
 	public java.lang.String getUsername() {
 		return getStr("username");
 	}
@@ -38,7 +38,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setMobile(java.lang.String mobile) {
 		set("mobile", mobile);
 	}
-	
+
 	public java.lang.String getMobile() {
 		return getStr("mobile");
 	}
@@ -46,7 +46,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setAddress(java.lang.String address) {
 		set("address", address);
 	}
-	
+
 	public java.lang.String getAddress() {
 		return getStr("address");
 	}
@@ -54,7 +54,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setProvince(java.lang.String province) {
 		set("province", province);
 	}
-	
+
 	public java.lang.String getProvince() {
 		return getStr("province");
 	}
@@ -62,7 +62,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setCity(java.lang.String city) {
 		set("city", city);
 	}
-	
+
 	public java.lang.String getCity() {
 		return getStr("city");
 	}
@@ -70,23 +70,23 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setCounty(java.lang.String county) {
 		set("county", county);
 	}
-	
+
 	public java.lang.String getCounty() {
 		return getStr("county");
 	}
 
-	public void setDistrict(java.lang.Integer district) {
+	public void setDistrict(java.lang.String district) {
 		set("district", district);
 	}
-	
-	public java.lang.Integer getDistrict() {
-		return getInt("district");
+
+	public java.lang.String getDistrict() {
+		return getStr("district");
 	}
 
 	public void setIsDefault(java.lang.Boolean isDefault) {
 		set("is_default", isDefault);
 	}
-	
+
 	public java.lang.Boolean getIsDefault() {
 		return get("is_default");
 	}
@@ -94,7 +94,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}
@@ -102,7 +102,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
 	public java.util.Date getModified() {
 		return get("modified");
 	}
@@ -110,7 +110,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}

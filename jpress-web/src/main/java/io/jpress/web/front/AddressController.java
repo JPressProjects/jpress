@@ -11,7 +11,6 @@ import io.jpress.model.User;
 import io.jpress.model.UserAddress;
 import io.jpress.service.UserAddressService;
 import io.jpress.web.base.UcenterControllerBase;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +26,7 @@ public class AddressController extends UcenterControllerBase {
     /**
      * 用户地址列表
      */
-    public void list() {
+    public void index() {
 
         Columns columns = Columns.create();
         User user = getLoginedUser();
@@ -41,7 +40,7 @@ public class AddressController extends UcenterControllerBase {
     /**
      * 用户地址新增，编辑
      */
-    public void write() {
+    public void edit() {
         Long id = getParaToLong("id");
         if (id!=null) {
             UserAddress data = userAddressService.findById(id);

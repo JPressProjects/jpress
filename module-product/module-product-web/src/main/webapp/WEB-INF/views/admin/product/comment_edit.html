@@ -1,4 +1,3 @@
-
 #@layout()
 #define css()
 #@layout_css?()
@@ -14,17 +13,17 @@
         language: 'zh-CN'
     });
 
-  function doSubmit() {
-    ajaxSubmit("#form", function (data) {
-        $("#entryId").attr("value", data.id);
-        toastr.success('内容保存成功。');
-    })
-  }
+    function doSubmit() {
+        ajaxSubmit("#form", function (data) {
+            $("#entryId").attr("value", data.id);
+            toastr.success('内容保存成功。');
+        })
+    }
 
     $("#submit").on("click", function () {
         doSubmit();
     })
-    </script>
+</script>
 #end
 
 
@@ -33,7 +32,7 @@
 
     <section class="content-header">
         <h1>
-                        编辑/新增
+            编辑/新增
             <small>Edit</small>
         </h1>
     </section>
@@ -49,81 +48,80 @@
                     <form class="form-horizontal form-setting" autocomplete="off"
                           action="/admin/product_comment/doSave"
                           method="POST" id="form">
-                        
+
                         <div class="box-body ">
-	                                <input type="hidden" id="entryId" name="productComment.id" value="#(productComment.id ??)">
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论的作者</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="productComment.author" class="form-control" value="#(productComment.author ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论的内容</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="productComment.content" class="form-control" value="#(productComment.content ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论的回复数量</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="productComment.reply_count" class="form-control" value="#(productComment.reply_count ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
+                            <input type="hidden" id="entryId" name="productComment.id" value="#(productComment.id ??)">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论的作者</label>
+                                <div class="col-sm-6">
 
-								<div class="form-group">
-									<label class="col-sm-2 control-label">状态</label>
+                                    <input type="input" name="productComment.author" class="form-control"
+                                           value="#(productComment.author ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论的内容</label>
+                                <div class="col-sm-6">
 
-									<div class="col-sm-6">
-									<select class="form-control" name="comment.status">
-										<option value="normal" #selectedIf(comment.status==
-										'normal')>正常</option>
-										<option value="unaudited" #selectedIf(comment.status==
-										'unaudited')>冻结</option>
-										<option value="trash" #selectedIf(comment.status==
-										'trash')>垃圾箱</option>
+                                    <input type="input" name="productComment.content" class="form-control"
+                                           value="#(productComment.content ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论的回复数量</label>
+                                <div class="col-sm-6">
+
+                                    <input type="input" name="productComment.reply_count" class="form-control"
+                                           value="#(productComment.reply_count ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">“顶”的数量</label>
+                                <div class="col-sm-6">
+
+                                    <input type="input" name="productComment.vote_up" class="form-control"
+                                           value="#(productComment.vote_up ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">“踩”的数量</label>
+                                <div class="col-sm-6">
+
+                                    <input type="input" name="productComment.vote_down" class="form-control"
+                                           value="#(productComment.vote_down ??)"
+                                           placeholder="">
+                                </div>
+                            </div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">状态</label>
+
+								<div class="col-sm-6">
+									<select class="form-control" name="productComment.status">
+										<option value="normal" #selectedIf(productComment && productComment.status=='normal')>正常
+										</option>
+										<option value="unaudited" #selectedIf(productComment && productComment.status=='unaudited')>
+											冻结
+										</option>
+										<option value="trash" #selectedIf(productComment && productComment.status=='trash')>垃圾箱
+										</option>
 									</select>
 								</div>
 
 							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">“顶”的数量</label>
-								<div class="col-sm-6">
-
-									<input type="input" name="productComment.vote_up" class="form-control" value="#(productComment.vote_up ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">“踩”的数量</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="productComment.vote_down" class="form-control" value="#(productComment.vote_down ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论的状态</label>
-		                                <div class="col-sm-6">
-		                                 
-										   <input type="input" name="productComment.status" class="form-control" value="#(productComment.status ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">评论的时间</label>
-		                                <div class="col-sm-6">
-		                                 
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
-		                       						name="productComment.created" value="#date(productComment.created ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论的时间</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+                                           name="productComment.created"
+                                           value="#date(productComment.created)">
+                                </div>
+                            </div>
 
                         </div>
                         <!-- /.box-body -->

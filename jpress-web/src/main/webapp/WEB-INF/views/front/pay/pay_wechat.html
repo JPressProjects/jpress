@@ -1,0 +1,28 @@
+#include("layout.html")
+#@layout()
+#define content()
+
+<div class="pay-header">
+    请使用微信扫码支付
+</div>
+
+<div class="row pay-content">
+
+    <div class="col-lg-6 pay-content-info">
+        <div class="pay-content-title">
+            微信扫一扫付款
+        </div>
+        <div class="pay-content-money">
+            ￥ 1.00 元
+        </div>
+
+        <div class="pay-content-qrcode">
+            <img src="/static/commons/img/pay-qrcode.png" />
+        </div>
+    </div>
+    <div class="col-lg-6 pay-content-img">
+        <img src="/static/commons/img/pay-wechat.png" />
+    </div>
+
+</div>
+#end

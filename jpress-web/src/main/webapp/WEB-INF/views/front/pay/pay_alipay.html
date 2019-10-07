@@ -1,15 +1,23 @@
 #include("layout.html",title="微信扫一扫付款")
 #@layout()
+
+#define css()
+<style>
+    .btn-web-alipay{
+        padding: 50px;
+    }
+</style>
+#end
 #define content()
 
 <div class="pay-header">
-    请使用微信扫码支付
+    请使用支付宝扫码支付
 </div>
 
 <div class="row pay-content">
     <div class="col-lg-6 pay-content-info">
         <div class="pay-content-title">
-            微信扫一扫付款
+            支付宝扫一扫付款
         </div>
         <div class="pay-content-money">
             ￥ 1.00 元
@@ -19,7 +27,11 @@
         </div>
     </div>
     <div class="col-lg-6 pay-content-img">
-        <img src="/static/commons/img/pay-wechat.png" />
+        <img src="/static/commons/img/pay-alipay.png" />
+
+        <div class="btn-web-alipay">
+            <a href="#" class="btn btn-primary"> 或登录支付宝账户支付 </a>
+        </div>
     </div>
 
 </div>

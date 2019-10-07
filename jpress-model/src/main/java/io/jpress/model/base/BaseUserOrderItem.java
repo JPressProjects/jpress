@@ -67,12 +67,12 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getLong("seller_id");
 	}
 
-	public void setDistId(java.lang.Long distId) {
-		set("dist_id", distId);
+	public void setDistUserId(java.lang.Long distUserId) {
+		set("dist_user_id", distUserId);
 	}
 	
-	public java.lang.Long getDistId() {
-		return getLong("dist_id");
+	public java.lang.Long getDistUserId() {
+		return getLong("dist_user_id");
 	}
 
 	public void setDistAmount(java.math.BigDecimal distAmount) {

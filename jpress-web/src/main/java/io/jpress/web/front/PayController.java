@@ -10,6 +10,9 @@ public class PayController extends TemplateControllerBase {
         render("pay_alipay.html");
     }
 
+    public void query(){
+
+    }
 
     public void exec(){
         renderText("exec");

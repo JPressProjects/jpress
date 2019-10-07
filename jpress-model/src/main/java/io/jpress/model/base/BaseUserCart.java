@@ -35,12 +35,12 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 		return getLong("seller_id");
 	}
 
-	public void setDistId(java.lang.Integer distId) {
-		set("dist_id", distId);
+	public void setDistUserId(java.lang.Long distUserId) {
+		set("dist_user_id", distUserId);
 	}
 	
-	public java.lang.Integer getDistId() {
-		return getInt("dist_id");
+	public java.lang.Long getDistUserId() {
+		return getLong("dist_user_id");
 	}
 
 	public void setProductType(java.lang.String productType) {
@@ -49,6 +49,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	
 	public java.lang.String getProductType() {
 		return getStr("product_type");
+	}
+
+	public void setProductTypeText(java.lang.String productTypeText) {
+		set("product_type_text", productTypeText);
+	}
+	
+	public java.lang.String getProductTypeText() {
+		return getStr("product_type_text");
 	}
 
 	public void setProductId(java.lang.Long productId) {

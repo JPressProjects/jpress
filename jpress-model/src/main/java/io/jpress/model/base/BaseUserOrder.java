@@ -51,28 +51,12 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("buyer_nickname");
 	}
 
-	public void setTradeStatus(java.lang.Integer tradeStatus) {
-		set("trade_status", tradeStatus);
+	public void setDistUserId(java.lang.Long distUserId) {
+		set("dist_user_id", distUserId);
 	}
 	
-	public java.lang.Integer getTradeStatus() {
-		return getInt("trade_status");
-	}
-
-	public void setPayStatus(java.lang.Integer payStatus) {
-		set("pay_status", payStatus);
-	}
-	
-	public java.lang.Integer getPayStatus() {
-		return getInt("pay_status");
-	}
-
-	public void setDistId(java.lang.Long distId) {
-		set("dist_id", distId);
-	}
-	
-	public java.lang.Long getDistId() {
-		return getLong("dist_id");
+	public java.lang.Long getDistUserId() {
+		return getLong("dist_user_id");
 	}
 
 	public void setDistAmount(java.math.BigDecimal distAmount) {
@@ -249,6 +233,30 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.lang.String getOptions() {
 		return getStr("options");
+	}
+
+	public void setTradeStatus(java.lang.Integer tradeStatus) {
+		set("trade_status", tradeStatus);
+	}
+	
+	public java.lang.Integer getTradeStatus() {
+		return getInt("trade_status");
+	}
+
+	public void setPayStatus(java.lang.Integer payStatus) {
+		set("pay_status", payStatus);
+	}
+	
+	public java.lang.Integer getPayStatus() {
+		return getInt("pay_status");
+	}
+
+	public void setDelStatus(java.lang.Integer delStatus) {
+		set("del_status", delStatus);
+	}
+	
+	public java.lang.Integer getDelStatus() {
+		return getInt("del_status");
 	}
 
 	public void setModified(java.util.Date modified) {

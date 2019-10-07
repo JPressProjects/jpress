@@ -3,11 +3,11 @@ package io.jpress.web.front;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;
 
-@RequestMapping("/pay")
+@RequestMapping(value = "/pay",viewPath = "/WEB-INF/views/front/pay")
 public class PayController extends TemplateControllerBase {
 
     public void index(){
-        renderText("pay index ...");
+        render("pay_wechat.html");
     }
 
 

@@ -7,7 +7,7 @@ import io.jpress.web.base.TemplateControllerBase;
 public class PayController extends TemplateControllerBase {
 
     public void index(){
-        render("pay_alipay.html");
+        render("pay_wechat.html");
     }
 
     public void query(){

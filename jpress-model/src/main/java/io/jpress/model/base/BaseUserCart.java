@@ -43,6 +43,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 		return getLong("dist_user_id");
 	}
 
+	public void setProductId(java.lang.Long productId) {
+		set("product_id", productId);
+	}
+	
+	public java.lang.Long getProductId() {
+		return getLong("product_id");
+	}
+
 	public void setProductType(java.lang.String productType) {
 		set("product_type", productType);
 	}
@@ -57,14 +65,6 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	
 	public java.lang.String getProductTypeText() {
 		return getStr("product_type_text");
-	}
-
-	public void setProductId(java.lang.Long productId) {
-		set("product_id", productId);
-	}
-	
-	public java.lang.Long getProductId() {
-		return getLong("product_id");
 	}
 
 	public void setProductTitle(java.lang.String productTitle) {
@@ -91,6 +91,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 		return get("product_price");
 	}
 
+	public void setProductNewPrice(java.math.BigDecimal productNewPrice) {
+		set("product_new_price", productNewPrice);
+	}
+	
+	public java.math.BigDecimal getProductNewPrice() {
+		return get("product_new_price");
+	}
+
 	public void setProductCount(java.lang.Integer productCount) {
 		set("product_count", productCount);
 	}
@@ -113,6 +121,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	
 	public java.lang.String getViewText() {
 		return getStr("view_text");
+	}
+
+	public void setCheckStatus(java.lang.Integer checkStatus) {
+		set("check_status", checkStatus);
+	}
+	
+	public java.lang.Integer getCheckStatus() {
+		return getInt("check_status");
 	}
 
 	public void setOptions(java.lang.String options) {

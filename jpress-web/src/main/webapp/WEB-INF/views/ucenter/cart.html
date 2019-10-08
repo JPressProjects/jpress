@@ -17,6 +17,31 @@
     .add, .subtract {
 
     }
+
+
+    .bottom-bar {
+        left: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        border-top: solid 1px #ccc;
+        box-shadow: -15px 10px 10px 10px #ccc;;
+    }
+
+    .bottom-content{
+        background-color: #ccc;
+        width: 100%;
+        height: 60px;
+        padding: 0 230px 0 230px;
+    }
+
+    .bottom-content div{
+        height: 60px;
+    }
+
+
 </style>
 #end
 
@@ -235,5 +260,17 @@
     </section>
 
     <div class="clearfix"></div>
+</div>
+
+<div class="bottom-bar">
+    <div class="row bottom-content">
+        <div class="col-lg-4 bottom-content-action">1</div>
+        <div class="col-lg-7 bottom-content-price">2</div>
+        <div class="col-lg-1 bottom-content-buybtn">
+            <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-success "><i class="fa fa-credit-card"></i>
+                去结算
+            </a>
+        </div>
+    </div>
 </div>
 #end

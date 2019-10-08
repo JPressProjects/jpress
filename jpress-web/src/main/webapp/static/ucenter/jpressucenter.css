@@ -68,3 +68,13 @@
 .navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a{
     border-bottom: 1px solid #ccc;
 }
+
+.header-home{
+    line-height: 48px;
+    padding-left: 18px;
+    font-size: 15px;
+    color: #333;
+}
+.header-home:hover{
+    color: #999;
+}

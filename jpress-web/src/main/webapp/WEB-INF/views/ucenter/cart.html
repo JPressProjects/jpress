@@ -2,17 +2,19 @@
 
 #define css()
 <style>
-    .page-header{
+    .page-header {
         margin: 10px 0 20px;
     }
 
-    .input-number{
+    .input-number {
         width: 120px;
     }
-    .input-group-addon{
+
+    .input-group-addon {
         cursor: pointer;
     }
-    .add,.subtract{
+
+    .add, .subtract {
 
     }
 </style>
@@ -21,29 +23,70 @@
 #define script()
 
 <script>
-    $(".add").on("click",function () {
+
+    $(".add").on("click", function () {
         var input = $(this).prev();
         var inputVal = input.val();
-        if (inputVal && inputVal != ""){
+        if (inputVal && inputVal != "") {
             inputVal = parseInt(inputVal) + 1;
-        }else {
+        } else {
             inputVal = 1;
         }
         input.val(inputVal);
+        doCompute(inputVal, $(this));
     });
 
 
-    $(".subtract").on("click",function () {
+    $(".subtract").on("click", function () {
         var input = $(this).next();
         var inputVal = input.val();
-        if (inputVal && inputVal != ""){
+        if (inputVal && inputVal != "") {
             inputVal = parseInt(inputVal) - 1;
             if (inputVal < 1) inputVal = 1;
-        }else {
+        } else {
             inputVal = 1;
         }
         input.val(inputVal);
+        doCompute(inputVal, $(this));
     });
+
+
+    function doCompute(val, btn) {
+
+        var row = btn.parent().parent().parent("tr").prevAll().length + 1;
+        var col = btn.parent().parent().prevAll().length;
+
+        var price = parseFloat(getTableContent(row, col - 1));
+        var totalPrice = price * val;
+
+        setTableContent(row,col + 1, totalPrice.toFixed(2));
+    }
+
+    function getTableContent(row, col) {
+        var content = null;
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text();
+                    return false;
+                }
+            });
+        });
+        return content;
+    }
+
+
+    function setTableContent(row, col, content) {
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text(content);
+                    return false;
+                }
+            });
+        });
+    }
+
 
     function doDel(id) {
         if (confirm('确定要删除该记录吗？删除后不可恢复')) {
@@ -86,7 +129,7 @@
                 selectedIds += $(this).val() + ",";
             }
         });
-        return selectedIds.substring(0,selectedIds.length - 1);
+        return selectedIds.substring(0, selectedIds.length - 1);
     }
 
 </script>
@@ -97,25 +140,23 @@
 <div class="content-wrapper" style="min-height: 1126px;">
     <!-- Main content -->
     <section class="invoice">
-        <!-- title row -->
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 购物车.
                 </h2>
             </div>
-            <!-- /.col -->
         </div>
 
 
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="tab">
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                        <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                         </th>
                         <th style="width: 40%">商品</th>
                         <th>单价 #</th>
@@ -126,9 +167,10 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
+                                   onchange="dataItemChange(this)"/></td>
                         <td>Call of Duty</td>
-                        <td>455-981-221</td>
+                        <td>10.20</td>
                         <td>
                             <div class="input-group input-number">
                                 <span class="input-group-addon subtract">-</span>
@@ -140,9 +182,10 @@
                         <td>$64.50</td>
                     </tr>
                     <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
+                                   onchange="dataItemChange(this)"/></td>
                         <td>Need for Speed IV</td>
-                        <td>247-925-726</td>
+                        <td>39.90</td>
                         <td>
                             <div class="input-group input-number">
                                 <span class="input-group-addon subtract">-</span>
@@ -154,9 +197,10 @@
                         <td>$50.00</td>
                     </tr>
                     <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
+                                   onchange="dataItemChange(this)"/></td>
                         <td>Monsters DVD</td>
-                        <td>735-845-642</td>
+                        <td>55.05</td>
                         <td>
                             <div class="input-group input-number">
                                 <span class="input-group-addon subtract">-</span>
@@ -168,9 +212,10 @@
                         <td>$10.70</td>
                     </tr>
                     <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
+                                   onchange="dataItemChange(this)"/></td>
                         <td>Grown Ups Blue Ray</td>
-                        <td>422-568-642</td>
+                        <td>88234.50</td>
                         <td>
                             <div class="input-group input-number">
                                 <span class="input-group-addon subtract">-</span>

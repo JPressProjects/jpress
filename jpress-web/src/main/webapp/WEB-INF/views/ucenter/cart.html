@@ -1,17 +1,100 @@
-#@ucenter_noleft_layout()
+#@ucenter_noleft_layout('购物车')
 
 #define css()
 <style>
     .page-header{
         margin: 10px 0 20px;
     }
+
+    .input-number{
+        width: 120px;
+    }
+    .input-group-addon{
+        cursor: pointer;
+    }
+    .add,.subtract{
+
+    }
 </style>
+#end
+
+#define script()
+
+<script>
+    $(".add").on("click",function () {
+        var input = $(this).prev();
+        var inputVal = input.val();
+        if (inputVal && inputVal != ""){
+            inputVal = parseInt(inputVal) + 1;
+        }else {
+            inputVal = 1;
+        }
+        input.val(inputVal);
+    });
+
+
+    $(".subtract").on("click",function () {
+        var input = $(this).next();
+        var inputVal = input.val();
+        if (inputVal && inputVal != ""){
+            inputVal = parseInt(inputVal) - 1;
+            if (inputVal < 1) inputVal = 1;
+        }else {
+            inputVal = 1;
+        }
+        input.val(inputVal);
+    });
+
+    function doDel(id) {
+        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+
+        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
+        }
+
+    });
+
+
+    function checkAll(checkbox) {
+        $(".dataItem").each(function () {
+            $(this).prop('checked', checkbox.checked);
+        });
+
+        dataItemChange();
+    }
+
+    function dataItemChange() {
+        $(".checkAction").each(function () {
+            getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
+        })
+    }
+
+    function getSelectedIds() {
+        var selectedIds = "";
+        $(".dataItem").each(function () {
+            if ($(this).prop('checked')) {
+                selectedIds += $(this).val() + ",";
+            }
+        });
+        return selectedIds.substring(0,selectedIds.length - 1);
+    }
+
+</script>
+
 #end
 
 #define content()
 <div class="content-wrapper" style="min-height: 1126px;">
-
-
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
@@ -31,40 +114,71 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Qty</th>
-                        <th>Product</th>
-                        <th>Serial #</th>
-                        <th>Description</th>
-                        <th>Subtotal</th>
+                        <th style="width: 10px">
+                        <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                        </th>
+                        <th style="width: 40%">商品</th>
+                        <th>单价 #</th>
+                        <th>数量</th>
+                        <th>总价</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>1</td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
                         <td>Call of Duty</td>
                         <td>455-981-221</td>
-                        <td>El snort testosterone trophy driving gloves handsome</td>
+                        <td>
+                            <div class="input-group input-number">
+                                <span class="input-group-addon subtract">-</span>
+                                <input type="text" class="form-control" value="10">
+                                <span class="input-group-addon add">+</span>
+                            </div>
+                        </td>
+                        <td>$64.50</td>
                         <td>$64.50</td>
                     </tr>
                     <tr>
-                        <td>1</td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
                         <td>Need for Speed IV</td>
                         <td>247-925-726</td>
-                        <td>Wes Anderson umami biodiesel</td>
+                        <td>
+                            <div class="input-group input-number">
+                                <span class="input-group-addon subtract">-</span>
+                                <input type="text" class="form-control input-value">
+                                <span class="input-group-addon add">+</span>
+                            </div>
+                        </td>
+                        <td>$50.00</td>
                         <td>$50.00</td>
                     </tr>
                     <tr>
-                        <td>1</td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
                         <td>Monsters DVD</td>
                         <td>735-845-642</td>
-                        <td>Terry Richardson helvetica tousled street art master</td>
+                        <td>
+                            <div class="input-group input-number">
+                                <span class="input-group-addon subtract">-</span>
+                                <input type="text" class="form-control" value="10">
+                                <span class="input-group-addon add">+</span>
+                            </div>
+                        </td>
+                        <td>$10.70</td>
                         <td>$10.70</td>
                     </tr>
                     <tr>
-                        <td>1</td>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)" onchange="dataItemChange(this)"/></td>
                         <td>Grown Ups Blue Ray</td>
                         <td>422-568-642</td>
-                        <td>Tousled lomo letterpress</td>
+                        <td>
+                            <div class="input-group input-number">
+                                <span class="input-group-addon subtract">-</span>
+                                <input type="text" class="form-control" value="10">
+                                <span class="input-group-addon add">+</span>
+                            </div>
+                        </td>
+                        <td>$25.99</td>
                         <td>$25.99</td>
                     </tr>
                     </tbody>

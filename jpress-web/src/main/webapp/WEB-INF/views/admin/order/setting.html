@@ -101,6 +101,16 @@
 
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">付款说明</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="pwechat_pay_message">#option("pwechat_pay_message")</textarea>
+                                    <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">个人支付收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="pali_pay_enable"
@@ -124,6 +134,14 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">付款说明</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="pali_pay_message">#option("pali_pay_message")</textarea>
+                                    <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
+                                    </p>
+                                </div>
+                            </div>
 
 
                             <h4 class="page-header">微信对公收款</h4>
@@ -135,12 +153,15 @@
                                     <input type="hidden" id="wechat_pay_enable" name="wechat_pay_enable">
                                 </div>
                             </div>
+
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                    <p class="help-block">微信的对公收款要求必须有已经认证的服务号，同时服务号必须已经认证并开通微信支付功能。
+                                        更多请参考 <a href="https://pay.weixin.qq.com" target="_blank">https://pay.weixin.qq.com</a> 。</p>
                                 </div>
                             </div>
 
@@ -150,7 +171,6 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
                                 </div>
                             </div>
 
@@ -160,7 +180,6 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
                                 </div>
                             </div>
 
@@ -170,7 +189,6 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
                                 </div>
                             </div>
 
@@ -186,51 +204,48 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">商户号</label>
+                                <label class="col-sm-2 control-label">合作者ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                    <p class="help-block">支付宝的合作者ID 和 应用ID 等信息请去 <a href="https://open.alipay.com" target="_blank" >https://open.alipay.com</a> 申请。 </p>
                                 </div>
                             </div>
-
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">支付宝公钥</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                           placeholder="">
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">公钥</label>
+                                <label class="col-sm-2 control-label">应用私钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">密钥</label>
+                                <label class="col-sm-2 control-label">收款账号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">密钥</label>
-                                <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
-                                           placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                    <p class="help-block">请填写收款的公司支付宝账号。 </p>
                                 </div>
                             </div>
 
@@ -249,37 +264,16 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                    <p class="help-block">Paypal 的商户号及密钥等请去 <a href="https://developer.paypal.com/" target="_blank">https://developer.paypal.com/</a> 申请。 </p>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">应用ID</label>
+                                <label class="col-sm-2 control-label">商户密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">公钥</label>
-                                <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
-                                           placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">密钥</label>
-                                <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
-                                           placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
                                 </div>
                             </div>
 

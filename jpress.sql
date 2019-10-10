@@ -40,7 +40,7 @@ LOCK TABLES `article` WRITE;
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
 VALUES
-	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,3,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
+	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,4,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -142,7 +142,6 @@ CREATE TABLE `attachment` (
   KEY `suffix` (`suffix`),
   KEY `mime_type` (`mime_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件表，用于保存用户上传的附件内容。';
-
 
 
 # Dump of table coupon
@@ -581,6 +580,7 @@ VALUES
 UNLOCK TABLES;
 
 
+
 # Dump of table role_permission_mapping
 # ------------------------------------------------------------
 
@@ -672,7 +672,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin',NULL,'admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-10-03 16:17:43','2019-09-02 11:39:29');
+	(1,'admin',NULL,'admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-10-10 16:18:34','2019-09-02 11:39:29');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -804,9 +804,11 @@ CREATE TABLE `user_order` (
   `title` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '一般情况下商品的名称',
   `buyer_id` int(10) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `order_amount` decimal(10,2) DEFAULT NULL COMMENT '订单金额',
+  `real_amount` int(11) DEFAULT NULL COMMENT '真实金额，销售人员可以修改订单金额，一般情况下，真实金额等于订单金额',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
   `pay_amount` decimal(10,2) DEFAULT NULL,
@@ -825,6 +827,7 @@ CREATE TABLE `user_order` (
   `invoice_name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '单位名称',
   `invoice_mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票收取人手机号',
   `invoice_email` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票收取人邮箱',
+  `invoice_status` tinyint(2) DEFAULT NULL COMMENT '发票开具状态',
   `remarks` text COLLATE utf8mb4_unicode_ci,
   `options` text COLLATE utf8mb4_unicode_ci,
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成',
@@ -848,7 +851,7 @@ CREATE TABLE `user_order_item` (
   `order_ns` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单号',
   `buyer_id` int(11) unsigned NOT NULL,
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `buyer_remarks` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户订单备注',
+  `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言（备注）',
   `seller_id` int(11) unsigned DEFAULT NULL,
   `dist_user_id` int(10) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',

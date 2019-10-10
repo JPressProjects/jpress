@@ -104,6 +104,10 @@ public class UserCenterController extends UcenterControllerBase {
         render("cart.html");
     }
 
+    public void checkout(){
+        render("checkout.html");
+    }
+
     @EmptyValidate({
             @Form(name = "oldPwd", message = "旧不能为空"),
             @Form(name = "newPwd", message = "新密码不能为空"),

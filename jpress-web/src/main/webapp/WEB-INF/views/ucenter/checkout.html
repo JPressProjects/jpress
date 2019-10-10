@@ -1,0 +1,255 @@
+#@ucenter_noleft_layout('支付台')
+
+#define css()
+<style>
+    .page-header {
+        margin: 10px 0 20px;
+    }
+
+    .input-number {
+        width: 120px;
+    }
+
+    .input-group-addon {
+        cursor: pointer;
+    }
+
+    .add, .subtract {
+
+    }
+
+
+    .bottom-bar {
+        left: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        border-top: solid 1px #ccc;
+        box-shadow: -15px 10px 10px 10px #ccc;;
+    }
+
+    .bottom-content{
+        background-color: #ccc;
+        width: 100%;
+        height: 60px;
+        padding: 0 230px 0 230px;
+    }
+
+    .bottom-content div{
+        height: 60px;
+    }
+
+</style>
+#end
+
+#define content()
+<div class="content-wrapper" style="min-height: 1126px;">
+
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> 产品信息.
+                    <small class="pull-right">Date: 2/10/2014</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+
+
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Qty</th>
+                        <th>Product</th>
+                        <th>Serial #</th>
+                        <th>Description</th>
+                        <th>Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Call of Duty</td>
+                        <td>455-981-221</td>
+                        <td>El snort testosterone trophy driving gloves handsome</td>
+                        <td>$64.50</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Need for Speed IV</td>
+                        <td>247-925-726</td>
+                        <td>Wes Anderson umami biodiesel</td>
+                        <td>$50.00</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Monsters DVD</td>
+                        <td>735-845-642</td>
+                        <td>Terry Richardson helvetica tousled street art master</td>
+                        <td>$10.70</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Grown Ups Blue Ray</td>
+                        <td>422-568-642</td>
+                        <td>Tousled lomo letterpress</td>
+                        <td>$25.99</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> 订单信息.
+                    <small class="pull-right">Date: 2/10/2014</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+
+
+        <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-xs-6">
+
+                <div class="box box-dashboard">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">收件人信息</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" class="form-control" placeholder="收件人的姓名...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="text" class="form-control" placeholder="收件人的电话...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" class="form-control" placeholder="收件人的电话...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>详细地址</label>
+                                <textarea class="form-control" rows="3" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></textarea>
+                            </div>
+
+                        </form>
+
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-primary pull-right"><i class="fa fa-fw fa-street-view"></i>
+                                选择我之前的地址
+                            </button>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-6">
+                <div class="box box-dashboard">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">支付信息</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>支付方式</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="weichat" checked >
+                                        微信转账 （对私转账，相当于线下门店支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="alipay">
+                                        支付宝转账 （对私转账，相当于线下门店支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="weichat" >
+                                        微信扫码支付（手机打开微信APP，通过扫码支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="alipay">
+                                        支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="paypal">
+                                        Paypal支付（通过网页进行支付）
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>优惠码（券）</label>
+                                <input type="text" class="form-control" placeholder="请输入优惠码...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>买家留言</label>
+                                <textarea class="form-control" rows="3" placeholder="给卖家的留言信息"></textarea>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i>
+                    提交订单
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- /.content -->
+    <div class="clearfix"></div>
+</div>
+#end

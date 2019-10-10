@@ -51,6 +51,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("buyer_nickname");
 	}
 
+	public void setBuyerMsg(java.lang.String buyerMsg) {
+		set("buyer_msg", buyerMsg);
+	}
+	
+	public java.lang.String getBuyerMsg() {
+		return getStr("buyer_msg");
+	}
+
 	public void setDistUserId(java.lang.Long distUserId) {
 		set("dist_user_id", distUserId);
 	}
@@ -73,6 +81,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.math.BigDecimal getOrderAmount() {
 		return get("order_amount");
+	}
+
+	public void setRealAmount(java.lang.Integer realAmount) {
+		set("real_amount", realAmount);
+	}
+	
+	public java.lang.Integer getRealAmount() {
+		return getInt("real_amount");
 	}
 
 	public void setCouponCode(java.lang.String couponCode) {
@@ -217,6 +233,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.lang.String getInvoiceEmail() {
 		return getStr("invoice_email");
+	}
+
+	public void setInvoiceStatus(java.lang.Integer invoiceStatus) {
+		set("invoice_status", invoiceStatus);
+	}
+	
+	public java.lang.Integer getInvoiceStatus() {
+		return getInt("invoice_status");
 	}
 
 	public void setRemarks(java.lang.String remarks) {

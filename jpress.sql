@@ -762,7 +762,7 @@ CREATE TABLE `user_cart` (
   `product_count` int(11) NOT NULL DEFAULT '1',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
-  `check_status` tinyint(2) DEFAULT NULL COMMENT '选中状态',
+  `select_status` tinyint(2) DEFAULT NULL COMMENT '选中状态',
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,

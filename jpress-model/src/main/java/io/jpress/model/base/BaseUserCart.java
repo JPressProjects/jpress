@@ -123,12 +123,12 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 		return getStr("view_text");
 	}
 
-	public void setCheckStatus(java.lang.Integer checkStatus) {
-		set("check_status", checkStatus);
+	public void setSelectStatus(java.lang.Integer selectStatus) {
+		set("select_status", selectStatus);
 	}
 	
-	public java.lang.Integer getCheckStatus() {
-		return getInt("check_status");
+	public java.lang.Integer getSelectStatus() {
+		return getInt("select_status");
 	}
 
 	public void setOptions(java.lang.String options) {

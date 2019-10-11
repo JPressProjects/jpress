@@ -153,15 +153,10 @@ public class PayController extends TemplateControllerBase {
     public void callback() {
         String type = getPara();
 
-        PayService service = null;
+        PayService service = getPayPalPayService();
 
-        if ("wechat".equals(type)) {
-            service = getWxPayService();
-        }else if ("alipay".equals("type")){
-            service = getAlipayService();
-        }else if ("paypal".equals("type")){
-            service = getPayPalPayService();
-        }
+        //这种情况除非是认为的恶意调用
+        render404If(service == null);
 
         //获取支付方返回的对应参数
         Map<String, Object> params = null;
@@ -173,12 +168,25 @@ public class PayController extends TemplateControllerBase {
 
         if (null == params || !service.verify(params)) {
             renderText(service.getPayOutMessage("fail", "失败").toMessage());
-        }else {
+        } else {
             //这里处理业务逻辑
             renderText(service.getPayOutMessage("success", "成功").toMessage());
         }
     }
 
+
+    private PayService getPayService() {
+        switch (getPara()) {
+            case "wechat":
+                return getWxPayService();
+            case "alipay":
+                return getAlipayService();
+            case "paypal":
+                return getPayPalPayService();
+            default:
+                return null;
+        }
+    }
 
 
     /**

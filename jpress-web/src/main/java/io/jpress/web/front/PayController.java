@@ -19,8 +19,43 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
         render404If(payment == null);
 
+        String payType = getPara("type");
+        initPayInfo(payType);
 
-        render(getPara("type")+".html");
+        render(payType+".html");
+    }
+
+    private boolean initPayInfo(String payType) {
+        switch (payType){
+            case "wechat":
+                return initWechatInfo();
+            case "wechatx":
+                return initWechatxInfo();
+            case "alipay":
+                return initAlipayInfo();
+            case "alipayx":
+                return initAlipayxInfo();
+            default:
+                return false;
+        }
+    }
+
+
+
+    private boolean initWechatInfo() {
+        return false;
+    }
+
+    private boolean initWechatxInfo() {
+        return false;
+    }
+
+    private boolean initAlipayInfo() {
+        return false;
+    }
+
+    private boolean initAlipayxInfo() {
+        return false;
     }
 
     public void query(){

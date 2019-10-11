@@ -22,13 +22,12 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" id="form" action="#(CPATH)/ucenter/doSaveUser">
+                    <form class="form-horizontal" autocomplete="off" id="form" action="#(CPATH)/ucenter/finance/amount/doRecharge">
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">充值账号</label>
-
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" value="#(user.username ??)" readonly>
+                                    <input type="input" class="form-control" value="#(USER.username ??)" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -36,7 +35,7 @@
 
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control" placeholder="请输入充值金额...."
-                                           value="" name="user.nickname">
+                                           value="" name="recharge_amount">
                                     <p class="help-block">
                                         单位：元，最低充值不能低于 10 元。
                                     </p>

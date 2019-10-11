@@ -26,8 +26,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">开启在线支付功能</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("cdn_enable"))>
-                                    <input type="hidden" id="cdn_enable" name="cdn_enable">
+                                    <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("pay_enable"))>
+                                    <input type="hidden" id="cdn_enable" name="pay_enable">
                                 </div>
                             </div>
 
@@ -37,17 +37,17 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">物流信息API</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="coupon.type">
-                                        <option value="1">
+                                    <select class="form-control" name="express_api_type">
+                                        <option value="kuaidi100">
                                             快递100（kuaidi100.com）
                                         </option>
-                                        <option value="2">
+                                        <option value="juhecn">
                                            聚合数据（juhe.cn）
                                         </option>
-                                        <option value="2">
+                                        <option value="kdniao">
                                             快递鸟（kdniao.com）
                                         </option>
-                                        <option value="2">
+                                        <option value="showapi">
                                             易源接口（showapi.com）
                                         </option>
                                     </select>
@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">AppId（或 AppKey）</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="express_api_appid" class="form-control" value="#option(express_api_appid ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">AppSecret</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="express_api_appsecret" class="form-control" value="#option(express_api_appsecret ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="wechat_pay_mchId" class="form-control" value="#option(wechat_pay_mchId ??)"
                                            placeholder="">
                                     <p class="help-block">微信的对公收款要求必须有已经认证的服务号，同时服务号必须已经认证并开通微信支付功能。
                                         更多请参考 <a href="https://pay.weixin.qq.com" target="_blank">https://pay.weixin.qq.com</a> 。</p>
@@ -169,7 +169,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">应用ID</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="wechat_pay_appId" class="form-control" value="#option(wechat_pay_appId ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">公钥</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="wechat_pay_publicKey" class="form-control" value="#option(wechat_pay_publicKey ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">密钥</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="wechat_pay_SecretKey" class="form-control" value="#option(wechat_pay_SecretKey ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -206,7 +206,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">合作者ID</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="alipay_pay_pid" class="form-control" value="#option(alipay_pay_pid ??)"
                                            placeholder="">
                                     <p class="help-block">支付宝的合作者ID 和 应用ID 等信息请去 <a href="https://open.alipay.com" target="_blank" >https://open.alipay.com</a> 申请。 </p>
                                 </div>
@@ -215,7 +215,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">应用ID</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="alipay_pay_appid" class="form-control" value="#option(alipay_pay_appid ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">支付宝公钥</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="alipay_pay_publicKey" class="form-control" value="#option(alipay_pay_publicKey ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -234,7 +234,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">应用私钥</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="alipay_pay_privateKey" class="form-control" value="#option(alipay_pay_privateKey ??)"
                                            placeholder="">
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">收款账号</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="alipay_pay_seller" class="form-control" value="#option(alipay_pay_seller ??)"
                                            placeholder="">
                                     <p class="help-block">请填写收款的公司支付宝账号。 </p>
                                 </div>
@@ -262,7 +262,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="paypal_pay_clientid" class="form-control" value="#option(paypal_pay_clientid ??)"
                                            placeholder="">
                                     <p class="help-block">Paypal 的商户号及密钥等请去 <a href="https://developer.paypal.com/" target="_blank">https://developer.paypal.com/</a> 申请。 </p>
                                 </div>
@@ -272,7 +272,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商户密钥</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
+                                    <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option(paypal_pay_clientsecret ??)"
                                            placeholder="">
                                 </div>
                             </div>

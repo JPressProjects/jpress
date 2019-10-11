@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -212,7 +213,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     }
 
     private Long[] getTagIds(String[] tags) {
-        if (tags == null || tags.length == 0) {
+        if (ArrayUtil.isNullOrEmpty(tags)) {
             return null;
         }
 
@@ -224,10 +225,8 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "文章评论", groupId = "comment", order = 0)
     public void comment() {
-
         Page<ArticleComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
-
         render("article/comment_list.html");
     }
 
@@ -235,7 +234,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
      * 评论编辑 页面
      */
     public void commentEdit() {
-
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
 

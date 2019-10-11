@@ -19,14 +19,6 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getLong("id");
 	}
 
-	public void setProductType(java.lang.String productType) {
-		set("product_type", productType);
-	}
-	
-	public java.lang.String getProductType() {
-		return getStr("product_type");
-	}
-
 	public void setProductId(java.lang.Long productId) {
 		set("product_id", productId);
 	}
@@ -35,12 +27,28 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getLong("product_id");
 	}
 
+	public void setProductType(java.lang.String productType) {
+		set("product_type", productType);
+	}
+	
+	public java.lang.String getProductType() {
+		return getStr("product_type");
+	}
+
 	public void setProductName(java.lang.String productName) {
 		set("product_name", productName);
 	}
 	
 	public java.lang.String getProductName() {
 		return getStr("product_name");
+	}
+
+	public void setProductDesc(java.lang.String productDesc) {
+		set("product_desc", productDesc);
+	}
+	
+	public java.lang.String getProductDesc() {
+		return getStr("product_desc");
 	}
 
 	public void setTrxNo(java.lang.String trxNo) {

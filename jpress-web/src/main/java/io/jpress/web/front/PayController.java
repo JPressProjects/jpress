@@ -8,11 +8,11 @@ import com.egzosn.pay.common.bean.MethodType;
 import com.egzosn.pay.common.bean.PayOrder;
 import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.api.PayPalPayService;
+import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
@@ -20,9 +20,7 @@ import io.jpress.web.base.TemplateControllerBase;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Map;
-import java.util.UUID;
 
 @RequestMapping(value = "/pay", viewPath = "/WEB-INF/views/front/pay")
 public class PayController extends TemplateControllerBase {
@@ -54,19 +52,12 @@ public class PayController extends TemplateControllerBase {
      */
     public void wechat() {
 
-        PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null);
-
         PayService service = getWxPayService();
-        PayOrder payOrder = new PayOrder(
-                "订单title",
-                "摘要",
-                new BigDecimal(0.01),
-                StrUtil.uuid());
+        PayOrder order = createOrder();
 
-        payOrder.setTransactionType(WxTransactionType.NATIVE); //扫码付
+        order.setTransactionType(WxTransactionType.NATIVE); //扫码付
         //获取扫码付的二维码
-        BufferedImage image = service.genQrPay(payOrder);
+        BufferedImage image = service.genQrPay(order);
 
     }
 
@@ -90,12 +81,11 @@ public class PayController extends TemplateControllerBase {
     public void alipay() {
         PayService service = getAlipayService();
 
-        PayOrder payOrder = new PayOrder("订单title", "摘要", new BigDecimal(0.01), UUID.randomUUID().toString().replace("-", ""));
 
-        /*-----------扫码付-------------------*/
-        payOrder.setTransactionType(AliTransactionType.SWEEPPAY);
+        PayOrder order = createOrder();
+        order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
-        BufferedImage image = service.genQrPay(payOrder);
+        BufferedImage image = service.genQrPay(order);
     }
 
     /**
@@ -104,12 +94,8 @@ public class PayController extends TemplateControllerBase {
     public void alipayweb() {
         PayService service = getAlipayService();
 
-        PayOrder order = new PayOrder("订单title", "摘要", new BigDecimal(0.01), UUID.randomUUID().toString().replace("-", ""));
-
-        //WAP支付
-        //order.setTransactionType(AliTransactionType.WAP);
-        //电脑网页支付
-        order.setTransactionType(AliTransactionType.PAGE);
+        PayOrder order = createOrder();
+        order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
 
 
         //获取支付订单信息
@@ -132,13 +118,8 @@ public class PayController extends TemplateControllerBase {
 
         PayService service = getPayPalPayService();
 
-        PayOrder order = new PayOrder("订单title", "摘要", new BigDecimal(0.01), UUID.randomUUID().toString().replace("-", ""));
-
-        //WAP支付
-        //order.setTransactionType(AliTransactionType.WAP);
-        //电脑网页支付
-        order.setTransactionType(AliTransactionType.PAGE);
-
+        PayOrder order = createOrder();
+        order.setTransactionType(PayPalTransactionType.sale); //电脑网页支付
 
         //获取支付订单信息
         Map orderInfo = service.orderInfo(order);
@@ -201,6 +182,20 @@ public class PayController extends TemplateControllerBase {
      * 定时检查是否支付成功的地址
      */
     public void query() {
+
+    }
+
+    private PayOrder createOrder(){
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        if (payment == null){
+            return null;
+        }
+
+        return new PayOrder(
+                payment.getProductName(),
+                payment.getProductDesc(),
+                payment.getPayAmount(),
+                payment.getTrxNo());
 
     }
 

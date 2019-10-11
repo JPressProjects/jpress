@@ -222,7 +222,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     }
 
 
-    @UCenterMenu(text = "评论列表", groupId = "comment", order = 0)
+    @UCenterMenu(text = "文章评论", groupId = "comment", order = 0)
     public void comment() {
 
         Page<ArticleComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());

@@ -6,7 +6,6 @@ import com.jfinal.core.ActionKey;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
-import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrder;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderService;
@@ -91,14 +90,16 @@ public class FinanceController extends UcenterControllerBase {
         paymentService.save(payment);
 
 
-        UserAmountStatement uaStatement = new UserAmountStatement();
-        uaStatement.setUserId(getLoginedUser().getId());
-        uaStatement.setAction(UserAmountStatement.ACTION_RECHARGE);
-        uaStatement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
-        uaStatement.setStatus(UserAmountStatement.STATUS_VALIDATING); //设置状态为：正在验证中...
-        uaStatement.setActionPaymentId(payment.getId());
+//        UserAmountStatement uaStatement = new UserAmountStatement();
+//        uaStatement.setUserId(getLoginedUser().getId());
+//        uaStatement.setAction(UserAmountStatement.ACTION_RECHARGE);
+//        uaStatement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
+//        uaStatement.setStatus(UserAmountStatement.STATUS_VALIDATING); //设置状态为：正在验证中...
+//        uaStatement.setActionPaymentId(payment.getId());
+//        UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
+//        statementService.save(uaStatement);
 
-        redirect("/pay/"+payment.getTrxNo());
+        redirect("/pay/"+payment.getTrxNo()+"?type="+getPara("paytype"));
     }
 
 

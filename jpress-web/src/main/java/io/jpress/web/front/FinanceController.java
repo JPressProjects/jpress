@@ -64,7 +64,7 @@ public class FinanceController extends UcenterControllerBase {
      * 进行充值
      */
     @ActionKey("/ucenter/finance/amount/doRecharge")
-    public void doRecharge(){
+    public void doRecharge() {
         //充值流程
         //创建用户流水，状态为生效中...
         //创建用户payment
@@ -90,16 +90,7 @@ public class FinanceController extends UcenterControllerBase {
         paymentService.save(payment);
 
 
-//        UserAmountStatement uaStatement = new UserAmountStatement();
-//        uaStatement.setUserId(getLoginedUser().getId());
-//        uaStatement.setAction(UserAmountStatement.ACTION_RECHARGE);
-//        uaStatement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
-//        uaStatement.setStatus(UserAmountStatement.STATUS_VALIDATING); //设置状态为：正在验证中...
-//        uaStatement.setActionPaymentId(payment.getId());
-//        UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
-//        statementService.save(uaStatement);
-
-        redirect("/pay/"+payment.getTrxNo()+"?type="+getPara("paytype"));
+        redirect("/pay/" + getPara("paytype") + "/" + payment.getTrxNo());
     }
 
 

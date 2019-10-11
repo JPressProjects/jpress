@@ -11,5 +11,11 @@ public class UserAmountStatement extends BaseUserAmountStatement<UserAmountState
 
     private static final long serialVersionUID = 1L;
 
-	
+    public static final String ACTION_RECHARGE = "recharge";
+    public static final String ACTION_RECHARGE_DESC = "充值记录";
+
+    public static final int STATUS_OK = 1;          //已经生效，流水正常
+    public static final int STATUS_VALIDATING = 2;  //正在验证中...
+    public static final int STATUS_INVALID = 9;     //无效
+
 }

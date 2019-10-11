@@ -107,6 +107,14 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
 		return get("new_amount");
 	}
 
+	public void setStatus(java.lang.Integer status) {
+		set("status", status);
+	}
+	
+	public java.lang.Integer getStatus() {
+		return getInt("status");
+	}
+
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}

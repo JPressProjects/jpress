@@ -1,11 +1,18 @@
 package io.jpress.web.front;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.model.PaymentRecord;
+import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrder;
+import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderService;
 import io.jpress.web.base.UcenterControllerBase;
+
+import java.math.BigDecimal;
 
 
 @RequestMapping(value = "/ucenter/finance", viewPath = "/WEB-INF/views/ucenter/finance")
@@ -55,11 +62,43 @@ public class FinanceController extends UcenterControllerBase {
     }
 
     /**
-     * 支付
+     * 进行充值
      */
     @ActionKey("/ucenter/finance/amount/doRecharge")
     public void doRecharge(){
+        //充值流程
+        //创建用户流水，状态为生效中...
+        //创建用户payment
 
+        PaymentRecord payment = new PaymentRecord();
+        payment.setProductName("用户充值");
+        payment.setProductType("recharge");
+
+        payment.setTrxNo(StrUtil.uuid());
+        payment.setTrxType("recharge");
+
+        payment.setPayerUserId(getLoginedUser().getId());
+        payment.setPayerName(getLoginedUser().getNickname());
+        payment.setPayerFee(BigDecimal.ZERO);
+
+        payment.setOrderIp(getIPAddress());
+        payment.setOrderRefererUrl(getReferer());
+
+        payment.setPayAmount(BigDecimal.valueOf(Long.valueOf(getPara("recharge_amount"))));
+        payment.setStatus("1");
+
+        PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
+        paymentService.save(payment);
+
+
+        UserAmountStatement uaStatement = new UserAmountStatement();
+        uaStatement.setUserId(getLoginedUser().getId());
+        uaStatement.setAction(UserAmountStatement.ACTION_RECHARGE);
+        uaStatement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
+        uaStatement.setStatus(UserAmountStatement.STATUS_VALIDATING); //设置状态为：正在验证中...
+        uaStatement.setActionPaymentId(payment.getId());
+
+        redirect("/pay/"+payment.getTrxNo());
     }
 
 

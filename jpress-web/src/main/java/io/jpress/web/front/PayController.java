@@ -155,13 +155,13 @@ public class PayController extends TemplateControllerBase {
         //WAP支付
         //order.setTransactionType(AliTransactionType.WAP);
         //电脑网页支付
-        order.setTransactionType(AliTransactionType.DIRECT);
+        order.setTransactionType(AliTransactionType.PAGE);
 
 
         //获取支付订单信息
         Map orderInfo = service.orderInfo(order);
         //组装成html表单信息
-        redirect(service.buildRequest(orderInfo, MethodType.POST));
+        renderHtml(service.buildRequest(orderInfo, MethodType.POST));
     }
 
     /**
@@ -191,13 +191,13 @@ public class PayController extends TemplateControllerBase {
         //WAP支付
         //order.setTransactionType(AliTransactionType.WAP);
         //电脑网页支付
-        order.setTransactionType(AliTransactionType.DIRECT);
+        order.setTransactionType(AliTransactionType.PAGE);
 
 
         //获取支付订单信息
         Map orderInfo = service.orderInfo(order);
         //组装成html表单信息
-        redirect(service.buildRequest(orderInfo, MethodType.POST));
+        renderHtml(service.buildRequest(orderInfo, MethodType.POST));
     }
 
 

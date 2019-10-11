@@ -132,7 +132,6 @@ public class PayController extends TemplateControllerBase {
      * 支付状态的异步回调地址
      */
     public void callback() {
-        String type = getPara();
 
         PayService service = getPayPalPayService();
 

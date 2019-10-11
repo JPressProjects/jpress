@@ -16,11 +16,17 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.StrUtil;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 
 @Bean
 public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord> implements PaymentRecordService {
 
+    @Override
+    public PaymentRecord findByTrxNo(String trxno) {
+        return StrUtil.isBlank(trxno) ? null : DAO.findFirstByColumn(Column.create("trx_no",trxno));
+    }
 }

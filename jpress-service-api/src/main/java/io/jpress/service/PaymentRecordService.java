@@ -82,4 +82,7 @@ public interface PaymentRecordService {
      */
     public boolean update(PaymentRecord model);
 
+
+    public PaymentRecord findByTrxNo(String trxno);
+
 }

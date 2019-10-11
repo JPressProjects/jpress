@@ -78,9 +78,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">个人微信收款</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery"  data-for="pwechat_pay_enable"
-                                           #checkedIf(option("pwechat_pay_enable"))>
-                                    <input type="hidden" id="pwechat_pay_enable" name="pwechat_pay_enable">
+                                    <input type="checkbox" class="switchery"  data-for="wechatx_pay_enable"
+                                           #checkedIf(option("wechatx_pay_enable"))>
+                                    <input type="hidden" id="wechatx_pay_enable" name="wechatx_pay_enable">
                                 </div>
                             </div>
 
@@ -88,14 +88,14 @@
                                 <label class="col-sm-2 control-label">微信收款二维码</label>
                                 <div class="col-sm-6">
                                     <button type="button"
-                                            for-src="pwechat_pay_qrcode_img"
-                                            for-input="pwechat_pay_qrcode_input"
+                                            for-src="wechatx_pay_qrcode_img"
+                                            for-input="wechatx_pay_qrcode_input"
                                             class="jp-image-browser btn btn-flat btn-default btn-xs">
                                         <i class="fa fa-fw fa-image"></i> 选择图片
                                     </button>
                                     <br/>
-                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="pwechat_pay_qrcode_img">
-                                    <input type="hidden" id="pwechat_pay_qrcode_input" name="pwechat_pay_qrcode" value="#option('pwechat_pay_qrcode')">
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="wechatx_pay_qrcode_img">
+                                    <input type="hidden" id="wechatx_pay_qrcode_input" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')">
                                 </div>
                             </div>
 
@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">付款说明</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="pwechat_pay_message">#option("pwechat_pay_message")</textarea>
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="wechatx_pay_message">#option("wechatx_pay_message")</textarea>
                                     <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
                                     </p>
                                 </div>
@@ -113,9 +113,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">个人支付收款</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery"  data-for="pali_pay_enable"
-                                           #checkedIf(option("pali_pay_enable"))>
-                                    <input type="hidden" id="pali_pay_enable" name="pali_pay_enable">
+                                    <input type="checkbox" class="switchery"  data-for="alipayx_pay_enable"
+                                           #checkedIf(option("alipayx_pay_enable"))>
+                                    <input type="hidden" id="alipayx_pay_enable" name="alipayx_pay_enable">
                                 </div>
                             </div>
 
@@ -123,21 +123,21 @@
                                 <label class="col-sm-2 control-label">支付宝收款二维码</label>
                                 <div class="col-sm-6">
                                     <button type="button"
-                                            for-src="pali_pay_qrcode_img"
-                                            for-input="pali_pay_qrcode_input"
+                                            for-src="alipayx_pay_qrcode_img"
+                                            for-input="alipayx_pay_qrcode_input"
                                             class="jp-image-browser btn btn-flat btn-default btn-xs">
                                         <i class="fa fa-fw fa-image"></i> 选择图片
                                     </button>
                                     <br/>
-                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="pali_pay_qrcode_img">
-                                    <input type="hidden" id="pali_pay_qrcode_input" name="pali_pay_qrcode" value="#option('pali_pay_qrcode')">
+                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/avatar.png')" id="alipayx_pay_qrcode_img">
+                                    <input type="hidden" id="alipayx_pay_qrcode_input" name="alipayx_pay_qrcode" value="#option('alipayx_pay_qrcode')">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">付款说明</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="pali_pay_message">#option("pali_pay_message")</textarea>
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="alipayx_pay_message">#option("alipayx_pay_message")</textarea>
                                     <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
                                     </p>
                                 </div>
@@ -197,9 +197,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">开启</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery"  data-for="ali_pay_enable"
-                                           #checkedIf(option("ali_pay_enable"))>
-                                    <input type="hidden" id="ali_pay_enable" name="ali_pay_enable">
+                                    <input type="checkbox" class="switchery"  data-for="alipay_pay_enable"
+                                           #checkedIf(option("alipay_pay_enable"))>
+                                    <input type="hidden" id="alipay_pay_enable" name="alipay_pay_enable">
                                 </div>
                             </div>
 

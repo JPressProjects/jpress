@@ -37,7 +37,7 @@ import java.util.List;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article.admin
+ * @Package io.jpress.module.product.controller
  */
 @RequestMapping("/product")
 public class ProductController extends TemplateControllerBase {
@@ -75,23 +75,23 @@ public class ProductController extends TemplateControllerBase {
         //记录当前浏览量
         productService.doIncProductViewCount(product.getId());
 
-        User articleAuthor = product.getUserId() != null
+        User productAuthor = product.getUserId() != null
                 ? userService.findById(product.getUserId())
                 : null;
 
-        product.put("user", articleAuthor);
+        product.put("user", productAuthor);
 
         setAttr("product", product);
 
         render(product.getHtmlView());
     }
 
-    private void setSeoInfos(Product article) {
-        setSeoTitle(article.getTitle());
-        setSeoKeywords(article.getMetaKeywords());
-        setSeoDescription(StrUtil.isBlank(article.getMetaDescription())
-                ? CommonsUtils.maxLength(article.getText(), 100)
-                : article.getMetaDescription());
+    private void setSeoInfos(Product product) {
+        setSeoTitle(product.getTitle());
+        setSeoKeywords(product.getMetaKeywords());
+        setSeoDescription(StrUtil.isBlank(product.getMetaDescription())
+                ? CommonsUtils.maxLength(product.getText(), 100)
+                : product.getMetaDescription());
     }
 
 
@@ -152,7 +152,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
         //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
+        Boolean vCodeEnable = optionService.findAsBoolByKey("product_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
                 renderJson(Ret.fail().set("message", "验证码错误"));
@@ -174,7 +174,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
         //是否开启评论功能
-        Boolean commentEnable = optionService.findAsBoolByKey("article_comment_enable");
+        Boolean commentEnable = optionService.findAsBoolByKey("product_comment_enable");
         if (commentEnable == null || commentEnable == false) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
@@ -182,7 +182,7 @@ public class ProductController extends TemplateControllerBase {
 
 
         //是否允许未登录用户参与评论
-        Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
+        Boolean unLoginEnable = optionService.findAsBoolByKey("product_comment_unlogin_enable");
         if (unLoginEnable == null || unLoginEnable == false) {
             if (getLoginedUser() == null) {
                 renderJson(Ret.fail().set("message", "未登录用户不能评论").set("errorCode", 9));
@@ -204,7 +204,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
         //是否是管理员必须审核
-        Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");
+        Boolean reviewEnable = optionService.findAsBoolByKey("product_comment_review_enable");
         if (reviewEnable != null && reviewEnable == true) {
             comment.setStatus(ProductComment.STATUS_UNAUDITED);
         }

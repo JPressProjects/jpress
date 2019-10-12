@@ -1,7 +1,9 @@
 package io.jpress.module.product.model;
 
+import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 import io.jpress.module.product.model.base.BaseProduct;
 
 /**
@@ -43,6 +45,15 @@ public class Product extends BaseProduct<Product> {
         return originalContent.replace("&lt;", "&amp;lt;")
                 .replace("&gt;", "&amp;gt;");
 
+    }
+
+
+    public String getUrl() {
+        if (StrUtil.isBlank(getSlug())) {
+            return JFinal.me().getContextPath() + "/product/" + getId() + JPressOptions.getAppUrlSuffix();
+        } else {
+            return JFinal.me().getContextPath() + "/product/" + getSlug() + JPressOptions.getAppUrlSuffix();
+        }
     }
 
 

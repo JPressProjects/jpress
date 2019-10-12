@@ -280,7 +280,7 @@
                                                 <label class="col-sm-2 control-label">销售价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="price"
-                                                           name="product.price" placeholder="" value="">
+                                                           name="product.price" placeholder="" value="#(product.price ??)">
                                                     <p class="help-block">产品的实际销售价格。</p>
                                                 </div>
                                             </div>
@@ -288,7 +288,7 @@
                                                 <label class="col-sm-2 control-label">原价</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="origin_price"
-                                                           name="product.origin_price" placeholder="" value="">
+                                                           name="product.origin_price" placeholder="" value="#(product.origin_price ??)">
                                                     <p class="help-block">产品的原始价格，页面会使用删除线进行显示。</p>
                                                 </div>
                                             </div>
@@ -296,7 +296,7 @@
                                                 <label class="col-sm-2 control-label">限时价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="limited_price"
-                                                           name="product.limited_price" placeholder="" value="">
+                                                           name="product.limited_price" placeholder="" value="#(product.limited_price ??)">
                                                     <p class="help-block">限时价格（早鸟价）。</p>
                                                 </div>
                                             </div>
@@ -304,7 +304,7 @@
                                                 <label class="col-sm-2 control-label">限时时间</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control datetimepicker" id="limited_time"
-                                                           name="product.limited_time" placeholder="" value="">
+                                                           name="product.limited_time" placeholder="" value="#(product.limited_time ??)">
                                                     <p class="help-block">到该时间后，限时价格会自动恢复到原始价格。</p>
                                                 </div>
                                             </div>
@@ -320,7 +320,6 @@
                                 <div class="box box-solid">
                                     <div class="box-header with-border">
                                         <h3 class="box-title">分销</h3>
-
                                         <div class="box-tools">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
@@ -335,15 +334,14 @@
                                                 <div class="col-sm-6">
                                                     <input type="checkbox" checked class="switchery"
                                                            data-for="dist_enable" value="true">
-                                                    <p class="help-block"></p>
-                                                    <input type="hidden" id="dist_enable" name="product.dist_enable">
+                                                    <input type="hidden" id="dist_enable" name="product.dist_enable" value="#(product.dist_enable)">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">分销收益</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="dist_amount"
-                                                           name="product.dist_amount" placeholder="" value="">
+                                                           name="product.dist_amount" placeholder="" value="#(product.dist_amount ??)">
                                                     <p class="help-block">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
                                                 </div>
                                             </div>
@@ -374,7 +372,7 @@
                                                 <label class="col-sm-2 control-label">摘要</label>
                                                 <div class="col-sm-6">
                                                     <textarea class="form-control" id="summary" name="product.summary"
-                                                              placeholder="" rows="4"></textarea>
+                                                              placeholder="" rows="4">#(product.summary ??)</textarea>
                                                     <p class="help-block"></p>
                                                 </div>
                                             </div>
@@ -383,7 +381,7 @@
                                                 <div class="col-sm-6">
                                                     <textarea class="form-control" id="meta_keywords"
                                                               name="product.meta_keywords" placeholder=""
-                                                              rows="2"></textarea>
+                                                              rows="2">#(product.meta_keywords ??)</textarea>
                                                     <p class="help-block"></p>
                                                 </div>
                                             </div>
@@ -392,7 +390,7 @@
                                                 <div class="col-sm-6">
                                                     <textarea class="form-control" id="meta_description"
                                                               name="product.meta_description" placeholder=""
-                                                              rows="2"></textarea>
+                                                              rows="2">#(product.meta_description ??)</textarea>
                                                     <p class="help-block"></p>
                                                 </div>
                                             </div>
@@ -400,31 +398,28 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">访问量</label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" name="product.view_count"
-                                                              placeholder="" rows="4"></textarea>
-                                                    <p class="help-block"></p>
+                                                    <input type="text" class="form-control"
+                                                           name="product.view_count" placeholder="" value="#(product.view_count ??)">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">销量</label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" name="product.sales_count"
-                                                              placeholder="" rows="4"></textarea>
-                                                    <p class="help-block"></p>
+                                                    <input type="text" class="form-control"
+                                                           name="product.sales_count" placeholder="" value="#(product.sales_count ??)">
                                                 </div>
                                             </div>
+
 
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">允许评论</label>
                                                 <div class="col-sm-6">
                                                     <input type="checkbox" checked="" class="switchery"
-                                                           data-for="comment_status" value="true" data-switchery="true"
-                                                    >
-                                                    <p class="help-block"></p>
+                                                           data-for="comment_status" value="true" data-switchery="true">
                                                     <input type="hidden" id="comment_status"
-                                                           name="product.comment_status" value="true">
+                                                           name="product.comment_status" value="#(product.comment_status ?? 'true')">
                                                 </div>
                                             </div>
 

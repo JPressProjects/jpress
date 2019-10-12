@@ -167,6 +167,16 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         return true;
     }
 
+    @Override
+    public void doIncProductViewCount(long productId) {
+
+    }
+
+    @Override
+    public void doIncProductCommentCount(long productId) {
+
+    }
+
 
     private Page<Product> joinUserInfo(Page<Product> page) {
         userService.join(page, "user_id");

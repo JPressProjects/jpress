@@ -103,6 +103,11 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
         return p;
     }
 
+    @Override
+    public void doIncCommentReplyCount(long commentId) {
+
+    }
+
     private void joinParentUser(Page<ProductComment> p) {
         if (p == null || p.getList().isEmpty()) {
             return;

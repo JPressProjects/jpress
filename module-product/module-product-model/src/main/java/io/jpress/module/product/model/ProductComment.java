@@ -15,4 +15,8 @@ public class ProductComment extends BaseProductComment<ProductComment> {
     public static final String STATUS_UNAUDITED = "unaudited"; //待审核
     public static final String STATUS_TRASH = "trash"; //垃圾箱
 
+    public boolean isNormal() {
+        return STATUS_NORMAL.equals(getStatus());
+    }
+
 }

@@ -210,4 +210,6 @@ public interface ProductCommentService  {
     public Page<ProductComment> _paginateByUserId(int page, int pagesize, long userId);
 
     public Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId);
+
+    public void doIncCommentReplyCount(long commentId);
 }

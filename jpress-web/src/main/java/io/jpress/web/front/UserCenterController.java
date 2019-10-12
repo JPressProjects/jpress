@@ -18,6 +18,7 @@ package io.jpress.web.front;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -29,6 +30,8 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.User;
+import io.jpress.model.UserCart;
+import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -44,6 +47,9 @@ public class UserCenterController extends UcenterControllerBase {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private UserCartService cartService;
 
     /**
      * 用户中心首页
@@ -101,6 +107,9 @@ public class UserCenterController extends UcenterControllerBase {
      * 购物车
      */
     public void cart(){
+        Page<UserCart> page = cartService.paginate(1,10);
+        setAttr("page",page);
+
         render("cart.html");
     }
 

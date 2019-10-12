@@ -191,68 +191,38 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    #for(userCart : page.list ??)
                     <tr>
                         <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
                                    onchange="dataItemChange(this)"/></td>
-                        <td>Call of Duty</td>
-                        <td>10.20</td>
+                        <td>#(userCart.product_title ??)</td>
+                        <td>#(userCart.product_new_price ??)</td>
                         <td>
                             <div class="input-group input-number">
                                 <span class="input-group-addon subtract">-</span>
-                                <input type="text" class="form-control" value="10">
+                                <input type="text" class="form-control" value="#(userCart.product_count ??)">
                                 <span class="input-group-addon add">+</span>
                             </div>
                         </td>
-                        <td>$64.50</td>
-                        <td>$64.50</td>
-                    </tr>
-                    <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
-                                   onchange="dataItemChange(this)"/></td>
-                        <td>Need for Speed IV</td>
-                        <td>39.90</td>
+                        <td>#(userCart.product_count * userCart.product_new_price ??)</td>
                         <td>
-                            <div class="input-group input-number">
-                                <span class="input-group-addon subtract">-</span>
-                                <input type="text" class="form-control input-value">
-                                <span class="input-group-addon add">+</span>
-                            </div>
+                            <a href="#">删除</a>
                         </td>
-                        <td>$50.00</td>
-                        <td>$50.00</td>
                     </tr>
-                    <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
-                                   onchange="dataItemChange(this)"/></td>
-                        <td>Monsters DVD</td>
-                        <td>55.05</td>
-                        <td>
-                            <div class="input-group input-number">
-                                <span class="input-group-addon subtract">-</span>
-                                <input type="text" class="form-control" value="10">
-                                <span class="input-group-addon add">+</span>
-                            </div>
-                        </td>
-                        <td>$10.70</td>
-                        <td>$10.70</td>
-                    </tr>
-                    <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id ??)"
-                                   onchange="dataItemChange(this)"/></td>
-                        <td>Grown Ups Blue Ray</td>
-                        <td>88234.50</td>
-                        <td>
-                            <div class="input-group input-number">
-                                <span class="input-group-addon subtract">-</span>
-                                <input type="text" class="form-control" value="10">
-                                <span class="input-group-addon add">+</span>
-                            </div>
-                        </td>
-                        <td>$25.99</td>
-                        <td>$25.99</td>
-                    </tr>
+                    #end
+
                     </tbody>
                 </table>
+
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            #@_paginate()
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- /.col -->
         </div>

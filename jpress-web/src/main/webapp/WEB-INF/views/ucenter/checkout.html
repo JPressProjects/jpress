@@ -1,5 +1,122 @@
 #@ucenter_noleft_layout('支付台')
 
+#define script()
+
+<script>
+
+    $(".add").on("click", function () {
+        var input = $(this).prev();
+        var inputVal = input.val();
+        if (inputVal && inputVal != "") {
+            inputVal = parseInt(inputVal) + 1;
+        } else {
+            inputVal = 1;
+        }
+        input.val(inputVal);
+        doCompute(inputVal, $(this));
+    });
+
+
+    $(".subtract").on("click", function () {
+        var input = $(this).next();
+        var inputVal = input.val();
+        if (inputVal && inputVal != "") {
+            inputVal = parseInt(inputVal) - 1;
+            if (inputVal < 1) inputVal = 1;
+        } else {
+            inputVal = 1;
+        }
+        input.val(inputVal);
+        doCompute(inputVal, $(this));
+    });
+
+
+    function doCompute(val, btn) {
+
+        var row = btn.parent().parent().parent("tr").prevAll().length + 1;
+        var col = btn.parent().parent().prevAll().length;
+
+        var price = parseFloat(getTableContent(row, col - 1));
+        var totalPrice = price * val;
+
+        setTableContent(row,col + 1, totalPrice.toFixed(2));
+    }
+
+    function getTableContent(row, col) {
+        var content = null;
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text();
+                    return false;
+                }
+            });
+        });
+        return content;
+    }
+
+
+    function setTableContent(row, col, content) {
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text(content);
+                    return false;
+                }
+            });
+        });
+    }
+
+
+    function doDel(id) {
+        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+
+        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
+        }
+
+    });
+
+
+    function checkAll(checkbox) {
+        $(".dataItem").each(function () {
+            $(this).prop('checked', checkbox.checked);
+        });
+
+        dataItemChange();
+    }
+
+    function dataItemChange() {
+        $(".checkAction").each(function () {
+            getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
+        })
+    }
+
+    function getSelectedIds() {
+        var selectedIds = "";
+        $(".dataItem").each(function () {
+            if ($(this).prop('checked')) {
+                selectedIds += $(this).val() + ",";
+            }
+        });
+        return selectedIds.substring(0, selectedIds.length - 1);
+    }
+
+</script>
+
+#end
+
+
 #define css()
 <style>
     .page-header {
@@ -64,51 +181,52 @@
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="tab">
                     <thead>
                     <tr>
-                        <th>Qty</th>
-                        <th>Product</th>
-                        <th>Serial #</th>
-                        <th>Description</th>
-                        <th>Subtotal</th>
+                        <th style="width: 40%">商品</th>
+                        <th>单价 #</th>
+                        <th>数量</th>
+                        <th>总价</th>
+                        <th style="width: 100px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
+
+                    #for(userCart : userCarts )
                     <tr>
-                        <td>1</td>
-                        <td>Call of Duty</td>
-                        <td>455-981-221</td>
-                        <td>El snort testosterone trophy driving gloves handsome</td>
-                        <td>$64.50</td>
+                        <td>#(userCart.product_title ??)</td>
+                        <td>#(userCart.product_new_price ??)</td>
+                        <td>
+                            <div class="input-group input-number">
+                                <span class="input-group-addon subtract">-</span>
+                                <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                                <span class="input-group-addon add">+</span>
+                            </div>
+                        </td>
+                        <td>#(userCart.product_count * userCart.product_new_price ??)</td>
+                        <td>
+                            <a href="#">删除</a>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Need for Speed IV</td>
-                        <td>247-925-726</td>
-                        <td>Wes Anderson umami biodiesel</td>
-                        <td>$50.00</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Monsters DVD</td>
-                        <td>735-845-642</td>
-                        <td>Terry Richardson helvetica tousled street art master</td>
-                        <td>$10.70</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Grown Ups Blue Ray</td>
-                        <td>422-568-642</td>
-                        <td>Tousled lomo letterpress</td>
-                        <td>$25.99</td>
-                    </tr>
+                    #end
+
                     </tbody>
                 </table>
             </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-footer">
+                    <small class="pull-right">总价格: 1000 ￥</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+
     </section>
 
     <!-- Main content -->

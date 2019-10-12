@@ -81,4 +81,5 @@ public interface UserCartService  {
     public List<UserCart> findListByUserId(Object userId,int count);
 
 
+    public List<UserCart> findSelectedByUserId(Long id);
 }

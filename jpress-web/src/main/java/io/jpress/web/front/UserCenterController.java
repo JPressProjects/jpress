@@ -36,6 +36,8 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -113,7 +115,19 @@ public class UserCenterController extends UcenterControllerBase {
         render("cart.html");
     }
 
+    /**
+     * 购买页面
+     */
     public void checkout(){
+        List<UserCart> userCarts = new ArrayList<>();
+        Long cid = getParaToLong();
+        if (cid != null){
+            userCarts.add(cartService.findById(cid));
+        }else {
+            userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
+        }
+
+        setAttr("userCarts",userCarts);
         render("checkout.html");
     }
 

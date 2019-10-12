@@ -187,7 +187,7 @@
                         <th>单价 #</th>
                         <th>数量</th>
                         <th>总价</th>
-                        <th>操作</th>
+                        <th style="width: 100px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -207,6 +207,7 @@
                         </td>
                         <td>#(userCart.product_count * userCart.product_new_price ??)</td>
                         <td>
+                            <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
                             <a href="#">删除</a>
                         </td>
                     </tr>

@@ -18,6 +18,7 @@ package io.jpress.web.front;
 
 import com.jfinal.core.Controller;
 import io.jboot.web.controller.JbootControllerContext;
+import io.jpress.commons.SnowFlake;
 
 public class PayKit {
 
@@ -27,5 +28,10 @@ public class PayKit {
 
     public static void redirect(Controller controller, String paytype, String trxno) {
         controller.redirect("/pay/" + paytype + "/" + trxno);
+    }
+
+    private static final SnowFlake SNOW_FLAKE = new SnowFlake(1,1);
+    public static String genOrderNS(){
+        return String.valueOf(SNOW_FLAKE.genNextId());
     }
 }

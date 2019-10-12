@@ -146,6 +146,10 @@ public class _ProductController extends AdminControllerBase {
         setAttr("styles", styles);
     }
 
+    @EmptyValidate({
+            @Form(name = "product.title",message = "产品标题不能为空"),
+            @Form(name = "product.price",message = "产品的销售价格不能为空")
+    })
     public void doSave() {
         Product product = getModel(Product.class, "product");
 

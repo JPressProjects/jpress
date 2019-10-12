@@ -33,6 +33,7 @@ import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.*;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserAddressService;
 import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
@@ -55,6 +56,9 @@ public class UserCenterController extends UcenterControllerBase {
 
     @Inject
     private UserCartService cartService;
+
+    @Inject
+    private UserAddressService addressService;
 
     /**
      * 用户中心首页
@@ -129,8 +133,12 @@ public class UserCenterController extends UcenterControllerBase {
         } else {
             userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
         }
-
         setAttr("userCarts", userCarts);
+
+        UserAddress defaultAddress = addressService.findDefaultAddress(getLoginedUser().getId());
+        setAttr("defaultAddress",defaultAddress);
+
+
         render("checkout.html");
     }
 

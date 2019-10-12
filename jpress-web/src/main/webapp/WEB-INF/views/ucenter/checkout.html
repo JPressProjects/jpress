@@ -257,22 +257,22 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>联系人</label>
-                                <input type="text" class="form-control" placeholder="收件人的姓名...">
+                                <input type="text" class="form-control" placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                             </div>
 
                             <div class="form-group">
                                 <label>联系电话</label>
-                                <input type="text" class="form-control" placeholder="收件人的电话...">
+                                <input type="text" class="form-control" placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
                             </div>
 
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control" placeholder="收件人的收件地址...">
+                                <input type="text" class="form-control" placeholder="收件人的收件地址..." value="#(defaultAddress.username ??)">
                             </div>
 
                             <div class="form-group">
                                 <label>详细地址</label>
-                                <textarea class="form-control" rows="3" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息">value="#(defaultAddress.address ??)"</textarea>
                             </div>
 
                         </form>

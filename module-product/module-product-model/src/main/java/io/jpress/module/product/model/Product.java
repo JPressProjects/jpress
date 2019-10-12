@@ -70,7 +70,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
         userCart.setProductThumbnail(getThumbnail());
-        userCart.setSelectStatus(false);
+        userCart.setSelected(false);
 
         return userCart;
     }

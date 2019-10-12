@@ -95,5 +95,9 @@ public interface UserAddressService  {
      */
     public Page<UserAddress> paginate(int page, int pageSize);
 
+    public UserAddress findDefaultAddress(long userId);
+
+    public List<UserAddress> findListByUserId(long userId);
+
 
 }

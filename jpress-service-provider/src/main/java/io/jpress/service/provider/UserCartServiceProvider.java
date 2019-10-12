@@ -19,6 +19,6 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public List<UserCart> findSelectedByUserId(Long userId) {
-        return DAO.findListByColumns(Columns.create("user_id", userId).eq("select_status",true), "id desc");
+        return DAO.findListByColumns(Columns.create("user_id", userId).eq("selected",true), "id desc");
     }
 }

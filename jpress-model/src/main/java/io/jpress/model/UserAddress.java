@@ -11,5 +11,10 @@ public class UserAddress extends BaseUserAddress<UserAddress> {
 
     private static final long serialVersionUID = 1L;
 
+    public boolean isDefault(){
+        Boolean isDefault = getIsDefault();
+        return isDefault != null && isDefault;
+    }
+
 	
 }

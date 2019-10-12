@@ -332,9 +332,8 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">启用分销功能</label>
                                                 <div class="col-sm-6">
-                                                    <input type="checkbox" checked class="switchery"
-                                                           data-for="dist_enable" value="true">
-                                                    <input type="hidden" id="dist_enable" name="product.dist_enable" value="#(product.dist_enable)">
+                                                    <input type="checkbox" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
+                                                    <input type="hidden" id="dist_enable" name="product.dist_enable">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -350,6 +349,7 @@
                                 </div>
                             </div>
                         </div>
+
 
 
                         <div class="form-group">
@@ -416,10 +416,8 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">允许评论</label>
                                                 <div class="col-sm-6">
-                                                    <input type="checkbox" checked="" class="switchery"
-                                                           data-for="comment_status" value="true" data-switchery="true">
-                                                    <input type="hidden" id="comment_status"
-                                                           name="product.comment_status" value="#(product.comment_status ?? 'true')">
+                                                    <input type="checkbox" class="switchery"  data-for="comment_status"  #checkedIf(product.comment_status??true) >
+                                                    <input type="hidden" id="comment_status" name="product.comment_status">
                                                 </div>
                                             </div>
 

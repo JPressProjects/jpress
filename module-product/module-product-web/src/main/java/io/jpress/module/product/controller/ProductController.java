@@ -250,7 +250,23 @@ public class ProductController extends TemplateControllerBase {
      * 添加到购物车
      */
     public void doAddCart(){
+        User user = getLoginedUser();
+        if (user == null){
+            renderJson(Ret.fail().set("code","1").set("message","用户未登录"));
+            return;
+        }
 
+
+       Long  productId = getParaToLong();
+       Product product = productService.findById(productId);
+
+       if (product == null || !product.isNormal()){
+           renderJson(Ret.fail().set("code","2").set("message","商品不存在。"));
+           return;
+       }
+
+       cartService.saveOrUpdate(product.toUserCartItem(user.getId(),null));
+       renderOkJson();
     }
 
 

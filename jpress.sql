@@ -1,8 +1,6 @@
 # Dump of table article
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `article`;
-
 CREATE TABLE `article` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `pid` int(11) DEFAULT NULL COMMENT '子版本的文章id',
@@ -35,21 +33,10 @@ CREATE TABLE `article` (
   KEY `order_number` (`order_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
 
-LOCK TABLES `article` WRITE;
-/*!40000 ALTER TABLE `article` DISABLE KEYS */;
-
-INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
-VALUES
-	(1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,4,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
-
-/*!40000 ALTER TABLE `article` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table article_category
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `article_category`;
 
 CREATE TABLE `article_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -79,8 +66,6 @@ CREATE TABLE `article_category` (
 # Dump of table article_category_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `article_category_mapping`;
-
 CREATE TABLE `article_category_mapping` (
   `article_id` int(11) unsigned NOT NULL COMMENT '文章ID',
   `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
@@ -91,8 +76,6 @@ CREATE TABLE `article_category_mapping` (
 
 # Dump of table article_comment
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `article_comment`;
 
 CREATE TABLE `article_comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -120,8 +103,6 @@ CREATE TABLE `article_comment` (
 # Dump of table attachment
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `attachment`;
-
 CREATE TABLE `attachment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID主键',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '上传附件的用户ID',
@@ -144,10 +125,9 @@ CREATE TABLE `attachment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件表，用于保存用户上传的附件内容。';
 
 
+
 # Dump of table coupon
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `coupon`;
 
 CREATE TABLE `coupon` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -174,47 +154,41 @@ CREATE TABLE `coupon` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='优惠券';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券';
 
 
 
 # Dump of table coupon_code
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `coupon_code`;
-
 CREATE TABLE `coupon_code` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `coupon_id` int(11) unsigned DEFAULT NULL COMMENT '类型ID',
-  `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '优惠券标题',
+  `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠券标题',
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
   `valid_time` datetime DEFAULT NULL COMMENT '领取时间',
   `status` int(11) DEFAULT NULL COMMENT '状态 0未领取 1未使用、2使用中、3已经使用',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='优惠券领取记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券领取记录';
 
 
 
 # Dump of table coupon_product
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `coupon_product`;
-
 CREATE TABLE `coupon_product` (
   `product_type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '商品的类型，默认是 product',
   `product_id` int(11) unsigned NOT NULL COMMENT '商品的id',
   `coupon_id` int(11) unsigned NOT NULL COMMENT '优惠券ID',
   PRIMARY KEY (`product_type`,`product_id`,`coupon_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='优惠券关联商品信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券关联商品信息表';
 
 
 
 # Dump of table coupon_used_record
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `coupon_used_record`;
 
 CREATE TABLE `coupon_used_record` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -228,34 +202,30 @@ CREATE TABLE `coupon_used_record` (
   `code_user_nickname` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '优惠券归属的用户昵称',
   `created` datetime DEFAULT NULL COMMENT '使用时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment '优惠券使用记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券使用记录';
 
 
 
 # Dump of table member
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `member`;
-
 CREATE TABLE `member` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) unsigned DEFAULT NULL comment '会员组id',
-  `user_id` int(11) unsigned DEFAULT NULL comment '用户id',
-  `duetime` datetime DEFAULT NULL comment '到期时间',
+  `group_id` int(11) unsigned DEFAULT NULL COMMENT '会员组id',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户id',
+  `duetime` datetime DEFAULT NULL COMMENT '到期时间',
   `remark` text COLLATE utf8mb4_unicode_ci,
   `source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='会员信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员信息';
 
 
 
 # Dump of table member_dist_price
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_dist_price`;
 
 CREATE TABLE `member_dist_price` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -265,19 +235,17 @@ CREATE TABLE `member_dist_price` (
   `price` decimal(10,2) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='会员分情况';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员分情况';
 
 
 
 # Dump of table member_group
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `member_group`;
-
 CREATE TABLE `member_group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员名称',
-  `title` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '标题',
+  `title` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `icon` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员ICON',
   `content` text COLLATE utf8mb4_unicode_ci COMMENT '会员内容、简介',
   `summary` text COLLATE utf8mb4_unicode_ci COMMENT '摘要',
@@ -296,31 +264,27 @@ CREATE TABLE `member_group` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='会员组信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员组信息';
 
 
 
 # Dump of table member_price
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `member_price`;
-
 CREATE TABLE `member_price` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `group_id` int(11) unsigned NOT NULL,
   `product_type` int(11) DEFAULT NULL,
   `product_id` int(11) unsigned NOT NULL,
-  `price` decimal(10,2) DEFAULT NULL comment '会员价',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '会员价',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='会员价';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员价';
 
 
 
 # Dump of table menu
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `menu`;
 
 CREATE TABLE `menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
@@ -345,8 +309,6 @@ CREATE TABLE `menu` (
 # Dump of table option
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `option`;
-
 CREATE TABLE `option` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `key` varchar(128) DEFAULT NULL COMMENT '配置KEY',
@@ -359,8 +321,6 @@ CREATE TABLE `option` (
 
 # Dump of table payment_record
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `payment_record`;
 
 CREATE TABLE `payment_record` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -384,7 +344,7 @@ CREATE TABLE `payment_record` (
   `pay_success_time` datetime DEFAULT NULL COMMENT '支付成功时间',
   `pay_complete_time` datetime DEFAULT NULL COMMENT '完成时间',
   `refund_no` varchar(64) DEFAULT NULL COMMENT '退款流水号',
-  `refund_amount` int(11) DEFAULT NULL comment '退款金额',
+  `refund_amount` int(11) DEFAULT NULL COMMENT '退款金额',
   `refund_desc` varchar(256) DEFAULT NULL COMMENT '退款描述',
   `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
   `thirdparty_appid` varchar(32) DEFAULT NULL COMMENT '微信appid 或者 支付宝的appid，thirdparty 指的是支付的第三方比如微信、支付宝、PayPal等',
@@ -406,8 +366,6 @@ CREATE TABLE `payment_record` (
 # Dump of table permission
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `permission`;
-
 CREATE TABLE `permission` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `action_key` varchar(512) NOT NULL DEFAULT '' COMMENT '唯一标识',
@@ -424,8 +382,6 @@ CREATE TABLE `permission` (
 
 # Dump of table product
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE `product` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -472,8 +428,6 @@ CREATE TABLE `product` (
 # Dump of table product_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `product_category`;
-
 CREATE TABLE `product_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
@@ -503,8 +457,6 @@ CREATE TABLE `product_category` (
 # Dump of table product_category_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `product_category_mapping`;
-
 CREATE TABLE `product_category_mapping` (
   `product_id` int(11) unsigned NOT NULL COMMENT '文章ID',
   `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
@@ -515,8 +467,6 @@ CREATE TABLE `product_category_mapping` (
 
 # Dump of table product_comment
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_comment`;
 
 CREATE TABLE `product_comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -541,8 +491,6 @@ CREATE TABLE `product_comment` (
 # Dump of table product_image
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `product_image`;
-
 CREATE TABLE `product_image` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `product_id` int(11) unsigned NOT NULL,
@@ -550,14 +498,12 @@ CREATE TABLE `product_image` (
   `order_number` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment '产品图片表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='产品图片表';
 
 
 
 # Dump of table role
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -569,22 +515,10 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-
-INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
-VALUES
-	(1,'默认角色','这个是系统自动创建的默认角色','jpsa','2019-09-02 11:39:29','2019-09-02 11:39:29');
-
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 
 # Dump of table role_permission_mapping
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `role_permission_mapping`;
 
 CREATE TABLE `role_permission_mapping` (
   `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
@@ -596,8 +530,6 @@ CREATE TABLE `role_permission_mapping` (
 
 # Dump of table single_page
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `single_page`;
 
 CREATE TABLE `single_page` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -625,8 +557,6 @@ CREATE TABLE `single_page` (
 
 # Dump of table user
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -667,45 +597,32 @@ CREATE TABLE `user` (
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表，保存用户信息。';
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-
-INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
-VALUES
-	(1,'admin',NULL,'admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-10-10 16:18:34','2019-09-02 11:39:29');
-
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table user_address
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_address`;
-
 CREATE TABLE `user_address` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `username` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '姓名',
-  `mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '手机号',
-  `address` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '联系地址',
-  `province` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '省',
-  `city` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '市',
-  `county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '县',
+  `username` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '姓名',
+  `mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机号',
+  `address` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '联系地址',
+  `province` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '省',
+  `city` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '市',
+  `county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '县',
   `district` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_default` tinyint(1) DEFAULT 0 comment '是否默认,1是，0否',
+  `is_default` tinyint(1) DEFAULT '0' COMMENT '是否默认,1是，0否',
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment '收货地址';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
 
 
 
 # Dump of table user_amount
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_amount`;
 
 CREATE TABLE `user_amount` (
   `user_id` int(11) unsigned NOT NULL,
@@ -719,8 +636,6 @@ CREATE TABLE `user_amount` (
 
 # Dump of table user_amount_statement
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_amount_statement`;
 
 CREATE TABLE `user_amount_statement` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -745,8 +660,6 @@ CREATE TABLE `user_amount_statement` (
 # Dump of table user_cart
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_cart`;
-
 CREATE TABLE `user_cart` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT '购买的用户',
@@ -755,11 +668,11 @@ CREATE TABLE `user_cart` (
   `product_id` int(11) unsigned DEFAULT NULL,
   `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
   `product_type_text` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_title` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '商品标题',
-  `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '商品缩略图',
+  `product_title` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '商品标题',
+  `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品缩略图',
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
   `product_new_price` decimal(10,2) NOT NULL COMMENT '商品的最新价格',
-  `product_count` int(11) NOT NULL DEFAULT '1' comment '商品数量',
+  `product_count` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
   `select_status` tinyint(2) DEFAULT NULL COMMENT '选中状态',
@@ -767,14 +680,12 @@ CREATE TABLE `user_cart` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='购物车';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
 
 
 # Dump of table user_openid
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_openid`;
 
 CREATE TABLE `user_openid` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -789,21 +700,19 @@ CREATE TABLE `user_openid` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='账号绑定信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='账号绑定信息表';
 
 
 
 # Dump of table user_order
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_order`;
-
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ns` int(11) NOT NULL COMMENT '订单号',
   `title` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '一般情况下商品的名称',
   `buyer_id` int(10) unsigned DEFAULT NULL COMMENT '购买人',
-  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '购买人昵称',
+  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
@@ -811,15 +720,15 @@ CREATE TABLE `user_order` (
   `real_amount` int(11) DEFAULT NULL COMMENT '真实金额，销售人员可以修改订单金额，一般情况下，真实金额等于订单金额',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
-  `pay_amount` decimal(10,2) DEFAULT NULL comment '支付金额',
-  `pay_time` datetime DEFAULT NULL comment '支付时间',
-  `payment_id` int(11) unsigned DEFAULT NULL comment '支付记录',
+  `pay_amount` decimal(10,2) DEFAULT NULL COMMENT '支付金额',
+  `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `payment_id` int(11) unsigned DEFAULT NULL COMMENT '支付记录',
   `payment_outer_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单号',
   `delivery_type` int(11) DEFAULT NULL COMMENT '配送方式 1快递    2自己送     3无需配送（虚拟商品）',
-  `delivery_company` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '快递公司',
-  `delivery_no` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '快递单号',
-  `delivery_start_time` datetime DEFAULT NULL comment '快递发货时间',
-  `delivery_finish_time` datetime DEFAULT NULL comment '快递送达时间',
+  `delivery_company` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '快递公司',
+  `delivery_no` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '快递单号',
+  `delivery_start_time` datetime DEFAULT NULL COMMENT '快递发货时间',
+  `delivery_finish_time` datetime DEFAULT NULL COMMENT '快递送达时间',
   `invoice_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票类型',
   `invoice_title` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票抬头',
   `invoice_content` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票内容',
@@ -833,34 +742,32 @@ CREATE TABLE `user_order` (
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成',
   `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款',
   `del_status` tinyint(2) DEFAULT NULL COMMENT '删除状态：1 正常 ，2 回收站 3 已经删除',
-  `modified` datetime DEFAULT NULL comment '修改时间',
-  `created` datetime DEFAULT NULL comment '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='订单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
 
 
 
 # Dump of table user_order_item
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_order_item`;
-
 CREATE TABLE `user_order_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) unsigned NOT NULL comment '订单id',
+  `order_id` int(11) unsigned NOT NULL COMMENT '订单id',
   `order_ns` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单号',
-  `buyer_id` int(11) unsigned NOT NULL comment '购买人',
-  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '购买人昵称',
+  `buyer_id` int(11) unsigned NOT NULL COMMENT '购买人',
+  `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言（备注）',
-  `seller_id` int(11) unsigned DEFAULT NULL comment '卖家id',
+  `seller_id` int(11) unsigned DEFAULT NULL COMMENT '卖家id',
   `dist_user_id` int(10) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
-  `product_id` int(11) unsigned DEFAULT NULL comment '产品id',
-  `product_title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '产品标题',
-  `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '产品缩略图',
-  `product_price` decimal(10,2) DEFAULT NULL comment '产品价格',
-  `product_count` int(11) DEFAULT NULL comment '产品数量',
+  `product_id` int(11) unsigned DEFAULT NULL COMMENT '产品id',
+  `product_title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品标题',
+  `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品缩略图',
+  `product_price` decimal(10,2) DEFAULT NULL COMMENT '产品价格',
+  `product_count` int(11) DEFAULT NULL COMMENT '产品数量',
   `deivery_cost` decimal(10,2) DEFAULT NULL,
   `other_cost` decimal(10,2) DEFAULT NULL,
   `other_cost_remark` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -868,23 +775,21 @@ CREATE TABLE `user_order_item` (
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
   `view_duetime` datetime DEFAULT NULL COMMENT '到期后无法继续查看内容',
-  `status` tinyint(2) DEFAULT NULL comment '状态',
-  `refund_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '退款订单号',
-  `refund_amount` decimal(10,2) DEFAULT NULL comment '退款金额',
-  `refund_desc` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL comment '退款描述',
-  `refund_time` datetime DEFAULT NULL comment '退款时间',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态',
+  `refund_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '退款订单号',
+  `refund_amount` decimal(10,2) DEFAULT NULL COMMENT '退款金额',
+  `refund_desc` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '退款描述',
+  `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
   `options` text COLLATE utf8mb4_unicode_ci,
-  `modified` datetime DEFAULT NULL comment '修改时间',
-  `created` datetime DEFAULT NULL comment '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment='订单明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单明细表';
 
 
 
 # Dump of table user_role_mapping
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_role_mapping`;
 
 CREATE TABLE `user_role_mapping` (
   `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
@@ -892,21 +797,10 @@ CREATE TABLE `user_role_mapping` (
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和角色的多对多映射表';
 
-LOCK TABLES `user_role_mapping` WRITE;
-/*!40000 ALTER TABLE `user_role_mapping` DISABLE KEYS */;
-
-INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
-VALUES
-	(1,1);
-
-/*!40000 ALTER TABLE `user_role_mapping` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table utm
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `utm`;
 
 CREATE TABLE `utm` (
   `id` varchar(32) NOT NULL DEFAULT '',
@@ -942,8 +836,6 @@ CREATE TABLE `utm` (
 # Dump of table wechat_menu
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `wechat_menu`;
-
 CREATE TABLE `wechat_menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `pid` int(11) unsigned DEFAULT NULL COMMENT '父级ID',
@@ -961,8 +853,6 @@ CREATE TABLE `wechat_menu` (
 # Dump of table wechat_reply
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `wechat_reply`;
-
 CREATE TABLE `wechat_reply` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
@@ -971,3 +861,21 @@ CREATE TABLE `wechat_reply` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
+
+
+INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
+VALUES (1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,4,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
+
+
+INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
+VALUES (1,'默认角色','这个是系统自动创建的默认角色','jpsa','2019-09-02 11:39:29','2019-09-02 11:39:29');
+
+
+
+INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
+VALUES (1,'admin','10','admin',NULL,'b7bdb416eb2228f7483dfddb96d2c95efdad1ceaa47d06108b5b4782c5d8a087','iZuC5x5WUt9G52WEsbKkfjlbjH_TGQM5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2019-09-02 11:39:29','web_register','2019-10-10 16:18:34','2019-09-02 11:39:29');
+
+
+INSERT INTO `user_role_mapping` (`user_id`, `role_id`)
+VALUES (1,1);

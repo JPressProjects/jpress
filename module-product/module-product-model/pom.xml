@@ -21,6 +21,10 @@
             <groupId>io.jpress</groupId>
             <artifactId>jpress-commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>jpress-model</artifactId>
+        </dependency>
     </dependencies>
 
 

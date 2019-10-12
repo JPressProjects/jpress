@@ -28,6 +28,7 @@ import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.OptionService;
+import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -56,6 +57,9 @@ public class ProductController extends TemplateControllerBase {
 
     @Inject
     private ProductCommentService commentService;
+
+    @Inject
+    private UserCartService cartService;
 
 
     public void index() {
@@ -135,9 +139,6 @@ public class ProductController extends TemplateControllerBase {
         Long pid = getParaToLong("pid");
         String nickname = getPara("nickname");
         String content = getPara("content");
-        String email = getPara("email");
-        String wechat = getPara("wechat");
-        String qq = getPara("qq");
 
         if (productId == null || productId <= 0) {
             renderFailJson();
@@ -242,6 +243,14 @@ public class ProductController extends TemplateControllerBase {
         } else {
             redirect(getReferer());
         }
+    }
+
+
+    /**
+     * 添加到购物车
+     */
+    public void doAddCart(){
+
     }
 
 

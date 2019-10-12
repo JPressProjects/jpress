@@ -18,7 +18,6 @@ package io.jpress.web.directive;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import org.apache.commons.lang3.StringUtils;
@@ -31,24 +30,19 @@ import org.apache.commons.lang3.StringUtils;
 @JFinalDirective("CKEditorContent")
 public class CKEditorContentDirective extends JbootDirectiveBase {
 
+    private static final String[] originalChars = {"&lt;", "&gt;"};
+    private static final String[] newChars = {"&amp;lt;", "&amp;gt;"};
+
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        renderText(writer,CKEditorContent(getPara(0,scope)));
-    }
-
-    private static final String[] htmlChars = {"&lt;", "&gt;"};
-    private static final String[] escapeChars = {"&amp;lt;", "&amp;gt;"};
-
-    public static String CKEditorContent(String originalContent) {
+        String originalContent = getPara(0, scope);
+        if (originalContent == null) return;
 
         //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
         //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;" 和 把 "&gt;" 替换为 "&amp;gt;"
         //方案：http://komlenic.com/246/encoding-entities-to-work-with-ckeditor-3/
-
-        return StrUtil.isBlank(originalContent)
-                ? originalContent
-                : StringUtils.replaceEach(originalContent, htmlChars, escapeChars);
+        renderText(writer, StringUtils.replaceEach(originalContent, originalChars, newChars));
     }
 }
 

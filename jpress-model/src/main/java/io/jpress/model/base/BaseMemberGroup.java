@@ -107,20 +107,20 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
 		return get("limited_time");
 	}
 
-	public void setDistPrice(java.math.BigDecimal distPrice) {
-		set("dist_price", distPrice);
-	}
-	
-	public java.math.BigDecimal getDistPrice() {
-		return get("dist_price");
-	}
-
 	public void setDistEnable(java.lang.Boolean distEnable) {
 		set("dist_enable", distEnable);
 	}
 	
 	public java.lang.Boolean getDistEnable() {
 		return get("dist_enable");
+	}
+
+	public void setDistAmount(java.math.BigDecimal distAmount) {
+		set("dist_amount", distAmount);
+	}
+	
+	public java.math.BigDecimal getDistAmount() {
+		return get("dist_amount");
 	}
 
 	public void setTermOfValidity(java.lang.Integer termOfValidity) {

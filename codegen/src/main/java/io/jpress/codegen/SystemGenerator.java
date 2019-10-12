@@ -37,7 +37,7 @@ public class SystemGenerator {
 
         String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm," +
                 "wechat_menu,wechat_reply," +
-                "member,member_group," +
+                "member,member_group,member_dist_amount," +
                 "user_address,user_amount,user_amount_statement," +
                 "coupon,coupon_code,coupon_used_record," +
                 "user_cart,user_order,user_order_item,user_openid," +

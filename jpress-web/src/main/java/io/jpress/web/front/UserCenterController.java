@@ -19,7 +19,6 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
@@ -112,15 +111,6 @@ public class UserCenterController extends UcenterControllerBase {
     }
 
 
-    /**
-     * 购物车
-     */
-    public void cart() {
-        Page<UserCart> page = cartService.paginate(1, 10);
-        setAttr("page", page);
-
-        render("cart.html");
-    }
 
     /**
      * 购买页面

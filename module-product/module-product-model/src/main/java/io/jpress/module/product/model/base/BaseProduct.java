@@ -155,12 +155,12 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 		return get("dist_enable");
 	}
 
-	public void setDistPrice(java.math.BigDecimal distPrice) {
-		set("dist_price", distPrice);
+	public void setDistAmount(java.math.BigDecimal distAmount) {
+		set("dist_amount", distAmount);
 	}
 	
-	public java.math.BigDecimal getDistPrice() {
-		return get("dist_price");
+	public java.math.BigDecimal getDistAmount() {
+		return get("dist_amount");
 	}
 
 	public void setStatus(java.lang.String status) {
@@ -201,6 +201,30 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	
 	public java.lang.Long getViewCount() {
 		return getLong("view_count");
+	}
+
+	public void setRealViewCount(java.lang.Long realViewCount) {
+		set("real_view_count", realViewCount);
+	}
+	
+	public java.lang.Long getRealViewCount() {
+		return getLong("real_view_count");
+	}
+
+	public void setSalesCount(java.lang.Long salesCount) {
+		set("sales_count", salesCount);
+	}
+	
+	public java.lang.Long getSalesCount() {
+		return getLong("sales_count");
+	}
+
+	public void setRealSalesCount(java.lang.Long realSalesCount) {
+		set("real_sales_count", realSalesCount);
+	}
+	
+	public java.lang.Long getRealSalesCount() {
+		return getLong("real_sales_count");
 	}
 
 	public void setCreated(java.util.Date created) {

@@ -224,18 +224,19 @@ CREATE TABLE `member` (
 
 
 
-# Dump of table member_dist_price
+# Dump of table member_dist_amount
 # ------------------------------------------------------------
 
-CREATE TABLE `member_dist_price` (
+CREATE TABLE `member_dist_amount` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) unsigned NOT NULL,
-  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_id` int(11) unsigned NOT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
+  `group_id` int(11) unsigned NOT NULL COMMENT '会员组',
+  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品类型',
+  `product_id` int(11) unsigned NOT NULL COMMENT '产品的ID',
+  `amount` decimal(10,2) DEFAULT NULL COMMENT '分销的收益',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
+  `modified` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员分情况';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员分销收益表';
 
 
 
@@ -255,8 +256,8 @@ CREATE TABLE `member_group` (
   `price` decimal(10,2) DEFAULT NULL COMMENT '加入的会员价格',
   `limited_price` decimal(10,2) DEFAULT NULL COMMENT '限时价格',
   `limited_time` datetime DEFAULT NULL COMMENT '限时价格到期时间',
-  `dist_price` decimal(10,2) DEFAULT NULL COMMENT '分销价格',
   `dist_enable` tinyint(1) DEFAULT NULL COMMENT '是否启用分销功能',
+  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销收益金额',
   `term_of_validity` int(11) DEFAULT NULL COMMENT '有效期（单位天）',
   `flag` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标识',
   `status` tinyint(2) DEFAULT NULL COMMENT '状态',
@@ -279,7 +280,7 @@ CREATE TABLE `member_price` (
   `price` decimal(10,2) DEFAULT NULL COMMENT '会员价',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员价';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员价格表';
 
 
 
@@ -327,6 +328,7 @@ CREATE TABLE `payment_record` (
   `product_type` varchar(32) DEFAULT NULL,
   `product_id` int(11) unsigned DEFAULT NULL,
   `product_name` varchar(256) DEFAULT '' COMMENT '商品名称',
+  `product_desc` varchar(256) DEFAULT NULL COMMENT '产品描述，产品摘要',
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL,
@@ -402,7 +404,7 @@ CREATE TABLE `product` (
   `limited_price` decimal(10,2) DEFAULT NULL COMMENT '限时优惠价（早鸟价）',
   `limited_time` datetime DEFAULT NULL COMMENT '限时优惠截止时间',
   `dist_enable` tinyint(1) DEFAULT NULL COMMENT '是否启用分销',
-  `dist_price` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
+  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销收益的金额',
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
@@ -630,7 +632,7 @@ CREATE TABLE `user_amount` (
   `modified` datetime NOT NULL,
   `created` datetime DEFAULT NULL,
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额';
 
 
 
@@ -653,7 +655,7 @@ CREATE TABLE `user_amount_statement` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额流水情况';
 
 
 

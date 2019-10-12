@@ -69,6 +69,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductNewPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
+        userCart.setProductThumbnail(getThumbnail());
         userCart.setSelectStatus(false);
 
         return userCart;

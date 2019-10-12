@@ -17,6 +17,7 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.commons.utils.CKEditorUtil;
 import io.jpress.web.sharekit.PermissionKits;
 
 /**
@@ -38,7 +39,9 @@ public class WebInitializer extends JbootAppListenerBase {
             engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
             engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
             engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
+
             engine.addSharedStaticMethod(PermissionKits.class);
+            engine.addSharedStaticMethod(CKEditorUtil.class);
         } catch (Exception ex) {
             ex.printStackTrace();
             printErrorInfoAndExit();

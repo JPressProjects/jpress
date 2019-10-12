@@ -32,22 +32,6 @@ public class Product extends BaseProduct<Product> {
     }
 
 
-    public String _getEditContent() {
-
-        String originalContent = super.getContent();
-        if (StrUtil.isBlank(originalContent)) {
-            return originalContent;
-        }
-
-        //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
-        //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;" 和 把 "&gt;" 替换为 "&amp;gt;"
-        //方案：http://komlenic.com/246/encoding-entities-to-work-with-ckeditor-3/
-        return originalContent.replace("&lt;", "&amp;lt;")
-                .replace("&gt;", "&amp;gt;");
-
-    }
-
-
     public String getUrl() {
         if (StrUtil.isBlank(getSlug())) {
             return JFinal.me().getContextPath() + "/product/" + getId() + JPressOptions.getAppUrlSuffix();

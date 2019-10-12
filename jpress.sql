@@ -410,9 +410,9 @@ CREATE TABLE `product` (
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
   `comment_time` datetime DEFAULT NULL COMMENT '最后评论时间',
   `view_count` int(11) unsigned DEFAULT '0' COMMENT '访问量',
-  `real_view_count` int(11) unsigned DEFAULT '0' COMMENT '真实的访问量',
+  `real_view_count` int(11) unsigned DEFAULT '0' COMMENT '真实访问量',
   `sales_count` int(11) unsigned DEFAULT '0' COMMENT '销售量，用于放在前台显示',
-  `real_sales_count` int(11) unsigned DEFAULT '0' COMMENT '真实销量',
+  `real_sales_count` int(11) unsigned DEFAULT '0' COMMENT '真实的访问量',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
   `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
@@ -680,7 +680,7 @@ CREATE TABLE `user_cart` (
   `product_count` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
-  `select_status` tinyint(2) DEFAULT NULL COMMENT '选中状态',
+  `selected` tinyint(1) DEFAULT NULL COMMENT '选中状态',
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -866,7 +866,6 @@ CREATE TABLE `wechat_reply` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
-
 
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)

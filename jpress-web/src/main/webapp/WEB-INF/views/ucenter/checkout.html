@@ -164,6 +164,8 @@
 #define content()
 <div class="content-wrapper" style="min-height: 1126px;">
 
+    <form action="#(CPATH)/ucenter/doCheckout" method="post">
+
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
@@ -171,7 +173,6 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 产品信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -188,7 +189,7 @@
                         <th>单价 #</th>
                         <th>数量</th>
                         <th>总价</th>
-                        <th style="width: 100px">操作</th>
+                        <th style="width: 50px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -236,7 +237,6 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 订单信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -267,7 +267,7 @@
 
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control" placeholder="收件人的电话...">
+                                <input type="text" class="form-control" placeholder="收件人的收件地址...">
                             </div>
 
                             <div class="form-group">
@@ -359,15 +359,15 @@
 
         <div class="row no-print">
             <div class="col-xs-12">
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i>
+                <button type="submit" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i>
                     提交订单
                 </button>
             </div>
         </div>
     </section>
-
-
     <!-- /.content -->
+
     <div class="clearfix"></div>
+    </form>
 </div>
 #end

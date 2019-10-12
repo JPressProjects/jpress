@@ -16,7 +16,6 @@
 package io.jpress.web.sharekit;
 
 import com.jfinal.aop.Aop;
-import io.jboot.Jboot;
 import io.jpress.model.Role;
 import io.jpress.model.User;
 import io.jpress.service.PermissionService;
@@ -32,12 +31,12 @@ import io.jpress.web.interceptor.UserInterceptor;
 public class PermissionKits {
 
     public static boolean hasPermission(Role role, long permissionId) {
-        RoleService service = Jboot.bean(RoleService.class);
+        RoleService service = Aop.get(RoleService.class);
         return service.hasPermission(role.getId(), permissionId);
     }
 
     public static boolean hasPermission(User user, long permissionId) {
-        PermissionService service = Jboot.bean(PermissionService.class);
+        PermissionService service = Aop.get(PermissionService.class);
         return service.hasPermission(user.getId(), permissionId);
     }
 

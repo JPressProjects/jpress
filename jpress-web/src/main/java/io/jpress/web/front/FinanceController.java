@@ -90,7 +90,7 @@ public class FinanceController extends UcenterControllerBase {
         paymentService.save(payment);
 
 
-        redirect("/pay/" + getPara("paytype") + "/" + payment.getTrxNo());
+        PayKit.redirect(getPara("paytype"),payment.getTrxNo());
     }
 
 

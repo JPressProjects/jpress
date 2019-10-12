@@ -29,8 +29,10 @@ import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
+import io.jpress.model.PaymentRecord;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
+import io.jpress.model.UserOrder;
 import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
@@ -44,7 +46,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping(value = "/ucenter",viewPath = "/WEB-INF/views/ucenter/")
+@RequestMapping(value = "/ucenter", viewPath = "/WEB-INF/views/ucenter/")
 public class UserCenterController extends UcenterControllerBase {
 
     @Inject
@@ -108,9 +110,9 @@ public class UserCenterController extends UcenterControllerBase {
     /**
      * 购物车
      */
-    public void cart(){
-        Page<UserCart> page = cartService.paginate(1,10);
-        setAttr("page",page);
+    public void cart() {
+        Page<UserCart> page = cartService.paginate(1, 10);
+        setAttr("page", page);
 
         render("cart.html");
     }
@@ -118,19 +120,28 @@ public class UserCenterController extends UcenterControllerBase {
     /**
      * 购买页面
      */
-    public void checkout(){
+    public void checkout() {
         List<UserCart> userCarts = new ArrayList<>();
         Long cid = getParaToLong();
-        if (cid != null){
+        if (cid != null) {
             userCarts.add(cartService.findById(cid));
-        }else {
+        } else {
             userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
         }
 
-        setAttr("userCarts",userCarts);
+        setAttr("userCarts", userCarts);
         render("checkout.html");
     }
 
+    /**
+     * 开始购买
+     */
+    public void doCheckout() {
+        UserOrder userOrder = new UserOrder();
+        PaymentRecord payment = new PaymentRecord();
+
+        PayKit.redirect(getPara("paytype"),payment.getTrxNo());
+    }
 
 
     @EmptyValidate({

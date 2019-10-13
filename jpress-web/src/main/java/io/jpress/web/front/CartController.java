@@ -29,7 +29,7 @@ import io.jpress.web.base.UcenterControllerBase;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping(value = "/ucenter/cart", viewPath = "/WEB-INF/views/ucenter/cart")
+@RequestMapping(value = "/ucenter/cart", viewPath = "/WEB-INF/views/ucenter")
 public class CartController extends UcenterControllerBase {
 
     @Inject
@@ -54,15 +54,15 @@ public class CartController extends UcenterControllerBase {
     /**
      * 选择某个
      */
-    public void selected(){
-
+    public void select(){
+        renderOkJson();
     }
 
     /**
      * 取消选择
      */
     public void unselect(){
-
+        renderOkJson();
     }
 
     /**

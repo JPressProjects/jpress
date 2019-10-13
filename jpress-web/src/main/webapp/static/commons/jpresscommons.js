@@ -135,6 +135,30 @@ function ajaxGet(url, okFunction, failFunction) {
     });
 }
 
+function ajaxPost(url, data, okFunction, failFunction) {
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $.post(url, data,function (result) {
+        if (result.state == 'ok') {
+            okFunction(result);
+        } else {
+            failFunction(result);
+        }
+    });
+}
+
+
 function initAutoAjaxSubmit() {
 
     $('.autoAjaxSubmit').on('submit', function () {

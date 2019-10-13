@@ -94,14 +94,14 @@ public class AddressController extends UcenterControllerBase {
         }
 
         //新设置了默认，那么其他地址改为非默认
-        if(address.getIsDefault()){
+        if(address.isDefault()){
             Columns columns = Columns.create();
             columns.add("user_id",user.getId());
             columns.eq("is_default",true);
             List<UserAddress> list = userAddressService.findListByColumns(columns);
             if(list!=null&&list.size()>0){
                 for (UserAddress userAddress : list) {
-                    userAddress.setIsDefault(false);
+                    userAddress.setWidthDefault(false);
                     userAddress.update();
                 }
             }

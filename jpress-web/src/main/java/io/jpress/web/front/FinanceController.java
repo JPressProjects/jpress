@@ -84,7 +84,7 @@ public class FinanceController extends UcenterControllerBase {
         payment.setOrderRefererUrl(getReferer());
 
         payment.setPayAmount(BigDecimal.valueOf(Long.valueOf(getPara("recharge_amount"))));
-        payment.setStatus("1");
+        payment.setStatus(1);
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);

@@ -227,7 +227,7 @@ public class UserCenterController extends UcenterControllerBase {
         payment.setOrderRefererUrl(getReferer());
 
         payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
-        payment.setStatus("1");
+        payment.setStatus(1);
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
 

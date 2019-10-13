@@ -78,6 +78,8 @@ public class CheckoutController extends UcenterControllerBase {
         render("checkout.html");
     }
 
+
+
     /**
      * 开始购买
      */
@@ -127,9 +129,10 @@ public class CheckoutController extends UcenterControllerBase {
         if (StrUtil.isNotBlank(codeStr)) {
             CouponCode couponCode = couponCodeService.findByCode(codeStr);
             if (couponCode == null || !couponCodeService.valid(couponCode)) {
-                renderJson(Ret.fail().set("meesage", "优惠码不可用"));
+                renderJson(Ret.fail().set("message", "优惠码不可用"));
                 return;
             }
+
 
             Coupon coupon = couponService.findById(couponCode.getCouponId());
 
@@ -163,7 +166,8 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-        payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
+//        payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
+        payment.setPayAmount(new BigDecimal(10));
         payment.setStatus(1);
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
@@ -171,8 +175,9 @@ public class CheckoutController extends UcenterControllerBase {
         //保存 payment
         paymentService.save(payment);
 
+        renderJson(Ret.ok().set("paytype",getPara("paytype")).set("trxno",payment.getTrxNo()));
 
-        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
+//        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
     }
 
 

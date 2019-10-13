@@ -43,14 +43,6 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 		return getStr("mobile");
 	}
 
-	public void setAddress(java.lang.String address) {
-		set("address", address);
-	}
-	
-	public java.lang.String getAddress() {
-		return getStr("address");
-	}
-
 	public void setProvince(java.lang.String province) {
 		set("province", province);
 	}
@@ -75,12 +67,20 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 		return getStr("county");
 	}
 
-	public void setDistrict(java.lang.String district) {
-		set("district", district);
+	public void setDetail(java.lang.String detail) {
+		set("detail", detail);
 	}
 	
-	public java.lang.String getDistrict() {
-		return getStr("district");
+	public java.lang.String getDetail() {
+		return getStr("detail");
+	}
+
+	public void setZipcode(java.lang.String zipcode) {
+		set("zipcode", zipcode);
+	}
+	
+	public java.lang.String getZipcode() {
+		return getStr("zipcode");
 	}
 
 	public void setIsDefault(java.lang.Boolean isDefault) {

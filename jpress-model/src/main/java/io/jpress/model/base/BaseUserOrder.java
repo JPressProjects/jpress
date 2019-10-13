@@ -139,6 +139,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("payment_outer_no");
 	}
 
+	public void setDeliveryStatus(java.lang.Integer deliveryStatus) {
+		set("delivery_status", deliveryStatus);
+	}
+	
+	public java.lang.Integer getDeliveryStatus() {
+		return getInt("delivery_status");
+	}
+
 	public void setDeliveryType(java.lang.Integer deliveryType) {
 		set("delivery_type", deliveryType);
 	}
@@ -177,6 +185,62 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.util.Date getDeliveryFinishTime() {
 		return get("delivery_finish_time");
+	}
+
+	public void setDeliveryAddrUsername(java.lang.String deliveryAddrUsername) {
+		set("delivery_addr_username", deliveryAddrUsername);
+	}
+	
+	public java.lang.String getDeliveryAddrUsername() {
+		return getStr("delivery_addr_username");
+	}
+
+	public void setDeliveryAddrMobile(java.lang.String deliveryAddrMobile) {
+		set("delivery_addr_mobile", deliveryAddrMobile);
+	}
+	
+	public java.lang.String getDeliveryAddrMobile() {
+		return getStr("delivery_addr_mobile");
+	}
+
+	public void setDeliveryAddrProvince(java.lang.String deliveryAddrProvince) {
+		set("delivery_addr_province", deliveryAddrProvince);
+	}
+	
+	public java.lang.String getDeliveryAddrProvince() {
+		return getStr("delivery_addr_province");
+	}
+
+	public void setDeliveryAddrCity(java.lang.String deliveryAddrCity) {
+		set("delivery_addr_city", deliveryAddrCity);
+	}
+	
+	public java.lang.String getDeliveryAddrCity() {
+		return getStr("delivery_addr_city");
+	}
+
+	public void setDeliveryAddrCounty(java.lang.String deliveryAddrCounty) {
+		set("delivery_addr_county", deliveryAddrCounty);
+	}
+	
+	public java.lang.String getDeliveryAddrCounty() {
+		return getStr("delivery_addr_county");
+	}
+
+	public void setDeliveryAddrDetail(java.lang.String deliveryAddrDetail) {
+		set("delivery_addr_detail", deliveryAddrDetail);
+	}
+	
+	public java.lang.String getDeliveryAddrDetail() {
+		return getStr("delivery_addr_detail");
+	}
+
+	public void setDeliveryAddrZipcode(java.lang.String deliveryAddrZipcode) {
+		set("delivery_addr_zipcode", deliveryAddrZipcode);
+	}
+	
+	public java.lang.String getDeliveryAddrZipcode() {
+		return getStr("delivery_addr_zipcode");
 	}
 
 	public void setInvoiceType(java.lang.String invoiceType) {

@@ -18,7 +18,6 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -40,12 +39,12 @@ public class _ProductCommentController extends AdminControllerBase {
 
     @AdminMenu(text = "评论", groupId = "product", order = 99)
     public void index() {
-        String status = getPara("status");
+        Integer status = getParaToInt("status");
         String key = getPara("keyword");
         Long productId = getParaToLong("productId");
 
         Page<ProductComment> page =
-                StrUtil.isBlank(status)
+                status == null
                         ? commentService._paginateWithoutTrash(getPagePara(), 10, productId, key)
                         : commentService._paginateByStatus(getPagePara(), 10, productId, key, status);
 

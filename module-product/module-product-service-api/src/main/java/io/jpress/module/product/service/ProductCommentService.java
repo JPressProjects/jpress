@@ -200,10 +200,10 @@ public interface ProductCommentService  {
      * @param status
      * @return
      */
-    public long findCountByStatus(String status);
+    public long findCountByStatus(int status);
 
 
-    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, String status);
+    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, int status);
 
     public Page<ProductComment> _paginateWithoutTrash(int page, int pagesize, Long productId, String keyword);
 

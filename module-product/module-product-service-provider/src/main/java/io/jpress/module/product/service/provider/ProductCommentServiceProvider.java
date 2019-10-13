@@ -35,12 +35,12 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     }
 
     @Override
-    public long findCountByStatus(String status) {
+    public long findCountByStatus(int status) {
         return DAO.findCountByColumn(Column.create("status",status));
     }
 
     @Override
-    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, String status) {
+    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, int status) {
 
         Columns columns = Columns.create("product_id", productId)
                 .add("status", status)

@@ -240,10 +240,10 @@
 
                             <div class="form-group">
                                 <label>地址</label>
-                                <div data-toggle="distpicker" style="padding: 7px 0;" >
-                                    <select data-province="#(defaultAddress.province ?? '---- 选择省 ----')" name="address.province" ></select>
-                                    <select data-city="#(defaultAddress.city ?? '---- 选择市 ----')" name="address.city" ></select>
-                                    <select data-district="#(defaultAddress.district ?? '---- 选择区 ----')" name="address.district" ></select>
+                                <div data-toggle="distpicker"  class="form-inline">
+                                    <select class="form-control" data-province="#(data.province ?? '---- 选择省 ----')" name="address.province" ></select>
+                                    <select class="form-control" data-city="#(data.city ?? '---- 选择市 ----')" name="address.city" ></select>
+                                    <select class="form-control" data-district="#(data.district ?? '---- 选择区 ----')" name="address.district" ></select>
                                 </div>
                             </div>
 

@@ -170,7 +170,8 @@ CREATE TABLE `coupon_code` (
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
   `status` int(11) DEFAULT NULL COMMENT '状态 1未领取 2未使用、3使用中、9不能使用',
-  `created` datetime DEFAULT NULL,
+  `valid_time` datetime DEFAULT NULL COMMENT '领取时间',
+  `created` datetime DEFAULT NULL COMMENT '创建时间，创建时可能不会有人领取',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券领取记录';
 

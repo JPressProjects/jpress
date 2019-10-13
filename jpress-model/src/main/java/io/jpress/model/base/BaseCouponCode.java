@@ -51,20 +51,20 @@ public abstract class BaseCouponCode<M extends BaseCouponCode<M>> extends JbootM
 		return getLong("user_id");
 	}
 
-	public void setValidTime(java.util.Date validTime) {
-		set("valid_time", validTime);
-	}
-	
-	public java.util.Date getValidTime() {
-		return get("valid_time");
-	}
-
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 	
 	public java.lang.Integer getStatus() {
 		return getInt("status");
+	}
+
+	public void setValidTime(java.util.Date validTime) {
+		set("valid_time", validTime);
+	}
+	
+	public java.util.Date getValidTime() {
+		return get("valid_time");
 	}
 
 	public void setCreated(java.util.Date created) {

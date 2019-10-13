@@ -67,6 +67,22 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 		return get("with_award");
 	}
 
+	public void setWithOwner(java.lang.Boolean withOwner) {
+		set("with_owner", withOwner);
+	}
+	
+	public java.lang.Boolean getWithOwner() {
+		return get("with_owner");
+	}
+
+	public void setWithMulti(java.lang.Boolean withMulti) {
+		set("with_multi", withMulti);
+	}
+	
+	public java.lang.Boolean getWithMulti() {
+		return get("with_multi");
+	}
+
 	public void setAmount(java.math.BigDecimal amount) {
 		set("amount", amount);
 	}
@@ -194,6 +210,5 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 	public java.util.Date getModified() {
 		return get("modified");
 	}
-
 
 }

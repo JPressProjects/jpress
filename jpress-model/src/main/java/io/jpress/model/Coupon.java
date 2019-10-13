@@ -11,5 +11,11 @@ public class Coupon extends BaseCoupon<Coupon> {
 
     private static final long serialVersionUID = 1L;
 
+    public static final  int VALID_TYPE_ABSOLUTELY_EFFECTIVE = 1; //优惠码的验证类型：绝对有效，（XXX-XXX时间段有效）
+    public static final  int VALID_TYPE_RELATIVELY_EFFECTIVE = 2; //优惠码的验证类型：相对时效（领取后N天有效）
+
+    public boolean isNormal(){
+        return true;
+    }
 	
 }

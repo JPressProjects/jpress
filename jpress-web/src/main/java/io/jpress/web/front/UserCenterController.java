@@ -31,10 +31,7 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.*;
-import io.jpress.service.PaymentRecordService;
-import io.jpress.service.UserAddressService;
-import io.jpress.service.UserCartService;
-import io.jpress.service.UserService;
+import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.io.File;
@@ -58,6 +55,9 @@ public class UserCenterController extends UcenterControllerBase {
 
     @Inject
     private UserAddressService addressService;
+
+    @Inject
+    private CouponCodeService couponCodeService;
 
     /**
      * 用户中心首页
@@ -136,12 +136,28 @@ public class UserCenterController extends UcenterControllerBase {
      * 开始购买
      */
     public void doCheckout() {
+
+        /**
+         * 创建订单
+         */
         UserOrder userOrder = new UserOrder();
         userOrder.setBuyerId(getLoginedUser().getId());
         userOrder.setBuyerMsg(getPara("buyer_msg"));
         userOrder.setBuyerNickname(getLoginedUser().getNickname());
 
+        /**
+         * 创建订单项
+         */
         UserOrderItem userOrderItem = new UserOrderItem();
+
+        String codeStr = getPara("coupon_code");
+        if (StrUtil.isNotBlank(codeStr)){
+            CouponCode couponCode = couponCodeService.findByCode(codeStr);
+            if (couponCode == null || !couponCodeService.valid(couponCode)){
+                renderJson(Ret.fail().set("meesage","优惠码不可用"));
+                return;
+            }
+        }
 
 
 

@@ -79,4 +79,8 @@ public interface CouponCodeService  {
     public Page<CouponCode> paginate(int page, int pageSize);
 
 
+    public CouponCode findByCode(String code);
+
+
+    public boolean valid(CouponCode couponCode);
 }

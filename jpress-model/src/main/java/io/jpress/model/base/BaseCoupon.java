@@ -195,4 +195,5 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 		return get("modified");
 	}
 
+
 }

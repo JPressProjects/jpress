@@ -1,7 +1,7 @@
 #@ucenter_noleft_layout('支付台')
 
 #define script()
-
+<script src="#(CPATH)/static/components/distpicker/distpicker.js"></script>
 <script>
 
     $(".add").on("click", function () {
@@ -172,6 +172,7 @@
                         <td>#(userCart.product_new_price ??)</td>
                         <td>
                             <div class="input-group input-number">
+                                <input type="hidden" name="cid" value="#(userCart.id ??)">
                                 <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
                                 <input type="text" class="form-control" value="#(userCart.product_count ??)">
                                 <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
@@ -239,12 +240,18 @@
 
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control" placeholder="收件人的收件地址..." value="#(defaultAddress.username ??)">
+<!--                                <input type="text" class="form-control" placeholder="收件人的收件地址..." value="#(defaultAddress.username ??)">-->
+                                <div data-toggle="distpicker" style="padding: 7px 0;" >
+                                    <select data-province="#(defaultAddress.province ?? '---- 选择省 ----')" name="address.province" ></select>
+                                    <select data-city="#(defaultAddress.city ?? '---- 选择市 ----')" name="address.city" ></select>
+                                    <select data-district="#(defaultAddress.county ?? '---- 选择区 ----')" name="address.county" ></select>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label>详细地址</label>
-                                <textarea class="form-control" rows="3" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息">value="#(defaultAddress.address ??)"</textarea>
+                                <textarea class="form-control" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
+                                          rows="3" >#(defaultAddress.address ??)</textarea>
                             </div>
 
                         </form>

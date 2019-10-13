@@ -614,7 +614,7 @@ CREATE TABLE `user_address` (
   `mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '手机号',
   `province` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '省',
   `city` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '市',
-  `county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '县',
+  `district` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '区（县）',
   `detail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详细地址到门牌号',
   `zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮政编码',
   `is_default` tinyint(1) DEFAULT '0' COMMENT '是否默认,1是，0否',
@@ -622,7 +622,7 @@ CREATE TABLE `user_address` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
 
 
 
@@ -739,7 +739,7 @@ CREATE TABLE `user_order` (
   `delivery_addr_mobile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收货人手机号（电话）',
   `delivery_addr_province` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人省',
   `delivery_addr_city` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的城市',
-  `delivery_addr_county` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的县',
+  `delivery_addr_district` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的区（县）',
   `delivery_addr_detail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的详细地址',
   `delivery_addr_zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人地址邮政编码',
   `invoice_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发票类型',

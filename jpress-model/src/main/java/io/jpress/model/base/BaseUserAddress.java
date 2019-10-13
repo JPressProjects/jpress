@@ -59,12 +59,12 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 		return getStr("city");
 	}
 
-	public void setCounty(java.lang.String county) {
-		set("county", county);
+	public void setDistrict(java.lang.String district) {
+		set("district", district);
 	}
 	
-	public java.lang.String getCounty() {
-		return getStr("county");
+	public java.lang.String getDistrict() {
+		return getStr("district");
 	}
 
 	public void setDetail(java.lang.String detail) {

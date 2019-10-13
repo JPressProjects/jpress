@@ -219,12 +219,12 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("delivery_addr_city");
 	}
 
-	public void setDeliveryAddrCounty(java.lang.String deliveryAddrCounty) {
-		set("delivery_addr_county", deliveryAddrCounty);
+	public void setDeliveryAddrDistrict(java.lang.String deliveryAddrDistrict) {
+		set("delivery_addr_district", deliveryAddrDistrict);
 	}
 	
-	public java.lang.String getDeliveryAddrCounty() {
-		return getStr("delivery_addr_county");
+	public java.lang.String getDeliveryAddrDistrict() {
+		return getStr("delivery_addr_district");
 	}
 
 	public void setDeliveryAddrDetail(java.lang.String deliveryAddrDetail) {

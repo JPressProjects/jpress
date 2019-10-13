@@ -187,9 +187,9 @@ public interface ProductService extends JbootServiceJoiner {
 
     public void doUpdateCommentCount(long productId);
 
-    public boolean doChangeStatus(long id, String status);
+    public boolean doChangeStatus(long id, int status);
 
-    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
+    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, int status);
 
     public Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
@@ -201,7 +201,7 @@ public interface ProductService extends JbootServiceJoiner {
 
     public Product findFirstBySlug(String slug);
 
-    public long findCountByStatus(String status);
+    public long findCountByStatus(int status);
 
     public boolean deleteByIds(Object... ids);
 

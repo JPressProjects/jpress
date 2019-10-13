@@ -91,12 +91,12 @@ public abstract class BaseProductComment<M extends BaseProductComment<M>> extend
 		return getLong("vote_down");
 	}
 
-	public void setStatus(java.lang.String status) {
+	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 	
-	public java.lang.String getStatus() {
-		return getStr("status");
+	public java.lang.Integer getStatus() {
+		return getInt("status");
 	}
 
 	public void setCreated(java.util.Date created) {

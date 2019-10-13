@@ -34,7 +34,6 @@ import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -54,11 +53,11 @@ public class _ProductController extends AdminControllerBase {
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
-        String status = getPara("status");
+        Integer status = getParaToInt("status");
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");
 
-        Page<Product> page = StringUtils.isBlank(status)
+        Page<Product> page = status == null
                         ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
                         : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
 

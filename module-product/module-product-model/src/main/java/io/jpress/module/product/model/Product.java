@@ -16,21 +16,21 @@ public class Product extends BaseProduct<Product> {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String STATUS_NORMAL = "normal";
-    public static final String STATUS_DRAFT = "draft";
-    public static final String STATUS_TRASH = "trash";
+    public static final int STATUS_NORMAL = 1;
+    public static final int STATUS_DRAFT = 2;
+    public static final int STATUS_TRASH = 3;
 
 
     public boolean isNormal() {
-        return STATUS_NORMAL.equals(getStatus());
+        return getStatus() != null && getStatus() == STATUS_NORMAL;
     }
 
     public boolean isDraft() {
-        return STATUS_DRAFT.equals(getStatus());
+        return getStatus() != null && getStatus() == STATUS_DRAFT;
     }
 
     public boolean isTrash() {
-        return STATUS_TRASH.equals(getStatus());
+        return getStatus() != null && getStatus() == STATUS_TRASH;
     }
 
 

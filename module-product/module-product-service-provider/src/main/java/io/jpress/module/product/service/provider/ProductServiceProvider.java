@@ -63,14 +63,14 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    public boolean doChangeStatus(long id, String status) {
+    public boolean doChangeStatus(long id, int status) {
         Product product = findById(id);
         product.setStatus(status);
         return update(product);
     }
 
     @Override
-    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
+    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, int status) {
 
         return _paginateByBaseColumns(page
                 , pagesize
@@ -155,7 +155,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    public long findCountByStatus(String status) {
+    public long findCountByStatus(int status) {
         return DAO.findCountByColumn(Column.create("status",status));
     }
 

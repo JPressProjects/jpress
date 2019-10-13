@@ -77,16 +77,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">镇、街道</label>
+                                <label class="col-sm-2 control-label">详细地址</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="镇、街道" name="address.district" value="#(data.district ??)">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="详细地址..."
+                                              name="address.detail">#(data.detail ??)</textarea>
+                                    <p class="help-block"> 请具体到街道、楼层以及门牌号 </p>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">详细地址</label>
+                                <label class="col-sm-2 control-label">邮政编码</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="门牌号等详细信息" name="address.address" value="#(data.address ??)">
+                                    <input type="input" class="form-control" placeholder="" name="address.zipcode" value="#(data.zipcode ??)">
                                 </div>
                             </div>
 

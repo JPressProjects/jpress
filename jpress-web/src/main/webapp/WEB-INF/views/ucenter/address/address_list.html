@@ -110,10 +110,11 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
-                                <th style="width: 200px">收货人</th>
-                                <th style="width: 100px">手机号码</th>
-                                <th >地址</th>
-                                <th >是否默认</th>
+                                <th style="width: 150px">收货人</th>
+                                <th style="width: 150px">手机号码</th>
+                                <th style="width: 40%">地址</th>
+                                <th style="width: 100px">邮政编码</th>
+                                <th style="width: 80px">是否默认</th>
                             </tr>
 
                             #for(data : page.list)
@@ -131,7 +132,10 @@
                                     #(data.mobile ??)
                                 </td>
                                 <td>
-                                    #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.county ??) &nbsp;#(data.district ??) &nbsp;#(data.address ??)
+                                    #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.county ??) &nbsp;#(data.detail ??)
+                                </td>
+                                <td>
+                                    #(data.zipcode ??) &nbsp;
                                 </td>
                                 <td>
                                     #if(data.isDefault)

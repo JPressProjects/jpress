@@ -59,6 +59,15 @@ public class UserCenterController extends UcenterControllerBase {
     @Inject
     private CouponCodeService couponCodeService;
 
+    @Inject
+    private CouponService couponService;
+
+    @Inject
+    private UserOrderService userOrderService;
+
+    @Inject
+    private UserOrderItemService userOrderItemService;
+
     /**
      * 用户中心首页
      */
@@ -111,7 +120,6 @@ public class UserCenterController extends UcenterControllerBase {
     }
 
 
-
     /**
      * 购买页面
      */
@@ -126,7 +134,7 @@ public class UserCenterController extends UcenterControllerBase {
         setAttr("userCarts", userCarts);
 
         UserAddress defaultAddress = addressService.findDefaultAddress(getLoginedUser().getId());
-        setAttr("defaultAddress",defaultAddress);
+        setAttr("defaultAddress", defaultAddress);
 
 
         render("checkout.html");
@@ -137,27 +145,70 @@ public class UserCenterController extends UcenterControllerBase {
      */
     public void doCheckout() {
 
-        /**
-         * 创建订单
-         */
-        UserOrder userOrder = new UserOrder();
-        userOrder.setBuyerId(getLoginedUser().getId());
-        userOrder.setBuyerMsg(getPara("buyer_msg"));
-        userOrder.setBuyerNickname(getLoginedUser().getNickname());
+        String[] cids = getParaValues("cid");
+        if (cids == null || cids.length == 0){
+            renderFailJson();
+            return;
+        }
 
         /**
          * 创建订单项
          */
-        UserOrderItem userOrderItem = new UserOrderItem();
+        List<UserOrderItem> userOrderItems = new ArrayList<>(cids.length);
+        for (String  cid : cids){
+            UserCart userCart = cartService.findById(cid);
 
+            UserOrderItem item = new UserOrderItem();
+//            item.setBuyerMsg();
+            item.setBuyerId(userCart.getUserId());
+            item.setBuyerNickname(getLoginedUser().getNickname());
+            item.setSellerId(userCart.getSellerId());
+
+            item.setProductId(userCart.getProductId());
+            item.setProductType(userCart.getProductType());
+            item.setProductTitle(userCart.getProductTitle());
+            item.setProductPrice(userCart.getProductPrice());
+            item.setProductCount(userCart.getProductCount());
+            item.setProductThumbnail(userCart.getProductThumbnail());
+
+            item.setTotalPrice(userCart.getProductPrice().multiply(new BigDecimal(userCart.getProductCount())));
+
+            userOrderItems.add(item);
+        }
+
+
+        /**
+         * 创建订单
+         */
+        UserOrder userOrder = getModel(UserOrder.class,"order");
+        userOrder.setBuyerId(getLoginedUser().getId());
+        userOrder.setBuyerMsg(getPara("buyer_msg"));
+        userOrder.setBuyerNickname(getLoginedUser().getNickname());
+        userOrder.setNs(PayKit.genOrderNS());
         String codeStr = getPara("coupon_code");
-        if (StrUtil.isNotBlank(codeStr)){
+        if (StrUtil.isNotBlank(codeStr)) {
             CouponCode couponCode = couponCodeService.findByCode(codeStr);
-            if (couponCode == null || !couponCodeService.valid(couponCode)){
-                renderJson(Ret.fail().set("meesage","优惠码不可用"));
+            if (couponCode == null || !couponCodeService.valid(couponCode)) {
+                renderJson(Ret.fail().set("meesage", "优惠码不可用"));
                 return;
             }
+
+            Coupon coupon = couponService.findById(couponCode.getCouponId());
+
+            //设置优惠码
+            userOrder.setCouponCode(codeStr);
+            userOrder.setCouponAmount(coupon.getAmount());
         }
+
+        //保存 order
+        Object userOrderId = userOrderService.save(userOrder);
+        for (UserOrderItem item : userOrderItems){
+            item.setOrderId((Long) userOrderId);
+            item.setOrderNs(userOrder.getNs());
+        }
+
+        //保存 order item
+        userOrderItemService.batchSave(userOrderItems);
 
 
 
@@ -166,7 +217,7 @@ public class UserCenterController extends UcenterControllerBase {
         payment.setProductType("recharge");
 
         payment.setTrxNo(StrUtil.uuid());
-        payment.setTrxType("recharge");
+        payment.setTrxType("product");
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
@@ -175,14 +226,16 @@ public class UserCenterController extends UcenterControllerBase {
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-        payment.setPayAmount(BigDecimal.valueOf(Long.valueOf(getPara("recharge_amount"))));
+        payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
         payment.setStatus("1");
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
+
+        //保存 payment
         paymentService.save(payment);
 
 
-        PayKit.redirect(getPara("paytype"),payment.getTrxNo());
+        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
     }
 
 

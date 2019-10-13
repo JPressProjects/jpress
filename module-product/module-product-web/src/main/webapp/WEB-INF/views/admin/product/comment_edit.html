@@ -103,12 +103,12 @@
 
 								<div class="col-sm-6">
 									<select class="form-control" name="productComment.status">
-										<option value="normal" #selectedIf(productComment && productComment.status=='normal')>正常
+										<option value="1" #selectedIf(productComment && productComment.status==1)>正常
 										</option>
-										<option value="unaudited" #selectedIf(productComment && productComment.status=='unaudited')>
+										<option value="2" #selectedIf(productComment && productComment.status==2)>
 											冻结
 										</option>
-										<option value="trash" #selectedIf(productComment && productComment.status=='trash')>垃圾箱
+										<option value="3" #selectedIf(productComment && productComment.status==3)>垃圾箱
 										</option>
 									</select>
 								</div>

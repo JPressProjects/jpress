@@ -192,7 +192,7 @@
 
     <section class="content">
         <form action="#(CPATH)/admin/product/doSave" method="post" id="form">
-            <input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "normal")'>
+            <input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "1")'>
             <input type="hidden" id="productId" name="product.id" value="#(product.id ??)">
             <input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">
             <div class="row">
@@ -433,11 +433,11 @@
                 <div class="col-lg-3">
                     <div class="box box-solid">
                         <div class="box-body ">
-                            <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">上架
+                            <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
                             </button>
-                            <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
+                            <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
                             </button>
-                            <a href="#" data-status="trash" class="pull-right submitBtn"
+                            <a href="#" data-status="3" class="pull-right submitBtn"
                                style="padding-top: 5px;">移至垃圾箱</a>
                         </div>
                     </div>

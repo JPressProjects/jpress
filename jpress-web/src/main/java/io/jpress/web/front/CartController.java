@@ -17,12 +17,17 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.model.UserCart;
 import io.jpress.service.UserAddressService;
 import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
+
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -54,32 +59,65 @@ public class CartController extends UcenterControllerBase {
     /**
      * 选择某个
      */
-    public void select(){
+    @EmptyValidate({
+            @Form(name = "id",message = "id不能为空")
+    })
+    public void select() {
+        Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
+
+        for (String idvalue : ids) {
+            UserCart cart = cartService.findById(idvalue);
+            if (cart != null) {
+                cart.setSelected(true);
+                cartService.update(cart);
+            }
+        }
+
         renderOkJson();
     }
 
     /**
      * 取消选择
      */
-    public void unselect(){
+    @EmptyValidate({
+            @Form(name = "id",message = "id不能为空")
+    })
+    public void unselect() {
+        Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
+        for (String idvalue : ids) {
+            UserCart cart = cartService.findById(idvalue);
+            if (cart != null) {
+                cart.setSelected(false);
+                cartService.update(cart);
+            }
+        }
+
         renderOkJson();
     }
 
     /**
      * 对某个购物车商品 +1
      */
-    public void addcount(){
-
+    @EmptyValidate({
+            @Form(name = "id",message = "id不能为空")
+    })
+    public void addcount() {
+        String id = getPara("id");
+        cartService.doAddCountById(id);
+        renderOkJson();
     }
 
     /**
      * 都某个购物车商品 -1
      */
-    public void subtractcount(){
-
+    @EmptyValidate({
+            @Form(name = "id",message = "id不能为空")
+    })
+    public void subtractcount() {
+        String id = getPara("id");
+        cartService.doSubtractCountById(id);
+        renderOkJson();
     }
-
-
 
 
 }

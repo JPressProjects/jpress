@@ -19,12 +19,12 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getLong("id");
 	}
 
-	public void setNs(java.lang.Integer ns) {
+	public void setNs(java.lang.String ns) {
 		set("ns", ns);
 	}
 	
-	public java.lang.Integer getNs() {
-		return getInt("ns");
+	public java.lang.String getNs() {
+		return getStr("ns");
 	}
 
 	public void setTitle(java.lang.String title) {

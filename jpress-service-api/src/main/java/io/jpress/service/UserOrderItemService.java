@@ -79,4 +79,5 @@ public interface UserOrderItemService  {
     public Page<UserOrderItem> paginate(int page, int pageSize);
 
 
+    public void batchSave(List<UserOrderItem> userOrderItems);
 }

@@ -11,5 +11,5 @@ public class UserCart extends BaseUserCart<UserCart> {
 
     private static final long serialVersionUID = 1L;
 
-	
+
 }

@@ -40,13 +40,13 @@ public class ProductDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String idOrSlug = getPara(0, scope);
-        Product article = getProduct(idOrSlug);
+        Product product = getProduct(idOrSlug);
 
-        if (article == null) {
+        if (product == null) {
             return;
         }
 
-        scope.setLocal("product", article);
+        scope.setLocal("product", product);
         renderBody(env, scope, writer);
     }
 

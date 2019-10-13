@@ -169,7 +169,7 @@ CREATE TABLE `coupon_code` (
   `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠券标题',
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
-  `status` int(11) DEFAULT NULL COMMENT '状态 1未领取 2未使用、3使用中、9不能使用',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态 1未领取 2未使用、3使用中、9不能使用',
   `valid_time` datetime DEFAULT NULL COMMENT '领取时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间，创建时可能不会有人领取',
   PRIMARY KEY (`id`)
@@ -219,6 +219,7 @@ CREATE TABLE `member` (
   `remark` text COLLATE utf8mb4_unicode_ci,
   `source` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `options` text COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(2) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -357,7 +358,7 @@ CREATE TABLE `payment_record` (
   `thirdparty_transaction_id` varchar(32) DEFAULT NULL,
   `thirdparty_user_openid` varchar(64) DEFAULT NULL,
   `remark` text COMMENT '备注',
-  `status` varchar(32) DEFAULT NULL COMMENT '状态(支付中、支持成功、支付失败、退款中、退款成功)',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态(支付中、支持成功、支付失败、退款中、退款成功)',
   `options` text,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -407,7 +408,7 @@ CREATE TABLE `product` (
   `limited_time` datetime DEFAULT NULL COMMENT '限时优惠截止时间',
   `dist_enable` tinyint(1) DEFAULT NULL COMMENT '是否启用分销',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销收益的金额',
-  `status` varchar(32) DEFAULT NULL COMMENT '状态',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态',
   `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
   `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
   `comment_time` datetime DEFAULT NULL COMMENT '最后评论时间',
@@ -486,7 +487,7 @@ CREATE TABLE `product_comment` (
   `order_number` int(11) DEFAULT '0' COMMENT '排序编号，常用语置顶等',
   `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
   `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
-  `status` varchar(32) DEFAULT NULL COMMENT '评论的状态',
+  `status` tinyint(2) DEFAULT NULL COMMENT '评论的状态',
   `created` datetime DEFAULT NULL COMMENT '评论的时间',
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
@@ -619,12 +620,12 @@ CREATE TABLE `user_address` (
   `district` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '区（县）',
   `detail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详细地址到门牌号',
   `zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮政编码',
-  `is_default` tinyint(1) DEFAULT '0' COMMENT '是否默认,1是，0否',
+  `width_default` tinyint(1) DEFAULT '0' COMMENT '是否默认,1是，0否',
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
 
 
 
@@ -687,7 +688,7 @@ CREATE TABLE `user_cart` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
 
 
@@ -703,6 +704,7 @@ CREATE TABLE `user_openid` (
   `expired_time` datetime DEFAULT NULL COMMENT 'access_token的过期时间',
   `nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
   `avatar` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -884,7 +886,6 @@ VALUES (1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 
 
 INSERT INTO `role` (`id`, `name`, `description`, `flag`, `created`, `modified`)
 VALUES (1,'默认角色','这个是系统自动创建的默认角色','jpsa','2019-09-02 11:39:29','2019-09-02 11:39:29');
-
 
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)

@@ -7,6 +7,7 @@ import io.jpress.model.UserAddress;
 import io.jpress.service.UserAddressService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Bean
 public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> implements UserAddressService {
@@ -17,7 +18,8 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
         if (userAddresses == null || userAddresses.isEmpty()){
             return null;
         }
-        return userAddresses.stream().filter(userAddress -> userAddress.isDefault()).findFirst().get();
+        Optional<UserAddress> userAddressOptional = userAddresses.stream().filter(userAddress -> userAddress.isDefault()).findFirst();
+        return userAddressOptional.isPresent() ? userAddressOptional.get() : null;
     }
 
     @Override

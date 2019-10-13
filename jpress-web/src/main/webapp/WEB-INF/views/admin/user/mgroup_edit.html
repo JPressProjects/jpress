@@ -55,7 +55,7 @@ initEditor('contenteditor', 300);
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-8">
                                     <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
-                                              placeholder="会员描述，包括会员的权益、福利等">#(group.content ??)</textarea>
+                                              placeholder="会员描述，包括会员的权益、福利等">#CKEditorContent(group.content ??)</textarea>
                                 </div>
                             </div>
 
@@ -138,7 +138,7 @@ initEditor('contenteditor', 300);
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分销的分成</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.dist_price" class="form-control" value="#(group.dist_price ??)"
+                                    <input class="form-control" name="group.dist_amount" type="input" value="#(group.dist_amount ??)"
                                            placeholder="">
                                     <p class="help-block">单位：元。用户参与分销后，该推广用户所获得的金额。 </p>
                                 </div>
@@ -168,7 +168,7 @@ initEditor('contenteditor', 300);
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="categoryId">
+                                    <select class="form-control" name="status">
                                         <option value="1">
                                             启用
                                         </option>

@@ -40,7 +40,7 @@ public class ProductDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String idOrSlug = getPara(0, scope);
-        Product article = getArticle(idOrSlug);
+        Product article = getProduct(idOrSlug);
 
         if (article == null) {
             return;
@@ -50,7 +50,7 @@ public class ProductDirective extends JbootDirectiveBase {
         renderBody(env, scope, writer);
     }
 
-    private Product getArticle(String idOrSlug) {
+    private Product getProduct(String idOrSlug) {
         return StrUtil.isNumeric(idOrSlug)
                 ? service.findById(idOrSlug)
                 : service.findFirstBySlug(idOrSlug);

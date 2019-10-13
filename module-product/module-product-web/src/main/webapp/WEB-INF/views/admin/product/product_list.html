@@ -160,14 +160,10 @@
 
 								</td>
 								<td>
-									<a href="#(product.user.detailUrl ??)">
 										#(product.price ??)
-									</a>
 								</td>
 								<td>
-									<a href="#(product.user.detailUrl ??)">
 										#(product.real_sales_count ?? '0' )（#(product.sales_count ?? '0')）
-									</a>
 								</td>
 								
 								<td>
@@ -187,7 +183,7 @@
 									#end
 								</td>
 								<td>
-									<a href="#(CPATH)/admin/article/comment?articleId=#(product.id)">
+									<a href="#(CPATH)/admin/product/comment?productId=#(product.id)">
 										#(product.comment_count ??)
 									</a>
 								</td>

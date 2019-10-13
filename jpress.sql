@@ -716,7 +716,7 @@ CREATE TABLE `user_openid` (
 
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ns` int(11) NOT NULL COMMENT '订单号',
+  `ns` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单号',
   `title` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '一般情况下商品的名称',
   `buyer_id` int(10) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',

@@ -32,6 +32,6 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     @Override
     public boolean doSubtractCountById(Object id) {
         return Db.update("update user_cart set product_count = product_count - 1 "
-                + " where id = ? ", id) > 0;
+                + " where id = ? && product_count > 1", id) > 0;
     }
 }

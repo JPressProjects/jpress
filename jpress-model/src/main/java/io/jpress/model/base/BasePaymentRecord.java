@@ -259,12 +259,12 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("remark");
 	}
 
-	public void setStatus(java.lang.String status) {
+	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 	
-	public java.lang.String getStatus() {
-		return getStr("status");
+	public java.lang.Integer getStatus() {
+		return getInt("status");
 	}
 
 	public void setOptions(java.lang.String options) {

@@ -83,12 +83,12 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 		return getStr("zipcode");
 	}
 
-	public void setIsDefault(java.lang.Boolean isDefault) {
-		set("is_default", isDefault);
+	public void setWidthDefault(java.lang.Boolean widthDefault) {
+		set("width_default", widthDefault);
 	}
 	
-	public java.lang.Boolean getIsDefault() {
-		return get("is_default");
+	public java.lang.Boolean getWidthDefault() {
+		return get("width_default");
 	}
 
 	public void setOptions(java.lang.String options) {

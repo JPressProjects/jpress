@@ -67,6 +67,14 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 		return getStr("options");
 	}
 
+	public void setStatus(java.lang.Integer status) {
+		set("status", status);
+	}
+	
+	public java.lang.Integer getStatus() {
+		return getInt("status");
+	}
+
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}

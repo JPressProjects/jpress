@@ -339,6 +339,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getInt("pay_status");
 	}
 
+	public void setPaidProof(java.lang.String paidProof) {
+		set("paid_proof", paidProof);
+	}
+	
+	public java.lang.String getPaidProof() {
+		return getStr("paid_proof");
+	}
+
 	public void setDelStatus(java.lang.Integer delStatus) {
 		set("del_status", delStatus);
 	}

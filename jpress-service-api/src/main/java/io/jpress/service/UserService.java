@@ -108,4 +108,11 @@ public interface UserService extends JbootServiceJoiner{
 
     public User findFistByQQOpenid(String openId);
 
+    public User findFistByWeiboOpenid(String openId);
+
+    public User findFistByGithubOpenid(String openId);
+
+    public User findFistByGiteeOpenid(String openId);
+
+    public User findFistByDingdingOpenid(String openId);
 }

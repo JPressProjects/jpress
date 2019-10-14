@@ -25,8 +25,7 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.oauth2.Oauth2Controller;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
-import io.jpress.commons.oauth2.connector.QQConnector;
-import io.jpress.commons.oauth2.connector.WechatConnector;
+import io.jpress.commons.oauth2.connector.*;
 import io.jpress.model.User;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
@@ -68,6 +67,18 @@ public class OauthController extends Oauth2Controller {
                 break;
             case "wechat":
                 dbUser = userService.findFistByWxOpenid(ouser.getOpenId());
+                break;
+            case "weibo":
+                dbUser = userService.findFistByWeiboOpenid(ouser.getOpenId());
+                break;
+            case "github":
+                dbUser = userService.findFistByGithubOpenid(ouser.getOpenId());
+                break;
+            case "gitee":
+                dbUser = userService.findFistByGiteeOpenid(ouser.getOpenId());
+                break;
+            case "dingding":
+                dbUser = userService.findFistByDingdingOpenid(ouser.getOpenId());
                 break;
             default:
                 redirect("/user/login");
@@ -127,9 +138,53 @@ public class OauthController extends Oauth2Controller {
                 return createQQConnector();
             case "wechat":
                 return createWechatConnector();
+            case "weibo":
+                return createWeiboConnector();
+            case "github":
+                return createGithubConnector();
+            case "gitee":
+                return createGiteeConnector();
+            case "dingding":
+                return createDingdingConnector();
         }
 
         return null;
+    }
+
+    private OauthConnector createDingdingConnector() {
+        boolean enable = JPressOptions.getAsBool("login_gitee_enable");
+        if (enable == false) return null;
+
+        String appkey = JPressOptions.get("login_dingding_appkey");
+        String appsecret = JPressOptions.get("login_dingding_appsecret");
+        return new DingdingConnector("dingding", appkey, appsecret);
+    }
+
+    private OauthConnector createGiteeConnector() {
+        boolean enable = JPressOptions.getAsBool("login_gitee_enable");
+        if (enable == false) return null;
+
+        String appkey = JPressOptions.get("login_gitee_appkey");
+        String appsecret = JPressOptions.get("login_gitee_appsecret");
+        return new OSChinaConnector("gitee", appkey, appsecret);
+    }
+
+    private OauthConnector createGithubConnector() {
+        boolean enable = JPressOptions.getAsBool("login_github_enable");
+        if (enable == false) return null;
+
+        String appkey = JPressOptions.get("login_github_appkey");
+        String appsecret = JPressOptions.get("login_github_appsecret");
+        return new GithubConnector("github", appkey, appsecret);
+    }
+
+    private OauthConnector createWeiboConnector() {
+        boolean enable = JPressOptions.getAsBool("login_weibo_enable");
+        if (enable == false) return null;
+
+        String appkey = JPressOptions.get("login_weibo_appkey");
+        String appsecret = JPressOptions.get("login_weibo_appsecret");
+        return new WeiboConnector("weibo", appkey, appsecret);
     }
 
 

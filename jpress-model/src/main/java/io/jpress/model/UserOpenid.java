@@ -40,6 +40,14 @@ public class UserOpenid extends BaseUserOpenid<UserOpenid> {
      * 微博
      */
     public static final String TYPE_WEIBO = "weibo";
+    /**
+     * github
+     */
+    public static final String TYPE_GITHUB = "github";
+    /**
+     * 码云
+     */
+    public static final String TYPE_GITEE = "gitee";
 
     public UserOpenid() {
     }

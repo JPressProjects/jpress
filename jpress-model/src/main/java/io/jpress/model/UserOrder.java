@@ -26,6 +26,19 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int TRADE_STATUS_REFUNDED = 7;//退款完成
     public static final int TRADE_STATUS_FINISHED = 9;//交易结束
 
+    public static final Map<Integer, String> tradeStatusTexts = new HashMap<>();
+
+    static {
+        tradeStatusTexts.put(TRADE_STATUS_TRADING, "交易中");
+        tradeStatusTexts.put(TRADE_STATUS_COMPLETED, "交易完成");
+        tradeStatusTexts.put(TRADE_STATUS_CANCEL, "交易结束");
+        tradeStatusTexts.put(TRADE_STATUS_APPLY_FOR_REFUNDING, "申请退款中");
+        tradeStatusTexts.put(TRADE_STATUS_REFUSAL_REFUNDING, "解决退款");
+        tradeStatusTexts.put(TRADE_STATUS_REFUNDING, "退款中");
+        tradeStatusTexts.put(TRADE_STATUS_REFUNDED, "退款完成");
+        tradeStatusTexts.put(TRADE_STATUS_FINISHED, "交易结束");
+    }
+
 
     /**
      * 支付状态
@@ -37,28 +50,34 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int PAY_STATUS_PAID_IM_BY_USERFLAG = 2; //用户主动标识，通过通讯工具付款完成
     public static final int PAY_STATUS_PAID_IM = 2;//im工具付款完成
 
+    public static final Map<Integer, String> payStatusTexts = new HashMap<>();
 
-    public static final Map<Integer, String> tradeStatusTexts = new HashMap<>();
     static {
-        tradeStatusTexts.put(TRADE_STATUS_TRADING,"交易中");
-        tradeStatusTexts.put(TRADE_STATUS_COMPLETED,"交易完成");
-        tradeStatusTexts.put(TRADE_STATUS_CANCEL,"交易结束");
-        tradeStatusTexts.put(TRADE_STATUS_APPLY_FOR_REFUNDING,"申请退款中");
-        tradeStatusTexts.put(TRADE_STATUS_REFUSAL_REFUNDING,"解决退款");
-        tradeStatusTexts.put(TRADE_STATUS_REFUNDING,"退款中");
-        tradeStatusTexts.put(TRADE_STATUS_REFUNDED,"退款完成");
-        tradeStatusTexts.put(TRADE_STATUS_FINISHED,"交易结束");
+        payStatusTexts.put(PAY_STATUS_UNPAY, "未支付");
+        payStatusTexts.put(PAY_STATUS_PAID_ONLINE, "在线支持完成");
+        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE_BY_USERFLAG, "线下支付中");
+        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE, "线下支付完成");
+        payStatusTexts.put(PAY_STATUS_PAID_IM_BY_USERFLAG, "通信工具支付中");
+        payStatusTexts.put(PAY_STATUS_PAID_IM, "通信工具支付完成");
     }
 
+    /**
+     * 发货状态（物流状态）
+     */
+    public static final int DELIVERY_STATUS_UNDELIVERY = 1; //未发货
+    public static final int DELIVERY_STATUS_DELIVERIED = 2;//已经发货
+    public static final int DELIVERY_STATUS_NEED_RE_DELIVERY = 3;//需要补发（特殊情况下，物流出现问题或者其他争议需要重新发货）
+    public static final int DELIVERY_STATUS_FINISHED = 8; //用户已收货
+    public static final int DELIVERY_STATUS_NONEED = 9;//无需发货
 
-    public static final Map<Integer, String> payStatusTexts = new HashMap<>();
+    public static final Map<Integer, String> deliveryStatusTexts = new HashMap<>();
+
     static {
-        payStatusTexts.put(PAY_STATUS_UNPAY,"未支付");
-        payStatusTexts.put(PAY_STATUS_PAID_ONLINE,"在线支持完成");
-        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE_BY_USERFLAG,"线下支付中");
-        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE,"线下支付完成");
-        payStatusTexts.put(PAY_STATUS_PAID_IM_BY_USERFLAG,"通信工具支付中");
-        payStatusTexts.put(PAY_STATUS_PAID_IM,"通信工具支付完成");
+        deliveryStatusTexts.put(DELIVERY_STATUS_UNDELIVERY, "未发货");
+        deliveryStatusTexts.put(DELIVERY_STATUS_DELIVERIED, "已经发货");
+        deliveryStatusTexts.put(DELIVERY_STATUS_NEED_RE_DELIVERY, "需要补发");
+        deliveryStatusTexts.put(DELIVERY_STATUS_FINISHED, "用户已收货");
+        deliveryStatusTexts.put(DELIVERY_STATUS_NONEED, "无需发货");
     }
 
 
@@ -68,5 +87,9 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public String getPayStatusStr() {
         return payStatusTexts.get(getPayStatus());
+    }
+
+    public String getDeliveryStatusStr() {
+        return deliveryStatusTexts.get(getDeliveryStatus());
     }
 }

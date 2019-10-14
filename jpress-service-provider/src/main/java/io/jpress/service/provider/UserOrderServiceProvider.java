@@ -20,8 +20,20 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
         Columns columns = Columns.create().likeAppendPercent("title", title).likeAppendPercent("ns", ns);
         Page<UserOrder> userOrderPage = DAO.paginateByColumns(page, pageSize, columns, "id desc");
 
-        for (UserOrder order : userOrderPage.getList()){
-            order.put("items",itemService.findListByOrderId(order.getId()));
+        for (UserOrder order : userOrderPage.getList()) {
+            order.put("items", itemService.findListByOrderId(order.getId()));
+        }
+
+        return userOrderPage;
+    }
+
+    @Override
+    public Page<UserOrder> paginateByUserId(int page, int pageSize, long userid, String title, String ns) {
+        Columns columns = Columns.create("buyer_id", userid).likeAppendPercent("title", title).likeAppendPercent("ns", ns);
+        Page<UserOrder> userOrderPage = DAO.paginateByColumns(page, pageSize, columns, "id desc");
+
+        for (UserOrder order : userOrderPage.getList()) {
+            order.put("items", itemService.findListByOrderId(order.getId()));
         }
 
         return userOrderPage;

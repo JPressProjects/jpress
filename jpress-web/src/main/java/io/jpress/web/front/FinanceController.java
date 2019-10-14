@@ -3,6 +3,7 @@ package io.jpress.web.front;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
@@ -25,6 +26,8 @@ public class FinanceController extends UcenterControllerBase {
      * 用户订单列表
      */
     public void order() {
+        Page<UserOrder> userOrderPage = orderService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(), getPara("title"), getPara("ns"));
+        setAttr("userOrderPage", userOrderPage);
         render("order_list.html");
     }
 
@@ -90,7 +93,7 @@ public class FinanceController extends UcenterControllerBase {
         paymentService.save(payment);
 
 
-        PayKit.redirect(getPara("paytype"),payment.getTrxNo());
+        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
     }
 
 

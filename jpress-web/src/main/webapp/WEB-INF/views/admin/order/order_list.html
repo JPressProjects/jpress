@@ -135,7 +135,7 @@
                                 <th style="text-align: center">数量</th>
                                 <th style="text-align: center">单价</th>
                                 <th style="text-align: center">总价</th>
-                                <th style="text-align: center">其他</th>
+                                <th style="text-align: center">操作</th>
                             </tr>
 
 
@@ -144,7 +144,14 @@
                                 <td colspan="5" bgcolor="#fff">
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：#(order.ns ??)   总金额：#(order.pay_amount ??)    支付状态：#(order.payStatusStr ??)   </h3> <a href="#(CPATH)/admin/order/detail" style="float: right">详情</a>
+                                            <h3 class="box-title">
+                                                订单号：#(order.ns ??)（#(order.tradeStatusStr ??)）
+                                                总金额：#(order.pay_amount ??)
+                                                支付状态：#(order.payStatusStr ??)
+                                                物流状态：#(order.payStatusStr ??)
+                                                <a href="#(CPATH)/admin/order/detail">发货</a>
+                                                <a href="#(CPATH)/admin/order/detail">详情</a>
+                                            </h3>
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body no-padding">
@@ -152,11 +159,13 @@
                                                 <tbody>
                                                 #for(item : order.items)
                                                 <tr>
-                                                    <td>#(item.product_title ??)</td>
-                                                    <td>#(item.product_count ??)</td>
-                                                    <td>#(item.product_price ??)</td>
-                                                    <td>#(item.product_title ??)</td>
-                                                    <td>#(item.product_title ??)</td>
+                                                    <td style="width: 20%;text-align: center">#(item.product_title ??)</td>
+                                                    <td style="width: 20%;text-align: center">#(item.product_count ??)</td>
+                                                    <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
+                                                    <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
+                                                    <td style="width: 20%;text-align: center">
+                                                        <a href="#">编辑</a>
+                                                    </td>
                                                 </tr>
                                                 #end
                                                 </tbody>
@@ -166,8 +175,6 @@
                                 </td>
                             </tr>
                             #end
-
-
 
                             </tbody>
                         </table>

@@ -788,7 +788,8 @@ CREATE TABLE `user_order_item` (
   `deivery_cost` decimal(10,2) DEFAULT NULL,
   `other_cost` decimal(10,2) DEFAULT NULL,
   `other_cost_remark` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `total_price` decimal(10,2) DEFAULT NULL COMMENT '具体价格 = 产品价格+运费+其他价格 - 分销金额',
+  `total_amount` decimal(10,2) DEFAULT NULL COMMENT '具体金额 = 产品价格+运费+其他价格 - 分销金额',
+  `pay_amount` decimal(10,2) DEFAULT NULL COMMENT '支付金额 = 产品价格+运费+其他价格',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
   `view_duetime` datetime DEFAULT NULL COMMENT '到期后无法继续查看内容',
@@ -801,7 +802,7 @@ CREATE TABLE `user_order_item` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单明细表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单明细表';
 
 
 

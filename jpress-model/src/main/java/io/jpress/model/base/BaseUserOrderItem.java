@@ -155,12 +155,20 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getStr("other_cost_remark");
 	}
 
-	public void setTotalPrice(java.math.BigDecimal totalPrice) {
-		set("total_price", totalPrice);
+	public void setTotalAmount(java.math.BigDecimal totalAmount) {
+		set("total_amount", totalAmount);
 	}
 	
-	public java.math.BigDecimal getTotalPrice() {
-		return get("total_price");
+	public java.math.BigDecimal getTotalAmount() {
+		return get("total_amount");
+	}
+
+	public void setPayAmount(java.math.BigDecimal payAmount) {
+		set("pay_amount", payAmount);
+	}
+	
+	public java.math.BigDecimal getPayAmount() {
+		return get("pay_amount");
 	}
 
 	public void setViewPath(java.lang.String viewPath) {

@@ -178,6 +178,11 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setRealAmount(orderAmount);
         userOrder.setId(userOrderId);
 
+        userOrder.setPayStatus(UserOrder.PAY_STATUS_UNPAY);//支付状态：未支付
+        userOrder.setTradeStatus(UserOrder.TRADE_STATUS_TRADING);//交易状态：交易中...
+        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_UNDELIVERY);//发货状态：未发货
+        userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_NOT_APPLY);//发票开具状态：用户未申请
+
         userOrderService.update(userOrder);
 
 //        cartService.deleteById()

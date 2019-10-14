@@ -80,6 +80,23 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         deliveryStatusTexts.put(DELIVERY_STATUS_NONEED, "无需发货");
     }
 
+    /**
+     * 发布开具状态
+     */
+    public static final int INVOICE_STATUS_NOT_APPLY = 1; //未申请发票
+    public static final int INVOICE_STATUS_APPLYING = 2;//发票申请中
+    public static final int INVOICE_STATUS_INVOICING = 3;//发票开具中
+    public static final int INVOICE_STATUS_INVOICED = 9; //发票已经开具
+
+    public static final Map<Integer, String> invoiceStatusTexts = new HashMap<>();
+
+    static {
+        invoiceStatusTexts.put(INVOICE_STATUS_NOT_APPLY, "未申请");
+        invoiceStatusTexts.put(INVOICE_STATUS_APPLYING, "申请开具中");
+        invoiceStatusTexts.put(INVOICE_STATUS_INVOICING, "发票开具中");
+        invoiceStatusTexts.put(INVOICE_STATUS_INVOICED, "发票已开具");
+    }
+
 
     public String getTradeStatusStr() {
         return tradeStatusTexts.get(getTradeStatus());
@@ -91,5 +108,9 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public String getDeliveryStatusStr() {
         return deliveryStatusTexts.get(getDeliveryStatus());
+    }
+
+    public String getInvoiceStatusStr() {
+        return invoiceStatusTexts.get(getInvoiceStatus());
     }
 }

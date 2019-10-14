@@ -36,8 +36,20 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      * 支付状态
      */
     public static final int PAY_STATUS_PREPAY = 1; //生成订单
+    public static final int PAY_STATUS_FAILURE = 2; //支付失败
     public static final int PAY_STATUS_SUCCESS = 9; //支付成功
-    public static final int PAY_STATUS_FAILURE = 99; //支付失败
+
+
+    /**
+     * payment 状态
+     */
+    public static final int STATUS_PAY_PRE = 1; //预支付
+    public static final int STATUS_PAY_FAILURE = 2; //支付失败
+    public static final int STATUS_PAY_SUCCESS = 9; //支付成功
+    public static final int STATUS_REFUND_PRE = 11; //预退款
+    public static final int STATUS_REFUNDING = 12; //退款中
+    public static final int STATUS_REFUND_FAILURE = 13; //退款失败
+    public static final int STATUS_REFUND_SUCCESS = 19; //退款成功
 
 
     /**

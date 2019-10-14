@@ -162,13 +162,13 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
+        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
 
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-//        payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
         payment.setPayAmount(userOrder.getRealAmount());
-        payment.setStatus(1);
+        payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
 

@@ -138,11 +138,13 @@
                                 <th style="text-align: center">其他</th>
                             </tr>
 
+
+                            #for(order : userOrderPage.list ??)
                             <tr>
                                 <td colspan="5" bgcolor="#fff">
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a href="#(CPATH)/admin/order/detail" style="float: right">详情</a>
+                                            <h3 class="box-title">订单号：#(order.ns ??)   总金额：#(order.pay_amount ??)    支付状态：已支付   </h3> <a href="#(CPATH)/admin/order/detail" style="float: right">详情</a>
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body no-padding">
@@ -169,104 +171,8 @@
                                     </div>
                                 </td>
                             </tr>
+                            #end
 
-
-
-                            <tr>
-                                <td colspan="5" bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a style="float: right">详情</a>
-                                        </div>
-                                        <div class="box-body no-padding">
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                <tr>
-                                                    <td>template</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>菜单</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>template:/admin/template</td>
-                                                    <td>所有模板</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-
-
-                            <tr>
-                                <td colspan="5"  bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a style="float: right">详情</a>
-                                        </div>
-                                        <div class="box-body no-padding">
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                <tr>
-                                                    <td>template</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>菜单</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>template:/admin/template</td>
-                                                    <td>所有模板</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td colspan="5"  bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">订单号：12312312313123132   总金额：￥100    支付状态：已支付   </h3> <a style="float: right">详情</a>
-                                        </div>
-                                        <div class="box-body no-padding">
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                <tr>
-                                                    <td>template</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>模板</td>
-                                                    <td>菜单</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>template:/admin/template</td>
-                                                    <td>所有模板</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                    <td>菜单</td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
 
 
                             </tbody>
@@ -276,30 +182,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-12">
-                                <ul class="pagination pull-right">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1"
-                                                                          tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2"
-                                                                    tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3"
-                                                                    tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4"
-                                                                    tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5"
-                                                                    tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6"
-                                                                    tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7" tabindex="0">Next</a>
-                                    </li>
-                                </ul>
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

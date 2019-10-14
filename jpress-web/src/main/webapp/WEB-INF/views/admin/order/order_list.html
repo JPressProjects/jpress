@@ -84,13 +84,13 @@
                                 <div class="form-group col-xs-4">
                                     <label class="col-sm-3 control-label">商品</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" >
+                                        <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group col-xs-4">
-                                    <label  class="col-sm-3 control-label">订单号</label>
+                                    <label class="col-sm-3 control-label">订单号</label>
                                     <div class="col-sm-9">
-                                        <input  class="form-control" >
+                                        <input class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group col-xs-4">
@@ -104,12 +104,15 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <button type="submit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</button>
-                                <button type="submit" class="btn btn-default"> <i class="fa fa-fw fa-refresh"></i> 同步</button>
-                                <button type="submit" class="btn btn-default checkAction"> 批量删除 </button>
-                                <div  class="btn-group checkAction">
+                                <button type="submit" class="btn btn-primary "><i class="fa fa-fw fa-plus"></i> 新建
+                                </button>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-refresh"></i> 同步
+                                </button>
+                                <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
+                                <div class="btn-group checkAction">
                                     <button type="button" class="btn btn-default">更多</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
@@ -130,7 +133,7 @@
 
                         <table class="table table-striped">
                             <tbody>
-                            <tr >
+                            <tr>
                                 <th style="text-align: center">商品</th>
                                 <th style="text-align: center">数量</th>
                                 <th style="text-align: center">单价</th>
@@ -143,15 +146,20 @@
                             <tr>
                                 <td colspan="5" bgcolor="#fff">
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border">
-                                            <h3 class="box-title">
-                                                订单号：#(order.ns ??)（#(order.tradeStatusStr ??)）
-                                                总金额：#(order.pay_amount ??)
-                                                支付状态：#(order.payStatusStr ??)
-                                                物流状态：#(order.payStatusStr ??)
-                                                <a href="#(CPATH)/admin/order/detail">发货</a>
-                                                <a href="#(CPATH)/admin/order/detail">详情</a>
-                                            </h3>
+                                        <div class="box-header with-border row">
+                                            <div class="col-lg-10">
+                                                订单号：#(order.ns ??)（<span style="color:red">#(order.tradeStatusStr ??)</span>）
+                                                总金额：<span style="color:red;padding-right: 20px">#(order.pay_amount ??)</span>
+                                                支付状态：<span style="color:red;padding-right: 20px">#(order.payStatusStr ??)</span>
+                                                物流状态：<span style="color:red;padding-right: 20px">#(order.deliveryStatusStr ??)</span>
+                                                发票状态：<span style="color:red;padding-right: 20px">#(order.invoiceStatusStr ??)</span>
+                                            </div>
+                                            <div lass="col-lg-2">
+                                                <h3 class="box-title">
+                                                    <a href="#(CPATH)/admin/order/detail">发货</a>
+                                                    <a href="#(CPATH)/admin/order/detail">详情</a>
+                                                </h3>
+                                            </div>
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body no-padding">
@@ -159,10 +167,18 @@
                                                 <tbody>
                                                 #for(item : order.items)
                                                 <tr>
-                                                    <td style="width: 20%;text-align: center">#(item.product_title ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_count ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
+                                                    <td style="width: 20%;text-align: center">
+                                                        #(item.product_title ??)
+                                                    </td>
+                                                    <td style="width: 20%;text-align: center">
+                                                        #(item.product_count ??)
+                                                    </td>
+                                                    <td style="width: 20%;text-align: center">
+                                                        #(item.product_price ??)
+                                                    </td>
+                                                    <td style="width: 20%;text-align: center">
+                                                        #(item.product_price * item.product_count ??)
+                                                    </td>
                                                     <td style="width: 20%;text-align: center">
                                                         <a href="#">编辑</a>
                                                     </td>

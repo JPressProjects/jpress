@@ -89,7 +89,7 @@
             type: "post",
             success: function (result) {
                 if (result.state == "ok") {
-                    location.href = '#(CPATH)/checkout/payorder/' + result.orderId;
+                    location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId+"?paytype="+result.paytype;
                 }
                 //fail
                 else {

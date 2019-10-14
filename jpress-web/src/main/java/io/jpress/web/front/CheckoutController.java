@@ -169,13 +169,20 @@ public class CheckoutController extends UcenterControllerBase {
         for (UserOrderItem item : userOrderItems) {
             orderAmount = orderAmount.add(item.getPayAmount());
         }
-        orderAmount = orderAmount.subtract(userOrder.getCouponAmount());
+
+        if (userOrder.getCouponAmount() != null){
+            orderAmount = orderAmount.subtract(userOrder.getCouponAmount());
+        }
+
         userOrder.setPayAmount(orderAmount);
         userOrder.setRealAmount(orderAmount);
         userOrder.setId(userOrderId);
 
         userOrderService.update(userOrder);
-        renderJson(Ret.ok().set("orderId", userOrderId));
+
+//        cartService.deleteById()
+
+        renderJson(Ret.ok().set("orderId", userOrderId).set("paytype",getPara("paytype")));
 
     }
 

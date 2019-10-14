@@ -152,7 +152,7 @@ public class OauthController extends Oauth2Controller {
     }
 
     private OauthConnector createDingdingConnector() {
-        boolean enable = JPressOptions.getAsBool("login_gitee_enable");
+        boolean enable = JPressOptions.getAsBool("login_dingding_enable");
         if (enable == false) return null;
 
         String appkey = JPressOptions.get("login_dingding_appkey");

@@ -79,4 +79,5 @@ public interface UserOrderService  {
     public Page<UserOrder> paginate(int page, int pageSize);
 
 
+    public Page<UserOrder> paginate(int page, int pageSize, String title, String ns);
 }

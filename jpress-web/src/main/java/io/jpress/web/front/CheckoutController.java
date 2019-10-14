@@ -20,6 +20,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
@@ -79,11 +80,10 @@ public class CheckoutController extends UcenterControllerBase {
     }
 
 
-
     /**
      * 开始购买
      */
-    public void exec() {
+    public void genorder() {
 
         String[] cids = getParaValues("cid");
         if (cids == null || cids.length == 0) {
@@ -111,7 +111,21 @@ public class CheckoutController extends UcenterControllerBase {
             item.setProductCount(userCart.getProductCount());
             item.setProductThumbnail(userCart.getProductThumbnail());
 
-            item.setTotalPrice(userCart.getProductPrice().multiply(new BigDecimal(userCart.getProductCount())));
+            item.setDistAmount(BigDecimal.ZERO); //分销金额
+            item.setDeiveryCost(BigDecimal.ZERO);//运费，后台设置
+            item.setOtherCost(BigDecimal.ZERO); //其他费用
+
+            //payAmount = 产品价格 * 产品数量 + 运费 + 其他费用
+            BigDecimal payAmount = userCart.getProductPrice()
+                    .multiply(BigDecimal.valueOf(userCart.getProductCount()))
+                    .add(item.getDeiveryCost())
+                    .add(item.getOtherCost())
+                    .subtract(item.getDistAmount());
+
+            item.setPayAmount(payAmount);
+
+            //totalAmount = payamount - 分销金额
+            item.setTotalAmount(payAmount.subtract(item.getDistAmount()));
 
             userOrderItems.add(item);
         }
@@ -142,14 +156,33 @@ public class CheckoutController extends UcenterControllerBase {
         }
 
         //保存 order
-        Object userOrderId = userOrderService.save(userOrder);
+        Long userOrderId = (Long) userOrderService.save(userOrder);
         for (UserOrderItem item : userOrderItems) {
-            item.setOrderId((Long) userOrderId);
+            item.setOrderId(userOrderId);
             item.setOrderNs(userOrder.getNs());
         }
-
         //保存 order item
         userOrderItemService.batchSave(userOrderItems);
+
+        //订单金额 = 所有 item 金额之和 - 优惠券金额
+        BigDecimal orderAmount = new BigDecimal(0);
+        for (UserOrderItem item : userOrderItems) {
+            orderAmount = orderAmount.add(item.getPayAmount());
+        }
+        orderAmount = orderAmount.subtract(userOrder.getCouponAmount());
+        userOrder.setPayAmount(orderAmount);
+        userOrder.setRealAmount(orderAmount);
+        userOrder.setId(userOrderId);
+
+        userOrderService.update(userOrder);
+        renderJson(Ret.ok().set("orderId", userOrderId));
+
+    }
+
+    @UrlParaValidate
+    public void payorder(){
+        UserOrder userOrder = userOrderService.findById(getPara());
+        render404If(userOrder == null);
 
 
         PaymentRecord payment = new PaymentRecord();
@@ -175,9 +208,7 @@ public class CheckoutController extends UcenterControllerBase {
         //保存 payment
         paymentService.save(payment);
 
-        renderJson(Ret.ok().set("paytype",getPara("paytype")).set("trxno",payment.getTrxNo()));
-
-//        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
+        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
     }
 
 

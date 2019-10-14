@@ -89,7 +89,7 @@
             type: "post",
             success: function (result) {
                 if (result.state == "ok") {
-                    location.href = '#(CPATH)/pay/' + result.paytype + "/" + result.trxno;
+                    location.href = '#(CPATH)/checkout/payorder/' + result.orderId;
                 }
                 //fail
                 else {
@@ -155,7 +155,7 @@
 #define content()
 <div class="content-wrapper" style="min-height: 1126px;">
 
-    <form action="#(CPATH)/ucenter/checkout/exec" method="post" target="_blank" id="checkout">
+    <form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
 
         <!-- Main content -->
         <section class="invoice">

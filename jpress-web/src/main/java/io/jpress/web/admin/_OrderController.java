@@ -22,7 +22,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.UserOrder;
+import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
 /**
@@ -39,10 +41,15 @@ public class _OrderController extends AdminControllerBase {
     @Inject
     private UserOrderService orderService;
 
+    @Inject
+    private UserOrderItemService orderItemService;
+
+    @Inject
+    private UserService userService;
+
 
     @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
-//        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10);
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10,getPara("title"),getPara("ns"));
         setAttr("userOrderPage",userOrderPage);
         render("order/order_list.html");
@@ -55,6 +62,10 @@ public class _OrderController extends AdminControllerBase {
     }
 
     public void detail(){
+        UserOrder order = orderService.findById(getPara());
+        setAttr("order",order);
+        setAttr("orderItems",orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderUser",userService.findById(order.getBuyerId()));
         render("order/order_detail.html");
     }
 

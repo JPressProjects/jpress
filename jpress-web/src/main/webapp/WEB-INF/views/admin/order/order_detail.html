@@ -13,16 +13,9 @@
     <section class="content-header">
         <h1>
             订单信息
-            <small>订单号：#007612</small>
+            <small>订单号：##(order.ns ??)</small>
         </h1>
     </section>
-
-    <div class="pad margin no-print">
-        <div class="callout callout-info" style="margin-bottom: 0!important;">
-            <h4><i class="fa fa-info"></i> Note:</h4>
-            This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
-        </div>
-    </div>
 
     <!-- Main content -->
     <section class="invoice">
@@ -31,7 +24,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 订单信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <small class="pull-right">Date: #date(order.created)</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -114,18 +107,18 @@
         </div>
         <!-- /.row -->
 
-        <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
                 <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
+                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> 手动入账
                 </button>
                 <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
+                    <i class="fa fa-download"></i> 开具发票
                 </button>
             </div>
         </div>
     </section>
+
 
     <!-- Main content -->
     <section class="invoice">
@@ -134,7 +127,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 产品信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <small class="pull-right">Date: #date(order.created)</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -189,18 +182,10 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-                </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
-                </button>
-            </div>
-        </div>
     </section>
+
+
+
 
     <!-- Main content -->
     <section class="invoice">

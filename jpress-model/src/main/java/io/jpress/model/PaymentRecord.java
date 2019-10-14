@@ -23,5 +23,40 @@ import io.jpress.model.base.BasePaymentRecord;
  */
 @Table(tableName = "payment_record", primaryKey = "id")
 public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 业务类型
+     */
+    public static final String TRX_TYPE_RECHARGE = "recharge"; //用户充值
+    public static final String TRX_TYPE_ORDER = "order"; //订单支付
+
+
+    /**
+     * 支付状态
+     */
+    public static final int PAY_STATUS_PREPAY = 1; //生成订单
+    public static final int PAY_STATUS_SUCCESS = 9; //支付成功
+    public static final int PAY_STATUS_FAILURE = 99; //支付失败
+
+
+    /**
+     * 是否支付成功
+     *
+     * @return
+     */
+    public boolean isPaySuccess() {
+        return getPayStatus() != null && PAY_STATUS_SUCCESS == getPayStatus();
+    }
+
+
+    /**
+     * 是否处于预支付状态
+     *
+     * @return
+     */
+    public boolean isPayPre() {
+        return getPayStatus() != null && PAY_STATUS_PREPAY == getPayStatus();
+    }
 
 }

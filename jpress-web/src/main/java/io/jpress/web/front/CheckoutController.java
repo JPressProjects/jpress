@@ -153,11 +153,11 @@ public class CheckoutController extends UcenterControllerBase {
 
 
         PaymentRecord payment = new PaymentRecord();
-        payment.setProductName("用户充值");
-        payment.setProductType("recharge");
+        payment.setProductName(userOrder.getTitle());
+        payment.setProductType("product");
 
         payment.setTrxNo(StrUtil.uuid());
-        payment.setTrxType("product");
+        payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
@@ -167,7 +167,7 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setOrderRefererUrl(getReferer());
 
 //        payment.setPayAmount(BigDecimal.valueOf(getParaToLong("recharge_amount")));
-        payment.setPayAmount(new BigDecimal(10));
+        payment.setPayAmount(userOrder.getRealAmount());
         payment.setStatus(1);
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);

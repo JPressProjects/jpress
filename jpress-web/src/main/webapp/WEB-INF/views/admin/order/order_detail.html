@@ -24,7 +24,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 订单信息.
-                    <small class="pull-right">Date: #date(order.created)</small>
+                    <small class="pull-right">下单时间: #date(order.created)</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -34,8 +34,8 @@
             <div class="col-sm-4 invoice-col">
                 <b>Invoice #007612</b><br>
                 <br>
-                <b>订单用户:</b> 4F3S8J<br>
-                <b>支付状态:</b> 2/22/2014<br>
+                订单用户: 4F3S8J<br>
+                支付状态: 2/22/2014<br>
                 <b>物流状态:</b> 968-34567<br>
                 <b>发票状态:</b> 968-34567
             </div>
@@ -69,10 +69,17 @@
         <div class="row no-print">
             <div class="col-xs-12">
                 <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> 手动入账
+                <button type="button" class="btn btn-success pull-right">
+                    <i class="fa fa-credit-card"></i> 修改价格
+                </button>
+                <button type="button" class="btn btn-success pull-right" style="margin-right: 5px;">
+                    <i class="fa fa-credit-card"></i> 手动入账
                 </button>
                 <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
                     <i class="fa fa-download"></i> 开具发票
+                </button>
+                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                    <i class="fa fa-download"></i> 发货
                 </button>
             </div>
         </div>
@@ -86,7 +93,6 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 产品信息.
-                    <small class="pull-right">Date: #date(order.created)</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -153,7 +159,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 物流信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <small class="pull-right">最近更新: 2/10/2014</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -193,18 +199,6 @@
         </div>
         <!-- /.row -->
 
-
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-                </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
-                </button>
-            </div>
-        </div>
     </section>
     <!-- /.content -->
     <div class="clearfix"></div>

@@ -145,6 +145,23 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
+    public User findFistByWeiboOpenid(String openId) {
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WEIBO,openId);
+    }
+    @Override
+    public User findFistByGithubOpenid(String openId) {
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITHUB,openId);
+    }
+    @Override
+    public User findFistByGiteeOpenid(String openId) {
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITEE,openId);
+    }
+    @Override
+    public User findFistByDingdingOpenid(String openId) {
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_DINGDING,openId);
+    }
+
+    @Override
     public void shouldUpdateCache(int action, Object data) {
         if (data instanceof User) {
             User user = (User) data;

@@ -83,12 +83,12 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return get("order_amount");
 	}
 
-	public void setRealAmount(java.lang.Integer realAmount) {
+	public void setRealAmount(java.math.BigDecimal realAmount) {
 		set("real_amount", realAmount);
 	}
 	
-	public java.lang.Integer getRealAmount() {
-		return getInt("real_amount");
+	public java.math.BigDecimal getRealAmount() {
+		return get("real_amount");
 	}
 
 	public void setCouponCode(java.lang.String couponCode) {

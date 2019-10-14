@@ -726,7 +726,7 @@ CREATE TABLE `user_order` (
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `order_amount` decimal(10,2) DEFAULT NULL COMMENT '订单金额',
-  `real_amount` int(11) DEFAULT NULL COMMENT '真实金额，销售人员可以修改订单金额，一般情况下，真实金额等于订单金额',
+  `real_amount` decimal(10,2) DEFAULT NULL COMMENT '真实金额，销售人员可以修改订单金额，一般情况下，真实金额等于订单金额',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
   `pay_amount` decimal(10,2) DEFAULT NULL COMMENT '支付金额',
@@ -762,7 +762,7 @@ CREATE TABLE `user_order` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
 
 
 

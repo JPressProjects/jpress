@@ -1,5 +1,46 @@
 #@layout()
 
+#define script()
+<script>
+
+    function deliver() {
+        openlayer('发货','/admin/order/deliver');
+    }
+
+    function invoice() {
+        openlayer('开具发票','/admin/order/invoice');
+    }
+
+    function remark() {
+        openlayer('备注信息','/admin/order/remark');
+    }
+
+    function updatePaystatus() {
+        openlayer('手动入账','/admin/order/updatePaystatus');
+    }
+
+    function updatePrice() {
+        openlayer('修改价格','/admin/order/updatePrice');
+    }
+    
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '90%'],
+            content: jpress.cpath + url,
+            end: function () {
+
+            }
+        });
+    }
+
+</script>
+#end
+
 #define css()
 <style>
     .page-header{
@@ -116,19 +157,19 @@
                 <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
             </div>
             <div class="col-xs-10"style="text-align: right">
-                <button type="button" class="btn btn-success ">
+                <button type="button" class="btn btn-success " onclick="updatePrice()">
                     <i class="fa fa-credit-card"></i> 修改价格
                 </button>
-                <button type="button" class="btn btn-success " >
+                <button type="button" class="btn btn-success " onclick="updatePaystatus()">
                     <i class="fa fa-credit-card"></i> 手动入账
                 </button>
-                <button type="button" class="btn btn-primary " >
+                <button type="button" class="btn btn-primary " onclick="invoice()">
                     <i class="fa fa-download"></i> 开具发票
                 </button>
-                <button type="button" class="btn btn-primary " >
+                <button type="button" class="btn btn-primary " onclick="deliver()">
                     <i class="fa fa-download"></i> 发货
                 </button>
-                <button type="button" class="btn btn-primary " >
+                <button type="button" class="btn btn-primary " onclick="remark()">
                     <i class="fa fa-download"></i> 备注
                 </button>
             </div>

@@ -8,14 +8,15 @@
     function closeLayer() {
         parent.layer.closeAll();
     }
+
     $('#cfile').fileupload({
         dropZone: $('#uploader'),
         url: '/commons/attachment/upload',
         sequentialUploads: true,
         done: function (e, data) {
-            if(data.result.state == "ok"){
+            if (data.result.state == "ok") {
                 toastr.success("文件上传成功...")
-            }else {
+            } else {
                 toastr.error(data.result.message)
             }
         }
@@ -31,6 +32,7 @@
         border: 1px dashed #999;
         padding: 10px;
     }
+
     .myPanel {
         font-size: 25px;
         color: #ccc;
@@ -89,22 +91,22 @@
                     </div>
 
 
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label">入账截图（证明）</label>
-                        <div class="col-sm-8">
-                            <div id="uploader">
+                        <div class="col-sm-8 ">
+
+                                <div id="uploader">
                                 <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
                                     <i class="glyphicon glyphicon-plus"></i>
-                                    <span>选择文件...</span>
-                                    <input id="cfile" type="file" name="files[]" multiple>
+                                    <span>选择图片...</span>
+                                    <input id="cfile" type="file" name="files" multiple>
                                 </span>
 
-                                <div class="myPanel">
-                                    或者拖动文件到这里进行上传...
+                                    <div class="myPanel">
+                                        或者拖动图片到这里进行上传...
+                                    </div>
                                 </div>
 
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -264,17 +264,14 @@ public class MenuManager implements JbootEventListener {
 
 
     public List<MenuGroup> getSystemMenus() {
-        systemMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return systemMenus;
     }
 
     public List<MenuGroup> getModuleMenus() {
-        moduleMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return moduleMenus;
     }
 
     public List<MenuGroup> getUcenterMenus() {
-        ucenterMenus.sort(Comparator.comparingInt(MenuGroup::getOrder));
         return ucenterMenus;
     }
 

@@ -1,6 +1,7 @@
 package io.jpress.core.menu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 public class MenuArrayList extends ArrayList<MenuGroup> {
@@ -10,7 +11,16 @@ public class MenuArrayList extends ArrayList<MenuGroup> {
         if (contains(menuGroup)) {
             throw new RuntimeException("menuGroup:" + menuGroup + " has exits.");
         }
-
-        return super.add(menuGroup);
+        return sort(super.add(menuGroup));
     }
+
+
+
+    private boolean  sort(boolean success){
+        if (success) {
+            sort(Comparator.comparingInt(MenuGroup::getOrder));
+        }
+        return success;
+    }
+
 }

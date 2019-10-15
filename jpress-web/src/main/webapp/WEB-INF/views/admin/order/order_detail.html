@@ -5,6 +5,21 @@
     .page-header{
         margin: 10px 0 20px;
     }
+    .remark{
+        width: 100%;
+        height: 100px;
+        background-color: #f5f5f5;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    address{
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+
 </style>
 #end
 
@@ -32,54 +47,89 @@
         <!-- info row -->
         <div class="row invoice-info">
             <div class="col-sm-4 invoice-col">
-                <b>Invoice #007612</b><br>
-                <br>
-                订单用户: 4F3S8J<br>
-                支付状态: 2/22/2014<br>
-                <b>物流状态:</b> 968-34567<br>
-                <b>发票状态:</b> 968-34567
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-4 invoice-col">
-                收货信息
+                <strong>订单预览</strong>
                 <address>
-                    <strong>Admin, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
+                    价格：88.00 元<br>
+                    订单用户：<a href="#(CPATH)/admin/user/detail/#(orderUser.id ??)"> #(orderUser.nickname ??)</a><br>
+                    支付状态：#(order.payStatusStr ??)<br>
+                    物流状态：#(order.deliveryStatusStr ??)<br>
+                    发票状态：#(order.invoiceStatusStr ??)
                 </address>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                发票信息
+                <strong>收货信息</strong>
                 <address>
-                    <strong>John Doe</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (555) 539-1037<br>
-                    Email: john.doe@example.com
+                    收件人：#(order.delivery_addr_username ??)<br>
+                    电话：#(order.delivery_addr_mobile ??)<br>
+                    编码: #(order.delivery_addr_zipcode ??)<br>
+                    地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district ??)<br>
+                    #(order.delivery_addr_detail ??)
                 </address>
             </div>
             <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <strong>备注信息</strong>
+                <address>
+                   <div class="remark">
+                       #(order.remarks ?? '暂无备注信息')
+                   </div>
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <strong>分销情况</strong>
+                <address>
+                    分销用户：#(distUser.nickname ?? '未设置昵称')<br>
+                    分销金额：#(order.dist_amount ??)<br>
+<!--                    San Francisco, CA 94107<br>-->
+<!--                    Phone: (555) 539-1037<br>-->
+<!--                    Email: john.doe@example.com-->
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <strong>优惠券</strong>
+                <address>
+                    优惠码：#(order.coupon_code ??)<br>
+                    优惠金额：#(order.coupon_amount ??)<br>
+                    用户: john.doe@example.com
+                </address>
+            </div>
+            <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <strong>发票信息</strong>
+                <address>
+                    类型：<br>
+                    抬头：<br>
+                    内容：<br>
+                    纳税人识别号：
+                </address>
+            </div>
 
         </div>
         <!-- /.row -->
 
         <div class="row no-print">
-            <div class="col-xs-12">
+            <div class="col-xs-2">
                 <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
-                <button type="button" class="btn btn-success pull-right">
+            </div>
+            <div class="col-xs-10"style="text-align: right">
+                <button type="button" class="btn btn-success ">
                     <i class="fa fa-credit-card"></i> 修改价格
                 </button>
-                <button type="button" class="btn btn-success pull-right" style="margin-right: 5px;">
+                <button type="button" class="btn btn-success " >
                     <i class="fa fa-credit-card"></i> 手动入账
                 </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                <button type="button" class="btn btn-primary " >
                     <i class="fa fa-download"></i> 开具发票
                 </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                <button type="button" class="btn btn-primary " >
                     <i class="fa fa-download"></i> 发货
+                </button>
+                <button type="button" class="btn btn-primary " >
+                    <i class="fa fa-download"></i> 备注
                 </button>
             </div>
         </div>
@@ -92,7 +142,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 产品信息.
+                    <i class="fa fa-globe"></i> 订单产品.
                 </h2>
             </div>
             <!-- /.col -->

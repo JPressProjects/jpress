@@ -66,6 +66,7 @@ public class _OrderController extends AdminControllerBase {
         setAttr("order",order);
         setAttr("orderItems",orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser",userService.findById(order.getBuyerId()));
+        setAttr("distUser",userService.findById(order.getDistUserId()));
         render("order/order_detail.html");
     }
 

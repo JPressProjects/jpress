@@ -50,24 +50,59 @@ public class _OrderController extends AdminControllerBase {
 
     @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
-        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(),10,getPara("title"),getPara("ns"));
-        setAttr("userOrderPage",userOrderPage);
+        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
+        setAttr("userOrderPage", userOrderPage);
         render("order/order_list.html");
     }
 
 
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void setting() {
-       render("order/setting.html");
+        render("order/setting.html");
     }
 
-    public void detail(){
+    public void detail() {
         UserOrder order = orderService.findById(getPara());
-        setAttr("order",order);
-        setAttr("orderItems",orderItemService.findListByOrderId(order.getId()));
-        setAttr("orderUser",userService.findById(order.getBuyerId()));
-        setAttr("distUser",userService.findById(order.getDistUserId()));
+        setAttr("order", order);
+        setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderUser", userService.findById(order.getBuyerId()));
+        setAttr("distUser", userService.findById(order.getDistUserId()));
         render("order/order_detail.html");
+    }
+
+    /**
+     * 发货
+     */
+    public void deliver() {
+        render("order/order_layer_deliver.html");
+    }
+
+    /**
+     * 发票设置
+     */
+    public void invoice() {
+        render("order/order_layer_invoice.html");
+    }
+
+    /**
+     * 备注设置
+     */
+    public void remark() {
+        render("order/order_layer_remark.html");
+    }
+
+    /**
+     * 手动入账
+     */
+    public void updatePaystatus() {
+        render("order/order_layer_update_paystatus.html");
+    }
+
+    /**
+     * 修改价格
+     */
+    public void updatePrice() {
+        render("order/order_layer_update_price.html");
     }
 
 

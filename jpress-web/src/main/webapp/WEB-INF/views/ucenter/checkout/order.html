@@ -8,7 +8,7 @@
         var itemId = $(this).attr("data-value");
         var that = $(this);
 
-        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function () {
+        ajaxPost('/ucenter/finance/order/addcount', {id: itemId}, function () {
             var input = that.prev();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -25,7 +25,7 @@
     $(".subtract").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
-        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function () {
+        ajaxPost('/ucenter/finance/order/subtractcount', {id: itemId}, function () {
             var input = that.next();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -79,7 +79,7 @@
 
     function doDel(id) {
         if (confirm('确定要删除该记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
+            ajaxGet("#(CPATH)/ucenter/finance/order/doDel/" + id)
         }
     }
 
@@ -199,7 +199,7 @@
                             </td>
                             <td>#(item.product_count * item.product_new_price ??)</td>
                             <td>
-                                <a href="#">删除</a>
+                                <a href="javascript:;" onclick="doDel('#(item.id)')">删除</a>
                             </td>
                         </tr>
                         #end

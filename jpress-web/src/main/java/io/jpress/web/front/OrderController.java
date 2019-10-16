@@ -3,6 +3,8 @@ package io.jpress.web.front;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.model.UserOrder;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
@@ -49,6 +51,37 @@ public class OrderController extends UcenterControllerBase {
 
         setAttr("order", order);
         render("order_detail.html");
+    }
+
+
+    /**
+     * 对某个购物车商品 +1
+     */
+    @EmptyValidate({
+            @Form(name = "id", message = "id不能为空")
+    })
+    public void addcount() {
+        orderItemService.doAddProductCountById(getPara("id"));
+        renderOkJson();
+    }
+
+    /**
+     * 都某个购物车商品 -1
+     */
+    @EmptyValidate({
+            @Form(name = "id", message = "id不能为空")
+    })
+    public void subtractcount() {
+        orderItemService.doSubtractProductCountById(getPara("id"));
+        renderOkJson();
+    }
+
+    /**
+     * 删除某个商品
+     */
+    public void doDel() {
+        orderItemService.deleteById(getPara("id"));
+        renderOkJson();
     }
 
 

@@ -101,8 +101,7 @@ public class CartController extends UcenterControllerBase {
             @Form(name = "id",message = "id不能为空")
     })
     public void addcount() {
-        String id = getPara("id");
-        cartService.doAddCountById(id);
+        cartService.doAddCountById(getPara("id"));
         renderOkJson();
     }
 
@@ -113,8 +112,15 @@ public class CartController extends UcenterControllerBase {
             @Form(name = "id",message = "id不能为空")
     })
     public void subtractcount() {
-        String id = getPara("id");
-        cartService.doSubtractCountById(id);
+        cartService.doSubtractCountById(getPara("id"));
+        renderOkJson();
+    }
+
+    /**
+     * 删除某个商品
+     */
+    public void doDel() {
+        cartService.deleteById(getPara("id"));
         renderOkJson();
     }
 

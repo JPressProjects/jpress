@@ -79,7 +79,7 @@
 
     function doDel(id) {
         if (confirm('确定要删除该记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
+            ajaxGet("#(CPATH)/ucenter/cart/doDel/" + id)
         }
     }
 
@@ -199,7 +199,7 @@
                             </td>
                             <td>#(userCart.product_count * userCart.product_new_price ??)</td>
                             <td>
-                                <a href="#">删除</a>
+                                <a href="javascript:;" onclick="doDel('#(userCart.id)')">删除</a>
                             </td>
                         </tr>
                         #end

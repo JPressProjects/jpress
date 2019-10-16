@@ -70,10 +70,9 @@ public class CheckoutController extends UcenterControllerBase {
         } else {
             userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
         }
-        setAttr("userCarts", userCarts);
 
-        UserAddress defaultAddress = addressService.findDefaultAddress(getLoginedUser().getId());
-        setAttr("defaultAddress", defaultAddress);
+        setAttr("userCarts", userCarts);
+        setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
 
         render("checkout.html");
     }
@@ -85,9 +84,9 @@ public class CheckoutController extends UcenterControllerBase {
             return;
         }
 
-        set("order",order);
-        set("orderItems",userOrderItemService.findListByOrderId(order.getId()));
-
+        setAttr("order",order);
+        setAttr("orderItems",userOrderItemService.findListByOrderId(order.getId()));
+        setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
         render("order.html");
     }
 

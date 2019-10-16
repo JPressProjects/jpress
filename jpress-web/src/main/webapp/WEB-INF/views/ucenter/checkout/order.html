@@ -185,19 +185,19 @@
                         </thead>
                         <tbody>
 
-                        #for(userCart : userCarts )
+                        #for(item : orderItems)
                         <tr>
-                            <td>#(userCart.product_title ??)</td>
-                            <td>#(userCart.product_new_price ??)</td>
+                            <td>#(item.product_title ??)</td>
+                            <td>#(item.product_price ??)</td>
                             <td>
                                 <div class="input-group input-number">
-                                    <input type="hidden" name="cid" value="#(userCart.id ??)">
-                                    <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                                    <input type="text" class="form-control" value="#(userCart.product_count ??)">
-                                    <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
+                                    <input type="hidden" name="cid" value="#(item.id ??)">
+                                    <span class="input-group-addon subtract" data-value="#(item.id ??)">-</span>
+                                    <input type="text" class="form-control" value="#(item.product_count ??)">
+                                    <span class="input-group-addon add" data-value="#(item.id ??)">+</span>
                                 </div>
                             </td>
-                            <td>#(userCart.product_count * userCart.product_new_price ??)</td>
+                            <td>#(item.product_count * item.product_new_price ??)</td>
                             <td>
                                 <a href="#">删除</a>
                             </td>

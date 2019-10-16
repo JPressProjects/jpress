@@ -16,10 +16,15 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.service.RoleService;
+import io.jpress.model.UserOrder;
+import io.jpress.service.UserOrderItemService;
+import io.jpress.service.UserOrderService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
 
@@ -32,18 +37,31 @@ import io.jpress.web.base.AdminControllerBase;
 @RequestMapping(value = "/admin/finance", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FinanceController extends AdminControllerBase {
 
+    private static final Log LOG = Log.getLog(_FinanceController.class);
+
     @Inject
-    private RoleService roleService;
+    private UserOrderService orderService;
 
-    @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_FINANCE, order = 0)
-    public void index() {
-        render("order/list.html");
+    @Inject
+    private UserOrderItemService orderItemService;
 
+    @Inject
+    private UserService userService;
+
+
+    @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
+    public void paylist() {
+        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
+        setAttr("userOrderPage", userOrderPage);
+        render("finance/paylist.html");
     }
 
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_FINANCE)
-    public void my() {
-        render("my.html");
+
+    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 9)
+    public void setting() {
+        render("finance/setting.html");
     }
+
+
 
 }

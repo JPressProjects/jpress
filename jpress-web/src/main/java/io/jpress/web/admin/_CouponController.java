@@ -37,7 +37,7 @@ import io.jpress.web.base.AdminControllerBase;
  * @Title: 首页
  * @Package io.jpress.web.admin
  */
-@RequestMapping(value = "/admin/order/coupon", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/finance/coupon", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _CouponController extends AdminControllerBase {
 
     private static final Log LOG = Log.getLog(_CouponController.class);
@@ -51,18 +51,18 @@ public class _CouponController extends AdminControllerBase {
     @Inject
     private CouponCodeService couponCodeService;
 
-    @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 2)
+    @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 8)
     public void index() {
         Page<Coupon> page = couponService.paginate(getPagePara(), 10);
         setAttr("page", page);
-        render("order/coupon.html");
+        render("finance/coupon.html");
     }
 
 
     public void edit() {
         Coupon coupon = couponService.findById(getPara());
         setAttr("coupon", coupon);
-        render("order/coupon_edit.html");
+        render("finance/coupon_edit.html");
     }
 
     @EmptyValidate({
@@ -79,13 +79,13 @@ public class _CouponController extends AdminControllerBase {
     public void takes() {
         Page<CouponCode> page = couponCodeService.paginate(getPagePara(), 10);
         setAttr("page", page);
-        render("order/coupon_takes.html");
+        render("finance/coupon_takes.html");
     }
 
     public void useds() {
         Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10);
         setAttr("page", page);
-        render("order/coupon_useds.html");
+        render("finance/coupon_useds.html");
     }
 
 

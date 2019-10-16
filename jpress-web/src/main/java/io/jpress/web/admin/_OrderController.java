@@ -50,7 +50,7 @@ public class _OrderController extends AdminControllerBase {
     private UserService userService;
 
 
-    @AdminMenu(text = "订单", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
+    @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
         setAttr("userOrderPage", userOrderPage);
@@ -58,10 +58,7 @@ public class _OrderController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
-    public void setting() {
-        render("order/setting.html");
-    }
+
 
     public void detail() {
         UserOrder order = orderService.findById(getPara());

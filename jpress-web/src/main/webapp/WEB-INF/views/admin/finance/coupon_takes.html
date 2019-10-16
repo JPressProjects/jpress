@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/order/coupon/doRoleDel/" + id);
+        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +13,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/order/coupon/doRoleDelByIds?ids=" + ids);
+        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDelByIds?ids=" + ids);
     })
 
 
@@ -25,8 +25,8 @@
 
     <section class="content-header">
         <h1>
-            优惠券管理
-            <small>Coupon Management</small>
+            优惠券领取列表
+            <small>Coupon User List</small>
         </h1>
     </section>
 
@@ -57,35 +57,26 @@
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 35%">名称</th>
-                                <th style="width: 15%">类型</th>
-                                <th style="width: 10%">金额</th>
-                                <th style="width: 10%">发券量</th>
-                                <th style="width: 10%">领取量</th>
-                                <th style="width: 10%">使用量</th>
+                                <th style="width: 15%">优惠码</th>
+                                <th style="width: 10%">用户</th>
+                                <th style="width: 10%">有效期至</th>
                                 <th style="width: 10%">状态</th>
+                                <th style="width: 10%">领取时间</th>
                             </tr>
                             #for(coupon : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(coupon.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(code.id)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/order/coupon/edit/#(coupon.id)"> #(coupon.title ??) </a>
+                                        #(code.title ??)
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/order/coupon/edit/#(coupon.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(coupon.id)')">删除</a>
-                                        </div>
-                                    </div>
                                 </td>
-                                <td>#(coupon.type ??)</td>
-                                <td>#(coupon.amount ??)</td>
-                                <td>#(coupon.quota ??)</td>
-                                <td><a href="#(CPATH)/admin/order/coupon/takes/#(coupon.id)">#(coupon.take_count ??)</a></td>
-                                <td><a href="#(CPATH)/admin/order/coupon/useds/#(coupon.id)">#(coupon.used_count ??)</a></td>
-                                <td>#(coupon.status ??)</td>
+                                <td>#(code.code ??)</td>
+                                <td>#(code.user.nickname ??)</td>
+                                <td>#(code.valid_time ??)</td>
+                                <td>#(code.status ??)</td>
+                                <td>#(code.created ??)</td>
                             </tr>
                             #end
                             </tbody>

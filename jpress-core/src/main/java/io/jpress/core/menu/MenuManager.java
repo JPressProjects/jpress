@@ -79,8 +79,8 @@ public class MenuManager implements JbootEventListener {
 
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
-        orderMenuGroup.setText("订单");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-random\"></i>");
+        orderMenuGroup.setText("财务");
+        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-money\"></i>");
         systemMenus.add(orderMenuGroup);
 
 

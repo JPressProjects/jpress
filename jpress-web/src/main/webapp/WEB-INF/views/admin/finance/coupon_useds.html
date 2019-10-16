@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/order/coupon/doRoleDel/" + id);
+        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +13,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/order/coupon/doRoleDelByIds?ids=" + ids);
+        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDelByIds?ids=" + ids);
     })
 
 
@@ -25,8 +25,8 @@
 
     <section class="content-header">
         <h1>
-            优惠券领取列表
-            <small>Coupon User List</small>
+            优惠券使用记录
+            <small>Coupon Used Record</small>
         </h1>
     </section>
 
@@ -56,27 +56,28 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-                                <th style="width: 35%">名称</th>
-                                <th style="width: 15%">优惠码</th>
-                                <th style="width: 10%">用户</th>
-                                <th style="width: 10%">有效期至</th>
-                                <th style="width: 10%">状态</th>
-                                <th style="width: 10%">领取时间</th>
+                                <th style="width: 35%">用户</th>
+                                <th style="width: 15%">优惠券</th>
+                                <th style="width: 10%">优惠码</th>
+                                <th style="width: 10%">订单</th>
+                                <th style="width: 10%">优惠券归属用户</th>
+                                <th style="width: 10%">使用时间</th>
                             </tr>
-                            #for(coupon : page.list ??)
+                            #for( record : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(code.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(record.id)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        #(code.title ??)
+                                        #(record.used_user_nickname ??)
                                     </strong>
                                 </td>
-                                <td>#(code.code ??)</td>
-                                <td>#(code.user.nickname ??)</td>
-                                <td>#(code.valid_time ??)</td>
-                                <td>#(code.status ??)</td>
-                                <td>#(code.created ??)</td>
+                                <td>#(record.code.title ??)</td>
+                                <td>#(record.couponCode ??)</td>
+                                <td>#(record.quota ??)</td>
+                                <td>#(record.take_count ??)</td>
+                                <td>#(record.code_user_nickname ??)</td>
+                                <td>#date(record.created ??)</td>
                             </tr>
                             #end
                             </tbody>

@@ -34,7 +34,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.web
  */
-@RequestMapping(value = "/ucenter/checkout", viewPath = "/WEB-INF/views/ucenter/")
+@RequestMapping(value = "/ucenter/checkout", viewPath = "/WEB-INF/views/ucenter/checkout")
 public class CheckoutController extends UcenterControllerBase {
 
     @Inject
@@ -75,8 +75,20 @@ public class CheckoutController extends UcenterControllerBase {
         UserAddress defaultAddress = addressService.findDefaultAddress(getLoginedUser().getId());
         setAttr("defaultAddress", defaultAddress);
 
-
         render("checkout.html");
+    }
+
+    public void order() {
+        UserOrder order = userOrderService.findById(getPara());
+        if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {
+            renderError(404);
+            return;
+        }
+
+        set("order",order);
+        set("orderItems",userOrderItemService.findListByOrderId(order.getId()));
+
+        render("order.html");
     }
 
 
@@ -170,7 +182,7 @@ public class CheckoutController extends UcenterControllerBase {
             orderTotalAmount = orderTotalAmount.add(item.getPayAmount());
         }
 
-        if (userOrder.getCouponAmount() != null){
+        if (userOrder.getCouponAmount() != null) {
             orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
         }
 
@@ -187,12 +199,12 @@ public class CheckoutController extends UcenterControllerBase {
 
 //        cartService.deleteById()
 
-        renderJson(Ret.ok().set("orderId", userOrderId).set("paytype",getPara("paytype")));
+        renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
 
     }
 
     @UrlParaValidate
-    public void payorder(){
+    public void payorder() {
         UserOrder userOrder = userOrderService.findById(getPara());
         render404If(userOrder == null);
 

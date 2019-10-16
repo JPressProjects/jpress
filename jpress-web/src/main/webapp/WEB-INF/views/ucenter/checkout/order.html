@@ -1,0 +1,384 @@
+#@ucenter_noleft_layout('支付台')
+
+#define script()
+<script src="#(CPATH)/static/components/distpicker/distpicker.js"></script>
+<script>
+
+    $(".add").on("click", function () {
+        var itemId = $(this).attr("data-value");
+        var that = $(this);
+
+        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function () {
+            var input = that.prev();
+            var inputVal = input.val();
+            if (inputVal && inputVal != "") {
+                inputVal = parseInt(inputVal) + 1;
+            } else {
+                inputVal = 1;
+            }
+            input.val(inputVal);
+            doCompute(inputVal, that);
+        });
+    });
+
+
+    $(".subtract").on("click", function () {
+        var itemId = $(this).attr("data-value");
+        var that = $(this);
+        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function () {
+            var input = that.next();
+            var inputVal = input.val();
+            if (inputVal && inputVal != "") {
+                inputVal = parseInt(inputVal) - 1;
+                if (inputVal < 1) inputVal = 1;
+            } else {
+                inputVal = 1;
+            }
+            input.val(inputVal);
+            doCompute(inputVal, that);
+        });
+    });
+
+
+    function doCompute(val, btn) {
+
+        var row = btn.parent().parent().parent("tr").prevAll().length + 1;
+        var col = btn.parent().parent().prevAll().length;
+
+        var price = parseFloat(getTableContent(row, col - 1));
+        var totalPrice = price * val;
+
+        setTableContent(row, col + 1, totalPrice.toFixed(2));
+    }
+
+    function getTableContent(row, col) {
+        var content = null;
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text();
+                    return false;
+                }
+            });
+        });
+        return content;
+    }
+
+
+    function setTableContent(row, col, content) {
+        $('#tab tr').each(function (i) {
+            $(this).children('td').each(function (j) {
+                if (row == i && col == j) {
+                    content = $(this).text(content);
+                    return false;
+                }
+            });
+        });
+    }
+
+
+    function doDel(id) {
+        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
+        }
+    }
+
+
+    $('#checkout').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (result) {
+                if (result.state == "ok") {
+                    location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId+"?paytype="+result.paytype;
+                    // window.open(url,'_blanck');
+                }
+                //fail
+                else {
+                    showErrorMessage(result.message);
+                }
+            },
+            error: function () {
+                showErrorMessage('系统错误，请稍后重试。');
+            }
+        });
+        return false;
+    });
+
+
+</script>
+
+#end
+
+
+#define css()
+<style>
+    .page-header {
+        margin: 10px 0 20px;
+    }
+
+    .input-number {
+        width: 120px;
+    }
+
+    .input-group-addon {
+        cursor: pointer;
+    }
+
+    .add, .subtract {
+
+    }
+
+    .bottom-bar {
+        left: 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #fff;
+        border-top: solid 1px #ccc;
+        box-shadow: -15px 10px 10px 10px #ccc;;
+    }
+
+    .bottom-content {
+        background-color: #ccc;
+        width: 100%;
+        height: 60px;
+        padding: 0 230px 0 230px;
+    }
+
+    .bottom-content div {
+        height: 60px;
+    }
+
+</style>
+#end
+
+#define content()
+<div class="content-wrapper" style="min-height: 1126px;">
+
+    <form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
+
+        <!-- Main content -->
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-globe"></i> 产品信息.
+                    </h2>
+                </div>
+            </div>
+
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-striped" id="tab">
+                        <thead>
+                        <tr>
+                            <th style="width: 40%">商品</th>
+                            <th>单价 #</th>
+                            <th>数量</th>
+                            <th>总价</th>
+                            <th style="width: 50px">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        #for(userCart : userCarts )
+                        <tr>
+                            <td>#(userCart.product_title ??)</td>
+                            <td>#(userCart.product_new_price ??)</td>
+                            <td>
+                                <div class="input-group input-number">
+                                    <input type="hidden" name="cid" value="#(userCart.id ??)">
+                                    <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
+                                    <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                                    <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
+                                </div>
+                            </td>
+                            <td>#(userCart.product_count * userCart.product_new_price ??)</td>
+                            <td>
+                                <a href="#">删除</a>
+                            </td>
+                        </tr>
+                        #end
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-footer">
+                        <small class="pull-right">总价格: 1000 ￥</small>
+                    </h2>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Main content -->
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-globe"></i> 订单信息.
+                    </h2>
+                </div>
+                <!-- /.col -->
+            </div>
+
+
+            <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-xs-6">
+                    <div class="box box-dashboard">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">收件人信息</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>联系人</label>
+                                <input type="text" class="form-control" name="order.delivery_addr_username"
+                                       placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
+                            </div>
+
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input type="text" class="form-control" name="order.delivery_addr_mobile"
+                                       placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
+                            </div>
+
+                            <div class="form-group">
+                                <label>地址</label>
+                                <div data-toggle="distpicker" class="form-inline" data-autoselect="3">
+                                    <select class="form-control" name="order.delivery_addr_province"
+                                            data-province="#(data.province ?? '---- 选择省 ----')"></select>
+                                    <select class="form-control" name="order.delivery_addr_city"
+                                            data-city="#(data.city ?? '---- 选择市 ----')"></select>
+                                    <select class="form-control" name="order.delivery_addr_district"
+                                            data-district="#(data.district ?? '---- 选择区 ----')"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>详细地址</label>
+                                <textarea class="form-control" name="order.delivery_addr_detail"
+                                          placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
+                                          rows="2">#(defaultAddress.detail ??)</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>邮政编码</label>
+                                <input type="text" class="form-control" name="order.delivery_addr_zipcode"
+                                       placeholder="邮政编码..." value="#(defaultAddress.zipcode ??)">
+                            </div>
+
+
+                            <div class="col-xs-12">
+                                <button type="button" class="btn btn-primary pull-right"><i
+                                        class="fa fa-fw fa-street-view"></i>
+                                    选择我之前的地址
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-6">
+                    <div class="box box-dashboard">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">支付信息</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>支付方式</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="wechatx" checked>
+                                        微信转账 （对私转账，相当于线下门店支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="alipayx">
+                                        支付宝转账 （对私转账，相当于线下门店支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="wechat">
+                                        微信扫码支付（手机打开微信APP，通过扫码支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="alipay">
+                                        支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="paypal">
+                                        Paypal支付（通过网页进行支付）
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="paytype" value="amount">
+                                        使用账户余额支付
+                                    </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>优惠码（券）</label>
+                                <input type="text" class="form-control" name="coupon_code" placeholder="请输入优惠码...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>买家留言</label>
+                                <textarea class="form-control" rows="3" name="payer_msg"
+                                          placeholder="给卖家的留言信息"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+
+            <div class="row no-print">
+                <div class="col-xs-12">
+                    <button type="submit" id="submit" class="btn btn-success pull-right"><i
+                            class="fa fa-credit-card"></i>
+                        提交订单
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+
+        <div class="clearfix"></div>
+    </form>
+</div>
+#end

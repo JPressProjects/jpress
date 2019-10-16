@@ -8,8 +8,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserOrder;
-import io.jpress.service.PaymentRecordService;
-import io.jpress.service.UserOrderService;
+import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.math.BigDecimal;
@@ -21,6 +20,11 @@ public class FinanceController extends UcenterControllerBase {
     @Inject
     private UserOrderService orderService;
 
+    @Inject
+    private UserOrderItemService orderItemService;
+
+    @Inject
+    private UserService userService;
 
     /**
      * 用户订单列表
@@ -42,6 +46,11 @@ public class FinanceController extends UcenterControllerBase {
             renderError(404);
             return;
         }
+
+        setAttr("order", order);
+        setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderUser", userService.findById(order.getBuyerId()));
+        setAttr("distUser", userService.findById(order.getDistUserId()));
 
         setAttr("order", order);
         render("order_detail.html");

@@ -1,15 +1,53 @@
 #@ucenter_layout()
 
+#define script()
+<script>
+
+
+</script>
+#end
+
 #define css()
 <style>
     .page-header{
         margin: 10px 0 20px;
     }
+    .remark{
+        width: 100%;
+        height: 100px;
+        background-color: #f5f5f5;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    address{
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+
 </style>
 #end
 
 #define content()
 <div class="content-wrapper" style="min-height: 1126px;">
+    <section class="content-header">
+        <h1>
+            订单信息
+            <small>订单号：##(order.ns ??)</small>
+        </h1>
+    </section>
+
+    #if(order.buyer_msg)
+    <div class="pad margin no-print">
+        <div class="callout callout-info" style="margin-bottom: 0!important;">
+            <h4><i class="fa fa-info"></i> 用户留言:</h4>
+            #(order.buyer_msg)
+        </div>
+    </div>
+    #end
+
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
@@ -17,7 +55,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 订单信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <small class="pull-right">下单时间: #date(order.created)</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -25,93 +63,42 @@
         <!-- info row -->
         <div class="row invoice-info">
             <div class="col-sm-4 invoice-col">
-                From
+                <strong>订单预览</strong>
                 <address>
-                    <strong>Admin, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
+                    价格：88.00 元<br>
+                    订单用户：<a href="#(CPATH)/admin/user/detail/#(orderUser.id ??)"> #(orderUser.nickname ??)</a><br>
+                    支付状态：#(order.payStatusStr ??)<br>
+                    物流状态：#(order.deliveryStatusStr ??)<br>
+                    发票状态：#(order.invoiceStatusStr ??)
                 </address>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                To
+                <strong>收货信息</strong>
                 <address>
-                    <strong>John Doe</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (555) 539-1037<br>
-                    Email: john.doe@example.com
+                    收件人：#(order.delivery_addr_username ??)<br>
+                    电话：#(order.delivery_addr_mobile ??)<br>
+                    编码: #(order.delivery_addr_zipcode ??)<br>
+                    地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district ??)<br>
+                    #(order.delivery_addr_detail ??)
                 </address>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <b>Invoice #007612</b><br>
-                <br>
-                <b>Order ID:</b> 4F3S8J<br>
-                <b>Payment Due:</b> 2/22/2014<br>
-                <b>Account:</b> 968-34567
+                <strong>发票信息</strong>
+                <address>
+                    类型：<br>
+                    抬头：<br>
+                    内容：<br>
+                    纳税人识别号：
+                </address>
             </div>
-            <!-- /.col -->
+
         </div>
         <!-- /.row -->
 
-        <div class="row">
-            <!-- accepted payments column -->
-            <div class="col-xs-6">
-                <p class="lead">Payment Methods:</p>
-                <img src="../../dist/img/credit/visa.png" alt="Visa">
-                <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
-                <img src="../../dist/img/credit/american-express.png" alt="American Express">
-                <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
-
-                <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg
-                    dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-                </p>
-            </div>
-            <!-- /.col -->
-            <div class="col-xs-6">
-                <p class="lead">Amount Due 2/22/2014</p>
-
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody><tr>
-                            <th style="width:50%">Subtotal:</th>
-                            <td>$250.30</td>
-                        </tr>
-                        <tr>
-                            <th>Tax (9.3%)</th>
-                            <td>$10.34</td>
-                        </tr>
-                        <tr>
-                            <th>Shipping:</th>
-                            <td>$5.80</td>
-                        </tr>
-                        <tr>
-                            <th>Total:</th>
-                            <td>$265.24</td>
-                        </tr>
-                        </tbody></table>
-                </div>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-                </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
-                </button>
-            </div>
-        </div>
     </section>
+
 
     <!-- Main content -->
     <section class="invoice">
@@ -119,8 +106,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 产品信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <i class="fa fa-globe"></i> 商品信息.
                 </h2>
             </div>
             <!-- /.col -->
@@ -130,63 +116,48 @@
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="tab">
                     <thead>
                     <tr>
-                        <th>Qty</th>
-                        <th>Product</th>
-                        <th>Serial #</th>
-                        <th>Description</th>
-                        <th>Subtotal</th>
+                        <th style="text-align: center">商品</th>
+                        <th style="text-align: center">数量</th>
+                        <th style="text-align: center">单价</th>
+                        <th style="text-align: center">总价</th>
+                        <th style="text-align: center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
+
+                    #for(item : orderItems)
                     <tr>
-                        <td>1</td>
-                        <td>Call of Duty</td>
-                        <td>455-981-221</td>
-                        <td>El snort testosterone trophy driving gloves handsome</td>
-                        <td>$64.50</td>
+                        <td style="width: 20%;text-align: center">
+                            #(item.product_title ??)
+                        </td>
+                        <td style="width: 20%;text-align: center">
+                            #(item.product_count ??)
+                        </td>
+                        <td style="width: 20%;text-align: center">
+                            #(item.product_price ??)
+                        </td>
+                        <td style="width: 20%;text-align: center">
+                            #(item.product_price * item.product_count ??)
+                        </td>
+                        <td style="width: 20%;text-align: center">
+                            <a href="#">评价</a>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Need for Speed IV</td>
-                        <td>247-925-726</td>
-                        <td>Wes Anderson umami biodiesel</td>
-                        <td>$50.00</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Monsters DVD</td>
-                        <td>735-845-642</td>
-                        <td>Terry Richardson helvetica tousled street art master</td>
-                        <td>$10.70</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Grown Ups Blue Ray</td>
-                        <td>422-568-642</td>
-                        <td>Tousled lomo letterpress</td>
-                        <td>$25.99</td>
-                    </tr>
+                    #end
+
                     </tbody>
                 </table>
             </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-                </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
-                </button>
-            </div>
-        </div>
     </section>
+
+
+
 
     <!-- Main content -->
     <section class="invoice">
@@ -195,7 +166,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 物流信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+                    <small class="pull-right">最近更新: 2/10/2014</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -235,18 +206,6 @@
         </div>
         <!-- /.row -->
 
-
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-                </button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <i class="fa fa-download"></i> Generate PDF
-                </button>
-            </div>
-        </div>
     </section>
     <!-- /.content -->
     <div class="clearfix"></div>

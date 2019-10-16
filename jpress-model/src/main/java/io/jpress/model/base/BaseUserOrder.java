@@ -174,45 +174,45 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 支付成功的金额
-     */
-	public void setPayAmount(java.math.BigDecimal payAmount) {
-		set("pay_amount", payAmount);
-	}
-
-    /**
-     * 支付成功的金额
-     */
-	public java.math.BigDecimal getPayAmount() {
-		return get("pay_amount");
-	}
-
-    /**
-     * 支付时间
-     */
-	public void setPayTime(java.util.Date payTime) {
-		set("pay_time", payTime);
-	}
-
-    /**
-     * 支付时间
-     */
-	public java.util.Date getPayTime() {
-		return get("pay_time");
-	}
-
-    /**
-     * 支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款
+     * 支付状态：1未付款、 2用户标识已经线下付款完成、3用户标识已经通过微信或者支付宝等工具支付完成 、9已经付款（线上支付）、10已经下线支付、11已经通过微信或支付宝等工具支付
      */
 	public void setPayStatus(java.lang.Integer payStatus) {
 		set("pay_status", payStatus);
 	}
 
     /**
-     * 支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款
+     * 支付状态：1未付款、 2用户标识已经线下付款完成、3用户标识已经通过微信或者支付宝等工具支付完成 、9已经付款（线上支付）、10已经下线支付、11已经通过微信或支付宝等工具支付
      */
 	public java.lang.Integer getPayStatus() {
 		return getInt("pay_status");
+	}
+
+    /**
+     * 支付成功的金额
+     */
+	public void setPaidAmount(java.math.BigDecimal paidAmount) {
+		set("paid_amount", paidAmount);
+	}
+
+    /**
+     * 支付成功的金额
+     */
+	public java.math.BigDecimal getPaidAmount() {
+		return get("paid_amount");
+	}
+
+    /**
+     * 支付时间
+     */
+	public void setPaidTime(java.util.Date paidTime) {
+		set("paid_time", paidTime);
+	}
+
+    /**
+     * 支付时间
+     */
+	public java.util.Date getPaidTime() {
+		return get("paid_time");
 	}
 
     /**
@@ -227,6 +227,20 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
      */
 	public java.lang.String getPaidProof() {
 		return getStr("paid_proof");
+	}
+
+    /**
+     * 支付备注
+     */
+	public void setPaidRemarks(java.lang.String paidRemarks) {
+		set("paid_remarks", paidRemarks);
+	}
+
+    /**
+     * 支付备注
+     */
+	public java.lang.String getPaidRemarks() {
+		return getStr("paid_remarks");
 	}
 
     /**

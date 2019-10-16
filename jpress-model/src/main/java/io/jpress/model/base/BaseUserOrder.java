@@ -75,20 +75,20 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return get("dist_amount");
 	}
 
-	public void setOrderAmount(java.math.BigDecimal orderAmount) {
-		set("order_amount", orderAmount);
+	public void setOrderTotalAmount(java.math.BigDecimal orderTotalAmount) {
+		set("order_total_amount", orderTotalAmount);
 	}
 	
-	public java.math.BigDecimal getOrderAmount() {
-		return get("order_amount");
+	public java.math.BigDecimal getOrderTotalAmount() {
+		return get("order_total_amount");
 	}
 
-	public void setRealAmount(java.math.BigDecimal realAmount) {
-		set("real_amount", realAmount);
+	public void setOrderRealAmount(java.math.BigDecimal orderRealAmount) {
+		set("order_real_amount", orderRealAmount);
 	}
 	
-	public java.math.BigDecimal getRealAmount() {
-		return get("real_amount");
+	public java.math.BigDecimal getOrderRealAmount() {
+		return get("order_real_amount");
 	}
 
 	public void setCouponCode(java.lang.String couponCode) {
@@ -121,6 +121,22 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.util.Date getPayTime() {
 		return get("pay_time");
+	}
+
+	public void setPayStatus(java.lang.Integer payStatus) {
+		set("pay_status", payStatus);
+	}
+	
+	public java.lang.Integer getPayStatus() {
+		return getInt("pay_status");
+	}
+
+	public void setPaidProof(java.lang.String paidProof) {
+		set("paid_proof", paidProof);
+	}
+	
+	public java.lang.String getPaidProof() {
+		return getStr("paid_proof");
 	}
 
 	public void setPaymentId(java.lang.Long paymentId) {
@@ -329,22 +345,6 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	
 	public java.lang.Integer getTradeStatus() {
 		return getInt("trade_status");
-	}
-
-	public void setPayStatus(java.lang.Integer payStatus) {
-		set("pay_status", payStatus);
-	}
-	
-	public java.lang.Integer getPayStatus() {
-		return getInt("pay_status");
-	}
-
-	public void setPaidProof(java.lang.String paidProof) {
-		set("paid_proof", paidProof);
-	}
-	
-	public java.lang.String getPaidProof() {
-		return getStr("paid_proof");
 	}
 
 	public void setDelStatus(java.lang.Integer delStatus) {

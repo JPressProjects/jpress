@@ -724,13 +724,15 @@ CREATE TABLE `user_order` (
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
-  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
-  `order_amount` decimal(10,2) DEFAULT NULL COMMENT '订单金额',
-  `real_amount` decimal(10,2) DEFAULT NULL COMMENT '真实金额，销售人员可以修改订单金额，一般情况下，真实金额等于订单金额',
+  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额，分销人员应该获得的推广金额',
+  `order_total_amount` decimal(10,2) DEFAULT NULL COMMENT '订单总金额，购买人员应该付款的金额',
+  `order_real_amount` decimal(10,2) DEFAULT NULL COMMENT '订单的真实金额，销售人员可以在后台修改支付金额，一般情况下 order_real_amount = order_total_amount',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
-  `pay_amount` decimal(10,2) DEFAULT NULL COMMENT '支付金额',
+  `pay_amount` decimal(10,2) DEFAULT NULL COMMENT '支付成功的金额',
   `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款',
+  `paid_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付证明，手动入账时需要截图',
   `payment_id` int(11) unsigned DEFAULT NULL COMMENT '支付记录',
   `payment_outer_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单号',
   `delivery_status` tinyint(2) DEFAULT NULL COMMENT '发货状态',
@@ -757,13 +759,11 @@ CREATE TABLE `user_order` (
   `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台憋住',
   `options` text COLLATE utf8mb4_unicode_ci COMMENT 'json字段扩展',
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成',
-  `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：0未付款、1已经付款（线上支付）、2线下付款、3线下付款已经收款 、4通信工具打款，5通信工具打款已收款',
-  `paid_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付证明，手动入账时需要截图',
   `del_status` tinyint(2) DEFAULT NULL COMMENT '删除状态：1 正常 ，2 回收站 3 已经删除',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
 
 
 

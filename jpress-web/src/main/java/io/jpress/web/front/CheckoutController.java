@@ -112,7 +112,6 @@ public class CheckoutController extends UcenterControllerBase {
             UserCart userCart = cartService.findById(cid);
 
             UserOrderItem item = new UserOrderItem();
-//            item.setBuyerMsg();
             item.setBuyerId(userCart.getUserId());
             item.setBuyerNickname(getLoginedUser().getNickname());
             item.setSellerId(userCart.getSellerId());
@@ -159,7 +158,6 @@ public class CheckoutController extends UcenterControllerBase {
                 renderJson(Ret.fail().set("message", "优惠码不可用"));
                 return;
             }
-
 
             Coupon coupon = couponService.findById(couponCode.getCouponId());
 

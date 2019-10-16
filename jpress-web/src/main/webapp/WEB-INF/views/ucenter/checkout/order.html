@@ -84,27 +84,6 @@
     }
 
 
-    $('#checkout').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (result) {
-                if (result.state == "ok") {
-                    location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId+"?paytype="+result.paytype;
-                    // window.open(url,'_blanck');
-                }
-                //fail
-                else {
-                    showErrorMessage(result.message);
-                }
-            },
-            error: function () {
-                showErrorMessage('系统错误，请稍后重试。');
-            }
-        });
-        return false;
-    });
-
-
 </script>
 
 #end
@@ -156,8 +135,7 @@
 #define content()
 <div class="content-wrapper" style="min-height: 1126px;">
 
-    <form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
-
+    <form action="#(CPATH)/ucenter/checkout/payorder/#(order.id)" method="post" target="_blank" id="checkout">
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->

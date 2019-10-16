@@ -190,57 +190,57 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
     /**
      * 支付成功的金额
      */
-	public void setPaidAmount(java.math.BigDecimal paidAmount) {
-		set("paid_amount", paidAmount);
+	public void setPaySuccessAmount(java.math.BigDecimal paySuccessAmount) {
+		set("pay_success_amount", paySuccessAmount);
 	}
 
     /**
      * 支付成功的金额
      */
-	public java.math.BigDecimal getPaidAmount() {
-		return get("paid_amount");
+	public java.math.BigDecimal getPaySuccessAmount() {
+		return get("pay_success_amount");
 	}
 
     /**
      * 支付时间
      */
-	public void setPaidTime(java.util.Date paidTime) {
-		set("paid_time", paidTime);
+	public void setPaySuccessTime(java.util.Date paySuccessTime) {
+		set("pay_success_time", paySuccessTime);
 	}
 
     /**
      * 支付时间
      */
-	public java.util.Date getPaidTime() {
-		return get("paid_time");
+	public java.util.Date getPaySuccessTime() {
+		return get("pay_success_time");
 	}
 
     /**
      * 支付证明，手动入账时需要截图
      */
-	public void setPaidProof(java.lang.String paidProof) {
-		set("paid_proof", paidProof);
+	public void setPaySuccessProof(java.lang.String paySuccessProof) {
+		set("pay_success_proof", paySuccessProof);
 	}
 
     /**
      * 支付证明，手动入账时需要截图
      */
-	public java.lang.String getPaidProof() {
-		return getStr("paid_proof");
+	public java.lang.String getPaySuccessProof() {
+		return getStr("pay_success_proof");
 	}
 
     /**
      * 支付备注
      */
-	public void setPaidRemarks(java.lang.String paidRemarks) {
-		set("paid_remarks", paidRemarks);
+	public void setPaySuccessRemarks(java.lang.String paySuccessRemarks) {
+		set("pay_success_remarks", paySuccessRemarks);
 	}
 
     /**
      * 支付备注
      */
-	public java.lang.String getPaidRemarks() {
-		return getStr("paid_remarks");
+	public java.lang.String getPaySuccessRemarks() {
+		return getStr("pay_success_remarks");
 	}
 
     /**

@@ -274,6 +274,34 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
     /**
+     * 支付证明，手动入账时需要截图
+     */
+	public void setPaySuccessProof(java.lang.String paySuccessProof) {
+		set("pay_success_proof", paySuccessProof);
+	}
+
+    /**
+     * 支付证明，手动入账时需要截图
+     */
+	public java.lang.String getPaySuccessProof() {
+		return getStr("pay_success_proof");
+	}
+
+    /**
+     * 支付备注
+     */
+	public void setPaySuccessRemarks(java.lang.String paySuccessRemarks) {
+		set("pay_success_remarks", paySuccessRemarks);
+	}
+
+    /**
+     * 支付备注
+     */
+	public java.lang.String getPaySuccessRemarks() {
+		return getStr("pay_success_remarks");
+	}
+
+    /**
      * 完成时间
      */
 	public void setPayCompleteTime(java.util.Date payCompleteTime) {

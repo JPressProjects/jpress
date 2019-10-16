@@ -15,8 +15,10 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.model.PaymentRecord;
@@ -27,6 +29,11 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
 
     @Override
     public PaymentRecord findByTrxNo(String trxno) {
-        return StrUtil.isBlank(trxno) ? null : DAO.findFirstByColumn(Column.create("trx_no",trxno));
+        return StrUtil.isBlank(trxno) ? null : DAO.findFirstByColumn(Column.create("trx_no", trxno));
+    }
+
+    @Override
+    public Page<PaymentRecord> paginate(int page, int pagesize, Columns columns) {
+        return DAO.paginateByColumns(page, pagesize, columns, "id desc");
     }
 }

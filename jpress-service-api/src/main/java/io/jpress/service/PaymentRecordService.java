@@ -15,6 +15,8 @@
  */
 package io.jpress.service;
 
+import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.model.PaymentRecord;
 
 import java.util.List;
@@ -84,5 +86,8 @@ public interface PaymentRecordService {
 
 
     public PaymentRecord findByTrxNo(String trxno);
+
+
+    public Page<PaymentRecord> paginate(int page, int pagesize, Columns columns);
 
 }

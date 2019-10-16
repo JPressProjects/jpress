@@ -18,12 +18,13 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.UserOrder;
+import io.jpress.model.PaymentRecord;
+import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderItemService;
-import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -40,7 +41,7 @@ public class _FinanceController extends AdminControllerBase {
     private static final Log LOG = Log.getLog(_FinanceController.class);
 
     @Inject
-    private UserOrderService orderService;
+    private PaymentRecordService paymentService;
 
     @Inject
     private UserOrderItemService orderItemService;
@@ -51,8 +52,8 @@ public class _FinanceController extends AdminControllerBase {
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
-        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
-        setAttr("userOrderPage", userOrderPage);
+        Page<PaymentRecord> paymentPage = paymentService.paginate(getPagePara(),20, Columns.EMPTY);
+        setAttr("paymentPage", paymentPage);
         render("finance/paylist.html");
     }
 

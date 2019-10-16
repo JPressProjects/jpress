@@ -124,7 +124,7 @@ public class _OrderController extends AdminControllerBase {
         if (order == null){
             renderFailJson();
         }else {
-            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            order.setRemarks(getPara("remarks"));
             orderService.update(order);
             renderOkJson();
         }

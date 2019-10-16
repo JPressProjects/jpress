@@ -1,13 +1,5 @@
 #@layer()
 
-#define script()
-<script>
-    function closeLayer() {
-        parent.layer.closeAll();
-    }
-</script>
-#end
-
 #define content()
 
 <section class="content">
@@ -15,12 +7,11 @@
     <div class="row">
         <div class="col-xs-12">
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
-                  action="#(CPATH)/admin/user/doMemberSave"
+                  action="#(CPATH)/admin/order/doUpdateRemark"
                   method="POST"
-                  data-ok-function="closeLayer"
+                  data-ok-function="parent.layer.closeAll()"
             >
-                <input type="hidden" name="member.id" value="#(member.id ??)">
-                <input type="hidden" name="member.user_id" value="#para('userId')">
+                <input type="hidden" name="orderId" value="#(order.id ??)">
                 <div class="box-body ">
 
 
@@ -28,8 +19,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">备注</label>
                         <div class="col-sm-8">
-                                    <textarea rows="5" name="member.remark" class="form-control"
-                                              placeholder="该会员的备注信息...">#(member.remark ??)</textarea>
+                            <textarea rows="5" name="remarks" class="form-control"
+                                              placeholder="该订单的备注信息..."></textarea>
                         </div>
                     </div>
                 </div>

@@ -81,6 +81,25 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     }
 
     /**
+     * 配送方式
+     */
+    public static final int DELIVERY_TYPE_NONEED = 1;   //无需配送
+    public static final int DELIVERY_TYPE_EXPRESS = 2;  //快递
+    public static final int DELIVERY_TYPE_LOGISTICS = 3; //物流
+    public static final int DELIVERY_TYPE_BYCOMPANY = 4; //公司自己配送
+    public static final int DELIVERY_TYPE_BYUSER = 5; //用户自提
+    public static final Map<Integer, String> deliveryTypeTexts = new HashMap<>();
+
+    static {
+        deliveryTypeTexts.put(DELIVERY_TYPE_NONEED, "无需发货");
+        deliveryTypeTexts.put(DELIVERY_TYPE_EXPRESS, "快递");
+        deliveryTypeTexts.put(DELIVERY_TYPE_LOGISTICS, "物流");
+        deliveryTypeTexts.put(DELIVERY_TYPE_BYCOMPANY, "公司配送");
+        deliveryTypeTexts.put(DELIVERY_TYPE_BYUSER, "用户自提");
+    }
+
+
+    /**
      * 发布开具状态
      */
     public static final int INVOICE_STATUS_NOT_APPLY = 1; //未申请发票
@@ -110,6 +129,10 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public String getDeliveryStatusStr() {
         return deliveryStatusTexts.get(getDeliveryStatus());
+    }
+
+    public String getDeliveryTypeStr() {
+        return deliveryTypeTexts.get(getDeliveryType());
     }
 
     public String getInvoiceStatusStr() {

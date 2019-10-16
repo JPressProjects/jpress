@@ -84,7 +84,11 @@ public class _OrderController extends AdminControllerBase {
         if (order == null){
             renderFailJson();
         }else {
-            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED); //设置为已经发货
+            order.setDeliveryType(getParaToInt("deliveryType"));
+            order.setDeliveryNo(getPara("deliveryNo"));
+            order.setDeliveryCompany(getPara("deliveryCompany"));
+            order.setDeliveryStartTime(getParaToDate("deliveryStartTime"));
             orderService.update(order);
             renderOkJson();
         }
@@ -102,7 +106,7 @@ public class _OrderController extends AdminControllerBase {
         if (order == null){
             renderFailJson();
         }else {
-            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            order.setInvoiceStatus(getParaToInt("invoiceStatus"));
             orderService.update(order);
             renderOkJson();
         }

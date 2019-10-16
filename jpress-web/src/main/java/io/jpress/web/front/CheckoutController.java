@@ -165,17 +165,17 @@ public class CheckoutController extends UcenterControllerBase {
         userOrderItemService.batchSave(userOrderItems);
 
         //订单金额 = 所有 item 金额之和 - 优惠券金额
-        BigDecimal orderAmount = new BigDecimal(0);
+        BigDecimal orderTotalAmount = new BigDecimal(0);
         for (UserOrderItem item : userOrderItems) {
-            orderAmount = orderAmount.add(item.getPayAmount());
+            orderTotalAmount = orderTotalAmount.add(item.getPayAmount());
         }
 
         if (userOrder.getCouponAmount() != null){
-            orderAmount = orderAmount.subtract(userOrder.getCouponAmount());
+            orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
         }
 
-        userOrder.setPayAmount(orderAmount);
-        userOrder.setRealAmount(orderAmount);
+        userOrder.setOrderTotalAmount(orderTotalAmount);
+        userOrder.setOrderRealAmount(orderTotalAmount);
         userOrder.setId(userOrderId);
 
         userOrder.setPayStatus(UserOrder.PAY_STATUS_UNPAY);//支付状态：未支付
@@ -212,7 +212,7 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-        payment.setPayAmount(userOrder.getRealAmount());
+        payment.setPayAmount(userOrder.getOrderRealAmount());
         payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);

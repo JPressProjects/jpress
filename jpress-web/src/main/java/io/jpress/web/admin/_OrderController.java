@@ -139,7 +139,11 @@ public class _OrderController extends AdminControllerBase {
         if (order == null){
             renderFailJson();
         }else {
-            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            order.setPayStatus(getParaToInt("payStatus"));
+            order.setPaidAmount(new BigDecimal(getPara("paidAmount")));
+            order.setPaidTime(getParaToDate("paidTime"));
+            order.setPaidProof(getPara("paidProof"));
+            order.setPaidRemarks(getPara("paidRemarks"));
             orderService.update(order);
             renderOkJson();
         }

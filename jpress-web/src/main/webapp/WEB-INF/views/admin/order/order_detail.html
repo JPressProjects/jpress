@@ -4,23 +4,23 @@
 <script>
 
     function deliver() {
-        openlayer('发货','/admin/order/deliver');
+        openlayer('发货','/admin/order/deliver/#(order.id)');
     }
 
     function invoice() {
-        openlayer('开具发票','/admin/order/invoice');
+        openlayer('开具发票','/admin/order/invoice/#(order.id)');
     }
 
     function remark() {
-        openlayer('备注信息','/admin/order/remark');
+        openlayer('备注信息','/admin/order/remark/#(order.id)');
     }
 
     function updatePaystatus() {
-        openlayer('手动入账','/admin/order/updatePaystatus');
+        openlayer('手动入账','/admin/order/updatePaystatus/#(order.id)');
     }
 
     function updatePrice() {
-        openlayer('修改价格','/admin/order/updatePrice');
+        openlayer('修改价格','/admin/order/updatePrice/#(order.id)');
     }
     
     function openlayer(title,url) {

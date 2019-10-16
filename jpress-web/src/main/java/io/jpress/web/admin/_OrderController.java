@@ -27,6 +27,8 @@ import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.math.BigDecimal;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -74,35 +76,92 @@ public class _OrderController extends AdminControllerBase {
      * 发货
      */
     public void deliver() {
+        setAttr("order",orderService.findById(getPara()));
         render("order/order_layer_deliver.html");
+    }
+    public void doUpdateDeliver(){
+        UserOrder order = orderService.findById(getPara("orderId"));
+        if (order == null){
+            renderFailJson();
+        }else {
+            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            orderService.update(order);
+            renderOkJson();
+        }
     }
 
     /**
      * 发票设置
      */
     public void invoice() {
+        setAttr("order",orderService.findById(getPara()));
         render("order/order_layer_invoice.html");
+    }
+    public void doUpdateInvoice(){
+        UserOrder order = orderService.findById(getPara("orderId"));
+        if (order == null){
+            renderFailJson();
+        }else {
+            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            orderService.update(order);
+            renderOkJson();
+        }
     }
 
     /**
      * 备注设置
      */
     public void remark() {
+        setAttr("order",orderService.findById(getPara()));
         render("order/order_layer_remark.html");
+    }
+    public void doUpdateRemark(){
+        UserOrder order = orderService.findById(getPara("orderId"));
+        if (order == null){
+            renderFailJson();
+        }else {
+            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            orderService.update(order);
+            renderOkJson();
+        }
     }
 
     /**
      * 手动入账
      */
     public void updatePaystatus() {
+        setAttr("order",orderService.findById(getPara()));
         render("order/order_layer_update_paystatus.html");
+    }
+
+    public void doUpdatePaystatus(){
+        UserOrder order = orderService.findById(getPara("orderId"));
+        if (order == null){
+            renderFailJson();
+        }else {
+            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            orderService.update(order);
+            renderOkJson();
+        }
     }
 
     /**
      * 修改价格
      */
     public void updatePrice() {
+        setAttr("order",orderService.findById(getPara()));
         render("order/order_layer_update_price.html");
+    }
+
+    public void doUpdatePrice(){
+        UserOrder order = orderService.findById(getPara("orderId"));
+        if (order == null){
+            renderFailJson();
+        }else {
+            order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
+            orderService.update(order);
+            renderOkJson();
+        }
     }
 
 

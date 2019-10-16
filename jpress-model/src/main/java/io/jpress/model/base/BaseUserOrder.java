@@ -286,14 +286,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 配送方式 1快递    2自己送     3无需配送（虚拟商品）
+     * 配送方式：1无需配送，2快递，3物流，4公司自己配送，5用户自提
      */
 	public void setDeliveryType(java.lang.Integer deliveryType) {
 		set("delivery_type", deliveryType);
 	}
 
     /**
-     * 配送方式 1快递    2自己送     3无需配送（虚拟商品）
+     * 配送方式：1无需配送，2快递，3物流，4公司自己配送，5用户自提
      */
 	public java.lang.Integer getDeliveryType() {
 		return getInt("delivery_type");

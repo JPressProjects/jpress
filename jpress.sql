@@ -737,7 +737,7 @@ CREATE TABLE `user_order` (
   `payment_id` int(11) unsigned DEFAULT NULL COMMENT '支付记录',
   `payment_outer_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单号',
   `delivery_status` tinyint(2) DEFAULT NULL COMMENT '发货状态',
-  `delivery_type` int(11) DEFAULT NULL COMMENT '配送方式 1快递    2自己送     3无需配送（虚拟商品）',
+  `delivery_type` tinyint(2) DEFAULT NULL COMMENT '配送方式：1无需配送，2快递，3物流，4公司自己配送，5用户自提',
   `delivery_company` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '快递公司',
   `delivery_no` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '快递单号',
   `delivery_start_time` datetime DEFAULT NULL COMMENT '快递发货时间',

@@ -51,6 +51,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int PAY_STATUS_PAID_IM = 11;//im工具付款完成
 
     public static final Map<Integer, String> payStatusTexts = new HashMap<>();
+
     static {
         payStatusTexts.put(PAY_STATUS_UNPAY, "未支付");
         payStatusTexts.put(PAY_STATUS_PAID_ONLINE, "在线支持完成");
@@ -85,6 +86,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int INVOICE_STATUS_NOT_APPLY = 1; //未申请发票
     public static final int INVOICE_STATUS_APPLYING = 2;//发票申请中
     public static final int INVOICE_STATUS_INVOICING = 3;//发票开具中
+    public static final int INVOICE_STATUS_NONEED = 8;//无需开具发票
     public static final int INVOICE_STATUS_INVOICED = 9; //发票已经开具
 
     public static final Map<Integer, String> invoiceStatusTexts = new HashMap<>();
@@ -93,6 +95,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         invoiceStatusTexts.put(INVOICE_STATUS_NOT_APPLY, "未申请");
         invoiceStatusTexts.put(INVOICE_STATUS_APPLYING, "申请开具中");
         invoiceStatusTexts.put(INVOICE_STATUS_INVOICING, "发票开具中");
+        invoiceStatusTexts.put(INVOICE_STATUS_NONEED, "无需开具发票");
         invoiceStatusTexts.put(INVOICE_STATUS_INVOICED, "发票已开具");
     }
 

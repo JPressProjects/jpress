@@ -12,7 +12,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
 
-@RequestMapping(value = "/ucenter/finance/order", viewPath = "/WEB-INF/views/ucenter/finance")
+@RequestMapping(value = "/ucenter/order", viewPath = "/WEB-INF/views/ucenter/order")
 public class OrderController extends UcenterControllerBase {
 
     @Inject

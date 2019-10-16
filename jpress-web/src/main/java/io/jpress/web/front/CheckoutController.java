@@ -77,6 +77,8 @@ public class CheckoutController extends UcenterControllerBase {
         render("checkout.html");
     }
 
+
+
     public void order() {
         UserOrder order = userOrderService.findById(getPara());
         if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {

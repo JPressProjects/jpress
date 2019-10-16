@@ -82,4 +82,8 @@ public interface UserOrderItemService  {
     public void batchSave(List<UserOrderItem> userOrderItems);
 
     public List<UserOrderItem> findListByOrderId(Long orderId);
+
+    public boolean doAddProductCountById(Object id);
+
+    public boolean doSubtractProductCountById(Object id);
 }

@@ -552,14 +552,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 发票开具状态
+     * 发票开具状态：1 未申请发票、 2 发票申请中、 3 发票开具中、 8 无需开具发票、 9发票已经开具
      */
 	public void setInvoiceStatus(java.lang.Integer invoiceStatus) {
 		set("invoice_status", invoiceStatus);
 	}
 
     /**
-     * 发票开具状态
+     * 发票开具状态：1 未申请发票、 2 发票申请中、 3 发票开具中、 8 无需开具发票、 9发票已经开具
      */
 	public java.lang.Integer getInvoiceStatus() {
 		return getInt("invoice_status");
@@ -594,14 +594,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成
+     * 交易状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束
      */
 	public void setTradeStatus(java.lang.Integer tradeStatus) {
 		set("trade_status", tradeStatus);
 	}
 
     /**
-     * 交易状态： 0进行中、1完成  、2取消交易 、3退款中  、4退款完成
+     * 交易状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束
      */
 	public java.lang.Integer getTradeStatus() {
 		return getInt("trade_status");

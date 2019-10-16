@@ -80,6 +80,8 @@ public interface UserCartService  {
 
     public List<UserCart> findListByUserId(Object userId,int count);
 
+    public long findCountByUserId(Object userId);
+
     public List<UserCart> findSelectedByUserId(Long id);
 
     public boolean doAddCountById(Object id);

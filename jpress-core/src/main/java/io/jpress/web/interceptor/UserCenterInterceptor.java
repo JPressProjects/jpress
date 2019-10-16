@@ -43,6 +43,7 @@ public class UserCenterInterceptor implements Interceptor {
         inv.getController().setAttr("ucenterMenus", ucenterMenus);
         inv.getController().setAttr("user", UserInterceptor.getThreadLocalUser());
         inv.getController().setAttr("headerUserCarts", cartService.findListByUserId(UserInterceptor.getThreadLocalUser().getId(),5));
+        inv.getController().setAttr("headerUserCartsCount", cartService.findCountByUserId(UserInterceptor.getThreadLocalUser().getId()));
 
         inv.invoke();
 

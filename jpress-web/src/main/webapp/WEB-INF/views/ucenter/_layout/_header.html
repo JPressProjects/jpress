@@ -27,12 +27,13 @@
                 <li class="dropdown messages-menu" style="border-left: 1px solid #ccc;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-fw fa-shopping-cart"></i>
-                        <span class="label label-danger">9</span>
+                        #if(headerUserCartsCount && headerUserCartsCount>0)
+                        <span class="label label-danger">#(headerUserCartsCount)</span>
+                        #end
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header">购物车列表</li>
                         <li>
-                            <!-- inner menu: contains the actual data -->
                             <ul class="menu" style="background-color: #f7f7f7">
 
                                 #for(userCart : headerUserCarts)

@@ -2,6 +2,7 @@ package io.jpress.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jpress.service.UserCartService;
 import io.jpress.model.UserCart;
@@ -16,6 +17,11 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     @Override
     public List<UserCart> findListByUserId(Object userId, int count) {
         return DAO.findListByColumns(Columns.create("user_id", userId), "id desc", count);
+    }
+
+    @Override
+    public long findCountByUserId(Object userId) {
+        return DAO.findCountByColumn(Column.create("user_id",userId));
     }
 
     @Override

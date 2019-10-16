@@ -16,6 +16,7 @@
 package io.jpress.codegen;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import io.jboot.app.JbootApplication;
 import io.jboot.codegen.CodeGenHelpler;
@@ -59,7 +60,9 @@ public class SystemGenerator {
         System.out.println("start generate...dir:" + modelDir);
 
         Set<String> genTableNames = StrUtil.splitToSet(dbTables, ",");
-        List<TableMeta> tableMetas = CodeGenHelpler.createMetaBuilder().build();
+        MetaBuilder metaBuilder = CodeGenHelpler.createMetaBuilder();
+        metaBuilder.setGenerateRemarks(true);
+        List<TableMeta> tableMetas = metaBuilder.build();
         tableMetas.removeIf(tableMeta -> genTableNames != null && !genTableNames.contains(tableMeta.name.toLowerCase()));
 
 

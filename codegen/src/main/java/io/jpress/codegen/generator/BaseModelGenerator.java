@@ -24,7 +24,6 @@ public class BaseModelGenerator extends com.jfinal.plugin.activerecord.generator
 
         this.template = "/io/jpress/codegen/templates/base_model_template.jf";
 
-
     }
 
 

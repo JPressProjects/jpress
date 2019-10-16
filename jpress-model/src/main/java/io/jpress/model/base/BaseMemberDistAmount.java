@@ -14,55 +14,91 @@ public abstract class BaseMemberDistAmount<M extends BaseMemberDistAmount<M>> ex
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 会员组
+     */
 	public void setGroupId(java.lang.Long groupId) {
 		set("group_id", groupId);
 	}
-	
+
+    /**
+     * 会员组
+     */
 	public java.lang.Long getGroupId() {
 		return getLong("group_id");
 	}
 
+    /**
+     * 产品类型
+     */
 	public void setProductType(java.lang.String productType) {
 		set("product_type", productType);
 	}
-	
+
+    /**
+     * 产品类型
+     */
 	public java.lang.String getProductType() {
 		return getStr("product_type");
 	}
 
+    /**
+     * 产品的ID
+     */
 	public void setProductId(java.lang.Long productId) {
 		set("product_id", productId);
 	}
-	
+
+    /**
+     * 产品的ID
+     */
 	public java.lang.Long getProductId() {
 		return getLong("product_id");
 	}
 
+    /**
+     * 分销的收益
+     */
 	public void setAmount(java.math.BigDecimal amount) {
 		set("amount", amount);
 	}
-	
+
+    /**
+     * 分销的收益
+     */
 	public java.math.BigDecimal getAmount() {
 		return get("amount");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.lang.Integer modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 修改时间
+     */
 	public java.lang.Integer getModified() {
 		return getInt("modified");
 	}

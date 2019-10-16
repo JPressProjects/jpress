@@ -14,95 +14,161 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 用户
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 用户
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 金额变动原因
+     */
 	public void setAction(java.lang.String action) {
 		set("action", action);
 	}
-	
+
+    /**
+     * 金额变动原因
+     */
 	public java.lang.String getAction() {
 		return getStr("action");
 	}
 
+    /**
+     * 金额变动名称
+     */
 	public void setActionName(java.lang.String actionName) {
 		set("action_name", actionName);
 	}
-	
+
+    /**
+     * 金额变动名称
+     */
 	public java.lang.String getActionName() {
 		return getStr("action_name");
 	}
 
+    /**
+     * 金额变动描述
+     */
 	public void setActionDesc(java.lang.String actionDesc) {
 		set("action_desc", actionDesc);
 	}
-	
+
+    /**
+     * 金额变动描述
+     */
 	public java.lang.String getActionDesc() {
 		return getStr("action_desc");
 	}
 
+    /**
+     * 相关的表名
+     */
 	public void setActionRelationType(java.lang.String actionRelationType) {
 		set("action_relation_type", actionRelationType);
 	}
-	
+
+    /**
+     * 相关的表名
+     */
 	public java.lang.String getActionRelationType() {
 		return getStr("action_relation_type");
 	}
 
+    /**
+     * 相关的id
+     */
 	public void setActionRelationId(java.lang.Long actionRelationId) {
 		set("action_relation_id", actionRelationId);
 	}
-	
+
+    /**
+     * 相关的id
+     */
 	public java.lang.Long getActionRelationId() {
 		return getLong("action_relation_id");
 	}
 
+    /**
+     * 相关的订单ID
+     */
 	public void setActionOrderId(java.lang.Long actionOrderId) {
 		set("action_order_id", actionOrderId);
 	}
-	
+
+    /**
+     * 相关的订单ID
+     */
 	public java.lang.Long getActionOrderId() {
 		return getLong("action_order_id");
 	}
 
+    /**
+     * 相关的支付ID
+     */
 	public void setActionPaymentId(java.lang.Long actionPaymentId) {
 		set("action_payment_id", actionPaymentId);
 	}
-	
+
+    /**
+     * 相关的支付ID
+     */
 	public java.lang.Long getActionPaymentId() {
 		return getLong("action_payment_id");
 	}
 
+    /**
+     * 用户之前的余额
+     */
 	public void setOldAmount(java.math.BigDecimal oldAmount) {
 		set("old_amount", oldAmount);
 	}
-	
+
+    /**
+     * 用户之前的余额
+     */
 	public java.math.BigDecimal getOldAmount() {
 		return get("old_amount");
 	}
 
+    /**
+     * 变动金额
+     */
 	public void setChangeAmount(java.math.BigDecimal changeAmount) {
 		set("change_amount", changeAmount);
 	}
-	
+
+    /**
+     * 变动金额
+     */
 	public java.math.BigDecimal getChangeAmount() {
 		return get("change_amount");
 	}
 
+    /**
+     * 变动之后的余额
+     */
 	public void setNewAmount(java.math.BigDecimal newAmount) {
 		set("new_amount", newAmount);
 	}
-	
+
+    /**
+     * 变动之后的余额
+     */
 	public java.math.BigDecimal getNewAmount() {
 		return get("new_amount");
 	}
@@ -110,15 +176,21 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}
 
+    /**
+     * 时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}

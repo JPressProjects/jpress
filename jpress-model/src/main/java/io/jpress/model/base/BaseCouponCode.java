@@ -14,63 +14,105 @@ public abstract class BaseCouponCode<M extends BaseCouponCode<M>> extends JbootM
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 类型ID
+     */
 	public void setCouponId(java.lang.Long couponId) {
 		set("coupon_id", couponId);
 	}
-	
+
+    /**
+     * 类型ID
+     */
 	public java.lang.Long getCouponId() {
 		return getLong("coupon_id");
 	}
 
+    /**
+     * 优惠券标题
+     */
 	public void setTitle(java.lang.String title) {
 		set("title", title);
 	}
-	
+
+    /**
+     * 优惠券标题
+     */
 	public java.lang.String getTitle() {
 		return getStr("title");
 	}
 
+    /**
+     * 优惠码
+     */
 	public void setCode(java.lang.String code) {
 		set("code", code);
 	}
-	
+
+    /**
+     * 优惠码
+     */
 	public java.lang.String getCode() {
 		return getStr("code");
 	}
 
+    /**
+     * 用户ID
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 用户ID
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 状态 1未领取 2未使用、3使用中、9不能使用
+     */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
-	
+
+    /**
+     * 状态 1未领取 2未使用、3使用中、9不能使用
+     */
 	public java.lang.Integer getStatus() {
 		return getInt("status");
 	}
 
+    /**
+     * 领取时间
+     */
 	public void setValidTime(java.util.Date validTime) {
 		set("valid_time", validTime);
 	}
-	
+
+    /**
+     * 领取时间
+     */
 	public java.util.Date getValidTime() {
 		return get("valid_time");
 	}
 
+    /**
+     * 创建时间，创建时可能不会有人领取
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间，创建时可能不会有人领取
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}

@@ -11,106 +11,184 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends JbootModel<M> impl
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 菜单ID
+     */
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
+    /**
+     * 菜单ID
+     */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 父级ID
+     */
 	public void setPid(java.lang.Long pid) {
 		set("pid", pid);
 	}
-	
+
+    /**
+     * 父级ID
+     */
 	public java.lang.Long getPid() {
 		return getLong("pid");
 	}
 
+    /**
+     * 文本内容
+     */
 	public void setText(java.lang.String text) {
 		set("text", text);
 	}
-	
+
+    /**
+     * 文本内容
+     */
 	public java.lang.String getText() {
 		return getStr("text");
 	}
 
+    /**
+     * 链接的url
+     */
 	public void setUrl(java.lang.String url) {
 		set("url", url);
 	}
-	
+
+    /**
+     * 链接的url
+     */
 	public java.lang.String getUrl() {
 		return getStr("url");
 	}
 
+    /**
+     * 打开的方式
+     */
 	public void setTarget(java.lang.String target) {
 		set("target", target);
 	}
-	
+
+    /**
+     * 打开的方式
+     */
 	public java.lang.String getTarget() {
 		return getStr("target");
 	}
 
+    /**
+     * 菜单的icon
+     */
 	public void setIcon(java.lang.String icon) {
 		set("icon", icon);
 	}
-	
+
+    /**
+     * 菜单的icon
+     */
 	public java.lang.String getIcon() {
 		return getStr("icon");
 	}
 
+    /**
+     * 菜单标识
+     */
 	public void setFlag(java.lang.String flag) {
 		set("flag", flag);
 	}
-	
+
+    /**
+     * 菜单标识
+     */
 	public java.lang.String getFlag() {
 		return getStr("flag");
 	}
 
+    /**
+     * 菜单类型：主菜单、顶部菜单、底部菜单
+     */
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
-	
+
+    /**
+     * 菜单类型：主菜单、顶部菜单、底部菜单
+     */
 	public java.lang.String getType() {
 		return getStr("type");
 	}
 
+    /**
+     * 排序字段
+     */
 	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
-	
+
+    /**
+     * 排序字段
+     */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
 	}
 
+    /**
+     * 该菜单是否和其他表关联
+     */
 	public void setRelativeTable(java.lang.String relativeTable) {
 		set("relative_table", relativeTable);
 	}
-	
+
+    /**
+     * 该菜单是否和其他表关联
+     */
 	public java.lang.String getRelativeTable() {
 		return getStr("relative_table");
 	}
 
+    /**
+     * 关联的具体数据id
+     */
 	public void setRelativeId(java.lang.Long relativeId) {
 		set("relative_id", relativeId);
 	}
-	
+
+    /**
+     * 关联的具体数据id
+     */
 	public java.lang.Long getRelativeId() {
 		return getLong("relative_id");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 修改时间
+     */
 	public java.util.Date getModified() {
 		return get("modified");
 	}

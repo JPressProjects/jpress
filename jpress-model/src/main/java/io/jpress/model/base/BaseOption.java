@@ -11,26 +11,44 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键ID
+     */
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
+    /**
+     * 主键ID
+     */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 配置KEY
+     */
 	public void setKey(java.lang.String key) {
 		set("key", key);
 	}
-	
+
+    /**
+     * 配置KEY
+     */
 	public java.lang.String getKey() {
 		return getStr("key");
 	}
 
+    /**
+     * 配置内容
+     */
 	public void setValue(java.lang.String value) {
 		set("value", value);
 	}
-	
+
+    /**
+     * 配置内容
+     */
 	public java.lang.String getValue() {
 		return getStr("value");
 	}

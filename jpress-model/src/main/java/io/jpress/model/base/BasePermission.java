@@ -14,39 +14,63 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 唯一标识
+     */
 	public void setActionKey(java.lang.String actionKey) {
 		set("action_key", actionKey);
 	}
-	
+
+    /**
+     * 唯一标识
+     */
 	public java.lang.String getActionKey() {
 		return getStr("action_key");
 	}
 
+    /**
+     * 属于大的分类，可能是Controller、大的DIV、或菜单组
+     */
 	public void setNode(java.lang.String node) {
 		set("node", node);
 	}
-	
+
+    /**
+     * 属于大的分类，可能是Controller、大的DIV、或菜单组
+     */
 	public java.lang.String getNode() {
 		return getStr("node");
 	}
 
+    /**
+     * 权限的类型：url、页面元素、菜单
+     */
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
-	
+
+    /**
+     * 权限的类型：url、页面元素、菜单
+     */
 	public java.lang.String getType() {
 		return getStr("type");
 	}
 
+    /**
+     * 菜单描述
+     */
 	public void setText(java.lang.String text) {
 		set("text", text);
 	}
-	
+
+    /**
+     * 菜单描述
+     */
 	public java.lang.String getText() {
 		return getStr("text");
 	}
@@ -54,7 +78,7 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}
@@ -62,7 +86,7 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
 	public java.util.Date getModified() {
 		return get("modified");
 	}

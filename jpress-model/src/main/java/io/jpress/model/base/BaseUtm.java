@@ -14,63 +14,105 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
 	public void setId(java.lang.String id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.String getId() {
 		return getStr("id");
 	}
 
+    /**
+     * 用户ID
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 用户ID
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 匿名标识
+     */
 	public void setAnonym(java.lang.String anonym) {
 		set("anonym", anonym);
 	}
-	
+
+    /**
+     * 匿名标识
+     */
 	public java.lang.String getAnonym() {
 		return getStr("anonym");
 	}
 
+    /**
+     * 访问路径
+     */
 	public void setActionKey(java.lang.String actionKey) {
 		set("action_key", actionKey);
 	}
-	
+
+    /**
+     * 访问路径
+     */
 	public java.lang.String getActionKey() {
 		return getStr("action_key");
 	}
 
+    /**
+     * 访问参数
+     */
 	public void setActionQuery(java.lang.String actionQuery) {
 		set("action_query", actionQuery);
 	}
-	
+
+    /**
+     * 访问参数
+     */
 	public java.lang.String getActionQuery() {
 		return getStr("action_query");
 	}
 
+    /**
+     * 访问路径名称
+     */
 	public void setActionName(java.lang.String actionName) {
 		set("action_name", actionName);
 	}
-	
+
+    /**
+     * 访问路径名称
+     */
 	public java.lang.String getActionName() {
 		return getStr("action_name");
 	}
 
+    /**
+     * 渠道
+     */
 	public void setSource(java.lang.String source) {
 		set("source", source);
 	}
-	
+
+    /**
+     * 渠道
+     */
 	public java.lang.String getSource() {
 		return getStr("source");
 	}
 
+    /**
+     *  媒介
+     */
 	public void setMedium(java.lang.String medium) {
 		set("medium", medium);
 	}
-	
+
+    /**
+     *  媒介
+     */
 	public java.lang.String getMedium() {
 		return getStr("medium");
 	}
@@ -78,119 +120,203 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
 	public void setCampaign(java.lang.String campaign) {
 		set("campaign", campaign);
 	}
-	
+
 	public java.lang.String getCampaign() {
 		return getStr("campaign");
 	}
 
+    /**
+     * 来源内容
+     */
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}
-	
+
+    /**
+     * 来源内容
+     */
 	public java.lang.String getContent() {
 		return getStr("content");
 	}
 
+    /**
+     * 关键词
+     */
 	public void setTerm(java.lang.String term) {
 		set("term", term);
 	}
-	
+
+    /**
+     * 关键词
+     */
 	public java.lang.String getTerm() {
 		return getStr("term");
 	}
 
+    /**
+     * IP
+     */
 	public void setIp(java.lang.String ip) {
 		set("ip", ip);
 	}
-	
+
+    /**
+     * IP
+     */
 	public java.lang.String getIp() {
 		return getStr("ip");
 	}
 
+    /**
+     * 浏览器
+     */
 	public void setAgent(java.lang.String agent) {
 		set("agent", agent);
 	}
-	
+
+    /**
+     * 浏览器
+     */
 	public java.lang.String getAgent() {
 		return getStr("agent");
 	}
 
+    /**
+     * 来源的url
+     */
 	public void setReferer(java.lang.String referer) {
 		set("referer", referer);
 	}
-	
+
+    /**
+     * 来源的url
+     */
 	public java.lang.String getReferer() {
 		return getStr("referer");
 	}
 
+    /**
+     * Search Engine 搜索引擎
+     */
 	public void setSe(java.lang.String se) {
 		set("se", se);
 	}
-	
+
+    /**
+     * Search Engine 搜索引擎
+     */
 	public java.lang.String getSe() {
 		return getStr("se");
 	}
 
+    /**
+     * Search Engine Keyword 搜索引擎关键字
+     */
 	public void setSek(java.lang.String sek) {
 		set("sek", sek);
 	}
-	
+
+    /**
+     * Search Engine Keyword 搜索引擎关键字
+     */
 	public java.lang.String getSek() {
 		return getStr("sek");
 	}
 
+    /**
+     * 设备ID
+     */
 	public void setDeviceId(java.lang.String deviceId) {
 		set("device_id", deviceId);
 	}
-	
+
+    /**
+     * 设备ID
+     */
 	public java.lang.String getDeviceId() {
 		return getStr("device_id");
 	}
 
+    /**
+     * 平台
+     */
 	public void setPlatform(java.lang.String platform) {
 		set("platform", platform);
 	}
-	
+
+    /**
+     * 平台
+     */
 	public java.lang.String getPlatform() {
 		return getStr("platform");
 	}
 
+    /**
+     * 系统
+     */
 	public void setSystem(java.lang.String system) {
 		set("system", system);
 	}
-	
+
+    /**
+     * 系统
+     */
 	public java.lang.String getSystem() {
 		return getStr("system");
 	}
 
+    /**
+     * 硬件平台
+     */
 	public void setBrand(java.lang.String brand) {
 		set("brand", brand);
 	}
-	
+
+    /**
+     * 硬件平台
+     */
 	public java.lang.String getBrand() {
 		return getStr("brand");
 	}
 
+    /**
+     * 硬件型号
+     */
 	public void setModel(java.lang.String model) {
 		set("model", model);
 	}
-	
+
+    /**
+     * 硬件型号
+     */
 	public java.lang.String getModel() {
 		return getStr("model");
 	}
 
+    /**
+     * 网络情况
+     */
 	public void setNetwork(java.lang.String network) {
 		set("network", network);
 	}
-	
+
+    /**
+     * 网络情况
+     */
 	public java.lang.String getNetwork() {
 		return getStr("network");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}

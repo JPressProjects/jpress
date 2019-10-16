@@ -14,63 +14,105 @@ public abstract class BaseWechatMenu<M extends BaseWechatMenu<M>> extends JbootM
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 父级ID
+     */
 	public void setPid(java.lang.Long pid) {
 		set("pid", pid);
 	}
-	
+
+    /**
+     * 父级ID
+     */
 	public java.lang.Long getPid() {
 		return getLong("pid");
 	}
 
+    /**
+     * 文本内容
+     */
 	public void setText(java.lang.String text) {
 		set("text", text);
 	}
-	
+
+    /**
+     * 文本内容
+     */
 	public java.lang.String getText() {
 		return getStr("text");
 	}
 
+    /**
+     * 关键字
+     */
 	public void setKeyword(java.lang.String keyword) {
 		set("keyword", keyword);
 	}
-	
+
+    /**
+     * 关键字
+     */
 	public java.lang.String getKeyword() {
 		return getStr("keyword");
 	}
 
+    /**
+     * 菜单类型
+     */
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
-	
+
+    /**
+     * 菜单类型
+     */
 	public java.lang.String getType() {
 		return getStr("type");
 	}
 
+    /**
+     * 排序字段
+     */
 	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
-	
+
+    /**
+     * 排序字段
+     */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 修改时间
+     */
 	public java.util.Date getModified() {
 		return get("modified");
 	}

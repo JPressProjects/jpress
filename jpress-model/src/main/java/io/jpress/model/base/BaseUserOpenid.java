@@ -14,63 +14,105 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 用户ID
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 用户ID
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 第三方类型：wechat，dingding，qq...
+     */
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
-	
+
+    /**
+     * 第三方类型：wechat，dingding，qq...
+     */
 	public java.lang.String getType() {
 		return getStr("type");
 	}
 
+    /**
+     * 第三方的openId的值
+     */
 	public void setValue(java.lang.String value) {
 		set("value", value);
 	}
-	
+
+    /**
+     * 第三方的openId的值
+     */
 	public java.lang.String getValue() {
 		return getStr("value");
 	}
 
+    /**
+     * 可能用不到
+     */
 	public void setAccessToken(java.lang.String accessToken) {
 		set("access_token", accessToken);
 	}
-	
+
+    /**
+     * 可能用不到
+     */
 	public java.lang.String getAccessToken() {
 		return getStr("access_token");
 	}
 
+    /**
+     * access_token的过期时间
+     */
 	public void setExpiredTime(java.util.Date expiredTime) {
 		set("expired_time", expiredTime);
 	}
-	
+
+    /**
+     * access_token的过期时间
+     */
 	public java.util.Date getExpiredTime() {
 		return get("expired_time");
 	}
 
+    /**
+     * 昵称
+     */
 	public void setNickname(java.lang.String nickname) {
 		set("nickname", nickname);
 	}
-	
+
+    /**
+     * 昵称
+     */
 	public java.lang.String getNickname() {
 		return getStr("nickname");
 	}
 
+    /**
+     * 头像
+     */
 	public void setAvatar(java.lang.String avatar) {
 		set("avatar", avatar);
 	}
-	
+
+    /**
+     * 头像
+     */
 	public java.lang.String getAvatar() {
 		return getStr("avatar");
 	}
@@ -78,7 +120,7 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}
@@ -86,7 +128,7 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}
@@ -94,7 +136,7 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
 	public java.util.Date getModified() {
 		return get("modified");
 	}

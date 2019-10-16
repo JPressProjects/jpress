@@ -11,106 +11,184 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * ID主键
+     */
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
+    /**
+     * ID主键
+     */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 上传附件的用户ID
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 上传附件的用户ID
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 标题
+     */
 	public void setTitle(java.lang.String title) {
 		set("title", title);
 	}
-	
+
+    /**
+     * 标题
+     */
 	public java.lang.String getTitle() {
 		return getStr("title");
 	}
 
+    /**
+     * 附件描述
+     */
 	public void setDescription(java.lang.String description) {
 		set("description", description);
 	}
-	
+
+    /**
+     * 附件描述
+     */
 	public java.lang.String getDescription() {
 		return getStr("description");
 	}
 
+    /**
+     * 路径
+     */
 	public void setPath(java.lang.String path) {
 		set("path", path);
 	}
-	
+
+    /**
+     * 路径
+     */
 	public java.lang.String getPath() {
 		return getStr("path");
 	}
 
+    /**
+     * mime
+     */
 	public void setMimeType(java.lang.String mimeType) {
 		set("mime_type", mimeType);
 	}
-	
+
+    /**
+     * mime
+     */
 	public java.lang.String getMimeType() {
 		return getStr("mime_type");
 	}
 
+    /**
+     * 附件的后缀
+     */
 	public void setSuffix(java.lang.String suffix) {
 		set("suffix", suffix);
 	}
-	
+
+    /**
+     * 附件的后缀
+     */
 	public java.lang.String getSuffix() {
 		return getStr("suffix");
 	}
 
+    /**
+     * 类型
+     */
 	public void setType(java.lang.String type) {
 		set("type", type);
 	}
-	
+
+    /**
+     * 类型
+     */
 	public java.lang.String getType() {
 		return getStr("type");
 	}
 
+    /**
+     * 标示
+     */
 	public void setFlag(java.lang.String flag) {
 		set("flag", flag);
 	}
-	
+
+    /**
+     * 标示
+     */
 	public java.lang.String getFlag() {
 		return getStr("flag");
 	}
 
+    /**
+     * 排序字段
+     */
 	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
-	
+
+    /**
+     * 排序字段
+     */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
 	}
 
+    /**
+     * 是否可以被访问
+     */
 	public void setAccessible(java.lang.Boolean accessible) {
 		set("accessible", accessible);
 	}
-	
+
+    /**
+     * 是否可以被访问
+     */
 	public java.lang.Boolean getAccessible() {
 		return get("accessible");
 	}
 
+    /**
+     * 上传时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 上传时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 修改时间
+     */
 	public java.util.Date getModified() {
 		return get("modified");
 	}

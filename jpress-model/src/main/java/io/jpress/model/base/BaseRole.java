@@ -14,31 +14,49 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 角色名称
+     */
 	public void setName(java.lang.String name) {
 		set("name", name);
 	}
-	
+
+    /**
+     * 角色名称
+     */
 	public java.lang.String getName() {
 		return getStr("name");
 	}
 
+    /**
+     * 角色的描述
+     */
 	public void setDescription(java.lang.String description) {
 		set("description", description);
 	}
-	
+
+    /**
+     * 角色的描述
+     */
 	public java.lang.String getDescription() {
 		return getStr("description");
 	}
 
+    /**
+     * 角色标识，全局唯一，jpsa 为超级管理员
+     */
 	public void setFlag(java.lang.String flag) {
 		set("flag", flag);
 	}
-	
+
+    /**
+     * 角色标识，全局唯一，jpsa 为超级管理员
+     */
 	public java.lang.String getFlag() {
 		return getStr("flag");
 	}
@@ -46,7 +64,7 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}
@@ -54,7 +72,7 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
 	public java.util.Date getModified() {
 		return get("modified");
 	}

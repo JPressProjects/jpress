@@ -14,31 +14,49 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 会员组id
+     */
 	public void setGroupId(java.lang.Long groupId) {
 		set("group_id", groupId);
 	}
-	
+
+    /**
+     * 会员组id
+     */
 	public java.lang.Long getGroupId() {
 		return getLong("group_id");
 	}
 
+    /**
+     * 用户id
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 用户id
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 到期时间
+     */
 	public void setDuetime(java.util.Date duetime) {
 		set("duetime", duetime);
 	}
-	
+
+    /**
+     * 到期时间
+     */
 	public java.util.Date getDuetime() {
 		return get("duetime");
 	}
@@ -46,7 +64,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setRemark(java.lang.String remark) {
 		set("remark", remark);
 	}
-	
+
 	public java.lang.String getRemark() {
 		return getStr("remark");
 	}
@@ -54,7 +72,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setSource(java.lang.String source) {
 		set("source", source);
 	}
-	
+
 	public java.lang.String getSource() {
 		return getStr("source");
 	}
@@ -62,7 +80,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}
@@ -70,7 +88,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
-	
+
 	public java.lang.Integer getStatus() {
 		return getInt("status");
 	}
@@ -78,7 +96,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
 	public java.util.Date getModified() {
 		return get("modified");
 	}
@@ -86,7 +104,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}

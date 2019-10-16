@@ -14,119 +14,203 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * 订单id
+     */
 	public void setOrderId(java.lang.Long orderId) {
 		set("order_id", orderId);
 	}
-	
+
+    /**
+     * 订单id
+     */
 	public java.lang.Long getOrderId() {
 		return getLong("order_id");
 	}
 
+    /**
+     * 订单号
+     */
 	public void setOrderNs(java.lang.String orderNs) {
 		set("order_ns", orderNs);
 	}
-	
+
+    /**
+     * 订单号
+     */
 	public java.lang.String getOrderNs() {
 		return getStr("order_ns");
 	}
 
+    /**
+     * 购买人
+     */
 	public void setBuyerId(java.lang.Long buyerId) {
 		set("buyer_id", buyerId);
 	}
-	
+
+    /**
+     * 购买人
+     */
 	public java.lang.Long getBuyerId() {
 		return getLong("buyer_id");
 	}
 
+    /**
+     * 购买人昵称
+     */
 	public void setBuyerNickname(java.lang.String buyerNickname) {
 		set("buyer_nickname", buyerNickname);
 	}
-	
+
+    /**
+     * 购买人昵称
+     */
 	public java.lang.String getBuyerNickname() {
 		return getStr("buyer_nickname");
 	}
 
+    /**
+     * 用户留言（备注）
+     */
 	public void setBuyerMsg(java.lang.String buyerMsg) {
 		set("buyer_msg", buyerMsg);
 	}
-	
+
+    /**
+     * 用户留言（备注）
+     */
 	public java.lang.String getBuyerMsg() {
 		return getStr("buyer_msg");
 	}
 
+    /**
+     * 卖家id
+     */
 	public void setSellerId(java.lang.Long sellerId) {
 		set("seller_id", sellerId);
 	}
-	
+
+    /**
+     * 卖家id
+     */
 	public java.lang.Long getSellerId() {
 		return getLong("seller_id");
 	}
 
+    /**
+     * 分销员
+     */
 	public void setDistUserId(java.lang.Long distUserId) {
 		set("dist_user_id", distUserId);
 	}
-	
+
+    /**
+     * 分销员
+     */
 	public java.lang.Long getDistUserId() {
 		return getLong("dist_user_id");
 	}
 
+    /**
+     * 分销金额
+     */
 	public void setDistAmount(java.math.BigDecimal distAmount) {
 		set("dist_amount", distAmount);
 	}
-	
+
+    /**
+     * 分销金额
+     */
 	public java.math.BigDecimal getDistAmount() {
 		return get("dist_amount");
 	}
 
+    /**
+     * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
+     */
 	public void setProductType(java.lang.String productType) {
 		set("product_type", productType);
 	}
-	
+
+    /**
+     * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
+     */
 	public java.lang.String getProductType() {
 		return getStr("product_type");
 	}
 
+    /**
+     * 产品id
+     */
 	public void setProductId(java.lang.Long productId) {
 		set("product_id", productId);
 	}
-	
+
+    /**
+     * 产品id
+     */
 	public java.lang.Long getProductId() {
 		return getLong("product_id");
 	}
 
+    /**
+     * 产品标题
+     */
 	public void setProductTitle(java.lang.String productTitle) {
 		set("product_title", productTitle);
 	}
-	
+
+    /**
+     * 产品标题
+     */
 	public java.lang.String getProductTitle() {
 		return getStr("product_title");
 	}
 
+    /**
+     * 产品缩略图
+     */
 	public void setProductThumbnail(java.lang.String productThumbnail) {
 		set("product_thumbnail", productThumbnail);
 	}
-	
+
+    /**
+     * 产品缩略图
+     */
 	public java.lang.String getProductThumbnail() {
 		return getStr("product_thumbnail");
 	}
 
+    /**
+     * 产品价格
+     */
 	public void setProductPrice(java.math.BigDecimal productPrice) {
 		set("product_price", productPrice);
 	}
-	
+
+    /**
+     * 产品价格
+     */
 	public java.math.BigDecimal getProductPrice() {
 		return get("product_price");
 	}
 
+    /**
+     * 产品数量
+     */
 	public void setProductCount(java.lang.Integer productCount) {
 		set("product_count", productCount);
 	}
-	
+
+    /**
+     * 产品数量
+     */
 	public java.lang.Integer getProductCount() {
 		return getInt("product_count");
 	}
@@ -134,7 +218,7 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public void setDeiveryCost(java.math.BigDecimal deiveryCost) {
 		set("deivery_cost", deiveryCost);
 	}
-	
+
 	public java.math.BigDecimal getDeiveryCost() {
 		return get("deivery_cost");
 	}
@@ -142,7 +226,7 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public void setOtherCost(java.math.BigDecimal otherCost) {
 		set("other_cost", otherCost);
 	}
-	
+
 	public java.math.BigDecimal getOtherCost() {
 		return get("other_cost");
 	}
@@ -150,87 +234,147 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public void setOtherCostRemark(java.lang.String otherCostRemark) {
 		set("other_cost_remark", otherCostRemark);
 	}
-	
+
 	public java.lang.String getOtherCostRemark() {
 		return getStr("other_cost_remark");
 	}
 
+    /**
+     * 具体金额 = 产品价格+运费+其他价格 - 分销金额
+     */
 	public void setTotalAmount(java.math.BigDecimal totalAmount) {
 		set("total_amount", totalAmount);
 	}
-	
+
+    /**
+     * 具体金额 = 产品价格+运费+其他价格 - 分销金额
+     */
 	public java.math.BigDecimal getTotalAmount() {
 		return get("total_amount");
 	}
 
+    /**
+     * 支付金额 = 产品价格+运费+其他价格
+     */
 	public void setPayAmount(java.math.BigDecimal payAmount) {
 		set("pay_amount", payAmount);
 	}
-	
+
+    /**
+     * 支付金额 = 产品价格+运费+其他价格
+     */
 	public java.math.BigDecimal getPayAmount() {
 		return get("pay_amount");
 	}
 
+    /**
+     * 查看的网址路径，访问时时，会添加orderid
+     */
 	public void setViewPath(java.lang.String viewPath) {
 		set("view_path", viewPath);
 	}
-	
+
+    /**
+     * 查看的网址路径，访问时时，会添加orderid
+     */
 	public java.lang.String getViewPath() {
 		return getStr("view_path");
 	}
 
+    /**
+     * 查看的文章内容，比如：查看、下载
+     */
 	public void setViewText(java.lang.String viewText) {
 		set("view_text", viewText);
 	}
-	
+
+    /**
+     * 查看的文章内容，比如：查看、下载
+     */
 	public java.lang.String getViewText() {
 		return getStr("view_text");
 	}
 
+    /**
+     * 到期后无法继续查看内容
+     */
 	public void setViewDuetime(java.util.Date viewDuetime) {
 		set("view_duetime", viewDuetime);
 	}
-	
+
+    /**
+     * 到期后无法继续查看内容
+     */
 	public java.util.Date getViewDuetime() {
 		return get("view_duetime");
 	}
 
+    /**
+     * 状态
+     */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
-	
+
+    /**
+     * 状态
+     */
 	public java.lang.Integer getStatus() {
 		return getInt("status");
 	}
 
+    /**
+     * 退款订单号
+     */
 	public void setRefundNo(java.lang.String refundNo) {
 		set("refund_no", refundNo);
 	}
-	
+
+    /**
+     * 退款订单号
+     */
 	public java.lang.String getRefundNo() {
 		return getStr("refund_no");
 	}
 
+    /**
+     * 退款金额
+     */
 	public void setRefundAmount(java.math.BigDecimal refundAmount) {
 		set("refund_amount", refundAmount);
 	}
-	
+
+    /**
+     * 退款金额
+     */
 	public java.math.BigDecimal getRefundAmount() {
 		return get("refund_amount");
 	}
 
+    /**
+     * 退款描述
+     */
 	public void setRefundDesc(java.lang.String refundDesc) {
 		set("refund_desc", refundDesc);
 	}
-	
+
+    /**
+     * 退款描述
+     */
 	public java.lang.String getRefundDesc() {
 		return getStr("refund_desc");
 	}
 
+    /**
+     * 退款时间
+     */
 	public void setRefundTime(java.util.Date refundTime) {
 		set("refund_time", refundTime);
 	}
-	
+
+    /**
+     * 退款时间
+     */
 	public java.util.Date getRefundTime() {
 		return get("refund_time");
 	}
@@ -238,23 +382,35 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 修改时间
+     */
 	public java.util.Date getModified() {
 		return get("modified");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}

@@ -73,6 +73,15 @@
         </h1>
     </section>
 
+    #if(order.buyer_msg)
+    <div class="pad margin no-print">
+        <div class="callout callout-info" style="margin-bottom: 0!important;">
+            <h4><i class="fa fa-info"></i> 用户留言:</h4>
+            #(order.buyer_msg)
+        </div>
+    </div>
+    #end
+
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->

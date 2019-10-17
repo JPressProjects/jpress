@@ -22,6 +22,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
@@ -159,6 +160,12 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     @Override
     public User findFistByDingdingOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_DINGDING,openId);
+    }
+
+    @Override
+    public long queryUserAmount(Object userId) {
+        Long value =  JbootDb.queryLong("select amount from user_amount where user_id = ?",userId);
+        return value == null ? 0 : value;
     }
 
     @Override

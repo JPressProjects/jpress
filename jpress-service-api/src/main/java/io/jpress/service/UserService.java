@@ -115,4 +115,6 @@ public interface UserService extends JbootServiceJoiner{
     public User findFistByGiteeOpenid(String openId);
 
     public User findFistByDingdingOpenid(String openId);
+
+    public long queryUserAmount(Object userId);
 }

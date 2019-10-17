@@ -79,4 +79,5 @@ public interface UserAmountStatementService  {
     public Page<UserAmountStatement> paginate(int page, int pageSize);
 
 
+    public List<UserAmountStatement> findListByUserId(Object userId, int count);
 }

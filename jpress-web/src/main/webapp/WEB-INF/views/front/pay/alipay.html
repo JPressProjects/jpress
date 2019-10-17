@@ -1,4 +1,4 @@
-#include("layout.html",title="微信扫一扫付款")
+#include("layout.html",title="支付宝扫一扫付款")
 #@layout()
 
 #define css()
@@ -20,7 +20,7 @@
             支付宝扫一扫付款
         </div>
         <div class="pay-content-money">
-            ￥ 1.00 元
+            ￥ #(payment.pay_amount) 元
         </div>
         <div class="pay-content-qrcode">
             <img src="/static/commons/img/pay-qrcode.png" />
@@ -30,7 +30,7 @@
         <img src="/static/commons/img/pay-alipay.png" />
 
         <div class="btn-web-alipay">
-            <a href="#" class="btn btn-primary"> 或登录支付宝账户支付 </a>
+            <a href="#(CAPTH)/pay/alipayweb/#(payment.trx_no)" class="btn btn-primary"> 或登录支付宝账户支付 </a>
         </div>
     </div>
 

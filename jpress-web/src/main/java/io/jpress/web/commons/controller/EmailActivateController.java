@@ -22,7 +22,7 @@ import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UserControllerBase;
-import io.jpress.web.commons.UserEmailSender;
+import io.jpress.web.commons.email.EmailSender;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -63,7 +63,7 @@ public class EmailActivateController extends UserControllerBase {
             return;
         }
 
-        UserEmailSender.sendEmailForUserEmailActivate(user);
+        EmailSender.sendForEmailActivate(user);
         renderJson(Ret.ok().set("message", "激活邮件已经发送成功"));
     }
 

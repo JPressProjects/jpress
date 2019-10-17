@@ -33,7 +33,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.commons.authcode.AuthCode;
 import io.jpress.commons.authcode.AuthCodeKit;
-import io.jpress.web.commons.UserEmailSender;
+import io.jpress.web.commons.email.EmailSender;
 
 import java.util.Date;
 
@@ -294,7 +294,7 @@ public class UserController extends TemplateControllerBase {
         Object userId = userService.save(user);
 
         if (userId != null && emailValidate) {
-            UserEmailSender.sendEmailForUserRegisterActivate(user);
+            EmailSender.sendForUserActivate(user);
         }
 
         renderJson(user != null ? OK : FAIL);

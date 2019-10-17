@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons;
+package io.jpress.web.commons.email;
 
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class UserEmailSender {
+public class EmailSender {
 
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
@@ -39,7 +39,7 @@ public class UserEmailSender {
      *
      * @param user
      */
-    public static void sendEmailForUserRegisterActivate(User user) {
+    public static void sendForUserActivate(User user) {
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
         if (emailValidate == false)
             return;
@@ -77,7 +77,7 @@ public class UserEmailSender {
      *
      * @param user
      */
-    public static void sendEmailForUserEmailActivate(User user) {
+    public static void sendForEmailActivate(User user) {
 
         AuthCode authCode = AuthCode.newCode(user.getId());
         AuthCodeKit.save(authCode);

@@ -19,52 +19,95 @@ import com.alibaba.fastjson.JSONObject;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DingdingConnector extends OauthConnector {
 
-	public DingdingConnector(String name, String appkey, String appSecret) {
-		super(name, appkey, appSecret);
-	}
+    public DingdingConnector(String name, String appkey, String appSecret) {
+        super(name, appkey, appSecret);
+    }
 
-	@Override
-	public String createAuthorizeUrl(String state) {
-		StringBuilder sb = new StringBuilder("https://github.com/login/oauth/authorize?");
-		sb.append("scope=user");
-		sb.append("&client_id=" + getClientId());
-		sb.append("&redirect_uri=" + getRedirectUri());
-		sb.append("&state=" + state);
+    @Override
+    public String createAuthorizeUrl(String state) {
+        //https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=APPID&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=REDIRECT_URI
+        StringBuilder sb = new StringBuilder("https://oapi.dingtalk.com/connect/oauth2/sns_authorize?");
+        sb.append("scope=user");
+        sb.append("&appid=" + getClientId());
+        sb.append("&redirect_uri=" + getRedirectUri());
+        sb.append("&response_type=code");
+        sb.append("&state=" + state);
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	@Override
-	protected OauthUser getOauthUser(String code) {
-		String accessToken = getAccessToken(code);
+    @Override
+    protected OauthUser getOauthUser(String code) {
+        String accessToken = getAccessToken(code);
 
-		String url = "https://api.github.com/user?access_token=" + accessToken;
+        Map<String, String> result = getPersistentCode(code, accessToken);
+        String openId = result.get("openid");
+        String persistentCode = result.get("persistent_code");
 
-		String httpString = httpGet(url);
-		JSONObject json = JSONObject.parseObject(httpString);
+        String snsToken = getSnsToken(accessToken, openId, persistentCode);
 
-		OauthUser user = new OauthUser();
-		user.setAvatar(json.getString("avatar_url"));
-		user.setOpenId(json.getString("id"));
-		user.setNickname(json.getString("login"));
-		user.setSource(getName());
+        //https://oapi.dingtalk.com/sns/getuserinfo?sns_token=SNS_TOKEN
+        String url = "https://oapi.dingtalk.com/sns/getuserinfo?sns_token=" + snsToken;
 
-		return null;
-	}
+        String httpString = httpGet(url);
+        JSONObject json = JSONObject.parseObject(httpString);
 
-	protected String getAccessToken(String code) {
+        OauthUser user = new OauthUser();
+        //user.setAvatar(json.getString("avatar_url"));
+        user.setOpenId(json.getString("openid"));
+        user.setNickname(json.getString("nick"));
+        user.setSource(getName());
 
-		StringBuilder urlBuilder = new StringBuilder("https://github.com/login/oauth/access_token?");
-		urlBuilder.append("client_id=" + getClientId());
-		urlBuilder.append("&client_secret=" + getClientSecret());
-		urlBuilder.append("&code=" + code);
+        return null;
+    }
 
-		String url = urlBuilder.toString();
+    protected String getAccessToken(String code) {
 
-		String httpString = httpGet(url);
-		JSONObject json = JSONObject.parseObject(httpString);
-		return json.getString("access_token");
-	}
+        StringBuilder urlBuilder = new StringBuilder("https://oapi.dingtalk.com/sns/gettoken?");
+        urlBuilder.append("appid=" + getClientId());
+        urlBuilder.append("&appsecret=" + getClientSecret());
+
+        String url = urlBuilder.toString();
+
+        String httpString = httpGet(url);
+        JSONObject json = JSONObject.parseObject(httpString);
+        return json.getString("access_token");
+    }
+
+    protected Map<String, String> getPersistentCode(String code, String access_token) {
+        //https://oapi.dingtalk.com/sns/get_persistent_code?access_token=ACCESS_TOKEN
+        StringBuilder urlBuilder = new StringBuilder("https://oapi.dingtalk.com/sns/get_persistent_code?");
+        urlBuilder.append("access_token=" + access_token);
+        String url = urlBuilder.toString();
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("tmp_auth_code", code);
+
+        String httpString = httpPost(url, param);
+        JSONObject json = JSONObject.parseObject(httpString);
+        Map result = new HashMap();
+        result.put("openid", json.getString("openid"));
+        result.put("persistent_code", json.getString("persistent_code"));
+        return result;
+    }
+
+    protected String getSnsToken(String access_token, String openId, String persistentCode) {
+        //https://oapi.dingtalk.com/sns/get_sns_token?access_token=ACCESS_TOKEN
+        StringBuilder urlBuilder = new StringBuilder("https://oapi.dingtalk.com/sns/get_sns_token?");
+        urlBuilder.append("access_token=" + access_token);
+        String url = urlBuilder.toString();
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("openid", openId);
+        param.put("persistent_code", persistentCode);
+
+        String httpString = httpPost(url, param);
+        JSONObject json = JSONObject.parseObject(httpString);
+        return json.getString("sns_token");
+    }
 }

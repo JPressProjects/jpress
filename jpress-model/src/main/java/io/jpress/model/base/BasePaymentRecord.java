@@ -36,15 +36,15 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
     /**
      * 商品名称
      */
-	public void setProductName(java.lang.String productName) {
-		set("product_name", productName);
+	public void setProductTitle(java.lang.String productTitle) {
+		set("product_title", productTitle);
 	}
 
     /**
      * 商品名称
      */
-	public java.lang.String getProductName() {
-		return getStr("product_name");
+	public java.lang.String getProductTitle() {
+		return getStr("product_title");
 	}
 
     /**

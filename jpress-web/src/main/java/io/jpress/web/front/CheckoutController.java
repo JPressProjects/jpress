@@ -152,6 +152,8 @@ public class CheckoutController extends UcenterControllerBase {
          * 创建订单
          */
         UserOrder userOrder = getModel(UserOrder.class, "order");
+        userOrder.setProductType(userOrderItems.get(0).getProductType());
+        userOrder.setProductTitle(userOrderItems.get(0).getProductTitle());
 
         //只允许提交订单的如下字段，其他不允许提交
         userOrder.keep("delivery_addr_username","delivery_addr_mobile","delivery_addr_province",
@@ -224,7 +226,7 @@ public class CheckoutController extends UcenterControllerBase {
             payment = new PaymentRecord();
         }
 
-        payment.setProductName(userOrder.getProductName());
+        payment.setProductTitle(userOrder.getProductTitle());
         payment.setProductType(userOrder.getProductType());
         payment.setProductRelativeId(userOrder.getId().toString());
 

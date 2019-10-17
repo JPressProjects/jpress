@@ -55,12 +55,12 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        String paraView = getPara("v");
+        String viewPara = getPara("v");
 
-        view = StrUtil.isBlank(paraView) ? view : paraView + ".html";
+        String newView = StrUtil.isBlank(viewPara) ? view : viewPara + ".html";
         defaultView = StrUtil.isBlank(defaultView) ? view : defaultView;
 
-        doRender(view, defaultView);
+        doRender(newView, defaultView);
     }
 
     protected void doRender(String view, String defaultView) {

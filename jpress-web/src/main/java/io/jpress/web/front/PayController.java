@@ -1,22 +1,17 @@
 package io.jpress.web.front;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
-import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.MethodType;
 import com.egzosn.pay.common.bean.PayOrder;
-import com.egzosn.pay.paypal.api.PayPalConfigStorage;
-import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
-import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.commons.pay.PayConfigUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -52,7 +47,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void wechat() {
 
-        PayService service = getWxPayService();
+        PayService service = PayConfigUtil.getWxPayService();
         PayOrder order = createOrder();
 
         order.setTransactionType(WxTransactionType.NATIVE); //扫码付
@@ -79,7 +74,7 @@ public class PayController extends TemplateControllerBase {
      * 支付宝扫码支付
      */
     public void alipay() {
-        PayService service = getAlipayService();
+        PayService service =PayConfigUtil. getAlipayService();
 
 
         PayOrder order = createOrder();
@@ -92,7 +87,7 @@ public class PayController extends TemplateControllerBase {
      * 支付宝网页登录支付（无需扫码）
      */
     public void alipayweb() {
-        PayService service = getAlipayService();
+        PayService service = PayConfigUtil.getAlipayService();
 
         PayOrder order = createOrder();
         order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
@@ -116,7 +111,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void paypal() {
 
-        PayService service = getPayPalPayService();
+        PayService service = PayConfigUtil.getPayPalPayService();
 
         PayOrder order = createOrder();
         order.setTransactionType(PayPalTransactionType.sale); //电脑网页支付
@@ -133,7 +128,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void callback() {
 
-        PayService service = getPayPalPayService();
+        PayService service = PayConfigUtil.getPayPalPayService();
 
         //这种情况除非是认为的恶意调用
         render404If(service == null);
@@ -158,11 +153,11 @@ public class PayController extends TemplateControllerBase {
     private PayService getPayService() {
         switch (getPara()) {
             case "wechat":
-                return getWxPayService();
+                return PayConfigUtil.getWxPayService();
             case "alipay":
-                return getAlipayService();
+                return PayConfigUtil.getAlipayService();
             case "paypal":
-                return getPayPalPayService();
+                return PayConfigUtil.getPayPalPayService();
             default:
                 return null;
         }
@@ -199,61 +194,5 @@ public class PayController extends TemplateControllerBase {
     }
 
 
-    private WxPayService getWxPayService() {
-
-        WxPayConfigStorage wxPayConfigStorage = new WxPayConfigStorage();
-        wxPayConfigStorage.setMchId("合作者id（商户号）");
-        wxPayConfigStorage.setAppid("应用id");
-        wxPayConfigStorage.setKeyPublic("转账公钥，转账时必填");
-        wxPayConfigStorage.setSecretKey("密钥");
-        wxPayConfigStorage.setNotifyUrl("异步回调地址");
-        wxPayConfigStorage.setReturnUrl("同步回调地址");
-        wxPayConfigStorage.setSignType("签名方式");
-        wxPayConfigStorage.setInputCharset("utf-8");
-        //https证书设置，退款必须 方式二
-/*
-    HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-    httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));
-    httpConfigStorage.setStorePassword("证书密码");
-    //设置ssl证书对应的存储方式输入流，这里默认为文件地址
-    httpConfigStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
-    service = new WxPayService(wxPayConfigStorage, httpConfigStorage);
-*/
-        return new WxPayService(wxPayConfigStorage);
-    }
-
-
-    private AliPayService getAlipayService() {
-
-        AliPayConfigStorage aliPayConfigStorage = new AliPayConfigStorage();
-        aliPayConfigStorage.setPid("合作者id");
-        aliPayConfigStorage.setAppid("应用id");
-        aliPayConfigStorage.setKeyPublic("支付宝公钥");
-        aliPayConfigStorage.setKeyPrivate("应用私钥");
-        aliPayConfigStorage.setNotifyUrl("异步回调地址");
-        aliPayConfigStorage.setReturnUrl("同步回调地址");
-        aliPayConfigStorage.setSignType("签名方式");
-        aliPayConfigStorage.setSeller("收款账号");
-        aliPayConfigStorage.setInputCharset("utf-8");
-        //是否为测试账号，沙箱环境
-        aliPayConfigStorage.setTest(true);
-
-        return new AliPayService(aliPayConfigStorage);
-    }
-
-
-    private PayPalPayService getPayPalPayService() {
-
-        PayPalConfigStorage storage = new PayPalConfigStorage();
-        storage.setClientID("商户id");
-        storage.setClientSecret("商户密钥");
-        storage.setTest(true);
-        //发起付款后的页面转跳地址
-        storage.setReturnUrl("http://127.0.0.1:8088/pay/success");
-        //取消按钮转跳地址,这里用异步通知地址的兼容的做法
-        storage.setNotifyUrl("http://127.0.0.1:8088/pay/cancel");
-
-        return new PayPalPayService(storage);
-    }
 
 }

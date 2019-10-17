@@ -7,6 +7,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -20,12 +21,17 @@ public class FinanceController extends UcenterControllerBase {
     @Inject
     private UserService userService;
 
+    @Inject
+    private UserAmountStatementService amountStatementService;
+
 
 
     /**
      * 用户余额信息
      */
     public void amount() {
+        setAttr("userAmount",userService.queryUserAmount(getLoginedUser().getId()));
+        setAttr("userAmountStatements",amountStatementService.findListByUserId(getLoginedUser().getId(),10));
         render("amount.html");
     }
 
@@ -74,7 +80,7 @@ public class FinanceController extends UcenterControllerBase {
         paymentService.save(payment);
 
 
-        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
+        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
     }
 
 

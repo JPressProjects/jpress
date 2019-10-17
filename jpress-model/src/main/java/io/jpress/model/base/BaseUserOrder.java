@@ -34,6 +34,20 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
+     * 商品的类型
+     */
+	public void setProductType(java.lang.String productType) {
+		set("product_type", productType);
+	}
+
+    /**
+     * 商品的类型
+     */
+	public java.lang.String getProductType() {
+		return getStr("product_type");
+	}
+
+    /**
      * 商品的名称
      */
 	public void setProductTitle(java.lang.String productTitle) {
@@ -47,18 +61,12 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getStr("product_title");
 	}
 
-    /**
-     * 商品的类型
-     */
-	public void setProductType(java.lang.String productType) {
-		set("product_type", productType);
+	public void setProductDesc(java.lang.String productDesc) {
+		set("product_desc", productDesc);
 	}
 
-    /**
-     * 商品的类型
-     */
-	public java.lang.String getProductType() {
-		return getStr("product_type");
+	public java.lang.String getProductDesc() {
+		return getStr("product_desc");
 	}
 
     /**

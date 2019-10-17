@@ -1,6 +1,7 @@
 package io.jpress.web.commons.pay;
 
 
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 public class AlipayxPayConfig {
@@ -13,6 +14,10 @@ public class AlipayxPayConfig {
         setEnable(JPressOptions.getAsBool("alipayx_pay_enable"));
         setQrcode(JPressOptions.get("alipayx_pay_qrcode"));
         setMessage(JPressOptions.get("alipayx_pay_message"));
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(qrcode, message);
     }
 
     public boolean isEnable() {
@@ -38,4 +43,6 @@ public class AlipayxPayConfig {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

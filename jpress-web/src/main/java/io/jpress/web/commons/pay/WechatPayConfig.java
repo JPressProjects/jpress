@@ -2,6 +2,7 @@ package io.jpress.web.commons.pay;
 
 
 import com.egzosn.pay.wx.api.WxPayConfigStorage;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 public class WechatPayConfig {
@@ -18,6 +19,10 @@ public class WechatPayConfig {
         setAppid(JPressOptions.get("wechat_pay_appid"));
         setPublicKey(JPressOptions.get("wechat_pay_publicKey"));
         setPrivateKey(JPressOptions.get("wechat_pay_secretKey"));
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(mchId, appid, publicKey, privateKey);
     }
 
     public boolean isEnable() {
@@ -60,7 +65,7 @@ public class WechatPayConfig {
         this.privateKey = privateKey;
     }
 
-    public WxPayConfigStorage toConfigStorage(){
+    public WxPayConfigStorage toConfigStorage() {
         WxPayConfigStorage storage = new WxPayConfigStorage();
         storage.setMchId(getMchId());
         storage.setAppid(getAppid());
@@ -76,5 +81,7 @@ public class WechatPayConfig {
 
         return storage;
     }
+
+
 
 }

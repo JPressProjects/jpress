@@ -2,6 +2,7 @@ package io.jpress.web.commons.pay;
 
 
 import com.egzosn.pay.paypal.api.PayPalConfigStorage;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 public class PaypalPayConfig {
@@ -14,6 +15,10 @@ public class PaypalPayConfig {
         setEnable(JPressOptions.getAsBool("paypal_pay_enable"));
         setClientId(JPressOptions.get("paypal_pay_clientid"));
         setClientSecret(JPressOptions.get("paypal_pay_clientsecret"));
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(clientId, clientSecret);
     }
 
     public boolean isEnable() {

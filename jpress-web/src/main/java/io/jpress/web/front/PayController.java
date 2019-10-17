@@ -59,7 +59,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
 
         order.setTransactionType(WxTransactionType.NATIVE); //扫码付
         //获取扫码付的二维码
@@ -76,7 +76,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
 //        renderTemplate("pay_alipay.html");
     }
 
@@ -88,7 +88,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
 //        renderTemplate("pay_wechatx.html");
         render("pay_wechaxt.html",DEFAULT_WECHATX_VIEW);
     }
@@ -104,7 +104,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
 //        BufferedImage image = service.genQrPay(order);
@@ -123,7 +123,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
         order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
 
 
@@ -158,7 +158,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-        PayOrder order = initOrderByPayment(payment);
+        PayOrder order = createPayOrder(payment);
         order.setTransactionType(PayPalTransactionType.sale); //电脑网页支付
 
         //获取支付订单信息
@@ -227,9 +227,9 @@ public class PayController extends TemplateControllerBase {
         }
     }
 
-    private PayOrder initOrderByPayment(PaymentRecord payment){
+    private PayOrder createPayOrder(PaymentRecord payment){
         return new PayOrder(
-                payment.getProductName(),
+                payment.getProductTitle(),
                 payment.getProductDesc(),
                 payment.getPayAmount(),
                 payment.getTrxNo());

@@ -8,49 +8,49 @@ import com.jfinal.core.Controller;
 
 public class PayConfigUtil {
 
-    public static AlipayPayConfig getAlipayPayConfig(){
+    public static AlipayPayConfig getAlipayPayConfig() {
         return new AlipayPayConfig();
     }
 
-    public static AlipayxPayConfig getAlipayxPayConfig(){
+    public static AlipayxPayConfig getAlipayxPayConfig() {
         return new AlipayxPayConfig();
     }
 
-    public static WechatPayConfig getWechatPayConfig(){
+    public static WechatPayConfig getWechatPayConfig() {
         return new WechatPayConfig();
     }
 
-    public static WechatxPayConfig getWechatxPayConfig(){
+    public static WechatxPayConfig getWechatxPayConfig() {
         return new WechatxPayConfig();
     }
 
-    public static PaypalPayConfig getPaypalPayConfig(){
+    public static PaypalPayConfig getPaypalPayConfig() {
         return new PaypalPayConfig();
     }
 
 
     public static WxPayService getWxPayService() {
         WechatPayConfig config = getWechatPayConfig();
-        return config.isEnable() ? new WxPayService(config.toConfigStorage()) : null;
+        return config.isEnable() && config.isConfigOk() ? new WxPayService(config.toConfigStorage()) : null;
     }
 
 
     public static AliPayService getAlipayService() {
         AlipayPayConfig config = getAlipayPayConfig();
-        return config.isEnable() ? new AliPayService(config.toConfigStorage()) : null;
+        return config.isEnable() && config.isConfigOk() ? new AliPayService(config.toConfigStorage()) : null;
     }
 
 
     public static PayPalPayService getPayPalPayService() {
         PaypalPayConfig config = getPaypalPayConfig();
-        return config.isEnable() ? new PayPalPayService(config.toConfigStorage()) : null;
+        return config.isEnable() && config.isConfigOk() ? new PayPalPayService(config.toConfigStorage()) : null;
     }
 
-    public static void setConfigAttrs(Controller controller){
-        controller.setAttr("alipayConfig",getAlipayPayConfig());
-        controller.setAttr("alipayxConfig",getAlipayxPayConfig());
-        controller.setAttr("wechatConfig",getWechatPayConfig());
-        controller.setAttr("wechatxConfig",getWechatxPayConfig());
-        controller.setAttr("paypalConfig",getPaypalPayConfig());
+    public static void setConfigAttrs(Controller controller) {
+        controller.setAttr("alipayConfig", getAlipayPayConfig());
+        controller.setAttr("alipayxConfig", getAlipayxPayConfig());
+        controller.setAttr("wechatConfig", getWechatPayConfig());
+        controller.setAttr("wechatxConfig", getWechatxPayConfig());
+        controller.setAttr("paypalConfig", getPaypalPayConfig());
     }
 }

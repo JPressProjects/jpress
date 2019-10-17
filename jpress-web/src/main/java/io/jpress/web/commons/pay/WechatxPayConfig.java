@@ -1,6 +1,7 @@
 package io.jpress.web.commons.pay;
 
 
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 public class WechatxPayConfig {
@@ -13,6 +14,10 @@ public class WechatxPayConfig {
         setEnable(JPressOptions.getAsBool("wechatx_pay_enable"));
         setQrcode(JPressOptions.get("wechatx_pay_qrcode"));
         setMessage(JPressOptions.get("wechatx_pay_message"));
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(qrcode, message);
     }
 
     public boolean isEnable() {
@@ -38,4 +43,6 @@ public class WechatxPayConfig {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

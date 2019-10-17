@@ -2,6 +2,7 @@ package io.jpress.web.commons.pay;
 
 
 import com.egzosn.pay.ali.api.AliPayConfigStorage;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 public class AlipayPayConfig {
@@ -20,6 +21,10 @@ public class AlipayPayConfig {
         setPublicKey(JPressOptions.get("alipay_pay_publicKey"));
         setPrivateKey(JPressOptions.get("alipay_pay_privateKey"));
         setSeller(JPressOptions.get("alipay_pay_seller"));
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(pid, appid, publicKey, privateKey, seller);
     }
 
     public boolean isEnable() {
@@ -70,7 +75,7 @@ public class AlipayPayConfig {
         this.seller = seller;
     }
 
-    public AliPayConfigStorage toConfigStorage(){
+    public AliPayConfigStorage toConfigStorage() {
         AliPayConfigStorage storage = new AliPayConfigStorage();
         storage.setPid(getPid());
         storage.setAppid(getAppid());

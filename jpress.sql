@@ -334,14 +334,14 @@ CREATE TABLE `payment_record` (
   `product_desc` varchar(256) DEFAULT NULL COMMENT '产品描述，产品摘要',
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
-  `trx_nonce_str` varchar(64) DEFAULT NULL,
+  `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
   `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
   `order_ip` varchar(30) DEFAULT NULL COMMENT '下单ip(客户端ip,从网关中获取)',
   `order_referer_url` varchar(1024) DEFAULT NULL COMMENT '从哪个页面链接过来的(可用于防诈骗)',
   `order_from` varchar(30) DEFAULT NULL COMMENT '订单来源',
-  `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态',
+  `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：1生成订单未支付（预支付）、 2支付失败、 9自动在线支付成功、 10支付宝转账支付成功、 11微信转账支付成功、 12线下支付支付成功（一般是银行转账等）、 13其他支付方式支付成功',
   `pay_type` varchar(50) DEFAULT NULL COMMENT '支付类型编号',
   `pay_bank_type` varchar(128) DEFAULT NULL COMMENT '支付银行类型',
   `pay_amount` decimal(20,6) DEFAULT '0.000000' COMMENT '订单金额',
@@ -360,13 +360,13 @@ CREATE TABLE `payment_record` (
   `thirdparty_transaction_id` varchar(32) DEFAULT NULL,
   `thirdparty_user_openid` varchar(64) DEFAULT NULL,
   `remark` text COMMENT '备注',
-  `status` tinyint(2) DEFAULT NULL COMMENT '状态(支付中、支持成功、支付失败、退款中、退款成功)',
+  `status` tinyint(2) DEFAULT NULL COMMENT 'payment状态：1预支付、 2支付失败、 9支付成功、 11预退款、 12退款中、 13退款失败、 19退款成功',
   `options` text,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `trx_no` (`trx_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
 
 
 

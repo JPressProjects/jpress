@@ -30,6 +30,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      */
     public static final String TRX_TYPE_RECHARGE = "recharge"; //用户充值
     public static final String TRX_TYPE_ORDER = "order"; //订单支付
+    public static final String TRX_TYPE_MEMBER = "member"; //购买会员
 
 
     /**
@@ -37,7 +38,24 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      */
     public static final int PAY_STATUS_PREPAY = 1; //生成订单
     public static final int PAY_STATUS_FAILURE = 2; //支付失败
-    public static final int PAY_STATUS_SUCCESS = 9; //支付成功
+    public static final int PAY_STATUS_SUCCESS_AUTO = 9; //自动在线支付成功
+    public static final int PAY_STATUS_SUCCESS_ALIPAY = 10; //支付宝转账支付成功
+    public static final int PAY_STATUS_SUCCESS_WECHAT = 11; //微信转账支付成功
+    public static final int PAY_STATUS_SUCCESS_OFFLINE = 12; //线下支付支付成功（一般是银行转账等）
+    public static final int PAY_STATUS_SUCCESS_OTHER = 13; //其他支付方式支付成功
+
+
+    /**
+     * 支付类型
+     */
+    public static final String PAY_TYPE_AMOUNT = "amount"; //越支付
+    public static final String PAY_TYPE_WECHAT = "wechat"; //微信在线支付
+    public static final String PAY_TYPE_WECHATX = "wechatx"; //微信好友转账支付（包括红包等）
+    public static final String PAY_TYPE_ALIPAY = "alipay"; //支付宝在线支付
+    public static final String PAY_TYPE_ALIPAYX = "alipayx"; //支付宝转账
+    public static final String PAY_TYPE_PAYPAL = "paypal"; //paypal在线支付
+    public static final String PAY_TYPE_OFFLINE = "offline"; //线下支付
+    public static final String PAY_TYPE_OTHER = "other"; //其他支付
 
 
     /**
@@ -58,7 +76,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      * @return
      */
     public boolean isPaySuccess() {
-        return getPayStatus() != null && PAY_STATUS_SUCCESS == getPayStatus();
+        return getPayStatus() != null && getPayStatus() > PAY_STATUS_SUCCESS_AUTO;
     }
 
 

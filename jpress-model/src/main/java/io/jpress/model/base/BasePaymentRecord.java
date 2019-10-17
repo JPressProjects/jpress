@@ -97,10 +97,16 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("trx_type");
 	}
 
+    /**
+     * 签名随机字符串，一般是用来防止重放攻击
+     */
 	public void setTrxNonceStr(java.lang.String trxNonceStr) {
 		set("trx_nonce_str", trxNonceStr);
 	}
 
+    /**
+     * 签名随机字符串，一般是用来防止重放攻击
+     */
 	public java.lang.String getTrxNonceStr() {
 		return getStr("trx_nonce_str");
 	}
@@ -190,14 +196,14 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
     /**
-     * 支付状态
+     * 支付状态：1生成订单未支付（预支付）、 2支付失败、 9自动在线支付成功、 10支付宝转账支付成功、 11微信转账支付成功、 12线下支付支付成功（一般是银行转账等）、 13其他支付方式支付成功
      */
 	public void setPayStatus(java.lang.Integer payStatus) {
 		set("pay_status", payStatus);
 	}
 
     /**
-     * 支付状态
+     * 支付状态：1生成订单未支付（预支付）、 2支付失败、 9自动在线支付成功、 10支付宝转账支付成功、 11微信转账支付成功、 12线下支付支付成功（一般是银行转账等）、 13其他支付方式支付成功
      */
 	public java.lang.Integer getPayStatus() {
 		return getInt("pay_status");
@@ -444,14 +450,14 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
     /**
-     * 状态(支付中、支持成功、支付失败、退款中、退款成功)
+     * payment状态：1预支付、 2支付失败、 9支付成功、 11预退款、 12退款中、 13退款失败、 19退款成功
      */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 
     /**
-     * 状态(支付中、支持成功、支付失败、退款中、退款成功)
+     * payment状态：1预支付、 2支付失败、 9支付成功、 11预退款、 12退款中、 13退款失败、 19退款成功
      */
 	public java.lang.Integer getStatus() {
 		return getInt("status");

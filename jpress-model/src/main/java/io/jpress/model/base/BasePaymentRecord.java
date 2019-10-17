@@ -33,14 +33,6 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("product_type");
 	}
 
-	public void setProductId(java.lang.Long productId) {
-		set("product_id", productId);
-	}
-
-	public java.lang.Long getProductId() {
-		return getLong("product_id");
-	}
-
     /**
      * 商品名称
      */
@@ -67,6 +59,14 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
      */
 	public java.lang.String getProductDesc() {
 		return getStr("product_desc");
+	}
+
+	public void setProductRelativeId(java.lang.String productRelativeId) {
+		set("product_relative_id", productRelativeId);
+	}
+
+	public java.lang.String getProductRelativeId() {
+		return getStr("product_relative_id");
 	}
 
     /**

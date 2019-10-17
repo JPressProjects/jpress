@@ -78,29 +78,29 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
     /**
      * 相关的表名
      */
-	public void setActionRelationType(java.lang.String actionRelationType) {
-		set("action_relation_type", actionRelationType);
+	public void setActionRelativeType(java.lang.String actionRelativeType) {
+		set("action_relative_type", actionRelativeType);
 	}
 
     /**
      * 相关的表名
      */
-	public java.lang.String getActionRelationType() {
-		return getStr("action_relation_type");
+	public java.lang.String getActionRelativeType() {
+		return getStr("action_relative_type");
 	}
 
     /**
      * 相关的id
      */
-	public void setActionRelationId(java.lang.Long actionRelationId) {
-		set("action_relation_id", actionRelationId);
+	public void setActionRelativeId(java.lang.Long actionRelativeId) {
+		set("action_relative_id", actionRelativeId);
 	}
 
     /**
      * 相关的id
      */
-	public java.lang.Long getActionRelationId() {
-		return getLong("action_relation_id");
+	public java.lang.Long getActionRelativeId() {
+		return getLong("action_relative_id");
 	}
 
     /**

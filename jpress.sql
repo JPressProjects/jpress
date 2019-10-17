@@ -329,9 +329,9 @@ CREATE TABLE `option` (
 CREATE TABLE `payment_record` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `product_type` varchar(32) DEFAULT NULL,
-  `product_id` int(11) unsigned DEFAULT NULL,
   `product_name` varchar(256) DEFAULT '' COMMENT '商品名称',
   `product_desc` varchar(256) DEFAULT NULL COMMENT '产品描述，产品摘要',
+  `product_relative_id` varchar(64) DEFAULT NULL,
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
@@ -653,8 +653,8 @@ CREATE TABLE `user_amount_statement` (
   `action` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '金额变动原因',
   `action_name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '金额变动名称',
   `action_desc` text COLLATE utf8mb4_unicode_ci COMMENT '金额变动描述',
-  `action_relation_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '相关的表名',
-  `action_relation_id` int(11) unsigned DEFAULT NULL COMMENT '相关的id',
+  `action_relative_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '相关的表名',
+  `action_relative_id` int(11) unsigned DEFAULT NULL COMMENT '相关的id',
   `action_order_id` int(11) unsigned DEFAULT NULL COMMENT '相关的订单ID',
   `action_payment_id` int(11) unsigned DEFAULT NULL COMMENT '相关的支付ID',
   `old_amount` decimal(10,2) NOT NULL COMMENT '用户之前的余额',
@@ -723,8 +723,9 @@ CREATE TABLE `user_openid` (
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ns` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单号',
-  `title` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '一般情况下商品的名称',
-  `buyer_id` int(10) unsigned DEFAULT NULL COMMENT '购买人',
+  `product_name` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '商品的名称',
+  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类型',
+  `buyer_id` int(11) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
@@ -887,6 +888,7 @@ CREATE TABLE `wechat_reply` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 

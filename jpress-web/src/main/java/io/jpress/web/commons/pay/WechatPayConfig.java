@@ -66,6 +66,14 @@ public class WechatPayConfig {
         storage.setAppid(getAppid());
         storage.setKeyPublic(getPublicKey());
         storage.setKeyPrivate(getPrivateKey());
+
+//        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
+//        httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));
+//        httpConfigStorage.setStorePassword("证书密码");
+//        //设置ssl证书对应的存储方式输入流，这里默认为文件地址
+//        httpConfigStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
+//        service = new WxPayService(wxPayConfigStorage, httpConfigStorage);
+
         return storage;
     }
 

@@ -1,11 +1,8 @@
 package io.jpress.web.commons.pay;
 
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import com.egzosn.pay.ali.api.AliPayService;
-import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.api.PayPalPayService;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import com.egzosn.pay.wx.api.WxPayService;
 
 public class PayConfigUtil {
@@ -32,35 +29,19 @@ public class PayConfigUtil {
 
 
     public static WxPayService getWxPayService() {
-
-        WxPayConfigStorage storage = getWechatPayConfig().toConfigStorage();
-        //https证书设置，退款必须 方式二
-/*
-    HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-    httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));
-    httpConfigStorage.setStorePassword("证书密码");
-    //设置ssl证书对应的存储方式输入流，这里默认为文件地址
-    httpConfigStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
-    service = new WxPayService(wxPayConfigStorage, httpConfigStorage);
-*/
-        return new WxPayService(storage);
+        WechatPayConfig config = getWechatPayConfig();
+        return config.isEnable() ? new WxPayService(config.toConfigStorage()) : null;
     }
 
 
     public static AliPayService getAlipayService() {
-
-        AliPayConfigStorage storage = getAlipayPayConfig().toConfigStorage();
-        //是否为测试账号，沙箱环境
-//        aliPayConfigStorage.setTest(true);
-
-        return new AliPayService(storage);
+        AlipayPayConfig config = getAlipayPayConfig();
+        return config.isEnable() ? new AliPayService(config.toConfigStorage()) : null;
     }
 
 
     public static PayPalPayService getPayPalPayService() {
-
-        PayPalConfigStorage storage = getPaypalPayConfig().toConfigStorage();
-
-        return new PayPalPayService(storage);
+        PaypalPayConfig config = getPaypalPayConfig();
+        return config.isEnable() ? new PayPalPayService(config.toConfigStorage()) : null;
     }
 }

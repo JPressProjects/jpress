@@ -48,6 +48,8 @@ public class PayController extends TemplateControllerBase {
     public void wechat() {
 
         PayService service = PayConfigUtil.getWxPayService();
+        render404If(service == null);
+
         PayOrder order = createOrder();
 
         order.setTransactionType(WxTransactionType.NATIVE); //扫码付
@@ -75,7 +77,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void alipay() {
         PayService service =PayConfigUtil. getAlipayService();
-
+        render404If(service == null);
 
         PayOrder order = createOrder();
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
@@ -88,6 +90,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void alipayweb() {
         PayService service = PayConfigUtil.getAlipayService();
+        render404If(service == null);
 
         PayOrder order = createOrder();
         order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
@@ -129,8 +132,6 @@ public class PayController extends TemplateControllerBase {
     public void callback() {
 
         PayService service = PayConfigUtil.getPayPalPayService();
-
-        //这种情况除非是认为的恶意调用
         render404If(service == null);
 
         //获取支付方返回的对应参数

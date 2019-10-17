@@ -131,14 +131,12 @@ public class CheckoutController extends UcenterControllerBase {
             BigDecimal payAmount = userCart.getProductPrice()
                     .multiply(BigDecimal.valueOf(userCart.getProductCount()))
                     .add(item.getDeiveryCost())
-                    .add(item.getOtherCost())
-                    .subtract(item.getDistAmount());
+                    .add(item.getOtherCost());
 
             item.setPayAmount(payAmount);
 
             //totalAmount = payamount - 分销金额
             item.setTotalAmount(payAmount.subtract(item.getDistAmount()));
-
             userOrderItems.add(item);
         }
 
@@ -147,10 +145,17 @@ public class CheckoutController extends UcenterControllerBase {
          * 创建订单
          */
         UserOrder userOrder = getModel(UserOrder.class, "order");
+
+        //只允许提交订单的如下字段，其他不允许提交
+        userOrder.keep("delivery_addr_username","delivery_addr_mobile","delivery_addr_province",
+                "delivery_addr_city","delivery_addr_district","delivery_addr_detail","delivery_addr_zipcode");
+
         userOrder.setBuyerId(getLoginedUser().getId());
         userOrder.setBuyerMsg(getPara("buyer_msg"));
         userOrder.setBuyerNickname(getLoginedUser().getNickname());
         userOrder.setNs(PayKit.genOrderNS());
+
+        //设置优惠券的相关字段
         String codeStr = getPara("coupon_code");
         if (StrUtil.isNotBlank(codeStr)) {
             CouponCode couponCode = couponCodeService.findByCode(codeStr);

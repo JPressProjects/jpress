@@ -17,8 +17,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
 
-@RequestMapping(value = "/pay", viewPath = "/WEB-INF/views/front/pay")
+@RequestMapping(value = "/pay")
 public class PayController extends TemplateControllerBase {
+
+    public static final String DEFAULT_ALIPAY_VIEW = "/WEB-INF/views/front/pay/pay_alipay.html";
+    public static final String DEFAULT_ALIPAYX_VIEW = "/WEB-INF/views/front/pay/pay_alipayx.html";
+    public static final String DEFAULT_WECHAT_VIEW = "/WEB-INF/views/front/pay/pay_wechat.html";
+    public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
 
     @Inject
     private PaymentRecordService paymentService;
@@ -60,6 +65,7 @@ public class PayController extends TemplateControllerBase {
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
+        render("pay_wechat.html",DEFAULT_WECHAT_VIEW);
     }
 
     /**
@@ -71,6 +77,7 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment",payment);
 
         PayOrder order = initOrderByPayment(payment);
+//        renderTemplate("pay_alipay.html");
     }
 
     /**
@@ -82,6 +89,8 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment",payment);
 
         PayOrder order = initOrderByPayment(payment);
+//        renderTemplate("pay_wechatx.html");
+        render("pay_wechaxt.html",DEFAULT_WECHATX_VIEW);
     }
 
     /**
@@ -98,7 +107,9 @@ public class PayController extends TemplateControllerBase {
         PayOrder order = initOrderByPayment(payment);
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
-        BufferedImage image = service.genQrPay(order);
+//        BufferedImage image = service.genQrPay(order);
+
+        render("pay_alipay.html",DEFAULT_ALIPAY_VIEW);
     }
 
     /**
@@ -130,7 +141,9 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment",payment);
 
-//        PayOrder order = initOrderByPayment(payment);
+//      PayOrder order = initOrderByPayment(payment);
+
+        render("pay_alipayx.html",DEFAULT_ALIPAYX_VIEW);
     }
 
     /**

@@ -347,6 +347,8 @@ CREATE TABLE `payment_record` (
   `pay_amount` decimal(20,6) DEFAULT '0.000000' COMMENT '订单金额',
   `pay_success_amount` decimal(20,6) DEFAULT NULL COMMENT '成功支付金额',
   `pay_success_time` datetime DEFAULT NULL COMMENT '支付成功时间',
+  `pay_success_proof` varchar(256) DEFAULT NULL COMMENT '支付证明，手动入账时需要截图',
+  `pay_success_remarks` varchar(256) DEFAULT NULL COMMENT '支付备注',
   `pay_complete_time` datetime DEFAULT NULL COMMENT '完成时间',
   `refund_no` varchar(64) DEFAULT NULL COMMENT '退款流水号',
   `refund_amount` int(11) DEFAULT NULL COMMENT '退款金额',
@@ -660,7 +662,8 @@ CREATE TABLE `user_amount_statement` (
   `new_amount` decimal(10,2) NOT NULL COMMENT '变动之后的余额',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额流水情况';
 
 
@@ -687,7 +690,8 @@ CREATE TABLE `user_cart` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
 
@@ -730,10 +734,10 @@ CREATE TABLE `user_order` (
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `coupon_amount` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
   `pay_status` tinyint(2) DEFAULT NULL COMMENT '支付状态：1未付款、 2用户标识已经线下付款完成、3用户标识已经通过微信或者支付宝等工具支付完成 、9已经付款（线上支付）、10已经下线支付、11已经通过微信或支付宝等工具支付',
-  `paid_amount` decimal(10,2) DEFAULT NULL COMMENT '支付成功的金额',
-  `paid_time` datetime DEFAULT NULL COMMENT '支付时间',
-  `paid_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付证明，手动入账时需要截图',
-  `paid_remarks` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付备注',
+  `pay_success_amount` decimal(10,2) DEFAULT NULL COMMENT '支付成功的金额',
+  `pay_success_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `pay_success_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付证明，手动入账时需要截图',
+  `pay_success_remarks` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支付备注',
   `payment_id` int(11) unsigned DEFAULT NULL COMMENT '支付记录',
   `payment_outer_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方订单号',
   `delivery_status` tinyint(2) DEFAULT NULL COMMENT '发货状态',
@@ -763,7 +767,9 @@ CREATE TABLE `user_order` (
   `del_status` tinyint(2) DEFAULT NULL COMMENT '删除状态：1 正常 ，2 回收站 3 已经删除',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ns` (`ns`),
+  KEY `buyer_id` (`buyer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
 
 
@@ -881,6 +887,7 @@ CREATE TABLE `wechat_reply` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)

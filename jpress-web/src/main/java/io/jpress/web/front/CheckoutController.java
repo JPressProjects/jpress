@@ -15,7 +15,6 @@
  */
 package io.jpress.web.front;
 
-import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
@@ -58,6 +57,9 @@ public class CheckoutController extends UcenterControllerBase {
 
     @Inject
     private UserOrderItemService userOrderItemService;
+
+    @Inject
+    private PaymentRecordService paymentService;
 
 
     /**
@@ -217,7 +219,11 @@ public class CheckoutController extends UcenterControllerBase {
         UserOrder userOrder = userOrderService.findById(getPara());
         render404If(userOrder == null);
 
-        PaymentRecord payment = new PaymentRecord();
+        PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());
+        if (payment == null){
+            payment = new PaymentRecord();
+        }
+
         payment.setProductName(userOrder.getProductName());
         payment.setProductType(userOrder.getProductType());
         payment.setProductRelativeId(userOrder.getId().toString());
@@ -241,14 +247,16 @@ public class CheckoutController extends UcenterControllerBase {
 
         payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
 
-        PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
 
+        //保存 或 更新 payment
+        paymentService.saveOrUpdate(payment);
 
-        //保存 payment
-        paymentService.save(payment);
+        //更新 order 的 payment id
+        if (userOrder.getPaymentId() == null){
+            userOrder.setPaymentId(payment.getId());
+            userOrderService.update(userOrder);
+        }
 
-        userOrder.setPaymentId(payment.getId());
-        userOrderService.update(userOrder);
 
 
         PayKit.redirect(payment.getPayType(), payment.getTrxNo());

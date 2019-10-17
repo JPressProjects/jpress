@@ -49,6 +49,19 @@
         var totalPrice = price * val;
 
         setTableContent(row, col + 1, totalPrice.toFixed(2));
+
+        doComputeTotalPrice();
+    }
+    
+    
+    function doComputeTotalPrice() {
+        var rows = $('#tab').find('tr').length;
+        var totalPrice = 0;
+        for (var index = 1;index<rows;index ++){
+            totalPrice += parseFloat(getTableContent(index,3));
+        }
+
+        $('#totalPrice').text(totalPrice.toFixed(2));
     }
 
     function getTableContent(row, col) {
@@ -104,6 +117,7 @@
         return false;
     });
 
+    doComputeTotalPrice();
 
 </script>
 
@@ -214,7 +228,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-footer">
-                        <small class="pull-right">总价格: 1000 ￥</small>
+                        <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
                     </h2>
                 </div>
             </div>

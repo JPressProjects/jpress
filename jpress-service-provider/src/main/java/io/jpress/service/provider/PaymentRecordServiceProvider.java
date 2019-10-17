@@ -20,6 +20,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.CacheUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
@@ -35,5 +36,10 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
     @Override
     public Page<PaymentRecord> paginate(int page, int pagesize, Columns columns) {
         return DAO.paginateByColumns(page, pagesize, columns, "id desc");
+    }
+
+    @Override
+    public PaymentRecord queryCacheByTrxno(String trx) {
+        return CacheUtil.get("payment_trx", trx);
     }
 }

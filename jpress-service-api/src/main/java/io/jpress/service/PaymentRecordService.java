@@ -90,4 +90,5 @@ public interface PaymentRecordService {
 
     public Page<PaymentRecord> paginate(int page, int pagesize, Columns columns);
 
+    public PaymentRecord queryCacheByTrxno(String trx);
 }

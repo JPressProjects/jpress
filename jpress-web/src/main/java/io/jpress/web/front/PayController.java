@@ -131,7 +131,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void callback() {
 
-        PayService service = PayConfigUtil.getPayPalPayService();
+        PayService service = getPayService();
         render404If(service == null);
 
         //获取支付方返回的对应参数
@@ -166,10 +166,10 @@ public class PayController extends TemplateControllerBase {
 
 
     /**
-     * web 页面支付成功后跳转回的url 地址
+     * web 页面支付成功后跳转回的 url 地址
      */
     public void success() {
-
+//        rendire
     }
 
 
@@ -177,7 +177,12 @@ public class PayController extends TemplateControllerBase {
      * 定时检查是否支付成功的地址
      */
     public void query() {
-
+        PaymentRecord paymentRecord = paymentService.queryCacheByTrxno(getPara("trx"));
+        if (paymentRecord!=null && paymentRecord.isPaySuccess()){
+            renderOkJson();
+        }else {
+            renderFailJson();
+        }
     }
 
     private PayOrder createOrder(){

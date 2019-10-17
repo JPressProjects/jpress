@@ -113,7 +113,7 @@
                                 <th>支付用户</th>
                                 <th>支付类型</th>
                                 <th style="width: 150px">支付状态</th>
-                                <th style="width: 90px">操作</th>
+                                <th style="width: 80px">操作</th>
                             </tr>
 
                             #for(payment : paymentPage.list ??)
@@ -137,7 +137,11 @@
                                     #(payment.pay_status ??)
                                 </td>
                                 <td>
-                                    <a href="#">手动入账</a>
+                                    #if(payment.isCanUpdateByUser())
+                                    <a href="#">入账</a>
+                                    #end
+                                    <a href="#">详情</a>
+
                                 </td>
                             </tr>
                             #end

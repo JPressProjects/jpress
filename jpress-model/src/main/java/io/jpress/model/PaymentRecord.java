@@ -69,6 +69,20 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final int STATUS_REFUND_FAILURE = 13; //退款失败
     public static final int STATUS_REFUND_SUCCESS = 19; //退款成功
 
+    /**
+     * 是否可以对支付记录进行手动入账
+     *
+     * @return
+     */
+    public boolean isCanUpdateByUser() {
+        Integer payStatus = getPayStatus();
+        String payType = getPayType();
+
+        return payStatus != null
+                && payStatus == PAY_STATUS_PREPAY
+                && (PAY_TYPE_WECHATX.equals(payType) || PAY_TYPE_ALIPAYX.equals(payType));
+    }
+
 
     /**
      * 是否支付成功

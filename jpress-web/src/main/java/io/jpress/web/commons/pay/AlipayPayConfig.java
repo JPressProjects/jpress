@@ -1,6 +1,7 @@
 package io.jpress.web.commons.pay;
 
 
+import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import io.jpress.JPressOptions;
 
 public class AlipayPayConfig {
@@ -67,5 +68,15 @@ public class AlipayPayConfig {
 
     public void setSeller(String seller) {
         this.seller = seller;
+    }
+
+    public AliPayConfigStorage toConfigStorage(){
+        AliPayConfigStorage storage = new AliPayConfigStorage();
+        storage.setPid(getPid());
+        storage.setAppid(getAppid());
+        storage.setKeyPublic(getPublicKey());
+        storage.setKeyPrivate(getPrivateKey());
+        storage.setSeller(getSeller());
+        return storage;
     }
 }

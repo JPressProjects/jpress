@@ -1,6 +1,7 @@
 package io.jpress.web.commons.pay;
 
 
+import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import io.jpress.JPressOptions;
 
 public class PaypalPayConfig {
@@ -37,5 +38,12 @@ public class PaypalPayConfig {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
+    }
+
+    public PayPalConfigStorage toConfigStorage(){
+        PayPalConfigStorage storage = new PayPalConfigStorage();
+        storage.setClientID(getClientId());
+        storage.setClientSecret(getClientSecret());
+        return storage;
     }
 }

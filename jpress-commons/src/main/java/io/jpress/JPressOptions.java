@@ -193,9 +193,11 @@ public class JPressOptions {
     private static String fakeStaticSuffix = "";
 
     public static String getAppUrlSuffix() {
-        return fakeStaticEnable
-                ? (StrUtil.isBlank(fakeStaticSuffix) ? "" : fakeStaticSuffix)
-                : "";
+        if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)){
+            return "";
+        }
+
+        return fakeStaticSuffix;
     }
 
     public static OptionStore getStore() {

@@ -164,6 +164,18 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setBuyerNickname(getLoginedUser().getNickname());
         userOrder.setNs(PayKit.genOrderNS());
 
+        //设置订单的产品描述
+        StringBuilder productDesc = new StringBuilder();
+        for (UserOrderItem item : userOrderItems) {
+            productDesc.append(item.getProductTitle());
+        }
+        if (productDesc.length() > 200){
+            productDesc.delete(200,productDesc.length() -1);
+            productDesc.append("...");
+        }
+        userOrder.setProductDesc(productDesc.toString());
+
+
         //设置优惠券的相关字段
         String codeStr = getPara("coupon_code");
         if (StrUtil.isNotBlank(codeStr)) {
@@ -182,6 +194,8 @@ public class CheckoutController extends UcenterControllerBase {
 
         //保存 order
         Long userOrderId = (Long) userOrderService.save(userOrder);
+
+        //设置 order item 的 order id
         for (UserOrderItem item : userOrderItems) {
             item.setOrderId(userOrderId);
             item.setOrderNs(userOrder.getNs());
@@ -229,6 +243,7 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setProductTitle(userOrder.getProductTitle());
         payment.setProductType(userOrder.getProductType());
         payment.setProductRelativeId(userOrder.getId().toString());
+        payment.setProductDesc(userOrder.getProductDesc());
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);

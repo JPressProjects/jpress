@@ -274,15 +274,29 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
     /**
      * 第三方订单号
      */
-	public void setPaymentOuterNo(java.lang.String paymentOuterNo) {
-		set("payment_outer_no", paymentOuterNo);
+	public void setPaymentOuterId(java.lang.String paymentOuterId) {
+		set("payment_outer_id", paymentOuterId);
 	}
 
     /**
      * 第三方订单号
      */
-	public java.lang.String getPaymentOuterNo() {
-		return getStr("payment_outer_no");
+	public java.lang.String getPaymentOuterId() {
+		return getStr("payment_outer_id");
+	}
+
+    /**
+     * 第三方支付用户，一般情况下是用户的openId
+     */
+	public void setPaymentOuterUser(java.lang.String paymentOuterUser) {
+		set("payment_outer_user", paymentOuterUser);
+	}
+
+    /**
+     * 第三方支付用户，一般情况下是用户的openId
+     */
+	public java.lang.String getPaymentOuterUser() {
+		return getStr("payment_outer_user");
 	}
 
     /**

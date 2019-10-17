@@ -378,6 +378,20 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
     /**
+     * 第三方支付平台
+     */
+	public void setThirdpartyType(java.lang.String thirdpartyType) {
+		set("thirdparty_type", thirdpartyType);
+	}
+
+    /**
+     * 第三方支付平台
+     */
+	public java.lang.String getThirdpartyType() {
+		return getStr("thirdparty_type");
+	}
+
+    /**
      * 微信appid 或者 支付宝的appid，thirdparty 指的是支付的第三方比如微信、支付宝、PayPal等
      */
 	public void setThirdpartyAppid(java.lang.String thirdpartyAppid) {

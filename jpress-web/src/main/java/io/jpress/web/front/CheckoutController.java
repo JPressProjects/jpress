@@ -207,13 +207,14 @@ public class CheckoutController extends UcenterControllerBase {
         UserOrder userOrder = userOrderService.findById(getPara());
         render404If(userOrder == null);
 
-
         PaymentRecord payment = new PaymentRecord();
-        payment.setProductName(userOrder.getTitle());
-        payment.setProductType("product");
+        payment.setProductName(userOrder.getProductName());
+        payment.setProductType(userOrder.getProductType());
+        payment.setProductRelativeId(userOrder.getId().toString());
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);
+        payment.setTrxNonceStr(StrUtil.uuid());
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
@@ -224,6 +225,10 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setOrderRefererUrl(getReferer());
 
         payment.setPayAmount(userOrder.getOrderRealAmount());
+        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
+        payment.setPayType(getPara("paytype"));
+
+
         payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
@@ -231,7 +236,7 @@ public class CheckoutController extends UcenterControllerBase {
         //保存 payment
         paymentService.save(payment);
 
-        PayKit.redirect(getPara("paytype"), payment.getTrxNo());
+        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
     }
 
 

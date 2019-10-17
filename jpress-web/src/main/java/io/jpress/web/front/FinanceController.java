@@ -43,26 +43,32 @@ public class FinanceController extends UcenterControllerBase {
      */
     @ActionKey("/ucenter/finance/amount/doRecharge")
     public void doRecharge() {
-        //充值流程
-        //创建用户流水，状态为生效中...
-        //创建用户payment
 
         PaymentRecord payment = new PaymentRecord();
-        payment.setProductName("用户充值");
+        payment.setProductTitle("用户充值");
         payment.setProductType("recharge");
+//        payment.setProductRelativeId();
+//        payment.setProductDesc();
 
         payment.setTrxNo(StrUtil.uuid());
-        payment.setTrxType("recharge");
+        payment.setTrxType(PaymentRecord.TRX_TYPE_RECHARGE);
+        payment.setTrxNonceStr(StrUtil.uuid());
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
+        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
 
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-        payment.setPayAmount(BigDecimal.valueOf(Long.valueOf(getPara("recharge_amount"))));
-        payment.setStatus(1);
+        payment.setPayAmount(new BigDecimal(getPara("recharge_amount")));
+        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
+        payment.setPayType(getPara("paytype"));
+
+
+        payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
+
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);

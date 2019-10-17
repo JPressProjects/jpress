@@ -63,7 +63,7 @@ public class DingdingConnector extends OauthConnector {
         user.setNickname(json.getString("nick"));
         user.setSource(getName());
 
-        return null;
+        return user;
     }
 
     protected String getAccessToken(String code) {

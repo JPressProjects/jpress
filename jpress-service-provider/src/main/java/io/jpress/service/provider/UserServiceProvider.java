@@ -32,6 +32,7 @@ import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Bean
@@ -163,9 +164,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
-    public long queryUserAmount(Object userId) {
-        Long value =  JbootDb.queryLong("select amount from user_amount where user_id = ?",userId);
-        return value == null ? 0 : value;
+    public BigDecimal queryUserAmount(Object userId) {
+        BigDecimal value =  JbootDb.queryBigDecimal("select amount from user_amount where user_id = ?",userId);
+        return value == null ? BigDecimal.ZERO : value;
     }
 
     @Override

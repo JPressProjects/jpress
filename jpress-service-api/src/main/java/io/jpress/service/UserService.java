@@ -21,6 +21,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserService extends JbootServiceJoiner{
@@ -116,5 +117,5 @@ public interface UserService extends JbootServiceJoiner{
 
     public User findFistByDingdingOpenid(String openId);
 
-    public long queryUserAmount(Object userId);
+    public BigDecimal queryUserAmount(Object userId);
 }

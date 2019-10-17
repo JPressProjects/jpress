@@ -283,40 +283,51 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label>支付方式</label>
+
+                                #if(wechatxConfig.isEnable())
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="wechatx" checked>
                                         微信转账 （对私转账，相当于线下门店支付）
                                     </label>
                                 </div>
+                                #end
 
+                                #if(alipayxConfig.isEnable())
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="alipayx">
                                         支付宝转账 （对私转账，相当于线下门店支付）
                                     </label>
                                 </div>
+                                #end
 
+                                #if(wechatConfig.isEnable())
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="wechat">
                                         微信扫码支付（手机打开微信APP，通过扫码支付）
                                     </label>
                                 </div>
+                                #end
 
+                                #if(alipayConfig.isEnable())
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="alipay">
                                         支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
                                     </label>
                                 </div>
+                                #end
 
+                                #if(paypalConfig.isEnable())
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="paypal">
                                         Paypal支付（通过网页进行支付）
                                     </label>
                                 </div>
+                                #end
 
                                 <div class="radio">
                                     <label>
@@ -324,6 +335,7 @@
                                         使用账户余额支付
                                     </label>
                                 </div>
+
 
                             </div>
 

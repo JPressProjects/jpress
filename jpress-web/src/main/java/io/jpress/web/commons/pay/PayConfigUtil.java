@@ -4,6 +4,7 @@ package io.jpress.web.commons.pay;
 import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.wx.api.WxPayService;
+import com.jfinal.core.Controller;
 
 public class PayConfigUtil {
 
@@ -43,5 +44,13 @@ public class PayConfigUtil {
     public static PayPalPayService getPayPalPayService() {
         PaypalPayConfig config = getPaypalPayConfig();
         return config.isEnable() ? new PayPalPayService(config.toConfigStorage()) : null;
+    }
+
+    public static void setConfigAttrs(Controller controller){
+        controller.setAttr("alipayConfig",getAlipayPayConfig());
+        controller.setAttr("alipayxConfig",getAlipayxPayConfig());
+        controller.setAttr("wechatConfig",getWechatPayConfig());
+        controller.setAttr("wechatxConfig",getWechatxPayConfig());
+        controller.setAttr("paypalConfig",getPaypalPayConfig());
     }
 }

@@ -24,6 +24,7 @@ import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
+import io.jpress.web.commons.pay.PayConfigUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class CheckoutController extends UcenterControllerBase {
             userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
         }
 
+        PayConfigUtil.setConfigAttrs(this);
+
         setAttr("userCarts", userCarts);
         setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
 
@@ -85,6 +88,8 @@ public class CheckoutController extends UcenterControllerBase {
             renderError(404);
             return;
         }
+
+        PayConfigUtil.setConfigAttrs(this);
 
         setAttr("order",order);
         setAttr("orderItems",userOrderItemService.findListByOrderId(order.getId()));

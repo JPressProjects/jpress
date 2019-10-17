@@ -233,8 +233,13 @@ public class CheckoutController extends UcenterControllerBase {
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
 
+
         //保存 payment
         paymentService.save(payment);
+
+        userOrder.setPaymentId(payment.getId());
+        userOrderService.update(userOrder);
+
 
         PayKit.redirect(payment.getPayType(), payment.getTrxNo());
     }

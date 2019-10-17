@@ -329,8 +329,8 @@ CREATE TABLE `option` (
 CREATE TABLE `payment_record` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `product_type` varchar(32) DEFAULT NULL,
-  `product_name` varchar(256) DEFAULT '' COMMENT '商品名称',
-  `product_desc` varchar(256) DEFAULT NULL COMMENT '产品描述，产品摘要',
+  `product_title` varchar(256) DEFAULT '' COMMENT '商品名称',
+  `product_desc` varchar(512) DEFAULT NULL COMMENT '产品描述，产品摘要',
   `product_relative_id` varchar(64) DEFAULT NULL,
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
@@ -724,8 +724,9 @@ CREATE TABLE `user_openid` (
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ns` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单号',
-  `product_name` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '商品的名称',
   `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类型',
+  `product_title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '商品的名称',
+  `product_desc` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `buyer_id` int(11) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',

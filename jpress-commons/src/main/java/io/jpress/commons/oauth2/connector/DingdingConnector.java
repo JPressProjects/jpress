@@ -45,22 +45,19 @@ public class DingdingConnector extends OauthConnector {
     protected OauthUser getOauthUser(String code) {
         String accessToken = getAccessToken(code);
 
-        Map<String, String> result = getPersistentCode(code, accessToken);
-        String openId = result.get("openid");
-        String persistentCode = result.get("persistent_code");
+        JSONObject result = getPersistentCode(code, accessToken);
 
-        String snsToken = getSnsToken(accessToken, openId, persistentCode);
+        String snsToken = getSnsToken(accessToken, result.getString("openid"), result.getString("persistent_code"));
 
         //https://oapi.dingtalk.com/sns/getuserinfo?sns_token=SNS_TOKEN
         String url = "https://oapi.dingtalk.com/sns/getuserinfo?sns_token=" + snsToken;
 
         String httpString = httpGet(url);
         JSONObject json = JSONObject.parseObject(httpString);
-
+        JSONObject userInfo = json.getJSONObject("user_info");
         OauthUser user = new OauthUser();
-        //user.setAvatar(json.getString("avatar_url"));
-        user.setOpenId(json.getString("openid"));
-        user.setNickname(json.getString("nick"));
+        user.setOpenId(userInfo.getString("openid"));
+        user.setNickname(userInfo.getString("nick"));
         user.setSource(getName());
 
         return user;
@@ -79,7 +76,7 @@ public class DingdingConnector extends OauthConnector {
         return json.getString("access_token");
     }
 
-    protected Map<String, String> getPersistentCode(String code, String access_token) {
+    protected JSONObject getPersistentCode(String code, String access_token) {
         //https://oapi.dingtalk.com/sns/get_persistent_code?access_token=ACCESS_TOKEN
         StringBuilder urlBuilder = new StringBuilder("https://oapi.dingtalk.com/sns/get_persistent_code?");
         urlBuilder.append("access_token=" + access_token);
@@ -90,10 +87,7 @@ public class DingdingConnector extends OauthConnector {
 
         String httpString = httpPost(url, param);
         JSONObject json = JSONObject.parseObject(httpString);
-        Map result = new HashMap();
-        result.put("openid", json.getString("openid"));
-        result.put("persistent_code", json.getString("persistent_code"));
-        return result;
+        return json;
     }
 
     protected String getSnsToken(String access_token, String openId, String persistentCode) {

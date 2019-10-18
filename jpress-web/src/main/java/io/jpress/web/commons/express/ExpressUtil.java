@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.jboot.utils.HttpUtil.httpPost;
-
 public class ExpressUtil {
 
     /**
@@ -73,7 +71,7 @@ public class ExpressUtil {
         params.put("param", param);
         params.put("sign", sign);
         params.put("customer", customer);
-        String resp = httpPost("http://poll.kuaidi100.com/poll/query.do", params);
+        String resp = HttpUtil.httpPost("http://poll.kuaidi100.com/poll/query.do", params);
 
         return null;
     }

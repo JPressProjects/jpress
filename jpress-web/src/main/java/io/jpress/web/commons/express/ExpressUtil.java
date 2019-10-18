@@ -31,26 +31,38 @@ import java.util.Map;
 
 public class ExpressUtil {
 
+    private static ExpressCompany getExpressCompanyByCode(String code) {
+        for (ExpressCompany com : ExpressCompany.EXPRESS_LIST) {
+            if (code.equals(com.getCode())) {
+                return com;
+            }
+        }
+        return null;
+    }
+
     /**
      * 快递查询
      *
-     * @param expressCom 快递公司
-     * @param num        快递单号
+     * @param expressCompanyCode 快递公司
+     * @param num                快递单号
      * @return
      */
-    public static List<ExpressInfo> queryExpress(ExpressCom expressCom, String num) {
+    public static List<ExpressInfo> queryExpress(String expressCompanyCode, String num) {
         String type = JPressOptions.get("express_api_type");
         String appId = JPressOptions.get("express_api_appid");
         String appSecret = JPressOptions.get("express_api_appsecret");
+
+        ExpressCompany expressCompany = getExpressCompanyByCode(expressCompanyCode);
+
         switch (type) {
             case "kuaidi100":
-                return queryKuaidi100(appId, appSecret, expressCom, num);
+                return queryKuaidi100(appId, appSecret, expressCompany, num);
             case "juhecn":
-                return queryJuhe(appId, appSecret, expressCom, num);
+                return queryJuhe(appId, appSecret, expressCompany, num);
             case "kdniao":
-                return queryKdniao(appId, appSecret, expressCom, num);
+                return queryKdniao(appId, appSecret, expressCompany, num);
             case "showapi":
-                return queryShowapi(appId, appSecret, expressCom, num);
+                return queryShowapi(appId, appSecret, expressCompany, num);
         }
         return null;
     }
@@ -63,7 +75,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    private static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCompany expressCom, String num) {
         String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
         String sign = HashKit.md5(param + appKey + appId);
         HashMap params = new HashMap();
@@ -84,7 +96,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    private static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCompany expressCom, String num) {
 
         String url = "http://v.juhe.cn/exp/index";//请求接口地址
         Map params = new HashMap();//请求参数
@@ -117,7 +129,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    private static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCompany expressCom, String num) {
         String requestData = "{'OrderCode':'','ShipperCode':'" + expressCom.getCode() + "','LogisticCode':'" + num + "'}";
 
         Map<String, Object> params = new HashMap<>();
@@ -148,7 +160,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    private static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCompany expressCom, String num) {
         String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
         String sign = HashKit.md5(param + appKey + appId);
         HashMap params = new HashMap();

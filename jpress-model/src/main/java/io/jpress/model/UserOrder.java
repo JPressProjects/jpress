@@ -118,6 +118,11 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         invoiceStatusTexts.put(INVOICE_STATUS_INVOICED, "发票已开具");
     }
 
+    public boolean isDeliveried(){
+        Integer status = getDeliveryStatus();
+        return status!= null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
+    }
+
 
     public String getTradeStatusStr() {
         return tradeStatusTexts.get(getTradeStatus());

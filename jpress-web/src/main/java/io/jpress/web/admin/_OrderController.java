@@ -26,9 +26,12 @@ import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.web.commons.express.ExpressCom;
+import io.jpress.web.commons.express.ExpressCompany;
+import io.jpress.web.commons.express.ExpressInfo;
+import io.jpress.web.commons.express.ExpressUtil;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -59,14 +62,19 @@ public class _OrderController extends AdminControllerBase {
     }
 
 
-
-
     public void detail() {
         UserOrder order = orderService.findById(getPara());
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser", userService.findById(order.getBuyerId()));
         setAttr("distUser", userService.findById(order.getDistUserId()));
+
+        //如果快递已经发货
+        if (order.isDeliveried()) {
+            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(order.getDeliveryCompany(), order.getDeliveryNo());
+            setAttr("expressInfos", expressInfos);
+        }
+
         render("order/order_detail.html");
     }
 
@@ -74,15 +82,16 @@ public class _OrderController extends AdminControllerBase {
      * 发货
      */
     public void deliver() {
-        setAttr("order",orderService.findById(getPara()));
-        setAttr("expressComs", ExpressCom.EXPRESS_LIST);
+        setAttr("order", orderService.findById(getPara()));
+        setAttr("expressComs", ExpressCompany.EXPRESS_LIST);
         render("order/order_layer_deliver.html");
     }
-    public void doUpdateDeliver(){
+
+    public void doUpdateDeliver() {
         UserOrder order = orderService.findById(getPara("orderId"));
-        if (order == null){
+        if (order == null) {
             renderFailJson();
-        }else {
+        } else {
             order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED); //设置为已经发货
             order.setDeliveryType(getParaToInt("deliveryType"));
             order.setDeliveryNo(getPara("deliveryNo"));
@@ -97,14 +106,15 @@ public class _OrderController extends AdminControllerBase {
      * 发票设置
      */
     public void invoice() {
-        setAttr("order",orderService.findById(getPara()));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_invoice.html");
     }
-    public void doUpdateInvoice(){
+
+    public void doUpdateInvoice() {
         UserOrder order = orderService.findById(getPara("orderId"));
-        if (order == null){
+        if (order == null) {
             renderFailJson();
-        }else {
+        } else {
             order.setInvoiceStatus(getParaToInt("invoiceStatus"));
             orderService.update(order);
             renderOkJson();
@@ -115,14 +125,15 @@ public class _OrderController extends AdminControllerBase {
      * 备注设置
      */
     public void remark() {
-        setAttr("order",orderService.findById(getPara()));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_remark.html");
     }
-    public void doUpdateRemark(){
+
+    public void doUpdateRemark() {
         UserOrder order = orderService.findById(getPara("orderId"));
-        if (order == null){
+        if (order == null) {
             renderFailJson();
-        }else {
+        } else {
             order.setRemarks(getPara("remarks"));
             orderService.update(order);
             renderOkJson();
@@ -133,15 +144,15 @@ public class _OrderController extends AdminControllerBase {
      * 手动入账
      */
     public void updatePaystatus() {
-        setAttr("order",orderService.findById(getPara()));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_paystatus.html");
     }
 
-    public void doUpdatePaystatus(){
+    public void doUpdatePaystatus() {
         UserOrder order = orderService.findById(getPara("orderId"));
-        if (order == null){
+        if (order == null) {
             renderFailJson();
-        }else {
+        } else {
             order.setPayStatus(getParaToInt("payStatus"));
             order.setPaySuccessAmount(new BigDecimal(getPara("paidAmount")));
             order.setPaySuccessTime(getParaToDate("paidTime"));
@@ -156,15 +167,15 @@ public class _OrderController extends AdminControllerBase {
      * 修改价格
      */
     public void updatePrice() {
-        setAttr("order",orderService.findById(getPara()));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_price.html");
     }
 
-    public void doUpdatePrice(){
+    public void doUpdatePrice() {
         UserOrder order = orderService.findById(getPara("orderId"));
-        if (order == null){
+        if (order == null) {
             renderFailJson();
-        }else {
+        } else {
             order.setOrderRealAmount(new BigDecimal(getPara("newPrice")));
             orderService.update(order);
             renderOkJson();

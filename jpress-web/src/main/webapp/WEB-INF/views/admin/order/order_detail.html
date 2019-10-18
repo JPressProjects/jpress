@@ -251,8 +251,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息.
-                    <small class="pull-right">最近更新: 2/10/2014</small>
+                    <i class="fa fa-globe"></i> 物流信息. #if(!order.isDeliveried())(尚未发货)#end
+<!--                    <small class="pull-right">最近更新: 2/10/2014</small>-->
                 </h2>
             </div>
             <!-- /.col -->
@@ -269,22 +269,12 @@
                     </tr>
                     </thead>
                     <tbody>
+                    #for(ex : expressInfos)
                     <tr>
-                        <td>14:16:11</td>
-                        <td>拣货完成</td>
+                        <td>#(ex.time ??)</td>
+                        <td>#(ex.info ??)</td>
                     </tr>
-                    <tr>
-                        <td>12:02:50</td>
-                        <td>您的订单已经打印完成</td>
-                    </tr>
-                    <tr>
-                        <td>11:22:54</td>
-                        <td>您的订单预计2019-09-27 12:01开始处理，请您耐心等待</td>
-                    </tr>
-                    <tr>
-                        <td>11:15:55</td>
-                        <td>您提交了订单，请等待系统确认</td>
-                    </tr>
+                    #end
                     </tbody>
                 </table>
             </div>

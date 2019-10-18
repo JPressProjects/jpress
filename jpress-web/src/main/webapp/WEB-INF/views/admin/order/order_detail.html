@@ -128,35 +128,35 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <strong>分销情况</strong>
+                <strong>发票信息</strong>
                 <address>
-                    分销用户：#(distUser.nickname ?? '未设置昵称')<br>
-                    分销金额：#(order.dist_amount ??)<br>
-<!--                    San Francisco, CA 94107<br>-->
-<!--                    Phone: (555) 539-1037<br>-->
-<!--                    Email: john.doe@example.com-->
+                    类型：#(order.invoice_type ??)<br>
+                    抬头：#(order.invoice_title ??)<br>
+                    内容：#(order.invoice_content ??)<br>
+                    纳税人识别号：#(order.invoice_identity ??)
                 </address>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
                 <strong>优惠券</strong>
                 <address>
-                    优惠码：#(order.coupon_code ??)<br>
+                    优惠券：#(orderCoupon.title ??)<br>
+                    优惠码：#(orderCoupon.code ??)<br>
                     优惠金额：#(order.coupon_amount ??)<br>
-                    用户: john.doe@example.com
+                    用户: <a href="#(CPATH)/admin/user/detail/#(orderCouponUser.id ??)" >#(orderCouponUser.nickname ??)</a>
                 </address>
             </div>
-            <!-- /.col -->
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                <strong>发票信息</strong>
+                <strong>分销情况</strong>
                 <address>
-                    类型：<br>
-                    抬头：<br>
-                    内容：<br>
-                    纳税人识别号：
+                    分销用户：#(distUser.nickname ?? '未设置昵称')<br>
+                    分销金额：#(order.dist_amount ??)<br>
                 </address>
             </div>
+            <!-- /.col -->
+
+
 
         </div>
         <!-- /.row -->

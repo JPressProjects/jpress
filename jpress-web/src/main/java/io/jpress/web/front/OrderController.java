@@ -2,10 +2,13 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
+import io.jpress.service.CouponCodeService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
@@ -23,6 +26,9 @@ public class OrderController extends UcenterControllerBase {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private CouponCodeService couponCodeService;
 
     /**
      * 用户订单列表
@@ -48,6 +54,12 @@ public class OrderController extends UcenterControllerBase {
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser", userService.findById(order.getBuyerId()));
         setAttr("distUser", userService.findById(order.getDistUserId()));
+
+        if (StrUtil.isNotBlank(order.getCouponCode())) {
+            CouponCode couponCode = couponCodeService.findByCode(order.getCouponCode());
+            setAttr("orderCoupon",couponCode);
+            setAttr("orderCouponUser", userService.findById(couponCode.getUserId()));
+        }
 
         setAttr("order", order);
         render("order_detail.html");

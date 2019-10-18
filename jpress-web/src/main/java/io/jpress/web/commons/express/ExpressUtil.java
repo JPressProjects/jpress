@@ -21,8 +21,8 @@ import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.HashKit;
 import io.jboot.utils.HttpUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,7 +33,26 @@ import static io.jboot.utils.HttpUtil.httpPost;
 
 public class ExpressUtil {
 
-    public static List<ExpressInfo> queryExpress() {
+    /**
+     * 快递查询
+     * @param expressCom 快递公司
+     * @param num 快递单号
+     * @return
+     */
+    public static List<ExpressInfo> queryExpress(ExpressCom expressCom, String num) {
+        String type = JPressOptions.get("express_api_type");
+        String appId = JPressOptions.get("express_api_appid");
+        String appSecret = JPressOptions.get("express_api_appsecret");
+        switch (type) {
+            case "kuaidi100":
+                return queryKuaidi100(appId, appSecret, expressCom, num);
+            case "juhecn":
+                return queryJuhe(appId, appSecret, expressCom, num);
+            case "kdniao":
+                return queryKdniao(appId, appSecret, expressCom, num);
+            case "showapi":
+                return queryShowapi(appId, appSecret, expressCom, num);
+        }
         return null;
     }
 
@@ -45,7 +64,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    public static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCom expressCom, String num) {
         String param = "{\"com\":\"***\",\"num\":\"***\"}";
         String customer = appId;
         String key = appKey;
@@ -68,22 +87,22 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    public static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCom expressCom, String num) {
-        String result =null;
-        String url ="http://v.juhe.cn/exp/index";//请求接口地址
+    private static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCom expressCom, String num) {
+        String result = null;
+        String url = "http://v.juhe.cn/exp/index";//请求接口地址
         Map params = new HashMap();//请求参数
-        params.put("com","");//需要查询的快递公司编号
-        params.put("no","");//需要查询的订单号
-        params.put("key",appKey);//应用APPKEY(应用详细页查询)
-        params.put("dtype","json");//返回数据的格式,xml或json，默认json
+        params.put("com", "");//需要查询的快递公司编号
+        params.put("no", "");//需要查询的订单号
+        params.put("key", appKey);//应用APPKEY(应用详细页查询)
+        params.put("dtype", "json");//返回数据的格式,xml或json，默认json
 
         try {
             result = HttpUtil.httpGet(url, params);
             JSONObject object = JSONObject.parseObject(result);
-            if(object.getInteger("error_code")==0){
+            if (object.getInteger("error_code") == 0) {
                 System.out.println(object.get("result"));
-            }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,25 +119,27 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    public static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCom expressCom, String num) throws UnsupportedEncodingException {
-        String requestData= "{'OrderCode':'','ShipperCode':'" + expressCom + "','LogisticCode':'" + num + "'}";
+    private static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCom expressCom, String num) {
+        String requestData = "{'OrderCode':'','ShipperCode':'" + expressCom + "','LogisticCode':'" + num + "'}";
 
         Map<String, Object> params = new HashMap<>();
-        params.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
-        params.put("EBusinessID", appId); //请到快递鸟官网申请http://www.kdniao.com/ServiceApply.aspx
-        params.put("RequestType", "1002");
-        String dataSign=Base64Kit.encode(HashKit.md5(requestData + appKey));//encrypt(requestData, appKey);
-        params.put("DataSign", URLEncoder.encode(dataSign, "UTF-8"));
-        params.put("DataType", "2");
+        try {
+            params.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
+            params.put("EBusinessID", appId); //请到快递鸟官网申请http://www.kdniao.com/ServiceApply.aspx
+            params.put("RequestType", "1002");
+            String dataSign = Base64Kit.encode(HashKit.md5(requestData + appKey));//encrypt(requestData, appKey);
+            params.put("DataSign", URLEncoder.encode(dataSign, "UTF-8"));
+            params.put("DataType", "2");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-        String result= HttpUtil.httpPost("http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx", params);
+        String result = HttpUtil.httpPost("http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx", params);
 
         //根据公司业务处理返回的信息......
 
         return null;
     }
-
-
 
 
     /**
@@ -129,7 +150,7 @@ public class ExpressUtil {
      * @param expressCom
      * @param num
      */
-    public static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCom expressCom, String num) {
+    private static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCom expressCom, String num) {
         String param = "{\"com\":\"***\",\"num\":\"***\"}";
         String customer = appId;
         String key = appKey;
@@ -139,7 +160,7 @@ public class ExpressUtil {
         params.put("com", sign);
         params.put("nu", num);
         params.put("contentType", "bodyString");
-        params.put("showapi_sign", signRequest(params,appKey));
+        params.put("showapi_sign", signRequest(params, appKey));
 
 
         String resp = HttpUtil.httpGet("http://route.showapi.com/64-19", params);
@@ -148,7 +169,7 @@ public class ExpressUtil {
     }
 
 
-    public static String signRequest(Map<String, Object> params,String appkey) {
+    private static String signRequest(Map<String, Object> params, String appkey) {
         String[] keys = params.keySet().toArray(new String[0]);
         Arrays.sort(keys);
 

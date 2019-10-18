@@ -53,7 +53,8 @@ public class ExpressCom {
             UPS,
             SHUNDA,
             DEBANG,
-            BAISHI
+            BAISHI,
+            OTHER
     );
 
 

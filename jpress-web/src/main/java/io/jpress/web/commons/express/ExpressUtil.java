@@ -33,8 +33,9 @@ public class ExpressUtil {
 
     /**
      * 快递查询
+     *
      * @param expressCom 快递公司
-     * @param num 快递单号
+     * @param num        快递单号
      * @return
      */
     public static List<ExpressInfo> queryExpress(ExpressCom expressCom, String num) {
@@ -63,14 +64,12 @@ public class ExpressUtil {
      * @param num
      */
     private static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCom expressCom, String num) {
-        String param = "{\"com\":\"***\",\"num\":\"***\"}";
-        String customer = appId;
-        String key = appKey;
-        String sign = HashKit.md5(param + key + customer);
+        String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
+        String sign = HashKit.md5(param + appKey + appId);
         HashMap params = new HashMap();
         params.put("param", param);
         params.put("sign", sign);
-        params.put("customer", customer);
+        params.put("customer", appId);
         String resp = HttpUtil.httpPost("http://poll.kuaidi100.com/poll/query.do", params);
 
         return null;
@@ -86,14 +85,15 @@ public class ExpressUtil {
      * @param num
      */
     private static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCom expressCom, String num) {
-        String result = null;
+
         String url = "http://v.juhe.cn/exp/index";//请求接口地址
         Map params = new HashMap();//请求参数
-        params.put("com", "");//需要查询的快递公司编号
-        params.put("no", "");//需要查询的订单号
+        params.put("com", expressCom.getCode());//需要查询的快递公司编号
+        params.put("no", num);//需要查询的订单号
         params.put("key", appKey);//应用APPKEY(应用详细页查询)
         params.put("dtype", "json");//返回数据的格式,xml或json，默认json
 
+        String result = null;
         try {
             result = HttpUtil.httpGet(url, params);
             JSONObject object = JSONObject.parseObject(result);
@@ -118,7 +118,7 @@ public class ExpressUtil {
      * @param num
      */
     private static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCom expressCom, String num) {
-        String requestData = "{'OrderCode':'','ShipperCode':'" + expressCom + "','LogisticCode':'" + num + "'}";
+        String requestData = "{'OrderCode':'','ShipperCode':'" + expressCom.getCode() + "','LogisticCode':'" + num + "'}";
 
         Map<String, Object> params = new HashMap<>();
         try {
@@ -149,10 +149,8 @@ public class ExpressUtil {
      * @param num
      */
     private static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCom expressCom, String num) {
-        String param = "{\"com\":\"***\",\"num\":\"***\"}";
-        String customer = appId;
-        String key = appKey;
-        String sign = HashKit.md5(param + key + customer);
+        String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
+        String sign = HashKit.md5(param + appKey + appId);
         HashMap params = new HashMap();
         params.put("showapi_appid", appId);
         params.put("com", sign);

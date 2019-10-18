@@ -40,7 +40,7 @@ public class ExpressCom {
     public static final ExpressCom OTHER = new ExpressCom("其他快递", "other");
 
 
-    public static final List<ExpressCom> EXPRESS_COMS = Lists.newArrayList(
+    public static final List<ExpressCom> EXPRESS_LIST = Lists.newArrayList(
             SHUNFENG,
             YUANTONG,
             ZHONGTONG,

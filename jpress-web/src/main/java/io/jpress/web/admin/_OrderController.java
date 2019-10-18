@@ -26,6 +26,7 @@ import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.commons.express.ExpressCom;
 
 import java.math.BigDecimal;
 
@@ -74,6 +75,7 @@ public class _OrderController extends AdminControllerBase {
      */
     public void deliver() {
         setAttr("order",orderService.findById(getPara()));
+        setAttr("expressComs", ExpressCom.EXPRESS_LIST);
         render("order/order_layer_deliver.html");
     }
     public void doUpdateDeliver(){

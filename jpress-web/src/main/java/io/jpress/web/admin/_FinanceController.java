@@ -78,7 +78,6 @@ public class _FinanceController extends AdminControllerBase {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);
 
-
         setAttr("payment",payment);
         render("finance/layer_payupdate.html");
     }
@@ -103,6 +102,17 @@ public class _FinanceController extends AdminControllerBase {
 
         paymentService.update(payment);
         renderOkJson();
+    }
+
+    /**
+     * 支付记录详情
+     */
+    public void payDetail(){
+        PaymentRecord payment = paymentService.findById(getPara());
+        render404If(payment == null);
+
+        setAttr("payment",payment);
+        render("finance/layer_paydetail.html");
     }
 
 

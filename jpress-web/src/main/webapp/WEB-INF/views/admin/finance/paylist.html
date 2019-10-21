@@ -36,6 +36,10 @@
         openlayer('手动入账','#(CPATH)/admin/finance/payUpdate/'+id);
     }
 
+    function showDetail(id) {
+        openlayer('支付详情','#(CPATH)/admin/finance/payDetail/'+id);
+    }
+
     function openlayer(title,url) {
         layer.open({
             type: 2,

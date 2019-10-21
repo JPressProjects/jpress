@@ -176,6 +176,20 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
+     * 产品详情页
+     */
+	public void setProductDetailPage(java.lang.String productDetailPage) {
+		set("product_detail_page", productDetailPage);
+	}
+
+    /**
+     * 产品详情页
+     */
+	public java.lang.String getProductDetailPage() {
+		return getStr("product_detail_page");
+	}
+
+    /**
      * 查看的网址路径，访问时时，会添加orderid
      */
 	public void setViewPath(java.lang.String viewPath) {

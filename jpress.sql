@@ -686,6 +686,7 @@ CREATE TABLE `user_cart` (
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
   `product_new_price` decimal(10,2) NOT NULL COMMENT '商品的最新价格',
   `product_count` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
+  `product_detail_page` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品详情页',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
   `view_effective_time` int(11) unsigned DEFAULT NULL COMMENT '可访问的有效时间，单位秒',

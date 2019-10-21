@@ -100,6 +100,19 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final int STATUS_REFUND_FAILURE = 13; //退款失败
     public static final int STATUS_REFUND_SUCCESS = 19; //退款成功
 
+    public static final Map<Integer, String> statusTexts = new HashMap<>();
+
+    static {
+        statusTexts.put(STATUS_PAY_PRE, "未支付");
+        statusTexts.put(STATUS_PAY_FAILURE, "支付失败");
+        statusTexts.put(STATUS_PAY_SUCCESS, "支付成功");
+        statusTexts.put(STATUS_REFUND_PRE, "申请退款");
+        statusTexts.put(STATUS_REFUNDING, "退款中");
+        statusTexts.put(STATUS_REFUND_FAILURE, "退款失败");
+        statusTexts.put(STATUS_REFUND_SUCCESS, "退款成功");
+    }
+
+
     /**
      * 是否可以对支付记录进行手动入账
      *
@@ -141,5 +154,9 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
 
     public String getPayStatusStr() {
         return payStatusTexts.get(getPayStatus());
+    }
+
+    public String getStatusStr() {
+        return statusTexts.get(getStatus());
     }
 }

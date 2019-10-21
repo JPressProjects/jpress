@@ -28,6 +28,8 @@ import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.Date;
+
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -61,14 +63,31 @@ public class _FinanceController extends AdminControllerBase {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);
 
+
         setAttr("payment",payment);
         render("finance/layer_payupdate.html");
     }
 
     public void doPayUpdate(){
         PaymentRecord payment = getModel(PaymentRecord.class,"payment");
-        payment.keep();
+        payment.keep("id","pay_status","pay_success_amount","pay_success_time","pay_success_proof","pay_success_remarks");
+
+        PaymentRecord dbPayment = paymentService.findById(payment.getId());
+        if (!dbPayment.getPayAmount().equals(payment.getPaySuccessAmount())){
+            renderFailJson("入账失败，入账金额和应付款金额不一致。");
+            return;
+        }
+
+        if (dbPayment.isPaySuccess()){
+            renderFailJson("该支付已经支付成功。");
+            return;
+        }
+
+        payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
+        payment.setPayCompleteTime(new Date());
+
         paymentService.update(payment);
+        renderOkJson();
     }
 
 

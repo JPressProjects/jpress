@@ -85,6 +85,9 @@ public interface PaymentRecordService {
     public boolean update(PaymentRecord model);
 
 
+    public long findCountByColumns(Columns columns);
+
+
     public PaymentRecord findByTrxNo(String trxno);
 
 

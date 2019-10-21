@@ -61,6 +61,16 @@ public class _FinanceController extends AdminControllerBase {
 
         Page<PaymentRecord> paymentPage = paymentService.paginate(getPagePara(),20, columns);
         setAttr("paymentPage", paymentPage);
+
+        long successCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_SUCCESS));
+        long prepayCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_PRE));
+        long failCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_FAILURE));
+
+        setAttr("successCount",successCount);
+        setAttr("prepayCount",prepayCount);
+        setAttr("failCount",failCount);
+        setAttr("totalCount",successCount + prepayCount + failCount);
+
         render("finance/paylist.html");
     }
 

@@ -67,9 +67,9 @@
 
     <section class="content-header text-tap">
         <a href="#(CPATH)/admin/finance/paylist">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=9">支付成功 (#(normalCount ?? 0))</a> |
-        <a href="?status=1">支付中 (#(draftCount ?? 0))</a> |
-        <a href="?status=2" style="color: #a00">支付失败 (#(trashCount ?? 0))</a>
+        <a href="?status=9">支付成功 (#(successCount ?? 0))</a> |
+        <a href="?status=1">支付中 (#(prepayCount ?? 0))</a> |
+        <a href="?status=2" style="color: #a00">支付失败 (#(failCount ?? 0))</a>
     </section>
 
     <section class="content">

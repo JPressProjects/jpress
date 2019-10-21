@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+# use : yum install -y wget && wget -O install.sh https://git.oschina.net/fuhai/jpress/raw/master/install.sh && bash install.sh
 # ----------------------------------------------------------------------
 
 
@@ -30,7 +30,7 @@ fi
 docker-compose -version
 
 # 安装jpress
-wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+wget https://git.oschina.net/fuhai/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 
 rm -f install.sh

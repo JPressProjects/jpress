@@ -132,6 +132,20 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	}
 
     /**
+     * 产品id
+     */
+	public void setProductId(java.lang.Long productId) {
+		set("product_id", productId);
+	}
+
+    /**
+     * 产品id
+     */
+	public java.lang.Long getProductId() {
+		return getLong("product_id");
+	}
+
+    /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
 	public void setProductType(java.lang.String productType) {
@@ -145,18 +159,26 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getStr("product_type");
 	}
 
-    /**
-     * 产品id
-     */
-	public void setProductId(java.lang.Long productId) {
-		set("product_id", productId);
+	public void setProductTypeText(java.lang.String productTypeText) {
+		set("product_type_text", productTypeText);
+	}
+
+	public java.lang.String getProductTypeText() {
+		return getStr("product_type_text");
 	}
 
     /**
-     * 产品id
+     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
      */
-	public java.lang.Long getProductId() {
-		return getLong("product_id");
+	public void setProductVirtual(java.lang.Boolean productVirtual) {
+		set("product_virtual", productVirtual);
+	}
+
+    /**
+     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public java.lang.Boolean getProductVirtual() {
+		return get("product_virtual");
 	}
 
     /**
@@ -324,14 +346,14 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	}
 
     /**
-     * 状态
+     * 状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束
      */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 
     /**
-     * 状态
+     * 状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束
      */
 	public java.lang.Integer getStatus() {
 		return getInt("status");

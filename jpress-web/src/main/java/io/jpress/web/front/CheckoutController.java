@@ -125,10 +125,13 @@ public class CheckoutController extends UcenterControllerBase {
 
             item.setProductId(userCart.getProductId());
             item.setProductType(userCart.getProductType());
+            item.setProductTypeText(userCart.getProductTypeText());
             item.setProductTitle(userCart.getProductTitle());
             item.setProductPrice(userCart.getProductPrice());
             item.setProductCount(userCart.getProductCount());
             item.setProductThumbnail(userCart.getProductThumbnail());
+
+            item.setProductVirtual(userCart.getProductVirtual());//是否是虚拟产品
 
             item.setDistAmount(BigDecimal.ZERO); //分销金额
             item.setDeiveryCost(BigDecimal.ZERO);//运费，后台设置

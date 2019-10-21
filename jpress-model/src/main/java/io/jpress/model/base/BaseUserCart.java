@@ -92,6 +92,20 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
+     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public void setProductVirtual(java.lang.Boolean productVirtual) {
+		set("product_virtual", productVirtual);
+	}
+
+    /**
+     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public java.lang.Boolean getProductVirtual() {
+		return get("product_virtual");
+	}
+
+    /**
      * 商品标题
      */
 	public void setProductTitle(java.lang.String productTitle) {

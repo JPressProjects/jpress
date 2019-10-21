@@ -54,7 +54,12 @@ public class _FinanceController extends AdminControllerBase {
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
-        Page<PaymentRecord> paymentPage = paymentService.paginate(getPagePara(),20, Columns.EMPTY);
+        Columns columns = Columns.create();
+        columns.likeAppendPercent("trx_no",getPara("ns"));
+        columns.likeAppendPercent("product_title",getPara("pt"));
+        columns.eq("status",getPara("status"));
+
+        Page<PaymentRecord> paymentPage = paymentService.paginate(getPagePara(),20, columns);
         setAttr("paymentPage", paymentPage);
         render("finance/paylist.html");
     }

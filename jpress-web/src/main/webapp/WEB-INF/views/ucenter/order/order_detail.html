@@ -105,6 +105,7 @@
                 <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success " onclick="updatePaystatus()">
                     <i class="fa fa-credit-card"></i> 去付款
                 </a>
+
                 <button type="button" class="btn btn-primary " onclick="invoice()">
                     <i class="fa fa-download"></i> 提交留言
                 </button>
@@ -159,9 +160,18 @@
                         <td style="width: 20%;text-align: center">
                             #if(item.comment_path ??)
                             <a href="#(CPATH)/ucenter/order/comment/#(item.id)">评价</a>
-                            #else
+                            #end
+
+                            #if(item.canView())
+                            <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)">
+                                #(item.view_text ??)
+                            </a>
+                            #end
+
+                            #if(!item.comment_path && !item.canview)
                             - -
                             #end
+
                         </td>
                     </tr>
                     #end

@@ -70,7 +70,7 @@ public class OrderController extends UcenterControllerBase {
         UserOrderItem item = orderItemService.findById(getPara());
         render404If(item == null);
 
-        redirect(item.getCommentPath()+"?id="+item.getProductId()+"&orderid="+item.getOrderId());
+        redirect(item.getCommentPath()+"?id="+item.getProductId()+"&itemId="+item.getId());
     }
 
 

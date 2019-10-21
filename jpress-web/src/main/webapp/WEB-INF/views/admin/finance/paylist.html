@@ -31,6 +31,26 @@
             ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
         }
     })
+
+    function updatePrice(id) {
+        openlayer('手动入账','#(CPATH)/admin/finance/payUpdate/'+id);
+    }
+
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '90%'],
+            content: jpress.cpath + url,
+            end: function () {
+
+            }
+        });
+    }
+
 </script>
 
 #end
@@ -138,9 +158,9 @@
                                 </td>
                                 <td>
                                     #if(payment.isCanUpdateByUser())
-                                    <a href="#">入账</a>
+                                    <a href="javascript:;" onclick="updatePrice('#(payment.id)')">入账</a>
                                     #end
-                                    <a href="#">详情</a>
+                                    <a href="javascript:;" onclick="showDetail('#(payment.id)')">详情</a>
 
                                 </td>
                             </tr>

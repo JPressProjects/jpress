@@ -57,6 +57,20 @@ public class _FinanceController extends AdminControllerBase {
         render("finance/paylist.html");
     }
 
+    public void payUpdate(){
+        PaymentRecord payment = paymentService.findById(getPara());
+        render404If(payment == null);
+
+        setAttr("payment",payment);
+        render("finance/layer_payupdate.html");
+    }
+
+    public void doPayUpdate(){
+        PaymentRecord payment = getModel(PaymentRecord.class,"payment");
+        payment.keep();
+        paymentService.update(payment);
+    }
+
 
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 9)
     public void setting() {

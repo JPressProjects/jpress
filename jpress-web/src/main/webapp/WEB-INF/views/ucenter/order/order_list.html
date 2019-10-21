@@ -92,7 +92,7 @@
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
                                                 <h3 class="box-title">
-                                                    <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>
+                                                    <a href="#(CPATH)/ucenter/order/detail/#(order.id)">详情</a>
                                                 </h3>
                                             </div>
                                         </div>
@@ -107,7 +107,19 @@
                                                     <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
                                                     <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
                                                     <td style="width: 20%;text-align: center">
-                                                        <a href="#">编辑</a>
+                                                        #if(item.comment_path ??)
+                                                        <a href="#(CPATH)/ucenter/order/comment/#(item.id)">评价</a>
+                                                        #end
+
+                                                        #if(item.canView())
+                                                        <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)">
+                                                            #(item.view_text ??)
+                                                        </a>
+                                                        #end
+
+                                                        #if(!item.comment_path && !item.canview)
+                                                        - -
+                                                        #end
                                                     </td>
                                                 </tr>
                                                 #end

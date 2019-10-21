@@ -11,5 +11,4 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
 
     private static final long serialVersionUID = 1L;
 
-	
 }

@@ -8,6 +8,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
+import io.jpress.model.UserOrderItem;
 import io.jpress.service.CouponCodeService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
@@ -63,6 +64,13 @@ public class OrderController extends UcenterControllerBase {
 
         setAttr("order", order);
         render("order_detail.html");
+    }
+
+    public void comment(){
+        UserOrderItem item = orderItemService.findById(getPara());
+        render404If(item == null);
+
+        redirect(item.getCommentPath()+"?id="+item.getProductId()+"&orderid="+item.getOrderId());
     }
 
 

@@ -171,7 +171,6 @@
                             #if(!item.comment_path && !item.canview)
                             - -
                             #end
-
                         </td>
                     </tr>
                     #end
@@ -225,6 +224,18 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+
+
+        <div class="row no-print">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-10"style="text-align: right">
+                <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success " onclick="updatePaystatus()">
+                    <i class="fa fa-credit-card"></i> 确认收货
+                </a>
+            </div>
+        </div>
+
 
     </section>
     <!-- /.content -->

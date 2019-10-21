@@ -149,13 +149,13 @@
                                         <div class="box-header with-border row">
                                             <div class="col-lg-10">
                                                 订单号：#(order.ns ??)（<span style="color:red">#(order.tradeStatusStr ??)</span>）
-                                                总金额：<span style="color:red;padding-right: 20px">#(order.pay_amount ??)</span>
+                                                总金额：<span style="color:red;padding-right: 20px">#(order.orderRealAmount ??)</span>
                                                 支付状态：<span style="color:red;padding-right: 20px">#(order.payStatusStr ??)</span>
                                                 物流状态：<span style="color:red;padding-right: 20px">#(order.deliveryStatusStr ??)</span>
                                                 发票状态：<span style="color:red;padding-right: 20px">#(order.invoiceStatusStr ??)</span>
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
-                                                <h3 class="box-title" style="padding-right: 20px">
+                                                <h3 class="box-title">
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">发货</a>
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>
                                                 </h3>

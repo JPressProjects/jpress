@@ -22,7 +22,9 @@ import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -44,7 +46,7 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
-    protected void render404If(boolean condition){
+    protected void render404If(boolean condition) {
         if (condition) renderError(404);
     }
 
@@ -72,7 +74,6 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
-
     @NotAction
     public String getEscapeHtmlPara(String name) {
         String value = super.getPara(name);
@@ -84,6 +85,7 @@ public abstract class ControllerBase extends JbootController {
 
     protected static final Ret OK = Ret.ok();
     protected static final Ret FAIL = Ret.fail();
+    protected static final Map<Object, Ret> FAIL_RETS = new ConcurrentHashMap<>();
 
     @NotAction
     protected void renderOkJson() {
@@ -93,6 +95,31 @@ public abstract class ControllerBase extends JbootController {
     @NotAction
     protected void renderFailJson() {
         renderJson(FAIL);
+    }
+
+    @NotAction
+    protected void renderFailJson(Object message) {
+        renderFailJson(message, false);
+    }
+
+    /**
+     * 对于某些高并发的接口，useCache 应该传入 true，减少 ret 的创建
+     * @param message
+     * @param useCache
+     */
+    @NotAction
+    protected void renderFailJson(Object message, boolean useCache) {
+        if (!useCache) {
+            renderJson(Ret.fail().set("message", message));
+            return;
+        }
+
+        Ret ret = FAIL_RETS.get(message);
+        if (ret == null) {
+            ret = Ret.fail().set("message", message);
+            FAIL_RETS.put(message, ret);
+        }
+        renderJson(ret);
     }
 
 }

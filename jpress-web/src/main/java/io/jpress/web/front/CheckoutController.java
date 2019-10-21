@@ -134,6 +134,13 @@ public class CheckoutController extends UcenterControllerBase {
             item.setDeiveryCost(BigDecimal.ZERO);//运费，后台设置
             item.setOtherCost(BigDecimal.ZERO); //其他费用
 
+            item.setViewText(userCart.getViewText());
+            item.setViewPath(userCart.getViewPath());
+            item.setViewEffectiveTime(userCart.getViewEffectiveTime());
+            item.setCommentPath(userCart.getCommentPath());
+
+            item.setOptions(userCart.getOptions());
+
             //payAmount = 产品价格 * 产品数量 + 运费 + 其他费用
             BigDecimal payAmount = userCart.getProductPrice()
                     .multiply(BigDecimal.valueOf(userCart.getProductCount()))

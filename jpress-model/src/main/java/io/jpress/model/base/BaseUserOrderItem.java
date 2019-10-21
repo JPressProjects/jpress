@@ -296,17 +296,31 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	}
 
     /**
-     * 到期后无法继续查看内容
+     * 可访问的有效时间，单位秒
      */
-	public void setViewDuetime(java.util.Date viewDuetime) {
-		set("view_duetime", viewDuetime);
+	public void setViewEffectiveTime(java.lang.Long viewEffectiveTime) {
+		set("view_effective_time", viewEffectiveTime);
 	}
 
     /**
-     * 到期后无法继续查看内容
+     * 可访问的有效时间，单位秒
      */
-	public java.util.Date getViewDuetime() {
-		return get("view_duetime");
+	public java.lang.Long getViewEffectiveTime() {
+		return getLong("view_effective_time");
+	}
+
+    /**
+     * 评论的路径
+     */
+	public void setCommentPath(java.lang.String commentPath) {
+		set("comment_path", commentPath);
+	}
+
+    /**
+     * 评论的路径
+     */
+	public java.lang.String getCommentPath() {
+		return getStr("comment_path");
 	}
 
     /**

@@ -190,6 +190,28 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
+     * 可访问的有效时间，单位秒
+     */
+	public void setViewEffectiveTime(java.lang.Long viewEffectiveTime) {
+		set("view_effective_time", viewEffectiveTime);
+	}
+
+    /**
+     * 可访问的有效时间，单位秒
+     */
+	public java.lang.Long getViewEffectiveTime() {
+		return getLong("view_effective_time");
+	}
+
+	public void setCommentPath(java.lang.String commentPath) {
+		set("comment_path", commentPath);
+	}
+
+	public java.lang.String getCommentPath() {
+		return getStr("comment_path");
+	}
+
+    /**
      * 选中状态
      */
 	public void setSelected(java.lang.Boolean selected) {

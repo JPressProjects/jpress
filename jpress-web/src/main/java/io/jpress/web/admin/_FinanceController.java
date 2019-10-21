@@ -73,7 +73,7 @@ public class _FinanceController extends AdminControllerBase {
         payment.keep("id","pay_status","pay_success_amount","pay_success_time","pay_success_proof","pay_success_remarks");
 
         PaymentRecord dbPayment = paymentService.findById(payment.getId());
-        if (!dbPayment.getPayAmount().equals(payment.getPaySuccessAmount())){
+        if (dbPayment.getPayAmount().compareTo(payment.getPaySuccessAmount()) != 0){
             renderFailJson("入账失败，入账金额和应付款金额不一致。");
             return;
         }

@@ -335,6 +335,7 @@ CREATE TABLE `payment_record` (
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
+  `trx_relative_id` varchar(64) DEFAULT NULL,
   `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
@@ -898,7 +899,6 @@ CREATE TABLE `wechat_reply` (
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
-
 
 
 

@@ -16,8 +16,8 @@
 package io.jpress.web.commons.pay;
 
 import com.jfinal.aop.Aop;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 import io.jpress.core.payment.PaymentChangeListener;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserOrder;
@@ -30,13 +30,15 @@ import java.util.List;
 
 public class OrderPaymentListener implements PaymentChangeListener {
 
+    public static final Log LOG = Log.getLog(OrderPaymentListener.class);
+
 
     @Override
     public void onChange(PaymentRecord oldPayment, PaymentRecord newPayment) {
 
         if (PaymentRecord.TRX_TYPE_ORDER.equals(newPayment.getTrxType())){
 
-            Db.tx((IAtom) () -> {
+           boolean updateSucess =  Db.tx(() -> {
                 UserOrderService orderService = Aop.get(UserOrderService.class);
                 UserOrder userOrder = orderService.findById(newPayment.getTrxRelativeId(),null);
 
@@ -64,6 +66,10 @@ public class OrderPaymentListener implements PaymentChangeListener {
 
                 return  true;
             });
+
+           if (!updateSucess){
+               LOG.error("update order fail or update orderItem fail in pay success。");
+           }
 
         }
 

@@ -81,10 +81,10 @@ public class CSRFInterceptor implements Interceptor {
         inv.invoke();
     }
 
-
+    private static final Ret FAIL_RET = Ret.fail().set("message", "token失效，为了安全起见，请刷新后重试。");
     private void renderBad(Invocation inv) {
         if (RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
-            inv.getController().renderJson(Ret.fail().set("message", "bad or mission token!"));
+            inv.getController().renderJson(FAIL_RET);
         } else {
             inv.getController().renderError(403, new TextRender("bad or missing token!"));
         }

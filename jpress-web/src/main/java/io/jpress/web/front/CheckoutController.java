@@ -155,7 +155,11 @@ public class CheckoutController extends UcenterControllerBase {
 
             //totalAmount = payamount - 分销金额
             item.setTotalAmount(payAmount.subtract(item.getDistAmount()));
+
             userOrderItems.add(item);
+
+            //删除购物车的数据
+            cartService.delete(userCart);
         }
 
 
@@ -234,9 +238,6 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_NOT_APPLY);//发票开具状态：用户未申请
 
         userOrderService.update(userOrder);
-
-        //购买后，删除购物车的东西
-        cartService.batchDeleteByIds(cids);
 
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
 

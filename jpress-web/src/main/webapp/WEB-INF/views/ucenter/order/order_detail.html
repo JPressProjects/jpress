@@ -2,7 +2,24 @@
 
 #define script()
 <script>
+    function addMessage() {
+        openlayer('修改价格','#(CPATH)/ucenter/order/addMessage/#(order.id)');
+    }
 
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['60%', '60%'],
+            content: jpress.cpath + url,
+            end: function () {
+
+            }
+        });
+    }
 
 </script>
 #end
@@ -98,10 +115,7 @@
         <!-- /.row -->
 
         <div class="row no-print">
-            <div class="col-xs-2">
-                <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
-            </div>
-            <div class="col-xs-10"style="text-align: right">
+            <div class="col-xs-12"style="text-align: right">
 
                 #if(order.isUnpay())
                 <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success ">
@@ -109,7 +123,7 @@
                 </a>
                 #end
 
-                <button type="button" class="btn btn-primary " onclick="invoice()">
+                <button type="button" class="btn btn-primary " onclick="addMessage()">
                     <i class="fa fa-download"></i> 提交留言
                 </button>
             </div>
@@ -196,7 +210,6 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 物流信息. #if(!order.isDeliveried())(尚未发货)#end
-<!--                    <small class="pull-right">最近更新: 2/10/2014</small>-->
                 </h2>
             </div>
             <!-- /.col -->
@@ -229,6 +242,7 @@
         <!-- /.row -->
 
 
+        #if(order.isDeliveried())
         <div class="row no-print">
             <div class="col-xs-2">
             </div>
@@ -238,6 +252,7 @@
                 </a>
             </div>
         </div>
+        #end
 
 
     </section>

@@ -74,6 +74,12 @@ public class OrderController extends UcenterControllerBase {
     }
 
 
+    public void addMessage(){
+
+        render("order_layer_addmessage.html");
+    }
+
+
     /**
      * 对某个购物车商品 +1
      */

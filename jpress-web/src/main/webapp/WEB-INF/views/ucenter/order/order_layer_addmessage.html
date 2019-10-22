@@ -1,0 +1,42 @@
+#@layer()
+
+#define content()
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                  action="#(CPATH)/admin/order/doUpdateRemark"
+                  method="POST"
+                  data-ok-function="parent.layer.closeAll()"
+            >
+                <input type="hidden" name="orderId" value="#(order.id ??)">
+                <div class="box-body ">
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-8">
+                            <textarea rows="5" name="remarks" class="form-control"
+                                              placeholder="该订单的备注信息..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="col-sm-offset-9 col-sm-2 submit-block">
+                        <div class="box-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+    </div>
+
+</section>
+
+#end

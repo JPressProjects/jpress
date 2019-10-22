@@ -16,6 +16,7 @@ public interface UserOrderItemService {
     public UserOrderItem findById(Object id, Long userId);
 
 
+    public boolean update(UserOrderItem item);
     /**
      * paginate query
      *

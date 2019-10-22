@@ -261,18 +261,18 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);
         payment.setTrxNonceStr(StrUtil.uuid());
+        payment.setTrxRelativeId(userOrder.getId().toString());
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
         payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
 
+        payment.setPayAmount(userOrder.getOrderRealAmount());
+        payment.setPayType(getPara("paytype"));
+
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
-
-        payment.setPayAmount(userOrder.getOrderRealAmount());
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
-        payment.setPayType(getPara("paytype"));
 
 
         payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付

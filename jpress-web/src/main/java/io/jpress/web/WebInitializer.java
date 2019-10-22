@@ -17,6 +17,8 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.core.payment.PaymentManager;
+import io.jpress.web.commons.pay.OrderPaymentListener;
 import io.jpress.web.sharekit.PermissionKits;
 
 /**
@@ -59,4 +61,8 @@ public class WebInitializer extends JbootAppListenerBase {
 
     }
 
+    @Override
+    public void onStart() {
+        PaymentManager.me().addListener(new OrderPaymentListener());
+    }
 }

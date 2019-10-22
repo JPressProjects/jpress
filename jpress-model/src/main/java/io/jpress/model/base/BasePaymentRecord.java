@@ -111,6 +111,14 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("trx_nonce_str");
 	}
 
+	public void setTrxRelativeId(java.lang.String trxRelativeId) {
+		set("trx_relative_id", trxRelativeId);
+	}
+
+	public java.lang.String getTrxRelativeId() {
+		return getStr("trx_relative_id");
+	}
+
     /**
      * 付款人编号
      */

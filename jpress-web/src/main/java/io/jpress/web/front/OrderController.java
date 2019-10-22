@@ -15,7 +15,9 @@ import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 @RequestMapping(value = "/ucenter/order", viewPath = "/WEB-INF/views/ucenter/order")
@@ -83,7 +85,7 @@ public class OrderController extends UcenterControllerBase {
 
 
     public void doAddMessage() {
-        UserOrder userOrder = orderService.findById(getPara("orderId"),getLoginedUser().getId());
+        UserOrder userOrder = orderService.findById(getPara("orderId"), getLoginedUser().getId());
         render404If(userOrder == null);
 
         userOrder.setBuyerMsg(getPara("message"));
@@ -91,8 +93,8 @@ public class OrderController extends UcenterControllerBase {
         renderOkJson();
     }
 
-    public void doFlagDelivery(){
-        UserOrder userOrder = orderService.findById(getPara(),getLoginedUser().getId());
+    public void doFlagDelivery() {
+        UserOrder userOrder = orderService.findById(getPara(), getLoginedUser().getId());
         render404If(userOrder == null);
 
         userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
@@ -108,9 +110,13 @@ public class OrderController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void addcount() {
-        orderItemService.doAddProductCountById(getPara("id"), getLoginedUser().getId());
+        Long orderItemId = getParaToLong("id");
+        orderItemService.doAddProductCountById(orderItemId, getLoginedUser().getId());
+        UserOrderItem item = orderItemService.findById(orderItemId,getLoginedUser().getId());
+        reComputeOrderAmount(item.getOrderId());
         renderOkJson();
     }
+
 
     /**
      * 都某个购物车商品 -1
@@ -119,8 +125,38 @@ public class OrderController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void subtractcount() {
-        orderItemService.doSubtractProductCountById(getPara("id"), getLoginedUser().getId());
+        Long orderItemId = getParaToLong("id");
+        orderItemService.doSubtractProductCountById(orderItemId, getLoginedUser().getId());
+        UserOrderItem item = orderItemService.findById(orderItemId,getLoginedUser().getId());
+        reComputeOrderAmount(item.getOrderId());
         renderOkJson();
+    }
+
+    /**
+     * 重新计算订单的价格
+     *
+     * @param orderId
+     */
+    private void reComputeOrderAmount(long orderId) {
+        UserOrder userOrder = orderService.findById(orderId, getLoginedUser().getId());
+        render404If(userOrder == null);
+
+        List<UserOrderItem> userOrderItems = orderItemService.findListByOrderId(orderId);
+
+        //重新计算订单价格
+        BigDecimal orderTotalAmount = new BigDecimal(0);
+        for (UserOrderItem item : userOrderItems) {
+            orderTotalAmount = orderTotalAmount.add(item.getPayAmount());
+        }
+
+        if (userOrder.getCouponAmount() != null) {
+            orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
+        }
+
+        userOrder.setOrderTotalAmount(orderTotalAmount);
+        userOrder.setOrderRealAmount(orderTotalAmount);
+
+        orderService.update(userOrder);
     }
 
     /**

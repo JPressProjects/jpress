@@ -206,6 +206,7 @@ public class PayController extends TemplateControllerBase {
         payment.setPayCompleteTime(new Date());
 
         //微信支付
+        //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
         if (service instanceof WxPayService) {
             payment.setPayBankType(String.valueOf(params.get("bank_type")));
             payment.setThirdpartyType("wechat");
@@ -217,6 +218,7 @@ public class PayController extends TemplateControllerBase {
         }
 
         //支付宝支付
+        //https://open.alipay.com/developmentDocument.htm
         else if (service instanceof AliPayService) {
             payment.setThirdpartyType("alipay");
             payment.setThirdpartyAppid(String.valueOf(params.get("app_id")));
@@ -252,7 +254,7 @@ public class PayController extends TemplateControllerBase {
      * web 页面支付成功后跳转回的 url 地址
      */
     public void success() {
-//        rendire
+        redirect("/ucenter/order");
     }
 
 
@@ -267,6 +269,7 @@ public class PayController extends TemplateControllerBase {
             renderFailJson();
         }
     }
+
 
     private PayOrder createPayOrder(PaymentRecord payment) {
         return new PayOrder(

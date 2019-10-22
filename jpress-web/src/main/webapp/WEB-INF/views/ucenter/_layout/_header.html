@@ -38,7 +38,7 @@
 
                                 #for(userCart : headerUserCarts)
                                 <li>
-                                    <a href="#" >
+                                    <a href="#(userCart.product_detail_page ?? '#')" >
                                         <div class="pull-left">
                                             <img src="#(userCart.product_thumbnail ??)" class="img-circle" >
                                         </div>

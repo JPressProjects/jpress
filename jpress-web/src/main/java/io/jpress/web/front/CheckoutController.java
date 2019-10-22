@@ -235,7 +235,8 @@ public class CheckoutController extends UcenterControllerBase {
 
         userOrderService.update(userOrder);
 
-//        cartService.deleteById()
+        //购买后，删除购物车的东西
+        cartService.batchDeleteByIds(cids);
 
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
 

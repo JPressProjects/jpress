@@ -85,5 +85,8 @@ public interface UserCartService  {
     public List<UserCart> findSelectedByUserId(Long id);
 
     public boolean doAddCountById(Object id);
+
     public boolean doSubtractCountById(Object id);
+
+    public boolean batchDeleteByIds(Object... ids);
 }

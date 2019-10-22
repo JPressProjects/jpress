@@ -55,7 +55,7 @@ public class PaymentManager {
         listeners.add(listener);
     }
 
-    public void notify(PaymentRecord oldPayment, PaymentRecord newPayment) {
+    public void notifySuccess(PaymentRecord oldPayment, PaymentRecord newPayment) {
         if (listeners != null) {
             for (PaymentChangeListener listener : listeners) {
                 try {

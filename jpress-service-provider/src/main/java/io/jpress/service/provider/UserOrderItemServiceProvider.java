@@ -13,24 +13,41 @@ import java.util.List;
 public class UserOrderItemServiceProvider extends JbootServiceBase<UserOrderItem> implements UserOrderItemService {
 
     @Override
+    public UserOrderItem findById(Object id, Long userId) {
+        UserOrderItem item = findById(id);
+        if (userId != null && item != null) {
+            if (!userId.equals(item.getBuyerId())) {
+                return null;
+            }
+        }
+        return item;
+    }
+
+
+    @Override
     public void batchSave(List<UserOrderItem> userOrderItems) {
         userOrderItems.forEach(userOrderItem -> save(userOrderItem));
     }
 
     @Override
     public List<UserOrderItem> findListByOrderId(Long orderId) {
-        return DAO.findListByColumn(Column.create("order_id",orderId));
+        return DAO.findListByColumn(Column.create("order_id", orderId));
     }
 
     @Override
-    public boolean doAddProductCountById(Object id) {
+    public boolean doAddProductCountById(Object id, Long userId) {
         return Db.update("update user_order_item set product_count = product_count + 1 "
-                + " where id = ? ", id) > 0;
+                + " where id = ? && buyer_id = ?", id, userId) > 0;
     }
 
     @Override
-    public boolean doSubtractProductCountById(Object id) {
+    public boolean doSubtractProductCountById(Object id, Long userId) {
         return Db.update("update user_order_item set product_count = product_count - 1 "
-                + " where id = ? && product_count > 1", id) > 0;
+                + " where id = ? && product_count > 1 && buyer_id = ?", id, userId) > 0;
+    }
+
+    @Override
+    public boolean deleteById(Object id, Long userId) {
+        return Db.delete("delete from user_order_item where id = ? && buyer_id = ?", id, userId) > 0;
     }
 }

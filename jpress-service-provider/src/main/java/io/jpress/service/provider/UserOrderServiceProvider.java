@@ -16,6 +16,17 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
     private UserOrderItemService itemService;
 
     @Override
+    public UserOrder findById(Object id, Object userId) {
+        UserOrder userOrder =  findById(id);
+        if (userId != null && userOrder != null){
+            if (!userId.equals(userOrder.getBuyerId())){
+                return  null;
+            }
+        }
+        return userOrder;
+    }
+
+    @Override
     public Page<UserOrder> paginate(int page, int pageSize, String title, String ns) {
         Columns columns = Columns.create().likeAppendPercent("title", title).likeAppendPercent("ns", ns);
         Page<UserOrder> userOrderPage = DAO.paginateByColumns(page, pageSize, columns, "id desc");

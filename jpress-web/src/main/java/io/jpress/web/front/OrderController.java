@@ -45,7 +45,7 @@ public class OrderController extends UcenterControllerBase {
      * 订单详情
      */
     public void detail() {
-        UserOrder order = orderService.findById(getIdPara());
+        UserOrder order = orderService.findById(getIdPara(), getLoginedUser().getId());
         if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {
             renderError(404);
             return;
@@ -58,7 +58,7 @@ public class OrderController extends UcenterControllerBase {
 
         if (StrUtil.isNotBlank(order.getCouponCode())) {
             CouponCode couponCode = couponCodeService.findByCode(order.getCouponCode());
-            setAttr("orderCoupon",couponCode);
+            setAttr("orderCoupon", couponCode);
             setAttr("orderCouponUser", userService.findById(couponCode.getUserId()));
         }
 
@@ -66,17 +66,24 @@ public class OrderController extends UcenterControllerBase {
         render("order_detail.html");
     }
 
-    public void comment(){
-        UserOrderItem item = orderItemService.findById(getPara());
+    public void comment() {
+        UserOrderItem item = orderItemService.findById(getPara(), getLoginedUser().getId());
         render404If(item == null);
-
-        redirect(item.getCommentPath()+"?id="+item.getProductId()+"&itemId="+item.getId());
+        redirect(item.getCommentPath() + "?id=" + item.getProductId() + "&itemId=" + item.getId());
     }
 
 
-    public void addMessage(){
-
+    public void addMessage() {
+        UserOrder userOrder = orderService.findById(getPara(), getLoginedUser().getId());
+        setAttr("order", userOrder);
         render("order_layer_addmessage.html");
+    }
+
+    /**
+     *
+     */
+    public void doAddMessage() {
+
     }
 
 
@@ -87,7 +94,7 @@ public class OrderController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void addcount() {
-        orderItemService.doAddProductCountById(getPara("id"));
+        orderItemService.doAddProductCountById(getPara("id"), getLoginedUser().getId());
         renderOkJson();
     }
 
@@ -98,7 +105,7 @@ public class OrderController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void subtractcount() {
-        orderItemService.doSubtractProductCountById(getPara("id"));
+        orderItemService.doSubtractProductCountById(getPara("id"), getLoginedUser().getId());
         renderOkJson();
     }
 
@@ -106,7 +113,7 @@ public class OrderController extends UcenterControllerBase {
      * 删除某个商品
      */
     public void doDel() {
-        orderItemService.deleteById(getPara("id"));
+        orderItemService.deleteById(getPara("id"), getLoginedUser().getId());
         renderOkJson();
     }
 

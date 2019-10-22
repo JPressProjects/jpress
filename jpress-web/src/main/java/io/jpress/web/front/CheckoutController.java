@@ -85,7 +85,7 @@ public class CheckoutController extends UcenterControllerBase {
 
 
     public void order() {
-        UserOrder order = userOrderService.findById(getPara());
+        UserOrder order = userOrderService.findById(getPara(),getLoginedUser().getId());
         if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {
             renderError(404);
             return;
@@ -245,7 +245,7 @@ public class CheckoutController extends UcenterControllerBase {
 
     @UrlParaValidate
     public void payorder() {
-        UserOrder userOrder = userOrderService.findById(getPara());
+        UserOrder userOrder = userOrderService.findById(getPara(),getLoginedUser().getId());
         render404If(userOrder == null);
 
         PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());

@@ -13,11 +13,13 @@ $(document).ready(function () {
 });
 
 function initlayer() {
-    layer.data = {}
-    layer.config({
-        extend: 'jpress/style.css', //使用JPress皮肤
-        skin: 'layer-ext-jpress'
-    });
+    if (typeof layer != "undefined") {
+        layer.data = {}
+        layer.config({
+            extend: 'jpress/style.css', //使用JPress皮肤
+            skin: 'layer-ext-jpress'
+        });
+    }
 }
 
 

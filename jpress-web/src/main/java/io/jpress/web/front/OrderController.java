@@ -79,11 +79,14 @@ public class OrderController extends UcenterControllerBase {
         render("order_layer_addmessage.html");
     }
 
-    /**
-     *
-     */
-    public void doAddMessage() {
 
+    public void doAddMessage() {
+        UserOrder userOrder = orderService.findById(getPara(),getLoginedUser().getId());
+        render404If(userOrder == null);
+
+        userOrder.setBuyerMsg(getPara("message"));
+        orderService.saveOrUpdate(userOrder);
+        renderOkJson();
     }
 
 

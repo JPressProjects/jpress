@@ -1,9 +1,5 @@
 $(document).ready(function () {
 
-    //设置layer的默认样式
-    initlayer();
-
-    // 设置当前选中菜单
     initMenu();
 
     initOptionSubmit();
@@ -144,13 +140,6 @@ function getSelectedIds() {
 }
 
 
-function initlayer() {
-    layer.data = {}
-    layer.config({
-        extend: 'jpress/style.css', //使用JPress皮肤
-        skin: 'layer-ext-jpress'
-    });
-}
 
 var _dialogShowEvent;
 

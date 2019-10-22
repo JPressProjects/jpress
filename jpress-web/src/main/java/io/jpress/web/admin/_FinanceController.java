@@ -22,6 +22,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderItemService;
@@ -97,10 +98,15 @@ public class _FinanceController extends AdminControllerBase {
             return;
         }
 
+        PaymentRecord oldPayment = dbPayment.copy();
+
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
         payment.setPayCompleteTime(new Date());
 
-        paymentService.update(payment);
+        if (paymentService.update(payment)){
+            PaymentManager.me().notifySuccess(oldPayment,payment);
+        }
+
         renderOkJson();
     }
 

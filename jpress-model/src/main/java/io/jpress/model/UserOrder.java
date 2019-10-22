@@ -47,8 +47,12 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int PAY_STATUS_PAID_ONLINE = 9;//线上支付完成，线上支付肯定会有 payment 记录
     public static final int PAY_STATUS_PAID_OFFLINE_BY_USER = 2; //用户主动标识线下支付完成
     public static final int PAY_STATUS_PAID_OFFLINE = 10;//线下直接完成（一般是银行打款）
-    public static final int PAY_STATUS_PAID_IM_BY_USER = 3; //用户主动标识，通过通讯工具付款完成
-    public static final int PAY_STATUS_PAID_IM = 11;//im工具付款完成
+    public static final int PAY_STATUS_PAID_ALIPAYX_BY_USER = 3; //用户主动标识，支付宝转账完成
+    public static final int PAY_STATUS_PAID_ALIPAYX = 11;//支付宝转账完成
+    public static final int PAY_STATUS_PAID_WECHATX_BY_USER = 4; //用户主动标识，微信转账完成
+    public static final int PAY_STATUS_PAID_WECHATX = 12;//微信转账完成
+    public static final int PAY_STATUS_PAID_OTHER_BY_USER = 5; //用户主动标识，其他工具转账完成
+    public static final int PAY_STATUS_PAID_OTHER = 13;//其他工具转账完成
 
     public static final Map<Integer, String> payStatusTexts = new HashMap<>();
 
@@ -57,8 +61,12 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         payStatusTexts.put(PAY_STATUS_PAID_ONLINE, "在线支持完成");
         payStatusTexts.put(PAY_STATUS_PAID_OFFLINE_BY_USER, "线下支付中");
         payStatusTexts.put(PAY_STATUS_PAID_OFFLINE, "线下支付完成");
-        payStatusTexts.put(PAY_STATUS_PAID_IM_BY_USER, "通信工具支付中");
-        payStatusTexts.put(PAY_STATUS_PAID_IM, "通信工具支付完成");
+        payStatusTexts.put(PAY_STATUS_PAID_ALIPAYX_BY_USER, "支付宝转账中");
+        payStatusTexts.put(PAY_STATUS_PAID_ALIPAYX, "支付宝转账完成");
+        payStatusTexts.put(PAY_STATUS_PAID_WECHATX_BY_USER, "微信转账中");
+        payStatusTexts.put(PAY_STATUS_PAID_WECHATX, "微信转账完成");
+        payStatusTexts.put(PAY_STATUS_PAID_OTHER_BY_USER, "支付工具转账中");
+        payStatusTexts.put(PAY_STATUS_PAID_OTHER, "支付工具转账完成");
     }
 
     /**
@@ -121,6 +129,16 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public boolean isDeliveried(){
         Integer status = getDeliveryStatus();
         return status!= null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
+    }
+
+    public boolean isUnpay(){
+        Integer payStatus = getPayStatus();
+        return payStatus != null && payStatus == PAY_STATUS_UNPAY;
+    }
+
+    public boolean isPaySuccess(){
+        Integer payStatus = getPayStatus();
+        return payStatus != null && payStatus >= PAY_STATUS_PAID_ONLINE;
     }
 
 

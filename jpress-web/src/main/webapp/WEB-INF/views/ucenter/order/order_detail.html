@@ -21,6 +21,14 @@
         });
     }
 
+    function doFlagDelivery() {
+        if (confirm("确定已经收到货物？")){
+            ajaxGet("#(CPATH)/ucenter/order/doFlagDelivery/#(order.id)",function () {
+                location.reload()
+            })
+        }
+    }
+
 </script>
 #end
 
@@ -247,7 +255,7 @@
             <div class="col-xs-2">
             </div>
             <div class="col-xs-10"style="text-align: right">
-                <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success " onclick="updatePaystatus()">
+                <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
                     <i class="fa fa-credit-card"></i> 确认收货
                 </a>
             </div>

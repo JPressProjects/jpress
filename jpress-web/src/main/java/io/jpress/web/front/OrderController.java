@@ -15,6 +15,8 @@ import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
+import java.util.Date;
+
 
 @RequestMapping(value = "/ucenter/order", viewPath = "/WEB-INF/views/ucenter/order")
 public class OrderController extends UcenterControllerBase {
@@ -81,12 +83,21 @@ public class OrderController extends UcenterControllerBase {
 
 
     public void doAddMessage() {
-        UserOrder userOrder = orderService.findById(getPara(),getLoginedUser().getId());
+        UserOrder userOrder = orderService.findById(getPara("orderId"),getLoginedUser().getId());
         render404If(userOrder == null);
 
         userOrder.setBuyerMsg(getPara("message"));
         orderService.saveOrUpdate(userOrder);
         renderOkJson();
+    }
+
+    public void doFlagDelivery(){
+        UserOrder userOrder = orderService.findById(getPara(),getLoginedUser().getId());
+        render404If(userOrder == null);
+
+        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
+        userOrder.setDeliveryFinishTime(new Date());
+        orderService.update(userOrder);
     }
 
 

@@ -11,5 +11,8 @@ public class UserCart extends BaseUserCart<UserCart> {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String PRODUCT_TYPE_PRODUCT = "product";
+    public static final String PRODUCT_TYPE_TEXT_PRODUCT = "商品";
+
 
 }

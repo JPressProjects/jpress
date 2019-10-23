@@ -117,11 +117,11 @@
                                                     <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
                                                     <td style="width: 20%;text-align: center">
                                                         #if(item.comment_path ??)
-                                                        <a href="#(CPATH)/ucenter/order/comment/#(item.id)">评价</a>
+                                                        <a href="#(CPATH)/ucenter/order/comment/#(item.id)" target="_blank">评价</a>
                                                         #end
 
                                                         #if(item.canView())
-                                                        <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)">
+                                                        <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)" target="_blank">
                                                             #(item.view_text ??)
                                                         </a>
                                                         #end

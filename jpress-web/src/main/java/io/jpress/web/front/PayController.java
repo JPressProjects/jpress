@@ -10,15 +10,19 @@ import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
+import io.jpress.model.UserAmountStatement;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.pay.PayConfigUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -33,6 +37,9 @@ public class PayController extends TemplateControllerBase {
 
     @Inject
     private PaymentRecordService paymentService;
+
+    @Inject
+    private UserService userService;
 
     /**
      * 获取异步通知的URL地址
@@ -49,7 +56,7 @@ public class PayController extends TemplateControllerBase {
      * @return
      */
     private String getReturnUrl() {
-        return "/pay/success";
+        return "/pay/redirect";
     }
 
 
@@ -71,7 +78,7 @@ public class PayController extends TemplateControllerBase {
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
-        setAttr("payConfig",PayConfigUtil.getWechatPayConfig());
+        setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
 
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
     }
@@ -91,8 +98,8 @@ public class PayController extends TemplateControllerBase {
         order.setTransactionType(WxTransactionType.JSAPI); //扫码付
         Map<String, Object> infos = service.orderInfo(order);
 
-        setAttr("infos",infos);
-        setAttr("payConfig",PayConfigUtil.getWechatPayConfig());
+        setAttr("infos", infos);
+        setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
 
         render("pay_wechatmobile.html", DEFAULT_WECHAT_MOBILE_VIEW);
     }
@@ -106,7 +113,7 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment", payment);
 
-        setAttr("payConfig",PayConfigUtil.getWechatxPayConfig());
+        setAttr("payConfig", PayConfigUtil.getWechatxPayConfig());
         render("pay_wechatx.html", DEFAULT_WECHATX_VIEW);
     }
 
@@ -125,7 +132,7 @@ public class PayController extends TemplateControllerBase {
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
 
-        setAttr("payConfig",PayConfigUtil.getAlipayPayConfig());
+        setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
 
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
     }
@@ -158,7 +165,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
         setAttr("payment", payment);
-        setAttr("payConfig",PayConfigUtil.getAlipayxPayConfig());
+        setAttr("payConfig", PayConfigUtil.getAlipayxPayConfig());
         render("pay_alipayx.html", DEFAULT_ALIPAYX_VIEW);
     }
 
@@ -166,7 +173,6 @@ public class PayController extends TemplateControllerBase {
      * paypal 支付
      */
     public void paypal() {
-
         PayService service = PayConfigUtil.getPayPalPayService();
         render404If(service == null);
 
@@ -181,6 +187,42 @@ public class PayController extends TemplateControllerBase {
         Map orderInfo = service.orderInfo(order);
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
+    }
+
+
+    /**
+     * 使用余额进行支付
+     */
+    public void amount() {
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null);
+
+        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {
+            renderJson(Ret.fail().set("message", "用户余额不足，无法使用余额进行支付。"));
+            return;
+        }
+
+        payment.setPaySuccessAmount(payment.getPayAmount());
+        payment.setPaySuccessTime(new Date());
+        payment.setPayType("amount");
+
+        UserAmountStatement statement = new UserAmountStatement();
+        statement.setUserId(getLoginedUser().getId());
+        statement.setAction(UserAmountStatement.ACTION_PAY_ORDER);
+        statement.setActionDesc(UserAmountStatement.ACTION_PAY_ORDER_DESC);
+        statement.setActionName("支付");
+        statement.setActionRelativeType("payment_record");
+        statement.setActionRelativeId(payment.getId());
+
+        statement.setOldAmount(userAmount);
+        statement.setChangeAmount(BigDecimal.ZERO.subtract(payment.getPayAmount()));
+        statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
+
+        userService.updateUserAmount(getLoginedUser().getId(), userAmount, payment.getPayAmount());
+
+        redirect("/pay/redirect");
+
     }
 
 
@@ -241,12 +283,12 @@ public class PayController extends TemplateControllerBase {
         }
 
         //Paypal支付
-        else if (service instanceof PayPalPayService){
+        else if (service instanceof PayPalPayService) {
             payment.setThirdpartyType("paypal");
         }
 
-        if (paymentService.update(payment)){
-            PaymentManager.me().notifySuccess(oldPayment,paymentService.findById(payment.getId()));
+        if (paymentService.update(payment)) {
+            PaymentManager.me().notifySuccess(oldPayment, paymentService.findById(payment.getId()));
         }
 
         renderText(service.getPayOutMessage("success", "成功").toMessage());
@@ -270,7 +312,7 @@ public class PayController extends TemplateControllerBase {
     /**
      * web 页面支付成功后跳转回的 url 地址
      */
-    public void success() {
+    public void redirect() {
         redirect("/ucenter/order");
     }
 

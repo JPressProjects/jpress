@@ -43,7 +43,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public boolean deleteByIds(Object... ids) {
-        for (Object id : ids){
+        for (Object id : ids) {
             User user = findById(id);
             if (user != null) delete(user); //必须通过  delete(user) 才能清除缓存
         }
@@ -52,7 +52,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, Columns columns,Long memberGroupId) {
+    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId) {
         if (memberGroupId == null) {
             return DAO.paginateByColumns(page, pagesize, columns, "id desc");
         }
@@ -60,7 +60,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
         sqlBuilder.append(" left join member m on u.id = m.user_id ");
 
-        columns.add("m.group_id",memberGroupId);
+        columns.add("m.group_id", memberGroupId);
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by u.id desc");
 
@@ -130,43 +130,52 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     @Override
     public User findFistByWxUnionid(String unioinId) {
 //        return DAO.findFirstByColumn("wx_unionid", unioinId);
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID,unioinId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID, unioinId);
     }
 
     @Override
 //    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
 //        return DAO.findFirstByColumn("wx_openid", openId);
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT, openId);
     }
 
     @Override
     public User findFistByQQOpenid(String openId) {
 //        return DAO.findFirstByColumn("qq_openid", openId);
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ, openId);
     }
 
     @Override
     public User findFistByWeiboOpenid(String openId) {
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WEIBO,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WEIBO, openId);
     }
+
     @Override
     public User findFistByGithubOpenid(String openId) {
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITHUB,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITHUB, openId);
     }
+
     @Override
     public User findFistByGiteeOpenid(String openId) {
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITEE,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITEE, openId);
     }
+
     @Override
     public User findFistByDingdingOpenid(String openId) {
-        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_DINGDING,openId);
+        return openidService.findByTypeAndOpenId(UserOpenid.TYPE_DINGDING, openId);
     }
 
     @Override
     public BigDecimal queryUserAmount(Object userId) {
-        BigDecimal value =  JbootDb.queryBigDecimal("select amount from user_amount where user_id = ?",userId);
+        BigDecimal value = JbootDb.queryBigDecimal("select amount from user_amount where user_id = ?", userId);
         return value == null ? BigDecimal.ZERO : value;
+    }
+
+    @Override
+    public boolean updateUserAmount(Object userId, BigDecimal oldAmount, BigDecimal updateAmount) {
+       return Db.update("update user_amount set amount = amount + " + updateAmount.longValue()
+               + " where user_id = ? and amount = ?", userId, oldAmount) > 0;
     }
 
     @Override

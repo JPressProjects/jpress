@@ -118,4 +118,6 @@ public interface UserService extends JbootServiceJoiner{
     public User findFistByDingdingOpenid(String openId);
 
     public BigDecimal queryUserAmount(Object userId);
+
+    public boolean updateUserAmount(Object userId,BigDecimal oldAmount,BigDecimal updateAmount);
 }

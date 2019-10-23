@@ -36,13 +36,33 @@ public class OrderPaymentListener implements PaymentChangeListener {
     @Override
     public void onChange(PaymentRecord oldPayment, PaymentRecord newPayment) {
 
-        if (PaymentRecord.TRX_TYPE_ORDER.equals(newPayment.getTrxType())){
+        if (PaymentRecord.TRX_TYPE_ORDER.equals(newPayment.getTrxType()) && newPayment.isPaySuccess()){
 
            boolean updateSucess =  Db.tx(() -> {
+
                 UserOrderService orderService = Aop.get(UserOrderService.class);
                 UserOrder userOrder = orderService.findById(newPayment.getTrxRelativeId(),null);
 
-                userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_ONLINE);
+                switch (newPayment.getPayType()){
+                    case PaymentRecord.PAY_TYPE_ALIPAY:
+                    case PaymentRecord.PAY_TYPE_WECHAT:
+                    case PaymentRecord.PAY_TYPE_PAYPAL:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_ONLINE);
+                        break;
+                    case PaymentRecord.PAY_TYPE_ALIPAYX:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_ALIPAYX);
+                        break;
+                    case PaymentRecord.PAY_TYPE_WECHATX:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_WECHATX);
+                        break;
+                    case PaymentRecord.PAY_TYPE_OFFLINE:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_OFFLINE);
+                        break;
+                    case PaymentRecord.PAY_TYPE_OTHER:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_OTHER);
+                        break;
+                }
+
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
 
                 if (!orderService.update(userOrder)){
@@ -63,7 +83,6 @@ public class OrderPaymentListener implements PaymentChangeListener {
                        return false;
                    }
                 }
-
                 return  true;
             });
 

@@ -10,7 +10,6 @@ import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
@@ -57,7 +56,7 @@ public class PayController extends TemplateControllerBase {
      * @return
      */
     private String getReturnUrl() {
-        return "/pay/redirect";
+        return "/pay/success";
     }
 
 
@@ -200,7 +199,7 @@ public class PayController extends TemplateControllerBase {
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {
-            renderJson(Ret.fail().set("message", "用户余额不足，无法使用余额进行支付。"));
+            redirect("/pay/fail/"+getPara());
             return;
         }
 
@@ -222,7 +221,7 @@ public class PayController extends TemplateControllerBase {
 
         userService.updateUserAmount(getLoginedUser().getId(), userAmount, payment.getPayAmount());
 
-        redirect("/pay/redirect");
+        redirect("/pay/success");
 
     }
 
@@ -313,11 +312,13 @@ public class PayController extends TemplateControllerBase {
     /**
      * web 页面支付成功后跳转回的 url 地址
      */
-    public void redirect() {
+    public void success() {
         redirect("/ucenter/order");
     }
 
     public void fail(){
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        setAttr("payment",payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
 

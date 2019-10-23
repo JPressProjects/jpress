@@ -18,7 +18,7 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 状态
+     * 这个状态数值，完全等同于 UserOrder.Trade_status_xxx
      */
     public static final int STATUS_TRADING = 1; //交易中
     public static final int STATUS_COMPLETED = 2; //交易完成（但是可以申请退款）

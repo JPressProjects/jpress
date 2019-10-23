@@ -91,7 +91,7 @@
                 <strong>订单预览</strong>
                 <address>
                     价格：#number(order.orderRealAmount ,'0.00') 元<br>
-                    订单用户：<a href="#(CPATH)/admin/user/detail/#(orderUser.id ??)"> #(orderUser.nickname ??)</a><br>
+                    订单用户：#(orderUser.nickname ??)<br>
                     支付状态：#(order.payStatusStr ??)<br>
                     物流状态：#(order.deliveryStatusStr ??)<br>
                     发票状态：#(order.invoiceStatusStr ??)

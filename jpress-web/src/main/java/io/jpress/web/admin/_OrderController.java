@@ -22,6 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.UserOrder;
+import io.jpress.model.UserOrderItem;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
@@ -92,11 +93,27 @@ public class _OrderController extends AdminControllerBase {
         if (order == null) {
             renderFailJson();
         } else {
+
+            int deliveryType = getParaToInt("deliveryType");
+
             order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED); //设置为已经发货
-            order.setDeliveryType(getParaToInt("deliveryType"));
+            order.setDeliveryType(deliveryType);
             order.setDeliveryNo(getPara("deliveryNo"));
             order.setDeliveryCompany(getPara("deliveryCompany"));
             order.setDeliveryStartTime(getParaToDate("deliveryStartTime"));
+
+
+            if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType){
+                order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
+            }else {
+                order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
+            }
+
+            List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
+            for (UserOrderItem item : orderItems){
+                item.setStatus(order.getTradeStatus());
+            }
+
             orderService.update(order);
             renderOkJson();
         }

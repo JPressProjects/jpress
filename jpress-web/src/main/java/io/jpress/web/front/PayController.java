@@ -34,6 +34,7 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_WECHAT_VIEW = "/WEB-INF/views/front/pay/pay_wechat.html";
     public static final String DEFAULT_WECHAT_MOBILE_VIEW = "/WEB-INF/views/front/pay/pay_wechatmobile.html";
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
+    public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
 
     @Inject
     private PaymentRecordService paymentService;
@@ -314,6 +315,10 @@ public class PayController extends TemplateControllerBase {
      */
     public void redirect() {
         redirect("/ucenter/order");
+    }
+
+    public void fail(){
+        render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
 
 

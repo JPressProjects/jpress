@@ -94,6 +94,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
     @Override
+    @NotAction
     public void redirect(String url) {
         if (url.contains("?") || url.endsWith("/")) {
             super.redirect(url);

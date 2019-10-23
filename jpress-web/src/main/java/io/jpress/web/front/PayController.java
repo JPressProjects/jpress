@@ -28,6 +28,7 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_ALIPAY_VIEW = "/WEB-INF/views/front/pay/pay_alipay.html";
     public static final String DEFAULT_ALIPAYX_VIEW = "/WEB-INF/views/front/pay/pay_alipayx.html";
     public static final String DEFAULT_WECHAT_VIEW = "/WEB-INF/views/front/pay/pay_wechat.html";
+    public static final String DEFAULT_WECHAT_MOBILE_VIEW = "/WEB-INF/views/front/pay/pay_wechatmobile.html";
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
 
     @Inject
@@ -70,20 +71,32 @@ public class PayController extends TemplateControllerBase {
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
+        setAttr("payConfig",PayConfigUtil.getWechatPayConfig());
+
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
     }
 
     /**
      * 微信手机调用js直接支付（无需扫码）
      */
-    public void wechtmobile() {
+    public void wechatmobile() {
+        PayService service = PayConfigUtil.getWxPayService();
+        render404If(service == null);
+
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
-//        renderTemplate("pay_alipay.html");
+        order.setTransactionType(WxTransactionType.JSAPI); //扫码付
+        Map<String, Object> infos = service.orderInfo(order);
+
+        setAttr("infos",infos);
+        setAttr("payConfig",PayConfigUtil.getWechatPayConfig());
+
+        render("pay_wechatmobile.html", DEFAULT_WECHAT_MOBILE_VIEW);
     }
+
 
     /**
      * 微信对私转账支付
@@ -93,9 +106,8 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null);
         setAttr("payment", payment);
 
-        PayOrder order = createPayOrder(payment);
-//        renderTemplate("pay_wechatx.html");
-        render("pay_wechaxt.html", DEFAULT_WECHATX_VIEW);
+        setAttr("payConfig",PayConfigUtil.getWechatxPayConfig());
+        render("pay_wechatx.html", DEFAULT_WECHATX_VIEW);
     }
 
     /**
@@ -112,7 +124,8 @@ public class PayController extends TemplateControllerBase {
         PayOrder order = createPayOrder(payment);
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
-//        BufferedImage image = service.genQrPay(order);
+
+        setAttr("payConfig",PayConfigUtil.getAlipayPayConfig());
 
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
     }
@@ -145,9 +158,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
         setAttr("payment", payment);
-
-//      PayOrder order = initOrderByPayment(payment);
-
+        setAttr("payConfig",PayConfigUtil.getAlipayxPayConfig());
         render("pay_alipayx.html", DEFAULT_ALIPAYX_VIEW);
     }
 

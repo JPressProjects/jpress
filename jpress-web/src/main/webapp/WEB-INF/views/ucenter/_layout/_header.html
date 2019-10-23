@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="#(CPATH)/" target="_blank" class="logo">
+    <a href="#(CPATH)/ucenter" class="logo">
         <span class="logo-mini"><b>JPr</b></span>
         <span class="logo-lg"><b>#option('web_name','JPress')</b></span>
     </a>
@@ -8,10 +8,6 @@
         #if(showToggle)
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">切换</span>
-        </a>
-        #else
-        <a href="#(CPATH)/ucenter/index" class="header-home">
-            <i class="fa fa-fw fa-home"></i>
         </a>
         #end
 
@@ -23,6 +19,9 @@
                         <span class="hidden-xs">您好 #(user.nickname ??) , 欢迎回来</span>
                     </a>
                 </li>
+
+
+
 
                 <li class="dropdown messages-menu" style="border-left: 1px solid #ccc;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -54,6 +53,12 @@
                         </li>
                         <li class="footer"><a href="#(CPATH)/ucenter/cart" style="color: #3c8dbc !important;" target="_blank">查看全部</a></li>
                     </ul>
+                </li>
+
+                <li style="border-left: 1px solid #ccc;">
+                    <a href="#(CPATH)/" target="_blank">
+                        <i class="fa fa-fw fa-home"></i>
+                    </a>
                 </li>
 
                 <li style="border-left: 1px solid #ccc;">

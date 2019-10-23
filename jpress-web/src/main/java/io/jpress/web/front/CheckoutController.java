@@ -158,8 +158,6 @@ public class CheckoutController extends UcenterControllerBase {
 
             userOrderItems.add(item);
 
-            //删除购物车的数据
-            cartService.delete(userCart);
         }
 
 
@@ -207,16 +205,7 @@ public class CheckoutController extends UcenterControllerBase {
             userOrder.setCouponAmount(coupon.getAmount());
         }
 
-        //保存 order
-        Long userOrderId = (Long) userOrderService.save(userOrder);
 
-        //设置 order item 的 order id
-        for (UserOrderItem item : userOrderItems) {
-            item.setOrderId(userOrderId);
-            item.setOrderNs(userOrder.getNs());
-        }
-        //保存 order item
-        userOrderItemService.batchSave(userOrderItems);
 
         //订单金额 = 所有 item 金额之和 - 优惠券金额
         BigDecimal orderTotalAmount = new BigDecimal(0);
@@ -228,6 +217,29 @@ public class CheckoutController extends UcenterControllerBase {
             orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
         }
 
+
+        String paytype = getPara("paytype");
+        if ("amount".equals(paytype)){
+            BigDecimal userAmount =  userService.queryUserAmount(getLoginedUser().getId());
+            if (userAmount == null || userAmount.compareTo(orderTotalAmount) < 0){
+                renderJson(Ret.fail().set("message", "用户余额不足，无法使用余额进行支付。"));
+                return;
+            }
+        }
+
+        //保存 order
+        Long userOrderId = (Long) userOrderService.save(userOrder);
+
+        //设置 order item 的 order id
+        for (UserOrderItem item : userOrderItems) {
+            item.setOrderId(userOrderId);
+            item.setOrderNs(userOrder.getNs());
+        }
+
+
+        //保存 order item
+        userOrderItemService.batchSave(userOrderItems);
+
         userOrder.setOrderTotalAmount(orderTotalAmount);
         userOrder.setOrderRealAmount(orderTotalAmount);
         userOrder.setId(userOrderId);
@@ -238,6 +250,10 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_NOT_APPLY);//发票开具状态：用户未申请
 
         userOrderService.update(userOrder);
+
+        for (String cid : cids) {
+            cartService.deleteById(cid);
+        }
 
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
 

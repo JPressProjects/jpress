@@ -5,6 +5,7 @@ import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.MethodType;
 import com.egzosn.pay.common.bean.PayOrder;
+import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
@@ -38,7 +39,7 @@ public class PayController extends TemplateControllerBase {
      * @return
      */
     private String getNotifyUrl() {
-        return "";
+        return "/pay/callback";
     }
 
     /**
@@ -47,7 +48,7 @@ public class PayController extends TemplateControllerBase {
      * @return
      */
     private String getReturnUrl() {
-        return "";
+        return "/pay/success";
     }
 
 
@@ -228,8 +229,13 @@ public class PayController extends TemplateControllerBase {
             payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
         }
 
+        //Paypal支付
+        else if (service instanceof PayPalPayService){
+            payment.setThirdpartyType("paypal");
+        }
+
         if (paymentService.update(payment)){
-            PaymentManager.me().notifySuccess(oldPayment,payment);
+            PaymentManager.me().notifySuccess(oldPayment,paymentService.findById(payment.getId()));
         }
 
         renderText(service.getPayOutMessage("success", "成功").toMessage());

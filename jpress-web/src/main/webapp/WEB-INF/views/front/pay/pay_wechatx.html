@@ -1,5 +1,16 @@
 #include("layout.html",title="微信扫一扫付款")
 #@layout()
+
+#define css()
+<style>
+    .message-box{
+        padding: 30px;
+        font-size: 16px;
+        color: #000;
+    }
+</style>
+#end
+
 #define content()
 
 <div class="pay-header">
@@ -22,9 +33,11 @@
         <img src="/static/commons/img/pay-wechat.png"/>
     </div>
 
-    <div class="col-lg-12" style="padding: 10px">
-        注意：支付完毕后，请添加微信号 xxx 进行入账。
+    #if(payConfig && payConfig.message)
+    <div class="col-lg-12 message-box" >
+        #(payConfig.message)
     </div>
+    #end
 
 
 </div>

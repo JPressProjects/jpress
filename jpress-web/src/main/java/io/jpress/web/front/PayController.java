@@ -15,6 +15,7 @@ import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.pay.PayConfigUtil;
@@ -40,6 +41,9 @@ public class PayController extends TemplateControllerBase {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private UserAmountStatementService statementService;
 
     /**
      * 获取异步通知的URL地址
@@ -219,7 +223,8 @@ public class PayController extends TemplateControllerBase {
         statement.setChangeAmount(BigDecimal.ZERO.subtract(payment.getPayAmount()));
         statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
 
-        userService.updateUserAmount(getLoginedUser().getId(), userAmount, payment.getPayAmount());
+        statementService.save(statement);
+        userService.updateUserAmount(getLoginedUser().getId(), userAmount, BigDecimal.ZERO.subtract(payment.getPayAmount()));
 
         redirect("/pay/success");
 

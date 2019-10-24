@@ -59,7 +59,7 @@ public class PaymentManager {
         if (listeners != null) {
             for (PaymentSuccessListener listener : listeners) {
                 try {
-                    listener.onChange(payment);
+                    listener.onSuccess(payment);
                 } catch (Exception ex) {
                     LOG.error(ex.toString(), ex);
                 }

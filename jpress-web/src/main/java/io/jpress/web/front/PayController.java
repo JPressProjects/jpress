@@ -226,8 +226,8 @@ public class PayController extends TemplateControllerBase {
 
         statementService.save(statement);
 
-
-        if (userService.updateUserAmount(getLoginedUser().getId(), userAmount, BigDecimal.ZERO.subtract(payment.getPayAmount()))){
+        if (userService.updateUserAmount(getLoginedUser().getId(), userAmount,
+                BigDecimal.ZERO.subtract(payment.getPayAmount()))){
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
         }
 

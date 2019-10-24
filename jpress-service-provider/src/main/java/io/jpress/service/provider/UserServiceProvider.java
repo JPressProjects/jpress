@@ -21,6 +21,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
@@ -174,8 +175,17 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public boolean updateUserAmount(Object userId, BigDecimal oldAmount, BigDecimal updateAmount) {
-       return Db.update("update user_amount set amount = amount + " + updateAmount.longValue()
-               + " where user_id = ? and amount = ?", userId, oldAmount) > 0;
+        BigDecimal value = JbootDb.queryBigDecimal("select amount from user_amount where user_id = ?", userId);
+        if (value == null) {
+            Record record = new Record();
+            record.set("user_id", userId);
+            record.set("amount", updateAmount);
+            record.set("created", new Date());
+            return Db.save("user_amount", record);
+        } else {
+            return Db.update("update user_amount set amount = amount + " + updateAmount.longValue()
+                    + " where user_id = ? and amount = ?", userId, oldAmount) > 0;
+        }
     }
 
     @Override

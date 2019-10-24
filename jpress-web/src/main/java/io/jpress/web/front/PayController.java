@@ -206,7 +206,7 @@ public class PayController extends TemplateControllerBase {
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {
-            redirect("/pay/fail/"+getPara());
+            redirect("/pay/fail/" + getPara());
             return;
         }
 
@@ -235,11 +235,11 @@ public class PayController extends TemplateControllerBase {
         paymentService.update(payment);
 
         if (userService.updateUserAmount(getLoginedUser().getId(), userAmount,
-                BigDecimal.ZERO.subtract(payment.getPayAmount()))){
+                BigDecimal.ZERO.subtract(payment.getPayAmount()))) {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
         }
 
-        redirect("/pay/success");
+        redirect("/pay/success/" + payment.getTrxNo());
 
     }
 
@@ -335,14 +335,14 @@ public class PayController extends TemplateControllerBase {
      */
     public void success() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        setAttr("payment",payment);
+        setAttr("payment", payment);
         render("pay_success.html", DEFAULT_SUCCESS_VIEW);
     }
 
 
-    public void fail(){
+    public void fail() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        setAttr("payment",payment);
+        setAttr("payment", payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
 

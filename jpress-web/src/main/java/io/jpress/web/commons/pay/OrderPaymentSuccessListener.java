@@ -35,16 +35,16 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
 
 
     @Override
-    public void onSuccess(PaymentRecord newPayment) {
+    public void onSuccess(PaymentRecord payment) {
 
-        if (PaymentRecord.TRX_TYPE_ORDER.equals(newPayment.getTrxType()) && newPayment.isPaySuccess()){
+        if (PaymentRecord.TRX_TYPE_ORDER.equals(payment.getTrxType()) && payment.isPaySuccess()){
 
            boolean updateSucess =  Db.tx(() -> {
 
                 UserOrderService orderService = Aop.get(UserOrderService.class);
-                UserOrder userOrder = orderService.findById(newPayment.getTrxRelativeId(),null);
+                UserOrder userOrder = orderService.findById(payment.getTrxRelativeId(),null);
 
-                userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(newPayment.getPayType()));
+                userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
 
                 if (!orderService.update(userOrder)){

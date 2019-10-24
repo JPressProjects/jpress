@@ -33,30 +33,30 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
 
 
     @Override
-    public void onSuccess(PaymentRecord newPayment) {
+    public void onSuccess(PaymentRecord payment) {
 
-        if (PaymentRecord.TRX_TYPE_RECHARGE.equals(newPayment.getTrxType()) && newPayment.isPaySuccess()) {
+        if (PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()) && payment.isPaySuccess()) {
 
             boolean updateSucess = Db.tx(() -> {
 
                 UserService userService = Aop.get(UserService.class);
 
-                BigDecimal userAmount = userService.queryUserAmount(newPayment.getPayerUserId());
-                userService.updateUserAmount(newPayment.getPayerUserId(), userAmount, newPayment.getPayAmount());
+                BigDecimal userAmount = userService.queryUserAmount(payment.getPayerUserId());
+                userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount());
 
                 UserAmountStatement statement = new UserAmountStatement();
-                statement.setUserId(newPayment.getPayerUserId());
+                statement.setUserId(payment.getPayerUserId());
                 statement.setAction(UserAmountStatement.ACTION_RECHARGE);
                 statement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
                 statement.setActionName("充值");
                 statement.setActionRelativeType("payment_record");
-                statement.setActionRelativeId(newPayment.getId());
+                statement.setActionRelativeId(payment.getId());
 
                 statement.setOldAmount(userAmount);
-                statement.setChangeAmount(newPayment.getPayAmount());
-                statement.setNewAmount(userAmount.subtract(newPayment.getPayAmount()));
+                statement.setChangeAmount(payment.getPayAmount());
+                statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
 
-                if (userService.updateUserAmount(newPayment.getPayerUserId(), userAmount, newPayment.getPayAmount())){
+                if (userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount())){
                     return false;
                 }
 

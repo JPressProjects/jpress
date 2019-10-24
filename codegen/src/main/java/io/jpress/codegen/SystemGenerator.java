@@ -38,13 +38,14 @@ public class SystemGenerator {
 
         String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm," +
                 "wechat_menu,wechat_reply," +
-                "member,member_group,member_dist_amount," +
+                "member,member_group,member_dist_amount,member_joined_record," +
                 "user_address,user_amount,user_amount_statement," +
                 "coupon,coupon_code,coupon_used_record," +
-                "user_cart,user_order,user_order_item,user_openid," +
+                "user_cart,user_order,user_order_item,user_openid,user_favorite," +
                 "payment_record";
 
-        String optionsTables = "coupon,member,member_group,product,product_category,user_address,user_amount_statement,user_cart,user_order,user_order_item,payment_record,user_openid";
+        String optionsTables = "coupon,member,member_group,product,product_category,user_address," +
+                "user_amount_statement,user_cart,user_order,user_order_item,payment_record,user_openid,member_joined_record,user_favorite";
 
         JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
         JbootApplication.setBootArg("jboot.datasource.user", "root");

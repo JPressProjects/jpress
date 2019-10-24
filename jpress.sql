@@ -272,6 +272,25 @@ CREATE TABLE `member_group` (
 
 
 
+# Dump of table member_joined_record
+# ------------------------------------------------------------
+
+CREATE TABLE `member_joined_record` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户',
+  `group_id` int(11) unsigned DEFAULT NULL COMMENT '加入的会员组',
+  `group_name` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '会员组名称',
+  `join_price` decimal(10,2) DEFAULT NULL COMMENT '加入的价格',
+  `join_count` int(11) DEFAULT NULL COMMENT '加入份数，可能会一次购买多份（多年）会员。',
+  `join_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '加入的类型：付费加入、免费赠送等',
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `created` datetime DEFAULT NULL COMMENT '加入的时间',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员加入记录';
+
+
+
 # Dump of table member_price
 # ------------------------------------------------------------
 
@@ -699,6 +718,26 @@ CREATE TABLE `user_cart` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
+
+
+
+# Dump of table user_favorite
+# ------------------------------------------------------------
+
+CREATE TABLE `user_favorite` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(10) unsigned NOT NULL COMMENT '收藏用户',
+  `type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收藏数据的类型',
+  `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
+  `summary` text COLLATE utf8mb4_unicode_ci COMMENT '摘要',
+  `thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缩略图',
+  `detail_page` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详情页',
+  `relative_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '相关表',
+  `relative_id` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '相关的id',
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `created` datetime DEFAULT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户收藏';
 
 
 

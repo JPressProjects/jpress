@@ -208,9 +208,14 @@ public class PayController extends TemplateControllerBase {
             return;
         }
 
+
+        payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
+        payment.setPayStatus(PaymentRecord.PAY_STATUS_SUCCESS_AMOUNT);
         payment.setPaySuccessAmount(payment.getPayAmount());
         payment.setPaySuccessTime(new Date());
+        payment.setPayCompleteTime(new Date());
         payment.setPayType("amount");
+
 
         UserAmountStatement statement = new UserAmountStatement();
         statement.setUserId(getLoginedUser().getId());
@@ -262,12 +267,13 @@ public class PayController extends TemplateControllerBase {
         String trxNo = String.valueOf(params.get("out_trade_no"));
 
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-        PaymentRecord oldPayment = payment.copy();
-
 
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
         payment.setPayStatus(PaymentRecord.PAY_STATUS_SUCCESS_ONLINE);
         payment.setPayCompleteTime(new Date());
+        payment.setPaySuccessTime(new Date());
+        payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
+
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8

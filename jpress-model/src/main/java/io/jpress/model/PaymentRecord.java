@@ -45,7 +45,9 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final int PAY_STATUS_SUCCESS_ALIPAYX = 10; //支付宝转账支付成功
     public static final int PAY_STATUS_SUCCESS_WECHATX = 11; //微信转账支付成功
     public static final int PAY_STATUS_SUCCESS_OFFLINE = 12; //线下支付支付成功（一般是银行转账等）
-    public static final int PAY_STATUS_SUCCESS_OTHER = 13; //其他支付方式支付成功
+    public static final int PAY_STATUS_SUCCESS_AMOUNT = 13; //余额支付成功
+    public static final int PAY_STATUS_SUCCESS_OTHER = 14; //其他支付方式支付成功
+
 
     public static final Map<Integer, String> payStatusTexts = new HashMap<>();
 
@@ -56,6 +58,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
         payStatusTexts.put(PAY_STATUS_SUCCESS_ALIPAYX, "支付宝转账支付成功");
         payStatusTexts.put(PAY_STATUS_SUCCESS_WECHATX, "微信转账支付成功");
         payStatusTexts.put(PAY_STATUS_SUCCESS_OFFLINE, "线下支付成功");
+        payStatusTexts.put(PAY_STATUS_SUCCESS_AMOUNT, "余额支付成功");
         payStatusTexts.put(PAY_STATUS_SUCCESS_OTHER, "其他方式支付成功");
     }
 

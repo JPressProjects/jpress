@@ -719,7 +719,8 @@ CREATE TABLE `user_cart` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `ptype_pid` (`product_id`,`product_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
 
@@ -945,6 +946,7 @@ CREATE TABLE `wechat_reply` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 

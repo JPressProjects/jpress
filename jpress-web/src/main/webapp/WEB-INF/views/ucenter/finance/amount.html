@@ -18,7 +18,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 余额信息.
-                    <small class="pull-right">Date: 2/10/2014</small>
+<!--                    <small class="pull-right">Date: 2/10/2014</small>-->
                 </h2>
             </div>
             <!-- /.col -->
@@ -86,21 +86,21 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>流水号</th>
-                        <th>项目</th>
                         <th>收入/支出</th>
+                        <th>项目</th>
                         <th>相关</th>
                         <th>金额</th>
+                        <th>时间</th>
                     </tr>
                     </thead>
                     <tbody>
                     #for(statement : userAmountStatements)
-                    <tr>
-                        <td>#(statement.id ??)</td>
-                        <td>#(statement.action_name ??)</td>
+                    <tr #(statement.change_amount > 0 ? 'style="background-color: #e8ffe6"' : 'style="background-color: #ffe6e6"') >
                         <td>#(statement.change_amount > 0 ? '收入' : '支出')</td>
+                        <td>#(statement.action_name ??)</td>
                         <td>#(statement.action_desc ??)</td>
                         <td>#(statement.change_amount > 0 ? '+' : '-')#(statement.change_amount ??)</td>
+                        <td>#date(statement.created)</td>
                     </tr>
                     #end
                     </tbody>

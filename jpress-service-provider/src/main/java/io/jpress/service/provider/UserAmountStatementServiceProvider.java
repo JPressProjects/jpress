@@ -13,6 +13,6 @@ public class UserAmountStatementServiceProvider extends JbootServiceBase<UserAmo
 
     @Override
     public List<UserAmountStatement> findListByUserId(Object userId, int count) {
-        return DAO.findListByColumns(Columns.create("user_id", userId), count);
+        return DAO.findListByColumns(Columns.create("user_id", userId), "id desc",count);
     }
 }

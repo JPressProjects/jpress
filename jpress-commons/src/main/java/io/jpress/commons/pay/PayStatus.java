@@ -117,7 +117,8 @@ public enum PayStatus {
         return null;
     }
 
-    public static String getTextByInt(int status) {
+    public static String getTextByInt(Integer status) {
+        if (status == null) return StringUtils.EMPTY;
         PayStatus payStatus = getByStatus(status);
         return payStatus != null ? payStatus.text : StringUtils.EMPTY;
     }

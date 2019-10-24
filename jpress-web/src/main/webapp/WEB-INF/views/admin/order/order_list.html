@@ -1,5 +1,28 @@
 #@layout()
+#define script()
+<script>
 
+    function deliver(id) {
+        openlayer('发货','#(CPATH)/admin/order/deliver/'+id);
+    }
+
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '90%'],
+            content: jpress.cpath + url,
+            end: function () {
+
+            }
+        });
+    }
+
+</script>
+#end
 
 #define content()
 <div class="content-wrapper">
@@ -142,7 +165,7 @@
                             </tr>
 
 
-                            #for(order : userOrderPage.list ??)
+                            #for(order : page.list ??)
                             <tr>
                                 <td colspan="5" bgcolor="#fff">
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
@@ -156,7 +179,9 @@
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
                                                 <h3 class="box-title">
-                                                    <a href="#(CPATH)/admin/order/detail/#(order.id)">发货</a>
+                                                    #if(!order.isDeliveried())
+                                                    <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
+                                                    #end
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>
                                                 </h3>
                                             </div>

@@ -58,7 +58,7 @@ public class _OrderController extends AdminControllerBase {
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
-        setAttr("userOrderPage", userOrderPage);
+        setAttr("page", userOrderPage);
         render("order/order_list.html");
     }
 

@@ -104,7 +104,7 @@ public class _FinanceController extends AdminControllerBase {
         payment.setPayCompleteTime(new Date());
 
         if (paymentService.update(payment)){
-            PaymentManager.me().notifySuccess(oldPayment,paymentService.findById(payment.getId()));
+            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
         }
 
         renderOkJson();

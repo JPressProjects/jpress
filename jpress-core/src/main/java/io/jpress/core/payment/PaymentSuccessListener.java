@@ -18,8 +18,8 @@ package io.jpress.core.payment;
 import io.jpress.model.PaymentRecord;
 
 
-public interface PaymentChangeListener {
+public interface PaymentSuccessListener {
 
-    public void onChange(PaymentRecord oldPayment,PaymentRecord newPayment);
+    public void onSuccess(PaymentRecord payment );
 
 }

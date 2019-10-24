@@ -36,17 +36,17 @@ public class PaymentManager {
         return me;
     }
 
-    public List<PaymentChangeListener> listeners;
+    public List<PaymentSuccessListener> listeners;
 
-    public List<PaymentChangeListener> getListeners() {
+    public List<PaymentSuccessListener> getListeners() {
         return listeners;
     }
 
-    public void setListeners(List<PaymentChangeListener> listeners) {
+    public void setListeners(List<PaymentSuccessListener> listeners) {
         this.listeners = listeners;
     }
 
-    public void addListener(PaymentChangeListener listener) {
+    public void addListener(PaymentSuccessListener listener) {
         if (listeners == null) {
             synchronized (PaymentManager.class) {
                 listeners = Collections.synchronizedList(new ArrayList<>());
@@ -55,11 +55,11 @@ public class PaymentManager {
         listeners.add(listener);
     }
 
-    public void notifySuccess(PaymentRecord oldPayment, PaymentRecord newPayment) {
+    public void notifySuccess(PaymentRecord payment) {
         if (listeners != null) {
-            for (PaymentChangeListener listener : listeners) {
+            for (PaymentSuccessListener listener : listeners) {
                 try {
-                    listener.onChange(oldPayment, newPayment);
+                    listener.onChange(payment);
                 } catch (Exception ex) {
                     LOG.error(ex.toString(), ex);
                 }

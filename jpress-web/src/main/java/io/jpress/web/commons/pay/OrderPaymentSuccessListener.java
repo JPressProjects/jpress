@@ -18,7 +18,7 @@ package io.jpress.web.commons.pay;
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import io.jpress.core.payment.PaymentChangeListener;
+import io.jpress.core.payment.PaymentSuccessListener;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
@@ -28,13 +28,13 @@ import io.jpress.service.UserOrderService;
 import java.util.List;
 
 
-public class OrderPaymentListener implements PaymentChangeListener {
+public class OrderPaymentSuccessListener implements PaymentSuccessListener {
 
-    public static final Log LOG = Log.getLog(OrderPaymentListener.class);
+    public static final Log LOG = Log.getLog(OrderPaymentSuccessListener.class);
 
 
     @Override
-    public void onChange(PaymentRecord oldPayment, PaymentRecord newPayment) {
+    public void onSuccess(PaymentRecord newPayment) {
 
         if (PaymentRecord.TRX_TYPE_ORDER.equals(newPayment.getTrxType()) && newPayment.isPaySuccess()){
 

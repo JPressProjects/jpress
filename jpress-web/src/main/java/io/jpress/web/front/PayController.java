@@ -225,7 +225,11 @@ public class PayController extends TemplateControllerBase {
         statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
 
         statementService.save(statement);
-        userService.updateUserAmount(getLoginedUser().getId(), userAmount, BigDecimal.ZERO.subtract(payment.getPayAmount()));
+
+
+        if (userService.updateUserAmount(getLoginedUser().getId(), userAmount, BigDecimal.ZERO.subtract(payment.getPayAmount()))){
+            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
+        }
 
         redirect("/pay/success");
 
@@ -294,7 +298,7 @@ public class PayController extends TemplateControllerBase {
         }
 
         if (paymentService.update(payment)) {
-            PaymentManager.me().notifySuccess(oldPayment, paymentService.findById(payment.getId()));
+            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
         }
 
         renderText(service.getPayOutMessage("success", "成功").toMessage());

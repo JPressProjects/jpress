@@ -30,14 +30,14 @@
         box-shadow: -15px 10px 10px 10px #ccc;;
     }
 
-    .bottom-content{
+    .bottom-content {
         background-color: #ccc;
         width: 100%;
         height: 60px;
         padding: 0 230px 0 230px;
     }
 
-    .bottom-content div{
+    .bottom-content div {
         height: 60px;
     }
 
@@ -53,7 +53,7 @@
         var itemId = $(this).attr("data-value");
         var that = $(this);
 
-        ajaxPost('/ucenter/cart/addcount',{id:itemId},function () {
+        ajaxPost('#(CAPTH)/ucenter/cart/addcount', {id: itemId}, function () {
             var input = that.prev();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -62,7 +62,7 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal,that);
+            doCompute(inputVal, that);
         });
     });
 
@@ -70,7 +70,7 @@
     $(".subtract").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
-        ajaxPost('/ucenter/cart/subtractcount',{id:itemId},function () {
+        ajaxPost('#(CAPTH)/ucenter/cart/subtractcount', {id: itemId}, function () {
             var input = that.next();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -93,7 +93,7 @@
         var price = parseFloat(getTableContent(row, col - 1));
         var totalPrice = price * val;
 
-        setTableContent(row,col + 1, totalPrice.toFixed(2));
+        setTableContent(row, col + 1, totalPrice.toFixed(2));
     }
 
     function getTableContent(row, col) {
@@ -143,22 +143,22 @@
 
 
     function checkAll(checkbox) {
-        if (checkbox.checked){
+        if (checkbox.checked) {
             $(".dataItem").each(function () {
                 $(this).prop('checked', checkbox.checked);
             });
             var itemIds = getSelectedIds();
-            ajaxPost('/ucenter/cart/select',{id:itemIds},function () {
+            ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
-                    $(this).parent().parent("tr").prop("style","background-color: #ffdfdf;");
+                    $(this).parent().parent("tr").prop("style", "background-color: #ffdfdf;");
                 });
             })
-        }else {
+        } else {
             var itemIds = getSelectedIds();
-            ajaxPost('/ucenter/cart/unselect',{id:itemIds},function () {
+            ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).prop('checked', false);
-                    $(this).parent().parent("tr").prop("style","");
+                    $(this).parent().parent("tr").prop("style", "");
                 });
             })
         }
@@ -166,13 +166,13 @@
 
     function dataItemChange(checkbox) {
         var itemId = $(checkbox).val();
-        if (checkbox.checked){
-            ajaxPost('/ucenter/cart/select',{id:itemId},function () {
-                $(checkbox).parent().parent("tr").prop("style","background-color: #ffdfdf;");
+        if (checkbox.checked) {
+            ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
+                $(checkbox).parent().parent("tr").prop("style", "background-color: #ffdfdf;");
             })
-        }else {
-            ajaxPost('/ucenter/cart/unselect',{id:itemId},function () {
-                $(checkbox).parent().parent("tr").prop("style","");
+        } else {
+            ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
+                $(checkbox).parent().parent("tr").prop("style", "");
             })
         }
 
@@ -186,6 +186,14 @@
             }
         });
         return selectedIds.substring(0, selectedIds.length - 1);
+    }
+
+    function del(id) {
+        if (confirm("确定要删除该商品吗？")) {
+            ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
+                location.reload()
+            })
+        }
     }
 
 </script>
@@ -225,25 +233,27 @@
 
                     #for(userCart : page.list ??)
                     <tr #(userCart.selected ? 'style="background-color: #ffdfdf;"' : '') >
-                        <td>
-                            <input class="dataItem" #checkedIf(userCart.selected) type="checkbox"  value="#(userCart.id ??)" onchange="dataItemChange(this)"/>
-                        </td>
-                        <td>
-                            <a href="#(userCart.product_detail_page ?? '#')" target="_blank">#(userCart.product_title ??)</a>
-                        </td>
-                        <td>#(userCart.product_new_price ??)</td>
-                        <td>
-                            <div class="input-group input-number">
-                                <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                                <input type="text" class="form-control" value="#(userCart.product_count ??)">
-                                <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
-                            </div>
-                        </td>
-                        <td>#(userCart.product_count * userCart.product_new_price ??)</td>
-                        <td>
-                            <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
-                            <a href="#">删除</a>
-                        </td>
+                    <td>
+                        <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
+                               onchange="dataItemChange(this)"/>
+                    </td>
+                    <td>
+                        <a href="#(userCart.product_detail_page ?? '#')" target="_blank">#(userCart.product_title
+                            ??)</a>
+                    </td>
+                    <td>#(userCart.product_new_price ??)</td>
+                    <td>
+                        <div class="input-group input-number">
+                            <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
+                            <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                            <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
+                        </div>
+                    </td>
+                    <td>#(userCart.product_count * userCart.product_new_price ??)</td>
+                    <td>
+                        <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
+                        <a href="javascript:;" onclick="del('#(userCart.id)')">删除</a>
+                    </td>
                     </tr>
                     #end
 
@@ -272,7 +282,7 @@
         <div class="col-lg-4 bottom-content-action">1</div>
         <div class="col-lg-7 bottom-content-price">2</div>
         <div class="col-lg-1 bottom-content-buybtn">
-            <a  href="#(CPATH)/ucenter/checkout" class="btn btn-success "><i class="fa fa-credit-card"></i>
+            <a href="#(CPATH)/ucenter/checkout" class="btn btn-success "><i class="fa fa-credit-card"></i>
                 去结算
             </a>
         </div>

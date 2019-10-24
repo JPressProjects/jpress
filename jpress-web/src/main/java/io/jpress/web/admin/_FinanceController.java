@@ -60,8 +60,8 @@ public class _FinanceController extends AdminControllerBase {
         columns.likeAppendPercent("product_title",getPara("pt"));
         columns.eq("status",getPara("status"));
 
-        Page<PaymentRecord> paymentPage = paymentService.paginate(getPagePara(),20, columns);
-        setAttr("paymentPage", paymentPage);
+        Page<PaymentRecord> page = paymentService.paginate(getPagePara(),20, columns);
+        setAttr("page", page);
 
         long successCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_SUCCESS));
         long prepayCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_PRE));

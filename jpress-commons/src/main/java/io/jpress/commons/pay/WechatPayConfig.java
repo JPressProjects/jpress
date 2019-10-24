@@ -20,7 +20,7 @@ import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
-public class WechatPayConfig {
+public class WechatPayConfig extends PayConfigBase{
 
     private boolean enable;
     private String mchId;
@@ -34,6 +34,7 @@ public class WechatPayConfig {
         setAppid(JPressOptions.get("wechat_pay_appid"));
         setPublicKey(JPressOptions.get("wechat_pay_publicKey"));
         setPrivateKey(JPressOptions.get("wechat_pay_secretKey"));
+        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/alipay");
     }
 
     public boolean isConfigOk() {
@@ -86,6 +87,7 @@ public class WechatPayConfig {
         storage.setAppid(getAppid());
         storage.setKeyPublic(getPublicKey());
         storage.setKeyPrivate(getPrivateKey());
+        storage.setNotifyUrl(getCallbackUrl());
 
 //        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
 //        httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));

@@ -20,7 +20,7 @@ import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
-public class PaypalPayConfig {
+public class PaypalPayConfig extends PayConfigBase{
 
     private boolean enable;
     private String clientId;
@@ -30,6 +30,7 @@ public class PaypalPayConfig {
         setEnable(JPressOptions.getAsBool("paypal_pay_enable"));
         setClientId(JPressOptions.get("paypal_pay_clientid"));
         setClientSecret(JPressOptions.get("paypal_pay_clientsecret"));
+        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/paypal");
     }
 
     public boolean isConfigOk() {
@@ -64,6 +65,7 @@ public class PaypalPayConfig {
         PayPalConfigStorage storage = new PayPalConfigStorage();
         storage.setClientID(getClientId());
         storage.setClientSecret(getClientSecret());
+        storage.setNotifyUrl(getCallbackUrl());
         return storage;
     }
 }

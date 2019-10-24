@@ -37,8 +37,7 @@ public enum PayStatus {
     SUCCESS_AMOUNT(14, "余额支付成功"),
     SUCCESS_PAYPAL(15, "PayPal支付成功"),
     SUCCESS_OFFLINE(16, "下线支付成功"),
-    SUCCESS_OTHER(17, "其他方式支付成功")
-    ;
+    SUCCESS_OTHER(17, "其他方式支付成功");
 
 
     private int status;
@@ -74,8 +73,8 @@ public enum PayStatus {
         return null;
     }
 
-    public static PayStatus getSuccessStatusByType(PayType payType){
-        switch (payType){
+    public static PayStatus getSuccessStatusByType(PayType payType) {
+        switch (payType) {
             case ALIPAY:
                 return SUCCESS_ALIPAY;
             case ALIPAYX:
@@ -97,14 +96,14 @@ public enum PayStatus {
     }
 
 
-    public static int getSuccessIntStatusByType(String type){
-        return PayStatus.getSuccessStatusByType(PayType.getByType(type)).getStatus();
+    public static int getSuccessIntStatusByType(String type) {
+        PayStatus payStatus = PayStatus.getSuccessStatusByType(PayType.getByType(type));
+        return payStatus.getStatus();
     }
 
 
-
-    public static PayStatus getPaidStatusByType(PayType payType){
-        switch (payType){
+    public static PayStatus getPaidStatusByType(PayType payType) {
+        switch (payType) {
             case ALIPAYX:
                 return PAID_ALIPAYX;
             case WECHATX:
@@ -118,11 +117,10 @@ public enum PayStatus {
         return null;
     }
 
-    public static String getTextByInt(int status){
+    public static String getTextByInt(int status) {
         PayStatus payStatus = getByStatus(status);
         return payStatus != null ? payStatus.text : StringUtils.EMPTY;
     }
-
 
 
 }

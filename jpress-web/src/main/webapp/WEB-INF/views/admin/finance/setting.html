@@ -24,11 +24,13 @@
                           id="optionForm">
                         <div class="box-body ">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">开启在线支付功能</label>
+                                <label class="col-sm-2 control-label">网站域名</label>
+
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("pay_enable"))>
-                                    <input type="hidden" id="cdn_enable" name="pay_enable">
+                                    <input type="input" class="form-control" placeholder="填写网站的域名" name="web_domain" value="">
+                                    <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，<span style="color: red">要开启支付功能，必须正确填写此项内容。</span> </p>
                                 </div>
+
                             </div>
 
 

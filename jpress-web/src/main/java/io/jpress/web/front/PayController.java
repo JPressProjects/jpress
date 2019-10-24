@@ -35,6 +35,7 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_WECHAT_MOBILE_VIEW = "/WEB-INF/views/front/pay/pay_wechatmobile.html";
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
     public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
+    public static final String DEFAULT_SUCCESS_VIEW = "/WEB-INF/views/front/pay/pay_success.html";
 
     @Inject
     private PaymentRecordService paymentService;
@@ -318,8 +319,11 @@ public class PayController extends TemplateControllerBase {
      * web 页面支付成功后跳转回的 url 地址
      */
     public void success() {
-        redirect("/ucenter/order");
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        setAttr("payment",payment);
+        render("pay_success.html", DEFAULT_SUCCESS_VIEW);
     }
+
 
     public void fail(){
         PaymentRecord payment = paymentService.findByTrxNo(getPara());

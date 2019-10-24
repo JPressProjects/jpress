@@ -264,6 +264,7 @@ CREATE TABLE `member_group` (
   `term_of_validity` int(11) DEFAULT NULL COMMENT '有效期（单位天）',
   `flag` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标识',
   `status` tinyint(2) DEFAULT NULL COMMENT '状态',
+  `with_ucenter` tinyint(1) DEFAULT NULL COMMENT '是否显示在用户中心',
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -451,7 +452,8 @@ CREATE TABLE `product` (
   KEY `user_id` (`user_id`),
   KEY `created` (`created`),
   KEY `view_count` (`view_count`),
-  KEY `order_number` (`order_number`)
+  KEY `order_number` (`order_number`),
+  KEY `sales_count` (`sales_count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
 
 
@@ -647,7 +649,8 @@ CREATE TABLE `user_address` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收货地址';
 
 
@@ -736,7 +739,8 @@ CREATE TABLE `user_favorite` (
   `relative_id` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '相关的id',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '创建日期',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户收藏';
 
 
@@ -757,7 +761,8 @@ CREATE TABLE `user_openid` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `type_value` (`type`,`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='账号绑定信息表';
 
 
@@ -860,7 +865,8 @@ CREATE TABLE `user_order_item` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单明细表';
 
 
@@ -936,7 +942,8 @@ CREATE TABLE `wechat_reply` (
   `content` text COMMENT '回复内容',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
   `modified` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
 
 

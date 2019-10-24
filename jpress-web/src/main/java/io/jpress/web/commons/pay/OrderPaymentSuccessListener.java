@@ -61,6 +61,9 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                     case PaymentRecord.PAY_TYPE_OTHER:
                         userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_OTHER);
                         break;
+                    case PaymentRecord.PAY_TYPE_AMOUNT:
+                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_AMOUNT);
+                        break;
                 }
 
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);

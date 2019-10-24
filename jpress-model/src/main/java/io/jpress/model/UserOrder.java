@@ -53,6 +53,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int PAY_STATUS_PAID_WECHATX = 12;//微信转账完成
     public static final int PAY_STATUS_PAID_OTHER_BY_USER = 5; //用户主动标识，其他工具转账完成
     public static final int PAY_STATUS_PAID_OTHER = 13;//其他工具转账完成
+    public static final int PAY_STATUS_PAID_AMOUNT = 14;//余额支付成功
 
     public static final Map<Integer, String> payStatusTexts = new HashMap<>();
 
@@ -67,6 +68,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         payStatusTexts.put(PAY_STATUS_PAID_WECHATX, "微信转账完成");
         payStatusTexts.put(PAY_STATUS_PAID_OTHER_BY_USER, "支付工具转账中");
         payStatusTexts.put(PAY_STATUS_PAID_OTHER, "支付工具转账完成");
+        payStatusTexts.put(PAY_STATUS_PAID_AMOUNT, "账户余额账完成");
     }
 
     /**

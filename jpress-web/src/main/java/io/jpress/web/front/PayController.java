@@ -230,6 +230,7 @@ public class PayController extends TemplateControllerBase {
         statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
 
         statementService.save(statement);
+        paymentService.update(payment);
 
         if (userService.updateUserAmount(getLoginedUser().getId(), userAmount,
                 BigDecimal.ZERO.subtract(payment.getPayAmount()))){

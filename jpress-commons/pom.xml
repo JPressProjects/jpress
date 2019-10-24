@@ -65,5 +65,20 @@
             <artifactId>commonmark-ext-yaml-front-matter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-ali</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-paypal</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

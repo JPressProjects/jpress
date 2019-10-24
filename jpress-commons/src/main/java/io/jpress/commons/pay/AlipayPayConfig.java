@@ -13,31 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.commons.pay;
 
 
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
+import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
-public class WechatPayConfig {
+public class AlipayPayConfig {
 
     private boolean enable;
-    private String mchId;
+    private String pid;
     private String appid;
     private String publicKey;
     private String privateKey;
+    private String seller;
 
-    public WechatPayConfig() {
-        setEnable(JPressOptions.getAsBool("wechat_pay_enable"));
-        setMchId(JPressOptions.get("wechat_pay_mchId"));
-        setAppid(JPressOptions.get("wechat_pay_appid"));
-        setPublicKey(JPressOptions.get("wechat_pay_publicKey"));
-        setPrivateKey(JPressOptions.get("wechat_pay_secretKey"));
+    public AlipayPayConfig() {
+        setEnable(JPressOptions.getAsBool("alipay_pay_enable"));
+        setPid(JPressOptions.get("alipay_pay_pid"));
+        setAppid(JPressOptions.get("alipay_pay_appid"));
+        setPublicKey(JPressOptions.get("alipay_pay_publicKey"));
+        setPrivateKey(JPressOptions.get("alipay_pay_privateKey"));
+        setSeller(JPressOptions.get("alipay_pay_seller"));
     }
 
     public boolean isConfigOk() {
-        return StrUtil.areNotEmpty(mchId, appid, publicKey, privateKey);
+        return StrUtil.areNotEmpty(pid, appid, publicKey, privateKey, seller);
     }
 
     public boolean isEnable() {
@@ -56,12 +58,12 @@ public class WechatPayConfig {
         this.appid = appid;
     }
 
-    public String getMchId() {
-        return mchId;
+    public String getPid() {
+        return pid;
     }
 
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public String getPublicKey() {
@@ -80,23 +82,21 @@ public class WechatPayConfig {
         this.privateKey = privateKey;
     }
 
-    public WxPayConfigStorage toConfigStorage() {
-        WxPayConfigStorage storage = new WxPayConfigStorage();
-        storage.setMchId(getMchId());
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public AliPayConfigStorage toConfigStorage() {
+        AliPayConfigStorage storage = new AliPayConfigStorage();
+        storage.setPid(getPid());
         storage.setAppid(getAppid());
         storage.setKeyPublic(getPublicKey());
         storage.setKeyPrivate(getPrivateKey());
-
-//        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-//        httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));
-//        httpConfigStorage.setStorePassword("证书密码");
-//        //设置ssl证书对应的存储方式输入流，这里默认为文件地址
-//        httpConfigStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
-//        service = new WxPayService(wxPayConfigStorage, httpConfigStorage);
-
+        storage.setSeller(getSeller());
         return storage;
     }
-
-
-
 }

@@ -20,10 +20,11 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.UrlParaValidate;
+import io.jpress.commons.pay.PayConfigUtil;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
-import io.jpress.web.commons.pay.PayConfigUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -244,7 +245,7 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setOrderRealAmount(orderTotalAmount);
         userOrder.setId(userOrderId);
 
-        userOrder.setPayStatus(UserOrder.PAY_STATUS_UNPAY);//支付状态：未支付
+        userOrder.setPayStatus(PayStatus.UNPAY.getStatus());//支付状态：未支付
         userOrder.setTradeStatus(UserOrder.TRADE_STATUS_TRADING);//交易状态：交易中...
         userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_UNDELIVERY);//发货状态：未发货
         userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_NOT_APPLY);//发票开具状态：用户未申请
@@ -282,7 +283,7 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
+        payment.setPayStatus(PayStatus.UNPAY.getStatus());//预支付
 
         payment.setPayAmount(userOrder.getOrderRealAmount());
         payment.setPayType(getPara("paytype"));

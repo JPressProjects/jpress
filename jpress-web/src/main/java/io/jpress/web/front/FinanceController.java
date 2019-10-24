@@ -5,6 +5,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
@@ -63,13 +64,12 @@ public class FinanceController extends UcenterControllerBase {
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
+        payment.setPayStatus(PayStatus.UNPAY.getStatus());//预支付
 
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
         payment.setPayAmount(new BigDecimal(getPara("recharge_amount")));
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_PREPAY);//预支付
         payment.setPayType(getPara("paytype"));
 
 

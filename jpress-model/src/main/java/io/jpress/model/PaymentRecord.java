@@ -16,6 +16,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.base.BasePaymentRecord;
 
 import java.util.HashMap;
@@ -34,34 +35,6 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final String TRX_TYPE_RECHARGE = "recharge"; //用户充值
     public static final String TRX_TYPE_ORDER = "order"; //订单支付
     public static final String TRX_TYPE_MEMBER = "member"; //购买会员
-
-
-    /**
-     * 支付状态
-     */
-    public static final int PAY_STATUS_PREPAY = 1; //生成订单
-    public static final int PAY_STATUS_FAILURE = 2; //支付失败
-    public static final int PAY_STATUS_SUCCESS_ONLINE = 9; //自动在线支付成功
-    public static final int PAY_STATUS_SUCCESS_ALIPAYX = 10; //支付宝转账支付成功
-    public static final int PAY_STATUS_SUCCESS_WECHATX = 11; //微信转账支付成功
-    public static final int PAY_STATUS_SUCCESS_OFFLINE = 12; //线下支付支付成功（一般是银行转账等）
-    public static final int PAY_STATUS_SUCCESS_AMOUNT = 13; //余额支付成功
-    public static final int PAY_STATUS_SUCCESS_OTHER = 14; //其他支付方式支付成功
-
-
-    public static final Map<Integer, String> payStatusTexts = new HashMap<>();
-
-    static {
-        payStatusTexts.put(PAY_STATUS_PREPAY, "未支付");
-        payStatusTexts.put(PAY_STATUS_FAILURE, "支付失败");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_ONLINE, "在线支付成功");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_ALIPAYX, "支付宝转账支付成功");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_WECHATX, "微信转账支付成功");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_OFFLINE, "线下支付成功");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_AMOUNT, "余额支付成功");
-        payStatusTexts.put(PAY_STATUS_SUCCESS_OTHER, "其他方式支付成功");
-    }
-
 
 
     /**
@@ -126,7 +99,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
         String payType = getPayType();
 
         return payStatus != null
-                && payStatus == PAY_STATUS_PREPAY
+                && payStatus == PayStatus.UNPAY.getStatus()
                 && (PAY_TYPE_WECHATX.equals(payType) || PAY_TYPE_ALIPAYX.equals(payType));
     }
 
@@ -137,7 +110,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      * @return
      */
     public boolean isPaySuccess() {
-        return getPayStatus() != null && getPayStatus() > PAY_STATUS_SUCCESS_ONLINE;
+        return getPayStatus() != null && getPayStatus() > PayStatus.SUCCESS_ALIPAY.getStatus();
     }
 
 
@@ -147,7 +120,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      * @return
      */
     public boolean isPayPre() {
-        return getPayStatus() != null && PAY_STATUS_PREPAY == getPayStatus();
+        return getPayStatus() != null && PayStatus.UNPAY.getStatus() == getPayStatus();
     }
 
 
@@ -156,7 +129,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     }
 
     public String getPayStatusStr() {
-        return payStatusTexts.get(getPayStatus());
+        return PayStatus.getTextByInt(getPayStatus());
     }
 
     public String getStatusStr() {

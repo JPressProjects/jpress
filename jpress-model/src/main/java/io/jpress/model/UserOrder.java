@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.base.BaseUserOrder;
 
 import java.util.HashMap;
@@ -39,37 +40,6 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         tradeStatusTexts.put(TRADE_STATUS_FINISHED, "交易结束");
     }
 
-
-    /**
-     * 支付状态
-     */
-    public static final int PAY_STATUS_UNPAY = 1; //未支付
-    public static final int PAY_STATUS_PAID_ONLINE = 9;//线上支付完成，线上支付肯定会有 payment 记录
-    public static final int PAY_STATUS_PAID_OFFLINE_BY_USER = 2; //用户主动标识线下支付完成
-    public static final int PAY_STATUS_PAID_OFFLINE = 10;//线下直接完成（一般是银行打款）
-    public static final int PAY_STATUS_PAID_ALIPAYX_BY_USER = 3; //用户主动标识，支付宝转账完成
-    public static final int PAY_STATUS_PAID_ALIPAYX = 11;//支付宝转账完成
-    public static final int PAY_STATUS_PAID_WECHATX_BY_USER = 4; //用户主动标识，微信转账完成
-    public static final int PAY_STATUS_PAID_WECHATX = 12;//微信转账完成
-    public static final int PAY_STATUS_PAID_OTHER_BY_USER = 5; //用户主动标识，其他工具转账完成
-    public static final int PAY_STATUS_PAID_OTHER = 13;//其他工具转账完成
-    public static final int PAY_STATUS_PAID_AMOUNT = 14;//余额支付成功
-
-    public static final Map<Integer, String> payStatusTexts = new HashMap<>();
-
-    static {
-        payStatusTexts.put(PAY_STATUS_UNPAY, "未支付");
-        payStatusTexts.put(PAY_STATUS_PAID_ONLINE, "在线支持完成");
-        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE_BY_USER, "线下支付中");
-        payStatusTexts.put(PAY_STATUS_PAID_OFFLINE, "线下支付完成");
-        payStatusTexts.put(PAY_STATUS_PAID_ALIPAYX_BY_USER, "支付宝转账中");
-        payStatusTexts.put(PAY_STATUS_PAID_ALIPAYX, "支付宝转账完成");
-        payStatusTexts.put(PAY_STATUS_PAID_WECHATX_BY_USER, "微信转账中");
-        payStatusTexts.put(PAY_STATUS_PAID_WECHATX, "微信转账完成");
-        payStatusTexts.put(PAY_STATUS_PAID_OTHER_BY_USER, "支付工具转账中");
-        payStatusTexts.put(PAY_STATUS_PAID_OTHER, "支付工具转账完成");
-        payStatusTexts.put(PAY_STATUS_PAID_AMOUNT, "账户余额账完成");
-    }
 
     /**
      * 发货状态（物流状态）
@@ -135,12 +105,12 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public boolean isUnpay(){
         Integer payStatus = getPayStatus();
-        return payStatus != null && payStatus == PAY_STATUS_UNPAY;
+        return payStatus != null && payStatus == PayStatus.UNPAY.getStatus();
     }
 
     public boolean isPaySuccess(){
         Integer payStatus = getPayStatus();
-        return payStatus != null && payStatus >= PAY_STATUS_PAID_ONLINE;
+        return payStatus != null && payStatus >= PayStatus.SUCCESS_ALIPAY.getStatus();
     }
 
 
@@ -149,7 +119,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     }
 
     public String getPayStatusStr() {
-        return payStatusTexts.get(getPayStatus());
+        return PayStatus.getTextByInt(getPayStatus());
     }
 
     public String getDeliveryStatusStr() {

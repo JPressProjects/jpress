@@ -11,6 +11,8 @@ import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.pay.PayStatus;
+import io.jpress.commons.pay.PayType;
 import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
@@ -18,7 +20,7 @@ import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.web.commons.pay.PayConfigUtil;
+import io.jpress.commons.pay.PayConfigUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -210,11 +212,11 @@ public class PayController extends TemplateControllerBase {
 
 
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_SUCCESS_AMOUNT);
+        payment.setPayStatus(PayStatus.SUCCESS_AMOUNT.getStatus());
         payment.setPaySuccessAmount(payment.getPayAmount());
         payment.setPaySuccessTime(new Date());
         payment.setPayCompleteTime(new Date());
-        payment.setPayType("amount");
+        payment.setPayType(PayType.AMOUNT.getType());
 
 
         UserAmountStatement statement = new UserAmountStatement();
@@ -270,7 +272,6 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
 
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
-        payment.setPayStatus(PaymentRecord.PAY_STATUS_SUCCESS_ONLINE);
         payment.setPayCompleteTime(new Date());
         payment.setPaySuccessTime(new Date());
         payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
@@ -279,6 +280,7 @@ public class PayController extends TemplateControllerBase {
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
         if (service instanceof WxPayService) {
+            payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
             payment.setPayBankType(String.valueOf(params.get("bank_type")));
             payment.setThirdpartyType("wechat");
             payment.setThirdpartyAppid(String.valueOf(params.get("appid")));
@@ -291,6 +293,7 @@ public class PayController extends TemplateControllerBase {
         //支付宝支付
         //https://open.alipay.com/developmentDocument.htm
         else if (service instanceof AliPayService) {
+            payment.setPayStatus(PayStatus.SUCCESS_ALIPAY.getStatus());
             payment.setThirdpartyType("alipay");
             payment.setThirdpartyAppid(String.valueOf(params.get("app_id")));
             payment.setThirdpartyMchId(String.valueOf(params.get("seller_id")));
@@ -301,6 +304,7 @@ public class PayController extends TemplateControllerBase {
 
         //Paypal支付
         else if (service instanceof PayPalPayService) {
+            payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
             payment.setThirdpartyType("paypal");
         }
 

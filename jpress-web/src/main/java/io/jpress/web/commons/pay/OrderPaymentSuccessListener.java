@@ -18,6 +18,7 @@ package io.jpress.web.commons.pay;
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.core.payment.PaymentSuccessListener;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserOrder;
@@ -43,29 +44,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                 UserOrderService orderService = Aop.get(UserOrderService.class);
                 UserOrder userOrder = orderService.findById(newPayment.getTrxRelativeId(),null);
 
-                switch (newPayment.getPayType()){
-                    case PaymentRecord.PAY_TYPE_ALIPAY:
-                    case PaymentRecord.PAY_TYPE_WECHAT:
-                    case PaymentRecord.PAY_TYPE_PAYPAL:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_ONLINE);
-                        break;
-                    case PaymentRecord.PAY_TYPE_ALIPAYX:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_ALIPAYX);
-                        break;
-                    case PaymentRecord.PAY_TYPE_WECHATX:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_WECHATX);
-                        break;
-                    case PaymentRecord.PAY_TYPE_OFFLINE:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_OFFLINE);
-                        break;
-                    case PaymentRecord.PAY_TYPE_OTHER:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_OTHER);
-                        break;
-                    case PaymentRecord.PAY_TYPE_AMOUNT:
-                        userOrder.setPayStatus(UserOrder.PAY_STATUS_PAID_AMOUNT);
-                        break;
-                }
-
+                userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(newPayment.getPayType()));
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
 
                 if (!orderService.update(userOrder)){

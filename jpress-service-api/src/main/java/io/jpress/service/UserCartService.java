@@ -5,7 +5,7 @@ import io.jpress.model.UserCart;
 
 import java.util.List;
 
-public interface UserCartService  {
+public interface UserCartService {
 
     /**
      * find model by primary key
@@ -46,7 +46,7 @@ public interface UserCartService  {
      * save model to database
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
     public Object save(UserCart model);
 
@@ -78,7 +78,7 @@ public interface UserCartService  {
      */
     public Page<UserCart> paginate(int page, int pageSize);
 
-    public List<UserCart> findListByUserId(Object userId,int count);
+    public List<UserCart> findListByUserId(Object userId, int count);
 
     public long findCountByUserId(Object userId);
 
@@ -89,4 +89,6 @@ public interface UserCartService  {
     public boolean doSubtractCountById(Object id);
 
     public boolean batchDeleteByIds(Object... ids);
+
+    public UserCart findByProductTypeAndProductId(String productType, long productId);
 }

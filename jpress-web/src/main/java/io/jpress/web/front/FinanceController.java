@@ -32,6 +32,14 @@ public class FinanceController extends UcenterControllerBase {
      * 用户余额信息
      */
     public void amount() {
+        BigDecimal incomeAmount = amountStatementService.queryIncomeAmount(getLoginedUser().getId());
+        BigDecimal payAmount = amountStatementService.queryPayAmount(getLoginedUser().getId());
+        BigDecimal payoutAmount = amountStatementService.queryPayoutAmount(getLoginedUser().getId());
+
+        setAttr("incomeAmount",incomeAmount);
+        setAttr("payAmount",payAmount);
+        setAttr("payoutAmount",payoutAmount);
+
         setAttr("userAmount",userService.queryUserAmount(getLoginedUser().getId()));
         setAttr("userAmountStatements",amountStatementService.findListByUserId(getLoginedUser().getId(),10));
         render("amount.html");

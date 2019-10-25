@@ -28,7 +28,7 @@
             <div class="col-sm-4 invoice-col">
                 <div>
                     <strong>可用余额</strong>
-                    <div style="font-size: 80px">
+                    <div style="font-size: 65px">
                         #number(userAmount,'0.00')
                     </div>
                 </div>
@@ -45,22 +45,19 @@
                 <div class="table-responsive">
                     <table class="table">
                         <tbody><tr>
-                            <th style="width:50%">收入:</th>
-                            <td>$250.30</td>
+                            <th style="width:50%">收入：</th>
+                            <td>#number(incomeAmount ?? 0 ,'0.00')</td>
                         </tr>
                         <tr>
-                            <th>支出</th>
-                            <td>$10.34</td>
+                            <th>支出：</th>
+                            <td>#number(payAmount ?? 0 ,'0.00')</td>
                         </tr>
                         <tr>
-                            <th>购物:</th>
-                            <td>$5.80</td>
+                            <th>提现：</th>
+                            <td>#number(payoutAmount ?? 0 ,'0.00')</td>
                         </tr>
-                        <tr>
-                            <th>提现:</th>
-                            <td>$265.24</td>
-                        </tr>
-                        </tbody></table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- /.col -->

@@ -11,5 +11,7 @@ public class UserAmountStatement extends BaseUserAmountStatement<UserAmountState
 
     private static final long serialVersionUID = 1L;
 
+    public static final String ACTION_PAYOUT = "payout";
+
 
 }

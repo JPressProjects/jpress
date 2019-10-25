@@ -189,6 +189,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         }
     }
 
+
     @Override
     public void shouldUpdateCache(int action, Object data) {
         if (data instanceof User) {

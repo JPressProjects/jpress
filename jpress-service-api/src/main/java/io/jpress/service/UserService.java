@@ -120,4 +120,5 @@ public interface UserService extends JbootServiceJoiner{
     public BigDecimal queryUserAmount(Object userId);
 
     public boolean updateUserAmount(Object userId,BigDecimal oldAmount,BigDecimal updateAmount);
+
 }

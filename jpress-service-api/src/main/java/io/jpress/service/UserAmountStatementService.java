@@ -3,6 +3,7 @@ package io.jpress.service;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.UserAmountStatement;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserAmountStatementService  {
@@ -80,4 +81,11 @@ public interface UserAmountStatementService  {
 
 
     public List<UserAmountStatement> findListByUserId(Object userId, int count);
+
+
+    public BigDecimal queryIncomeAmount(Long id);
+
+    public BigDecimal queryPayAmount(Long id);
+
+    public BigDecimal queryPayoutAmount(Long id);
 }

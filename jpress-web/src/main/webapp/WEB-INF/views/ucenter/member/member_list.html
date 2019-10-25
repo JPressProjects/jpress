@@ -33,23 +33,27 @@
                             <tr>
                                 <th style="width: 350px">会员名称</th>
                                 <th>简介</th>
-                                <th style="width: 120px;text-align: center">操作</th>
+                                <th style="width: 90px;">到期时间</th>
                             </tr>
                             #for(mgroup : memberGroups)
                             #if(mgroup.isShowInUcenter() && mgroup.isNormal())
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
-                                        <a href="#">#(mgroup.title ??)</a>
+                                        <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">#(mgroup.title ??)</a>
                                     </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">加入会员</a> |
+                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">查看福利</a>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     #(mgroup.summary ??)
                                 </td>
                                 <td>
-                                    <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">会员福利</a>
-                                     |
-                                    <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">加入</a>
+                                    尚未加入
                                 </td>
                             </tr>
                             #end

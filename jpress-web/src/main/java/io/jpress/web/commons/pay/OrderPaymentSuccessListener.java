@@ -42,7 +42,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
            boolean updateSucess =  Db.tx(() -> {
 
                 UserOrderService orderService = Aop.get(UserOrderService.class);
-                UserOrder userOrder = orderService.findById(payment.getTrxRelativeId(),null);
+                UserOrder userOrder = orderService.findByPaymentId(payment.getId());
 
                 userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);

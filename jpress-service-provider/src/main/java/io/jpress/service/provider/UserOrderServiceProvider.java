@@ -49,4 +49,9 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
 
         return userOrderPage;
     }
+
+    @Override
+    public UserOrder findByPaymentId(Long id) {
+        return DAO.findFirstByColumn("payment_id",id);
+    }
 }

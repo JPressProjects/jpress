@@ -82,4 +82,6 @@ public interface UserOrderService  {
     public Page<UserOrder> paginate(int page, int pageSize, String title, String ns);
 
     public Page<UserOrder> paginateByUserId(int page, int pageSize,long userid, String title, String ns);
+
+    public UserOrder findByPaymentId(Long id);
 }

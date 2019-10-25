@@ -25,13 +25,28 @@
                         <div class="box-body ">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">网站域名</label>
-
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="填写网站的域名" name="web_domain" value="">
                                     <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，
                                         <span style="color: red">要开启支付功能，必须正确填写此项内容。</span> </p>
                                 </div>
+                            </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启提现功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="payout_enable"
+                                           #checkedIf(option("payout_enable"))>
+                                    <input type="hidden" id="payout_enable" name="payout_enable">
+                                    <p class="help-block"> 当不开启提现功能时，用户分销所赚取的佣金只能在本站进行消费。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现手续费</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="">
+                                </div>
                             </div>
 
 

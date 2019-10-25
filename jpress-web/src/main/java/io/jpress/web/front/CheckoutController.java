@@ -108,7 +108,7 @@ public class CheckoutController extends UcenterControllerBase {
 
         String[] cids = getParaValues("cid");
         if (cids == null || cids.length == 0) {
-            renderFailJson();
+            renderFailJson("没有选择任何商品");
             return;
         }
 

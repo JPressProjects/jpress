@@ -39,7 +39,7 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="mgedit" class="btn btn-primary ">
+                                <a href="mgroupEdit" class="btn btn-primary ">
                                     <i class="fa fa-fw fa-plus"></i> 新建
                                 </a>
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
@@ -65,11 +65,11 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/user/mgedit/#(group.id)"> #(group.name ??) </a>
+                                        <a href="#(CPATH)/admin/user/mgroupEdit/#(group.id)"> #(group.name ??) </a>
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/user/mgedit/#(group.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/mgroupEdit/#(group.id)">编辑</a> |
                                             <a href="#(CPATH)/admin/user/groupPermissions/#(group.id)">权限</a> |
                                             <a href="javascript:;" class="red-action" onclick="doDel('#(group.id)')">删除</a>
                                         </div>

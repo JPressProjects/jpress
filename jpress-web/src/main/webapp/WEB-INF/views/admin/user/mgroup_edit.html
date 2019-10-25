@@ -24,8 +24,9 @@ initEditor('contenteditor', 300);
                     <div class="box-header ">
                         <h3 class="box-title"></h3>
                     </div>
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/user/doMgroupSave"
+                          data-ok-href="#(CPATH)/admin/user/mgroup"
                           method="POST"
                     >
                         <input type="hidden" name="group.id" value="#(group.id ??)">

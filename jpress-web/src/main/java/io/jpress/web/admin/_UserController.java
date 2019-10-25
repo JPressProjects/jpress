@@ -193,7 +193,7 @@ public class _UserController extends AdminControllerBase {
         render("user/mgroup.html");
     }
 
-    public void mgedit() {
+    public void mgroupEdit() {
         Long id = getParaToLong();
         if (id != null) {
             setAttr("group", memberGroupService.findById(id));
@@ -211,7 +211,7 @@ public class _UserController extends AdminControllerBase {
     public void doMgroupSave() {
         MemberGroup memberGroup = getModel(MemberGroup.class, "group");
         memberGroupService.saveOrUpdate(memberGroup);
-        redirect("/admin/user/mgroup");
+        renderOkJson();
     }
 
     public void doMgroupDel() {

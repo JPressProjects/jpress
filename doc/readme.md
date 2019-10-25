@@ -130,6 +130,7 @@ JPress模板主要是由html、css、js和JPress标签组成，JPress标签的�
 | page.html |页面模块的模板|  page.html 可以扩展为 page_aaa.html 、page_bbbb.html ，当模板扩展出 page_xxx.html 的时候，用户在后台发布页面内容的时候，就可以选择使用哪个模板样式进行渲染。例如： page_xxx.html 其中 `xxx` 为样式的名称。|
 | article.html | 文章详情模板| 和page模块一样，article.html 可以扩展出 article_styel1.html、article_style2.html，这样，用户在后台发布文章的时候，可以选择文章样式。（备注：用户中心投稿不能选择样式）  |
 | artlist.html | 文章列表模板| 和page、article一样，可以通过样式 |
+| artsearch.html | 文章搜索模板| 和page、article一样，可以通过样式 | 
 | user_login.html | 用户登录页面| JPress已经内置了登录页面，但是，当模板下有 user_login.html 的时候，就会自动使用模板下的这个页面来渲染 |
 | user_register.html | 用注册页面| 用法通 user_login.html |
 
@@ -294,6 +295,7 @@ screenshot = screenshot.png
 | #categories() | 任意 | 读取文章模块的所有分类 | 
 | #tags() | 任意 | 用于读取文章标签 |  
 | #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
+| #articleSearchPage() | 文章搜索结果页 artsearch.html | 用于渲染搜索结果 |  
 
 
 页面相关指令：

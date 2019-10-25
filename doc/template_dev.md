@@ -117,9 +117,11 @@ screenshot = screenshot.png
 - **page.html** ：页面模块的模板，page.html 可以扩展为 page_aaa.html 、page_bbbb.html ，当模板扩展出 page_xxx.html 的时候，用户在后台发布页面内容的时候，就可以选择使用哪个模板样式进行渲染。例如： page_xxx.html 其中 `xxx` 为样式的名称。
 - **article.html** ：文章详情模板， 和page模块一样，article.html 可以扩展出 article_styel1.html、article_style2.html，这样，用户在后台发布文章的时候，可以选择文章样式。（备注：用户中心投稿不能选择样式）  
 - **artlist.html** ：文章列表模板， 和page、article一样，可以通过样式 
+- **artsearch.htmll** ：文章搜索结果页，用于显示文章的搜索结果。 
 - **user_login.html** ：用户登录页面，JPress已经内置了登录页面，但是，当模板下有 user_login.html 的时候，就会自动使用模板下的这个页面来渲染 
 - **user_register.html** ：用注册页面，用法通同 user_login.html 
 - **user_detail.html** ：用户详情页，一般用于显示某个用户的用户信息，用在 http://127.0.0.1/user/用户id 这个页面渲染。 
+
 
 
 **备注：**

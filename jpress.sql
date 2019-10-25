@@ -222,7 +222,8 @@ CREATE TABLE `member` (
   `status` tinyint(2) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `groupuser` (`group_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员信息';
 
 
@@ -355,7 +356,8 @@ CREATE TABLE `payment_record` (
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
-  `trx_relative_id` varchar(64) DEFAULT NULL,
+  `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销的用户ID',
+  `dist_amount` decimal(10,2) DEFAULT NULL,
   `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
@@ -665,6 +667,28 @@ CREATE TABLE `user_amount` (
   `created` datetime DEFAULT NULL,
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额';
+
+
+
+# Dump of table user_amount_payout
+# ------------------------------------------------------------
+
+CREATE TABLE `user_amount_payout` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL COMMENT '申请提现用户',
+  `amount` decimal(10,2) DEFAULT NULL COMMENT '提现金额',
+  `pay_to` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号',
+  `pay_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现类型',
+  `pay_success_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现成功证明，一般是转账截图',
+  `statement_id` int(11) unsigned DEFAULT NULL COMMENT '申请提现成功后会生成一个扣款记录',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态',
+  `feedback` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '回绝提现时给出原因',
+  `options` text COLLATE utf8mb4_unicode_ci,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='提现申请表';
 
 
 

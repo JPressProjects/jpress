@@ -11,5 +11,9 @@ public class MemberGroup extends BaseMemberGroup<MemberGroup> {
 
     private static final long serialVersionUID = 1L;
 
+    public boolean isShowInUcenter(){
+        return getWithUcenter() != null && getWithUcenter();
+    }
+
 	
 }

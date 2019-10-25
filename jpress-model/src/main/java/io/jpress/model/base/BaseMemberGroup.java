@@ -243,6 +243,20 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
 		return getInt("status");
 	}
 
+    /**
+     * 是否显示在用户中心
+     */
+	public void setWithUcenter(java.lang.Boolean withUcenter) {
+		set("with_ucenter", withUcenter);
+	}
+
+    /**
+     * 是否显示在用户中心
+     */
+	public java.lang.Boolean getWithUcenter() {
+		return get("with_ucenter");
+	}
+
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}

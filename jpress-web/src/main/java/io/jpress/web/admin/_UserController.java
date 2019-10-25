@@ -201,6 +201,13 @@ public class _UserController extends AdminControllerBase {
         render("user/mgroup_edit.html");
     }
 
+
+    @EmptyValidate({
+            @Form(name = "group.name",message = "会员名称不能为空"),
+            @Form(name = "group.title",message = "会员标题不能为空"),
+            @Form(name = "group.price",message = "会员加入费用不能为空"),
+            @Form(name = "group.term_of_validity",message = "会员购买有效期不能为空"),
+    })
     public void doMgroupSave() {
         MemberGroup memberGroup = getModel(MemberGroup.class, "group");
         memberGroupService.saveOrUpdate(memberGroup);

@@ -80,4 +80,7 @@ public interface MemberGroupService extends JbootServiceJoiner {
     public Page<MemberGroup> paginate(int page, int pageSize);
 
 
+    public List<MemberGroup> findUcenterList();
+
+
 }

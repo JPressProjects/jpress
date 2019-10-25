@@ -36,7 +36,6 @@
                                 <th style="width: 90px;">到期时间</th>
                             </tr>
                             #for(mgroup : memberGroups)
-                            #if(mgroup.isShowInUcenter() && mgroup.isNormal())
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
@@ -44,8 +43,13 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">加入会员</a> |
-                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">查看福利</a>
+                                            #if(mgroup.member)
+                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">续费</a>
+                                            #else
+                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">加入会员</a>
+                                            #end
+                                            |
+                                            <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">查看福利</a>
                                         </div>
                                     </div>
                                 </td>
@@ -53,10 +57,13 @@
                                     #(mgroup.summary ??)
                                 </td>
                                 <td>
+                                    #if(mgroup.member.duetime)
+                                    #date(mgroup.member.duetime)
+                                    #else
                                     尚未加入
+                                    #end
                                 </td>
                             </tr>
-                            #end
                             #end
                             </tbody>
                         </table>

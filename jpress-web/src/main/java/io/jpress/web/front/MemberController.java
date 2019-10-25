@@ -21,9 +21,11 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.model.Member;
 import io.jpress.model.MemberGroup;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.MemberGroupService;
+import io.jpress.service.MemberService;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
@@ -45,12 +47,26 @@ public class MemberController extends UcenterControllerBase {
     @Inject
     private MemberGroupService memberGroupService;
 
+    @Inject
+    private MemberService memberService;
+
 
     /**
      * 购物车
      */
     public void index() {
-        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        List<MemberGroup> memberGroups = memberGroupService.findUcenterList();
+        List<Member> userMembers = memberService.findListByUserId(getLoginedUser().getId());
+
+        for (MemberGroup group : memberGroups){
+            for (Member member : userMembers){
+                if (member.getGroupId().equals(group.getId())){
+                    group.put("member",member);
+                }
+            }
+        }
+
+
         setAttr("memberGroups", memberGroups);
         render("member/member_list.html");
     }

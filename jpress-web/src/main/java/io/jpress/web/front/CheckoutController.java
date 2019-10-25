@@ -278,7 +278,9 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);
         payment.setTrxNonceStr(StrUtil.uuid());
+
         payment.setDistUserId(userOrder.getDistUserId());
+        payment.setDistAmount(userOrder.getDistAmount());
 
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());

@@ -111,12 +111,26 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("trx_nonce_str");
 	}
 
+    /**
+     * 分销的用户ID
+     */
 	public void setDistUserId(java.lang.Long distUserId) {
 		set("dist_user_id", distUserId);
 	}
 
+    /**
+     * 分销的用户ID
+     */
 	public java.lang.Long getDistUserId() {
 		return getLong("dist_user_id");
+	}
+
+	public void setDistAmount(java.math.BigDecimal distAmount) {
+		set("dist_amount", distAmount);
+	}
+
+	public java.math.BigDecimal getDistAmount() {
+		return get("dist_amount");
 	}
 
     /**

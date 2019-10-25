@@ -16,6 +16,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.base.BasePaymentRecord;
 
@@ -35,6 +36,14 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final String TRX_TYPE_RECHARGE = "recharge"; //用户充值
     public static final String TRX_TYPE_ORDER = "order"; //订单支付
     public static final String TRX_TYPE_MEMBER = "member"; //购买会员
+
+    public static final Map<String, String> trxTypeTexts = new HashMap<>();
+
+    static {
+        trxTypeTexts.put(TRX_TYPE_RECHARGE, "用户充值");
+        trxTypeTexts.put(TRX_TYPE_ORDER, "订单支付");
+        trxTypeTexts.put(TRX_TYPE_MEMBER, "购买会员");
+    }
 
 
     /**
@@ -61,8 +70,6 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
         payTypeTexts.put(PAY_TYPE_OFFLINE, "线下支付");
         payTypeTexts.put(PAY_TYPE_OTHER, "其他方式支付");
     }
-
-
 
 
     /**
@@ -134,5 +141,10 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
 
     public String getStatusStr() {
         return statusTexts.get(getStatus());
+    }
+
+    public String getTrxTypeStr() {
+        String str = trxTypeTexts.get(getTrxType());
+        return StrUtil.isBlank(str) ? getTrxType() : str;
     }
 }

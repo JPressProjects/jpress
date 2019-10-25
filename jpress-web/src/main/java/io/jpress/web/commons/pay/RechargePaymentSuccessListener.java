@@ -46,8 +46,8 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
 
                 UserAmountStatement statement = new UserAmountStatement();
                 statement.setUserId(payment.getPayerUserId());
-                statement.setAction(UserAmountStatement.ACTION_RECHARGE);
-                statement.setActionDesc(UserAmountStatement.ACTION_RECHARGE_DESC);
+                statement.setAction(payment.getTrxType());
+                statement.setActionDesc(payment.getTrxTypeStr());
                 statement.setActionName("充值");
                 statement.setActionRelativeType("payment_record");
                 statement.setActionRelativeId(payment.getId());

@@ -221,8 +221,10 @@ public class PayController extends TemplateControllerBase {
 
         UserAmountStatement statement = new UserAmountStatement();
         statement.setUserId(getLoginedUser().getId());
-        statement.setAction(UserAmountStatement.ACTION_PAY_ORDER);
-        statement.setActionDesc(UserAmountStatement.ACTION_PAY_ORDER_DESC);
+
+        statement.setAction(payment.getTrxType());
+        statement.setActionDesc(payment.getTrxTypeStr());
+
         statement.setActionName("支付");
         statement.setActionRelativeType("payment_record");
         statement.setActionRelativeId(payment.getId());

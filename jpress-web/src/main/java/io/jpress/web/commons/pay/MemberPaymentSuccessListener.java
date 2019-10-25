@@ -60,7 +60,15 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                     member.setCreated(new Date());
                     member.setModified(new Date());
                 }else {
-                    member.setDuetime(DateUtils.addDays(member.getDuetime(),group.getTermOfValidity()));
+
+                    Date oldDuetime = member.getDuetime();
+
+                    //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
+                    if (oldDuetime.getTime() < new Date().getTime()){
+                        oldDuetime = new Date();
+                    }
+
+                    member.setDuetime(DateUtils.addDays(oldDuetime,group.getTermOfValidity()));
                     member.setModified(new Date());
                 }
 

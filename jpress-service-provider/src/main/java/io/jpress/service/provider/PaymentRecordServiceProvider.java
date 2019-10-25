@@ -15,6 +15,7 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
@@ -22,8 +23,13 @@ import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.CacheUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
+import org.apache.commons.lang.time.DateUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Bean
 public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord> implements PaymentRecordService {
@@ -45,6 +51,7 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
 
     @Override
     public int queryMountAmount() {
-        return 0;
+        return Db.queryInt("select sum(pay_success_amount) from payment_record where created > ? and pay_status >= ?",
+                DateUtils.truncate(new Date(), Calendar.MONTH) , PayStatus.SUCCESS_ALIPAY.getStatus());
     }
 }

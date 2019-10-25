@@ -1,6 +1,7 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
@@ -8,6 +9,10 @@ import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.model.UserOrder;
 import io.jboot.service.JbootServiceBase;
+import org.apache.commons.lang.time.DateUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Bean
 public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implements UserOrderService {
@@ -57,16 +62,17 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
 
     @Override
     public int queryTotayCount() {
-        return 0;
+        return Db.queryInt("select count(*) from user_order where created > ?", DateUtils.truncate(new Date(), Calendar.DATE));
     }
 
     @Override
     public int queryMonthCount() {
-        return 0;
+        return Db.queryInt("select count(*) from user_order where created > ?", DateUtils.truncate(new Date(), Calendar.MONTH));
     }
 
     @Override
     public int queryMonthUserCount() {
-        return 0;
+        String sql = "select count(*) from (select id from user_order where created > ? group by buyer_id) c";
+        return Db.queryInt(sql, DateUtils.truncate(new Date(), Calendar.MONTH));
     }
 }

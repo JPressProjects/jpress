@@ -82,5 +82,5 @@ public interface MemberService  {
     public List<Member> findListByUserId(Object userId);
 
 
-
+    public Member findByGroupIdAndUserId(Long groupId, Long payerUserId);
 }

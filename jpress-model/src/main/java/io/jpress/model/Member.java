@@ -11,5 +11,9 @@ public class Member extends BaseMember<Member> {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String SOURCE_BUY = "buy";
+
+    public static final int STATUS_NORMAL = 9;
+
 	
 }

@@ -69,7 +69,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
             });
 
             if (!updateSucess) {
-                LOG.error("update order fail or update orderItem fail in pay success。");
+                LOG.error("update user amount fail in recharge success。");
             }
 
         }

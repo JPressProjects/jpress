@@ -36,7 +36,7 @@
                                 <th style="width: 90px">加入</th>
                             </tr>
                             #for(mgroup : memberGroups)
-                            #if(mgroup.isShowInUcenter())
+                            #if(mgroup.isShowInUcenter() && mgroup.isNormal())
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>

@@ -166,16 +166,24 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">是否在用户中心显示</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="with_ucenter" #checkedIf(group && group.with_ucenter)>
+                                    <input type="hidden" id="with_ucenter" name="group.with_ucenter">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="status">
-                                        <option value="1">
+                                    <select class="form-control" name="group.status">
+                                        <option value="9" #selectedIf(group && group.status == 9)>
                                             启用
                                         </option>
-                                        <option value="2">
+                                        <option value="1" #selectedIf(group && group.status == 1)>
                                             不启用
                                         </option>
-
                                     </select>
                                 </div>
                             </div>

@@ -70,7 +70,7 @@ public class MemberController extends UcenterControllerBase {
 
     public void doJoin() {
 
-        MemberGroup memberGroup = memberGroupService.findById(getPara());
+        MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
         render404If(memberGroup == null);
 
         BigDecimal joinAmount = memberGroup.getPrice();

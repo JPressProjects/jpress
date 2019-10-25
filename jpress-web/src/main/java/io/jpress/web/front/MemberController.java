@@ -70,14 +70,25 @@ public class MemberController extends UcenterControllerBase {
 
     public void doJoin() {
 
+        MemberGroup memberGroup = memberGroupService.findById(getPara());
+        render404If(memberGroup == null);
+
+        BigDecimal joinAmount = memberGroup.getPrice();
+        render404If(joinAmount == null);
+
+        BigDecimal limitedPrice = memberGroup.getLimitedPrice();
+        if (limitedPrice != null && limitedPrice.subtract(joinAmount).intValue() <= 0){
+            joinAmount = limitedPrice;
+        }
+
         PaymentRecord payment = new PaymentRecord();
-        payment.setProductTitle("用户充值");
-        payment.setProductType("recharge");
-//        payment.setProductRelativeId();
-//        payment.setProductDesc();
+        payment.setProductTitle("加入会员");
+        payment.setProductType("join_member");
+        payment.setProductRelativeId(memberGroup.getId().toString());
+        payment.setProductDesc(memberGroup.getSummary());
 
         payment.setTrxNo(StrUtil.uuid());
-        payment.setTrxType(PaymentRecord.TRX_TYPE_RECHARGE);
+        payment.setTrxType(PaymentRecord.TRX_TYPE_MEMBER);
         payment.setTrxNonceStr(StrUtil.uuid());
 
         payment.setPayerUserId(getLoginedUser().getId());
@@ -88,12 +99,11 @@ public class MemberController extends UcenterControllerBase {
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
 
-        payment.setPayAmount(new BigDecimal(getPara("recharge_amount")));
+        payment.setPayAmount(joinAmount);
         payment.setPayType(getPara("paytype"));
 
 
         payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
-
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);

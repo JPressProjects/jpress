@@ -17,6 +17,7 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.model.MemberGroup;
 import io.jpress.service.MemberGroupService;
 import io.jpress.service.UserService;
@@ -39,16 +40,27 @@ public class MemberController extends UcenterControllerBase {
     private MemberGroupService memberGroupService;
 
 
-
     /**
      * 购物车
      */
     public void index() {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
-        setAttr("memberGroups",memberGroups);
-        render("member/index.html");
+        setAttr("memberGroups", memberGroups);
+        render("member/member_list.html");
     }
 
+    public void detail() {
+        MemberGroup memberGroup = memberGroupService.findById(getPara());
+        setAttr("memberGroup", memberGroup);
+        render("member/member_detail.html");
+    }
+
+    public void join() {
+        MemberGroup memberGroup = memberGroupService.findById(getPara());
+        PayConfigUtil.setConfigAttrs(this);
+        setAttr("memberGroup", memberGroup);
+        render("member/member_join.html");
+    }
 
 
 }

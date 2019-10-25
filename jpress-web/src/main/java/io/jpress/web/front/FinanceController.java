@@ -5,6 +5,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
@@ -42,6 +43,7 @@ public class FinanceController extends UcenterControllerBase {
      */
     @ActionKey("/ucenter/finance/amount/recharge")
     public void recharge() {
+        PayConfigUtil.setConfigAttrs(this);
         render("recharge.html");
     }
 

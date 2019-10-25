@@ -36,13 +36,29 @@
 
     <section class="content-header text-tap">
         <div class="row">
+
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>#(todayOrderCount ?? 0)</h3>
+
+                        <p>今日订单</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>#(monthOrderCount ?? 0)</h3>
 
-                        <p>本月收入</p>
+                        <p>本月订单</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -54,9 +70,9 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>#(mouthPaymentAmount ?? 0)</h3>
 
-                        <p>本月增长</p>
+                        <p>本月销售</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -68,9 +84,9 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>#(mountOrderUserCount ?? 0)</h3>
 
-                        <p>本月订单</p>
+                        <p>本月用户</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -78,20 +94,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>3</h3>
 
-                        <p>今日订单</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- ./col -->
         </div>
 
     </section>

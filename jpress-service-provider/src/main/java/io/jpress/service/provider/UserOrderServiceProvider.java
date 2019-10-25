@@ -54,4 +54,19 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
     public UserOrder findByPaymentId(Long id) {
         return DAO.findFirstByColumn("payment_id",id);
     }
+
+    @Override
+    public int queryTotayCount() {
+        return 0;
+    }
+
+    @Override
+    public int queryMonthCount() {
+        return 0;
+    }
+
+    @Override
+    public int queryMonthUserCount() {
+        return 0;
+    }
 }

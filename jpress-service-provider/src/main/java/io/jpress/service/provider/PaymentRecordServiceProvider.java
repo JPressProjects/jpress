@@ -42,4 +42,9 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
     public PaymentRecord queryCacheByTrxno(String trx) {
         return CacheUtil.get("payment_trx", trx);
     }
+
+    @Override
+    public int queryMountAmount() {
+        return 0;
+    }
 }

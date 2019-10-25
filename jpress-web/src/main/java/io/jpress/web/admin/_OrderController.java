@@ -23,6 +23,7 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
+import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
@@ -54,9 +55,24 @@ public class _OrderController extends AdminControllerBase {
     @Inject
     private UserService userService;
 
+    @Inject
+    private PaymentRecordService paymentService;
+
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
+
+        int todayOrderCount = orderService.queryTotayCount();
+        int monthOrderCount = orderService.queryMonthCount();
+        int mouthPaymentAmount = paymentService.queryMountAmount();
+        int mountOrderUserCount = orderService.queryMonthUserCount();
+
+        setAttr("todayOrderCount",todayOrderCount);
+        setAttr("monthOrderCount",monthOrderCount);
+        setAttr("mouthPaymentAmount",mouthPaymentAmount);
+        setAttr("mountOrderUserCount",mountOrderUserCount);
+
+
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
         setAttr("page", userOrderPage);
         render("order/order_list.html");

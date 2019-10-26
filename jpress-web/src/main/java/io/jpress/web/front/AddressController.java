@@ -45,6 +45,15 @@ public class AddressController extends UcenterControllerBase {
         render("address_edit.html");
     }
 
+    /**
+     * 选择地址的弹出层
+     */
+    public void layer(){
+        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10);
+        setAttr("page", page);
+        render("address_layer.html");
+    }
+
 
     /**
      * 批量删除

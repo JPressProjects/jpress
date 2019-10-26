@@ -184,4 +184,5 @@ public interface UserFavoriteService  {
     public Page<UserFavorite> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    public Page<UserFavorite> paginateByUserIdAndType(int pagePara, int pagesize, Long id, String type);
 }

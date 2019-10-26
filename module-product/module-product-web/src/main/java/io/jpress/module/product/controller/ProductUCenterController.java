@@ -57,7 +57,7 @@ public class ProductUCenterController extends UcenterControllerBase {
     public void comment() {
         Page<ProductComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
-        render("article/comment_list.html");
+        render("product/comment_list.html");
     }
 
 

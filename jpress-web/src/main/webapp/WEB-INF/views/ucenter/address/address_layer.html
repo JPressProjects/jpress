@@ -2,8 +2,7 @@
 #define script()
 <script>
 
-    $(".selectAddress").on('click',function () {
-        // $(this).dataset
+    $(".selectAddress").on('click', function () {
         parent.layer.data = this.dataset;
         parent.layer.closeAll();
     })
@@ -45,15 +44,15 @@
                     </td>
                     <td>
                         <a href="javascript:;" class="selectAddress"
-                            data-addr-id="#(data.id ??)"
-                            data-addr-username="#(data.username ??)"
-                            data-addr-mobile="#(data.mobile ??)"
-                            data-addr-province="#(data.province ??)"
-                            data-addr-city="#(data.city ??)"
-                            data-addr-district="#(data.district ??)"
-                            data-addr-detail="#(data.detail ??)"
-                            data-addr-zipcode="#(data.zipcode ??)"
-                            data-addr-default="#(data.width_default ??)"
+                           data-addr-id="#(data.id ??)"
+                           data-addr-username="#(data.username ??)"
+                           data-addr-mobile="#(data.mobile ??)"
+                           data-addr-province="#(data.province ??)"
+                           data-addr-city="#(data.city ??)"
+                           data-addr-district="#(data.district ??)"
+                           data-addr-detail="#(data.detail ??)"
+                           data-addr-zipcode="#(data.zipcode ??)"
+                           data-addr-default="#(data.width_default ??)"
                         >选择</a>
                     </td>
                 </tr>
@@ -61,7 +60,6 @@
 
                 </tbody>
             </table>
-            <!--                    </div>-->
             <div class="row">
                 <div class="col-sm-12">
                     #@_paginate()

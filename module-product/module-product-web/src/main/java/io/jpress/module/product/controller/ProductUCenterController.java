@@ -20,10 +20,12 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
+import io.jpress.model.UserFavorite;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.web.base.UcenterControllerBase;
 
 /**
@@ -44,6 +46,8 @@ public class ProductUCenterController extends UcenterControllerBase {
     @Inject
     private ProductCommentService commentService;
 
+    @Inject
+    private UserFavoriteService favoriteService;
 
 
 
@@ -59,9 +63,9 @@ public class ProductUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "产品收藏", groupId = "favorite", order = 0)
     public void favorite() {
-        Page<ProductComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
+        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(),10,getLoginedUser().getId(),"article");
         setAttr("page", page);
-        render("article/comment_list.html");
+        render("product/product_favorite.html");
     }
 
     /**

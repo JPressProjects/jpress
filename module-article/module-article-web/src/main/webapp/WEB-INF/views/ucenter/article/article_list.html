@@ -39,8 +39,7 @@
                                 <th style="width: 50px"><i class="fa fa-commenting"></i></th>
                                 <th style="width: 90px">发布时间</th>
                             </tr>
-                            #if(page)
-                            #for(article : page.list)
+                            #for(article : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
@@ -81,7 +80,6 @@
                                 <td>#(article.comment_count ??)</td>
                                 <td>#date(article.created)</td>
                             </tr>
-                            #end
                             #end
                             </tbody>
                         </table>

@@ -86,6 +86,13 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
         commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
         commentMenuGroup.setOrder(2);
         ucenterMenus.add(commentMenuGroup);
+
+        MenuGroup favoriteMenuGroup = new MenuGroup();
+        favoriteMenuGroup.setId("favorite");
+        favoriteMenuGroup.setText("我的收藏");
+        favoriteMenuGroup.setIcon("<i class=\"fa fa-fw fa-bookmark\"></i>");
+        favoriteMenuGroup.setOrder(3);
+        ucenterMenus.add(favoriteMenuGroup);
     }
 
 

@@ -230,6 +230,14 @@ public class ArticleUCenterController extends UcenterControllerBase {
         render("article/comment_list.html");
     }
 
+
+    @UCenterMenu(text = "文章收藏", groupId = "favorite", order = 0)
+    public void favorite() {
+        Page<ArticleComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
+        setAttr("page", page);
+        render("article/comment_list.html");
+    }
+
     /**
      * 评论编辑 页面
      */

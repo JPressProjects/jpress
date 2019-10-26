@@ -192,6 +192,22 @@ public class MenuManager implements JbootEventListener {
             listener.onConfigUcenterMenu(ucenterMenus);
         }
 
+
+        MenuGroup commentMenuGroup = new MenuGroup();
+        commentMenuGroup.setId("comment");
+        commentMenuGroup.setText("我的评论");
+        commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
+        commentMenuGroup.setOrder(88);
+        ucenterMenus.add(commentMenuGroup);
+
+
+        MenuGroup favoriteMenuGroup = new MenuGroup();
+        favoriteMenuGroup.setId("favorite");
+        favoriteMenuGroup.setText("我的收藏");
+        favoriteMenuGroup.setIcon("<i class=\"fa fa-fw fa-bookmark\"></i>");
+        favoriteMenuGroup.setOrder(99);
+        ucenterMenus.add(favoriteMenuGroup);
+
         addMenuItems(buildUCenterMenuItems());
     }
 

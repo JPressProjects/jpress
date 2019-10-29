@@ -85,6 +85,9 @@
         font-size: 18px;
     }
 
+    .table>tbody>tr>td{
+        vertical-align: middle;
+    }
 
 </style>
 #end
@@ -212,7 +215,7 @@
         var itemId = $(checkbox).val();
         if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
-                $(checkbox).parent().parent("tr").prop("style", "background-color: #ffdfdf;");
+                $(checkbox).parent().parent("tr").prop("style", "background-color: #fff4e8;");
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
@@ -332,7 +335,7 @@
             </div>
             <div class="jp-operation">
                 <a href="#" class="remove-batch">删除选中商品</a>
-<!--                <a href="#" class="follow-batch">移到关注</a>-->
+                <a href="#" class="follow-batch">移到收藏</a>
 <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 

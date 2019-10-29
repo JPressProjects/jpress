@@ -25,14 +25,6 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getLong("id");
 	}
 
-	public void setProductType(java.lang.String productType) {
-		set("product_type", productType);
-	}
-
-	public java.lang.String getProductType() {
-		return getStr("product_type");
-	}
-
     /**
      * 商品名称
      */
@@ -50,15 +42,15 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
     /**
      * 产品描述，产品摘要
      */
-	public void setProductDesc(java.lang.String productDesc) {
-		set("product_desc", productDesc);
+	public void setProductSummary(java.lang.String productSummary) {
+		set("product_summary", productSummary);
 	}
 
     /**
      * 产品描述，产品摘要
      */
-	public java.lang.String getProductDesc() {
-		return getStr("product_desc");
+	public java.lang.String getProductSummary() {
+		return getStr("product_summary");
 	}
 
 	public void setProductRelativeId(java.lang.String productRelativeId) {
@@ -67,6 +59,22 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 
 	public java.lang.String getProductRelativeId() {
 		return getStr("product_relative_id");
+	}
+
+	public void setProductRelativeTable(java.lang.String productRelativeTable) {
+		set("product_relative_table", productRelativeTable);
+	}
+
+	public java.lang.String getProductRelativeTable() {
+		return getStr("product_relative_table");
+	}
+
+	public void setProductRelativeTableText(java.lang.String productRelativeTableText) {
+		set("product_relative_table_text", productRelativeTableText);
+	}
+
+	public java.lang.String getProductRelativeTableText() {
+		return getStr("product_relative_table_text");
 	}
 
     /**

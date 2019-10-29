@@ -17,6 +17,7 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
+import com.jfinal.plugin.activerecord.Model;
 import io.jpress.web.interceptor.CSRFInterceptor;
 import io.jpress.web.interceptor.UserCenterInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
@@ -36,19 +37,22 @@ import io.jpress.web.interceptor.UserMustLoginedInterceptor;
 public abstract class UcenterControllerBase extends ControllerBase {
 
 
-//    @Override
-//    @NotAction
-//    public void render(String view) {
-//        if (view.startsWith("/")) {
-//            super.render(view);
-//        } else {
-//            super.render("/WEB-INF/views/ucenter/" + view);
-//        }
-//    }
-
     @NotAction
     public int getPagePara() {
         return getParaToInt("page", 1);
+    }
+
+
+    @NotAction
+    public boolean checkOwner(Model model) {
+        return checkOwner(model,"user_id");
+    }
+
+    @NotAction
+    public boolean checkOwner(Model model, String attrName) {
+        if (model == null) return false;
+        Object userId = model.get(attrName);
+        return userId != null && userId.equals(getLoginedUser().getId());
     }
 
 

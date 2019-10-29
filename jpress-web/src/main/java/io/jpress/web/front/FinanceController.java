@@ -63,7 +63,7 @@ public class FinanceController extends UcenterControllerBase {
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("用户充值");
-        payment.setProductType("recharge");
+        payment.setProductRelativeTable("user_amount_statement");
 //        payment.setProductRelativeId();
 //        payment.setProductDesc();
 

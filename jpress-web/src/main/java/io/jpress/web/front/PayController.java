@@ -365,7 +365,7 @@ public class PayController extends TemplateControllerBase {
     private PayOrder createPayOrder(PaymentRecord payment) {
         return new PayOrder(
                 payment.getProductTitle(),
-                payment.getProductDesc(),
+                payment.getProductSummary(),
                 payment.getPayAmount(),
                 payment.getTrxNo());
 

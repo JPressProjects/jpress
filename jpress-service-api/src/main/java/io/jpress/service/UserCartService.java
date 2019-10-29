@@ -90,7 +90,7 @@ public interface UserCartService {
 
     public boolean batchDeleteByIds(Object... ids);
 
-    public UserCart findByProductTypeAndProductId(String productType, long productId);
+    public UserCart findByProductTablendProductId(String productTable, long productId);
 
     public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
 

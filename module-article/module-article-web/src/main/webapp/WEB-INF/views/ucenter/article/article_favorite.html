@@ -1,10 +1,11 @@
 #@ucenter_layout()
 #define script()
 <script>
-    function doDelComment(id) {
-        ajaxGet("#(CPATH)/ucenter/article/doCommentDel?id=" + id)
+    function doDelFavorite(id) {
+        if (confirm("确定要删除该内容吗？")) {
+            ajaxGet("#(CPATH)/ucenter/product/doDelFavorite?id=" + id)
+        }
     }
-
 </script>
 #end
 
@@ -49,8 +50,15 @@
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)#(favorite.detail_page ??)">#(favorite.title ??)</a>
+                                        <a href="#(CPATH)#(favorite.detail_page ??)" target="_blank">#(favorite.title ??)</a>
                                     </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)#(favorite.detail_page ??)" target="_blank">查看</a> |
+                                            <a href="javascript:;" onclick="doDelFavorite('#(favorite.id??)')"
+                                               class="red-action">删除</a>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>#(favorite.summary ??)</td>
                                 <td>#date(favorite.created)</td>

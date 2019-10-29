@@ -99,9 +99,9 @@ public class MemberController extends UcenterControllerBase {
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("加入会员");
-        payment.setProductType("join_member");
+        payment.setProductRelativeTable("member_group");
         payment.setProductRelativeId(memberGroup.getId().toString());
-        payment.setProductDesc(memberGroup.getSummary());
+        payment.setProductSummary(memberGroup.getSummary());
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_MEMBER);

@@ -125,8 +125,9 @@ public class CheckoutController extends UcenterControllerBase {
             item.setSellerId(userCart.getSellerId());
 
             item.setProductId(userCart.getProductId());
-            item.setProductType(userCart.getProductType());
-            item.setProductTypeText(userCart.getProductTypeText());
+            item.setProductTable(userCart.getProductTable());
+            item.setProductTableText(userCart.getProductTableText());
+            item.setProductSummary(userCart.getProductSummary());
             item.setProductTitle(userCart.getProductTitle());
             item.setProductPrice(userCart.getProductPrice());
             item.setProductCount(userCart.getProductCount());
@@ -169,7 +170,7 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.keep("delivery_addr_username","delivery_addr_mobile","delivery_addr_province",
                 "delivery_addr_city","delivery_addr_district","delivery_addr_detail","delivery_addr_zipcode");
 
-        userOrder.setProductType(userOrderItems.get(0).getProductType());
+        userOrder.setProductTable(userOrderItems.get(0).getProductTable());
         userOrder.setProductTitle(userOrderItems.get(0).getProductTitle());
 
         userOrder.setBuyerId(getLoginedUser().getId());
@@ -186,7 +187,7 @@ public class CheckoutController extends UcenterControllerBase {
             productDesc.delete(200,productDesc.length() -1);
             productDesc.append("...");
         }
-        userOrder.setProductDesc(productDesc.toString());
+        userOrder.setProductSummary(productDesc.toString());
 
 
         //设置优惠券的相关字段
@@ -270,9 +271,9 @@ public class CheckoutController extends UcenterControllerBase {
         }
 
         payment.setProductTitle(userOrder.getProductTitle());
-        payment.setProductType(userOrder.getProductType());
+        payment.setProductRelativeTable(userOrder.getProductTable());
         payment.setProductRelativeId(userOrder.getId().toString());
-        payment.setProductDesc(userOrder.getProductDesc());
+        payment.setProductSummary(userOrder.getProductSummary());
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_ORDER);

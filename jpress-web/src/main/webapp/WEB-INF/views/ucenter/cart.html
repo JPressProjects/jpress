@@ -141,7 +141,11 @@
         var totalPrice = price * val;
 
         setTableContent(row, col + 1, totalPrice.toFixed(2));
+
+        querySelectedItemCountAndPrice();
     }
+
+
 
     function getTableContent(row, col) {
         var content = null;
@@ -198,6 +202,7 @@
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                    querySelectedItemCountAndPrice();
                 });
             })
         } else {
@@ -206,6 +211,7 @@
                 $(".dataItem").each(function () {
                     $(this).prop('checked', false);
                     $(this).parent().parent("tr").prop("style", "");
+                    querySelectedItemCountAndPrice();
                 });
             })
         }
@@ -216,10 +222,12 @@
         if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
                 $(checkbox).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                querySelectedItemCountAndPrice();
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
                 $(checkbox).parent().parent("tr").prop("style", "");
+                querySelectedItemCountAndPrice();
             })
         }
 
@@ -235,6 +243,7 @@
         return selectedIds.substring(0, selectedIds.length - 1);
     }
 
+
     function del(id) {
         if (confirm("确定要删除该商品吗？")) {
             ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
@@ -243,8 +252,51 @@
         }
     }
 
-</script>
+    function querySelectedItemCountAndPrice() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            $('#selectedItemCount').text(data.count);
+            $('#selectedItemPrice').text("¥"+data.price);
+        })
+    }
 
+
+    function doDelSelectedItems() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0 && confirm("确定要删除所有选中的商品吗？")){
+                ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
+                    location.reload();
+                })
+            }else {
+                alert("您未选择任何商品。")
+            }
+        })
+    }
+
+
+    function doRemoveSelectedItemsToFavorites() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0 && confirm("确定要把所有选中商品移动到收藏夹吗？")){
+                ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites",function () {
+                    location.reload();
+                })
+            }else {
+                alert("您未选择任何商品，无法进行移动到收藏夹。")
+            }
+        })
+    }
+
+
+    function gotoCheckout() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0){
+                location.href="#(CPATH)/ucenter/checkout"
+            }else {
+                alert("您未选择任何商品，无法进行结算。")
+            }
+        })
+    }
+
+</script>
 #end
 
 #define content()
@@ -334,8 +386,8 @@
                 </div>
             </div>
             <div class="jp-operation">
-                <a href="#" class="remove-batch">删除选中商品</a>
-                <a href="#" class="follow-batch">移到收藏</a>
+                <a href="javascript:;" onclick="doDelSelectedItems()" class="remove-batch">删除选中商品</a>
+                <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorites()" class="follow-batch">移到收藏</a>
 <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 
@@ -344,14 +396,14 @@
         <div class="col-lg-7 bottom-content-price">
 
             <div class="select-sum">
-                已选择<em>#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
+                已选择<em id="selectedItemCount">#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
             </div>
 
             <div class="price-sum">
                 <div>
                     <span class="txt txt-new">总价：</span>
                     <span class="sumprice">
-                        <em>¥#number(selectItemTotalPrice ?? 0,'0.00')</em>
+                        <em id="selectedItemPrice">¥#number(selectItemTotalPrice ?? 0,'0.00')</em>
                     </span>
                     <b class="ml5 price-tips"></b>
 
@@ -361,7 +413,7 @@
 
         </div>
         <div class="col-lg-1 bottom-content-buybtn">
-            <a href="#(CPATH)/ucenter/checkout" class="btn btn-danger "><i class="fa fa-credit-card"></i>
+            <a href="javascript:;" class="btn btn-danger " onclick="gotoCheckout()"><i class="fa fa-credit-card"></i>
                 去结算
             </a>
         </div>

@@ -16,6 +16,7 @@
 package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -24,10 +25,12 @@ import io.jboot.web.validate.Form;
 import io.jpress.model.UserCart;
 import io.jpress.service.UserAddressService;
 import io.jpress.service.UserCartService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +51,9 @@ public class CartController extends UcenterControllerBase {
     @Inject
     private UserAddressService addressService;
 
+    @Inject
+    private UserFavoriteService favoriteService;
+
 
     /**
      * 购物车
@@ -66,9 +72,24 @@ public class CartController extends UcenterControllerBase {
             }
             setAttr("selectItemTotalPrice", totalPrice);
         }
-
-
         render("cart.html");
+    }
+
+
+    public void querySelectedItemCountAndPrice(){
+
+        long count = cartService.querySelectCount(getLoginedUser().getId());
+        BigDecimal price = BigDecimal.ZERO;
+
+
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null) {
+            for (UserCart cart : userCarts) {
+                price = price.add(cart.getShouldPayPrice());
+            }
+        }
+
+        renderJson(Ret.ok().set("count",count).set("price",new DecimalFormat("0.00").format(price)));
     }
 
     /**
@@ -104,6 +125,29 @@ public class CartController extends UcenterControllerBase {
             if (cart != null) {
                 cart.setSelected(false);
                 cartService.update(cart);
+            }
+        }
+        renderOkJson();
+    }
+
+
+    public void doDelSelectedItems(){
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null){
+            for (UserCart cart : userCarts){
+                cartService.delete(cart);
+            }
+        }
+        renderOkJson();
+    }
+
+
+    public void doRemoveSelectedItemsToFavorites(){
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null){
+            for (UserCart cart : userCarts){
+                favoriteService.save(cart.toFavorite());
+                cartService.delete(cart);
             }
         }
         renderOkJson();

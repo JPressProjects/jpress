@@ -16,7 +16,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public Object save(UserCart model) {
-        UserCart userCart = findByProductTypeAndProductId(model.getProductType(), model.getProductId());
+        UserCart userCart = findByProductTablendProductId(model.getProductTable(), model.getProductId());
         if (userCart == null) {
             return super.save(model);
         } else {
@@ -54,8 +54,8 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public UserCart findByProductTypeAndProductId(String productType, long productId) {
-        return DAO.findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId));
+    public UserCart findByProductTablendProductId(String productTable, long productId) {
+        return DAO.findFirstByColumns(Columns.create("product_table", productTable).eq("product_id", productId));
     }
 
     @Override

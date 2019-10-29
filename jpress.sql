@@ -349,10 +349,11 @@ CREATE TABLE `option` (
 
 CREATE TABLE `payment_record` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `product_type` varchar(32) DEFAULT NULL,
   `product_title` varchar(256) DEFAULT '' COMMENT '商品名称',
-  `product_desc` varchar(512) DEFAULT NULL COMMENT '产品描述，产品摘要',
+  `product_summary` varchar(512) DEFAULT NULL COMMENT '产品描述，产品摘要',
   `product_relative_id` varchar(64) DEFAULT NULL,
+  `product_relative_table` varchar(32) DEFAULT NULL,
+  `product_relative_table_text` varchar(64) DEFAULT NULL,
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
@@ -724,11 +725,12 @@ CREATE TABLE `user_cart` (
   `user_id` int(10) unsigned NOT NULL COMMENT '购买的用户',
   `seller_id` int(11) unsigned DEFAULT NULL COMMENT '商品的所属用户',
   `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销用户',
+  `product_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
+  `product_table_text` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_id` int(11) unsigned DEFAULT NULL,
-  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
-  `product_type_text` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_virtual` tinyint(1) DEFAULT NULL COMMENT '是否是虚拟产品，虚拟产品支付完毕后立即交易完成',
   `product_title` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '商品标题',
+  `product_summary` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品缩略图',
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
   `product_new_price` decimal(10,2) NOT NULL COMMENT '商品的最新价格',
@@ -743,8 +745,7 @@ CREATE TABLE `user_cart` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `ptype_pid` (`product_id`,`product_type`)
+  KEY `ptable_pid` (`product_table`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
 
@@ -756,6 +757,7 @@ CREATE TABLE `user_favorite` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int(10) unsigned NOT NULL COMMENT '收藏用户',
   `type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收藏数据的类型',
+  `type_text` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `summary` text COLLATE utf8mb4_unicode_ci COMMENT '摘要',
   `thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缩略图',
@@ -765,7 +767,7 @@ CREATE TABLE `user_favorite` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `usertype` (`user_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户收藏';
 
 
@@ -798,9 +800,9 @@ CREATE TABLE `user_openid` (
 CREATE TABLE `user_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ns` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单号',
-  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类型',
+  `product_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类型',
   `product_title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '商品的名称',
-  `product_desc` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_summary` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `buyer_id` int(11) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
@@ -866,10 +868,11 @@ CREATE TABLE `user_order_item` (
   `dist_user_id` int(10) unsigned DEFAULT NULL COMMENT '分销员',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额',
   `product_id` int(11) unsigned DEFAULT NULL COMMENT '产品id',
-  `product_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
-  `product_type_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...',
+  `product_table_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_virtual` tinyint(1) DEFAULT NULL COMMENT '是否是虚拟产品，虚拟产品支付完毕后立即交易完成',
   `product_title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品标题',
+  `product_summary` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品缩略图',
   `product_price` decimal(10,2) DEFAULT NULL COMMENT '产品价格',
   `product_count` int(11) DEFAULT NULL COMMENT '产品数量',
@@ -970,7 +973,6 @@ CREATE TABLE `wechat_reply` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
-
 
 
 

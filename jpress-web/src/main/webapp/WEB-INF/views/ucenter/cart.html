@@ -24,21 +24,65 @@
         position: fixed;
         bottom: 0;
         width: 100%;
+
         height: 60px;
         background-color: #fff;
-        border-top: solid 1px #ccc;
-        box-shadow: -15px 10px 10px 10px #ccc;;
+        border-top: 1px solid #F0F0F0;
+        box-shadow: 0 -1px 8px rgba(0,1,1,.08);
+        z-index: 9999;
     }
 
     .bottom-content {
-        background-color: #ccc;
+
         width: 100%;
+        max-width: 1250px;
         height: 60px;
-        padding: 0 230px 0 230px;
+        margin:0 auto;
+        padding-left:40px;
+        padding-right:40px;
+        box-sizing: border-box;
+        z-index: 9999;
     }
 
     .bottom-content div {
         height: 60px;
+        line-height: 60px;
+    }
+    .bottom-content-action{
+        display: flex;
+    }
+    .jp-operation a,.cart-checkbox label{
+        font-size:14px;
+        color:#999;
+        margin-right:5px;
+        font-weight: 400;
+    }
+    .jp-operation a:hover{
+        color:#dd4b39;
+    }
+    .jp-operation .jp-cleaner{
+        font-weight: 500;
+        color:#666;
+    }
+    .bottom-content-price{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .select-sum,.price-sum{
+        color:#999;
+        font-size: 14px;
+        margin-right:5px;
+        font-weight: 400;
+    }
+    .select-sum em{
+        color:#dd4b39;
+        font-weight: 500;
+        margin:0 5px;
+    }
+    .sumprice em{
+        color:#dd4b39;
+        font-weight: 500;
+        font-size: 18px;
     }
 
 
@@ -150,7 +194,7 @@
             var itemIds = getSelectedIds();
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
-                    $(this).parent().parent("tr").prop("style", "background-color: #ffdfdf;");
+                    $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
                 });
             })
         } else {
@@ -220,7 +264,7 @@
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" />
                         </th>
                         <th style="width: 40%">商品</th>
                         <th>单价 #</th>
@@ -232,14 +276,13 @@
                     <tbody>
 
                     #for(userCart : page.list ??)
-                    <tr #(userCart.selected ? 'style="background-color: #ffdfdf;"' : '') >
+                    <tr #(userCart.selected ? 'style="background-color: #fff4e8;"' : '') >
                     <td>
                         <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
                                onchange="dataItemChange(this)"/>
                     </td>
                     <td>
-                        <a href="#(userCart.product_detail_page ?? '#')" target="_blank">#(userCart.product_title
-                            ??)</a>
+                        <a href="#(userCart.product_detail_page ?? '#')" target="_blank">#(userCart.product_title ??)</a>
                     </td>
                     <td>#(userCart.product_new_price ??)</td>
                     <td>
@@ -279,10 +322,43 @@
 
 <div class="bottom-bar">
     <div class="row bottom-content">
-        <div class="col-lg-4 bottom-content-action">1</div>
-        <div class="col-lg-7 bottom-content-price">2</div>
+        <div class="col-lg-4 bottom-content-action">
+
+            <div class="select-all">
+                <div class="cart-checkbox">
+                    <input type="checkbox" class="jpcheckbox" onchange="checkAll(this)" >
+                    <label>全选</label>
+                </div>
+            </div>
+            <div class="jp-operation">
+                <a href="#" class="remove-batch">删除选中商品</a>
+<!--                <a href="#" class="follow-batch">移到关注</a>-->
+<!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
+            </div>
+
+
+        </div>
+        <div class="col-lg-7 bottom-content-price">
+
+            <div class="select-sum">
+                已选择<em>0</em>件商品<b class="up"></b>
+            </div>
+
+            <div class="price-sum">
+                <div>
+                    <span class="txt txt-new">总价：</span>
+                    <span class="sumprice">
+                        <em>¥0.00</em>
+                    </span>
+                    <b class="ml5 price-tips"></b>
+
+                </div>
+            </div>
+
+
+        </div>
         <div class="col-lg-1 bottom-content-buybtn">
-            <a href="#(CPATH)/ucenter/checkout" class="btn btn-success "><i class="fa fa-credit-card"></i>
+            <a href="#(CPATH)/ucenter/checkout" class="btn btn-danger "><i class="fa fa-credit-card"></i>
                 去结算
             </a>
         </div>

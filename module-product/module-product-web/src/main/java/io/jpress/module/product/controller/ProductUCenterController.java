@@ -63,9 +63,18 @@ public class ProductUCenterController extends UcenterControllerBase {
 
     @UCenterMenu(text = "产品收藏", groupId = "favorite", order = 0)
     public void favorite() {
-        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(),10,getLoginedUser().getId(),"article");
+        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(),10,getLoginedUser().getId(),"product");
         setAttr("page", page);
         render("product/product_favorite.html");
+    }
+
+    public void doDelFavorite(){
+        UserFavorite userFavorite = favoriteService.findById(getPara("id"));
+
+        if (checkOwner(userFavorite)){
+            favoriteService.delete(userFavorite);
+        }
+        renderOkJson();
     }
 
     /**

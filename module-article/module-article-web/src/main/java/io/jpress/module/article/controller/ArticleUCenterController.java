@@ -244,6 +244,16 @@ public class ArticleUCenterController extends UcenterControllerBase {
         render("article/article_favorite.html");
     }
 
+
+    public void doDelFavorite(){
+        UserFavorite userFavorite = favoriteService.findById(getPara("id"));
+
+        if (checkOwner(userFavorite)){
+            favoriteService.delete(userFavorite);
+        }
+        renderOkJson();
+    }
+
     /**
      * 评论编辑 页面
      */

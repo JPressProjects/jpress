@@ -72,23 +72,23 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
     /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
-	public void setProductType(java.lang.String productType) {
-		set("product_type", productType);
+	public void setProductTable(java.lang.String productTable) {
+		set("product_table", productTable);
 	}
 
     /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
-	public java.lang.String getProductType() {
-		return getStr("product_type");
+	public java.lang.String getProductTable() {
+		return getStr("product_table");
 	}
 
-	public void setProductTypeText(java.lang.String productTypeText) {
-		set("product_type_text", productTypeText);
+	public void setProductTableText(java.lang.String productTableText) {
+		set("product_table_text", productTableText);
 	}
 
-	public java.lang.String getProductTypeText() {
-		return getStr("product_type_text");
+	public java.lang.String getProductTableText() {
+		return getStr("product_table_text");
 	}
 
     /**
@@ -117,6 +117,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
      */
 	public java.lang.String getProductTitle() {
 		return getStr("product_title");
+	}
+
+	public void setProductSummary(java.lang.String productSummary) {
+		set("product_summary", productSummary);
+	}
+
+	public java.lang.String getProductSummary() {
+		return getStr("product_summary");
 	}
 
     /**

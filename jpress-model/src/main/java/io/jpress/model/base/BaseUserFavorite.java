@@ -53,6 +53,14 @@ public abstract class BaseUserFavorite<M extends BaseUserFavorite<M>> extends Ba
 		return getStr("type");
 	}
 
+	public void setTypeText(java.lang.String typeText) {
+		set("type_text", typeText);
+	}
+
+	public java.lang.String getTypeText() {
+		return getStr("type_text");
+	}
+
     /**
      * 标题
      */

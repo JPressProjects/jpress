@@ -137,8 +137,15 @@ public class CartController extends UcenterControllerBase {
         renderOkJson();
     }
 
-    public void doRemoveSelectedItemsToFavorates(){
 
+    public void doRemoveSelectedItemsToFavorites(){
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null){
+            for (UserCart cart : userCarts){
+                cartService.delete(cart);
+            }
+        }
+        renderOkJson();
     }
 
     /**

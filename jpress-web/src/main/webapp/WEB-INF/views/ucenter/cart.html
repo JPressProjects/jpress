@@ -261,13 +261,21 @@
         })
     }
 
+
     function doDelSelectedItems() {
         if (confirm("确定要删除所有选中的商品吗？")) {
             ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
                 location.reload();
             })
         }
+    }
 
+    function doRemoveSelectedItemsToFavorites() {
+        if (confirm("确定要把所有选中商品移动到收藏夹吗？")) {
+            ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites",function () {
+                location.reload();
+            })
+        }
     }
 
 </script>
@@ -361,7 +369,7 @@
             </div>
             <div class="jp-operation">
                 <a href="javascript:;" onclick="doDelSelectedItems()" class="remove-batch">删除选中商品</a>
-                <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorates()" class="follow-batch">移到收藏</a>
+                <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorites()" class="follow-batch">移到收藏</a>
 <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 

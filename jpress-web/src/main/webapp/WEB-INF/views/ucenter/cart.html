@@ -141,6 +141,8 @@
         var totalPrice = price * val;
 
         setTableContent(row, col + 1, totalPrice.toFixed(2));
+
+        querySelectedItemCountAndPrice();
     }
 
     function getTableContent(row, col) {
@@ -198,6 +200,7 @@
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                    querySelectedItemCountAndPrice();
                 });
             })
         } else {
@@ -206,6 +209,7 @@
                 $(".dataItem").each(function () {
                     $(this).prop('checked', false);
                     $(this).parent().parent("tr").prop("style", "");
+                    querySelectedItemCountAndPrice();
                 });
             })
         }
@@ -216,10 +220,12 @@
         if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
                 $(checkbox).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                querySelectedItemCountAndPrice();
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
                 $(checkbox).parent().parent("tr").prop("style", "");
+                querySelectedItemCountAndPrice();
             })
         }
 
@@ -235,6 +241,7 @@
         return selectedIds.substring(0, selectedIds.length - 1);
     }
 
+
     function del(id) {
         if (confirm("确定要删除该商品吗？")) {
             ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
@@ -242,9 +249,15 @@
             })
         }
     }
+    
+    function querySelectedItemCountAndPrice() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            $('#selectedItemCount').text(data.count);
+            $('#selectedItemPrice').text("¥"+data.price);
+        })
+    }
 
 </script>
-
 #end
 
 #define content()
@@ -344,14 +357,14 @@
         <div class="col-lg-7 bottom-content-price">
 
             <div class="select-sum">
-                已选择<em>#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
+                已选择<em id="selectedItemCount">#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
             </div>
 
             <div class="price-sum">
                 <div>
                     <span class="txt txt-new">总价：</span>
                     <span class="sumprice">
-                        <em>¥#number(selectItemTotalPrice ?? 0,'0.00')</em>
+                        <em id="selectedItemPrice">¥#number(selectItemTotalPrice ?? 0,'0.00')</em>
                     </span>
                     <b class="ml5 price-tips"></b>
 

@@ -25,6 +25,7 @@ import io.jboot.web.validate.Form;
 import io.jpress.model.UserCart;
 import io.jpress.service.UserAddressService;
 import io.jpress.service.UserCartService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
@@ -49,6 +50,9 @@ public class CartController extends UcenterControllerBase {
 
     @Inject
     private UserAddressService addressService;
+
+    @Inject
+    private UserFavoriteService favoriteService;
 
 
     /**
@@ -142,6 +146,7 @@ public class CartController extends UcenterControllerBase {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null){
             for (UserCart cart : userCarts){
+                favoriteService.save(cart.toFavorite());
                 cartService.delete(cart);
             }
         }

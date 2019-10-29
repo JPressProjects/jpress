@@ -344,14 +344,14 @@
         <div class="col-lg-7 bottom-content-price">
 
             <div class="select-sum">
-                已选择<em>0</em>件商品<b class="up"></b>
+                已选择<em>#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
             </div>
 
             <div class="price-sum">
                 <div>
                     <span class="txt txt-new">总价：</span>
                     <span class="sumprice">
-                        <em>¥0.00</em>
+                        <em>¥#number(selectItemTotalPrice ?? 0,'0.00')</em>
                     </span>
                     <b class="ml5 price-tips"></b>
 

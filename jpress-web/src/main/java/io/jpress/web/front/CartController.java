@@ -27,6 +27,8 @@ import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,8 +53,21 @@ public class CartController extends UcenterControllerBase {
      * 购物车
      */
     public void index() {
-        Page<UserCart> page = cartService.paginate(1, 10);
+        Page<UserCart> page = cartService.paginateByUser(1, 20,getLoginedUser().getId());
         setAttr("page", page);
+
+        setAttr("selectItemCount",cartService.querySelectCount(getLoginedUser().getId()));
+
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null) {
+            BigDecimal totalPrice = new BigDecimal(0);
+            for (UserCart cart : userCarts) {
+                totalPrice = totalPrice.add(cart.getShouldPayPrice());
+            }
+            setAttr("selectItemTotalPrice", totalPrice);
+        }
+
+
         render("cart.html");
     }
 

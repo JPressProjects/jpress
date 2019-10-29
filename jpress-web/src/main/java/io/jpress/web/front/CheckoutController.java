@@ -72,7 +72,7 @@ public class CheckoutController extends UcenterControllerBase {
         if (cid != null) {
             userCarts.add(cartService.findById(cid));
         } else {
-            userCarts.addAll(cartService.findSelectedByUserId(getLoginedUser().getId()));
+            userCarts.addAll(cartService.findSelectedListByUserId(getLoginedUser().getId()));
         }
 
         PayConfigUtil.setConfigAttrs(this);
@@ -147,8 +147,7 @@ public class CheckoutController extends UcenterControllerBase {
             item.setStatus(UserOrderItem.STATUS_TRADING);// 交易中
 
             //payAmount = 产品价格 * 产品数量 + 运费 + 其他费用
-            BigDecimal payAmount = userCart.getProductPrice()
-                    .multiply(BigDecimal.valueOf(userCart.getProductCount()))
+            BigDecimal payAmount = userCart.getShouldPayPrice()
                     .add(item.getDeiveryCost())
                     .add(item.getOtherCost());
 

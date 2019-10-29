@@ -82,7 +82,7 @@ public interface UserCartService {
 
     public long findCountByUserId(Object userId);
 
-    public List<UserCart> findSelectedByUserId(Long id);
+    public List<UserCart> findSelectedListByUserId(Long id);
 
     public boolean doAddCountById(Object id);
 
@@ -91,4 +91,8 @@ public interface UserCartService {
     public boolean batchDeleteByIds(Object... ids);
 
     public UserCart findByProductTypeAndProductId(String productType, long productId);
+
+    public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
+
+    public long  querySelectCount(Long userId);
 }

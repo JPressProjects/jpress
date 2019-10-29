@@ -1,12 +1,13 @@
 package io.jpress.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jpress.service.UserCartService;
-import io.jpress.model.UserCart;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.UserCart;
+import io.jpress.service.UserCartService;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public List<UserCart> findSelectedByUserId(Long userId) {
+    public List<UserCart> findSelectedListByUserId(Long userId) {
         return DAO.findListByColumns(Columns.create("user_id", userId).eq("selected", true), "id desc");
     }
 
@@ -55,5 +56,16 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     @Override
     public UserCart findByProductTypeAndProductId(String productType, long productId) {
         return DAO.findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId));
+    }
+
+    @Override
+    public Page<UserCart> paginateByUser(int page, int pageSize, Long userId) {
+        return paginateByColumns(page,pageSize,Columns.create("user_id",userId),"id desc");
+    }
+
+    @Override
+    public long querySelectCount(Long userId) {
+//        return JbootDb.queryInt("select count(*) from ");
+        return DAO.findCountByColumns(Columns.create("user_id",userId).eq("selected",true));
     }
 }

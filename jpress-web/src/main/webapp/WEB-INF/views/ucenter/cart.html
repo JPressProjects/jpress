@@ -252,8 +252,6 @@
         }
     }
 
-
-
     function querySelectedItemCountAndPrice() {
         ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
             $('#selectedItemCount').text(data.count);
@@ -263,19 +261,39 @@
 
 
     function doDelSelectedItems() {
-        if (confirm("确定要删除所有选中的商品吗？")) {
-            ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
-                location.reload();
-            })
-        }
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0 && confirm("确定要删除所有选中的商品吗？")){
+                ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
+                    location.reload();
+                })
+            }else {
+                alert("您未选择任何商品。")
+            }
+        })
     }
 
+
     function doRemoveSelectedItemsToFavorites() {
-        if (confirm("确定要把所有选中商品移动到收藏夹吗？")) {
-            ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites",function () {
-                location.reload();
-            })
-        }
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0 && confirm("确定要把所有选中商品移动到收藏夹吗？")){
+                ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites",function () {
+                    location.reload();
+                })
+            }else {
+                alert("您未选择任何商品，无法进行移动到收藏夹。")
+            }
+        })
+    }
+
+
+    function gotoCheckout() {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+            if (data.count > 0){
+                location.href="#(CPATH)/ucenter/checkout"
+            }else {
+                alert("您未选择任何商品，无法进行结算。")
+            }
+        })
     }
 
 </script>
@@ -395,7 +413,7 @@
 
         </div>
         <div class="col-lg-1 bottom-content-buybtn">
-            <a href="#(CPATH)/ucenter/checkout" class="btn btn-danger "><i class="fa fa-credit-card"></i>
+            <a href="javascript:;" class="btn btn-danger " onclick="gotoCheckout()"><i class="fa fa-credit-card"></i>
                 去结算
             </a>
         </div>

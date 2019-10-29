@@ -38,13 +38,20 @@
                                 #for(userCart : headerUserCarts)
                                 <li>
                                     <a href="#(userCart.product_detail_page ?? '#')" target="_blank">
+                                        #if(userCart.product_thumbnail)
                                         <div class="pull-left">
-                                            <img src="#(userCart.product_thumbnail ??)" class="img-circle" >
+                                            <img src="#(userCart.product_thumbnail)" class="img-circle" >
                                         </div>
                                         <h4>
                                             #(userCart.product_title ??)
                                         </h4>
-                                        <p>#(userCart.product_desc ??)</p>
+                                        <p>#(userCart.product_summary ??)</p>
+                                        #else
+                                        <h4 style="margin: 0">
+                                            #(userCart.product_title ??)
+                                        </h4>
+                                        <p style="margin: 0">#(userCart.product_summary ??)</p>
+                                        #end
                                     </a>
                                 </li>
                                 #end

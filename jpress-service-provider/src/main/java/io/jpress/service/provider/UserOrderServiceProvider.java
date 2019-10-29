@@ -72,7 +72,7 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
 
     @Override
     public int queryMonthUserCount() {
-        String sql = "select count(*) from (select id from user_order where created > ? group by buyer_id) c";
+        String sql = "select count(*) from (select id from user_order where created > ? ) c";
         return Db.queryInt(sql, DateUtils.truncate(new Date(), Calendar.MONTH));
     }
 }

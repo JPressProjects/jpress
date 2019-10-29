@@ -126,6 +126,21 @@ public class CartController extends UcenterControllerBase {
         renderOkJson();
     }
 
+
+    public void doDelSelectedItems(){
+        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (userCarts != null){
+            for (UserCart cart : userCarts){
+                cartService.delete(cart);
+            }
+        }
+        renderOkJson();
+    }
+
+    public void doRemoveSelectedItemsToFavorates(){
+
+    }
+
     /**
      * 对某个购物车商品 +1
      */

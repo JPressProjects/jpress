@@ -145,6 +145,8 @@
         querySelectedItemCountAndPrice();
     }
 
+
+
     function getTableContent(row, col) {
         var content = null;
         $('#tab tr').each(function (i) {
@@ -249,12 +251,23 @@
             })
         }
     }
-    
+
+
+
     function querySelectedItemCountAndPrice() {
         ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
             $('#selectedItemCount').text(data.count);
             $('#selectedItemPrice').text("¥"+data.price);
         })
+    }
+
+    function doDelSelectedItems() {
+        if (confirm("确定要删除所有选中的商品吗？")) {
+            ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
+                location.reload();
+            })
+        }
+
     }
 
 </script>
@@ -347,8 +360,8 @@
                 </div>
             </div>
             <div class="jp-operation">
-                <a href="#" class="remove-batch">删除选中商品</a>
-                <a href="#" class="follow-batch">移到收藏</a>
+                <a href="javascript:;" onclick="doDelSelectedItems()" class="remove-batch">删除选中商品</a>
+                <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorates()" class="follow-batch">移到收藏</a>
 <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 

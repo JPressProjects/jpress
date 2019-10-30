@@ -130,6 +130,7 @@ public class CheckoutController extends UcenterControllerBase {
             item.setProductSummary(userCart.getProductSummary());
             item.setProductTitle(userCart.getProductTitle());
             item.setProductPrice(userCart.getProductPrice());
+            item.setProductSpec(userCart.getProductSpec());
             item.setProductCount(userCart.getProductCount());
             item.setProductThumbnail(userCart.getProductThumbnail());
 

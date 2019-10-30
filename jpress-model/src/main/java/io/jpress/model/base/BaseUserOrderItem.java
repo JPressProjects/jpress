@@ -203,6 +203,14 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getStr("product_summary");
 	}
 
+	public void setProductSpec(java.lang.String productSpec) {
+		set("product_spec", productSpec);
+	}
+
+	public java.lang.String getProductSpec() {
+		return getStr("product_spec");
+	}
+
     /**
      * 产品缩略图
      */

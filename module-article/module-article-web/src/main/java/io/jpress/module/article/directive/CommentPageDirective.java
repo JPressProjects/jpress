@@ -52,10 +52,11 @@ public class CommentPageDirective extends JbootDirectiveBase {
         int pageSize = getParaToInt("pageSize", scope, 10);
 
         Article article = controller.getAttr("article");
-
-        Page<ArticleComment> articlePage = service.paginateByArticleIdInNormal(page, pageSize, article.getId());
-        scope.setGlobal("commentPage", articlePage);
-        renderBody(env, scope, writer);
+        if (article != null){
+            Page<ArticleComment> articlePage = service.paginateByArticleIdInNormal(page, pageSize, article.getId());
+            scope.setGlobal("commentPage", articlePage);
+            renderBody(env, scope, writer);
+        }
     }
 
 

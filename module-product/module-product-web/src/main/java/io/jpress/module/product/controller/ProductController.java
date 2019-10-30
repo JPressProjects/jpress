@@ -257,7 +257,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
 
-       Long  productId = getParaToLong();
+       Long  productId = getParaToLong("id");
        Product product = productService.findById(productId);
 
        if (product == null || !product.isNormal()){
@@ -265,7 +265,7 @@ public class ProductController extends TemplateControllerBase {
            return;
        }
 
-       cartService.saveOrUpdate(product.toUserCartItem(user.getId(),null));
+       cartService.saveOrUpdate(product.toUserCartItem(user.getId(),null,getPara("spec")));
        renderOkJson();
     }
 

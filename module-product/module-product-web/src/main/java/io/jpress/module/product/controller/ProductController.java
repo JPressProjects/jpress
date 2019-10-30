@@ -30,6 +30,7 @@ import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.OptionService;
 import io.jpress.service.UserCartService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -61,6 +62,9 @@ public class ProductController extends TemplateControllerBase {
 
     @Inject
     private UserCartService cartService;
+
+    @Inject
+    private UserFavoriteService favoriteService;
 
 
     public void index() {
@@ -281,6 +285,37 @@ public class ProductController extends TemplateControllerBase {
         renderOkJson();
     }
 
+
+    public void  doAddFavorite(){
+        User user = getLoginedUser();
+        if (user == null) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail()
+                        .set("code", 1)
+                        .set("message", "用户未登录")
+                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
+            } else {
+                redirect("/user/login");
+            }
+            return;
+        }
+
+
+        Long productId = getParaToLong("id");
+        Product product = productService.findById(productId);
+
+        if (product == null || !product.isNormal()) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            } else {
+                renderError(404);
+            }
+            return;
+        }
+
+        favoriteService.save(product.toFavorite(user.getId()));
+        renderOkJson();
+    }
 
     /**
      * 购买商品

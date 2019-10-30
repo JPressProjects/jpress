@@ -30,7 +30,7 @@ public class ProductModuleInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
         engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductCommentPage.html");
-        engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductHeander.html");
+        engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductHeader.html");
     }
 
 

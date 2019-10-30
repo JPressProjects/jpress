@@ -369,9 +369,27 @@
                                         <div class="box-body ">
 
                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label">产品卖点</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control"  name="product.usp"
+                                                              placeholder="" rows="4">#(product.usp ??)</textarea>
+                                                    <p class="help-block">此卖点内容会显示在产品详情的价格下方</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">产品规格</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control"  name="product.specs"
+                                                              placeholder="" rows="4">#(product.specs ??)</textarea>
+                                                    <p class="help-block">多个规格用英文逗号（,）隔开</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <label class="col-sm-2 control-label">摘要</label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" id="summary" name="product.summary"
+                                                    <textarea class="form-control"  name="product.summary"
                                                               placeholder="" rows="4">#(product.summary ??)</textarea>
                                                     <p class="help-block"></p>
                                                 </div>
@@ -408,6 +426,15 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control"
                                                            name="product.sales_count" placeholder="" value="#(product.sales_count ??)">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">剩余库存</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control"
+                                                           name="product.stock" placeholder="" value="#(product.stock ??)">
+<!--                                                    <p class="help-block">只是显示达到促进消费者购买欲的作用。</p>-->
                                                 </div>
                                             </div>
 

@@ -116,7 +116,7 @@ public class Product extends BaseProduct<Product> {
     }
 
 
-    public UserCart toUserCartItem(Long userId,Long distUserId){
+    public UserCart toUserCartItem(Long userId,Long distUserId,String spec){
         UserCart userCart = new UserCart();
 
         userCart.setUserId(userId);
@@ -135,6 +135,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductVirtual(false);//非虚拟产品
         userCart.setCommentPath(getUrl());
         userCart.setCreated(new Date());
+        userCart.setProductSpec(spec);
 
         String showImage = getShowImage();
         if (StrUtil.isNotBlank(showImage)){

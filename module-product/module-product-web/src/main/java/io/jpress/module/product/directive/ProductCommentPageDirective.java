@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.directive;
+package io.jpress.module.product.directive;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
@@ -26,9 +26,9 @@ import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
 import io.jpress.commons.directive.DirectveKit;
-import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleComment;
-import io.jpress.module.article.service.ArticleCommentService;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.model.ProductComment;
+import io.jpress.module.product.service.ProductCommentService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,11 +37,11 @@ import javax.servlet.http.HttpServletRequest;
  * @version V1.0
  * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("commentPage")
-public class CommentPageDirective extends JbootDirectiveBase {
+@JFinalDirective("productCommentPage")
+public class ProductCommentPageDirective extends JbootDirectiveBase {
 
     @Inject
-    private ArticleCommentService service;
+    private ProductCommentService service;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
@@ -51,9 +51,9 @@ public class CommentPageDirective extends JbootDirectiveBase {
         int page = controller.getParaToInt(1, 1);
         int pageSize = getParaToInt("pageSize", scope, 10);
 
-        Article article = controller.getAttr("article");
-        if (article != null){
-            Page<ArticleComment> articlePage = service.paginateByArticleIdInNormal(page, pageSize, article.getId());
+        Product product = controller.getAttr("product");
+        if (product != null){
+            Page<ProductComment> articlePage = service.paginateByProductIdInNormal(page, pageSize, product.getId());
             scope.setGlobal("commentPage", articlePage);
             renderBody(env, scope, writer);
         }
@@ -66,7 +66,7 @@ public class CommentPageDirective extends JbootDirectiveBase {
     }
 
 
-    @JFinalDirective("commentPaginate")
+    @JFinalDirective("productCommentPaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
         @Override

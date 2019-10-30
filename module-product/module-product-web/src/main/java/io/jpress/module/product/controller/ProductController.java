@@ -16,6 +16,7 @@
 package io.jpress.module.product.controller;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -249,24 +250,74 @@ public class ProductController extends TemplateControllerBase {
     /**
      * 添加到购物车
      */
-    public void doAddCart(){
+    public void doAddCart() {
         User user = getLoginedUser();
-        if (user == null){
-            renderJson(Ret.fail().set("code","1").set("message","用户未登录"));
+        if (user == null) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail()
+                        .set("code", 1)
+                        .set("message", "用户未登录")
+                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
+            } else {
+                redirect("/user/login");
+            }
             return;
         }
 
 
-       Long  productId = getParaToLong();
-       Product product = productService.findById(productId);
+        Long productId = getParaToLong("id");
+        Product product = productService.findById(productId);
 
-       if (product == null || !product.isNormal()){
-           renderJson(Ret.fail().set("code","2").set("message","商品不存在。"));
-           return;
-       }
+        if (product == null || !product.isNormal()) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            } else {
+                renderError(404);
+            }
+            return;
+        }
 
-       cartService.saveOrUpdate(product.toUserCartItem(user.getId(),null));
-       renderOkJson();
+        cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
+        renderOkJson();
+    }
+
+
+    /**
+     * 购买商品
+     */
+    public void doBuy() {
+        User user = getLoginedUser();
+        if (user == null) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail()
+                        .set("code", 1)
+                        .set("message", "用户未登录")
+                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
+            } else {
+                redirect("/user/login");
+            }
+            return;
+        }
+
+
+        Long productId = getParaToLong("id");
+        Product product = productService.findById(productId);
+
+        if (product == null || !product.isNormal()) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            } else {
+                renderError(404);
+            }
+            return;
+        }
+
+        Object cartId = cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
+        if (isAjaxRequest()) {
+            renderJson(Ret.ok().set("gotoUrl", JFinal.me().getContextPath() + "/ucenter/checkout/" + cartId));
+        } else {
+            redirect("/ucenter/checkout/" + cartId);
+        }
     }
 
 

@@ -1,13 +1,76 @@
 #define defaultProductHeader()
-<ul class="pagination pull-right">
-    #adminPaginate()
-    #for(page : pages)
-    <li class="paginate_button #(page.style ??)">
-        <a href="#(page.url??)">#(page.text??)</a>
-    </li>
-    #end
-    #end
-</ul>
+<div class="row">
+    <div class="col-md-6">
+        <div class="product-topimg"><img src="img/default-img.jpg"/> </div>
+        <div class="product-listimg">
+            <ul>
+                <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                <li class="active"><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2 class="cl-artical-title">#(product.title)</h2>
+
+        <div class="price-right">
+            <div>
+                <span><strong>#(product.comment_count ?? 0)</strong></span>
+                <span>累计评价</span>
+            </div>
+
+            <div>
+                <span><strong>#(product.sales_count ?? 0)</strong></span>
+                <span>交易成功</span>
+            </div>
+        </div>
+
+
+        <div class="product-price">
+            <div class="price-left">
+                <span class="price-number">¥ #number(product.price ?? 0 , '0.00')</span>
+            </div>
+
+        </div>
+        <div class="product-usp">
+
+            #(product.usp ??)
+
+        </div>
+
+        #if(product.specs)
+        <div class="species-listimg">
+            <ul>
+                #strSplit(product.specs)
+                #for(str : strs)
+                <li><a href="#">#(str)</a> </li>
+                #end
+                #end
+            </ul>
+        </div>
+        #end
+
+        <div class="product-btn">
+            <a class="btn-buy" href=""> <i class="fa fa-shopping-cart"></i> 加入购物车</a>
+            <a class="btn-cart" href=""> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
+        </div>
+
+        <p class="btn-star"><a href=""><i class="fa fa-heart-o"></i> 添加收藏</a></p>
+
+        <div class="product-tag">
+            <p>
+                分类：
+
+                <a>新品</a>
+
+            </p>
+            <p>标签：<a>潮流</a><a>种草推荐</a><a>夏季新品</a></p>
+        </div>
+    </div>
+</div>
 #end
 
 

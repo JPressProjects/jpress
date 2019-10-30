@@ -567,6 +567,7 @@ a.card-link:hover{
 /**/
 .product-top{
     padding:20px 0;
+    width: 100%;
 }
 .product-topimg{
     width: 100%;
@@ -661,7 +662,7 @@ a.btn-buy:hover{
     padding:20px 0 0 0;
     border-top:1px solid #eee;
 }
-.product-tag span{
+.product-tag a{
     margin-right:10px;
 }
 a.btn-cart:hover{
@@ -712,9 +713,10 @@ a.btn-cart:hover{
     width: 1px;
     background-color: #E5511D;
 }
-.product-info{
+.product-usp{
     font-size: 14px;
     color:#666;
+    width: 100%;
 }
 
 .price-left .price-number{

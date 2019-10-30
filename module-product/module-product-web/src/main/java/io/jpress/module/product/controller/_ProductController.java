@@ -65,7 +65,7 @@ public class _ProductController extends AdminControllerBase {
 
 
 
-        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         flagCheck(categories, categoryId);
@@ -87,7 +87,7 @@ public class _ProductController extends AdminControllerBase {
 
 
     public void edit() {
-        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 

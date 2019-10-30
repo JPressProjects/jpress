@@ -45,29 +45,34 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
 
     @Override
     public List<ProductCategory> findCategoryListByProductId(long productId) {
-        return findListByProductId(productId,ProductCategory.TYPE_CATEGORY);
+        return findListByProductId(productId, ProductCategory.TYPE_CATEGORY);
     }
 
     @Override
     public List<ProductCategory> findTagListByProductId(long productId) {
-        return findListByProductId(productId,ProductCategory.TYPE_TAG);
+        return findListByProductId(productId, ProductCategory.TYPE_TAG);
     }
 
     @Override
     public List<ProductCategory> findListByProductId(long productId, String type) {
-            List<ProductCategory> categoryList = findListByProductId(productId);
-            if (categoryList == null || categoryList.isEmpty()) {
-                return null;
-            }
-            return categoryList
-                    .stream()
-                    .filter(category -> type.equals(category.getType()))
-                    .collect(Collectors.toList());
+        List<ProductCategory> categoryList = findListByProductId(productId);
+        if (categoryList == null || categoryList.isEmpty()) {
+            return null;
+        }
+        return categoryList
+                .stream()
+                .filter(category -> type.equals(category.getType()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductCategory> findListByType(String type) {
+    public List<ProductCategory> _findListByType(String type) {
         return Copyer.copy(findListByTypeInDb(type));
+    }
+
+    @Override
+    public List<ProductCategory> findListByType(String type,String orderBy, Integer count) {
+        return DAO.findListByColumns(Columns.create("type", type), StrUtil.isNotBlank(orderBy) ? orderBy : "id desc", count);
     }
 
     @Override

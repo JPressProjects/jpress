@@ -63,11 +63,20 @@
         <div class="product-tag">
             <p>
                 分类：
-
-                <a>新品</a>
-
+                #productCategories(product.id,'category')
+                #for(cat : categories)
+                <a href="#(cat.url ??)">#(cat.title ??)</a>
+                #end
+                #end
             </p>
-            <p>标签：<a>潮流</a><a>种草推荐</a><a>夏季新品</a></p>
+            <p>
+                标签：
+                #productCategories(product.id,'tag')
+                #for(cat : categories)
+                <a href="#(cat.url ??)">#(cat.title ??)</a>
+                #end
+                #end
+            </p>
         </div>
     </div>
 </div>

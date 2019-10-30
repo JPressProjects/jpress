@@ -41,7 +41,7 @@
             <ul>
                 #strSplit(product.specs)
                 #for(str : strs)
-                <li><a href="#">#(str)</a></li>
+                <li><a href="javascript:;" onclick="selectProductSpec('#(str)')">#(str)</a></li>
                 #end
                 #end
             </ul>
@@ -49,11 +49,11 @@
         #end
 
         <div class="product-btn">
-            <a class="product-btn-buy" href=""> <i class="fa fa-shopping-cart"></i> 加入购物车</a>
-            <a class="product-btn-cart" href=""> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
+            <a class="product-btn-buy" href="javascript:;" onclick="addProductToCart('#(product.id ??)')"> <i class="fa fa-shopping-cart"></i> 加入购物车</a>
+            <a class="product-btn-cart" href="javascript:;" onclick="buyPrudct('#(product.id ??)')"> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
         </div>
 
-        <p class="product-btn-star"><a href=""><i class="fa fa-heart-o"></i> 添加收藏</a></p>
+        <p class="product-btn-star"><a href="javascript:;" onclick="addProductToFavorite('#(product.id ??)')"><i class="fa fa-heart-o"></i> 添加收藏</a></p>
 
         <div class="product-tag">
             <p>

@@ -1,16 +1,20 @@
+var productInfo = {
+    spec : null
+};
+
 /*
 添加到购物车
  */
 function addProductToCart(productId, productSpec, okFunction, failFunction) {
-    ajaxPost(jpress.cpath + '/product/doAddCart', {
+    ajaxPost(getContextPaht() + '/product/doAddCart', {
             id: productId,
             spec: productSpec
         },
         okFunction ? okFunction : function () {
-            showMessage('成功添加到购物车。')
+            alert('成功添加到购物车。')
         },
         failFunction ? failFunction : function (data) {
-            showMessage('添加到购物车失败：' + data.message)
+            alert('添加到购物车失败：' + data.message)
         })
 }
 
@@ -18,15 +22,15 @@ function addProductToCart(productId, productSpec, okFunction, failFunction) {
 添加商品到收藏夹
  */
 function addProductToFavorite(productId, okFunction, failFunction) {
-    ajaxPost(jpress.cpath + '/product/doAddFavorite', {
+    ajaxPost(getContextPaht() + '/product/doAddFavorite', {
             id: productId,
             spec: productSpec
         },
         okFunction ? okFunction : function () {
-            showMessage('成功添加到购物车。')
+            alert('成功添加到收藏夹。')
         },
         failFunction ? failFunction : function (data) {
-            showMessage('添加到购物车失败：' + data.message)
+            alert('添加到收藏夹失败：' + data.message)
         })
 }
 
@@ -35,10 +39,10 @@ function addProductToFavorite(productId, okFunction, failFunction) {
 /*
 购买产品
  */
-function buyPrudct(productId, productSpec, okFunction, failFunction) {
-    ajaxPost(jpress.cpath + '/product/doBuy', {
+function buyPrudct(productId, okFunction, failFunction) {
+    ajaxPost(getContextPaht() + '/product/doBuy', {
             id: productId,
-            spec: productSpec
+            spec: productInfo.spec
         },
         okFunction ? okFunction : function (data) {
             if (data.gotoUrl) {
@@ -49,7 +53,28 @@ function buyPrudct(productId, productSpec, okFunction, failFunction) {
             if (data.gotoUrl) {
                 location.href = data.gotoUrl;
             } else {
-                showMessage('无法进行购买：' + data.message)
+                alert('无法进行购买：' + data.message)
             }
         })
+}
+
+/*
+选择商品规格
+ */
+function selectProductSpec(spec) {
+    productInfo.spec = spec;
+}
+
+function getContextPaht() {
+    return typeof jpress != "undefined" && jpress.cpath ? jpress.cpath : "";
+}
+
+function ajaxPost(url, data, okFunction, failFunction) {
+    $.post(url, data,function (result) {
+        if (result.state == 'ok') {
+            okFunction(result);
+        } else {
+            failFunction(result);
+        }
+    });
 }

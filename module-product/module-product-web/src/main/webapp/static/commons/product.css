@@ -91,22 +91,15 @@
     margin-right: 4px;
     text-align: center;
     border: 2px solid #ccc;
+    cursor: pointer;
 }
 
-.product-specs ul li.active {
+.product-specs ul  li.active {
     border: 2px solid #f38d00;
     box-sizing: border-box;
-
-}
-
-.product-specs ul li.active a {
     color: #f38d00;
 }
 
-.product-specs ul li img {
-    max-width: 100%;
-    max-height: 80px;
-}
 
 .product-btn {
     margin-top: 40px;

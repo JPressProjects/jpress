@@ -57,16 +57,11 @@ function buyPrudct(productId, okFunction, failFunction) {
         })
 }
 
-/*
-选择商品规格
- */
-function selectProductSpec(spec) {
-    productInfo.spec = spec;
-}
 
 function getContextPaht() {
     return typeof jpress != "undefined" && jpress.cpath ? jpress.cpath : "";
 }
+
 
 function ajaxPost(url, data, okFunction, failFunction) {
     $.post(url, data,function (result) {
@@ -77,3 +72,20 @@ function ajaxPost(url, data, okFunction, failFunction) {
         }
     });
 }
+
+function setProductSpec(spec){
+    console.log("setProductSpec : " + spec)
+    productInfo.spec = spec;
+}
+
+$(document).ready(function(){
+
+    $(".product-specs li").click(function(){
+        setProductSpec($(this).text());
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+    });
+
+    $(".product-specs li:first").addClass("active");
+    setProductSpec($(".product-specs li:first").text());
+});

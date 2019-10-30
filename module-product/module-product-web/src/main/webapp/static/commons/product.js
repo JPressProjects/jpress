@@ -23,8 +23,7 @@ function addProductToCart(productId, productSpec, okFunction, failFunction) {
  */
 function addProductToFavorite(productId, okFunction, failFunction) {
     ajaxPost(getContextPaht() + '/product/doAddFavorite', {
-            id: productId,
-            spec: productSpec
+            id: productId
         },
         okFunction ? okFunction : function () {
             alert('成功添加到收藏夹。')

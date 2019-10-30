@@ -7,6 +7,8 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 
+import java.util.Set;
+
 @JFinalDirective("strSplit")
 public class StrSplit extends JbootDirectiveBase {
     @Override
@@ -15,7 +17,7 @@ public class StrSplit extends JbootDirectiveBase {
         if (StrUtil.isBlank(orginalStr)) return;
 
         String splitStr = getPara(1, scope, ",");
-        String[] strs = orginalStr.split(splitStr);
+        Set<String> strs = StrUtil.splitToSet(orginalStr,splitStr);
 
         scope.setLocal("strs", strs);
         renderBody(env, scope, writer);

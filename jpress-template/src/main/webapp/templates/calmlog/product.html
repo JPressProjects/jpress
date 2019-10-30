@@ -1,0 +1,192 @@
+#include("./_layout.html")
+#@mylaout()
+
+#define script()
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script>
+    $('#commentForm').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    location.href = location.href.indexOf("#allComment") > 0 ?
+                        location.href :
+                        location.href+"#allComment";
+                    location.reload()
+                } else {
+                    alert('评论失败：' + data.message);
+                    if (data.errorCode == 9) {
+                        location.href = '#(CPATH)/user/login';
+                    }
+                }
+                $('#content').val('');
+            },
+            error: function () {
+                alert("网络错误，请稍后重试");
+            }
+        });
+        return false;
+    });
+</script>
+#end
+
+#define content()
+
+<!---->
+<div class="product-top">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="product-topimg"><img src="img/default-img.jpg"/> </div>
+            <div class="product-listimg">
+                <ul>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li class="active"><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="cl-artical-title">#(product.title)</h2>
+            <div class="product-price">
+                <div class="price-left">
+                    <span>价格</span>
+                    <span class="price-number">¥ 299.00</span>
+                </div>
+                <div class="price-right">
+                    <div>
+                        <p><strong>20</strong></p>
+                        <p>累计评价</p>
+                    </div>
+                    <p class="divider">&nbsp;</p>
+                    <div>
+                        <p><strong>15</strong></p>
+                        <p>交易成功</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cl-card-tag">
+                <div><span>
+                    三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品 潮流穿搭 玩趣互动
+                </span></div>
+            </div>
+            <div class="product-btn">
+                <a class="btn-buy" href="">立即购买</a>
+                <a class="btn-cart" href="">加入购物车</a>
+                <a class="btn-star" href="">添加收藏</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!---->
+<div class="col-md-9 cl-left">
+    <div class="cl-artical-content">
+
+        <div class="cl-artical">
+            #(product.content)
+        </div>
+    </div>
+
+
+
+
+
+    <div class="comment" id="allComment">
+
+
+
+        <h4 class="right-card-title" >全部评论</h4>
+
+        #commentPage()
+        #for(comment : commentPage.list)
+        <div class="comment-panel">
+            <div class="comment-panel-portrait">
+                <img src="img/portrait.png" class="img-fluid rounded-circle" alt="">
+            </div>
+            <div class="comment-panel-content">
+                <div class="comment-panel-content-item">
+                    <div class="comment-author">#(comment.author)</div>
+                    <div>#(comment.created )</div>
+                </div>
+                <div class="comment-panel-content-main">#(comment.content)</div>
+                #if(comment.parent)
+                <div class="comment-secondary-panel">
+                    <span class="triangle-icon"><i class="fa fa-sort-asc" aria-hidden="true"></i></span>
+                    <div class="comment-panel-content">
+                        <div class="comment-panel-content-item">
+                            <div class="comment-author">#(comment.parent.author)</div>
+                            <div>#(comment.parent.created)</div>
+                        </div>
+                        <div class="comment-panel-content-main">#(comment.parent.content)</div>
+                    </div>
+                    <span class="clearfix"></span>
+                </div>
+                #end
+            </div>
+            <span class="clearfix"></span>
+            <div class="text-primary"><a href="">回复</a></div>
+        </div>
+        #end
+        #end
+
+
+        #commentPaginate(anchor="allComment")
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center ">
+                #for(page : pages)
+                <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+                #end
+            </ul>
+        </nav>
+        #end
+
+
+
+    </div>
+
+</div>
+
+<div class="col-md-3 cl-right">
+    <div class="right-card">
+
+        <div class="right-card-main">
+            <div class="right-card-title">商家微信号</div>
+            <div class="cl-code">
+                <img src="#option('calmlog_qrcode','img/code.jpg')" class="img-fluid" alt="">
+                <p>#option('calmlog_qrcode_text')</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="right-card">
+
+        <div class="right-card-main">
+            <div class="right-card-title">看了又看</div>
+            <div class="right-recommended">
+                <a href="#">
+                    <img src="#option('calmlog_ad','img/list-right.jpg')" class="img-fluid" alt="">
+                </a>
+            </div>
+            <ul class="right-recommended-list">
+                #articles()
+                #for(article : articles)
+                <li>
+                    <a href="#(product.url)">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        #(product.title ??)
+                    </a>
+                </li>
+                #end
+                #end
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+#end

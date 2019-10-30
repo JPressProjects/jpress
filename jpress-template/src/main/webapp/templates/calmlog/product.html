@@ -11,7 +11,7 @@
                 if (data.state == "ok") {
                     location.href = location.href.indexOf("#allComment") > 0 ?
                         location.href :
-                        location.href + "#allComment";
+                        location.href+"#allComment";
                     location.reload()
                 } else {
                     alert('评论失败：' + data.message);
@@ -36,46 +36,66 @@
 <div class="product-top">
     <div class="row">
         <div class="col-md-6">
-            <div class="product-topimg"><img src="img/default-img.jpg"/></div>
+            <div class="product-topimg"><img src="img/default-img.jpg"/> </div>
             <div class="product-listimg">
                 <ul>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
-                    <li class="active"><a href="#"><img src="img/default-img.jpg"/></a></li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li class="active"><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
                 </ul>
             </div>
         </div>
         <div class="col-md-6">
             <h2 class="cl-artical-title">#(product.title)</h2>
+
+            <div class="price-right">
+                <div>
+                    <span><strong>20</strong></span>
+                    <span>累计评价</span>
+                </div>
+
+                <div>
+                    <span><strong>15</strong></span>
+                    <span>交易成功</span>
+                </div>
+            </div>
+
+
             <div class="product-price">
                 <div class="price-left">
-                    <span>价格</span>
-                    <span class="price-number">¥ #number(product.price,'0.00')</span>
+                    <span class="price-number">¥ 299.00</span>
                 </div>
-                <div class="price-right">
-                    <div>
-                        <p><strong>#(product.comment_count ?? 0 )</strong></p>
-                        <p>累计评价</p>
-                    </div>
-                    <p class="divider">&nbsp;</p>
-                    <div>
-                        <p><strong>#(product.sales_count ?? 0 )</strong></p>
-                        <p>交易成功</p>
-                    </div>
-                </div>
+
             </div>
-            <div class="cl-card-tag">
-                <div><span>
-                    #(product.usp ??)
-                </span></div>
+            <div class="product-info">
+
+                    三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品 潮流穿搭 玩趣互动三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品 潮流穿搭 玩趣互动
+
             </div>
+
+            <div class="species-listimg">
+                <ul>
+                    <li><a href="#">蓝色</a> </li>
+                    <li class="active"><a href="#">红色</a> </li>
+                    <li><a href="#">棕色</a> </li>
+
+                </ul>
+            </div>
+
             <div class="product-btn">
-                <a class="btn-buy" href="">立即购买</a>
-                <a class="btn-cart" href="">加入购物车</a>
-                <a class="btn-star" href="">添加收藏</a>
+                <a class="btn-buy" href=""> <i class="fa fa-shopping-cart"></i> 加入购物车</a>
+                <a class="btn-cart" href=""> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
+
+
+            </div>
+            <p class="btn-star"><a href=""><i class="fa fa-heart-o"></i> 添加收藏</a></p>
+
+            <div class="product-tag">
+                <p>分类：<span>新品</span></p>
+                <p>标签：<span>潮流</span><span>种草推荐</span><span>夏季新品</span></p>
             </div>
         </div>
     </div>
@@ -85,18 +105,22 @@
 <!---->
 <div class="col-md-9 cl-left">
     <div class="cl-artical-content">
+
         <div class="cl-artical">
             #(product.content)
         </div>
     </div>
 
 
+
+
     <div class="comment" id="allComment">
 
 
-        <h4 class="right-card-title">全部评论</h4>
 
-        #productCommentPage()
+        <h4 class="right-card-title" >全部评论</h4>
+
+        #commentPage()
         #for(comment : commentPage.list)
         <div class="comment-panel">
             <div class="comment-panel-portrait">
@@ -128,7 +152,8 @@
         #end
         #end
 
-        #productCommentPaginate()
+
+        #commentPaginate(anchor="allComment")
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center ">
                 #for(page : pages)
@@ -137,6 +162,8 @@
             </ul>
         </nav>
         #end
+
+
 
     </div>
 
@@ -158,23 +185,33 @@
     <div class="right-card">
 
         <div class="right-card-main">
-            <div class="right-card-title">看了又看</div>
-            <div class="right-recommended">
-                <a href="#">
-                    <img src="#option('calmlog_ad','img/list-right.jpg')" class="img-fluid" alt="">
-                </a>
-            </div>
-            <ul class="right-recommended-list">
-                #articles()
-                #for(article : articles)
+            <div class="right-card-title">商品推荐</div>
+
+
+
+            <ul class="product-recommended-list">
+
                 <li>
-                    <a href="#(product.url)">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        #(product.title ??)
+                    <a href="#">
+                        <img src="img/default-img.jpg" class="" alt="">
                     </a>
+                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
                 </li>
-                #end
-                #end
+
+                <li>
+                    <a href="#">
+                        <img src="img/default-img.jpg" class="" alt="">
+                    </a>
+                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <img src="img/default-img.jpg" class="" alt="">
+                    </a>
+                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
+                </li>
+
 
             </ul>
         </div>

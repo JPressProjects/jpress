@@ -253,7 +253,14 @@ public class ProductController extends TemplateControllerBase {
     public void doAddCart() {
         User user = getLoginedUser();
         if (user == null) {
-            renderJson(Ret.fail().set("code", "1").set("message", "用户未登录"));
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail()
+                        .set("code", 1)
+                        .set("message", "用户未登录")
+                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
+            } else {
+                redirect("/user/login");
+            }
             return;
         }
 
@@ -262,7 +269,11 @@ public class ProductController extends TemplateControllerBase {
         Product product = productService.findById(productId);
 
         if (product == null || !product.isNormal()) {
-            renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            } else {
+                renderError(404);
+            }
             return;
         }
 

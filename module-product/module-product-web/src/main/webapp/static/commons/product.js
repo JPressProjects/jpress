@@ -1,7 +1,7 @@
 /*
 添加到购物车
  */
-function addToCart(productId, productSpec, okFunction, failFunction) {
+function addProductToCart(productId, productSpec, okFunction, failFunction) {
     ajaxPost(jpress.cpath + '/product/doAddCart', {
             id: productId,
             spec: productSpec
@@ -18,7 +18,7 @@ function addToCart(productId, productSpec, okFunction, failFunction) {
 /*
 购买产品
  */
-function buy(productId, productSpec, okFunction, failFunction) {
+function buyPrudct(productId, productSpec, okFunction, failFunction) {
     ajaxPost(jpress.cpath + '/product/doBuy', {
             id: productId,
             spec: productSpec

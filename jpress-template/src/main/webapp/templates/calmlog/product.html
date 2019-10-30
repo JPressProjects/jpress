@@ -11,7 +11,7 @@
                 if (data.state == "ok") {
                     location.href = location.href.indexOf("#allComment") > 0 ?
                         location.href :
-                        location.href+"#allComment";
+                        location.href + "#allComment";
                     location.reload()
                 } else {
                     alert('评论失败：' + data.message);
@@ -36,15 +36,15 @@
 <div class="product-top">
     <div class="row">
         <div class="col-md-6">
-            <div class="product-topimg"><img src="img/default-img.jpg"/> </div>
+            <div class="product-topimg"><img src="img/default-img.jpg"/></div>
             <div class="product-listimg">
                 <ul>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
-                    <li class="active"><a href="#"><img src="img/default-img.jpg"/></a> </li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
-                    <li><a href="#"><img src="img/default-img.jpg"/></a> </li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li class="active"><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
+                    <li><a href="#"><img src="img/default-img.jpg"/></a></li>
                 </ul>
             </div>
         </div>
@@ -53,23 +53,23 @@
             <div class="product-price">
                 <div class="price-left">
                     <span>价格</span>
-                    <span class="price-number">¥ 299.00</span>
+                    <span class="price-number">¥ #number(product.price,'0.00')</span>
                 </div>
                 <div class="price-right">
                     <div>
-                        <p><strong>20</strong></p>
+                        <p><strong>#(product.comment_count ?? 0 )</strong></p>
                         <p>累计评价</p>
                     </div>
                     <p class="divider">&nbsp;</p>
                     <div>
-                        <p><strong>15</strong></p>
+                        <p><strong>#(product.sales_count ?? 0 )</strong></p>
                         <p>交易成功</p>
                     </div>
                 </div>
             </div>
             <div class="cl-card-tag">
                 <div><span>
-                    三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品 潮流穿搭 玩趣互动
+                    #(product.usp ??)
                 </span></div>
             </div>
             <div class="product-btn">
@@ -85,23 +85,18 @@
 <!---->
 <div class="col-md-9 cl-left">
     <div class="cl-artical-content">
-
         <div class="cl-artical">
             #(product.content)
         </div>
     </div>
 
 
-
-
-
     <div class="comment" id="allComment">
 
 
+        <h4 class="right-card-title">全部评论</h4>
 
-        <h4 class="right-card-title" >全部评论</h4>
-
-        #commentPage()
+        #productCommentPage()
         #for(comment : commentPage.list)
         <div class="comment-panel">
             <div class="comment-panel-portrait">
@@ -133,8 +128,7 @@
         #end
         #end
 
-
-        #commentPaginate(anchor="allComment")
+        #productCommentPaginate()
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center ">
                 #for(page : pages)
@@ -143,8 +137,6 @@
             </ul>
         </nav>
         #end
-
-
 
     </div>
 

@@ -25,13 +25,15 @@
 
     <h4 class="right-card-title">全部评论</h4>
 
-    #productCommentPage()
+
     <div class="comment-page" id="comments">
+        #productCommentPage()
         #for(comment : commentPage.list)
         #include("defaultProductCommentItem.html")
         #end
+        #end
     </div>
-    #end
+
 
 
     #productCommentPaginate(anchor="comments")

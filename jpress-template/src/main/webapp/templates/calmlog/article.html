@@ -3,31 +3,11 @@
 
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
-<script>
-    $('#commentForm').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    location.href = location.href.indexOf("#allComment") > 0 ?
-                        location.href :
-                        location.href+"#allComment";
-                    location.reload()
-                } else {
-                    alert('评论失败：' + data.message);
-                    if (data.errorCode == 9) {
-                        location.href = '#(CPATH)/user/login';
-                    }
-                }
-                $('#content').val('');
-            },
-            error: function () {
-                alert("网络错误，请稍后重试");
-            }
-        });
-        return false;
-    });
-</script>
+<script src="/static/commons/article.js"></script>
+#end
+
+#define css()
+<link href="/static/commons/article.css" rel="stylesheet">
 #end
 
 #define content()
@@ -67,76 +47,7 @@
     #end
 
 
-
-
-    <div class="comment" id="allComment">
-
-
-        <form class="cl-comment-from" action="#(CPATH)/article/postComment" id="commentForm" method="post">
-            <input type="hidden" name="articleId" value="#(article.id)">
-            <input type="hidden" name="pid" id="pid">
-
-            <div class="cl-textarea"><textarea placeholder="说点什么吧..." rows="3" name="content"></textarea></div>
-
-            <div class="comment-vcode">
-                #if(option('article_comment_vcode_enable'))
-                <input placeholder="请输入验证码" name="captcha">
-                <img class="vcode-img" src="/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
-                #end
-            </div>
-            <button type="submit" >留言</button>
-            <span class="clearfix"></span>
-        </form>
-
-
-        <h4 class="right-card-title" >全部评论</h4>
-
-        #commentPage()
-        #for(comment : commentPage.list)
-        <div class="comment-panel">
-            <div class="comment-panel-portrait">
-                <img src="img/portrait.png" class="img-fluid rounded-circle" alt="">
-            </div>
-            <div class="comment-panel-content">
-                <div class="comment-panel-content-item">
-                    <div class="comment-author">#(comment.author)</div>
-                    <div>#(comment.created )</div>
-                </div>
-                <div class="comment-panel-content-main">#(comment.content)</div>
-                #if(comment.parent)
-                <div class="comment-secondary-panel">
-                    <span class="triangle-icon"><i class="fa fa-sort-asc" aria-hidden="true"></i></span>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div class="comment-author">#(comment.parent.author)</div>
-                            <div>#(comment.parent.created)</div>
-                        </div>
-                        <div class="comment-panel-content-main">#(comment.parent.content)</div>
-                    </div>
-                    <span class="clearfix"></span>
-                </div>
-                #end
-            </div>
-            <span class="clearfix"></span>
-            <div class="text-primary"><a href="">回复</a></div>
-        </div>
-        #end
-        #end
-
-
-        #commentPaginate(anchor="allComment")
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center ">
-                #for(page : pages)
-                <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
-                #end
-            </ul>
-        </nav>
-        #end
-
-
-
-    </div>
+    #@defaultArticleCommentPage()
 
 </div>
 

@@ -5,31 +5,6 @@
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/swiper/swiper.min.js"></script>
 <script src="/static/commons/product.js"></script>
-<script>
-    $('#commentForm').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    location.href = location.href.indexOf("#allComment") > 0 ?
-                        location.href :
-                        location.href+"#allComment";
-                    location.reload()
-                } else {
-                    alert('评论失败：' + data.message);
-                    if (data.errorCode == 9) {
-                        location.href = '#(CPATH)/user/login';
-                    }
-                }
-                $('#content').val('');
-            },
-            error: function () {
-                alert("网络错误，请稍后重试");
-            }
-        });
-        return false;
-    });
-</script>
 #end
 
 #define css()

@@ -2,7 +2,7 @@
 <div class="comment-default-block">
 
     <form class="comment-form" action="#(CPATH)/article/postComment" id="jpress-comment-form" method="post">
-        <input type="hidden" name="articleId" value="#(product.id)">
+        <input type="hidden" name="articleId" value="#(article.id)">
         <input type="hidden" name="render" value="default">
         <input type="hidden" name="pid" id="pid">
 
@@ -20,21 +20,23 @@
 
         <button type="submit">留言</button>
         <span class="clearfix"></span>
+
     </form>
 
 
     <h4 class="right-card-title">全部评论</h4>
 
-    #productCommentPage()
     <div class="comment-page" id="comments">
+        #commentPage()
         #for(comment : commentPage.list)
-        #include("defaultProductCommentItem.html")
+        #include("defaultArticleCommentItem.html")
+        #end
         #end
     </div>
-    #end
 
 
-    #productCommentPaginate(anchor="comments")
+
+    #commentPaginate(anchor="comments")
     <nav>
         <ul class="pagination justify-content-center">
             #for(page : pages)

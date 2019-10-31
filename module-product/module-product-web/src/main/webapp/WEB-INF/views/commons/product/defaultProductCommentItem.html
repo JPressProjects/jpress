@@ -1,0 +1,28 @@
+<div class="comment-item">
+    <div class="comment-item-portrait">
+        <img src="img/portrait.png" class="img-fluid rounded-circle" alt="">
+    </div>
+    <div class="comment-item-content">
+        <div class="comment-item-content-item">
+            <div class="comment-author">#(comment.author)</div>
+            <div>#(comment.created )</div>
+        </div>
+        <div class="comment-item-content-main">#(comment.content)</div>
+        #if(comment.parent)
+        <div class="comment-secondary-panel">
+            <span class="triangle-icon"><i class="fa fa-sort-asc" aria-hidden="true"></i></span>
+            <div class="comment-item-content">
+                <div class="comment-item-content-item">
+                    <div class="comment-author">#(comment.parent.author)</div>
+                    <div>#(comment.parent.created)</div>
+                </div>
+                <div class="comment-item-content-main">#(comment.parent.content)</div>
+            </div>
+            <span class="clearfix"></span>
+        </div>
+        #end
+    </div>
+    <span class="clearfix"></span>
+    <div class="text-primary"><a href="">回复</a></div>
+</div>
+

@@ -78,7 +78,7 @@ function setProductSpec(spec){
     productInfo.spec = spec;
 }
 
-function initSwiper(){
+function initSwiperComponent(){
 
     var galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
@@ -101,6 +101,33 @@ function initSwiper(){
     });
 }
 
+function initCommentComponent() {
+    $('#jpress-comment-form').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            success: function (data) {
+                if (data.state == "ok") {
+                    location.href = location.href.indexOf("#allComment") > 0 ?
+                        location.href :
+                        location.href+"#allComment";
+                    location.reload()
+                } else {
+                    alert('评论失败：' + data.message);
+                    if (data.errorCode == 9) {
+                        location.href = '#(CPATH)/user/login';
+                    }
+                }
+                $('#content').val('');
+            },
+            error: function () {
+                alert("网络错误，请稍后重试");
+            }
+        });
+        return false;
+    });
+}
+
+
 $(document).ready(function(){
 
     $(".product-specs li").click(function(){
@@ -112,6 +139,7 @@ $(document).ready(function(){
     $(".product-specs li:first").addClass("active");
     setProductSpec($(".product-specs li:first").text());
 
-    initSwiper();
+    initSwiperComponent();
+    initCommentComponent();
 
 });

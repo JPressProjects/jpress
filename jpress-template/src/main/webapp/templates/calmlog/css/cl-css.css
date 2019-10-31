@@ -122,7 +122,7 @@ a:hover{
     background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(97%,rgba(0,0,0,.65)));
     background-image: linear-gradient(-180deg,transparent,rgba(0,0,0,.65) 97%);
 }
-.cl-artical-content,.recommend-panel,.comment{
+.cl-artical-content,.recommend-panel{
     background-color: #fff;
     padding:0 20px 20px 20px;
 }
@@ -373,19 +373,7 @@ a.card-link:hover{
     color:#999;
 }
 /*comment panel*/
-.comment-panel{
-    padding-bottom:0.5rem;
-    margin-top:2rem;
-    border-bottom:1px solid #dee2e6;
-    position: relative;
-}
-.comment-secondary-panel{
-    padding-bottom:0.5rem;
-    margin-top:1rem;
-    padding-top:1rem;
-    background-color: #f4f4f4;
-    position: relative;
-}
+
 .triangle-icon{
     position: absolute;
     left:50px;
@@ -394,45 +382,7 @@ a.card-link:hover{
     font-size:60px;
 
 }
-.comment-panel .comment-panel-portrait{
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
-.comment-panel-portrait img{
-    width: 60px;
-    height: 60px;
-}
-.comment-panel .comment-panel-content{
-    padding:0 0 0 70px;
-    width: 100%;
-}
-.comment-panel .comment-secondary-panel .comment-panel-content{
-    padding:0 0 10px 20px;
-    width: 100%;
-}
-.comment-panel-content-item div{
-    display: inline;
-    padding:0 0.5rem 0 0;
-    font-size:14px;
-    color:#999;
-}
-.comment-panel-content-item .comment-author{
-    font-size:16px;
-    color:#333;
-    font-weight: bold;
-}
-.comment-panel .comment-panel-content .comment-panel-content-main{
-    margin-top:0.5rem;
-    color:#666;
-}
-.comment-panel .comment-panel-secondary{
-    border:1px solid #e5e5e5;
-    padding:0.5rem 0.5rem 0 0.5rem;
-    margin:0.5rem 0;
-    background-color: #fffffb;
-}
 .text-primary{
     text-align: right;
 }
@@ -446,56 +396,7 @@ a.card-link:hover{
     }
 }
 
-/*comment form*/
-.cl-comment-from{
-    padding:20px 0 0 0;
-    margin:20px 0;
-}
-.cl-comment-from .cl-textarea{
-    /*height: 3rem;*/
-    border:1px solid #dfdfdf;
-}
 
-.cl-comment-from button{
-    float: right;
-    border:none;
-    background-color: #FF9400;
-    color:#fff;
-    font-size:16px;
-    padding:0.5rem 1rem;
-    cursor: pointer;
-    margin-top:10px;
-}
-.cl-comment-from button:hover{
-    background-color:#f38d00 ;
-}
-.cl-comment-from>div>textarea{
-    border:none;
-    width: 100%;
-    height: 100%;
-    line-height: 3rem;
-    padding:0 1rem;
-    box-sizing: border-box;
-}
-.cl-comment-from>div>textarea:focus,.cl-comment-from button:focus{
-    outline: none;
-}
-
-.comment-vcode{
-    float: left;
-    font-size:1rem;
-    margin-top:0.5rem;
-}
-.comment-vcode .vcode-img{
-    height: 2.3rem;
-    margin-top:-3px;
-}
-.comment-vcode input{
-    padding:0 0.5rem;
-    height: 2.6rem;
-    border:1px solid #dfdfdf;
-    outline: none;
-}
 /*recommend aritical*/
 .recommend-panel{
     margin:20px 0;

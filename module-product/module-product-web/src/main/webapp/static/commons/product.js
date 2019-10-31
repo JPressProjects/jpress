@@ -107,15 +107,24 @@ function initCommentComponent() {
         $(this).ajaxSubmit({
             type: "post",
             success: function (data) {
-                if (data.state == "ok" && data.html) {
-                    $(".comment-page").append(data.html);
-                } else {
-                    alert('评论失败：' + data.message);
-                    if (data.errorCode == 9) {
-                        location.href = '#(CPATH)/user/login';
+                if (data.state == "ok") {
+                    if (data.html){
+                        $(".comment-page > div:first-child").before(data.html);
+                        $('.comment-textarea textarea').val('');
+                    }else {
+                        alert('发布评论成功');
+                        location.reload();
                     }
                 }
-                $('#content').val('');
+                //评论失败
+                else {
+                    alert('评论失败：' + data.message);
+                    if (data.errorCode == 9 && data.gotoUrl) {
+                        location.href = data.gotoUrl;
+                    }else {
+                        $('.comment-textarea textarea').val('');
+                    }
+                }
             },
             error: function () {
                 alert("网络错误，请稍后重试");

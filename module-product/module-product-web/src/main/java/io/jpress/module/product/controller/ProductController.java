@@ -18,7 +18,7 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
-import com.jfinal.template.Engine;
+import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
@@ -255,7 +255,7 @@ public class ProductController extends TemplateControllerBase {
             paras.put("comment", comment);
 
             if ("default".equals(render)) {
-                String html = Engine.use().getTemplate("/WEB-INF/views/commons/product/defaultProductCommentItem.html")
+                String html = RenderManager.me().getEngine().getTemplate("/WEB-INF/views/commons/product/defaultProductCommentItem.html")
                         .renderToString(paras);
                 ret.set("html", html);
             } else {
@@ -263,7 +263,7 @@ public class ProductController extends TemplateControllerBase {
                 if (template != null) {
                     String htmlFile = template.matchTemplateFile(render + ".html", isMobileBrowser());
                     if (htmlFile != null) {
-                        String html = Engine.use().getTemplate(template.getWebAbsolutePath() + htmlFile).renderToString(paras);
+                        String html = RenderManager.me().getEngine().getTemplate(template.getWebAbsolutePath() + htmlFile).renderToString(paras);
                         ret.set("html", html);
                     }
                 }

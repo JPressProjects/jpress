@@ -250,6 +250,10 @@ a.product-btn-cart:hover {
     position: relative;
 }
 
+.comment-reply-btn{
+    text-align: right;
+}
+
 .comment-item .comment-item-portrait{
     position: absolute;
     top: 0;

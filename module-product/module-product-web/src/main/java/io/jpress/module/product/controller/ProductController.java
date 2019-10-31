@@ -18,12 +18,9 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
-import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.core.template.Template;
-import io.jpress.core.template.TemplateManager;
 import io.jpress.model.User;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
@@ -249,26 +246,10 @@ public class ProductController extends TemplateControllerBase {
             ret.put("user", user.keepSafe());
         }
 
-        String render = getPara("render");
-        if (StrUtil.isNotBlank(render)) {
-            Map<String, Object> paras = new HashMap<>();
-            paras.put("comment", comment);
+        Map<String, Object> paras = new HashMap<>();
+        paras.put("comment", comment);
 
-            if ("default".equals(render)) {
-                String html = RenderManager.me().getEngine().getTemplate("/WEB-INF/views/commons/product/defaultProductCommentItem.html")
-                        .renderToString(paras);
-                ret.set("html", html);
-            } else {
-                Template template = TemplateManager.me().getCurrentTemplate();
-                if (template != null) {
-                    String htmlFile = template.matchTemplateFile(render + ".html", isMobileBrowser());
-                    if (htmlFile != null) {
-                        String html = RenderManager.me().getEngine().getTemplate(template.getWebAbsolutePath() + htmlFile).renderToString(paras);
-                        ret.set("html", html);
-                    }
-                }
-            }
-        }
+        setRetHtml(ret,paras,"/WEB-INF/views/commons/product/defaultProductCommentItem.html");
 
         renderJson(ret);
 //        ArticleKit.doNotifyAdministrator(product, comment, user);

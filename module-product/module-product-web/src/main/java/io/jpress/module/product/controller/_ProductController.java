@@ -237,4 +237,9 @@ public class _ProductController extends AdminControllerBase {
         Set<String> idsSet = getParaSet("ids");
         render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
+
+    @AdminMenu(text = "设置", groupId = "product", order = 99)
+    public void setting() {
+        render("product/setting.html");
+    }
 }

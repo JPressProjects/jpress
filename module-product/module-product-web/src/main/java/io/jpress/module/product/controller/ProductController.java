@@ -18,9 +18,12 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
+import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.model.User;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
@@ -36,7 +39,9 @@ import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -98,7 +103,7 @@ public class ProductController extends TemplateControllerBase {
         setAttr("product", product);
 
         List<ProductImage> productImages = imageService.findListByProductId(product.getId());
-        setAttr("productImages",productImages);
+        setAttr("productImages", productImages);
 
         render(product.getHtmlView());
     }
@@ -141,7 +146,6 @@ public class ProductController extends TemplateControllerBase {
         });
 
     }
-
 
 
     /**
@@ -239,24 +243,36 @@ public class ProductController extends TemplateControllerBase {
         }
         commentService.saveOrUpdate(comment);
 
-        Ret ret = Ret.ok();
-        if (comment.isNormal()) {
-            ret.set("comment", comment).set("code", 0);
-        } else {
-            ret.set("code", 0);
-        }
+        Ret ret = Ret.ok().set("code", 0);
 
         if (user != null) {
             ret.put("user", user.keepSafe());
         }
 
+        String render = getPara("render");
+        if (StrUtil.isNotBlank(render)) {
+            Map<String, Object> paras = new HashMap<>();
+            paras.put("comment", comment);
+
+            if ("default".equals(render)) {
+                String html = Engine.use().getTemplate("/WEB-INF/views/commons/product/defaultProductCommentItem.html")
+                        .renderToString(paras);
+                ret.set("html", html);
+            } else {
+                Template template = TemplateManager.me().getCurrentTemplate();
+                if (template != null) {
+                    String htmlFile = template.matchTemplateFile(render + ".html", isMobileBrowser());
+                    if (htmlFile != null) {
+                        String html = Engine.use().getTemplate(template.getWebAbsolutePath() + htmlFile).renderToString(paras);
+                        ret.set("html", html);
+                    }
+                }
+            }
+        }
+
+        renderJson(ret);
 //        ArticleKit.doNotifyAdministrator(product, comment, user);
 
-        if (isAjaxRequest()) {
-            renderJson(ret);
-        } else {
-            redirect(getReferer());
-        }
     }
 
 
@@ -295,7 +311,7 @@ public class ProductController extends TemplateControllerBase {
     }
 
 
-    public void  doAddFavorite(){
+    public void doAddFavorite() {
         User user = getLoginedUser();
         if (user == null) {
             if (isAjaxRequest()) {

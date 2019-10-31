@@ -6,30 +6,33 @@
 <div class="col-md-9 cl-left">
 
 
+
+    #productPage()
+    #for(product : productPage.list)
     <div class="cl-card">
 
             <div class="row" style="margin:0;padding:1rem;">
                 <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                    <img src="img/default-img.jpg" class="img-fluid" alt="">
+                    <img src="#(product.showImage)" class="img-fluid" >
                 </div>
 
                 <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
                     <h3 class="cl-card-main-title">
-                        max破产都要买的口红
+                       <a href="#(product.url)">#(product.title ??)</a>
                     </h3>
 
                     <p class="cl-card-main-info">
-                        美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
+                        #maxLength(product.text,100)
                     </p>
 
                     <div class="product-list-btn">
                         <div class="price-box">
-                            <p class="list-price">¥ 299.00</p>
+                            <p class="list-price">¥ #number(product.price)</p>
 
-                            <p class="list-number"><span>4</span> 人已购买</p>
+                            <p class="list-number"><span>#(product.sales_count ?? 0)</span> 人已购买</p>
                         </div>
                         <div>
-                            <a class="list-more" href="">查看宝贝 >  </a>
+                            <a class="list-more" href="#(product.url)">查看宝贝 >  </a>
                         </div>
 
                     </div>
@@ -38,238 +41,29 @@
             </div>
 
     </div>
-    <div class="cl-card">
-
-        <div class="row" style="margin:0;padding:1rem;">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <img src="img/default-img.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    max破产都要买的口红
-                </h3>
-
-                <p class="cl-card-main-info">
-                    美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
-                </p>
-
-                <div class="product-list-btn">
-                    <div class="price-box">
-                        <p class="list-price">¥ 299.00</p>
-
-                        <p class="list-number"><span>4</span> 人已购买</p>
-                    </div>
-                    <div>
-                        <a class="list-more" href="">查看宝贝 >  </a>
-                    </div>
+    #end
 
 
 
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-    <div class="cl-card">
-
-        <div class="row" style="margin:0;padding:1rem;">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <img src="img/default-img.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    max破产都要买的口红
-                </h3>
-
-                <p class="cl-card-main-info">
-                    美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
-                </p>
-
-                <div class="product-list-btn">
-                    <div class="price-box">
-                        <p class="list-price">¥ 299.00</p>
-
-                        <p class="list-number"><span>4</span> 人已购买</p>
-                    </div>
-                    <div>
-                        <a class="list-more" href="">查看宝贝 >  </a>
-                    </div>
-
-
-
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-    <div class="cl-card">
-
-        <div class="row" style="margin:0;padding:1rem;">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <img src="img/default-img.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    max破产都要买的口红
-                </h3>
-
-                <p class="cl-card-main-info">
-                    美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
-                </p>
-
-                <div class="product-list-btn">
-                    <div class="price-box">
-                        <p class="list-price">¥ 299.00</p>
-
-                        <p class="list-number"><span>4</span> 人已购买</p>
-                    </div>
-                    <div>
-                        <a class="list-more" href="">查看宝贝 >  </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-    <div class="cl-card">
-
-        <div class="row" style="margin:0;padding:1rem;">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <img src="img/default-img.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    max破产都要买的口红
-                </h3>
-
-                <p class="cl-card-main-info">
-                    美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
-                </p>
-
-                <div class="product-list-btn">
-                    <div class="price-box">
-                        <p class="list-price">¥ 299.00</p>
-
-                        <p class="list-number"><span>4</span> 人已购买</p>
-                    </div>
-                    <div>
-                        <a class="list-more" href="">查看宝贝 >  </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-    <div class="cl-card">
-
-        <div class="row" style="margin:0;padding:1rem;">
-            <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                <img src="img/default-img.jpg" class="img-fluid" alt="">
-            </div>
-
-            <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                <h3 class="cl-card-main-title">
-                    max破产都要买的口红
-                </h3>
-
-                <p class="cl-card-main-info">
-                    美剧《破产姐妹花》中毒舌又性感的Max你一定有所耳闻吧，她在剧中经常使用的一款唇膏，就是Tarte家的哑光唇笔（色号envy）我喜欢薄涂，如果想成熟一点可以多刷几层。上嘴有点点凉的感觉，是薄荷味~虽然是唇膏笔但是不会很干，嘴唇状态好的时候不会起皮的，滋润度还是可以的，毕竟哑光的唇膏笔，在保湿方面也不能要求太多
-                </p>
-
-                <div class="product-list-btn">
-                    <div class="price-box">
-                        <p class="list-price">¥ 299.00</p>
-
-                        <p class="list-number"><span>4</span> 人已购买</p>
-                    </div>
-                    <div>
-                        <a class="list-more" href="">查看宝贝 >  </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-
-
-
-
-
-
-
-    <nav aria-label="Page navigation example">
+    #productPaginate()
+    <nav aria-label="">
         <ul class="pagination justify-content-center">
-
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
         </ul>
     </nav>
+    #end
+    #end
 
 
 </div>
+
+
+
 <div class="col-md-3 cl-right">
-    <div class="right-card">
 
-        <div class="right-card-main">
-            <div class="right-card-title">商家微信号</div>
-            <div class="cl-code">
-                <img src="#option('calmlog_qrcode','img/code.jpg')" class="img-fluid" alt="">
-                <p>#option('calmlog_qrcode_text')</p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="right-card">
-
-        <div class="right-card-main">
-            <div class="right-card-title">商品推荐</div>
-
-
-
-            <ul class="product-recommended-list">
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-
-            </ul>
-        </div>
-    </div>
+    #include("./_rightbar.html")
 
 </div>
 #end

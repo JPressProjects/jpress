@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
@@ -52,7 +53,7 @@ public class ProductCommentPageDirective extends JbootDirectiveBase {
         int pageSize = getParaToInt("pageSize", scope, 10);
 
         Product product = controller.getAttr("product");
-        if (product != null){
+        if (product != null) {
             Page<ProductComment> articlePage = service.paginateByProductIdInNormal(page, pageSize, product.getId());
             scope.setGlobal("commentPage", articlePage);
             renderBody(env, scope, writer);
@@ -70,10 +71,11 @@ public class ProductCommentPageDirective extends JbootDirectiveBase {
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
         @Override
-        protected String getUrl(int pageNumber) {
+        protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
             HttpServletRequest request = JbootControllerContext.get().getRequest();
-            return DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
-//            return StrUtil.isBlank(getAnchor()) ? url : url + "#" + getAnchor();
+            String url = DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
+            String anchor = getPara("anchor", scope);
+            return StrUtil.isBlank(anchor) ? url : url + "#" + anchor;
         }
 
         @Override

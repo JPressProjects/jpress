@@ -6,7 +6,11 @@ function initCommentComponent() {
             success: function (data) {
                 if (data.state == "ok") {
                     if (data.html){
-                        $(".comment-page > div:first-child").before(data.html);
+                        if ($(".comment-page > div:first-child").length > 0){
+                            $(".comment-page > div:first-child").before(data.html);
+                        }else {
+                            $(".comment-page").html(data.html);
+                        }
                         $('.comment-textarea textarea').val('');
                     }else {
                         alert('发布评论成功');

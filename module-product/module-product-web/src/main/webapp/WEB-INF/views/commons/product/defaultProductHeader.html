@@ -66,22 +66,23 @@
         <p class="product-btn-star"><a href="javascript:;" onclick="addProductToFavorite('#(product.id ??)')"><i class="fa fa-heart-o"></i> 添加收藏</a></p>
 
         <div class="product-tag">
+            #productCategories(product.id,'category')
             <p>
                 分类：
-                #productCategories(product.id,'category')
                 #for(cat : categories)
                 <a href="#(cat.url ??)">#(cat.title ??)</a>
                 #end
-                #end
             </p>
+            #end
+
+            #productCategories(product.id,'tag')
             <p>
                 标签：
-                #productCategories(product.id,'tag')
                 #for(cat : categories)
                 <a href="#(cat.url ??)">#(cat.title ??)</a>
                 #end
-                #end
             </p>
+            #end
         </div>
     </div>
 </div>

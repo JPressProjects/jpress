@@ -17,6 +17,7 @@ package io.jpress.module.article;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
+import com.jfinal.template.Engine;
 import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
@@ -37,7 +38,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleListener extends JbootAppListenerBase implements ModuleListener {
+public class ArticleModuleInitializer extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override
@@ -81,6 +82,10 @@ public class ArticleModuleListener extends JbootAppListenerBase implements Modul
 
     }
 
+    @Override
+    public void onEngineConfig(Engine engine) {
+        engine.addSharedFunction("/WEB-INF/views/commons/article/defaultArticleCommentPage.html");
+    }
 
     @Override
     public void onStart() {

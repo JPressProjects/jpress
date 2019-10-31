@@ -242,12 +242,12 @@ public class ProductController extends TemplateControllerBase {
 
         Ret ret = Ret.ok().set("code", 0);
 
-        if (user != null) {
-            ret.put("user", user.keepSafe());
-        }
-
         Map<String, Object> paras = new HashMap<>();
         paras.put("comment", comment);
+        if (user != null) {
+            paras.put("user", user.keepSafe());
+        }
+
 
         setRetHtml(ret,paras,"/WEB-INF/views/commons/product/defaultProductCommentItem.html");
 

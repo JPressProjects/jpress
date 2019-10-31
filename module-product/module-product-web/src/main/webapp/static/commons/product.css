@@ -155,5 +155,32 @@ a.product-btn-cart:hover {
     margin-bottom: 4px;
 }
 
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
+
+.gallery-top {
+    width: 100%;
+    height: 78%;
+}
+.gallery-thumbs {
+    height: 20%;
+    width: 100%;
+    margin-top: 5%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.gallery-thumbs .swiper-slide {
+    width: 20%;
+    height: 100%;
+    /*opacity: 0.7;*/
+}
+
+.gallery-thumbs .swiper-slide-thumb-active {
+    /*opacity: 1;*/
+    border: #aa0000 2px solid;
+}
 
 

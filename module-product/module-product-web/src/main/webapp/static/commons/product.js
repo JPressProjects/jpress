@@ -102,15 +102,13 @@ function initSwiperComponent(){
 }
 
 function initCommentComponent() {
+
     $('#jpress-comment-form').on('submit', function () {
         $(this).ajaxSubmit({
             type: "post",
             success: function (data) {
-                if (data.state == "ok") {
-                    location.href = location.href.indexOf("#allComment") > 0 ?
-                        location.href :
-                        location.href+"#allComment";
-                    location.reload()
+                if (data.state == "ok" && data.html) {
+                    $(".comment-page").append(data.html);
                 } else {
                     alert('评论失败：' + data.message);
                     if (data.errorCode == 9) {
@@ -125,6 +123,14 @@ function initCommentComponent() {
         });
         return false;
     });
+
+
+    $('body').on('click','.toReplyComment', function () {
+        $('#pid').val($(this).attr('data-cid'));
+        $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
+        $('.comment-textarea textarea').focus();
+    });
+
 }
 
 

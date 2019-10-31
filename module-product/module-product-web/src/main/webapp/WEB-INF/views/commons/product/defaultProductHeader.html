@@ -1,36 +1,28 @@
 #define defaultProductHeader()
 <div class="row">
     <div class="col-md-6">
+        #if(productImages)
         <div class="product-swipper swiper-container gallery-top">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
+                #for(img : productImages)
+                <img class="swiper-slide" src="#(img.src ??)">
+                #end
             </div>
         </div>
         <div class="product-swipper-item swiper-container gallery-thumbs">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
-                <img class="swiper-slide" src="img/default-img.jpg">
+                #for(img : productImages)
+                <img class="swiper-slide" src="#(img.src ??)">
+                #end
             </div>
             <div class="swiper-button-next swiper-button-white"></div>
             <div class="swiper-button-prev swiper-button-white"></div>
         </div>
+        #else
+        <div class="product-swipper">
+            <img style="width: 100%;height: 100%" src="#(product.showImage ??)">
+        </div>
+        #end
     </div>
     <div class="col-md-6">
         <h2 class="product-title">#(product.title)</h2>

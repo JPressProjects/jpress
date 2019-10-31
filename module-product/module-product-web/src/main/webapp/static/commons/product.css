@@ -162,10 +162,11 @@ a.product-btn-cart:hover {
 
 .gallery-top {
     width: 100%;
-    height: 78%;
+    height: 400px;
 }
+
 .gallery-thumbs {
-    height: 20%;
+    height: 60px;
     width: 100%;
     margin-top: 5%;
     box-sizing: border-box;

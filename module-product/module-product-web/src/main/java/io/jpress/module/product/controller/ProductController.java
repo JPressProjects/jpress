@@ -25,8 +25,10 @@ import io.jpress.model.User;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
+import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
+import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.OptionService;
 import io.jpress.service.UserCartService;
@@ -47,6 +49,9 @@ public class ProductController extends TemplateControllerBase {
 
     @Inject
     private ProductService productService;
+
+    @Inject
+    private ProductImageService imageService;
 
     @Inject
     private UserService userService;
@@ -91,6 +96,9 @@ public class ProductController extends TemplateControllerBase {
         product.put("user", productAuthor);
 
         setAttr("product", product);
+
+        List<ProductImage> productImages = imageService.findListByProductId(product.getId());
+        setAttr("productImages",productImages);
 
         render(product.getHtmlView());
     }

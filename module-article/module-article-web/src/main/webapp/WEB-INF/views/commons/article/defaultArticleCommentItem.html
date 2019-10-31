@@ -5,7 +5,7 @@
     <div class="comment-item-content">
         <div class="comment-item-content-item">
             <div class="comment-author">#(comment.author)</div>
-            <div>#(comment.created )</div>
+            <div>#date(comment.created )</div>
         </div>
         <div class="comment-item-content-main">#(comment.content)</div>
         #if(comment.parent)

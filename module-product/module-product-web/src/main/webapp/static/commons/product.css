@@ -78,6 +78,7 @@
 .product-specs ul {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     list-style: none;
     flex-shrink: 1;
     padding: 0;
@@ -86,12 +87,13 @@
 }
 
 .product-specs ul li {
-    width: 14%;
-    padding: 2px;
+    padding: 2px 10px;
+    margin-bottom: 4px;
     margin-right: 4px;
     text-align: center;
     border: 2px solid #ccc;
     cursor: pointer;
+
 }
 
 .product-specs ul  li.active {

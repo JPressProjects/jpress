@@ -209,6 +209,7 @@ a.card-link:hover{
 /*right*/
 .cl-right{
     margin:20px 0;
+    padding-right:0;
 }
 .right-card-main{
     background-color: #fff;
@@ -463,8 +464,10 @@ a.card-link:hover{
 }
 
 .product-top{
-    padding:40px 0;
+    padding: 20px;
+    margin: 20px 0 0 0;
     width: 100%;
+    background-color: #fff;
 }
 
 .product-list-btn{

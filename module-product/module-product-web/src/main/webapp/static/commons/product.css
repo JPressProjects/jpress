@@ -187,19 +187,19 @@ a.product-btn-cart:hover {
 }
 
 .comment-default-block input::-webkit-input-placeholder, .comment-default-block textarea::-webkit-input-placeholder {
-    color: #ddd;
+    color: #bbb;
 }
 
 .comment-default-block input:-moz-placeholder, .comment-default-block textarea:-moz-placeholder {
-    color: #ddd;
+    color: #bbb;
 }
 
 .comment-default-block input::-moz-placeholder, .comment-default-block textarea::-moz-placeholder {
-    color: #ddd;
+    color: #bbb;
 }
 
 .comment-default-block input:-ms-input-placeholder, .comment-default-block textarea:-ms-input-placeholder {
-    color: #ddd;
+    color: #bbb;
 }
 
 .comment-block {

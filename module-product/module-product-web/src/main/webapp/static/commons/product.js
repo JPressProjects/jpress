@@ -45,7 +45,8 @@ function buyPrudct(productId, okFunction, failFunction) {
         },
         okFunction ? okFunction : function (data) {
             if (data.gotoUrl) {
-                location.href = data.gotoUrl;
+                // location.href = data.gotoUrl;
+                window.open(data.gotoUrl,'_blank')
             }
         },
         failFunction ? failFunction : function () {

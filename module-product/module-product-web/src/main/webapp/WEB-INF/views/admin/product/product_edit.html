@@ -579,7 +579,7 @@
                             <h3 class="box-title">产品视频</h3>
                         </div>
                         <div class="box-body no-padding">
-                            <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                            <img src="#(CPATH)#(product.video_cover ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="videoimg">
                             <input type="hidden" value="#(product.video ??)" name="product.video" id="videoinput">
@@ -587,7 +587,7 @@
                         <div class="box-footer">
                             <button type="button" class="jp-image-browser btn btn-default btn-sm "
                                     for-src="videoimg"
-                                    for-input="videoinput">选择图片
+                                    for-input="videoinput">选择视频
                             </button>
                             <a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
                         </div>

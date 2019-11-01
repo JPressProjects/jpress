@@ -7,7 +7,7 @@
         <input type="hidden" name="pid" id="pid">
 
         <div class="comment-textarea">
-            <textarea placeholder="说点什么吧..." rows="3" name="content"></textarea>
+            <textarea placeholder="我们相信，您的评论能够一针见血...." rows="4" name="content"></textarea>
         </div>
 
         <div class="comment-vcode">
@@ -18,22 +18,21 @@
             #end
         </div>
 
-        <button type="submit">留言</button>
+        <button type="submit">提交</button>
         <span class="clearfix"></span>
     </form>
 
 
-    <h4 class="right-card-title">全部评论</h4>
+    <h4 class="comment-page-title" id="comments">全部评论</h4>
 
 
-    <div class="comment-page" id="comments">
+    <div class="comment-page">
         #productCommentPage()
         #for(comment : commentPage.list)
         #include("defaultProductCommentItem.html")
         #end
         #end
     </div>
-
 
 
     #productCommentPaginate(anchor="comments")

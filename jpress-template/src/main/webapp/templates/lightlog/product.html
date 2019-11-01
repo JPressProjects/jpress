@@ -1,5 +1,5 @@
-#include("./layout.html")
-#@mylaout()
+#include("layout.html")
+#@layout()
 
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
@@ -13,77 +13,19 @@
 #end
 
 #define content()
+<div class="container ll-cantainer">
+    <div class="ll-artical-content">
 
-<!---->
-<div class="product-top">
+        #@defaultProductHeader()
 
-    #@defaultProductHeader()
-
-</div>
-
-<!---->
-<div class="col-md-9 cl-left">
-    <div class="cl-artical-content">
-
-        <div class="cl-artical">
+        <div class="ll-artical">
             #(product.content)
         </div>
+
+
+
+        #@defaultProductCommentPage()
+
     </div>
-
-
-
-
-    #@defaultProductCommentPage()
-
-</div>
-
-<div class="col-md-3 cl-right">
-    <div class="right-card">
-
-        <div class="right-card-main">
-            <div class="right-card-title">商家微信号</div>
-            <div class="cl-code">
-                <img src="#option('calmlog_qrcode','img/code.jpg')" class="img-fluid" alt="">
-                <p>#option('calmlog_qrcode_text')</p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="right-card">
-
-        <div class="right-card-main">
-            <div class="right-card-title">商品推荐</div>
-
-
-
-            <ul class="product-recommended-list">
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-
-            </ul>
-        </div>
-    </div>
-
 </div>
 #end

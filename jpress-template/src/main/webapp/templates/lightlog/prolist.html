@@ -1,69 +1,53 @@
-#include("./layout.html")
-#@mylaout()
-
-
+#include("layout.html")
+#@layout()
 #define content()
-<div class="col-md-9 cl-left">
-
-
+<div class="container ll-cantainer">
 
     #productPage()
     #for(product : productPage.list)
-    <div class="cl-card">
-
-            <div class="row" style="margin:0;padding:1rem;">
-                <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                    <img src="#(product.showImage)" class="img-fluid" >
-                </div>
-
-                <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                    <h3 class="cl-card-main-title">
-                       <a href="#(product.url)">#(product.title ??)</a>
+    <div class="ll-card">
+        <div class="row">
+            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image">
+                <a href="#">
+                    <img src="#(product.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="#(product.title ??)">
+                </a>
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
+                <a href="#(product.url ??)">
+                    <h3 class="ll-card-main-title">
+                        #(product.title ??)
                     </h3>
-
-                    <p class="cl-card-main-info">
+                    <p class="ll-card-main-info">
                         #maxLength(product.text,100)
                     </p>
-
-                    <div class="product-list-btn">
-                        <div class="price-box">
-                            <p class="list-price">¥ #number(product.price)</p>
-
-                            <p class="list-number"><span>#(product.sales_count ?? 0)</span> 人已购买</p>
-                        </div>
-                        <div>
-                            <a class="list-more" href="#(product.url)">查看宝贝 >  </a>
-                        </div>
-
+                    <div class="ll-card-tag">
+                        <div><i class="fa fa-clock-o"></i>#date(product.created)</div>
+                        <div><i class="fa fa-eye"></i>#(product.view_count)</div>
+                        <div><i class="fa fa-commenting-o"></i>#(product.comment_count)</div>
                     </div>
+                </a>
 
-                </div>
             </div>
-
+        </div>
     </div>
     #end
 
 
-
     #productPaginate()
-    <nav aria-label="">
-        <ul class="pagination justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
             #for(page : pages)
-            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
             #end
         </ul>
     </nav>
     #end
+
     #end
-
-
-</div>
-
-
-
-<div class="col-md-3 cl-right">
-
-    #include("./_rightbar.html")
 
 </div>
 #end

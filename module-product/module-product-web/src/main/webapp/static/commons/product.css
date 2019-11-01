@@ -192,11 +192,7 @@ a.product-btn-cart:hover {
 }
 
 .comment-form {
-    margin-bottom: 40px;
-}
-
-.comment-form .comment-textarea {
-    border: 1px solid #dfdfdf;
+    margin-bottom: 20px;
 }
 
 .comment-form button {
@@ -214,17 +210,29 @@ a.product-btn-cart:hover {
     background-color: #f38d00;
 }
 
-.comment-form > div > textarea {
-    border: none;
-    width: 100%;
-    height: 100%;
-    line-height: 3rem;
-    padding: 0 1rem;
-    box-sizing: border-box;
+.comment-form button:hover {
+    background-color: #f38d00;
 }
 
-.comment-form > div > textarea:focus, .comment-form button:focus {
+.comment-form button:focus {
     outline: none;
+}
+
+.comment-form > div > textarea {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    border: 1px solid #dfdfdf;
+}
+
+.comment-form > div > textarea:focus {
+    outline: none;
+    border: 1px solid #999;
+}
+
+.comment-page-title{
+    padding: 20px 0 10px 0;
 }
 
 .comment-vcode {
@@ -243,6 +251,10 @@ a.product-btn-cart:hover {
     height: 2.6rem;
     border: 1px solid #dfdfdf;
     outline: none;
+}
+
+.comment-vcode input:focus {
+    border: 1px solid #999;
 }
 
 .comment-item {

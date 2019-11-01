@@ -1,7 +1,25 @@
+
+
 .comment-default-block {
     background: #fff;
     padding: 20px;
     margin-top: 20px;
+}
+
+.comment-default-block input::-webkit-input-placeholder, .comment-default-block textarea::-webkit-input-placeholder {
+    color: #ddd;
+}
+
+.comment-default-block input:-moz-placeholder, .comment-default-block textarea:-moz-placeholder {
+    color: #ddd;
+}
+
+.comment-default-block input::-moz-placeholder, .comment-default-block textarea::-moz-placeholder {
+    color: #ddd;
+}
+
+.comment-default-block input:-ms-input-placeholder, .comment-default-block textarea:-ms-input-placeholder {
+    color: #ddd;
 }
 
 .comment-block {

@@ -31,7 +31,7 @@
 
 
     #articlePaginate(firstGotoIndex=true)
-    <nav aria-label="Page navigation example">
+    <nav aria-label="">
         <ul class="pagination justify-content-center">
             #for(page : pages)
             <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
@@ -39,13 +39,12 @@
         </ul>
     </nav>
     #end
-
     #end
 
 </div>
+
+
 <div class="col-md-3 cl-right">
-
     #include("./_rightbar.html")
-
 </div>
 #end

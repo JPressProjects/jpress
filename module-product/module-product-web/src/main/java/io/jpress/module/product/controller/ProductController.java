@@ -25,15 +25,20 @@ import io.jpress.model.User;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
+import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
+import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.OptionService;
 import io.jpress.service.UserCartService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -46,6 +51,9 @@ public class ProductController extends TemplateControllerBase {
 
     @Inject
     private ProductService productService;
+
+    @Inject
+    private ProductImageService imageService;
 
     @Inject
     private UserService userService;
@@ -61,6 +69,9 @@ public class ProductController extends TemplateControllerBase {
 
     @Inject
     private UserCartService cartService;
+
+    @Inject
+    private UserFavoriteService favoriteService;
 
 
     public void index() {
@@ -87,6 +98,9 @@ public class ProductController extends TemplateControllerBase {
         product.put("user", productAuthor);
 
         setAttr("product", product);
+
+        List<ProductImage> productImages = imageService.findListByProductId(product.getId());
+        setAttr("productImages", productImages);
 
         render(product.getHtmlView());
     }
@@ -226,24 +240,20 @@ public class ProductController extends TemplateControllerBase {
         }
         commentService.saveOrUpdate(comment);
 
-        Ret ret = Ret.ok();
-        if (comment.isNormal()) {
-            ret.set("comment", comment).set("code", 0);
-        } else {
-            ret.set("code", 0);
-        }
+        Ret ret = Ret.ok().set("code", 0);
 
+        Map<String, Object> paras = new HashMap<>();
+        paras.put("comment", comment);
         if (user != null) {
-            ret.put("user", user.keepSafe());
+            paras.put("user", user.keepSafe());
         }
 
+
+        setRetHtml(ret,paras,"/WEB-INF/views/commons/product/defaultProductCommentItem.html");
+
+        renderJson(ret);
 //        ArticleKit.doNotifyAdministrator(product, comment, user);
 
-        if (isAjaxRequest()) {
-            renderJson(ret);
-        } else {
-            redirect(getReferer());
-        }
     }
 
 
@@ -281,6 +291,37 @@ public class ProductController extends TemplateControllerBase {
         renderOkJson();
     }
 
+
+    public void doAddFavorite() {
+        User user = getLoginedUser();
+        if (user == null) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail()
+                        .set("code", 1)
+                        .set("message", "用户未登录")
+                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
+            } else {
+                redirect("/user/login");
+            }
+            return;
+        }
+
+
+        Long productId = getParaToLong("id");
+        Product product = productService.findById(productId);
+
+        if (product == null || !product.isNormal()) {
+            if (isAjaxRequest()) {
+                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+            } else {
+                renderError(404);
+            }
+            return;
+        }
+
+        favoriteService.save(product.toFavorite(user.getId()));
+        renderOkJson();
+    }
 
     /**
      * 购买商品

@@ -43,14 +43,14 @@
                                             <img src="#(userCart.product_thumbnail)" class="img-circle" >
                                         </div>
                                         <h4>
-                                            #(userCart.product_title ??)
+                                            #maxLength(userCart.product_title ??,16,'...')
                                         </h4>
-                                        <p>#(userCart.product_summary ??)</p>
+                                        <p>#maxLength(userCart.product_summary ??,20,'...')</p>
                                         #else
                                         <h4 style="margin: 0">
-                                            #(userCart.product_title ??)
+                                            #maxLength(userCart.product_title ??,16,'...')
                                         </h4>
-                                        <p style="margin: 0">#(userCart.product_summary ??)</p>
+                                        <p style="margin: 0">#maxLength(userCart.product_summary ??,20,'...')</p>
                                         #end
                                     </a>
                                 </li>

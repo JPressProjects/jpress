@@ -1,0 +1,54 @@
+#include("./layout.html")
+#@layout()
+#define content()
+<div class="container list-content bl-container">
+
+    #productPage()
+    #for(product : productPage.list)
+    <a class="cl-list-item" href="#(product.url ??)">
+        <div class="row bl-list-card">
+            <div class="col-md-9 col-sm-12 bl-card-content">
+                <h3 class="bl-content-title">
+                    #(product.title ??)
+                </h3>
+                <p class="bl-content-info">
+                    #maxLength(product.text,100)
+                </p>
+                <div class="bl-label bl-label-position">
+                    <div class="bl-tag">
+                        <div class="bl-tag-item"><i class="fa fa-eye" aria-hidden="true"></i> #(product.view_count)
+                        </div>
+                        <div class="bl-tag-item"><i class="fa fa-commenting-o" aria-hidden="true"></i> #(product.comment_count)
+                        </div>
+                    </div>
+                    <div class="bl-label-item">#date(product.created)</div>
+                </div>
+
+            </div>
+            <div class="col-md-3 col-sm-12 bl-card-image">
+                <img src="#(product.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="">
+            </div>
+        </div>
+    </a>
+    #end
+
+
+    #productPaginate()
+    <nav aria-label="Page navigation example" style="margin-top:2rem;">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+
+</div>
+#end

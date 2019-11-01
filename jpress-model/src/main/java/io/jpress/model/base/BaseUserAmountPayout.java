@@ -34,6 +34,34 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
 	}
 
     /**
+     * 用户的真实名字
+     */
+	public void setUserRealName(java.lang.String userRealName) {
+		set("user_real_name", userRealName);
+	}
+
+    /**
+     * 用户的真实名字
+     */
+	public java.lang.String getUserRealName() {
+		return getStr("user_real_name");
+	}
+
+    /**
+     * 用户的身份证号码
+     */
+	public void setUserIdcard(java.lang.String userIdcard) {
+		set("user_idcard", userIdcard);
+	}
+
+    /**
+     * 用户的身份证号码
+     */
+	public java.lang.String getUserIdcard() {
+		return getStr("user_idcard");
+	}
+
+    /**
      * 提现金额
      */
 	public void setAmount(java.math.BigDecimal amount) {
@@ -48,20 +76,6 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
 	}
 
     /**
-     * 提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号
-     */
-	public void setPayTo(java.lang.String payTo) {
-		set("pay_to", payTo);
-	}
-
-    /**
-     * 提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号
-     */
-	public java.lang.String getPayTo() {
-		return getStr("pay_to");
-	}
-
-    /**
      * 提现类型
      */
 	public void setPayType(java.lang.String payType) {
@@ -73,6 +87,20 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
      */
 	public java.lang.String getPayType() {
 		return getStr("pay_type");
+	}
+
+    /**
+     * 提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号
+     */
+	public void setPayTo(java.lang.String payTo) {
+		set("pay_to", payTo);
+	}
+
+    /**
+     * 提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号
+     */
+	public java.lang.String getPayTo() {
+		return getStr("pay_to");
 	}
 
     /**

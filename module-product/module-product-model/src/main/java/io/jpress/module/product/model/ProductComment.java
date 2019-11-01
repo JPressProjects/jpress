@@ -1,6 +1,8 @@
 package io.jpress.module.product.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.module.product.model.base.BaseProductComment;
 
 import java.util.HashMap;
@@ -32,5 +34,20 @@ public class ProductComment extends BaseProductComment<ProductComment> {
 
     public String getStatusStr() {
         return statusStrMap.get(getStatus());
+    }
+
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        JsoupUtils.clean(this, "content");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        JsoupUtils.clean(this, "content");
+        return super.update();
     }
 }

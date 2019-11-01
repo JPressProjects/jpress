@@ -70,10 +70,23 @@ public class CheckoutController extends UcenterControllerBase {
         List<UserCart> userCarts = new ArrayList<>();
         Long cid = getParaToLong();
         if (cid != null) {
-            userCarts.add(cartService.findById(cid));
+            UserCart userCart = cartService.findById(cid);
+            if (userCart != null) {
+                userCarts.add(userCart);
+            }
         } else {
             userCarts.addAll(cartService.findSelectedListByUserId(getLoginedUser().getId()));
         }
+
+
+        if (userCarts.isEmpty()) {
+            /**
+             * 有可能用户在支付过程中，未进行任何的支付直接返回了
+             */
+            redirect("/ucenter/order");
+            return;
+        }
+
 
         PayConfigUtil.setConfigAttrs(this);
 
@@ -84,9 +97,8 @@ public class CheckoutController extends UcenterControllerBase {
     }
 
 
-
     public void order() {
-        UserOrder order = userOrderService.findById(getPara(),getLoginedUser().getId());
+        UserOrder order = userOrderService.findById(getPara(), getLoginedUser().getId());
         if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {
             renderError(404);
             return;
@@ -94,8 +106,8 @@ public class CheckoutController extends UcenterControllerBase {
 
         PayConfigUtil.setConfigAttrs(this);
 
-        setAttr("order",order);
-        setAttr("orderItems",userOrderItemService.findListByOrderId(order.getId()));
+        setAttr("order", order);
+        setAttr("orderItems", userOrderItemService.findListByOrderId(order.getId()));
         setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
         render("order.html");
     }
@@ -168,8 +180,8 @@ public class CheckoutController extends UcenterControllerBase {
          */
         UserOrder userOrder = getModel(UserOrder.class, "order");
         //只允许提交订单的如下字段，其他不允许提交
-        userOrder.keep("delivery_addr_username","delivery_addr_mobile","delivery_addr_province",
-                "delivery_addr_city","delivery_addr_district","delivery_addr_detail","delivery_addr_zipcode");
+        userOrder.keep("delivery_addr_username", "delivery_addr_mobile", "delivery_addr_province",
+                "delivery_addr_city", "delivery_addr_district", "delivery_addr_detail", "delivery_addr_zipcode");
 
         userOrder.setProductTable(userOrderItems.get(0).getProductTable());
         userOrder.setProductTitle(userOrderItems.get(0).getProductTitle());
@@ -184,8 +196,8 @@ public class CheckoutController extends UcenterControllerBase {
         for (UserOrderItem item : userOrderItems) {
             productDesc.append(item.getProductTitle());
         }
-        if (productDesc.length() > 200){
-            productDesc.delete(200,productDesc.length() -1);
+        if (productDesc.length() > 200) {
+            productDesc.delete(200, productDesc.length() - 1);
             productDesc.append("...");
         }
         userOrder.setProductSummary(productDesc.toString());
@@ -208,7 +220,6 @@ public class CheckoutController extends UcenterControllerBase {
         }
 
 
-
         //订单金额 = 所有 item 金额之和 - 优惠券金额
         BigDecimal orderTotalAmount = new BigDecimal(0);
         for (UserOrderItem item : userOrderItems) {
@@ -221,9 +232,9 @@ public class CheckoutController extends UcenterControllerBase {
 
 
         String paytype = getPara("paytype");
-        if ("amount".equals(paytype)){
-            BigDecimal userAmount =  userService.queryUserAmount(getLoginedUser().getId());
-            if (userAmount == null || userAmount.compareTo(orderTotalAmount) < 0){
+        if ("amount".equals(paytype)) {
+            BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+            if (userAmount == null || userAmount.compareTo(orderTotalAmount) < 0) {
                 renderJson(Ret.fail().set("message", "用户余额不足，无法使用余额进行支付。"));
                 return;
             }
@@ -263,11 +274,11 @@ public class CheckoutController extends UcenterControllerBase {
 
     @UrlParaValidate
     public void payorder() {
-        UserOrder userOrder = userOrderService.findById(getPara(),getLoginedUser().getId());
+        UserOrder userOrder = userOrderService.findById(getPara(), getLoginedUser().getId());
         render404If(userOrder == null);
 
         PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());
-        if (payment == null){
+        if (payment == null) {
             payment = new PaymentRecord();
         }
 
@@ -302,11 +313,10 @@ public class CheckoutController extends UcenterControllerBase {
         paymentService.saveOrUpdate(payment);
 
         //更新 order 的 payment id
-        if (userOrder.getPaymentId() == null){
+        if (userOrder.getPaymentId() == null) {
             userOrder.setPaymentId(payment.getId());
             userOrderService.update(userOrder);
         }
-
 
 
         PayKit.redirect(payment.getPayType(), payment.getTrxNo());

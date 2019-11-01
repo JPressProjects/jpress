@@ -65,7 +65,7 @@ public class _ProductController extends AdminControllerBase {
 
 
 
-        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         flagCheck(categories, categoryId);
@@ -87,7 +87,7 @@ public class _ProductController extends AdminControllerBase {
 
 
     public void edit() {
-        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
@@ -236,5 +236,10 @@ public class _ProductController extends AdminControllerBase {
     public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
         render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+    }
+
+    @AdminMenu(text = "设置", groupId = "product", order = 99)
+    public void setting() {
+        render("product/setting.html");
     }
 }

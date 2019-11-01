@@ -114,7 +114,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
-        columns.add("a.status", Product.STATUS_NORMAL);
+        columns.add("p.status", Product.STATUS_NORMAL);
 
         return _paginateByBaseColumns(page, pagesize, columns, categoryId, orderBy);
     }

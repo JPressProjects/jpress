@@ -1,13 +1,52 @@
 #define defaultProductCommentPage()
-<ul class="pagination pull-right">
-    #adminPaginate()
-    #for(page : pages)
-    <li class="paginate_button #(page.style ??)">
-        <a href="#(page.url??)">#(page.text??)</a>
-    </li>
+<div class="comment-default-block">
+
+    <form class="comment-form" action="#(CPATH)/product/postComment" id="jpress-comment-form" method="post">
+        <input type="hidden" name="productId" value="#(product.id)">
+        <input type="hidden" name="render" value="default">
+        <input type="hidden" name="pid" id="pid">
+
+        <div class="comment-textarea">
+            <textarea placeholder="我们相信，您的评论能够一针见血...." rows="4" name="content"></textarea>
+        </div>
+
+        <div class="comment-vcode">
+            #if(option('product_comment_vcode_enable'))
+            <input placeholder="请输入验证码" name="captcha">
+            <img class="vcode-img" src="#(CPATH)/commons/captcha"
+                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+            #end
+        </div>
+
+        <button type="submit">提交</button>
+        <span class="clearfix"></span>
+    </form>
+
+
+    <h4 class="comment-page-title" id="comments">全部评论</h4>
+
+
+    <div class="comment-page">
+        #productCommentPage()
+        #for(comment : commentPage.list)
+        #include("defaultProductCommentItem.html")
+        #end
+        #end
+    </div>
+
+
+    #productCommentPaginate(anchor="comments")
+    <nav>
+        <ul class="pagination justify-content-center">
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
+        </ul>
+    </nav>
     #end
-    #end
-</ul>
+
+
+</div>
 #end
 
 

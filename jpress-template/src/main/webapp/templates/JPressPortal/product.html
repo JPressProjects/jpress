@@ -1,0 +1,57 @@
+#include("./layout.html")
+#@layout()
+
+#define script()
+<script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="/static/components/swiper/swiper.min.js"></script>
+<script src="/static/commons/product.js"></script>
+#end
+
+#define css()
+<link href="/static/commons/product.css" rel="stylesheet">
+<link href="/static/components/swiper/swiper.min.css" rel="stylesheet">
+#end
+
+
+#define content()
+<div class="container bl-container">
+    <div class="row">
+        <div class="col-md-9 col-sm-12" style="margin-top: 3rem">
+
+            #@defaultProductHeader()
+
+            <div class="bl-artical">
+                #(product.content ??)
+            </div>
+
+            #@defaultProductCommentPage()
+
+        </div>
+
+
+
+        <div class="col-md-3 col-sm-12">
+            <div class="card-right">
+                <h4 class="bl-title">热门文章</h4>
+
+                #articles()
+                #for(article : articles)
+                <div class="card-right-body">
+                    <a href="#(article.url ??)">
+                        <div>
+                            <img src="#(article.showImage ?? 'img/default-img.jpg')"
+                                 class="img-fluid"
+                                 alt="#(article.title ??)">
+
+                        </div>
+                        <p>#(article.title ??)</p>
+                    </a>
+                </div>
+                #end
+                #end
+
+            </div>
+        </div>
+    </div>
+</div>
+#end

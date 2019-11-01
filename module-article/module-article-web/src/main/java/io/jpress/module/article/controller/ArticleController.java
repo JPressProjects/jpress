@@ -32,7 +32,9 @@ import io.jpress.service.OptionService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -232,16 +234,16 @@ public class ArticleController extends TemplateControllerBase {
         }
         commentService.saveOrUpdate(comment);
 
-        Ret ret = Ret.ok();
-        if (comment.isNormal()) {
-            ret.set("comment", comment).set("code", 0);
-        } else {
-            ret.set("code", 0);
+        Ret ret = Ret.ok().set("code",0);
+
+
+        Map<String, Object> paras = new HashMap<>();
+        paras.put("comment", comment);
+        if (user != null) {
+            paras.put("user", user.keepSafe());
         }
 
-        if (user != null) {
-            ret.put("user", user.keepSafe());
-        }
+        setRetHtml(ret,paras,"/WEB-INF/views/commons/article/defaultArticleCommentItem.html");
 
         ArticleKit.doNotifyAdministrator(article, comment, user);
 

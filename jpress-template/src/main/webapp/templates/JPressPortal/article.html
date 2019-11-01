@@ -1,83 +1,22 @@
 #include("./layout.html")
 #@layout()
+
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
+<link href="/static/commons/article.css" rel="stylesheet">
 #end
 #define script()
-<script src="jquery/jsrender.min.js"></script>
 <script src="/static/components/jquery/jquery.form.min.js"></script>
+<script src="/static/commons/article.js"></script>
 <script src="highlight/highlight.pack.js"></script>
 <script>
 
     hljs.initHighlightingOnLoad();
 
-    $('#commentForm').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    doRenderComment(data);
-                } else {
-                    alert('评论失败：' + data.message);
-                    if (data.errorCode == 9) {
-                        location.href = '#(CPATH)/user/login';
-                    }
-                }
-                $('#content').val('');
-            },
-            error: function () {
-                alert("网络错误，请稍后重试");
-            }
-        });
-        return false;
-    });
-
-    function doRenderComment(data) {
-        if (data.code == 0) {
-            var tmpl = $.templates("#commentTmpl");
-            var html = tmpl.render(data);
-            $("#commentForm").after(html);
-        } else {
-            alert('评论发布成功，管理审核后即可正常显示。')
-        }
-    }
-
-    $('.toReply').on('click', function () {
-        $('#pid').val($(this).attr('data-cid'));
-        $('#content').val('回复 @' + $(this).attr('data-author') + " ：");
-        $('#content').focus();
-    });
-</script>
-<script id="commentTmpl" type="text/x-jsrender">
-   <div class="comment-panel">
-        <div class="comment-panel-portrait">
-             {{if user }}
-                <img src="{{:user.avatar}}" class="img-fluid rounded-circle"
-                        alt="{{:comment.author}}">
-                {{else}}
-                <img src="/static/commons/img/avatar.png" class="img-fluid rounded-circle"
-                        alt="{{:comment.author}}">
-             {{/if}}
-
-        </div>
-        <div class="comment-panel-content">
-            <div class="comment-panel-content-item">
-                <div>{{:comment.author}}</div>
-                <div>{{:comment.created}}</div>
-            </div>
-            <p>{{:comment.content}}</p>
-        </div>
-
-        <span class="clearfix"></span>
-        <p class="bl-reply">
-            <a href="javascript:;"
-               data-cid="{{:comment.id}}"
-               data-author="{{:comment.author}}"
-               class="toReply">回复</a>
-        </p>
-    </div>
 </script>
 #end
+
+
 #define content()
 <div class="container bl-container">
     <div class="row">
@@ -119,103 +58,12 @@
             </div>
             #end
 
-            <div class="comment" id="comments">
-                <h4 class="bl-title">相关评论</h4>
-                <form class="bl-comment-form" id="commentForm" action="#(CPATH)/article/postComment" method="post">
-                    <input type="hidden" name="articleId" value="#(article.id)">
-                    <input type="hidden" name="pid" id="pid">
-                    <div class="form-group">
-                        <textarea class="form-control"
-                                  placeholder="想说就说吧..."
-                                  id="content"
-                                  name="content"
-                                  rows="5"></textarea>
-                    </div>
-                    <div class="comment-vcode">
-                        #if(option('article_comment_vcode_enable'))
-                        <input placeholder="请输入验证码" name="captcha">
-                        <img class="vcode-img" src="/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();">
-                        #end
-                    </div>
-                    <button type="submit">发布</button>
-                    <span class="clearfix"></span>
-                </form>
+            #@defaultArticleCommentPage()
 
-                #commentPage()
-                #for(comment : commentPage.list)
-                #if(comment.parent == null)
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="#(comment.user.avatar ??)"
-                             class="img-fluid rounded-circle"
-                             alt="#(comment.author ??)">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>#(comment.author ??)</div>
-                            <div>#date(comment.created)</div>
-                        </div>
-                        <p>#(comment.content ??)</p>
-                    </div>
-                    <span class="clearfix"></span>
-                    <p class="bl-reply">
-                        <a href="javascript:;"
-                           data-cid="#(comment.id)"
-                           data-author="#(comment.author ??)"
-                           class="toReply">回复</a>
-                    </p>
-                </div>
-
-                #else
-
-                <div class="comment-panel">
-                    <div class="comment-panel-portrait">
-                        <img src="#(comment.user.avatar ??)"
-                             class="img-fluid rounded-circle"
-                             alt="#(comment.author ??)">
-                    </div>
-                    <div class="comment-panel-content">
-                        <div class="comment-panel-content-item">
-                            <div>#(comment.author ??)</div>
-                            <div>#date(comment.created)</div>
-                        </div>
-                        <div class="comment-panel-secondary">
-                            <span>引用来自于 <span> #(comment.parent.author ??)</span> 的内容</span>
-                            <p>#(comment.parent.content ??)</p>
-                        </div>
-                        <p>#(comment.content ??)</p>
-                    </div>
-                    <span class="clearfix"></span>
-                    <p class="bl-reply">
-                        <a href="javascript:;"
-                           data-cid="#(comment.id)"
-                           data-author="#(comment.author ??)"
-                           class="toReply">回复</a>
-                    </p>
-                </div>
-
-                #end
-                #end
-
-                #commentPaginate(anchor="comments")
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center ">
-                        #for(page : pages)
-                        <li class="page-item #(page.style ??)">
-                            <a class="page-link" href="#(page.url ??)">
-                                #(page.text ??)
-                            </a>
-                        </li>
-                        #end
-                    </ul>
-                </nav>
-                #end
-
-                #end
-
-
-            </div>
         </div>
+
+
+
         <div class="col-md-3 col-sm-12">
             <div class="card-right">
                 <h4 class="bl-title">热门文章</h4>

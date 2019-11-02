@@ -61,14 +61,6 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 		return getLong("dist_user_id");
 	}
 
-	public void setProductId(java.lang.Long productId) {
-		set("product_id", productId);
-	}
-
-	public java.lang.Long getProductId() {
-		return getLong("product_id");
-	}
-
     /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
@@ -89,6 +81,14 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 
 	public java.lang.String getProductTableText() {
 		return getStr("product_table_text");
+	}
+
+	public void setProductId(java.lang.Long productId) {
+		set("product_id", productId);
+	}
+
+	public java.lang.Long getProductId() {
+		return getLong("product_id");
 	}
 
     /**
@@ -125,6 +125,20 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 
 	public java.lang.String getProductSummary() {
 		return getStr("product_summary");
+	}
+
+    /**
+     * 产品规格
+     */
+	public void setProductSpec(java.lang.String productSpec) {
+		set("product_spec", productSpec);
+	}
+
+    /**
+     * 产品规格
+     */
+	public java.lang.String getProductSpec() {
+		return getStr("product_spec");
 	}
 
     /**

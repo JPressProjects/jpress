@@ -6,7 +6,6 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.model.base.BaseProductImage;
 import io.jpress.module.product.service.ProductImageService;
@@ -26,8 +25,8 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
     @Cacheable(name = cacheName, key = "productId:#(productId)", nullCacheEnable = true)
     public List<ProductImage> findListByProductId(Object productId) {
         List<ProductImage> list = DAO.findListByColumn(Column.create("product_id", productId));
-        if (list != null) list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));
-        return list;
+        if (list != null && !list.isEmpty()) list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));
+        return list == null || list.isEmpty() ? null : list;
     }
 
     @Override

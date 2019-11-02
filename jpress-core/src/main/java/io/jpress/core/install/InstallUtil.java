@@ -22,6 +22,7 @@ import io.jboot.Jboot;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.support.jwt.JwtConfig;
 import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.CookieUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.JbootWebConfig;
@@ -110,6 +111,7 @@ public class InstallUtil {
         String cookieEncryptKey = StrUtil.uuid();
         if (putPropertie(p, "jboot.web.cookieEncryptKey", cookieEncryptKey)) {
             Jboot.config(JbootWebConfig.class).setCookieEncryptKey("cookieEncryptKey");
+            CookieUtil.initEncryptKey(cookieEncryptKey);
         }
 
         //jwtSecret

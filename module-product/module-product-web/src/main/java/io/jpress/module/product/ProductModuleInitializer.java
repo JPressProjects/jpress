@@ -16,6 +16,7 @@
 package io.jpress.module.product;
 
 import com.jfinal.core.Controller;
+import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
@@ -23,12 +24,12 @@ import io.jpress.core.module.ModuleListener;
 import java.util.List;
 
 /**
+ * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Module 监听器
- * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
- * @Package io.jpress.module.product
+ * @Title: 产品模块初始化
+ * @Package io.jpress
  */
-public class ProductModuleListener extends JbootAppListenerBase implements ModuleListener {
+public class ProductModuleInitializer  extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override
@@ -43,7 +44,7 @@ public class ProductModuleListener extends JbootAppListenerBase implements Modul
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
-		MenuGroup menuGroup = new MenuGroup();
+        MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("product");
         menuGroup.setText("商品");
         menuGroup.setIcon("<i class=\"fa fa-fw fa-tags\"></i>");
@@ -54,8 +55,15 @@ public class ProductModuleListener extends JbootAppListenerBase implements Modul
     @Override
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
 
-      
+
     }
+
+    @Override
+    public void onEngineConfig(Engine engine) {
+        engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductCommentPage.html");
+        engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductHeader.html");
+    }
+
 
 
 }

@@ -1,0 +1,46 @@
+#include("layout.html")
+#@layout(true)
+#define content()
+<div class="bh-main-body">
+
+    #include("header.html")
+
+    #productPage()
+    #for(product : productPage.list)
+
+    <div class="bh-card">
+        <div class="bh-card-main">
+            <a href="#(product.url ??)">
+                <h3 class="bh-card-main-title">
+                    #(product.title ??)
+                </h3>
+                <div class="bh-card-tag">
+                    <div><i class="fa fa-clock-o"></i> #date(product.created)</div>
+                    <div><i class="fa fa-eye"></i> #(product.view_count)</div>
+                    <div><i class="fa fa-commenting-o"></i> #(product.comment_count)</div>
+                </div>
+                <p class="bh-card-main-info">
+                    #maxLength(product.text,100)
+                </p>
+            </a>
+        </div>
+    </div>
+    #end
+
+
+    #productPaginate()
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+    #end
+</div>
+#end

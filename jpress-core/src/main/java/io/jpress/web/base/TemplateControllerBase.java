@@ -17,6 +17,9 @@ package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.NotAction;
+import com.jfinal.kit.Ret;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressActiveKit;
 import io.jpress.JPressConsts;
@@ -30,6 +33,7 @@ import io.jpress.web.interceptor.WechatInterceptor;
 import io.jpress.web.render.TemplateRender;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -163,6 +167,36 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
     public static interface MenuActiveChecker {
         public boolean isActive(Menu menu);
+    }
+
+
+    protected void setRetHtml(Ret ret, Map paras, String defaultTemplate) {
+        String render = getPara("render");
+        if (StrUtil.isBlank(render)) {
+            return;
+        }
+
+
+        Engine engine = RenderManager.me().getEngine();
+        Template template = TemplateManager.me().getCurrentTemplate();
+
+        if (paras != null && template != null) {
+            paras.put("TPATH", template.getWebAbsolutePath());
+        }
+
+        if ("default".equals(render)) {
+            String html = engine.getTemplate(defaultTemplate).renderToString(paras);
+            ret.set("html", html);
+        } else {
+            if (template != null) {
+                String matchedHtml = template.matchTemplateFile(render + ".html", isMobileBrowser());
+                if (matchedHtml != null) {
+                    String html = engine.getTemplate(template.getWebAbsolutePath() + "/" + matchedHtml)
+                            .renderToString(paras);
+                    ret.set("html", html);
+                }
+            }
+        }
     }
 
 

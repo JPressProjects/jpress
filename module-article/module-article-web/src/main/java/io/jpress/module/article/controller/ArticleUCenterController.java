@@ -48,7 +48,7 @@ import java.util.List;
  * @Title: 文章前台页面Controller
  * @Package io.jpress.module.article.admin
  */
-@RequestMapping(value = "/ucenter/article",viewPath = "/WEB-INF/views/ucenter/")
+@RequestMapping(value = "/ucenter/article", viewPath = "/WEB-INF/views/ucenter/")
 public class ArticleUCenterController extends UcenterControllerBase {
 
     @Inject
@@ -236,19 +236,18 @@ public class ArticleUCenterController extends UcenterControllerBase {
     }
 
 
-
     @UCenterMenu(text = "文章收藏", groupId = "favorite", order = 0)
     public void favorite() {
-        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(),10,getLoginedUser().getId(),"article");
+        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(), 10, getLoginedUser().getId(), "article");
         setAttr("page", page);
         render("article/article_favorite.html");
     }
 
 
-    public void doDelFavorite(){
+    public void doDelFavorite() {
         UserFavorite userFavorite = favoriteService.findById(getPara("id"));
 
-        if (checkOwner(userFavorite)){
+        if (checkOwner(userFavorite)) {
             favoriteService.delete(userFavorite);
         }
         renderOkJson();
@@ -261,7 +260,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
 
-        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
+        if (!checkOwner(comment)) {
             renderError(404);
             return;
         }
@@ -271,8 +270,10 @@ public class ArticleUCenterController extends UcenterControllerBase {
     }
 
     public void doCommentSave() {
+
         ArticleComment comment = getBean(ArticleComment.class, "comment");
-        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
+
+        if (!checkOwner(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -288,21 +289,19 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
     public void doCommentDel() {
 
-        long id = getIdPara();
-
-        ArticleComment comment = commentService.findById(id);
+        ArticleComment comment = commentService.findById(getPara("id"));
         if (comment == null) {
             renderFailJson();
             return;
         }
 
 
-        if (commentService.isOwn(comment, getLoginedUser().getId()) == false) {
+        if (!checkOwner(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
 
-        renderJson(commentService.deleteById(id) ? OK : FAIL);
+        renderJson(commentService.delete(comment) ? OK : FAIL);
     }
 
 }

@@ -7,6 +7,7 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.UserCart;
+import io.jpress.model.UserFavorite;
 import io.jpress.module.product.model.base.BaseProduct;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class Product extends BaseProduct<Product> {
     }
 
 
-    public UserCart toUserCartItem(Long userId,Long distUserId){
+    public UserCart toUserCartItem(Long userId,Long distUserId,String spec){
         UserCart userCart = new UserCart();
 
         userCart.setUserId(userId);
@@ -135,6 +136,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductVirtual(false);//非虚拟产品
         userCart.setCommentPath(getUrl());
         userCart.setCreated(new Date());
+        userCart.setProductSpec(spec);
 
         String showImage = getShowImage();
         if (StrUtil.isNotBlank(showImage)){
@@ -142,6 +144,21 @@ public class Product extends BaseProduct<Product> {
         }
 
         return userCart;
+    }
+
+    public UserFavorite toFavorite(Long userId){
+        UserFavorite favorite = new UserFavorite();
+        favorite.setUserId(userId);
+        favorite.setType("product");
+        favorite.setTypeText("商品");
+        favorite.setTitle(getTitle());
+        favorite.setSummary(getSummary());
+        favorite.setThumbnail(getShowImage());
+        favorite.setDetailPage(getUrl());
+        favorite.setRelativeTable("product");
+        favorite.setRelativeId(String.valueOf(getId()));
+        favorite.setCreated(new Date());
+        return favorite;
     }
 
 

@@ -37,7 +37,7 @@ public class _ProductCommentController extends AdminControllerBase {
     @Inject
     private ProductCommentService commentService;
 
-    @AdminMenu(text = "评论", groupId = "product", order = 99)
+    @AdminMenu(text = "评论", groupId = "product", order = 88)
     public void index() {
         Integer status = getParaToInt("status");
         String key = getPara("keyword");

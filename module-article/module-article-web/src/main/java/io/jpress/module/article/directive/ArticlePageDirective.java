@@ -79,19 +79,13 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     @JFinalDirective("articlePaginate")
     public static class TemplatePaginateDirective extends PaginateDirectiveBase {
 
-        private boolean firstGotoIndex = false;
-
         @Override
-        public void onRender(Env env, Scope scope, Writer writer) {
-            firstGotoIndex = getPara("firstGotoIndex", scope, false);
-            super.onRender(env, scope, writer);
-        }
-
-        @Override
-        protected String getUrl(int pageNumber) {
+        protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
             HttpServletRequest request = JbootControllerContext.get().getRequest();
             String url = request.getRequestURI();
             String contextPath = JFinal.me().getContextPath();
+
+            boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
 
             if (pageNumber == 1 && firstGotoIndex) {
                 return contextPath + "/";

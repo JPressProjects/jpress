@@ -45,14 +45,14 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">类型</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="coupon.type">
-                                        <option value="1">
+                                    <select class="form-control" name="coupon.type" >
+                                        <option value="1" #selectedIf(coupon.type == 1)>
                                             满减券
                                         </option>
-                                        <option value="2">
+                                        <option value="2" #selectedIf(coupon.type == 2)>
                                             叠加满减券
                                         </option>
-                                        <option value="2">
+                                        <option value="3" #selectedIf(coupon.type == 3)>
                                             无门槛券
                                         </option>
                                     </select>
@@ -113,11 +113,11 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">验证类型</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="coupon.type">
-                                        <option value="1">
+                                    <select class="form-control" name="coupon.valid_type">
+                                        <option value="1" #selectedIf(coupon.valid_type == 1)>
                                             绝对时效（XXX ~ XXX时间段内有效）
                                         </option>
-                                        <option value="2">
+                                        <option value="2" #selectedIf(coupon.valid_type == 2)>
                                             相对时效（领取后 X 天有效）
                                         </option>
                                     </select>

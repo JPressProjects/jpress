@@ -43,7 +43,7 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            #if(mgroup.member)
+                                            #if(mgroup.member ??)
                                             <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">续费</a>
                                             #else
                                             <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">加入会员</a>
@@ -57,7 +57,7 @@
                                     #(mgroup.summary ??)
                                 </td>
                                 <td>
-                                    #if(mgroup.member.duetime)
+                                    #if(mgroup.member.duetime ??)
                                     #date(mgroup.member.duetime)
                                     #else
                                     尚未加入

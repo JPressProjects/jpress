@@ -40,7 +40,7 @@ public class ProductCategoryController extends TemplateControllerBase {
     public void index() {
 
         if (StrUtil.isBlank(getPara())) {
-            redirect("/article/category/index");
+            redirect("/product/category/index");
             return;
         }
 

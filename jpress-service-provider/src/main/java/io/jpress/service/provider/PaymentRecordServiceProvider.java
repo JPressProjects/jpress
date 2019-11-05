@@ -50,7 +50,7 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
     }
 
     @Override
-    public int queryMountAmount() {
+    public int queryMonthAmount() {
         return Db.queryInt("select coalesce(sum(pay_success_amount),0) from payment_record where created > ? and pay_status >= ?",
                 DateUtils.truncate(new Date(), Calendar.MONTH) , PayStatus.SUCCESS_ALIPAY.getStatus());
     }

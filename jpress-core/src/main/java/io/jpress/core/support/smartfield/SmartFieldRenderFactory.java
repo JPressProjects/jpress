@@ -51,4 +51,8 @@ public class SmartFieldRenderFactory {
     public static SmartFieldRender getRender(String type) {
         return renderMap.get(type);
     }
+
+    public static Map<String, SmartFieldRender> getRenderMap() {
+        return renderMap;
+    }
 }

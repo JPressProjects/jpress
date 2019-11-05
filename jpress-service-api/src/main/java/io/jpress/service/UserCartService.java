@@ -94,5 +94,5 @@ public interface UserCartService {
 
     public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
 
-    public long  querySelectCount(Long userId);
+    public long  querySelectedCount(Long userId);
 }

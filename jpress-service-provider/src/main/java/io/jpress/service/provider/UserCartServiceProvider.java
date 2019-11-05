@@ -64,8 +64,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public long querySelectCount(Long userId) {
-//        return JbootDb.queryInt("select count(*) from ");
+    public long querySelectedCount(Long userId) {
         return DAO.findCountByColumns(Columns.create("user_id",userId).eq("selected",true));
     }
 }

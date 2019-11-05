@@ -14,7 +14,7 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
@@ -22,7 +22,7 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	public void setProductId(java.lang.Long productId) {
 		set("product_id", productId);
 	}
-	
+
 	public java.lang.Long getProductId() {
 		return getLong("product_id");
 	}
@@ -30,7 +30,7 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	public void setSrc(java.lang.String src) {
 		set("src", src);
 	}
-	
+
 	public java.lang.String getSrc() {
 		return getStr("src");
 	}
@@ -38,7 +38,7 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
-	
+
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
 	}
@@ -46,7 +46,7 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
 	public java.util.Date getCreated() {
 		return get("created");
 	}

@@ -11,58 +11,128 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键ID
+     */
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
-	
+
+    /**
+     * 主键ID
+     */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+    /**
+     * slug
+     */
 	public void setSlug(java.lang.String slug) {
 		set("slug", slug);
 	}
-	
+
+    /**
+     * slug
+     */
 	public java.lang.String getSlug() {
 		return getStr("slug");
 	}
 
+    /**
+     * 标题
+     */
 	public void setTitle(java.lang.String title) {
 		set("title", title);
 	}
-	
+
+    /**
+     * 标题
+     */
 	public java.lang.String getTitle() {
 		return getStr("title");
 	}
 
+    /**
+     * 内容
+     */
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}
-	
+
+    /**
+     * 内容
+     */
 	public java.lang.String getContent() {
 		return getStr("content");
 	}
 
+    /**
+     * 摘要
+     */
 	public void setSummary(java.lang.String summary) {
 		set("summary", summary);
 	}
-	
+
+    /**
+     * 摘要
+     */
 	public java.lang.String getSummary() {
 		return getStr("summary");
 	}
 
+    /**
+     * 产品卖点
+     */
+	public void setUsp(java.lang.String usp) {
+		set("usp", usp);
+	}
+
+    /**
+     * 产品卖点
+     */
+	public java.lang.String getUsp() {
+		return getStr("usp");
+	}
+
+    /**
+     * 缩略图
+     */
 	public void setThumbnail(java.lang.String thumbnail) {
 		set("thumbnail", thumbnail);
 	}
-	
+
+    /**
+     * 缩略图
+     */
 	public java.lang.String getThumbnail() {
 		return getStr("thumbnail");
 	}
 
+    /**
+     * 产品规格
+     */
+	public void setSpecs(java.lang.String specs) {
+		set("specs", specs);
+	}
+
+    /**
+     * 产品规格
+     */
+	public java.lang.String getSpecs() {
+		return getStr("specs");
+	}
+
+    /**
+     * 视频
+     */
 	public void setVideo(java.lang.String video) {
 		set("video", video);
 	}
-	
+
+    /**
+     * 视频
+     */
 	public java.lang.String getVideo() {
 		return getStr("video");
 	}
@@ -70,207 +140,371 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	public void setVideoCover(java.lang.String videoCover) {
 		set("video_cover", videoCover);
 	}
-	
+
 	public java.lang.String getVideoCover() {
 		return getStr("video_cover");
 	}
 
+    /**
+     * 样式
+     */
 	public void setStyle(java.lang.String style) {
 		set("style", style);
 	}
-	
+
+    /**
+     * 样式
+     */
 	public java.lang.String getStyle() {
 		return getStr("style");
 	}
 
+    /**
+     * 排序编号
+     */
 	public void setOrderNumber(java.lang.Integer orderNumber) {
 		set("order_number", orderNumber);
 	}
-	
+
+    /**
+     * 排序编号
+     */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
 	}
 
+    /**
+     * 商品的用户ID
+     */
 	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
-	
+
+    /**
+     * 商品的用户ID
+     */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+    /**
+     * 商品的销售分成类型：0平台所有，1用户所有，2按比例分成
+     */
 	public void setUserDivideType(java.lang.Integer userDivideType) {
 		set("user_divide_type", userDivideType);
 	}
-	
+
+    /**
+     * 商品的销售分成类型：0平台所有，1用户所有，2按比例分成
+     */
 	public java.lang.Integer getUserDivideType() {
 		return getInt("user_divide_type");
 	}
 
+    /**
+     * 用户分成比例
+     */
 	public void setUserDivideRatio(java.lang.Integer userDivideRatio) {
 		set("user_divide_ratio", userDivideRatio);
 	}
-	
+
+    /**
+     * 用户分成比例
+     */
 	public java.lang.Integer getUserDivideRatio() {
 		return getInt("user_divide_ratio");
 	}
 
+    /**
+     * 商品价格
+     */
 	public void setPrice(java.math.BigDecimal price) {
 		set("price", price);
 	}
-	
+
+    /**
+     * 商品价格
+     */
 	public java.math.BigDecimal getPrice() {
 		return get("price");
 	}
 
+    /**
+     * 原始价格
+     */
 	public void setOriginPrice(java.math.BigDecimal originPrice) {
 		set("origin_price", originPrice);
 	}
-	
+
+    /**
+     * 原始价格
+     */
 	public java.math.BigDecimal getOriginPrice() {
 		return get("origin_price");
 	}
 
+    /**
+     * 限时优惠价（早鸟价）
+     */
 	public void setLimitedPrice(java.math.BigDecimal limitedPrice) {
 		set("limited_price", limitedPrice);
 	}
-	
+
+    /**
+     * 限时优惠价（早鸟价）
+     */
 	public java.math.BigDecimal getLimitedPrice() {
 		return get("limited_price");
 	}
 
+    /**
+     * 限时优惠截止时间
+     */
 	public void setLimitedTime(java.util.Date limitedTime) {
 		set("limited_time", limitedTime);
 	}
-	
+
+    /**
+     * 限时优惠截止时间
+     */
 	public java.util.Date getLimitedTime() {
 		return get("limited_time");
 	}
 
+    /**
+     * 是否启用分销
+     */
 	public void setDistEnable(java.lang.Boolean distEnable) {
 		set("dist_enable", distEnable);
 	}
-	
+
+    /**
+     * 是否启用分销
+     */
 	public java.lang.Boolean getDistEnable() {
 		return get("dist_enable");
 	}
 
+    /**
+     * 分销收益的金额
+     */
 	public void setDistAmount(java.math.BigDecimal distAmount) {
 		set("dist_amount", distAmount);
 	}
-	
+
+    /**
+     * 分销收益的金额
+     */
 	public java.math.BigDecimal getDistAmount() {
 		return get("dist_amount");
 	}
 
+    /**
+     * 状态
+     */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
-	
+
+    /**
+     * 状态
+     */
 	public java.lang.Integer getStatus() {
 		return getInt("status");
 	}
 
+    /**
+     * 评论状态，默认允许评论
+     */
 	public void setCommentStatus(java.lang.Boolean commentStatus) {
 		set("comment_status", commentStatus);
 	}
-	
+
+    /**
+     * 评论状态，默认允许评论
+     */
 	public java.lang.Boolean getCommentStatus() {
 		return get("comment_status");
 	}
 
+    /**
+     * 评论总数
+     */
 	public void setCommentCount(java.lang.Long commentCount) {
 		set("comment_count", commentCount);
 	}
-	
+
+    /**
+     * 评论总数
+     */
 	public java.lang.Long getCommentCount() {
 		return getLong("comment_count");
 	}
 
+    /**
+     * 最后评论时间
+     */
 	public void setCommentTime(java.util.Date commentTime) {
 		set("comment_time", commentTime);
 	}
-	
+
+    /**
+     * 最后评论时间
+     */
 	public java.util.Date getCommentTime() {
 		return get("comment_time");
 	}
 
+    /**
+     * 访问量
+     */
 	public void setViewCount(java.lang.Long viewCount) {
 		set("view_count", viewCount);
 	}
-	
+
+    /**
+     * 访问量
+     */
 	public java.lang.Long getViewCount() {
 		return getLong("view_count");
 	}
 
+    /**
+     * 真实访问量
+     */
 	public void setRealViewCount(java.lang.Long realViewCount) {
 		set("real_view_count", realViewCount);
 	}
-	
+
+    /**
+     * 真实访问量
+     */
 	public java.lang.Long getRealViewCount() {
 		return getLong("real_view_count");
 	}
 
+    /**
+     * 销售量，用于放在前台显示
+     */
 	public void setSalesCount(java.lang.Long salesCount) {
 		set("sales_count", salesCount);
 	}
-	
+
+    /**
+     * 销售量，用于放在前台显示
+     */
 	public java.lang.Long getSalesCount() {
 		return getLong("sales_count");
 	}
 
+    /**
+     * 真实的访问量
+     */
 	public void setRealSalesCount(java.lang.Long realSalesCount) {
 		set("real_sales_count", realSalesCount);
 	}
-	
+
+    /**
+     * 真实的访问量
+     */
 	public java.lang.Long getRealSalesCount() {
 		return getLong("real_sales_count");
 	}
 
+    /**
+     * 剩余库存
+     */
+	public void setStock(java.lang.Integer stock) {
+		set("stock", stock);
+	}
+
+    /**
+     * 剩余库存
+     */
+	public java.lang.Integer getStock() {
+		return getInt("stock");
+	}
+
+    /**
+     * 创建日期
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
-	
+
+    /**
+     * 创建日期
+     */
 	public java.util.Date getCreated() {
 		return get("created");
 	}
 
+    /**
+     * 最后更新日期
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
-	
+
+    /**
+     * 最后更新日期
+     */
 	public java.util.Date getModified() {
 		return get("modified");
 	}
 
+    /**
+     * 标识，通常用于对某几篇文章进行标识，从而实现单独查询
+     */
 	public void setFlag(java.lang.String flag) {
 		set("flag", flag);
 	}
-	
+
+    /**
+     * 标识，通常用于对某几篇文章进行标识，从而实现单独查询
+     */
 	public java.lang.String getFlag() {
 		return getStr("flag");
 	}
 
+    /**
+     * SEO关键字
+     */
 	public void setMetaKeywords(java.lang.String metaKeywords) {
 		set("meta_keywords", metaKeywords);
 	}
-	
+
+    /**
+     * SEO关键字
+     */
 	public java.lang.String getMetaKeywords() {
 		return getStr("meta_keywords");
 	}
 
+    /**
+     * SEO描述信息
+     */
 	public void setMetaDescription(java.lang.String metaDescription) {
 		set("meta_description", metaDescription);
 	}
-	
+
+    /**
+     * SEO描述信息
+     */
 	public java.lang.String getMetaDescription() {
 		return getStr("meta_description");
 	}
 
+    /**
+     * 备注信息
+     */
 	public void setRemarks(java.lang.String remarks) {
 		set("remarks", remarks);
 	}
-	
+
+    /**
+     * 备注信息
+     */
 	public java.lang.String getRemarks() {
 		return getStr("remarks");
 	}
@@ -278,7 +512,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
-	
+
 	public java.lang.String getOptions() {
 		return getStr("options");
 	}

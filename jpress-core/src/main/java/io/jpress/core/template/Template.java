@@ -15,6 +15,7 @@
  */
 package io.jpress.core.template;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
@@ -36,7 +37,6 @@ public class Template {
     private String updateUrl;
     private String screenshot;
 
-    private String absolutePath;
     private String relativePath;
 
     private Set<String> htmls = new HashSet<>();
@@ -51,7 +51,6 @@ public class Template {
         File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.absolutePath = templateFolder.getAbsolutePath();
         this.relativePath = FileUtil.removeRootPath(templateFolder.getAbsolutePath());
 
         this.id = prop.get("id");
@@ -76,11 +75,10 @@ public class Template {
         this.htmls.clear();
         this.flags.clear();
 
-        File propFile = new File(absolutePath, "template.properties");
-        Prop prop = new Prop(propFile, "utf-8");
+        File path = getAbsolutePath();
+        Prop prop = new Prop(new File(path, "template.properties"), "utf-8");
 
-        String[] files = propFile
-                .getParentFile()
+        String[] files = path
                 .list((dir, name) -> name.endsWith(".html"));
 
         if (files != null && files.length > 0) {
@@ -242,14 +240,6 @@ public class Template {
         this.screenshot = screenshot;
     }
 
-    public String getAbsolutePath() {
-        return absolutePath;
-    }
-
-    public void setAbsolutePath(String absolutePath) {
-        this.absolutePath = absolutePath;
-    }
-
     public String getRelativePath() {
         return relativePath;
     }
@@ -267,8 +257,7 @@ public class Template {
     }
 
 
-
-    public String buildRelativePath(String html){
+    public String buildRelativePath(String html) {
         return new StringBuilder(relativePath).append("/").append(html).toString();
     }
 
@@ -297,8 +286,13 @@ public class Template {
     }
 
     public void uninstall() {
-        FileUtils.deleteQuietly(new File(absolutePath));
+        FileUtils.deleteQuietly(getAbsolutePath());
     }
+
+    public File getAbsolutePath() {
+        return new File(PathKit.getWebRootPath(), relativePath);
+    }
+
 
     public void addNewHtml(String htmlFileName) {
         htmls.add(htmlFileName);

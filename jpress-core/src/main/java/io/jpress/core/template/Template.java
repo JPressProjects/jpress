@@ -268,7 +268,6 @@ public class Template {
 
 
 
-
     public String buildRelativePath(String html){
         return new StringBuilder(relativePath).append("/").append(html).toString();
     }

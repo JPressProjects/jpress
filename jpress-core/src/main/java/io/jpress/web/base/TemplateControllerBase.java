@@ -82,7 +82,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        view = template.getRelativePath() + "/" + view;
+        view = template.buildRelativePath(view);
         super.render(new TemplateRender(view));
     }
 

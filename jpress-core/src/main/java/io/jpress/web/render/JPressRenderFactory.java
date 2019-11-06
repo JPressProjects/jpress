@@ -48,9 +48,9 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return super.getErrorRender(errorCode);
         }
 
-       StringBuilder errorViewbuilder = new StringBuilder("error_")
-               .append(errorCode)
-               .append(".html");
+        StringBuilder errorViewbuilder = new StringBuilder("error_")
+                .append(errorCode)
+                .append(".html");
 
 
         String view = template.matchTemplateFile(errorViewbuilder.toString(),
@@ -60,12 +60,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
         }
 
 
-        StringBuilder templateViewbuilder = new StringBuilder("/templates/")
-                .append(template.getFolderName())
-                .append("/")
-                .append(view);
-
-        return new TemplateRender(templateViewbuilder.toString(),errorCode);
+        return new TemplateRender(template.buildRelativePath(view), errorCode);
     }
 
 

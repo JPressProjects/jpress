@@ -15,7 +15,6 @@
  */
 package io.jpress.core.template;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
@@ -35,9 +34,10 @@ public class Template {
     private String version;
     private int versionCode;
     private String updateUrl;
-    private String folderName;
     private String screenshot;
-    private File folderFile;
+
+    private String absolutePath;
+    private String relativePath;
 
     private Set<String> htmls = new HashSet<>();
     private List<String> flags = new ArrayList<>();
@@ -51,8 +51,8 @@ public class Template {
         File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.folderName = buildFolderName(templateFolder);
-        this.folderFile = templateFolder;
+        this.absolutePath = templateFolder.getAbsolutePath();
+        this.relativePath = FileUtil.removeRootPath(templateFolder.getAbsolutePath());
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -65,7 +65,7 @@ public class Template {
 
         String vcode = prop.get("versionCode");
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
-        this.screenshot = getRelativePath() + "/screenshot.png";
+        this.screenshot = relativePath + "/screenshot.png";
 
         refresh();
     }
@@ -76,7 +76,7 @@ public class Template {
         this.htmls.clear();
         this.flags.clear();
 
-        File propFile = new File(folderFile, "template.properties");
+        File propFile = new File(absolutePath, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
         String[] files = propFile
@@ -97,14 +97,6 @@ public class Template {
                 this.flags.add(s.trim());
             }
         }
-    }
-
-    private static String buildFolderName(File templateFolder) {
-        String basePath = PathKit.getWebRootPath()
-                .concat(File.separator)
-                .concat("templates")
-                .concat(File.separator);
-        return FileUtil.removePrefix(templateFolder.getAbsolutePath(), basePath);
     }
 
 
@@ -241,14 +233,6 @@ public class Template {
         this.updateUrl = updateUrl;
     }
 
-    public String getFolderName() {
-        return folderName;
-    }
-
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
-    }
-
 
     public String getScreenshot() {
         return screenshot;
@@ -256,6 +240,22 @@ public class Template {
 
     public void setScreenshot(String screenshot) {
         this.screenshot = screenshot;
+    }
+
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
+
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
+    }
+
+    public String getRelativePath() {
+        return relativePath;
+    }
+
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
 
     public List<String> getFlags() {
@@ -266,21 +266,11 @@ public class Template {
         this.flags = flags;
     }
 
-    public String getAbsolutePath() {
-        StringBuilder path = new StringBuilder(PathKit.getWebRootPath())
-                .append(File.separator)
-                .append("templates")
-                .append(File.separator)
-                .append(folderName);
-        return path.toString();
-    }
 
-    public String getRelativePath() {
-        return "/templates/" + folderName;
-    }
 
-    public void buildRelativePath(String html){
 
+    public String buildRelativePath(String html){
+        return new StringBuilder(relativePath).append("/").append(html).toString();
     }
 
     /**
@@ -308,7 +298,7 @@ public class Template {
     }
 
     public void uninstall() {
-        FileUtils.deleteQuietly(new File(getAbsolutePath()));
+        FileUtils.deleteQuietly(new File(absolutePath));
     }
 
     public void addNewHtml(String htmlFileName) {

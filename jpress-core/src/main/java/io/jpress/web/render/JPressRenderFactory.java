@@ -31,7 +31,6 @@ public class JPressRenderFactory extends JbootRenderFactory {
 
     @Override
     public Render getErrorRender(int errorCode) {
-
         if (JPressHandler.getCurrentTarget().startsWith("/admin/")) {
             if (errorCode == 404) {
                 return getErrorRender(errorCode, "/WEB-INF/views/admin/error/404.html");
@@ -39,7 +38,6 @@ public class JPressRenderFactory extends JbootRenderFactory {
                 return getErrorRender(errorCode, "/WEB-INF/views/admin/error/500.html");
             }
         }
-
         return getTemplateRender(errorCode);
     }
 
@@ -50,14 +48,24 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return super.getErrorRender(errorCode);
         }
 
-        String view = template.matchTemplateFile("error_" + errorCode + ".html",
+       StringBuilder errorViewbuilder = new StringBuilder("error_")
+               .append(errorCode)
+               .append(".html");
+
+
+        String view = template.matchTemplateFile(errorViewbuilder.toString(),
                 RequestUtil.isMobileBrowser(JPressHandler.getCurrentRequest()));
         if (view == null) {
             return super.getErrorRender(errorCode);
         }
 
-        view = "/templates/" + template.getFolder() + "/" + view;
-        return new TemplateRender(view,errorCode);
+
+        StringBuilder templateViewbuilder = new StringBuilder("/templates/")
+                .append(template.getFolderName())
+                .append("/")
+                .append(view);
+
+        return new TemplateRender(templateViewbuilder.toString(),errorCode);
     }
 
 

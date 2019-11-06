@@ -35,8 +35,9 @@ public class Template {
     private String version;
     private int versionCode;
     private String updateUrl;
-    private String folder;
+    private String folderName;
     private String screenshot;
+    private File folderFile;
 
     private Set<String> htmls = new HashSet<>();
     private List<String> flags = new ArrayList<>();
@@ -50,7 +51,8 @@ public class Template {
         File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.folder = buildFolder(templateFolder);
+        this.folderName = buildFolderName(templateFolder);
+        this.folderFile = templateFolder;
 
         this.id = prop.get("id");
         this.title = prop.get("title");
@@ -64,6 +66,18 @@ public class Template {
         String vcode = prop.get("versionCode");
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
         this.screenshot = getWebAbsolutePath() + "/screenshot.png";
+
+        refresh();
+    }
+
+
+    public void refresh() {
+
+        this.htmls.clear();
+        this.flags.clear();
+
+        File propFile = new File(folderFile, "template.properties");
+        Prop prop = new Prop(propFile, "utf-8");
 
         String[] files = propFile
                 .getParentFile()
@@ -85,7 +99,7 @@ public class Template {
         }
     }
 
-    private static String buildFolder(File templateFolder) {
+    private static String buildFolderName(File templateFolder) {
         String basePath = PathKit.getWebRootPath()
                 .concat(File.separator)
                 .concat("templates")
@@ -227,13 +241,14 @@ public class Template {
         this.updateUrl = updateUrl;
     }
 
-    public String getFolder() {
-        return folder;
+    public String getFolderName() {
+        return folderName;
     }
 
-    public void setFolder(String folder) {
-        this.folder = folder;
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
     }
+
 
     public String getScreenshot() {
         return screenshot;
@@ -256,12 +271,12 @@ public class Template {
                 .append(File.separator)
                 .append("templates")
                 .append(File.separator)
-                .append(folder);
+                .append(folderName);
         return path.toString();
     }
 
     public String getWebAbsolutePath() {
-        return "/templates/" + folder;
+        return "/templates/" + folderName;
     }
 
     /**

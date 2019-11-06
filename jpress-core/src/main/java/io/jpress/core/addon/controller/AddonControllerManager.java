@@ -39,15 +39,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
 
-    private static Routes addonRoutes = new Routes() {
-        @Override
-        public void config() {}
-    };
-
+    private static Routes addonRoutes = new Routes() {public void config() {}};
+    private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
-    private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     public static void addController(Class<? extends Controller> c, String addonId) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);

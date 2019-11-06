@@ -64,7 +64,7 @@ public class _OrderController extends AdminControllerBase {
 
         int todayOrderCount = orderService.queryTotayCount();
         int monthOrderCount = orderService.queryMonthCount();
-        int mouthPaymentAmount = paymentService.queryMountAmount();
+        int mouthPaymentAmount = paymentService.queryMonthAmount();
         int mountOrderUserCount = orderService.queryMonthUserCount();
 
         setAttr("todayOrderCount",todayOrderCount);

@@ -147,6 +147,9 @@ public class _WechatController extends AdminControllerBase {
         render("wechat/reply_write.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "keyword", message = "关键字不能为空"),
+    })
     public void doReplySave() {
         WechatReply reply = getBean(WechatReply.class, "");
         Map<String, String> map = getParas();
@@ -158,11 +161,20 @@ public class _WechatController extends AdminControllerBase {
             }
         }
 
+        WechatReply existModel = replyService.findByKey(reply.getKeyword());
+        if (existModel != null && !existModel.getId().equals(reply.getId())){
+            renderFailJson("已经存在该关键字了");
+            return;
+        }
+
         replyService.saveOrUpdate(reply);
         renderOkJson();
-//        redirect("/admin/wechat/keyword");
     }
 
+    @EmptyValidate({
+            @Form(name = "menu.text", message = "菜单名称不能为空"),
+            @Form(name = "menu.keyword", message = "菜单关键字不能为空"),
+    })
     public void doMenuSave() {
         WechatMenu menu = getModel(WechatMenu.class, "menu");
         wechatMenuService.saveOrUpdate(menu);

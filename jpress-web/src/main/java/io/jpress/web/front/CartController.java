@@ -62,7 +62,7 @@ public class CartController extends UcenterControllerBase {
         Page<UserCart> page = cartService.paginateByUser(1, 20,getLoginedUser().getId());
         setAttr("page", page);
 
-        setAttr("selectItemCount",cartService.querySelectCount(getLoginedUser().getId()));
+        setAttr("selectItemCount",cartService.querySelectedCount(getLoginedUser().getId()));
 
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null) {
@@ -78,7 +78,7 @@ public class CartController extends UcenterControllerBase {
 
     public void querySelectedItemCountAndPrice(){
 
-        long count = cartService.querySelectCount(getLoginedUser().getId());
+        long count = cartService.querySelectedCount(getLoginedUser().getId());
         BigDecimal price = BigDecimal.ZERO;
 
 

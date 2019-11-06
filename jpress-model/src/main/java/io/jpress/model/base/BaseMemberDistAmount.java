@@ -36,15 +36,15 @@ public abstract class BaseMemberDistAmount<M extends BaseMemberDistAmount<M>> ex
     /**
      * 产品类型
      */
-	public void setProductType(java.lang.String productType) {
-		set("product_type", productType);
+	public void setProductTable(java.lang.String productTable) {
+		set("product_table", productTable);
 	}
 
     /**
      * 产品类型
      */
-	public java.lang.String getProductType() {
-		return getStr("product_type");
+	public java.lang.String getProductTable() {
+		return getStr("product_table");
 	}
 
     /**

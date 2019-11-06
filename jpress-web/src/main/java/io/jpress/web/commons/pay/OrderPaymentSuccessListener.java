@@ -37,9 +37,9 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
     @Override
     public void onSuccess(PaymentRecord payment) {
 
-        if (PaymentRecord.TRX_TYPE_ORDER.equals(payment.getTrxType()) && payment.isPaySuccess()){
+        if (PaymentRecord.TRX_TYPE_ORDER.equals(payment.getTrxType())) {
 
-           boolean updateSucess =  Db.tx(() -> {
+            boolean updateSucess = Db.tx(() -> {
 
                 UserOrderService orderService = Aop.get(UserOrderService.class);
                 UserOrder userOrder = orderService.findByPaymentId(payment.getId());
@@ -47,30 +47,30 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                 userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
                 userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
 
-                if (!orderService.update(userOrder)){
+                if (!orderService.update(userOrder)) {
                     return false;
                 }
 
 
                 UserOrderItemService itemService = Aop.get(UserOrderItemService.class);
                 List<UserOrderItem> userOrderItems = itemService.findListByOrderId(userOrder.getId());
-                for (UserOrderItem item : userOrderItems){
+                for (UserOrderItem item : userOrderItems) {
                     Boolean isVirtual = item.getProductVirtual();
-                    if (isVirtual != null && isVirtual){
+                    if (isVirtual != null && isVirtual) {
                         item.setStatus(UserOrderItem.STATUS_FINISHED);//交易结束
-                    }else {
+                    } else {
                         item.setStatus(UserOrderItem.STATUS_COMPLETED);//交易完成
                     }
-                   if (!itemService.update(item)){
-                       return false;
-                   }
+                    if (!itemService.update(item)) {
+                        return false;
+                    }
                 }
-                return  true;
+                return true;
             });
 
-           if (!updateSucess){
-               LOG.error("update order fail or update orderItem fail in pay success。");
-           }
+            if (!updateSucess) {
+                LOG.error("update order fail or update orderItem fail in pay success。");
+            }
 
         }
 

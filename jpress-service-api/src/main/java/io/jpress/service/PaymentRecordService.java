@@ -95,5 +95,5 @@ public interface PaymentRecordService {
 
     public PaymentRecord queryCacheByTrxno(String trx);
 
-    public int queryMountAmount();
+    public int queryMonthAmount();
 }

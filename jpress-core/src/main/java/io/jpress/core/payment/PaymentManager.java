@@ -56,7 +56,7 @@ public class PaymentManager {
     }
 
     public void notifySuccess(PaymentRecord payment) {
-        if (listeners != null) {
+        if (listeners != null && payment != null && payment.isPaySuccess()) {
             for (PaymentSuccessListener listener : listeners) {
                 try {
                     listener.onSuccess(payment);

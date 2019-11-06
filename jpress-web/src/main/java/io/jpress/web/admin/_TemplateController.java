@@ -216,7 +216,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        render(template.getWebAbsolutePath() + "/setting.html");
+        render(template.getRelativePath() + "/setting.html");
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 99)

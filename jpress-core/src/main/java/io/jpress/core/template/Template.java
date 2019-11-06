@@ -65,7 +65,7 @@ public class Template {
 
         String vcode = prop.get("versionCode");
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
-        this.screenshot = getWebAbsolutePath() + "/screenshot.png";
+        this.screenshot = getRelativePath() + "/screenshot.png";
 
         refresh();
     }
@@ -275,8 +275,12 @@ public class Template {
         return path.toString();
     }
 
-    public String getWebAbsolutePath() {
+    public String getRelativePath() {
         return "/templates/" + folderName;
+    }
+
+    public void buildRelativePath(String html){
+
     }
 
     /**

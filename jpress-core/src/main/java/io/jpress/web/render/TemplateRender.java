@@ -146,7 +146,7 @@ public class TemplateRender extends Render {
 
             // 以 ./ 开头的文件，需要添加模板路径
             else if (url.startsWith("./")) {
-                url = contextPath + template.getWebAbsolutePath() + url.substring(1);
+                url = contextPath + template.getRelativePath() + url.substring(1);
             }
 
             // 以 ../ 开头的文件，可能是国际化下面的html资源文件
@@ -156,7 +156,7 @@ public class TemplateRender extends Render {
 
             // 直接是文件目录名开头
             else {
-                url = contextPath + template.getWebAbsolutePath() + "/" + url;
+                url = contextPath + template.getRelativePath() + "/" + url;
             }
 
             if (StrUtil.isNotBlank(cdnDomain)) {

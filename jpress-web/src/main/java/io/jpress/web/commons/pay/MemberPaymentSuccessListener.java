@@ -39,7 +39,7 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
     @Override
     public void onSuccess(PaymentRecord payment) {
 
-        if (PaymentRecord.TRX_TYPE_MEMBER.equals(payment.getTrxType()) && payment.isPaySuccess()) {
+        if (PaymentRecord.TRX_TYPE_MEMBER.equals(payment.getTrxType())) {
 
             boolean updateSucess = Db.tx(() -> {
 

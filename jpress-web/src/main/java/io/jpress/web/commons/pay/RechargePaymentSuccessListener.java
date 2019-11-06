@@ -35,7 +35,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
     @Override
     public void onSuccess(PaymentRecord payment) {
 
-        if (PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()) && payment.isPaySuccess()) {
+        if (PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType())) {
 
             boolean updateSucess = Db.tx(() -> {
 
@@ -56,12 +56,12 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
                 statement.setChangeAmount(payment.getPayAmount());
                 statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
 
-                if (userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount())){
+                if (userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount())) {
                     return false;
                 }
 
                 UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
-                if (statementService.save(statement) == null){
+                if (statementService.save(statement) == null) {
                     return false;
                 }
 

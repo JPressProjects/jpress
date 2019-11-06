@@ -163,6 +163,10 @@ public class _WechatController extends AdminControllerBase {
 //        redirect("/admin/wechat/keyword");
     }
 
+    @EmptyValidate({
+            @Form(name = "menu.text", message = "菜单名称不能为空"),
+            @Form(name = "menu.keyword", message = "菜单关键字不能为空"),
+    })
     public void doMenuSave() {
         WechatMenu menu = getModel(WechatMenu.class, "menu");
         wechatMenuService.saveOrUpdate(menu);

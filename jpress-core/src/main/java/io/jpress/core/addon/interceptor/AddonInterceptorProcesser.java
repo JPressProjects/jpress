@@ -37,7 +37,7 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
     }
 
 
-    public class AddonInvocation extends Invocation {
+    public static class AddonInvocation extends Invocation {
 
         private Invocation invocation;
         private Interceptor[] inters;
@@ -54,35 +54,75 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
         public void invoke() {
             if (index < inters.length) {
                 inters[index++].intercept(this);
-            } else if (index++ == inters.length) {    // index++ ensure invoke action only one time
+            } else if (index++ == inters.length) {
                 invocation.invoke();
             }
         }
 
 
+        @Override
+        public Object getArg(int index) {
+            return invocation.getArg(index);
+        }
+
+        @Override
+        public void setArg(int index, Object value) {
+            invocation.setArg(index, value);
+        }
+
+        @Override
+        public Object[] getArgs() {
+            return invocation.getArgs();
+        }
+
+        @Override
+        public <T> T getTarget() {
+            return invocation.getTarget();
+        }
+
+        @Override
         public Method getMethod() {
             return invocation.getMethod();
         }
 
-        public Controller getController() {
-            return invocation.getController();
-        }
-
-        public String getActionKey() {
-            return invocation.getActionKey();
-        }
-
-        public String getControllerKey() {
-            return invocation.getControllerKey();
-        }
-
+        @Override
         public String getMethodName() {
             return invocation.getMethodName();
         }
 
         @Override
+        public <T> T getReturnValue() {
+            return invocation.getReturnValue();
+        }
+
+        @Override
+        public void setReturnValue(Object returnValue) {
+            invocation.setReturnValue(returnValue);
+        }
+
+        @Override
+        public Controller getController() {
+            return invocation.getController();
+        }
+
+        @Override
+        public String getActionKey() {
+            return invocation.getActionKey();
+        }
+
+        @Override
+        public String getControllerKey() {
+            return invocation.getControllerKey();
+        }
+
+        @Override
         public String getViewPath() {
             return invocation.getViewPath();
+        }
+
+        @Override
+        public boolean isActionInvocation() {
+            return invocation.isActionInvocation();
         }
     }
 

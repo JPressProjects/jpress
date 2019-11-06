@@ -241,8 +241,8 @@ public class _TemplateController extends AdminControllerBase {
         setAttr("template", template);
 
         File basePath = StrUtil.isNotBlank(dirName)
-                ? new File(template.getAbsolutePath(), dirName)
-                : new File(template.getAbsolutePath());
+                ? new File(template.getAbsolutePathFile(), dirName)
+                : template.getAbsolutePathFile();
 
 
         File[] files = basePath.listFiles((file) -> file.getName().endsWith(".html")
@@ -256,8 +256,11 @@ public class _TemplateController extends AdminControllerBase {
             if (!file.isDirectory())
                 srcFiles.add(file.getName());
         }
+
+        String absPath = template.getAbsolutePathFile().getAbsolutePath();
+
         setAttr("srcFiles", srcFiles);
-        setAttr("prefixPath", template.getAbsolutePath().substring(template.getAbsolutePath().indexOf(File.separator.concat("templates"))));
+        setAttr("prefixPath", absPath.substring(absPath.indexOf(File.separator.concat("templates"))));
 
         setAttr("files", doGetFileInfos(files));
         setAttr("d", dirName);
@@ -341,7 +344,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
 
-        File pathFile = new File(template.getAbsolutePath());
+        File pathFile = template.getAbsolutePathFile();
 
         if (StrUtil.isNotBlank(dirName)) {
             pathFile = new File(pathFile, dirName);
@@ -436,7 +439,7 @@ public class _TemplateController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         render404If(template == null);
 
-        File pathFile = new File(template.getAbsolutePath(), dirName);
+        File pathFile = new File(template.getAbsolutePathFile(), dirName);
         try {
             FileUtils.copyFile(uploadFile.getFile(), new File(pathFile, fileName));
         } catch (Exception e) {
@@ -465,7 +468,7 @@ public class _TemplateController extends AdminControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
         render404If(template == null);
 
-        File delFile = new File(template.getAbsolutePath(), path);
+        File delFile = new File(template.getAbsolutePathFile(), path);
         String delFileName = delFile.getName();
         if (delFile.isDirectory() || delFile.delete() == false) {
             renderFailJson();

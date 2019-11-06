@@ -75,7 +75,7 @@ public class Template {
         this.htmls.clear();
         this.flags.clear();
 
-        File path = getAbsolutePath();
+        File path = getAbsolutePathFile();
         Prop prop = new Prop(new File(path, "template.properties"), "utf-8");
 
         String[] files = path
@@ -286,10 +286,10 @@ public class Template {
     }
 
     public void uninstall() {
-        FileUtils.deleteQuietly(getAbsolutePath());
+        FileUtils.deleteQuietly(getAbsolutePathFile());
     }
 
-    public File getAbsolutePath() {
+    public File getAbsolutePathFile() {
         return new File(PathKit.getWebRootPath(), relativePath);
     }
 

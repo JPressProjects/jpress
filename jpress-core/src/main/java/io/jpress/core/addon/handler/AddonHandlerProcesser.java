@@ -28,16 +28,8 @@ public class AddonHandlerProcesser extends Handler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-        AddonHandlerManager.getProcessHandler(originHandler)
+        AddonHandlerManager.getProcessHandler(next)
                 .handle(target, request, response, isHandled);
     }
-
-    private Handler originHandler = new Handler() {
-        @Override
-        public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-            AddonHandlerProcesser.this.next.handle(target, request, response, isHandled);
-        }
-    };
-
 
 }

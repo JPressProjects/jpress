@@ -231,9 +231,8 @@ public class MenuManager implements JbootEventListener {
 
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
-            // 只处理后台的权限 和 API的权限
-            if (actionKey.startsWith("/admin")) {
 
+            if (actionKey.startsWith("/admin")) {
                 Action action = JFinal.me().getAction(actionKey, urlPara);
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {
                     continue;

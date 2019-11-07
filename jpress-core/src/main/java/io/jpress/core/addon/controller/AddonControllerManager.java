@@ -90,6 +90,12 @@ public class AddonControllerManager {
     }
 
 
+    private static void addAddonMenus() {
+        MenuManager.me().addMenuItems(buildAdminMenuItems());
+        MenuManager.me().addMenuItems(buildUcenterMenuItems());
+    }
+
+
     private static void deleteAddonMenus() {
         List<MenuItem> adminMenuItems = buildAdminMenuItems();
         for (MenuItem menuItem : adminMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
@@ -97,10 +103,6 @@ public class AddonControllerManager {
         for (MenuItem menuItem : ucenterMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
     }
 
-    private static void addAddonMenus() {
-        MenuManager.me().addMenuItems(buildAdminMenuItems());
-        MenuManager.me().addMenuItems(buildUcenterMenuItems());
-    }
 
     private static List<MenuItem> buildUcenterMenuItems() {
         List<MenuItem> adminMenuItems = new ArrayList<>();

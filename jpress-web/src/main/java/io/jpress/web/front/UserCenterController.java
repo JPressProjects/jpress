@@ -114,6 +114,10 @@ public class UserCenterController extends UcenterControllerBase {
         render("pwd.html");
     }
 
+    public void bind() {
+        render("bind.html");
+    }
+
 
     @EmptyValidate({
             @Form(name = "oldPwd", message = "旧不能为空"),

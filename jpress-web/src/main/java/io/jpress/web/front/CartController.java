@@ -187,8 +187,11 @@ public class CartController extends UcenterControllerBase {
             return;
         }
 
-        userCart.setProductCount(userCart.getProductCount() - 1);
-        cartService.update(userCart);
+        if (userCart.getProductCount() > 1) {
+            userCart.setProductCount(userCart.getProductCount() - 1);
+            cartService.update(userCart);
+        }
+        
         renderJson(Ret.ok().set("shouldPayPrice", new DecimalFormat("0.00").format(userCart.getShouldPayPrice())));
     }
 

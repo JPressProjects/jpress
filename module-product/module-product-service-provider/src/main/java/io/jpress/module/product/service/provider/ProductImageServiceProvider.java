@@ -61,7 +61,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
             ProductImage image = new ProductImage();
             image.setOrderNumber(i);
-            image.setId(imageId > 0 ? imageId : null);
+            image.setId(imageId);
             image.setSrc(imageSrcs[i]);
             image.setProductId(productId);
 

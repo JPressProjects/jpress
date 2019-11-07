@@ -186,5 +186,7 @@ public interface MemberPriceService  {
 
     public MemberPrice findByPorductAndGroup(String productTableName,Object productId,Object groupId);
 
+    public void saveOrUpdateByProduct(String productTableName, Long id, String[] memberGroupIds, String[] memberGroupPrices);
+
 
 }

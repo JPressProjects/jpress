@@ -335,9 +335,9 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">#(group.name ??)</label>
                                                 <div class="col-sm-6">
-                                                    <input type="hidden" name="group.id" value="#(group.id ??)">
+                                                    <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
                                                     <input type="text" class="form-control"
-                                                           name="group.price" placeholder="" value="#number(group.priceInfo.price ??,'0,00')">
+                                                           name="memberGroupPrices" placeholder="" value="#number(group.priceInfo.price ??,'0,00')">
                                                     <p class="help-block">#(group.name ??)购买该产品的价格。</p>
                                                 </div>
                                             </div>
@@ -475,8 +475,6 @@
 <!--                                                    <p class="help-block">只是显示达到促进消费者购买欲的作用。</p>-->
                                                 </div>
                                             </div>
-
-
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">允许评论</label>

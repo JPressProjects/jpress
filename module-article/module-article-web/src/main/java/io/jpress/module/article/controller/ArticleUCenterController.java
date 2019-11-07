@@ -87,7 +87,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+        if (notLogineUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -116,7 +116,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             }
 
             //不是自己的文章
-            if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+            if (notLogineUserModel(article)) {
                 renderError(404);
                 return;
             }
@@ -168,7 +168,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         Article article = getModel(Article.class, "article");
         article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description", "user_id");
 
-        if (articleService.isOwn(article, getLoginedUser().getId()) == false) {
+        if (article.getId() != null && notLogineUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }

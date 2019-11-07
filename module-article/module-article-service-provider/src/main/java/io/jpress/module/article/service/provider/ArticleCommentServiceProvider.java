@@ -200,17 +200,17 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         CommentReplyCountUpdateTask.recordCount(commentId);
     }
 
-    @Override
-    public boolean isOwn(ArticleComment comment, long userId) {
-        if (comment.getId() == null) {
-            return true;
-        }
-
-        if (comment == null || comment.getUserId() == null) {
-            return false;
-        }
-        return comment.getUserId().equals(userId);
-    }
+//    @Override
+//    public boolean isOwn(ArticleComment comment, long userId) {
+//        if (comment.getId() == null) {
+//            return true;
+//        }
+//
+//        if (comment == null || comment.getUserId() == null) {
+//            return false;
+//        }
+//        return comment.getUserId().equals(userId);
+//    }
 
 
 }

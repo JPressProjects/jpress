@@ -303,13 +303,14 @@ CREATE TABLE `member_joined_record` (
 
 CREATE TABLE `member_price` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) unsigned NOT NULL,
   `product_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_id` int(11) unsigned NOT NULL,
+  `group_id` int(11) unsigned NOT NULL,
   `price` decimal(10,2) DEFAULT NULL COMMENT '会员价',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `proinfo` (`product_table`,`product_id`,`group_id`)
+  UNIQUE KEY `proinfo` (`product_table`,`product_id`,`group_id`),
+  KEY `pid` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员价格表';
 
 

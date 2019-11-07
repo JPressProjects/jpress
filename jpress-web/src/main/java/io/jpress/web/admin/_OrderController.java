@@ -80,7 +80,7 @@ public class _OrderController extends AdminControllerBase {
 
 
     public void detail() {
-        UserOrder order = orderService.findById(getPara(),null);
+        UserOrder order = orderService.findById(getPara());
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser", userService.findById(order.getBuyerId()));
@@ -99,13 +99,13 @@ public class _OrderController extends AdminControllerBase {
      * 发货
      */
     public void deliver() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         setAttr("expressComs", ExpressCompany.EXPRESS_LIST);
         render("order/order_layer_deliver.html");
     }
 
     public void doUpdateDeliver() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -139,12 +139,12 @@ public class _OrderController extends AdminControllerBase {
      * 发票设置
      */
     public void invoice() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_invoice.html");
     }
 
     public void doUpdateInvoice() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -158,12 +158,12 @@ public class _OrderController extends AdminControllerBase {
      * 备注设置
      */
     public void remark() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_remark.html");
     }
 
     public void doUpdateRemark() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -177,12 +177,12 @@ public class _OrderController extends AdminControllerBase {
      * 手动入账
      */
     public void updatePaystatus() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_paystatus.html");
     }
 
     public void doUpdatePaystatus() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -200,12 +200,12 @@ public class _OrderController extends AdminControllerBase {
      * 修改价格
      */
     public void updatePrice() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_price.html");
     }
 
     public void doUpdatePrice() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {

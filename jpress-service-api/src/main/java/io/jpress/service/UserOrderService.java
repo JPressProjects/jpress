@@ -13,7 +13,7 @@ public interface UserOrderService  {
      * @param id
      * @return
      */
-    public UserOrder findById(Object id,Object userId);
+    public UserOrder findById(Object id);
 
 
     /**

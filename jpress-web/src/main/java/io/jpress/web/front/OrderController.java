@@ -45,11 +45,8 @@ public class OrderController extends UcenterControllerBase {
      * 订单详情
      */
     public void detail() {
-        UserOrder order = orderService.findById(getIdPara(), getLoginedUser().getId());
-        if (order == null || order.getBuyerId() == null || !order.getBuyerId().equals(getLoginedUser().getId())) {
-            renderError(404);
-            return;
-        }
+        UserOrder order = orderService.findById(getIdPara());
+        render404If(notLogineUserModel(order,"buyer_id"));
 
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
@@ -67,22 +64,25 @@ public class OrderController extends UcenterControllerBase {
     }
 
     public void comment() {
-        UserOrderItem item = orderItemService.findById(getPara(), getLoginedUser().getId());
-        render404If(item == null);
+        UserOrderItem item = orderItemService.findById(getPara());
+        render404If(notLogineUserModel(item,"buyer_id"));
+
         redirect(item.getCommentPath() + "?id=" + item.getProductId() + "&itemId=" + item.getId());
     }
 
 
     public void addMessage() {
-        UserOrder userOrder = orderService.findById(getPara(), getLoginedUser().getId());
+        UserOrder userOrder = orderService.findById(getPara());
+        render404If(notLogineUserModel(userOrder,"buyer_id"));
+
         setAttr("order", userOrder);
         render("order_layer_addmessage.html");
     }
 
 
     public void doAddMessage() {
-        UserOrder userOrder = orderService.findById(getPara("orderId"), getLoginedUser().getId());
-        render404If(userOrder == null);
+        UserOrder userOrder = orderService.findById(getPara("orderId"));
+        render404If(notLogineUserModel(userOrder,"buyer_id"));
 
         userOrder.setBuyerMsg(getPara("message"));
         orderService.saveOrUpdate(userOrder);
@@ -91,8 +91,8 @@ public class OrderController extends UcenterControllerBase {
 
 
     public void doFlagDelivery() {
-        UserOrder userOrder = orderService.findById(getPara(), getLoginedUser().getId());
-        render404If(userOrder == null);
+        UserOrder userOrder = orderService.findById(getPara());
+        render404If(notLogineUserModel(userOrder,"buyer_id"));
 
         userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
         userOrder.setDeliveryFinishTime(new Date());

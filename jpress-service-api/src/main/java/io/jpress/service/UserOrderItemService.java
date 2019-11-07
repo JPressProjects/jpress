@@ -13,7 +13,7 @@ public interface UserOrderItemService {
      * @param id
      * @return
      */
-    public UserOrderItem findById(Object id, Long userId);
+    public UserOrderItem findById(Object id);
 
 
     public boolean update(UserOrderItem item);

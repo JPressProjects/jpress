@@ -28,7 +28,7 @@ public class AddressController extends UcenterControllerBase {
      */
     public void index() {
 
-        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10);
+        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
         render("address_list.html");
     }
@@ -38,8 +38,9 @@ public class AddressController extends UcenterControllerBase {
      */
     public void edit() {
         Long id = getParaToLong("id");
-        if (id!=null) {
+        if (id != null) {
             UserAddress data = userAddressService.findById(id);
+            render404If(notLogineUserModel(data));
             setAttr("data", data);
         }
         render("address_edit.html");
@@ -48,8 +49,8 @@ public class AddressController extends UcenterControllerBase {
     /**
      * 选择地址的弹出层
      */
-    public void layer(){
-        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10);
+    public void layer() {
+        Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
         render("address_layer.html");
     }
@@ -67,8 +68,8 @@ public class AddressController extends UcenterControllerBase {
         //in 发现有点问题，后续解决
         for (String s : idsSet) {
             Columns columns = Columns.create();
-            columns.eq("user_id",user.getId());
             columns.eq("id", s);
+            columns.eq("user_id", user.getId());
             userAddressService.deleteByColumns(columns);
         }
 
@@ -82,8 +83,8 @@ public class AddressController extends UcenterControllerBase {
         Long id = getIdPara();
         Columns columns = Columns.create();
         User user = getLoginedUser();
-        columns.add("user_id",user.getId());
-        columns.add("id",id);
+        columns.add("id", id);
+        columns.add("user_id", user.getId());
         renderJson(userAddressService.deleteByColumns(columns) ? Ret.ok() : Ret.fail());
     }
 
@@ -92,7 +93,7 @@ public class AddressController extends UcenterControllerBase {
      */
     public void doAdd() {
 
-        UserAddress address = getBean(UserAddress.class,"address");
+        UserAddress address = getBean(UserAddress.class, "address");
 
         User user = getLoginedUser();
         address.setUserId(user.getId());
@@ -103,12 +104,12 @@ public class AddressController extends UcenterControllerBase {
         }
 
         //新设置了默认，那么其他地址改为非默认
-        if(address.isDefault()){
+        if (address.isDefault()) {
             Columns columns = Columns.create();
-            columns.add("user_id",user.getId());
-            columns.eq("is_default",true);
+            columns.add("user_id", user.getId());
+            columns.eq("is_default", true);
             List<UserAddress> list = userAddressService.findListByColumns(columns);
-            if(list!=null&&list.size()>0){
+            if (list != null && list.size() > 0) {
                 for (UserAddress userAddress : list) {
                     userAddress.setWidthDefault(false);
                     userAddress.update();

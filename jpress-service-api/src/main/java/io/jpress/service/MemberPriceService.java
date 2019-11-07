@@ -4,9 +4,10 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.MemberPrice;
 import io.jboot.db.model.Columns;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public interface MemberPriceService  {
+public interface MemberPriceService {
 
     /**
      * 根据主键查找Model
@@ -184,9 +185,11 @@ public interface MemberPriceService  {
     public Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public MemberPrice findByPorductAndGroup(String productTableName,Object productId,Object groupId);
+    public MemberPrice findByPorductAndGroup(String productTableName, Object productId, Object groupId);
 
-    public void saveOrUpdateByProduct(String productTableName, Long id, String[] memberGroupIds, String[] memberGroupPrices);
+    public void saveOrUpdateByProduct(String productTableName, Long productId, String[] memberGroupIds, String[] memberGroupPrices);
+
+    public BigDecimal queryPrice(String productTableName, Long productId, Long userId);
 
 
 }

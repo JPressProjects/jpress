@@ -1,18 +1,25 @@
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.model.Member;
 import io.jpress.model.MemberPrice;
 import io.jpress.service.MemberPriceService;
+import io.jpress.service.MemberService;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Bean
 public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> implements MemberPriceService {
+
+    @Inject
+    private MemberService memberService;
 
     @Override
     public MemberPrice findByPorductAndGroup(String productTableName, Object productId, Object groupId) {
@@ -67,5 +74,24 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
 
 
         }
+    }
+
+    @Override
+    public BigDecimal queryPrice(String productTableName, Long productId, Long userId) {
+        List<Member> userMembers = memberService.findListByUserId(userId);
+        if (userMembers == null || userMembers.isEmpty()) {
+            return null;
+        }
+
+        BigDecimal productPrice = null;
+        for (Member userMember : userMembers) {
+            MemberPrice memberPrice = findByPorductAndGroup(productTableName, productId, userMember.getGroupId());
+            if (memberPrice != null && memberPrice.getPrice() != null && memberPrice.getPrice().compareTo(BigDecimal.ZERO) > 0){
+                if (productPrice == null || productPrice.compareTo(memberPrice.getPrice()) > 0){
+                    productPrice = memberPrice.getPrice();
+                }
+            }
+        }
+        return productPrice;
     }
 }

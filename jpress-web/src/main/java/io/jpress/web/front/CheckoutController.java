@@ -62,6 +62,9 @@ public class CheckoutController extends UcenterControllerBase {
     @Inject
     private PaymentRecordService paymentService;
 
+    @Inject
+    private MemberPriceService memberPriceService;
+
 
     /**
      * 购买页面

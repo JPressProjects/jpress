@@ -59,24 +59,26 @@ public class CartController extends UcenterControllerBase {
      * 购物车
      */
     public void index() {
-        Page<UserCart> page = cartService.paginateByUser(1, 20,getLoginedUser().getId());
+        Page<UserCart> page = cartService.paginateByUser(1, 20, getLoginedUser().getId());
         setAttr("page", page);
 
-        setAttr("selectItemCount",cartService.querySelectedCount(getLoginedUser().getId()));
+        setAttr("selectItemCount", cartService.querySelectedCount(getLoginedUser().getId()));
 
-        List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
-        if (userCarts != null) {
+        List<UserCart> selectedUserCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
+        if (selectedUserCarts != null) {
             BigDecimal totalPrice = new BigDecimal(0);
-            for (UserCart cart : userCarts) {
+            for (UserCart cart : selectedUserCarts) {
                 totalPrice = totalPrice.add(cart.getShouldPayPrice());
             }
             setAttr("selectItemTotalPrice", totalPrice);
         }
+
+
         render("cart.html");
     }
 
 
-    public void querySelectedItemCountAndPrice(){
+    public void querySelectedItemCountAndPrice() {
 
         long count = cartService.querySelectedCount(getLoginedUser().getId());
         BigDecimal price = BigDecimal.ZERO;
@@ -89,14 +91,14 @@ public class CartController extends UcenterControllerBase {
             }
         }
 
-        renderJson(Ret.ok().set("count",count).set("price",new DecimalFormat("0.00").format(price)));
+        renderJson(Ret.ok().set("count", count).set("price", new DecimalFormat("0.00").format(price)));
     }
 
     /**
      * 选择某个
      */
     @EmptyValidate({
-            @Form(name = "id",message = "id不能为空")
+            @Form(name = "id", message = "id不能为空")
     })
     public void select() {
         Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
@@ -116,7 +118,7 @@ public class CartController extends UcenterControllerBase {
      * 取消选择
      */
     @EmptyValidate({
-            @Form(name = "id",message = "id不能为空")
+            @Form(name = "id", message = "id不能为空")
     })
     public void unselect() {
         Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
@@ -131,10 +133,10 @@ public class CartController extends UcenterControllerBase {
     }
 
 
-    public void doDelSelectedItems(){
+    public void doDelSelectedItems() {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
-        if (userCarts != null){
-            for (UserCart cart : userCarts){
+        if (userCarts != null) {
+            for (UserCart cart : userCarts) {
                 cartService.delete(cart);
             }
         }
@@ -142,10 +144,10 @@ public class CartController extends UcenterControllerBase {
     }
 
 
-    public void doRemoveSelectedItemsToFavorites(){
+    public void doRemoveSelectedItemsToFavorites() {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
-        if (userCarts != null){
-            for (UserCart cart : userCarts){
+        if (userCarts != null) {
+            for (UserCart cart : userCarts) {
                 favoriteService.save(cart.toFavorite());
                 cartService.delete(cart);
             }
@@ -157,7 +159,7 @@ public class CartController extends UcenterControllerBase {
      * 对某个购物车商品 +1
      */
     @EmptyValidate({
-            @Form(name = "id",message = "id不能为空")
+            @Form(name = "id", message = "id不能为空")
     })
     public void addcount() {
         cartService.doAddCountById(getPara("id"));
@@ -168,7 +170,7 @@ public class CartController extends UcenterControllerBase {
      * 都某个购物车商品 -1
      */
     @EmptyValidate({
-            @Form(name = "id",message = "id不能为空")
+            @Form(name = "id", message = "id不能为空")
     })
     public void subtractcount() {
         cartService.doSubtractCountById(getPara("id"));

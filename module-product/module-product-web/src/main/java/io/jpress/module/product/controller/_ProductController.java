@@ -27,11 +27,13 @@ import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.model.MemberGroup;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.service.MemberGroupService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -50,6 +52,10 @@ public class _ProductController extends AdminControllerBase {
 
     @Inject
     private ProductImageService imageService;
+
+    @Inject
+    private MemberGroupService memberGroupService;
+
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
@@ -112,6 +118,11 @@ public class _ProductController extends AdminControllerBase {
             flagCheck(categories, categoryIds);
 
             setAttr("images",imageService.findListByProductId(productId));
+        }
+
+        List<MemberGroup> memberGroups = memberGroupService.findAll();
+        if (memberGroups != null && !memberGroups.isEmpty()){
+            setAttr("memberGroups",memberGroups);
         }
 
         initStylesAttr("product_");

@@ -314,6 +314,44 @@
                             </div>
                         </div>
 
+                        #if(memberGroups)
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">会员价</h3>
+
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body ">
+                                        <div class="box-body ">
+
+                                            #for(group : memberGroups)
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">#(group.name ??)</label>
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" name="group.id" value="#(group.id ??)">
+                                                    <input type="text" class="form-control"
+                                                           name="group.price" placeholder="" value="#(group.price ??)">
+                                                    <p class="help-block">#(group.name ??)购买该产品的价格。</p>
+                                                </div>
+                                            </div>
+                                            #end
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end memberGroups-->
+                        #end
+
+
 
                         <div class="form-group">
                             <div class="col-sm-12">

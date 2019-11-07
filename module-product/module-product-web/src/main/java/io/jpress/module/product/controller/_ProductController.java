@@ -61,8 +61,6 @@ public class _ProductController extends AdminControllerBase {
     private MemberPriceService memberPriceService;
 
 
-
-
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
     public void index() {
         Integer status = getParaToInt("status");
@@ -70,18 +68,16 @@ public class _ProductController extends AdminControllerBase {
         Long categoryId = getParaToLong("categoryId");
 
         Page<Product> page = status == null
-                        ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
-                        : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
+                ? productService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
+                : productService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
 
         setAttr("page", page);
-
 
 
         List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         flagCheck(categories, categoryId);
-
 
 
         long draftCount = productService.findCountByStatus(Product.STATUS_DRAFT);
@@ -123,17 +119,17 @@ public class _ProductController extends AdminControllerBase {
             Long[] categoryIds = categoryService.findCategoryIdsByProductId(productId);
             flagCheck(categories, categoryIds);
 
-            setAttr("images",imageService.findListByProductId(productId));
+            setAttr("images", imageService.findListByProductId(productId));
         }
 
         List<MemberGroup> memberGroups = memberGroupService.findAll();
-        if (memberGroups != null && !memberGroups.isEmpty()){
-            if (product != null){
-                for (MemberGroup group : memberGroups){
-                    group.put("priceInfo",memberPriceService.findByPorductAndGroup("product",product.getId(),group.getId()));
+        if (memberGroups != null && !memberGroups.isEmpty()) {
+            if (product != null) {
+                for (MemberGroup group : memberGroups) {
+                    group.put("priceInfo", memberPriceService.findByPorductAndGroup("product", product.getId(), group.getId()));
                 }
             }
-            setAttr("memberGroups",memberGroups);
+            setAttr("memberGroups", memberGroups);
         }
 
         initStylesAttr("product_");
@@ -168,8 +164,8 @@ public class _ProductController extends AdminControllerBase {
     }
 
     @EmptyValidate({
-            @Form(name = "product.title",message = "产品标题不能为空"),
-            @Form(name = "product.price",message = "产品的销售价格不能为空")
+            @Form(name = "product.title", message = "产品标题不能为空"),
+            @Form(name = "product.price", message = "产品的销售价格不能为空")
     })
     public void doSave() {
         Product product = getModel(Product.class, "product");
@@ -214,12 +210,12 @@ public class _ProductController extends AdminControllerBase {
 
         String[] imageIds = getParaValues("imageIds");
         String[] imageSrcs = getParaValues("imageSrcs");
-        imageService.saveOrUpdateByProductId(product.getId(),imageIds,imageSrcs);
+        imageService.saveOrUpdateByProductId(product.getId(), imageIds, imageSrcs);
 
 
         String[] memberGroupIds = getParaValues("memberGroupIds");
         String[] memberGroupPrices = getParaValues("memberGroupPrices");
-        memberPriceService.saveOrUpdateByProduct("product",product.getId(),memberGroupIds,memberGroupPrices);
+        memberPriceService.saveOrUpdateByProduct("product", product.getId(), memberGroupIds, memberGroupPrices);
 
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
@@ -236,7 +232,6 @@ public class _ProductController extends AdminControllerBase {
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }
-
 
 
     public void doDel() {

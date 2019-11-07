@@ -247,7 +247,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doDelFavorite() {
         UserFavorite userFavorite = favoriteService.findById(getPara("id"));
 
-        if (checkOwner(userFavorite)) {
+        if (isLogineUserModel(userFavorite)) {
             favoriteService.delete(userFavorite);
         }
         renderOkJson();
@@ -260,7 +260,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
 
-        if (!checkOwner(comment)) {
+        if (!isLogineUserModel(comment)) {
             renderError(404);
             return;
         }
@@ -273,7 +273,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         ArticleComment comment = getBean(ArticleComment.class, "comment");
 
-        if (!checkOwner(comment)) {
+        if (!isLogineUserModel(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -296,7 +296,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
 
-        if (!checkOwner(comment)) {
+        if (!isLogineUserModel(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }

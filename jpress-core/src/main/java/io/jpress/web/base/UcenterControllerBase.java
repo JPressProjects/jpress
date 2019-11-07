@@ -42,14 +42,24 @@ public abstract class UcenterControllerBase extends ControllerBase {
         return getParaToInt("page", 1);
     }
 
-
     @NotAction
-    public boolean checkOwner(Model model) {
-        return checkOwner(model,"user_id");
+    public boolean notLogineUserModel(Model model) {
+        return !isLogineUserModel(model, "user_id");
     }
 
     @NotAction
-    public boolean checkOwner(Model model, String attrName) {
+    public boolean notLogineUserModel(Model model, String attrName) {
+        return !isLogineUserModel(model, attrName);
+    }
+
+
+    @NotAction
+    public boolean isLogineUserModel(Model model) {
+        return isLogineUserModel(model, "user_id");
+    }
+
+    @NotAction
+    public boolean isLogineUserModel(Model model, String attrName) {
         if (model == null) return false;
         Object userId = model.get(attrName);
         return userId != null && userId.equals(getLoginedUser().getId());

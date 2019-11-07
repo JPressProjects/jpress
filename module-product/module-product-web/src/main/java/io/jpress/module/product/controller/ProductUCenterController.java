@@ -71,7 +71,7 @@ public class ProductUCenterController extends UcenterControllerBase {
     public void doDelFavorite(){
         UserFavorite userFavorite = favoriteService.findById(getPara("id"));
 
-        if (checkOwner(userFavorite)){
+        if (isLogineUserModel(userFavorite)){
             favoriteService.delete(userFavorite);
         }
         renderOkJson();

@@ -34,6 +34,7 @@ import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.MemberGroupService;
+import io.jpress.service.MemberPriceService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -55,6 +56,11 @@ public class _ProductController extends AdminControllerBase {
 
     @Inject
     private MemberGroupService memberGroupService;
+
+    @Inject
+    private MemberPriceService memberPriceService;
+
+
 
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
@@ -122,6 +128,11 @@ public class _ProductController extends AdminControllerBase {
 
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         if (memberGroups != null && !memberGroups.isEmpty()){
+            if (product != null){
+                for (MemberGroup group : memberGroups){
+                    group.put("priceInfo",memberPriceService.findByPorductAndGroup("product",product.getId(),group.getId()));
+                }
+            }
             setAttr("memberGroups",memberGroups);
         }
 

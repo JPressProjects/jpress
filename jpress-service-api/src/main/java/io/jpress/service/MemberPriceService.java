@@ -184,4 +184,7 @@ public interface MemberPriceService  {
     public Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    public MemberPrice findByPorductAndGroup(String productTableName,Object productId,Object groupId);
+
+
 }

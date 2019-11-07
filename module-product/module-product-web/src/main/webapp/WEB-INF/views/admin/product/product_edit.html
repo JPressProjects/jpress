@@ -337,7 +337,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="hidden" name="group.id" value="#(group.id ??)">
                                                     <input type="text" class="form-control"
-                                                           name="group.price" placeholder="" value="#(group.price ??)">
+                                                           name="group.price" placeholder="" value="#number(group.priceInfo.price ??,'0,00')">
                                                     <p class="help-block">#(group.name ??)购买该产品的价格。</p>
                                                 </div>
                                             </div>

@@ -93,7 +93,7 @@ public interface UserAddressService  {
      * @param pageSize
      * @return
      */
-    public Page<UserAddress> paginate(int page, int pageSize);
+    public Page<UserAddress> paginate(int page, int pageSize,Long userId);
 
     public UserAddress findDefaultAddress(long userId);
 

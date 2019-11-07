@@ -105,7 +105,7 @@ public class CartController extends UcenterControllerBase {
 
         for (String idvalue : ids) {
             UserCart cart = cartService.findById(idvalue);
-            if (cart != null) {
+            if (cart != null && isLogineUserModel(cart)) {
                 cart.setSelected(true);
                 cartService.update(cart);
             }
@@ -124,7 +124,7 @@ public class CartController extends UcenterControllerBase {
         Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
         for (String idvalue : ids) {
             UserCart cart = cartService.findById(idvalue);
-            if (cart != null) {
+            if (cart != null && isLogineUserModel(cart)) {
                 cart.setSelected(false);
                 cartService.update(cart);
             }
@@ -162,8 +162,16 @@ public class CartController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void addcount() {
-        cartService.doAddCountById(getPara("id"));
-        renderOkJson();
+        UserCart userCart = cartService.findById(getPara("id"));
+        if (notLogineUserModel(userCart)) {
+            renderFailJson();
+            return;
+        }
+
+        userCart.setProductCount(userCart.getProductCount() + 1);
+        cartService.update(userCart);
+        renderJson(Ret.ok().set("shouldPayPrice", new DecimalFormat("0.00").format(userCart.getShouldPayPrice())));
+
     }
 
     /**
@@ -173,15 +181,27 @@ public class CartController extends UcenterControllerBase {
             @Form(name = "id", message = "id不能为空")
     })
     public void subtractcount() {
-        cartService.doSubtractCountById(getPara("id"));
-        renderOkJson();
+        UserCart userCart = cartService.findById(getPara("id"));
+        if (notLogineUserModel(userCart)) {
+            renderFailJson();
+            return;
+        }
+
+        userCart.setProductCount(userCart.getProductCount() - 1);
+        cartService.update(userCart);
+        renderJson(Ret.ok().set("shouldPayPrice", new DecimalFormat("0.00").format(userCart.getShouldPayPrice())));
     }
 
     /**
      * 删除某个商品
      */
     public void doDel() {
-        cartService.deleteById(getPara("id"));
+        UserCart userCart = cartService.findById(getPara("id"));
+        if (notLogineUserModel(userCart)) {
+            renderFailJson();
+            return;
+        }
+        cartService.delete(userCart);
         renderOkJson();
     }
 

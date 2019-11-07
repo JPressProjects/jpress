@@ -8,7 +8,7 @@
         var itemId = $(this).attr("data-value");
         var that = $(this);
 
-        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function () {
+        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function (ret) {
             var input = that.prev();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -17,7 +17,7 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that);
+            doCompute(inputVal, that , ret.shouldPayPrice);
         });
     });
 
@@ -25,7 +25,7 @@
     $(".subtract").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
-        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function () {
+        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function (ret) {
             var input = that.next();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -35,21 +35,20 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that);
+            doCompute(inputVal, that , ret.shouldPayPrice);
         });
     });
 
 
-    function doCompute(val, btn) {
+    function doCompute(val, btn,shouldPayPrice) {
 
         var row = btn.parent().parent().parent("tr").prevAll().length + 1;
         var col = btn.parent().parent().prevAll().length;
+        //
+        // var price = parseFloat(getTableContent(row, col - 1));
+        // var totalPrice = price * val;
 
-        var price = parseFloat(getTableContent(row, col - 1));
-        var totalPrice = price * val;
-
-        setTableContent(row, col + 1, totalPrice.toFixed(2));
-
+        setTableContent(row, col + 1, shouldPayPrice);
         doComputeTotalPrice();
     }
 
@@ -231,7 +230,14 @@
                         #for(userCart : userCarts )
                         <tr>
                             <td>#(userCart.product_title ??)</td>
-                            <td>#(userCart.product_new_price ??)</td>
+                            <td>
+                                #if(userCart.memberPrice ??)
+                                <s>#(userCart.product_new_price ??)</s>
+                                会员：#(userCart.memberPrice)
+                                #else
+                                #(userCart.product_new_price ??)
+                                #end
+                            </td>
                             <td>
                                 <div class="input-group input-number">
                                     <input type="hidden" name="cid" value="#(userCart.id ??)">
@@ -240,7 +246,7 @@
                                     <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
                                 </div>
                             </td>
-                            <td>#(userCart.product_count * userCart.product_new_price ??)</td>
+                            <td>#(userCart.shouldPayPrice ??)</td>
                             <td>
                                 <a href="javascript:;" onclick="doDel('#(userCart.id)')">删除</a>
                             </td>

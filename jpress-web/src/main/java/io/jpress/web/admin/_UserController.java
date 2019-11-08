@@ -176,6 +176,7 @@ public class _UserController extends AdminControllerBase {
         if (getPara() != null) {
             setAttr("member", memberService.findById(getPara()));
         }
+
         render("user/member_edit.html");
     }
 

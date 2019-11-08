@@ -79,7 +79,7 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                 joinedRecord.setGroupName(group.getName());
                 joinedRecord.setJoinPrice(payment.getPaySuccessAmount());
                 joinedRecord.setJoinCount(1);
-                joinedRecord.setJoinType(Member.SOURCE_BUY);
+                joinedRecord.setJoinType(MemberJoinedRecord.JOIN_TYPE_BUY);
                 joinedRecord.setCreated(new Date());
 
                 if (memberService.saveOrUpdate(member) == null){

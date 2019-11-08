@@ -80,11 +80,10 @@ public class _UserController extends AdminControllerBase {
         columns.eq("create_source", getPara("create_source"));
 
 
-
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns,getParaToLong("group_id"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -170,7 +169,7 @@ public class _UserController extends AdminControllerBase {
 
 
     public void memberedit() {
-        List<MemberGroup> groups = memberGroupService.findAll();
+        List<MemberGroup> groups = memberGroupService.findNormalList();
         setAttr("groups", groups);
 
         if (getPara() != null) {
@@ -180,8 +179,40 @@ public class _UserController extends AdminControllerBase {
         render("user/member_edit.html");
     }
 
-    public void doMemberSave(){
+    public void doMemberSave() {
         Member member = getModel(Member.class);
+
+        Member existModel = memberService.findByGroupIdAndUserId(member.getGroupId(), member.getUserId());
+        if (existModel != null) {
+            renderFailJson("用户已经加入该会员");
+            return;
+        }
+
+        MemberGroup group = memberGroupService.findById(member.getGroupId());
+        if (group == null || !group.isNormal()) {
+            renderFailJson("该会员组不存在或已经被禁用。");
+            return;
+        }
+
+        if (member.getId() == null) {
+            MemberJoinedRecord joinedRecord = new MemberJoinedRecord();
+            joinedRecord.setUserId(member.getUserId());
+            joinedRecord.setGroupId(member.getGroupId());
+            joinedRecord.setGroupName(group.getName());
+            joinedRecord.setJoinCount(1);
+            joinedRecord.setJoinType(member.getSource());
+            joinedRecord.setCreated(new Date());
+
+            if (Member.SOURCE_BUY.equals(member.getSource())){
+                joinedRecord.setJoinPrice(group.getPrice());
+            }
+
+            if (memberService.saveOrUpdate(member) == null) {
+                renderFailJson();
+                return;
+            }
+        }
+
         memberService.saveOrUpdate(member);
         renderOkJson();
     }
@@ -204,10 +235,10 @@ public class _UserController extends AdminControllerBase {
 
 
     @EmptyValidate({
-            @Form(name = "group.name",message = "会员名称不能为空"),
-            @Form(name = "group.title",message = "会员标题不能为空"),
-            @Form(name = "group.price",message = "会员加入费用不能为空"),
-            @Form(name = "group.term_of_validity",message = "会员购买有效期不能为空"),
+            @Form(name = "group.name", message = "会员名称不能为空"),
+            @Form(name = "group.title", message = "会员标题不能为空"),
+            @Form(name = "group.price", message = "会员加入费用不能为空"),
+            @Form(name = "group.term_of_validity", message = "会员购买有效期不能为空"),
     })
     public void doMgroupSave() {
         MemberGroup memberGroup = getModel(MemberGroup.class, "group");

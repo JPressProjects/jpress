@@ -202,17 +202,17 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
 	}
 
     /**
-     * 有效期（单位天）
+     * 有效时间（单位天）
      */
-	public void setTermOfValidity(java.lang.Integer termOfValidity) {
-		set("term_of_validity", termOfValidity);
+	public void setValidTerm(java.lang.Integer validTerm) {
+		set("valid_term", validTerm);
 	}
 
     /**
-     * 有效期（单位天）
+     * 有效时间（单位天）
      */
-	public java.lang.Integer getTermOfValidity() {
-		return getInt("term_of_validity");
+	public java.lang.Integer getValidTerm() {
+		return getInt("valid_term");
 	}
 
     /**

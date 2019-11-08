@@ -19,14 +19,6 @@ public abstract class BaseMemberPrice<M extends BaseMemberPrice<M>> extends Jboo
 		return getLong("id");
 	}
 
-	public void setGroupId(java.lang.Long groupId) {
-		set("group_id", groupId);
-	}
-
-	public java.lang.Long getGroupId() {
-		return getLong("group_id");
-	}
-
 	public void setProductTable(java.lang.String productTable) {
 		set("product_table", productTable);
 	}
@@ -41,6 +33,14 @@ public abstract class BaseMemberPrice<M extends BaseMemberPrice<M>> extends Jboo
 
 	public java.lang.Long getProductId() {
 		return getLong("product_id");
+	}
+
+	public void setGroupId(java.lang.Long groupId) {
+		set("group_id", groupId);
+	}
+
+	public java.lang.Long getGroupId() {
+		return getLong("group_id");
 	}
 
     /**

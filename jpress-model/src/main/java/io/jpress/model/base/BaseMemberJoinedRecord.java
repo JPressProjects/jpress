@@ -109,6 +109,34 @@ public abstract class BaseMemberJoinedRecord<M extends BaseMemberJoinedRecord<M>
 		return getStr("join_type");
 	}
 
+    /**
+     * 加入来源：后台手动添加，用户自己购买
+     */
+	public void setJoinFrom(java.lang.Integer joinFrom) {
+		set("join_from", joinFrom);
+	}
+
+    /**
+     * 加入来源：后台手动添加，用户自己购买
+     */
+	public java.lang.Integer getJoinFrom() {
+		return getInt("join_from");
+	}
+
+    /**
+     * 加入的有效时间
+     */
+	public void setValidTerm(java.lang.Integer validTerm) {
+		set("valid_term", validTerm);
+	}
+
+    /**
+     * 加入的有效时间
+     */
+	public java.lang.Integer getValidTerm() {
+		return getInt("valid_term");
+	}
+
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}

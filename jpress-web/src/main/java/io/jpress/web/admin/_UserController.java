@@ -179,6 +179,8 @@ public class _UserController extends AdminControllerBase {
         render("user/member_edit.html");
     }
 
+
+
     @EmptyValidate({
             @Form(name = "member.duetime",message = "到期时间不能为空")
     })

@@ -1,5 +1,16 @@
 #include("_user_detail_layout.html")
 #@user_detail_layout()
+
+#define layout_script()
+<script>
+    function del(id) {
+        if (confirm("确定要删除该会员吗？")){
+           ajaxGet("#(CPATH)/admin/user/memberdel?id="+id)
+        }
+    }
+</script>
+#end
+
 #define detail()
 
 <div class="box-header with-border">
@@ -44,13 +55,15 @@
                    data-layer-title="添加会员"
                    data-layer-area="['60%', '80%']"
                    data-layer-end="reload">编辑</a>
+
                 <a href="javascript:;"
                    data-opentype="layer"
                    data-layer-content="#(CPATH)/admin/user/memberedit?userId=#(user.id)&id=#(member.id)"
                    data-layer-title="添加会员"
                    data-layer-area="['60%', '80%']"
                    data-layer-end="reload">续期</a>
-                <a>删除</a>
+
+                <a href="javascript:;" onclick="del('#(member.id)')">删除</a>
             </td>
         </tr>
         #end

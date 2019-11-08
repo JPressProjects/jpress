@@ -54,7 +54,7 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                     member = new Member();
                     member.setGroupId(group.getId());
                     member.setUserId(payment.getPayerUserId());
-                    member.setDuetime(DateUtils.addDays(new Date(),group.getTermOfValidity()));
+                    member.setDuetime(DateUtils.addDays(new Date(),group.getValidTerm()));
                     member.setSource(Member.SOURCE_BUY);
                     member.setStatus(Member.STATUS_NORMAL);
                     member.setCreated(new Date());
@@ -68,7 +68,7 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                         oldDuetime = new Date();
                     }
 
-                    member.setDuetime(DateUtils.addDays(oldDuetime,group.getTermOfValidity()));
+                    member.setDuetime(DateUtils.addDays(oldDuetime,group.getValidTerm()));
                     member.setModified(new Date());
                 }
 
@@ -81,6 +81,7 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                 joinedRecord.setJoinCount(1);
                 joinedRecord.setJoinType(MemberJoinedRecord.JOIN_TYPE_BUY);
                 joinedRecord.setCreated(new Date());
+                joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_BUY);
 
                 if (memberService.saveOrUpdate(member) == null){
                     return false;

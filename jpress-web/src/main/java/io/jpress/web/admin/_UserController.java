@@ -172,23 +172,21 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> groups = memberGroupService.findNormalList();
         setAttr("groups", groups);
 
-        if (getPara() != null) {
-            setAttr("member", memberService.findById(getPara()));
-        }
+        setAttr("member", memberService.findById(getPara("id")));
+
 
         render("user/member_edit.html");
     }
 
 
-
     @EmptyValidate({
-            @Form(name = "member.duetime",message = "到期时间不能为空")
+            @Form(name = "member.duetime", message = "到期时间不能为空")
     })
     public void doMemberSave() {
         Member member = getModel(Member.class);
 
         Member existModel = memberService.findByGroupIdAndUserId(member.getGroupId(), member.getUserId());
-        if (existModel != null) {
+        if (existModel != null && !existModel.getId().equals(member.getId())) {
             renderFailJson("用户已经加入该会员");
             return;
         }
@@ -207,8 +205,9 @@ public class _UserController extends AdminControllerBase {
             joinedRecord.setJoinCount(1);
             joinedRecord.setJoinType(member.getSource());
             joinedRecord.setCreated(new Date());
+            joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
 
-            if (Member.SOURCE_BUY.equals(member.getSource())){
+            if (Member.SOURCE_BUY.equals(member.getSource())) {
                 joinedRecord.setJoinPrice(group.getPrice());
             }
 

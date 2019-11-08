@@ -15,5 +15,10 @@ public class Member extends BaseMember<Member> {
 
     public static final int STATUS_NORMAL = 9;
 
-	
+    public boolean isNormal() {
+        Integer status = getStatus();
+        return status != null && status == STATUS_NORMAL;
+    }
+
+
 }

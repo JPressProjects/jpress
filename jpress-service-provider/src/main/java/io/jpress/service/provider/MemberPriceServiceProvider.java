@@ -7,7 +7,9 @@ import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.model.Member;
+import io.jpress.model.MemberGroup;
 import io.jpress.model.MemberPrice;
+import io.jpress.service.MemberGroupService;
 import io.jpress.service.MemberPriceService;
 import io.jpress.service.MemberService;
 
@@ -20,6 +22,9 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
 
     @Inject
     private MemberService memberService;
+
+    @Inject
+    private MemberGroupService memberGroupService;
 
     @Override
     public MemberPrice findByPorductAndGroup(String productTableName, Object productId, Object groupId) {
@@ -85,9 +90,18 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
 
         BigDecimal productPrice = null;
         for (Member userMember : userMembers) {
+            if (!userMember.isNormal()) {
+                continue;
+            }
+
+            MemberGroup group = memberGroupService.findById(userMember.getGroupId());
+            if (!group.isNormal()) {
+                continue;
+            }
+
             MemberPrice memberPrice = findByPorductAndGroup(productTableName, productId, userMember.getGroupId());
-            if (memberPrice != null && memberPrice.getPrice() != null && memberPrice.getPrice().compareTo(BigDecimal.ZERO) > 0){
-                if (productPrice == null || productPrice.compareTo(memberPrice.getPrice()) > 0){
+            if (memberPrice != null && memberPrice.getPrice() != null && memberPrice.getPrice().compareTo(BigDecimal.ZERO) > 0) {
+                if (productPrice == null || productPrice.compareTo(memberPrice.getPrice()) > 0) {
                     productPrice = memberPrice.getPrice();
                 }
             }

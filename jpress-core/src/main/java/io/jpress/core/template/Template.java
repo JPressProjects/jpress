@@ -51,8 +51,6 @@ public class Template {
         File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.relativePath = FileUtil.removeRootPath(templateFolder.getAbsolutePath());
-
         this.id = prop.get("id");
         this.title = prop.get("title");
         this.description = prop.get("description");
@@ -61,6 +59,7 @@ public class Template {
         this.version = prop.get("version");
         this.updateUrl = prop.get("updateUrl");
 
+        this.relativePath = FileUtil.removeRootPath(templateFolder.getAbsolutePath()).replace("\\", "/");
 
         String vcode = prop.get("versionCode");
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
@@ -87,13 +86,7 @@ public class Template {
 
         String flagStrings = prop.get("flags");
         if (StrUtil.isNotBlank(flagStrings)) {
-            String[] strings = flagStrings.split(",");
-            for (String s : strings) {
-                if (StrUtil.isBlank(s)) {
-                    continue;
-                }
-                this.flags.add(s.trim());
-            }
+            this.flags.addAll(StrUtil.splitToSet(flagStrings, ","));
         }
     }
 

@@ -90,6 +90,7 @@ public class ArticleController extends TemplateControllerBase {
         article.put("user", articleAuthor);
 
         setAttr("article", article);
+
         render(article.getHtmlView());
     }
 

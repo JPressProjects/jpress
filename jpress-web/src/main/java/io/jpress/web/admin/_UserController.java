@@ -179,6 +179,17 @@ public class _UserController extends AdminControllerBase {
     }
 
 
+    public void memberRenewal() {
+        List<MemberGroup> groups = memberGroupService.findNormalList();
+        setAttr("groups", groups);
+
+        setAttr("member", memberService.findById(getPara("id")));
+
+
+        render("user/member_renewal.html");
+    }
+
+
     @EmptyValidate({
             @Form(name = "member.duetime", message = "到期时间不能为空")
     })
@@ -218,6 +229,22 @@ public class _UserController extends AdminControllerBase {
         }
 
         memberService.saveOrUpdate(member);
+        renderOkJson();
+    }
+
+
+    /**
+     * 会员续期
+     */
+    public void doMemberRenewal() {
+        memberService.deleteById(getPara("id"));
+        renderOkJson();
+    }
+
+
+
+    public void doMemberDel() {
+        memberService.deleteById(getPara("id"));
         renderOkJson();
     }
 

@@ -5,7 +5,7 @@
 <script>
     function del(id) {
         if (confirm("确定要删除该会员吗？")){
-           ajaxGet("#(CPATH)/admin/user/memberdel?id="+id)
+           ajaxGet("#(CPATH)/admin/user/doMemberDel?id="+id)
         }
     }
 </script>
@@ -58,7 +58,7 @@
 
                 <a href="javascript:;"
                    data-opentype="layer"
-                   data-layer-content="#(CPATH)/admin/user/memberedit?userId=#(user.id)&id=#(member.id)"
+                   data-layer-content="#(CPATH)/admin/user/memberRenewal?userId=#(user.id)&id=#(member.id)"
                    data-layer-title="添加会员"
                    data-layer-area="['60%', '80%']"
                    data-layer-end="reload">续期</a>

@@ -6,12 +6,16 @@
         <div class="comment-item-content-item">
             <div class="comment-author">#(comment.author)</div>
             <div class="comment-time">#date(comment.created )</div>
+
+            #if(option('product_comment_enable') && product.comment_status)
             <div class="comment-reply-btn">
                 <a href="javascript:;"
                    data-cid="#(comment.id)"
                    data-author="#(comment.author ??)"
                    class="toReplyComment">回复</a>
             </div>
+            #end
+
         </div>
         <div class="comment-item-content-main">
             #(comment.content)

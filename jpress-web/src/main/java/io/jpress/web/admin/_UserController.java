@@ -36,6 +36,7 @@ import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.lang.time.DateUtils;
 
 import java.io.File;
 import java.util.*;
@@ -68,6 +69,9 @@ public class _UserController extends AdminControllerBase {
 
     @Inject
     private MemberGroupService memberGroupService;
+
+    @Inject
+    private MemberJoinedRecordService memberJoinedRecordService;
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
@@ -180,10 +184,9 @@ public class _UserController extends AdminControllerBase {
 
 
     public void memberRenewal() {
-        List<MemberGroup> groups = memberGroupService.findNormalList();
-        setAttr("groups", groups);
-
+        Member member = memberService.findById(getPara("id"));
         setAttr("member", memberService.findById(getPara("id")));
+        setAttr("group",memberGroupService.findById(member.getGroupId()));
 
 
         render("user/member_renewal.html");
@@ -237,10 +240,33 @@ public class _UserController extends AdminControllerBase {
      * 会员续期
      */
     public void doMemberRenewal() {
-        memberService.deleteById(getPara("id"));
+        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "",true);
+        joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
+        joinedRecord.setJoinCount(1);
+
+
+        Member member = memberService.findByGroupIdAndUserId(joinedRecord.getGroupId(), joinedRecord.getUserId());
+        if (member == null) {
+            renderFailJson();
+            return;
+        }
+
+
+        Date oldDuetime = member.getDuetime();
+
+        //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
+        if (oldDuetime.getTime() < new Date().getTime()) {
+            oldDuetime = new Date();
+        }
+
+        member.setDuetime(DateUtils.addDays(oldDuetime, joinedRecord.getValidTerm()));
+        member.setModified(new Date());
+
+        memberJoinedRecordService.save(joinedRecord);
+        memberService.update(member);
+
         renderOkJson();
     }
-
 
 
     public void doMemberDel() {

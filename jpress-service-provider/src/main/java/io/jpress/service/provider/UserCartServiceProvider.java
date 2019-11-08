@@ -1,7 +1,6 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
@@ -52,18 +51,6 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     public List<UserCart> findSelectedListByUserId(Long userId) {
         List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId).eq("selected", true), "id desc");
         return joinMemberPrice(userCarts);
-    }
-
-    @Override
-    public boolean doAddCountById(Object id) {
-        return Db.update("update user_cart set product_count = product_count + 1 "
-                + " where id = ? ", id) > 0;
-    }
-
-    @Override
-    public boolean doSubtractCountById(Object id) {
-        return Db.update("update user_cart set product_count = product_count - 1 "
-                + " where id = ? && product_count > 1", id) > 0;
     }
 
     @Override

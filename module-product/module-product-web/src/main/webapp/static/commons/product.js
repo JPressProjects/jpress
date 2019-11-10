@@ -108,6 +108,11 @@ function initCommentComponent() {
         $(this).ajaxSubmit({
             type: "post",
             success: function (data) {
+
+                $('#comment-pid').val("");
+                $('#comment-captcha').val("");
+                $('#comment-vcode').click();
+
                 if (data.state == "ok") {
                     if (data.html){
                         if ($(".comment-page > div:first-child").length > 0){
@@ -140,7 +145,7 @@ function initCommentComponent() {
 
 
     $('body').on('click','.toReplyComment', function () {
-        $('#pid').val($(this).attr('data-cid'));
+        $('#comment-pid').val($(this).attr('data-cid'));
         $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
         $('.comment-textarea textarea').focus();
     });

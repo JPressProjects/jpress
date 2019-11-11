@@ -366,8 +366,6 @@ CREATE TABLE `payment_record` (
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
-  `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销的用户ID',
-  `dist_amount` decimal(10,2) DEFAULT NULL,
   `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
@@ -825,8 +823,6 @@ CREATE TABLE `user_order` (
   `buyer_id` int(11) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
-  `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
-  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额，分销人员应该获得的推广金额',
   `order_total_amount` decimal(10,2) DEFAULT NULL COMMENT '订单总金额，购买人员应该付款的金额',
   `order_real_amount` decimal(10,2) DEFAULT NULL COMMENT '订单的真实金额，销售人员可以在后台修改支付金额，一般情况下 order_real_amount = order_total_amount',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
@@ -994,6 +990,7 @@ CREATE TABLE `wechat_reply` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 

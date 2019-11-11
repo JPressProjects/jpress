@@ -10,7 +10,7 @@
     padding: 5px 25px 5px 15px;
 }
 
-.skin-blue .sidebar-menu>li>.treeview-menu {
+.skin-blue .sidebar-menu > li > .treeview-menu {
     margin: 0 1px;
     background: #2c3b41;
     padding: 0.5rem;
@@ -24,7 +24,6 @@
     height: 150px;
     width: 200px;
     border: 1px solid #eee;
-    margin: 3px 0;
 }
 
 .checkAction {
@@ -178,4 +177,9 @@
     color: #a00 !important;
 }
 
-.autoAjaxSubmit{}
+.btn-image-browser {
+    margin: 3px 0;
+}
+
+.autoAjaxSubmit {
+}

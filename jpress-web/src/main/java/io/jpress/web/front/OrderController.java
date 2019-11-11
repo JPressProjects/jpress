@@ -51,7 +51,6 @@ public class OrderController extends UcenterControllerBase {
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser", userService.findById(order.getBuyerId()));
-        setAttr("distUser", userService.findById(order.getDistUserId()));
 
         if (StrUtil.isNotBlank(order.getCouponCode())) {
             CouponCode couponCode = couponCodeService.findByCode(order.getCouponCode());

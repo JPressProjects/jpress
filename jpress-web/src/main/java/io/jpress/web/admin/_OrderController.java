@@ -84,7 +84,7 @@ public class _OrderController extends AdminControllerBase {
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
         setAttr("orderUser", userService.findById(order.getBuyerId()));
-        setAttr("distUser", userService.findById(order.getDistUserId()));
+//        setAttr("distUser", userService.findById(order.getDistUserId()));
 
         //如果快递已经发货
         if (order.isDeliveried()) {

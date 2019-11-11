@@ -295,7 +295,7 @@ public class ProductController extends TemplateControllerBase {
             return;
         }
 
-        cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
+        cartService.save(product.toUserCartItem(user.getId(), getParaToLong("distuid"), getPara("spec")));
         renderOkJson();
     }
 

@@ -117,11 +117,10 @@ public class Product extends BaseProduct<Product> {
     }
 
 
-    public UserCart toUserCartItem(Long userId,Long distUserId,String spec){
+    public UserCart toUserCartItem(Long userId, Long distUserId, String spec) {
         UserCart userCart = new UserCart();
 
         userCart.setUserId(userId);
-        userCart.setDistUserId(distUserId);
         userCart.setSellerId(this.getUserId());
         userCart.setProductId(getId());
         userCart.setProductTable(UserCart.PRODUCT_TABLE_PRODUCT);
@@ -130,7 +129,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductNewPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
-        userCart.setProductSummary(CommonsUtils.maxLength(getText(),200));
+        userCart.setProductSummary(CommonsUtils.maxLength(getText(), 200));
         userCart.setSelected(false);
         userCart.setProductDetailPage(getUrl());
         userCart.setProductVirtual(false);//非虚拟产品
@@ -138,15 +137,21 @@ public class Product extends BaseProduct<Product> {
         userCart.setCreated(new Date());
         userCart.setProductSpec(spec);
 
+        Boolean disEnable = getDistEnable();
+        if (disEnable != null && disEnable) {
+            userCart.setDistUserId(distUserId);
+        }
+
+
         String showImage = getShowImage();
-        if (StrUtil.isNotBlank(showImage)){
+        if (StrUtil.isNotBlank(showImage)) {
             userCart.setProductThumbnail(showImage);
         }
 
         return userCart;
     }
 
-    public UserFavorite toFavorite(Long userId){
+    public UserFavorite toFavorite(Long userId) {
         UserFavorite favorite = new UserFavorite();
         favorite.setUserId(userId);
         favorite.setType("product");
@@ -160,7 +165,6 @@ public class Product extends BaseProduct<Product> {
         favorite.setCreated(new Date());
         return favorite;
     }
-
 
 
 }

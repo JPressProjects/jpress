@@ -138,10 +138,21 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         }
 
         WechatReply wechatReply = wechatReplyService.findByKey(key);
-        if (wechatReply == null || StrUtil.isBlank(wechatReply.getContent())) {
-            renderDefault();
+        if (wechatReply != null && StrUtil.isNotBlank(wechatReply.getContent())) {
+            renderWechatReply(inMsg, wechatReply);
+        }
+
+        // renderWechatReply(inMsg, wechatReply) 已经渲染成功
+        if (getRender() != null) {
             return;
         }
+
+        // 其他情况
+        renderDefault();
+    }
+
+
+    private void renderWechatReply(InMsg inMsg, WechatReply wechatReply) {
 
         if (!wechatReply.isJson()) {
             OutTextMsg outTextMsg = new OutTextMsg(inMsg);
@@ -215,13 +226,6 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
             renderNull();
         }
-
-        /**
-         * 其他情况
-         */
-        else {
-            renderDefault();
-        }
     }
 
     /**
@@ -253,11 +257,22 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             return;
         }
 
-        InMsg msg = getInMsg();
-        OutTextMsg outMsg = new OutTextMsg(msg);
-        outMsg.setContent(text);
+        if (text.startsWith("key:") && text.length() > 4) {
+            String key = text.substring(4);
+            WechatReply wechatReply = wechatReplyService.findByKey(key);
+            if (wechatReply != null && StrUtil.isNotBlank(wechatReply.getContent())) {
+                renderWechatReply(getInMsg(), wechatReply);
+            }
+        }
 
-        render(outMsg);
+        //以上内容没有进行渲染
+        if (getRender() == null) {
+            InMsg msg = getInMsg();
+            OutTextMsg outMsg = new OutTextMsg(msg);
+            outMsg.setContent(text);
+            render(outMsg);
+        }
+
     }
 
 

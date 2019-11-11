@@ -22,6 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.core.payment.DistManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
@@ -102,7 +103,7 @@ public class CheckoutController extends UcenterControllerBase {
 
     public void order() {
         UserOrder order = userOrderService.findById(getPara());
-        render404If(notLogineUserModel(order,"buyer_id"));
+        render404If(notLogineUserModel(order, "buyer_id"));
 
         PayConfigUtil.setConfigAttrs(this);
 
@@ -148,7 +149,14 @@ public class CheckoutController extends UcenterControllerBase {
 
             item.setProductVirtual(userCart.getProductVirtual());//是否是虚拟产品
 
-            item.setDistAmount(BigDecimal.ZERO); //分销金额
+            //分销的相关信息
+            item.setDistUserId(userCart.getDistUserId());
+            item.setDistAmount(DistManager.me().getAmount(userCart.getProductTable(),
+                    userCart.getProductId(),
+                    getLoginedUser().getId(),
+                    userCart.getDistUserId()));
+
+
             item.setDeiveryCost(BigDecimal.ZERO);//运费，后台设置
             item.setOtherCost(BigDecimal.ZERO); //其他费用
 
@@ -194,7 +202,7 @@ public class CheckoutController extends UcenterControllerBase {
         //设置订单的产品描述
         StringBuilder productDesc = new StringBuilder();
         for (UserOrderItem item : userOrderItems) {
-            productDesc.append(item.getProductTitle());
+            productDesc.append(item.getProductTitle()).append(" ");
         }
         if (productDesc.length() > 200) {
             productDesc.delete(200, productDesc.length() - 1);
@@ -275,7 +283,7 @@ public class CheckoutController extends UcenterControllerBase {
     @UrlParaValidate
     public void payorder() {
         UserOrder userOrder = userOrderService.findById(getPara());
-        render404If(notLogineUserModel(userOrder,"buyer_id"));
+        render404If(notLogineUserModel(userOrder, "buyer_id"));
 
         PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());
         if (payment == null) {

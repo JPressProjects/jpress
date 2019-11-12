@@ -82,5 +82,7 @@ public interface MemberGroupService extends JbootServiceJoiner {
 
     public List<MemberGroup> findUcenterList();
 
+    public List<MemberGroup> findNormalList();
+
 
 }

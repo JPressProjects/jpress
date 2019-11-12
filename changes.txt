@@ -1,3 +1,23 @@
+jpress v3.0.0-alpha.2:
+新增：新增后台产品的编辑页面，添加会员价的功能
+新增：购物车以及结算台新增会员价的展示功能
+新增：后台新增管理对会员的修改、删除和续期等功能
+优化：购物车选中产品的代码，使之更加容易阅读
+优化：继续优化和完善 Mysql 数据库的索引构建
+优化：defaultArticleCommentPage 和 defaultProductCommentPage，在关闭评论的时候不再显示评论的输入框
+优化：优化插件 Handler 管理器 AddonHandlerManager 和 AddonHandlerProcesser 的逻辑
+优化：优化 PaymentManager，减少监听器 isPaySuccess 的判断
+优化：微信后台保存菜单时，提示用户必须输入项
+优化：微信关键字保存时，添加是否已经存在关键字的友好提示
+优化：优化模板管理器 TemplateManger 以及 Template 的相关代码
+优化：重构 checkOwner ，修改为 isLogineUserModel 和 notLogineUserModel
+修复：商品分类默认页面配置错误，感谢 @喜欢吃豆包
+修复：优惠券编辑时 类型和验证类型默认值不显示问题，感谢 @喜欢吃豆包
+修复：用户中心的加入会员列表可能出现错误的问题
+修复：Windows系统下模板路径肯能出错的问题
+
+
+
 jpress v3.0.0-alpha.1:
 第一个 3.0 版本
 

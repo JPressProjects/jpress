@@ -30,12 +30,12 @@ public class AddonHandlerManager {
     private static List<Handler> handlers = Collections.synchronizedList(new ArrayList<>());
     private static boolean reset = true;
 
-    public static Handler getProcessHandler(Handler originHandler) {
+    public static Handler getProcessHandler(Handler next) {
 
         if (processHandler == null || reset) {
             synchronized (AddonHandlerManager.class) {
                 if (processHandler == null || reset) {
-                    processHandler = buildHandler(originHandler);
+                    processHandler = buildHandler(next);
                     reset = true;
                 }
             }
@@ -43,13 +43,13 @@ public class AddonHandlerManager {
         return processHandler;
     }
 
-    private static synchronized Handler buildHandler(Handler originHandler) {
+    private static synchronized Handler buildHandler(Handler next) {
         // 当没有插件的 handler 的时候，返回原始的 handler
         if (handlers.isEmpty()) {
-            return originHandler;
+            return next;
         }
 
-        return HandlerFactory.getHandler(handlers, originHandler);
+        return HandlerFactory.getHandler(handlers, next);
     }
 
     public static void addHandler(Class<? extends Handler> c) {

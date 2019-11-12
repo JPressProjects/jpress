@@ -60,4 +60,10 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
         return DateUtils.addSeconds(getCreated(), getViewEffectiveTime().intValue()).getTime() > new Date().getTime();
     }
 
+    public boolean isFinished() {
+        Integer status = getStatus();
+        return status != null && status == STATUS_FINISHED;
+    }
+
+
 }

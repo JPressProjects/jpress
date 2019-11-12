@@ -267,7 +267,7 @@ CREATE TABLE `member_group` (
   `limited_time` datetime DEFAULT NULL COMMENT '限时价格到期时间',
   `dist_enable` tinyint(1) DEFAULT NULL COMMENT '是否启用分销功能',
   `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销收益金额',
-  `term_of_validity` int(11) DEFAULT NULL COMMENT '有效期（单位天）',
+  `valid_term` int(11) DEFAULT NULL COMMENT '有效时间（单位天）',
   `flag` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标识',
   `status` tinyint(2) DEFAULT NULL COMMENT '状态',
   `with_ucenter` tinyint(1) DEFAULT NULL COMMENT '是否显示在用户中心',
@@ -290,6 +290,8 @@ CREATE TABLE `member_joined_record` (
   `join_price` decimal(10,2) DEFAULT NULL COMMENT '加入的价格',
   `join_count` int(11) DEFAULT NULL COMMENT '加入份数，可能会一次购买多份（多年）会员。',
   `join_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '加入的类型：付费加入、免费赠送等',
+  `join_from` tinyint(2) DEFAULT NULL COMMENT '加入来源：后台手动添加，用户自己购买',
+  `valid_term` int(11) DEFAULT NULL COMMENT '加入的有效时间',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '加入的时间',
   PRIMARY KEY (`id`),
@@ -303,13 +305,14 @@ CREATE TABLE `member_joined_record` (
 
 CREATE TABLE `member_price` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) unsigned NOT NULL,
   `product_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_id` int(11) unsigned NOT NULL,
+  `group_id` int(11) unsigned NOT NULL,
   `price` decimal(10,2) DEFAULT NULL COMMENT '会员价',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `proinfo` (`product_table`,`product_id`,`group_id`)
+  UNIQUE KEY `proinfo` (`product_table`,`product_id`,`group_id`),
+  KEY `pid` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员价格表';
 
 
@@ -363,8 +366,6 @@ CREATE TABLE `payment_record` (
   `trx_no` varchar(50) NOT NULL COMMENT '支付流水号',
   `trx_type` varchar(30) DEFAULT NULL COMMENT '交易业务类型  ：消费、充值等',
   `trx_nonce_str` varchar(64) DEFAULT NULL COMMENT '签名随机字符串，一般是用来防止重放攻击',
-  `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销的用户ID',
-  `dist_amount` decimal(10,2) DEFAULT NULL,
   `payer_user_id` int(11) unsigned DEFAULT NULL COMMENT '付款人编号',
   `payer_name` varchar(256) DEFAULT NULL COMMENT '付款人名称',
   `payer_fee` decimal(20,6) DEFAULT '0.000000' COMMENT '付款方手续费',
@@ -822,8 +823,6 @@ CREATE TABLE `user_order` (
   `buyer_id` int(11) unsigned DEFAULT NULL COMMENT '购买人',
   `buyer_nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '购买人昵称',
   `buyer_msg` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户留言',
-  `dist_user_id` int(11) unsigned DEFAULT NULL COMMENT '分销员',
-  `dist_amount` decimal(10,2) DEFAULT NULL COMMENT '分销金额，分销人员应该获得的推广金额',
   `order_total_amount` decimal(10,2) DEFAULT NULL COMMENT '订单总金额，购买人员应该付款的金额',
   `order_real_amount` decimal(10,2) DEFAULT NULL COMMENT '订单的真实金额，销售人员可以在后台修改支付金额，一般情况下 order_real_amount = order_total_amount',
   `coupon_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
@@ -991,6 +990,7 @@ CREATE TABLE `wechat_reply` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 

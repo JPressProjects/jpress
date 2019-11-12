@@ -202,11 +202,6 @@ a.product-btn-cart:hover {
     color: #bbb;
 }
 
-.comment-block {
-    background-color: #fff;
-    padding: 0 20px 20px 20px;
-}
-
 .comment-form {
     margin-bottom: 20px;
 }
@@ -247,7 +242,7 @@ a.product-btn-cart:hover {
     border: 1px solid #999;
 }
 
-.comment-page-title{
+.comment-page-title {
     padding: 20px 0 10px 0;
 }
 
@@ -274,14 +269,11 @@ a.product-btn-cart:hover {
 }
 
 .comment-item {
-    padding-bottom: 0.5rem;
-    margin-top: 2rem;
-    border-bottom: 1px solid #dee2e6;
     position: relative;
+    margin: 1.5rem 0;
 }
 
 .comment-secondary-panel {
-    padding-bottom: 0.5rem;
     margin-top: 1rem;
     padding-top: 1rem;
     background-color: #f4f4f4;
@@ -289,8 +281,12 @@ a.product-btn-cart:hover {
 }
 
 .comment-reply-btn {
-    text-align: right;
-    padding: 0.5rem 0 0 0;
+    float: right;
+}
+
+.comment-reply-btn a {
+    color: #4285f4;
+    font-size: 14px;
 }
 
 .comment-item .comment-item-portrait {
@@ -300,25 +296,29 @@ a.product-btn-cart:hover {
 }
 
 .comment-item-portrait img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
 }
 
 .comment-item .comment-item-content {
-    padding: 0 0 0 70px;
+    padding: 0 0 0 60px;
     width: 100%;
 }
 
 .comment-item .comment-secondary-panel .comment-item-content {
-    padding: 0 0 10px 20px;
+    padding: 0 20px;
     width: 100%;
 }
 
-.comment-item-content-item div {
+.comment-item-content-item .comment-time {
     display: inline;
     padding: 0 0.5rem 0 0;
     font-size: 14px;
     color: #999;
+}
+
+.comment-item-content-item div {
+    display: inline;
 }
 
 .comment-item-content-item .comment-author {
@@ -328,8 +328,9 @@ a.product-btn-cart:hover {
 }
 
 .comment-item .comment-item-content .comment-item-content-main {
-    margin-top: 0.5rem;
     color: #666;
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0 1.5rem;
 }
 
 .comment-item .comment-item-secondary {
@@ -343,7 +344,9 @@ a.product-btn-cart:hover {
     color: #f4f4f4;
     position: absolute;
     top: -22px;
-    left: 60px;
+    left: 50px;
     font-size: 34px;
 }
-
+.comment-secondary-panel > .comment-item-content > .comment-item-content-main{
+    border-bottom: none;
+}

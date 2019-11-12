@@ -28,10 +28,21 @@ import io.jpress.module.article.searcher.LuceneSearcher;
 public class ArticleSearcherFactory {
 
     public static ArticleSearcher getSearcher() {
+        ArticleSearcher searcher = null;
+        try {
+            searcher = tryGetSearcher();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return searcher == null ? new NoneSearcher() : searcher;
+    }
+
+
+    private static ArticleSearcher tryGetSearcher() {
 
         boolean searchEnable = JPressOptions.isTrueOrEmpty("article_search_enable");
         if (!searchEnable) {
-            return new NoneSearcher();
+            return null;
         }
 
         String engine = JPressOptions.get("article_search_engine");

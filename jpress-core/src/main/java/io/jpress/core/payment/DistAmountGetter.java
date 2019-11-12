@@ -13,23 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.addon.handler;
+package io.jpress.core.payment;
+
+import java.math.BigDecimal;
 
 
-import com.jfinal.handler.Handler;
+public interface DistAmountGetter {
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-public class AddonHandlerProcesser extends Handler {
-
-
-    @Override
-    public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-
-        AddonHandlerManager.getProcessHandler(next)
-                .handle(target, request, response, isHandled);
-    }
-
+    public BigDecimal onGetDistAmount(Object productId, Long payerUserId, Long distUserId);
 }

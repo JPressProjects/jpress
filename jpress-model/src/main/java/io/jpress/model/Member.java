@@ -11,9 +11,16 @@ public class Member extends BaseMember<Member> {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SOURCE_BUY = "buy";
+    public static final String SOURCE_BUY = "buy"; //用户购买
+    public static final String SOURCE_FREE = "free"; //免费赠送
+    public static final String SOURCE_OTHER = "other"; //其他
 
     public static final int STATUS_NORMAL = 9;
 
-	
+    public boolean isNormal() {
+        Integer status = getStatus();
+        return status != null && status == STATUS_NORMAL;
+    }
+
+
 }

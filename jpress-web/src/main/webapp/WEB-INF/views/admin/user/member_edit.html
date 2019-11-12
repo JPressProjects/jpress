@@ -52,10 +52,19 @@
                         <label class="col-sm-2 control-label">来源</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="member.source">
-                                <option value="buy"> 转账购买</option>
-                                <option value="order"> 自主购买</option>
-                                <option value="givefree"> 免费赠送</option>
+                                <option value="buy"> 用户购买</option>
+                                <option value="free"> 免费赠送</option>
                                 <option value="other"> 其他</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="member.status">
+                                <option value="9"> 正常 </option>
+                                <option value="1"> 禁用 </option>
                             </select>
                         </div>
                     </div>

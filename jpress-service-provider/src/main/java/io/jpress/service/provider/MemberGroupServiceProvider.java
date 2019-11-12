@@ -17,4 +17,11 @@ public class MemberGroupServiceProvider extends JbootServiceBase<MemberGroup> im
                 .filter(memberGroup -> memberGroup.isNormal() && memberGroup.isShowInUcenter())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MemberGroup> findNormalList() {
+        return findAll().stream()
+                .filter(memberGroup -> memberGroup.isNormal())
+                .collect(Collectors.toList());
+    }
 }

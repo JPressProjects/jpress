@@ -67,10 +67,10 @@ public class _OrderController extends AdminControllerBase {
         int mouthPaymentAmount = paymentService.queryMonthAmount();
         int mountOrderUserCount = orderService.queryMonthUserCount();
 
-        setAttr("todayOrderCount",todayOrderCount);
-        setAttr("monthOrderCount",monthOrderCount);
-        setAttr("mouthPaymentAmount",mouthPaymentAmount);
-        setAttr("mountOrderUserCount",mountOrderUserCount);
+        setAttr("todayOrderCount", todayOrderCount);
+        setAttr("monthOrderCount", monthOrderCount);
+        setAttr("mouthPaymentAmount", mouthPaymentAmount);
+        setAttr("mountOrderUserCount", mountOrderUserCount);
 
 
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("title"), getPara("ns"));
@@ -80,11 +80,22 @@ public class _OrderController extends AdminControllerBase {
 
 
     public void detail() {
-        UserOrder order = orderService.findById(getPara(),null);
+        UserOrder order = orderService.findById(getPara());
+
+
+        List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
+
         setAttr("order", order);
-        setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
-        setAttr("distUser", userService.findById(order.getDistUserId()));
+//        setAttr("distUser", userService.findById(order.getDistUserId()));
+
+        if (orderItems != null) {
+            for (UserOrderItem item : orderItems) {
+                item.put("distUser", userService.findById(item.getId()));
+                item.put("totalDistAmount", item.getDistAmount() == null ? 0 : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
+            }
+        }
 
         //如果快递已经发货
         if (order.isDeliveried()) {
@@ -99,13 +110,13 @@ public class _OrderController extends AdminControllerBase {
      * 发货
      */
     public void deliver() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         setAttr("expressComs", ExpressCompany.EXPRESS_LIST);
         render("order/order_layer_deliver.html");
     }
 
     public void doUpdateDeliver() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -119,14 +130,14 @@ public class _OrderController extends AdminControllerBase {
             order.setDeliveryStartTime(getParaToDate("deliveryStartTime"));
 
 
-            if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType){
+            if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {
                 order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
-            }else {
+            } else {
                 order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
             }
 
             List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
-            for (UserOrderItem item : orderItems){
+            for (UserOrderItem item : orderItems) {
                 item.setStatus(order.getTradeStatus());
             }
 
@@ -139,12 +150,12 @@ public class _OrderController extends AdminControllerBase {
      * 发票设置
      */
     public void invoice() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_invoice.html");
     }
 
     public void doUpdateInvoice() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -158,12 +169,12 @@ public class _OrderController extends AdminControllerBase {
      * 备注设置
      */
     public void remark() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_remark.html");
     }
 
     public void doUpdateRemark() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -177,12 +188,12 @@ public class _OrderController extends AdminControllerBase {
      * 手动入账
      */
     public void updatePaystatus() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_paystatus.html");
     }
 
     public void doUpdatePaystatus() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {
@@ -200,12 +211,12 @@ public class _OrderController extends AdminControllerBase {
      * 修改价格
      */
     public void updatePrice() {
-        setAttr("order", orderService.findById(getPara(),null));
+        setAttr("order", orderService.findById(getPara()));
         render("order/order_layer_update_price.html");
     }
 
     public void doUpdatePrice() {
-        UserOrder order = orderService.findById(getPara("orderId"),null);
+        UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
         } else {

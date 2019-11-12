@@ -36,6 +36,7 @@ import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.lang.time.DateUtils;
 
 import java.io.File;
 import java.util.*;
@@ -69,6 +70,9 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private MemberGroupService memberGroupService;
 
+    @Inject
+    private MemberJoinedRecordService memberJoinedRecordService;
+
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
@@ -80,11 +84,10 @@ public class _UserController extends AdminControllerBase {
         columns.eq("create_source", getPara("create_source"));
 
 
-
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns,getParaToLong("group_id"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -170,18 +173,104 @@ public class _UserController extends AdminControllerBase {
 
 
     public void memberedit() {
-        List<MemberGroup> groups = memberGroupService.findAll();
+        List<MemberGroup> groups = memberGroupService.findNormalList();
         setAttr("groups", groups);
 
-        if (getPara() != null) {
-            setAttr("member", memberService.findById(getPara()));
-        }
+        setAttr("member", memberService.findById(getPara("id")));
+
+
         render("user/member_edit.html");
     }
 
-    public void doMemberSave(){
+
+    public void memberRenewal() {
+        Member member = memberService.findById(getPara("id"));
+        setAttr("member", memberService.findById(getPara("id")));
+        setAttr("group",memberGroupService.findById(member.getGroupId()));
+
+
+        render("user/member_renewal.html");
+    }
+
+
+    @EmptyValidate({
+            @Form(name = "member.duetime", message = "到期时间不能为空")
+    })
+    public void doMemberSave() {
         Member member = getModel(Member.class);
+
+        Member existModel = memberService.findByGroupIdAndUserId(member.getGroupId(), member.getUserId());
+        if (existModel != null && !existModel.getId().equals(member.getId())) {
+            renderFailJson("用户已经加入该会员");
+            return;
+        }
+
+        MemberGroup group = memberGroupService.findById(member.getGroupId());
+        if (group == null || !group.isNormal()) {
+            renderFailJson("该会员组不存在或已经被禁用。");
+            return;
+        }
+
+        if (member.getId() == null) {
+            MemberJoinedRecord joinedRecord = new MemberJoinedRecord();
+            joinedRecord.setUserId(member.getUserId());
+            joinedRecord.setGroupId(member.getGroupId());
+            joinedRecord.setGroupName(group.getName());
+            joinedRecord.setJoinCount(1);
+            joinedRecord.setJoinType(member.getSource());
+            joinedRecord.setCreated(new Date());
+            joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
+
+            if (Member.SOURCE_BUY.equals(member.getSource())) {
+                joinedRecord.setJoinPrice(group.getPrice());
+            }
+
+            if (memberService.saveOrUpdate(member) == null) {
+                renderFailJson();
+                return;
+            }
+        }
+
         memberService.saveOrUpdate(member);
+        renderOkJson();
+    }
+
+
+    /**
+     * 会员续期
+     */
+    public void doMemberRenewal() {
+        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "",true);
+        joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
+        joinedRecord.setJoinCount(1);
+
+
+        Member member = memberService.findByGroupIdAndUserId(joinedRecord.getGroupId(), joinedRecord.getUserId());
+        if (member == null) {
+            renderFailJson();
+            return;
+        }
+
+
+        Date oldDuetime = member.getDuetime();
+
+        //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
+        if (oldDuetime.getTime() < new Date().getTime()) {
+            oldDuetime = new Date();
+        }
+
+        member.setDuetime(DateUtils.addDays(oldDuetime, joinedRecord.getValidTerm()));
+        member.setModified(new Date());
+
+        memberJoinedRecordService.save(joinedRecord);
+        memberService.update(member);
+
+        renderOkJson();
+    }
+
+
+    public void doMemberDel() {
+        memberService.deleteById(getPara("id"));
         renderOkJson();
     }
 
@@ -203,10 +292,10 @@ public class _UserController extends AdminControllerBase {
 
 
     @EmptyValidate({
-            @Form(name = "group.name",message = "会员名称不能为空"),
-            @Form(name = "group.title",message = "会员标题不能为空"),
-            @Form(name = "group.price",message = "会员加入费用不能为空"),
-            @Form(name = "group.term_of_validity",message = "会员购买有效期不能为空"),
+            @Form(name = "group.name", message = "会员名称不能为空"),
+            @Form(name = "group.title", message = "会员标题不能为空"),
+            @Form(name = "group.price", message = "会员加入费用不能为空"),
+            @Form(name = "group.term_of_validity", message = "会员购买有效期不能为空"),
     })
     public void doMgroupSave() {
         MemberGroup memberGroup = getModel(MemberGroup.class, "group");

@@ -234,16 +234,24 @@ public class ProductController extends TemplateControllerBase {
         //记录文章的评论量
         productService.doIncProductCommentCount(productId);
 
+        commentService.saveOrUpdate(comment);
+
         if (pid != null) {
             //记录评论的回复数量
             commentService.doIncCommentReplyCount(pid);
+
+            ProductComment parent = commentService.findById(pid);
+            if (parent != null && parent.isNormal()){
+                comment.put("parent",parent);
+            }
         }
-        commentService.saveOrUpdate(comment);
 
         Ret ret = Ret.ok().set("code", 0);
 
         Map<String, Object> paras = new HashMap<>();
         paras.put("comment", comment);
+        paras.put("product", product);
+
         if (user != null) {
             paras.put("user", user.keepSafe());
         }
@@ -287,7 +295,7 @@ public class ProductController extends TemplateControllerBase {
             return;
         }
 
-        cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
+        cartService.save(product.toUserCartItem(user.getId(), getParaToLong("distuid"), getPara("spec")));
         renderOkJson();
     }
 

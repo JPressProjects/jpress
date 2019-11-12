@@ -12,21 +12,10 @@ import java.util.List;
 @Bean
 public class UserOrderItemServiceProvider extends JbootServiceBase<UserOrderItem> implements UserOrderItemService {
 
-    @Override
-    public UserOrderItem findById(Object id, Long userId) {
-        UserOrderItem item = findById(id);
-        if (userId != null && item != null) {
-            if (!userId.equals(item.getBuyerId())) {
-                return null;
-            }
-        }
-        return item;
-    }
-
 
     @Override
     public void batchSave(List<UserOrderItem> userOrderItems) {
-        userOrderItems.forEach(userOrderItem -> save(userOrderItem));
+        userOrderItems.forEach(this::save);
     }
 
     @Override

@@ -11,5 +11,12 @@ public class MemberJoinedRecord extends BaseMemberJoinedRecord<MemberJoinedRecor
 
     private static final long serialVersionUID = 1L;
 
+    public static final String JOIN_TYPE_BUY = Member.SOURCE_BUY; //用户购买
+    public static final String JOIN_TYPE_FREE = Member.SOURCE_FREE; //免费赠送
+    public static final String JOIN_TYPE_OTHER = Member.SOURCE_OTHER; //其他
+
+    public static final int JOIN_FROM_ADMIN = 1;//后台管理员手动添加
+    public static final int JOIN_FROM_BUY = 2;//用户自己在用户中心购买
+
 	
 }

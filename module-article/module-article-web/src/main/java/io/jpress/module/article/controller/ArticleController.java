@@ -90,6 +90,7 @@ public class ArticleController extends TemplateControllerBase {
         article.put("user", articleAuthor);
 
         setAttr("article", article);
+
         render(article.getHtmlView());
     }
 
@@ -228,17 +229,24 @@ public class ArticleController extends TemplateControllerBase {
         //记录文章的评论量
         articleService.doIncArticleCommentCount(articleId);
 
+        commentService.saveOrUpdate(comment);
+
         if (pid != null) {
             //记录评论的回复数量
             commentService.doIncCommentReplyCount(pid);
+
+            ArticleComment parent = commentService.findById(pid);
+            if (parent != null && parent.isNormal()){
+                comment.put("parent",parent);
+            }
         }
-        commentService.saveOrUpdate(comment);
 
         Ret ret = Ret.ok().set("code",0);
 
 
         Map<String, Object> paras = new HashMap<>();
         paras.put("comment", comment);
+        paras.put("article", article);
         if (user != null) {
             paras.put("user", user.keepSafe());
         }

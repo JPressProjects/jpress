@@ -95,7 +95,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
 
         Template template = TemplateManager.me().getCurrentTemplate();
-        controller.setAttr("TPATH", template == null ? "" : template.getWebAbsolutePath());
+        controller.setAttr("TPATH", template == null ? "" : template.getRelativePath());
 
         inv.invoke();
     }

@@ -39,15 +39,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
 
-    private static Routes addonRoutes = new Routes() {
-        @Override
-        public void config() {}
-    };
-
+    private static Routes addonRoutes = new Routes() {public void config() {}};
+    private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
-    private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     public static void addController(Class<? extends Controller> c, String addonId) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
@@ -94,6 +90,12 @@ public class AddonControllerManager {
     }
 
 
+    private static void addAddonMenus() {
+        MenuManager.me().addMenuItems(buildAdminMenuItems());
+        MenuManager.me().addMenuItems(buildUcenterMenuItems());
+    }
+
+
     private static void deleteAddonMenus() {
         List<MenuItem> adminMenuItems = buildAdminMenuItems();
         for (MenuItem menuItem : adminMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
@@ -101,10 +103,6 @@ public class AddonControllerManager {
         for (MenuItem menuItem : ucenterMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
     }
 
-    private static void addAddonMenus() {
-        MenuManager.me().addMenuItems(buildAdminMenuItems());
-        MenuManager.me().addMenuItems(buildUcenterMenuItems());
-    }
 
     private static List<MenuItem> buildUcenterMenuItems() {
         List<MenuItem> adminMenuItems = new ArrayList<>();

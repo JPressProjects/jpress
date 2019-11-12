@@ -5,7 +5,7 @@
     <form class="comment-form" action="#(CPATH)/article/postComment" id="jpress-comment-form" method="post">
         <input type="hidden" name="articleId" value="#(article.id)">
         <input type="hidden" name="render" value="default">
-        <input type="hidden" name="pid" id="pid">
+        <input type="hidden" name="pid" id="comment-pid">
 
         <div class="comment-textarea">
             <textarea placeholder="我们相信，您的评论能够一针见血...." rows="4" name="content"></textarea>
@@ -13,9 +13,9 @@
 
         <div class="comment-vcode">
             #if(option('article_comment_vcode_enable'))
-            <input placeholder="请输入验证码" name="captcha">
+            <input placeholder="请输入验证码" name="captcha" id="comment-captcha">
             <img class="vcode-img" src="#(CPATH)/commons/captcha"
-                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude id="comment-vcode">
             #end
         </div>
 

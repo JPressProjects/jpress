@@ -20,16 +20,6 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
     @Inject
     private UserOrderItemService itemService;
 
-    @Override
-    public UserOrder findById(Object id, Object userId) {
-        UserOrder userOrder =  findById(id);
-        if (userId != null && userOrder != null){
-            if (!userId.equals(userOrder.getBuyerId())){
-                return  null;
-            }
-        }
-        return userOrder;
-    }
 
     @Override
     public Page<UserOrder> paginate(int page, int pageSize, String title, String ns) {

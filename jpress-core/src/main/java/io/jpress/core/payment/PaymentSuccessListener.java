@@ -20,6 +20,6 @@ import io.jpress.model.PaymentRecord;
 
 public interface PaymentSuccessListener {
 
-    public void onSuccess(PaymentRecord payment );
+    public void onSuccess(PaymentRecord payment);
 
 }

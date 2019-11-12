@@ -112,34 +112,6 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 分销员
-     */
-	public void setDistUserId(java.lang.Long distUserId) {
-		set("dist_user_id", distUserId);
-	}
-
-    /**
-     * 分销员
-     */
-	public java.lang.Long getDistUserId() {
-		return getLong("dist_user_id");
-	}
-
-    /**
-     * 分销金额，分销人员应该获得的推广金额
-     */
-	public void setDistAmount(java.math.BigDecimal distAmount) {
-		set("dist_amount", distAmount);
-	}
-
-    /**
-     * 分销金额，分销人员应该获得的推广金额
-     */
-	public java.math.BigDecimal getDistAmount() {
-		return get("dist_amount");
-	}
-
-    /**
      * 订单总金额，购买人员应该付款的金额
      */
 	public void setOrderTotalAmount(java.math.BigDecimal orderTotalAmount) {

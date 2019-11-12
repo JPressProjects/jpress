@@ -15,6 +15,9 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     private static final long serialVersionUID = 1L;
 
+    public UserOrder() {
+    }
+
     /**
      * 交易状态
      */

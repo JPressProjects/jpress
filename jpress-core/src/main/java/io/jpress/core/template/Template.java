@@ -35,8 +35,9 @@ public class Template {
     private String version;
     private int versionCode;
     private String updateUrl;
-    private String folder;
     private String screenshot;
+
+    private String relativePath;
 
     private Set<String> htmls = new HashSet<>();
     private List<String> flags = new ArrayList<>();
@@ -50,8 +51,6 @@ public class Template {
         File propFile = new File(templateFolder, "template.properties");
         Prop prop = new Prop(propFile, "utf-8");
 
-        this.folder = buildFolder(templateFolder);
-
         this.id = prop.get("id");
         this.title = prop.get("title");
         this.description = prop.get("description");
@@ -60,13 +59,25 @@ public class Template {
         this.version = prop.get("version");
         this.updateUrl = prop.get("updateUrl");
 
+        this.relativePath = FileUtil.removeRootPath(templateFolder.getAbsolutePath()).replace("\\", "/");
 
         String vcode = prop.get("versionCode");
         this.versionCode = StrUtil.isBlank(vcode) ? 1 : Integer.valueOf(vcode);
-        this.screenshot = getWebAbsolutePath() + "/screenshot.png";
+        this.screenshot = relativePath + "/screenshot.png";
 
-        String[] files = propFile
-                .getParentFile()
+        refresh();
+    }
+
+
+    public void refresh() {
+
+        this.htmls.clear();
+        this.flags.clear();
+
+        File path = getAbsolutePathFile();
+        Prop prop = new Prop(new File(path, "template.properties"), "utf-8");
+
+        String[] files = path
                 .list((dir, name) -> name.endsWith(".html"));
 
         if (files != null && files.length > 0) {
@@ -75,22 +86,8 @@ public class Template {
 
         String flagStrings = prop.get("flags");
         if (StrUtil.isNotBlank(flagStrings)) {
-            String[] strings = flagStrings.split(",");
-            for (String s : strings) {
-                if (StrUtil.isBlank(s)) {
-                    continue;
-                }
-                this.flags.add(s.trim());
-            }
+            this.flags.addAll(StrUtil.splitToSet(flagStrings, ","));
         }
-    }
-
-    private static String buildFolder(File templateFolder) {
-        String basePath = PathKit.getWebRootPath()
-                .concat(File.separator)
-                .concat("templates")
-                .concat(File.separator);
-        return FileUtil.removePrefix(templateFolder.getAbsolutePath(), basePath);
     }
 
 
@@ -227,13 +224,6 @@ public class Template {
         this.updateUrl = updateUrl;
     }
 
-    public String getFolder() {
-        return folder;
-    }
-
-    public void setFolder(String folder) {
-        this.folder = folder;
-    }
 
     public String getScreenshot() {
         return screenshot;
@@ -241,6 +231,14 @@ public class Template {
 
     public void setScreenshot(String screenshot) {
         this.screenshot = screenshot;
+    }
+
+    public String getRelativePath() {
+        return relativePath;
+    }
+
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
 
     public List<String> getFlags() {
@@ -251,17 +249,9 @@ public class Template {
         this.flags = flags;
     }
 
-    public String getAbsolutePath() {
-        StringBuilder path = new StringBuilder(PathKit.getWebRootPath())
-                .append(File.separator)
-                .append("templates")
-                .append(File.separator)
-                .append(folder);
-        return path.toString();
-    }
 
-    public String getWebAbsolutePath() {
-        return "/templates/" + folder;
+    public String buildRelativePath(String html) {
+        return new StringBuilder(relativePath).append("/").append(html).toString();
     }
 
     /**
@@ -289,8 +279,13 @@ public class Template {
     }
 
     public void uninstall() {
-        FileUtils.deleteQuietly(new File(getAbsolutePath()));
+        FileUtils.deleteQuietly(getAbsolutePathFile());
     }
+
+    public File getAbsolutePathFile() {
+        return new File(PathKit.getWebRootPath(), relativePath);
+    }
+
 
     public void addNewHtml(String htmlFileName) {
         htmls.add(htmlFileName);

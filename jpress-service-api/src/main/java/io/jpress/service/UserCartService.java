@@ -84,12 +84,6 @@ public interface UserCartService {
 
     public List<UserCart> findSelectedListByUserId(Long id);
 
-    public boolean doAddCountById(Object id);
-
-    public boolean doSubtractCountById(Object id);
-
-    public boolean batchDeleteByIds(Object... ids);
-
     public UserCart findByProductTablendProductId(String productTable, long productId);
 
     public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);

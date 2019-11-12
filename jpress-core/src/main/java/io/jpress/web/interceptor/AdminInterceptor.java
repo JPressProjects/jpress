@@ -22,14 +22,11 @@ import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
-import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.handler.JPressHandler;
-
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -87,11 +84,9 @@ public class AdminInterceptor implements Interceptor {
             return;
         }
 
-        List<MenuGroup> systemMenuGroups = MenuManager.me().getSystemMenus();
-        List<MenuGroup> moduleMenuGroups = MenuManager.me().getModuleMenus();
 
-        inv.getController().setAttr("systemMenuGroups", systemMenuGroups);
-        inv.getController().setAttr("moduleMenuGroups", moduleMenuGroups);
+        inv.getController().setAttr("systemMenuGroups",  MenuManager.me().getSystemMenus());
+        inv.getController().setAttr("moduleMenuGroups", MenuManager.me().getModuleMenus());
 
         inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
 

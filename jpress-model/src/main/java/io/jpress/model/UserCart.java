@@ -25,13 +25,18 @@ public class UserCart extends BaseUserCart<UserCart> {
             return BigDecimal.ZERO;
         }
 
+        BigDecimal memberPrice = getBigDecimal("memberPrice");
+        if (memberPrice != null && memberPrice.compareTo(BigDecimal.ZERO) >= 0) {
+            return memberPrice.multiply(BigDecimal.valueOf(getProductCount()));
+        }
+
 
         return getProductNewPrice()
                 .multiply(BigDecimal.valueOf(getProductCount()));
     }
 
 
-    public UserFavorite toFavorite(){
+    public UserFavorite toFavorite() {
         UserFavorite userFavorite = new UserFavorite();
         userFavorite.setCreated(new Date());
         userFavorite.setUserId(getUserId());

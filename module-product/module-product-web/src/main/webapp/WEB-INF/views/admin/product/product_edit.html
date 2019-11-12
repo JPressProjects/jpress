@@ -314,6 +314,44 @@
                             </div>
                         </div>
 
+                        #if(memberGroups)
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">会员价</h3>
+
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body ">
+                                        <div class="box-body ">
+
+                                            #for(group : memberGroups)
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">#(group.name ??)</label>
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
+                                                    <input type="text" class="form-control"
+                                                           name="memberGroupPrices" placeholder="" value="#number(group.priceInfo.price ??,'0.00')">
+                                                    <p class="help-block">#(group.name ??)购买该产品的价格。</p>
+                                                </div>
+                                            </div>
+                                            #end
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end memberGroups-->
+                        #end
+
+
 
                         <div class="form-group">
                             <div class="col-sm-12">
@@ -437,8 +475,6 @@
 <!--                                                    <p class="help-block">只是显示达到促进消费者购买欲的作用。</p>-->
                                                 </div>
                                             </div>
-
-
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">允许评论</label>
@@ -566,7 +602,7 @@
                                    id="articleThumbnail">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="jp-image-browser btn btn-default btn-sm "
+                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
                                     for-input="articleThumbnail">选择图片
                             </button>
@@ -585,7 +621,7 @@
                             <input type="hidden" value="#(product.video ??)" name="product.video" id="videoinput">
                         </div>
                         <div class="box-footer">
-                            <button type="button" class="jp-image-browser btn btn-default btn-sm "
+                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="videoimg"
                                     for-input="videoinput">选择视频
                             </button>

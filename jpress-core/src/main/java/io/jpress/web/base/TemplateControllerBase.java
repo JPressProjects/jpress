@@ -82,7 +82,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        view = template.getWebAbsolutePath() + "/" + view;
+        view = template.buildRelativePath(view);
         super.render(new TemplateRender(view));
     }
 
@@ -181,7 +181,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
         Template template = TemplateManager.me().getCurrentTemplate();
 
         if (paras != null && template != null) {
-            paras.put("TPATH", template.getWebAbsolutePath());
+            paras.put("TPATH", template.getRelativePath());
         }
 
         if ("default".equals(render)) {
@@ -191,7 +191,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             if (template != null) {
                 String matchedHtml = template.matchTemplateFile(render + ".html", isMobileBrowser());
                 if (matchedHtml != null) {
-                    String html = engine.getTemplate(template.getWebAbsolutePath() + "/" + matchedHtml)
+                    String html = engine.getTemplate(template.getRelativePath() + "/" + matchedHtml)
                             .renderToString(paras);
                     ret.set("html", html);
                 }

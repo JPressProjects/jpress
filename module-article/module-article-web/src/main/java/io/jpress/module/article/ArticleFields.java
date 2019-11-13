@@ -90,6 +90,16 @@ public class ArticleFields {
                 "填写外链后，浏览文章将会跳转到此链接。",
                 60));
 
+        fields.add(new SmartField("created",
+                "发布时间",
+                "article.created",
+                "请输入",
+                SmartField.TYPE_DATETIME,
+                null,
+                null,
+                null,
+                60));
+
 
         fields.add(new SmartField("comment_status",
                 "允许评论",

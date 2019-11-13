@@ -98,7 +98,7 @@ public class ArticleFields {
                 null,
                 null,
                 null,
-                60));
+                61));
 
 
         fields.add(new SmartField("comment_status",

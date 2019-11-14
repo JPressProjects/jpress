@@ -34,19 +34,28 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
-public class InstallUtil {
+public class InstallManager {
 
-    private static final Log log = Log.getLog(InstallUtil.class);
+    private static final Log log = Log.getLog(InstallManager.class);
 
+    private String jdbcUrl;
     private String dbName;
     private String dbUser;
     private String dbPassword;
 
-    private boolean initBefore = false;
-    private boolean jpressDb = false;
+    private DbExecuter dbExecuter;
 
-    private DbUtil dbUtil;
-    private String jdbcUrl;
+    private boolean dbExist = false;
+    private boolean isJPressDb = false;
+    private boolean isNeedUpgrade = false;
+    private String upgradeSqlFileName;
+
+
+    private static final InstallManager me = new InstallManager();
+
+    public static final InstallManager me() {
+        return me;
+    }
 
 
     public void init(
@@ -56,7 +65,7 @@ public class InstallUtil {
             String db_host,
             String db_host_port) {
 
-        dbUtil = new DbUtil(db_name, db_user, db_password, db_host, db_host_port);
+        dbExecuter = new DbExecuter(db_name, db_user, db_password, db_host, db_host_port);
 
         dbName = db_name;
         dbUser = db_user;
@@ -71,21 +80,34 @@ public class InstallUtil {
 
         List<String> tables = getTableList();
 
+        //空数据库
         if (ArrayUtil.isNullOrEmpty(tables)) {
-            setInitBefore(false);
-            setJpressDb(true);
-        } else if (tables.contains("attachment")
-                && tables.contains("option")
-                && tables.contains("menu")
-                && tables.contains("permission")
-                && tables.contains("role")
-                && tables.contains("user")
-                && tables.contains("utm")) {
 
-            setInitBefore(true);
-            setJpressDb(true);
-        } else {
-            setJpressDb(false);
+            dbExist = false;
+            isJPressDb = false;
+            isNeedUpgrade = false;
+        }
+
+        //2.x 版本
+        else if (tables.containsAll(Consts.V2_TABLES) && Consts.V2_TABLES.containsAll(tables)) {
+            dbExist = true;
+            isJPressDb = true;
+            isNeedUpgrade = true;
+            upgradeSqlFileName = "v2_upgrade.sql";
+        }
+
+        //已经是 v3 版本
+        else if (tables.containsAll(Consts.V3_TABLES) && Consts.V3_TABLES.containsAll(tables)) {
+            dbExist = true;
+            isJPressDb = true;
+            isNeedUpgrade = false;
+        }
+
+        //其他数据库
+        else {
+
+            dbExist = true;
+            isJPressDb = false;
         }
 
     }
@@ -160,7 +182,7 @@ public class InstallUtil {
 
     public List<String> getTableList() {
         try {
-            return dbUtil.query("show tables;");
+            return dbExecuter.query("show tables;");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -168,30 +190,33 @@ public class InstallUtil {
     }
 
 
-    public void initJPressTables() throws SQLException {
-        String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/mysql.sql";
+    public void doInitDatabase() throws SQLException {
+        String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/install.sql";
         String installSql = FileUtil.readString(new File(SqlFilePath));
-        dbUtil.executeSql(installSql);
+        dbExecuter.executeSql(installSql);
     }
 
+
+    public void doUpgradeDatabase() throws SQLException {
+        String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/";
+        String installSql = FileUtil.readString(new File(SqlFilePath, upgradeSqlFileName));
+        dbExecuter.executeSql(installSql);
+    }
 
     public DataSourceConfig getDataSourceConfig() {
-        return dbUtil.getDataSourceConfig();
+        return dbExecuter.getDataSourceConfig();
     }
 
-    public void setInitBefore(boolean initBefore) {
-        this.initBefore = initBefore;
+
+    public boolean isDbExist() {
+        return dbExist;
     }
 
-    public boolean isInitBefore() {
-        return initBefore;
+    public boolean isJPressDb() {
+        return isJPressDb;
     }
 
-    public boolean isJpressDb() {
-        return jpressDb;
-    }
-
-    public void setJpressDb(boolean jpressDb) {
-        this.jpressDb = jpressDb;
+    public boolean isNeedUpgrade() {
+        return isNeedUpgrade;
     }
 }

@@ -2,7 +2,7 @@
 #@layout()
 #define content()
 <form class="form-horizontal form-setting"
-      action="#(CPATH)/install/initdb" method="post" id="form">
+      action="#(CPATH)/install/gotoStep3" method="post" id="form">
     <div class="form-group">
         <div class="col-sm-12">
             请填写数据库的相关信息。
@@ -91,7 +91,7 @@
                 if (data.state == "ok") {
                     location.href = "#(CPATH)/install/step3";
                 } else if (data.errorCode) {
-                    alert(data.message + ",错误码：" + data.errorCode)
+                    alert(data.message)
                 } else {
                     location.href = "#(CPATH)/install/error";
                 }

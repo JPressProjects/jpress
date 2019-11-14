@@ -39,7 +39,7 @@
         <commonmark.version>0.12.1</commonmark.version>
         <aliyunoss.version>3.4.2</aliyunoss.version>
         <httpclient.version>4.5.3</httpclient.version>
-        <fasterxml.version>2.9.9</fasterxml.version>
+        <fasterxml.version>2.10.1</fasterxml.version>
         <commons-codec.version>1.10</commons-codec.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

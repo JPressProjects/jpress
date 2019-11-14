@@ -113,10 +113,6 @@ public class InstallManager {
 
     }
 
-    public File getLockFile() {
-        return new File(PathKit.getRootClassPath(), "install.lock");
-    }
-
 
     public boolean initJpressProperties() {
 

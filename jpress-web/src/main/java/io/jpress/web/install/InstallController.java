@@ -18,6 +18,7 @@ package io.jpress.web.install;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
@@ -498,7 +499,7 @@ public class InstallController extends ControllerBase {
 
     private boolean doCreatedInstallLockFiles() {
         try {
-            File lockFile = InstallManager.me().getLockFile();
+            File lockFile =  new File(PathKit.getRootClassPath(), "install.lock");
             lockFile.createNewFile();
 
             InstallManager.me().initJpressProperties();

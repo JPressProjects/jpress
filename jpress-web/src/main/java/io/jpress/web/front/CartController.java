@@ -105,7 +105,7 @@ public class CartController extends UcenterControllerBase {
 
         for (String idvalue : ids) {
             UserCart cart = cartService.findById(idvalue);
-            if (cart != null && isLogineUserModel(cart)) {
+            if (cart != null && isLoginedUserModel(cart)) {
                 cart.setSelected(true);
                 cartService.update(cart);
             }
@@ -124,7 +124,7 @@ public class CartController extends UcenterControllerBase {
         Set<String> ids = StrUtil.splitToSet(getPara("id"), ",");
         for (String idvalue : ids) {
             UserCart cart = cartService.findById(idvalue);
-            if (cart != null && isLogineUserModel(cart)) {
+            if (cart != null && isLoginedUserModel(cart)) {
                 cart.setSelected(false);
                 cartService.update(cart);
             }
@@ -163,7 +163,7 @@ public class CartController extends UcenterControllerBase {
     })
     public void addcount() {
         UserCart userCart = cartService.findById(getPara("id"));
-        if (notLogineUserModel(userCart)) {
+        if (notLoginedUserModel(userCart)) {
             renderFailJson();
             return;
         }
@@ -182,7 +182,7 @@ public class CartController extends UcenterControllerBase {
     })
     public void subtractcount() {
         UserCart userCart = cartService.findById(getPara("id"));
-        if (notLogineUserModel(userCart)) {
+        if (notLoginedUserModel(userCart)) {
             renderFailJson();
             return;
         }
@@ -200,7 +200,7 @@ public class CartController extends UcenterControllerBase {
      */
     public void doDel() {
         UserCart userCart = cartService.findById(getPara("id"));
-        if (notLogineUserModel(userCart)) {
+        if (notLoginedUserModel(userCart)) {
             renderFailJson();
             return;
         }

@@ -43,23 +43,23 @@ public abstract class UcenterControllerBase extends ControllerBase {
     }
 
     @NotAction
-    public boolean notLogineUserModel(Model model) {
-        return !isLogineUserModel(model, "user_id");
+    public boolean notLoginedUserModel(Model model) {
+        return !isLoginedUserModel(model, "user_id");
     }
 
     @NotAction
-    public boolean notLogineUserModel(Model model, String attrName) {
-        return !isLogineUserModel(model, attrName);
+    public boolean notLoginedUserModel(Model model, String attrName) {
+        return !isLoginedUserModel(model, attrName);
     }
 
 
     @NotAction
-    public boolean isLogineUserModel(Model model) {
-        return isLogineUserModel(model, "user_id");
+    public boolean isLoginedUserModel(Model model) {
+        return isLoginedUserModel(model, "user_id");
     }
 
     @NotAction
-    public boolean isLogineUserModel(Model model, String attrName) {
+    public boolean isLoginedUserModel(Model model, String attrName) {
         if (model == null) return false;
         Object userId = model.get(attrName);
         return userId != null && userId.equals(getLoginedUser().getId());

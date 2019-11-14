@@ -103,7 +103,7 @@ public class CheckoutController extends UcenterControllerBase {
 
     public void order() {
         UserOrder order = userOrderService.findById(getPara());
-        render404If(notLogineUserModel(order, "buyer_id"));
+        render404If(notLoginedUserModel(order, "buyer_id"));
 
         PayConfigUtil.setConfigAttrs(this);
 
@@ -283,7 +283,7 @@ public class CheckoutController extends UcenterControllerBase {
     @UrlParaValidate
     public void payorder() {
         UserOrder userOrder = userOrderService.findById(getPara());
-        render404If(notLogineUserModel(userOrder, "buyer_id"));
+        render404If(notLoginedUserModel(userOrder, "buyer_id"));
 
         PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());
         if (payment == null) {

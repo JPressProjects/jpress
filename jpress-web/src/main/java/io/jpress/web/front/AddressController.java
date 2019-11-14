@@ -40,7 +40,7 @@ public class AddressController extends UcenterControllerBase {
         Long id = getParaToLong("id");
         if (id != null) {
             UserAddress data = userAddressService.findById(id);
-            render404If(notLogineUserModel(data));
+            render404If(notLoginedUserModel(data));
             setAttr("data", data);
         }
         render("address_edit.html");

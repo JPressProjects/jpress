@@ -88,20 +88,21 @@ public class InstallManager {
             isNeedUpgrade = false;
         }
 
+        //已经是 v3 版本
+        else if (tables.containsAll(Consts.V3_TABLES)) {
+            dbExist = true;
+            isJPressDb = true;
+            isNeedUpgrade = false;
+        }
+
         //2.x 版本
-        else if (tables.containsAll(Consts.V2_TABLES) && Consts.V2_TABLES.containsAll(tables)) {
+        else if (tables.containsAll(Consts.V2_TABLES)) {
             dbExist = true;
             isJPressDb = true;
             isNeedUpgrade = true;
             upgradeSqlFileName = "v2_upgrade.sql";
         }
 
-        //已经是 v3 版本
-        else if (tables.containsAll(Consts.V3_TABLES) && Consts.V3_TABLES.containsAll(tables)) {
-            dbExist = true;
-            isJPressDb = true;
-            isNeedUpgrade = false;
-        }
 
         //其他数据库
         else {

@@ -16,11 +16,12 @@
 package io.jpress.commons.pay;
 
 
+import com.egzosn.pay.common.util.sign.SignUtils;
 import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
-public class WechatPayConfig extends PayConfigBase{
+public class WechatPayConfig extends PayConfigBase {
 
     private boolean enable;
     private String mchId;
@@ -89,6 +90,8 @@ public class WechatPayConfig extends PayConfigBase{
         storage.setKeyPrivate(getPrivateKey());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
+        storage.setSignType(SignUtils.RSA.name());
+        storage.setInputCharset("utf-8");
 
 //        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
 //        httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));
@@ -99,7 +102,6 @@ public class WechatPayConfig extends PayConfigBase{
 
         return storage;
     }
-
 
 
 }

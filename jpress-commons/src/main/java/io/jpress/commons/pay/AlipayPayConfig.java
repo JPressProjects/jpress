@@ -17,6 +17,7 @@ package io.jpress.commons.pay;
 
 
 import com.egzosn.pay.ali.api.AliPayConfigStorage;
+import com.egzosn.pay.common.util.sign.SignUtils;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
@@ -101,7 +102,8 @@ public class AlipayPayConfig extends PayConfigBase{
         storage.setSeller(getSeller());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
-        storage.setSignType("RSA");
+        storage.setSignType(SignUtils.RSA.name());
+        storage.setInputCharset("utf-8");
         return storage;
     }
 }

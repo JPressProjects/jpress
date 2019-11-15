@@ -1,5 +1,6 @@
 package io.jpress.web.front;
 
+import com.alibaba.fastjson.JSON;
 import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayService;
@@ -11,6 +12,7 @@ import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
 import io.jpress.core.payment.PaymentManager;
@@ -20,13 +22,15 @@ import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.commons.pay.PayConfigUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
+
+import static io.jpress.web.commons.pay.MemberPaymentSuccessListener.LOG;
 
 @RequestMapping(value = "/pay")
 public class PayController extends TemplateControllerBase {
@@ -283,13 +287,9 @@ public class PayController extends TemplateControllerBase {
 
 
         String trxNo = String.valueOf(params.get("out_trade_no"));
-
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
 
-        payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
-        payment.setPayCompleteTime(new Date());
-        payment.setPaySuccessTime(new Date());
-        payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
+
 
 
         //微信支付
@@ -323,6 +323,10 @@ public class PayController extends TemplateControllerBase {
             payment.setThirdpartyType("paypal");
         }
 
+        payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
+        payment.setPayCompleteTime(new Date());
+        payment.setPaySuccessTime(new Date());
+        payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
         if (paymentService.update(payment)) {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
         }
@@ -344,7 +348,60 @@ public class PayController extends TemplateControllerBase {
         }
     }
 
-    public void back(){
+
+    public void back() throws IOException {
+
+        PayService service = getPayService();
+        render404If(service == null);
+
+        Map<String, String[]> parameterMap = getRequest().getParameterMap();
+        InputStream is = getRequest().getInputStream();
+
+        Map<String, Object> params = service.getParameter2Map(parameterMap, is);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("回调响应:" + JSON.toJSONString(params));
+        }
+
+        String trxNo = String.valueOf(params.get("out_trade_no"));
+
+        if (!service.verify(params)) {
+//            return service.getPayOutMessage("fail", "失败");
+            redirect("/pay/fail/" + trxNo);
+            return;
+        }
+
+
+//        PayMessage payMessage = service.createMessage(params);
+//        Map<String, Object> context = new HashMap<String, Object>();
+//        for (PayMessageInterceptor interceptor : interceptors) {
+//            if (!interceptor.intercept(payMessage, context, this)) {
+//                return successPayOutMessage(payMessage);
+//            }
+//        }
+
+
+        //支付宝支付
+        if (service instanceof AliPayService) {
+
+            //交易状态
+            String trade_status = (String) params.get("trade_status");
+
+            //交易完成
+            if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
+                redirect("/pay/success/" + trxNo);
+                return;
+            }
+        }
+
+        //微信支付
+        else if (service instanceof WxPayService) {
+            if ("SUCCESS".equals(params.get("result_code"))){
+                redirect("/pay/success/" + trxNo);
+                return;
+            }
+        }
+
+        redirect("/pay/fail/" + trxNo);
 
     }
 

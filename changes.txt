@@ -1,3 +1,26 @@
+jpress v3.0.0-beta.1:
+新增：JPress v2 平滑升级到 v3 的功能
+新增：微信回复的默认回复功能支持回复任何的数据类型
+新增：后台订单详情详细显示每个订单项的分销人及分销金额
+新增：文章新增可以自定义文章发布时间的功能
+新增：#articles 指令新增可以传入多个 flag 的功能
+修复：defaultArticleCommentItem 和 defaultProductCommentItem 在关闭评论时任然显示回复按钮的问题
+修复：产品和文章评论时，当有父级评论时无法正确显示的问题
+修复：当开启阿里云的 OpenSearcher 或 Es，但是填写的配置不正确时，无法保存文章的问题
+修复：新增当产生分销时，分享着无法正确获取收入的问题
+修复：JsoupUtil.getText() 会对 escape 内容进行转换的问题
+修复：优惠券编辑时可能出错的问题
+修复：微信在线支付和支付宝在线支付无法正确显示二维码的问题
+优化：defaultArticleCommentItem 和 defaultProductCommentItem 的回复样式
+优化：优化微信回复的 placeholder 的内容
+优化：优化选择图片组件默认图片以及UI间距等问题
+优化：jp-image-browser class 修改为 btn-image-browser
+优化：删除 payment 以及 userOrder 表的无用字段
+优化：修改 isLogineUserModel() 和 notLogineUserModel() 为 isLoginedUserModel() 和 notLoginedUserModel()
+优化：升级 Jboot 到 v2.2.7 最新版本
+
+
+
 jpress v3.0.0-alpha.2:
 新增：新增后台产品的编辑页面，添加会员价的功能
 新增：购物车以及结算台新增会员价的展示功能

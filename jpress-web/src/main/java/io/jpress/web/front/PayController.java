@@ -12,6 +12,7 @@ import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
@@ -137,6 +138,13 @@ public class PayController extends TemplateControllerBase {
      * 支付宝扫码支付
      */
     public void alipay() {
+
+        boolean qrcodePayEnable = JPressOptions.getAsBool("alipay_qrcode_pay_enable");
+        if (!qrcodePayEnable) {
+            redirect("/pay/alipayweb/" + getPara());
+            return;
+        }
+
         PayService service = PayConfigUtil.getAlipayService();
         render404If(service == null);
 

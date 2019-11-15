@@ -90,7 +90,7 @@ public class WechatPayConfig extends PayConfigBase {
         storage.setKeyPrivate(getPrivateKey());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
-        storage.setSignType(SignUtils.RSA.name());
+        storage.setSignType(SignUtils.HMACSHA256.name());
         storage.setInputCharset("utf-8");
 
 //        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();

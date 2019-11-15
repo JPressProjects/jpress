@@ -102,7 +102,7 @@ public class AlipayPayConfig extends PayConfigBase{
         storage.setSeller(getSeller());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
-        storage.setSignType(SignUtils.RSA.name());
+        storage.setSignType(SignUtils.RSA2.name());
         storage.setInputCharset("utf-8");
         return storage;
     }

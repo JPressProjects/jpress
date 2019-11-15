@@ -398,7 +398,6 @@ public class PayController extends TemplateControllerBase {
         String trxNo = getTrxNo(params);
 
         if (!service.verify(params)) {
-//            return service.getPayOutMessage("fail", "失败");
             redirect("/pay/fail/" + trxNo);
             return;
         }

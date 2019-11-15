@@ -133,6 +133,14 @@ wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-comp
 curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
+**Eclipse 或者 Idea 等开发工具**
+
+- 1、安装好 Java、Maven 等工具
+- 2、导入开发工具后，通过 `mvn clean install` 进行编译
+- 3、右键运行 starter/src/main/java/io.jpress.Starter 的 `main()`
+- 4、访问 `http://127.0.0.1:8080`
+
+
 ## 微信交流群
 
 ![](./doc/images/jpress-wechat-group.png)

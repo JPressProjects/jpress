@@ -99,6 +99,7 @@ public class AlipayPayConfig extends PayConfigBase{
         storage.setKeyPrivate(getPrivateKey());
         storage.setSeller(getSeller());
         storage.setNotifyUrl(getCallbackUrl());
+        storage.setSignType("RSA");
         return storage;
     }
 }

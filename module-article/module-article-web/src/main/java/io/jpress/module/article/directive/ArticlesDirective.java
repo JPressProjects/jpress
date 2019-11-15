@@ -20,7 +20,6 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
@@ -51,22 +50,9 @@ public class ArticlesDirective extends JbootDirectiveBase {
 
 
         Columns columns = Columns.create();
-        if (StrUtil.isNotBlank(flag)) {
-            if (flag.contains(",")) {
-                columns.in("flag", StrUtil.splitToSet(flag, ",").toArray());
-            } else {
-                columns.eq("flag", flag);
-            }
-        }
 
-        if (StrUtil.isNotBlank(style)) {
-            if (style.contains(",")) {
-                columns.in("style", StrUtil.splitToSet(style, ",").toArray());
-            } else {
-                columns.eq("style", style);
-            }
-        }
-
+        columns.add("flag", flag);
+        columns.add("style", style);
         columns.add("status", Article.STATUS_NORMAL);
 
         if (hasThumbnail != null) {

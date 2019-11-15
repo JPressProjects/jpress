@@ -17,8 +17,14 @@ package io.jpress.web.front;
 
 
 import com.jfinal.core.Controller;
+import com.jfinal.kit.Base64Kit;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.commons.SnowFlake;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class PayKit {
 
@@ -30,8 +36,20 @@ public class PayKit {
         controller.redirect("/pay/" + paytype + "/" + trxno);
     }
 
-    private static final SnowFlake SNOW_FLAKE = new SnowFlake(1,1);
-    public static String genOrderNS(){
+    private static final SnowFlake SNOW_FLAKE = new SnowFlake(1, 1);
+
+    public static String genOrderNS() {
         return String.valueOf(SNOW_FLAKE.genNextId());
+    }
+
+    public static String image2base64Str(BufferedImage image) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "png", baos);
+            String base64Str = Base64Kit.encode(baos.toByteArray());
+            return "data:image/jpg;base64," + base64Str;
+        }finally {
+            baos.close();
+        }
     }
 }

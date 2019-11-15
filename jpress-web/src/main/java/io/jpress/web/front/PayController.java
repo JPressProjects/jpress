@@ -84,9 +84,14 @@ public class PayController extends TemplateControllerBase {
         order.setTransactionType(WxTransactionType.NATIVE); //扫码付
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
+        try {
+            String base64Str = PayKit.image2base64Str(image);
+            setAttr("qrcode_base64str", base64Str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
-
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
     }
 
@@ -102,7 +107,7 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
-        order.setTransactionType(WxTransactionType.JSAPI); //扫码付
+        order.setTransactionType(WxTransactionType.JSAPI);
         Map<String, Object> infos = service.orderInfo(order);
 
         setAttr("infos", infos);
@@ -139,8 +144,16 @@ public class PayController extends TemplateControllerBase {
         order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
         //获取扫码付的二维码
 
-        setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
+        BufferedImage image = service.genQrPay(order);
 
+        try {
+            String base64Str = PayKit.image2base64Str(image);
+            setAttr("qrcode_base64str", base64Str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
     }
 
@@ -363,12 +376,14 @@ public class PayController extends TemplateControllerBase {
 
 
     private PayOrder createPayOrder(PaymentRecord payment) {
-        return new PayOrder(
+        PayOrder payOrder = new PayOrder(
                 payment.getProductTitle(),
                 payment.getProductSummary(),
                 payment.getPayAmount(),
                 payment.getTrxNo());
 
+        payOrder.setSpbillCreateIp(getIPAddress());
+        return payOrder;
     }
 
 

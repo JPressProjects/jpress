@@ -29,12 +29,12 @@ public class WechatPayConfig extends PayConfigBase{
     private String privateKey;
 
     public WechatPayConfig() {
+        super("wechat");
         setEnable(JPressOptions.getAsBool("wechat_pay_enable"));
         setMchId(JPressOptions.get("wechat_pay_mchId"));
         setAppid(JPressOptions.get("wechat_pay_appid"));
         setPublicKey(JPressOptions.get("wechat_pay_publicKey"));
         setPrivateKey(JPressOptions.get("wechat_pay_secretKey"));
-        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/alipay");
     }
 
     public boolean isConfigOk() {

@@ -27,10 +27,10 @@ public class PaypalPayConfig extends PayConfigBase{
     private String clientSecret;
 
     public PaypalPayConfig() {
+        super("paypal");
         setEnable(JPressOptions.getAsBool("paypal_pay_enable"));
         setClientId(JPressOptions.get("paypal_pay_clientid"));
         setClientSecret(JPressOptions.get("paypal_pay_clientsecret"));
-        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/paypal");
     }
 
     public boolean isConfigOk() {

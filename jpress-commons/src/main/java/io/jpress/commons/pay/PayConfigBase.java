@@ -24,8 +24,9 @@ public class PayConfigBase {
 
     private String returnUrl;
 
-    public PayConfigBase() {
-        setReturnUrl(JPressOptions.get("web_domain") + "/pay/back");
+    public PayConfigBase(String name) {
+        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/" + name);
+        setReturnUrl(JPressOptions.get("web_domain") + "/pay/back/" + name);
     }
 
     public String getCallbackUrl() {

@@ -29,14 +29,15 @@ public class AlipayPayConfig extends PayConfigBase{
     private String privateKey;
     private String seller;
 
+
     public AlipayPayConfig() {
+        super("alipay");
         setEnable(JPressOptions.getAsBool("alipay_pay_enable"));
         setPid(JPressOptions.get("alipay_pay_pid"));
         setAppid(JPressOptions.get("alipay_pay_appid"));
         setPublicKey(JPressOptions.get("alipay_pay_publicKey"));
         setPrivateKey(JPressOptions.get("alipay_pay_privateKey"));
         setSeller(JPressOptions.get("alipay_pay_seller"));
-        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/alipay");
     }
 
     public boolean isConfigOk() {

@@ -286,52 +286,79 @@ public class PayController extends TemplateControllerBase {
         }
 
 
-        String trxNo = String.valueOf(params.get("out_trade_no"));
+        String trxNo = getTrxNo(params);
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-
-
 
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
         if (service instanceof WxPayService) {
-            payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
-            payment.setPayBankType(String.valueOf(params.get("bank_type")));
-            payment.setThirdpartyType("wechat");
-            payment.setThirdpartyAppid(String.valueOf(params.get("appid")));
-            payment.setThirdpartyMchId(String.valueOf(params.get("mch_id")));
-            payment.setThirdpartyTradeType(String.valueOf(params.get("trade_type")));
-            payment.setThirdpartyTransactionId(String.valueOf(params.get("transaction_id")));
-            payment.setThirdpartyUserOpenid(String.valueOf(params.get("openid")));
+            //交易成功
+            if ("SUCCESS".equals(params.get("result_code"))) {
+                payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
+                payment.setPayBankType(String.valueOf(params.get("bank_type")));
+                payment.setThirdpartyType("wechat");
+                payment.setThirdpartyAppid(String.valueOf(params.get("appid")));
+                payment.setThirdpartyMchId(String.valueOf(params.get("mch_id")));
+                payment.setThirdpartyTradeType(String.valueOf(params.get("trade_type")));
+                payment.setThirdpartyTransactionId(String.valueOf(params.get("transaction_id")));
+                payment.setThirdpartyUserOpenid(String.valueOf(params.get("openid")));
+            } else {
+                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                return;
+            }
+
         }
 
         //支付宝支付
         //https://open.alipay.com/developmentDocument.htm
         else if (service instanceof AliPayService) {
-            payment.setPayStatus(PayStatus.SUCCESS_ALIPAY.getStatus());
-            payment.setThirdpartyType("alipay");
-            payment.setThirdpartyAppid(String.valueOf(params.get("app_id")));
-            payment.setThirdpartyMchId(String.valueOf(params.get("seller_id")));
+            //交易状态
+            String trade_status = (String) params.get("trade_status");
+            //交易完成
+            if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
+
+
+                payment.setPayStatus(PayStatus.SUCCESS_ALIPAY.getStatus());
+                payment.setThirdpartyType("alipay");
+                payment.setThirdpartyAppid(String.valueOf(params.get("app_id")));
+                payment.setThirdpartyMchId(String.valueOf(params.get("seller_id")));
 //            payment.setThirdpartyTradeType(String.valueOf(params.get("trade_type")));
-            payment.setThirdpartyTransactionId(String.valueOf(params.get("trade_no")));
-            payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
+                payment.setThirdpartyTransactionId(String.valueOf(params.get("trade_no")));
+                payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
+            } else {
+                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                return;
+            }
         }
 
         //Paypal支付
+        //https://blog.csdn.net/weixin_42152023/article/details/93097326
         else if (service instanceof PayPalPayService) {
-            payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
-            payment.setThirdpartyType("paypal");
+
+//            if ("Completed".equals(params.get("payment_status")) && "verified".equals(params.get("payer_status"))){
+            if ("Completed".equals(params.get("payment_status"))) {
+                payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
+                payment.setThirdpartyType("paypal");
+                payment.setThirdpartyUserOpenid(getPara("payer_id"));
+            } else {
+                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                return;
+            }
         }
 
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
         payment.setPayCompleteTime(new Date());
         payment.setPaySuccessTime(new Date());
         payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
+
         if (paymentService.update(payment)) {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
+            renderText(service.getPayOutMessage("success", "成功").toMessage());
+        } else {
+            renderText(service.getPayOutMessage("fail", "失败").toMessage());
         }
 
-        renderText(service.getPayOutMessage("success", "成功").toMessage());
     }
 
 
@@ -348,6 +375,12 @@ public class PayController extends TemplateControllerBase {
         }
     }
 
+    private String getTrxNo(Map<String, Object> params) {
+        return getPayService() instanceof PayPalPayService
+                ? getPara("invoice")
+                : String.valueOf(params.get("out_trade_no"));
+    }
+
 
     public void back() throws IOException {
 
@@ -362,22 +395,13 @@ public class PayController extends TemplateControllerBase {
             LOG.debug("回调响应:" + JSON.toJSONString(params));
         }
 
-        String trxNo = String.valueOf(params.get("out_trade_no"));
+        String trxNo = getTrxNo(params);
 
         if (!service.verify(params)) {
 //            return service.getPayOutMessage("fail", "失败");
             redirect("/pay/fail/" + trxNo);
             return;
         }
-
-
-//        PayMessage payMessage = service.createMessage(params);
-//        Map<String, Object> context = new HashMap<String, Object>();
-//        for (PayMessageInterceptor interceptor : interceptors) {
-//            if (!interceptor.intercept(payMessage, context, this)) {
-//                return successPayOutMessage(payMessage);
-//            }
-//        }
 
 
         //支付宝支付
@@ -395,7 +419,17 @@ public class PayController extends TemplateControllerBase {
 
         //微信支付
         else if (service instanceof WxPayService) {
-            if ("SUCCESS".equals(params.get("result_code"))){
+            if ("SUCCESS".equals(params.get("result_code"))) {
+                redirect("/pay/success/" + trxNo);
+                return;
+            }
+        }
+
+        //paypal 支付
+        else if (service instanceof PayPalPayService) {
+
+//            if ("Completed".equals(params.get("payment_status")) && "verified".equals(params.get("payer_status"))){
+            if ("Completed".equals(params.get("payment_status"))) {
                 redirect("/pay/success/" + trxNo);
                 return;
             }

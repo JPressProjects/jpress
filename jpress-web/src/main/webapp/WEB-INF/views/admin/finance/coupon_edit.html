@@ -46,13 +46,13 @@
                                 <label class="col-sm-2 control-label">类型</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="coupon.type" >
-                                        <option value="1" #selectedIf(coupon.type == 1)>
+                                        <option value="1" #selectedIf(coupon && coupon.type == 1)>
                                             满减券
                                         </option>
-                                        <option value="2" #selectedIf(coupon.type == 2)>
+                                        <option value="2" #selectedIf(coupon && coupon.type == 2)>
                                             叠加满减券
                                         </option>
-                                        <option value="3" #selectedIf(coupon.type == 3)>
+                                        <option value="3" #selectedIf(coupon && coupon.type == 3)>
                                             无门槛券
                                         </option>
                                     </select>

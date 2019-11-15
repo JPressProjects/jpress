@@ -88,6 +88,7 @@ public class WechatPayConfig extends PayConfigBase{
         storage.setKeyPublic(getPublicKey());
         storage.setKeyPrivate(getPrivateKey());
         storage.setNotifyUrl(getCallbackUrl());
+        storage.setReturnUrl(getReturnUrl());
 
 //        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
 //        httpConfigStorage.setKeystore(WxPayController.class.getResourceAsStream("/证书文件"));

@@ -344,6 +344,10 @@ public class PayController extends TemplateControllerBase {
         }
     }
 
+    public void back(){
+
+    }
+
 
     /**
      * web 页面支付成功后跳转回的 url 地址

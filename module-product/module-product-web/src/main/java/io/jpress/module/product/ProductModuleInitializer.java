@@ -15,11 +15,13 @@
  */
 package io.jpress.module.product;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
+import io.jpress.core.payment.DistManager;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ import java.util.List;
  * @Title: 产品模块初始化
  * @Package io.jpress
  */
-public class ProductModuleInitializer  extends JbootAppListenerBase implements ModuleListener {
+public class ProductModuleInitializer extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override
@@ -58,6 +60,7 @@ public class ProductModuleInitializer  extends JbootAppListenerBase implements M
 
     }
 
+
     @Override
     public void onEngineConfig(Engine engine) {
         engine.addSharedFunction("/WEB-INF/views/commons/product/defaultProductCommentPage.html");
@@ -65,5 +68,8 @@ public class ProductModuleInitializer  extends JbootAppListenerBase implements M
     }
 
 
-
+    @Override
+    public void onStart() {
+        DistManager.me().registerDistAmountGetter("product", Aop.get(ProductDistAmountGetter.class));
+    }
 }

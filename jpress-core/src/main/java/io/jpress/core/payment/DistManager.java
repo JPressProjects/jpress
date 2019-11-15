@@ -20,13 +20,14 @@ import com.jfinal.log.Log;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DistManager {
 
     private static final Log LOG = Log.getLog(DistManager.class);
 
-    public static final DistManager me = new DistManager();
+    private static final DistManager me = new DistManager();
 
     private DistManager() {
     }
@@ -35,7 +36,7 @@ public class DistManager {
         return me;
     }
 
-    public Map<String, DistAmountGetter> amountGetters = new ConcurrentHashMap<>();
+    private Map<String, DistAmountGetter> amountGetters = new ConcurrentHashMap<>();
 
     public Map<String, DistAmountGetter> getAmountGetters() {
         return amountGetters;
@@ -52,6 +53,10 @@ public class DistManager {
     public BigDecimal getAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
         DistAmountGetter getter = amountGetters.get(tableName);
         if (getter == null) {
+            return BigDecimal.ZERO;
+        }
+
+        if (Objects.equals(payerUserId, distUserId)) {
             return BigDecimal.ZERO;
         }
 

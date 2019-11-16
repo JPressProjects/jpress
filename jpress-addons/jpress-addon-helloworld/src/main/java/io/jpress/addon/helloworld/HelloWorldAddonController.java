@@ -23,6 +23,6 @@ public class HelloWorldAddonController extends JbootController {
     @ActionKey("/admin/addon/test")
     @AdminMenu(groupId = JPressConsts.SYSTEM_MENU_ADDON, text = "插件测试")
     public void adminmenutest() {
-        renderText("addon test");
+        renderText("addon test abc");
     }
 }

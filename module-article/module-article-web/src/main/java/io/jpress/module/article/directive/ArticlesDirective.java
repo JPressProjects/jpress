@@ -20,15 +20,12 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleService;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -52,18 +49,10 @@ public class ArticlesDirective extends JbootDirectiveBase {
         int count = getParaToInt("count", scope, 10);
 
 
-        Columns columns = Columns.create("flag", flag);
+        Columns columns = Columns.create();
 
-        if (StrUtil.isNotBlank(style)) {
-            if (style.contains(",")) {
-                List<String> styleParas = Arrays.stream(style.split(","))
-                        .filter(StrUtil::notBlank).map(s -> s.trim()).collect(Collectors.toList());
-                columns.in("style", styleParas.toArray());
-            } else {
-                columns.add("style", style);
-            }
-        }
-
+        columns.add("flag", flag);
+        columns.add("style", style);
         columns.add("status", Article.STATUS_NORMAL);
 
         if (hasThumbnail != null) {

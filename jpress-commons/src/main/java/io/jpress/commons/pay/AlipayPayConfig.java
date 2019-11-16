@@ -17,6 +17,7 @@ package io.jpress.commons.pay;
 
 
 import com.egzosn.pay.ali.api.AliPayConfigStorage;
+import com.egzosn.pay.common.util.sign.SignUtils;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
@@ -29,14 +30,15 @@ public class AlipayPayConfig extends PayConfigBase{
     private String privateKey;
     private String seller;
 
+
     public AlipayPayConfig() {
+        super("alipay");
         setEnable(JPressOptions.getAsBool("alipay_pay_enable"));
         setPid(JPressOptions.get("alipay_pay_pid"));
         setAppid(JPressOptions.get("alipay_pay_appid"));
         setPublicKey(JPressOptions.get("alipay_pay_publicKey"));
         setPrivateKey(JPressOptions.get("alipay_pay_privateKey"));
         setSeller(JPressOptions.get("alipay_pay_seller"));
-        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/alipay");
     }
 
     public boolean isConfigOk() {
@@ -99,6 +101,9 @@ public class AlipayPayConfig extends PayConfigBase{
         storage.setKeyPrivate(getPrivateKey());
         storage.setSeller(getSeller());
         storage.setNotifyUrl(getCallbackUrl());
+        storage.setReturnUrl(getReturnUrl());
+        storage.setSignType(SignUtils.RSA2.name());
+        storage.setInputCharset("utf-8");
         return storage;
     }
 }

@@ -1,18 +1,7 @@
 var productInfo = {
-    spec : null
+    spec: null
 };
 
-function getCookie(name) {
-    var cookieString = document.cookie;
-    var cookies = cookieString.split("; ");
-    for (var i = 0; i < cookies.length; i++) {
-        var arr = cookies[i].split("=");
-        if (arr[0] == name) {
-            return arr[1];
-        }
-    }
-    return null;
-}
 
 /*
 添加到购物车
@@ -20,7 +9,6 @@ function getCookie(name) {
 function addProductToCart(productId, productSpec, okFunction, failFunction) {
     ajaxPost(getContextPaht() + '/product/doAddCart', {
             id: productId,
-            distuid : getCookie("distuid"),
             spec: productSpec
         },
         okFunction ? okFunction : function () {
@@ -47,10 +35,6 @@ function addProductToFavorite(productId, okFunction, failFunction) {
 }
 
 
-
-
-
-
 /*
 购买产品
  */
@@ -62,7 +46,7 @@ function buyPrudct(productId, okFunction, failFunction) {
         okFunction ? okFunction : function (data) {
             if (data.gotoUrl) {
                 // location.href = data.gotoUrl;
-                window.open(data.gotoUrl,'_blank')
+                window.open(data.gotoUrl, '_blank')
             }
         },
         failFunction ? failFunction : function () {
@@ -81,7 +65,7 @@ function getContextPaht() {
 
 
 function ajaxPost(url, data, okFunction, failFunction) {
-    $.post(url, data,function (result) {
+    $.post(url, data, function (result) {
         if (result.state == 'ok') {
             okFunction(result);
         } else {
@@ -90,12 +74,12 @@ function ajaxPost(url, data, okFunction, failFunction) {
     });
 }
 
-function setProductSpec(spec){
+function setProductSpec(spec) {
     console.log("setProductSpec : " + spec)
     productInfo.spec = spec;
 }
 
-function initSwiperComponent(){
+function initSwiperComponent() {
 
     var galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
@@ -130,14 +114,14 @@ function initCommentComponent() {
                 $('#comment-vcode').click();
 
                 if (data.state == "ok") {
-                    if (data.html){
-                        if ($(".comment-page > div:first-child").length > 0){
+                    if (data.html) {
+                        if ($(".comment-page > div:first-child").length > 0) {
                             $(".comment-page > div:first-child").before(data.html);
-                        }else {
+                        } else {
                             $(".comment-page").html(data.html);
                         }
                         $('.comment-textarea textarea').val('');
-                    }else {
+                    } else {
                         alert('发布评论成功');
                         location.reload();
                     }
@@ -147,7 +131,7 @@ function initCommentComponent() {
                     alert('评论失败：' + data.message);
                     if (data.errorCode == 9 && data.gotoUrl) {
                         location.href = data.gotoUrl;
-                    }else {
+                    } else {
                         $('.comment-textarea textarea').val('');
                     }
                 }
@@ -160,7 +144,7 @@ function initCommentComponent() {
     });
 
 
-    $('body').on('click','.toReplyComment', function () {
+    $('body').on('click', '.toReplyComment', function () {
         $('#comment-pid').val($(this).attr('data-cid'));
         $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
         $('.comment-textarea textarea').focus();
@@ -169,9 +153,9 @@ function initCommentComponent() {
 }
 
 
-$(document).ready(function(){
+$(document).ready(function () {
 
-    $(".product-specs li").click(function(){
+    $(".product-specs li").click(function () {
         setProductSpec($(this).text());
         $(this).addClass("active");
         $(this).siblings().removeClass("active");

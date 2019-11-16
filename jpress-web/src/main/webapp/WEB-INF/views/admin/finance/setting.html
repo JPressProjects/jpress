@@ -220,6 +220,17 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">开启用户扫码支付功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="alipay_qrcode_pay_enable"
+                                           #checkedIf(option("alipay_qrcode_pay_enable"))>
+                                    <input type="hidden" id="alipay_qrcode_pay_enable" name="alipay_qrcode_pay_enable">
+                                    <p class="help-block">需要在支付宝申请 【当面付收单】才能开启此功能。 </p>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">合作者ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_pid" class="form-control" value="#option('alipay_pay_pid')"
@@ -261,7 +272,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_seller" class="form-control" value="#option('alipay_pay_seller')"
                                            placeholder="">
-                                    <p class="help-block">请填写收款的公司支付宝账号。 </p>
+                                    <p class="help-block">请填写支付宝的商户收款账号，一般情况下和 合作者ID 的值相同。 </p>
                                 </div>
                             </div>
 

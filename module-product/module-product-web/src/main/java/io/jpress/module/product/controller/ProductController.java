@@ -18,10 +18,12 @@ package io.jpress.module.product.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
+import io.jpress.model.UserCart;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
@@ -80,7 +82,6 @@ public class ProductController extends TemplateControllerBase {
         //当文章处于审核中、草稿等的时候，显示404
         render404If(product == null || !product.isNormal());
 
-
         //设置页面的seo信息
         setSeoInfos(product);
 
@@ -96,13 +97,21 @@ public class ProductController extends TemplateControllerBase {
                 : null;
 
         product.put("user", productAuthor);
-
         setAttr("product", product);
 
         List<ProductImage> productImages = imageService.findListByProductId(product.getId());
         setAttr("productImages", productImages);
 
+        String distUserId = getPara("did");
+        if (StrUtil.isNotBlank(distUserId)) {
+            CookieUtil.put(this, buildDistUserCookieName(product.getId()), distUserId);
+        }
+
         render(product.getHtmlView());
+    }
+
+    private String buildDistUserCookieName(long productId) {
+        return "did-" + productId;
     }
 
     private void setSeoInfos(Product product) {
@@ -241,8 +250,8 @@ public class ProductController extends TemplateControllerBase {
             commentService.doIncCommentReplyCount(pid);
 
             ProductComment parent = commentService.findById(pid);
-            if (parent != null && parent.isNormal()){
-                comment.put("parent",parent);
+            if (parent != null && parent.isNormal()) {
+                comment.put("parent", parent);
             }
         }
 
@@ -257,7 +266,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
 
-        setRetHtml(ret,paras,"/WEB-INF/views/commons/product/defaultProductCommentItem.html");
+        setRetHtml(ret, paras, "/WEB-INF/views/commons/product/defaultProductCommentItem.html");
 
         renderJson(ret);
 //        ArticleKit.doNotifyAdministrator(product, comment, user);
@@ -295,7 +304,12 @@ public class ProductController extends TemplateControllerBase {
             return;
         }
 
-        cartService.save(product.toUserCartItem(user.getId(), getParaToLong("distuid"), getPara("spec")));
+        String distUserId = CookieUtil.get(this, buildDistUserCookieName(productId));
+        Long duid = StrUtil.isNotBlank(distUserId) ? Long.valueOf(distUserId) : null;
+
+        UserCart userCart = product.toUserCartItem(user.getId(), duid, getPara("spec"));
+
+        cartService.save(userCart);
         renderOkJson();
     }
 

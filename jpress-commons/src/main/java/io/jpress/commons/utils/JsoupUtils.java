@@ -78,7 +78,7 @@ public class JsoupUtils {
         if (StrUtil.isBlank(html)) {
             return html;
         }
-        return Jsoup.parse(html).text();
+        return StrUtil.escapeHtml(Jsoup.parse(html).text());
     }
 
     public static void clean(Model model, String... attrs) {

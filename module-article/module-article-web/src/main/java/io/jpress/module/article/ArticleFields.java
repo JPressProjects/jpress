@@ -68,6 +68,16 @@ public class ArticleFields {
                 null,
                 30).addAttr("rows", 2));
 
+        fields.add(new SmartField("flag",
+                "文章标识",
+                "article.flag",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "我们可以对此篇文章进行特殊标识，方便前台模板进行读取。",
+                50));
+
 
         fields.add(new SmartField("order_number",
                 "排序序号",
@@ -89,6 +99,16 @@ public class ArticleFields {
                 null,
                 "填写外链后，浏览文章将会跳转到此链接。",
                 60));
+
+        fields.add(new SmartField("created",
+                "发布时间",
+                "article.created",
+                "请输入",
+                SmartField.TYPE_DATETIME,
+                null,
+                null,
+                null,
+                61));
 
 
         fields.add(new SmartField("comment_status",

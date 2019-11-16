@@ -16,10 +16,18 @@
 package io.jpress.commons.pay;
 
 
+import io.jpress.JPressOptions;
+
 public class PayConfigBase {
 
     private String callbackUrl;
 
+    private String returnUrl;
+
+    public PayConfigBase(String name) {
+        setCallbackUrl(JPressOptions.get("web_domain") + "/pay/callback/" + name);
+        setReturnUrl(JPressOptions.get("web_domain") + "/pay/back/" + name);
+    }
 
     public String getCallbackUrl() {
         return callbackUrl;
@@ -27,5 +35,13 @@ public class PayConfigBase {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
     }
 }

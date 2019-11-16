@@ -46,6 +46,10 @@ public class Installer {
         File propertieFile = new File(PathKit.getRootClassPath(), "jboot.properties");
         boolean propertieFileOk = propertieFile.exists() && propertieFile.isFile();
 
+//        File upgradeFile = new File(PathKit.getRootClassPath(), "upgrade.lock");
+//        boolean upgradeFileOk = upgradeFile.exists() && upgradeFile.isFile();
+
+//        installed = lockFileOk && propertieFileOk && !upgradeFileOk;
         installed = lockFileOk && propertieFileOk;
 
     }
@@ -58,8 +62,8 @@ public class Installer {
         JbootEventManager.me().registerListener(eventListener, false, INSTALL_EVENT);
     }
 
-    public static void notifyAllListeners(){
-        JbootEventManager.me().pulish(new JbootEvent(INSTALL_EVENT,null));
+    public static void notifyAllListeners() {
+        JbootEventManager.me().pulish(new JbootEvent(INSTALL_EVENT, null));
     }
 
 }

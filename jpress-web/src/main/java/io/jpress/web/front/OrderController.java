@@ -46,7 +46,7 @@ public class OrderController extends UcenterControllerBase {
      */
     public void detail() {
         UserOrder order = orderService.findById(getIdPara());
-        render404If(notLogineUserModel(order,"buyer_id"));
+        render404If(notLoginedUserModel(order,"buyer_id"));
 
         setAttr("order", order);
         setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
@@ -64,7 +64,7 @@ public class OrderController extends UcenterControllerBase {
 
     public void comment() {
         UserOrderItem item = orderItemService.findById(getPara());
-        render404If(notLogineUserModel(item,"buyer_id"));
+        render404If(notLoginedUserModel(item,"buyer_id"));
 
         redirect(item.getCommentPath() + "?id=" + item.getProductId() + "&itemId=" + item.getId());
     }
@@ -72,7 +72,7 @@ public class OrderController extends UcenterControllerBase {
 
     public void addMessage() {
         UserOrder userOrder = orderService.findById(getPara());
-        render404If(notLogineUserModel(userOrder,"buyer_id"));
+        render404If(notLoginedUserModel(userOrder,"buyer_id"));
 
         setAttr("order", userOrder);
         render("order_layer_addmessage.html");
@@ -81,7 +81,7 @@ public class OrderController extends UcenterControllerBase {
 
     public void doAddMessage() {
         UserOrder userOrder = orderService.findById(getPara("orderId"));
-        render404If(notLogineUserModel(userOrder,"buyer_id"));
+        render404If(notLoginedUserModel(userOrder,"buyer_id"));
 
         userOrder.setBuyerMsg(getPara("message"));
         orderService.saveOrUpdate(userOrder);
@@ -91,7 +91,7 @@ public class OrderController extends UcenterControllerBase {
 
     public void doFlagDelivery() {
         UserOrder userOrder = orderService.findById(getPara());
-        render404If(notLogineUserModel(userOrder,"buyer_id"));
+        render404If(notLoginedUserModel(userOrder,"buyer_id"));
 
         userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
         userOrder.setDeliveryFinishTime(new Date());

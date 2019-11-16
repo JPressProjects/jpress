@@ -26,17 +26,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DbUtil {
+public class DbExecuter {
 
     private DataSource dataSource;
     private DataSourceConfig dataSourceConfig;
 
-    public DbUtil(DataSource dataSource) {
+    public DbExecuter(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
 
-    public DbUtil(String dbName, String dbUser, String dbPassword, String dbHost, String dbHostPort) {
+    public DbExecuter(String dbName, String dbUser, String dbPassword, String dbHost, String dbHostPort) {
 
 
         String jdbcUrl = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?"

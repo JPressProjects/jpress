@@ -112,8 +112,6 @@ public interface RoleService {
 
     public boolean doChangeRoleByIds(Long roleId, Object... ids);
 
-    public void initWebRole();
-
     public List<Role> findRoleListByUserId(long userId);
 
     public List<Record> findAllUserRoleMapping();

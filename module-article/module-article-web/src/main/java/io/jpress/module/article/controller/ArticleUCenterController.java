@@ -87,7 +87,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return;
         }
 
-        if (notLogineUserModel(article)) {
+        if (notLoginedUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -116,7 +116,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             }
 
             //不是自己的文章
-            if (notLogineUserModel(article)) {
+            if (notLoginedUserModel(article)) {
                 renderError(404);
                 return;
             }
@@ -168,7 +168,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         Article article = getModel(Article.class, "article");
         article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description", "user_id");
 
-        if (article.getId() != null && notLogineUserModel(article)) {
+        if (article.getId() != null && notLoginedUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -247,7 +247,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doDelFavorite() {
         UserFavorite userFavorite = favoriteService.findById(getPara("id"));
 
-        if (isLogineUserModel(userFavorite)) {
+        if (isLoginedUserModel(userFavorite)) {
             favoriteService.delete(userFavorite);
         }
         renderOkJson();
@@ -260,7 +260,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         long id = getIdPara();
         ArticleComment comment = commentService.findById(id);
 
-        if (!isLogineUserModel(comment)) {
+        if (!isLoginedUserModel(comment)) {
             renderError(404);
             return;
         }
@@ -273,7 +273,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         ArticleComment comment = getBean(ArticleComment.class, "comment");
 
-        if (!isLogineUserModel(comment)) {
+        if (!isLoginedUserModel(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }
@@ -296,7 +296,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
 
-        if (!isLogineUserModel(comment)) {
+        if (!isLoginedUserModel(comment)) {
             renderJson(Ret.fail().set("message", "非法操作"));
             return;
         }

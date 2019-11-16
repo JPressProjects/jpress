@@ -36,7 +36,7 @@ public class AddonHandlerManager {
             synchronized (AddonHandlerManager.class) {
                 if (processHandler == null || reset) {
                     processHandler = buildHandler(next);
-                    reset = true;
+                    reset = false;
                 }
             }
         }

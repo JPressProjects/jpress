@@ -15,21 +15,27 @@
  */
 package io.jpress.web.install;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
-import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
 import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
-import io.jpress.core.install.DbUtil;
-import io.jpress.core.install.InstallUtil;
+import io.jpress.core.install.DbExecuter;
+import io.jpress.core.install.InstallManager;
 import io.jpress.core.install.Installer;
+import io.jpress.model.Role;
 import io.jpress.model.User;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
@@ -51,17 +57,15 @@ import java.util.List;
 @Before(InstallInterceptor.class)
 public class InstallController extends ControllerBase {
 
-    @Inject
-    private UserService userService;
+//    @Inject
+//    private UserService userService;
+//
+//    @Inject
+//    private RoleService roleService;
+//
+//    @Inject
+//    private OptionService optionService;
 
-    @Inject
-    private RoleService roleService;
-
-    @Inject
-    private OptionService optionService;
-
-    @Inject
-    private InstallUtil installUtil;
 
     public void index() {
         render("/WEB-INF/install/views/step1.html");
@@ -82,22 +86,14 @@ public class InstallController extends ControllerBase {
         render("/WEB-INF/install/views/step2.html");
     }
 
-    public void step3() {
 
-        //已经安装过了
-        if (installUtil.isInitBefore()) {
-            render("/WEB-INF/install/views/step3_notinit.html");
-        } else {
-            render("/WEB-INF/install/views/step3.html");
-        }
-
-    }
-
-    public void error() {
-        render("/WEB-INF/install/views/error.html");
-    }
-
-    public void initdb() {
+    @EmptyValidate({
+            @Form(name = "dbName", message = "数据库名不能为空"),
+            @Form(name = "dbUser", message = "用户名不能为空"),
+            @Form(name = "dbHost", message = "主机不能为空"),
+            @Form(name = "dbPort", message = "端口号不能为空"),
+    })
+    public void gotoStep3() {
 
         String dbName = getPara("dbName");
         String dbUser = getPara("dbUser");
@@ -105,29 +101,10 @@ public class InstallController extends ControllerBase {
         String dbHost = getPara("dbHost");
         String dbPort = getPara("dbPort");
 
-        if (StrUtil.isBlank(dbName)) {
-            renderJson(Ret.fail().set("message", "数据库名不能为空").set("errorCode", 1));
-            return;
-        }
-
-        if (StrUtil.isBlank(dbUser)) {
-            renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 2));
-            return;
-        }
-
-        if (StrUtil.isBlank(dbHost)) {
-            renderJson(Ret.fail().set("message", "主机不能为空").set("errorCode", 3));
-            return;
-        }
-
-        if (StrUtil.isBlank(dbPort)) {
-            renderJson(Ret.fail().set("message", "端口号不能为空").set("errorCode", 4));
-            return;
-        }
 
         boolean dbAutoCreate = getParaToBoolean("dbAutoCreate", false);
         if (dbAutoCreate) {
-            if (!createDatabaseIfNeecessary(dbName, dbUser, dbPwd, dbHost, dbPort)) {
+            if (!createDatabase(dbName, dbUser, dbPwd, dbHost, dbPort)) {
                 renderJson(Ret.fail().set("message", "无法自动创建数据库，可能是用户名密码错误，或没有权限").set("errorCode", 5));
                 return;
             }
@@ -136,14 +113,9 @@ public class InstallController extends ControllerBase {
 
         try {
 
-            installUtil.init(dbName, dbUser, dbPwd, dbHost, dbPort);
+            InstallManager.me().init(dbName, dbUser, dbPwd, dbHost, dbPort);
 
-            if (installUtil.isInitBefore()) {
-                renderOkJson();
-                return;
-            }
-
-            if (!installUtil.isJpressDb()) {
+            if (InstallManager.me().isDbExist() && !InstallManager.me().isJPressDb()) {
                 renderJson(Ret.fail("message", "无法安装，该数据库已有表信息了，为了安全起见，请选择全新的数据库进行安装。")
                         .set("errorCode", 5));
                 return;
@@ -158,23 +130,54 @@ public class InstallController extends ControllerBase {
         renderOkJson();
     }
 
-    private boolean createDatabaseIfNeecessary(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
 
-        DbUtil dbUtil = null;
+    public void step3() {
+
+        //数据库需要升级
+        if (InstallManager.me().isDbExist()
+                && InstallManager.me().isJPressDb()
+                && InstallManager.me().isNeedUpgrade()) {
+            render("/WEB-INF/install/views/step3_upgrade.html");
+        }
+
+        //数据库已经存在
+        //确定是 jpress 的数据库
+        //数据库不需要升级
+        else if (InstallManager.me().isDbExist()
+                && InstallManager.me().isJPressDb()
+                && !InstallManager.me().isNeedUpgrade()) {
+            render("/WEB-INF/install/views/step3_notinit.html");
+        }
+
+        //全新的数据库
+        else {
+            render("/WEB-INF/install/views/step3.html");
+        }
+
+    }
+
+    public void error() {
+        render("/WEB-INF/install/views/error.html");
+    }
+
+
+    private boolean createDatabase(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
+
+        DbExecuter dbExecuter = null;
         try {
-            dbUtil = new DbUtil("information_schema", dbUser, dbPwd, dbHost, dbPort);
+            dbExecuter = new DbExecuter("information_schema", dbUser, dbPwd, dbHost, dbPort);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         //可能是该用户没有 information_schema 的权限
-        if (dbUtil == null) {
+        if (dbExecuter == null) {
             return false;
         }
 
 
         try {
-            List<String> dbs = dbUtil.query("select SCHEMA_NAME from `SCHEMATA`");
+            List<String> dbs = dbExecuter.query("select SCHEMA_NAME from `SCHEMATA`");
             if (dbs != null && dbs.contains(dbName)) {
                 return true;
             }
@@ -183,7 +186,7 @@ public class InstallController extends ControllerBase {
         }
 
         try {
-            dbUtil.executeSql("CREATE DATABASE IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            dbExecuter.executeSql("CREATE DATABASE IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -196,15 +199,36 @@ public class InstallController extends ControllerBase {
 
     public void install() {
 
-        if (installUtil.isInitBefore()) {
-            doProcessInOldDb();
-        } else {
-            doProcessNormal();
+        //数据库需要升级
+        if (InstallManager.me().isDbExist()
+                && InstallManager.me().isJPressDb()
+                && InstallManager.me().isNeedUpgrade()) {
+
+            doProcessUpgrade();
         }
+
+        //数据库已经存在
+        //确定是 jpress 的数据库
+        //数据库不需要升级
+        else if (InstallManager.me().isDbExist()
+                && InstallManager.me().isJPressDb()
+                && !InstallManager.me().isNeedUpgrade()) {
+
+            doProcessReinstall();
+        }
+
+        //全新的数据库
+        else {
+            doProcessInstall();
+        }
+
+        OptionService optionService = Aop.get(OptionService.class);
+        optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
+        optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
 
     }
 
-    private void doProcessInOldDb() {
+    private void doProcessUpgrade() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
@@ -227,10 +251,22 @@ public class InstallController extends ControllerBase {
                 return;
             }
 
+
+            try {
+                InstallManager.me().doUpgradeDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                renderFailJson();
+                return;
+            }
+
+
             initActiveRecordPlugin();
 
             String salt = HashKit.generateSaltForSha256();
             String hashedPass = HashKit.sha256(salt + pwd);
+
+            UserService userService = Aop.get(UserService.class);
 
             User user = userService.findById(1l);
             if (user == null) user = new User();
@@ -265,7 +301,70 @@ public class InstallController extends ControllerBase {
 
     }
 
-    private void doProcessNormal() {
+    private void doProcessReinstall() {
+
+        String username = getPara("username");
+        String pwd = getPara("pwd");
+        String confirmPwd = getPara("confirmPwd");
+
+        if (StrUtil.isNotBlank(username)) {
+
+            if (StrUtil.isBlank(pwd)) {
+                renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
+                return;
+            }
+
+            if (StrUtil.isBlank(confirmPwd)) {
+                renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
+                return;
+            }
+
+            if (pwd.equals(confirmPwd) == false) {
+                renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
+                return;
+            }
+
+            initActiveRecordPlugin();
+
+            String salt = HashKit.generateSaltForSha256();
+            String hashedPass = HashKit.sha256(salt + pwd);
+
+            UserService userService = Aop.get(UserService.class);
+
+            User user = userService.findById(1l);
+            if (user == null) user = new User();
+
+            user.setUsername(username);
+            user.setNickname(username);
+            user.setRealname(username);
+
+            user.setSalt(salt);
+            user.setPassword(hashedPass);
+            user.setCreated(new Date());
+            user.setActivated(new Date());
+            user.setStatus(User.STATUS_OK);
+            user.setCreateSource(User.SOURCE_WEB_REGISTER);
+
+            if (StrUtil.isEmail(username)) {
+                user.setEmail(username.toLowerCase());
+            }
+
+            userService.saveOrUpdate(user);
+
+        } else {
+            initActiveRecordPlugin();
+        }
+
+
+        if (doCreatedInstallLockFiles()) {
+            renderOkJson();
+        } else {
+            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+        }
+
+    }
+
+    private void doProcessInstall() {
 
         String webName = getPara("web_name");
         String webTitle = getPara("web_title");
@@ -312,7 +411,7 @@ public class InstallController extends ControllerBase {
         }
 
         try {
-            installUtil.initJPressTables();
+            InstallManager.me().doInitDatabase();
         } catch (SQLException e) {
             e.printStackTrace();
             renderFailJson();
@@ -321,6 +420,7 @@ public class InstallController extends ControllerBase {
 
         initActiveRecordPlugin();
 
+        OptionService optionService = Aop.get(OptionService.class);
         optionService.saveOrUpdate("web_name", webName);
         optionService.saveOrUpdate("web_title", webTitle);
         optionService.saveOrUpdate("web_subtitle", webSubtitle);
@@ -330,11 +430,12 @@ public class InstallController extends ControllerBase {
         JPressOptions.set("web_subtitle", webSubtitle);
 
 
-        String salt = HashKit.generateSaltForSha256();
-        String hashedPass = HashKit.sha256(salt + pwd);
-
+        UserService userService = Aop.get(UserService.class);
         User user = userService.findById(1l);
         if (user == null) user = new User();
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
 
         user.setUsername(username);
         user.setNickname(username);
@@ -353,7 +454,18 @@ public class InstallController extends ControllerBase {
         }
 
         userService.saveOrUpdate(user);
-        roleService.initWebRole();
+
+        RoleService roleService = Aop.get(RoleService.class);
+        Role role = new Role();
+        role.setId(1l);
+        role.setName("默认角色");
+        role.setDescription("这个是系统自动创建的默认角色");
+        role.setFlag(Role.ADMIN_FLAG);
+        role.setCreated(new Date());
+        role.setModified(new Date());
+        roleService.save(role);
+
+        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
 
         if (doCreatedInstallLockFiles()) {
             renderOkJson();
@@ -367,7 +479,7 @@ public class InstallController extends ControllerBase {
     private void initActiveRecordPlugin() {
 
 
-        DataSourceConfig config = installUtil.getDataSourceConfig();
+        DataSourceConfig config = InstallManager.me().getDataSourceConfig();
 
         // 在只有 jboot.properties 但是没有 install.lock 的情况下
         // jboot启动的时候会出初始化 jboot.properties 里配置的插件
@@ -387,10 +499,10 @@ public class InstallController extends ControllerBase {
 
     private boolean doCreatedInstallLockFiles() {
         try {
-            File lockFile = installUtil.getLockFile();
+            File lockFile =  new File(PathKit.getRootClassPath(), "install.lock");
             lockFile.createNewFile();
 
-            installUtil.initJpressProperties();
+            InstallManager.me().initJpressProperties();
 
         } catch (IOException e) {
             e.printStackTrace();

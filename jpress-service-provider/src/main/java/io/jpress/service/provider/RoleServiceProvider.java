@@ -31,7 +31,6 @@ import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -303,17 +302,5 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
 
-    public void initWebRole() {
-        Role role = new Role();
-        role.setId(1l);
-        role.setName("默认角色");
-        role.setDescription("这个是系统自动创建的默认角色");
-        role.setFlag(Role.ADMIN_FLAG);
-        role.setCreated(new Date());
-        role.setModified(new Date());
-        role.save();
-
-        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
-    }
 
 }

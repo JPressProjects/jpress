@@ -47,7 +47,8 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         for (Object id : ids) {
             User user = findById(id);
             if (user != null) {
-                delete(user); //必须通过  delete(user) 才能清除缓存
+                //必须通过  delete(user) 才能清除缓存
+                delete(user);
             }
         }
         return true;

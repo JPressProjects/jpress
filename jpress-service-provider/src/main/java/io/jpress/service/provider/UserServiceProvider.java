@@ -46,7 +46,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
             User user = findById(id);
-            if (user != null) delete(user); //必须通过  delete(user) 才能清除缓存
+            if (user != null) {
+                delete(user); //必须通过  delete(user) 才能清除缓存
+            }
         }
         return true;
     }
@@ -76,6 +78,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
 
+    @Override
     public Ret doValidateUserPwd(User user, String pwd) {
 
         if (user == null) {

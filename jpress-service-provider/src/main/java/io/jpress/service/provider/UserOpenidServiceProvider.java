@@ -68,7 +68,17 @@ public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> impl
     @Override
     public UserOpenid findByUserIdAndType(Object userId, String type) {
         List<UserOpenid> userOpenids = findListByUserId(userId);
-        return userOpenids == null ? null : userOpenids.stream().filter(userOpenid -> userOpenid.getType().equals(type)).findFirst().get();
+        if (userOpenids == null){
+            return null;
+        }
+
+        for (UserOpenid userOpenid : userOpenids){
+            if (type.equals(userOpenid.getType())){
+                return userOpenid;
+            }
+        }
+
+        return null;
     }
 
 

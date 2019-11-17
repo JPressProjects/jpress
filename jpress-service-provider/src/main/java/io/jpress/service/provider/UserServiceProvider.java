@@ -133,20 +133,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public User findFistByWxUnionid(String unioinId) {
-//        return DAO.findFirstByColumn("wx_unionid", unioinId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID, unioinId);
     }
 
     @Override
-//    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
-//        return DAO.findFirstByColumn("wx_openid", openId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT, openId);
     }
 
     @Override
     public User findFistByQQOpenid(String openId) {
-//        return DAO.findFirstByColumn("qq_openid", openId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ, openId);
     }
 

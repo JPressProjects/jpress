@@ -28,7 +28,6 @@ import io.jpress.web.interceptor.UserMustLoginedInterceptor;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
@@ -284,15 +283,10 @@ public class PayController extends TemplateControllerBase {
         render404If(service == null);
 
         //获取支付方返回的对应参数
-        Map<String, Object> params = null;
-        try {
-            params = service.getParameter2Map(getRequest().getParameterMap(), getRequest().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Map<String, Object> params = getParams(service);
 
         //验证失败
-        if (null == params || !service.verify(params)) {
+        if (params == null || !service.verify(params)) {
             renderFail(service);
             return;
         }
@@ -406,23 +400,19 @@ public class PayController extends TemplateControllerBase {
     }
 
 
-
-    public void back() throws IOException {
+    public void back() {
 
         PayService service = getPayService();
         render404If(service == null);
 
-        Map<String, String[]> parameterMap = getRequest().getParameterMap();
-        InputStream is = getRequest().getInputStream();
-
-        Map<String, Object> params = service.getParameter2Map(parameterMap, is);
+        Map<String, Object> params = getParams(service);
         if (LOG.isDebugEnabled()) {
             LOG.debug("回调响应:" + JSON.toJSONString(params));
         }
 
         String trxNo = getTrxNo(params);
 
-        if (!service.verify(params)) {
+        if (params == null || !service.verify(params)) {
             redirectFail(trxNo);
             return;
         }
@@ -458,6 +448,16 @@ public class PayController extends TemplateControllerBase {
         }
 
         redirectFail(trxNo);
+    }
+
+    private Map<String, Object> getParams(PayService service) {
+        try {
+            return service.getParameter2Map(getRequest().getParameterMap(), getRequest().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 

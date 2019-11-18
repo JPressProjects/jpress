@@ -322,6 +322,7 @@ public class PayController extends TemplateControllerBase {
 
         //支付宝支付
         //https://open.alipay.com/developmentDocument.htm
+        //https://docs.open.alipay.com/api_1/alipay.trade.pay
         else if (service instanceof AliPayService) {
             //交易状态
             String trade_status = (String) params.get("trade_status");
@@ -329,11 +330,13 @@ public class PayController extends TemplateControllerBase {
             if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
 
 
+                String receiptAmount = params.get("receipt_amount").toString();
+                payment.setPaySuccessAmount(new BigDecimal(receiptAmount));
+
                 payment.setPayStatus(PayStatus.SUCCESS_ALIPAY.getStatus());
                 payment.setThirdpartyType("alipay");
                 payment.setThirdpartyAppid(String.valueOf(params.get("app_id")));
                 payment.setThirdpartyMchId(String.valueOf(params.get("seller_id")));
-//            payment.setThirdpartyTradeType(String.valueOf(params.get("trade_type")));
                 payment.setThirdpartyTransactionId(String.valueOf(params.get("trade_no")));
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
             } else {
@@ -346,7 +349,6 @@ public class PayController extends TemplateControllerBase {
         //https://blog.csdn.net/weixin_42152023/article/details/93097326
         else if (service instanceof PayPalPayService) {
 
-//            if ("Completed".equals(params.get("payment_status")) && "verified".equals(params.get("payer_status"))){
             if ("Completed".equals(params.get("payment_status"))) {
                 payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
                 payment.setThirdpartyType("paypal");
@@ -357,10 +359,14 @@ public class PayController extends TemplateControllerBase {
             }
         }
 
+        if (payment.getPaySuccessAmount() == null){
+            payment.setPaySuccessAmount(payment.getPayAmount());
+        }
+
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
         payment.setPayCompleteTime(new Date());
         payment.setPaySuccessTime(new Date());
-        payment.setPaySuccessAmount(payment.getPayAmount());//此处不严谨，需要从返回值中获取
+
 
         if (paymentService.update(payment)) {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));

@@ -18,7 +18,6 @@ package io.jpress.web.install;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
@@ -42,7 +41,6 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ControllerBase;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -56,16 +54,6 @@ import java.util.List;
 @RequestMapping("/install")
 @Before(InstallInterceptor.class)
 public class InstallController extends ControllerBase {
-
-//    @Inject
-//    private UserService userService;
-//
-//    @Inject
-//    private RoleService roleService;
-//
-//    @Inject
-//    private OptionService optionService;
-
 
     public void index() {
         render("/WEB-INF/install/views/step1.html");
@@ -99,7 +87,7 @@ public class InstallController extends ControllerBase {
         String dbUser = getPara("dbUser");
         String dbPwd = getPara("dbPwd");
         String dbHost = getPara("dbHost");
-        String dbPort = getPara("dbPort");
+        int dbPort = getParaToInt("dbPort");
 
 
         boolean dbAutoCreate = getParaToBoolean("dbAutoCreate", false);
@@ -161,7 +149,7 @@ public class InstallController extends ControllerBase {
     }
 
 
-    private boolean createDatabase(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
+    private boolean createDatabase(String dbName, String dbUser, String dbPwd, String dbHost, int dbPort) {
 
         DbExecuter dbExecuter = null;
         try {
@@ -268,8 +256,10 @@ public class InstallController extends ControllerBase {
 
             UserService userService = Aop.get(UserService.class);
 
-            User user = userService.findById(1l);
-            if (user == null) user = new User();
+            User user = userService.findById(1L);
+            if (user == null) {
+                user = new User();
+            }
 
             user.setUsername(username);
             user.setNickname(username);
@@ -293,7 +283,7 @@ public class InstallController extends ControllerBase {
         }
 
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
@@ -331,8 +321,10 @@ public class InstallController extends ControllerBase {
 
             UserService userService = Aop.get(UserService.class);
 
-            User user = userService.findById(1l);
-            if (user == null) user = new User();
+            User user = userService.findById(1L);
+            if (user == null) {
+                user = new User();
+            }
 
             user.setUsername(username);
             user.setNickname(username);
@@ -356,7 +348,7 @@ public class InstallController extends ControllerBase {
         }
 
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
@@ -431,8 +423,10 @@ public class InstallController extends ControllerBase {
 
 
         UserService userService = Aop.get(UserService.class);
-        User user = userService.findById(1l);
-        if (user == null) user = new User();
+        User user = userService.findById(1L);
+        if (user == null) {
+            user = new User();
+        }
 
         String salt = HashKit.generateSaltForSha256();
         String hashedPass = HashKit.sha256(salt + pwd);
@@ -457,7 +451,7 @@ public class InstallController extends ControllerBase {
 
         RoleService roleService = Aop.get(RoleService.class);
         Role role = new Role();
-        role.setId(1l);
+        role.setId(1L);
         role.setName("默认角色");
         role.setDescription("这个是系统自动创建的默认角色");
         role.setFlag(Role.ADMIN_FLAG);
@@ -467,7 +461,7 @@ public class InstallController extends ControllerBase {
 
         Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
@@ -497,20 +491,32 @@ public class InstallController extends ControllerBase {
     }
 
 
-    private boolean doCreatedInstallLockFiles() {
+    private boolean doFinishedInstall() {
         try {
-            File lockFile =  new File(PathKit.getRootClassPath(), "install.lock");
-            lockFile.createNewFile();
 
-            InstallManager.me().initJpressProperties();
+            //创建 install.lock 安装锁定文件
+            InstallUtil.createInstallLockFile();
+
+            //创建 jboot.properties 数据库配置文件
+            InstallUtil.createJbootPropertiesFile();
+
+            //删除 reinstall.lock 升级锁定文件
+            InstallUtil.deleteReInstallLockFile();
+
 
         } catch (IOException e) {
             e.printStackTrace();
-
             return false;
         }
 
+        /**
+         *  设置安装标识
+         */
         Installer.setInstalled(true);
+
+        /**
+         * 通知安装监听器
+         */
         Installer.notifyAllListeners();
 
         return true;

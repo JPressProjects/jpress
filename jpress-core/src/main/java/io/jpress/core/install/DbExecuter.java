@@ -28,6 +28,13 @@ import java.util.List;
 
 public class DbExecuter {
 
+    private String dbName;
+    private String dbUser;
+    private String dbPassword;
+    private int dbHostPort;
+    private String jdbcUrl;
+
+
     private DataSource dataSource;
     private DataSourceConfig dataSourceConfig;
 
@@ -36,19 +43,23 @@ public class DbExecuter {
     }
 
 
-    public DbExecuter(String dbName, String dbUser, String dbPassword, String dbHost, String dbHostPort) {
+    public DbExecuter(String dbName, String dbUser, String dbPassword, String dbHost, int dbHostPort) {
+        this.dbName = dbName;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.dbHostPort = dbHostPort;
 
-
-        String jdbcUrl = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?"
+        this.jdbcUrl = "jdbc:mysql://" + dbHost + ":" + dbHostPort + "/" + dbName + "?"
                 + "useSSL=false&"
                 + "characterEncoding=utf8&"
                 + "zeroDateTimeBehavior=convertToNull";
 
         this.dataSourceConfig = new DataSourceConfig();
-        this.dataSourceConfig.setUrl(jdbcUrl);
+        this.dataSourceConfig.setUrl(this.jdbcUrl);
         this.dataSourceConfig.setUser(dbUser);
         this.dataSourceConfig.setPassword(dbPassword);
-        this.dataSource = new DataSourceBuilder(dataSourceConfig).build();
+
+        this.dataSource = new DataSourceBuilder(this.dataSourceConfig).build();
 
     }
 
@@ -121,5 +132,25 @@ public class DbExecuter {
 
     public DataSourceConfig getDataSourceConfig() {
         return dataSourceConfig;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public String getDbUser() {
+        return dbUser;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
+    }
+
+    public int getDbHostPort() {
+        return dbHostPort;
+    }
+
+    public String getJdbcUrl() {
+        return jdbcUrl;
     }
 }

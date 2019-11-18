@@ -10,6 +10,7 @@ import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -23,6 +24,7 @@ import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.interceptor.UserMustLoginedInterceptor;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -305,6 +307,7 @@ public class PayController extends TemplateControllerBase {
         if (service instanceof WxPayService) {
             //交易成功
             if ("SUCCESS".equals(params.get("result_code"))) {
+
                 payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
                 payment.setPayBankType(String.valueOf(params.get("bank_type")));
                 payment.setThirdpartyType("wechat");
@@ -313,6 +316,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyTradeType(String.valueOf(params.get("trade_type")));
                 payment.setThirdpartyTransactionId(String.valueOf(params.get("transaction_id")));
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("openid")));
+
             } else {
                 renderFail(service);
                 return;
@@ -328,7 +332,6 @@ public class PayController extends TemplateControllerBase {
             String trade_status = (String) params.get("trade_status");
             //交易完成
             if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
-
 
                 String receiptAmount = params.get("receipt_amount").toString();
                 payment.setPaySuccessAmount(new BigDecimal(receiptAmount));
@@ -395,11 +398,13 @@ public class PayController extends TemplateControllerBase {
         }
     }
 
+
     private String getTrxNo(Map<String, Object> params) {
         return getPayService() instanceof PayPalPayService
                 ? getPara("invoice")
                 : String.valueOf(params.get("out_trade_no"));
     }
+
 
 
     public void back() throws IOException {
@@ -460,6 +465,7 @@ public class PayController extends TemplateControllerBase {
         redirect("/pay/fail/" + trxNo);
     }
 
+
     private void redirectSuccess(String trxNo) {
         redirect("/pay/success/" + trxNo);
     }
@@ -470,6 +476,8 @@ public class PayController extends TemplateControllerBase {
      */
     public void success() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null || notLoginedUserModel(payment, "payer_user_id"));
+
         setAttr("payment", payment);
         render("pay_success.html", DEFAULT_SUCCESS_VIEW);
     }
@@ -477,6 +485,8 @@ public class PayController extends TemplateControllerBase {
 
     public void fail() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null || notLoginedUserModel(payment, "payer_user_id"));
+
         setAttr("payment", payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
@@ -485,6 +495,7 @@ public class PayController extends TemplateControllerBase {
     /**
      * 定时检查是否支付成功的地址
      */
+    @Before(UserMustLoginedInterceptor.class)
     public void query() {
         PaymentRecord paymentRecord = paymentService.queryCacheByTrxno(getPara("trx"));
         if (paymentRecord != null && paymentRecord.isPaySuccess()) {

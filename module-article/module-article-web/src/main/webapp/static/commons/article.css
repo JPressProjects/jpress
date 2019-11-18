@@ -73,6 +73,7 @@
 .comment-vcode .vcode-img {
     height: 2.3rem;
     margin-top: -3px;
+    cursor: pointer;
 }
 
 .comment-vcode input {

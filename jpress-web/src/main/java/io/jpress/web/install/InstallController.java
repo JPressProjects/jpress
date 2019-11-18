@@ -251,32 +251,7 @@ public class InstallController extends ControllerBase {
 
             initActiveRecordPlugin();
 
-            String salt = HashKit.generateSaltForSha256();
-            String hashedPass = HashKit.sha256(salt + pwd);
-
-            UserService userService = Aop.get(UserService.class);
-
-            User user = userService.findById(1L);
-            if (user == null) {
-                user = new User();
-            }
-
-            user.setUsername(username);
-            user.setNickname(username);
-            user.setRealname(username);
-
-            user.setSalt(salt);
-            user.setPassword(hashedPass);
-            user.setCreated(new Date());
-            user.setActivated(new Date());
-            user.setStatus(User.STATUS_OK);
-            user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-            if (StrUtil.isEmail(username)) {
-                user.setEmail(username.toLowerCase());
-            }
-
-            userService.saveOrUpdate(user);
+            initFirstUser();
 
         } else {
             initActiveRecordPlugin();
@@ -316,32 +291,7 @@ public class InstallController extends ControllerBase {
 
             initActiveRecordPlugin();
 
-            String salt = HashKit.generateSaltForSha256();
-            String hashedPass = HashKit.sha256(salt + pwd);
-
-            UserService userService = Aop.get(UserService.class);
-
-            User user = userService.findById(1L);
-            if (user == null) {
-                user = new User();
-            }
-
-            user.setUsername(username);
-            user.setNickname(username);
-            user.setRealname(username);
-
-            user.setSalt(salt);
-            user.setPassword(hashedPass);
-            user.setCreated(new Date());
-            user.setActivated(new Date());
-            user.setStatus(User.STATUS_OK);
-            user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-            if (StrUtil.isEmail(username)) {
-                user.setEmail(username.toLowerCase());
-            }
-
-            userService.saveOrUpdate(user);
+            initFirstUser();
 
         } else {
             initActiveRecordPlugin();
@@ -421,33 +371,7 @@ public class InstallController extends ControllerBase {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-
-        UserService userService = Aop.get(UserService.class);
-        User user = userService.findById(1L);
-        if (user == null) {
-            user = new User();
-        }
-
-        String salt = HashKit.generateSaltForSha256();
-        String hashedPass = HashKit.sha256(salt + pwd);
-
-        user.setUsername(username);
-        user.setNickname(username);
-        user.setRealname(username);
-
-        user.setSalt(salt);
-        user.setPassword(hashedPass);
-        user.setCreated(new Date());
-        user.setActivated(new Date());
-        user.setStatus(User.STATUS_OK);
-        user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-
-        if (StrUtil.isEmail(username)) {
-            user.setEmail(username.toLowerCase());
-        }
-
-        userService.saveOrUpdate(user);
+        initFirstUser();
 
         RoleService roleService = Aop.get(RoleService.class);
         Role role = new Role();
@@ -467,6 +391,41 @@ public class InstallController extends ControllerBase {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
         }
 
+    }
+
+    private void initFirstUser(){
+
+        String username = getPara("username");
+        String pwd = getPara("pwd");
+
+
+        UserService userService = Aop.get(UserService.class);
+        User user = userService.findById(1L);
+        if (user == null) {
+            user = new User();
+        }
+
+        user.setUsername(username);
+        user.setNickname(username);
+        user.setRealname(username);
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+
+        user.setCreated(new Date());
+        user.setActivated(new Date());
+        user.setStatus(User.STATUS_OK);
+        user.setCreateSource(User.SOURCE_WEB_REGISTER);
+
+
+        if (StrUtil.isEmail(username)) {
+            user.setEmail(username.toLowerCase());
+        }
+
+        userService.saveOrUpdate(user);
     }
 
 

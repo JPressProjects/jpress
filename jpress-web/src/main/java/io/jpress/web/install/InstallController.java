@@ -436,10 +436,6 @@ public class InstallController extends ControllerBase {
             //创建 jboot.properties 数据库配置文件
             InstallUtil.createJbootPropertiesFile();
 
-            //删除 reinstall.lock 升级锁定文件
-            InstallUtil.deleteReInstallLockFile();
-
-
         } catch (IOException e) {
             e.printStackTrace();
             return false;

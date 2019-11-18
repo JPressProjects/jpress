@@ -46,10 +46,7 @@ public class Installer {
         File propertieFile = new File(PathKit.getRootClassPath(), "jboot.properties");
         boolean propertieFileOk = propertieFile.exists() && propertieFile.isFile();
 
-        File reInstallFile = new File(PathKit.getRootClassPath(), "reinstall.lock");
-        boolean reInstallFileOk = reInstallFile.exists() && reInstallFile.isFile();
-
-        installed = lockFileOk && propertieFileOk && !reInstallFileOk;
+        installed = lockFileOk && propertieFileOk;
     }
 
     public static void setInstalled(boolean installed) {

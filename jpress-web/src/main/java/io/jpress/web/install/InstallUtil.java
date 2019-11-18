@@ -44,13 +44,6 @@ public class InstallUtil {
     }
 
 
-    public static void deleteReInstallLockFile() {
-        File reinstallFile = new File(PathKit.getRootClassPath(), "reinstall.lock");
-        if (reinstallFile.exists() && reinstallFile.isFile()) {
-            reinstallFile.delete();
-        }
-    }
-
 
     public static boolean createJbootPropertiesFile() {
 

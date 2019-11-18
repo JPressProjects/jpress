@@ -54,7 +54,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
 
                 statement.setOldAmount(userAmount);
                 statement.setChangeAmount(payment.getPayAmount());
-                statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
+                statement.setNewAmount(userAmount.add(payment.getPayAmount()));
 
                 if (userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount())) {
                     return false;
@@ -69,7 +69,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
             });
 
             if (!updateSucess) {
-                LOG.error("update user amount fail in recharge success。");
+                LOG.error("error!!!  update user amount fail in recharge success. ");
             }
 
         }

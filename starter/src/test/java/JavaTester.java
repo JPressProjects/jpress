@@ -5,6 +5,10 @@
  */
 public class JavaTester {
 
+    public Object doxxx(){
+        return null;
+    }
+
     public static void main(String[] args) {
 
     }

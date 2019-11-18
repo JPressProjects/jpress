@@ -153,9 +153,11 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
-        order.setTransactionType(AliTransactionType.SWEEPPAY); //扫码付
-        //获取扫码付的二维码
 
+        //设置扫码付
+        order.setTransactionType(AliTransactionType.SWEEPPAY);
+
+        //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
         try {

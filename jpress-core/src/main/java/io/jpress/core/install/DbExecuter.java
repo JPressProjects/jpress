@@ -64,6 +64,16 @@ public class DbExecuter {
     }
 
 
+    public List<String> queryTables() {
+        try {
+            return query("show tables;");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public void executeSql(String batchSql) throws SQLException {
         Connection conn = getConnection();
         Statement pst = null;

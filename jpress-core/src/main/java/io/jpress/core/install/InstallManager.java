@@ -51,8 +51,7 @@ public class InstallManager {
 
         dbExecuter = new DbExecuter(dbName, dbUser, dbPassword, dbHost, dbHostPort);
 
-
-        List<String> tables = getTableList();
+        List<String> tables = dbExecuter.queryTables();
 
         //空数据库
         if (ArrayUtil.isNullOrEmpty(tables)) {
@@ -79,7 +78,6 @@ public class InstallManager {
 
         //其他数据库
         else {
-
             dbExist = true;
             isJPressDb = false;
         }
@@ -87,29 +85,17 @@ public class InstallManager {
     }
 
 
-
-
-    public List<String> getTableList() {
-        try {
-            return dbExecuter.query("show tables;");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     public void doInitDatabase() throws SQLException {
-        String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/install.sql";
-        String installSql = FileUtil.readString(new File(SqlFilePath));
+        String sqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/install.sql";
+        String installSql = FileUtil.readString(new File(sqlFilePath));
         dbExecuter.executeSql(installSql);
     }
 
 
     public void doUpgradeDatabase() throws SQLException {
-        String SqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/";
-        String installSql = FileUtil.readString(new File(SqlFilePath, upgradeSqlFileName));
-        dbExecuter.executeSql(installSql);
+        String sqlFilePath = PathKit.getWebRootPath() + "/WEB-INF/install/sqls/";
+        String upgradeSql = FileUtil.readString(new File(sqlFilePath, upgradeSqlFileName));
+        dbExecuter.executeSql(upgradeSql);
     }
 
     public DataSourceConfig getDataSourceConfig() {

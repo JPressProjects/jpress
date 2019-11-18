@@ -306,46 +306,23 @@ public class InstallController extends ControllerBase {
 
     }
 
+    @EmptyValidate({
+            @Form(name = "web_name", message = "网站名称不能为空"),
+            @Form(name = "web_title", message = "网站标题不能为空"),
+            @Form(name = "web_subtitle", message = "网站副标题不能为空"),
+            @Form(name = "username", message = "账号不能为空"),
+            @Form(name = "pwd", message = "密码不能为空"),
+            @Form(name = "confirmPwd", message = "确认密码不能为空"),
+    })
     private void doProcessInstall() {
 
         String webName = getPara("web_name");
         String webTitle = getPara("web_title");
         String webSubtitle = getPara("web_subtitle");
 
-        String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-
-        if (StrUtil.isBlank(webName)) {
-            renderJson(Ret.fail().set("message", "网站名称不能为空").set("errorCode", 10));
-            return;
-        }
-
-        if (StrUtil.isBlank(webTitle)) {
-            renderJson(Ret.fail().set("message", "网站标题不能为空").set("errorCode", 11));
-            return;
-        }
-
-        if (StrUtil.isBlank(webSubtitle)) {
-            renderJson(Ret.fail().set("message", "网站副标题不能为空").set("errorCode", 12));
-            return;
-        }
-
-        if (StrUtil.isBlank(username)) {
-            renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
-            return;
-        }
-
-        if (StrUtil.isBlank(pwd)) {
-            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-            return;
-        }
-
-        if (StrUtil.isBlank(confirmPwd)) {
-            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-            return;
-        }
 
         if (pwd.equals(confirmPwd) == false) {
             renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
@@ -393,7 +370,7 @@ public class InstallController extends ControllerBase {
 
     }
 
-    private void initFirstUser(){
+    private void initFirstUser() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");

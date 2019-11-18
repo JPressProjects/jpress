@@ -224,7 +224,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void amount() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null);
+        render404If(payment == null || notLoginedUserModel(payment, "payer_user_id"));
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {

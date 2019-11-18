@@ -17,6 +17,7 @@ package io.jpress.web.base;
 
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
@@ -69,6 +70,33 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
+    protected boolean notLoginedUserModel(Model model) {
+        return !isLoginedUserModel(model, "user_id");
+    }
+
+    protected boolean notLoginedUserModel(Model model, String attrName) {
+        return !isLoginedUserModel(model, attrName);
+    }
+
+    protected boolean isLoginedUserModel(Model model) {
+        return isLoginedUserModel(model, "user_id");
+    }
+
+    protected boolean isLoginedUserModel(Model model, String attrName) {
+        if (model == null) {
+            return false;
+        }
+        Object userId = model.get(attrName);
+        if (userId == null) {
+            return false;
+        }
+        User loginedUser = getLoginedUser();
+        if (loginedUser == null) {
+            return false;
+        }
+        return userId.equals(loginedUser.getId());
+    }
+
     protected User getLoginedUser() {
         return getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
@@ -104,6 +132,7 @@ public abstract class ControllerBase extends JbootController {
 
     /**
      * 对于某些高并发的接口，useCache 应该传入 true，减少 ret 的创建
+     *
      * @param message
      * @param useCache
      */

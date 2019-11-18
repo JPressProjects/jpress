@@ -90,12 +90,9 @@ public class PayController extends TemplateControllerBase {
         order.setTransactionType(WxTransactionType.NATIVE); //扫码付
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
-        try {
-            String base64Str = PayKit.image2base64Str(image);
-            setAttr("qrcode_base64str", base64Str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        String base64Str = PayKit.image2base64Str(image);
+        setAttr("qrcode_base64str", base64Str);
 
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
@@ -161,12 +158,8 @@ public class PayController extends TemplateControllerBase {
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
-        try {
-            String base64Str = PayKit.image2base64Str(image);
-            setAttr("qrcode_base64str", base64Str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String base64Str = PayKit.image2base64Str(image);
+        setAttr("qrcode_base64str", base64Str);
 
         setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
@@ -291,10 +284,8 @@ public class PayController extends TemplateControllerBase {
             return;
         }
 
-
         String trxNo = getTrxNo(params);
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8

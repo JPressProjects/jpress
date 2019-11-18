@@ -12,6 +12,7 @@ import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayConfigUtil;
@@ -403,42 +404,52 @@ public class PayController extends TemplateControllerBase {
 
         String trxNo = getTrxNo(params);
 
-        if (params == null || !service.verify(params)) {
-            redirectFail(trxNo);
+        if (params == null || !service.verify(params) || StrUtil.isBlank(trxNo)) {
+            redirect("/pay/fail/" + trxNo);
             return;
         }
 
+        PaymentRecord payment = paymentService.findByTrxNo(trxNo);
+        render404If(notLoginedUserModel(payment, "payer_user_id"));
 
-        //支付宝支付
-        if (service instanceof AliPayService) {
-            //交易状态
-            String trade_status = (String) params.get("trade_status");
-
-            //交易完成
-            if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
-                redirectSuccess(trxNo);
-                return;
-            }
+        if (payment.isPaySuccess()) {
+            redirect("/pay/success/" + trxNo);
+        } else {
+            redirect("/pay/fail/" + trxNo);
         }
 
-        //微信支付
-        else if (service instanceof WxPayService) {
-            if ("SUCCESS".equals(params.get("result_code"))) {
-                redirectSuccess(trxNo);
-                return;
-            }
-        }
 
-        //paypal 支付
-        else if (service instanceof PayPalPayService) {
-
-            if ("Completed".equals(params.get("payment_status"))) {
-                redirectSuccess(trxNo);
-                return;
-            }
-        }
-
-        redirectFail(trxNo);
+//
+//        //支付宝支付
+//        if (service instanceof AliPayService) {
+//            //交易状态
+//            String trade_status = (String) params.get("trade_status");
+//
+//            //交易完成
+//            if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
+//                redirectSuccess(trxNo);
+//                return;
+//            }
+//        }
+//
+//        //微信支付
+//        else if (service instanceof WxPayService) {
+//            if ("SUCCESS".equals(params.get("result_code"))) {
+//                redirectSuccess(trxNo);
+//                return;
+//            }
+//        }
+//
+//        //paypal 支付
+//        else if (service instanceof PayPalPayService) {
+//
+//            if ("Completed".equals(params.get("payment_status"))) {
+//                redirectSuccess(trxNo);
+//                return;
+//            }
+//        }
+//
+//        redirectFail(trxNo);
     }
 
     private Map<String, Object> getParams(PayService service) {
@@ -449,16 +460,6 @@ public class PayController extends TemplateControllerBase {
         }
 
         return null;
-    }
-
-
-    private void redirectFail(String trxNo) {
-        redirect("/pay/fail/" + trxNo);
-    }
-
-
-    private void redirectSuccess(String trxNo) {
-        redirect("/pay/success/" + trxNo);
     }
 
 

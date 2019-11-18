@@ -55,24 +55,6 @@ public class PayController extends TemplateControllerBase {
     @Inject
     private UserAmountStatementService statementService;
 
-    /**
-     * 获取异步通知的URL地址
-     *
-     * @return
-     */
-    private String getNotifyUrl() {
-        return "/pay/callback";
-    }
-
-    /**
-     * 获取web支付成功后跳转的url地址
-     *
-     * @return
-     */
-    private String getReturnUrl() {
-        return "/pay/success";
-    }
-
 
     /**
      * 微信扫码支付
@@ -198,6 +180,7 @@ public class PayController extends TemplateControllerBase {
         render("pay_alipayx.html", DEFAULT_ALIPAYX_VIEW);
     }
 
+
     /**
      * paypal 支付
      */
@@ -281,7 +264,7 @@ public class PayController extends TemplateControllerBase {
 
         //验证失败
         if (params == null || !service.verify(params)) {
-            renderFail(service);
+            callbackFail(service);
             return;
         }
 
@@ -304,7 +287,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("openid")));
 
             } else {
-                renderFail(service);
+                callbackFail(service);
                 return;
             }
 
@@ -329,7 +312,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyTransactionId(String.valueOf(params.get("trade_no")));
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
             } else {
-                renderFail(service);
+                callbackFail(service);
                 return;
             }
         }
@@ -343,7 +326,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyType("paypal");
                 payment.setThirdpartyUserOpenid(getPara("payer_id"));
             } else {
-                renderFail(service);
+                callbackFail(service);
                 return;
             }
         }
@@ -361,12 +344,12 @@ public class PayController extends TemplateControllerBase {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
             renderText(service.getPayOutMessage("success", "成功").toMessage());
         } else {
-            renderFail(service);
+            callbackFail(service);
         }
 
     }
 
-    private void renderFail(PayService service) {
+    private void callbackFail(PayService service) {
         renderText(service.getPayOutMessage("fail", "失败").toMessage());
     }
 
@@ -418,38 +401,6 @@ public class PayController extends TemplateControllerBase {
             redirect("/pay/fail/" + trxNo);
         }
 
-
-//
-//        //支付宝支付
-//        if (service instanceof AliPayService) {
-//            //交易状态
-//            String trade_status = (String) params.get("trade_status");
-//
-//            //交易完成
-//            if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
-//                redirectSuccess(trxNo);
-//                return;
-//            }
-//        }
-//
-//        //微信支付
-//        else if (service instanceof WxPayService) {
-//            if ("SUCCESS".equals(params.get("result_code"))) {
-//                redirectSuccess(trxNo);
-//                return;
-//            }
-//        }
-//
-//        //paypal 支付
-//        else if (service instanceof PayPalPayService) {
-//
-//            if ("Completed".equals(params.get("payment_status"))) {
-//                redirectSuccess(trxNo);
-//                return;
-//            }
-//        }
-//
-//        redirectFail(trxNo);
     }
 
     private Map<String, Object> getParams(PayService service) {
@@ -490,10 +441,10 @@ public class PayController extends TemplateControllerBase {
     @Before(UserMustLoginedInterceptor.class)
     public void query() {
         PaymentRecord paymentRecord = paymentService.queryCacheByTrxno(getPara("trx"));
-        if (paymentRecord != null && paymentRecord.isPaySuccess()) {
-            renderOkJson();
-        } else {
+        if (paymentRecord == null || notLoginedUserModel(paymentRecord, "payer_user_id") || !paymentRecord.isPaySuccess()) {
             renderFailJson();
+        } else {
+            renderOkJson();
         }
     }
 

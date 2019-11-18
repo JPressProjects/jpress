@@ -184,8 +184,8 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             record.set("created", new Date());
             return Db.save("user_amount", record);
         } else {
-            return Db.update("update user_amount set amount = amount + " + updateAmount.longValue()
-                    + " where user_id = ? and amount = ?", userId, oldAmount) > 0;
+            return Db.update("update user_amount set amount = ? , modified = ? where user_id = ? and amount = ?",
+                    value.add(updateAmount), new Date(), userId, oldAmount) > 0;
         }
     }
 

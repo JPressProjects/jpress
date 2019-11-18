@@ -24,6 +24,9 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * @author yang fuhai
+ */
 public class InstallManager {
 
 

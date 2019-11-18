@@ -138,7 +138,7 @@
 - [微信小程序开发](http://www.jpress.io/article/67)
 - [视频教程](http://www.jpress.io/article/category/course)
 - [常见问题](./doc/faq.md)
-- [JPressSchool-VIP会员](./doc/vip.md)
+- [JPress-VIP会员](./doc/vip.md)
 
 ## 运行JPress
 

@@ -291,7 +291,7 @@ public class PayController extends TemplateControllerBase {
 
         //验证失败
         if (null == params || !service.verify(params)) {
-            renderText(service.getPayOutMessage("fail", "失败").toMessage());
+            renderFail(service);
             return;
         }
 
@@ -314,7 +314,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyTransactionId(String.valueOf(params.get("transaction_id")));
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("openid")));
             } else {
-                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                renderFail(service);
                 return;
             }
 
@@ -340,7 +340,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyTransactionId(String.valueOf(params.get("trade_no")));
                 payment.setThirdpartyUserOpenid(String.valueOf(params.get("buyer_id")));
             } else {
-                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                renderFail(service);
                 return;
             }
         }
@@ -354,7 +354,7 @@ public class PayController extends TemplateControllerBase {
                 payment.setThirdpartyType("paypal");
                 payment.setThirdpartyUserOpenid(getPara("payer_id"));
             } else {
-                renderText(service.getPayOutMessage("fail", "失败").toMessage());
+                renderFail(service);
                 return;
             }
         }
@@ -372,9 +372,13 @@ public class PayController extends TemplateControllerBase {
             PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
             renderText(service.getPayOutMessage("success", "成功").toMessage());
         } else {
-            renderText(service.getPayOutMessage("fail", "失败").toMessage());
+            renderFail(service);
         }
 
+    }
+
+    private void renderFail(PayService service){
+        renderText(service.getPayOutMessage("fail", "失败").toMessage());
     }
 
 

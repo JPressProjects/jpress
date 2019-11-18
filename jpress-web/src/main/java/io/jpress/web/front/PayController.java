@@ -359,7 +359,7 @@ public class PayController extends TemplateControllerBase {
             }
         }
 
-        if (payment.getPaySuccessAmount() == null){
+        if (payment.getPaySuccessAmount() == null) {
             payment.setPaySuccessAmount(payment.getPayAmount());
         }
 
@@ -377,7 +377,7 @@ public class PayController extends TemplateControllerBase {
 
     }
 
-    private void renderFail(PayService service){
+    private void renderFail(PayService service) {
         renderText(service.getPayOutMessage("fail", "失败").toMessage());
     }
 
@@ -418,20 +418,19 @@ public class PayController extends TemplateControllerBase {
         String trxNo = getTrxNo(params);
 
         if (!service.verify(params)) {
-            redirect("/pay/fail/" + trxNo);
+            redirectFail(trxNo);
             return;
         }
 
 
         //支付宝支付
         if (service instanceof AliPayService) {
-
             //交易状态
             String trade_status = (String) params.get("trade_status");
 
             //交易完成
             if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
-                redirect("/pay/success/" + trxNo);
+                redirectSuccess(trxNo);
                 return;
             }
         }
@@ -439,7 +438,7 @@ public class PayController extends TemplateControllerBase {
         //微信支付
         else if (service instanceof WxPayService) {
             if ("SUCCESS".equals(params.get("result_code"))) {
-                redirect("/pay/success/" + trxNo);
+                redirectSuccess(trxNo);
                 return;
             }
         }
@@ -447,15 +446,22 @@ public class PayController extends TemplateControllerBase {
         //paypal 支付
         else if (service instanceof PayPalPayService) {
 
-//            if ("Completed".equals(params.get("payment_status")) && "verified".equals(params.get("payer_status"))){
             if ("Completed".equals(params.get("payment_status"))) {
-                redirect("/pay/success/" + trxNo);
+                redirectSuccess(trxNo);
                 return;
             }
         }
 
-        redirect("/pay/fail/" + trxNo);
+        redirectFail(trxNo);
+    }
 
+
+    private void redirectFail(String trxNo) {
+        redirect("/pay/fail/" + trxNo);
+    }
+
+    private void redirectSuccess(String trxNo) {
+        redirect("/pay/success/" + trxNo);
     }
 
 

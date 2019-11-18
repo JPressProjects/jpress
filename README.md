@@ -16,6 +16,27 @@
 <img alt="license" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
 </p>
 
+## 功能
+
+#### 内容相关
+- 文章管理
+- 页面管理
+- 产品管理
+- 附件管理
+
+#### 用户相关
+- 用户管理
+- 会员管理
+- 权限管理
+- 订单管理
+
+#### 系统相关
+- 模板管理
+- 插件管理
+- 微信管理
+- 系统管理
+
+
 ## 特点
 
 #### 模板
@@ -84,13 +105,13 @@
 
 #### 其他
 
-- WordPress、Hexo、Jekyll 文章一键导入
-- 编写文章随意切换CKeditor和Markdown编辑
+- WordPress、Hexo、Jekyll、微信公众号等文章一键导入
+- 编写文章随意切换 CKEditor 和 Markdown 编辑
 - 最大化、沉侵式的文章编写体验
 - Docker 一键部署
-- 阿里云、腾讯云CDN在线配置
+- 阿里云、腾讯云 CDN 在线配置
 - 阿里云、腾讯云短信验证（用户注册手机验证）
-- 附件自动可配置自动同步阿里云OSS
+- 附件自动可配置自动同步阿里云 OSS
 - 完善的API接口配置管理
 - ... （更多等你发现）
 

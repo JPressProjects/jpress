@@ -24,6 +24,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.CacheUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import org.apache.commons.lang.time.DateUtils;
@@ -50,8 +51,15 @@ public class PaymentRecordServiceProvider extends JbootServiceBase<PaymentRecord
     }
 
     @Override
+    public void notifySuccess(long paymentId) {
+        PaymentRecord payment = findById(paymentId);
+        PaymentManager.me().notifySuccess(payment);
+        CacheUtil.put("payment_trx", payment.getTrxNo(), payment, 60 * 60);
+    }
+
+    @Override
     public int queryMonthAmount() {
         return Db.queryInt("select coalesce(sum(pay_success_amount),0) from payment_record where created > ? and pay_status >= ?",
-                DateUtils.truncate(new Date(), Calendar.MONTH) , PayStatus.SUCCESS_ALIPAY.getStatus());
+                DateUtils.truncate(new Date(), Calendar.MONTH), PayStatus.SUCCESS_ALIPAY.getStatus());
     }
 }

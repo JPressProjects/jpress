@@ -19,7 +19,6 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
-import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.service.PaymentRecordService;
@@ -275,7 +274,7 @@ public class PayController extends TemplateControllerBase {
 
         if (userService.updateUserAmount(getLoginedUser().getId(), userAmount,
                 BigDecimal.ZERO.subtract(payment.getPayAmount()))) {
-            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
+            paymentService.notifySuccess(payment.getId());
         }
 
         redirect("/pay/success/" + payment.getTrxNo());
@@ -373,7 +372,7 @@ public class PayController extends TemplateControllerBase {
 
 
         if (paymentService.update(payment)) {
-            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
+            paymentService.notifySuccess(payment.getId());
             renderText(service.getPayOutMessage("success", "成功").toMessage());
         } else {
             callbackFail(service);

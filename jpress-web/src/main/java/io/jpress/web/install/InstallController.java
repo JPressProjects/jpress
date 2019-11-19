@@ -358,6 +358,7 @@ public class InstallController extends ControllerBase {
         role.setFlag(Role.ADMIN_FLAG);
         role.setCreated(new Date());
         role.setModified(new Date());
+
         roleService.save(role);
 
         Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");

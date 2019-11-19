@@ -95,6 +95,7 @@ public class OrderController extends UcenterControllerBase {
 
         userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
         userOrder.setDeliveryFinishTime(new Date());
+
         orderService.update(userOrder);
     }
 

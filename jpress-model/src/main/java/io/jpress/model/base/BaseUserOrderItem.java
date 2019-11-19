@@ -383,6 +383,22 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getStr("comment_path");
 	}
 
+	public void setInvoiceId(java.lang.Long invoiceId) {
+		set("invoice_id", invoiceId);
+	}
+
+	public java.lang.Long getInvoiceId() {
+		return getLong("invoice_id");
+	}
+
+	public void setInvoiceStatus(java.lang.Integer invoiceStatus) {
+		set("invoice_status", invoiceStatus);
+	}
+
+	public java.lang.Integer getInvoiceStatus() {
+		return getInt("invoice_status");
+	}
+
     /**
      * 状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束
      */

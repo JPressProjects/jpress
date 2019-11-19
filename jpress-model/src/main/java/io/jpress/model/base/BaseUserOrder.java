@@ -293,6 +293,22 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 		return getLong("delivery_id");
 	}
 
+	public void setDeliveryType(java.lang.Integer deliveryType) {
+		set("delivery_type", deliveryType);
+	}
+
+	public java.lang.Integer getDeliveryType() {
+		return getInt("delivery_type");
+	}
+
+	public void setDeliveryStatus(java.lang.Integer deliveryStatus) {
+		set("delivery_status", deliveryStatus);
+	}
+
+	public java.lang.Integer getDeliveryStatus() {
+		return getInt("delivery_status");
+	}
+
     /**
      * 收货人地址
      */
@@ -392,101 +408,17 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 发票类型
+     * 发票
      */
-	public void setInvoiceType(java.lang.String invoiceType) {
-		set("invoice_type", invoiceType);
+	public void setInvoiceId(java.lang.Integer invoiceId) {
+		set("invoice_id", invoiceId);
 	}
 
     /**
-     * 发票类型
+     * 发票
      */
-	public java.lang.String getInvoiceType() {
-		return getStr("invoice_type");
-	}
-
-    /**
-     * 发票抬头
-     */
-	public void setInvoiceTitle(java.lang.String invoiceTitle) {
-		set("invoice_title", invoiceTitle);
-	}
-
-    /**
-     * 发票抬头
-     */
-	public java.lang.String getInvoiceTitle() {
-		return getStr("invoice_title");
-	}
-
-    /**
-     * 发票内容
-     */
-	public void setInvoiceContent(java.lang.String invoiceContent) {
-		set("invoice_content", invoiceContent);
-	}
-
-    /**
-     * 发票内容
-     */
-	public java.lang.String getInvoiceContent() {
-		return getStr("invoice_content");
-	}
-
-    /**
-     * 纳税人识别号
-     */
-	public void setInvoiceIdentity(java.lang.String invoiceIdentity) {
-		set("invoice_identity", invoiceIdentity);
-	}
-
-    /**
-     * 纳税人识别号
-     */
-	public java.lang.String getInvoiceIdentity() {
-		return getStr("invoice_identity");
-	}
-
-    /**
-     * 单位名称
-     */
-	public void setInvoiceName(java.lang.String invoiceName) {
-		set("invoice_name", invoiceName);
-	}
-
-    /**
-     * 单位名称
-     */
-	public java.lang.String getInvoiceName() {
-		return getStr("invoice_name");
-	}
-
-    /**
-     * 发票收取人手机号
-     */
-	public void setInvoiceMobile(java.lang.String invoiceMobile) {
-		set("invoice_mobile", invoiceMobile);
-	}
-
-    /**
-     * 发票收取人手机号
-     */
-	public java.lang.String getInvoiceMobile() {
-		return getStr("invoice_mobile");
-	}
-
-    /**
-     * 发票收取人邮箱
-     */
-	public void setInvoiceEmail(java.lang.String invoiceEmail) {
-		set("invoice_email", invoiceEmail);
-	}
-
-    /**
-     * 发票收取人邮箱
-     */
-	public java.lang.String getInvoiceEmail() {
-		return getStr("invoice_email");
+	public java.lang.Integer getInvoiceId() {
+		return getInt("invoice_id");
 	}
 
     /**

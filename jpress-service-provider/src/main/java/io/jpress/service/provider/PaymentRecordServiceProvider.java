@@ -24,7 +24,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.CacheUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.pay.PayStatus;
-import io.jpress.core.payment.PaymentManager;
+import io.jpress.core.finance.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import org.apache.commons.lang.time.DateUtils;

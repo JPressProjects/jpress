@@ -17,7 +17,7 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jpress.core.payment.PaymentManager;
+import io.jpress.core.finance.PaymentManager;
 import io.jpress.web.commons.pay.MemberPaymentSuccessListener;
 import io.jpress.web.commons.pay.OrderPaymentSuccessListener;
 import io.jpress.web.commons.pay.RechargePaymentSuccessListener;

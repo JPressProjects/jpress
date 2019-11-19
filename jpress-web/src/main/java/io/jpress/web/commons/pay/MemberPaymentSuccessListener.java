@@ -18,7 +18,7 @@ package io.jpress.web.commons.pay;
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import io.jpress.core.payment.PaymentSuccessListener;
+import io.jpress.core.finance.PaymentSuccessListener;
 import io.jpress.model.Member;
 import io.jpress.model.MemberGroup;
 import io.jpress.model.MemberJoinedRecord;

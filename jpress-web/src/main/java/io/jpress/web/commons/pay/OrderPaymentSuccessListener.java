@@ -19,7 +19,7 @@ import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.commons.pay.PayStatus;
-import io.jpress.core.payment.PaymentSuccessListener;
+import io.jpress.core.finance.PaymentSuccessListener;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrder;
@@ -68,6 +68,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                     if (!itemService.update(item)) {
                         return false;
                     }
+
                     distSettler(item, payment);
                 }
                 return true;

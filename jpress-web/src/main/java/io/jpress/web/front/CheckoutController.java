@@ -22,7 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
-import io.jpress.core.payment.DistManager;
+import io.jpress.core.finance.DistManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;

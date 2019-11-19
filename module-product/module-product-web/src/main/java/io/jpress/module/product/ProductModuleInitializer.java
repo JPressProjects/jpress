@@ -21,7 +21,7 @@ import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
-import io.jpress.core.payment.DistManager;
+import io.jpress.core.finance.DistManager;
 
 import java.util.List;
 

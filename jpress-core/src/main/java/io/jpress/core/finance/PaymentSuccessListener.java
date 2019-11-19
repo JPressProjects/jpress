@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.payment;
+package io.jpress.core.finance;
 
 import io.jpress.model.PaymentRecord;
 

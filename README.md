@@ -164,7 +164,8 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 > 可能遇到的问题： 
 > 
 > 1、执行 `mvn clean` 后，再次运行 JPress，JPress 会重新走安装流程。
-> 解决方案：需要把 jpress 安装过程中，在 `starter/target/classes` 目录生成的 `jboot.properties` 和 `install.lock` 文件，复制到你的 `starter/resource` 目录下。 jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
+>
+> 解决方案： jpress 在安装过程中，会在 `starter/target/classes` 目录下生成的 `jboot.properties` 和 `install.lock` 文件，我们需要把这两个文件复制到 `starter/src/main/resource` 目录下。 因为，jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
 
 ## 微信交流群
 

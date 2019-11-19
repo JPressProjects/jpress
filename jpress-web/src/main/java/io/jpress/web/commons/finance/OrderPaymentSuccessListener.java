@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentSuccessListener;
 import io.jpress.model.PaymentRecord;
-import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
-import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
-import io.jpress.service.UserService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -69,7 +66,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                         return false;
                     }
 
-                    distSettler(item, payment);
+                    OrderManager.me().notifyStatusChange(item);
                 }
                 return true;
             });
@@ -77,55 +74,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
             if (!updateSucess) {
                 LOG.error("update order fail or update orderItem fail in pay success。");
             }
-
-        }
-
-    }
-
-    /**
-     * 处理分销情况
-     *
-     * @param orderItem
-     * @param payment
-     */
-    private void distSettler(UserOrderItem orderItem, PaymentRecord payment) {
-
-        BigDecimal distAmount = orderItem.getDistAmount().multiply(BigDecimal.valueOf(orderItem.getProductCount()));
-
-        if (orderItem.isFinished() //交易结束，用户不能申请退款
-                && orderItem.getDistUserId() != null //分销用户不能为空
-                && orderItem.getBuyerId() != null  //支付用户不能为空
-                && orderItem.getDistUserId().equals(orderItem.getBuyerId()) //分销用户和支付用户不能是同一个人
-                && orderItem.getPayAmount() != null //支付金额不能为空
-                && orderItem.getPayAmount().compareTo(BigDecimal.ZERO) > 0 //支付金额必须大于0
-                && orderItem.getDistAmount() != null //分销金额不能为空
-                && orderItem.getPayAmount().compareTo(distAmount) > 0 //支付金额必须大于分销金额
-        ) {
-
-
-            UserService userService = Aop.get(UserService.class);
-            UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
-
-            BigDecimal userAmount = userService.queryUserAmount(orderItem.getDistUserId());
-
-            //更新用于余额
-            if (userService.updateUserAmount(orderItem.getDistUserId(), userAmount,
-                    distAmount)) {
-
-                UserAmountStatement statement = new UserAmountStatement();
-                statement.setUserId(orderItem.getDistUserId());
-                statement.setActionDesc(UserAmountStatement.ACTION_DIST);
-                statement.setActionName("分销收入");
-                statement.setActionDesc("分销收入");
-                statement.setActionRelativeType("user_order_item");
-                statement.setActionRelativeId(orderItem.getId());
-                statement.setActionPaymentId(payment.getId());
-                statement.setOldAmount(userAmount);
-                statement.setNewAmount(userAmount.add(distAmount));
-                statement.setChangeAmount(distAmount);
-
-                statementService.save(statement);
-            }
         }
     }
+
 }

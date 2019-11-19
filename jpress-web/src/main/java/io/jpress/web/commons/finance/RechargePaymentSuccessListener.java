@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;

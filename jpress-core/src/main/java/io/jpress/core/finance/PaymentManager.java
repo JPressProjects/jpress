@@ -36,7 +36,7 @@ public class PaymentManager {
         return me;
     }
 
-    public List<PaymentSuccessListener> listeners;
+    private List<PaymentSuccessListener> listeners;
 
     public List<PaymentSuccessListener> getListeners() {
         return listeners;

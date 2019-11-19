@@ -33,7 +33,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
-import static io.jpress.web.commons.pay.MemberPaymentSuccessListener.LOG;
+import static io.jpress.web.commons.finance.MemberPaymentSuccessListener.LOG;
 
 @RequestMapping(value = "/pay")
 public class PayController extends TemplateControllerBase {

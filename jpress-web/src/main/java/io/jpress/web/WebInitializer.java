@@ -17,10 +17,12 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentManager;
-import io.jpress.web.commons.pay.MemberPaymentSuccessListener;
-import io.jpress.web.commons.pay.OrderPaymentSuccessListener;
-import io.jpress.web.commons.pay.RechargePaymentSuccessListener;
+import io.jpress.web.commons.finance.DistProcessListener;
+import io.jpress.web.commons.finance.MemberPaymentSuccessListener;
+import io.jpress.web.commons.finance.OrderPaymentSuccessListener;
+import io.jpress.web.commons.finance.RechargePaymentSuccessListener;
 import io.jpress.web.sharekit.PermissionKits;
 
 /**
@@ -68,5 +70,7 @@ public class WebInitializer extends JbootAppListenerBase {
         PaymentManager.me().addListener(new OrderPaymentSuccessListener());
         PaymentManager.me().addListener(new RechargePaymentSuccessListener());
         PaymentManager.me().addListener(new MemberPaymentSuccessListener());
+
+        OrderManager.me().addListener(new DistProcessListener());
     }
 }

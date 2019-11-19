@@ -23,11 +23,9 @@ import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.UserOrder;
+import io.jpress.model.UserOrderDelivery;
 import io.jpress.model.UserOrderItem;
-import io.jpress.service.PaymentRecordService;
-import io.jpress.service.UserOrderItemService;
-import io.jpress.service.UserOrderService;
-import io.jpress.service.UserService;
+import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.express.ExpressCompany;
 import io.jpress.web.commons.express.ExpressInfo;
@@ -58,6 +56,9 @@ public class _OrderController extends AdminControllerBase {
 
     @Inject
     private PaymentRecordService paymentService;
+
+    @Inject
+    private UserOrderDeliveryService deliveryService;
 
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
@@ -100,7 +101,8 @@ public class _OrderController extends AdminControllerBase {
 
         //如果快递已经发货
         if (order.isDeliveried()) {
-            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(order.getDeliveryCompany(), order.getDeliveryNo());
+            UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
+            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
             setAttr("expressInfos", expressInfos);
         }
 
@@ -126,9 +128,25 @@ public class _OrderController extends AdminControllerBase {
 
             order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED); //设置为已经发货
             order.setDeliveryType(deliveryType);
-            order.setDeliveryNo(getPara("deliveryNo"));
-            order.setDeliveryCompany(getPara("deliveryCompany"));
-            order.setDeliveryStartTime(getParaToDate("deliveryStartTime"));
+
+            UserOrderDelivery delivery = new UserOrderDelivery();
+
+            delivery.setNumber(getPara("deliveryNo"));
+            delivery.setCompany(getPara("deliveryCompany"));
+            delivery.setStartTime(getParaToDate("deliveryStartTime"));
+
+            delivery.setAddrUsername(order.getDeliveryAddrUsername());
+            delivery.setAddrMobile(order.getDeliveryAddrMobile());
+            delivery.setAddrProvince(order.getDeliveryAddrProvince());
+            delivery.setAddrCity(order.getDeliveryAddrCity());
+            delivery.setAddrDistrict(order.getDeliveryAddrDistrict());
+            delivery.setAddrDetail(order.getDeliveryAddrDetail());
+            delivery.setAddrZipcode(order.getDeliveryAddrZipcode());
+
+            Object deliveryId = deliveryService.save(delivery);
+            if (deliveryId != null) {
+                order.setDeliveryId((Long) deliveryId);
+            }
 
 
             if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {

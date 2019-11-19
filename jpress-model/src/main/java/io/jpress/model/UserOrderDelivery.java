@@ -11,5 +11,8 @@ public class UserOrderDelivery extends BaseUserOrderDelivery<UserOrderDelivery> 
 
     private static final long serialVersionUID = 1L;
 
+    public static final int STATUS_DELIVERING = 1;
+    public static final int STATUS_FINISHED = 9;
+
 	
 }

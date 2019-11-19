@@ -147,7 +147,7 @@ public class CheckoutController extends UcenterControllerBase {
             item.setProductCount(userCart.getProductCount());
             item.setProductThumbnail(userCart.getProductThumbnail());
 
-            item.setWithVirtual(userCart.getProductVirtual());//是否是虚拟产品
+            item.setWithVirtual(userCart.getWithVirtual());//是否是虚拟产品
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
@@ -157,7 +157,7 @@ public class CheckoutController extends UcenterControllerBase {
                     userCart.getDistUserId()));
 
 
-            item.setDeiveryCost(BigDecimal.ZERO);//运费，后台设置
+            item.setDeliveryCost(BigDecimal.ZERO);//运费，后台设置
             item.setOtherCost(BigDecimal.ZERO); //其他费用
 
             item.setViewText(userCart.getViewText());
@@ -170,7 +170,7 @@ public class CheckoutController extends UcenterControllerBase {
 
             //payAmount = 产品价格 * 产品数量 + 运费 + 其他费用
             BigDecimal payAmount = userCart.getShouldPayPrice()
-                    .add(item.getDeiveryCost())
+                    .add(item.getDeliveryCost())
                     .add(item.getOtherCost());
 
             item.setPayAmount(payAmount);

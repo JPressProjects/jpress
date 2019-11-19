@@ -1,4 +1,4 @@
-package io.jpress.module.article.sitemap;
+package io.jpress.module.article.service.sitemap;
 
 
 import com.jfinal.aop.Aop;
@@ -26,10 +26,17 @@ public class ArticleSitemapManager implements JbootEventListener {
             Installer.addListener(this);
             return;
         }
+        build();
+    }
 
 
+    public void rebuild() {
+        build();
+    }
+
+
+    private void build() {
         Long articleCount = Db.queryLong("select count(*) from article where `status` = ? ", Article.STATUS_NORMAL);
-
         if (articleCount != null && articleCount > 0) {
             int totalPage = (int) ((articleCount + 100) / 100);
             for (int i = 1; i <= totalPage; i++) {
@@ -37,7 +44,6 @@ public class ArticleSitemapManager implements JbootEventListener {
                 SitemapManager.me().addProvider(Aop.inject(new ArticleSitemapProvider(name, i)));
             }
         }
-
     }
 
     @Override

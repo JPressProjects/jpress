@@ -27,7 +27,7 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.sitemap.ArticleSitemapManager;
+import io.jpress.module.article.service.sitemap.ArticleSitemapManager;
 
 import java.util.List;
 

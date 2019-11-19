@@ -2,17 +2,21 @@ package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
+import io.jpress.model.UserOrderItem;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
 import io.jpress.model.UserOrder;
 import io.jboot.service.JbootServiceBase;
 import org.apache.commons.lang.time.DateUtils;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Bean
 public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implements UserOrderService {
@@ -20,6 +24,25 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
     @Inject
     private UserOrderItemService itemService;
 
+
+    @Override
+    public boolean updateOrderAndItems(UserOrder order, List<UserOrderItem> items) {
+        return Db.tx(new IAtom() {
+            @Override
+            public boolean run() throws SQLException {
+                if (update(order)) {
+                    for (UserOrderItem item : items) {
+                        if (!itemService.update(item)) {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+                return true;
+            }
+        });
+    }
 
     @Override
     public Page<UserOrder> paginate(int page, int pageSize, String title, String ns) {
@@ -47,7 +70,7 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
 
     @Override
     public UserOrder findByPaymentId(Long id) {
-        return DAO.findFirstByColumn("payment_id",id);
+        return DAO.findFirstByColumn("payment_id", id);
     }
 
     @Override

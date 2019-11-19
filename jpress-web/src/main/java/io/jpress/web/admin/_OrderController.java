@@ -20,6 +20,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.core.finance.OrderManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
@@ -138,10 +139,19 @@ public class _OrderController extends AdminControllerBase {
 
             List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
             for (UserOrderItem item : orderItems) {
-                item.setStatus(order.getTradeStatus());
+                if (item.isVirtualProduct()) {
+                    item.setStatus(UserOrderItem.STATUS_FINISHED);
+                } else {
+                    item.setStatus(order.getTradeStatus());
+                }
             }
 
-            orderService.update(order);
+            if (orderService.updateOrderAndItems(order, orderItems)) {
+                for (UserOrderItem item : orderItems) {
+                    OrderManager.me().notifyStatusChange(item);
+                }
+            }
+
             renderOkJson();
         }
     }

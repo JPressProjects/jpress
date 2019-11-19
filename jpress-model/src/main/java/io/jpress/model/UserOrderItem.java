@@ -20,14 +20,14 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     /**
      * 这个状态数值，完全等同于 UserOrder.Trade_status_xxx
      */
-    public static final int STATUS_TRADING = 1; //交易中
-    public static final int STATUS_COMPLETED = 2; //交易完成（但是可以申请退款）
-    public static final int STATUS_CANCEL = 3; //取消交易
-    public static final int STATUS_APPLY_FOR_REFUNDING = 4; //申请退款
-    public static final int STATUS_REFUSAL_REFUNDING = 5; //拒绝退款
-    public static final int STATUS_REFUNDING = 6; //退款中
-    public static final int STATUS_REFUNDED = 7;//退款完成
-    public static final int STATUS_FINISHED = 9;//交易结束
+    public static final int STATUS_TRADING = UserOrder.TRADE_STATUS_TRADING; //交易中
+    public static final int STATUS_COMPLETED = UserOrder.TRADE_STATUS_COMPLETED; //交易完成（但是可以申请退款）
+    public static final int STATUS_CANCEL = UserOrder.TRADE_STATUS_CANCEL; //取消交易
+    public static final int STATUS_APPLY_FOR_REFUNDING = UserOrder.TRADE_STATUS_APPLY_FOR_REFUNDING; //申请退款
+    public static final int STATUS_REFUSAL_REFUNDING = UserOrder.TRADE_STATUS_REFUSAL_REFUNDING; //拒绝退款
+    public static final int STATUS_REFUNDING = UserOrder.TRADE_STATUS_REFUNDING; //退款中
+    public static final int STATUS_REFUNDED = UserOrder.TRADE_STATUS_REFUNDED;//退款完成
+    public static final int STATUS_FINISHED = UserOrder.TRADE_STATUS_FINISHED;//交易结束
 
     public static final Map<Integer, String> statusTexts = new HashMap<>();
 
@@ -63,6 +63,11 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     public boolean isFinished() {
         Integer status = getStatus();
         return status != null && status == STATUS_FINISHED;
+    }
+
+    public boolean isVirtualProduct() {
+        Boolean v = getProductVirtual();
+        return v != null && v;
     }
 
 

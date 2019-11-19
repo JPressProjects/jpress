@@ -138,7 +138,7 @@
 - [微信小程序开发](http://www.jpress.io/article/67)
 - [视频教程](http://www.jpress.io/article/category/course)
 - [常见问题](./doc/faq.md)
-- [JPress-VIP会员](./doc/vip.md)
+- [JPress-VIP 会员](./doc/vip.md)
 
 ## 运行JPress
 
@@ -161,6 +161,10 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 - 3、右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 4、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 
+> 可能遇到的问题： 
+> 
+> 1、执行 `mvn clean` 后，再次运行 JPress，JPress 会重新走安装流程。
+> 解决方案：需要把 jpress 安装过程中，在 `starter/target/classes` 目录生成的 `jboot.properties` 和 `install.lock` 文件，复制到你的 `starter/resource` 目录下。 jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
 
 ## 微信交流群
 

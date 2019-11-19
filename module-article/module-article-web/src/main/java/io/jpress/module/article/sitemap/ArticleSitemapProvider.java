@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ArticlesSitemapProvider implements SitemapProvider {
+public class ArticleSitemapProvider implements SitemapProvider {
 
     private String name;
     private int page;
@@ -38,10 +38,10 @@ public class ArticlesSitemapProvider implements SitemapProvider {
     private ArticleService articleService;
 
 
-    public ArticlesSitemapProvider() {
+    public ArticleSitemapProvider() {
     }
 
-    public ArticlesSitemapProvider(String name, int page) {
+    public ArticleSitemapProvider(String name, int page) {
         this.name = name;
         this.page = page;
     }
@@ -57,7 +57,7 @@ public class ArticlesSitemapProvider implements SitemapProvider {
             return lastmod;
         }
 
-        lastmod = Db.queryDate("select `modified` from article order by id desc where status = 'normal' limit " + ((page - 1) * 100) + ",1");
+        lastmod = Db.queryDate("select `modified` from article  where status = 'normal' order by id desc limit " + ((page - 1) * 100) + ",1");
         return lastmod;
     }
 

@@ -31,10 +31,10 @@ public class ArticleSitemapManager implements JbootEventListener {
         Long articleCount = Db.queryLong("select count(*) from article where `status` = ? ", Article.STATUS_NORMAL);
 
         if (articleCount != null && articleCount > 0) {
-            int totalPage = (int) (articleCount / 100);
+            int totalPage = (int) ((articleCount + 100) / 100);
             for (int i = 1; i <= totalPage; i++) {
                 String name = "article_" + i;
-                SitemapManager.me().addProvider(Aop.inject(new ArticlesSitemapProvider(name, i)));
+                SitemapManager.me().addProvider(Aop.inject(new ArticleSitemapProvider(name, i)));
             }
         }
 

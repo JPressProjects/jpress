@@ -15,7 +15,11 @@
  */
 package io.jpress.module.article.sitemap;
 
+import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.Article;
+import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
 
@@ -27,14 +31,19 @@ import java.util.stream.Collectors;
 public class ArticlesSitemapProvider implements SitemapProvider {
 
     private String name;
-    private List<Article> articleList;
+    private int page;
+    private Date lastmod;
+
+    @Inject
+    private ArticleService articleService;
+
 
     public ArticlesSitemapProvider() {
     }
 
-    public ArticlesSitemapProvider(String name, List<Article> articleList) {
+    public ArticlesSitemapProvider(String name, int page) {
         this.name = name;
-        this.articleList = articleList;
+        this.page = page;
     }
 
     @Override
@@ -44,17 +53,24 @@ public class ArticlesSitemapProvider implements SitemapProvider {
 
     @Override
     public Date getLastmod() {
-        List<Sitemap> sitemaps = getSitemaps();
-        return sitemaps == null || sitemaps.isEmpty() ? null : sitemaps.get(0).getLastmod();
+        if (lastmod != null) {
+            return lastmod;
+        }
+
+        lastmod = Db.queryDate("select `modified` from article order by id desc where status = 'normal' limit " + ((page - 1) * 100) + ",1");
+        return lastmod;
     }
 
 
     @Override
     public List<Sitemap> getSitemaps() {
-        if (articleList == null || articleList.isEmpty()) {
+
+        Page<Article> articlePage = articleService.paginateInNormal(page, 100);
+        if (articlePage.getList().isEmpty()) {
             return null;
         }
-        return articleList.stream()
+
+        return articlePage.getList().stream()
                 .map(Util::toSitemap)
                 .collect(Collectors.toList());
     }

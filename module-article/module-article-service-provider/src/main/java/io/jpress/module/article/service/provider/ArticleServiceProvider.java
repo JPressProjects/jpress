@@ -130,7 +130,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize) {
-        return paginateInNormal(page, pagesize, null);
+        return paginateInNormal(page, pagesize, "id desc");
     }
 
     @Override
@@ -220,7 +220,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Long findCountByStatus(String status) {
-        return DAO.findCountByColumn(Column.create("status",status));
+        return DAO.findCountByColumn(Column.create("status", status));
     }
 
     @Override

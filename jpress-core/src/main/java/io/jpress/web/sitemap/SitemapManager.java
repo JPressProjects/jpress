@@ -56,7 +56,7 @@ public class SitemapManager implements JbootEventListener {
                 }
             });
         }
-        
+
     }
 
     @Override
@@ -64,9 +64,6 @@ public class SitemapManager implements JbootEventListener {
         init();
     }
 
-    public void addProvider(String name, SitemapProvider provider) {
-        providers.put(name, provider);
-    }
 
     public void addProvider(SitemapProvider provider) {
         providers.put(provider.getName(), provider);
@@ -82,7 +79,9 @@ public class SitemapManager implements JbootEventListener {
 
     public List<Sitemap> getIndexSitemapList() {
         List<Sitemap> sitemaps = new ArrayList<>();
-        providers.forEach((s, render) -> sitemaps.add(new Sitemap("/sitemap/" + s + ".xml", render.getLastmod())));
+        for (SitemapProvider provider : providers.values()) {
+            sitemaps.add(new Sitemap("/sitemap/" + provider.getName() + ".xml", provider.getLastmod()));
+        }
         return sitemaps;
     }
 

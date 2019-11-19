@@ -66,7 +66,7 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     }
 
     public boolean isVirtualProduct() {
-        Boolean v = getProductVirtual();
+        Boolean v = getWithVirtual();
         return v != null && v;
     }
 

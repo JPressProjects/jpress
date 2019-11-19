@@ -56,8 +56,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                 UserOrderItemService itemService = Aop.get(UserOrderItemService.class);
                 List<UserOrderItem> userOrderItems = itemService.findListByOrderId(userOrder.getId());
                 for (UserOrderItem item : userOrderItems) {
-                    Boolean isVirtual = item.getProductVirtual();
-                    if (isVirtual != null && isVirtual) {
+                    if (item.isVirtualProduct()) {
                         item.setStatus(UserOrderItem.STATUS_FINISHED);//交易结束
                     } else {
                         item.setStatus(UserOrderItem.STATUS_COMPLETED);//交易完成

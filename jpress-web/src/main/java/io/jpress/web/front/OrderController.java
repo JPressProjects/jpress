@@ -10,8 +10,11 @@ import io.jpress.model.UserOrderDelivery;
 import io.jpress.model.UserOrderItem;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
+import io.jpress.web.commons.express.ExpressInfo;
+import io.jpress.web.commons.express.ExpressUtil;
 
 import java.util.Date;
+import java.util.List;
 
 
 @RequestMapping(value = "/ucenter/order", viewPath = "/WEB-INF/views/ucenter/order")
@@ -58,6 +61,14 @@ public class OrderController extends UcenterControllerBase {
             setAttr("orderCoupon", couponCode);
             setAttr("orderCouponUser", userService.findById(couponCode.getUserId()));
         }
+
+        //如果快递已经发货
+        if (order.isDeliveried()) {
+            UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
+            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+            setAttr("expressInfos", expressInfos);
+        }
+
 
         setAttr("order", order);
         render("order_detail.html");

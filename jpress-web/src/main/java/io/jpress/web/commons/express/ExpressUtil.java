@@ -16,6 +16,8 @@
 package io.jpress.web.commons.express;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.HashKit;
@@ -24,10 +26,7 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExpressUtil {
 
@@ -84,6 +83,21 @@ public class ExpressUtil {
         params.put("customer", appId);
         String resp = HttpUtil.httpPost("http://poll.kuaidi100.com/poll/query.do", params);
 
+        if (StrUtil.isNotBlank(resp)) {
+            JSONObject jsonObject = JSON.parseObject(resp);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            if (jsonArray != null && jsonArray.size() > 0) {
+                List<ExpressInfo> list = new ArrayList<>();
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JSONObject expObject = jsonArray.getJSONObject(i);
+                    ExpressInfo ei = new ExpressInfo();
+                    ei.setInfo(expObject.getString("context"));
+                    ei.setTime(expObject.getString("time"));
+                }
+                return list;
+            }
+        }
+
         return null;
     }
 
@@ -110,7 +124,17 @@ public class ExpressUtil {
             result = HttpUtil.httpGet(url, params);
             JSONObject object = JSONObject.parseObject(result);
             if (object.getInteger("error_code") == 0) {
-                System.out.println(object.get("result"));
+                JSONArray jsonArray = object.getJSONObject("result").getJSONArray("list");
+                if (jsonArray != null && jsonArray.size() > 0) {
+                    List<ExpressInfo> list = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JSONObject expObject = jsonArray.getJSONObject(i);
+                        ExpressInfo ei = new ExpressInfo();
+                        ei.setInfo(expObject.getString("remark"));
+                        ei.setTime(expObject.getString("datetime"));
+                    }
+                    return list;
+                }
             } else {
                 System.out.println(object.get("error_code") + ":" + object.get("reason"));
             }
@@ -145,10 +169,29 @@ public class ExpressUtil {
         }
 
         String result = HttpUtil.httpPost("http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx", params);
-
-        //根据公司业务处理返回的信息......
+        try {
+            JSONObject object = JSONObject.parseObject(result);
+            if (object.getBooleanValue("Success")) {
+                JSONArray jsonArray = object.getJSONArray("Traces");
+                if (jsonArray != null && jsonArray.size() > 0) {
+                    List<ExpressInfo> list = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JSONObject expObject = jsonArray.getJSONObject(i);
+                        ExpressInfo ei = new ExpressInfo();
+                        ei.setInfo(expObject.getString("AcceptStation"));
+                        ei.setTime(expObject.getString("AcceptTime"));
+                    }
+                    return list;
+                }
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return null;
+
     }
 
 
@@ -172,6 +215,24 @@ public class ExpressUtil {
 
 
         String resp = HttpUtil.httpGet("http://route.showapi.com/64-19", params);
+        try {
+            JSONObject object = JSONObject.parseObject(resp);
+            JSONArray jsonArray = object.getJSONObject("showapi_res_body").getJSONArray("data");
+            if (jsonArray != null && jsonArray.size() > 0) {
+                List<ExpressInfo> list = new ArrayList<>();
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JSONObject expObject = jsonArray.getJSONObject(i);
+                    ExpressInfo ei = new ExpressInfo();
+                    ei.setInfo(expObject.getString("context"));
+                    ei.setTime(expObject.getString("time"));
+                }
+                return list;
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return null;
     }

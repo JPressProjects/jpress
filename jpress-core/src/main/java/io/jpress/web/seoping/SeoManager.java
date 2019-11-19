@@ -22,8 +22,8 @@ import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
+
 
 public class SeoManager {
 
@@ -37,7 +37,7 @@ public class SeoManager {
     }
 
 
-    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
     private BaiduPinger baiduPinger = new BaiduPinger();
     private GooglePinger googlePinger = new GooglePinger();

@@ -280,87 +280,17 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 发货状态
+     * 发货情况
      */
-	public void setDeliveryStatus(java.lang.Integer deliveryStatus) {
-		set("delivery_status", deliveryStatus);
+	public void setDeliveryId(java.lang.Long deliveryId) {
+		set("delivery_id", deliveryId);
 	}
 
     /**
-     * 发货状态
+     * 发货情况
      */
-	public java.lang.Integer getDeliveryStatus() {
-		return getInt("delivery_status");
-	}
-
-    /**
-     * 配送方式：1无需配送，2快递，3物流，4公司自己配送，5用户自提
-     */
-	public void setDeliveryType(java.lang.Integer deliveryType) {
-		set("delivery_type", deliveryType);
-	}
-
-    /**
-     * 配送方式：1无需配送，2快递，3物流，4公司自己配送，5用户自提
-     */
-	public java.lang.Integer getDeliveryType() {
-		return getInt("delivery_type");
-	}
-
-    /**
-     * 快递公司
-     */
-	public void setDeliveryCompany(java.lang.String deliveryCompany) {
-		set("delivery_company", deliveryCompany);
-	}
-
-    /**
-     * 快递公司
-     */
-	public java.lang.String getDeliveryCompany() {
-		return getStr("delivery_company");
-	}
-
-    /**
-     * 快递单号
-     */
-	public void setDeliveryNo(java.lang.String deliveryNo) {
-		set("delivery_no", deliveryNo);
-	}
-
-    /**
-     * 快递单号
-     */
-	public java.lang.String getDeliveryNo() {
-		return getStr("delivery_no");
-	}
-
-    /**
-     * 快递发货时间
-     */
-	public void setDeliveryStartTime(java.util.Date deliveryStartTime) {
-		set("delivery_start_time", deliveryStartTime);
-	}
-
-    /**
-     * 快递发货时间
-     */
-	public java.util.Date getDeliveryStartTime() {
-		return get("delivery_start_time");
-	}
-
-    /**
-     * 快递送达时间
-     */
-	public void setDeliveryFinishTime(java.util.Date deliveryFinishTime) {
-		set("delivery_finish_time", deliveryFinishTime);
-	}
-
-    /**
-     * 快递送达时间
-     */
-	public java.util.Date getDeliveryFinishTime() {
-		return get("delivery_finish_time");
+	public java.lang.Long getDeliveryId() {
+		return getLong("delivery_id");
 	}
 
     /**

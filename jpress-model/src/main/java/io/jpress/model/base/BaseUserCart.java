@@ -92,20 +92,6 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
-     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
-     */
-	public void setProductVirtual(java.lang.Boolean productVirtual) {
-		set("product_virtual", productVirtual);
-	}
-
-    /**
-     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
-     */
-	public java.lang.Boolean getProductVirtual() {
-		return get("product_virtual");
-	}
-
-    /**
      * 商品标题
      */
 	public void setProductTitle(java.lang.String productTitle) {
@@ -209,6 +195,34 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
      */
 	public java.lang.String getProductDetailPage() {
 		return getStr("product_detail_page");
+	}
+
+    /**
+     * 是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public void setWithVirtual(java.lang.Boolean withVirtual) {
+		set("with_virtual", withVirtual);
+	}
+
+    /**
+     * 是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public java.lang.Boolean getWithVirtual() {
+		return get("with_virtual");
+	}
+
+    /**
+     * 是否支持退款，1支持，0不支持。
+     */
+	public void setWithRefund(java.lang.Boolean withRefund) {
+		set("with_refund", withRefund);
+	}
+
+    /**
+     * 是否支持退款，1支持，0不支持。
+     */
+	public java.lang.Boolean getWithRefund() {
+		return get("with_refund");
 	}
 
     /**

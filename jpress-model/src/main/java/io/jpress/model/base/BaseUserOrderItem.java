@@ -267,12 +267,20 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return get("with_refund");
 	}
 
-	public void setDeiveryCost(java.math.BigDecimal deiveryCost) {
-		set("deivery_cost", deiveryCost);
+	public void setDeliveryCost(java.math.BigDecimal deliveryCost) {
+		set("delivery_cost", deliveryCost);
 	}
 
-	public java.math.BigDecimal getDeiveryCost() {
-		return get("deivery_cost");
+	public java.math.BigDecimal getDeliveryCost() {
+		return get("delivery_cost");
+	}
+
+	public void setDeliveryId(java.lang.Long deliveryId) {
+		set("delivery_id", deliveryId);
+	}
+
+	public java.lang.Long getDeliveryId() {
+		return getLong("delivery_id");
 	}
 
 	public void setOtherCost(java.math.BigDecimal otherCost) {

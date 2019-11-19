@@ -46,7 +46,8 @@ public class SystemGenerator {
                 "payment_record";
 
         String optionsTables = "coupon,member,member_group,product,product_category,user_address," +
-                "user_amount_statement,user_amount_payout,user_cart,user_order,user_order_item,payment_record,user_openid,member_joined_record,user_favorite";
+                "user_amount_statement,user_amount_payout,user_cart,user_order,user_order_item,user_order_delivery,user_order_invoice," +
+                "payment_record,user_openid,member_joined_record,user_favorite";
 
         JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
         JbootApplication.setBootArg("jboot.datasource.user", "root");

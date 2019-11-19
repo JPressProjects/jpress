@@ -381,11 +381,13 @@ public class InstallController extends ControllerBase {
         User user = userService.findById(1L);
         if (user == null) {
             user = new User();
+            user.setNickname(username);
+            user.setRealname(username);
+            user.setCreateSource(User.SOURCE_WEB_REGISTER);
+            user.setCreated(new Date());
+            user.setActivated(new Date());
         }
 
-        user.setUsername(username);
-        user.setNickname(username);
-        user.setRealname(username);
 
         String salt = HashKit.generateSaltForSha256();
         String hashedPass = HashKit.sha256(salt + pwd);
@@ -393,15 +395,12 @@ public class InstallController extends ControllerBase {
         user.setSalt(salt);
         user.setPassword(hashedPass);
 
-        user.setCreated(new Date());
-        user.setActivated(new Date());
-        user.setStatus(User.STATUS_OK);
-        user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-
+        user.setUsername(username);
         if (StrUtil.isEmail(username)) {
             user.setEmail(username.toLowerCase());
         }
+
+        user.setStatus(User.STATUS_OK);
 
         userService.saveOrUpdate(user);
     }

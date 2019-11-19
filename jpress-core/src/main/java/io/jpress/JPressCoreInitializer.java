@@ -38,7 +38,7 @@ import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
-import io.jpress.web.sitemap.SitemapHandler;
+import io.jpress.web.sitemap.web.SitemapHandler;
 import io.jpress.web.sitemap.SitemapManager;
 
 import java.net.URISyntaxException;

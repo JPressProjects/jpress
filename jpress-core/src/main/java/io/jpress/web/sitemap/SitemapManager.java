@@ -16,7 +16,6 @@
 package io.jpress.web.sitemap;
 
 
-import com.jfinal.kit.LogKit;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
@@ -25,7 +24,6 @@ import io.jboot.utils.StrUtil;
 import io.jpress.core.install.Installer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,30 +40,6 @@ public class SitemapManager implements JbootEventListener {
     }
 
     private Map<String, SitemapProvider> providers = new ConcurrentHashMap<>();
-    private List<SitemapBuilder> builders = Collections.synchronizedList(new ArrayList<>());
-
-
-    public void build() {
-        for (SitemapBuilder b : builders) {
-            try {
-                b.build();
-            } catch (Exception ex) {
-                LogKit.error(ex.toString(), ex);
-            }
-        }
-    }
-
-    public List<SitemapBuilder> getBuilders() {
-        return builders;
-    }
-
-    public void setBuilders(List<SitemapBuilder> builders) {
-        this.builders = builders;
-    }
-
-    public void addBuilder(SitemapBuilder builder){
-        this.builders.add(builder);
-    }
 
     public void init() {
         if (Installer.notInstall()) {
@@ -82,14 +56,7 @@ public class SitemapManager implements JbootEventListener {
                 }
             });
         }
-
-        List<Class<SitemapBuilder>> builderCls = ClassScanner.scanSubClass(SitemapBuilder.class, true);
-        if (builderCls != null && builderCls.size() > 0) {
-            builderCls.forEach(c -> {
-                SitemapBuilder builder = ClassUtil.newInstance(c);
-                builders.add(builder);
-            });
-        }
+        
     }
 
     @Override

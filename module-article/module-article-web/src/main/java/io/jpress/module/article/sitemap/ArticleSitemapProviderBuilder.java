@@ -28,20 +28,12 @@ public class ArticleSitemapProviderBuilder implements JbootEventListener {
             return;
         }
 
-        SitemapManager.me().addBuilder(() -> ArticleSitemapProviderBuilder.this.build());
-    }
-
-    @Override
-    public void onEvent(JbootEvent event) {
-        init();
-    }
-
-    public void build() {
 
         int pageSize = 100;
 
         ArticleService articleService = Aop.get(ArticleService.class);
         Page<Article> page = articleService.paginateInNormal(1, pageSize);
+
         SitemapManager.me().addProvider(new ArticlesSitemapProvider("article_1", page.getList()));
 
         int totalPage = page.getTotalPage();
@@ -52,4 +44,11 @@ public class ArticleSitemapProviderBuilder implements JbootEventListener {
             }
         }
     }
+
+    @Override
+    public void onEvent(JbootEvent event) {
+        init();
+    }
+
+
 }

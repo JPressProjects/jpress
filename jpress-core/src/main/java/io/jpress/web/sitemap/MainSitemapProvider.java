@@ -15,11 +15,10 @@
  */
 package io.jpress.web.sitemap;
 
-/**
- * 当 sitemap Controller 接收请求的时候
- * 会执行 此接口下的所有实现类的 build 方法，用于 对 sitemap 就行构建
- */
-public interface SitemapBuilder {
 
-    public void build();
+import java.util.List;
+
+public interface MainSitemapProvider {
+
+    public List<Sitemap> getSitemaps();
 }

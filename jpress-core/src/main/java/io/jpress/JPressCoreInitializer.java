@@ -50,12 +50,12 @@ import java.net.URL;
  * @Title: JPress 初始化工具
  * @Package io.jpress
  */
-public class JPressInitializer extends JbootAppListenerBase {
+public class JPressCoreInitializer extends JbootAppListenerBase {
 
     @Override
     public void onInit() {
         try {
-            URL resourceUrl = JPressInitializer.class.getResource("/");
+            URL resourceUrl = JPressCoreInitializer.class.getResource("/");
             if (resourceUrl != null) {
                 PathKit.setWebRootPath(resourceUrl.toURI().getPath());
             }

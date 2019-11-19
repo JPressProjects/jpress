@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sitemap.web;
+package io.jpress.web.sitemap;
 
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
-import io.jpress.web.sitemap.Sitemap;
-import io.jpress.web.sitemap.SitemapManager;
-import io.jpress.web.sitemap.SitemapProvider;
 
 import java.util.List;
 

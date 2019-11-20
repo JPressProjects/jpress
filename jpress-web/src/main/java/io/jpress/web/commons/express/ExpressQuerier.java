@@ -15,31 +15,13 @@
  */
 package io.jpress.web.commons.express;
 
-
-import io.jpress.JPressOptions;
-
 import java.util.List;
 
-public class ExpressUtil {
+/**
+ * @author michael yang (fuhai999@gmail.com)
+ * @Date: 2019/11/20
+ */
+public interface ExpressQuerier {
 
-    /**
-     * 快递查询
-     *
-     * @param expressCompanyCode 快递公司
-     * @param num                快递单号
-     * @return
-     */
-    public static List<ExpressInfo> queryExpress(String expressCompanyCode, String num) {
-        String type = JPressOptions.get("express_api_type");
-        ExpressQuerier querier = ExpressQuerierFactory.get(type);
-
-        if (querier == null) {
-            return null;
-        }
-
-        ExpressCompany company = ExpressCompany.getByCode(expressCompanyCode);
-        return querier.query(company, num);
-    }
-
+    public List<ExpressInfo> query(ExpressCompany company, String num);
 }
-

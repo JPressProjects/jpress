@@ -443,7 +443,6 @@ public class PayController extends TemplateControllerBase {
         }
 
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-        render404If(notLoginedUserModel(payment, "payer_user_id"));
 
         if (payment.isPaySuccess()) {
             redirect("/pay/success/" + trxNo);
@@ -484,10 +483,6 @@ public class PayController extends TemplateControllerBase {
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
 
-
-//    private void render404IfPaymentIllegal(PaymentRecord payment) {
-//        render404If(payment == null || notLoginedUserModel(payment, "payer_user_id"));
-//    }
 
 
     /**

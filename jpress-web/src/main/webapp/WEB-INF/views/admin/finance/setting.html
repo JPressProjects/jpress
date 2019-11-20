@@ -301,43 +301,79 @@
 
                             <h4 class="page-header">收款通知</h4>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">开启</label>
+                                <label class="col-sm-2 control-label">邮件通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="pay_noitify_enable"
                                            #checkedIf(option("pay_noitify_enable"))>
                                     <input type="hidden" id="pay_noitify_enable" name="pay_noitify_enable">
-                                    <p class="help-block">当有用户进行支付时，系统将通过以下方式通知管理员 或 运营人员。 </p>
-
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">通知邮箱</label>
+                                <label class="col-sm-2 control-label">邮件标题</label>
+
                                 <div class="col-sm-6">
-                                    <input type="input" name="paypal_pay_clientid" class="form-control" value="#option('paypal_pay_clientid')"
-                                           placeholder="">
-                                    <p class="help-block">通知多个邮箱请用英文逗号（,）隔开，同时，请先在 <a href="#(CPATH)/admin/setting/connection">通信</a> 里对邮件进行正确配置，此项功能才能正常使用。 </p>
+                                    <input type="input" class="form-control" placeholder="例如：您有新的订单啦"
+                                           name="pay_notify_email_title"
+                                           value="#option('pay_notify_email_title')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮件模板</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="例如：管理员，您有新的订单啦，订单号是 #('#(payment.trx_no ??)') ..."
+                                              name="pay_notify_email_template">#option("pay_notify_email_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员邮箱，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信通知</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
+                                           #checkedIf(option("reg_sms_validate_enable"))>
+                                    <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">通知手机</label>
+                                <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"
-                                           placeholder="">
-                                    <p class="help-block">通知多个手机请用英文逗号（,）隔开，同时，请先在 <a href="#(CPATH)/admin/setting/connection">通信</a> 里对手机短信进行正确配置，此项功能才能正常使用。 </p>
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="pay_notify_sms_template">#option("pay_notify_sms_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的手机号码，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
+                                    </p>
                                 </div>
                             </div>
+
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">通知微信</label>
+                                <label class="col-sm-2 control-label">微信通知</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"
-                                           placeholder="">
+                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
+                                           #checkedIf(option("reg_sms_validate_enable"))>
+                                    <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
                                 </div>
                             </div>
 
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信内容</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="pay_notify_sms_template">#option("pay_notify_sms_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的微信 OpenId，并在 <a href="#(CPATH)/admin/wechat/base">[微信基础设置]</a> 完成微信配置才能正常使用。
+                                    </p>
+                                </div>
+                            </div>
 
 
 

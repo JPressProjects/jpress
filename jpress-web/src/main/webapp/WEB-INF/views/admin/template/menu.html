@@ -30,9 +30,11 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/template/doMenuSave"
-                          method="post" id="form">
+                          data-ok-href="#(CPATH)/admin/template/menu"
+                          method="post" >
+
                         <input type="hidden" name="menu.id" value="#(menu.id ??)">
                         <input type="hidden" name="menu.type" value="main">
                         <div class="box-body ">

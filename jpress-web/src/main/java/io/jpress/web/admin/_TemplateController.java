@@ -24,6 +24,8 @@ import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
@@ -388,10 +390,14 @@ public class _TemplateController extends AdminControllerBase {
         render("template/menu.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "menu.text", message = "菜单名称不能为空"),
+            @Form(name = "menu.url", message = "Url地址不能为空"),
+    })
     public void doMenuSave() {
         Menu menu = getModel(Menu.class);
         ms.saveOrUpdate(menu);
-        redirect("/admin/template/menu");
+        renderOkJson();
     }
 
     public void doMenuDel() {

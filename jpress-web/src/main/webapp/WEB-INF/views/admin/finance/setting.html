@@ -299,6 +299,46 @@
                             </div>
 
 
+                            <h4 class="page-header">收款通知</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="pay_noitify_enable"
+                                           #checkedIf(option("pay_noitify_enable"))>
+                                    <input type="hidden" id="pay_noitify_enable" name="pay_noitify_enable">
+                                    <p class="help-block">当有用户进行支付时，系统将通过以下方式通知管理员 或 运营人员。 </p>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">通知邮箱</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="paypal_pay_clientid" class="form-control" value="#option('paypal_pay_clientid')"
+                                           placeholder="">
+                                    <p class="help-block">通知多个邮箱请用英文逗号（,）隔开，同时，请先在 <a href="#(CPATH)/admin/setting/connection">通信</a> 里对邮件进行正确配置，此项功能才能正常使用。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">通知手机</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"
+                                           placeholder="">
+                                    <p class="help-block">通知多个手机请用英文逗号（,）隔开，同时，请先在 <a href="#(CPATH)/admin/setting/connection">通信</a> 里对手机短信进行正确配置，此项功能才能正常使用。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">通知微信</label>
+                                <div class="col-sm-6">
+                                    <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"
+                                           placeholder="">
+                                </div>
+                            </div>
+
+
 
 
                         </div>

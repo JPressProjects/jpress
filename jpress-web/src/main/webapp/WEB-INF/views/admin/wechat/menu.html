@@ -61,8 +61,8 @@
 
                                 <div class="col-sm-9">
                                     <select class="form-control" name="menu.type">
-                                        <option value="click" #selectedIf(menu && 'click' == menu.type)>点击推事件</option>
-                                        <option value="view" #selectedIf(menu && 'view' == menu.type)>跳转URL</option>
+                                        <option value="click" #selectedIf(menu && 'click' == menu.type)>触发关键字</option>
+                                        <option value="view" #selectedIf(menu && 'view' == menu.type)>链接到网页</option>
                                         <option value="miniprogram" #selectedIf(menu && 'miniprogram' == menu.type)>跳转微信小程序</option>
                                         <option value="scancode_push" #selectedIf(menu && 'scancode_push' == menu.type)>扫码推事件</option>
                                         <option value="scancode_waitmsg" #selectedIf(menu && 'scancode_waitmsg' == menu.type)>扫码推事件且弹出“消息接收中”提示框</option>
@@ -81,7 +81,7 @@
                                     <input type="input" class="form-control" placeholder="..."
                                            value="#(menu.keyword ??)" name="menu.keyword">
                                     <p class="help-block">
-                                        填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址，跳转微信小程序填写格式为 appId:page
+                                        填写的关键字将会触发“自动回复”匹配的内容，访问网页请填写URL地址，跳转微信小程序填写格式为 appid:page
                                     </p>
                                 </div>
                             </div>

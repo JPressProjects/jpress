@@ -1,5 +1,25 @@
 #@layout()
 
+#define script()
+<script>
+
+    $("#testbtn").on("click", function () {
+        var email = $("#testemail").val();
+        if (!email || email == "") {
+            alert("请输入测试邮件");
+            $("#testemail").focus();
+            return;
+        }
+        ajaxGet("#(CPATH)/admin/setting/testEmail?email=" + email, function () {
+            alert("邮件发送成功，请查收");
+        }, function (data) {
+            alert(data.message);
+        })
+    })
+
+</script>
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -60,6 +80,7 @@
                                     <input type="password" class="form-control" placeholder="及密码"
                                            name="connection_email_password"
                                            value="#option('connection_email_password')">
+                                    <p class="help-block"> 注意：QQ 邮箱的密码不是 QQ 密码，需要进入邮箱，在设置 -> 账户 里开启 SMTP，并生成授权密码。 </p>
                                 </div>
                             </div>
 
@@ -71,6 +92,17 @@
                                     <input type="hidden" id="connection_email_ssl_enable"
                                            name="connection_email_ssl_enable">
                                     <p class="help-block"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">收件测试</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="请输入接收邮件账号..." id="testemail">
+                                    <button type="button" class="btn btn-primary btn-flat" style="margin-top: 5px"
+                                            id="testbtn">发送测试邮件
+                                    </button>
                                 </div>
                             </div>
 

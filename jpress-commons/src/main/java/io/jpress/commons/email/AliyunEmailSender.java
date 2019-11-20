@@ -20,7 +20,7 @@ import com.jfinal.log.Log;
 /**
  * 暂未实现
  */
-public class AliyunEmailSender implements IEmailSender {
+public class AliyunEmailSender implements EmailSender {
     private static final Log logger = Log.getLog(AliyunEmailSender.class);
 
     /**
@@ -30,7 +30,8 @@ public class AliyunEmailSender implements IEmailSender {
      * sendmail-related/BatchSendMail.6.118.Qd9yth
      */
     @Override
-    public void send(Email email) {
+    public boolean send(Email email) {
 
+        return false;
     }
 }

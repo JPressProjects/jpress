@@ -78,6 +78,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
     public static final int STATUS_PAY_PRE = 1; //预支付
     public static final int STATUS_PAY_FAILURE = 2; //支付失败
     public static final int STATUS_PAY_SUCCESS = 9; //支付成功
+
     public static final int STATUS_REFUND_PRE = 11; //预退款
     public static final int STATUS_REFUNDING = 12; //退款中
     public static final int STATUS_REFUND_FAILURE = 13; //退款失败
@@ -117,7 +118,7 @@ public class PaymentRecord extends BasePaymentRecord<PaymentRecord> {
      * @return
      */
     public boolean isPaySuccess() {
-        return getPayStatus() != null && getPayStatus() > PayStatus.SUCCESS_ALIPAY.getStatus();
+        return getPayStatus() != null && getPayStatus() >= PayStatus.SUCCESS_ALIPAY.getStatus();
     }
 
 

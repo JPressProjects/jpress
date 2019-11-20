@@ -16,6 +16,27 @@
 <img alt="license" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
 </p>
 
+## 功能
+
+#### 内容相关
+- 文章管理
+- 页面管理
+- 产品管理
+- 附件管理
+
+#### 用户相关
+- 用户管理
+- 会员管理
+- 权限管理
+- 订单管理
+
+#### 系统相关
+- 模板管理
+- 插件管理
+- 微信管理
+- 系统管理
+
+
 ## 特点
 
 #### 模板
@@ -84,13 +105,13 @@
 
 #### 其他
 
-- WordPress、Hexo、Jekyll 文章一键导入
-- 编写文章随意切换CKeditor和Markdown编辑
+- WordPress、Hexo、Jekyll、微信公众号等文章一键导入
+- 编写文章随意切换 CKEditor 和 Markdown 编辑
 - 最大化、沉侵式的文章编写体验
 - Docker 一键部署
-- 阿里云、腾讯云CDN在线配置
+- 阿里云、腾讯云 CDN 在线配置
 - 阿里云、腾讯云短信验证（用户注册手机验证）
-- 附件自动可配置自动同步阿里云OSS
+- 附件自动可配置自动同步阿里云 OSS
 - 完善的API接口配置管理
 - ... （更多等你发现）
 
@@ -117,7 +138,7 @@
 - [微信小程序开发](http://www.jpress.io/article/67)
 - [视频教程](http://www.jpress.io/article/category/course)
 - [常见问题](./doc/faq.md)
-- [JPressSchool-VIP会员](./doc/vip.md)
+- [JPress-VIP 会员](./doc/vip.md)
 
 ## 运行JPress
 
@@ -140,6 +161,11 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 - 3、右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 4、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 
+> 可能遇到的问题： 
+> 
+> 1、执行 `mvn clean` 后，再次运行 JPress，JPress 会重新走安装流程。
+>
+> 解决方案： jpress 在安装过程中，会在 `starter/target/classes` 目录下生成的 `jboot.properties` 和 `install.lock` 文件，我们需要把这两个文件复制到 `starter/src/main/resource` 目录下。 因为，jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
 
 ## 微信交流群
 

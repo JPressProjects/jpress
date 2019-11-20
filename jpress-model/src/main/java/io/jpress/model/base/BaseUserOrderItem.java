@@ -168,20 +168,6 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	}
 
     /**
-     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
-     */
-	public void setProductVirtual(java.lang.Boolean productVirtual) {
-		set("product_virtual", productVirtual);
-	}
-
-    /**
-     * 是否是虚拟产品，虚拟产品支付完毕后立即交易完成
-     */
-	public java.lang.Boolean getProductVirtual() {
-		return get("product_virtual");
-	}
-
-    /**
      * 产品标题
      */
 	public void setProductTitle(java.lang.String productTitle) {
@@ -253,12 +239,48 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getInt("product_count");
 	}
 
-	public void setDeiveryCost(java.math.BigDecimal deiveryCost) {
-		set("deivery_cost", deiveryCost);
+    /**
+     * 是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public void setWithVirtual(java.lang.Boolean withVirtual) {
+		set("with_virtual", withVirtual);
 	}
 
-	public java.math.BigDecimal getDeiveryCost() {
-		return get("deivery_cost");
+    /**
+     * 是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成
+     */
+	public java.lang.Boolean getWithVirtual() {
+		return get("with_virtual");
+	}
+
+    /**
+     * 是否支持退款，1支持，0不支持。
+     */
+	public void setWithRefund(java.lang.Boolean withRefund) {
+		set("with_refund", withRefund);
+	}
+
+    /**
+     * 是否支持退款，1支持，0不支持。
+     */
+	public java.lang.Boolean getWithRefund() {
+		return get("with_refund");
+	}
+
+	public void setDeliveryCost(java.math.BigDecimal deliveryCost) {
+		set("delivery_cost", deliveryCost);
+	}
+
+	public java.math.BigDecimal getDeliveryCost() {
+		return get("delivery_cost");
+	}
+
+	public void setDeliveryId(java.lang.Long deliveryId) {
+		set("delivery_id", deliveryId);
+	}
+
+	public java.lang.Long getDeliveryId() {
+		return getLong("delivery_id");
 	}
 
 	public void setOtherCost(java.math.BigDecimal otherCost) {
@@ -359,6 +381,22 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
      */
 	public java.lang.String getCommentPath() {
 		return getStr("comment_path");
+	}
+
+	public void setInvoiceId(java.lang.Long invoiceId) {
+		set("invoice_id", invoiceId);
+	}
+
+	public java.lang.Long getInvoiceId() {
+		return getLong("invoice_id");
+	}
+
+	public void setInvoiceStatus(java.lang.Integer invoiceStatus) {
+		set("invoice_status", invoiceStatus);
+	}
+
+	public java.lang.Integer getInvoiceStatus() {
+		return getInt("invoice_status");
 	}
 
     /**
@@ -466,6 +504,5 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	public java.util.Date getCreated() {
 		return get("created");
 	}
-
 
 }

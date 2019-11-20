@@ -69,7 +69,7 @@ public class AddonUtil {
 
     private static boolean isResource(String name) {
         String suffix = FileUtil.getSuffix(name);
-        return suffix != null && resourceSuffix.contains(suffix.toLowerCase());
+        return suffix != null && resourceSuffix.contains(suffix.toLowerCase()) && !name.contains("...");
     }
 
     public static File resourceFile(String addonId, String path) {
@@ -369,8 +369,8 @@ public class AddonUtil {
             /**
              *  modify by lixin 07.31
              * 	dsc.setPrepStmtCacheSize(Integer.valueOf(cachePrepStmts));
-             */	 
-        	dsc.setPrepStmtCacheSize(Integer.valueOf(prepStmtCacheSize));
+             */
+            dsc.setPrepStmtCacheSize(Integer.valueOf(prepStmtCacheSize));
         }
 
         if (StrUtil.isNotBlank(prepStmtCacheSqlLimit)) {
@@ -393,7 +393,7 @@ public class AddonUtil {
          *  modify by lixin 07.31
          * 	String type = config.get("type");
          *  String driverClassName = config.get("driverClassName");
-         */	 
+         */
 
         String type = config.get("db.type");
         String driverClassName = config.get("db.driverClassName");

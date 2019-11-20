@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.core.payment;
-
-import io.jpress.model.PaymentRecord;
+package io.jpress.web.sitemap;
 
 
-public interface PaymentSuccessListener {
+import java.util.List;
 
-    public void onSuccess(PaymentRecord payment);
+public interface MainSitemapProvider {
 
+    public List<Sitemap> getSitemaps();
 }

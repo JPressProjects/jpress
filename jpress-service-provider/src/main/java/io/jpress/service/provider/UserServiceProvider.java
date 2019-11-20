@@ -46,7 +46,10 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
             User user = findById(id);
-            if (user != null) delete(user); //必须通过  delete(user) 才能清除缓存
+            if (user != null) {
+                //必须通过  delete(user) 才能清除缓存
+                delete(user);
+            }
         }
         return true;
     }
@@ -76,6 +79,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
 
+    @Override
     public Ret doValidateUserPwd(User user, String pwd) {
 
         if (user == null) {
@@ -130,20 +134,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Override
     public User findFistByWxUnionid(String unioinId) {
-//        return DAO.findFirstByColumn("wx_unionid", unioinId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID, unioinId);
     }
 
     @Override
-//    @Cacheable(name = "userOpenIds", key = "#(openId)")
     public User findFistByWxOpenid(String openId) {
-//        return DAO.findFirstByColumn("wx_openid", openId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT, openId);
     }
 
     @Override
     public User findFistByQQOpenid(String openId) {
-//        return DAO.findFirstByColumn("qq_openid", openId);
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ, openId);
     }
 
@@ -184,8 +184,8 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             record.set("created", new Date());
             return Db.save("user_amount", record);
         } else {
-            return Db.update("update user_amount set amount = amount + " + updateAmount.longValue()
-                    + " where user_id = ? and amount = ?", userId, oldAmount) > 0;
+            return Db.update("update user_amount set amount = ? , modified = ? where user_id = ? and amount = ?",
+                    value.add(updateAmount), new Date(), userId, oldAmount) > 0;
         }
     }
 

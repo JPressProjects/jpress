@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sitemap.impl;
+package io.jpress.core.finance;
+
+import io.jpress.model.UserOrderItem;
 
 
-import io.jpress.web.sitemap.Sitemap;
+public interface OrderFinishedListener {
 
-import java.util.List;
+    public void onFinished(UserOrderItem orderItem);
 
-public interface NewestSitemapProvider {
-
-    public List<Sitemap> getSitemaps();
 }

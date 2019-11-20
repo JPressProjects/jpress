@@ -22,7 +22,6 @@ import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.payment.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderItemService;
@@ -56,55 +55,53 @@ public class _FinanceController extends AdminControllerBase {
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
         Columns columns = Columns.create();
-        columns.likeAppendPercent("trx_no",getPara("ns"));
-        columns.likeAppendPercent("product_title",getPara("pt"));
-        columns.eq("status",getPara("status"));
+        columns.likeAppendPercent("trx_no", getPara("ns"));
+        columns.likeAppendPercent("product_title", getPara("pt"));
+        columns.eq("status", getPara("status"));
 
-        Page<PaymentRecord> page = paymentService.paginate(getPagePara(),20, columns);
+        Page<PaymentRecord> page = paymentService.paginate(getPagePara(), 20, columns);
         setAttr("page", page);
 
-        long successCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_SUCCESS));
-        long prepayCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_PRE));
-        long failCount = paymentService.findCountByColumns(Columns.create("status",PaymentRecord.STATUS_PAY_FAILURE));
+        long successCount = paymentService.findCountByColumns(Columns.create("status", PaymentRecord.STATUS_PAY_SUCCESS));
+        long prepayCount = paymentService.findCountByColumns(Columns.create("status", PaymentRecord.STATUS_PAY_PRE));
+        long failCount = paymentService.findCountByColumns(Columns.create("status", PaymentRecord.STATUS_PAY_FAILURE));
 
-        setAttr("successCount",successCount);
-        setAttr("prepayCount",prepayCount);
-        setAttr("failCount",failCount);
-        setAttr("totalCount",successCount + prepayCount + failCount);
+        setAttr("successCount", successCount);
+        setAttr("prepayCount", prepayCount);
+        setAttr("failCount", failCount);
+        setAttr("totalCount", successCount + prepayCount + failCount);
 
         render("finance/paylist.html");
     }
 
-    public void payUpdate(){
+    public void payUpdate() {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);
 
-        setAttr("payment",payment);
+        setAttr("payment", payment);
         render("finance/layer_payupdate.html");
     }
 
-    public void doPayUpdate(){
-        PaymentRecord payment = getModel(PaymentRecord.class,"payment");
-        payment.keep("id","pay_status","pay_success_amount","pay_success_time","pay_success_proof","pay_success_remarks");
+    public void doPayUpdate() {
+        PaymentRecord payment = getModel(PaymentRecord.class, "payment");
+        payment.keep("id", "pay_status", "pay_success_amount", "pay_success_time", "pay_success_proof", "pay_success_remarks");
 
         PaymentRecord dbPayment = paymentService.findById(payment.getId());
-        if (dbPayment.getPayAmount().compareTo(payment.getPaySuccessAmount()) != 0){
+        if (dbPayment.getPayAmount().compareTo(payment.getPaySuccessAmount()) != 0) {
             renderFailJson("入账失败，入账金额和应付款金额不一致。");
             return;
         }
 
-        if (dbPayment.isPaySuccess()){
+        if (dbPayment.isPaySuccess()) {
             renderFailJson("该支付已经支付成功。");
             return;
         }
 
-        PaymentRecord oldPayment = dbPayment.copy();
-
         payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
         payment.setPayCompleteTime(new Date());
 
-        if (paymentService.update(payment)){
-            PaymentManager.me().notifySuccess(paymentService.findById(payment.getId()));
+        if (paymentService.update(payment)) {
+            paymentService.notifySuccess(payment.getId());
         }
 
         renderOkJson();
@@ -113,11 +110,11 @@ public class _FinanceController extends AdminControllerBase {
     /**
      * 支付记录详情
      */
-    public void payDetail(){
+    public void payDetail() {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);
 
-        setAttr("payment",payment);
+        setAttr("payment", payment);
         render("finance/layer_paydetail.html");
     }
 
@@ -126,7 +123,6 @@ public class _FinanceController extends AdminControllerBase {
     public void setting() {
         render("finance/setting.html");
     }
-
 
 
 }

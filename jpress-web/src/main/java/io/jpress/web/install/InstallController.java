@@ -18,7 +18,6 @@ package io.jpress.web.install;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
@@ -42,7 +41,6 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ControllerBase;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -56,16 +54,6 @@ import java.util.List;
 @RequestMapping("/install")
 @Before(InstallInterceptor.class)
 public class InstallController extends ControllerBase {
-
-//    @Inject
-//    private UserService userService;
-//
-//    @Inject
-//    private RoleService roleService;
-//
-//    @Inject
-//    private OptionService optionService;
-
 
     public void index() {
         render("/WEB-INF/install/views/step1.html");
@@ -99,7 +87,7 @@ public class InstallController extends ControllerBase {
         String dbUser = getPara("dbUser");
         String dbPwd = getPara("dbPwd");
         String dbHost = getPara("dbHost");
-        String dbPort = getPara("dbPort");
+        int dbPort = getParaToInt("dbPort");
 
 
         boolean dbAutoCreate = getParaToBoolean("dbAutoCreate", false);
@@ -161,7 +149,7 @@ public class InstallController extends ControllerBase {
     }
 
 
-    private boolean createDatabase(String dbName, String dbUser, String dbPwd, String dbHost, String dbPort) {
+    private boolean createDatabase(String dbName, String dbUser, String dbPwd, String dbHost, int dbPort) {
 
         DbExecuter dbExecuter = null;
         try {
@@ -263,37 +251,14 @@ public class InstallController extends ControllerBase {
 
             initActiveRecordPlugin();
 
-            String salt = HashKit.generateSaltForSha256();
-            String hashedPass = HashKit.sha256(salt + pwd);
-
-            UserService userService = Aop.get(UserService.class);
-
-            User user = userService.findById(1l);
-            if (user == null) user = new User();
-
-            user.setUsername(username);
-            user.setNickname(username);
-            user.setRealname(username);
-
-            user.setSalt(salt);
-            user.setPassword(hashedPass);
-            user.setCreated(new Date());
-            user.setActivated(new Date());
-            user.setStatus(User.STATUS_OK);
-            user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-            if (StrUtil.isEmail(username)) {
-                user.setEmail(username.toLowerCase());
-            }
-
-            userService.saveOrUpdate(user);
+            initFirstUser();
 
         } else {
             initActiveRecordPlugin();
         }
 
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
@@ -326,37 +291,14 @@ public class InstallController extends ControllerBase {
 
             initActiveRecordPlugin();
 
-            String salt = HashKit.generateSaltForSha256();
-            String hashedPass = HashKit.sha256(salt + pwd);
-
-            UserService userService = Aop.get(UserService.class);
-
-            User user = userService.findById(1l);
-            if (user == null) user = new User();
-
-            user.setUsername(username);
-            user.setNickname(username);
-            user.setRealname(username);
-
-            user.setSalt(salt);
-            user.setPassword(hashedPass);
-            user.setCreated(new Date());
-            user.setActivated(new Date());
-            user.setStatus(User.STATUS_OK);
-            user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-            if (StrUtil.isEmail(username)) {
-                user.setEmail(username.toLowerCase());
-            }
-
-            userService.saveOrUpdate(user);
+            initFirstUser();
 
         } else {
             initActiveRecordPlugin();
         }
 
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
@@ -364,46 +306,23 @@ public class InstallController extends ControllerBase {
 
     }
 
+    @EmptyValidate({
+            @Form(name = "web_name", message = "网站名称不能为空"),
+            @Form(name = "web_title", message = "网站标题不能为空"),
+            @Form(name = "web_subtitle", message = "网站副标题不能为空"),
+            @Form(name = "username", message = "账号不能为空"),
+            @Form(name = "pwd", message = "密码不能为空"),
+            @Form(name = "confirmPwd", message = "确认密码不能为空"),
+    })
     private void doProcessInstall() {
 
         String webName = getPara("web_name");
         String webTitle = getPara("web_title");
         String webSubtitle = getPara("web_subtitle");
 
-        String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
-
-        if (StrUtil.isBlank(webName)) {
-            renderJson(Ret.fail().set("message", "网站名称不能为空").set("errorCode", 10));
-            return;
-        }
-
-        if (StrUtil.isBlank(webTitle)) {
-            renderJson(Ret.fail().set("message", "网站标题不能为空").set("errorCode", 11));
-            return;
-        }
-
-        if (StrUtil.isBlank(webSubtitle)) {
-            renderJson(Ret.fail().set("message", "网站副标题不能为空").set("errorCode", 12));
-            return;
-        }
-
-        if (StrUtil.isBlank(username)) {
-            renderJson(Ret.fail().set("message", "账号不能为空").set("errorCode", 1));
-            return;
-        }
-
-        if (StrUtil.isBlank(pwd)) {
-            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-            return;
-        }
-
-        if (StrUtil.isBlank(confirmPwd)) {
-            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-            return;
-        }
 
         if (pwd.equals(confirmPwd) == false) {
             renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
@@ -429,50 +348,61 @@ public class InstallController extends ControllerBase {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-
-        UserService userService = Aop.get(UserService.class);
-        User user = userService.findById(1l);
-        if (user == null) user = new User();
-
-        String salt = HashKit.generateSaltForSha256();
-        String hashedPass = HashKit.sha256(salt + pwd);
-
-        user.setUsername(username);
-        user.setNickname(username);
-        user.setRealname(username);
-
-        user.setSalt(salt);
-        user.setPassword(hashedPass);
-        user.setCreated(new Date());
-        user.setActivated(new Date());
-        user.setStatus(User.STATUS_OK);
-        user.setCreateSource(User.SOURCE_WEB_REGISTER);
-
-
-        if (StrUtil.isEmail(username)) {
-            user.setEmail(username.toLowerCase());
-        }
-
-        userService.saveOrUpdate(user);
+        initFirstUser();
 
         RoleService roleService = Aop.get(RoleService.class);
         Role role = new Role();
-        role.setId(1l);
+        role.setId(1L);
         role.setName("默认角色");
         role.setDescription("这个是系统自动创建的默认角色");
         role.setFlag(Role.ADMIN_FLAG);
         role.setCreated(new Date());
         role.setModified(new Date());
+
         roleService.save(role);
 
         Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
 
-        if (doCreatedInstallLockFiles()) {
+        if (doFinishedInstall()) {
             renderOkJson();
         } else {
             renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
         }
 
+    }
+
+    private void initFirstUser() {
+
+        String username = getPara("username");
+        String pwd = getPara("pwd");
+
+
+        UserService userService = Aop.get(UserService.class);
+        User user = userService.findById(1L);
+        if (user == null) {
+            user = new User();
+            user.setNickname(username);
+            user.setRealname(username);
+            user.setCreateSource(User.SOURCE_WEB_REGISTER);
+            user.setCreated(new Date());
+            user.setActivated(new Date());
+        }
+
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+
+        user.setUsername(username);
+        if (StrUtil.isEmail(username)) {
+            user.setEmail(username.toLowerCase());
+        }
+
+        user.setStatus(User.STATUS_OK);
+
+        userService.saveOrUpdate(user);
     }
 
 
@@ -497,20 +427,28 @@ public class InstallController extends ControllerBase {
     }
 
 
-    private boolean doCreatedInstallLockFiles() {
+    private boolean doFinishedInstall() {
         try {
-            File lockFile =  new File(PathKit.getRootClassPath(), "install.lock");
-            lockFile.createNewFile();
 
-            InstallManager.me().initJpressProperties();
+            //创建 install.lock 安装锁定文件
+            InstallUtil.createInstallLockFile();
+
+            //创建 jboot.properties 数据库配置文件
+            InstallUtil.createJbootPropertiesFile();
 
         } catch (IOException e) {
             e.printStackTrace();
-
             return false;
         }
 
+        /**
+         *  设置安装标识
+         */
         Installer.setInstalled(true);
+
+        /**
+         * 通知安装监听器
+         */
         Installer.notifyAllListeners();
 
         return true;

@@ -35,6 +35,7 @@ import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import io.jpress.module.article.service.search.ArticleSearcherFactory;
+import io.jpress.module.article.service.sitemap.ArticleSitemapManager;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
@@ -130,7 +131,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize) {
-        return paginateInNormal(page, pagesize, null);
+        return paginateInNormal(page, pagesize, "id desc");
     }
 
     @Override
@@ -220,7 +221,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     public Long findCountByStatus(String status) {
-        return DAO.findCountByColumn(Column.create("status",status));
+        return DAO.findCountByColumn(Column.create("status", status));
     }
 
     @Override
@@ -327,6 +328,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
+            ArticleSitemapManager.me().rebuild();
             SeoManager.me().ping(model.toPingData());
             SeoManager.me().baiduPush(model.getUrl());
         }
@@ -338,6 +340,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
+
+            ArticleSitemapManager.me().rebuild();
+
             if (model.isNormal()) {
                 ArticleSearcherFactory.getSearcher().updateArticle(model);
                 SeoManager.me().ping(model.toPingData());
@@ -355,6 +360,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         boolean success = super.delete(model);
         if (success) {
             ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
+            ArticleSitemapManager.me().rebuild();
         }
         return success;
     }

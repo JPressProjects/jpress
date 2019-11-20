@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.sitemap;
+package io.jpress.module.article.service.sitemap;
 
-import io.jpress.module.article.model.Article;
+import com.jfinal.aop.Inject;
+import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
 
@@ -24,22 +26,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ArticlesSitemapProvider implements SitemapProvider {
+public class ArticleCategorySitemapProvider implements SitemapProvider {
 
-    private String name;
-    private List<Article> articleList;
-
-    public ArticlesSitemapProvider() {
-    }
-
-    public ArticlesSitemapProvider(String name, List<Article> articleList) {
-        this.name = name;
-        this.articleList = articleList;
-    }
+    @Inject
+    private ArticleCategoryService categoryService;
 
     @Override
     public String getName() {
-        return name;
+        return "article_categories";
     }
 
     @Override
@@ -51,10 +45,11 @@ public class ArticlesSitemapProvider implements SitemapProvider {
 
     @Override
     public List<Sitemap> getSitemaps() {
-        if (articleList == null || articleList.isEmpty()) {
+        List<ArticleCategory> tagList = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
+        if (tagList == null || tagList.isEmpty()) {
             return null;
         }
-        return articleList.stream()
+        return tagList.stream()
                 .map(Util::toSitemap)
                 .collect(Collectors.toList());
     }

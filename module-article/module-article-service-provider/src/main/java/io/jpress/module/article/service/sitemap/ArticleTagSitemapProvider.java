@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.sitemap;
+package io.jpress.module.article.service.sitemap;
 
 import com.jfinal.aop.Inject;
 import io.jpress.module.article.model.ArticleCategory;

@@ -46,6 +46,7 @@ import java.util.Map;
 public abstract class TemplateControllerBase extends ControllerBase {
 
 
+    @Override
     @NotAction
     public void render(String view) {
         render(view, null);

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sitemap;
+package io.jpress.core.finance;
 
-/**
- * 当 sitemap Controller 接收请求的时候
- * 会执行 此接口下的所有实现类的 build 方法，用于 对 sitemap 就行构建
- */
-public interface SitemapBuilder {
+import io.jpress.model.PaymentRecord;
 
-    public void build();
+
+public interface PaymentSuccessListener {
+
+    public void onSuccess(PaymentRecord payment);
+
 }

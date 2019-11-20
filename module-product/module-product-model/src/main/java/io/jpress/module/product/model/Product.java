@@ -132,7 +132,8 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductSummary(CommonsUtils.maxLength(getText(), 200));
         userCart.setSelected(false);
         userCart.setProductDetailPage(getUrl());
-        userCart.setProductVirtual(false);//非虚拟产品
+        userCart.setWithVirtual(false);//非虚拟产品
+        userCart.setWithRefund(true);//可以退货
         userCart.setCommentPath(getUrl());
         userCart.setCreated(new Date());
         userCart.setProductSpec(spec);

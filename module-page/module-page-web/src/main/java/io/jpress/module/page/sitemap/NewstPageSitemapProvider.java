@@ -19,7 +19,7 @@ import com.jfinal.aop.Inject;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.sitemap.Sitemap;
-import io.jpress.web.sitemap.impl.NewestSitemapProvider;
+import io.jpress.web.sitemap.MainSitemapProvider;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class NewstPageSitemapProvider implements NewestSitemapProvider {
+public class NewstPageSitemapProvider implements MainSitemapProvider {
 
     @Inject
     private SinglePageService pageService;

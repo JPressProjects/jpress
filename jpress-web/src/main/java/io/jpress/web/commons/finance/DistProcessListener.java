@@ -13,82 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.activerecord.Db;
-import io.jpress.commons.pay.PayStatus;
-import io.jpress.core.payment.PaymentSuccessListener;
-import io.jpress.model.PaymentRecord;
+import io.jpress.core.finance.OrderFinishedListener;
 import io.jpress.model.UserAmountStatement;
-import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 import io.jpress.service.UserAmountStatementService;
-import io.jpress.service.UserOrderItemService;
-import io.jpress.service.UserOrderService;
 import io.jpress.service.UserService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 
-public class OrderPaymentSuccessListener implements PaymentSuccessListener {
+public class DistProcessListener implements OrderFinishedListener {
 
-    public static final Log LOG = Log.getLog(OrderPaymentSuccessListener.class);
+    public static final Log LOG = Log.getLog(DistProcessListener.class);
 
 
     @Override
-    public void onSuccess(PaymentRecord payment) {
-
-        if (PaymentRecord.TRX_TYPE_ORDER.equals(payment.getTrxType())) {
-
-            boolean updateSucess = Db.tx(() -> {
-
-                UserOrderService orderService = Aop.get(UserOrderService.class);
-                UserOrder userOrder = orderService.findByPaymentId(payment.getId());
-
-                userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
-                userOrder.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
-
-                if (!orderService.update(userOrder)) {
-                    return false;
-                }
-
-
-                UserOrderItemService itemService = Aop.get(UserOrderItemService.class);
-                List<UserOrderItem> userOrderItems = itemService.findListByOrderId(userOrder.getId());
-                for (UserOrderItem item : userOrderItems) {
-                    Boolean isVirtual = item.getProductVirtual();
-                    if (isVirtual != null && isVirtual) {
-                        item.setStatus(UserOrderItem.STATUS_FINISHED);//交易结束
-                    } else {
-                        item.setStatus(UserOrderItem.STATUS_COMPLETED);//交易完成
-                    }
-                    if (!itemService.update(item)) {
-                        return false;
-                    }
-                    distSettler(item, payment);
-                }
-                return true;
-            });
-
-            if (!updateSucess) {
-                LOG.error("update order fail or update orderItem fail in pay success。");
-            }
-
-        }
-
-    }
-
-    /**
-     * 处理分销情况
-     *
-     * @param orderItem
-     * @param payment
-     */
-    private void distSettler(UserOrderItem orderItem, PaymentRecord payment) {
-
+    public void onFinished(UserOrderItem orderItem) {
         BigDecimal distAmount = orderItem.getDistAmount().multiply(BigDecimal.valueOf(orderItem.getProductCount()));
 
         if (orderItem.isFinished() //交易结束，用户不能申请退款
@@ -118,7 +62,6 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                 statement.setActionDesc("分销收入");
                 statement.setActionRelativeType("user_order_item");
                 statement.setActionRelativeId(orderItem.getId());
-                statement.setActionPaymentId(payment.getId());
                 statement.setOldAmount(userAmount);
                 statement.setNewAmount(userAmount.add(distAmount));
                 statement.setChangeAmount(distAmount);

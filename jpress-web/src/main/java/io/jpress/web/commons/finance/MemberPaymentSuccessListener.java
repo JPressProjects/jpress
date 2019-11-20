@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import io.jpress.core.payment.PaymentSuccessListener;
+import io.jpress.core.finance.PaymentSuccessListener;
 import io.jpress.model.Member;
 import io.jpress.model.MemberGroup;
 import io.jpress.model.MemberJoinedRecord;
@@ -49,26 +49,26 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
 
                 MemberGroup group = groupService.findById(payment.getProductRelativeId());
 
-                Member member = memberService.findByGroupIdAndUserId(group.getId(),payment.getPayerUserId());
-                if (member == null){
+                Member member = memberService.findByGroupIdAndUserId(group.getId(), payment.getPayerUserId());
+                if (member == null) {
                     member = new Member();
                     member.setGroupId(group.getId());
                     member.setUserId(payment.getPayerUserId());
-                    member.setDuetime(DateUtils.addDays(new Date(),group.getValidTerm()));
+                    member.setDuetime(DateUtils.addDays(new Date(), group.getValidTerm()));
                     member.setSource(Member.SOURCE_BUY);
                     member.setStatus(Member.STATUS_NORMAL);
                     member.setCreated(new Date());
                     member.setModified(new Date());
-                }else {
+                } else {
 
                     Date oldDuetime = member.getDuetime();
 
                     //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
-                    if (oldDuetime.getTime() < new Date().getTime()){
+                    if (oldDuetime.getTime() < System.currentTimeMillis()) {
                         oldDuetime = new Date();
                     }
 
-                    member.setDuetime(DateUtils.addDays(oldDuetime,group.getValidTerm()));
+                    member.setDuetime(DateUtils.addDays(oldDuetime, group.getValidTerm()));
                     member.setModified(new Date());
                 }
 
@@ -84,11 +84,11 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
                 joinedRecord.setJoinType(MemberJoinedRecord.JOIN_TYPE_BUY);
                 joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_BUY);
 
-                if (memberService.saveOrUpdate(member) == null){
+                if (memberService.saveOrUpdate(member) == null) {
                     return false;
                 }
 
-                if (joinedRecordService.save(joinedRecord) == null){
+                if (joinedRecordService.save(joinedRecord) == null) {
                     return false;
                 }
 

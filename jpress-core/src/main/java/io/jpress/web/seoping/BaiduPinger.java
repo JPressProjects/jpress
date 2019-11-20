@@ -16,9 +16,12 @@
 package io.jpress.web.seoping;
 
 
+import com.jfinal.log.Log;
 import io.jboot.utils.HttpUtil;
 
 public class BaiduPinger implements Pinger {
+
+    private static final Log log = Log.getLog(BaiduPinger.class);
 
     private static final String xml = "" +
             "<?xml version=\"1.0″ encoding=\"UTF-8″?> \n" +
@@ -39,16 +42,15 @@ public class BaiduPinger implements Pinger {
         String respose = HttpUtil.httpPost(pingUrl, dataString);
         if (respose != null && respose.contains("<int>0</int>")) {
             //success
-        }else {
+        } else {
             //error
+            log.error("baidu ping error:" + respose);
         }
-        System.out.println(respose);
     }
 
     public static void main(String[] args) {
         BaiduPinger pinger = new BaiduPinger();
         PingData data = PingData.create("test", "http://www.baidu.com/detail");
-
         pinger.ping(data);
     }
 }

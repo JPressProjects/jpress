@@ -42,28 +42,7 @@ public abstract class UcenterControllerBase extends ControllerBase {
         return getParaToInt("page", 1);
     }
 
-    @NotAction
-    public boolean notLoginedUserModel(Model model) {
-        return !isLoginedUserModel(model, "user_id");
-    }
 
-    @NotAction
-    public boolean notLoginedUserModel(Model model, String attrName) {
-        return !isLoginedUserModel(model, attrName);
-    }
-
-
-    @NotAction
-    public boolean isLoginedUserModel(Model model) {
-        return isLoginedUserModel(model, "user_id");
-    }
-
-    @NotAction
-    public boolean isLoginedUserModel(Model model, String attrName) {
-        if (model == null) return false;
-        Object userId = model.get(attrName);
-        return userId != null && userId.equals(getLoginedUser().getId());
-    }
 
 
 }

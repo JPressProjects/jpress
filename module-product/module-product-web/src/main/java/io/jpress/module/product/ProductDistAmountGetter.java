@@ -16,7 +16,7 @@
 package io.jpress.module.product;
 
 import com.jfinal.aop.Inject;
-import io.jpress.core.payment.DistAmountGetter;
+import io.jpress.core.finance.DistAmountGetter;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 

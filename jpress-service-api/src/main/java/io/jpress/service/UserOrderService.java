@@ -2,6 +2,7 @@ package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.UserOrder;
+import io.jpress.model.UserOrderItem;
 
 import java.util.List;
 
@@ -67,6 +68,8 @@ public interface UserOrderService  {
      * @return
      */
     public boolean update(UserOrder model);
+
+    public boolean updateOrderAndItems(UserOrder order, List<UserOrderItem> items);
 
 
     /**

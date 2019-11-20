@@ -36,9 +36,8 @@ public class SitemapController extends JbootController {
             return;
         }
 
-        SitemapManager.me().build();
-        
         String para = getPara(0);
+
         StringBuilder xmlBuilder = new StringBuilder();
 
         if (StrUtil.isBlank(para)) {
@@ -54,7 +53,9 @@ public class SitemapController extends JbootController {
             }
             List<Sitemap> sitemaps = provider.getSitemaps();
             buildUrlsetHeader(xmlBuilder);
-            if (sitemaps != null) sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toUrlXml()));
+            if (sitemaps != null) {
+                sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toUrlXml()));
+            }
             buildUrlsetFooter(xmlBuilder);
         }
 

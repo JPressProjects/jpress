@@ -18,18 +18,36 @@ package io.jpress.commons.pay;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * @author michael
+ */
+
 public enum PayStatus {
 
+
+    /**
+     * 未支付 或者 准备支付
+     */
     UNPAY(1, "未支付"),
+
+    /**
+     * 支付失败
+     */
     FAILURE(2, "支付失败"),
 
 
+    /**
+     * 支付中，但是未支付成功，由用户进行标识
+     */
     PAID_ALIPAYX(3, "支付宝转账中"),
     PAID_WECHATX(4, "微信转账中"),
     PAID_OFFLINE(5, "线下支付中"),
     PAID_OTHER(6, "其他方式支付中"),
 
 
+    /**
+     * 以下都是支付成功的情况
+     */
     SUCCESS_ALIPAY(10, "支付宝支付成功"),
     SUCCESS_ALIPAYX(11, "支付宝转账成功"),
     SUCCESS_WECHAT(12, "微信支付成功"),
@@ -39,8 +57,14 @@ public enum PayStatus {
     SUCCESS_OFFLINE(16, "下线支付成功"),
     SUCCESS_OTHER(17, "其他方式支付成功");
 
-
+    /**
+     * 状态
+     */
     private int status;
+
+    /**
+     * 文本内容
+     */
     private String text;
 
     PayStatus(int status, String text) {
@@ -91,8 +115,9 @@ public enum PayStatus {
                 return SUCCESS_OFFLINE;
             case OTHER:
                 return SUCCESS_OTHER;
+            default:
+                return null;
         }
-        return null;
     }
 
 
@@ -112,13 +137,15 @@ public enum PayStatus {
                 return PAID_OFFLINE;
             case OTHER:
                 return PAID_OTHER;
+            default:
+                return null;
         }
-
-        return null;
     }
 
     public static String getTextByInt(Integer status) {
-        if (status == null) return StringUtils.EMPTY;
+        if (status == null) {
+            return StringUtils.EMPTY;
+        }
         PayStatus payStatus = getByStatus(status);
         return payStatus != null ? payStatus.text : StringUtils.EMPTY;
     }

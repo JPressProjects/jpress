@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.commons.pay;
+package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import io.jpress.core.payment.PaymentSuccessListener;
+import io.jpress.core.finance.PaymentSuccessListener;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.service.UserAmountStatementService;
@@ -54,7 +54,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
 
                 statement.setOldAmount(userAmount);
                 statement.setChangeAmount(payment.getPayAmount());
-                statement.setNewAmount(userAmount.subtract(payment.getPayAmount()));
+                statement.setNewAmount(userAmount.add(payment.getPayAmount()));
 
                 if (userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount())) {
                     return false;
@@ -69,7 +69,7 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
             });
 
             if (!updateSucess) {
-                LOG.error("update user amount fail in recharge success。");
+                LOG.error("error!!!  update user amount fail in recharge success. ");
             }
 
         }

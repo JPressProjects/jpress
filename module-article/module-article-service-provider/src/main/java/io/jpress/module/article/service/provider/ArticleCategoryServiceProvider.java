@@ -53,11 +53,11 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
     @Override
     public List<ArticleCategory> findListByType(String type) {
-        return Copyer.copy(findListByTypeInDb(type));
+        return Copyer.copy(findListByTypeWithCache(type));
     }
 
     @Cacheable(name = "articleCategory", key = "type:#(type)")
-    public List<ArticleCategory> findListByTypeInDb(String type) {
+    public List<ArticleCategory> findListByTypeWithCache(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 

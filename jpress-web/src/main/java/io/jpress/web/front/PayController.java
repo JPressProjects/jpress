@@ -175,10 +175,12 @@ public class PayController extends TemplateControllerBase {
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
     }
 
+
     /**
      * 支付宝网页登录支付（无需扫码）
      */
     public void alipayweb() {
+
         PayService service = PayConfigUtil.getAlipayService();
         render404If(service == null);
 
@@ -188,7 +190,15 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
-        order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
+
+        // 手机浏览器
+        if (isMobileBrowser()) {
+            order.setTransactionType(AliTransactionType.WAP);
+        }
+        // PC 浏览器
+        else {
+            order.setTransactionType(AliTransactionType.PAGE);
+        }
 
 
         //获取支付订单信息

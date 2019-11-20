@@ -178,7 +178,7 @@ public class _WechatController extends AdminControllerBase {
     public void doMenuSave() {
         WechatMenu menu = getModel(WechatMenu.class, "menu");
         wechatMenuService.saveOrUpdate(menu);
-        redirect("/admin/wechat/menu");
+        renderOkJson();
     }
 
     public void doMenuDel() {

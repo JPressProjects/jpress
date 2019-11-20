@@ -303,9 +303,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">邮件通知</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery"  data-for="pay_noitify_enable"
-                                           #checkedIf(option("pay_noitify_enable"))>
-                                    <input type="hidden" id="pay_noitify_enable" name="pay_noitify_enable">
+                                    <input type="checkbox" class="switchery"  data-for="pay_noitify_email_enable"
+                                           #checkedIf(option("pay_noitify_email_enable"))>
+                                    <input type="hidden" id="pay_noitify_email_enable" name="pay_noitify_email_enable">
                                 </div>
                             </div>
 
@@ -335,9 +335,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">短信通知</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
-                                           #checkedIf(option("reg_sms_validate_enable"))>
-                                    <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
+                                    <input type="checkbox" class="switchery" data-for="pay_noitify_sms_enable"
+                                           #checkedIf(option("pay_noitify_sms_enable"))>
+                                    <input type="hidden" id="pay_noitify_sms_enable" name="pay_noitify_sms_enable">
                                 </div>
                             </div>
 
@@ -346,7 +346,7 @@
                                 <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
-                                              name="pay_notify_sms_template">#option("pay_notify_sms_template")</textarea>
+                                              name="pay_noitify_sms_template">#option("pay_noitify_sms_template")</textarea>
                                     <p class="help-block">
                                         请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的手机号码，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
@@ -357,9 +357,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">微信通知</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
-                                           #checkedIf(option("reg_sms_validate_enable"))>
-                                    <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
+                                    <input type="checkbox" class="switchery" data-for="pay_noitify_wechat_enable"
+                                           #checkedIf(option("pay_noitify_wechat_enable"))>
+                                    <input type="hidden" id="pay_noitify_wechat_enable" name="pay_noitify_wechat_enable">
                                 </div>
                             </div>
 
@@ -368,7 +368,7 @@
                                 <label class="col-sm-2 control-label">微信内容</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
-                                              name="pay_notify_sms_template">#option("pay_notify_sms_template")</textarea>
+                                              name="pay_noitify_wechat_template">#option("pay_noitify_wechat_template")</textarea>
                                     <p class="help-block">
                                         请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的微信 OpenId，并在 <a href="#(CPATH)/admin/wechat/base">[微信基础设置]</a> 完成微信配置才能正常使用。
                                     </p>

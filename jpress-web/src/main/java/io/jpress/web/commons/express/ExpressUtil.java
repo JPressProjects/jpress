@@ -16,6 +16,7 @@
 package io.jpress.web.commons.express;
 
 
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.util.List;
@@ -30,6 +31,10 @@ public class ExpressUtil {
      * @return
      */
     public static List<ExpressInfo> queryExpress(String expressCompanyCode, String num) {
+        if (!StrUtil.areNotEmpty(expressCompanyCode, num)) {
+            return null;
+        }
+
         String type = JPressOptions.get("express_api_type");
         ExpressQuerier querier = ExpressQuerierFactory.get(type);
 

@@ -44,6 +44,7 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
     public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
     public static final String DEFAULT_SUCCESS_VIEW = "/WEB-INF/views/front/pay/pay_success.html";
+    public static final String DEFAULT_COMPLETE_VIEW = "/WEB-INF/views/front/pay/pay_complete.html";
 
     private static final Log LOG = Log.getLog(PayController.class);
 
@@ -482,6 +483,16 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment", payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
+
+
+    public void complete() {
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null);
+
+        setAttr("payment", payment);
+        render("pay_complete.html", DEFAULT_COMPLETE_VIEW);
+    }
+
 
 
 

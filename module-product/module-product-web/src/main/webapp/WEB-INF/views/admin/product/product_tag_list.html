@@ -2,12 +2,7 @@
 
 #define script()
 <script>
-    $('#form').on('submit', function () {
-        ajaxSubmit('#form', function () {
-            location.href = "#(CPATH)/admin/product/tag";
-        });
-        return false;
-    });
+
 
     $('.del-action').on('click', function () {
         if (confirm('确定要删除该标签吗？删除后不可恢复')) {
@@ -40,9 +35,9 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/product/tag/doSave"
-                          id="form"
+                          data-ok-href="#(CPATH)/admin/product/tag"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
                         <input type="hidden" name="category.type" value="tag">

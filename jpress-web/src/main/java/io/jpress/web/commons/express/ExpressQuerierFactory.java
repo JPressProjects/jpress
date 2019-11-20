@@ -20,24 +20,44 @@ import io.jpress.web.commons.express.impl.KdniaoExpressQuerier;
 import io.jpress.web.commons.express.impl.Kuaidi100ExpressQuerier;
 import io.jpress.web.commons.express.impl.ShowapiExpressQuerier;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2019/11/20
  */
 public class ExpressQuerierFactory {
 
+    /**
+     * 这个用于后台展示，方便运营人员进行选择
+     */
+    private static Map<String,String> querierNames = new ConcurrentHashMap<>();
+    static {
+        querierNames.put("kuaidi100","快递100（kuaidi100.com）");
+        querierNames.put("juhecn","聚合数据（juhe.cn）");
+        querierNames.put("kdniao","快递鸟（kdniao.com）");
+        querierNames.put("showapi","易源接口（showapi.com）");
+    }
+
+    private static Map<String,ExpressQuerier> queriers = new ConcurrentHashMap<>();
+    static {
+        queriers.put("kuaidi100",new Kuaidi100ExpressQuerier());
+        queriers.put("juhecn",new JuheExpressQuerier());
+        queriers.put("kdniao",new KdniaoExpressQuerier());
+        queriers.put("showapi",new ShowapiExpressQuerier());
+    }
+
+
+    public static Map<String, ExpressQuerier> getQueriers() {
+        return queriers;
+    }
+
+    public static Map<String, String> getQuerierNames() {
+        return querierNames;
+    }
+
     public static ExpressQuerier get(String type) {
-        switch (type) {
-            case "kuaidi100":
-                return new Kuaidi100ExpressQuerier();
-            case "juhecn":
-                return new JuheExpressQuerier();
-            case "kdniao":
-                return new KdniaoExpressQuerier();
-            case "showapi":
-                return new ShowapiExpressQuerier();
-            default:
-                return null;
-        }
+        return queriers.get(type);
     }
 }

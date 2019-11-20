@@ -114,7 +114,7 @@ public class _OrderController extends AdminControllerBase {
      */
     public void deliver() {
         setAttr("order", orderService.findById(getPara()));
-        setAttr("expressComs", ExpressCompany.EXPRESS_LIST);
+        setAttr("expressComs", ExpressCompany.values());
         render("order/order_layer_deliver.html");
     }
 

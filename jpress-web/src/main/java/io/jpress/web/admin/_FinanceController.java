@@ -27,6 +27,7 @@ import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.commons.express.ExpressQuerierFactory;
 
 import java.util.Date;
 
@@ -121,6 +122,7 @@ public class _FinanceController extends AdminControllerBase {
 
     @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 9)
     public void setting() {
+        setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
         render("finance/setting.html");
     }
 

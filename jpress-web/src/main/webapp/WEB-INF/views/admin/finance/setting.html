@@ -57,20 +57,13 @@
                                 <label class="col-sm-2 control-label">物流信息API</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="express_api_type">
-                                        <option value="kuaidi100">
-                                            快递100（kuaidi100.com）
+                                        #for(exq : querierNames)
+                                        <option value="#(exq.key)" #selectedIf(option("express_api_type") == exq.key)>
+                                            #(exq.value)
                                         </option>
-                                        <option value="juhecn">
-                                           聚合数据（juhe.cn）
-                                        </option>
-                                        <option value="kdniao">
-                                            快递鸟（kdniao.com）
-                                        </option>
-                                        <option value="showapi">
-                                            易源接口（showapi.com）
-                                        </option>
+                                        #end
                                     </select>
-                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。 </p>
+                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。</p>
                                 </div>
                             </div>
 

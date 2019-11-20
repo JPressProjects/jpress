@@ -1,0 +1,44 @@
+#include("layout.html")
+#@layout("支付失败")
+
+#define css()
+<style>
+    .pay-content-failmsg {
+        font-size: 14px;
+        color: #666;
+        line-height: 25px;
+    }
+</style>
+#end
+
+#define content()
+
+<div class="pay-header">
+    支付失败
+</div>
+
+<div class="row pay-content">
+    <div class="col-lg-12 pay-content-info">
+        <div class="pay-content-title" style="padding: 30px 0">
+            <i class="fa fa-fw fa-warning" style="color: red"></i> 支付失败啦 ~~~
+        </div>
+        <div class="pay-content-failmsg">
+            #if(payment)
+            金额：#number(payment.pay_amount,'0.00') 元 <br/>
+            编号：#(payment.trx_no ??) <br/>
+            #end
+            可能是您的账户余额不足，如果您的账户已经扣款，请联系我们<br/>
+            我们将在24小时内把资金充值到您的账户余额，谢谢。
+        </div>
+        <div style="padding: 60px">
+            #if("recharge" == payment.trx_type)
+            <a href="#(CPATH)/ucenter/finance/amount" class="btn btn-success btn-flat"> 返回我的余额 </a>
+            #elseif("member" == payment.trx_type)
+            <a href="#(CPATH)/ucenter/member" class="btn btn-success btn-flat"> 返回我的会员 </a>
+            #else
+            <a href="#(CPATH)/ucenter/order" class="btn btn-success btn-flat"> 返回我的订单 </a>
+            #end
+        </div>
+    </div>
+</div>
+#end

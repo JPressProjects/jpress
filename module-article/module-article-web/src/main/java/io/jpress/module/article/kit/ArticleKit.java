@@ -26,6 +26,7 @@ import io.jpress.module.article.model.ArticleComment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,15 +52,19 @@ public class ArticleKit {
     }
 
     private static void doSendSms() {
-        String mobile = JPressOptions.get("article_comment_sms_notify_mobile");
+        String mobile = JPressOptions.get("web_mater_mobile");
         String template = JPressOptions.get("article_comment_sms_notify_template");
         String sign = JPressOptions.get("article_comment_sms_notify_sign");
 
-        if (StrUtil.isBlank(mobile) || StrUtil.isBlank(template) || StrUtil.isBlank(sign)) {
+        if (!StrUtil.areNotEmpty(mobile, template, sign)) {
             return;
         }
 
-        SmsKit.sendSms(mobile, template, sign);
+        Set<String> mobiles = StrUtil.splitToSet(mobile, ",");
+        for (String nobileNumber : mobiles) {
+            SmsKit.sendSms(nobileNumber, template, sign);
+        }
+
     }
 
 

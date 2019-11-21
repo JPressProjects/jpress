@@ -604,6 +604,32 @@ CREATE TABLE `single_page` (
 
 
 
+# Dump of table single_page_comment
+# ------------------------------------------------------------
+
+CREATE TABLE `single_page_comment` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `pid` int(11) unsigned DEFAULT NULL COMMENT '回复的评论ID',
+  `page_id` int(11) unsigned DEFAULT NULL COMMENT '评论的内容ID',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
+  `author` varchar(128) DEFAULT NULL COMMENT '评论的作者',
+  `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
+  `wechat` varchar(64) DEFAULT NULL COMMENT '微信号',
+  `qq` varchar(32) DEFAULT NULL COMMENT 'qq号',
+  `content` text COMMENT '评论的内容',
+  `reply_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序编号，常用语置顶等',
+  `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
+  `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
+  `status` varchar(32) DEFAULT NULL COMMENT '评论的状态',
+  `created` datetime DEFAULT NULL COMMENT '评论的时间',
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='文章评论表';
+
+
+
 # Dump of table user
 # ------------------------------------------------------------
 

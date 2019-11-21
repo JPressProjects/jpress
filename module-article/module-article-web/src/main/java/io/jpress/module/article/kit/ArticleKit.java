@@ -91,11 +91,12 @@ public class ArticleKit {
         paras.put("comment", comment);
         paras.put("user", user);
 
+        String title = Engine.use().getTemplateByString(emailTitle).renderToString(paras);
         String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
 
         Email email = Email.create();
         email.content(content);
-        email.subject(emailTitle);
+        email.subject(title);
         email.to(webMasterEmail.split(","));
         email.send();
 

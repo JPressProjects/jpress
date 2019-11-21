@@ -15,8 +15,8 @@
  */
 package io.jpress.commons.email;
 
-public interface IEmailSender {
+public interface EmailSender {
 
-	public void send(Email email);
+	public boolean send(Email email);
 
 }

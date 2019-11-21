@@ -32,8 +32,8 @@ public class WechatMenu extends BaseWechatMenu<WechatMenu> implements SortModel 
 
     private static final Map<String,String> typeStrs = new HashMap<>();
     static {
-        typeStrs.put("click","点击推事件");
-        typeStrs.put("view","跳转URL");
+        typeStrs.put("click","触发关键字");
+        typeStrs.put("view","链接到网页");
         typeStrs.put("miniprogram","跳转微信小程序");
         typeStrs.put("scancode_push","扫码推事件");
         typeStrs.put("scancode_waitmsg","扫码推事件且弹出“消息接收中”提示框");

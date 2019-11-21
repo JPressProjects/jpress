@@ -57,20 +57,13 @@
                                 <label class="col-sm-2 control-label">物流信息API</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="express_api_type">
-                                        <option value="kuaidi100">
-                                            快递100（kuaidi100.com）
+                                        #for(exq : querierNames)
+                                        <option value="#(exq.key)" #selectedIf(option("express_api_type") == exq.key)>
+                                            #(exq.value)
                                         </option>
-                                        <option value="juhecn">
-                                           聚合数据（juhe.cn）
-                                        </option>
-                                        <option value="kdniao">
-                                            快递鸟（kdniao.com）
-                                        </option>
-                                        <option value="showapi">
-                                            易源接口（showapi.com）
-                                        </option>
+                                        #end
                                     </select>
-                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。 </p>
+                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。</p>
                                 </div>
                             </div>
 
@@ -306,6 +299,81 @@
                             </div>
 
 
+                            <h4 class="page-header">收款通知</h4>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮件通知</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery"  data-for="pay_noitify_email_enable"
+                                           #checkedIf(option("pay_noitify_email_enable"))>
+                                    <input type="hidden" id="pay_noitify_email_enable" name="pay_noitify_email_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮件标题</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="例如：您有新的订单啦"
+                                           name="pay_notify_email_title"
+                                           value="#option('pay_notify_email_title')">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮件模板</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="例如：管理员，您有新的订单啦，订单号是 #('#(payment.trx_no ??)') ..."
+                                              name="pay_notify_email_template">#option("pay_notify_email_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员邮箱，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信通知</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="pay_noitify_sms_enable"
+                                           #checkedIf(option("pay_noitify_sms_enable"))>
+                                    <input type="hidden" id="pay_noitify_sms_enable" name="pay_noitify_sms_enable">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信模板</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="pay_noitify_sms_template">#option("pay_noitify_sms_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的手机号码，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信通知</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="pay_noitify_wechat_enable"
+                                           #checkedIf(option("pay_noitify_wechat_enable"))>
+                                    <input type="hidden" id="pay_noitify_wechat_enable" name="pay_noitify_wechat_enable">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信内容</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="pay_noitify_wechat_template">#option("pay_noitify_wechat_template")</textarea>
+                                    <p class="help-block">
+                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的微信 OpenId，并在 <a href="#(CPATH)/admin/wechat/base">[微信基础设置]</a> 完成微信配置才能正常使用。
+                                    </p>
+                                </div>
+                            </div>
 
 
                         </div>

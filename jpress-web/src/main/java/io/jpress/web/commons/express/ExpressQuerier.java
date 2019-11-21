@@ -13,25 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.commons.email;
+package io.jpress.web.commons.express;
 
-import com.jfinal.log.Log;
+import java.util.List;
 
 /**
- * 暂未实现
+ * @author michael yang (fuhai999@gmail.com)
+ * @Date: 2019/11/20
  */
-public class AliyunEmailSender implements EmailSender {
-    private static final Log logger = Log.getLog(AliyunEmailSender.class);
+public interface ExpressQuerier {
 
-    /**
-     * 文档：
-     * https://help.aliyun.com/document_detail/directmail/api-reference/sendmail
-     * -related/SingleSendMail.html?spm=5176.docdirectmail/api-reference/
-     * sendmail-related/BatchSendMail.6.118.Qd9yth
-     */
-    @Override
-    public boolean send(Email email) {
-
-        return false;
-    }
+    public List<ExpressInfo> query(ExpressCompany company, String num);
 }

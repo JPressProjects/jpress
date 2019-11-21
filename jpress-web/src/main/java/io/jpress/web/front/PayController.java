@@ -13,6 +13,8 @@ import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.log.Log;
+import io.jboot.Jboot;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -33,8 +35,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
-import static io.jpress.web.commons.finance.MemberPaymentSuccessListener.LOG;
-
 @RequestMapping(value = "/pay")
 public class PayController extends TemplateControllerBase {
 
@@ -44,6 +44,9 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
     public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
     public static final String DEFAULT_SUCCESS_VIEW = "/WEB-INF/views/front/pay/pay_success.html";
+    public static final String DEFAULT_COMPLETE_VIEW = "/WEB-INF/views/front/pay/pay_complete.html";
+
+    private static final Log LOG = Log.getLog(PayController.class);
 
     @Inject
     private PaymentRecordService paymentService;
@@ -64,7 +67,7 @@ public class PayController extends TemplateControllerBase {
         render404If(service == null);
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
 
@@ -133,7 +136,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void wechatx() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
 
@@ -156,7 +159,7 @@ public class PayController extends TemplateControllerBase {
         render404If(service == null);
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
 
@@ -175,20 +178,30 @@ public class PayController extends TemplateControllerBase {
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
     }
 
+
     /**
      * 支付宝网页登录支付（无需扫码）
      */
     public void alipayweb() {
+
         PayService service = PayConfigUtil.getAlipayService();
         render404If(service == null);
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
-        order.setTransactionType(AliTransactionType.PAGE); //电脑网页支付
+
+        // 手机浏览器
+        if (isMobileBrowser()) {
+            order.setTransactionType(AliTransactionType.WAP);
+        }
+        // PC 浏览器
+        else {
+            order.setTransactionType(AliTransactionType.PAGE);
+        }
 
 
         //获取支付订单信息
@@ -202,7 +215,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void alipayx() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
         setAttr("payConfig", PayConfigUtil.getAlipayxPayConfig());
@@ -219,7 +232,7 @@ public class PayController extends TemplateControllerBase {
         render404If(service == null);
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
 
@@ -238,7 +251,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void amount() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null && notLoginedUserModel(payment, "payer_user_id"));
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {
@@ -292,6 +305,9 @@ public class PayController extends TemplateControllerBase {
 
         //获取支付方返回的对应参数
         Map<String, Object> params = getParams(service);
+        if (Jboot.isDevMode()) {
+            LOG.debug("callback : " + JSON.toJSONString(params));
+        }
 
         //验证失败
         if (params == null || !service.verify(params)) {
@@ -307,6 +323,10 @@ public class PayController extends TemplateControllerBase {
         if (service instanceof WxPayService) {
             //交易成功
             if ("SUCCESS".equals(params.get("result_code"))) {
+
+                //total_fee 得到的单位是：分
+                BigDecimal paySuccessAmount = new BigDecimal(Integer.valueOf(params.get("total_fee").toString()) * 100);
+                payment.setPaySuccessAmount(paySuccessAmount);
 
                 payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
                 payment.setPayBankType(String.valueOf(params.get("bank_type")));
@@ -333,8 +353,8 @@ public class PayController extends TemplateControllerBase {
             //交易完成
             if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
 
-                String receiptAmount = params.get("receipt_amount").toString();
-                payment.setPaySuccessAmount(new BigDecimal(receiptAmount));
+                String paySuccessAmount = params.get("receipt_amount").toString();
+                payment.setPaySuccessAmount(new BigDecimal(paySuccessAmount));
 
                 payment.setPayStatus(PayStatus.SUCCESS_ALIPAY.getStatus());
                 payment.setThirdpartyType("alipay");
@@ -412,8 +432,8 @@ public class PayController extends TemplateControllerBase {
         render404If(service == null);
 
         Map<String, Object> params = getParams(service);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("回调响应:" + JSON.toJSONString(params));
+        if (Jboot.isDevMode()) {
+            LOG.debug("back:" + JSON.toJSONString(params));
         }
 
         String trxNo = getTrxNo(params);
@@ -424,7 +444,6 @@ public class PayController extends TemplateControllerBase {
         }
 
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-        render404If(notLoginedUserModel(payment, "payer_user_id"));
 
         if (payment.isPaySuccess()) {
             redirect("/pay/success/" + trxNo);
@@ -450,7 +469,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void success() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
         render("pay_success.html", DEFAULT_SUCCESS_VIEW);
@@ -459,16 +478,22 @@ public class PayController extends TemplateControllerBase {
 
     public void fail() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404IfPaymentIllegal(payment);
+        render404If(payment == null);
 
         setAttr("payment", payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }
 
 
-    private void render404IfPaymentIllegal(PaymentRecord payment) {
-        render404If(payment == null || notLoginedUserModel(payment, "payer_user_id"));
+    public void complete() {
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null);
+
+        setAttr("payment", payment);
+        render("pay_complete.html", DEFAULT_COMPLETE_VIEW);
     }
+
+
 
 
     /**

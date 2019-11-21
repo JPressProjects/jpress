@@ -16,28 +16,12 @@
 package io.jpress.web.commons.express;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.jfinal.kit.Base64Kit;
-import com.jfinal.kit.HashKit;
-import io.jboot.utils.HttpUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
 
 public class ExpressUtil {
-
-    private static ExpressCompany getExpressCompanyByCode(String code) {
-        for (ExpressCompany com : ExpressCompany.EXPRESS_LIST) {
-            if (code.equals(com.getCode())) {
-                return com;
-            }
-        }
-        return null;
-    }
 
     /**
      * 快递查询
@@ -47,209 +31,20 @@ public class ExpressUtil {
      * @return
      */
     public static List<ExpressInfo> queryExpress(String expressCompanyCode, String num) {
+        if (!StrUtil.areNotEmpty(expressCompanyCode, num)) {
+            return null;
+        }
+
         String type = JPressOptions.get("express_api_type");
-        String appId = JPressOptions.get("express_api_appid");
-        String appSecret = JPressOptions.get("express_api_appsecret");
+        ExpressQuerier querier = ExpressQuerierFactory.get(type);
 
-        ExpressCompany expressCompany = getExpressCompanyByCode(expressCompanyCode);
-
-        switch (type) {
-            case "kuaidi100":
-                return queryKuaidi100(appId, appSecret, expressCompany, num);
-            case "juhecn":
-                return queryJuhe(appId, appSecret, expressCompany, num);
-            case "kdniao":
-                return queryKdniao(appId, appSecret, expressCompany, num);
-            case "showapi":
-                return queryShowapi(appId, appSecret, expressCompany, num);
+        if (querier == null) {
+            return null;
         }
-        return null;
+
+        ExpressCompany company = ExpressCompany.getByCode(expressCompanyCode);
+        return querier.query(company, num);
     }
 
-    /**
-     * https://www.kuaidi100.com/openapi/api_post.shtml
-     *
-     * @param appId
-     * @param appKey
-     * @param expressCom
-     * @param num
-     */
-    private static List<ExpressInfo> queryKuaidi100(String appId, String appKey, ExpressCompany expressCom, String num) {
-        String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
-        String sign = HashKit.md5(param + appKey + appId);
-        HashMap params = new HashMap();
-        params.put("param", param);
-        params.put("sign", sign);
-        params.put("customer", appId);
-        String resp = HttpUtil.httpPost("http://poll.kuaidi100.com/poll/query.do", params);
-
-        if (StrUtil.isNotBlank(resp)) {
-            JSONObject jsonObject = JSON.parseObject(resp);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
-            if (jsonArray != null && jsonArray.size() > 0) {
-                List<ExpressInfo> list = new ArrayList<>();
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    JSONObject expObject = jsonArray.getJSONObject(i);
-                    ExpressInfo ei = new ExpressInfo();
-                    ei.setInfo(expObject.getString("context"));
-                    ei.setTime(expObject.getString("time"));
-                }
-                return list;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * https://www.juhe.cn/docs/api/id/43
-     * https://code.juhe.cn/docs/780
-     *
-     * @param appId
-     * @param appKey
-     * @param expressCom
-     * @param num
-     */
-    private static List<ExpressInfo> queryJuhe(String appId, String appKey, ExpressCompany expressCom, String num) {
-
-        String url = "http://v.juhe.cn/exp/index";//请求接口地址
-        Map params = new HashMap();//请求参数
-        params.put("com", expressCom.getCode());//需要查询的快递公司编号
-        params.put("no", num);//需要查询的订单号
-        params.put("key", appKey);//应用APPKEY(应用详细页查询)
-        params.put("dtype", "json");//返回数据的格式,xml或json，默认json
-
-        String result = null;
-        try {
-            result = HttpUtil.httpGet(url, params);
-            JSONObject object = JSONObject.parseObject(result);
-            if (object.getInteger("error_code") == 0) {
-                JSONArray jsonArray = object.getJSONObject("result").getJSONArray("list");
-                if (jsonArray != null && jsonArray.size() > 0) {
-                    List<ExpressInfo> list = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JSONObject expObject = jsonArray.getJSONObject(i);
-                        ExpressInfo ei = new ExpressInfo();
-                        ei.setInfo(expObject.getString("remark"));
-                        ei.setTime(expObject.getString("datetime"));
-                    }
-                    return list;
-                }
-            } else {
-                System.out.println(object.get("error_code") + ":" + object.get("reason"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * http://www.kdniao.com/api-track
-     *
-     * @param appId
-     * @param appKey
-     * @param expressCom
-     * @param num
-     */
-    private static List<ExpressInfo> queryKdniao(String appId, String appKey, ExpressCompany expressCom, String num) {
-        String requestData = "{'OrderCode':'','ShipperCode':'" + expressCom.getCode() + "','LogisticCode':'" + num + "'}";
-
-        Map<String, Object> params = new HashMap<>();
-        try {
-            params.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
-            params.put("EBusinessID", appId); //请到快递鸟官网申请http://www.kdniao.com/ServiceApply.aspx
-            params.put("RequestType", "1002");
-            String dataSign = Base64Kit.encode(HashKit.md5(requestData + appKey));//encrypt(requestData, appKey);
-            params.put("DataSign", URLEncoder.encode(dataSign, "UTF-8"));
-            params.put("DataType", "2");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        String result = HttpUtil.httpPost("http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx", params);
-        try {
-            JSONObject object = JSONObject.parseObject(result);
-            if (object.getBooleanValue("Success")) {
-                JSONArray jsonArray = object.getJSONArray("Traces");
-                if (jsonArray != null && jsonArray.size() > 0) {
-                    List<ExpressInfo> list = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JSONObject expObject = jsonArray.getJSONObject(i);
-                        ExpressInfo ei = new ExpressInfo();
-                        ei.setInfo(expObject.getString("AcceptStation"));
-                        ei.setTime(expObject.getString("AcceptTime"));
-                    }
-                    return list;
-                }
-            } else {
-                System.out.println(object.get("error_code") + ":" + object.get("reason"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-
-    }
-
-
-    /**
-     * https://www.showapi.com/apiGateway/view?apiCode=64
-     *
-     * @param appId
-     * @param appKey
-     * @param expressCom
-     * @param num
-     */
-    private static List<ExpressInfo> queryShowapi(String appId, String appKey, ExpressCompany expressCom, String num) {
-        String param = "{\"com\":\"" + expressCom.getCode() + "\",\"num\":\"" + num + "\"}";
-        String sign = HashKit.md5(param + appKey + appId);
-        HashMap params = new HashMap();
-        params.put("showapi_appid", appId);
-        params.put("com", sign);
-        params.put("nu", num);
-        params.put("contentType", "bodyString");
-        params.put("showapi_sign", signRequest(params, appKey));
-
-
-        String resp = HttpUtil.httpGet("http://route.showapi.com/64-19", params);
-        try {
-            JSONObject object = JSONObject.parseObject(resp);
-            JSONArray jsonArray = object.getJSONObject("showapi_res_body").getJSONArray("data");
-            if (jsonArray != null && jsonArray.size() > 0) {
-                List<ExpressInfo> list = new ArrayList<>();
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    JSONObject expObject = jsonArray.getJSONObject(i);
-                    ExpressInfo ei = new ExpressInfo();
-                    ei.setInfo(expObject.getString("context"));
-                    ei.setTime(expObject.getString("time"));
-                }
-                return list;
-            } else {
-                System.out.println(object.get("error_code") + ":" + object.get("reason"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    private static String signRequest(Map<String, Object> params, String appkey) {
-        String[] keys = params.keySet().toArray(new String[0]);
-        Arrays.sort(keys);
-
-        StringBuilder builder = new StringBuilder();
-        for (String key : keys) {
-            Object value = params.get(key);
-            if (value != null && StrUtil.areNotEmpty(key, value.toString())) {
-                builder.append(key).append(value);
-            }
-        }
-        builder.append(appkey);
-        return HashKit.md5(builder.toString());
-    }
 }
+

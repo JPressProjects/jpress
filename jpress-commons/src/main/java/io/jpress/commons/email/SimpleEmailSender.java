@@ -16,6 +16,7 @@
 package io.jpress.commons.email;
 
 import com.jfinal.log.Log;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -28,7 +29,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-public class SimpleEmailSender extends Authenticator implements IEmailSender {
+public class SimpleEmailSender extends Authenticator implements EmailSender {
 
     private static final Log logger = Log.getLog(SimpleEmailSender.class);
 
@@ -83,8 +84,9 @@ public class SimpleEmailSender extends Authenticator implements IEmailSender {
     }
 
     private static Address[] toAddress(String... emails) {
-        if (emails == null || emails.length == 0)
+        if (emails == null || emails.length == 0) {
             return null;
+        }
 
         Set<Address> addSet = new HashSet<Address>();
         for (String email : emails) {
@@ -98,10 +100,10 @@ public class SimpleEmailSender extends Authenticator implements IEmailSender {
     }
 
     @Override
-    public void send(Email email) {
+    public boolean send(Email email) {
         if (enable == false) {
             //do nothing
-            return;
+            return false;
         }
 
         Message message = createMessage();
@@ -113,9 +115,36 @@ public class SimpleEmailSender extends Authenticator implements IEmailSender {
             message.setRecipients(Message.RecipientType.CC, toAddress(email.getCc()));
 
             Transport.send(message);
+
+            return true;
         } catch (MessagingException e) {
             logger.error("SimpleEmailSender send error", e);
         }
 
+        return false;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isUseSSL() {
+        return useSSL;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public boolean isConfigOk() {
+        return StrUtil.areNotEmpty(host, name, password);
     }
 }

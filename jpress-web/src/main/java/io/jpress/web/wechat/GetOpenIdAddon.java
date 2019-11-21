@@ -22,13 +22,15 @@ import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonConfig;
 
-
+/**
+ * @author michael
+ */
 @WechatAddonConfig(
-        id = "ip.press.helloaddon",
-        title = "Hello World",
-        description = "这是一个 Hello World 微信插件，方便开发参考。用户输入 hello，返回 world",
+        id = "ip.press.getopenid",
+        title = "获取用户OpenId",
+        description = "当用户在公众号输入关键字 openid 时，把用户的 openId 返回给用户",
         author = "海哥")
-public class HelloWechatAddon implements WechatAddon {
+public class GetOpenIdAddon implements WechatAddon {
 
 
     @Override
@@ -39,14 +41,14 @@ public class HelloWechatAddon implements WechatAddon {
 
         InTextMsg inTextMsg = (InTextMsg) inMsg;
         String content = inTextMsg.getContent();
-        return content != null && content.equalsIgnoreCase("hello");
+        return content != null && content.equalsIgnoreCase("openid");
     }
 
 
     @Override
     public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
         OutTextMsg outTextMsg = new OutTextMsg(inMsg);
-        outTextMsg.setContent("world");
+        outTextMsg.setContent("您的微信 OpenId 是 ： " + inMsg.getFromUserName());
         msgController.render(outTextMsg);
         return true;
     }

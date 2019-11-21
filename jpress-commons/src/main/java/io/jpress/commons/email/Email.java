@@ -78,7 +78,7 @@ public class Email {
         send(new SimpleEmailSender());
     }
 
-    public void send(IEmailSender sender) {
+    public void send(EmailSender sender) {
         try {
             sender.send(this);
         } catch (Throwable ex) {

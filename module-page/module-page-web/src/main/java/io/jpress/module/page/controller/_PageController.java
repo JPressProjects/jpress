@@ -27,6 +27,8 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.model.SinglePageComment;
+import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -44,7 +46,10 @@ public class _PageController extends AdminControllerBase {
     @Inject
     private SinglePageService sps;
 
-    @AdminMenu(text = "页面管理", groupId = "page")
+    @Inject
+    private SinglePageCommentService commentService;
+
+    @AdminMenu(text = "页面管理", groupId = "page", order = 1)
     public void index() {
 
         String status = getPara("status");
@@ -69,7 +74,7 @@ public class _PageController extends AdminControllerBase {
         render("page/page_list.html");
     }
 
-    @AdminMenu(text = "新建", groupId = "page")
+    @AdminMenu(text = "新建", groupId = "page", order = 2)
     public void write() {
         int pageId = getParaToInt(0, 0);
 
@@ -88,6 +93,40 @@ public class _PageController extends AdminControllerBase {
 
         render("page/page_write.html");
     }
+
+
+    @AdminMenu(text = "评论", groupId = "page", order = 5)
+    public void comment() {
+
+        String status = getPara("status");
+        String key = getPara("keyword");
+        Long articleId = getParaToLong("pageId");
+
+        Page<SinglePageComment> page =
+                StrUtil.isBlank(status)
+                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
+                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
+
+        setAttr("page", page);
+
+        long unauditedCount = commentService.findCountByStatus(SinglePageComment.STATUS_UNAUDITED);
+        long trashCount = commentService.findCountByStatus(SinglePageComment.STATUS_TRASH);
+        long normalCount = commentService.findCountByStatus(SinglePageComment.STATUS_NORMAL);
+
+        setAttr("unauditedCount", unauditedCount);
+        setAttr("trashCount", trashCount);
+        setAttr("normalCount", normalCount);
+        setAttr("totalCount", unauditedCount + trashCount + normalCount);
+
+        render("page/comment_list.html");
+    }
+
+
+    @AdminMenu(text = "设置", groupId = "page", order = 6)
+    public void setting() {
+        render("page/setting.html");
+    }
+
 
     @EmptyValidate({
             @Form(name = "id", message = "页面ID不能为空"),

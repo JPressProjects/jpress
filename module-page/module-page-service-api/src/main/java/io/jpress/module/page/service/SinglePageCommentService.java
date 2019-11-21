@@ -183,5 +183,17 @@ public interface SinglePageCommentService  {
      */
     public Page<SinglePageComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
+    public long findCountByStatus(String status);
+
+    public Page<SinglePageComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status);
+
+    public Page<SinglePageComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword);
+
+    public Page<SinglePageComment> _paginateByUserId(int page, int pagesize, long userId);
+
+    public Page<SinglePageComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId);
+
+    public void doIncCommentReplyCount(long commentId);
+
 
 }

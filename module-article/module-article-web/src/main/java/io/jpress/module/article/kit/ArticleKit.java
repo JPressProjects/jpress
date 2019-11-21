@@ -65,14 +65,21 @@ public class ArticleKit {
 
     public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment, User user) {
         boolean enable = JPressOptions.getAsBool("article_comment_email_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendEmail(article, comment, user));
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendEmail(article, comment, user));
+        }
     }
 
 
     private static void doSendEmail(Article article, ArticleComment comment, User user) {
 
         String emailTemplate = JPressOptions.get("article_comment_email_notify_template");
-        String sendTo = JPressOptions.get("article_comment_email_notify_address");
+        String emailTitle = JPressOptions.get("article_comment_email_notify_title");
+        String webMasterEmail = JPressOptions.get("web_mater_email");
+
+        if (!StrUtil.areNotEmpty(emailTemplate, emailTemplate, webMasterEmail)) {
+            return;
+        }
 
         Map<String, Object> paras = new HashMap();
         paras.put("article", article);
@@ -80,11 +87,13 @@ public class ArticleKit {
         paras.put("user", user);
 
         String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
+
         Email email = Email.create();
         email.content(content);
-        email.subject("有人评论你的文章：" + article.getTitle());
-        email.to(sendTo);
+        email.subject(emailTitle);
+        email.to(webMasterEmail.split(","));
         email.send();
+
     }
 
 

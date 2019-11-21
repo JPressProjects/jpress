@@ -25,13 +25,13 @@ import io.jpress.codegen.ModuleGenerator;
 public class PageModuleGenerator {
 
 
-    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
+    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3";
     private static String dbUser = "root";
-    private static String dbPassword = "";
+    private static String dbPassword = "123456";
 
 
     private static String moduleName = "page";
-    private static String dbTables = "single_page";
+    private static String dbTables = "single_page,single_page_comment";
     private static String modelPackage = "io.jpress.module.page.model";
     private static String servicePackage = "io.jpress.module.page.service";
 

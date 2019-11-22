@@ -16,11 +16,12 @@
 package io.jpress.module.page.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.page.model.SinglePage;
 
 import java.util.List;
 
-public interface SinglePageService {
+public interface SinglePageService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

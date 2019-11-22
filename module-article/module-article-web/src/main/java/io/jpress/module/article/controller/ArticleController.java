@@ -21,7 +21,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
-import io.jpress.module.article.kit.ArticleKit;
+import io.jpress.module.article.kit.ArticleNotifyKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -253,7 +253,7 @@ public class ArticleController extends TemplateControllerBase {
 
         setRetHtml(ret,paras,"/WEB-INF/views/commons/article/defaultArticleCommentItem.html");
 
-        ArticleKit.doNotifyAdministrator(article, comment, user);
+        ArticleNotifyKit.doNotifyAdministrator(article, comment, user);
 
         if (isAjaxRequest()) {
             renderJson(ret);

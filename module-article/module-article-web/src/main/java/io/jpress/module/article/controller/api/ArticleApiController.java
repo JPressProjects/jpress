@@ -23,7 +23,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
-import io.jpress.module.article.kit.ArticleKit;
+import io.jpress.module.article.kit.ArticleNotifyKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
@@ -327,7 +327,7 @@ public class ArticleApiController extends ApiControllerBase {
 
         renderJson(ret);
 
-        ArticleKit.doNotifyAdministrator(article, comment, user);
+        ArticleNotifyKit.doNotifyAdministrator(article, comment, user);
     }
 
 

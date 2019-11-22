@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProductKit {
+public class ProductNotifyKit {
 
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 

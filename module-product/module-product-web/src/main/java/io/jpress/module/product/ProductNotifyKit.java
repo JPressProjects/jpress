@@ -16,6 +16,7 @@
 package io.jpress.module.product;
 
 import com.jfinal.template.Engine;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
@@ -28,11 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ProductNotifyKit {
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"product-notify");
 
     public static void doNotifyAdministrator(Product product, ProductComment comment, User user) {
         doNotifyAdministratorByEmail(product, comment, user);
@@ -48,7 +48,9 @@ public class ProductNotifyKit {
 
     public static void doNotifyAdministratorBySms(Product product, ProductComment comment) {
         boolean enable = JPressOptions.getAsBool("product_comment_sms_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendSms());
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendSms());
+        }
     }
 
     private static void doSendSms() {

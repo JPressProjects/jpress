@@ -16,6 +16,7 @@
 package io.jpress.web.commons.finance;
 
 import com.jfinal.template.Engine;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
@@ -27,11 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class PayNotifytKit {
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"pay-notify");
 
     public static void doNotifyAdministrator(PaymentRecord payment,  User user) {
         doNotifyAdministratorByEmail(payment, user);
@@ -46,7 +46,9 @@ public class PayNotifytKit {
 
     public static void doNotifyAdministratorBySms(PaymentRecord payment) {
         boolean enable = JPressOptions.getAsBool("pay_notify_sms_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendSms());
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendSms());
+        }
     }
 
     private static void doSendSms() {

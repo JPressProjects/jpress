@@ -33,6 +33,9 @@ public interface CouponService  {
     public boolean deleteById(Object id);
 
 
+    public boolean batchDeleteByIds(Object... ids);
+
+
     /**
      * delete model
      *

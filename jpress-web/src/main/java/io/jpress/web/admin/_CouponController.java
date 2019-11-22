@@ -31,6 +31,8 @@ import io.jpress.service.CouponService;
 import io.jpress.service.CouponUsedRecordService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.Set;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -75,6 +77,19 @@ public class _CouponController extends AdminControllerBase {
         renderOkJson();
     }
 
+    public void doDel(){
+        couponService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
+    @EmptyValidate({
+            @Form(name = "ids", message = "删除数据不能为空"),
+    })
+    public void doDelByIds(){
+        Set<String> idsSet = getParaSet("ids");
+        couponService.batchDeleteByIds(idsSet.toArray());
+        renderOkJson();
+    }
 
     public void takes() {
         Page<CouponCode> page = couponCodeService.paginate(getPagePara(), 10);

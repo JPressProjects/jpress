@@ -198,7 +198,7 @@ public class PageController extends TemplateControllerBase {
             paras.put("user", user.keepSafe());
         }
 
-        setRetHtml(ret,paras,"/WEB-INF/views/commons/page/defaultArticleCommentItem.html");
+        setRetHtml(ret,paras,"/WEB-INF/views/commons/page/defaultPageCommentItem.html");
 
         PageKit.doNotifyAdministrator(article, comment, user);
 

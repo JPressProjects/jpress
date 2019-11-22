@@ -24,6 +24,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
+import io.jpress.module.product.ProductKit;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
@@ -267,9 +268,9 @@ public class ProductController extends TemplateControllerBase {
 
 
         setRetHtml(ret, paras, "/WEB-INF/views/commons/product/defaultProductCommentItem.html");
-
         renderJson(ret);
-//        ArticleKit.doNotifyAdministrator(product, comment, user);
+
+        ProductKit.doNotifyAdministrator(product, comment, user);
 
     }
 

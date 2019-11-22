@@ -306,6 +306,7 @@
                                     <input type="checkbox" class="switchery"  data-for="pay_noitify_email_enable"
                                            #checkedIf(option("pay_noitify_email_enable"))>
                                     <input type="hidden" id="pay_noitify_email_enable" name="pay_noitify_email_enable">
+                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员邮箱。
                                 </div>
                             </div>
 
@@ -338,20 +339,31 @@
                                     <input type="checkbox" class="switchery" data-for="pay_noitify_sms_enable"
                                            #checkedIf(option("pay_noitify_sms_enable"))>
                                     <input type="hidden" id="pay_noitify_sms_enable" name="pay_noitify_sms_enable">
+                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员的手机号。
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">短信模板</label>
+                                <label class="col-sm-2 control-label">通知短信模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="..."
-                                              name="pay_noitify_sms_template">#option("pay_noitify_sms_template")</textarea>
-                                    <p class="help-block">
-                                        请先在 <a href="#(CPATH)/admin/setting">[常规]</a> 里填写管理员的手机号码，并在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
+                                    <textarea rows="2" class="form-control" placeholder="..."
+                                              name="pay_noitify_sms_template">#option('pay_noitify_sms_template')</textarea>
+                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">短信签名</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
+                                           name="pay_noitify_sms__sign"
+                                           value="#option('pay_noitify_sms__sign')">
+                                    <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                </div>
+                            </div>
+
 
 
                             <div class="form-group">
@@ -374,6 +386,7 @@
                                     </p>
                                 </div>
                             </div>
+
 
 
                         </div>

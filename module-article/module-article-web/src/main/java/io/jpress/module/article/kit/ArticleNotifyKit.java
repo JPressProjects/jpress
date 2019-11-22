@@ -34,21 +34,17 @@ public class ArticleNotifyKit {
 
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"article-notify");
 
-    public static void doNotifyAdministrator(Article article, ArticleComment comment, User user) {
-        doNotifyAdministratorByEmail(article, comment, user);
-        doNotifyAdministratorBySms(article, comment);
+    public static void notify(Article article, ArticleComment comment, User user) {
+        byEmail(article, comment, user);
+        bySms(article, comment);
     }
 
-    /**
-     * 发送邮件给管理员，告知网站有新的评论了
-     *
-     * @param article
-     * @param comment
-     */
 
-    public static void doNotifyAdministratorBySms(Article article, ArticleComment comment) {
+    private static void bySms(Article article, ArticleComment comment) {
         boolean enable = JPressOptions.getAsBool("article_comment_sms_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendSms());
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendSms());
+        }
     }
 
     private static void doSendSms() {
@@ -68,7 +64,7 @@ public class ArticleNotifyKit {
     }
 
 
-    public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment, User user) {
+    public static void byEmail(Article article, ArticleComment comment, User user) {
         boolean enable = JPressOptions.getAsBool("article_comment_email_notify_enable");
         if (enable) {
             fixedThreadPool.execute(() -> doSendEmail(article, comment, user));

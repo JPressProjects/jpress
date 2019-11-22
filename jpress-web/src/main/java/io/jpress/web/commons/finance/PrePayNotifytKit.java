@@ -34,19 +34,14 @@ public class PrePayNotifytKit {
 
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"prepay-notify");
 
-    public static void doNotifyAdministrator(PaymentRecord payment, User user) {
-        doNotifyAdministratorByEmail(payment, user);
-        doNotifyAdministratorByWechat(payment, user);
-        doNotifyAdministratorBySms(payment);
+    public static void notify(PaymentRecord payment, User user) {
+        byEmail(payment, user);
+        byWechat(payment, user);
+        bySms(payment);
     }
 
-    /**
-     * 发送邮件给管理员，告知网站有新的评论了
-     *
-     * @param payment
-     */
 
-    public static void doNotifyAdministratorBySms(PaymentRecord payment) {
+    private static void bySms(PaymentRecord payment) {
         boolean enable = JPressOptions.getAsBool("prepay_notify_sms_enable");
         if (enable) {
             fixedThreadPool.execute(() -> doSendSms());
@@ -70,7 +65,7 @@ public class PrePayNotifytKit {
     }
 
 
-    public static void doNotifyAdministratorByEmail(PaymentRecord payment, User user) {
+    public static void byEmail(PaymentRecord payment, User user) {
         boolean enable = JPressOptions.getAsBool("prepay_notify_email_enable");
         if (enable) {
             fixedThreadPool.execute(() -> doSendEmail(payment, user));
@@ -104,7 +99,7 @@ public class PrePayNotifytKit {
     }
 
 
-    public static void doNotifyAdministratorByWechat(PaymentRecord payment, User user) {
+    public static void byWechat(PaymentRecord payment, User user) {
         boolean enable = JPressOptions.getAsBool("prepay_notify_wechat_enable");
         if (enable) {
             fixedThreadPool.execute(() -> doSendWechat(payment, user));

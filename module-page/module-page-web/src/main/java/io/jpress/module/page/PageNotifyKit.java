@@ -30,25 +30,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
-public class PageKit {
+public class PageNotifyKit {
 
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"page-notify");
 
-    public static void doNotifyAdministrator(SinglePage page, SinglePageComment comment, User user) {
-        doNotifyAdministratorByEmail(page, comment, user);
-        doNotifyAdministratorBySms(page, comment);
+    public static void notify(SinglePage page, SinglePageComment comment, User user) {
+        byEmail(page, comment, user);
+        bySms(page, comment);
     }
 
-    /**
-     * 发送邮件给管理员，告知网站有新的评论了
-     *
-     * @param page
-     * @param comment
-     */
 
-    public static void doNotifyAdministratorBySms(SinglePage page, SinglePageComment comment) {
+    private static void bySms(SinglePage page, SinglePageComment comment) {
         boolean enable = JPressOptions.getAsBool("page_comment_sms_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendSms());
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendSms());
+        }
     }
 
     private static void doSendSms() {
@@ -68,7 +64,7 @@ public class PageKit {
     }
 
 
-    public static void doNotifyAdministratorByEmail(SinglePage page, SinglePageComment comment, User user) {
+    public static void byEmail(SinglePage page, SinglePageComment comment, User user) {
         boolean enable = JPressOptions.getAsBool("page_comment_email_notify_enable");
         if (enable) {
             fixedThreadPool.execute(() -> doSendEmail(page, comment, user));

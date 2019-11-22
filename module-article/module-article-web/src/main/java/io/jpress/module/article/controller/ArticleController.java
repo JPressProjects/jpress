@@ -253,7 +253,7 @@ public class ArticleController extends TemplateControllerBase {
 
         setRetHtml(ret,paras,"/WEB-INF/views/commons/article/defaultArticleCommentItem.html");
 
-        ArticleNotifyKit.doNotifyAdministrator(article, comment, user);
+        ArticleNotifyKit.notify(article, comment, user);
 
         if (isAjaxRequest()) {
             renderJson(ret);

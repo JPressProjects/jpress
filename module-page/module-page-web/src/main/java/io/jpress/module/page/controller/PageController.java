@@ -21,7 +21,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
-import io.jpress.module.page.PageKit;
+import io.jpress.module.page.PageNotifyKit;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
@@ -200,7 +200,7 @@ public class PageController extends TemplateControllerBase {
 
         setRetHtml(ret,paras,"/WEB-INF/views/commons/page/defaultPageCommentItem.html");
 
-        PageKit.doNotifyAdministrator(page, comment, user);
+        PageNotifyKit.notify(page, comment, user);
 
         if (isAjaxRequest()) {
             renderJson(ret);

@@ -3,7 +3,9 @@
 <script>
 
     function del(id) {
-        ajaxGet("#(CPATH)/ucenter/article/doDel/" + id)
+        if (confirm("确定要删除该文章吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/ucenter/article/doDel/" + id)
+        }
     }
 </script>
 

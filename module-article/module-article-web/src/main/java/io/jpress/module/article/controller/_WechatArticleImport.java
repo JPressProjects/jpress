@@ -26,6 +26,7 @@ import io.jboot.components.http.JbootHttpRequest;
 import io.jboot.components.http.JbootHttpResponse;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.HttpUtil;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
@@ -46,7 +47,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -189,7 +189,7 @@ public class _WechatArticleImport extends AdminControllerBase {
 
     public static class WechatArticleImageDownloader {
 
-        private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+        private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"wechat-image-downloader");
 
         public static void download(String url) {
             fixedThreadPool.execute(() -> doDownload(url));

@@ -22,19 +22,19 @@ import com.jfinal.weixin.sdk.api.CustomServiceApi;
 import com.jfinal.weixin.sdk.api.MediaApi;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
 import com.jfinal.weixin.sdk.utils.JsonUtils;
+import io.jboot.utils.NamedThreadPools;
 import io.jpress.commons.utils.AttachmentUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class WechatMsgUtil {
 
     private static final Log LOG = Log.getLog(WechatMsgUtil.class);
-    private static ExecutorService pool = Executors.newFixedThreadPool(5);
+    private static ExecutorService pool = NamedThreadPools.newFixedThreadPool(5,"wechat-msg");
 
     public static void sendImageAsync(String openId, String imageFilePath) {
         pool.submit(() -> {

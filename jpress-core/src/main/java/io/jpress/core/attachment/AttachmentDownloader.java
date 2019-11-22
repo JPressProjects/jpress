@@ -19,6 +19,7 @@ import com.jfinal.kit.LogKit;
 import io.jboot.components.http.JbootHttpRequest;
 import io.jboot.components.http.JbootHttpResponse;
 import io.jboot.utils.HttpUtil;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
@@ -26,14 +27,13 @@ import io.jpress.model.Attachment;
 import java.io.File;
 import java.net.URI;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 负责把远程的附件本地化
  */
 public class AttachmentDownloader {
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"attachment-download");
 
     /**
      * 用于下载 WordPress 的附件，下载成功后 更新 attachment 本身的路径

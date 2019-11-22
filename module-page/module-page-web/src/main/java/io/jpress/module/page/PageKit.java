@@ -16,6 +16,7 @@
 package io.jpress.module.page;
 
 import com.jfinal.template.Engine;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
@@ -28,11 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class PageKit {
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"page-notify");
 
     public static void doNotifyAdministrator(SinglePage page, SinglePageComment comment, User user) {
         doNotifyAdministratorByEmail(page, comment, user);

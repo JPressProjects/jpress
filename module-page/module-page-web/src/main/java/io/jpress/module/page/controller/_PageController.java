@@ -122,6 +122,46 @@ public class _PageController extends AdminControllerBase {
     }
 
 
+    /**
+     * 删除评论
+     */
+    public void doCommentDel() {
+        Long id = getParaToLong("id");
+        commentService.deleteById(id);
+        renderOkJson();
+    }
+
+
+    /**
+     * 批量删除评论
+     */
+    @EmptyValidate(@Form(name = "ids"))
+    public void doCommentDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.batchDeleteByIds(idsSet.toArray()) ? OK : FAIL);
+    }
+
+
+    /**
+     * 批量审核评论
+     */
+    @EmptyValidate(@Form(name = "ids"))
+    public void doCommentAuditByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(commentService.batchChangeStatusByIds(SinglePageComment.STATUS_NORMAL, idsSet.toArray()) ? OK : FAIL);
+    }
+
+    /**
+     * 修改评论状态
+     *
+     * @param id
+     * @param status
+     */
+    public void doCommentStatusChange(Long id, String status) {
+        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
+    }
+
+
     @AdminMenu(text = "设置", groupId = "page", order = 6)
     public void setting() {
         render("page/setting.html");

@@ -107,7 +107,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     public boolean doChangeStatus(long id, String status) {
         ArticleComment comment = findById(id);
         comment.setStatus(status);
-        return comment.update();
+        return update(comment);
     }
 
     @Override

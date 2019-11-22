@@ -7,6 +7,8 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ArrayUtil;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
@@ -62,8 +64,8 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
     }
 
     @Override
-    public Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long articleId) {
-        Columns columns = Columns.create("article_id", articleId);
+    public Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long pageId) {
+        Columns columns = Columns.create("page_id", pageId);
         columns.add("status", SinglePageComment.STATUS_NORMAL);
 
 
@@ -95,5 +97,20 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
     public void doIncCommentReplyCount(long commentId) {
         Db.update("update single_page_comment set reply_count = reply_count + 1"
                 + " where id = ? ", commentId);
+    }
+
+    @Override
+    public boolean doChangeStatus(Long id, String status) {
+        SinglePageComment comment = findById(id);
+        comment.setStatus(status);
+        return update(comment);
+    }
+
+    @Override
+    public boolean batchChangeStatusByIds(String status, Object... ids) {
+        Columns c = Columns.create().in("id", ids);
+        Object[] paras = ArrayUtil.concat(new Object[]{status}, c.getValueArray());
+
+        return Db.update("update single_page_comment SET `status` = ? " + SqlUtils.toWhereSql(c), paras) > 0;
     }
 }

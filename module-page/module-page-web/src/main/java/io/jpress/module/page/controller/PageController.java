@@ -123,8 +123,8 @@ public class PageController extends TemplateControllerBase {
         }
 
 
-        SinglePage article = pageService.findById(pageId);
-        if (article == null) {
+        SinglePage page = pageService.findById(pageId);
+        if (page == null) {
             renderFailJson();
             return;
         }
@@ -193,14 +193,14 @@ public class PageController extends TemplateControllerBase {
 
         Map<String, Object> paras = new HashMap<>();
         paras.put("comment", comment);
-        paras.put("article", article);
+        paras.put("page", page);
         if (user != null) {
             paras.put("user", user.keepSafe());
         }
 
         setRetHtml(ret,paras,"/WEB-INF/views/commons/page/defaultPageCommentItem.html");
 
-        PageKit.doNotifyAdministrator(article, comment, user);
+        PageKit.doNotifyAdministrator(page, comment, user);
 
         if (isAjaxRequest()) {
             renderJson(ret);

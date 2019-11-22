@@ -16,6 +16,7 @@
 package io.jpress.web.commons.email;
 
 import com.jfinal.template.Engine;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -27,11 +28,10 @@ import io.jpress.model.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class EmailSender {
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3, "email-sender");
 
 
     /**

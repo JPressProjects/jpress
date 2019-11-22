@@ -1,9 +1,9 @@
-#define defaultProductCommentPage()
+#define defaultPageCommentPage()
 <div class="comment-default-block">
 
-    #if(option('product_comment_enable') && product.comment_status)
-    <form class="comment-form" action="#(CPATH)/product/postComment" id="jpress-comment-form" method="post">
-        <input type="hidden" name="productId" value="#(product.id)">
+    #if(option('page_comment_enable'))
+    <form class="comment-form" action="#(CPATH)/page/postComment" id="jpress-comment-form" method="post">
+        <input type="hidden" name="pageId" value="#(page.id ??)">
         <input type="hidden" name="render" value="default">
         <input type="hidden" name="pid" id="comment-pid">
 
@@ -12,7 +12,7 @@
         </div>
 
         <div class="comment-vcode">
-            #if(option('product_comment_vcode_enable'))
+            #if(option('page_comment_vcode_enable'))
             <input placeholder="请输入验证码" name="captcha" id="comment-captcha">
             <img class="vcode-img" src="#(CPATH)/commons/captcha"
                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude id="comment-vcode">
@@ -27,21 +27,20 @@
 
     <h4 class="comment-page-title" id="comments">全部评论</h4>
 
-
     <div class="comment-page">
-        #productCommentPage()
+        #pageCommentPage()
         #for(comment : commentPage.list ??)
-        #include("defaultProductCommentItem.html")
+            #include("defaultPageCommentItem.html")
         #end
         #end
     </div>
 
 
-    #productCommentPaginate(anchor="comments")
+    #pageCommentPaginate(anchor="comments")
     <nav>
         <ul class="pagination justify-content-center">
-            #for(page : pages)
-            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #for(p : pages)
+            <li class="page-item #(p.style)"><a class="page-link" href="#(p.url ??)">#(p.text)</a></li>
             #end
         </ul>
     </nav>

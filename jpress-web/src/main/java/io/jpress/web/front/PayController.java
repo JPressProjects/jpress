@@ -27,6 +27,8 @@ import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
+import io.jpress.web.commons.finance.PayNotifytKit;
+import io.jpress.web.commons.finance.PrePayNotifytKit;
 import io.jpress.web.interceptor.UserMustLoginedInterceptor;
 
 import java.awt.image.BufferedImage;
@@ -82,6 +84,8 @@ public class PayController extends TemplateControllerBase {
 
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
     /**
@@ -128,6 +132,8 @@ public class PayController extends TemplateControllerBase {
         order.setOpenid(openId);
 
         renderJson(Ret.ok().set("orderInfo", service.orderInfo(order)));
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
 
@@ -142,6 +148,8 @@ public class PayController extends TemplateControllerBase {
 
         setAttr("payConfig", PayConfigUtil.getWechatxPayConfig());
         render("pay_wechatx.html", DEFAULT_WECHATX_VIEW);
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
     /**
@@ -176,6 +184,8 @@ public class PayController extends TemplateControllerBase {
 
         setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
 
@@ -208,6 +218,8 @@ public class PayController extends TemplateControllerBase {
         Map orderInfo = service.orderInfo(order);
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
     /**
@@ -221,6 +233,8 @@ public class PayController extends TemplateControllerBase {
         setAttr("payConfig", PayConfigUtil.getAlipayxPayConfig());
 
         render("pay_alipayx.html", DEFAULT_ALIPAYX_VIEW);
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
 
@@ -243,6 +257,8 @@ public class PayController extends TemplateControllerBase {
         Map orderInfo = service.orderInfo(order);
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
+
+        PrePayNotifytKit.notify(payment,getLoginedUser());
     }
 
 
@@ -289,6 +305,8 @@ public class PayController extends TemplateControllerBase {
                 BigDecimal.ZERO.subtract(payment.getPayAmount()))) {
             paymentService.notifySuccess(payment.getId());
         }
+
+        PayNotifytKit.notify(payment,getLoginedUser());
 
         redirect("/pay/success/" + payment.getTrxNo());
 
@@ -397,6 +415,8 @@ public class PayController extends TemplateControllerBase {
         } else {
             callbackFail(service);
         }
+
+        PayNotifytKit.notify(payment,getLoginedUser());
 
     }
 

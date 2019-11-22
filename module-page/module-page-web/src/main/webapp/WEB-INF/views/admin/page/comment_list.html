@@ -7,7 +7,9 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+        if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+        }
     }
 
 
@@ -17,7 +19,10 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
+
+        if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
+        }
     })
 
 
@@ -109,7 +114,7 @@
                                 <th style="width: 90px">发布时间</th>
                             </tr>
 
-                            #for(comment : page.list)
+                            #for(comment : page.list??)
                             <tr class="jp-actiontr">
                                 <td>
                                     <input class="dataItem" type="checkbox" value="#(comment.id)" />
@@ -121,13 +126,13 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)">#(comment.text ??)</a>
+                                        <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">#(comment.text ??)</a>
                                         #if(comment.isUnaudited()) (待审核) #end
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)">编辑</a>  |
-                                            <a href="#(CPATH)/admin/article/commentReply/#(comment.id)">回复</a> |
+                                            <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">编辑</a>  |
+                                            <a href="#(CPATH)/admin/page/commentReply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
                                                onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
@@ -143,8 +148,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="#(comment.article.url ??)" target="_blank">
-                                        #(comment.article.title ??)
+                                    <a href="#(comment.page.url ??)" target="_blank">
+                                        #(comment.page.title ??)
                                     </a>
                                 </td>
                                 <td>#(comment.comment_count ??)</td>

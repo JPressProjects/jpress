@@ -20,12 +20,12 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.GetObjectRequest;
 import com.jfinal.kit.LogKit;
 import com.jfinal.log.Log;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class AliyunOssUtils {
@@ -40,7 +40,7 @@ public class AliyunOssUtils {
     private static final String KEY_BUCKETNAME = "attachment_aliyunoss_bucketname";
 
 
-    private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"aliyun-oss-upload");
 
     /**
      * 同步本地文件到阿里云OSS

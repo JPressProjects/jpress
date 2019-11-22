@@ -17,6 +17,7 @@ package io.jpress.web.seoping;
 
 
 import com.jfinal.kit.LogKit;
+import io.jboot.utils.NamedThreadPools;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
@@ -37,7 +38,7 @@ public class SeoManager {
     }
 
 
-    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+    private ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"seo-ping");
 
     private BaiduPinger baiduPinger = new BaiduPinger();
     private GooglePinger googlePinger = new GooglePinger();

@@ -17,7 +17,9 @@
     }
 
     function del(id) {
-        ajaxGet("#(CPATH)/admin/page/doDel/" + id);
+        if (confirm("确定要删除该页面吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doDel/" + id);
+        }
     }
 
     $("#batchDel").click(function () {
@@ -26,7 +28,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/page/doDelByIds?ids=" + ids);
+        if (confirm("确定要删除选中页面吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doDelByIds?ids=" + ids);
+        }
     })
 
 </script>

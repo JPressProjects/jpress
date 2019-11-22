@@ -189,11 +189,12 @@ public interface SinglePageCommentService  {
 
     public Page<SinglePageComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword);
 
-    public Page<SinglePageComment> _paginateByUserId(int page, int pagesize, long userId);
-
-    public Page<SinglePageComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId);
+    public Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long pageId);
 
     public void doIncCommentReplyCount(long commentId);
 
 
+    public boolean doChangeStatus(Long id, String status);
+
+    public boolean batchChangeStatusByIds(String statusNormal, Object... toArray);
 }

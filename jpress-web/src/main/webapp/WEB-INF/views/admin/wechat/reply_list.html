@@ -4,7 +4,9 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/wechat/doDelReply/" + id);
+        if (confirm("确定要删除该回复吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/wechat/doDelReply/" + id);
+        }
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +15,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/wechat/doDelReplyByIds?ids=" + ids);
+        if (confirm("确定要删除选中的内容吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/wechat/doDelReplyByIds?ids=" + ids);
+        }
     })
 
 

@@ -120,11 +120,24 @@ public class _FinanceController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 9)
+    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 9)
     public void setting() {
         setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
-        render("finance/setting.html");
+        render("finance/setting_base.html");
     }
+
+    @AdminMenu(text = "收款设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 19)
+    public void setting_pay() {
+        setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
+        render("finance/setting_pay.html");
+    }
+
+    @AdminMenu(text = "通知设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 29)
+    public void setting_notify() {
+        setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
+        render("finance/setting_notify.html");
+    }
+
 
 
 }

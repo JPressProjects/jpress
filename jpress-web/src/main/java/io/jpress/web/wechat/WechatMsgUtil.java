@@ -22,32 +22,43 @@ import com.jfinal.weixin.sdk.api.CustomServiceApi;
 import com.jfinal.weixin.sdk.api.MediaApi;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
 import com.jfinal.weixin.sdk.utils.JsonUtils;
+import io.jboot.utils.NamedThreadPools;
 import io.jpress.commons.utils.AttachmentUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class WechatMsgUtil {
 
     private static final Log LOG = Log.getLog(WechatMsgUtil.class);
-    private static ExecutorService pool = Executors.newFixedThreadPool(5);
+    private static ExecutorService pool = NamedThreadPools.newFixedThreadPool(5,"wechat-msg");
 
     public static void sendImageAsync(String openId, String imageFilePath) {
         pool.submit(() -> {
-            sendImage(openId,imageFilePath);
+            sendImage(openId, imageFilePath);
         });
     }
 
     public static void sendImageAsync(String openId, File imageFile) {
         pool.submit(() -> {
-            sendImage(openId,imageFile);
+            sendImage(openId, imageFile);
         });
     }
 
+    public static void sendTextAsync(String openId, String text) {
+        pool.submit(() -> {
+            sendText(openId, text);
+        });
+    }
+
+
+    public static boolean sendText(String openId, String text) {
+        ApiResult result = CustomServiceApi.sendText(openId, text);
+        return result.isSucceed();
+    }
 
 
     public static boolean sendImage(String openId, String imageFilePath) {
@@ -56,7 +67,7 @@ public class WechatMsgUtil {
 
     public static boolean sendImage(String openId, File imageFile) {
 
-        if (!imageFile.exists() || !imageFile.isFile() || !imageFile.canRead()){
+        if (!imageFile.exists() || !imageFile.isFile() || !imageFile.canRead()) {
             return false;
         }
 
@@ -85,13 +96,14 @@ public class WechatMsgUtil {
 
 
     private static String customMessageUrl = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
+
     public static ApiResult sendMiniprogram(String openId,
                                             String title,
                                             String appid,
                                             String pagepath,
                                             File imageCover) {
 
-        if (!imageCover.exists() || !imageCover.isFile() || !imageCover.canRead()){
+        if (!imageCover.exists() || !imageCover.isFile() || !imageCover.canRead()) {
             return null;
         }
 

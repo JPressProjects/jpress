@@ -25,10 +25,12 @@
     });
 
     function del(id) {
-        ajaxGet("#(CPATH)/admin/attachment/doDel/" + id, function () {
-            parent.layer.data.needReload = true;
-            parent.layer.closeAll();
-        })
+        if (confirm("确定要删除该附件吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/attachment/doDel/" + id, function () {
+                parent.layer.data.needReload = true;
+                parent.layer.closeAll();
+            })
+        }
     }
 
     function update() {

@@ -76,14 +76,15 @@
                                            #checkedIf(option("product_comment_email_notify_enable"))>
                                     <input type="hidden" id="product_comment_email_notify_enable"
                                            name="product_comment_email_notify_enable">
+                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员邮箱。
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">管理员邮箱</label>
+                                <label class="col-sm-2 control-label">邮件标题</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：email@jpress.io"
-                                           name="product_comment_email_notify_address"
-                                           value="#option('product_comment_email_notify_address')">
+                                    <input type="input" class="form-control" placeholder="例如：你的产品#('#(product.title ??)')中有人发布评论啦~~~"
+                                           name="product_comment_email_notify_title"
+                                           value="#option('product_comment_email_notify_title')">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -106,16 +107,10 @@
                                            #checkedIf(option("product_comment_sms_notify_enable"))>
                                     <input type="hidden" id="product_comment_sms_notify_enable"
                                            name="product_comment_sms_notify_enable">
+                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员的手机号。
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">管理员手机号</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：18612345678"
-                                           name="product_comment_sms_notify_mobile"
-                                           value="#option('product_comment_sms_notify_mobile')">
-                                </div>
-                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">通知短信模板</label>
                                 <div class="col-sm-6">

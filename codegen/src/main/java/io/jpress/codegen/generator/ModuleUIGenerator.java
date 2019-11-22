@@ -120,7 +120,7 @@ public class ModuleUIGenerator {
         if (ModuleUIGenerator.UI_MODULELISTENER == genType) {
             targetTemplate = templatesDir + templates[0];
             targetOutputDir = moduleListenerOutputDir;
-            targetOutputDirFile = targetOutputDir + File.separator + StrKit.firstCharToUpperCase(moduleName) + "ModuleListener" + ".java";
+            targetOutputDirFile = targetOutputDir + File.separator + StrKit.firstCharToUpperCase(moduleName) + "ModuleInitializer" + ".java";
         }
 
         for (TableMeta tableMeta : tableMetaList) {

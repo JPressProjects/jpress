@@ -25,6 +25,14 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
 
 
     @Override
+    public SinglePageComment findById(Object id) {
+        SinglePageComment comment = super.findById(id);
+        pageService.join(comment, "page_id", "page");
+        userService.join(comment, "user_id");
+        return comment;
+    }
+
+    @Override
     public long findCountByStatus(String status) {
         return DAO.findCountByColumn(Column.create("status", status));
     }

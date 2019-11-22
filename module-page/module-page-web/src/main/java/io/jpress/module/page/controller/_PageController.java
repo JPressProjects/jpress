@@ -26,6 +26,7 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.model.User;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
@@ -159,6 +160,44 @@ public class _PageController extends AdminControllerBase {
      */
     public void doCommentStatusChange(Long id, String status) {
         render(commentService.doChangeStatus(id, status) ? OK : FAIL);
+    }
+
+
+    /**
+     * 评论回复 页面
+     */
+    public void commentReply() {
+        long id = getIdPara();
+        SinglePageComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("page/comment_reply.html");
+    }
+
+    /**
+     * 进行评论回复
+     */
+    public void doCommentReply(String content, Long pageId, Long pid) {
+        User user = getLoginedUser();
+
+        SinglePageComment comment = new SinglePageComment();
+        comment.setContent(content);
+        comment.setUserId(user.getId());
+        comment.setStatus(SinglePageComment.STATUS_NORMAL);
+        comment.setPageId(pageId);
+        comment.setPid(pid);
+
+        commentService.save(comment);
+        renderOkJson();
+    }
+
+    /**
+     * 评论编辑 页面
+     */
+    public void commentEdit() {
+        long id = getIdPara();
+        SinglePageComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("page/comment_edit.html");
     }
 
 

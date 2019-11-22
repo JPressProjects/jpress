@@ -42,6 +42,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
     private UserService userService;
 
 
+
     @Override
     public ArticleComment findById(Object id) {
         ArticleComment comment = super.findById(id);

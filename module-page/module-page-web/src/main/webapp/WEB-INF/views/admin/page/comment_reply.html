@@ -9,11 +9,13 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id, function () {
-            location.href = "#(CPATH)/admin/page/comment";
-        }, function (result) {
-            alert(result.message);
-        })
+        if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id, function () {
+                location.href = "#(CPATH)/admin/page/comment";
+            }, function (result) {
+                alert(result.message);
+            })
+        }
     }
 
     function ok() {

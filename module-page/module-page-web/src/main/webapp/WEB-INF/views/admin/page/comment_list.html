@@ -7,7 +7,9 @@
     }
 
     function doDelComment(id) {
-        ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+        if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+        }
     }
 
 
@@ -17,7 +19,10 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
+
+        if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
+        }
     })
 
 

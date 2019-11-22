@@ -22,6 +22,7 @@ import io.jpress.commons.email.Email;
 import io.jpress.commons.sms.SmsKit;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.User;
+import io.jpress.web.wechat.WechatMsgUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +34,9 @@ public class PrePayNotifytKit {
 
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
 
-    public static void doNotifyAdministrator(PaymentRecord payment,  User user) {
+    public static void doNotifyAdministrator(PaymentRecord payment, User user) {
         doNotifyAdministratorByEmail(payment, user);
+        doNotifyAdministratorByWechat(payment, user);
         doNotifyAdministratorBySms(payment);
     }
 
@@ -66,15 +68,15 @@ public class PrePayNotifytKit {
     }
 
 
-    public static void doNotifyAdministratorByEmail(PaymentRecord product, User user) {
+    public static void doNotifyAdministratorByEmail(PaymentRecord payment, User user) {
         boolean enable = JPressOptions.getAsBool("prepay_notify_email_enable");
         if (enable) {
-            fixedThreadPool.execute(() -> doSendEmail(product, user));
+            fixedThreadPool.execute(() -> doSendEmail(payment, user));
         }
     }
 
 
-    private static void doSendEmail(PaymentRecord payment,  User user) {
+    private static void doSendEmail(PaymentRecord payment, User user) {
 
         String emailTemplate = JPressOptions.get("prepay_notify_email_template");
         String emailTitle = JPressOptions.get("prepay_notify_email_title");
@@ -96,6 +98,37 @@ public class PrePayNotifytKit {
         email.subject(title);
         email.to(webMasterEmail.split(","));
         email.send();
+
+    }
+
+
+    public static void doNotifyAdministratorByWechat(PaymentRecord payment, User user) {
+        boolean enable = JPressOptions.getAsBool("prepay_notify_wechat_enable");
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendWechat(payment, user));
+        }
+    }
+
+
+    private static void doSendWechat(PaymentRecord payment, User user) {
+
+        String emailTemplate = JPressOptions.get("prepay_notify_wechat_template");
+        String webMasterOpenId = JPressOptions.get("web_mater_wxopenid");
+
+        if (!StrUtil.areNotEmpty(emailTemplate, emailTemplate)) {
+            return;
+        }
+
+        Map<String, Object> paras = new HashMap();
+        paras.put("payment", payment);
+        paras.put("user", user);
+
+        String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
+
+        Set<String> openIds = StrUtil.splitToSet(webMasterOpenId, ",");
+        for (String openId : openIds) {
+            WechatMsgUtil.sendImageAsync(openId, content);
+        }
 
     }
 

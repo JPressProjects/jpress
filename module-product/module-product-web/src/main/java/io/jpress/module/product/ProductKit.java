@@ -82,7 +82,7 @@ public class ProductKit {
         String emailTitle = JPressOptions.get("product_comment_email_notify_title");
         String webMasterEmail = JPressOptions.get("web_mater_email");
 
-        if (!StrUtil.areNotEmpty(emailTemplate, emailTemplate, webMasterEmail)) {
+        if (!StrUtil.areNotEmpty(emailTemplate, emailTitle, webMasterEmail)) {
             return;
         }
 

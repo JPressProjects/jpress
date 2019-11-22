@@ -80,7 +80,7 @@ public class PayNotifytKit {
         String emailTitle = JPressOptions.get("pay_notify_email_title");
         String webMasterEmail = JPressOptions.get("web_mater_email");
 
-        if (!StrUtil.areNotEmpty(emailTemplate, emailTemplate, webMasterEmail)) {
+        if (!StrUtil.areNotEmpty(emailTemplate, emailTitle, webMasterEmail)) {
             return;
         }
 

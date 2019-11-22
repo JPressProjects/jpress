@@ -88,15 +88,17 @@ public class SimpleEmailSender extends Authenticator implements EmailSender {
             return null;
         }
 
-        Set<Address> addSet = new HashSet<Address>();
+        Set<Address> addresses = new HashSet<>();
         for (String email : emails) {
-            try {
-                addSet.add(new InternetAddress(email));
-            } catch (AddressException e) {
-                continue;
+            if (StrUtil.isNotBlank(email)) {
+                try {
+                    addresses.add(new InternetAddress(email));
+                } catch (AddressException e) {
+                    continue;
+                }
             }
         }
-        return addSet.toArray(new Address[0]);
+        return addresses.toArray(new Address[0]);
     }
 
     @Override

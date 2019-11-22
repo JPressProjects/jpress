@@ -36,6 +36,7 @@ public class CSRFInterceptor implements Interceptor {
     public static final String CSRF_KEY = "csrf_token";
 
 
+    @Override
     public void intercept(Invocation inv) {
 
         //不是 do 开头的，让其通过

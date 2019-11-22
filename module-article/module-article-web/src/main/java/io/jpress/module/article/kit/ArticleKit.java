@@ -26,6 +26,7 @@ import io.jpress.module.article.model.ArticleComment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,40 +52,54 @@ public class ArticleKit {
     }
 
     private static void doSendSms() {
-        String mobile = JPressOptions.get("article_comment_sms_notify_mobile");
+        String mobile = JPressOptions.get("web_mater_mobile");
         String template = JPressOptions.get("article_comment_sms_notify_template");
         String sign = JPressOptions.get("article_comment_sms_notify_sign");
 
-        if (StrUtil.isBlank(mobile) || StrUtil.isBlank(template) || StrUtil.isBlank(sign)) {
+        if (!StrUtil.areNotEmpty(mobile, template, sign)) {
             return;
         }
 
-        SmsKit.sendSms(mobile, template, sign);
+        Set<String> mobiles = StrUtil.splitToSet(mobile, ",");
+        for (String nobileNumber : mobiles) {
+            SmsKit.sendSms(nobileNumber, template, sign);
+        }
+
     }
 
 
     public static void doNotifyAdministratorByEmail(Article article, ArticleComment comment, User user) {
         boolean enable = JPressOptions.getAsBool("article_comment_email_notify_enable");
-        if (enable) fixedThreadPool.execute(() -> doSendEmail(article, comment, user));
+        if (enable) {
+            fixedThreadPool.execute(() -> doSendEmail(article, comment, user));
+        }
     }
 
 
     private static void doSendEmail(Article article, ArticleComment comment, User user) {
 
         String emailTemplate = JPressOptions.get("article_comment_email_notify_template");
-        String sendTo = JPressOptions.get("article_comment_email_notify_address");
+        String emailTitle = JPressOptions.get("article_comment_email_notify_title");
+        String webMasterEmail = JPressOptions.get("web_mater_email");
+
+        if (!StrUtil.areNotEmpty(emailTemplate, emailTemplate, webMasterEmail)) {
+            return;
+        }
 
         Map<String, Object> paras = new HashMap();
         paras.put("article", article);
         paras.put("comment", comment);
         paras.put("user", user);
 
+        String title = Engine.use().getTemplateByString(emailTitle).renderToString(paras);
         String content = Engine.use().getTemplateByString(emailTemplate).renderToString(paras);
+
         Email email = Email.create();
         email.content(content);
-        email.subject("有人评论你的文章：" + article.getTitle());
-        email.to(sendTo);
+        email.subject(title);
+        email.to(webMasterEmail.split(","));
         email.send();
+
     }
 
 

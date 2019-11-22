@@ -12,7 +12,7 @@
         </div>
 
         <div class="comment-vcode">
-            #if(option('article_comment_vcode_enable'))
+            #if(option('pagee_comment_vcode_enable'))
             <input placeholder="请输入验证码" name="captcha" id="comment-captcha">
             <img class="vcode-img" src="#(CPATH)/commons/captcha"
                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude id="comment-vcode">
@@ -28,19 +28,19 @@
     <h4 class="comment-page-title" id="comments">全部评论</h4>
 
     <div class="comment-page">
-        #commentPage()
-        #for(comment : commentPage.list)
-            #include("defaultArticleCommentItem.html")
+        #pageCommentPage()
+        #for(comment : commentPage.list ??)
+            #include("defaultPageCommentItem.html")
         #end
         #end
     </div>
 
 
-    #commentPaginate(anchor="comments")
+    #pageCommentPaginate(anchor="comments")
     <nav>
         <ul class="pagination justify-content-center">
-            #for(page : pages)
-            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #for(p : pages)
+            <li class="page-item #(p.style)"><a class="page-link" href="#(p.url ??)">#(p.text)</a></li>
             #end
         </ul>
     </nav>

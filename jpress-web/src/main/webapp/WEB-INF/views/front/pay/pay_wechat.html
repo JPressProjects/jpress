@@ -11,7 +11,6 @@
                 if (result && result.state == 'ok') {
                     invoke = false;
                     clearInterval(interval);
-                    alert("支付成功");
                     location.href = "#(CPATH)/pay/success/#(payment.trx_no)"
                 }
             });

@@ -65,8 +65,10 @@ public class _OptionController extends AdminControllerBase {
 
 
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            service.saveOrUpdate(entry.getKey(), entry.getValue());
-            JPressOptions.set(entry.getKey(), entry.getValue());
+            //Mysql 对于字符串不区分大小写，所以保持统一
+            String key = entry.getKey().trim();
+            service.saveOrUpdate(key, entry.getValue());
+            JPressOptions.set(key, entry.getValue());
         }
 
         renderOkJson();
@@ -74,25 +76,27 @@ public class _OptionController extends AdminControllerBase {
 
     /**
      * 通过key值删除数据
-     * @Author          Mr.xu
-     * @CreateDate:     2019/4/28
+     *
+     * @Author Mr.xu
+     * @CreateDate: 2019/4/28
      */
-    public void doDeleteByKey(String key){
-        if(service.deleteByKey(key)){
+    public void doDeleteByKey(String key) {
+        if (service.deleteByKey(key)) {
             renderOkJson();
-        }else{
+        } else {
             renderFailJson();
         }
     }
 
     /**
      * 通过key保存或更新数据
-     * @Author          Mr.xu
-     * @CreateDate:     2019/4/28
+     *
+     * @Author Mr.xu
+     * @CreateDate: 2019/4/28
      */
-    public void doSaveOrUpdate(String key,String value){
-        service.saveOrUpdate(key,value);
-        JPressOptions.set(key,value);
+    public void doSaveOrUpdate(String key, String value) {
+        service.saveOrUpdate(key, value);
+        JPressOptions.set(key, value);
         renderOkJson();
     }
 

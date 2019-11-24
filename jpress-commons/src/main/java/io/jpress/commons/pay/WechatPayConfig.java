@@ -103,5 +103,14 @@ public class WechatPayConfig extends PayConfigBase {
         return storage;
     }
 
-
+    @Override
+    public String toString() {
+        return "WechatPayConfig{" +
+                "enable=" + enable +
+                ", mchId='" + mchId + '\'' +
+                ", appid='" + appid + '\'' +
+                ", publicKey='" + publicKey + '\'' +
+                ", privateKey='" + privateKey + '\'' +
+                '}';
+    }
 }

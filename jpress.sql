@@ -626,7 +626,7 @@ CREATE TABLE `single_page_comment` (
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='文章评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章评论表';
 
 
 
@@ -776,7 +776,7 @@ CREATE TABLE `user_cart` (
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
   `product_new_price` decimal(10,2) NOT NULL COMMENT '商品的最新价格',
   `product_count` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
-  `product_detail_page` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品详情页',
+  `product_link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品详情页',
   `with_virtual` tinyint(1) DEFAULT NULL COMMENT '是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成',
   `with_refund` tinyint(1) DEFAULT NULL COMMENT '是否支持退款，1支持，0不支持。',
   `view_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的网址路径，访问时时，会添加orderid',
@@ -805,7 +805,7 @@ CREATE TABLE `user_favorite` (
   `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
   `summary` text COLLATE utf8mb4_unicode_ci COMMENT '摘要',
   `thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缩略图',
-  `detail_page` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详情页',
+  `link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '详情页',
   `relative_table` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '相关表',
   `relative_id` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '相关的id',
   `options` text COLLATE utf8mb4_unicode_ci,
@@ -954,6 +954,7 @@ CREATE TABLE `user_order_item` (
   `product_summary` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_spec` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品缩略图',
+  `product_link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品链接',
   `product_price` decimal(10,2) DEFAULT NULL COMMENT '产品价格',
   `product_count` int(11) DEFAULT NULL COMMENT '产品数量',
   `with_virtual` tinyint(1) DEFAULT NULL COMMENT '是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成',

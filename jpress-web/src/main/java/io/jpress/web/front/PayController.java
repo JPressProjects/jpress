@@ -267,7 +267,10 @@ public class PayController extends TemplateControllerBase {
      */
     public void amount() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null && notLoginedUserModel(payment, "payer_user_id"));
+        render404If(payment == null
+                || notLoginedUserModel(payment, "payer_user_id")
+                || PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()));
+
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {

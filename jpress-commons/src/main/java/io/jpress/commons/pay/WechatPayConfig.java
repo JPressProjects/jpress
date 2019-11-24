@@ -84,13 +84,15 @@ public class WechatPayConfig extends PayConfigBase {
 
     public WxPayConfigStorage toConfigStorage() {
         WxPayConfigStorage storage = new WxPayConfigStorage();
+
         storage.setMchId(getMchId());
         storage.setAppid(getAppid());
         storage.setKeyPublic(getPublicKey());
+//        storage.setSecretKey(getPrivateKey());
         storage.setKeyPrivate(getPrivateKey());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
-        storage.setSignType(SignUtils.HMACSHA256.name());
+        storage.setSignType(SignUtils.MD5.name());
         storage.setInputCharset("utf-8");
 
 //        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();

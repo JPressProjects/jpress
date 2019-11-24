@@ -87,7 +87,7 @@ public class WechatPayConfig extends PayConfigBase {
 
         storage.setMchId(getMchId());
         storage.setAppid(getAppid());
-        storage.setKeyPublic(getPublicKey());
+//        storage.setKeyPublic(getPublicKey());
 //        storage.setSecretKey(getPrivateKey());
         storage.setKeyPrivate(getPrivateKey());
         storage.setNotifyUrl(getCallbackUrl());

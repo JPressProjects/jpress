@@ -146,6 +146,7 @@ public class CheckoutController extends UcenterControllerBase {
             item.setProductSpec(userCart.getProductSpec());
             item.setProductCount(userCart.getProductCount());
             item.setProductThumbnail(userCart.getProductThumbnail());
+            item.setProductLink(userCart.getProductLink());
 
             item.setWithVirtual(userCart.getWithVirtual());//是否是虚拟产品
 

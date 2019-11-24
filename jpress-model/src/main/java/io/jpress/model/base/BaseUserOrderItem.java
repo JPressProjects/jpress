@@ -212,6 +212,20 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 	}
 
     /**
+     * 产品链接
+     */
+	public void setProductLink(java.lang.String productLink) {
+		set("product_link", productLink);
+	}
+
+    /**
+     * 产品链接
+     */
+	public java.lang.String getProductLink() {
+		return getStr("product_link");
+	}
+
+    /**
      * 产品价格
      */
 	public void setProductPrice(java.math.BigDecimal productPrice) {

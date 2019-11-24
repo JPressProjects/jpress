@@ -106,15 +106,15 @@ public abstract class BaseUserFavorite<M extends BaseUserFavorite<M>> extends Ba
     /**
      * 详情页
      */
-	public void setDetailPage(java.lang.String detailPage) {
-		set("detail_page", detailPage);
+	public void setLink(java.lang.String link) {
+		set("link", link);
 	}
 
     /**
      * 详情页
      */
-	public java.lang.String getDetailPage() {
-		return getStr("detail_page");
+	public java.lang.String getLink() {
+		return getStr("link");
 	}
 
     /**

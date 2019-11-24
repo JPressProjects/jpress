@@ -340,10 +340,17 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
         render404If(payment == null);
 
+        // 已经支付成功，重复通知
         if (payment.isPaySuccess()) {
             renderText(service.getPayOutMessage("success", "成功").toMessage());
             return;
         }
+
+
+//        if (!payment.isPayPre()) {
+//            callbackFail(service);
+//            return;
+//        }
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
@@ -498,7 +505,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void success() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null);
+        render404If(payment == null || !payment.isPaySuccess());
 
         setAttr("payment", payment);
         render("pay_success.html", DEFAULT_SUCCESS_VIEW);

@@ -41,7 +41,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
         }
         //相对时间内有效
         else if (validtype == Coupon.VALID_TYPE_RELATIVELY_EFFECTIVE) {
-            return new Date().getTime() < DateUtils.addDays(validTime,coupon.getValidDays()).getTime();
+            return System.currentTimeMillis() < DateUtils.addDays(validTime,coupon.getValidDays()).getTime();
         }
 
         return false;

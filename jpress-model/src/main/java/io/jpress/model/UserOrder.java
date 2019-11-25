@@ -143,4 +143,5 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public String getInvoiceStatusStr() {
         return invoiceStatusTexts.get(getInvoiceStatus());
     }
+
 }

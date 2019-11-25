@@ -52,10 +52,9 @@ public class UserCart extends BaseUserCart<UserCart> {
         userFavorite.setSummary(getProductSummary());
         userFavorite.setLink(getProductLink());
 
-        userFavorite.setRelativeId(getProductId() == null ? null : String.valueOf(getProductId()));
-        userFavorite.setRelativeTable(getProductTable());
-        userFavorite.setType(getProductTable());
-        userFavorite.setTypeText(getProductTableText());
+        userFavorite.setType(getProductType());
+        userFavorite.setTypeText(getProductTypeText());
+        userFavorite.setTypeId(getProductId() == null ? null : String.valueOf(getProductId()));
 
         return userFavorite;
     }

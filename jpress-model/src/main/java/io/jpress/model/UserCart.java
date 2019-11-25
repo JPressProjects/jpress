@@ -20,7 +20,6 @@ public class UserCart extends BaseUserCart<UserCart> {
 
     public BigDecimal getShouldPayPrice() {
         if (getProductPrice() == null || getProductPrice().compareTo(BigDecimal.ZERO) == 0
-                || getProductNewPrice() == null || getProductNewPrice().compareTo(BigDecimal.ZERO) == 0
         ) {
             return BigDecimal.ZERO;
         }
@@ -31,7 +30,7 @@ public class UserCart extends BaseUserCart<UserCart> {
         }
 
 
-        return getProductNewPrice()
+        return getProductPrice()
                 .multiply(BigDecimal.valueOf(getProductCount()));
     }
 

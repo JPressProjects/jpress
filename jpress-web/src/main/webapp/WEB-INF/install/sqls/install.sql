@@ -774,7 +774,6 @@ CREATE TABLE `user_cart` (
   `product_spec` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品规格',
   `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品缩略图',
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
-  `product_new_price` decimal(10,2) NOT NULL COMMENT '商品的最新价格',
   `product_count` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
   `product_link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品详情页',
   `with_virtual` tinyint(1) DEFAULT NULL COMMENT '是否是虚拟产品，1是，0不是。虚拟产品支付完毕后立即交易完成。是虚拟产品，虚拟产品支付完毕后立即交易完成',

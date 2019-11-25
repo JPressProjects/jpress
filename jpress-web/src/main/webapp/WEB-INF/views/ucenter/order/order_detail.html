@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 订单信息.
+                    <i class="fa fa-globe"></i> 订单信息
                     <small class="pull-right">下单时间: #date(order.created)</small>
                 </h2>
             </div>
@@ -154,7 +154,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 商品信息.
+                    <i class="fa fa-globe"></i> 商品信息
                 </h2>
             </div>
             <!-- /.col -->
@@ -223,12 +223,14 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息. #if(!order.isDeliveried())(尚未发货)#end
+                    <i class="fa fa-globe"></i> 物流信息 ： #if(!order.isDeliveried())(尚未发货) #else #(order.deliveryTypeStr) #end
                 </h2>
             </div>
             <!-- /.col -->
         </div>
 
+
+        #if(expressInfos)
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
@@ -254,6 +256,7 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+        #end
 
 
     </section>

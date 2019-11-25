@@ -78,6 +78,7 @@ public class KdniaoExpressQuerier implements ExpressQuerier {
                         ExpressInfo ei = new ExpressInfo();
                         ei.setInfo(expObject.getString("AcceptStation"));
                         ei.setTime(expObject.getString("AcceptTime"));
+                        list.add(ei);
                     }
                     return list;
                 }

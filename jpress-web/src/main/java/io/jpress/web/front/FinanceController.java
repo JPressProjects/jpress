@@ -58,14 +58,12 @@ public class FinanceController extends UcenterControllerBase {
     /**
      * 进行充值
      */
-    @ActionKey("/ucenter/finance/amount/doRecharge")
-    public void doRecharge() {
+    @ActionKey("/ucenter/finance/amount/recharging")
+    public void recharging() {
 
         PaymentRecord payment = new PaymentRecord();
-        payment.setProductTitle("用户充值");
+        payment.setProductTitle("账户充值");
         payment.setProductRelativeTable("user_amount_statement");
-//        payment.setProductRelativeId();
-//        payment.setProductDesc();
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_RECHARGE);
@@ -74,7 +72,9 @@ public class FinanceController extends UcenterControllerBase {
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
-        payment.setPayStatus(PayStatus.UNPAY.getStatus());//预支付
+
+        //预支付
+        payment.setPayStatus(PayStatus.UNPAY.getStatus());
 
         payment.setOrderIp(getIPAddress());
         payment.setOrderRefererUrl(getReferer());
@@ -82,8 +82,8 @@ public class FinanceController extends UcenterControllerBase {
         payment.setPayAmount(new BigDecimal(getPara("recharge_amount")));
         payment.setPayType(getPara("paytype"));
 
-
-        payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
+        //预支付
+        payment.setStatus(PaymentRecord.STATUS_PAY_PRE);
 
 
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);

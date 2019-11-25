@@ -394,7 +394,7 @@ CREATE TABLE `single_page_comment` (
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='页面评论表';
 
 
 

@@ -63,7 +63,7 @@ public class FinanceController extends UcenterControllerBase {
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("账户充值");
-        payment.setProductRelativeTable("user_amount_statement");
+        payment.setProductRelativeType("user_amount_statement");
 
         payment.setTrxNo(StrUtil.uuid());
         payment.setTrxType(PaymentRecord.TRX_TYPE_RECHARGE);

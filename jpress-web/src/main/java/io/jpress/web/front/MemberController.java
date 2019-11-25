@@ -101,7 +101,7 @@ public class MemberController extends UcenterControllerBase {
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("加入会员");
-        payment.setProductRelativeTable("member_group");
+        payment.setProductRelativeType("member_group");
         payment.setProductRelativeId(memberGroup.getId().toString());
         payment.setProductSummary(memberGroup.getSummary());
 

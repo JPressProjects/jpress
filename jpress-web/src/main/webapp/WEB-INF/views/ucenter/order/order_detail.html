@@ -3,10 +3,10 @@
 #define script()
 <script>
     function addMessage() {
-        openlayer('提交留言','#(CPATH)/ucenter/order/addMessage/#(order.id)');
+        openlayer('提交留言', '#(CPATH)/ucenter/order/addMessage/#(order.id)');
     }
 
-    function openlayer(title,url) {
+    function openlayer(title, url) {
         layer.open({
             type: 2,
             title: title,
@@ -22,8 +22,8 @@
     }
 
     function doFlagDelivery() {
-        if (confirm("确定已经收到货物？")){
-            ajaxGet("#(CPATH)/ucenter/order/doFlagDelivery/#(order.id)",function () {
+        if (confirm("确定已经收到货物？")) {
+            ajaxGet("#(CPATH)/ucenter/order/doFlagDelivery/#(order.id)", function () {
                 location.reload()
             })
         }
@@ -34,10 +34,11 @@
 
 #define css()
 <style>
-    .page-header{
+    .page-header {
         margin: 10px 0 20px;
     }
-    .remark{
+
+    .remark {
         width: 100%;
         height: 100px;
         background-color: #f5f5f5;
@@ -47,7 +48,7 @@
         align-items: center;
     }
 
-    address{
+    address {
         margin-top: 10px;
         margin-bottom: 30px;
     }
@@ -104,7 +105,8 @@
                     收件人：#(order.delivery_addr_username ??)<br>
                     电话：#(order.delivery_addr_mobile ??)<br>
                     编码: #(order.delivery_addr_zipcode ??)<br>
-                    地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district ??)<br>
+                    地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district
+                    ??)<br>
                     #(order.delivery_addr_detail ??)
                 </address>
             </div>
@@ -123,7 +125,7 @@
         <!-- /.row -->
 
         <div class="row no-print">
-            <div class="col-xs-12"style="text-align: right">
+            <div class="col-xs-12" style="text-align: right">
 
                 #if(order.isUnpay())
                 <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success" target="_blank">
@@ -131,8 +133,14 @@
                 </a>
                 #end
 
+                #if(order.isDeliveried() && !order.isDeliverFinished())
+                <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
+                    <i class="fa fa-fw fa-check"></i> 确认收货
+                </a>
+                #end
+
                 <button type="button" class="btn btn-primary " onclick="addMessage()">
-                    <i class="fa fa-download"></i> 提交留言
+                    <i class="fa fa-fw fa-commenting"></i> 提交留言
                 </button>
             </div>
         </div>
@@ -209,8 +217,6 @@
     </section>
 
 
-
-
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
@@ -248,19 +254,6 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-
-
-        #if(order.isDeliveried())
-        <div class="row no-print">
-            <div class="col-xs-2">
-            </div>
-            <div class="col-xs-10"style="text-align: right">
-                <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
-                    <i class="fa fa-credit-card"></i> 确认收货
-                </a>
-            </div>
-        </div>
-        #end
 
 
     </section>

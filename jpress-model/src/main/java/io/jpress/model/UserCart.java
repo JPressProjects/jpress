@@ -43,7 +43,7 @@ public class UserCart extends BaseUserCart<UserCart> {
         userFavorite.setThumbnail(getProductThumbnail());
         userFavorite.setTitle(getProductTitle());
         userFavorite.setSummary(getProductSummary());
-        userFavorite.setDetailPage(getProductDetailPage());
+        userFavorite.setLink(getProductLink());
 
         userFavorite.setRelativeId(getProductId() == null ? null : String.valueOf(getProductId()));
         userFavorite.setRelativeTable(getProductTable());

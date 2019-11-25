@@ -15,6 +15,8 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.module.product.service.provider.task.ProductCommentsCountUpdateTask;
+import io.jpress.module.product.service.provider.task.ProductViewsCountUpdateTask;
 import io.jpress.service.UserService;
 
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
+    @CacheEvict(name = "products", key = "*")
     public boolean doChangeStatus(long id, int status) {
         Product product = findById(id);
         product.setStatus(status);
@@ -92,14 +95,14 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
 
     @Override
-    @Cacheable(name = "product")
+    @Cacheable(name = "products")
     public Page<Product> paginateInNormal(int page, int pagesize) {
         return paginateInNormal(page, pagesize, null);
     }
 
 
     @Override
-    @Cacheable(name = "product")
+    @Cacheable(name = "products")
     public Page<Product> paginateInNormal(int page, int pagesize, String orderBy) {
         orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
@@ -110,7 +113,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
 
     @Override
-    @Cacheable(name = "product")
+    @Cacheable(name = "products")
     public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
         Columns columns = new Columns();
@@ -145,9 +148,15 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
 
     @Override
-    @Cacheable(name = "product", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
+    @Cacheable(name = "products", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Product> findListByColumns(Columns columns, String orderBy, Integer count) {
         return joinUserInfo(super.findListByColumns(columns, orderBy, count));
+    }
+
+    @Override
+    @CacheEvict(name = "products", key = "*")
+    public void removeCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
     }
 
     @Override
@@ -161,7 +170,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    @CacheEvict(name = "product", key = "*")
+    @CacheEvict(name = "products", key = "*")
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
             deleteById(id);
@@ -170,19 +179,19 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    @CacheEvict(name = "product", key = "*")
+    @CacheEvict(name = "products", key = "*")
     public void shouldUpdateCache(int action, Object data) {
         super.shouldUpdateCache(action, data);
     }
 
     @Override
     public void doIncProductViewCount(long productId) {
-
+        ProductViewsCountUpdateTask.recordCount(productId);
     }
 
     @Override
     public void doIncProductCommentCount(long productId) {
-
+        ProductCommentsCountUpdateTask.recordCount(productId);
     }
 
 

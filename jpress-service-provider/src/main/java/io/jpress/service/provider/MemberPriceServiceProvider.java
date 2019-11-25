@@ -27,13 +27,13 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
     private MemberGroupService memberGroupService;
 
     @Override
-    public MemberPrice findByPorductAndGroup(String productTableName, Object productId, Object groupId) {
-        return findFirstByColumns(Columns.create("product_table", productTableName).eq("product_id", productId).eq("group_id", groupId));
+    public MemberPrice findByPorductAndGroup(String productType, Object productId, Object groupId) {
+        return findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId).eq("group_id", groupId));
     }
 
 
     @Override
-    public void saveOrUpdateByProduct(String productTable, Long productId, String[] memberGroupIds, String[] memberGroupPrices) {
+    public void saveOrUpdateByProduct(String productType, Long productId, String[] memberGroupIds, String[] memberGroupPrices) {
         if (memberGroupIds == null || memberGroupPrices == null || memberGroupIds.length == 0) {
             Db.update("delete from member_price where product_id = ?", productId);
             return;
@@ -49,7 +49,7 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
             String memberGroupId = memberGroupIds[i];
             String memberGroupPrice = memberGroupPrices[i];
 
-            MemberPrice existModel = findByPorductAndGroup(productTable, productId, memberGroupId);
+            MemberPrice existModel = findByPorductAndGroup(productType, productId, memberGroupId);
 
             //删除之前的数据
             if (existModel != null && StrUtil.isBlank(memberGroupPrice)) {
@@ -67,7 +67,7 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
             //创建新的数据
             else if (existModel == null && StrUtil.isNotBlank(memberGroupPrice)) {
                 existModel = new MemberPrice();
-                existModel.setProductTable(productTable);
+                existModel.setProductType(productType);
                 existModel.setProductId(productId);
                 existModel.setGroupId(Long.valueOf(memberGroupId));
                 existModel.setPrice(new BigDecimal(memberGroupPrice));
@@ -82,7 +82,7 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
     }
 
     @Override
-    public BigDecimal queryPrice(String productTableName, Long productId, Long userId) {
+    public BigDecimal queryPrice(String productType, Long productId, Long userId) {
         List<Member> userMembers = memberService.findListByUserId(userId);
         if (userMembers == null || userMembers.isEmpty()) {
             return null;
@@ -99,7 +99,7 @@ public class MemberPriceServiceProvider extends JbootServiceBase<MemberPrice> im
                 continue;
             }
 
-            MemberPrice memberPrice = findByPorductAndGroup(productTableName, productId, userMember.getGroupId());
+            MemberPrice memberPrice = findByPorductAndGroup(productType, productId, userMember.getGroupId());
             if (memberPrice != null && memberPrice.getPrice() != null && memberPrice.getPrice().compareTo(BigDecimal.ZERO) > 0) {
                 if (productPrice == null || productPrice.compareTo(memberPrice.getPrice()) > 0) {
                     productPrice = memberPrice.getPrice();

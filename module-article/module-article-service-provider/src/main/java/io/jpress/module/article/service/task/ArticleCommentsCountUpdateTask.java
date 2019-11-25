@@ -59,7 +59,7 @@ public class ArticleCommentsCountUpdateTask implements Runnable {
             Db.update("update article set comment_count = comment_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
-            Aop.get(ArticleService.class).deleteCacheById(entry.getKey());
+            Aop.get(ArticleService.class).removeCacheById(entry.getKey());
         }
     }
 }

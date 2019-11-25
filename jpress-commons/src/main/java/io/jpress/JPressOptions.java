@@ -64,6 +64,7 @@ public class JPressOptions {
             return;
         }
 
+        key = key.toLowerCase();
 
         String oldValue = store.get(key);
         if (Objects.equals(value, oldValue)) {
@@ -86,7 +87,7 @@ public class JPressOptions {
 
 
     public static String get(String key) {
-        return store.get(key);
+        return store.get(key.toLowerCase());
     }
 
 

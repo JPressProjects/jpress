@@ -186,15 +186,15 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
     /**
      * 产品详情页
      */
-	public void setProductDetailPage(java.lang.String productDetailPage) {
-		set("product_detail_page", productDetailPage);
+	public void setProductLink(java.lang.String productLink) {
+		set("product_link", productLink);
 	}
 
     /**
      * 产品详情页
      */
-	public java.lang.String getProductDetailPage() {
-		return getStr("product_detail_page");
+	public java.lang.String getProductLink() {
+		return getStr("product_link");
 	}
 
     /**

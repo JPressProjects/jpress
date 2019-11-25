@@ -2,14 +2,19 @@
 #@layout("微信扫一扫付款")
 
 #define script()
+<script src="/static/components/jquery/jquery.min.js"></script>
 <script>
-    setInterval(function () {
-        $.get("#(CPATH)/pay/query?trx=#(payment.trx_no)", function (result) {
-            if (result && result.state == 'ok') {
-                alert("支付成功");
-                location.href = "#(CPATH)/pay/success/#(payment.trx_no)"
-            }
-        });
+    var invoke = true;
+    var interval = setInterval(function () {
+        if (invoke){
+            $.get("#(CPATH)/pay/query?trx=#(payment.trx_no)", function (result) {
+                if (result && result.state == 'ok') {
+                    invoke = false;
+                    clearInterval(interval);
+                    location.href = "#(CPATH)/pay/success/#(payment.trx_no)"
+                }
+            });
+        }
     }, 1000);
 </script>
 #end

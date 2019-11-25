@@ -85,7 +85,7 @@ public class PayController extends TemplateControllerBase {
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
         render("pay_wechat.html", DEFAULT_WECHAT_VIEW);
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
     /**
@@ -133,7 +133,7 @@ public class PayController extends TemplateControllerBase {
 
         renderJson(Ret.ok().set("orderInfo", service.orderInfo(order)));
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
 
@@ -149,7 +149,7 @@ public class PayController extends TemplateControllerBase {
         setAttr("payConfig", PayConfigUtil.getWechatxPayConfig());
         render("pay_wechatx.html", DEFAULT_WECHATX_VIEW);
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
     /**
@@ -185,7 +185,7 @@ public class PayController extends TemplateControllerBase {
         setAttr("payConfig", PayConfigUtil.getAlipayPayConfig());
         render("pay_alipay.html", DEFAULT_ALIPAY_VIEW);
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
 
@@ -219,7 +219,7 @@ public class PayController extends TemplateControllerBase {
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
     /**
@@ -234,7 +234,7 @@ public class PayController extends TemplateControllerBase {
 
         render("pay_alipayx.html", DEFAULT_ALIPAYX_VIEW);
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
 
@@ -258,7 +258,7 @@ public class PayController extends TemplateControllerBase {
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
 
-        PrePayNotifytKit.notify(payment,getLoginedUser());
+        PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
 
@@ -267,7 +267,10 @@ public class PayController extends TemplateControllerBase {
      */
     public void amount() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null && notLoginedUserModel(payment, "payer_user_id"));
+        render404If(payment == null
+                || notLoginedUserModel(payment, "payer_user_id")
+                || PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()));
+
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payment.getPayAmount()) < 0) {
@@ -306,7 +309,7 @@ public class PayController extends TemplateControllerBase {
             paymentService.notifySuccess(payment.getId());
         }
 
-        PayNotifytKit.notify(payment,getLoginedUser());
+        PayNotifytKit.notify(payment, getLoginedUser());
 
         redirect("/pay/success/" + payment.getTrxNo());
 
@@ -335,6 +338,19 @@ public class PayController extends TemplateControllerBase {
 
         String trxNo = getTrxNo(params);
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
+        render404If(payment == null);
+
+        // 已经支付成功，重复通知
+        if (payment.isPaySuccess()) {
+            renderText(service.getPayOutMessage("success", "成功").toMessage());
+            return;
+        }
+
+
+//        if (!payment.isPayPre()) {
+//            callbackFail(service);
+//            return;
+//        }
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
@@ -343,7 +359,7 @@ public class PayController extends TemplateControllerBase {
             if ("SUCCESS".equals(params.get("result_code"))) {
 
                 //total_fee 得到的单位是：分
-                BigDecimal paySuccessAmount = new BigDecimal(Integer.valueOf(params.get("total_fee").toString()) * 100);
+                BigDecimal paySuccessAmount = new BigDecimal(params.get("total_fee").toString()).divide(BigDecimal.valueOf(100));
                 payment.setPaySuccessAmount(paySuccessAmount);
 
                 payment.setPayStatus(PayStatus.SUCCESS_WECHAT.getStatus());
@@ -416,7 +432,7 @@ public class PayController extends TemplateControllerBase {
             callbackFail(service);
         }
 
-        PayNotifytKit.notify(payment,getLoginedUser());
+        PayNotifytKit.notify(payment, getLoginedUser());
 
     }
 
@@ -489,7 +505,7 @@ public class PayController extends TemplateControllerBase {
      */
     public void success() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null);
+        render404If(payment == null || !payment.isPaySuccess());
 
         setAttr("payment", payment);
         render("pay_success.html", DEFAULT_SUCCESS_VIEW);
@@ -512,8 +528,6 @@ public class PayController extends TemplateControllerBase {
         setAttr("payment", payment);
         render("pay_complete.html", DEFAULT_COMPLETE_VIEW);
     }
-
-
 
 
     /**

@@ -131,7 +131,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductTitle(getTitle());
         userCart.setProductSummary(CommonsUtils.maxLength(getText(), 200));
         userCart.setSelected(false);
-        userCart.setProductDetailPage(getUrl());
+        userCart.setProductLink(getUrl());
         userCart.setWithVirtual(false);//非虚拟产品
         userCart.setWithRefund(true);//可以退货
         userCart.setCommentPath(getUrl());
@@ -160,7 +160,7 @@ public class Product extends BaseProduct<Product> {
         favorite.setTitle(getTitle());
         favorite.setSummary(getSummary());
         favorite.setThumbnail(getShowImage());
-        favorite.setDetailPage(getUrl());
+        favorite.setLink(getUrl());
         favorite.setRelativeTable("product");
         favorite.setRelativeId(String.valueOf(getId()));
         favorite.setCreated(new Date());

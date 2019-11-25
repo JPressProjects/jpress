@@ -16,25 +16,36 @@
 package io.jpress.module.product;
 
 import com.jfinal.aop.Inject;
-import io.jpress.core.finance.DistAmountGetter;
+import io.jpress.core.finance.ProductInfoQuerier;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
 import java.math.BigDecimal;
 
 
-public class ProductDistAmountGetter implements DistAmountGetter {
+public class JPressProductInfoQuerier implements ProductInfoQuerier {
 
     @Inject
     private ProductService productService;
 
+
     @Override
-    public BigDecimal onGetDistAmount(Object productId, Long payerUserId, Long distUserId) {
+    public BigDecimal queryDistAmount(Object productId, Long buyerUserId, Long distUserId) {
         Product product = productService.findById(productId);
         if (product == null || !product.isNormal()) {
             return null;
         }
         Boolean distEnable = product.getDistEnable();
         return distEnable != null && distEnable ? product.getDistAmount() : null;
+    }
+
+    @Override
+    public BigDecimal querySalePrice(Object productId, Long buyerUserId, Long distUserId) {
+        return null;
+    }
+
+    @Override
+    public BigDecimal queryStatusNormal(Object productId, Long buyerUserId, int buyCount) {
+        return null;
     }
 }

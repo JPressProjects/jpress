@@ -23,35 +23,37 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DistManager {
+public class ProductManager {
 
-    private static final Log LOG = Log.getLog(DistManager.class);
+    private static final Log LOG = Log.getLog(ProductManager.class);
 
-    private static final DistManager me = new DistManager();
+    private static final ProductManager me = new ProductManager();
 
-    private DistManager() {
+    private ProductManager() {
     }
 
-    public static final DistManager me() {
+    public static final ProductManager me() {
         return me;
     }
 
-    private Map<String, DistAmountGetter> amountGetters = new ConcurrentHashMap<>();
+    private Map<String, ProductInfoQuerier> queriers = new ConcurrentHashMap<>();
 
-    public Map<String, DistAmountGetter> getAmountGetters() {
-        return amountGetters;
+
+    public Map<String, ProductInfoQuerier> getQueriers() {
+        return queriers;
     }
 
-    public void setAmountGetters(Map<String, DistAmountGetter> amountGetters) {
-        this.amountGetters = amountGetters;
+    public void setQueriers(Map<String, ProductInfoQuerier> queriers) {
+        this.queriers = queriers;
     }
 
-    public void registerDistAmountGetter(String table, DistAmountGetter getter) {
-        amountGetters.put(table, getter);
+    public void registerQuerier(String table, ProductInfoQuerier querier) {
+        queriers.put(table, querier);
     }
+
 
     public BigDecimal getAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
-        DistAmountGetter getter = amountGetters.get(tableName);
+        ProductInfoQuerier getter = queriers.get(tableName);
         if (getter == null) {
             return BigDecimal.ZERO;
         }
@@ -60,7 +62,7 @@ public class DistManager {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal distAmount = getter.onGetDistAmount(productId, payerUserId, distUserId);
+        BigDecimal distAmount = getter.queryDistAmount(productId, payerUserId, distUserId);
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
     }
 }

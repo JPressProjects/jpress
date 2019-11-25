@@ -22,7 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
-import io.jpress.core.finance.DistManager;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
@@ -152,7 +152,7 @@ public class CheckoutController extends UcenterControllerBase {
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
-            item.setDistAmount(DistManager.me().getAmount(userCart.getProductTable(),
+            item.setDistAmount(ProductManager.me().getAmount(userCart.getProductTable(),
                     userCart.getProductId(),
                     getLoginedUser().getId(),
                     userCart.getDistUserId()));

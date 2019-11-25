@@ -28,7 +28,6 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
     @Inject
     private ProductService productService;
 
-
     @Override
     public BigDecimal queryDistAmount(Object productId, Long buyerUserId, Long distUserId) {
         Product product = productService.findById(productId);
@@ -45,7 +44,7 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
     }
 
     @Override
-    public BigDecimal queryStatusNormal(Object productId, Long buyerUserId, int buyCount) {
-        return null;
+    public boolean queryStatusNormal(Object productId, Long buyerUserId, int buyCount) {
+        return true;
     }
 }

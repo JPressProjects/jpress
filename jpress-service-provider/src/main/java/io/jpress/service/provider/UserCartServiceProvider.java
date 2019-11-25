@@ -28,7 +28,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public Object save(UserCart model) {
-        UserCart userCart = findByProductTablendProductId(model.getProductTable(), model.getProductId());
+        UserCart userCart = findByProductTablendProductId(model.getProductType(), model.getProductId());
         if (userCart == null) {
             return super.save(model);
         } else {
@@ -56,8 +56,8 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public UserCart findByProductTablendProductId(String productTable, long productId) {
-        UserCart userCart = DAO.findFirstByColumns(Columns.create("product_table", productTable).eq("product_id", productId));
+    public UserCart findByProductTablendProductId(String productType, long productId) {
+        UserCart userCart = DAO.findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId));
         return joinMemberPrice(userCart);
     }
 
@@ -87,13 +87,13 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
         }
 
         // 会员价
-        BigDecimal memberPrice = memberPriceService.queryPrice(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId());
+        BigDecimal memberPrice = memberPriceService.queryPrice(userCart.getProductType(), userCart.getProductId(), userCart.getUserId());
         if (memberPrice != null) {
             userCart.put("memberPrice", memberPrice);
         }
 
         // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
-        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
+        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductType(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
         if (newestSalePrice != null){
             userCart.put("newestSalePrice",newestSalePrice);
         }

@@ -132,14 +132,14 @@ public class CheckoutController extends UcenterControllerBase {
         for (String cid : cids) {
             UserCart userCart = cartService.findById(cid);
 
-            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId());
+            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductType(), userCart.getProductId(), userCart.getUserId());
             if (!productNormal) {
                 renderFailJson("商品 " + userCart.getProductTitle() + " 已经下架。");
                 return;
             }
 
             // 如果查询出来的 stock == null，表示 可以购买任意件商品
-            Long stock = ProductManager.me().queryStockAmount(userCart.getProductTable(), userCart.getProductId());
+            Long stock = ProductManager.me().queryStockAmount(userCart.getProductType(), userCart.getProductId());
             if (stock != null && stock <= 0) {
                 renderFailJson("商品 " + userCart.getProductTitle() + " 已经库存不足。");
                 return;
@@ -156,8 +156,8 @@ public class CheckoutController extends UcenterControllerBase {
             item.setSellerId(userCart.getSellerId());
 
             item.setProductId(userCart.getProductId());
-            item.setProductTable(userCart.getProductTable());
-            item.setProductTableText(userCart.getProductTableText());
+            item.setProductTypeText(userCart.getProductType());
+            item.setProductTypeText(userCart.getProductTypeText());
             item.setProductSummary(userCart.getProductSummary());
             item.setProductTitle(userCart.getProductTitle());
             item.setProductPrice(userCart.getProductPrice());
@@ -170,7 +170,7 @@ public class CheckoutController extends UcenterControllerBase {
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
-            item.setDistAmount(ProductManager.me().queryDistAmount(userCart.getProductTable(),
+            item.setDistAmount(ProductManager.me().queryDistAmount(userCart.getProductType(),
                     userCart.getProductId(),
                     getLoginedUser().getId(),
                     userCart.getDistUserId()));
@@ -210,7 +210,7 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.keep("delivery_addr_username", "delivery_addr_mobile", "delivery_addr_province",
                 "delivery_addr_city", "delivery_addr_district", "delivery_addr_detail", "delivery_addr_zipcode");
 
-        userOrder.setProductTable(userOrderItems.get(0).getProductTable());
+        userOrder.setProductType(userOrderItems.get(0).getProductType());
         userOrder.setProductTitle(userOrderItems.get(0).getProductTitle());
 
         userOrder.setBuyerId(getLoginedUser().getId());
@@ -310,7 +310,8 @@ public class CheckoutController extends UcenterControllerBase {
         }
 
         payment.setProductTitle(userOrder.getProductTitle());
-        payment.setProductRelativeTable(userOrder.getProductTable());
+        payment.setProductRelativeType(userOrder.getProductType());
+//        payment.setProductRelativeTypeText(userOrder.getProductType());
         payment.setProductRelativeId(userOrder.getId().toString());
         payment.setProductSummary(userOrder.getProductSummary());
 

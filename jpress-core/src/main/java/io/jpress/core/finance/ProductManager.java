@@ -47,13 +47,13 @@ public class ProductManager {
         this.queriers = queriers;
     }
 
-    public void registerQuerier(String table, ProductInfoQuerier querier) {
-        queriers.put(table, querier);
+    public void registerQuerier(String type, ProductInfoQuerier querier) {
+        queriers.put(type, querier);
     }
 
 
-    public BigDecimal queryDistAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
-        ProductInfoQuerier querier = queriers.get(tableName);
+    public BigDecimal queryDistAmount(String type, Object productId, Long payerUserId, Long distUserId) {
+        ProductInfoQuerier querier = queriers.get(type);
         if (querier == null) {
             return BigDecimal.ZERO;
         }
@@ -66,8 +66,8 @@ public class ProductManager {
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
     }
 
-    public boolean queryStatusNormal(String tableName, Object productId, Long buyerUserId) {
-        ProductInfoQuerier querier = queriers.get(tableName);
+    public boolean queryStatusNormal(String type, Object productId, Long buyerUserId) {
+        ProductInfoQuerier querier = queriers.get(type);
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return true;
@@ -77,8 +77,8 @@ public class ProductManager {
     }
 
 
-    public BigDecimal querySalePrice(String tableName, Object productId, Long buyerUserId, Long distUserId) {
-        ProductInfoQuerier querier = queriers.get(tableName);
+    public BigDecimal querySalePrice(String type, Object productId, Long buyerUserId, Long distUserId) {
+        ProductInfoQuerier querier = queriers.get(type);
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return null;
@@ -88,8 +88,8 @@ public class ProductManager {
     }
 
 
-    public Long queryStockAmount(String tableName, Object productId) {
-        ProductInfoQuerier querier = queriers.get(tableName);
+    public Long queryStockAmount(String type, Object productId) {
+        ProductInfoQuerier querier = queriers.get(type);
         if (querier == null) {
             return null;
         }

@@ -90,7 +90,6 @@ public class _OrderController extends AdminControllerBase {
         setAttr("order", order);
         setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
-//        setAttr("distUser", userService.findById(order.getDistUserId()));
 
         if (orderItems != null) {
             for (UserOrderItem item : orderItems) {
@@ -125,8 +124,6 @@ public class _OrderController extends AdminControllerBase {
         } else {
 
             int deliveryType = getParaToInt("deliveryType");
-
-
 
 
             //不是无需发货，需要生成发货信息

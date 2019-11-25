@@ -61,6 +61,14 @@ public abstract class BaseUserFavorite<M extends BaseUserFavorite<M>> extends Ba
 		return getStr("type_text");
 	}
 
+	public void setTypeId(java.lang.String typeId) {
+		set("type_id", typeId);
+	}
+
+	public java.lang.String getTypeId() {
+		return getStr("type_id");
+	}
+
     /**
      * 标题
      */
@@ -115,34 +123,6 @@ public abstract class BaseUserFavorite<M extends BaseUserFavorite<M>> extends Ba
      */
 	public java.lang.String getLink() {
 		return getStr("link");
-	}
-
-    /**
-     * 相关表
-     */
-	public void setRelativeTable(java.lang.String relativeTable) {
-		set("relative_table", relativeTable);
-	}
-
-    /**
-     * 相关表
-     */
-	public java.lang.String getRelativeTable() {
-		return getStr("relative_table");
-	}
-
-    /**
-     * 相关的id
-     */
-	public void setRelativeId(java.lang.String relativeId) {
-		set("relative_id", relativeId);
-	}
-
-    /**
-     * 相关的id
-     */
-	public java.lang.String getRelativeId() {
-		return getStr("relative_id");
 	}
 
 	public void setOptions(java.lang.String options) {

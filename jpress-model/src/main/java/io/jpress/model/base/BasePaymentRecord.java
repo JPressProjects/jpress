@@ -53,28 +53,40 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 		return getStr("product_summary");
 	}
 
+    /**
+     * 相关产品ID
+     */
 	public void setProductRelativeId(java.lang.String productRelativeId) {
 		set("product_relative_id", productRelativeId);
 	}
 
+    /**
+     * 相关产品ID
+     */
 	public java.lang.String getProductRelativeId() {
 		return getStr("product_relative_id");
 	}
 
-	public void setProductRelativeTable(java.lang.String productRelativeTable) {
-		set("product_relative_table", productRelativeTable);
+    /**
+     * 相关产品类型
+     */
+	public void setProductRelativeType(java.lang.String productRelativeType) {
+		set("product_relative_type", productRelativeType);
 	}
 
-	public java.lang.String getProductRelativeTable() {
-		return getStr("product_relative_table");
+    /**
+     * 相关产品类型
+     */
+	public java.lang.String getProductRelativeType() {
+		return getStr("product_relative_type");
 	}
 
-	public void setProductRelativeTableText(java.lang.String productRelativeTableText) {
-		set("product_relative_table_text", productRelativeTableText);
+	public void setProductRelativeTypeText(java.lang.String productRelativeTypeText) {
+		set("product_relative_type_text", productRelativeTypeText);
 	}
 
-	public java.lang.String getProductRelativeTableText() {
-		return getStr("product_relative_table_text");
+	public java.lang.String getProductRelativeTypeText() {
+		return getStr("product_relative_type_text");
 	}
 
     /**

@@ -9,7 +9,7 @@
 
 <script>
 
-    var $select = $('.article-tags').selectize({
+    var $select = $('.product-tags').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -39,21 +39,21 @@
 
 
     $(".submitBtn").on("click", function () {
-        $("#articleStatus").val($(this).attr("data-status"));
+        $("#productStatus").val($(this).attr("data-status"));
         doSubmit();
     });
 
-    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留product的status
     window.doSubmit = function () {
         ajaxSubmit("#form", function (data) {
-            $("#articleId").attr("value", data.id);
+            $("#productId").attr("value", data.id);
             toastr.success('产品保存成功。');
         });
     }
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
-        $("#articleThumbnail").val("");
+        $("#productThumbnail").val("");
     })
 
     var editMode = "#(editMode ?? 'html')";
@@ -205,7 +205,7 @@
                             <div class="col-sm-12">
                                 <input type="input" class="form-control input-lg" name="product.title"
                                        placeholder="请输入标题"
-                                       id="article-title"
+                                       id="product-title"
                                        value="#(product.title ??)">
                             </div>
                         </div>
@@ -215,11 +215,11 @@
                             <div class="col-sm-12" style="padding-bottom: 2px">
                                 网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
                                                                                                                class="slugSpan"
-                                                                                                               for-input="article-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                                                                                                               for-input="product-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
                                 #if(product && product.isNormal())
                                 （<a href="#(product.url)" target="_blank">访问</a>）
                                 #end
-                                <input type="hidden" id="article-slug" name="product.slug" value="#(product.slug ??)">
+                                <input type="hidden" id="product-slug" name="product.slug" value="#(product.slug ??)">
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="contentEditor" name="product.content"
@@ -574,7 +574,7 @@
                             <h3 class="box-title">标签</h3>
                         </div>
                         <div class="box-body">
-                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                            <select class="form-control product-tags" multiple="multiple" name="tag">
                                 #for(tag : tags)
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                                 #end
@@ -599,12 +599,12 @@
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
                             <input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
-                                   id="articleThumbnail">
+                                   id="productThumbnail">
                         </div>
                         <div class="box-footer">
                             <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
-                                    for-input="articleThumbnail">选择图片
+                                    for-input="productThumbnail">选择图片
                             </button>
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>

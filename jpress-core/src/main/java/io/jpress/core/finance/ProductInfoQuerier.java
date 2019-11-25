@@ -47,9 +47,16 @@ public interface ProductInfoQuerier {
      *
      * @param productId
      * @param buyerUserId
-     * @param buyCount
      * @return return true if product can be pruchased
      */
-    public boolean queryStatusNormal(Object productId, Long buyerUserId, int buyCount);
+    public boolean queryStatusNormal(Object productId, Long buyerUserId);
+
+
+    /**
+     * 查询商品库存数量
+     * @param productId
+     * @return
+     */
+    public Long queryStockAmount(Object productId);
 
 }

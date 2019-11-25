@@ -132,9 +132,21 @@ public class CheckoutController extends UcenterControllerBase {
         for (String cid : cids) {
             UserCart userCart = cartService.findById(cid);
 
-            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductTable(),userCart.getProductId(),userCart.getUserId(),userCart.getProductCount());
-            if (!productNormal){
-                renderFailJson("商品 " + userCart.getProductTitle()+" 已经下架或库存不足。");
+            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId());
+            if (!productNormal) {
+                renderFailJson("商品 " + userCart.getProductTitle() + " 已经下架。");
+                return;
+            }
+
+            // 如果查询出来的 stock == null，表示 可以购买任意件商品
+            Long stock = ProductManager.me().queryStockAmount(userCart.getProductTable(), userCart.getProductId());
+            if (stock != null && stock <= 0) {
+                renderFailJson("商品 " + userCart.getProductTitle() + " 已经库存不足。");
+                return;
+            }
+
+            if (stock != null && stock < userCart.getProductCount()) {
+                renderFailJson("商品 " + userCart.getProductTitle() + " 已经库存不足，目前只能购买 " + stock + " 件商品。");
                 return;
             }
 

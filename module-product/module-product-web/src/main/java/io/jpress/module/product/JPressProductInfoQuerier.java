@@ -44,7 +44,14 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
     }
 
     @Override
-    public boolean queryStatusNormal(Object productId, Long buyerUserId, int buyCount) {
-        return true;
+    public boolean queryStatusNormal(Object productId, Long buyerUserId) {
+        return false;
     }
+
+    @Override
+    public Long queryStockAmount(Object productId) {
+        return null;
+    }
+
+
 }

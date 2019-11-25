@@ -66,14 +66,14 @@ public class ProductManager {
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
     }
 
-    public boolean queryStatusNormal(String tableName, Object productId, Long buyerUserId, int buyCount) {
+    public boolean queryStatusNormal(String tableName, Object productId, Long buyerUserId) {
         ProductInfoQuerier querier = queriers.get(tableName);
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return true;
         }
 
-        return querier.queryStatusNormal(productId, buyerUserId, buyCount);
+        return querier.queryStatusNormal(productId, buyerUserId);
     }
 
 
@@ -85,5 +85,15 @@ public class ProductManager {
         }
 
         return querier.querySalePrice(productId, buyerUserId, distUserId);
+    }
+
+
+    public Long queryStockAmount(String tableName, Object productId) {
+        ProductInfoQuerier querier = queriers.get(tableName);
+        if (querier == null) {
+            return null;
+        }
+
+        return querier.queryStockAmount(productId);
     }
 }

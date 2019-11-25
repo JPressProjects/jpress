@@ -152,7 +152,7 @@ public class CheckoutController extends UcenterControllerBase {
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
-            item.setDistAmount(ProductManager.me().getAmount(userCart.getProductTable(),
+            item.setDistAmount(ProductManager.me().queryDistAmount(userCart.getProductTable(),
                     userCart.getProductId(),
                     getLoginedUser().getId(),
                     userCart.getDistUserId()));

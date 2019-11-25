@@ -52,7 +52,7 @@ public class ProductManager {
     }
 
 
-    public BigDecimal getAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
+    public BigDecimal queryDistAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
         ProductInfoQuerier getter = queriers.get(tableName);
         if (getter == null) {
             return BigDecimal.ZERO;

@@ -126,7 +126,6 @@ public class Product extends BaseProduct<Product> {
         userCart.setProductTable(UserCart.PRODUCT_TABLE_PRODUCT);
         userCart.setProductTableText(UserCart.PRODUCT_TABLE_TEXT_PRODUCT);
         userCart.setProductPrice(this.getPrice());
-        userCart.setProductNewPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
         userCart.setProductSummary(CommonsUtils.maxLength(getText(), 200));

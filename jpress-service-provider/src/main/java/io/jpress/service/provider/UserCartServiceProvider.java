@@ -6,10 +6,12 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.model.UserCart;
 import io.jpress.service.MemberPriceService;
 import io.jpress.service.UserCartService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Bean
@@ -72,17 +74,30 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
 
-    private List<UserCart>  joinMemberPrice(List<UserCart> userCarts) {
-        if (userCarts != null){
+    private List<UserCart> joinMemberPrice(List<UserCart> userCarts) {
+        if (userCarts != null) {
             userCarts.forEach(this::joinMemberPrice);
         }
         return userCarts;
     }
 
     private UserCart joinMemberPrice(UserCart userCart) {
-        if (userCart != null) {
-            userCart.put("memberPrice", memberPriceService.queryPrice(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId()));
+        if (userCart == null) {
+            return null;
         }
+
+        // 会员价
+        BigDecimal memberPrice = memberPriceService.queryPrice(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId());
+        if (memberPrice != null) {
+            userCart.put("memberPrice", memberPrice);
+        }
+
+        // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
+        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductTable(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
+        if (newestSalePrice != null){
+            userCart.put("newestSalePrice",newestSalePrice);
+        }
+
         return userCart;
     }
 }

@@ -19,19 +19,27 @@ public class UserCart extends BaseUserCart<UserCart> {
 
 
     public BigDecimal getShouldPayPrice() {
-        if (getProductPrice() == null || getProductPrice().compareTo(BigDecimal.ZERO) == 0
-        ) {
+
+        BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
+        if (newestSalePrice == null) {
+            newestSalePrice = getProductPrice();
+        }
+
+        if (newestSalePrice == null || newestSalePrice.compareTo(BigDecimal.ZERO) <= 0) {
             return BigDecimal.ZERO;
         }
 
         BigDecimal memberPrice = getBigDecimal("memberPrice");
-        if (memberPrice != null && memberPrice.compareTo(BigDecimal.ZERO) >= 0) {
+
+        //只有会员价更加便宜的时候，走会员价
+        if (memberPrice != null
+                && memberPrice.compareTo(BigDecimal.ZERO) >= 0
+                && memberPrice.compareTo(newestSalePrice) < 0) {
             return memberPrice.multiply(BigDecimal.valueOf(getProductCount()));
         }
 
 
-        return getProductPrice()
-                .multiply(BigDecimal.valueOf(getProductCount()));
+        return newestSalePrice.multiply(BigDecimal.valueOf(getProductCount()));
     }
 
 

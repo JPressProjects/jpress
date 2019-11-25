@@ -132,6 +132,12 @@ public class CheckoutController extends UcenterControllerBase {
         for (String cid : cids) {
             UserCart userCart = cartService.findById(cid);
 
+            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductTable(),userCart.getProductId(),userCart.getUserId(),userCart.getProductCount());
+            if (!productNormal){
+                renderFailJson("商品 " + userCart.getProductTitle()+" 已经下架或库存不足。");
+                return;
+            }
+
             UserOrderItem item = new UserOrderItem();
             item.setBuyerId(userCart.getUserId());
             item.setBuyerNickname(getLoginedUser().getNickname());

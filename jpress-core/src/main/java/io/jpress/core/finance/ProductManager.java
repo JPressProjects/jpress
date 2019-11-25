@@ -53,8 +53,8 @@ public class ProductManager {
 
 
     public BigDecimal queryDistAmount(String tableName, Object productId, Long payerUserId, Long distUserId) {
-        ProductInfoQuerier getter = queriers.get(tableName);
-        if (getter == null) {
+        ProductInfoQuerier querier = queriers.get(tableName);
+        if (querier == null) {
             return BigDecimal.ZERO;
         }
 
@@ -62,7 +62,17 @@ public class ProductManager {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal distAmount = getter.queryDistAmount(productId, payerUserId, distUserId);
+        BigDecimal distAmount = querier.queryDistAmount(productId, payerUserId, distUserId);
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
+    }
+
+    public boolean queryStatusNormal(String tableName,Object productId, Long buyerUserId, int buyCount){
+        ProductInfoQuerier querier = queriers.get(tableName);
+        //没有注册 querier，说明该商品任何时候都可以被购买
+        if (querier == null) {
+            return true;
+        }
+
+        return querier.queryStatusNormal(productId,buyerUserId,buyCount);
     }
 }

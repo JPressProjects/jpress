@@ -48,8 +48,8 @@ public interface ProductInfoQuerier {
      * @param productId
      * @param buyerUserId
      * @param buyCount
-     * @return
+     * @return return true if product can be pruchased
      */
-    public BigDecimal queryStatusNormal(Object productId, Long buyerUserId, int buyCount);
+    public boolean queryStatusNormal(Object productId, Long buyerUserId, int buyCount);
 
 }

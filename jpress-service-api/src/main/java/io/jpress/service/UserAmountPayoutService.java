@@ -184,5 +184,8 @@ public interface UserAmountPayoutService  {
     public Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize,Object userId);
+
+
 
 }

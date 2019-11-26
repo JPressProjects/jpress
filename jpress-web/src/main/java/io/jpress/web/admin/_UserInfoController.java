@@ -26,6 +26,7 @@ import io.jpress.model.Utm;
 import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -60,6 +61,9 @@ public class _UserInfoController extends AdminControllerBase {
     @Inject
     private MemberJoinedRecordService memberJoinedRecordService;
 
+    @Inject
+    private UserAmountStatementService amountStatementService;
+
 
     public void index() {
         Long uid = getParaToLong();
@@ -86,6 +90,28 @@ public class _UserInfoController extends AdminControllerBase {
 
         render("user/detail_role.html");
     }
+
+
+
+    public void finance() {
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+
+        BigDecimal incomeAmount = amountStatementService.queryIncomeAmount(user.getId());
+        BigDecimal payAmount = amountStatementService.queryPayAmount(user.getId());
+        BigDecimal payoutAmount = amountStatementService.queryPayoutAmount(user.getId());
+
+        setAttr("incomeAmount",incomeAmount);
+        setAttr("payAmount",payAmount);
+        setAttr("payoutAmount",payoutAmount);
+
+        setAttr("userAmount",userService.queryUserAmount(getLoginedUser().getId()));
+        setAttr("userAmountStatements",amountStatementService.findListByUserId(getLoginedUser().getId(),10));
+
+        render("user/detail_finance.html");
+    }
+
 
 
     public void member() {

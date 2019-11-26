@@ -23,7 +23,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.PaymentRecord;
+import io.jpress.model.UserAmountPayout;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserAmountPayoutService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
@@ -52,6 +54,9 @@ public class _FinanceController extends AdminControllerBase {
     @Inject
     private UserService userService;
 
+    @Inject
+    private UserAmountPayoutService payoutService;
+
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
@@ -74,6 +79,39 @@ public class _FinanceController extends AdminControllerBase {
 
         render("finance/paylist.html");
     }
+
+
+    @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
+    public void payout(){
+        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
+        userService.join(page,"user_id");
+        setAttr("page",page);
+
+        long totalCount = payoutService.findCountByColumns(Columns.EMPTY);
+        long payingCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_PAYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_SUCCESS));
+
+        setAttr("totalCount",totalCount);
+        setAttr("payingCount",payingCount);
+        setAttr("refuseCount",refuseCount);
+        setAttr("successCount",successCount);
+
+        render("finance/payout.html");
+
+    }
+
+    public void payoutdetail() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+        render404If(notLoginedUserModel(payout));
+
+        setAttr("payout", payout);
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
+        render("payoutdetail.html");
+    }
+
 
     public void payUpdate() {
         PaymentRecord payment = paymentService.findById(getPara());

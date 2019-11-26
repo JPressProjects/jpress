@@ -4,6 +4,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
@@ -30,8 +31,9 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public List<ProductCategory> findListByProductId(long articleId) {
-        List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", articleId);
+    @Cacheable(name = "productCategory")
+    public List<ProductCategory> findListByProductId(long productId) {
+        List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", productId);
         if (mappings == null || mappings.isEmpty()) {
             return null;
         }
@@ -82,6 +84,9 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         }
 
         List<ProductCategory> productCategories = new ArrayList<>();
+
+        boolean needClearCache = false;
+
         for (String tag : tags) {
 
             if (StrUtil.isBlank(tag)) {
@@ -104,9 +109,14 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
                 productCategory.setSlug(slug);
                 productCategory.setType(ProductCategory.TYPE_TAG);
                 productCategory.save();
+                needClearCache = true;
             }
 
             productCategories.add(productCategory);
+        }
+
+        if (needClearCache){
+            AopCache.removeAll("productCategory");
         }
 
         return productCategories;
@@ -126,8 +136,9 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     @Override
     public Long[] findCategoryIdsByProductId(long articleId) {
         List<Record> records = Db.find("select * from product_category_mapping where product_id = ?", articleId);
-        if (records == null || records.isEmpty())
+        if (records == null || records.isEmpty()) {
             return null;
+        }
 
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }

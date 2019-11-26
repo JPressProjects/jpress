@@ -34,9 +34,11 @@
                 </div>
                 <div style="padding-top: 20px">
 
-<!--                    <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-primary "><i class="fa fa-credit-card"></i>-->
-<!--                        提现-->
-<!--                    </a>-->
+                    #if(option('payout_enable'))
+                    <a  href="#(CPATH)/ucenter/finance/amount/payout" class="btn btn-primary "><i class="fa fa-paper-plane"></i>
+                        提现
+                    </a>
+                    #end
 
                     <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-success "><i class="fa fa-credit-card"></i>
                         充值

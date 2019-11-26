@@ -1,0 +1,123 @@
+#@ucenter_layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            提现申请
+            <small>Payout Submit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
+                          data-ok-href="#(CPATH)/ucenter/finance/amount/payout"
+                          action="#(CPATH)/ucenter/finance/amount/doPayoutSubmit">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">您当前余额</label>
+                                <div class="col-sm-7">
+                                    <input type="input" class="form-control" value="#number(userAmount,'0.00')" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现金额</label>
+
+                                <div class="col-sm-7">
+                                    <input type="input" class="form-control" placeholder="请输入提现金额，单位：元..."
+                                           value="" name="payoutAmount">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">身份证号码</label>
+                                <div class="col-sm-7">
+                                    <input type="input" class="form-control" placeholder="您的真实姓名"
+                                            name="realName">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">身份证姓名</label>
+                                <div class="col-sm-7">
+                                    <input type="input" class="form-control" placeholder="真实身份证号码..."
+                                            name="idcard">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现到</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" name="payType">
+                                        <option value="alipay">支付宝账号</option>
+                                        <option value="wechat">微信账号</option>
+                                        <option value="boc">中国银行</option>
+                                        <option value="abc">农业银行</option>
+                                        <option value="icbc">工商银行</option>
+                                        <option value="ccb">建设银行</option>
+                                        <option value="bankcomm">交通银行</option>
+                                        <option value="cmb">招商银行</option>
+                                        <option value="otherbank">其他银行</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">收款账号</label>
+
+                                <div class="col-sm-7">
+                                    <input type="input" class="form-control" placeholder="请务必填写正确..."
+                                           name="payTo" >
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">备注</label>
+                                <div class="col-sm-7">
+                                    <textarea rows="3" class="form-control" placeholder="提现备注..." name="remarks"></textarea>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">申请提现</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+#end

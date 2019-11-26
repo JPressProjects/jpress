@@ -118,6 +118,20 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
 	}
 
     /**
+     * 提现手续费
+     */
+	public void setFee(java.math.BigDecimal fee) {
+		set("fee", fee);
+	}
+
+    /**
+     * 提现手续费
+     */
+	public java.math.BigDecimal getFee() {
+		return get("fee");
+	}
+
+    /**
      * 申请提现成功后会生成一个扣款记录
      */
 	public void setStatementId(java.lang.Long statementId) {
@@ -143,6 +157,20 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
      */
 	public java.lang.Integer getStatus() {
 		return getInt("status");
+	}
+
+    /**
+     * 用户备注
+     */
+	public void setRemarks(java.lang.String remarks) {
+		set("remarks", remarks);
+	}
+
+    /**
+     * 用户备注
+     */
+	public java.lang.String getRemarks() {
+		return getStr("remarks");
 	}
 
     /**

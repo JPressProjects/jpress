@@ -41,7 +41,7 @@
         <aliyunoss.version>3.4.2</aliyunoss.version>
         <httpclient.version>4.5.3</httpclient.version>
         <fasterxml.version>2.10.1</fasterxml.version>
-        <pay-java.version>2.12.8</pay-java.version>
+        <pay-java.version>2.12.9</pay-java.version>
         <commons-codec.version>1.10</commons-codec.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

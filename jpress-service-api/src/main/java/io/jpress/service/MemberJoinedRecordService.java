@@ -183,5 +183,7 @@ public interface MemberJoinedRecordService  {
      */
     public Page<MemberJoinedRecord> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
+    public Page<MemberJoinedRecord> paginateByGroupId(int page, int pageSize, Long groupId);
+
 
 }

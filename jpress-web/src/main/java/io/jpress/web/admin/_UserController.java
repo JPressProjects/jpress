@@ -186,7 +186,7 @@ public class _UserController extends AdminControllerBase {
     public void memberRenewal() {
         Member member = memberService.findById(getPara("id"));
         setAttr("member", memberService.findById(getPara("id")));
-        setAttr("group",memberGroupService.findById(member.getGroupId()));
+        setAttr("group", memberGroupService.findById(member.getGroupId()));
 
 
         render("user/member_renewal.html");
@@ -240,7 +240,7 @@ public class _UserController extends AdminControllerBase {
      * 会员续期
      */
     public void doMemberRenewal() {
-        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "",true);
+        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "", true);
         joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
         joinedRecord.setJoinCount(1);
 
@@ -255,7 +255,7 @@ public class _UserController extends AdminControllerBase {
         Date oldDuetime = member.getDuetime();
 
         //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
-        if (oldDuetime.getTime() < new Date().getTime()) {
+        if (oldDuetime.getTime() < System.currentTimeMillis()) {
             oldDuetime = new Date();
         }
 
@@ -280,6 +280,13 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
         render("user/mgroup.html");
+    }
+
+
+    public void mgroupjoined() {
+        Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
+        setAttr("page", page);
+        render("user/mgroupjoined.html");
     }
 
     public void mgroupEdit() {
@@ -424,9 +431,6 @@ public class _UserController extends AdminControllerBase {
 
         render("user/detail.html");
     }
-
-
-
 
 
     public void doSaveUser() {

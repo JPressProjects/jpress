@@ -101,6 +101,18 @@ public class _FinanceController extends AdminControllerBase {
 
     }
 
+    public void payoutdetail() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+        render404If(notLoginedUserModel(payout));
+
+        setAttr("payout", payout);
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
+        render("payoutdetail.html");
+    }
+
+
     public void payUpdate() {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);

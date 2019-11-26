@@ -40,6 +40,12 @@ public class UserCart extends BaseUserCart<UserCart> {
     }
 
 
+    public BigDecimal getNewProductPrice(){
+        BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
+        return newestSalePrice == null ? getProductPrice() : newestSalePrice;
+    }
+
+
     public UserFavorite toFavorite() {
         UserFavorite userFavorite = new UserFavorite();
         userFavorite.setCreated(new Date());

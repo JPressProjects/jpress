@@ -40,12 +40,14 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
 
     @Override
     public BigDecimal querySalePrice(Object productId, Long buyerUserId, Long distUserId) {
-        return null;
+        Product product = productService.findById(productId);
+        return product == null ? null : product.getPrice();
     }
 
     @Override
     public boolean queryStatusNormal(Object productId, Long buyerUserId) {
-        return false;
+        Product product = productService.findById(productId);
+        return product != null && product.isNormal();
     }
 
     @Override

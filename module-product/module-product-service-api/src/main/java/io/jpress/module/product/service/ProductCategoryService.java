@@ -204,7 +204,7 @@ public interface ProductCategoryService {
     public ProductCategory findFirstByTypeAndSlug(String type, String slug);
 
 
-    public Long[] findCategoryIdsByProductId(long articleId);
+    public Long[] findCategoryIdsByProductId(long productId);
 
 
     public void doUpdateProductCount(long categoryId);

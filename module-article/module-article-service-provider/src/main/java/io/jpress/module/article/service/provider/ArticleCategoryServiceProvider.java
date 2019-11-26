@@ -19,6 +19,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
@@ -74,6 +75,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
+    @Cacheable(name = "articleCategory")
     public List<ArticleCategory> findListByArticleId(long articleId) {
         List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {
@@ -123,7 +125,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
         ArticleCategory category = findById(categoryId);
         if (category != null) {
             category.setCount(articleCount);
-            category.update();
+            update(category);
         }
     }
 
@@ -134,6 +136,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
             return null;
         }
 
+        boolean needClearCache = false;
         List<ArticleCategory> articleCategories = new ArrayList<>();
         for (String tag : tags) {
 
@@ -157,9 +160,15 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
                 articleCategory.setSlug(slug);
                 articleCategory.setType(ArticleCategory.TYPE_TAG);
                 articleCategory.save();
+
+                needClearCache = true;
             }
 
             articleCategories.add(articleCategory);
+        }
+
+        if (needClearCache){
+            AopCache.removeAll("articleCategory");
         }
 
         return articleCategories;

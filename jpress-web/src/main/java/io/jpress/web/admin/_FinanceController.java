@@ -86,6 +86,16 @@ public class _FinanceController extends AdminControllerBase {
         Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
         setAttr("page",page);
 
+        long totalCount = payoutService.findCountByColumns(Columns.EMPTY);
+        long payingCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_PAYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_SUCCESS));
+
+        setAttr("totalCount",totalCount);
+        setAttr("payingCount",payingCount);
+        setAttr("refuseCount",refuseCount);
+        setAttr("successCount",successCount);
+
         render("finance/payout.html");
 
     }

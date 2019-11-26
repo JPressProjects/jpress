@@ -11,5 +11,14 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
 
     private static final long serialVersionUID = 1L;
 
+    //提现中
+    public static int STATUS_PAYING = 1;
+
+    //回绝提现
+    public static int STATUS_REFUSE = 2;
+
+    //提现成功
+    public static int STATUS_SUCCESS = 9;
+
 	
 }

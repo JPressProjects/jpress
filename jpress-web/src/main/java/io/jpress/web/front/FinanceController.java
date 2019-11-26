@@ -3,6 +3,7 @@ package io.jpress.web.front;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.pay.PayConfigUtil;
@@ -50,14 +51,31 @@ public class FinanceController extends UcenterControllerBase {
     }
 
     public void payout() {
-
         Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
+
+        long totalCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()));
+        long payingCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_PAYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_SUCCESS));
+
+        setAttr("totalCount",totalCount);
+        setAttr("payingCount",payingCount);
+        setAttr("refuseCount",refuseCount);
+        setAttr("successCount",successCount);
 
         render("payout.html");
     }
 
     public void payoutsubmit() {
+        render("payoutsubmit.html");
+    }
+
+
+    /**
+     * 提交提现申请
+     */
+    public void doPayoutSubmit(){
 
     }
 

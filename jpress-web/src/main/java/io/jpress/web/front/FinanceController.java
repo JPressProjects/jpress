@@ -76,6 +76,7 @@ public class FinanceController extends UcenterControllerBase {
      * 提交提现申请
      */
     public void doPayoutSubmit(){
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
 
     }
 

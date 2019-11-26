@@ -21,7 +21,7 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" action="#(CPATH)/ucenter/member/doJoin" method="post" target="_blank">
+                    <form class="form-horizontal" autocomplete="off" action="#(CPATH)/ucenter/member/joining" method="post" target="_blank">
                         <input type="hidden" name="groupId" value="#(memberGroup.id)">
                         <div class="box-body ">
 
@@ -32,12 +32,14 @@
                                 </div>
                             </div>
 
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">加入费用</label>
                                 <div class="col-sm-7" style="padding: 7px">
                                     #number(memberGroup.price,'0.00') 元 / #(memberGroup.valid_term) 天
                                 </div>
                             </div>
+
 
                             <div class="form-group" style="padding-bottom: 30px">
                                 <label class="col-sm-2 control-label">会员简介</label>
@@ -47,14 +49,12 @@
                             </div>
 
 
-
                             <h4 class="page-header">支付方式</h4>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">支付类型</label>
 
                                 <div class="col-sm-7">
-
 
                                     #if(wechatxConfig.isEnable())
                                     <div class="radio">

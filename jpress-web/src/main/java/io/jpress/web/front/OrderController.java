@@ -115,6 +115,7 @@ public class OrderController extends UcenterControllerBase {
         }
 
         orderService.update(userOrder);
+        renderOkJson();
     }
 
 

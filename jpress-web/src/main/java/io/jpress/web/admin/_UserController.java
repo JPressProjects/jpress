@@ -186,7 +186,7 @@ public class _UserController extends AdminControllerBase {
     public void memberRenewal() {
         Member member = memberService.findById(getPara("id"));
         setAttr("member", memberService.findById(getPara("id")));
-        setAttr("group",memberGroupService.findById(member.getGroupId()));
+        setAttr("group", memberGroupService.findById(member.getGroupId()));
 
 
         render("user/member_renewal.html");
@@ -240,7 +240,7 @@ public class _UserController extends AdminControllerBase {
      * 会员续期
      */
     public void doMemberRenewal() {
-        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "",true);
+        MemberJoinedRecord joinedRecord = getModel(MemberJoinedRecord.class, "", true);
         joinedRecord.setJoinFrom(MemberJoinedRecord.JOIN_FROM_ADMIN);
         joinedRecord.setJoinCount(1);
 
@@ -255,7 +255,7 @@ public class _UserController extends AdminControllerBase {
         Date oldDuetime = member.getDuetime();
 
         //如果该会员之前有记录，但是会员早就到期了，重新续费应该按现在时间开始计算
-        if (oldDuetime.getTime() < new Date().getTime()) {
+        if (oldDuetime.getTime() < System.currentTimeMillis()) {
             oldDuetime = new Date();
         }
 
@@ -280,6 +280,14 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
         render("user/mgroup.html");
+    }
+
+
+    public void mgroupjoined() {
+        Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
+        setAttr("page", page);
+        setAttr("group", memberGroupService.findById(getPara()));
+        render("user/mgroupjoined.html");
     }
 
     public void mgroupEdit() {
@@ -421,58 +429,8 @@ public class _UserController extends AdminControllerBase {
     public void me() {
         User user = getLoginedUser().copy();
         setAttr("user", user);
-        if (exeOtherAction(user)) {
-            render(getDetailHtml());
-        }
-    }
 
-
-    public void detail() {
-        Long uid = getParaToLong();
-
-        User user = userService.findById(uid);
-        setAttr("user", user);
-
-        if (exeOtherAction(user)) {
-            render(getDetailHtml());
-        }
-    }
-
-
-    private String getDetailHtml() {
-        String action = getPara("action", "base");
-        if ("base".equals(action)) return "user/detail.html";
-
-        return "user/detail_" + action + ".html";
-    }
-
-    private boolean exeOtherAction(User user) {
-        String action = getPara("action", "base");
-        if ("utm".equals(action)) {
-            Page<Utm> page = utmService._paginateByUserId(getPagePara(), 20, user.getId());
-            setAttr("page", page);
-        }
-
-        //角色
-        else if ("role".equals(action)) {
-
-            //不是超级管理员，不让修改用户角色
-            if (permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION) == false) {
-                renderErrorForNoPermission();
-                return false;
-            }
-
-            List<Role> roles = roleService.findAll();
-            setAttr("roles", roles);
-        }
-
-        //会员信息
-        else if ("member".equals(action)) {
-            List<Member> members = memberService.findListByUserId(user.getId());
-            setAttr("members", members);
-        }
-
-        return true;
+        render("user/detail.html");
     }
 
 

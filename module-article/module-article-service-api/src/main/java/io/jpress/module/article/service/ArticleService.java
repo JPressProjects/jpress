@@ -52,7 +52,7 @@ public interface ArticleService extends JbootServiceJoiner {
     public boolean deleteById(Object id);
 
 
-    public void deleteCacheById(Object id);
+    public void removeCacheById(Object id);
 
 
     /**

@@ -213,6 +213,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
+    @CacheEvict(name = "articles", key = "*")
     public boolean doChangeStatus(long id, String status) {
         Article article = findById(id);
         article.setStatus(status);
@@ -367,7 +368,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
     @Override
     @CacheEvict(name = "articles", key = "*")
-    public void deleteCacheById(Object id) {
+    public void removeCacheById(Object id) {
         DAO.deleteIdCacheById(id);
     }
 

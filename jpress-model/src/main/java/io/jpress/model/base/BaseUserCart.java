@@ -64,23 +64,23 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
     /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
-	public void setProductTable(java.lang.String productTable) {
-		set("product_table", productTable);
+	public void setProductType(java.lang.String productType) {
+		set("product_type", productType);
 	}
 
     /**
      * 商品的类别，默认是 product ，但是未来可能是 模板、文件、视频等等...
      */
-	public java.lang.String getProductTable() {
-		return getStr("product_table");
+	public java.lang.String getProductType() {
+		return getStr("product_type");
 	}
 
-	public void setProductTableText(java.lang.String productTableText) {
-		set("product_table_text", productTableText);
+	public void setProductTypeText(java.lang.String productTypeText) {
+		set("product_type_text", productTypeText);
 	}
 
-	public java.lang.String getProductTableText() {
-		return getStr("product_table_text");
+	public java.lang.String getProductTypeText() {
+		return getStr("product_type_text");
 	}
 
 	public void setProductId(java.lang.Long productId) {
@@ -142,6 +142,20 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
+     * 产品详情页
+     */
+	public void setProductLink(java.lang.String productLink) {
+		set("product_link", productLink);
+	}
+
+    /**
+     * 产品详情页
+     */
+	public java.lang.String getProductLink() {
+		return getStr("product_link");
+	}
+
+    /**
      * 商品加入购物车时的价格
      */
 	public void setProductPrice(java.math.BigDecimal productPrice) {
@@ -156,20 +170,6 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
     /**
-     * 商品的最新价格
-     */
-	public void setProductNewPrice(java.math.BigDecimal productNewPrice) {
-		set("product_new_price", productNewPrice);
-	}
-
-    /**
-     * 商品的最新价格
-     */
-	public java.math.BigDecimal getProductNewPrice() {
-		return get("product_new_price");
-	}
-
-    /**
      * 商品数量
      */
 	public void setProductCount(java.lang.Integer productCount) {
@@ -181,20 +181,6 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
      */
 	public java.lang.Integer getProductCount() {
 		return getInt("product_count");
-	}
-
-    /**
-     * 产品详情页
-     */
-	public void setProductLink(java.lang.String productLink) {
-		set("product_link", productLink);
-	}
-
-    /**
-     * 产品详情页
-     */
-	public java.lang.String getProductLink() {
-		return getStr("product_link");
 	}
 
     /**

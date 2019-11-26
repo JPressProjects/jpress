@@ -90,7 +90,6 @@ public class _OrderController extends AdminControllerBase {
         setAttr("order", order);
         setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
-//        setAttr("distUser", userService.findById(order.getDistUserId()));
 
         if (orderItems != null) {
             for (UserOrderItem item : orderItems) {
@@ -126,35 +125,40 @@ public class _OrderController extends AdminControllerBase {
 
             int deliveryType = getParaToInt("deliveryType");
 
-            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED); //设置为已经发货
-            order.setDeliveryType(deliveryType);
 
-            UserOrderDelivery delivery = new UserOrderDelivery();
+            //不是无需发货，需要生成发货信息
+            if (UserOrder.DELIVERY_TYPE_NONEED != deliveryType) {
 
-            delivery.setNumber(getPara("deliveryNo"));
-            delivery.setCompany(getPara("deliveryCompany"));
-            delivery.setStartTime(getParaToDate("deliveryStartTime"));
+                UserOrderDelivery delivery = new UserOrderDelivery();
 
-            delivery.setAddrUsername(order.getDeliveryAddrUsername());
-            delivery.setAddrMobile(order.getDeliveryAddrMobile());
-            delivery.setAddrProvince(order.getDeliveryAddrProvince());
-            delivery.setAddrCity(order.getDeliveryAddrCity());
-            delivery.setAddrDistrict(order.getDeliveryAddrDistrict());
-            delivery.setAddrDetail(order.getDeliveryAddrDetail());
-            delivery.setAddrZipcode(order.getDeliveryAddrZipcode());
+                delivery.setNumber(getPara("deliveryNo"));
+                delivery.setCompany(getPara("deliveryCompany"));
+                delivery.setStartTime(getParaToDate("deliveryStartTime"));
 
-            Object deliveryId = deliveryService.save(delivery);
-            if (deliveryId != null) {
-                order.setDeliveryId((Long) deliveryId);
+                delivery.setAddrUsername(order.getDeliveryAddrUsername());
+                delivery.setAddrMobile(order.getDeliveryAddrMobile());
+                delivery.setAddrProvince(order.getDeliveryAddrProvince());
+                delivery.setAddrCity(order.getDeliveryAddrCity());
+                delivery.setAddrDistrict(order.getDeliveryAddrDistrict());
+                delivery.setAddrDetail(order.getDeliveryAddrDetail());
+                delivery.setAddrZipcode(order.getDeliveryAddrZipcode());
+
+                Object deliveryId = deliveryService.save(delivery);
+                if (deliveryId != null) {
+                    order.setDeliveryId((Long) deliveryId);
+                }
+
             }
 
-
+            //设置订单的相关发货信息
+            order.setDeliveryType(deliveryType);
             if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {
                 order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
             } else {
                 order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
             }
 
+            //设置订单项的相关发货信息
             List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
             for (UserOrderItem item : orderItems) {
                 if (item.isVirtualProduct()) {
@@ -164,6 +168,7 @@ public class _OrderController extends AdminControllerBase {
                 }
             }
 
+            //保存订单以及订单项的发货信息
             if (orderService.updateOrderAndItems(order, orderItems)) {
                 for (UserOrderItem item : orderItems) {
                     OrderManager.me().notifyStatusChange(item);

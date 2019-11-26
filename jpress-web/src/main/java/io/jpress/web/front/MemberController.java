@@ -58,10 +58,10 @@ public class MemberController extends UcenterControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findUcenterList();
         List<Member> userMembers = memberService.findListByUserId(getLoginedUser().getId());
 
-        for (MemberGroup group : memberGroups){
-            for (Member member : userMembers){
-                if (member.getGroupId().equals(group.getId())){
-                    group.put("member",member);
+        for (MemberGroup group : memberGroups) {
+            for (Member member : userMembers) {
+                if (member.getGroupId().equals(group.getId())) {
+                    group.put("member", member);
                 }
             }
         }
@@ -84,7 +84,7 @@ public class MemberController extends UcenterControllerBase {
         render("member/member_join.html");
     }
 
-    public void doJoin() {
+    public void joining() {
 
         MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
         render404If(memberGroup == null);
@@ -93,13 +93,15 @@ public class MemberController extends UcenterControllerBase {
         render404If(joinAmount == null);
 
         BigDecimal limitedPrice = memberGroup.getLimitedPrice();
-        if (limitedPrice != null && limitedPrice.subtract(joinAmount).intValue() <= 0){
+        if (limitedPrice != null && limitedPrice.subtract(joinAmount).intValue() <= 0) {
             joinAmount = limitedPrice;
         }
 
+        render404If(joinAmount.compareTo(BigDecimal.ZERO) <= 0);
+
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("加入会员");
-        payment.setProductRelativeTable("member_group");
+        payment.setProductRelativeType("member_group");
         payment.setProductRelativeId(memberGroup.getId().toString());
         payment.setProductSummary(memberGroup.getSummary());
 
@@ -127,7 +129,6 @@ public class MemberController extends UcenterControllerBase {
 
         PayKit.redirect(payment.getPayType(), payment.getTrxNo());
     }
-
 
 
 }

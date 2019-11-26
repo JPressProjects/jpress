@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.service.task;
+package io.jpress.module.product.service.provider.task;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.components.schedule.annotation.FixedRate;
-import io.jpress.module.article.service.ArticleService;
+import io.jpress.module.product.service.ProductService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +28,11 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 用于更新文章 访问 数量
+ * @Title: 用于更新文章的 访问 数量
  * @Package io.jpress.module.article.task
  */
 @FixedRate(period = 60, initialDelay = 60)
-public class ArticleCommentsCountUpdateTask implements Runnable {
+public class ProductViewsCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();
 
@@ -56,10 +56,13 @@ public class ArticleCommentsCountUpdateTask implements Runnable {
         countsMap.clear();
 
         for (Map.Entry<Long, AtomicLong> entry : articleViews.entrySet()) {
-            Db.update("update article set comment_count = comment_count + "
+            Db.update("update article set real_view_count = real_view_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
-            Aop.get(ArticleService.class).removeCacheById(entry.getKey());
+            Db.update("update article set view_count = view_count + "
+                    + entry.getValue().get()
+                    + " where id = ? ", entry.getKey());
+            Aop.get(ProductService.class).removeCacheById(entry.getKey());
         }
     }
 }

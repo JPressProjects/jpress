@@ -72,6 +72,7 @@ public class Kuaidi100ExpressQuerier implements ExpressQuerier {
                     ExpressInfo ei = new ExpressInfo();
                     ei.setInfo(expObject.getString("context"));
                     ei.setTime(expObject.getString("time"));
+                    list.add(ei);
                 }
                 return list;
             }

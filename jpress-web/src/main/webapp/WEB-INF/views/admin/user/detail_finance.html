@@ -1,0 +1,124 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout("finance")
+
+
+#define layout_css()
+<style>
+    .page-header{
+        margin: 10px 0 20px;
+    }
+
+    .invoice {
+        position: relative;
+        background: #fff;
+         border: none;
+        padding: 20px;
+        margin: 10px 0;
+    }
+
+</style>
+#end
+
+#define detail()
+
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> 余额信息.
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <div>
+                    <strong>可用余额</strong>
+                    <div style="font-size: 65px">
+                        #number(userAmount,'0.00')
+                    </div>
+                </div>
+<!--                <div style="padding-top: 20px">-->
+<!--                    <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-success "><i class="fa fa-credit-card"></i>-->
+<!--                        充值-->
+<!--                    </a>-->
+<!--                </div>-->
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 col-sm-offset-2">
+                <p class="lead">本月统计</p>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody><tr>
+                            <th style="width:50%">收入：</th>
+                            <td>+#number(incomeAmount ?? 0 ,'0.00')</td>
+                        </tr>
+                        <tr>
+                            <th>支出：</th>
+                            <td>#number(payAmount ?? 0 ,'0.00')</td>
+                        </tr>
+                        <tr>
+                            <th>提现：</th>
+                            <td>#number(payoutAmount ?? 0 ,'0.00')</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> 账户流水.
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+
+
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>收入/支出</th>
+                        <th>项目</th>
+                        <th>相关</th>
+                        <th>金额</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #for(statement : userAmountStatements)
+                    <tr #(statement.change_amount > 0 ? 'style="background-color: #e8ffe6"' : 'style="background-color: #ffe6e6"') >
+                        <td>#(statement.change_amount > 0 ? '收入' : '支出')</td>
+                        <td>#(statement.action_name ??)</td>
+                        <td>#(statement.action_desc ??)</td>
+                        <td>#(statement.change_amount > 0 ? '+' : '-')#(statement.change_amount ??)</td>
+                        <td>#date(statement.created)</td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+
+
+
+
+#end
+

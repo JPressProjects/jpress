@@ -3,7 +3,6 @@ package io.jpress.service.provider;
 import com.jfinal.aop.Inject;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
-import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Member;
 import io.jpress.service.MemberGroupService;
@@ -23,12 +22,23 @@ public class MemberServiceProvider extends JbootServiceBase<Member> implements M
 
     @Override
     public List<Member> findListByUserId(Object userId) {
-        List<Member> list = DAO.findListByColumn(Column.create("user_id",userId));
-        return userService.join(groupService.join(list,"group_id","group"),"user_id");
+        List<Member> list = DAO.findListByColumn(Column.create("user_id", userId));
+        return userService.join(groupService.join(list, "group_id", "group"), "user_id");
     }
 
     @Override
     public Member findByGroupIdAndUserId(Long groupId, Long userId) {
-        return DAO.findFirstByColumns(Columns.create("group_id",groupId).eq("user_id",userId));
+        List<Member> members = findListByUserId(userId);
+        if (members == null || members.isEmpty()) {
+            return null;
+        }
+
+        for (Member member : members) {
+            if (groupId.equals(member.getGroupId())) {
+                return member;
+            }
+        }
+
+        return null;
     }
 }

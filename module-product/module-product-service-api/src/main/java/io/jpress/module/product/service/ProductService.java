@@ -172,6 +172,7 @@ public interface ProductService extends JbootServiceJoiner {
      */
     public Page<Product> paginateByColumns(int page, int pageSize, Columns columns);
 
+
     /**
      * 分页
      *
@@ -182,6 +183,8 @@ public interface ProductService extends JbootServiceJoiner {
      * @return
      */
     public Page<Product> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+
+    public void removeCacheById(Object id);
 
     public void doUpdateCategorys(long productId, Long[] categoryIds);
 

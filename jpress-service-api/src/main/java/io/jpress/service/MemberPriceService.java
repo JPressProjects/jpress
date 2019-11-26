@@ -185,11 +185,11 @@ public interface MemberPriceService {
     public Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public MemberPrice findByPorductAndGroup(String productTableName, Object productId, Object groupId);
+    public MemberPrice findByPorductAndGroup(String productType, Object productId, Object groupId);
 
-    public void saveOrUpdateByProduct(String productTableName, Long productId, String[] memberGroupIds, String[] memberGroupPrices);
+    public void saveOrUpdateByProduct(String productType, Long productId, String[] memberGroupIds, String[] memberGroupPrices);
 
-    public BigDecimal queryPrice(String productTableName, Long productId, Long userId);
+    public BigDecimal queryPrice(String productType, Long productId, Long userId);
 
 
 }

@@ -84,7 +84,7 @@ public interface UserCartService {
 
     public List<UserCart> findSelectedListByUserId(Long id);
 
-    public UserCart findByProductTablendProductId(String productTable, long productId);
+    public UserCart findByProductTablendProductId(String productType, long productId);
 
     public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
 

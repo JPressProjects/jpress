@@ -19,12 +19,12 @@ public abstract class BaseMemberPrice<M extends BaseMemberPrice<M>> extends Jboo
 		return getLong("id");
 	}
 
-	public void setProductTable(java.lang.String productTable) {
-		set("product_table", productTable);
+	public void setProductType(java.lang.String productType) {
+		set("product_type", productType);
 	}
 
-	public java.lang.String getProductTable() {
-		return getStr("product_table");
+	public java.lang.String getProductType() {
+		return getStr("product_type");
 	}
 
 	public void setProductId(java.lang.Long productId) {

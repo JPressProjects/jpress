@@ -14,25 +14,35 @@ public class UserCart extends BaseUserCart<UserCart> {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String PRODUCT_TABLE_PRODUCT = "product";
-    public static final String PRODUCT_TABLE_TEXT_PRODUCT = "商品";
-
 
     public BigDecimal getShouldPayPrice() {
-        if (getProductPrice() == null || getProductPrice().compareTo(BigDecimal.ZERO) == 0
-                || getProductNewPrice() == null || getProductNewPrice().compareTo(BigDecimal.ZERO) == 0
-        ) {
+
+        BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
+        if (newestSalePrice == null) {
+            newestSalePrice = getProductPrice();
+        }
+
+        if (newestSalePrice == null || newestSalePrice.compareTo(BigDecimal.ZERO) <= 0) {
             return BigDecimal.ZERO;
         }
 
         BigDecimal memberPrice = getBigDecimal("memberPrice");
-        if (memberPrice != null && memberPrice.compareTo(BigDecimal.ZERO) >= 0) {
+
+        //只有会员价更加便宜的时候，走会员价
+        if (memberPrice != null
+                && memberPrice.compareTo(BigDecimal.ZERO) >= 0
+                && memberPrice.compareTo(newestSalePrice) < 0) {
             return memberPrice.multiply(BigDecimal.valueOf(getProductCount()));
         }
 
 
-        return getProductNewPrice()
-                .multiply(BigDecimal.valueOf(getProductCount()));
+        return newestSalePrice.multiply(BigDecimal.valueOf(getProductCount()));
+    }
+
+
+    public BigDecimal getNewProductPrice(){
+        BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
+        return newestSalePrice == null ? getProductPrice() : newestSalePrice;
     }
 
 
@@ -43,12 +53,11 @@ public class UserCart extends BaseUserCart<UserCart> {
         userFavorite.setThumbnail(getProductThumbnail());
         userFavorite.setTitle(getProductTitle());
         userFavorite.setSummary(getProductSummary());
-        userFavorite.setDetailPage(getProductDetailPage());
+        userFavorite.setLink(getProductLink());
 
-        userFavorite.setRelativeId(getProductId() == null ? null : String.valueOf(getProductId()));
-        userFavorite.setRelativeTable(getProductTable());
-        userFavorite.setType(getProductTable());
-        userFavorite.setTypeText(getProductTableText());
+        userFavorite.setType(getProductType());
+        userFavorite.setTypeText(getProductTypeText());
+        userFavorite.setTypeId(getProductId() == null ? null : String.valueOf(getProductId()));
 
         return userFavorite;
     }

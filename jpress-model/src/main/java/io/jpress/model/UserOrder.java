@@ -106,6 +106,13 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         return status!= null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
     }
 
+
+    public boolean isDeliverFinished(){
+        Integer status = getDeliveryStatus();
+        return status!= null && status == DELIVERY_STATUS_FINISHED;
+    }
+
+
     public boolean isUnpay(){
         Integer payStatus = getPayStatus();
         return payStatus != null && payStatus == PayStatus.UNPAY.getStatus();
@@ -136,4 +143,5 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public String getInvoiceStatusStr() {
         return invoiceStatusTexts.get(getInvoiceStatus());
     }
+
 }

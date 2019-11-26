@@ -1,0 +1,76 @@
+#@layout()
+
+#define script()
+<script>
+
+
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            会员加入记录
+            <small>#(group.name ??)</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10%">用户</th>
+                                <th>会员</th>
+                                <th>加入方式</th>
+                                <th>加入金额</th>
+                                <th>加入时间</th>
+                                <th>来源</th>
+                                <th>时间</th>
+                            </tr>
+                            #for(item : page.list ??)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/user/detail/#(item.user_id ??)"> #(item.user.nickname ??) </a>
+                                    </strong>
+                                </td>
+                                <td>#(item.group_name ??)</td>
+                                <td>#(item.joinTypeStr ??)</td>
+                                <td>#number(item.join_price ,"0.00")</td>
+                                <td>#(item.valid_term ??) 天</td>
+                                <td>#(item.joinFromStr ??)</td>
+                                <td>#date(item.created ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+</div>
+#end

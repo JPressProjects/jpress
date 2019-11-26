@@ -32,12 +32,14 @@ public enum ExpressCompany {
     YUNDA("韵达快递", "yunda"),
     ZHAIJISONG("宅急送", "zhaijisong"),
     EMS("邮政EMS", "ems"),
-    YOUZHENG("邮政快递", "youzheng"),
+    YOUZHENG("邮政快递（挂号信）", "youzheng"),
     TIANTIAN("天天快递", "tiantian"),
     UPS("UPS", "ups"),
+    FEDEX("Fedex国际", "fedex"),
     SHUNDA("顺达快递", "shunda"),
     DEBANG("德邦", "debang"),
-    BAISHI("百世快递", "baishi"),
+    BAISHI("汇通（百世快递）", "baishi"),
+    JINGDONG("京东快递", "jingdong"),
     OTHER("其他快递", "other");
 
 

@@ -42,6 +42,25 @@ public class JuheExpressQuerier implements ExpressQuerier {
 
     private static final Log LOG = Log.getLog(JuheExpressQuerier.class);
 
+    private static Map<String, String> codeMap = new HashMap<>();
+
+    static {
+        codeMap.put("shunfeng", "sf");
+        codeMap.put("yuantong", "yt");
+        codeMap.put("zhongtong", "zto");
+        codeMap.put("shentong", "sto");
+        codeMap.put("yunda", "yd");
+        codeMap.put("zhaijisong", "zjs");
+        codeMap.put("ems", "ems");
+        codeMap.put("youzheng", "yzgn");
+        codeMap.put("ups", "ups");
+        codeMap.put("fedex", "fedex");
+        codeMap.put("shunda", "shunda");
+        codeMap.put("debang", "db");
+        codeMap.put("baishi", "ht");
+        codeMap.put("jingdong", "jd");
+    }
+
     @Override
     public List<ExpressInfo> query(ExpressCompany company, String num) {
 
@@ -49,7 +68,7 @@ public class JuheExpressQuerier implements ExpressQuerier {
         String appSecret = JPressOptions.get("express_api_appsecret");
 
         Map params = new HashMap();
-        params.put("com", company.getCode());
+        params.put("com", codeMap.get(company.getCode()));
         params.put("no", num);
         params.put("key", appId);
         params.put("dtype", "json");
@@ -73,6 +92,7 @@ public class JuheExpressQuerier implements ExpressQuerier {
                             ExpressInfo ei = new ExpressInfo();
                             ei.setInfo(expObject.getString("remark"));
                             ei.setTime(expObject.getString("datetime"));
+                            list.add(ei);
                         }
                         return list;
                     }

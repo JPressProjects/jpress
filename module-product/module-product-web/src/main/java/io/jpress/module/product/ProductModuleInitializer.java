@@ -21,7 +21,7 @@ import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
-import io.jpress.core.finance.DistManager;
+import io.jpress.core.finance.ProductManager;
 
 import java.util.List;
 
@@ -70,6 +70,6 @@ public class ProductModuleInitializer extends JbootAppListenerBase implements Mo
 
     @Override
     public void onStart() {
-        DistManager.me().registerDistAmountGetter("product", Aop.get(ProductDistAmountGetter.class));
+        ProductManager.me().registerQuerier("product", Aop.get(JPressProductInfoQuerier.class));
     }
 }

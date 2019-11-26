@@ -341,10 +341,10 @@
                     </td>
                     <td>
                         #if(userCart.memberPrice ??)
-                        <s>#(userCart.product_new_price ??)</s>
+                        <s>#(userCart.product_price ??)</s>
                          会员：#(userCart.memberPrice)
                         #else
-                            #(userCart.product_new_price ??)
+                            #(userCart.product_price ??)
                         #end
                     </td>
                     <td>

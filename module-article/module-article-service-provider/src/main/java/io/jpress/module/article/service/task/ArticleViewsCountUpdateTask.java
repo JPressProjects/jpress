@@ -59,7 +59,7 @@ public class ArticleViewsCountUpdateTask implements Runnable {
             Db.update("update article set view_count = view_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
-            Aop.get(ArticleService.class).deleteCacheById(entry.getKey());
+            Aop.get(ArticleService.class).removeCacheById(entry.getKey());
         }
     }
 }

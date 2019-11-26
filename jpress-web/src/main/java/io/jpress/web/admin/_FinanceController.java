@@ -84,6 +84,7 @@ public class _FinanceController extends AdminControllerBase {
     @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
     public void payout(){
         Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
+        userService.join(page,"user_id");
         setAttr("page",page);
 
         long totalCount = payoutService.findCountByColumns(Columns.EMPTY);

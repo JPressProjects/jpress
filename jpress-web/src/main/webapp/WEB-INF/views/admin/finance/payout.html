@@ -71,7 +71,9 @@
                             #for(item : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
+                                    <a href="#(CPATH)/admin/user/detail/#(item.user_id)">
                                     #(item.user.nickname ??)
+                                    </a>
                                 </td>
                                 <td>
                                     #(item.user_real_name)
@@ -83,7 +85,7 @@
                                     #number(item.fee,"0.00")
                                 </td>
                                 <td>
-                                    #(item.pay_type ??)
+                                    #(item.payTypeStr ??)
                                 </td>
                                 <td>
                                     #(item.pay_to ??)

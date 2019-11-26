@@ -76,6 +76,17 @@ public class FinanceController extends UcenterControllerBase {
         render("payoutsubmit.html");
     }
 
+    public void payoutdetail() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+        render404If(notLoginedUserModel(payout));
+
+        setAttr("payout", payout);
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
+        render("payoutdetail.html");
+    }
+
 
     /**
      * 提交提现申请

@@ -2,58 +2,6 @@
 #define script()
 <script>
 
-    function trash(id) {
-        ajaxGet("#(CPATH)/admin/article/doTrash/" + id);
-    }
-
-
-    function draft(id) {
-        ajaxGet("#(CPATH)/admin/article/doDraft/" + id);
-    }
-
-    function normal(id) {
-        ajaxGet("#(CPATH)/admin/article/doNormal/" + id);
-    }
-
-    function del(id) {
-        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/article/doDel/" + id);
-        }
-    }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
-        }
-    })
-
-    function updatePrice(id) {
-        openlayer('手动入账','#(CPATH)/admin/finance/payUpdate/'+id);
-    }
-
-    function showDetail(id) {
-        openlayer('支付详情','#(CPATH)/admin/finance/payDetail/'+id);
-    }
-
-    function openlayer(title,url) {
-        layer.open({
-            type: 2,
-            title: title,
-            anim: 2,
-            shadeClose: true,
-            shade: 0.5,
-            area: ['70%', '90%'],
-            content: url,
-            end: function () {
-
-            }
-        });
-    }
 
 </script>
 
@@ -120,7 +68,7 @@
                                     #number(item.fee,"0.00")
                                 </td>
                                 <td>
-                                    #(item.pay_type ??)
+                                    #(item.payTypeStr ??)
                                 </td>
                                 <td>
                                     #(item.pay_to ??)
@@ -129,7 +77,7 @@
                                     #(item.statusStr ??)
                                 </td>
                                 <td>
-                                    <a href="javascript:;" onclick="showDetail('#(item.id)')">详情</a>
+                                    <a href="#(CPATH)/ucenter/finance/amount/payoutdetail/#(item.id)">详情</a>
                                 </td>
                             </tr>
                             #end

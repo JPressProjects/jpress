@@ -22,9 +22,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
-                          data-ok-href="#(CPATH)/ucenter/finance/amount/payout"
-                          action="#(CPATH)/ucenter/finance/amount/doPayoutSubmit">
+                    <form class="form-horizontal" autocomplete="off">
                         <div class="box-body ">
 
                             <div class="form-group">
@@ -37,10 +35,8 @@
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">提现金额</label>
-
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="请输入提现金额，单位：元..."
-                                           value="" name="payoutAmount">
+                                    <input type="input" class="form-control"  value="#number(payout.amount,'0.00')" readonly>
                                 </div>
                             </div>
 
@@ -48,8 +44,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">身份证号码</label>
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="您的真实姓名"
-                                            name="realName">
+                                    <input type="input" class="form-control"  value="#(payout.user_idcard ??)" readonly>
                                 </div>
                             </div>
 
@@ -58,8 +53,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">身份证姓名</label>
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="真实身份证号码..."
-                                            name="idcard">
+                                    <input type="input" class="form-control"  value="#(payout.user_real_name ??)" readonly>
                                 </div>
                             </div>
 
@@ -67,19 +61,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">提现到</label>
                                 <div class="col-sm-7">
-                                    <select class="form-control" name="payType">
-                                        <option value="alipay">支付宝账号</option>
-                                        <option value="wechat">微信账号</option>
-                                        <option value="boc">中国银行</option>
-                                        <option value="abc">农业银行</option>
-                                        <option value="icbc">工商银行</option>
-                                        <option value="ccb">建设银行</option>
-                                        <option value="bankcomm">交通银行</option>
-                                        <option value="cmb">招商银行</option>
-                                        <option value="otherbank">其他银行</option>
-                                    </select>
+                                    <input type="input" class="form-control"  value="#(payout.payTypeStr ??)" readonly>
                                 </div>
-
                             </div>
 
 
@@ -87,19 +70,37 @@
                                 <label class="col-sm-2 control-label">收款账号</label>
 
                                 <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="请务必填写正确..."
-                                           name="payTo" >
+                                    <input type="input" class="form-control"  value="#(payout.pay_to ??)" readonly>
                                 </div>
                             </div>
-
 
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">备注</label>
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" placeholder="提现备注..." name="remarks"></textarea>
+                                    <textarea rows="3" class="form-control" >#(payout.remarks ??)</textarea>
                                 </div>
                             </div>
+
+
+                            #if(payout.isRefuse())
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">拒绝原因</label>
+                                <div class="col-sm-7">
+                                    <textarea rows="3" class="form-control" >#(payout.feedback ??)</textarea>
+                                </div>
+                            </div>
+                            #end
+
+
+                            #if(payout.isSuccess())
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">凭证</label>
+                                <div class="col-sm-7">
+                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
+                                </div>
+                            </div>
+                            #end
 
 
                         </div>
@@ -107,7 +108,7 @@
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">申请提现</button>
+                                    <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
                                 </div>
                             </div>
                         </div>

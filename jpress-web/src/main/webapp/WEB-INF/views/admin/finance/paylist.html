@@ -2,7 +2,31 @@
 #define script()
 <script>
 
+    function updatePrice(id) {
+        openlayer('手动入账','#(CPATH)/admin/finance/payUpdate/'+id);
+    }
+
+    function showDetail(id) {
+        openlayer('支付详情','#(CPATH)/admin/finance/payDetail/'+id);
+    }
+
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '90%'],
+            content: url,
+            end: function () {
+
+            }
+        });
+    }
+
 </script>
+
 #end
 
 #define content()

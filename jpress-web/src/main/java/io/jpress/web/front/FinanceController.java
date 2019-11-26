@@ -8,6 +8,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.PaymentRecord;
@@ -56,15 +57,15 @@ public class FinanceController extends UcenterControllerBase {
         Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
 
-        long totalCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()));
-        long payingCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_PAYING));
-        long refuseCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_REFUSE));
-        long successCount = payoutService.findCountByColumns(Columns.create("user_id",getLoginedUser().getId()).eq("status",UserAmountPayout.STATUS_SUCCESS));
+        long totalCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()));
+        long payingCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_PAYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_SUCCESS));
 
-        setAttr("totalCount",totalCount);
-        setAttr("payingCount",payingCount);
-        setAttr("refuseCount",refuseCount);
-        setAttr("successCount",successCount);
+        setAttr("totalCount", totalCount);
+        setAttr("payingCount", payingCount);
+        setAttr("refuseCount", refuseCount);
+        setAttr("successCount", successCount);
 
         render("payout.html");
     }
@@ -80,14 +81,47 @@ public class FinanceController extends UcenterControllerBase {
      * 提交提现申请
      */
     @EmptyValidate({
-            @Form(name = "payoutAmount",message = "提现金额不能为空"),
-            @Form(name = "realName",message = "真实姓名不能为空"),
-            @Form(name = "idcard",message = "身份证账号不能为空"),
-            @Form(name = "payType",message = "请选择提现类型"),
-            @Form(name = "payTo",message = "收款账号不能为空"),
+            @Form(name = "payoutAmount", message = "提现金额不能为空"),
+            @Form(name = "realName", message = "真实姓名不能为空"),
+            @Form(name = "idcard", message = "身份证账号不能为空"),
+            @Form(name = "payType", message = "请选择提现类型"),
+            @Form(name = "payTo", message = "收款账号不能为空"),
     })
-    public void doPayoutSubmit(){
+    public void doPayoutSubmit() {
 
+        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        if (userAmount == null || userAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            renderFailJson("余额不足，无法提现");
+            return;
+        }
+
+        BigDecimal payoutAmount = new BigDecimal(getPara("payoutAmount"));
+        if (userAmount.compareTo(payoutAmount) < 0) {
+            renderFailJson("余额不足，无法提现");
+            return;
+        }
+
+        UserAmountPayout payout = new UserAmountPayout();
+        payout.setUserId(getLoginedUser().getId());
+        payout.setUserRealName(getPara("realName"));
+        payout.setUserIdcard(getPara("idcard"));
+        payout.setAmount(payoutAmount);
+        payout.setPayType(getPara("payType"));
+        payout.setPayTo(getPara("payTo"));
+        payout.setRemarks(getPara("remarks"));
+
+        float feefloat = JPressOptions.getAsFloat("payout_fee", 0);
+        if (feefloat < 0 || feefloat >= 1) {
+            renderFailJson("网站管理员配置提现费率不正确，请联系管理员");
+            return;
+        }
+
+        BigDecimal fee = payoutAmount.multiply(new BigDecimal(feefloat));
+        payout.setFee(fee);
+        payout.setStatus(UserAmountPayout.STATUS_PAYING);
+
+        payoutService.save(payout);
+        renderOkJson();
 
     }
 

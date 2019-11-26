@@ -286,6 +286,7 @@ public class _UserController extends AdminControllerBase {
     public void mgroupjoined() {
         Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
         setAttr("page", page);
+        setAttr("group", memberGroupService.findById(getPara()));
         render("user/mgroupjoined.html");
     }
 

@@ -1,0 +1,173 @@
+#@layout()
+#define script()
+<script>
+
+    function trash(id) {
+        ajaxGet("#(CPATH)/admin/article/doTrash/" + id);
+    }
+
+
+    function draft(id) {
+        ajaxGet("#(CPATH)/admin/article/doDraft/" + id);
+    }
+
+    function normal(id) {
+        ajaxGet("#(CPATH)/admin/article/doNormal/" + id);
+    }
+
+    function del(id) {
+        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
+            ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+        }
+    })
+
+    function updatePrice(id) {
+        openlayer('手动入账','#(CPATH)/admin/finance/payUpdate/'+id);
+    }
+
+    function showDetail(id) {
+        openlayer('支付详情','#(CPATH)/admin/finance/payDetail/'+id);
+    }
+
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '90%'],
+            content: url,
+            end: function () {
+
+            }
+        });
+    }
+
+</script>
+
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            支付记录
+            <small>Pay List</small>
+        </h1>
+    </section>
+
+    <section class="content-header text-tap">
+        <a href="#(CPATH)/admin/finance/paylist">全部 (#(totalCount ?? 0))</a> |
+        <a href="?status=9">提现中 (#(successCount ?? 0))</a> |
+        <a href="?status=1">已成功 (#(prepayCount ?? 0))</a> |
+        <a href="?status=2" style="color: #a00">已拒绝 (#(failCount ?? 0))</a>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/finance/payout" method="get">
+                            <input type="hidden" name="status" value="#para('status')">
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">名字</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="ns" value="#para('ns')">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary ">查询</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </form>
+
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+
+                                <th style="width: 150px">用户</th>
+                                <th style="width: 150px">真实名字</th>
+                                <th style="width: 100px">提现金额</th>
+                                <th style="width: 70px">手续费</th>
+                                <th>支付类型</th>
+                                <th>支付账号</th>
+                                <th style="width: 150px">状态</th>
+                                <th style="width: 80px">操作</th>
+                            </tr>
+
+                            #for(item : page.list ??)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    #(item.user.nickname ??)
+                                </td>
+                                <td>
+                                    #(item.user_real_name)
+                                </td>
+                                <td>
+                                    #number(item.amount,"0.00")
+                                </td>
+                                <td>
+                                    #number(item.fee,"0.00")
+                                </td>
+                                <td>
+                                    #(item.pay_type ??)
+                                </td>
+                                <td>
+                                    #(item.pay_to ??)
+                                </td>
+                                <td>
+                                    #(item.statusStr ??)
+                                </td>
+                                <td>
+                                    <a href="javascript:;" onclick="showDetail('#(item.id)')">详情</a>
+                                </td>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

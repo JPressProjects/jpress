@@ -23,7 +23,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.PaymentRecord;
+import io.jpress.model.UserAmountPayout;
 import io.jpress.service.PaymentRecordService;
+import io.jpress.service.UserAmountPayoutService;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.AdminControllerBase;
@@ -52,6 +54,9 @@ public class _FinanceController extends AdminControllerBase {
     @Inject
     private UserService userService;
 
+    @Inject
+    private UserAmountPayoutService payoutService;
+
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
@@ -73,6 +78,16 @@ public class _FinanceController extends AdminControllerBase {
         setAttr("totalCount", successCount + prepayCount + failCount);
 
         render("finance/paylist.html");
+    }
+
+
+    @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
+    public void payout(){
+        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
+        setAttr("page",page);
+
+        render("finance/payout.html");
+
     }
 
     public void payUpdate() {

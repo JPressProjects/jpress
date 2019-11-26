@@ -6,6 +6,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.PaymentRecord;
@@ -67,7 +69,9 @@ public class FinanceController extends UcenterControllerBase {
         render("payout.html");
     }
 
+
     public void payoutsubmit() {
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
         render("payoutsubmit.html");
     }
 
@@ -75,8 +79,15 @@ public class FinanceController extends UcenterControllerBase {
     /**
      * 提交提现申请
      */
+    @EmptyValidate({
+            @Form(name = "payoutAmount",message = "提现金额不能为空"),
+            @Form(name = "realName",message = "真实姓名不能为空"),
+            @Form(name = "idcard",message = "身份证账号不能为空"),
+            @Form(name = "payType",message = "请选择提现类型"),
+            @Form(name = "payTo",message = "收款账号不能为空"),
+    })
     public void doPayoutSubmit(){
-        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
 
     }
 

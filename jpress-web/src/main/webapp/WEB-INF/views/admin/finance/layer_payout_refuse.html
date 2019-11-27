@@ -47,18 +47,19 @@
     <div class="row">
         <div class="col-xs-12">
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
-                  action="#(CPATH)/admin/finance/doPayUpdate"
+                  action="#(CPATH)/admin/finance/doPayoutRefuse"
                   method="POST"
                   data-ok-function="parent.layer.closeAll()"
             >
-                <input type="hidden" name="payment.id" value="#(payment.id ??)">
+                <input type="hidden" name="id" value="#(payout.id ??)">
                 <div class="box-body ">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">反馈信息</label>
                         <div class="col-sm-8">
-                            <textarea rows="6" name="payment.pay_success_remarks" class="form-control"
-                                              placeholder="备注信息..."></textarea>
+                            <textarea rows="6" name="feedback" class="form-control"
+                                              placeholder="给请出拒绝提现的原因..."></textarea>
+                            <p class="help-block" style="color: red"> 注意：拒绝之后无法再次修改。 </p>
                         </div>
                     </div>
 
@@ -67,7 +68,7 @@
                 <div class="box-footer">
                     <div class="col-sm-offset-9 col-sm-2 submit-block">
                         <div class="box-submit">
-                            <button type="submit" class="btn btn-primary">确定拒绝提现申请</button>
+                            <button type="submit" class="btn btn-primary">拒绝申请</button>
                         </div>
                     </div>
                 </div>

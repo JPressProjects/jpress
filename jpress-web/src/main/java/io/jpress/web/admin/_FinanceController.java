@@ -20,6 +20,8 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.PaymentRecord;
@@ -30,6 +32,7 @@ import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.express.ExpressQuerierFactory;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 
@@ -84,20 +87,20 @@ public class _FinanceController extends AdminControllerBase {
 
 
     @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
-    public void payout(){
-        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
-        userService.join(page,"user_id");
-        setAttr("page",page);
+    public void payout() {
+        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(), 10, Columns.EMPTY, "id desc");
+        userService.join(page, "user_id");
+        setAttr("page", page);
 
         long totalCount = payoutService.findCountByColumns(Columns.EMPTY);
-        long payingCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_APPLYING));
-        long refuseCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_REFUSE));
-        long successCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_SUCCESS));
+        long payingCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_APPLYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_SUCCESS));
 
-        setAttr("totalCount",totalCount);
-        setAttr("payingCount",payingCount);
-        setAttr("refuseCount",refuseCount);
-        setAttr("successCount",successCount);
+        setAttr("totalCount", totalCount);
+        setAttr("payingCount", payingCount);
+        setAttr("refuseCount", refuseCount);
+        setAttr("successCount", successCount);
 
         render("finance/payout.html");
 
@@ -121,13 +124,23 @@ public class _FinanceController extends AdminControllerBase {
         render("finance/layer_payout_process.html");
     }
 
-    public void doPayoutProcess(){
+    @EmptyValidate({
+            @Form(name = "amount", message = "打款金额不能为空")
+    })
+    public void doPayoutProcess() {
         UserAmountPayout payout = payoutService.findById(getPara("id"));
 
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
-        if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0){
+        if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0) {
             renderFailJson("用户余额不足，无法提现。");
+            return;
+        }
+
+        BigDecimal amount = new BigDecimal(getPara("amount"));
+        BigDecimal shouldPayAmount = payout.getAmount().subtract(payout.getFee());
+        if (amount == null || amount.compareTo(shouldPayAmount) != 0) {
+            renderFailJson("打款金额输入错误，实际应该给客户打款金额为：" + new DecimalFormat("0.00").format(shouldPayAmount) + " 元");
             return;
         }
 
@@ -148,7 +161,7 @@ public class _FinanceController extends AdminControllerBase {
         statement.setNewAmount(userAmount.subtract(payout.getAmount()));
         statementService.save(statement);
 
-        userService.updateUserAmount(payout.getUserId(),userAmount,BigDecimal.ZERO.subtract(payout.getAmount()));
+        userService.updateUserAmount(payout.getUserId(), userAmount, BigDecimal.ZERO.subtract(payout.getAmount()));
 
         renderOkJson();
     }
@@ -162,7 +175,7 @@ public class _FinanceController extends AdminControllerBase {
         render("finance/layer_payout_refuse.html");
     }
 
-    public void doPayoutRefuse(){
+    public void doPayoutRefuse() {
         UserAmountPayout payout = payoutService.findById(getPara("id"));
         payout.setStatus(UserAmountPayout.STATUS_REFUSE);
         payout.setFeedback(getPara("feedback"));
@@ -234,7 +247,6 @@ public class _FinanceController extends AdminControllerBase {
         setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
         render("finance/setting_notify.html");
     }
-
 
 
 }

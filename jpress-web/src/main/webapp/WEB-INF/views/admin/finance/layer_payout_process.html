@@ -19,6 +19,11 @@
             }
         }
     });
+
+    function closeLayer() {
+        parent.layer.data.needRefresh = true;
+        parent.layer.closeAll();
+    }
 </script>
 #end
 
@@ -49,7 +54,7 @@
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                   action="#(CPATH)/admin/finance/doPayoutProcess"
                   method="POST"
-                  data-ok-function="parent.layer.closeAll()"
+                  data-ok-function="closeLayer()"
             >
                 <input type="hidden" name="id" value="#(payout.id ??)">
                 <div class="box-body ">

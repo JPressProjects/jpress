@@ -12,6 +12,7 @@
     }
 
     function openlayer(title,url) {
+        layer.data = {};
         layer.open({
             type: 2,
             title: title,
@@ -21,7 +22,9 @@
             area: ['70%', '60%'],
             content: url,
             end: function () {
-
+                if (layer.data.needRefresh == true){
+                    location.reload();
+                }
             }
         });
     }
@@ -136,17 +139,13 @@
                                 </div>
                             </div>
 
-                            #if(payout.isApplying())
-
-
-                            #end
 
                         </div>
 
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
+                                    <a href="#(CPATH)/admin/finance/payout" class="btn btn-primary">返回</a>
                                     #if(payout.isApplying())
                                     <button type="button" onclick="process()" class="btn btn-primary">处理</button>
                                     <button type="button" onclick="refuse()" class="btn btn-primary">拒绝</button>

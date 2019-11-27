@@ -1,43 +1,12 @@
 #@layer()
 
 #define script()
-<script src="/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
-
-    $('#cfile').fileupload({
-        dropZone: $('#uploader'),
-        url: '/commons/attachment/upload',
-        sequentialUploads: true,
-        done: function (e, data) {
-            if (data.result.state == "ok") {
-                $('#paidProof').val(data.result.src);
-                toastr.success("文件上传成功...")
-            } else {
-                toastr.error(data.result.message)
-            }
-        }
-    });
+    function closeLayer() {
+        parent.layer.data.needRefresh = true;
+        parent.layer.closeAll();
+    }
 </script>
-#end
-
-#define css()
-<link rel="stylesheet" href="/static/components/jquery-file-upload/css/jquery.fileupload.css">
-<style>
-    #uploader {
-        height: 180px;
-        border: 1px dashed #999;
-        padding: 10px;
-    }
-
-    .myPanel {
-        font-size: 25px;
-        color: #ccc;
-        text-align: center;
-        padding-top: 30px;
-    }
-</style>
 #end
 
 #define content()
@@ -49,7 +18,7 @@
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                   action="#(CPATH)/admin/finance/doPayoutRefuse"
                   method="POST"
-                  data-ok-function="parent.layer.closeAll()"
+                  data-ok-function="closeLayer()"
             >
                 <input type="hidden" name="id" value="#(payout.id ??)">
                 <div class="box-body ">

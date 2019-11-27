@@ -47,29 +47,24 @@
                                 <th>回复至</th>
                                 <th style="width: 50px"><i class="fa fa-commenting"></i></th>
                                 <th style="width: 90px">发布时间</th>
+                                <th style="width: 60px">操作</th>
                             </tr>
                             #for(comment : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
+                                    #(comment.content ??)
                                     <strong>
-                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)">#(comment.content ??)</a>
                                         #if(comment.isUnaudited()) (待审核) #end
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/ucenter/article/commentEdit/#(comment.id)">编辑</a> |
-                                            <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
-                                               class="red-action">永久删除</a>
-                                        </div>
-                                    </div>
                                 </td>
                                 <td>
-                                    <a href="#(comment.article.url ??)" target="_blank">
-                                        #(comment.article.title ??)
+                                    <a href="#(comment.product.url ??)" target="_blank">
+                                        #(comment.product.title ??)
                                     </a>
                                 </td>
                                 <td>#(comment.comment_count ??)</td>
                                 <td>#date(comment.created)</td>
+                                <td><a href="javascript:;" onclick="doDelComment('#(comment.id)')">删除</a></td>
                             </tr>
                             #end
 

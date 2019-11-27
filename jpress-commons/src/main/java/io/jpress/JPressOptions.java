@@ -148,11 +148,10 @@ public class JPressOptions {
     public static String getCDNDomain() {
         boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
         if (cdnEnable == false) {
-            return null;
+            return StrUtil.EMPTY;
         }
 
-        String cdnDomain = get(JPressConsts.OPTION_CDN_DOMAIN);
-        return StrUtil.isBlank(cdnDomain) ? null : cdnDomain;
+        return get(JPressConsts.OPTION_CDN_DOMAIN, StrUtil.EMPTY);
     }
 
     public static String getResDomain() {
@@ -194,7 +193,7 @@ public class JPressOptions {
     private static String fakeStaticSuffix = "";
 
     public static String getAppUrlSuffix() {
-        if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)){
+        if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)) {
             return "";
         }
 

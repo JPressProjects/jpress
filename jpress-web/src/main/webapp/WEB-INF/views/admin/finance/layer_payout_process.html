@@ -19,6 +19,11 @@
             }
         }
     });
+
+    function closeLayer() {
+        parent.layer.data.needRefresh = true;
+        parent.layer.closeAll();
+    }
 </script>
 #end
 
@@ -47,59 +52,30 @@
     <div class="row">
         <div class="col-xs-12">
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
-                  action="#(CPATH)/admin/finance/doPayUpdate"
+                  action="#(CPATH)/admin/finance/doPayoutProcess"
                   method="POST"
-                  data-ok-function="parent.layer.closeAll()"
+                  data-ok-function="closeLayer()"
             >
-                <input type="hidden" name="payment.id" value="#(payment.id ??)">
+                <input type="hidden" name="id" value="#(payout.id ??)">
                 <div class="box-body ">
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">支付类型</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" name="payment.pay_status">
-                                <option value="12"> 线下支付 </option>
-                                <option value="11"> 微信支付 </option>
-                                <option value="10"> 支付宝支付 </option>
-                                <option value="13"> 其他方式支持 </option>
-                            </select>
-                        </div>
-                    </div>
+
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">入账金额</label>
+                        <label class="col-sm-2 control-label">时间转账金额</label>
                         <div class="col-sm-8">
-                            <input type="input" name="payment.pay_success_amount" class="form-control"
+                            <input type="input" name="amount" class="form-control"
                                    value=""
-                                   placeholder="请填写该订单已经入账的金额">
-                            <p class="help-block" style="color: red"> 注意注意注意：一旦入账成功不可进行回退。 </p>
+                                   placeholder="请输入实际给用户打款金额">
                         </div>
                     </div>
 
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">时间</label>
-                        <div class="col-sm-8">
-                            <input type="input" name="payment.pay_success_time" class="form-control datetimepicker"
-                                   value=""
-                                   placeholder="请填写该订单已经入账的时间">
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">备注</label>
-                        <div class="col-sm-8">
-                            <textarea rows="3" name="payment.pay_success_remarks" class="form-control"
-                                              placeholder="备注信息..."></textarea>
-                        </div>
-                    </div>
 
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">入账截图（证明）</label>
                         <div class="col-sm-8 ">
-                            <input type="hidden" id="paidProof" name="payment.pay_success_proof" value="">
+                            <input type="hidden" id="paidProof" name="proof" value="">
                             <div id="uploader">
                                 <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
                                     <i class="glyphicon glyphicon-plus"></i>

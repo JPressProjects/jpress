@@ -29,8 +29,18 @@ public class ProductComment extends BaseProductComment<ProductComment> {
     }
 
     public boolean isNormal() {
-        return getStatus() != null && getStatus() == STATUS_NORMAL;
+        return STATUS_NORMAL == getStatus();
     }
+
+    public boolean isUnaudited() {
+        return STATUS_UNAUDITED == getStatus();
+    }
+
+    public boolean isTrash() {
+        return STATUS_TRASH == getStatus();
+    }
+
+
 
     public String getStatusStr() {
         return statusStrMap.get(getStatus());

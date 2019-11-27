@@ -253,39 +253,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
         renderOkJson();
     }
 
-    /**
-     * 评论编辑 页面
-     */
-    public void commentEdit() {
-        long id = getIdPara();
-        ArticleComment comment = commentService.findById(id);
-
-        if (!isLoginedUserModel(comment)) {
-            renderError(404);
-            return;
-        }
-
-        setAttr("comment", comment);
-        render("article/comment_edit.html");
-    }
-
-    public void doCommentSave() {
-
-        ArticleComment comment = getBean(ArticleComment.class, "comment");
-
-        if (!isLoginedUserModel(comment)) {
-            renderJson(Ret.fail().set("message", "非法操作"));
-            return;
-        }
-
-        //只保留的基本的html，其他的html比如<script>将会被清除
-        String content = JsoupUtils.clean(comment.getContent());
-        comment.setContent(content);
-
-        comment.setUserId(getLoginedUser().getId());
-        commentService.saveOrUpdate(comment);
-        renderOkJson();
-    }
 
     public void doCommentDel() {
 
@@ -296,8 +263,8 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
 
-        if (!isLoginedUserModel(comment)) {
-            renderJson(Ret.fail().set("message", "非法操作"));
+        if (notLoginedUserModel(comment)) {
+            renderFailJson("非法操作");
             return;
         }
 

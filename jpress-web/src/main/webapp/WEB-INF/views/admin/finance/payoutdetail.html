@@ -1,4 +1,37 @@
-#@ucenter_layout()
+#@layout()
+
+#define script()
+<script>
+
+    function process() {
+        openlayer('处理提现申请','#(CPATH)/admin/finance/payoutprocess/#(payout.id)');
+    }
+
+    function refuse() {
+        openlayer('拒绝提现','#(CPATH)/admin/finance/payoutrefuse/#(payout.id)');
+    }
+
+    function openlayer(title,url) {
+        layer.data = {};
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '60%'],
+            content: url,
+            end: function () {
+                if (layer.data.needRefresh == true){
+                    location.reload();
+                }
+            }
+        });
+    }
+
+</script>
+
+#end
 
 #define content()
 <div class="content-wrapper">
@@ -24,6 +57,13 @@
                     <!-- form start -->
                     <form class="form-horizontal" autocomplete="off">
                         <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">当前状态</label>
+                                <div class="col-sm-7 form-text">
+                                    #(payout.statusStr ??)
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">用户当前余额</label>
@@ -76,31 +116,28 @@
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">备注</label>
+                                <label class="col-sm-2 control-label">用户备注</label>
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.remarks ??)</textarea>
+                                    <textarea rows="3" class="form-control" readonly >#(payout.remarks ??)</textarea>
                                 </div>
                             </div>
 
 
-                            #if(payout.isRefuse())
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">拒绝原因</label>
+                                <label class="col-sm-2 control-label">手续费</label>
+
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.feedback ??)</textarea>
+                                    <input type="input" class="form-control"  value="#number(payout.fee,'0.00')" readonly>
                                 </div>
                             </div>
-                            #end
 
-
-                            #if(payout.isSuccess())
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">凭证</label>
+                                <label class="col-sm-2 control-label">应转账</label>
+
                                 <div class="col-sm-7">
-                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
+                                    <input type="input" class="form-control"  value="#number(payout.amount - payout.fee,'0.00')" readonly>
                                 </div>
                             </div>
-                            #end
 
 
                         </div>
@@ -108,7 +145,11 @@
                         <div class="box-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
-                                    <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
+                                    <a href="#(CPATH)/admin/finance/payout" class="btn btn-primary">返回</a>
+                                    #if(payout.isApplying())
+                                    <button type="button" onclick="process()" class="btn btn-primary">处理</button>
+                                    <button type="button" onclick="refuse()" class="btn btn-primary">拒绝</button>
+                                    #end
                                 </div>
                             </div>
                         </div>

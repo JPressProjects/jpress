@@ -41,7 +41,8 @@
 }
 
 .form-text {
-    padding-top: 7px;
+    padding: 7px 14px;
+    font-size: 14px;
 }
 
 .jp-actionblock {

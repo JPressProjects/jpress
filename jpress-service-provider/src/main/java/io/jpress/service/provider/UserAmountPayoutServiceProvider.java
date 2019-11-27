@@ -16,7 +16,7 @@ public class UserAmountPayoutServiceProvider extends JbootServiceBase<UserAmount
     private UserService userService;
 
     @Override
-    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize, Object userId) {
-        return userService.join(paginateByColumns(page, pageSize, Columns.create("user_id", userId), "id desc"),"user_id");
+    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize, Object userId, Integer status) {
+        return userService.join(paginateByColumns(page, pageSize, Columns.create("user_id", userId).eq("status",status), "id desc"), "user_id");
     }
 }

@@ -26,11 +26,29 @@
                         <div class="box-body ">
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">您当前余额</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" value="#number(userAmount,'0.00')" readonly>
+                                <label class="col-sm-2 control-label">当前状态</label>
+                                <div class="col-sm-7" style="padding: 7px 14px;font-size: 14px">
+                                    #(payout.statusStr ??)
                                 </div>
                             </div>
+
+                            #if(payout.isRefuse())
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">拒绝原因</label>
+                                <div class="col-sm-7 form-text">
+                                    #(payout.feedback ??)
+                                </div>
+                            </div>
+                            #end
+
+                            #if(payout.isSuccess())
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">凭证</label>
+                                <div class="col-sm-7">
+                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
+                                </div>
+                            </div>
+                            #end
 
 
                             <div class="form-group">
@@ -78,29 +96,10 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">备注</label>
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.remarks ??)</textarea>
+                                    <textarea rows="3" class="form-control" readonly>#(payout.remarks ??)</textarea>
                                 </div>
                             </div>
 
-
-                            #if(payout.isRefuse())
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">拒绝原因</label>
-                                <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.feedback ??)</textarea>
-                                </div>
-                            </div>
-                            #end
-
-
-                            #if(payout.isSuccess())
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">凭证</label>
-                                <div class="col-sm-7">
-                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
-                                </div>
-                            </div>
-                            #end
 
 
                         </div>

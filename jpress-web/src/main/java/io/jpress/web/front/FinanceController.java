@@ -54,11 +54,11 @@ public class FinanceController extends UcenterControllerBase {
     }
 
     public void payout() {
-        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
+        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(),getParaToInt("status"));
         setAttr("page", page);
 
         long totalCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()));
-        long payingCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_PAYING));
+        long payingCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_APPLYING));
         long refuseCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_REFUSE));
         long successCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()).eq("status", UserAmountPayout.STATUS_SUCCESS));
 
@@ -129,7 +129,7 @@ public class FinanceController extends UcenterControllerBase {
 
         BigDecimal fee = payoutAmount.multiply(new BigDecimal(feefloat));
         payout.setFee(fee);
-        payout.setStatus(UserAmountPayout.STATUS_PAYING);
+        payout.setStatus(UserAmountPayout.STATUS_APPLYING);
 
         payoutService.save(payout);
         renderOkJson();

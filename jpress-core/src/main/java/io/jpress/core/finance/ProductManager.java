@@ -16,7 +16,7 @@
 package io.jpress.core.finance;
 
 
-import com.jfinal.log.Log;
+import io.jboot.utils.StrUtil;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -24,8 +24,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProductManager {
-
-    private static final Log LOG = Log.getLog(ProductManager.class);
 
     private static final ProductManager me = new ProductManager();
 
@@ -53,6 +51,9 @@ public class ProductManager {
 
 
     public BigDecimal queryDistAmount(String type, Object productId, Long payerUserId, Long distUserId) {
+        if (StrUtil.isBlank(type)) {
+            return BigDecimal.ZERO;
+        }
         ProductInfoQuerier querier = queriers.get(type);
         if (querier == null) {
             return BigDecimal.ZERO;
@@ -67,6 +68,10 @@ public class ProductManager {
     }
 
     public boolean queryStatusNormal(String type, Object productId, Long buyerUserId) {
+        if (StrUtil.isBlank(type)) {
+            return true;
+        }
+
         ProductInfoQuerier querier = queriers.get(type);
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
@@ -78,8 +83,10 @@ public class ProductManager {
 
 
     public BigDecimal querySalePrice(String type, Object productId, Long buyerUserId, Long distUserId) {
+        if (StrUtil.isBlank(type)) {
+            return null;
+        }
         ProductInfoQuerier querier = queriers.get(type);
-        //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return null;
         }
@@ -89,6 +96,9 @@ public class ProductManager {
 
 
     public Long queryStockAmount(String type, Object productId) {
+        if (StrUtil.isBlank(type)) {
+            return null;
+        }
         ProductInfoQuerier querier = queriers.get(type);
         if (querier == null) {
             return null;

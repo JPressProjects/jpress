@@ -15,7 +15,7 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
     private static final long serialVersionUID = 1L;
 
     //提现中
-    public static final int STATUS_PAYING = 1;
+    public static final int STATUS_APPLYING = 1;
 
     //回绝提现
     public static final int STATUS_REFUSE = 2;
@@ -26,7 +26,7 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
     public static final Map<Integer, String> statusTexts = new HashMap<>();
 
     static {
-        statusTexts.put(STATUS_PAYING, "提现中");
+        statusTexts.put(STATUS_APPLYING, "申请中");
         statusTexts.put(STATUS_REFUSE, "拒绝提现");
         statusTexts.put(STATUS_SUCCESS, "提现成功");
     }
@@ -64,6 +64,9 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
         return payTypeTexts.get(getPayType());
     }
 
+    public boolean isApplying(){
+        return STATUS_APPLYING == getStatus();
+    }
 
     public boolean isRefuse(){
         return STATUS_REFUSE == getStatus();

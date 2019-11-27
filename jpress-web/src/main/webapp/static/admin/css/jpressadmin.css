@@ -25,6 +25,11 @@
     width: 200px;
     border: 1px solid #eee;
 }
+.form-text {
+    padding: 7px 14px;
+    font-size: 14px;
+}
+
 
 .checkAction {
     display: none;
@@ -180,6 +185,7 @@
 .btn-image-browser {
     margin: 3px 0;
 }
+
 
 .autoAjaxSubmit {
 }

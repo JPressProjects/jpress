@@ -18,6 +18,7 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jpress.JPressOptions;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,6 +37,7 @@ public class JPressInterceptor implements Interceptor {
 
         //方便模板开发者直接在模板里接收参数
         controller.setAttr("C", controller);
+        controller.setAttr("CDN", JPressOptions.getCDNDomain());
         controller.setAttr(ADDON_PATH_KEY, ADDON_PATH_VALUE);
         inv.invoke();
     }

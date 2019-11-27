@@ -20,17 +20,19 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountPayout;
-import io.jpress.service.PaymentRecordService;
-import io.jpress.service.UserAmountPayoutService;
-import io.jpress.service.UserOrderItemService;
-import io.jpress.service.UserService;
+import io.jpress.model.UserAmountStatement;
+import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.express.ExpressQuerierFactory;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 
@@ -57,6 +59,9 @@ public class _FinanceController extends AdminControllerBase {
     @Inject
     private UserAmountPayoutService payoutService;
 
+    @Inject
+    private UserAmountStatementService statementService;
+
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
     public void paylist() {
@@ -82,34 +87,101 @@ public class _FinanceController extends AdminControllerBase {
 
 
     @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
-    public void payout(){
-        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(),10,Columns.EMPTY,"id desc");
-        userService.join(page,"user_id");
-        setAttr("page",page);
+    public void payout() {
+        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(), 10, Columns.create("status",getPara("status")), "id desc");
+        userService.join(page, "user_id");
+        setAttr("page", page);
 
         long totalCount = payoutService.findCountByColumns(Columns.EMPTY);
-        long payingCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_PAYING));
-        long refuseCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_REFUSE));
-        long successCount = payoutService.findCountByColumns(Columns.create("status",UserAmountPayout.STATUS_SUCCESS));
+        long payingCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_APPLYING));
+        long refuseCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_REFUSE));
+        long successCount = payoutService.findCountByColumns(Columns.create("status", UserAmountPayout.STATUS_SUCCESS));
 
-        setAttr("totalCount",totalCount);
-        setAttr("payingCount",payingCount);
-        setAttr("refuseCount",refuseCount);
-        setAttr("successCount",successCount);
+        setAttr("totalCount", totalCount);
+        setAttr("payingCount", payingCount);
+        setAttr("refuseCount", refuseCount);
+        setAttr("successCount", successCount);
 
         render("finance/payout.html");
 
     }
 
     public void payoutdetail() {
-
         UserAmountPayout payout = payoutService.findById(getPara());
-        render404If(notLoginedUserModel(payout));
 
         setAttr("payout", payout);
         setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
 
-        render("payoutdetail.html");
+        render("finance/payoutdetail.html");
+    }
+
+
+    public void payoutprocess() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+
+        setAttr("payout", payout);
+        render("finance/layer_payout_process.html");
+    }
+
+    @EmptyValidate({
+            @Form(name = "amount", message = "打款金额不能为空")
+    })
+    public void doPayoutProcess() {
+        UserAmountPayout payout = payoutService.findById(getPara("id"));
+
+
+        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0) {
+            renderFailJson("用户余额不足，无法提现。");
+            return;
+        }
+
+        BigDecimal amount = new BigDecimal(getPara("amount"));
+        BigDecimal shouldPayAmount = payout.getAmount().subtract(payout.getFee());
+        if (amount == null || amount.compareTo(shouldPayAmount) != 0) {
+            renderFailJson("打款金额输入错误，实际应该给客户打款金额为：" + new DecimalFormat("0.00").format(shouldPayAmount) + " 元");
+            return;
+        }
+
+        payout.setStatus(UserAmountPayout.STATUS_SUCCESS);
+        payout.setPaySuccessProof(getPara("proof"));
+        payoutService.update(payout);
+
+
+        UserAmountStatement statement = new UserAmountStatement();
+        statement.setUserId(getLoginedUser().getId());
+        statement.setAction(UserAmountStatement.ACTION_PAYOUT);
+        statement.setActionDesc("用户提现");
+        statement.setActionName("用户提现");
+        statement.setActionRelativeType("user_amount_payout");
+        statement.setActionRelativeId(payout.getId());
+        statement.setOldAmount(userAmount);
+        statement.setChangeAmount(BigDecimal.ZERO.subtract(payout.getAmount()));
+        statement.setNewAmount(userAmount.subtract(payout.getAmount()));
+        statementService.save(statement);
+
+        userService.updateUserAmount(payout.getUserId(), userAmount, BigDecimal.ZERO.subtract(payout.getAmount()));
+
+        renderOkJson();
+    }
+
+
+    public void payoutrefuse() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+
+        setAttr("payout", payout);
+        render("finance/layer_payout_refuse.html");
+    }
+
+    public void doPayoutRefuse() {
+        UserAmountPayout payout = payoutService.findById(getPara("id"));
+        payout.setStatus(UserAmountPayout.STATUS_REFUSE);
+        payout.setFeedback(getPara("feedback"));
+
+        payoutService.update(payout);
+        renderOkJson();
     }
 
 
@@ -175,7 +247,6 @@ public class _FinanceController extends AdminControllerBase {
         setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
         render("finance/setting_notify.html");
     }
-
 
 
 }

@@ -54,7 +54,7 @@ public class FinanceController extends UcenterControllerBase {
     }
 
     public void payout() {
-        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
+        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(),getParaToInt("status"));
         setAttr("page", page);
 
         long totalCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()));

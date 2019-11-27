@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface UserAmountPayoutService  {
+public interface UserAmountPayoutService {
 
     /**
      * 根据主键查找Model
@@ -184,8 +184,7 @@ public interface UserAmountPayoutService  {
     public Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize,Object userId);
-
+    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize, Object userId, Integer status);
 
 
 }

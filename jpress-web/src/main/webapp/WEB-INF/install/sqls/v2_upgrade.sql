@@ -165,7 +165,8 @@ CREATE TABLE `member_joined_record` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '加入的时间',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='会员加入记录';
 
 
@@ -446,8 +447,10 @@ CREATE TABLE `user_amount_payout` (
   `pay_type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现类型',
   `pay_to` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现账号：可能是微信的openId，可能是支付宝账号，可能是银行账号',
   `pay_success_proof` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '提现成功证明，一般是转账截图',
+  `fee` decimal(10,2) DEFAULT NULL COMMENT '提现手续费',
   `statement_id` int(11) unsigned DEFAULT NULL COMMENT '申请提现成功后会生成一个扣款记录',
   `status` tinyint(2) DEFAULT NULL COMMENT '状态',
+  `remarks` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户备注',
   `feedback` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '回绝提现时给出原因',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,

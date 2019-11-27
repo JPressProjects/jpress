@@ -113,6 +113,30 @@ public class _FinanceController extends AdminControllerBase {
     }
 
 
+    public void payoutprocess() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+        render404If(notLoginedUserModel(payout));
+
+        setAttr("payout", payout);
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
+        render("finance/layer_payout_process.html");
+    }
+
+
+    public void payoutrefuse() {
+
+        UserAmountPayout payout = payoutService.findById(getPara());
+        render404If(notLoginedUserModel(payout));
+
+        setAttr("payout", payout);
+        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+
+        render("finance/layer_payout_refuse.html");
+    }
+
+
     public void payUpdate() {
         PaymentRecord payment = paymentService.findById(getPara());
         render404If(payment == null);

@@ -1,5 +1,35 @@
 #@layout()
 
+#define script()
+<script>
+
+    function process() {
+        openlayer('处理提现申请','#(CPATH)/admin/finance/payoutprocess/#(payout.id)');
+    }
+
+    function refuse() {
+        openlayer('拒绝提现','#(CPATH)/admin/finance/payoutrefuse/#(payout.id)');
+    }
+
+    function openlayer(title,url) {
+        layer.open({
+            type: 2,
+            title: title,
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['70%', '60%'],
+            content: url,
+            end: function () {
+
+            }
+        });
+    }
+
+</script>
+
+#end
+
 #define content()
 <div class="content-wrapper">
 
@@ -110,8 +140,8 @@
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
                                     <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
-                                    <button type="button" onclick="history.back()" class="btn btn-primary">处理</button>
-                                    <button type="button" onclick="history.back()" class="btn btn-primary">拒绝</button>
+                                    <button type="button" onclick="process()" class="btn btn-primary">处理</button>
+                                    <button type="button" onclick="refuse()" class="btn btn-primary">拒绝</button>
                                 </div>
                             </div>
                         </div>

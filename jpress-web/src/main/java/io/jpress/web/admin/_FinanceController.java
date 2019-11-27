@@ -24,13 +24,12 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountPayout;
-import io.jpress.service.PaymentRecordService;
-import io.jpress.service.UserAmountPayoutService;
-import io.jpress.service.UserOrderItemService;
-import io.jpress.service.UserService;
+import io.jpress.model.UserAmountStatement;
+import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.express.ExpressQuerierFactory;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -56,6 +55,9 @@ public class _FinanceController extends AdminControllerBase {
 
     @Inject
     private UserAmountPayoutService payoutService;
+
+    @Inject
+    private UserAmountStatementService statementService;
 
 
     @AdminMenu(text = "支付记录", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 3)
@@ -121,9 +123,33 @@ public class _FinanceController extends AdminControllerBase {
 
     public void doPayoutProcess(){
         UserAmountPayout payout = payoutService.findById(getPara("id"));
+
+
+        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0){
+            renderFailJson("用户余额不足，无法提现。");
+            return;
+        }
+
         payout.setStatus(UserAmountPayout.STATUS_SUCCESS);
         payout.setPaySuccessProof(getPara("proof"));
         payoutService.update(payout);
+
+
+        UserAmountStatement statement = new UserAmountStatement();
+        statement.setUserId(getLoginedUser().getId());
+        statement.setAction(UserAmountStatement.ACTION_PAYOUT);
+        statement.setActionDesc("用户提现");
+        statement.setActionName("用户提现");
+        statement.setActionRelativeType("user_amount_payout");
+        statement.setActionRelativeId(payout.getId());
+        statement.setOldAmount(userAmount);
+        statement.setChangeAmount(BigDecimal.ZERO.subtract(payout.getAmount()));
+        statement.setNewAmount(userAmount.subtract(payout.getAmount()));
+        statementService.save(statement);
+
+        userService.updateUserAmount(payout.getUserId(),userAmount,BigDecimal.ZERO.subtract(payout.getAmount()));
+
         renderOkJson();
     }
 

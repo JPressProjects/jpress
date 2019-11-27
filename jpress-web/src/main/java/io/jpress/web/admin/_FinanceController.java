@@ -102,9 +102,7 @@ public class _FinanceController extends AdminControllerBase {
     }
 
     public void payoutdetail() {
-
         UserAmountPayout payout = payoutService.findById(getPara());
-        render404If(notLoginedUserModel(payout));
 
         setAttr("payout", payout);
         setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
@@ -116,24 +114,35 @@ public class _FinanceController extends AdminControllerBase {
     public void payoutprocess() {
 
         UserAmountPayout payout = payoutService.findById(getPara());
-        render404If(notLoginedUserModel(payout));
 
         setAttr("payout", payout);
-        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
-
         render("finance/layer_payout_process.html");
+    }
+
+    public void doPayoutProcess(){
+        UserAmountPayout payout = payoutService.findById(getPara("id"));
+        payout.setStatus(UserAmountPayout.STATUS_SUCCESS);
+        payout.setPaySuccessProof(getPara("proof"));
+        payoutService.update(payout);
+        renderOkJson();
     }
 
 
     public void payoutrefuse() {
 
         UserAmountPayout payout = payoutService.findById(getPara());
-        render404If(notLoginedUserModel(payout));
 
         setAttr("payout", payout);
-        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
-
         render("finance/layer_payout_refuse.html");
+    }
+
+    public void doPayoutRefuse(){
+        UserAmountPayout payout = payoutService.findById(getPara("id"));
+        payout.setStatus(UserAmountPayout.STATUS_REFUSE);
+        payout.setFeedback(getPara("feedback"));
+
+        payoutService.update(payout);
+        renderOkJson();
     }
 
 

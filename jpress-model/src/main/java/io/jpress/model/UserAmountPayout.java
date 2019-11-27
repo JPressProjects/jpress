@@ -26,7 +26,7 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
     public static final Map<Integer, String> statusTexts = new HashMap<>();
 
     static {
-        statusTexts.put(STATUS_APPLYING, "提现中");
+        statusTexts.put(STATUS_APPLYING, "申请中");
         statusTexts.put(STATUS_REFUSE, "拒绝提现");
         statusTexts.put(STATUS_SUCCESS, "提现成功");
     }

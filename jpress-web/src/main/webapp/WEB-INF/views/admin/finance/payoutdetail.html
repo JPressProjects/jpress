@@ -76,32 +76,33 @@
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">备注</label>
+                                <label class="col-sm-2 control-label">用户备注</label>
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.remarks ??)</textarea>
+                                    <textarea rows="3" class="form-control" readonly >#(payout.remarks ??)</textarea>
                                 </div>
                             </div>
 
 
-                            #if(payout.isRefuse())
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">拒绝原因</label>
+                                <label class="col-sm-2 control-label">手续费</label>
+
                                 <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" >#(payout.feedback ??)</textarea>
+                                    <input type="input" class="form-control"  value="#number(payout.fee,'0.00')" readonly>
                                 </div>
                             </div>
-                            #end
 
-
-                            #if(payout.isSuccess())
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">凭证</label>
+                                <label class="col-sm-2 control-label">应转账</label>
+
                                 <div class="col-sm-7">
-                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
+                                    <input type="input" class="form-control"  value="#number(payout.amount - payout.fee,'0.00')" readonly>
                                 </div>
                             </div>
-                            #end
 
+                            #if(payout.isApplying())
+
+
+                            #end
 
                         </div>
 
@@ -109,6 +110,8 @@
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
                                 <div class="box-submit">
                                     <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
+                                    <button type="button" onclick="history.back()" class="btn btn-primary">处理</button>
+                                    <button type="button" onclick="history.back()" class="btn btn-primary">拒绝</button>
                                 </div>
                             </div>
                         </div>

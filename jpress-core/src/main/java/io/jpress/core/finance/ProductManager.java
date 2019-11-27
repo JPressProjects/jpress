@@ -16,7 +16,6 @@
 package io.jpress.core.finance;
 
 
-import com.jfinal.log.Log;
 import io.jboot.utils.StrUtil;
 
 import java.math.BigDecimal;
@@ -25,8 +24,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProductManager {
-
-    private static final Log LOG = Log.getLog(ProductManager.class);
 
     private static final ProductManager me = new ProductManager();
 

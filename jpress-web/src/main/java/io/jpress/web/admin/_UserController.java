@@ -325,7 +325,7 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void sendMsg(){
-
+        render("user/msg_email.html");
     }
 
 //    @AdminMenu(text = "发短信", groupId = JPressConsts.SYSTEM_MENU_USER, order = 6)

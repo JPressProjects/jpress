@@ -1005,6 +1005,36 @@ CREATE TABLE `user_role_mapping` (
 
 
 
+# Dump of table user_tag
+# ------------------------------------------------------------
+
+CREATE TABLE `user_tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
+  `title` varchar(512) DEFAULT NULL COMMENT '标题',
+  `content` text COMMENT '内容描述',
+  `type` varchar(32) DEFAULT NULL COMMENT 'tag类别，用于以后扩展',
+  `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的用户数量',
+  `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
+  `options` text,
+  `created` datetime DEFAULT NULL COMMENT '创建日期',
+  `modified` datetime DEFAULT NULL COMMENT '修改日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户标签。';
+
+
+
+# Dump of table user_tag_mapping
+# ------------------------------------------------------------
+
+CREATE TABLE `user_tag_mapping` (
+  `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
+  `tag_id` int(11) unsigned NOT NULL COMMENT '标签ID',
+  PRIMARY KEY (`user_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户和标签的多对多关系表';
+
+
+
 # Dump of table utm
 # ------------------------------------------------------------
 
@@ -1068,6 +1098,7 @@ CREATE TABLE `wechat_reply` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自定义关键字回复表';
+
 
 
 

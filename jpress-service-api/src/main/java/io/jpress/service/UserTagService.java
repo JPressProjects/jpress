@@ -184,4 +184,7 @@ public interface UserTagService  {
     public Page<UserTag> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    public UserTag findFirstByTag(String tag);
+
+
 }

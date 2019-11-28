@@ -83,7 +83,7 @@ public class _UserController extends AdminControllerBase {
 
         Columns columns = Columns.create("status", getPara("status"));
         columns.likeAppendPercent("username", getPara("username"));
-        columns.likeAppendPercent("nickname", getPara("nickname"));
+        columns.likeAppendPercent("nickname", getPara("username"));
         columns.likeAppendPercent("email", getPara("email"));
         columns.likeAppendPercent("mobile", getPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
@@ -92,7 +92,7 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"),getPara("tag"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);

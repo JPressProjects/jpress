@@ -76,7 +76,7 @@ public class CKEditorController extends UserControllerBase {
         String fileType = mineType.split("/")[0];
 
         Integer maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
-        Integer maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
+        Integer maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 10);
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
 

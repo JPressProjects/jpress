@@ -1,8 +1,8 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.model.UserTag;
 import io.jboot.db.model.Columns;
+import io.jpress.model.UserTag;
 
 import java.util.List;
 
@@ -187,4 +187,5 @@ public interface UserTagService  {
     public UserTag findFirstByTag(String tag);
 
 
+    public List<UserTag> findListByUserId(Object userId);
 }

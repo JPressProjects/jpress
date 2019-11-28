@@ -66,9 +66,9 @@
 
                     <div class="box-body no-padding">
                         <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;" id="nav">
-                            <li id="email"><a href="/admin/user/detail/#(user.id ??)"><i class="fa fa-fw fa-envelope"></i> 发邮件</a></li>
-                            <li id="tag"><a href="/admin/user/detail/tag/#(user.id ??)"><i class="fa fa-fw fa-file-text"></i> 发短信</a></li>
-                            <li id="role"><a href="/admin/user/detail/role/#(user.id ??)"><i class="fa fa-fw fa-wechat"></i> 发微信</a></li>
+                            <li id="email"><a href="#(CPATH)/admin/user/sendMsg"><i class="fa fa-fw fa-envelope"></i> 发邮件</a></li>
+                            <li id="sms"><a href="#(CPATH)/admin/user/sendMsg/sms"><i class="fa fa-fw fa-file-text"></i> 发短信</a></li>
+                            <li id="wechat"><a href="#(CPATH)/admin/user/sendMsg/wechat"><i class="fa fa-fw fa-wechat"></i> 发微信</a></li>
                         </ul>
                     </div>
                     <!-- /.box-body -->

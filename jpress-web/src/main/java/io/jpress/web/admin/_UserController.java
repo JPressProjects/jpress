@@ -328,15 +328,15 @@ public class _UserController extends AdminControllerBase {
         render("user/msg_email.html");
     }
 
-//    @AdminMenu(text = "发短信", groupId = JPressConsts.SYSTEM_MENU_USER, order = 6)
-//    public void sendEmailMsg(){
-//
-//    }
-//
-//    @AdminMenu(text = "发邮件", groupId = JPressConsts.SYSTEM_MENU_USER, order = 7)
-//    public void sendSmsMsg(){
-//
-//    }
+    @ActionKey("/admin/user/sendMsg/wechat")
+    public void sendWechatMsg(){
+        render("user/msg_wechat.html");
+    }
+
+    @ActionKey("/admin/user/sendMsg/sms")
+    public void sendSmsMsg(){
+        render("user/msg_sms.html");
+    }
 
     public void mgroupjoined() {
         Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());

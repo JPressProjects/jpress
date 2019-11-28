@@ -38,6 +38,7 @@ public class PermissionInterceptor implements Interceptor {
     @Inject
     private PermissionService permissionService;
 
+    @Override
     public void intercept(Invocation inv) {
 
         User user = UserInterceptor.getThreadLocalUser();

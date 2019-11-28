@@ -85,11 +85,18 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
             return false;
         }
 
+        String shortActionKey = actionKey.endsWith("/index")
+                ? actionKey.substring(0,actionKey.length() - 6)
+                : null;
+
         for (Permission permission : permissions) {
             if (permission.getActionKey().equals(actionKey)) {
                 return true;
+            }else if (shortActionKey != null && permission.getActionKey().equals(shortActionKey)){
+                return true;
             }
         }
+
 
         return false;
     }

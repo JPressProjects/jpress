@@ -31,4 +31,9 @@ public class UserTagServiceProvider extends JbootServiceBase<UserTag> implements
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<UserTag> findHotList(int count) {
+        return findListByColumns(Columns.EMPTY,"count desc",count);
+    }
 }

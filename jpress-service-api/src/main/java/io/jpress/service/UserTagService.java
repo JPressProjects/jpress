@@ -188,4 +188,6 @@ public interface UserTagService  {
 
 
     public List<UserTag> findListByUserId(Object userId);
+
+    public List<UserTag> findHotList(int count);
 }

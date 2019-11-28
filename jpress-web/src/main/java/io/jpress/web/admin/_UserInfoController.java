@@ -19,10 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.model.Member;
-import io.jpress.model.Role;
-import io.jpress.model.User;
-import io.jpress.model.Utm;
+import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -64,6 +61,9 @@ public class _UserInfoController extends AdminControllerBase {
     @Inject
     private UserAmountStatementService amountStatementService;
 
+    @Inject
+    private UserTagService userTagService;
+
 
     public void index() {
         Long uid = getParaToLong();
@@ -89,6 +89,21 @@ public class _UserInfoController extends AdminControllerBase {
         setAttr("roles", roles);
 
         render("user/detail_role.html");
+    }
+
+
+    public void tag(){
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+
+        List<UserTag> userTags = userTagService.findListByUserId(uid);
+        setAttr("userTags",userTags);
+
+        List<UserTag> hotTags = userTagService.findHotList(50);
+        setAttr("hotTags",hotTags);
+
+        render("user/detail_tag.html");
     }
 
 

@@ -189,5 +189,10 @@ public interface UserTagService  {
 
     public List<UserTag> findListByUserId(Object userId);
 
+
+    public List<UserTag> findOrCreateByTagString(String[] tags);
+
     public List<UserTag> findHotList(int count);
+
+    public void doUpdateTags(long userId, Long[] tagIds);
 }

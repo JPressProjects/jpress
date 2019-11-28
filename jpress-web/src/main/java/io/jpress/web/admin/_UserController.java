@@ -37,6 +37,7 @@ import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.util.*;
@@ -515,6 +516,24 @@ public class _UserController extends AdminControllerBase {
         roleService.doResetUserRoles(userId, roleIds);
         renderOkJson();
     }
+
+
+    public void doUpdateUserTags() {
+        Long[] tagIds = getTagIds(getParaValues("tag"));
+        userTagService.doUpdateTags(getLoginedUser().getId(), tagIds);
+        renderOkJson();
+    }
+
+    private Long[] getTagIds(String[] tags) {
+        if (tags == null || tags.length == 0) {
+            return null;
+        }
+
+        List<UserTag> userTags = userTagService.findOrCreateByTagString(tags);
+        long[] ids = userTags.stream().mapToLong(value -> value.getId()).toArray();
+        return ArrayUtils.toObject(ids);
+    }
+
 
 
     @EmptyValidate({
